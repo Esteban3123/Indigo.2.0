@@ -1,0 +1,59 @@
+#Region "Imports"
+Imports Infrastructure.CrossCutting.Base
+Imports Infrastructure.Data.Xpo
+Imports Infrastructure.Data.Xpo.TreasuryRepository
+Imports DevExpress.XtraReports.Parameters
+
+#End Region
+
+Public Class rptConstitutionCashSmaller
+    Implements IReport
+
+    ''' <summary>
+    ''' Variable para inicializar los valores de sesion
+    ''' </summary>
+    Dim IndigoSessionValues As SessionValues = SessionValues.Instance
+
+    Private INDValue As Decimal
+    Private INDUser As Object
+
+    Public Sub CargarDataSource() Implements IReport.CargarDataSource
+
+        Dim filtroConsulta As String = "Id = " & ParametrosReporte(0)
+        Dim INDList = XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).TreasuryService.GetCollection(Of TreasuryConstitutionCashSmallerXpo)(Nothing, filtroConsulta)
+        If INDList IsNot Nothing AndAlso INDList.Count > 0 Then
+            INDValue = CType(INDList(0), TreasuryConstitutionCashSmallerXpo).Value
+            Dim INDCodeUser = CType(INDList(0), TreasuryConstitutionCashSmallerXpo).CreationUser.Trim()
+            INDUser = XpoServiceEx.Instance(IndigoSessionValues.SecurityContainer).TreasuryService.GetCollection(Of Infrastructure.Data.Xpo.SecurityRepository.UserXpo)(Nothing, "UserCode = '" & INDCodeUser & "'")
+        End If
+        Me.DataSource = INDList
+    End Sub
+
+    Public Sub CargarImagenes() Implements IReport.CargarImagenes
+
+    End Sub
+
+    Public ReadOnly Property NameReport As String Implements IReport.NameReport
+        Get
+            Return ""
+        End Get
+    End Property
+
+    Public Property ParametrosReporte As Object() Implements IReport.ParametrosReporte
+
+    Private Sub rptConsignment_BeforePrint(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles MyBase.BeforePrint
+        If Me.Parameters.Count > 0 And Me.Parameters(0).Value > 0 Then
+            Dim ParametrosFilter As ParameterCollection = Me.Parameters
+            ParametrosReporte = New Object() {ParametrosFilter("INDSubIdConstitutionCashSmaller").Value}
+            CargarDataSource()
+        End If
+
+        Me.INDLblUserPrint.Text = "Usuario Impresión : " & IndigoSessionValues.UserIndigo & " - " & IndigoSessionValues.UserIndigoName
+        Me.INDLblCompany.Text = IndigoSessionValues.IndigoCompanyName
+        Me.INDLblNitCompany.Text = "Nit : " & IndigoSessionValues.IndigoCompanyNit
+        If INDUser.count() > 0 Then
+            INDLblCreationUser.Text = If(INDUser IsNot Nothing AndAlso INDUser.Count > 0, INDUser(0).CodeName, String.Empty)
+        End If
+        INDLblNumLetters.Text = Utils.Num2Text(INDValue).ToString & " PESOS M/CTE."
+    End Sub
+End Class

@@ -1,0 +1,72 @@
+﻿#Region "Librerias Improtadas"
+Imports Infrastructure.CrossCutting.Base
+Imports Infrastructure.Data.Xpo
+Imports Infrastructure.Data.Xpo.InventoryRepository
+Imports Domain.Entities
+Imports DevExpress.XtraReports.UI
+Imports System.Drawing.Printing
+Imports DevExpress.XtraReports.Parameters
+Imports Infrastructure.Data.Xpo.SecurityRepository
+Imports System.Globalization
+
+#End Region
+
+Public Class rptRemissionEntrance
+    Implements IReport
+
+    ''' <summary>
+    ''' Variable para inicializar los valores de sesion
+    ''' </summary>
+    Dim IndigoSessionValues As SessionValues = SessionValues.Instance
+    Private INDList As List(Of InventoryRemissionEntranceDetailReportXpo)
+    Private CurrencyAbbreviation As String = SessionValues.Instance.CurrencyISO4217
+
+    Public Sub CargarDataSource() Implements IReport.CargarDataSource
+        Dim filtroConsulta As String = "RemissionEntranceId.Id = " & ParametrosReporte(0)
+
+        INDList = XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).BillingService.GetCollection(Of InventoryRemissionEntranceDetailReportXpo)(Nothing, filtroConsulta)
+        If INDList.Count > 0 Then
+            Dim INDNameUser = CType(INDList(0), InventoryRemissionEntranceDetailReportXpo).RemissionEntranceId.CreationUser.Trim()
+
+            Dim INDListUser = XpoServiceEx.Instance(IndigoSessionValues.SecurityContainer).SecurityService.GetCollection(Of UserXpo)(Nothing, "UserCode = '" & INDNameUser & "'")
+
+            If INDListUser IsNot Nothing Then
+                Dim INDCodName = CType(INDListUser(0), UserXpo).CodeName.Trim
+                Me.INDUserCreate.Text = INDCodName
+            End If
+        End If
+        Me.DataSource = INDList
+    End Sub
+
+    Public Sub CargarImagenes() Implements IReport.CargarImagenes
+
+    End Sub
+
+    Public ReadOnly Property NameReport As String Implements IReport.NameReport
+        Get
+            Return ""
+        End Get
+    End Property
+
+    Public Property ParametrosReporte As Object() Implements IReport.ParametrosReporte
+
+    Private Sub rptRemissionEntrance_BeforePrint(sender As Object, e As PrintEventArgs) Handles MyBase.BeforePrint
+        If Me.Parameters.Count > 0 And Me.Parameters(0).Value > 0 Then
+            Dim ParametrosFilter As ParameterCollection = Me.Parameters
+            ParametrosReporte = New Object() {ParametrosFilter.GetByName("INDSubIdRemissionEntrance").Value}
+            CargarDataSource()
+        End If
+
+        Dim _culture As CultureInfo = CultureInfo.CurrentCulture.Clone()
+        If INDList IsNot Nothing AndAlso INDList?.Any() Then
+            CurrencyAbbreviation = If(String.IsNullOrEmpty(INDList?.FirstOrDefault?.RemissionEntranceId?.CurrencyAbbreviation),
+                                        CurrencyAbbreviation, INDList?.FirstOrDefault?.RemissionEntranceId?.CurrencyAbbreviation)
+            _culture.NumberFormat = CurrencyAbbreviation.GetNumberFormat
+            ApplyLocalization(_culture)
+        End If
+
+        INDLblCompany.Text = IndigoSessionValues.IndigoCompanyName
+        INDLblNitCompany.Text = "Nit:" & IndigoSessionValues.IndigoCompanyNit
+        INDUserImp.Text = "Usuario Impresión : " & IndigoSessionValues.UserIndigo & " - " & IndigoSessionValues.UserIndigoName
+    End Sub
+End Class

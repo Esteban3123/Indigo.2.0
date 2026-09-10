@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://tempuri.org/" elementFormDefault="qualified" targetNamespace="http://tempuri.org/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import schemaLocation="http://localhost:9002/Indexing.svc/ServiceIndexing/?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+  <xs:import schemaLocation="http://localhost:9002/Indexing.svc/ServiceIndexing/?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" />
+  <xs:import schemaLocation="http://localhost:9002/Indexing.svc/ServiceIndexing/?xsd=xsd3" namespace="http://schemas.datacontract.org/2004/07/MongoDB.Bson" />
+  <xs:element name="GetServerDate">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetServerDateResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q1="http://schemas.microsoft.com/2003/10/Serialization/" minOccurs="0" name="GetServerDateResult" type="q1:duration" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="IndexingDocument">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="containerV12" nillable="true" type="xs:string" />
+        <xs:element xmlns:q2="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="doc" nillable="true" type="q2:IndexedDocument2" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="IndexingDocumentResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q3="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="IndexingDocumentResult" nillable="true" type="q3:ActionResult" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetDocument">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="dataBase" nillable="true" type="xs:string" />
+        <xs:element xmlns:q4="http://schemas.datacontract.org/2004/07/MongoDB.Bson" minOccurs="0" name="id" type="q4:ObjectId" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetDocumentResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q5="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="GetDocumentResult" nillable="true" type="q5:IndexedDocument2" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SearchDocument">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="dataBase" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="text" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="initDate" nillable="true" type="xs:dateTime" />
+        <xs:element minOccurs="0" name="finDate" nillable="true" type="xs:dateTime" />
+        <xs:element minOccurs="0" name="skip" type="xs:long" />
+        <xs:element minOccurs="0" name="top" type="xs:long" />
+        <xs:element minOccurs="0" name="asc" type="xs:boolean" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SearchDocumentResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q6="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="SearchDocumentResult" nillable="true" type="q6:IndexedDocumentResultSet2" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="DeleteDocument">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="dataBase" nillable="true" type="xs:string" />
+        <xs:element xmlns:q7="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="doc" nillable="true" type="q7:IndexedDocument2" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="DeleteDocumentResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q8="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="DeleteDocumentResult" nillable="true" type="q8:ActionResult" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="DeleteDocumentByIdEntity">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="dataBase" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="IdEntity" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="DeleteDocumentByIdEntityResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q9="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="DeleteDocumentByIdEntityResult" nillable="true" type="q9:ActionResult" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

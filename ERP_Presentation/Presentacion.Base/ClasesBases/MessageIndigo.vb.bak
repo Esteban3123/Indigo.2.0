@@ -1,0 +1,87 @@
+﻿Imports System.Windows.Forms
+Imports Infrastructure.CrossCutting.Base
+
+Public Class MessageIndigo
+
+    Shared Formulario As DialogResult
+
+    Public Shared Function Show(ByVal Mensaje As String, ByVal Icono As MessageType, ByVal Titulo As String, ByVal Botones As Botones, Optional AditionalMessage As String = "") As DialogResult
+        Formulario = New FrmTransparent(New FrmMensajeIndigo(Mensaje, Botones, Icono)).ShowDialog(SessionValues.Instance.InstanceMDI)
+        Dim Mensajes As New Mensajes
+        Mensajes.NotificationCenter(Titulo, Mensaje, Icono, Date.Now, AditionalMessage)
+        Return Formulario
+    End Function
+
+    Public Shared Sub Show(ByVal Mensaje As String, ByVal Icono As MessageType, ByVal Titulo As String, Optional form As Form = Nothing)
+        Dim Mensajes As New Mensajes
+        Mensajes.Notificar(Mensaje, Icono, form)
+        Mensajes.NotificationCenter(Titulo, Mensaje, Icono, Date.Now, "")
+    End Sub
+End Class
+
+Public Class Mensajes
+    Implements ISujeto
+    Implements IDisposable
+
+    ''' <summary>
+    ''' variable que se utiliza para instanciar los valores de session
+    ''' </summary>
+    Dim indigo As Infrastructure.CrossCutting.Base.SessionValues = SessionValues.Instance
+
+    Public Sub Desregistrar(objObservador As IObservador) Implements ISujeto.Desregistrar
+        indigo.ObserversList.Remove(objObservador)
+    End Sub
+
+    Public Sub Notificar(ByVal Mensaje As String, ByVal Tipo As MessageType, Optional form As Form = Nothing) Implements ISujeto.Notificar
+        If indigo.ObserversList.Count = 0 Then Exit Sub
+        For Each objObservador As IObservador In indigo.ObserversList
+            objObservador.MostrarMensajeSlide(Mensaje, Tipo, form)
+        Next
+    End Sub
+
+    Public Sub NotificationCenter(Title As String, Message As String, TypeMessage As MessageType, MessageDate As Date, ByVal AditionalMessage As String) Implements ISujeto.NotificationCenter
+        If indigo.ObserversList.Count = 0 Then Exit Sub
+        For Each objObservador As IObservador In indigo.ObserversList
+            objObservador.NotificationCenter(Title, Message, TypeMessage, MessageDate, AditionalMessage)
+        Next
+    End Sub
+
+    Public Sub Registrar(objObservador As IObservador) Implements ISujeto.Registrar
+        If Not indigo.ObserversList.Any(Function(o) CType(o, Form).Name.Equals(CType(objObservador, Form).Name)) Then
+            indigo.ObserversList.Add(objObservador)
+        End If
+    End Sub
+
+#Region "IDisposable Support"
+    Private disposedValue As Boolean ' Para detectar llamadas redundantes
+
+    ' IDisposable
+    Protected Overridable Sub Dispose(disposing As Boolean)
+        If Not Me.disposedValue Then
+            If disposing Then
+                ' TODO: eliminar estado administrado (objetos administrados).
+            End If
+
+            ' TODO: liberar recursos no administrados (objetos no administrados) e invalidar Finalize() below.
+            ' TODO: Establecer campos grandes como Null.
+        End If
+        Me.disposedValue = True
+    End Sub
+
+    ' TODO: invalidar Finalize() sólo si la instrucción Dispose(ByVal disposing As Boolean) anterior tiene código para liberar recursos no administrados.
+    'Protected Overrides Sub Finalize()
+    '    ' No cambie este código. Ponga el código de limpieza en la instrucción Dispose(ByVal disposing As Boolean) anterior.
+    '    Dispose(False)
+    '    MyBase.Finalize()
+    'End Sub
+
+    ' Visual Basic agregó este código para implementar correctamente el modelo descartable.
+    Public Sub Dispose() Implements IDisposable.Dispose
+        ' No cambie este código. Coloque el código de limpieza en Dispose(disposing As Boolean).
+        Dispose(True)
+        GC.SuppressFinalize(Me)
+    End Sub
+#End Region
+
+End Class
+

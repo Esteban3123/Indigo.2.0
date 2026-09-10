@@ -1,0 +1,84 @@
+﻿'***********************************************************************
+' Assembly         : Presentacion.Budget.MVP
+' Author           : Carlos Ernesto Cordoba
+' Created          : 24/08/2015
+'
+' Last Modified By : 
+' Last Modified On : 
+' Description      : 
+'
+' Copyright        : (c) . All rights reserved.
+'***********************************************************************
+
+#Region "Imports"
+Imports Presentation.Base
+Imports DevExpress.Xpo
+Imports Presentation.Controls
+
+#End Region
+
+
+Public Interface ICollection
+    Inherits IcrudBase
+    ''' <summary>
+    ''' Esta propiedad establece el valor ControlAcciones
+    ''' </summary>
+    WriteOnly Property ActionsOnControls As Boolean
+
+    ''' <summary>
+    ''' Obtiene el tag del formulario
+    ''' </summary>
+    ''' <returns>Tag del formulario</returns>
+    ReadOnly Property MyTag As Object
+
+    ''' <summary>
+    ''' Obtiene o asigna la secuencia numerica del formulario
+    ''' </summary>
+    ''' <value>Secuencia numerica del formulario</value>
+    ''' <returns>La secuencia numerica del formulario</returns>
+    Property Sequense As Domain.Entities.BudgetSequence
+
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <value></value>
+    ''' <returns></returns>
+    ''' <remarks></remarks>
+    ReadOnly Property MyLayoutControl As IndigoLayoutControl
+    ''' <summary>
+    ''' codigo
+    ''' </summary>
+    ''' <value></value>
+    ''' <returns></returns>
+    ''' <remarks></remarks>
+    Property Code As String
+    ''' <summary>
+    ''' fecha
+    ''' </summary>
+    ''' <value></value>
+    ''' <returns></returns>
+    ''' <remarks></remarks>
+    Property CollectionDate As DateTime
+    ''' <summary>
+    ''' observaciones
+    ''' </summary>
+    ''' <value></value>
+    ''' <returns></returns>
+    ''' <remarks></remarks>
+    Property Observations As String
+    ''' <summary>
+    ''' tercero
+    ''' </summary>
+    ''' <value></value>
+    ''' <returns></returns>
+    ''' <remarks></remarks>
+    Property ThirdPartyId As Integer
+
+    Property BudgetEntitiesXpo As XPInstantFeedbackSource
+
+    Property BudgetaryValidityXpo As XPCollection
+
+    Property BudgetEntitiesPopUpXpo As XPInstantFeedbackSource
+
+    Property BudgetaryValidityPopUpXpo As XPCollection
+End Interface

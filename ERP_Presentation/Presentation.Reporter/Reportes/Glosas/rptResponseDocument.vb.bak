@@ -1,0 +1,111 @@
+﻿Imports Infrastructure.CrossCutting.Base
+Imports Infrastructure.Data.Xpo
+Imports Infrastructure.Data.Xpo.GlosasRepository
+Imports Domain.Entities
+Imports DevExpress.XtraReports.UI
+Imports DevExpress.XtraRichEdit.Model
+Imports System.Configuration
+Imports DevExpress.DataAccess
+Imports DevExpress.DataAccess.ConnectionParameters
+Imports System.Data.SqlClient
+Imports Presentation.CloudAgent
+Imports System.Drawing
+Imports DevExpress.XtraPrinting.Drawing
+
+Public Class rptresponseDocument
+    Implements IReport
+
+    ''' <summary>
+    ''' Variable para inicializar los valores de sesion
+    ''' </summary>
+    Dim IndigoSessionValues As SessionValues = SessionValues.Instance
+    ''' <summary>
+    ''' Nombre del reporte
+    ''' </summary>
+    ''' <remarks></remarks>
+    Const CNameReport = "Glosas.FrmObjectionsReception"
+    ''' <summary>
+    ''' Indica si lleva o no marca de agua
+    ''' </summary>
+    ''' <remarks></remarks>
+    Dim watermark As Boolean
+
+    ''' <summary>
+    ''' Unidad operativa
+    ''' </summary>
+    Dim _operatingUnit As OperatingUnit
+
+    ''' <summary>
+    ''' Comentario
+    ''' </summary>
+    Dim Comments As String
+
+    Public Sub CargarDataSource() Implements IReport.CargarDataSource
+        watermark = Me.ParametrosReporte(3)
+        _operatingUnit = Me.ParametrosReporte(2)
+        'Me.DataSource = XpoService.ListCollectionGlosas(Of Glosas_GlosaMovementGlosa)(Nothing, "InvoiceDetailId.ObjectionsReceptionDId.GlosaObjectionsReceptionCId.Id=" & INDObjectionId)
+        Dim dataSet As DataSet = IndigoConecta.Instancia.CurrentCloud.IndigoGlosas.OfficeReponse(Me.ParametrosReporte(0), Me.ParametrosReporte(1), Me.IndigoSessionValues)
+        If dataSet IsNot Nothing Then
+            DataSource = dataSet
+            Comments = If(dataSet.Tables(0).Rows(0)("Comments") Is DBNull.Value, Nothing, dataSet.Tables(0).Rows(0)("Comments"))
+            If Comments IsNot Nothing OrElse Not String.IsNullOrEmpty(Comments) Then
+                Me.label3.Text = "Respuesta Glosa No Normativa"
+            End If
+        End If
+
+        If Me._operatingUnit IsNot Nothing Then
+            Me.INDlblAddress.Text = If(Me._operatingUnit.Address IsNot Nothing, Me._operatingUnit.Address.Trim() & If(Me._operatingUnit.City IsNot Nothing, If(Me._operatingUnit.City.Name IsNot Nothing, " " & Me._operatingUnit.City.Name.Trim() & If(Me._operatingUnit.City.Department IsNot Nothing, " - " & Me._operatingUnit.City.Department.Name.Trim(), String.Empty), String.Empty), String.Empty), String.Empty)
+            Me.INDlblPhoneEmail.Text = If(Me._operatingUnit.Phone IsNot Nothing, Me._operatingUnit.Phone.Trim() & If(Me._operatingUnit.EmailAudit IsNot Nothing, " - " & Me._operatingUnit.EmailAudit.Trim(), String.Empty), String.Empty)
+        End If
+    End Sub
+
+    Public Sub CargarImagenes() Implements IReport.CargarImagenes
+
+    End Sub
+
+    Public ReadOnly Property NameReport As String Implements IReport.NameReport
+        Get
+            Return rptresponseDocument.CNameReport
+        End Get
+    End Property
+
+    Public Property ParametrosReporte As Object() Implements IReport.ParametrosReporte
+
+
+    Public Sub New()
+        ' This call is required by the designer.
+        InitializeComponent()
+    End Sub
+
+    Private Sub rptresponseDocument_BeforePrint(sender As Object, e As Printing.PrintEventArgs) Handles MyBase.BeforePrint
+        Me.INDLblNombreEmpresaCliente.Text = IndigoSessionValues.IndigoCompanyName
+        Me.INDLblNitCliente.Text = IndigoSessionValues.IndigoCompanyNit
+        If watermark = True Then
+            SetTextWatermark(CType(sender, XtraReport))
+        End If
+
+        'Dim table As XRTable = CType(XrTable1, XRTable)
+        'If Me.DataSource IsNot Nothing Then
+        '    Dim dt As DataTable = CType(Me.DataSource, DataSet).Tables("ViewOfficeResponse")
+        '    For i As Integer = 0 To dt.Rows.Count - 1
+        '        If dt.Rows(i).Item("JustificationGlosaText").ToString() = String.Empty Then
+        '            If table.Rows("XrTableCell1") IsNot Nothing Then
+        '                table.Rows.Remove(XrTableCell1)
+        '            End If
+        '        End If
+        '    Next
+        'End If
+    End Sub
+
+    Sub SetTextWatermark(report As XtraReport)
+        ' Adjust text watermark settings.
+        report.Watermark.Text = "Sin Confirmar"
+        report.Watermark.TextDirection = DirectionMode.ForwardDiagonal
+        report.Watermark.Font = New Font(report.Watermark.Font.FontFamily, 80)
+        report.Watermark.ForeColor = Color.DodgerBlue
+        'report.Watermark.Transparency = 150
+        report.Watermark.TextTransparency = 200
+        report.Watermark.ShowBehind = False
+        report.Watermark.PageRange = "1,3-5"
+    End Sub
+End Class

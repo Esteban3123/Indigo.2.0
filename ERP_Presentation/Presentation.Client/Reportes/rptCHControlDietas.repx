@@ -1,0 +1,119 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<XtraReportsLayoutSerializer SerializerVersion="12.1.6.0" Ref="0" ControlType="DevExpress.XtraReports.UI.XtraReport, DevExpress.XtraReports.v12.1, Version=12.1.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" Name="rptCHControlDietas" Version="12.1" DrawGrid="false" Bookmark="Reporte Triage" DisplayName="rptCHControlDietas" PageWidth="850" Margins="31, 38, 25, 25" ScriptLanguage="VisualBasic" PageHeight="1100" PaperName="Este Reporte Muestra la dietas asigandas al paciente y las respectivas comidad correpondientes autorizadas.">
+  <Bands>
+    <Item1 Ref="1" ControlType="DetailBand" Name="Detail" TextAlignment="TopLeft" Padding="0,0,0,0,100" HeightF="20">
+      <Controls>
+        <Item1 Ref="2" Name="INDlblFechaNacimiento" ControlType="XRLabel" SizeF="147.125,17" LocationFloat="358.58, 0" WordWrap="false" Font="Arial, 8.25pt" Padding="2,2,0,0,100" TextAlignment="TopJustify" CanGrow="false" Text="INDlblCama">
+          <DataBindings>
+            <Item1 Ref="3" PropertyName="Text" DataMember="varTablaFiltrada.Edad" />
+          </DataBindings>
+          <StylePriority Ref="4" UseFont="false" UseTextAlignment="false" />
+        </Item1>
+        <Item2 Ref="5" Name="INDlblNombrePaciente" ControlType="XRLabel" SizeF="253,17" LocationFloat="103.58, 0" Font="Arial, 8.25pt" Padding="2,2,0,0,100" Text="INDlblNombrePaciente">
+          <DataBindings>
+            <Item1 Ref="6" PropertyName="Text" DataMember="varTablaFiltrada.Nombre Paciente" />
+          </DataBindings>
+          <StylePriority Ref="7" UseFont="false" />
+        </Item2>
+        <Item3 Ref="8" Name="INDlblIdentificacion" ControlType="XRLabel" SizeF="95.58333,17" LocationFloat="6.00001, 0" Font="Arial, 8.25pt" Padding="2,2,0,0,100" Text="INDlblIdentificacion">
+          <DataBindings>
+            <Item1 Ref="9" PropertyName="Text" DataMember="varTablaFiltrada.Paciente" />
+          </DataBindings>
+          <StylePriority Ref="10" UseFont="false" />
+        </Item3>
+        <Item4 Ref="11" Name="INDlblCama" ControlType="XRLabel" SizeF="91,17" LocationFloat="507.7883, 0" Font="Arial, 8.25pt" Padding="2,2,0,0,100" TextAlignment="TopJustify" Text="INDlblCama">
+          <DataBindings>
+            <Item1 Ref="12" PropertyName="Text" DataMember="varTablaFiltrada.Cama" />
+          </DataBindings>
+          <StylePriority Ref="13" UseFont="false" UseTextAlignment="false" />
+        </Item4>
+        <Item5 Ref="14" Name="INDlblDieta" ControlType="XRLabel" SizeF="177.2916,17" LocationFloat="601.7883, 0" Font="Arial, 8.25pt" Padding="2,2,0,0,100" Text="INDlblDieta">
+          <DataBindings>
+            <Item1 Ref="15" PropertyName="Text" DataMember="varTablaFiltrada.Tipo de Dieta" />
+          </DataBindings>
+          <StylePriority Ref="16" UseFont="false" />
+        </Item5>
+      </Controls>
+      <MultiColumn Ref="17" ColumnCount="4" />
+    </Item1>
+    <Item2 Ref="18" ControlType="PageHeaderBand" Name="CabeceraReporte" TextAlignment="TopLeft" Padding="0,0,0,0,100" HeightF="102">
+      <Controls>
+        <Item1 Ref="19" Name="INDlblTipoComida" ControlType="XRLabel" SizeF="770.08,19" LocationFloat="8.999999, 78.00001" Font="Arial, 11.25pt, style=Bold" BackColor="255,180,180,180" Padding="2,2,0,0,100" TextAlignment="TopCenter">
+          <StylePriority Ref="20" UseFont="false" UseBackColor="false" UseTextAlignment="false" />
+        </Item1>
+        <Item2 Ref="21" Name="INDLblNombreReporte" ControlType="XRLabel" SizeF="770.08,25" LocationFloat="8.999999, 50" Font="Arial, 11.25pt, style=Bold" Padding="2,2,0,0,100" TextAlignment="MiddleCenter" LockedInUserDesigner="true" Text="SOLICITUD DE COMIDAS">
+          <StylePriority Ref="22" UseFont="false" UseTextAlignment="false" />
+        </Item2>
+        <Item3 Ref="23" Name="INDLblNitCliente" ControlType="XRLabel" SizeF="770.08,17" LocationFloat="8.999999, 33.00001" Font="Arial, 9.75pt" Padding="2,2,0,0,100" TextAlignment="MiddleCenter" LockedInUserDesigner="true" Text="800000100-0">
+          <StylePriority Ref="24" UseFont="false" UseTextAlignment="false" />
+        </Item3>
+        <Item4 Ref="25" Name="INDLblNombreEmpresaCliente" ControlType="XRLabel" SizeF="770.08,25" LocationFloat="8.999999, 8.000009" Font="Times New Roman, 14.25pt, style=Bold" Padding="2,2,0,0,100" TextAlignment="MiddleCenter" LockedInUserDesigner="true" Text="INDIGO TECHNOLOGIES">
+          <StylePriority Ref="26" UseFont="false" UseTextAlignment="false" />
+        </Item4>
+      </Controls>
+    </Item2>
+    <Item3 Ref="27" ControlType="GroupHeaderBand" Name="GroupHeader1" HeightF="92.54167">
+      <Controls>
+        <Item1 Ref="28" Name="XrLabel3" ControlType="XRLabel" SizeF="147.125,17.00001" LocationFloat="358.58, 65.54165" Font="Arial, 8.25pt, style=Bold" BackColor="255,180,180,180" Padding="2,2,0,0,100" Text="Edad">
+          <StylePriority Ref="29" UseFont="false" UseBackColor="false" />
+        </Item1>
+        <Item2 Ref="30" Name="XrLine3" ControlType="XRLine" SizeF="774.0001,8" LocationFloat="6.00001, 56.54163" LineWidth="2" />
+        <Item3 Ref="31" Name="XrLine2" ControlType="XRLine" SizeF="774.0002,8" LocationFloat="6.00001, 0" LineWidth="2" />
+        <Item4 Ref="32" Name="XrLabel2" ControlType="XRLabel" SizeF="92.58332,17.00001" LocationFloat="8.999999, 65.54165" Font="Arial, 8.25pt, style=Bold" BackColor="255,180,180,180" Padding="2,2,0,0,100" Text="Identificación">
+          <StylePriority Ref="33" UseFont="false" UseBackColor="false" />
+        </Item4>
+        <Item5 Ref="34" Name="INDlblUnidadFuncional" ControlType="XRLabel" SizeF="242.5833,17.00001" LocationFloat="534.75, 29.99999" Font="Arial, 8.25pt" Padding="2,2,0,0,100">
+          <StylePriority Ref="35" UseFont="false" />
+        </Item5>
+        <Item6 Ref="36" Name="INDxlUnidadFuncional" ControlType="XRLabel" SizeF="109,17" LocationFloat="418.3333, 29.99999" Font="Arial, 8.25pt, style=Bold" Padding="2,2,0,0,100" Text="Unidad Funcional:">
+          <StylePriority Ref="37" UseFont="false" />
+        </Item6>
+        <Item7 Ref="38" Name="INDlblCentroAtencion" ControlType="XRLabel" SizeF="242.2466,17" LocationFloat="131, 29.99999" Font="Arial, 8.25pt" Padding="2,2,0,0,100">
+          <StylePriority Ref="39" UseFont="false" />
+        </Item7>
+        <Item8 Ref="40" Name="INDlblUsuario" ControlType="XRLabel" SizeF="242.5833,17" LocationFloat="534.75, 10.00001" Font="Arial, 8.25pt" Padding="2,2,0,0,100">
+          <StylePriority Ref="41" UseFont="false" />
+        </Item8>
+        <Item9 Ref="42" Name="INDxlUsuario" ControlType="XRLabel" SizeF="54.54166,17.00001" LocationFloat="472.7917, 10.00001" Font="Arial, 8.25pt, style=Bold" Padding="2,2,0,0,100" Text="Usuario:">
+          <StylePriority Ref="43" UseFont="false" />
+        </Item9>
+        <Item10 Ref="44" Name="INDlblFechaSolicitud" ControlType="XRLabel" SizeF="225.58,17" LocationFloat="131, 10.00001" Font="Arial, 8.25pt" Padding="2,2,0,0,100" Text="12:00:00 a.m.">
+          <StylePriority Ref="45" UseFont="false" />
+        </Item10>
+        <Item11 Ref="46" Name="INDxlCentroAtencion" ControlType="XRLabel" SizeF="116,17" LocationFloat="9, 30" Font="Arial, 8.25pt, style=Bold" Padding="2,2,0,0,100" Text="Centro de Atención:">
+          <StylePriority Ref="47" UseFont="false" />
+        </Item11>
+        <Item12 Ref="48" Name="XrLine1" ControlType="XRLine" SizeF="774.0001,8" LocationFloat="6.00001, 84.54167" LineWidth="2" />
+        <Item13 Ref="49" Name="INDxlFechaSolicitud" ControlType="XRLabel" SizeF="100,17" LocationFloat="9, 10" Font="Arial, 8.25pt, style=Bold" Padding="2,2,0,0,100" Text="Fecha Solicitud:">
+          <StylePriority Ref="50" UseFont="false" />
+        </Item13>
+        <Item14 Ref="51" Name="XrLabel23" ControlType="XRLabel" SizeF="253,17" LocationFloat="103.58, 65.54165" Font="Arial, 8.25pt, style=Bold" BackColor="255,180,180,180" Padding="2,2,0,0,100" Text="Nombre Paciente">
+          <StylePriority Ref="52" UseFont="false" UseBackColor="false" />
+        </Item14>
+        <Item15 Ref="53" Name="XrLabel21" ControlType="XRLabel" SizeF="91,17" LocationFloat="507.7883, 65.54165" Font="Arial, 8.25pt, style=Bold" BackColor="255,180,180,180" Padding="2,2,0,0,100" Text="Cama">
+          <StylePriority Ref="54" UseFont="false" UseBackColor="false" />
+        </Item15>
+        <Item16 Ref="55" Name="XrLabel19" ControlType="XRLabel" SizeF="178,17" LocationFloat="601.7883, 65.54165" Font="Arial, 8.25pt, style=Bold" BackColor="255,180,180,180" Padding="2,2,0,0,100" Text="Dieta">
+          <StylePriority Ref="56" UseFont="false" UseBackColor="false" />
+        </Item16>
+      </Controls>
+    </Item3>
+    <Item4 Ref="57" ControlType="GroupFooterBand" Name="GroupFooter1" HeightF="133">
+      <Controls>
+        <Item1 Ref="58" Name="XrLine5" ControlType="XRLine" SizeF="197,8" LocationFloat="14.08334, 79.33337" />
+        <Item2 Ref="59" Name="XrLabel5" ControlType="XRLabel" SizeF="175,17" LocationFloat="24.08333, 89.33334" Font="Arial, 8.25pt" Padding="2,2,0,0,100" Text="Firma Responsable Servicio">
+          <StylePriority Ref="60" UseFont="false" />
+        </Item2>
+        <Item3 Ref="61" Name="XrLine4" ControlType="XRLine" SizeF="774.0001,8" LocationFloat="6.00001, 0" LineWidth="2" />
+        <Item4 Ref="62" Name="INDlblTotalDietas" ControlType="XRLabel" SizeF="100,17" LocationFloat="679.4166, 7.999992" Font="Arial, 12pt" Padding="2,2,0,0,100" Text="0">
+          <StylePriority Ref="63" UseFont="false" />
+        </Item4>
+        <Item5 Ref="64" Name="INDxlTotalDietas" ControlType="XRLabel" SizeF="91,17" LocationFloat="585.4166, 7.999992" Font="Arial, 9.75pt, style=Bold" BackColor="255,180,180,180" Padding="2,2,0,0,100" TextAlignment="TopJustify" Text="Total Dietas:">
+          <StylePriority Ref="65" UseFont="false" UseBackColor="false" UseTextAlignment="false" />
+        </Item5>
+      </Controls>
+    </Item4>
+    <Item5 Ref="66" Name="TopMarginBand1" ControlType="TopMarginBand" HeightF="25" />
+    <Item6 Ref="67" Name="BottomMarginBand1" ControlType="BottomMarginBand" HeightF="25" />
+  </Bands>
+</XtraReportsLayoutSerializer>

@@ -1,0 +1,391 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{CE46AB34-7B36-422F-AE89-2D5F759E1960}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>Infrastructure.Data.Xpo.PayrollRepository</RootNamespace>
+    <AssemblyName>Infrastructure.Data.Xpo.PayrollRepository</AssemblyName>
+    <FileAlignment>512</FileAlignment>
+    <MyType>Windows</MyType>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DocumentationFile>Infrastructure.Data.Xpo.PayrollRepository.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DocumentationFile>Infrastructure.Data.Xpo.PayrollRepository.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionExplicit>On</OptionExplicit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionCompare>Binary</OptionCompare>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionStrict>Off</OptionStrict>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionInfer>On</OptionInfer>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debugcito|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\Debugcito\</OutputPath>
+    <DocumentationFile>Infrastructure.Data.Xpo.PayrollRepository.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DocumentationFile>Infrastructure.Data.Xpo.PayrollRepository.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DocumentationFile>Infrastructure.Data.Xpo.PayrollRepository.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debugcito|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x64\Debugcito\</OutputPath>
+    <DocumentationFile>Infrastructure.Data.Xpo.PayrollRepository.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DocumentationFile>Infrastructure.Data.Xpo.PayrollRepository.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DocumentationFile>Infrastructure.Data.Xpo.PayrollRepository.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debugcito|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x86\Debugcito\</OutputPath>
+    <DocumentationFile>Infrastructure.Data.Xpo.PayrollRepository.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'VieBuild|AnyCPU'">
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\VieBuild\</OutputPath>
+    <DocumentationFile>Infrastructure.Data.Xpo.PayrollRepository.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'VieBuild|x64'">
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x64\VieBuild\</OutputPath>
+    <DocumentationFile>Infrastructure.Data.Xpo.PayrollRepository.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'VieBuild|x86'">
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x86\VieBuild\</OutputPath>
+    <DocumentationFile>Infrastructure.Data.Xpo.PayrollRepository.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="DevExpress.Drawing.v25.1, Version=25.1.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.Printing.v25.1.Core, Version=25.1.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.Data.v25.1, Version=25.1.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.Xpo.v25.1, Version=25.1.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="Infrastructure.CrossCutting.Base, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\DLL\Infrastructure.CrossCutting.Base.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+  </ItemGroup>
+  <ItemGroup>
+    <Import Include="Microsoft.VisualBasic" />
+    <Import Include="System" />
+    <Import Include="System.Collections" />
+    <Import Include="System.Collections.Generic" />
+    <Import Include="System.Data" />
+    <Import Include="System.Diagnostics" />
+    <Import Include="System.Linq" />
+    <Import Include="System.Xml.Linq" />
+    <Import Include="System.Threading.Tasks" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Agreements\PayrollAgreementsCXpo.vb" />
+    <Compile Include="BankFileIncentivePaymentConfirmXpo.vb" />
+    <Compile Include="ViewContractAuditXpo.vb" />
+    <Compile Include="PayrollElectronicPayrollConceptsXpo.vb" />
+    <Compile Include="PayrollViewVerifyAutoliquidationFileINSXpo.vb" />
+    <Compile Include="Relaction\CommonCurrencyXpo.vb" />
+    <Compile Include="Relaction\CommonISO4217Xpo.vb" />
+    <Compile Include="ConceptAccountingStructureXpo.vb" />
+    <Compile Include="BankConciliationConcepXpo.vb" />
+    <Compile Include="ElectronicPayroll\ElectronicPayrollDetailXpo.vb" />
+    <Compile Include="ElectronicPayroll\ElectronicPayrollInformation.vb" />
+    <Compile Include="ElectronicPayroll\ElectronicPayrollNotificationXpo.vb" />
+    <Compile Include="ElectronicPayroll\ElectronicPayrollXpo.vb" />
+    <Compile Include="PayrollBankFileDetailXpo.vb" />
+    <Compile Include="PayrollBankFileIncentivePaymentXpo.vb" />
+    <Compile Include="PayrollContributorSubtypeXpo.vb" />
+    <Compile Include="PayrollEmployeeScheduleCXpo.vb" />
+    <Compile Include="PayrollEthnicGroupsXpo.vb" />
+    <Compile Include="PayrollLicensingConceptsXpo.vb" />
+    <Compile Include="PayrollMaritalStatusXpo.vb" />
+    <Compile Include="PayrollMinimumSalaryXpo.vb" />
+    <Compile Include="PayrollReligiousBeliefsXpo.vb" />
+    <Compile Include="PayrollViewVerifyAutoliquidationFileXpo.vb" />
+    <Compile Include="TreasuryEntityBankAccountXpo.vb" />
+    <Compile Include="PayrollForeclousureXpo.vb" />
+    <Compile Include="PayrollDiagnosedDiseaseXpo.vb" />
+    <Compile Include="PayrollFreeTimeUseXpo.vb" />
+    <Compile Include="PayrollFunctionalUnitResponsibleXpo.vb" />
+    <Compile Include="PayrollBankFileXpo.vb" />
+    <Compile Include="PayrollLiquidationXpo.vb" />
+    <Compile Include="PayrollSportPracticeXpo.vb" />
+    <Compile Include="ThirdPartyBranchOfficeXpo.vb" />
+    <Compile Include="PayrollSettingsXpo.vb" />
+    <Compile Include="PayrollViewFunctionalUnitCareCenterUserXpo.vb" />
+    <Compile Include="PayrollFunctionalUnitUserXpo.vb" />
+    <Compile Include="PayrollAccountingStructureXpo.vb" />
+    <Compile Include="PayrollManualConceptsXpo.vb" />
+    <Compile Include="Employee\PayrollContractXpo.vb" />
+    <Compile Include="Employee\PayrollEmployeeXpo.vb" />
+    <Compile Include="Employee\PayrollThirdPartyXpo.vb" />
+    <Compile Include="Agreements\PayrollKindsAgreementsXpo.vb" />
+    <Compile Include="PayrollConceptXpo.vb" />
+    <Compile Include="PayrollContractModificationReasonXpo.vb" />
+    <Compile Include="PayrollEmployeeTypeXpo.vb" />
+    <Compile Include="PayrollNoveltyXpo.vb" />
+    <Compile Include="PayrollJobBondingTypeXpo.vb" />
+    <Compile Include="PayrollParameterXpo.vb" />
+    <Compile Include="PayrollRetention\CommonConsecutiveXpo.Designer.vb">
+      <DependentUpon>CommonConsecutiveXpo.vb</DependentUpon>
+    </Compile>
+    <Compile Include="PayrollRetention\CommonConsecutiveXpo.vb" />
+    <Compile Include="PayrollContractGroupXpo.vb" />
+    <Compile Include="PayrollContractTemplateXpo.vb" />
+    <Compile Include="PayrollContributorTypeXpo.vb" />
+    <Compile Include="PayrollContractTypeXpo.vb" />
+    <Compile Include="PayrollPositionXpo.vb" />
+    <Compile Include="PayrollProfessionalRiskXpo.vb" />
+    <Compile Include="PayrollRetention\PayrollRetentionXpo.vb" />
+    <Compile Include="PayrollScheduleTemplateXpo.vb" />
+    <Compile Include="PayrollServicesXpoEx.vb" />
+    <Compile Include="ResumptionHolidayDetailXpo.vb" />
+    <Compile Include="ResumptionHolidayXpo.vb" />
+    <Compile Include="PayrollStudyCenterXpo.vb" />
+    <Compile Include="PayrollStudyTypeXpo.vb" />
+    <Compile Include="PayrollTradeUnionXpo.vb" />
+    <Compile Include="PayrollWorkCenter\PayrollWorkCenterXpo.vb" />
+    <Compile Include="PayrollBankXpo.vb" />
+    <Compile Include="PayrollBranchOffice.vb" />
+    <Compile Include="PayrollCompany\PayrollCompanyXpo.vb" />
+    <Compile Include="PayrollCostCenterXpo.vb" />
+    <Compile Include="PayrollFunctionalUnit.vb" />
+    <Compile Include="PayrollHumanTalent\INPERSONAXpo.vb" />
+    <Compile Include="PayrollHumanTalent\PayrollHumanTalentXpo.vb" />
+    <Compile Include="PayrollKinshipXpo.vb" />
+    <Compile Include="PayrollLanguageXpo.vb" />
+    <Compile Include="PayrollBusinessUnit\CommonCityXpo.vb" />
+    <Compile Include="PayrollBusinessUnit\CommonCountryXpo.vb" />
+    <Compile Include="PayrollBusinessUnit\CommonCustomerXpo.vb" />
+    <Compile Include="PayrollBusinessUnit\CommonDepartmentXpo.vb" />
+    <Compile Include="PayrollBusinessUnit\PayrollBusinessUnitXpo.vb" />
+    <Compile Include="PayrollEducationLevelsXpo.vb" />
+    <Compile Include="PayrollFundsXpo.vb" />
+    <Compile Include="PayrollGroupXpo.vb" />
+    <Compile Include="PayrollPensionaryTypeXpo.vb" />
+    <Compile Include="PayrollProfessionsXpo.vb" />
+    <Compile Include="PayrollRetirementReasonXpo.vb" />
+    <Compile Include="My Project\AssemblyInfo.vb" />
+    <Compile Include="My Project\Application.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Application.myapp</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="My Project\Resources.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="My Project\Settings.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="PayrollCorporationXpo.vb" />
+    <Compile Include="PayrollPositionLevelXpo.vb" />
+    <Compile Include="XPOReports\CommonThirdParty.vb" />
+    <Compile Include="XPOReports\GeneralLedgerJournalVoucherTypesReportXpo.vb" />
+    <Compile Include="XPOReports\MainAccountsXpo.vb" />
+    <Compile Include="XPOReports\PayrollViewAgreementsCReportXpo.vb" />
+    <Compile Include="XPOReports\PayrollAgreementsCReportXpo.vb" />
+    <Compile Include="XPOReports\PayrollAgreementsDReportXpo.vb" />
+    <Compile Include="XPOReports\PayrollBankReportXpo.vb" />
+    <Compile Include="XPOReports\PayrollCompanyReportXpo.vb" />
+    <Compile Include="XPOReports\PayrollConcept.vb" />
+    <Compile Include="XPOReports\PayrollContract.vb" />
+    <Compile Include="XPOReports\PayrollContractLiquidation.vb" />
+    <Compile Include="XPOReports\PayrollContractLiquidationDetail.vb" />
+    <Compile Include="XPOReports\PayrollCostDistributionsReportXpo.vb" />
+    <Compile Include="XPOReports\PayrollEmployee.vb" />
+    <Compile Include="XPOReports\PayrollEmployeeTypeReportXpo.vb" />
+    <Compile Include="XPOReports\PayrollFund.vb" />
+    <Compile Include="XPOReports\PayrollFundContract.vb" />
+    <Compile Include="XPOReports\PayrollFuntionalUnit.vb" />
+    <Compile Include="XPOReports\PayrollGroup.vb" />
+    <Compile Include="XPOReports\PayrollIncentivePayment.vb" />
+    <Compile Include="XPOReports\PayrollIncentivePaymentDetail.vb" />
+    <Compile Include="XPOReports\PayrollKardex.vb" />
+    <Compile Include="XPOReports\PayrollLiquidation.vb" />
+    <Compile Include="XPOReports\PayrollLiquidationDetail.vb" />
+    <Compile Include="XPOReports\PayrollManualConceptsDetailReportXpo.vb" />
+    <Compile Include="XPOReports\PayrollManualConceptsReportXpo.vb" />
+    <Compile Include="XPOReports\PayrollNovelty.vb" />
+    <Compile Include="XPOReports\PayrollPayrollParameter.vb" />
+    <Compile Include="XPOReports\PayrollPayrollSettingsReportXpo.vb" />
+    <Compile Include="XPOReports\PayrollPosition.vb" />
+    <Compile Include="XPOReports\PayrollRetirementReason.vb" />
+    <Compile Include="XPOReports\PayrollSchedule.vb" />
+    <Compile Include="XPOReports\PayrollScheduleDetail.vb" />
+    <Compile Include="XPOReports\PayrollScheduleDetailConcept.vb" />
+    <Compile Include="XPOReports\PayrollScheduleDetailHour.vb" />
+    <Compile Include="XPOReports\PayrollScheduleTemplateReportXpo.vb" />
+    <Compile Include="XPOReports\PayrollUnemployedLiquidation.vb" />
+    <Compile Include="XPOReports\PayrollVacation.vb" />
+    <Compile Include="XPOReports\PayrollVacationDetail.vb" />
+    <Compile Include="XPOReports\PayrollVacationPeriod.vb" />
+    <Compile Include="XPOReports\PayrollVContributionFundsIncentiveReportXpo.vb" />
+    <Compile Include="XPOReports\PayrollViewContractLiquidationWithholdingReportXpo.vb" />
+    <Compile Include="XPOReports\PayrollViewPayrollWithholdingReportXpo.vb" />
+    <Compile Include="XPOReports\PayrollViewReportContractLiquidation.vb" />
+    <Compile Include="XPOReports\PayrollViewReportIncentiveAccountingWithConcepts.vb" />
+    <Compile Include="XPOReports\PayrollViewReportIncomeTaxXpo.vb" />
+    <Compile Include="XPOReports\PayrollViewReportIncreaseSalaryXpo.vb" />
+    <Compile Include="XPOReports\PayrollViewReportLaborCertificationReportXpo.vb" />
+    <Compile Include="XPOReports\PayrollViewReportPaymentRelationshipByConceptReportXpo.vb" />
+    <Compile Include="XPOReports\PayrollViewReportPaymentRelationshipByEmployeeReportXpo.vb" />
+    <Compile Include="XPOReports\PayrollViewReportPlaneTreasuryReportXpo.vb" />
+    <Compile Include="XPOReports\PayrollViewReportAccountingRetroactiveXpo.vb" />
+    <Compile Include="XPOReports\PayrollViewReportTemplateByEmployeeReportXpoA.vb" />
+    <Compile Include="XPOReports\PayrollViewReportTemplateByEmployeeReportXpo.vb" />
+    <Compile Include="XPOReports\PayrollViewReportWithholdingIncentiveXpo.vb" />
+    <Compile Include="XPOReports\PayrollViewReportWithholdingRetroactiveXpo.vb" />
+    <Compile Include="XPOReports\PayrollViewXpoReportKardex.vb" />
+    <Compile Include="XPOReports\PayrollVPlaneTreasuryIncentivePaymentReportXpo.vb" />
+    <Compile Include="XPOReports\PayrollVTotalIncentiveConceptReportXpo.vb" />
+    <Compile Include="XPOReports\PayrollVIncentivePaymentReportXpo.vb" />
+    <Compile Include="XPOReports\PayrollVPayStubReportXpo.vb" />
+    <Compile Include="XPOReports\PayrollVPlaneTreasuryRetroactiveReportXpo.vb" />
+    <Compile Include="XPOReports\PayrollVRelationNegativeXpo.vb" />
+    <Compile Include="XPOReports\PayrollVReportExpeditionCDPAndRPRetroctiveReportXpo.vb" />
+    <Compile Include="XPOReports\PayrollVRetroactiveFundReportXpo.vb" />
+    <Compile Include="XPOReports\PayrollVRetroactiveReportXpo.vb" />
+    <Compile Include="XPOReports\PayrollVSurchargesReportXpo.vb" />
+    <Compile Include="XPOReports\PayrollVTotalRetroactiveConceptReportXpo.vb" />
+    <Compile Include="XPOReports\Payroll_CostCenterReportXpo.vb" />
+    <Compile Include="XPOReports\ViewReportExpeditionCDPAndRPIncentivePayment.vb" />
+    <Compile Include="XPOReports\ViewReportExpeditionCDPAndRP.vb" />
+    <Compile Include="XPOReports\ViewReportTotalPaidEmployeeIncentiveConcept.vb" />
+    <Compile Include="XPOReports\ViewReportTotalPaidEmployeeIncentive.vb" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="My Project\Resources.resx">
+      <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.vb</LastGenOutput>
+      <CustomToolNamespace>My.Resources</CustomToolNamespace>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="My Project\Application.myapp">
+      <Generator>MyApplicationCodeGenerator</Generator>
+      <LastGenOutput>Application.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="My Project\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <CustomToolNamespace>My</CustomToolNamespace>
+      <LastGenOutput>Settings.Designer.vb</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Infrastructure.CrossCutting.Xpo.Base\Infrastructure.CrossCutting.Xpo.Base.vbproj">
+      <Project>{06aea7a4-8792-405e-97e6-4b6fb10502b5}</Project>
+      <Name>Infrastructure.CrossCutting.Xpo.Base</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

@@ -1,0 +1,103 @@
+<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
+Partial Class CtrTotalInfo
+    Inherits System.Windows.Forms.UserControl
+
+    'UserControl overrides dispose to clean up the component list.
+    <System.Diagnostics.DebuggerNonUserCode()> _
+    Protected Overrides Sub Dispose(ByVal disposing As Boolean)
+        Try
+            If disposing AndAlso components IsNot Nothing Then
+                components.Dispose()
+            End If
+        Finally
+            MyBase.Dispose(disposing)
+        End Try
+    End Sub
+
+    'Required by the Windows Form Designer
+    Private components As System.ComponentModel.IContainer
+
+    'NOTE: The following procedure is required by the Windows Form Designer
+    'It can be modified using the Windows Form Designer.  
+    'Do not modify it using the code editor.
+    <System.Diagnostics.DebuggerStepThrough()> _
+    Private Sub InitializeComponent()
+        Me.LayoutControl1 = New DevExpress.XtraLayout.LayoutControl()
+        Me.LayoutControlGroup1 = New DevExpress.XtraLayout.LayoutControlGroup()
+        Me.INDPceTotalValue = New DevExpress.XtraEditors.PopupContainerEdit()
+        CType(Me.LayoutControl1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.LayoutControlGroup1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.INDPceTotalValue.Properties, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.SuspendLayout()
+        '
+        'LayoutControl1
+        '
+        Me.LayoutControl1.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.LayoutControl1.Location = New System.Drawing.Point(0, 0)
+        Me.LayoutControl1.Margin = New System.Windows.Forms.Padding(2)
+        Me.LayoutControl1.Name = "LayoutControl1"
+        Me.LayoutControl1.Root = Me.LayoutControlGroup1
+        Me.LayoutControl1.Size = New System.Drawing.Size(292, 62)
+        Me.LayoutControl1.TabIndex = 0
+        Me.LayoutControl1.Text = "LayoutControl1"
+        '
+        'LayoutControlGroup1
+        '
+        Me.LayoutControlGroup1.CustomizationFormText = "LayoutControlGroup1"
+        Me.LayoutControlGroup1.EnableIndentsWithoutBorders = DevExpress.Utils.DefaultBoolean.[True]
+        Me.LayoutControlGroup1.GroupBordersVisible = False
+        Me.LayoutControlGroup1.Name = "LayoutControlGroup1"
+        Me.LayoutControlGroup1.Size = New System.Drawing.Size(292, 62)
+        Me.LayoutControlGroup1.TextVisible = False
+        '
+        'INDPceTotalValue
+        '
+        Me.INDPceTotalValue.CausesValidation = False
+        Me.INDPceTotalValue.Cursor = System.Windows.Forms.Cursors.Hand
+        Me.INDPceTotalValue.EditValue = "$0"
+        Me.INDPceTotalValue.Location = New System.Drawing.Point(0, -10)
+        Me.INDPceTotalValue.Margin = New System.Windows.Forms.Padding(2, 3, 2, 3)
+        Me.INDPceTotalValue.Name = "INDPceTotalValue"
+        Me.INDPceTotalValue.Properties.Appearance.BackColor = System.Drawing.Color.Transparent
+        Me.INDPceTotalValue.Properties.Appearance.Font = New System.Drawing.Font("Segoe UI", 26.0!)
+        Me.INDPceTotalValue.Properties.Appearance.ForeColor = System.Drawing.Color.White
+        Me.INDPceTotalValue.Properties.Appearance.Options.UseBackColor = True
+        Me.INDPceTotalValue.Properties.Appearance.Options.UseFont = True
+        Me.INDPceTotalValue.Properties.Appearance.Options.UseForeColor = True
+        Me.INDPceTotalValue.Properties.Appearance.Options.UseTextOptions = True
+        Me.INDPceTotalValue.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Far
+        Me.INDPceTotalValue.Properties.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder
+        Me.INDPceTotalValue.Properties.Mask.EditMask = "c0"
+        Me.INDPceTotalValue.Properties.Mask.IgnoreMaskBlank = False
+        Me.INDPceTotalValue.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.Numeric
+        Me.INDPceTotalValue.Properties.Mask.UseMaskAsDisplayFormat = True
+        Me.INDPceTotalValue.Properties.PopupSizeable = False
+        Me.INDPceTotalValue.Properties.ShowPopupCloseButton = False
+        Me.INDPceTotalValue.Properties.ShowPopupShadow = False
+        Me.INDPceTotalValue.Size = New System.Drawing.Size(292, 52)
+        Me.INDPceTotalValue.StyleController = Me.LayoutControl1
+        Me.INDPceTotalValue.TabIndex = 11
+        '
+        'CtrTotalInfo
+        '
+        Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
+        Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
+        Me.BackColor = System.Drawing.Color.Transparent
+        Me.Controls.Add(Me.INDPceTotalValue)
+        Me.Controls.Add(Me.LayoutControl1)
+        Me.Margin = New System.Windows.Forms.Padding(2)
+        Me.MaximumSize = New System.Drawing.Size(292, 62)
+        Me.MinimumSize = New System.Drawing.Size(292, 62)
+        Me.Name = "CtrTotalInfo"
+        Me.Size = New System.Drawing.Size(292, 62)
+        CType(Me.LayoutControl1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.LayoutControlGroup1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.INDPceTotalValue.Properties, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.ResumeLayout(False)
+
+    End Sub
+    Friend WithEvents LayoutControl1 As DevExpress.XtraLayout.LayoutControl
+    Friend WithEvents LayoutControlGroup1 As DevExpress.XtraLayout.LayoutControlGroup
+    Friend WithEvents INDPceTotalValue As DevExpress.XtraEditors.PopupContainerEdit
+
+End Class

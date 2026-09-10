@@ -1,0 +1,334 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{16AEF376-07F1-4F7F-864B-1CE7B8FEC2B1}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>Presentation.Accounting.MVP</RootNamespace>
+    <AssemblyName>Presentation.Accounting.MVP</AssemblyName>
+    <FileAlignment>512</FileAlignment>
+    <MyType>Windows</MyType>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DocumentationFile>Presentation.Accounting.MVP.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DocumentationFile>Presentation.Accounting.MVP.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionExplicit>On</OptionExplicit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionCompare>Binary</OptionCompare>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionStrict>Off</OptionStrict>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionInfer>On</OptionInfer>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debugcito|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\Debugcito\</OutputPath>
+    <DocumentationFile>Presentation.Accounting.MVP.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DocumentationFile>Presentation.Accounting.MVP.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DocumentationFile>Presentation.Accounting.MVP.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debugcito|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x64\Debugcito\</OutputPath>
+    <DocumentationFile>Presentation.Accounting.MVP.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DocumentationFile>Presentation.Accounting.MVP.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DocumentationFile>Presentation.Accounting.MVP.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debugcito|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x86\Debugcito\</OutputPath>
+    <DocumentationFile>Presentation.Accounting.MVP.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'VieBuild|AnyCPU'">
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\VieBuild\</OutputPath>
+    <DocumentationFile>Presentation.Accounting.MVP.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'VieBuild|x64'">
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x64\VieBuild\</OutputPath>
+    <DocumentationFile>Presentation.Accounting.MVP.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'VieBuild|x86'">
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x86\VieBuild\</OutputPath>
+    <DocumentationFile>Presentation.Accounting.MVP.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="DevExpress.Xpo.v25.1, Version=25.1.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="Domain.Base.Entities, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\DLL\Domain.Base.Entities.dll</HintPath>
+    </Reference>
+    <Reference Include="Domain.Entities, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\DLL\Domain.Entities.dll</HintPath>
+    </Reference>
+    <Reference Include="Infrastructure.CrossCutting.Base, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\DLL\Infrastructure.CrossCutting.Base.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Core" />
+  </ItemGroup>
+  <ItemGroup>
+    <Import Include="Microsoft.VisualBasic" />
+    <Import Include="System" />
+    <Import Include="System.Collections" />
+    <Import Include="System.Collections.Generic" />
+    <Import Include="System.Diagnostics" />
+    <Import Include="System.Linq" />
+    <Import Include="System.Xml.Linq" />
+    <Import Include="System.Threading.Tasks" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Interface\IAccountBalance.vb" />
+    <Compile Include="Interface\IAnnualClose.vb" />
+    <Compile Include="Interface\IExogenousFormat.vb" />
+    <Compile Include="Interface\IHealthSuperintendencyParameters.vb" />
+    <Compile Include="Interface\IMainAccountLevels.vb" />
+    <Compile Include="Interface\IMassiveReplication.vb" />
+    <Compile Include="Interface\IReportExogenousInformation.vb" />
+    <Compile Include="Interface\ISettingsExogenousInformation.vb" />
+    <Compile Include="Interface\IVieBot.vb" />
+    <Compile Include="Interface\IAccountingHomologations.vb" />
+    <Compile Include="Interface\IBook.vb" />
+    <Compile Include="Interface\IAccountLevel.vb" />
+    <Compile Include="Interface\ICloseMonth.vb" />
+    <Compile Include="Interface\IDocumentType.vb" />
+    <Compile Include="Interface\IFormPUC.vb" />
+    <Compile Include="Interface\IGenerealLedgerIVA.vb" />
+    <Compile Include="Interface\IParameterAccountig.vb" />
+    <Compile Include="Interface\IPatrimonialPart.vb" />
+    <Compile Include="Interface\IRecalculateBalances.vb" />
+    <Compile Include="Interface\IRetentionConcept.vb" />
+    <Compile Include="Interface\IStatementFolio.vb" />
+    <Compile Include="Model\MAnnualClose.vb" />
+    <Compile Include="Model\MExogenousFormat.vb" />
+    <Compile Include="Model\MHealthSuperintendencyParameters.vb" />
+    <Compile Include="Model\MMainAccountLevels.vb" />
+    <Compile Include="Model\MMassiveReplication.vb" />
+    <Compile Include="Model\MReports.vb" />
+    <Compile Include="Model\MSettingsExogenousInformation.vb" />
+    <Compile Include="Model\MVieBot.vb" />
+    <Compile Include="Model\MHomologationAccount.vb" />
+    <Compile Include="Model\MBook.vb" />
+    <Compile Include="Model\MAccountLevel.vb" />
+    <Compile Include="Model\MAccoutingBalance.vb" />
+    <Compile Include="Model\MCloseMonth.vb" />
+    <Compile Include="Model\MCompanySettings.vb" />
+    <Compile Include="Model\MDocumentAccount.vb" />
+    <Compile Include="Model\MDocumentType.vb" />
+    <Compile Include="Model\MGeneralLedgerIVA.vb" />
+    <Compile Include="Model\MPatrimonialPart.vb" />
+    <Compile Include="Model\MRetentionConcept.vb" />
+    <Compile Include="Model\MSettingsAccount.vb" />
+    <Compile Include="Model\MStatementFolio.vb" />
+    <Compile Include="My Project\AssemblyInfo.vb" />
+    <Compile Include="My Project\Application.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Application.myapp</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="My Project\Resources.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="My Project\Settings.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="Presenter\PAccountingVoucher.vb" />
+    <Compile Include="Presenter\PExogenousFormat.vb" />
+    <Compile Include="Presenter\PHealthSuperintendencyParameters.vb" />
+    <Compile Include="Presenter\PMainAccountLevels.vb" />
+    <Compile Include="Presenter\PMassiveReplication.vb" />
+    <Compile Include="Presenter\PReportExogenousInformation.vb" />
+    <Compile Include="Presenter\PVieBot.vb" />
+    <Compile Include="Presenter\PAccountingHomologations.vb" />
+    <Compile Include="Presenter\PBook.vb" />
+    <Compile Include="Presenter\PGeneralLedgerIVA.vb" />
+    <Compile Include="Presenter\PParametersAccounting.vb" />
+    <Compile Include="Presenter\PAccountLevel.vb" />
+    <Compile Include="Presenter\PDocumentType.vb" />
+    <Compile Include="Presenter\PFormPUC.vb" />
+    <Compile Include="Presenter\PPatrimonialPart.vb" />
+    <Compile Include="Presenter\PRetentionConcept.vb" />
+    <Compile Include="Presenter\PStatementFolio.vb" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="My Project\Resources.resx">
+      <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.vb</LastGenOutput>
+      <CustomToolNamespace>My.Resources</CustomToolNamespace>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="My Project\Application.myapp">
+      <Generator>MyApplicationCodeGenerator</Generator>
+      <LastGenOutput>Application.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="My Project\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <CustomToolNamespace>My</CustomToolNamespace>
+      <LastGenOutput>Settings.Designer.vb</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Infrastructure.CrossCutting.Xpo.Base\Infrastructure.CrossCutting.Xpo.Base.vbproj">
+      <Project>{06aea7a4-8792-405e-97e6-4b6fb10502b5}</Project>
+      <Name>Infrastructure.CrossCutting.Xpo.Base</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastructure.Data.Xpo.CommonRepository\Infrastructure.Data.Xpo.CommonRepository.vbproj">
+      <Project>{C087E009-72B8-4E9E-80F7-BE336BE83794}</Project>
+      <Name>Infrastructure.Data.Xpo.CommonRepository</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastructure.Data.Xpo.GlosasRepository\Infrastructure.Data.Xpo.GlosasRepository.vbproj">
+      <Project>{697869d8-6dad-4170-b120-c3f6cbd6dc4a}</Project>
+      <Name>Infrastructure.Data.Xpo.GlosasRepository</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastructure.Data.Xpo.InventoryRepository\Infrastructure.Data.Xpo.InventoryRepository.csproj">
+      <Project>{E16B7310-400A-46DD-B7AB-C54EA51F197C}</Project>
+      <Name>Infrastructure.Data.Xpo.InventoryRepository</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastructure.Data.Xpo\Infrastructure.Data.Xpo.vbproj">
+      <Project>{b5e32668-0270-4d5e-adb7-840edf9d6db8}</Project>
+      <Name>Infrastructure.Data.Xpo</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastucture.Data.Xpo.AccountingRepository\Infrastructure.Data.Xpo.AccountingRepository.vbproj">
+      <Project>{539916d8-97ff-497f-bc89-12d89b47cb70}</Project>
+      <Name>Infrastructure.Data.Xpo.AccountingRepository</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Presentacion.AgenteCloud\Presentation.ProxyAgent.vbproj">
+      <Project>{ab3573a9-5acf-4971-b298-be3a1ed617e8}</Project>
+      <Name>Presentation.ProxyAgent</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Presentacion.Base\Presentation.Base.vbproj">
+      <Project>{7bc84999-6ea3-47e9-92e9-697ade41bb9a}</Project>
+      <Name>Presentation.Base</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Presentacion.Controles.MVP\Presentation.Controls.MVP.vbproj">
+      <Project>{47d30452-ca41-44a9-b3ad-867793353ede}</Project>
+      <Name>Presentation.Controls.MVP</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Presentacion.Controles\Presentation.Controls.vbproj">
+      <Project>{b031e890-3c50-4dea-ba76-96bc4bb6a05a}</Project>
+      <Name>Presentation.Controls</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

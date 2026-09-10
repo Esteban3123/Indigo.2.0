@@ -1,0 +1,217 @@
+﻿#Region "Librerias Improtadas"
+Imports Infrastructure.CrossCutting.Base
+Imports Infrastructure.Data.Xpo
+Imports Infrastructure.Data.Xpo.PayrollRepository
+Imports Domain.Entities
+Imports Presentation.Base
+
+Imports Presentation.CloudAgent
+Imports DevExpress.XtraReports.UI
+Imports System.Drawing.Printing
+Imports DevExpress.XtraReports.Parameters
+Imports Infrastructure.Data.Xpo.SecurityRepository
+Imports Infrastructure.Data.Xpo.InventoryRepository
+Imports DevExpress.Spreadsheet
+Imports System.Text
+Imports System.Drawing
+
+#End Region
+
+Public Class rptIncentiveAccountingWithConcepts
+    Implements IReport
+    Implements IReportAsync
+
+    ''' <summary>
+    ''' Variable para inicializar los valores de sesion
+    ''' </summary>
+    Dim IndigoSessionValues As SessionValues = SessionValues.Instance
+
+    Dim dictionaryEmployee As New Dictionary(Of String, String)
+
+    Dim listI As List(Of PayrollIncentivePaymentDetail)
+    Dim listO As List(Of PayrollIncentivePayment)
+
+    Private tes As Integer
+    Private cuatro As Integer
+    Private cinco As Integer
+    Private seis As Integer
+    Dim kj As Integer = 0
+    Dim kl As Integer = 0
+
+
+    Dim ListIncentiveAccounting As List(Of PayrollViewReportIncentiveAccountingWithConcepts)
+    Private controlByGroup As Integer
+    Private nit As String
+    Private total As Integer
+
+    Dim filtroConsultaA As String
+
+    Dim filtroConsultaB As String
+
+    Public Sub CargarDataSource() Implements IReport.CargarDataSource
+        Try
+            Dim filtroConsultaA As String = "PeriodInitialDate >= '" & Format(Me.ParametrosReporte(0), "yyyyMMdd") & "' And PeriodEndDate <= '" & Format(Me.ParametrosReporte(1), "yyyyMMdd") & "'"
+            filtroConsultaB = filtroConsultaA
+            'filtro por Empleado
+            If ParametrosReporte(2) <> "" Then
+                filtroConsultaA &= " And Nit = '" & ParametrosReporte(2) & "'"
+                filtroConsultaB &= " And ContractId.EmployeeId.ThirdPartyId.Nit = '" & ParametrosReporte(2) & "'"
+            End If
+
+            'filtro Periodo
+            If ParametrosReporte(5) <> 3 Then
+                filtroConsultaA &= "And Period = " & ParametrosReporte(5)
+                filtroConsultaB &= "And Period = " & ParametrosReporte(5)
+            End If
+
+
+            filtroConsultaA = String.Format("{0} AND ((BranchOfficeID >= {1} AND BranchOfficeID <= {2}) OR ({1} IS NULL AND {2} IS NULL))", filtroConsultaA, IIf(ParametrosReporte(6) Is Nothing Or ParametrosReporte(6) = String.Empty, "NULL", ParametrosReporte(6)), IIf(ParametrosReporte(7) Is Nothing Or ParametrosReporte(7) = String.Empty, "NULL", ParametrosReporte(7)))
+            filtroConsultaB = String.Format("{0} AND ((ContractId.FunctionalUnitId.BranchOfficeId >= {1} AND ContractId.FunctionalUnitId.BranchOfficeId <= {2}) OR ({1} IS NULL AND {2} IS NULL))", filtroConsultaB, IIf(ParametrosReporte(6) Is Nothing Or ParametrosReporte(6) = String.Empty, "NULL", ParametrosReporte(6)), IIf(ParametrosReporte(7) Is Nothing Or ParametrosReporte(7) = String.Empty, "NULL", ParametrosReporte(7)))
+
+            ListIncentiveAccounting = XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).PayrollService.GetCollection(Of PayrollViewReportIncentiveAccountingWithConcepts)(Nothing, filtroConsultaA)
+
+            'listI = XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).PayrollService.GetCollection(Of PayrollIncentivePaymentDetail)(Nothing, filtroConsultaw)
+
+            listO = XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).PayrollService.GetCollection(Of PayrollIncentivePayment)(Nothing, filtroConsultaB)
+
+
+            'listI.GroupBy(Function(x) x.IncentivePaymentId)
+
+            'Me.DataSource = listI
+            Me.DataSource = listO
+        Catch ex As Exception
+            MessageIndigo.Show(GetExceptionDetails(ex), MessageType.Errores, Me.Text, Botones.Aceptar, "")
+        End Try
+    End Sub
+
+    Public Function CargarDataSourceAsync() As Task Implements IReportAsync.CargarDataSourceAsync
+        Return Task.Factory.StartNew(AddressOf CargarDataSource)
+    End Function
+
+    Public Function GetExceptionDetails(exception As Exception) As String
+        Dim properties = exception.[GetType]().GetProperties()
+        Dim fields = properties.[Select](Function([property]) New With {
+            Key .Name = [property].Name,
+            Key .Value = [property].GetValue(exception, Nothing)
+        }).[Select](Function(x) [String].Format("{0} : {1}", x.Name, If(x.Value IsNot Nothing, x.Value.ToString(), [String].Empty)))
+        Return [String].Join(vbLf, fields)
+    End Function
+
+    Public Sub CargarImagenes() Implements IReport.CargarImagenes
+
+    End Sub
+
+    Public ReadOnly Property NameReport As String Implements IReport.NameReport
+        Get
+            Return ""
+        End Get
+    End Property
+
+    Public Property ParametrosReporte As Object() Implements IReport.ParametrosReporte
+
+    Private Sub rptPayrollLiquidationdetailGrupoPorConcepto_BeforePrint(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles MyBase.BeforePrint
+        INDLblCompany.Text = IndigoSessionValues.IndigoCompanyName
+        INDLblNitCompany.Text = "Nit:" & IndigoSessionValues.IndigoCompanyNit
+        INDUserImp.Text = "Usuario Impresión : " & IndigoSessionValues.UserIndigo & " - " & IndigoSessionValues.UserIndigoName
+        INDLblDate.Text = "Informe comprendido entre " & CDate(Me.ParametrosReporte(0)).ToString("dd De MMMM Del yyyy") & " " & CDate(Me.ParametrosReporte(1)).ToString("A dd De MMMM Del yyyy")
+    End Sub
+
+    Private Sub GroupHeader1_BeforePrint(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles GroupHeader1.BeforePrint
+
+        'Por cada iteración del (GroupHeader1) se borran las celdas nuevas de (XrTableRow2)
+        If controlByGroup = 1 Then
+            Dim table2 As XRTable = CType(XrTable2, XRTable)
+            Dim row1 As XRTableRow = table2.Rows(0)
+
+            Dim t = XrTableRow2.Cells.Count()
+            For j = 8 To t
+                row1.DeleteCell(row1.Cells(7)) ''Se coloca el índice desde el cual se empezará a borrar
+            Next
+        End If
+
+        'Se agregan las celdas a (XrTableRow1) tomando como referencia la La cantidad de ítems que contiene (listDetailOnliProductionCenterName) y se le agrega a cada celda en su propiedad (Tag) el código de cada centro de producción.
+        Dim IncentiveAccountingConceptName = (From detailConcept In ListIncentiveAccounting
+                                              Group conceptNam = detailConcept.ConceptName By co = detailConcept.ConceptCode, na = detailConcept.ConceptName Into conceptNam = Group, Count()
+                                              Order By co).ToList
+
+        Dim wi = 1150.58 / (IncentiveAccountingConceptName.Count + 7) 'Obtenemos el ancho de cada celda
+        If controlByGroup <> 1 Then
+            Dim indexx = 1
+
+            For Each i In IncentiveAccountingConceptName
+                Me.XrTable1.SizeF = New System.Drawing.SizeF(1150.58!, 20.0!)
+                indexx += 1
+                Dim cell As New XRTableCell()
+                cell.WidthF = wi
+                cell.Font = New Font("Arial", 8.0!, FontStyle.Bold)
+                cell.Text = i.na
+                cell.Tag = i.co
+                cell.Name = "INDCllPageHeader" & indexx
+                XrTableRow1.Cells.Add(cell)
+            Next
+
+            For f As Integer = 0 To (IncentiveAccountingConceptName.Count + 6)
+                XrTableRow1.Cells(f).WidthF = wi
+            Next
+            table3Total()
+        End If
+
+        ''Se agregan las celdas a (XrTableRow2) tomando como referencia la cantidad de celdas que contiene (XrTableRow1).
+        Dim indexxx = 1
+        For co As Integer = 7 To XrTableRow1.Cells.Count - 1
+            Me.XrTable2.SizeF = New System.Drawing.SizeF(1150.58!, 20.0!)
+            indexxx += 1
+            Dim cellProductQuantity As New XRTableCell()
+            cellProductQuantity.WidthF = wi
+            cellProductQuantity.Font = New Font("Arial", 8.0!)
+            cellProductQuantity.Text = 0
+            cellProductQuantity.Padding = New DevExpress.XtraPrinting.PaddingInfo(0, 3, 0, 0, 100.0!)
+            cellProductQuantity.Name = "INDCllDetail" & indexxx
+            XrTableRow2.Cells.Add(cellProductQuantity)
+        Next
+        For g As Integer = 0 To (IncentiveAccountingConceptName.Count + 6)
+            XrTableRow2.Cells(g).WidthF = wi
+        Next
+
+        'Se agrega a cada columna la cantidad, comparando el Tag de cada celda (Código del centro de producción) con el código de (meUnitGroup) el cual contiene la Tupla que se maneja en esa iteración
+        nit = (GetCurrentColumnValue("INDNit"))
+        Dim IncentivePaymentConcept = ListIncentiveAccounting.Where(Function(x) x.Nit = nit)
+
+        kl += 1
+
+        For colum As Integer = 6 To XrTableRow1.Cells.Count - 1
+            For Each concepts In IncentivePaymentConcept
+                If XrTableRow1.Cells.Item(colum).Tag = concepts.ConceptCode Then
+                    XrTableRow2.Cells.Item(colum).Text = String.Format("{0:c0}", (concepts.ValConceptAccruDeduc))
+
+                    'Total por centro de producción
+                    XrTableRow3.Cells.Item(colum).Text = String.Format("{0:c0}", (CInt(XrTableRow3.Cells.Item(colum).Text) + CInt((concepts.ValConceptAccruDeduc))))
+                End If
+            Next
+        Next
+        controlByGroup = 1
+    End Sub
+
+    Private Sub table3Total()
+        Dim indexxx = 1
+        Dim wi2 = 1150.58 / (XrTableRow1.Cells.Count)
+
+        For co As Integer = 7 To XrTableRow1.Cells.Count - 1
+            Me.XrTable3.SizeF = New System.Drawing.SizeF(1150.58!, 20.0!)
+            indexxx += 1
+            Dim cellProductQuantity As New XRTableCell()
+            cellProductQuantity.WidthF = wi2
+            cellProductQuantity.Borders = DevExpress.XtraPrinting.BorderSide.Top
+            cellProductQuantity.Font = New Font("Arial", 6.5!)
+            cellProductQuantity.Text = 0
+            cellProductQuantity.Padding = New DevExpress.XtraPrinting.PaddingInfo(0, 3, 0, 0, 100.0!)
+            cellProductQuantity.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleRight
+            cellProductQuantity.Name = "INDCllTotal" & indexxx
+            XrTableRow3.Cells.Add(cellProductQuantity)
+        Next
+
+        For g As Integer = 0 To (XrTableRow1.Cells.Count - 1)
+            XrTableRow3.Cells(g).WidthF = wi2
+        Next
+    End Sub
+End Class

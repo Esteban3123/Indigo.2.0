@@ -1,0 +1,276 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Indigo.Validaciones</name>
+    </assembly>
+    <members>
+        <member name="M:IndigoValidaciones.Autorizaciones.ValidarAutorizacionesAsignacionCitas(System.String,System.String,System.String,System.Int32,System.String)">
+            <summary>
+            Función para validar la autorizacion de la cita de consulta externas (Asignación citas consulta externa   -  Asignación citas apoyo dx )
+            Frm de: Asignación citas consulta externa
+            Frm de: Asignación citas apoyo dx
+            </summary>
+            <param name="CodigoCentroAtencion"></param>
+            <param name="CUPS"></param>
+            <param name="Identificacion"></param>
+            <returns></returns>
+        </member>
+        <member name="M:IndigoValidaciones.Autorizaciones.ActualizarEstadoAutorizacion(System.Int32,IndigoValidaciones.eTipoEjecucion)">
+            <summary>
+            Funcion que se ejecuta cuando se cancele una cita, se de inatención, cuando se incumpla una cita medica. para cambiar el estado de la autorizacion
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:IndigoValidaciones.Autorizaciones.ServicioSuceptible(System.String,System.String,System.Int32)">
+            <summary>
+            Consultar si el Servicio es suceptible de autorizacion
+            </summary>
+            <param name="CUPS"></param>
+            <param name="IDGrupoAtencion"></param>
+            <returns></returns>
+        </member>
+        <member name="M:IndigoValidaciones.Autorizaciones.MedicamentoParaProduccion(System.String,System.String)">
+            <summary>
+            Funcion que me busca si el producto ó los porudctos aplican a la central mezclas
+            </summary>
+            <param name="Productos"></param>
+            <param name="CentroAtencion"></param>
+            <returns></returns>
+        </member>
+        <member name="T:IndigoValidaciones.ResultadoAutorizaciones">
+            <summary>
+            Clase para controlar los diferentes resultados que puede tener la clase.
+            </summary>
+        </member>
+        <member name="T:IndigoValidaciones.eEnumeracionesGenericas">
+            <summary>
+            Enmueracion para saber el Tipo de Historia cuando se utilice el formato de Historia Telefonico
+            </summary>
+        </member>
+        <member name="T:IndigoValidaciones.eEnumeracionesGenericas.eTipoHistoria">
+            <summary>
+            Tipo de Historia
+            </summary>
+        </member>
+        <member name="T:IndigoValidaciones.eEnumeracionesGenericas.eTipoHistoriaNotaOtrosProcedimientos">
+            <summary>
+            Tipo de Historia
+            </summary>
+        </member>
+        <member name="T:IndigoValidaciones.eEnumeracionesGenericas.eDestinoPacienteCima">
+            <summary>
+            Para CIMA por el momento tenemos solo dos destinos 
+            </summary>
+        </member>
+        <member name="T:IndigoValidaciones.eEnumeracionesGenericas.eGasType">
+            <summary>
+            Enumeracion tipo de gas que se utiliza desde la Hoja de gases
+            </summary>
+        </member>
+        <member name="T:IndigoValidaciones.eEnumeracionesGenericas.eEstadoOrden">
+            <summary>
+            Enumeracion tipo de estado de ordenes medicas
+            </summary>
+        </member>
+        <member name="T:IndigoValidaciones.eEnumeracionesGenericas.eTipoPlataforma">
+            <summary>
+            Enumeracion tipo de estado de ordenes medicas
+            </summary>
+        </member>
+        <member name="T:IndigoValidaciones.eEnumeracionesGenericas.eTipoFormularioFolios">
+            <summary>
+            Enumeracion tipo de estado de ordenes medicas
+            </summary>
+        </member>
+        <member name="F:IndigoValidaciones.FrmHCAutorizaciones.ValoresSesion">
+            <summary>
+            'Instancia a los valores de sesion
+            </summary>
+        </member>
+        <member name="F:IndigoValidaciones.FrmHCAutorizaciones.Source">
+            <summary>
+            Varaible que me contendra la empresa
+            </summary>
+        </member>
+        <member name="F:IndigoValidaciones.FrmHCAutorizaciones._Paciente">
+            <summary>
+            Identificacion del Paciente
+            </summary>
+        </member>
+        <member name="F:IndigoValidaciones.FrmHCAutorizaciones._NombrePaciente">
+            <summary>
+            Nombre Paciente
+            </summary>
+        </member>
+        <member name="F:IndigoValidaciones.FrmHCAutorizaciones._CUPS">
+            <summary>
+            Codigo CUPS
+            </summary>
+        </member>
+        <member name="F:IndigoValidaciones.FrmHCAutorizaciones._CentroAtencion">
+            <summary>
+            Codigo Centro Atencion
+            </summary>
+        </member>
+        <member name="F:IndigoValidaciones.FrmHCAutorizaciones._NumeroAutorizacionSelccionado">
+            <summary>
+            Codigo Centro Atencion
+            </summary>
+        </member>
+        <member name="F:IndigoValidaciones.FrmHCAutorizaciones._TraceabilityPaperworkid">
+            <summary>
+            id Autorizacion
+            </summary>
+        </member>
+        <member name="M:IndigoValidaciones.FrmHCAutorizaciones.GridView2_SelectionChanged(System.Object,DevExpress.Data.SelectionChangedEventArgs)">
+            <summary>
+            SelectionChanged cuando marque algun registro.
+            </summary>
+            <param name="sender"></param>
+            <param name="e"></param>
+        </member>
+        <member name="M:IndigoValidaciones.FrmHCAutorizaciones.FrmHCAutorizaciones_Load(System.Object,System.EventArgs)">
+            <summary>
+            Evento Load del frm
+            </summary>
+            <param name="sender"></param>
+            <param name="e"></param>
+        </member>
+        <member name="M:IndigoValidaciones.FrmHCAutorizaciones.INDsbAceptar_Click(System.Object,System.EventArgs)">
+            <summary>
+            Evento Click para aceptar
+            </summary>
+            <param name="sender"></param>
+            <param name="e"></param>
+        </member>
+        <member name="M:IndigoValidaciones.FrmHCAutorizaciones.INDCargarAutorizacione">
+            <summary>
+            Procedimiento para cargar las autorizaciones
+            </summary>
+        </member>
+        <member name="M:IndigoValidaciones.FrmHCAutorizaciones.Dispose(System.Boolean)">
+            <summary>
+            Libera los recursos que está usando el formulario.
+            </summary>
+        </member>
+        <member name="T:IndigoValidaciones.Properties.Resources">
+            <summary>
+              Clase de recurso fuertemente tipado, para buscar cadenas traducidas, etc.
+            </summary>
+        </member>
+        <member name="P:IndigoValidaciones.Properties.Resources.ResourceManager">
+            <summary>
+              Devuelve la instancia de ResourceManager almacenada en caché utilizada por esta clase.
+            </summary>
+        </member>
+        <member name="P:IndigoValidaciones.Properties.Resources.Culture">
+            <summary>
+              Reemplaza la propiedad CurrentUICulture del subproceso actual para todas las
+              búsquedas de recursos mediante esta clase de recurso fuertemente tipado.
+            </summary>
+        </member>
+        <member name="M:IndigoValidaciones.RIAS.ValidarRIASAgendamiento(System.String,System.Int32,System.String,System.Int32,System.String)">
+            <summary>
+            validacion de RIAS desde agendamiento
+            </summary>
+            <param name="Paciente"></param>
+            <param name="IDRiasCUPS"></param>
+            <param name="CUPS"></param>
+            <param name="cantidad"></param>
+            <returns></returns>
+        </member>
+        <member name="F:IndigoValidaciones.TipoPoblacional.ValoresSesion">
+            <summary>
+            Instancia los valores de sesion
+            </summary>
+        </member>
+        <member name="M:IndigoValidaciones.TipoPoblacional.FuctionPoblacion(System.Boolean,System.String)">
+            <summary>
+            Funcion para crear los ImageComboBoxEdit
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:IndigoValidaciones.TipoPoblacional.FuctionPoblacionRepositoryItemImageComboBox(System.Boolean,System.String)">
+            <summary>
+            Funcion para crear los RepositoryItemImageComboBox
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:IndigoValidaciones.TipoPoblacional.ConsultarTiposPoblaciones(System.Boolean,System.String)">
+            <summary>
+            Procedimiento que me consulta los grupos poblacionales
+            </summary>
+        </member>
+        <member name="M:IndigoValidaciones.TipoPoblacional.ObtenerFechaServidor">
+            <summary>
+            Obteners the fecha servidor.
+            </summary><returns></returns>
+        </member>
+        <member name="F:IndigoValidaciones.TrasladoCodigosCarpetas.INDdtPacienteAnterior">
+            <summary>
+            Variables de propiedades
+            </summary>
+        </member>
+        <member name="F:IndigoValidaciones.TrasladoCodigosCarpetas.PacienteAnteriorExiste">
+            <summary>
+            Variables globales de clase
+            </summary>
+        </member>
+        <member name="M:IndigoValidaciones.TrasladoCodigosCarpetas.ValidarDatosEntrada">
+            <summary>
+            Función útil para validar los datos de entrada, que son las propuedades
+            </summary>
+        </member>
+        <member name="M:IndigoValidaciones.TrasladoCodigosCarpetas.TrasladarArchivosAdjuntos">
+            <summary>
+            Función principal para trasladar archivos
+            </summary>
+        </member>
+        <member name="M:IndigoValidaciones.TrasladoCodigosCarpetas.CrearDirectorioPacienteNuevoNoExiste">
+            <summary>
+            Función útil para pasar la carpeta del paciente anterior que existe al paciente nuevo que NO existe
+            </summary>
+        </member>
+        <member name="M:IndigoValidaciones.TrasladoCodigosCarpetas.PasarDirectorioPacienteNuevoSiExiste">
+            <summary>
+            Función útil para pasar la carpeta del paciente anterior que al paciente nuevo que SI existe
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:IndigoValidaciones.TrasladoCodigosCarpetas.RenombrarCarpetaPacienteAnterior">
+            <summary>
+            Se renombra la carpeta del paciente anterior con el código del paciente nuevo
+            </summary>
+        </member>
+        <member name="M:IndigoValidaciones.TrasladoCodigosCarpetas.EliminarCarpetaPacienteAnterior">
+            <summary>
+            Se elimina la carpeta del paciente anterior y se deja solamente la del paciente nuevo
+            </summary>
+        </member>
+        <member name="M:IndigoValidaciones.TrasladoCodigosCarpetas.PasarInfoPacienteAnteriorToNuevo">
+            <summary>
+            Se crea función para pasar toda la información de carpetas y contenido del paciente anterior al paciente nuevo
+            </summary>
+        </member>
+        <member name="M:IndigoValidaciones.TrasladoCodigosCarpetas.CopiarContenidoCarpeta(System.String,System.String)">
+            <summary>
+            Función recursiva para copiar archivos y carpetas del paciente anterior al paciente nuevo, cuyas carpetas del primer paciente tenga la palabra "Ingreso"
+            </summary>
+            <param name="origen"></param>
+            <param name="destino"></param>
+        </member>
+        <member name="M:IndigoValidaciones.TrasladoCodigosCarpetas.LimpiarDatos">
+            <summary>
+            Función para limpiar variables y propuedades de clase
+            </summary>
+        </member>
+        <member name="M:IndigoValidaciones.ValidacionesGenerales.Validausuario(System.String,System.String)">
+            <summary>
+            Funcion para validar si el usuario esta creado como profesional y esta activo
+            </summary>
+            <param name="CodigoProfesional"></param>
+            <param name="Correo"></param>
+            <returns></returns>
+        </member>
+    </members>
+</doc>

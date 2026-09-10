@@ -1,0 +1,460 @@
+Imports DevExpress.XtraEditors
+
+<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>
+Partial Class CtrDilutionFactor
+    Inherits XtraUserControl
+
+    'UserControl reemplaza a Dispose para limpiar la lista de componentes.
+    <System.Diagnostics.DebuggerNonUserCode()>
+    Protected Overrides Sub Dispose(ByVal disposing As Boolean)
+        Try
+            If disposing AndAlso components IsNot Nothing Then
+                components.Dispose()
+            End If
+        Finally
+            MyBase.Dispose(disposing)
+        End Try
+    End Sub
+
+    'Requerido por el Diseñador de Windows Forms
+    Private components As System.ComponentModel.IContainer
+
+    'NOTA: el Diseñador de Windows Forms necesita el siguiente procedimiento
+    'Se puede modificar usando el Diseñador de Windows Forms.  
+    'No lo modifique con el editor de código.
+    <System.Diagnostics.DebuggerStepThrough()>
+    Private Sub InitializeComponent()
+        Me.components = New System.ComponentModel.Container()
+        Me.RepositoryItemPopupContainerEdit1 = New DevExpress.XtraEditors.Repository.RepositoryItemPopupContainerEdit()
+        Me.INDpceAdvanceDetail = New DevExpress.XtraEditors.PopupContainerEdit()
+        Me.PopupContainerControl1 = New DevExpress.XtraEditors.PopupContainerControl()
+        Me.LayoutControl2 = New DevExpress.XtraLayout.LayoutControl()
+        Me.INDgcAdvance = New DevExpress.XtraGrid.GridControl()
+        Me.INDgvAdvance = New DevExpress.XtraGrid.Views.Grid.GridView()
+        Me.GridColumn8 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn2 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn5 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn7 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.RepositoryItemComment = New DevExpress.XtraEditors.Repository.RepositoryItemMemoExEdit()
+        Me.GridColumn6 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn9 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridView1 = New DevExpress.XtraGrid.Views.Grid.GridView()
+        Me.LayoutControlGroup1 = New DevExpress.XtraLayout.LayoutControlGroup()
+        Me.INDliAdvanceDatasource = New DevExpress.XtraLayout.LayoutControlItem()
+        Me.IndigoGridView1 = New Presentation.Controls.IndigoGridView(Me.components)
+        Me.IndigoGridControl1 = New Presentation.Controls.IndigoGridControl(Me.components)
+        Me.GridColumn1 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn3 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn4 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.INDlblWeightStandart = New DevExpress.XtraEditors.LabelControl()
+        Me.LayoutControl1 = New DevExpress.XtraLayout.LayoutControl()
+        Me.INDlblMedicine = New DevExpress.XtraEditors.LabelControl()
+        Me.INDlcgDilutionFactor = New DevExpress.XtraLayout.LayoutControlGroup()
+        Me.INDliAdvanceTitle = New DevExpress.XtraLayout.LayoutControlItem()
+        Me.INDliDilutionFactor = New DevExpress.XtraLayout.LayoutControlItem()
+        CType(Me.RepositoryItemPopupContainerEdit1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.INDpceAdvanceDetail.Properties, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.PopupContainerControl1, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.PopupContainerControl1.SuspendLayout()
+        CType(Me.LayoutControl2, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.LayoutControl2.SuspendLayout()
+        CType(Me.INDgcAdvance, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.INDgvAdvance, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RepositoryItemComment, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.GridView1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.LayoutControlGroup1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.INDliAdvanceDatasource, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.IndigoGridView1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.IndigoGridControl1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.LayoutControl1, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.LayoutControl1.SuspendLayout()
+        CType(Me.INDlcgDilutionFactor, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.INDliAdvanceTitle, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.INDliDilutionFactor, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.SuspendLayout()
+        '
+        'RepositoryItemPopupContainerEdit1
+        '
+        Me.RepositoryItemPopupContainerEdit1.Buttons.AddRange(New DevExpress.XtraEditors.Controls.EditorButton() {New DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)})
+        Me.RepositoryItemPopupContainerEdit1.Name = "RepositoryItemPopupContainerEdit1"
+        '
+        'INDpceAdvanceDetail
+        '
+        Me.INDpceAdvanceDetail.Location = New System.Drawing.Point(2, 64)
+        Me.INDpceAdvanceDetail.Name = "INDpceAdvanceDetail"
+        Me.INDpceAdvanceDetail.Properties.PopupControl = Me.PopupContainerControl1
+        Me.INDpceAdvanceDetail.Properties.PopupSizeable = False
+        Me.INDpceAdvanceDetail.Properties.ShowPopupCloseButton = False
+        Me.INDpceAdvanceDetail.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.HideTextEditor
+        Me.INDpceAdvanceDetail.Size = New System.Drawing.Size(163, 10)
+        Me.INDpceAdvanceDetail.TabIndex = 1
+        '
+        'PopupContainerControl1
+        '
+        Me.PopupContainerControl1.Controls.Add(Me.LayoutControl2)
+        Me.PopupContainerControl1.Location = New System.Drawing.Point(0, 119)
+        Me.PopupContainerControl1.Name = "PopupContainerControl1"
+        Me.PopupContainerControl1.Size = New System.Drawing.Size(586, 275)
+        Me.PopupContainerControl1.TabIndex = 6
+        '
+        'LayoutControl2
+        '
+        Me.LayoutControl2.Controls.Add(Me.INDgcAdvance)
+        Me.LayoutControl2.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.LayoutControl2.Location = New System.Drawing.Point(0, 0)
+        Me.LayoutControl2.Name = "LayoutControl2"
+        Me.LayoutControl2.Root = Me.LayoutControlGroup1
+        Me.LayoutControl2.Size = New System.Drawing.Size(586, 275)
+        Me.LayoutControl2.TabIndex = 1
+        Me.LayoutControl2.Text = "LayoutControl2"
+        '
+        'INDgcAdvance
+        '
+        Me.IndigoGridControl1.SetAddActions(Me.INDgcAdvance, Nothing)
+        Me.IndigoGridControl1.SetControlNextFocus(Me.INDgcAdvance, Nothing)
+        Me.INDgcAdvance.Cursor = System.Windows.Forms.Cursors.Default
+        Me.IndigoGridControl1.SetExportButton(Me.INDgcAdvance, True)
+        Me.IndigoGridControl1.SetGuardarXml(Me.INDgcAdvance, True)
+        Me.IndigoGridControl1.SetHoldSize(Me.INDgcAdvance, False)
+        Me.IndigoGridControl1.SetHotTrack(Me.INDgcAdvance, False)
+        Me.INDgcAdvance.Location = New System.Drawing.Point(12, 12)
+        Me.INDgcAdvance.MainView = Me.INDgvAdvance
+        Me.INDgcAdvance.Name = "INDgcAdvance"
+        Me.INDgcAdvance.RepositoryItems.AddRange(New DevExpress.XtraEditors.Repository.RepositoryItem() {Me.RepositoryItemComment})
+        Me.INDgcAdvance.Size = New System.Drawing.Size(562, 251)
+        Me.IndigoGridControl1.SetSizeConstraintsType(Me.INDgcAdvance, DevExpress.XtraLayout.SizeConstraintsType.[Default])
+        Me.INDgcAdvance.TabIndex = 0
+        Me.INDgcAdvance.ViewCollection.AddRange(New DevExpress.XtraGrid.Views.Base.BaseView() {Me.INDgvAdvance, Me.GridView1})
+        '
+        'INDgvAdvance
+        '
+        Me.INDgvAdvance.Appearance.FocusedRow.BorderColor = System.Drawing.Color.LightGray
+        Me.INDgvAdvance.Appearance.FocusedRow.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Bold)
+        Me.INDgvAdvance.Appearance.FocusedRow.Options.UseBackColor = True
+        Me.INDgvAdvance.Appearance.FocusedRow.Options.UseBorderColor = True
+        Me.INDgvAdvance.Appearance.FocusedRow.Options.UseFont = True
+        Me.INDgvAdvance.Appearance.GroupPanel.ForeColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(148, Byte), Integer), CType(CType(223, Byte), Integer))
+        Me.INDgvAdvance.Appearance.GroupPanel.Options.UseForeColor = True
+        Me.INDgvAdvance.Appearance.GroupRow.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.INDgvAdvance.Appearance.GroupRow.Options.UseFont = True
+        Me.INDgvAdvance.Appearance.HeaderPanel.Font = New System.Drawing.Font("Segoe UI Semibold", 10.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.INDgvAdvance.Appearance.HeaderPanel.Options.UseFont = True
+        Me.INDgvAdvance.Appearance.Row.Font = New System.Drawing.Font("Segoe UI Light", 9.75!)
+        Me.INDgvAdvance.Appearance.Row.Options.UseFont = True
+        Me.INDgvAdvance.Appearance.ViewCaption.Font = New System.Drawing.Font("Segoe UI Light", 13.0!)
+        Me.INDgvAdvance.Appearance.ViewCaption.ForeColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(148, Byte), Integer), CType(CType(223, Byte), Integer))
+        Me.INDgvAdvance.Appearance.ViewCaption.Options.UseFont = True
+        Me.INDgvAdvance.Appearance.ViewCaption.Options.UseForeColor = True
+        Me.INDgvAdvance.Columns.AddRange(New DevExpress.XtraGrid.Columns.GridColumn() {Me.GridColumn8, Me.GridColumn2, Me.GridColumn5, Me.GridColumn7, Me.GridColumn6, Me.GridColumn9})
+        Me.INDgvAdvance.GridControl = Me.INDgcAdvance
+        Me.INDgvAdvance.GroupCount = 1
+        Me.INDgvAdvance.Name = "INDgvAdvance"
+        Me.INDgvAdvance.OptionsFind.AlwaysVisible = True
+        Me.INDgvAdvance.OptionsView.EnableAppearanceEvenRow = True
+        Me.INDgvAdvance.OptionsView.EnableAppearanceOddRow = True
+        Me.INDgvAdvance.OptionsView.RowAutoHeight = True
+        Me.INDgvAdvance.OptionsView.ShowAutoFilterRow = True
+        Me.INDgvAdvance.OptionsView.ShowDetailButtons = False
+        Me.INDgvAdvance.OptionsView.ShowGroupPanel = False
+        Me.INDgvAdvance.OptionsView.ShowViewCaption = True
+        Me.INDgvAdvance.SortInfo.AddRange(New DevExpress.XtraGrid.Columns.GridColumnSortInfo() {New DevExpress.XtraGrid.Columns.GridColumnSortInfo(Me.GridColumn9, DevExpress.Data.ColumnSortOrder.Ascending)})
+        Me.IndigoGridView1.SetTemaIndigoMetro(Me.INDgvAdvance, False)
+        Me.INDgvAdvance.ViewCaption = "Detalle Anticipos"
+        '
+        'GridColumn8
+        '
+        Me.GridColumn8.Caption = "Número"
+        Me.GridColumn8.FieldName = "Number"
+        Me.GridColumn8.Name = "GridColumn8"
+        Me.GridColumn8.OptionsColumn.AllowEdit = False
+        Me.GridColumn8.OptionsColumn.AllowFocus = False
+        Me.GridColumn8.OptionsColumn.AllowMove = False
+        Me.GridColumn8.Visible = True
+        Me.GridColumn8.VisibleIndex = 0
+        Me.GridColumn8.Width = 68
+        '
+        'GridColumn2
+        '
+        Me.GridColumn2.Caption = "Fecha"
+        Me.GridColumn2.DisplayFormat.FormatString = "dd \de MMMM \de yyyy"
+        Me.GridColumn2.FieldName = "DateAdvance"
+        Me.GridColumn2.Name = "GridColumn2"
+        Me.GridColumn2.OptionsColumn.AllowEdit = False
+        Me.GridColumn2.OptionsColumn.AllowFocus = False
+        Me.GridColumn2.OptionsColumn.AllowMove = False
+        Me.GridColumn2.Visible = True
+        Me.GridColumn2.VisibleIndex = 1
+        Me.GridColumn2.Width = 108
+        '
+        'GridColumn5
+        '
+        Me.GridColumn5.Caption = "Cuenta"
+        Me.GridColumn5.FieldName = "MainAccount"
+        Me.GridColumn5.Name = "GridColumn5"
+        Me.GridColumn5.OptionsColumn.AllowEdit = False
+        Me.GridColumn5.OptionsColumn.AllowFocus = False
+        Me.GridColumn5.OptionsColumn.AllowMove = False
+        Me.GridColumn5.Visible = True
+        Me.GridColumn5.VisibleIndex = 2
+        Me.GridColumn5.Width = 160
+        '
+        'GridColumn7
+        '
+        Me.GridColumn7.Caption = "Comentario"
+        Me.GridColumn7.ColumnEdit = Me.RepositoryItemComment
+        Me.GridColumn7.FieldName = "Observation"
+        Me.GridColumn7.Name = "GridColumn7"
+        Me.GridColumn7.OptionsColumn.AllowMove = False
+        Me.GridColumn7.Visible = True
+        Me.GridColumn7.VisibleIndex = 3
+        Me.GridColumn7.Width = 97
+        '
+        'RepositoryItemComment
+        '
+        Me.RepositoryItemComment.AutoHeight = False
+        Me.RepositoryItemComment.Name = "RepositoryItemComment"
+        Me.RepositoryItemComment.ReadOnly = True
+        '
+        'GridColumn6
+        '
+        Me.GridColumn6.Caption = "Saldo"
+        Me.GridColumn6.DisplayFormat.FormatString = "C0"
+        Me.GridColumn6.FieldName = "Balance"
+        Me.GridColumn6.Name = "GridColumn6"
+        Me.GridColumn6.OptionsColumn.AllowEdit = False
+        Me.GridColumn6.OptionsColumn.AllowFocus = False
+        Me.GridColumn6.OptionsColumn.AllowMove = False
+        Me.GridColumn6.Summary.AddRange(New DevExpress.XtraGrid.GridSummaryItem() {New DevExpress.XtraGrid.GridColumnSummaryItem(DevExpress.Data.SummaryItemType.Sum, "Balance", "Total: {0:C0}")})
+        Me.GridColumn6.Visible = True
+        Me.GridColumn6.VisibleIndex = 4
+        Me.GridColumn6.Width = 111
+        '
+        'GridColumn9
+        '
+        Me.GridColumn9.Caption = "Tipo"
+        Me.GridColumn9.FieldName = "Type"
+        Me.GridColumn9.Name = "GridColumn9"
+        Me.GridColumn9.Visible = True
+        Me.GridColumn9.VisibleIndex = 5
+        '
+        'GridView1
+        '
+        Me.GridView1.Appearance.FocusedRow.BorderColor = System.Drawing.Color.LightGray
+        Me.GridView1.Appearance.FocusedRow.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Bold)
+        Me.GridView1.Appearance.FocusedRow.Options.UseBorderColor = True
+        Me.GridView1.Appearance.FocusedRow.Options.UseFont = True
+        Me.GridView1.Appearance.GroupRow.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.GridView1.Appearance.GroupRow.Options.UseFont = True
+        Me.GridView1.Appearance.HeaderPanel.Font = New System.Drawing.Font("Segoe UI Semibold", 10.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.GridView1.Appearance.HeaderPanel.Options.UseFont = True
+        Me.GridView1.Appearance.Row.Font = New System.Drawing.Font("Segoe UI Light", 9.75!)
+        Me.GridView1.Appearance.Row.Options.UseFont = True
+        Me.GridView1.GridControl = Me.INDgcAdvance
+        Me.GridView1.Name = "GridView1"
+        Me.GridView1.OptionsView.EnableAppearanceEvenRow = True
+        Me.GridView1.OptionsView.EnableAppearanceOddRow = True
+        Me.GridView1.OptionsView.ShowAutoFilterRow = True
+        Me.IndigoGridView1.SetTemaIndigoMetro(Me.GridView1, False)
+        '
+        'LayoutControlGroup1
+        '
+        Me.LayoutControlGroup1.CustomizationFormText = "LayoutControlGroup1"
+        Me.LayoutControlGroup1.EnableIndentsWithoutBorders = DevExpress.Utils.DefaultBoolean.[True]
+        Me.LayoutControlGroup1.GroupBordersVisible = False
+        Me.LayoutControlGroup1.Items.AddRange(New DevExpress.XtraLayout.BaseLayoutItem() {Me.INDliAdvanceDatasource})
+        Me.LayoutControlGroup1.Name = "LayoutControlGroup1"
+        Me.LayoutControlGroup1.Size = New System.Drawing.Size(586, 275)
+        Me.LayoutControlGroup1.TextVisible = False
+        '
+        'INDliAdvanceDatasource
+        '
+        Me.INDliAdvanceDatasource.Control = Me.INDgcAdvance
+        Me.INDliAdvanceDatasource.CustomizationFormText = "LayoutControlItem1"
+        Me.INDliAdvanceDatasource.Location = New System.Drawing.Point(0, 0)
+        Me.INDliAdvanceDatasource.Name = "INDliAdvanceDatasource"
+        Me.INDliAdvanceDatasource.Size = New System.Drawing.Size(566, 255)
+        Me.INDliAdvanceDatasource.TextSize = New System.Drawing.Size(0, 0)
+        Me.INDliAdvanceDatasource.TextVisible = False
+        '
+        'IndigoGridView1
+        '
+        Me.IndigoGridView1.RaiseMenuPopUp = True
+        Me.IndigoGridView1.RepositoryItemPopupContainerEdit = Me.RepositoryItemPopupContainerEdit1
+        '
+        'GridColumn1
+        '
+        Me.GridColumn1.Caption = "Código"
+        Me.GridColumn1.FieldName = "Code"
+        Me.GridColumn1.Name = "GridColumn1"
+        Me.GridColumn1.Visible = True
+        Me.GridColumn1.VisibleIndex = 0
+        Me.GridColumn1.Width = 341
+        '
+        'GridColumn3
+        '
+        Me.GridColumn3.Caption = "Cuenta"
+        Me.GridColumn3.FieldName = "FullNameMainAccount"
+        Me.GridColumn3.Name = "GridColumn3"
+        Me.GridColumn3.Visible = True
+        Me.GridColumn3.VisibleIndex = 1
+        Me.GridColumn3.Width = 514
+        '
+        'GridColumn4
+        '
+        Me.GridColumn4.Caption = "Valor"
+        Me.GridColumn4.FieldName = "Balance"
+        Me.GridColumn4.Name = "GridColumn4"
+        Me.GridColumn4.Visible = True
+        Me.GridColumn4.VisibleIndex = 2
+        Me.GridColumn4.Width = 519
+        '
+        'INDlblWeightStandart
+        '
+        Me.INDlblWeightStandart.Appearance.Font = New System.Drawing.Font("Segoe UI Light", 12.0!, System.Drawing.FontStyle.Bold)
+        Me.INDlblWeightStandart.Appearance.ForeColor = System.Drawing.Color.White
+        Me.INDlblWeightStandart.Appearance.Options.UseFont = True
+        Me.INDlblWeightStandart.Appearance.Options.UseForeColor = True
+        Me.INDlblWeightStandart.Location = New System.Drawing.Point(5, 42)
+        Me.INDlblWeightStandart.MaximumSize = New System.Drawing.Size(270, 0)
+        Me.INDlblWeightStandart.MinimumSize = New System.Drawing.Size(270, 0)
+        Me.INDlblWeightStandart.Name = "INDlblWeightStandart"
+        Me.INDlblWeightStandart.Size = New System.Drawing.Size(270, 24)
+        Me.INDlblWeightStandart.StyleController = Me.LayoutControl1
+        Me.INDlblWeightStandart.TabIndex = 4
+        Me.INDlblWeightStandart.Text = "0 mg"
+        '
+        'LayoutControl1
+        '
+        Me.LayoutControl1.Controls.Add(Me.PopupContainerControl1)
+        Me.LayoutControl1.Controls.Add(Me.INDlblMedicine)
+        Me.LayoutControl1.Controls.Add(Me.INDlblWeightStandart)
+        Me.LayoutControl1.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.LayoutControl1.Location = New System.Drawing.Point(0, 0)
+        Me.LayoutControl1.Margin = New System.Windows.Forms.Padding(0)
+        Me.LayoutControl1.Name = "LayoutControl1"
+        Me.LayoutControl1.Root = Me.INDlcgDilutionFactor
+        Me.LayoutControl1.Size = New System.Drawing.Size(292, 70)
+        Me.LayoutControl1.TabIndex = 0
+        Me.LayoutControl1.Text = "LayoutControl1"
+        '
+        'INDlblMedicine
+        '
+        Me.INDlblMedicine.Appearance.Font = New System.Drawing.Font("Microsoft YaHei UI", 20.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.INDlblMedicine.Appearance.ForeColor = System.Drawing.Color.SteelBlue
+        Me.INDlblMedicine.Appearance.Options.UseFont = True
+        Me.INDlblMedicine.Appearance.Options.UseForeColor = True
+        Me.INDlblMedicine.Location = New System.Drawing.Point(4, 0)
+        Me.INDlblMedicine.MaximumSize = New System.Drawing.Size(0, 40)
+        Me.INDlblMedicine.MinimumSize = New System.Drawing.Size(0, 40)
+        Me.INDlblMedicine.Name = "INDlblMedicine"
+        Me.INDlblMedicine.Size = New System.Drawing.Size(272, 40)
+        Me.INDlblMedicine.StyleController = Me.LayoutControl1
+        Me.INDlblMedicine.TabIndex = 5
+        '
+        'INDlcgDilutionFactor
+        '
+        Me.INDlcgDilutionFactor.CustomizationFormText = "Control Factor de Dilucion"
+        Me.INDlcgDilutionFactor.EnableIndentsWithoutBorders = DevExpress.Utils.DefaultBoolean.[True]
+        Me.INDlcgDilutionFactor.GroupBordersVisible = False
+        Me.INDlcgDilutionFactor.Items.AddRange(New DevExpress.XtraLayout.BaseLayoutItem() {Me.INDliAdvanceTitle, Me.INDliDilutionFactor})
+        Me.INDlcgDilutionFactor.Name = "INDlcgDilutionFactor"
+        Me.INDlcgDilutionFactor.Padding = New DevExpress.XtraLayout.Utils.Padding(4, 0, 0, 0)
+        Me.INDlcgDilutionFactor.Size = New System.Drawing.Size(292, 70)
+        Me.INDlcgDilutionFactor.TextVisible = False
+        '
+        'INDliAdvanceTitle
+        '
+        Me.INDliAdvanceTitle.Control = Me.INDlblWeightStandart
+        Me.INDliAdvanceTitle.CustomizationFormText = "LayoutControlItem1"
+        Me.INDliAdvanceTitle.Location = New System.Drawing.Point(0, 41)
+        Me.INDliAdvanceTitle.MaxSize = New System.Drawing.Size(272, 26)
+        Me.INDliAdvanceTitle.MinSize = New System.Drawing.Size(272, 26)
+        Me.INDliAdvanceTitle.Name = "INDliAdvanceTitle"
+        Me.INDliAdvanceTitle.Padding = New DevExpress.XtraLayout.Utils.Padding(1, 1, 1, 1)
+        Me.INDliAdvanceTitle.Size = New System.Drawing.Size(288, 29)
+        Me.INDliAdvanceTitle.SizeConstraintsType = DevExpress.XtraLayout.SizeConstraintsType.Custom
+        Me.INDliAdvanceTitle.TextAlignMode = DevExpress.XtraLayout.TextAlignModeItem.CustomSize
+        Me.INDliAdvanceTitle.TextSize = New System.Drawing.Size(0, 0)
+        Me.INDliAdvanceTitle.TextToControlDistance = 0
+        Me.INDliAdvanceTitle.TextVisible = False
+        '
+        'INDliDilutionFactor
+        '
+        Me.INDliDilutionFactor.Control = Me.INDlblMedicine
+        Me.INDliDilutionFactor.CustomizationFormText = "LayoutControlItem2"
+        Me.INDliDilutionFactor.Location = New System.Drawing.Point(0, 0)
+        Me.INDliDilutionFactor.MaxSize = New System.Drawing.Size(272, 41)
+        Me.INDliDilutionFactor.MinSize = New System.Drawing.Size(272, 41)
+        Me.INDliDilutionFactor.Name = "INDliDilutionFactor"
+        Me.INDliDilutionFactor.Padding = New DevExpress.XtraLayout.Utils.Padding(0, 0, 0, 0)
+        Me.INDliDilutionFactor.Size = New System.Drawing.Size(288, 41)
+        Me.INDliDilutionFactor.SizeConstraintsType = DevExpress.XtraLayout.SizeConstraintsType.Custom
+        Me.INDliDilutionFactor.TextAlignMode = DevExpress.XtraLayout.TextAlignModeItem.CustomSize
+        Me.INDliDilutionFactor.TextSize = New System.Drawing.Size(0, 0)
+        Me.INDliDilutionFactor.TextToControlDistance = 0
+        Me.INDliDilutionFactor.TextVisible = False
+        '
+        'CtrDilutionFactor
+        '
+        Me.Appearance.BackColor = System.Drawing.Color.Transparent
+        Me.Appearance.Options.UseBackColor = True
+        Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
+        Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
+        Me.Controls.Add(Me.LayoutControl1)
+        Me.Controls.Add(Me.INDpceAdvanceDetail)
+        Me.Cursor = System.Windows.Forms.Cursors.Hand
+        Me.Margin = New System.Windows.Forms.Padding(0)
+        Me.MaximumSize = New System.Drawing.Size(292, 70)
+        Me.MinimumSize = New System.Drawing.Size(292, 70)
+        Me.Name = "CtrDilutionFactor"
+        Me.Size = New System.Drawing.Size(292, 70)
+        CType(Me.RepositoryItemPopupContainerEdit1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.INDpceAdvanceDetail.Properties, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.PopupContainerControl1, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.PopupContainerControl1.ResumeLayout(False)
+        CType(Me.LayoutControl2, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.LayoutControl2.ResumeLayout(False)
+        CType(Me.INDgcAdvance, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.INDgvAdvance, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RepositoryItemComment, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.GridView1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.LayoutControlGroup1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.INDliAdvanceDatasource, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.IndigoGridView1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.IndigoGridControl1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.LayoutControl1, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.LayoutControl1.ResumeLayout(False)
+        CType(Me.INDlcgDilutionFactor, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.INDliAdvanceTitle, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.INDliDilutionFactor, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.ResumeLayout(False)
+
+    End Sub
+    Friend WithEvents INDpceAdvanceDetail As DevExpress.XtraEditors.PopupContainerEdit
+    Friend WithEvents IndigoGridView1 As Presentation.Controls.IndigoGridView
+    Friend WithEvents IndigoGridControl1 As Presentation.Controls.IndigoGridControl
+    Friend WithEvents GridColumn1 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn3 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn4 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents INDlblWeightStandart As DevExpress.XtraEditors.LabelControl
+    Friend WithEvents LayoutControl1 As DevExpress.XtraLayout.LayoutControl
+    Friend WithEvents PopupContainerControl1 As DevExpress.XtraEditors.PopupContainerControl
+    Friend WithEvents LayoutControl2 As DevExpress.XtraLayout.LayoutControl
+    Friend WithEvents INDgcAdvance As DevExpress.XtraGrid.GridControl
+    Friend WithEvents INDgvAdvance As DevExpress.XtraGrid.Views.Grid.GridView
+    Friend WithEvents GridColumn2 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn5 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn7 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents RepositoryItemComment As DevExpress.XtraEditors.Repository.RepositoryItemMemoExEdit
+    Friend WithEvents GridColumn6 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents LayoutControlGroup1 As DevExpress.XtraLayout.LayoutControlGroup
+    Friend WithEvents INDliAdvanceDatasource As DevExpress.XtraLayout.LayoutControlItem
+    Friend WithEvents INDlblMedicine As DevExpress.XtraEditors.LabelControl
+    Friend WithEvents INDlcgDilutionFactor As DevExpress.XtraLayout.LayoutControlGroup
+    Friend WithEvents INDliDilutionFactor As DevExpress.XtraLayout.LayoutControlItem
+    Friend WithEvents INDliAdvanceTitle As DevExpress.XtraLayout.LayoutControlItem
+    Friend WithEvents GridView1 As DevExpress.XtraGrid.Views.Grid.GridView
+    Friend WithEvents GridColumn8 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn9 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents RepositoryItemPopupContainerEdit1 As Repository.RepositoryItemPopupContainerEdit
+End Class

@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:ser="http://schemas.microsoft.com/2003/10/Serialization/" xmlns:tns="http://schemas.datacontract.org/2004/07/Indigo.Sinapsis.Core.Domain.Bidding" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/Indigo.Sinapsis.Core.Domain.Bidding" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import schemaLocation="http://appserver-sbs.azurewebsites.net/VIEERPIntegration.svc?xsd=xsd4" namespace="http://schemas.datacontract.org/2004/07/Indigo.Sinapsis.Core.Domain.IFF" />
+  <xs:import schemaLocation="http://appserver-sbs.azurewebsites.net/VIEERPIntegration.svc?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+  <xs:import schemaLocation="http://appserver-sbs.azurewebsites.net/VIEERPIntegration.svc?xsd=xsd3" namespace="http://schemas.datacontract.org/2004/07/Indigo.Sinapsis.Core.Domain.Company" />
+  <xs:import schemaLocation="http://appserver-sbs.azurewebsites.net/VIEERPIntegration.svc?xsd=xsd7" namespace="http://schemas.datacontract.org/2004/07/Indigo.Sinapsis.Core.Domain.Product" />
+  <xs:import schemaLocation="http://appserver-sbs.azurewebsites.net/VIEERPIntegration.svc?xsd=xsd9" namespace="http://schemas.datacontract.org/2004/07/Indigo.Sinapsis.Core.Domain.Supplier" />
+  <xs:complexType name="BiddinOfferSupplierOfguid">
+    <xs:annotation>
+      <xs:appinfo>
+        <GenericType Name="BiddinOfferSupplierOf{0}{#}" Namespace="http://schemas.datacontract.org/2004/07/Indigo.Sinapsis.Core.Domain.Bidding" xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
+          <GenericParameter Name="guid" Namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+        </GenericType>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element minOccurs="0" name="AwardAutomatic" nillable="true" type="tns:AwardAutomaticOfguid" />
+      <xs:element minOccurs="0" name="AwardChangeComment" nillable="true" type="xs:string" />
+      <xs:element xmlns:q1="http://schemas.datacontract.org/2004/07/Indigo.Sinapsis.Core.Domain.IFF" minOccurs="0" name="AwardChangeReason" nillable="true" type="q1:AwardChangeReasonOfguid" />
+      <xs:element minOccurs="0" name="AwardMassive" nillable="true" type="tns:AwardMassiveOfguid" />
+      <xs:element xmlns:q2="http://schemas.datacontract.org/2004/07/Indigo.Sinapsis.Core.Domain.IFF" minOccurs="0" name="AwardedOption" nillable="true" type="q2:AwardedOptionOfguid" />
+      <xs:element minOccurs="0" name="BOSConcatFeatureOffer" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="BiddinOfferSupplierID" type="ser:guid" />
+      <xs:element minOccurs="0" name="BiddingProduct" nillable="true" type="tns:BiddingProductOfguid" />
+      <xs:element minOccurs="0" name="BiddingSupplier" nillable="true" type="tns:BiddingSupplierOfguid" />
+      <xs:element minOccurs="0" name="Comment" nillable="true" type="xs:string" />
+      <xs:element xmlns:q3="http://schemas.datacontract.org/2004/07/Indigo.Sinapsis.Core.Domain.Company" minOccurs="0" name="Company" nillable="true" type="q3:CompanyOfguid" />
+      <xs:element minOccurs="0" name="DeliveryDays" type="xs:int" />
+      <xs:element minOccurs="0" name="Discount" nillable="true" type="xs:decimal" />
+      <xs:element minOccurs="0" name="Escenario" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Identifier" type="ser:guid" />
+      <xs:element minOccurs="0" name="IsActive" type="xs:boolean" />
+      <xs:element minOccurs="0" name="MinimumQuantity" nillable="true" type="xs:int" />
+      <xs:element xmlns:q4="http://schemas.datacontract.org/2004/07/Indigo.Sinapsis.Core.Domain.Product" minOccurs="0" name="ProductSupplierProduct" nillable="true" type="q4:ProductSupplierProductOfguid" />
+      <xs:element minOccurs="0" name="Quantity" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="Rehabilitate" type="xs:boolean" />
+      <xs:element minOccurs="0" name="RehabilitateDate" nillable="true" type="xs:dateTime" />
+      <xs:element xmlns:q5="http://schemas.datacontract.org/2004/07/Indigo.Sinapsis.Core.Domain.IFF" minOccurs="0" name="RehabilitateReason" nillable="true" type="q5:RehabilitateReasonOfguid" />
+      <xs:element minOccurs="0" name="SendNotificationEmail" type="xs:boolean" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="BiddinOfferSupplierOfguid" nillable="true" type="tns:BiddinOfferSupplierOfguid" />
+  <xs:complexType name="AwardAutomaticOfguid">
+    <xs:annotation>
+      <xs:appinfo>
+        <GenericType Name="AwardAutomaticOf{0}{#}" Namespace="http://schemas.datacontract.org/2004/07/Indigo.Sinapsis.Core.Domain.Bidding" xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
+          <GenericParameter Name="guid" Namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+        </GenericType>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element minOccurs="0" name="AwardScore" type="xs:decimal" />
+      <xs:element xmlns:q6="http://schemas.datacontract.org/2004/07/Indigo.Sinapsis.Core.Domain.IFF" minOccurs="0" name="AwardedOption" nillable="true" type="q6:AwardedOptionOfguid" />
+      <xs:element minOccurs="0" name="BiddinOfferSupplierID" type="ser:guid" />
+      <xs:element minOccurs="0" name="BiddingProduct" nillable="true" type="tns:BiddingProductOfguid" />
+      <xs:element minOccurs="0" name="BiddingSupplier" nillable="true" type="tns:BiddingSupplierOfguid" />
+      <xs:element minOccurs="0" name="Identifier" type="ser:guid" />
+      <xs:element minOccurs="0" name="IsActive" type="xs:boolean" />
+      <xs:element minOccurs="0" name="Price" type="xs:decimal" />
+      <xs:element minOccurs="0" name="PriceScoreAwardScore" type="xs:decimal" />
+      <xs:element minOccurs="0" name="ProductQuality" type="xs:int" />
+      <xs:element minOccurs="0" name="ProductQualityAwardScore" type="xs:decimal" />
+      <xs:element xmlns:q7="http://schemas.datacontract.org/2004/07/Indigo.Sinapsis.Core.Domain.Supplier" minOccurs="0" name="Supplier" nillable="true" type="q7:SupplierOfguid" />
+      <xs:element minOccurs="0" name="SupplierScore" type="xs:decimal" />
+      <xs:element minOccurs="0" name="SupplierScoreAwardScore" type="xs:decimal" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="AwardAutomaticOfguid" nillable="true" type="tns:AwardAutomaticOfguid" />
+  <xs:complexType name="BiddingProductOfguid">
+    <xs:annotation>
+      <xs:appinfo>
+        <GenericType Name="BiddingProductOf{0}{#}" Namespace="http://schemas.datacontract.org/2004/07/Indigo.Sinapsis.Core.Domain.Bidding" xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
+          <GenericParameter Name="guid" Namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+        </GenericType>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Adjudicado" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Awarded" type="xs:boolean" />
+      <xs:element minOccurs="0" name="Bidding" nillable="true" type="tns:BiddingOfguid" />
+      <xs:element minOccurs="0" name="BiddingProductComment" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="BiddingProductDeliveryDate" nillable="true" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="BiddingProductID" type="ser:guid" />
+      <xs:element minOccurs="0" name="BiddingProductQuantity" type="xs:int" />
+      <xs:element xmlns:q8="http://schemas.datacontract.org/2004/07/Indigo.Sinapsis.Core.Domain.Company" minOccurs="0" name="Company" nillable="true" type="q8:CompanyOfguid" />
+      <xs:element minOccurs="0" name="ControlKey" type="ser:guid" />
+      <xs:element minOccurs="0" name="Identifier" type="ser:guid" />
+      <xs:element minOccurs="0" name="IsActive" type="xs:boolean" />
+      <xs:element xmlns:q9="http://schemas.datacontract.org/2004/07/Indigo.Sinapsis.Core.Domain.Product" minOccurs="0" name="Product" nillable="true" type="q9:ProductOfguid" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="BiddingProductOfguid" nillable="true" type="tns:BiddingProductOfguid" />
+  <xs:complexType name="BiddingOfguid">
+    <xs:annotation>
+      <xs:appinfo>
+        <GenericType Name="BiddingOf{0}{#}" Namespace="http://schemas.datacontract.org/2004/07/Indigo.Sinapsis.Core.Domain.Bidding" xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
+          <GenericParameter Name="guid" Namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+        </GenericType>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element minOccurs="0" name="BiddingCode" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="BiddingComment" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="BiddingCreationDate" nillable="true" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="BiddingCreationUser" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="BiddingEndDate" nillable="true" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="BiddingHasEndPrice" type="xs:boolean" />
+      <xs:element minOccurs="0" name="BiddingID" type="ser:guid" />
+      <xs:element minOccurs="0" name="BiddingIsPrivate" type="xs:boolean" />
+      <xs:element minOccurs="0" name="BiddingItemsQuantity" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="BiddingName" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="BiddingRehabilitate" type="xs:boolean" />
+      <xs:element minOccurs="0" name="BiddingStartDate" nillable="true" type="xs:dateTime" />
+      <xs:element xmlns:q10="http://schemas.datacontract.org/2004/07/Indigo.Sinapsis.Core.Domain.IFF" minOccurs="0" name="BiddingStatus" nillable="true" type="q10:BiddingStatusOfguid" />
+      <xs:element xmlns:q11="http://schemas.datacontract.org/2004/07/Indigo.Sinapsis.Core.Domain.Company" minOccurs="0" name="Company" nillable="true" type="q11:CompanyOfguid" />
+      <xs:element xmlns:q12="http://schemas.datacontract.org/2004/07/Indigo.Sinapsis.Core.Domain.IFF" minOccurs="0" name="Currency" nillable="true" type="q12:CurrencyOfguid" />
+      <xs:element minOccurs="0" name="Identifier" type="ser:guid" />
+      <xs:element minOccurs="0" name="IsActive" type="xs:boolean" />
+      <xs:element minOccurs="0" name="IsAwardAutomatic" type="xs:boolean" />
+      <xs:element minOccurs="0" name="IsWebJob" type="xs:boolean" />
+      <xs:element minOccurs="0" name="IsWebJobRehab" type="xs:boolean" />
+      <xs:element xmlns:q13="http://schemas.datacontract.org/2004/07/Indigo.Sinapsis.Core.Domain.IFF" minOccurs="0" name="PaymentMethod" nillable="true" type="q13:PaymentMethodOfguid" />
+      <xs:element xmlns:q14="http://schemas.datacontract.org/2004/07/Indigo.Sinapsis.Core.Domain.IFF" minOccurs="0" name="PurchaseMethod" nillable="true" type="q14:PurchaseMethodOfguid" />
+      <xs:element minOccurs="0" name="Semaforo" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="UserID" type="ser:guid" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="BiddingOfguid" nillable="true" type="tns:BiddingOfguid" />
+  <xs:complexType name="BiddingSupplierOfguid">
+    <xs:annotation>
+      <xs:appinfo>
+        <GenericType Name="BiddingSupplierOf{0}{#}" Namespace="http://schemas.datacontract.org/2004/07/Indigo.Sinapsis.Core.Domain.Bidding" xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
+          <GenericParameter Name="guid" Namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+        </GenericType>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Bidding" nillable="true" type="tns:BiddingOfguid" />
+      <xs:element minOccurs="0" name="BiddingSupplierID" type="ser:guid" />
+      <xs:element xmlns:q15="http://schemas.datacontract.org/2004/07/Indigo.Sinapsis.Core.Domain.Company" minOccurs="0" name="Company" nillable="true" type="q15:CompanyOfguid" />
+      <xs:element minOccurs="0" name="Identifier" type="ser:guid" />
+      <xs:element minOccurs="0" name="IsActive" type="xs:boolean" />
+      <xs:element xmlns:q16="http://schemas.datacontract.org/2004/07/Indigo.Sinapsis.Core.Domain.Supplier" minOccurs="0" name="Supplier" nillable="true" type="q16:SupplierOfguid" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="BiddingSupplierOfguid" nillable="true" type="tns:BiddingSupplierOfguid" />
+  <xs:complexType name="AwardMassiveOfguid">
+    <xs:annotation>
+      <xs:appinfo>
+        <GenericType Name="AwardMassiveOf{0}{#}" Namespace="http://schemas.datacontract.org/2004/07/Indigo.Sinapsis.Core.Domain.Bidding" xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
+          <GenericParameter Name="guid" Namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+        </GenericType>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element minOccurs="0" name="AwardChangeComment" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="AwardChangeReasonName" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="BiddingID" type="ser:guid" />
+      <xs:element minOccurs="0" name="BiddingProductID" type="ser:guid" />
+      <xs:element minOccurs="0" name="ControlKey" type="ser:guid" />
+      <xs:element minOccurs="0" name="Identifier" type="ser:guid" />
+      <xs:element minOccurs="0" name="IsActive" type="xs:boolean" />
+      <xs:element minOccurs="0" name="IsChangeReasonError" type="xs:boolean" />
+      <xs:element minOccurs="0" name="IsDuplicate" type="xs:boolean" />
+      <xs:element xmlns:q17="http://schemas.datacontract.org/2004/07/Indigo.Sinapsis.Core.Domain.Supplier" minOccurs="0" name="ListSupplier" nillable="true" type="q17:ArrayOfSupplierOfguid" />
+      <xs:element xmlns:q18="http://schemas.datacontract.org/2004/07/Indigo.Sinapsis.Core.Domain.Product" minOccurs="0" name="Product" nillable="true" type="q18:ProductOfguid" />
+      <xs:element xmlns:q19="http://schemas.datacontract.org/2004/07/Indigo.Sinapsis.Core.Domain.Product" minOccurs="0" name="ProductSupplierProduct" nillable="true" type="q19:ProductSupplierProductOfguid" />
+      <xs:element minOccurs="0" name="TotalFail" type="xs:int" />
+      <xs:element minOccurs="0" name="TotalOk" type="xs:int" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="AwardMassiveOfguid" nillable="true" type="tns:AwardMassiveOfguid" />
+</xs:schema>

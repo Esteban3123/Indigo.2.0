@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:ser="http://schemas.microsoft.com/2003/10/Serialization/" xmlns:tns="http://schemas.datacontract.org/2004/07/WCFServiceWebRole" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/WCFServiceWebRole" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import schemaLocation="http://indigocrystalazure.cloudapp.net/Service.svc?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+  <xs:complexType name="MultimediaLogin">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Color" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Descripcion" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Fecha" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="HoraFinal" nillable="true" type="ser:duration" />
+      <xs:element minOccurs="0" name="HoraInicial" nillable="true" type="ser:duration" />
+      <xs:element minOccurs="0" name="Id_" type="xs:int" />
+      <xs:element minOccurs="0" name="Imagen" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Titulo" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="UrlMultimedia" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="MultimediaLogin" nillable="true" type="tns:MultimediaLogin" />
+  <xs:complexType name="Weather">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="City" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Condition" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Forecast" nillable="true" type="tns:ArrayOfForecast" />
+      <xs:element minOccurs="0" name="Humidity" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Pressure" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Temperature" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Visibility" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="WindSpeed" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="Weather" nillable="true" type="tns:Weather" />
+  <xs:complexType name="ArrayOfForecast">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="Forecast" nillable="true" type="tns:Forecast" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfForecast" nillable="true" type="tns:ArrayOfForecast" />
+  <xs:complexType name="Forecast">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="code" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="date" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="day" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="high" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="low" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="text" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="Forecast" nillable="true" type="tns:Forecast" />
+</xs:schema>

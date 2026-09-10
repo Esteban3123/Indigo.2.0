@@ -1,0 +1,95 @@
+﻿#Region "Librerias Importadas"
+Imports Infrastructure.CrossCutting.Base
+Imports Infrastructure.Data.Xpo.FixedAssetRepository
+Imports Infrastructure.Data.Xpo
+Imports Presentation.Reporter
+Imports Presentation.CloudAgent
+Imports Presentation.Base
+Imports Domain.Entities
+Imports System.Globalization
+#End Region
+Public Class rptInventoryCloseMonth
+    Implements IReport
+    Implements IReportAsync
+
+#Region "Properties"
+
+    ''' <summary>
+    ''' Variable para inicializar los valores de sesion
+    ''' </summary>
+    Dim IndigoSessionValues As SessionValues = SessionValues.Instance
+
+    ''' <summary>
+    ''' Variable para el datatable con los datos del reporte
+    ''' </summary>
+    Dim dtReportCloseMonth As DataTable
+
+
+    Dim filters As Dictionary(Of String, String)
+
+    ''' <summary>
+    ''' obtiene la moneda a la cual se realiza el reporte 
+    ''' </summary>
+    ''' <returns></returns>
+    Public Property Currency As Currency
+
+    Public Property ParametrosReporte As Object() Implements IReport.ParametrosReporte
+
+    Public ReadOnly Property NameReport As String Implements IReport.NameReport
+        Get
+            Return ""
+        End Get
+    End Property
+
+#End Region
+
+    Public Sub CargarDataSource() Implements IReport.CargarDataSource
+    End Sub
+
+    Public Async Function CargarDataSourceAsync() As Task Implements IReportAsync.CargarDataSourceAsync
+        filters = ParametrosReporte(0)
+        Try
+            Dim ds As DataSet = Await IndigoConecta.Instancia.CurrentCloud.IndigoInventory.GetReportCloseMonthAsync(ParametrosReporte(0), Me.IndigoSessionValues)
+            If ds IsNot Nothing Then
+                dtReportCloseMonth = ds.Tables("ReportCloseMonth")
+                Me.DataSource = dtReportCloseMonth
+                Me.DataMember = "ReportCloseMonth"
+            Else
+                Me.DataSource = Nothing
+            End If
+        Catch ex As Exception
+            MessageIndigo.Show(GetExceptionDetails(ex), MessageType.Errores, Me.Text, Botones.Aceptar, "")
+        End Try
+    End Function
+
+    Public Function GetExceptionDetails(exception As Exception) As String
+        Dim properties = exception.[GetType]().GetProperties()
+        Dim fields = properties.[Select](Function([property]) New With {
+            Key .Name = [property].Name,
+            Key .Value = [property].GetValue(exception, Nothing)
+        }).[Select](Function(x) [String].Format("{0} : {1}", x.Name, If(x.Value IsNot Nothing, x.Value.ToString(), [String].Empty)))
+        Return [String].Join(vbLf, fields)
+    End Function
+
+    Public Sub CargarImagenes() Implements IReport.CargarImagenes
+
+    End Sub
+    Private Sub rptPriceListRate_BeforePrint(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles Me.BeforePrint
+        INDPmReportType.Value = filters("InitialWarehouse")
+        Dim formatMonth As String = MonthName(filters("Month"))
+        INDLblDate.Text = "Filtro aplicado: " + formatMonth + " de " + filters("Year").ToString
+        INDLblCompany.Text = IndigoSessionValues.IndigoCompanyName
+        INDLblNitCompany.Text = "Nit:" & IndigoSessionValues.IndigoCompanyNit
+        Me.INDUserImp.Text = "Usuario Impresión: " & IndigoSessionValues.UserIndigo & " - " & IndigoSessionValues.UserIndigoName
+
+        If Currency IsNot Nothing AndAlso Not String.IsNullOrEmpty(Currency.Abbreviation) Then
+            Dim _culture As CultureInfo = CultureInfo.CurrentCulture.Clone()
+            Dim CurrencyAbbreviation As String = Currency.Abbreviation
+            _culture.NumberFormat = CurrencyAbbreviation.GetNumberFormat
+            ApplyLocalization(_culture)
+        End If
+
+    End Sub
+
+
+End Class

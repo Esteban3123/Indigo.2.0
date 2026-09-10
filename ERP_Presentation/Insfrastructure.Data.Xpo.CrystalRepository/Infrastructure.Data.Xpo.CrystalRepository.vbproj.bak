@@ -1,0 +1,395 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{6AF0AD3B-B0A2-48A4-9FBD-CA1C11FC74FC}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>Infrastructure.Data.Xpo.CrystalRepository</RootNamespace>
+    <AssemblyName>Infrastructure.Data.Xpo.CrystalRepository</AssemblyName>
+    <FileAlignment>512</FileAlignment>
+    <MyType>Windows</MyType>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DocumentationFile>Infrastructure.Data.Xpo.CrystalRepository.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DocumentationFile>Infrastructure.Data.Xpo.CrystalRepository.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionExplicit>On</OptionExplicit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionCompare>Binary</OptionCompare>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionStrict>Off</OptionStrict>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionInfer>On</OptionInfer>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debugcito|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\Debugcito\</OutputPath>
+    <DocumentationFile>Infrastructure.Data.Xpo.CrystalRepository.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DocumentationFile>Infrastructure.Data.Xpo.CrystalRepository.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DocumentationFile>Infrastructure.Data.Xpo.CrystalRepository.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debugcito|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x64\Debugcito\</OutputPath>
+    <DocumentationFile>Infrastructure.Data.Xpo.CrystalRepository.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DocumentationFile>Infrastructure.Data.Xpo.CrystalRepository.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DocumentationFile>Infrastructure.Data.Xpo.CrystalRepository.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debugcito|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x86\Debugcito\</OutputPath>
+    <DocumentationFile>Infrastructure.Data.Xpo.CrystalRepository.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'VieBuild|AnyCPU'">
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\VieBuild\</OutputPath>
+    <DocumentationFile>Infrastructure.Data.Xpo.CrystalRepository.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'VieBuild|x64'">
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x64\VieBuild\</OutputPath>
+    <DocumentationFile>Infrastructure.Data.Xpo.CrystalRepository.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'VieBuild|x86'">
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x86\VieBuild\</OutputPath>
+    <DocumentationFile>Infrastructure.Data.Xpo.CrystalRepository.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="DevExpress.Data.v20.1, Version=20.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Xpo.v20.1, Version=20.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="Domain.Entities">
+      <HintPath>..\DLL\Domain.Entities.dll</HintPath>
+    </Reference>
+    <Reference Include="Infrastructure.CrossCutting.Base, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\DLL\Infrastructure.CrossCutting.Base.dll</HintPath>
+    </Reference>
+    <Reference Include="Infrastructure.CrossCutting.Resources, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\DLL\Infrastructure.CrossCutting.Resources.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Core" />
+  </ItemGroup>
+  <ItemGroup>
+    <Import Include="Microsoft.VisualBasic" />
+    <Import Include="System" />
+    <Import Include="System.Collections.Generic" />
+    <Import Include="System.Linq" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AdmissionModalitiesXpo.vb" />
+    <Compile Include="HCINCAPACXpo.vb" />
+    <Compile Include="HealthPurposesXpo.vb" />
+    <Compile Include="EntryRoutesHealthServicesXpo.vb" />
+    <Compile Include="ADTIPOIDENTIFICAXpo.vb" />
+    <Compile Include="HCORHEMCOXpo.vb" />
+    <Compile Include="Liquidation\XpoCUPSEntityContractDescriptions.vb" />
+    <Compile Include="RiskFactor.vb" />
+    <Compile Include="ViewConsultinRoomgByProfessional.vb" />
+    <Compile Include="AdmissionTypeXpo.vb" />
+    <Compile Include="ViewDashBoardPharmacyMixingSationPatient.vb" />
+    <Compile Include="ViewScheduleActivityByEspecialityXpo.vb" />
+    <Compile Include="AppointmentHemocomponentsXpo.vb" />
+    <Compile Include="AGASICITAXpo.vb" />
+    <Compile Include="AGDISPONSALAXpo.vb" />
+    <Compile Include="AppointmentHemocomponentsCUPSXpo.vb" />
+    <Compile Include="HCMOANULBXpo.vb" />
+    <Compile Include="INEMPRESU.vb" />
+    <Compile Include="ViewAdmissionOpenAndPartialServiceOrder.vb" />
+    <Compile Include="ViewDashboardPharmacyDetailMixingSationGrid.vb" />
+    <Compile Include="ViewListCupsByAGACTIMEDXpo.vb" />
+    <Compile Include="AGENSALAACTXpo.vb" />
+    <Compile Include="AGENSALACXpo.vb" />
+    <Compile Include="ADPARAMETXpo.vb" />
+    <Compile Include="HCAUDITORIAXpo.vb" />
+    <Compile Include="HCCOMSANDXpo.vb" />
+    <Compile Include="HCCOMSANXpo.vb" />
+    <Compile Include="HCHISPACAXpo.vb" />
+    <Compile Include="HCHOJAMEDXpo.vb" />
+    <Compile Include="HCORHEMBOLXpo.vb" />
+    <Compile Include="RISGRIMAGEXpo.vb" />
+    <Compile Include="ADPOBESPEXpo.vb" />
+    <Compile Include="AGACTIMED.vb" />
+    <Compile Include="ADCENATEN.vb" />
+    <Compile Include="CHCAMASHO.vb" />
+    <Compile Include="CHGENTARI.vb" />
+    <Compile Include="CHTIPESTA.vb" />
+    <Compile Include="CrystalServiceXpoEx.vb" />
+    <Compile Include="INUNIFUNC.vb" />
+    <Compile Include="HCQXINFORXpo.vb" />
+    <Compile Include="HCQXREALIXpo.vb" />
+    <Compile Include="HCQXEQUIPXpo.vb" />
+    <Compile Include="HCQXVIABOXpo.vb" />
+    <Compile Include="Liquidation\ViewLiquidationGetAdmission.vb" />
+    <Compile Include="Liquidation\ViewLiquidationGetAdmissionAll.vb" />
+    <Compile Include="ORMDataModel1Code\ADCONTIPS.Designer.vb">
+      <DependentUpon>ADCONTIPS.vb</DependentUpon>
+    </Compile>
+    <Compile Include="ORMDataModel1Code\ADCONTIPS.vb" />
+    <Compile Include="ORMDataModel1Code\CHCAMASHO.Designer.vb">
+      <DependentUpon>CHCAMASHO.vb</DependentUpon>
+    </Compile>
+    <Compile Include="ORMDataModel1Code\CHCAMASHO.vb" />
+    <Compile Include="DepartmentXpo.vb" />
+    <Compile Include="EducationLevelsXpo.vb" />
+    <Compile Include="CUPSXpo.vb" />
+    <Compile Include="ORMDataModel1Code\ConnectionHelper.vb" />
+    <Compile Include="ORMDataModel1Code\INSALARIM.Designer.vb">
+      <DependentUpon>INSALARIM.vb</DependentUpon>
+    </Compile>
+    <Compile Include="ORMDataModel1Code\INSALARIM.vb" />
+    <Compile Include="ORMDataModel1Code\INUNIFUNC.Designer.vb">
+      <DependentUpon>INUNIFUNC.vb</DependentUpon>
+    </Compile>
+    <Compile Include="ORMDataModel1Code\INUNIFUNC.vb" />
+    <Compile Include="IpsXpo.vb" />
+    <Compile Include="LanguageXpo.vb" />
+    <Compile Include="LocationXpo.vb" />
+    <Compile Include="MinWageXpo.vb" />
+    <Compile Include="IHFORMEDI.vb" />
+    <Compile Include="IHDCIMEDIXpo.vb" />
+    <Compile Include="HCVIAADMI.vb" />
+    <Compile Include="IHGRUFARM.vb" />
+    <Compile Include="INUNIMEDI.vb" />
+    <Compile Include="INDIAGNOS.vb" />
+    <Compile Include="CHREGEGRE.vb" />
+    <Compile Include="HCREGEGRE.vb" />
+    <Compile Include="INDIAGNOP.vb" />
+    <Compile Include="ORMDataModel1Code\ViewDashBoardPharmacy_SurgicalPackage.vb" />
+    <Compile Include="ORMDataModel1Code\ViewDashBoardPharmacy_SurgicalPackageDeatils.vb" />
+    <Compile Include="Reports\ViewAdmissionsToReportSlipOutReport.vb" />
+    <Compile Include="RIASCUPSXpo.vb" />
+    <Compile Include="RIASCUPSDXpo.vb" />
+    <Compile Include="ViewAdmissionOpenPartialInvoicedClosedXpo.vb" />
+    <Compile Include="ViewAdmissionsToLiquidationDashboard.vb" />
+    <Compile Include="ViewAdmissionsToLiquidationConfirmOnlyLiquidation.vb" />
+    <Compile Include="ViewAdmissionToLiquidationOncologycal.vb" />
+    <Compile Include="ViewCitaCanceladaReprogramada.vb" />
+    <Compile Include="ViewDashBoardPharmacyChemotherapy.vb" />
+    <Compile Include="ViewDashboardPharmacyDetailMixingSation.vb" />
+    <Compile Include="ViewDashBoardPharmacyMixingSation.vb" />
+    <Compile Include="ViewServicesHemocomponent.vb" />
+    <Compile Include="ViewListCenterHis.vb" />
+    <Compile Include="ViewPatientDeparture.vb" />
+    <Compile Include="ViewGetAdmissionXpo.vb" />
+    <Compile Include="RIASXpo.vb" />
+    <Compile Include="ViewSurgeriesPerformed.vb" />
+    <Compile Include="ViewSurgicalEquipment.vb" />
+    <Compile Include="ViewSurgicalReport.vb" />
+    <Compile Include="ViewAdmissionOpenAndPartial.vb" />
+    <Compile Include="ViewDashboardPharmacyDetailDevolution.vb" />
+    <Compile Include="ViewDashboardPharmacyDetail.vb" />
+    <Compile Include="Reports\VAdmission.vb" />
+    <Compile Include="ViewAdmissionServiceOrder.vb" />
+    <Compile Include="Reports\ADACOMPANXpo.vb" />
+    <Compile Include="ViewAdmissionsToReport.vb" />
+    <Compile Include="ViewAdmissionsToReportSlipOut.vb" />
+    <Compile Include="ViewAdmissionToLiquidationConfirm.vb" />
+    <Compile Include="ViewListFuncionalUnitAuthorization.vb" />
+    <Compile Include="ViewConsultation.vb" />
+    <Compile Include="ViewDashBoardPharmacyDevolution.vb" />
+    <Compile Include="ViewDashBoardPharmacy.vb" />
+    <Compile Include="SpecialGroupsXpo.vb" />
+    <Compile Include="EthnicGroupXpo.vb" />
+    <Compile Include="CompanyXpo.vb" />
+    <Compile Include="DisabilidyXpo.vb" />
+    <Compile Include="BeliefXpo.vb" />
+    <Compile Include="ActivitiesXpo.vb" />
+    <Compile Include="My Project\AssemblyInfo.vb" />
+    <Compile Include="My Project\Application.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Application.myapp</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="My Project\Resources.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="My Project\Settings.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AdmissionXpo.vb" />
+    <Compile Include="EntityXpo.vb" />
+    <Compile Include="Reports\CentersXpo.vb" />
+    <Compile Include="Reports\HcregegreXpo.vb" />
+    <Compile Include="Reports\LevelsXpo.vb" />
+    <Compile Include="TownXpo.vb" />
+    <Compile Include="ViewAdmissionsToLiquidation.vb" />
+    <Compile Include="SpecialtyXpo.vb" />
+    <Compile Include="PatientXpo.vb" />
+    <Compile Include="HealthCareProfessionalXpo.vb" />
+    <Compile Include="ViewImagesDX.vb" />
+    <Compile Include="ViewKardexMedicineSupplier.vb" />
+    <Compile Include="ViewLaboratories.vb" />
+    <Compile Include="ViewMedicinesSupplies.vb" />
+    <Compile Include="ViewNursingProcedures.vb" />
+    <Compile Include="ViewNursingProceduresDetail.vb" />
+    <Compile Include="ViewOxygenConsumption.vb" />
+    <Compile Include="ViewPathologies.vb" />
+    <Compile Include="ViewProceduresNoQx.vb" />
+    <Compile Include="ViewProceduresQx.vb" />
+    <Compile Include="ViewReviews.vb" />
+    <Compile Include="ViewServiceProceduresNursingProcedure.vb" />
+    <Compile Include="ViewServicesProceduresConsultation.vb" />
+    <Compile Include="ViewServicesProceduresLaboratories.vb" />
+    <Compile Include="ViewServicesProceduresImagesDx.vb" />
+    <Compile Include="ViewServicesProceduresNoQx.vb" />
+    <Compile Include="ViewServicesProceduresPathologies.vb" />
+    <Compile Include="ViewServicesProceduresQx.vb" />
+    <Compile Include="ViewServicesProceduresQxReport.vb" />
+    <Compile Include="ViewServicesProceduresTherapy.vb" />
+    <Compile Include="ViewTherapy.vb" />
+    <Compile Include="ViewUnitFunctionalHis.vb" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="My Project\Resources.resx">
+      <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.vb</LastGenOutput>
+      <CustomToolNamespace>My.Resources</CustomToolNamespace>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ModelCrystal.xpo" />
+    <None Include="ModelCrystal.xpo.diagram">
+      <DependentUpon>ModelCrystal.xpo</DependentUpon>
+    </None>
+    <None Include="My Project\Application.myapp">
+      <Generator>MyApplicationCodeGenerator</Generator>
+      <LastGenOutput>Application.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="My Project\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <CustomToolNamespace>My</CustomToolNamespace>
+      <LastGenOutput>Settings.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="ORMDataModel1.xpo" />
+    <None Include="ORMDataModel1.xpo.diagram">
+      <DependentUpon>ORMDataModel1.xpo</DependentUpon>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Infrastructure.CrossCutting.Xpo.Base\Infrastructure.CrossCutting.Xpo.Base.vbproj">
+      <Project>{06aea7a4-8792-405e-97e6-4b6fb10502b5}</Project>
+      <Name>Infrastructure.CrossCutting.Xpo.Base</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastructure.Data.Xpo.SecurityRepository\Infrastructure.Data.Xpo.SecurityRepository.vbproj">
+      <Project>{75506435-56f8-4069-9540-c7c37e197458}</Project>
+      <Name>Infrastructure.Data.Xpo.SecurityRepository</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="ModelCrystalCode\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

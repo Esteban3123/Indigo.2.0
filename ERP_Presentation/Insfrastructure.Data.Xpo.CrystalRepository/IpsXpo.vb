@@ -1,0 +1,150 @@
+﻿
+'*************************************************************
+' Assembly         : Infraestructure.Data.Xpo.CrystalRepository
+' Author           : Jhossept K. Garay
+' Created          : 24-01-2015
+'
+' Copyright        : (c) . All rights reserved.
+'*************************************************************
+
+#Region "Imports"
+
+Imports System
+Imports DevExpress.Xpo
+Imports DevExpress.Data.Filtering
+Imports System.Collections.Generic
+Imports System.ComponentModel
+Imports Infrastructure.CrossCutting.Resources
+
+#End Region
+
+''' <summary>
+''' Encapsula los datos
+''' </summary>
+<Persistent("dbo.ADCONTIPS")> _
+Public Class IpsXpo
+    Inherits XPLiteObject
+    Dim fCODIGOIPS As String
+    <Key()> _
+    Public Property CODIGOIPS() As String
+        Get
+            Return fCODIGOIPS
+        End Get
+        Set(ByVal value As String)
+            SetPropertyValue(Of String)("CODIGOIPS", fCODIGOIPS, value)
+        End Set
+    End Property
+    Dim fDSCRIPIPS As String
+    <Size(50)> _
+    Public Property DSCRIPIPS() As String
+        Get
+            Return fDSCRIPIPS
+        End Get
+        Set(ByVal value As String)
+            SetPropertyValue(Of String)("DSCRIPIPS", fDSCRIPIPS, value)
+        End Set
+    End Property
+    Dim fESTADO As Boolean
+    Public Property ESTADO() As Boolean
+        Get
+            Return fESTADO
+        End Get
+        Set(ByVal value As Boolean)
+            SetPropertyValue(Of Boolean)("ESTADO", fESTADO, value)
+        End Set
+    End Property
+    Dim fCODIGONIT As String
+    <Size(15)> _
+    Public Property CODIGONIT() As String
+        Get
+            Return fCODIGONIT
+        End Get
+        Set(ByVal value As String)
+            SetPropertyValue(Of String)("CODIGONIT", fCODIGONIT, value)
+        End Set
+    End Property
+    Dim fDIRECCIPS As String
+    Public Property DIRECCIPS() As String
+        Get
+            Return fDIRECCIPS
+        End Get
+        Set(ByVal value As String)
+            SetPropertyValue(Of String)("DIRECCIPS", fDIRECCIPS, value)
+        End Set
+    End Property
+    Dim fTELEFOIPS As String
+    <Size(15)> _
+    Public Property TELEFOIPS() As String
+        Get
+            Return fTELEFOIPS
+        End Get
+        Set(ByVal value As String)
+            SetPropertyValue(Of String)("TELEFOIPS", fTELEFOIPS, value)
+        End Set
+    End Property
+    Dim fCORREOIPS As String
+    Public Property CORREOIPS() As String
+        Get
+            Return fCORREOIPS
+        End Get
+        Set(ByVal value As String)
+            SetPropertyValue(Of String)("CORREOIPS", fCORREOIPS, value)
+        End Set
+    End Property
+    Dim fDEPMUNCOD As String
+    <Size(5)> _
+    Public Property DEPMUNCOD() As String
+        Get
+            Return fDEPMUNCOD
+        End Get
+        Set(ByVal value As String)
+            SetPropertyValue(Of String)("DEPMUNCOD", fDEPMUNCOD, value)
+        End Set
+    End Property
+    Dim fNIVATEIPS As Char
+    Public Property NIVATEIPS() As Char
+        Get
+            Return fNIVATEIPS
+        End Get
+        Set(ByVal value As Char)
+            SetPropertyValue(Of Char)("NIVATEIPS", fNIVATEIPS, value)
+        End Set
+    End Property
+    Dim fCLASEIPSS As Char
+    Public Property CLASEIPSS() As Char
+        Get
+            Return fCLASEIPSS
+        End Get
+        Set(ByVal value As Char)
+            SetPropertyValue(Of Char)("CLASEIPSS", fCLASEIPSS, value)
+        End Set
+    End Property
+    Dim fNOMREPLEG As String
+    <Size(60)> _
+    Public Property NOMREPLEG() As String
+        Get
+            Return fNOMREPLEG
+        End Get
+        Set(ByVal value As String)
+            SetPropertyValue(Of String)("NOMREPLEG", fNOMREPLEG, value)
+        End Set
+    End Property
+    Dim fIDEREPLEG As String
+    <Size(15)> _
+    Public Property IDEREPLEG() As String
+        Get
+            Return fIDEREPLEG
+        End Get
+        Set(ByVal value As String)
+            SetPropertyValue(Of String)("IDEREPLEG", fIDEREPLEG, value)
+        End Set
+    End Property
+
+    <Size(150)> _
+    <PersistentAlias("concat(trim(CODIGOIPS),' - ',trim(DSCRIPIPS))")>
+    Public ReadOnly Property CodeName() As String
+        Get
+            Return Convert.ToString(Me.EvaluateAlias("CodeName"))
+        End Get
+    End Property
+End Class

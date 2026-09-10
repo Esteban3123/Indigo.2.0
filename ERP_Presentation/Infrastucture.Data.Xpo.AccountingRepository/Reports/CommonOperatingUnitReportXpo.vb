@@ -1,0 +1,145 @@
+﻿Imports System
+Imports DevExpress.Xpo
+Imports DevExpress.Data.Filtering
+
+<Persistent("Common.OperatingUnit")> _
+Public Class CommonOperatingUnitReportXpo
+
+    Inherits XPLiteObject
+
+    Dim fId As Integer
+    <Key(True)> _
+    <Persistent("Id")> _
+    Public Property Id() As Integer
+        Get
+            Return fId
+        End Get
+        Set(ByVal value As Integer)
+            SetPropertyValue(Of Integer)("Id", fId, value)
+        End Set
+    End Property
+
+    Dim fIdUnit As CommonOperatingUnitReportXpo
+    <Association("CommonOperatingUnitReferencesCommonOperatingUnit")> _
+    Public Property IdUnit() As CommonOperatingUnitReportXpo
+        Get
+            Return fIdUnit
+        End Get
+        Set(ByVal value As CommonOperatingUnitReportXpo)
+            SetPropertyValue(Of CommonOperatingUnitReportXpo)("IdUnit", fIdUnit, value)
+        End Set
+    End Property
+
+    Dim fUnitCode As String
+    <Size(5)> _
+    <Persistent("UnitCode")> _
+    Public Property UnitCode() As String
+        Get
+            Return fUnitCode
+        End Get
+        Set(ByVal value As String)
+            SetPropertyValue(Of String)("UnitCode", fUnitCode, value)
+        End Set
+    End Property
+
+    Dim fUnitName As String
+    <Size(100)> _
+    <Persistent("UnitName")> _
+    Public Property UnitName() As String
+        Get
+            Return fUnitName
+        End Get
+        Set(ByVal value As String)
+            SetPropertyValue(Of String)("UnitName", fUnitName, value)
+        End Set
+    End Property
+
+    ''' <summary>
+    ''' Gets the name of the code.
+    ''' </summary>
+    ''' <value>
+    ''' The name of the code.
+    ''' </value>
+    <Size(50)> _
+    <PersistentAlias("concat(concat(UnitCode,' - '),UnitName)")>
+    Public ReadOnly Property CodeName() As String
+        Get
+            Return Convert.ToString(Me.EvaluateAlias("CodeName"))
+        End Get
+    End Property
+
+    Dim fIPSCode As String
+    <Size(20)> _
+    Public Property IPSCode() As String
+        Get
+            Return fIPSCode
+        End Get
+        Set(ByVal value As String)
+            SetPropertyValue(Of String)("IPSCode", fIPSCode, value)
+        End Set
+    End Property
+    Dim fAddress As String
+    Public Property Address() As String
+        Get
+            Return fAddress
+        End Get
+        Set(ByVal value As String)
+            SetPropertyValue(Of String)("Address", fAddress, value)
+        End Set
+    End Property
+    Dim fPhone As String
+    <Size(20)> _
+    Public Property Phone() As String
+        Get
+            Return fPhone
+        End Get
+        Set(ByVal value As String)
+            SetPropertyValue(Of String)("Phone", fPhone, value)
+        End Set
+    End Property
+    Dim fEmail As String
+    Public Property Email() As String
+        Get
+            Return fEmail
+        End Get
+        Set(ByVal value As String)
+            SetPropertyValue(Of String)("Email", fEmail, value)
+        End Set
+    End Property
+    Dim fEmailAudit As String
+    Public Property EmailAudit() As String
+        Get
+            Return fEmailAudit
+        End Get
+        Set(ByVal value As String)
+            SetPropertyValue(Of String)("EmailAudit", fEmailAudit, value)
+        End Set
+    End Property
+    Dim fIdCity As CommonCityXpo
+    <Association("CommonOperatingUnitReferencesCommonCommonCity")> _
+    Public Property IdCity() As CommonCityXpo
+        Get
+            Return fIdCity
+        End Get
+        Set(ByVal value As CommonCityXpo)
+            SetPropertyValue(Of CommonCityXpo)("IdCity", fIdCity, value)
+        End Set
+    End Property
+
+    <Association("CommonOperatingUnitReferencesCommonOperatingUnit", GetType(CommonOperatingUnitReportXpo))> _
+    Public ReadOnly Property CommonOperatingUnitReportXpo() As XPCollection(Of CommonOperatingUnitReportXpo)
+        Get
+            Return GetCollection(Of CommonOperatingUnitReportXpo)("CommonOperatingUnitReportXpo")
+        End Get
+    End Property
+
+    Public Sub New(ByVal session As Session)
+        MyBase.New(session)
+    End Sub
+    Public Sub New()
+        MyBase.New(Session.DefaultSession)
+    End Sub
+    Public Overrides Sub AfterConstruction()
+        MyBase.AfterConstruction()
+    End Sub
+End Class

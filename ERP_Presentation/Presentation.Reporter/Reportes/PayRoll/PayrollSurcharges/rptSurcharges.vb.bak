@@ -1,0 +1,112 @@
+﻿#Region "Librerias Importadas"
+Imports Infrastructure.CrossCutting.Base
+Imports Infrastructure.Data.Xpo
+Imports Infrastructure.Data.Xpo.PayrollRepository
+Imports Domain.Entities
+Imports Presentation.Base
+Imports System.Globalization
+
+#End Region
+
+Public Class rptSurcharges
+    Implements IReport
+
+    ''' <summary>
+    ''' Variable para inicializar los valores de sesion
+    ''' </summary>
+    Dim IndigoSessionValues As SessionValues = SessionValues.Instance
+
+    Dim listSurcharges As List(Of PayrollVSurchargesReportXpo)
+
+    Private valTSundaysAndHolidays As Integer
+    Private valTOrdinaryNight As Integer
+    Private hoursSundaysAndHolidays As Integer
+    Private hoursOrdinaryNight As Integer
+
+    Public Sub CargarDataSource() Implements IReport.CargarDataSource
+        Try
+
+            Dim filtroConsulta As String = Nothing
+            filtroConsulta = "Fecha >= #" & Format(ParametrosReporte(0), "yyyy-MM-dd") & "# AND Fecha <= #" & Format(ParametrosReporte(1), "yyyy-MM-dd") & "# "
+
+            'filtro por estado
+            If ParametrosReporte(2) <> "T" Then
+                filtroConsulta &= " AND Estado = '" & ParametrosReporte(2) & "'"
+            End If
+
+            'filtro por empleado
+            If ParametrosReporte(3) IsNot Nothing Then
+                filtroConsulta &= " AND Empleado = " & ParametrosReporte(3)
+            End If
+
+            'filtro por Grupo
+            If ParametrosReporte(4) IsNot Nothing And ParametrosReporte(5) IsNot Nothing Then
+                filtroConsulta &= " AND GrupoCod >= '" & ParametrosReporte(4) & "' AND GrupoCod <= '" & ParametrosReporte(5) & "'"
+            End If
+
+            Dim sucursalIni As String = IIf(ParametrosReporte(6) Is Nothing Or ParametrosReporte(6) = String.Empty, "NULL", ParametrosReporte(6))
+            Dim sucursalFin As String = IIf(ParametrosReporte(7) Is Nothing Or ParametrosReporte(7) = String.Empty, "NULL", ParametrosReporte(7))
+
+            filtroConsulta = String.Format("{0} AND ((BranchOfficeId >= {1} AND BranchOfficeId <= {2}) OR ({1} IS NULL AND {2} IS NULL))", filtroConsulta, sucursalIni, sucursalFin)
+
+            listSurcharges = XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).PayrollService.GetCollection(Of PayrollVSurchargesReportXpo)(Nothing, filtroConsulta)
+            Me.DataSource = listSurcharges
+
+        Catch ex As Exception
+            MessageIndigo.Show(GetExceptionDetails(ex), MessageType.Errores, Me.Text, Botones.Aceptar, "")
+        End Try
+    End Sub
+
+    Public Function GetExceptionDetails(exception As Exception) As String
+        Dim properties = exception.[GetType]().GetProperties()
+        Dim fields = properties.[Select](Function([property]) New With { _
+            Key .Name = [property].Name, _
+            Key .Value = [property].GetValue(exception, Nothing) _
+        }).[Select](Function(x) [String].Format("{0} : {1}", x.Name, If(x.Value IsNot Nothing, x.Value.ToString(), [String].Empty)))
+        Return [String].Join(vbLf, fields)
+    End Function
+
+    Public Sub CargarImagenes() Implements IReport.CargarImagenes
+
+    End Sub
+
+    Public ReadOnly Property NameReport As String Implements IReport.NameReport
+        Get
+            Return ""
+        End Get
+    End Property
+
+    Public Property ParametrosReporte As Object() Implements IReport.ParametrosReporte
+
+    Private Sub rptSurcharges_BeforePrint(sender As Object, e As Printing.PrintEventArgs) Handles MyBase.BeforePrint
+        INDLblCompany.Text = IndigoSessionValues.IndigoCompanyName
+        INDLblNitCompany.Text = "Nit:" & IndigoSessionValues.IndigoCompanyNit
+        INDLblDate.Text = "Informe comprendido entre " & CDate(ParametrosReporte(0)).ToString("dd De MMMM Del yyyy") & " " & CDate(ParametrosReporte(1)).ToString("A dd De MMMM Del yyyy")
+        Me.INDLblUserPrint.Text = "Usuario Impresión : " & IndigoSessionValues.UserIndigo & " - " & IndigoSessionValues.UserIndigoName
+    End Sub
+
+    Private Sub ReportFooter_BeforePrint(sender As Object, e As Printing.PrintEventArgs) Handles ReportFooter.BeforePrint
+        XrTableCell13.Text = CDate(ParametrosReporte(1)).ToString("dd/MM/yyyy")
+        XrTableCell21.Text = CDate(ParametrosReporte(1)).ToString("dd/MM/yyyy")
+
+        For Each li In listSurcharges
+            If li.CodigoConcepto = "081" Then
+                valTSundaysAndHolidays = valTSundaysAndHolidays + li.ValorTotal
+                hoursSundaysAndHolidays = hoursSundaysAndHolidays + li.TotalHoras
+            End If
+            If li.CodigoConcepto = "010" Then
+                valTOrdinaryNight = valTOrdinaryNight + li.ValorTotal
+                hoursOrdinaryNight = hoursOrdinaryNight + li.TotalHoras
+            End If
+        Next
+        XrTableCell6.Text = "$" + valTSundaysAndHolidays.ToString("0,0", CultureInfo.CreateSpecificCulture("el-GR"))
+        XrTableCell23.Text = "$" + valTSundaysAndHolidays.ToString("0,0", CultureInfo.CreateSpecificCulture("el-GR"))
+        XrTableCell22.Text = hoursSundaysAndHolidays.ToString("0,0", CultureInfo.CreateSpecificCulture("el-GR"))
+
+        XrTableCell17.Text = "$" + valTOrdinaryNight.ToString("0,0", CultureInfo.CreateSpecificCulture("el-GR"))
+        XrTableCell14.Text = hoursOrdinaryNight.ToString("0,0", CultureInfo.CreateSpecificCulture("el-GR"))
+
+        XrTableCell28.Text = "$" + (valTSundaysAndHolidays + valTOrdinaryNight).ToString("0,0", CultureInfo.CreateSpecificCulture("el-GR"))
+        XrTableCell27.Text = (hoursSundaysAndHolidays + hoursOrdinaryNight).ToString("0,0", CultureInfo.CreateSpecificCulture("el-GR"))
+    End Sub
+End Class

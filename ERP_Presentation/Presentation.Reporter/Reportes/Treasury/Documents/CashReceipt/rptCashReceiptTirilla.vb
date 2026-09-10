@@ -1,0 +1,103 @@
+#Region "Imports"
+Imports Infrastructure.CrossCutting.Base
+Imports Infrastructure.Data.Xpo
+Imports Infrastructure.Data.Xpo.TreasuryRepository
+Imports DevExpress.XtraReports.UI
+Imports Domain.Entities
+Imports System.Drawing.Printing
+Imports DevExpress.XtraReports.Parameters
+Imports Presentation.Reporter
+
+#End Region
+
+Public Class rptCashReceiptTirilla
+    Implements IReport
+
+
+
+    ''' <summary>
+    ''' Variable para inicializar los valores de sesion
+    ''' </summary>
+    Dim IndigoSessionValues As SessionValues = SessionValues.Instance
+    Dim indList As List(Of  TreasuryPaymentMethodsXpo)
+    Dim INDUser As Object
+
+    Public Sub CargarDataSource() Implements IReport.CargarDataSource
+        Dim filtroConsulta As String = "Id =" & ParametrosReporte(0)
+
+        Dim filtroConsulta2 As String = "IdCashReceipt =" & ParametrosReporte(0)
+        indList = XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).TreasuryService.GetCollection(Of TreasuryPaymentMethodsXpo)(Nothing, filtroConsulta2)
+        Dim INDCodeUser = CType(indList(0), TreasuryPaymentMethodsXpo).IdCashReceipt.CreationUser.Trim()
+        INDUser = XpoServiceEx.Instance(IndigoSessionValues.SecurityContainer).TreasuryService.GetCollection(Of Infrastructure.Data.Xpo.SecurityRepository.UserXpo)(Nothing, "UserCode = '" & INDCodeUser & "'")
+        Me.DataSource = XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).TreasuryService.GetCollection(Of TreasuryCashReceiptsXpo)(Nothing, filtroConsulta)
+    End Sub
+
+    Public Sub CargarImagenes() Implements IReport.CargarImagenes
+        
+    End Sub
+    Public ReadOnly Property NameReport As String Implements IReport.NameReport
+        Get
+            Return ""
+        End Get
+    End Property
+
+    Public Property ParametrosReporte As Object() Implements IReport.ParametrosReporte
+
+    Private Sub rptCashReceiptTirilla_BeforePrint(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles MyBase.BeforePrint
+        If Me.Parameters.Count > 0 AndAlso Me.Parameters(0).Value > 0 Then
+            Dim ParametrosFilter As ParameterCollection = Me.Parameters
+            ParametrosReporte = New Object() {ParametrosFilter("INDSubIdCashReceipt").Value}
+            CargarDataSource()
+        End If
+
+        Me.INDLblUserPrint.Text = "Usuario Impresión : " & IndigoSessionValues.UserIndigo & " - " & IndigoSessionValues.UserIndigoName
+        Me.INDLblCompany.Text = IndigoSessionValues.IndigoCompanyName
+        Me.INDLblNitCompany.Text = "Nit : " & IndigoSessionValues.IndigoCompanyNit
+        INDLblNumLetters.Text = Utils.Num2Text(Convert.ToDouble(GetCurrentColumnValue("Value"))).ToString & " PESOS M/CTE."
+        If INDUser.Count > 0 Then
+            INDLblCreationUser.Text = INDUser(0).CodeName
+        End If
+        Dim value As Decimal = 0
+        For Each item In indList
+            value += item.Value
+        Next
+
+        XrTableCell29.Text = String.Format("{0:c2}", value)
+    End Sub
+
+    Private Sub XrTable2_BeforePrint(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles XrTable2.BeforePrint
+        Dim table As XRTable = CType(sender, XRTable)
+        Dim row As XRTableRow = table.Rows(0)
+
+        If CType(indList(0), TreasuryPaymentMethodsXpo).PaymentMethodTypes <> 1 Then
+            Dim aux = XrTable2.WidthF
+            If row.Cells("XrTableCell6") IsNot Nothing Then
+                row.Cells.Remove(XrTableCell6)
+                XrTable2.WidthF = aux
+            End If
+        End If
+
+
+        Dim TreausuryCashReceipts As New TreasuryCashReceiptsXpo
+
+        TreausuryCashReceipts = CType(indList(0), TreasuryPaymentMethodsXpo).IdCashReceipt
+
+        Dim TmpListTreasuryCashReceiptDetailsXpo = TreausuryCashReceipts.TreasuryCashReceiptDetailsXpo.ToList()
+
+        For Each ObjTreasuryCashReceiptDetailsXpo As TreasuryCashReceiptDetailsXpo In TmpListTreasuryCashReceiptDetailsXpo
+            If ObjTreasuryCashReceiptDetailsXpo.TreasuryCashReceiptDetailAccountPayableXpo.ToList().Count > 0 Then
+                DetailReport9.Visible = True
+                'Dim aux = XrTable14.WidthF
+                'If row.Cells("XrTableCell17") IsNot Nothing Then
+                '    row.Cells.Remove(XrTableCell17)
+                '    XrTable14.WidthF = aux
+                'End If
+            Else
+                DetailReport9.Visible = False
+            End If
+        Next
+
+
+
+    End Sub
+End Class

@@ -1,0 +1,569 @@
+﻿Imports System.Windows.Forms
+Imports DevExpress.XtraEditors.Design
+Imports DevExpress.XtraEditors
+Imports DevExpress.Data
+Imports Presentation.Payroll.MVP
+Imports Presentation.Base
+Imports Infrastructure.CrossCutting.Base
+Imports Domain.Payroll.Entities
+Imports System.Resources
+Imports Presentation.Controls
+Imports Presentation.Base.Eform
+Imports Presentation.Base.Eresources
+Imports Infrastructure.CrossCutting.Resources
+Imports Presentation.Base.BaseClass
+Imports System.ComponentModel
+Imports Infrastructure.CrossCutting.Exceptions
+Imports Domain.Base.Entities
+Imports Presentation.Common
+Imports Presentation.Common.MVP
+Imports Presentation.Controls.MVP
+Imports DevExpress.Xpo
+Imports DevExpress.Spreadsheet
+Imports System.Text
+Imports Domain.Entities
+Imports System.IO
+Imports Infrastructure.Data.Xpo.PayrollRepository
+Imports Infrastructure.Data.Xpo
+
+Public Class FrmMassiveContractExtension
+
+    Private bwMassivePayrollDatas As BackgroundWorker = New BackgroundWorker
+
+    ''' <summary>
+    ''' coleccion de filas que se van a procesar
+    ''' </summary>
+    ''' <remarks></remarks>
+    Dim rows As RowCollection
+
+    ''' <summary>
+    ''' Representa al listado de los registros de copiar y pegar
+    ''' </summary>
+    Private RowsPasteToGrid As List(Of List(Of String))
+
+    ''' <summary>
+    ''' Listado del CopyPaste
+    ''' </summary>
+    Dim ListCopyPaste As List(Of List(Of String))
+
+    ''' <summary>
+    ''' listado de las filas que se van a procesar y a validar
+    ''' </summary>
+    ''' <remarks></remarks>
+    Dim listRows As New List(Of ImportFileRow)()
+
+    ''' <summary>
+    ''' ruta del archivo de excel
+    ''' </summary>
+    ''' <remarks></remarks>
+    Dim contractPath As String = Nothing
+
+    ''' <summary>
+    ''' Permite saber si viene desde copiar y pegar o de importar archivo
+    ''' </summary>
+    Private IsCopyPaste As Boolean
+
+    ''' <summary>
+    ''' Listado que devuelve el sp que valida el excel con los registros en OK
+    ''' </summary>
+    Private ListSP_ImportFileAgreements_Result As List(Of SP_ValidateMassiveManualConcepts_Result)
+
+    ''' <summary>
+    ''' Listado de errores que devuelve el sp
+    ''' </summary>
+    Private ListErrors As List(Of Tuple(Of String, Integer))
+
+    ''' <summary>
+    ''' Resultado de la consulta al sp
+    ''' </summary>
+    Private validationResult As List(Of SP_ValidateMassiveContractExtension_Result)
+
+    Private _MassiveManualConcepts As List(Of SP_GetMassiveContractExtension_Result)
+
+    Private _DTExcel As DataTable
+
+#Region "Builder"
+
+    Public Sub New()
+        ' This call is required by the designer.
+        InitializeComponent()
+        ' Add any initialization after the InitializeComponent() call.
+
+        AddHandler bwMassivePayrollDatas.DoWork, AddressOf bwListPayments_DoWork
+        AddHandler bwMassivePayrollDatas.RunWorkerCompleted, AddressOf bwInitialBalance_RunWorkerCompleted
+    End Sub
+
+#End Region
+
+    Private Sub Frm_Disposed(sender As Object, e As EventArgs) Handles MyBase.Disposed
+        bwMassivePayrollDatas = Nothing
+        rows = Nothing
+        RowsPasteToGrid = Nothing
+        ListCopyPaste = Nothing
+        listRows = Nothing
+        myStream = Nothing
+        IsCopyPaste = Nothing
+        ListSP_ImportFileAgreements_Result = Nothing
+        ListErrors = Nothing
+        validationResult = Nothing
+    End Sub
+
+
+    Private Sub FrmMassiveManualConcepts_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        Dim ListActions As New List(Of eAcciones)
+        ListActions.Add(eAcciones.Remove)
+        IndigoGridView1.SetListAcction(INDviewInfo, ListActions)
+        BarButtonsConfigure()
+        GridColumn5 = Window.Utils.FormatGrid(GridColumn5, LoadPayrollSettings.CurrencyId.Abbreviation)
+    End Sub
+    Public Function LoadPayrollSettings() As PayrollSettingsXpo
+        Return XpoServiceEx.Instance(indigo.TransactionalContainer).PayrollService.GetCollection(Of PayrollSettingsXpo).FirstOrDefault()
+    End Function
+
+    Private Sub bwInitialBalance_RunWorkerCompleted(ByVal sender As Object, ByVal e As RunWorkerCompletedEventArgs)
+        If e.Cancelled Then 'Si hubo alguna cancelación
+            AsyncLoader(False)
+            Mensaje(EeventViewerImages.Advertencia) = "No hay datos en el listado para poder validar"
+            Exit Sub
+        End If
+
+        AsyncLoader(False)
+
+        'Se asigna el listado del sp a la rejilla
+        INDgcInformation.DataSource = Nothing
+        INDgcInformation.DataSource = _MassiveManualConcepts
+
+        'Se valida que si hay errores se despliegue el form de errores con los mensajes
+        If ListErrors IsNot Nothing AndAlso ListErrors.Count > 0 Then
+            Using formulario As New FrmListErrors(ListErrors)
+                formulario.StartPosition = FormStartPosition.CenterParent
+                Dim transparent As New FrmTransparent(formulario, False)
+                Me.Cursor = System.Windows.Forms.Cursors.Default
+                transparent.ShowDialog(Me)
+            End Using
+        End If
+    End Sub
+
+    ''' <summary>
+    ''' Inicia el backgroundWorker para consultar el listado de pagos
+    ''' </summary>
+    ''' <param name="sender"></param>
+    ''' <param name="e"></param>
+    ''' <remarks></remarks>
+    Private Sub bwListPayments_DoWork(ByVal sender As Object, ByVal e As DoWorkEventArgs)
+        e.Cancel = False
+
+        'Se instancia el listado que se va a enviar para validar la info
+        listRows = New List(Of ImportFileRow)
+
+        'Se agrega las filas del excel al listado que se va a enviar
+        If IsCopyPaste Then 'Si viene desde CopyPaste
+            SetRowCopyPaste(0, ListCopyPaste.Count - 1)
+        Else 'Si viene desde importar archivo
+            SetRow(1, rows.LastUsedIndex + 1)
+        End If
+
+        If listRows Is Nothing OrElse listRows.Count = 0 Then 'Validamos que haya valores en el listado
+            e.Cancel = True
+            Exit Sub
+        End If
+
+        Using model As New MMassiveContract(Me.Tag)
+            validationResult = model.ValidateMassiveContractExtension(listRows)
+            If validationResult.Count > 0 Then
+                ListErrors = New List(Of Tuple(Of String, Integer))
+                For Each linea As SP_ValidateMassiveContractExtension_Result In validationResult
+                    Dim mensaje As String = String.Format("{0}. {1}. Columna: {2}. Valor: {3}", linea.Linea, linea.Mensaje, linea.Columna, linea.Valor)
+                    ListErrors.Add(New Tuple(Of String, Integer)(mensaje, 2))
+                Next
+                _MassiveManualConcepts = New List(Of SP_GetMassiveContractExtension_Result)
+            Else
+                ListErrors = Nothing
+                _MassiveManualConcepts = model.GetMassiveContractExtension(listRows)
+            End If
+        End Using
+    End Sub
+
+
+    ''' <summary>
+    ''' Obtiene el registro de la fila y lo inserta en el listado
+    ''' </summary>
+    ''' <param name="indexSend"></param>
+    ''' <param name="indexEnd"></param>
+    Private Sub SetRow(indexSend As Integer, indexEnd As Integer)
+        For i As Integer = indexSend To indexEnd
+            If (From info In rows.Item(i) Where info.Value.ToObject() IsNot Nothing Select info).Count > 0 Then
+                listRows.Add(New ImportFileRow With {.IndexRow = i + 1, .Row = rows.Item(i).SpreadsheetRowToList(55)})
+            End If
+        Next
+    End Sub
+
+    ''' <summary>
+    ''' Metodo que convierte el listado del CopyPaste al listado que se envia al sp para que valide la info
+    ''' </summary>
+    ''' <param name="indexSend"></param>
+    ''' <param name="indexEnd"></param>
+    Private Sub SetRowCopyPaste(indexSend As Integer, indexEnd As Integer)
+        For i As Integer = indexSend To indexEnd
+            listRows.Add(New ImportFileRow With {.IndexRow = i + 1, .Row = ConvertInfo(ListCopyPaste(i))})
+        Next
+    End Sub
+
+    ''' <summary>
+    ''' Convierte la información del CopyPaste a objeto de la entidad del listado que se envia al sp
+    ''' </summary>
+    ''' <returns></returns>
+    Private Function ConvertInfo(data As List(Of String)) As List(Of Object)
+        Dim res As New List(Of Object)
+        For x As Integer = 0 To data.Count - 1
+            res.Add(data(x))
+        Next
+        Return res
+    End Function
+
+
+#Region "PasteToGrid"
+
+    ''' <summary>
+    ''' Evento que se dispara al presionar control + v sobre la rejilla de información
+    ''' </summary>
+    ''' <param name="sender"></param>
+    ''' <param name="e"></param>
+    Private Sub INDviewInfo_KeyDown(sender As Object, e As KeyEventArgs) Handles INDviewInfo.KeyDown
+        If e.Control AndAlso e.KeyCode = Keys.V Then 'Ctrl+V
+            If Clipboard.ContainsText Then
+                If Clipboard.GetText() IsNot Nothing AndAlso Not Clipboard.GetText().Trim().Equals(String.Empty) Then
+                    RowsPasteToGrid = New List(Of List(Of String))
+                    GetRows()
+                    PasteToGrid()
+                End If
+            End If
+        End If
+    End Sub
+
+    ''' <summary>
+    ''' Obtiene los registros del excel
+    ''' </summary>
+    Private Sub GetRows()
+        'Se obtiene el objeto del clip board
+        Dim dataObject = Clipboard.GetDataObject()
+
+        'Se convierte el objeto en formato html, se hace de esta manera porque de otras formas no me traía las celdas finales en blanco
+        Dim dataHtml As String = dataObject.GetData(DataFormats.Html)
+
+        'Si no encuentra la tabla dentro de lo copiado se sale
+        If dataHtml.IndexOf("<tr") < 0 Then
+            Exit Sub
+        End If
+
+        'Se obtiene la nueva cadena de tr
+        Dim trHtmlString As String = dataHtml.Substring(dataHtml.IndexOf("<tr"), dataHtml.LastIndexOf("/tr>") - dataHtml.IndexOf("<tr") + "/tr>".Length)
+
+        'Se obtiene las lineas con el tr
+        Dim linesHtml() As String = Split(trHtmlString, "/tr>" + Microsoft.VisualBasic.Constants.vbCrLf)
+
+        'Se recorre el string de tr
+        For Each line As String In linesHtml
+            'Se obtiene la nueva cadena de td
+            Dim tdHtmlString As String = line.Substring(line.IndexOf("<td"), line.LastIndexOf("/td>") - line.IndexOf("<td") + "/td>".Length)
+
+            'Se obtiene el array con los td para poder sacar los valores
+            Dim items() As String = Split(tdHtmlString, "</td>")
+
+            'Array final que se agrega al listado
+            Dim finallyArray As New List(Of String)
+
+            'Se recorre los items para poder armar el array final
+            For Each lineTd As String In items
+                If Not (lineTd IsNot Nothing AndAlso lineTd IsNot String.Empty) Then 'Si la linea trae vacío
+                    Continue For
+                End If
+                'Se declara el valor para el listado final
+                Dim valueString As String = ""
+                If ((lineTd.Length - 1) - lineTd.LastIndexOf(">")) > 0 Then 'Si trae el valor al final
+                    valueString = lineTd.Substring(lineTd.LastIndexOf(">"), (lineTd.Length - 1) - lineTd.LastIndexOf(">") + 1) 'Se obtiene el valor
+                    valueString = valueString.Replace(">", "") 'Se reemplaza el valor de > en el valor final con vacio
+                    valueString = valueString.Replace("&nbsp;", "")
+                End If
+                'Se agrega al listado
+                finallyArray.Add(valueString)
+            Next
+            'Se agrega al listado final el listado de string que se armó
+            RowsPasteToGrid.Add(New List(Of String)(finallyArray))
+        Next
+    End Sub
+
+    ''' <summary>
+    ''' Método que se ejecuta al momento de pegar info a la rejilla desde un excel
+    ''' </summary>
+    Private Sub PasteToGrid()
+        AsyncLoader(True)
+
+        'Se asigna el listado del CopyPaste
+        ListCopyPaste = RowsPasteToGrid
+
+        'Si el listado no trae nd se sale del método
+        If Not (ListCopyPaste IsNot Nothing AndAlso ListCopyPaste.Count > 0) Then
+            AsyncLoader(False)
+            Exit Sub
+        End If
+
+        'Se llama el asyncrono para validar el excel siempre y cuando no haya un asyncrono en ejecución
+        If bwMassivePayrollDatas.IsBusy Then
+            AsyncLoader(False)
+            Mensaje(EeventViewerImages.Advertencia) = "No puede continuar porque hay un proceso que no ha terminado su ejecución"
+            Exit Sub
+        End If
+
+        'Si asigna el valor correspondiente a CopyPaste
+        IsCopyPaste = True
+
+        'Se ejecuta el asyncrono
+        bwMassivePayrollDatas.RunWorkerAsync()
+    End Sub
+
+    ''' <summary>
+    ''' Deshace los cambios en el form
+    ''' </summary>
+    Private Sub Deshacer()
+        BarButtonsConfigure()
+        CleanControls()
+    End Sub
+
+    ''' <summary>
+    ''' Configura los botones de la barra botones
+    ''' </summary>
+    Private Sub BarButtonsConfigure()
+        Me.BarraBotones.PrepareToolbar(eAction.OnlySave)
+        Me.BarraBotones.OcultarBotonesSinPermisos(EbuttonsWithoutPermission.GestionDocumental) = True
+        Me.BarraBotones.OcultarBotonesSinPermisos(EbuttonsWithoutPermission.Auditoria) = True
+        Me.BarraBotones.OcultarBotonesSinPermisos(EbuttonsWithoutPermission.Confirmar) = False
+        Me.BarraBotones.OcultarBotonesSinPermisos(EbuttonsWithoutPermission.Guardar) = True
+    End Sub
+
+    ''' <summary>
+    ''' Limpia los controles
+    ''' </summary>
+    Private Sub CleanControls()
+        ListSP_ImportFileAgreements_Result = Nothing
+        ListErrors = Nothing
+        myStream = String.Empty
+        INDgcInformation.DataSource = Nothing
+        rows = Nothing
+        listRows = Nothing
+        validationResult = Nothing
+        ListCopyPaste = Nothing
+        RowsPasteToGrid = Nothing
+    End Sub
+
+    ''' <summary>
+    ''' Metodo que importa los items del excel a la rejilla
+    ''' </summary>
+    ''' <remarks></remarks>
+    Private Sub ImportFile()
+        'Configuramos el cuadro de dialogo para importar el archivo
+        Dim openFileDialog1 As New OpenFileDialog()
+        openFileDialog1.InitialDirectory = "c:\"
+        openFileDialog1.Filter = "Microsoft Excel 2003 (*.xls)|*.xls|Microsoft Excel 2007 (*.xlsx)|*.xlsx"
+        openFileDialog1.FilterIndex = 2
+        openFileDialog1.RestoreDirectory = False
+        openFileDialog1.Title = "Importar Archivo"
+        AsyncLoader(True)
+
+        'Si el ususario cancela la operación
+        If openFileDialog1.ShowDialog() = System.Windows.Forms.DialogResult.Cancel Then
+            AsyncLoader(False)
+            Exit Sub
+        End If
+
+        Try
+            'Obtengo la ruta del archivo
+            contractPath = openFileDialog1.FileName
+            If (contractPath Is Nothing OrElse contractPath.Trim().Equals(String.Empty)) Then 'Si la ruta es vacía
+                Mensaje(EeventViewerImages.Advertencia) = "Ruta de archivo vacía"
+                AsyncLoader(False)
+                Exit Sub
+            End If
+
+            'Se obtiene el documento excel
+            Dim sddf = New DevExpress.XtraSpreadsheet.SpreadsheetControl()
+            sddf.AllowDrop = False
+            sddf.LoadDocument(contractPath)
+            Dim workBook As IWorkbook = sddf.Document
+
+            rows = workBook.Worksheets(0).Rows
+            If rows.LastUsedIndex = 0 Then
+                Mensaje(EeventViewerImages.Advertencia) = "No se encontraron registros en el archivo"
+                AsyncLoader(False)
+                Exit Sub
+            End If
+
+        Catch ex As Exception
+            AsyncLoader(False)
+            Mensaje(EeventViewerImages.Advertencia) = "No se pudo leer el archivo"
+            Exit Sub
+        End Try
+
+        'Se llama el asyncrono para validar el excel siempre y cuando no haya un asyncrono en ejecución
+        If bwMassivePayrollDatas.IsBusy Then
+            AsyncLoader(False)
+            Mensaje(EeventViewerImages.Advertencia) = "No puede continuar porque hay un proceso que no ha terminado su ejecución"
+            Exit Sub
+        End If
+
+        'Si asigna el valor correspondiente a importacion
+        IsCopyPaste = False
+
+        'Se ejecuta el asyncrono
+        bwMassivePayrollDatas.RunWorkerAsync()
+    End Sub
+
+
+#End Region
+
+#Region "MenuContext"
+
+    ''' <summary>
+    ''' Menu con botón en la rejilla
+    ''' </summary>
+    ''' <param name="sender"></param>
+    ''' <param name="e"></param>
+    Private Sub IndigoGridView1_Click_ButtonAction(sender As Object, e As EventArgs) Handles IndigoGridView1.Click_ButtonAction
+        DeleteItem()
+    End Sub
+
+    ''' <summary>
+    ''' Menu desplegable en la rejilla
+    ''' </summary>
+    ''' <param name="sender"></param>
+    ''' <param name="e"></param>
+    Private Sub IndigoGridView1_ContexMenuActions(sender As Object, e As EventArgs) Handles IndigoGridView1.ContexMenuActions
+        DeleteItem()
+    End Sub
+
+#End Region
+
+    Private Sub DeleteItem()
+        If MessageIndigo.Show("Está seguro de eliminar?", MessageType.Question, Me.Text, Botones.SiNo) = System.Windows.Forms.DialogResult.No Then
+            Exit Sub
+        End If
+        If INDviewInfo.GetSelectedRows IsNot Nothing AndAlso INDviewInfo.GetSelectedRows.Length > 0 Then
+            Dim ListDelete As New List(Of SP_GetMassiveContractExtension_Result)
+            For i = 0 To INDviewInfo.GetSelectedRows.Count - 1
+                Dim row As SP_GetMassiveContractExtension_Result = INDviewInfo.GetRow(INDviewInfo.GetSelectedRows(i))
+                ListDelete.Add(row)
+            Next
+            ListDelete.ForEach(Sub(x) _MassiveManualConcepts.Remove(x))
+            INDgcInformation.RefreshDataSource()
+        End If
+    End Sub
+
+#Region "Click"
+    Private Sub INDBtnImportFile_Click(sender As Object, e As EventArgs) Handles INDBtnImportFile.Click
+        ImportFile()
+    End Sub
+#End Region
+
+#Region "Bar Button Events"
+
+    ''' <summary>
+    ''' Handles the Load event of the BarraBotones control.
+    ''' </summary>
+    ''' <param name="sender">The source of the event.</param>
+    ''' <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
+    Private Sub BarraBotones_Load(sender As Object, e As EventArgs) Handles BarraBotones.Load
+        Me.BarraBotones.ActualizarPermisosBarra(MyBase.Tag.ToString)
+    End Sub
+
+    ''' <summary>
+    ''' Deshacer de la barra botones
+    ''' </summary>
+    Private Sub BarraBotones_ClickDeshacer() Handles BarraBotones.ClickDeshacer
+        Deshacer()
+    End Sub
+
+    ''' <summary>
+    ''' Guarda los saldos iniciales
+    ''' </summary>
+    Private Sub BarraBotones_ClickConfirmar() Handles BarraBotones.ClickConfirmar
+        GuardarContractExtension()
+    End Sub
+
+    Private Sub GuardarContractExtension()
+        Using model As New MMassiveContract(Me.Tag)
+            model.SaveMassiveContractExtension(listRows)
+            Mensaje(EeventViewerImages.Informacion) = "Prórrogas salvadas exitosamente"
+            INDgcInformation.DataSource = Nothing
+        End Using
+    End Sub
+
+#End Region
+
+
+    ''' <summary>
+    ''' Propiedad para enviar mensajes al visor de eventos
+    ''' </summary>
+    ''' <param name="Icono"></param>
+    ''' <value></value>
+    ''' <remarks></remarks>
+    Public WriteOnly Property Mensaje(Icono As Base.EeventViewerImages) As String
+        Set(value As String)
+            If Icono = EeventViewerImages.Advertencia Then
+                MessageIndigo.Show(value, MessageType.Warning, Me.Text)
+            ElseIf Icono = EeventViewerImages.Informacion Then
+                MessageIndigo.Show(value, MessageType.Information, Me.Text)
+            ElseIf Icono = EeventViewerImages.MensajeError Then
+                MessageIndigo.Show(value, MessageType.Errores, Me.Text, Botones.Aceptar, "")
+            End If
+        End Set
+    End Property
+
+    'Private Sub INDEsbBills_Click(sender As Object, e As EventArgs) Handles INDEsbBills.Click
+    '    Dim fileName As String = "Prórrogas.xlsx"
+    '    Dim sfd As New SaveFileDialog()
+    '    sfd.Filter = "Archivos de Excel |*.xlsx"
+    '    sfd.FileName = fileName
+    '    If sfd.ShowDialog() = DialogResult.OK Then
+    '        File.Copy(fileName, sfd.FileName, True)
+    '    End If
+    'End Sub
+    Private Sub INDEsbBills_Click(sender As Object, e As EventArgs) Handles INDEsbBills.Click
+        Dim cols As New List(Of String)(New String() {
+                                        "Número Identificación",
+                                        "Código Riesgos Profesionales",
+                                        "Código Centro Trabajo",
+                                        "Código Razón de Modificación de Contrato",
+                                        "Código Cargo",
+                                        "Código Unidad Funcional",
+                                        "Código Tipo Contrato",
+                                        "Fecha Inicio Otro Si",
+                                        "Fecha Fin Contrato",
+                                        "Salario Básico",
+                                        "Periodo de Pago",
+                                        "Forma de Pago",
+                                        "Código Grupo",
+                                        "Código Banco",
+                                        "# Cuenta Bancaria",
+                                        "Tipo Cuenta Bancaria",
+                                        "Horas Diarias",
+                                        "Contingencia",
+                                        "Código Fondo Salud",
+                                        "Código Fondo Pensión",
+                                        "Código Fondo Cesantias",
+                                        "Código Fondo ARL",
+                                        "Código Fondo Caja Compensacion"})
+        Dim sfd As New SaveFileDialog()
+        sfd.Filter = "Archivos de Excel |*.xlsx"
+        If sfd.ShowDialog() = DialogResult.OK Then
+            Dim wbook As New Workbook
+            For i As Integer = 0 To cols.Count - 1
+                wbook.Worksheets(0).Rows(0)(i).Value = cols(i)
+            Next
+            wbook.SaveDocument(sfd.FileName, DocumentFormat.Xlsx)
+            If MessageIndigo.Show("¿Desea abrir el archivo?", MessageType.Question, Me.Text, Botones.SiNo) = System.Windows.Forms.DialogResult.Yes Then
+                Process.Start(sfd.FileName)
+            End If
+        End If
+
+    End Sub
+End Class

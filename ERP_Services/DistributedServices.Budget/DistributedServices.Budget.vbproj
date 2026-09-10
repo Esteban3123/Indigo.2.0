@@ -1,0 +1,302 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{1B753D9D-9D71-45AE-B97F-0618E96323EC}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>DistributedServices.Budget</RootNamespace>
+    <AssemblyName>DistributedServices.Budget</AssemblyName>
+    <FileAlignment>512</FileAlignment>
+    <MyType>Windows</MyType>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DocumentationFile>DistributedServices.Budget.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DocumentationFile>DistributedServices.Budget.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionExplicit>On</OptionExplicit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionCompare>Binary</OptionCompare>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionStrict>Off</OptionStrict>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionInfer>On</OptionInfer>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debugcito|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\Debugcito\</OutputPath>
+    <DocumentationFile>DistributedServices.Budget.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DocumentationFile>DistributedServices.Budget.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DocumentationFile>DistributedServices.Budget.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debugcito|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x64\Debugcito\</OutputPath>
+    <DocumentationFile>DistributedServices.Budget.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.Practices.Unity, Version=2.0.414.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\DLL\Microsoft.Practices.Unity.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Core" />
+  </ItemGroup>
+  <ItemGroup>
+    <Import Include="Microsoft.VisualBasic" />
+    <Import Include="System" />
+    <Import Include="System.Collections" />
+    <Import Include="System.Collections.Generic" />
+    <Import Include="System.Data" />
+    <Import Include="System.Diagnostics" />
+    <Import Include="System.Linq" />
+    <Import Include="System.Xml.Linq" />
+    <Import Include="System.Threading.Tasks" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="BudgetService.AvailabilityExtension.vb" />
+    <Compile Include="BudgetService.CPCCatalog.vb" />
+    <Compile Include="BudgetService.CCPET.vb" />
+    <Compile Include="BudgetService.CopyBase.vb" />
+    <Compile Include="BudgetService.PublicPolicy.vb" />
+    <Compile Include="BudgetService.PrivateBudget.vb" />
+    <Compile Include="BudgetService.PrivateBudgetItemsStructure.vb" />
+    <Compile Include="BudgetService.PaymentOrder.vb" />
+    <Compile Include="BudgetService.AnnualizedCashFlow.vb" />
+    <Compile Include="BudgetService.AnnualizedCashFlowModification.vb" />
+    <Compile Include="BudgetService.AnnualizedCashFlowModificationDetail.vb" />
+    <Compile Include="BudgetService.AnnualizedCashFlowTransfer.vb" />
+    <Compile Include="BudgetService.AvailabilityModification.vb" />
+    <Compile Include="BudgetService.Budget.vb" />
+    <Compile Include="BudgetService.BudgetModification.vb" />
+    <Compile Include="BudgetService.ObligationModificationDetail.vb" />
+    <Compile Include="BudgetService.ObligationModification.vb" />
+    <Compile Include="BudgetService.BudgetTransferDetail.vb" />
+    <Compile Include="BudgetService.CollectionDetail.vb" />
+    <Compile Include="BudgetService.CollectionModification.vb" />
+    <Compile Include="BudgetService.Commitment.vb" />
+    <Compile Include="BudgetService.CommitmentModification.vb" />
+    <Compile Include="BudgetService.ConfirmationDocuments.vb" />
+    <Compile Include="BudgetService.Entry.vb" />
+    <Compile Include="BudgetService.BudgetTransfer.vb" />
+    <Compile Include="BudgetService.LevelCategory.vb" />
+    <Compile Include="BudgetService.Obligation.vb" />
+    <Compile Include="BudgetService.ObligationDetail.vb" />
+    <Compile Include="BudgetService.Recognition.vb" />
+    <Compile Include="BudgetService.RecognitionModification.vb" />
+    <Compile Include="BudgetService.ReimbursementResource.vb" />
+    <Compile Include="BudgetService.Reports.vb" />
+    <Compile Include="BudgetService.Sequense.vb" />
+    <Compile Include="BudgetService.BudgetConcept.vb" />
+    <Compile Include="BudgetService.BudgetDependency.vb" />
+    <Compile Include="BudgetService.BudgetItem.vb" />
+    <Compile Include="BudgetService.ExpenseType.vb" />
+    <Compile Include="BudgetService.FinancialSource.vb" />
+    <Compile Include="BudgetService.Suspension.vb" />
+    <Compile Include="BudgetService.SuspensionCancellation.vb" />
+    <Compile Include="BudgetService.vb" />
+    <Compile Include="BudgetService.BlockRecordBudget.vb" />
+    <Compile Include="BudgetService.Availability.vb" />
+    <Compile Include="Contracts\IBudgetServiceAvailability.vb" />
+    <Compile Include="Contracts\IBudgetServiceAvailabilityExtension.vb" />
+    <Compile Include="Contracts\IBudgetServiceAvailabilityModification.vb" />
+    <Compile Include="Contracts\IBudgetServiceBudget.vb" />
+    <Compile Include="Contracts\IBudgetServiceCPCCatalog.vb" />
+    <Compile Include="Contracts\IBudgetServiceCCPET.vb" />
+    <Compile Include="Contracts\IBudgetServicePublicPolicy.vb" />
+    <Compile Include="Contracts\IBudgetServicePrivateBudget.vb" />
+    <Compile Include="Contracts\IBudgetServicePrivateBudgetItemsStructure.vb" />
+    <Compile Include="Contracts\IBudgetServiceCopyBase.vb" />
+    <Compile Include="Contracts\IBudgetServiceObligationModificationDetail.vb" />
+    <Compile Include="Contracts\IBudgetServiceObligationModification.vb" />
+    <Compile Include="Contracts\IBudgetServiceCollectionModification.vb" />
+    <Compile Include="Contracts\IBudgetSequense.vb" />
+    <Compile Include="Contracts\IBudgetServiceAnnualizedCashFlow.vb" />
+    <Compile Include="Contracts\IBudgetServiceAnnualizedCashFlowModification.vb" />
+    <Compile Include="Contracts\IBudgetServiceAnnualizedCashFlowModificationDetail.vb" />
+    <Compile Include="Contracts\IBudgetServiceAnnualizedCashFlowTransfer.vb" />
+    <Compile Include="Contracts\IBudgetServiceBudgetConcept.vb" />
+    <Compile Include="Contracts\IBudgetServiceBudgetDependency.vb" />
+    <Compile Include="Contracts\IBudgetServiceBudgetItem.vb" />
+    <Compile Include="Contracts\IBudgetServiceBudgetModification.vb" />
+    <Compile Include="Contracts\IBudgetServiceBudgetTransferDetail.vb" />
+    <Compile Include="Contracts\IBudgetServiceBudgetTransfer.vb" />
+    <Compile Include="Contracts\IBudgetServiceCollection.vb" />
+    <Compile Include="Contracts\IBudgetServiceCollectionDetail.vb" />
+    <Compile Include="Contracts\IBudgetServiceCollectionModificationDetail.vb" />
+    <Compile Include="Contracts\IBudgetServiceCommitment.vb" />
+    <Compile Include="Contracts\IBudgetServiceCommitmentModification.vb" />
+    <Compile Include="Contracts\IBudgetServiceConfirmationDocuments.vb" />
+    <Compile Include="Contracts\IBudgetServiceEarningsType.vb" />
+    <Compile Include="Contracts\IBudgetServiceEntry.vb" />
+    <Compile Include="Contracts\IBudgetServiceExpenseType.vb" />
+    <Compile Include="Contracts\IBudgetServiceLevelCategory.vb" />
+    <Compile Include="Contracts\IBudgetServiceObligation.vb" />
+    <Compile Include="Contracts\IBudgetServiceObligationDetail.vb" />
+    <Compile Include="Contracts\IBudgetServicePaymentOrder.vb" />
+    <Compile Include="Contracts\IBudgetServiceRecognition.vb" />
+    <Compile Include="Contracts\IBudgetServiceRecognitionModification.vb" />
+    <Compile Include="Contracts\IBudgetServiceReimbursementResource.vb" />
+    <Compile Include="Contracts\IBudgetServiceReports.vb" />
+    <Compile Include="Contracts\IBudgetServiceSuspension.vb" />
+    <Compile Include="Contracts\IBudgetServiceSuspensionCancellation.vb" />
+    <Compile Include="Contracts\IBudgetServiceValidity.vb" />
+    <Compile Include="Contracts\IBudgetServiceBudgetInstitutions.vb" />
+    <Compile Include="Contracts\IBudgetServiceFinancialSource.vb" />
+    <Compile Include="Contracts\IBudgetService.vb" />
+    <Compile Include="BudgetService.BudgetInstitutions.vb" />
+    <Compile Include="BudgetService.Validity.vb" />
+    <Compile Include="Contracts\IBudgetServiceBlockRecordBudget.vb" />
+    <Compile Include="BudgetService.EarningsType.vb" />
+    <Compile Include="Contracts\IButgetServiceSettingBudget.vb" />
+    <Compile Include="My Project\AssemblyInfo.vb" />
+    <Compile Include="My Project\Application.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Application.myapp</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="My Project\Resources.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="My Project\Settings.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="Unity\Container.vb" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="My Project\Resources.resx">
+      <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.vb</LastGenOutput>
+      <CustomToolNamespace>My.Resources</CustomToolNamespace>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="BudgetService.SettingBudget.vb" />
+    <Compile Include="BudgetService.Collection.vb" />
+    <Compile Include="BudgetService.CollectionModificationDetail.vb" />
+    <None Include="app.config" />
+    <None Include="My Project\Application.myapp">
+      <Generator>MyApplicationCodeGenerator</Generator>
+      <LastGenOutput>Application.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="My Project\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <CustomToolNamespace>My</CustomToolNamespace>
+      <LastGenOutput>Settings.Designer.vb</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Application.Budget\Application.Budget.vbproj">
+      <Project>{ae94c086-82ba-42e7-9502-2fe42e3fd365}</Project>
+      <Name>Application.Budget</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DistributedServices.Authentication\DistributedServices.Authentication.vbproj">
+      <Project>{EBFDECA0-D6B3-470B-99AB-2CEE3C356117}</Project>
+      <Name>DistributedServices.Authentication</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Domain.Base.Entities\Domain.Base.Entities.vbproj">
+      <Project>{78734d29-0073-4d48-9d0b-2362d0243e36}</Project>
+      <Name>Domain.Base.Entities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Domain.Base\Domain.Base.vbproj">
+      <Project>{8157F242-6A69-44C1-A9AC-19F0EE5CB8A2}</Project>
+      <Name>Domain.Base</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Domain.Entities.Service\Domain.Entities.Service.vbproj">
+      <Project>{99e9ab54-bb1b-4279-99e7-b4b8e7068ce7}</Project>
+      <Name>Domain.Entities.Service</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Domain.Entities\Domain.Entities.vbproj">
+      <Project>{0551aef4-ed84-4745-b00b-7475f26015cc}</Project>
+      <Name>Domain.Entities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastructure.CrossCutting.Audit\Infrastructure.CrossCutting.Audit.vbproj">
+      <Project>{d2b2306d-6404-46cd-8a22-f827f3e1b75c}</Project>
+      <Name>Infrastructure.CrossCutting.Audit</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastructure.CrossCutting.Base\Infrastructure.CrossCutting.Base.vbproj">
+      <Project>{2773d9f7-93bd-4520-9726-bce0d8875696}</Project>
+      <Name>Infrastructure.CrossCutting.Base</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastructure.Data.Base\Infrastructure.Data.Base.vbproj">
+      <Project>{69C4FE61-549B-42E8-ADAC-18D1CFC83FED}</Project>
+      <Name>Infrastructure.Data.Base</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastructure.Data.ModelRepository\Infrastructure.Data.ModelRepository.vbproj">
+      <Project>{a029ee5d-d97c-45a3-a213-43e17d1dbe0d}</Project>
+      <Name>Infrastructure.Data.ModelRepository</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

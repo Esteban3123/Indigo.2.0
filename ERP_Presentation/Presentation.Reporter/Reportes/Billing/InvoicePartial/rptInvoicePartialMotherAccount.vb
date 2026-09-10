@@ -1,0 +1,274 @@
+#Region "Imports"
+
+Imports System.Drawing.Printing
+Imports System.IO
+Imports DevExpress.XtraPrinting.BarCode
+Imports DevExpress.XtraReports.Parameters
+Imports DevExpress.XtraReports.UI
+Imports Infrastructure.CrossCutting.Base
+Imports Infrastructure.Data.Xpo
+Imports Presentation.Base
+Imports System.Globalization
+Imports Infrastructure.Data.Xpo.CrystalRepository
+Imports RestSharp
+Imports Domain.Billing.POCO
+Imports Infrastructure.Base.Security
+
+#End Region
+
+Public Class rptInvoicePartialMotherAccount
+    Implements IReport
+
+    Dim dictionarySum As New Dictionary(Of Integer, Integer)
+    Dim totalSum As Decimal = 0
+
+#Region "Properties"
+
+    Dim IndigoSessionValues As SessionValues = SessionValues.Instance
+
+    Public Property ParametrosReporte As Object() Implements IReport.ParametrosReporte
+
+    Const CNameReport = "Facturacion.CtrFolio"
+    Public ReadOnly Property NameReport As String Implements IReport.NameReport
+        Get
+            Return rptInvoicePartialMotherAccount.CNameReport
+        End Get
+    End Property
+
+    Public WriteOnly Property SetValueCodingServices As Integer
+        Set(value As Integer)
+            If Me.Parameters.Count > 0 Then
+                Me.Parameters("INDprCodingServices").Value = value
+            End If
+        End Set
+    End Property
+
+    Private _iNEMPRESU As INEMPRESU
+
+#End Region
+
+#Region "Load Data"
+
+    Public Sub CargarDataSource() Implements IReport.CargarDataSource
+        Try
+            Dim folioId As Integer? = ParametrosReporte(0)
+            Dim currencyId As Integer?
+            Dim dateTRM As Date?
+
+            If ParametrosReporte.Length > 2 Then
+                currencyId = ParametrosReporte(2)
+                dateTRM = ParametrosReporte(3)
+            End If
+
+            If Me.Parameters("INDCurrency").Value > 0 AndAlso currencyId Is Nothing Then
+                currencyId = Parameters("INDCurrency").Value
+            End If
+
+            If Me.Parameters("INDDateTRM").Value <> Date.MinValue AndAlso dateTRM Is Nothing Then
+                dateTRM = Parameters("INDDateTRM").Value
+            End If
+
+            Me._iNEMPRESU = XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).CrystalService.GetXPOObject(Of INEMPRESU)(Nothing)
+
+            Dim endpoint = SessionValues.Instance.GetEndpointByCode(EndpointCodes.Revenue_Cycle)
+            Dim client = New RestClient(String.Format("{0}/billing/GetVReportInvoicePartial/{1}/{2}/{3}", endpoint.UrlBase, folioId, currencyId, dateTRM?.ToString("yyyy-MM-dd")))
+            client.Authenticator = New BearerTokenAuthenticator()
+
+            Dim req = New RestRequest()
+            req.AddHeader("_ContainerName_", SessionValues.Instance.TransactionalContainer)
+            req.AddHeader("_ContainerHisName_", SessionValues.Instance.HisContainer)
+            Dim response = client.ExecuteAsync(Of ServiceResponse(Of InvoicePartialMasterAccount))(req)
+            response.Wait()
+
+
+            If response?.Result?.Data Is Nothing Then
+                Throw New Exception("No existen datos para generar el reporte")
+            End If
+
+            Me.DataSource = {response.Result.Data.Data}.ToList()
+
+        Catch ex As Exception
+            MessageIndigo.Show(GetExceptionDetails(ex), MessageType.Errores, Me.Text, Botones.Aceptar, "")
+        End Try
+    End Sub
+
+#End Region
+
+#Region "Methods"
+
+    Public Sub CargarImagenes() Implements IReport.CargarImagenes
+
+    End Sub
+
+    Public Function GetExceptionDetails(exception As Exception) As String
+        Dim properties = exception.[GetType]().GetProperties()
+        Dim fields = properties.[Select](Function([property]) New With {
+            Key .Name = [property].Name,
+            Key .Value = [property].GetValue(exception, Nothing)
+        }).[Select](Function(x) [String].Format("{0} : {1}", x.Name, If(x.Value IsNot Nothing, x.Value.ToString(), [String].Empty)))
+        Return [String].Join(vbLf, fields)
+    End Function
+
+#End Region
+
+#Region "Events"
+    Dim _culture As CultureInfo
+    Private Sub rptSaleInvoice_BeforePrint(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles MyBase.BeforePrint
+        dictionarySum = New Dictionary(Of Integer, Integer)
+
+        Dim ParametrosFilter As ParameterCollection = Me?.Parameters
+
+        If Me.Parameters.Count > 0 And Me.Parameters(0).Value > 0 Then
+            ParametrosReporte = New Object() {ParametrosFilter("INDRevenueControlDetailId").Value}
+            CargarDataSource()
+        End If
+
+        ''Se consulta si al menos uno tiene iva para mostrar la sección respectiva
+        Dim dataa As InvoicePartialMasterAccount = TryCast(Me.DataSource, List(Of InvoicePartialMasterAccount))?.First
+
+        If dataa Is Nothing Then
+            Exit Sub
+        End If
+
+        Dim subTotalValue As Decimal = dataa.SubTotalService
+        If TryCast(dataa.InvoicePartialDetail.ToList(), List(Of InvoicePartialDetailMasterAccount)).Any(Function(x) x.IvaPercentage IsNot Nothing) Then
+            GroupIvaDetailFooter.Visible = True
+            Dim detail = TryCast(dataa.InvoicePartialDetail.ToList(), List(Of InvoicePartialDetailMasterAccount))
+
+            Dim subIvaReport = TryCast(XrSubreport1.ReportSource.Report, rptInvoiceIvaDetail)
+            Dim dataOfTaxes = (From item In detail
+                               Group By item.IvaPercentage Into Group
+                               Select IvaPercentage, IvaTotalValue = Group.Sum(Function(y) y.IvaTotalValue),
+                                 GrossValue = Group.Sum(Function(y) y.NetWorth), BaseTypeName = New rptInvoiceIvaDetail().NameBaseType(IvaPercentage)) _
+                               .Where(Function(y) y.IvaPercentage IsNot Nothing)
+            subIvaReport.CustomDatasource = dataOfTaxes
+
+        End If
+
+        '*****Moneda********
+        Dim currencyAbbreviation As String
+        Dim currencyName As String
+        If String.IsNullOrEmpty(dataa.CurrencyAbbreviation) OrElse String.IsNullOrEmpty(dataa.CurrencyName) Then
+            currencyAbbreviation = IndigoSessionValues.CurrencyISO4217
+            currencyName = IndigoSessionValues.CurrencyName
+        Else
+            currencyAbbreviation = dataa.CurrencyAbbreviation
+            currencyName = dataa.CurrencyName
+        End If
+
+        INDXrCurrency.Text = currencyAbbreviation
+        _culture = CultureInfo.CurrentCulture.Clone()
+        _culture.NumberFormat = currencyAbbreviation.GetNumberFormat
+        ApplyLocalization(_culture)
+        '*********************
+
+        INDBcBarcode.Symbology = New Code128Generator()
+        INDBcBarcode.HeightF = 20
+
+        'Agrupar o detallar el reporte
+        If INDPrTypeReport.Value = 2 Then
+            ReportHeader1.Visible = False
+            INDGHDetail.Visible = False
+            Detail1.Visible = False
+        Else
+            ReportHeader1.Visible = True
+            INDGHDetail.Visible = True
+            Detail1.Visible = True
+
+            If INDPrGroupServices.Value = 1 AndAlso INDPrGroupProducts.Value = 1 Then
+                INDXrtDetail.Visible = False
+            Else
+                INDXrtDetail.Visible = True
+            End If
+        End If
+
+
+        If INDPrGroupServices.Value = 1 AndAlso INDPrGroupProducts.Value = 1 Then
+            INDXrtDetail.Visible = False
+            INDXrtDetailWithoutDate.Visible = True
+        Else
+            INDXrtDetail.Visible = True
+            INDXrtDetailWithoutDate.Visible = False
+        End If
+
+        INDPrNit.Value = IndigoSessionValues.IndigoCompanyNit
+        INDLblCompany.Text = IndigoSessionValues.IndigoCompanyName
+        INDLblCompanyPageHeader.Text = INDLblCompany.Text
+        INDLblNitCompanyPageHeader.Text = INDLblNitCompany.Text
+        InvoiceIvaReportId.Value = 3
+
+        '****ValueInLetters***
+        Dim totalValue As Decimal = TryCast(dataa.InvoicePartialDetail.ToList(), List(Of InvoicePartialDetailMasterAccount)).Sum(Function(f) f.GrandTotalSalesPrice)
+        Dim _integerPart As Integer = Int(totalValue)
+        Dim _decimalPart As Integer = Strings.Right(Format(totalValue - _integerPart, "0.00"), 2)
+        INDPrValueInLetters.Value = String.Format("{0} {1}{2}",
+                                                  Utils.Num2Text(_integerPart).ToString, currencyName.ToUpper(),
+                                                    If(_decimalPart > 0, $", CON {Utils.Num2Text(_decimalPart).ToString} {Utils.ListDecimalCurrency(currencyAbbreviation)}", ""))
+
+
+        Dim rewriteUserPrint = String.IsNullOrEmpty(IndigoSessionValues.UserIndigo)
+        Dim userCode = If(rewriteUserPrint, GetCurrentColumnValue("UserCode"), IndigoSessionValues.UserIndigo)
+        Dim userName = If(rewriteUserPrint, GetCurrentColumnValue("FullNameUser"), IndigoSessionValues.UserIndigoName)
+        INDUserImp.Text = "Usuario Impresión : " & userCode & " - " & userName
+
+        If _iNEMPRESU IsNot Nothing AndAlso Not String.IsNullOrEmpty(_iNEMPRESU.RouteLogoReportLeft) Then
+            XrPictureBox3.ImageUrl = _iNEMPRESU.RouteLogoReportLeft
+            XrPictureBox1.ImageUrl = _iNEMPRESU.RouteLogoReportLeft
+        End If
+
+        If _iNEMPRESU IsNot Nothing AndAlso Not String.IsNullOrEmpty(_iNEMPRESU.RouteLogoReportRight) Then
+            XrPictureBox4.ImageUrl = _iNEMPRESU.RouteLogoReportRight
+            XrPictureBox2.ImageUrl = _iNEMPRESU.RouteLogoReportRight
+        End If
+
+        'carga la definicion personalizada del reporte, si este viene del rptSubSaleInvoiceAll
+        If ParametrosFilter?("INDfromSaleInvoiceAll")?.Value AndAlso Directory.Exists(ConfigurationFile.Instance.ReportsPath) Then
+            Dim _classRpt = New rptSubSaleInvoiceAll()
+            Dim reportCustomer = _classRpt.LoadCustomLayout(Me.Tag, Me.GetType().Name)
+            If reportCustomer IsNot Nothing Then
+                Me.LoadLayout(reportCustomer)
+            End If
+        End If
+    End Sub
+
+    Private Sub XrTableRow18_BeforePrint(sender As Object, e As System.ComponentModel.CancelEventArgs)
+        If String.IsNullOrEmpty(GetCurrentColumnValue("Observation")) Then
+            e.Cancel = True
+            Exit Sub
+        End If
+    End Sub
+
+    Private Sub XrTable7_BeforePrint(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles XrTable7.BeforePrint
+        If DetailReport.GetCurrentColumnValue("SurgicalId") Is Nothing Then
+            e.Cancel = True
+            Exit Sub
+        End If
+    End Sub
+
+    'Private Sub XrTableRow45_BeforePrint(sender As Object, e As System.ComponentModel.CancelEventArgs)
+    '    Dim currentRow As InvoicePartialMasterAccount = TryCast(Me.GetCurrentRow(), InvoicePartialMasterAccount)
+    '    If currentRow IsNot Nothing AndAlso currentRow.IsMasterAccount = 2 Then
+    '        e.Cancel = True
+    '        Exit Sub
+    '    End If
+    'End Sub
+
+    Private Sub XrTableCell94_SummaryRowChanged(sender As Object, e As EventArgs) Handles XrTableCell94.SummaryRowChanged
+        If Not dictionarySum.ContainsKey(GetCurrentColumnValue("invoiceDetailId")) Then
+            totalSum += Convert.ToDecimal(GetCurrentColumnValue("INDTotalGroup"))
+            dictionarySum.Add(GetCurrentColumnValue("invoiceDetailId"), GetCurrentColumnValue("invoiceDetailId"))
+        End If
+    End Sub
+
+    Private Sub XrTableCell94_SummaryGetResult(sender As Object, e As DevExpress.XtraReports.UI.SummaryGetResultEventArgs) Handles XrTableCell94.SummaryGetResult
+        e.Result = totalSum
+        e.Handled = True
+    End Sub
+
+    Private Sub XrTableCell94_SummaryReset(sender As Object, e As EventArgs) Handles XrTableCell94.SummaryReset
+        totalSum = 0
+    End Sub
+
+#End Region
+
+End Class

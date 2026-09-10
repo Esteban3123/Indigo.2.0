@@ -1,0 +1,203 @@
+#Region "Librerias Importadas"
+Imports Infrastructure.CrossCutting.Base
+Imports Infrastructure.Data.Xpo
+Imports Infrastructure.Data.Xpo.PayrollRepository
+Imports Domain.Entities
+Imports DevExpress.XtraReports.UI
+
+#End Region
+
+Public Class rptPayrollDays
+    Implements IReport
+
+    ''' <summary>
+    ''' Variable para inicializar los valores de sesion
+    ''' </summary>
+    Dim IndigoSessionValues As SessionValues = SessionValues.Instance
+
+    Dim listItem
+
+    Public Sub CargarDataSource() Implements IReport.CargarDataSource
+        Dim filtro As String = ""
+        Dim fechaInicial As New Date(ParametrosReporte(2), ParametrosReporte(1), 1)
+        Dim fechaFinal As New Date(ParametrosReporte(2), ParametrosReporte(1), DateSerial(ParametrosReporte(2), ParametrosReporte(1) + 1, 0).Day)
+        Dim filtroConsultaNov As String = "(RealDate >= #" & Format(fechaInicial, "yyyy-MM-dd") & "# AND RealDate <= #" & Format(fechaFinal, "yyyy-MM-dd") & "# OR " & "EndDate >= #" & Format(fechaInicial, "yyyy-MM-dd") & "# AND EndDate <= #" & Format(fechaFinal, "yyyy-MM-dd") & "#)" &
+                                        " or " &
+                                        "(RealDate >= #" & Format(fechaInicial, "yyyy-MM-dd") & "# AND RealDate <= #" & Format(fechaFinal, "yyyy-MM-dd") & "# OR " & "EndDate >= #" & Format(fechaInicial, "yyyy-MM-dd") & "# AND EndDate <= #" & Format(fechaFinal, "yyyy-MM-dd") & "#)"
+        Dim filtroConsultaVac As String = "(VacationStartDate >= #" & Format(fechaInicial, "yyyy-MM-dd") & "# AND VacationStartDate <= #" & Format(fechaFinal, "yyyy-MM-dd") & "# OR " & "VacationEndDate >= #" & Format(fechaInicial, "yyyy-MM-dd") & "# AND VacationEndDate <= #" & Format(fechaFinal, "yyyy-MM-dd") & "#)" &
+                                " or " &
+                                "(VacationStartDate >= #" & Format(fechaInicial, "yyyy-MM-dd") & "# AND VacationStartDate <= #" & Format(fechaFinal, "yyyy-MM-dd") & "# OR " & "VacationEndDate >= #" & Format(fechaInicial, "yyyy-MM-dd") & "# AND VacationEndDate <= #" & Format(fechaFinal, "yyyy-MM-dd") & "#)"
+
+
+        filtroConsultaVac &= " AND VacationPeriodId.ContractId.Valid = 1"
+
+
+        'Se filtra por Grupos
+        'If ParametrosReporte(0) IsNot Nothing Then
+        '    If (filtro = "") Then
+        '        filtro &= "GroupId.Id = " & ParametrosReporte(0)
+        '    Else
+        '        filtro &= " AND GroupId.Id = " & ParametrosReporte(0)
+        '    End If
+
+        'End If
+
+        'filtro por Grupo
+        If ParametrosReporte(3) IsNot Nothing And ParametrosReporte(4) IsNot Nothing Then
+            filtro &= " GroupId.Id >= '" & ParametrosReporte(3) & "' AND GroupId.Id <= '" & ParametrosReporte(4) & "'"
+        End If
+
+        'Se filtra por Empleado
+        'If ParametrosReporte(3) IsNot Nothing Then
+        '    If (filtro = "") Then
+        '        filtro &= "EmployeeId.Id = " & ParametrosReporte(3)
+        '    Else
+        '        filtro &= " AND EmployeeId.Id = " & ParametrosReporte(3)
+        '    End If
+        'End If
+        'Se filtra por Empleado
+        If ParametrosReporte(0) IsNot Nothing Then
+            If (filtro = "") Then
+                filtro &= "EmployeeId.Id = " & ParametrosReporte(0)
+            Else
+                filtro &= " AND EmployeeId.Id = " & ParametrosReporte(0)
+            End If
+        End If
+
+
+        If (filtro = "") Then
+            filtro &= "Valid = 1"
+        Else
+            filtro &= " AND Valid = 1"
+        End If
+
+        Dim sucursalIni As String = IIf(ParametrosReporte(5) Is Nothing Or CStr(ParametrosReporte(5)) = String.Empty, "NULL", CStr(ParametrosReporte(5)))
+        Dim sucursalFin As String = IIf(ParametrosReporte(6) Is Nothing Or CStr(ParametrosReporte(6)) = String.Empty, "NULL", CStr(ParametrosReporte(6)))
+
+        filtro = String.Format("{0} AND ((FunctionalUnitId.BranchOfficeId >= {1} AND FunctionalUnitId.BranchOfficeId <= {2}) OR ({1} IS NULL AND {2} IS NULL))", filtro, sucursalIni, sucursalFin)
+
+        Dim contratos As List(Of PayrollContract) = XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).TreasuryService.GetCollection(Of PayrollContract)(Nothing, filtro)
+
+        Dim vacaciones As List(Of PayrollVacation) = XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).TreasuryService.GetCollection(Of PayrollVacation)(Nothing, filtroConsultaVac)
+        Dim listVacaciones As List(Of PayrollVacation) = New List(Of PayrollVacation)
+        For Each vacation In vacaciones
+            Dim queryVacaciones = (From x In contratos Where x.EmployeeId.Id = vacation.VacationPeriodId.EmployeeId.Id Select x).ToList()
+
+            For Each contrato In queryVacaciones
+                Dim fechaInicialResta As Date
+                Dim fechaFinalResta As Date
+                'Calculo la fecha Inicial
+                If (vacation.VacationStartDate < fechaInicial) Then
+                    fechaInicialResta = fechaInicial
+                Else
+                    fechaInicialResta = vacation.VacationStartDate
+                End If
+                'Calculo la fecha Final
+                If (vacation.VacationEndDate < fechaFinal) Then
+                    fechaFinalResta = vacation.VacationEndDate
+                Else
+                    fechaFinalResta = fechaFinal
+                End If
+                If contrato.GroupId.Month = "1" And fechaFinalResta.Day > 30 Then 'si la nomina es a 30 dias
+                    fechaFinalResta = DateAdd(DateInterval.Day, -1, fechaFinalResta)
+                End If
+
+
+                If (From e In listVacaciones Where e.VacationPeriodId.EmployeeId.Id = vacation.VacationPeriodId.EmployeeId.Id And e.VacationStartDate = vacation.VacationStartDate And e.VacationEndDate = vacation.VacationEndDate).Count = 0 Then
+                    contrato.VacationDays += DateDiff(DateInterval.Day, fechaInicialResta, fechaFinalResta) + 1
+                    listVacaciones.Add(vacation)
+                End If
+            Next
+        Next
+
+        Dim novedades As List(Of PayrollNovelty) = XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).TreasuryService.GetCollection(Of PayrollNovelty)(Nothing, filtroConsultaNov)
+        For Each novedad In novedades
+
+            Dim queryContratos = (From e In contratos Where e.EmployeeId.Id = novedad.EmployeeId.Id Select e).ToList()
+            For Each contrato In queryContratos
+
+
+                Dim fechaInicialResta As Date
+                Dim fechaFinalResta As Date
+                'Calculo la fecha Inicial
+                If (novedad.RealDate < fechaInicial) Then
+                    fechaInicialResta = fechaInicial
+                Else
+                    fechaInicialResta = novedad.RealDate
+                End If
+                'Calculo la fecha Final
+                If (novedad.EndDate < fechaFinal) Then
+                    fechaFinalResta = novedad.EndDate
+                Else
+                    fechaFinalResta = fechaFinal
+                End If
+                Dim dias As Integer = DateDiff(DateInterval.Day, fechaInicialResta, fechaFinalResta) + 1
+
+
+                If novedad.TypeNovelty = 1 Then
+                    contrato.InabilityDays += dias
+
+                End If
+                If novedad.TypeNovelty = 2 Then
+                    contrato.SanctionDays += dias
+                End If
+                If novedad.TypeNovelty = 3 AndAlso novedad.LicenseClass = 1 Then
+                    contrato.PaidLeaveDays += dias
+                End If
+                If novedad.TypeNovelty = 3 AndAlso novedad.LicenseClass = 2 Then
+                    contrato.NotPaidLeaveDays += dias
+                End If
+            Next
+        Next
+        '30 - [VacationDays] - [InabilityDays] - [NotPaidLeaveDays] - [PaidLeaveDays]  - [SanctionDays]  #####   [WorkDays]>=30
+        Dim queryContratos2 = (From e In contratos Where (30 - e.VacationDays - e.InabilityDays - e.NotPaidLeaveDays - e.PaidLeaveDays - e.SanctionDays) < 30 Select e).ToList()
+        contratos = queryContratos2
+        Me.DataSource = contratos
+    End Sub
+
+    Public Sub CargarImagenes() Implements IReport.CargarImagenes
+
+    End Sub
+
+    Public ReadOnly Property NameReport As String Implements IReport.NameReport
+        Get
+            Return ""
+        End Get
+    End Property
+
+    Public Property ParametrosReporte As Object() Implements IReport.ParametrosReporte
+
+    Private Sub rptPayrollDays_BeforePrint(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles MyBase.BeforePrint
+        INDLblCompany.Text = IndigoSessionValues.IndigoCompanyName
+        INDLblNitCompany.Text = "Nit:" & IndigoSessionValues.IndigoCompanyNit
+        Dim months() As String = {"Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"}
+        INDLblDateMonth.Text = "Días de Nómina de " & months(ParametrosReporte(1) - 1) & " de " & ParametrosReporte(2)
+        INDUserImp.Text = "Usuario Impresión : " & IndigoSessionValues.UserIndigo & " - " & IndigoSessionValues.UserIndigoName
+        ' Inicializar la localización del reporte (formato de moneda)
+        UtilitiesReporter.InitializeReportLocalization(Me, IndigoSessionValues, 1)
+    End Sub
+
+    Private Sub Detail_BeforePrint(sender As Object, e As Printing.PrintEventArgs) Handles Detail.BeforePrint
+
+    End Sub
+    'Private Sub XrTable1_BeforePrint(sender As Object, e As Printing.PrintEventArgs) Handles XrTable1.BeforePrint
+    '    Dim Coment = (GetCurrentColumnValue("WorkDays"))
+    '    Dim table9 As XRTable = CType(XrTable2, XRTable)
+    '    Dim table8 As XRTable = CType(XrTable1, XRTable)
+    '    Dim Detalle As DetailBand = CType(Detail, DetailBand)
+    '    'If String.IsNullOrEmpty(Coment.ToString.Trim) Then
+    '    If Coment.ToString.Trim >= 30 Then
+    '        table9.Visible = False
+    '        table9.HeightF = 0
+    '        table8.Visible = False
+    '        table8.HeightF = 0
+    '        Detalle.HeightF = 0
+    '    Else
+    '        table9.Visible = True
+    '        table9.HeightF = 41
+    '        table8.Visible = True
+    '        table8.HeightF = 20
+    '        Detalle.HeightF = 20
+    '    End If
+    'End Sub
+End Class

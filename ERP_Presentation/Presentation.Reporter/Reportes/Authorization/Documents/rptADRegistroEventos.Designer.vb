@@ -1,0 +1,1278 @@
+<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
+Partial Public Class rptADRegistroEventos
+    Inherits DevExpress.XtraReports.UI.XtraReport
+
+    'XtraReport overrides dispose to clean up the component list.
+    <System.Diagnostics.DebuggerNonUserCode()> _
+    Protected Overrides Sub Dispose(ByVal disposing As Boolean)
+        If disposing AndAlso components IsNot Nothing Then
+            components.Dispose()
+        End If
+        MyBase.Dispose(disposing)
+    End Sub
+
+    'Required by the Designer
+    Private components As System.ComponentModel.IContainer
+
+    'NOTE: The following procedure is required by the Designer
+    'It can be modified using the Designer.  
+    'Do not modify it using the code editor.
+    <System.Diagnostics.DebuggerStepThrough()> _
+    Private Sub InitializeComponent()
+        Me.Detail = New DevExpress.XtraReports.UI.DetailBand()
+        Me.TopMargin = New DevExpress.XtraReports.UI.TopMarginBand()
+        Me.BottomMargin = New DevExpress.XtraReports.UI.BottomMarginBand()
+        Me.CabeceraReporte = New DevExpress.XtraReports.UI.ReportHeaderBand()
+        Me.XrLine1 = New DevExpress.XtraReports.UI.XRLine()
+        Me.INDLblNombreReporte = New DevExpress.XtraReports.UI.XRLabel()
+        Me.INDLblNombreEmpresaCliente = New DevExpress.XtraReports.UI.XRLabel()
+        Me.INDLblNitCliente = New DevExpress.XtraReports.UI.XRLabel()
+        Me.PageHeader = New DevExpress.XtraReports.UI.PageHeaderBand()
+        Me.INDlblIngreso = New DevExpress.XtraReports.UI.XRLabel()
+        Me.BookLblIdentificacion = New DevExpress.XtraReports.UI.XRLabel()
+        Me.XrLabel95 = New DevExpress.XtraReports.UI.XRLabel()
+        Me.XrPageInfo1 = New DevExpress.XtraReports.UI.XRPageInfo()
+        Me.GroupPaginaWeb = New DevExpress.XtraReports.UI.GroupHeaderBand()
+        Me.INDlblPaginaWeb = New DevExpress.XtraReports.UI.XRLabel()
+        Me.XrLabel20 = New DevExpress.XtraReports.UI.XRLabel()
+        Me.INDlblFechaRegistroPagina = New DevExpress.XtraReports.UI.XRLabel()
+        Me.XrLabel18 = New DevExpress.XtraReports.UI.XRLabel()
+        Me.GroupFax = New DevExpress.XtraReports.UI.GroupHeaderBand()
+        Me.INDlblFechaEnvioFax = New DevExpress.XtraReports.UI.XRLabel()
+        Me.XrLabel15 = New DevExpress.XtraReports.UI.XRLabel()
+        Me.XrLabel17 = New DevExpress.XtraReports.UI.XRLabel()
+        Me.INDlblIntentos = New DevExpress.XtraReports.UI.XRLabel()
+        Me.XrLabel16 = New DevExpress.XtraReports.UI.XRLabel()
+        Me.INDlblExtensionFax = New DevExpress.XtraReports.UI.XRLabel()
+        Me.XrLabel13 = New DevExpress.XtraReports.UI.XRLabel()
+        Me.INDlblNumeroTelefonicoFax = New DevExpress.XtraReports.UI.XRLabel()
+        Me.GroupLlamadaTelefonica = New DevExpress.XtraReports.UI.GroupHeaderBand()
+        Me.INDlblCargoLlamada = New DevExpress.XtraReports.UI.XRLabel()
+        Me.XrLabel12 = New DevExpress.XtraReports.UI.XRLabel()
+        Me.INDlblPersonaContactoLlamada = New DevExpress.XtraReports.UI.XRLabel()
+        Me.XrLabel2 = New DevExpress.XtraReports.UI.XRLabel()
+        Me.XrLabel11 = New DevExpress.XtraReports.UI.XRLabel()
+        Me.INDlblHoraFinalLlamada = New DevExpress.XtraReports.UI.XRLabel()
+        Me.XrLabel10 = New DevExpress.XtraReports.UI.XRLabel()
+        Me.INDlblHorainicialLlamada = New DevExpress.XtraReports.UI.XRLabel()
+        Me.XrLabel9 = New DevExpress.XtraReports.UI.XRLabel()
+        Me.INDlblExtensionLlamada = New DevExpress.XtraReports.UI.XRLabel()
+        Me.XrLabel8 = New DevExpress.XtraReports.UI.XRLabel()
+        Me.INDlblNumeroTelefonicollamada = New DevExpress.XtraReports.UI.XRLabel()
+        Me.GroupBasicos = New DevExpress.XtraReports.UI.GroupHeaderBand()
+        Me.XrLine3 = New DevExpress.XtraReports.UI.XRLine()
+        Me.XrLabel1 = New DevExpress.XtraReports.UI.XRLabel()
+        Me.XrLabel4 = New DevExpress.XtraReports.UI.XRLabel()
+        Me.XrLabel3 = New DevExpress.XtraReports.UI.XRLabel()
+        Me.INDlblApellidos = New DevExpress.XtraReports.UI.XRLabel()
+        Me.XrLabel19 = New DevExpress.XtraReports.UI.XRLabel()
+        Me.INDlblNombres = New DevExpress.XtraReports.UI.XRLabel()
+        Me.XrLabel21 = New DevExpress.XtraReports.UI.XRLabel()
+        Me.INDlblEdad = New DevExpress.XtraReports.UI.XRLabel()
+        Me.XrLabel22 = New DevExpress.XtraReports.UI.XRLabel()
+        Me.INDlblSexo = New DevExpress.XtraReports.UI.XRLabel()
+        Me.XrLabel23 = New DevExpress.XtraReports.UI.XRLabel()
+        Me.INDlblTipoDocumento = New DevExpress.XtraReports.UI.XRLabel()
+        Me.XrLabel24 = New DevExpress.XtraReports.UI.XRLabel()
+        Me.INDlblNumeroDocumento = New DevExpress.XtraReports.UI.XRLabel()
+        Me.XrLabel25 = New DevExpress.XtraReports.UI.XRLabel()
+        Me.INDlblDireccion = New DevExpress.XtraReports.UI.XRLabel()
+        Me.XrLabel26 = New DevExpress.XtraReports.UI.XRLabel()
+        Me.INDlblTelefono = New DevExpress.XtraReports.UI.XRLabel()
+        Me.XrLabel27 = New DevExpress.XtraReports.UI.XRLabel()
+        Me.XrLabel28 = New DevExpress.XtraReports.UI.XRLabel()
+        Me.XrLabel29 = New DevExpress.XtraReports.UI.XRLabel()
+        Me.INDlblTipoPaciente = New DevExpress.XtraReports.UI.XRLabel()
+        Me.XrLabel31 = New DevExpress.XtraReports.UI.XRLabel()
+        Me.INDlblTipoAfiliado = New DevExpress.XtraReports.UI.XRLabel()
+        Me.XrLine2 = New DevExpress.XtraReports.UI.XRLine()
+        Me.XrLabel7 = New DevExpress.XtraReports.UI.XRLabel()
+        Me.INDlblObservaciones = New DevExpress.XtraReports.UI.XRLabel()
+        Me.XrLabel6 = New DevExpress.XtraReports.UI.XRLabel()
+        Me.INDlblNumeroAutorizacion = New DevExpress.XtraReports.UI.XRLabel()
+        Me.XrLabel5 = New DevExpress.XtraReports.UI.XRLabel()
+        Me.INDlblTipoEvento = New DevExpress.XtraReports.UI.XRLabel()
+        Me.XrLabel14 = New DevExpress.XtraReports.UI.XRLabel()
+        Me.INDlblEntidad = New DevExpress.XtraReports.UI.XRLabel()
+        Me.PageFooter = New DevExpress.XtraReports.UI.PageFooterBand()
+        Me.XrLabel30 = New DevExpress.XtraReports.UI.XRLabel()
+        Me.XrLabel36 = New DevExpress.XtraReports.UI.XRLabel()
+        Me.XrLabel35 = New DevExpress.XtraReports.UI.XRLabel()
+        Me.XrLabel32 = New DevExpress.XtraReports.UI.XRLabel()
+        Me.XrLabel33 = New DevExpress.XtraReports.UI.XRLabel()
+        Me.XrLabel34 = New DevExpress.XtraReports.UI.XRLabel()
+        Me.GroupAutorizacionServicios = New DevExpress.XtraReports.UI.GroupHeaderBand()
+        Me.INDlbInfoPacienteDato = New DevExpress.XtraReports.UI.XRLabel()
+        Me.INDlbPacienteNotificadoDato = New DevExpress.XtraReports.UI.XRLabel()
+        Me.INDlbInfoPaciente = New DevExpress.XtraReports.UI.XRLabel()
+        Me.INDlbPacienteNotificado = New DevExpress.XtraReports.UI.XRLabel()
+        Me.XrLabel55 = New DevExpress.XtraReports.UI.XRLabel()
+        Me.XrLabel54 = New DevExpress.XtraReports.UI.XRLabel()
+        Me.XrLabel52 = New DevExpress.XtraReports.UI.XRLabel()
+        Me.XrLabel46 = New DevExpress.XtraReports.UI.XRLabel()
+        Me.XrLabel37 = New DevExpress.XtraReports.UI.XRLabel()
+        Me.GroupAtencionUrgencias = New DevExpress.XtraReports.UI.GroupHeaderBand()
+        Me.XrLabel53 = New DevExpress.XtraReports.UI.XRLabel()
+        Me.XrLabel44 = New DevExpress.XtraReports.UI.XRLabel()
+        Me.XrLabel42 = New DevExpress.XtraReports.UI.XRLabel()
+        Me.XrLabel38 = New DevExpress.XtraReports.UI.XRLabel()
+        Me.XrLabel39 = New DevExpress.XtraReports.UI.XRLabel()
+        Me.XrLabel41 = New DevExpress.XtraReports.UI.XRLabel()
+        Me.XrLabel43 = New DevExpress.XtraReports.UI.XRLabel()
+        Me.XrLabel45 = New DevExpress.XtraReports.UI.XRLabel()
+        Me.XrLabel48 = New DevExpress.XtraReports.UI.XRLabel()
+        Me.XrLabel40 = New DevExpress.XtraReports.UI.XRLabel()
+        Me.LblUsuarioRegistro = New DevExpress.XtraReports.UI.XRLabel()
+        Me.LblFechaRegistro = New DevExpress.XtraReports.UI.XRLabel()
+        Me.ReportFooter = New DevExpress.XtraReports.UI.ReportFooterBand()
+        CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
+        '
+        'Detail
+        '
+        Me.Detail.HeightF = 0!
+        Me.Detail.Name = "Detail"
+        Me.Detail.Padding = New DevExpress.XtraPrinting.PaddingInfo(0, 0, 0, 0, 100.0!)
+        Me.Detail.TextAlignment = DevExpress.XtraPrinting.TextAlignment.TopLeft
+        '
+        'TopMargin
+        '
+        Me.TopMargin.HeightF = 25.0!
+        Me.TopMargin.Name = "TopMargin"
+        Me.TopMargin.Padding = New DevExpress.XtraPrinting.PaddingInfo(0, 0, 0, 0, 100.0!)
+        Me.TopMargin.TextAlignment = DevExpress.XtraPrinting.TextAlignment.TopLeft
+        '
+        'BottomMargin
+        '
+        Me.BottomMargin.HeightF = 25.0!
+        Me.BottomMargin.Name = "BottomMargin"
+        Me.BottomMargin.Padding = New DevExpress.XtraPrinting.PaddingInfo(0, 0, 0, 0, 100.0!)
+        Me.BottomMargin.TextAlignment = DevExpress.XtraPrinting.TextAlignment.TopLeft
+        '
+        'CabeceraReporte
+        '
+        Me.CabeceraReporte.Controls.AddRange(New DevExpress.XtraReports.UI.XRControl() {Me.XrLine1, Me.INDLblNombreReporte, Me.INDLblNombreEmpresaCliente, Me.INDLblNitCliente})
+        Me.CabeceraReporte.HeightF = 77.00002!
+        Me.CabeceraReporte.Name = "CabeceraReporte"
+        '
+        'XrLine1
+        '
+        Me.XrLine1.LocationFloat = New DevExpress.Utils.PointFloat(10.00001!, 69.00002!)
+        Me.XrLine1.Name = "XrLine1"
+        Me.XrLine1.SizeF = New System.Drawing.SizeF(745.6583!, 8.0!)
+        '
+        'INDLblNombreReporte
+        '
+        Me.INDLblNombreReporte.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.INDLblNombreReporte.LocationFloat = New DevExpress.Utils.PointFloat(9.999998!, 42.00001!)
+        Me.INDLblNombreReporte.Name = "INDLblNombreReporte"
+        Me.INDLblNombreReporte.Padding = New DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100.0!)
+        Me.INDLblNombreReporte.SizeF = New System.Drawing.SizeF(745.6583!, 25.0!)
+        Me.INDLblNombreReporte.StylePriority.UseFont = False
+        Me.INDLblNombreReporte.StylePriority.UseTextAlignment = False
+        Me.INDLblNombreReporte.Text = "REPORTE DE EVENTOS"
+        Me.INDLblNombreReporte.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleCenter
+        '
+        'INDLblNombreEmpresaCliente
+        '
+        Me.INDLblNombreEmpresaCliente.AnchorVertical = DevExpress.XtraReports.UI.VerticalAnchorStyles.Top
+        Me.INDLblNombreEmpresaCliente.Font = New System.Drawing.Font("Times New Roman", 14.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.INDLblNombreEmpresaCliente.LocationFloat = New DevExpress.Utils.PointFloat(9.999998!, 0!)
+        Me.INDLblNombreEmpresaCliente.LockedInUserDesigner = True
+        Me.INDLblNombreEmpresaCliente.Name = "INDLblNombreEmpresaCliente"
+        Me.INDLblNombreEmpresaCliente.Padding = New DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100.0!)
+        Me.INDLblNombreEmpresaCliente.SizeF = New System.Drawing.SizeF(745.6583!, 25.0!)
+        Me.INDLblNombreEmpresaCliente.StylePriority.UseFont = False
+        Me.INDLblNombreEmpresaCliente.StylePriority.UseTextAlignment = False
+        Me.INDLblNombreEmpresaCliente.Text = "INDIGO"
+        Me.INDLblNombreEmpresaCliente.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleCenter
+        '
+        'INDLblNitCliente
+        '
+        Me.INDLblNitCliente.Font = New System.Drawing.Font("Arial", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.INDLblNitCliente.LocationFloat = New DevExpress.Utils.PointFloat(9.999998!, 25.0!)
+        Me.INDLblNitCliente.Name = "INDLblNitCliente"
+        Me.INDLblNitCliente.Padding = New DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100.0!)
+        Me.INDLblNitCliente.SizeF = New System.Drawing.SizeF(745.6583!, 17.00001!)
+        Me.INDLblNitCliente.StylePriority.UseFont = False
+        Me.INDLblNitCliente.StylePriority.UseTextAlignment = False
+        Me.INDLblNitCliente.Text = "813.001.952 - 0"
+        Me.INDLblNitCliente.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleCenter
+        '
+        'PageHeader
+        '
+        Me.PageHeader.Controls.AddRange(New DevExpress.XtraReports.UI.XRControl() {Me.INDlblIngreso, Me.XrLabel95, Me.XrPageInfo1})
+        Me.PageHeader.HeightF = 17.0!
+        Me.PageHeader.Name = "PageHeader"
+        '
+        'INDlblIngreso
+        '
+        Me.INDlblIngreso.Bookmark = "Ingreso"
+        Me.INDlblIngreso.BookmarkParent = Me.BookLblIdentificacion
+        Me.INDlblIngreso.DataBindings.AddRange(New DevExpress.XtraReports.UI.XRBinding() {New DevExpress.XtraReports.UI.XRBinding("Text", Nothing, "Historia.INGRESO")})
+        Me.INDlblIngreso.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.INDlblIngreso.LocationFloat = New DevExpress.Utils.PointFloat(108.625!, 0!)
+        Me.INDlblIngreso.Name = "INDlblIngreso"
+        Me.INDlblIngreso.Padding = New DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100.0!)
+        Me.INDlblIngreso.SizeF = New System.Drawing.SizeF(108.0!, 17.0!)
+        Me.INDlblIngreso.StylePriority.UseFont = False
+        Me.INDlblIngreso.Text = "INDlblIngreso"
+        '
+        'BookLblIdentificacion
+        '
+        Me.BookLblIdentificacion.BackColor = System.Drawing.Color.Gainsboro
+        Me.BookLblIdentificacion.Bookmark = "Identificación"
+        Me.BookLblIdentificacion.Font = New System.Drawing.Font("Arial", 9.0!, CType((System.Drawing.FontStyle.Bold Or System.Drawing.FontStyle.Underline), System.Drawing.FontStyle), System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.BookLblIdentificacion.LocationFloat = New DevExpress.Utils.PointFloat(9.99999!, 10.00001!)
+        Me.BookLblIdentificacion.Name = "BookLblIdentificacion"
+        Me.BookLblIdentificacion.Padding = New DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100.0!)
+        Me.BookLblIdentificacion.ProcessDuplicatesMode = DevExpress.XtraReports.UI.ProcessDuplicatesMode.Suppress
+        Me.BookLblIdentificacion.SizeF = New System.Drawing.SizeF(733.0!, 17.0!)
+        Me.BookLblIdentificacion.StylePriority.UseBackColor = False
+        Me.BookLblIdentificacion.StylePriority.UseFont = False
+        Me.BookLblIdentificacion.Text = "IDENTIFICACIÓN"
+        '
+        'XrLabel95
+        '
+        Me.XrLabel95.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.XrLabel95.LocationFloat = New DevExpress.Utils.PointFloat(10.00001!, 0!)
+        Me.XrLabel95.Name = "XrLabel95"
+        Me.XrLabel95.Padding = New DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100.0!)
+        Me.XrLabel95.SizeF = New System.Drawing.SizeF(98.625!, 17.0!)
+        Me.XrLabel95.StylePriority.UseFont = False
+        Me.XrLabel95.Text = "Ingreso:"
+        '
+        'XrPageInfo1
+        '
+        Me.XrPageInfo1.Format = "Pagina {0} de {1}"
+        Me.XrPageInfo1.LocationFloat = New DevExpress.Utils.PointFloat(665.0333!, 0!)
+        Me.XrPageInfo1.Name = "XrPageInfo1"
+        Me.XrPageInfo1.Padding = New DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100.0!)
+        Me.XrPageInfo1.SizeF = New System.Drawing.SizeF(90.625!, 14.66667!)
+        '
+        'GroupPaginaWeb
+        '
+        Me.GroupPaginaWeb.Controls.AddRange(New DevExpress.XtraReports.UI.XRControl() {Me.INDlblPaginaWeb, Me.XrLabel20, Me.INDlblFechaRegistroPagina, Me.XrLabel18})
+        Me.GroupPaginaWeb.HeightF = 34.00001!
+        Me.GroupPaginaWeb.Name = "GroupPaginaWeb"
+        '
+        'INDlblPaginaWeb
+        '
+        Me.INDlblPaginaWeb.DataBindings.AddRange(New DevExpress.XtraReports.UI.XRBinding() {New DevExpress.XtraReports.UI.XRBinding("Text", Nothing, "Eventos Todo.URLSERWEB")})
+        Me.INDlblPaginaWeb.LocationFloat = New DevExpress.Utils.PointFloat(127.7083!, 17.00001!)
+        Me.INDlblPaginaWeb.Name = "INDlblPaginaWeb"
+        Me.INDlblPaginaWeb.Padding = New DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100.0!)
+        Me.INDlblPaginaWeb.SizeF = New System.Drawing.SizeF(627.95!, 16.99999!)
+        Me.INDlblPaginaWeb.Text = "INDlblPaginaWeb"
+        '
+        'XrLabel20
+        '
+        Me.XrLabel20.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.XrLabel20.LocationFloat = New DevExpress.Utils.PointFloat(10.00001!, 17.00001!)
+        Me.XrLabel20.Name = "XrLabel20"
+        Me.XrLabel20.Padding = New DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100.0!)
+        Me.XrLabel20.SizeF = New System.Drawing.SizeF(117.7084!, 17.0!)
+        Me.XrLabel20.StylePriority.UseFont = False
+        Me.XrLabel20.Text = "Pagina Web:"
+        '
+        'INDlblFechaRegistroPagina
+        '
+        Me.INDlblFechaRegistroPagina.DataBindings.AddRange(New DevExpress.XtraReports.UI.XRBinding() {New DevExpress.XtraReports.UI.XRBinding("Text", Nothing, "Eventos Todo.FECREGWEB")})
+        Me.INDlblFechaRegistroPagina.LocationFloat = New DevExpress.Utils.PointFloat(128.8!, 0!)
+        Me.INDlblFechaRegistroPagina.Name = "INDlblFechaRegistroPagina"
+        Me.INDlblFechaRegistroPagina.Padding = New DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100.0!)
+        Me.INDlblFechaRegistroPagina.SizeF = New System.Drawing.SizeF(626.8583!, 16.99999!)
+        Me.INDlblFechaRegistroPagina.Text = "INDlblFechaRegistroPagina"
+        '
+        'XrLabel18
+        '
+        Me.XrLabel18.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.XrLabel18.LocationFloat = New DevExpress.Utils.PointFloat(10.00001!, 0!)
+        Me.XrLabel18.Name = "XrLabel18"
+        Me.XrLabel18.Padding = New DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100.0!)
+        Me.XrLabel18.SizeF = New System.Drawing.SizeF(117.7083!, 17.0!)
+        Me.XrLabel18.StylePriority.UseFont = False
+        Me.XrLabel18.Text = "Fecha Registro:"
+        '
+        'GroupFax
+        '
+        Me.GroupFax.Controls.AddRange(New DevExpress.XtraReports.UI.XRControl() {Me.INDlblFechaEnvioFax, Me.XrLabel15, Me.XrLabel17, Me.INDlblIntentos, Me.XrLabel16, Me.INDlblExtensionFax, Me.XrLabel13, Me.INDlblNumeroTelefonicoFax})
+        Me.GroupFax.HeightF = 17.0!
+        Me.GroupFax.Level = 1
+        Me.GroupFax.Name = "GroupFax"
+        '
+        'INDlblFechaEnvioFax
+        '
+        Me.INDlblFechaEnvioFax.DataBindings.AddRange(New DevExpress.XtraReports.UI.XRBinding() {New DevExpress.XtraReports.UI.XRBinding("Text", Nothing, "Eventos Todo.FECENVFAX")})
+        Me.INDlblFechaEnvioFax.LocationFloat = New DevExpress.Utils.PointFloat(586.9501!, 0!)
+        Me.INDlblFechaEnvioFax.Name = "INDlblFechaEnvioFax"
+        Me.INDlblFechaEnvioFax.Padding = New DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100.0!)
+        Me.INDlblFechaEnvioFax.SizeF = New System.Drawing.SizeF(168.7083!, 16.99999!)
+        Me.INDlblFechaEnvioFax.Text = "INDlblFechaEnvioFax"
+        '
+        'XrLabel15
+        '
+        Me.XrLabel15.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.XrLabel15.LocationFloat = New DevExpress.Utils.PointFloat(509.8334!, 0!)
+        Me.XrLabel15.Name = "XrLabel15"
+        Me.XrLabel15.Padding = New DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100.0!)
+        Me.XrLabel15.SizeF = New System.Drawing.SizeF(77.11667!, 17.0!)
+        Me.XrLabel15.StylePriority.UseFont = False
+        Me.XrLabel15.Text = "Fecha Envio:"
+        '
+        'XrLabel17
+        '
+        Me.XrLabel17.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.XrLabel17.LocationFloat = New DevExpress.Utils.PointFloat(388.95!, 0!)
+        Me.XrLabel17.Name = "XrLabel17"
+        Me.XrLabel17.Padding = New DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100.0!)
+        Me.XrLabel17.SizeF = New System.Drawing.SizeF(66.66666!, 17.0!)
+        Me.XrLabel17.StylePriority.UseFont = False
+        Me.XrLabel17.Text = "Intentos:"
+        '
+        'INDlblIntentos
+        '
+        Me.INDlblIntentos.DataBindings.AddRange(New DevExpress.XtraReports.UI.XRBinding() {New DevExpress.XtraReports.UI.XRBinding("Text", Nothing, "Eventos Todo.NUMINTENV")})
+        Me.INDlblIntentos.LocationFloat = New DevExpress.Utils.PointFloat(455.95!, 0!)
+        Me.INDlblIntentos.Name = "INDlblIntentos"
+        Me.INDlblIntentos.Padding = New DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100.0!)
+        Me.INDlblIntentos.SizeF = New System.Drawing.SizeF(52.08334!, 16.99999!)
+        Me.INDlblIntentos.Text = "INDlblIntentos"
+        '
+        'XrLabel16
+        '
+        Me.XrLabel16.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.XrLabel16.LocationFloat = New DevExpress.Utils.PointFloat(269.6!, 0!)
+        Me.XrLabel16.Name = "XrLabel16"
+        Me.XrLabel16.Padding = New DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100.0!)
+        Me.XrLabel16.SizeF = New System.Drawing.SizeF(66.66666!, 17.0!)
+        Me.XrLabel16.StylePriority.UseFont = False
+        Me.XrLabel16.Text = "Extension:"
+        '
+        'INDlblExtensionFax
+        '
+        Me.INDlblExtensionFax.DataBindings.AddRange(New DevExpress.XtraReports.UI.XRBinding() {New DevExpress.XtraReports.UI.XRBinding("Text", Nothing, "Eventos Todo.NUMEXTFAX")})
+        Me.INDlblExtensionFax.LocationFloat = New DevExpress.Utils.PointFloat(336.6!, 0!)
+        Me.INDlblExtensionFax.Name = "INDlblExtensionFax"
+        Me.INDlblExtensionFax.Padding = New DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100.0!)
+        Me.INDlblExtensionFax.SizeF = New System.Drawing.SizeF(52.08334!, 16.99999!)
+        Me.INDlblExtensionFax.Text = "INDlblExtensionFax"
+        '
+        'XrLabel13
+        '
+        Me.XrLabel13.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.XrLabel13.LocationFloat = New DevExpress.Utils.PointFloat(10.00001!, 0!)
+        Me.XrLabel13.Name = "XrLabel13"
+        Me.XrLabel13.Padding = New DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100.0!)
+        Me.XrLabel13.SizeF = New System.Drawing.SizeF(117.7083!, 17.0!)
+        Me.XrLabel13.StylePriority.UseFont = False
+        Me.XrLabel13.Text = "Numero FAX:"
+        '
+        'INDlblNumeroTelefonicoFax
+        '
+        Me.INDlblNumeroTelefonicoFax.DataBindings.AddRange(New DevExpress.XtraReports.UI.XRBinding() {New DevExpress.XtraReports.UI.XRBinding("Text", Nothing, "Eventos Todo.NUMFAXCON")})
+        Me.INDlblNumeroTelefonicoFax.LocationFloat = New DevExpress.Utils.PointFloat(128.8!, 0!)
+        Me.INDlblNumeroTelefonicoFax.Name = "INDlblNumeroTelefonicoFax"
+        Me.INDlblNumeroTelefonicoFax.Padding = New DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100.0!)
+        Me.INDlblNumeroTelefonicoFax.SizeF = New System.Drawing.SizeF(140.6251!, 16.99999!)
+        Me.INDlblNumeroTelefonicoFax.Text = "INDlblNumeroTelefonicoFax"
+        '
+        'GroupLlamadaTelefonica
+        '
+        Me.GroupLlamadaTelefonica.Controls.AddRange(New DevExpress.XtraReports.UI.XRControl() {Me.INDlblCargoLlamada, Me.XrLabel12, Me.INDlblPersonaContactoLlamada, Me.XrLabel2, Me.XrLabel11, Me.INDlblHoraFinalLlamada, Me.XrLabel10, Me.INDlblHorainicialLlamada, Me.XrLabel9, Me.INDlblExtensionLlamada, Me.XrLabel8, Me.INDlblNumeroTelefonicollamada})
+        Me.GroupLlamadaTelefonica.HeightF = 51.00008!
+        Me.GroupLlamadaTelefonica.Level = 2
+        Me.GroupLlamadaTelefonica.Name = "GroupLlamadaTelefonica"
+        '
+        'INDlblCargoLlamada
+        '
+        Me.INDlblCargoLlamada.DataBindings.AddRange(New DevExpress.XtraReports.UI.XRBinding() {New DevExpress.XtraReports.UI.XRBinding("Text", Nothing, "Eventos Todo.CARCONENT")})
+        Me.INDlblCargoLlamada.LocationFloat = New DevExpress.Utils.PointFloat(471.9584!, 34.00002!)
+        Me.INDlblCargoLlamada.Name = "INDlblCargoLlamada"
+        Me.INDlblCargoLlamada.Padding = New DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100.0!)
+        Me.INDlblCargoLlamada.SizeF = New System.Drawing.SizeF(270.0414!, 17.0!)
+        Me.INDlblCargoLlamada.Text = "INDlblCargoLlamada"
+        '
+        'XrLabel12
+        '
+        Me.XrLabel12.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.XrLabel12.LocationFloat = New DevExpress.Utils.PointFloat(393.0002!, 34.00002!)
+        Me.XrLabel12.Name = "XrLabel12"
+        Me.XrLabel12.Padding = New DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100.0!)
+        Me.XrLabel12.SizeF = New System.Drawing.SizeF(78.04993!, 17.0!)
+        Me.XrLabel12.StylePriority.UseFont = False
+        Me.XrLabel12.Text = "Cargo:"
+        '
+        'INDlblPersonaContactoLlamada
+        '
+        Me.INDlblPersonaContactoLlamada.DataBindings.AddRange(New DevExpress.XtraReports.UI.XRBinding() {New DevExpress.XtraReports.UI.XRBinding("Text", Nothing, "Eventos Todo.NOMCONENT")})
+        Me.INDlblPersonaContactoLlamada.LocationFloat = New DevExpress.Utils.PointFloat(127.7084!, 34.00008!)
+        Me.INDlblPersonaContactoLlamada.Name = "INDlblPersonaContactoLlamada"
+        Me.INDlblPersonaContactoLlamada.Padding = New DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100.0!)
+        Me.INDlblPersonaContactoLlamada.SizeF = New System.Drawing.SizeF(238.5417!, 16.99999!)
+        Me.INDlblPersonaContactoLlamada.Text = "INDlblPersonaContactoLlamada"
+        '
+        'XrLabel2
+        '
+        Me.XrLabel2.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.XrLabel2.LocationFloat = New DevExpress.Utils.PointFloat(10.00012!, 34.00008!)
+        Me.XrLabel2.Name = "XrLabel2"
+        Me.XrLabel2.Padding = New DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100.0!)
+        Me.XrLabel2.SizeF = New System.Drawing.SizeF(117.7083!, 17.0!)
+        Me.XrLabel2.StylePriority.UseFont = False
+        Me.XrLabel2.Text = "Persona Contacto:"
+        '
+        'XrLabel11
+        '
+        Me.XrLabel11.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.XrLabel11.LocationFloat = New DevExpress.Utils.PointFloat(393.0002!, 16.99994!)
+        Me.XrLabel11.Name = "XrLabel11"
+        Me.XrLabel11.Padding = New DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100.0!)
+        Me.XrLabel11.SizeF = New System.Drawing.SizeF(78.04987!, 17.0!)
+        Me.XrLabel11.StylePriority.UseFont = False
+        Me.XrLabel11.Text = "Hora Final:"
+        '
+        'INDlblHoraFinalLlamada
+        '
+        Me.INDlblHoraFinalLlamada.DataBindings.AddRange(New DevExpress.XtraReports.UI.XRBinding() {New DevExpress.XtraReports.UI.XRBinding("Text", Nothing, "Eventos Todo.FECHORFIN")})
+        Me.INDlblHoraFinalLlamada.LocationFloat = New DevExpress.Utils.PointFloat(471.9584!, 17.00001!)
+        Me.INDlblHoraFinalLlamada.Name = "INDlblHoraFinalLlamada"
+        Me.INDlblHoraFinalLlamada.Padding = New DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100.0!)
+        Me.INDlblHoraFinalLlamada.SizeF = New System.Drawing.SizeF(270.0414!, 16.99999!)
+        Me.INDlblHoraFinalLlamada.Text = "INDlblHoraFinalLlamada"
+        '
+        'XrLabel10
+        '
+        Me.XrLabel10.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.XrLabel10.LocationFloat = New DevExpress.Utils.PointFloat(10.00012!, 17.00001!)
+        Me.XrLabel10.Name = "XrLabel10"
+        Me.XrLabel10.Padding = New DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100.0!)
+        Me.XrLabel10.SizeF = New System.Drawing.SizeF(78.04987!, 17.0!)
+        Me.XrLabel10.StylePriority.UseFont = False
+        Me.XrLabel10.Text = "Hora Inicial:"
+        '
+        'INDlblHorainicialLlamada
+        '
+        Me.INDlblHorainicialLlamada.DataBindings.AddRange(New DevExpress.XtraReports.UI.XRBinding() {New DevExpress.XtraReports.UI.XRBinding("Text", Nothing, "Eventos Todo.FECHORINI")})
+        Me.INDlblHorainicialLlamada.LocationFloat = New DevExpress.Utils.PointFloat(88.04999!, 17.00007!)
+        Me.INDlblHorainicialLlamada.Name = "INDlblHorainicialLlamada"
+        Me.INDlblHorainicialLlamada.Padding = New DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100.0!)
+        Me.INDlblHorainicialLlamada.SizeF = New System.Drawing.SizeF(299.0335!, 16.99999!)
+        Me.INDlblHorainicialLlamada.Text = "INDlblHorainicialLlamada"
+        '
+        'XrLabel9
+        '
+        Me.XrLabel9.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.XrLabel9.LocationFloat = New DevExpress.Utils.PointFloat(393.0001!, 0!)
+        Me.XrLabel9.Name = "XrLabel9"
+        Me.XrLabel9.Padding = New DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100.0!)
+        Me.XrLabel9.SizeF = New System.Drawing.SizeF(66.66666!, 17.0!)
+        Me.XrLabel9.StylePriority.UseFont = False
+        Me.XrLabel9.Text = "Extension:"
+        '
+        'INDlblExtensionLlamada
+        '
+        Me.INDlblExtensionLlamada.DataBindings.AddRange(New DevExpress.XtraReports.UI.XRBinding() {New DevExpress.XtraReports.UI.XRBinding("Text", Nothing, "Eventos Todo.NUMEXTTEL")})
+        Me.INDlblExtensionLlamada.LocationFloat = New DevExpress.Utils.PointFloat(459.6667!, 0!)
+        Me.INDlblExtensionLlamada.Name = "INDlblExtensionLlamada"
+        Me.INDlblExtensionLlamada.Padding = New DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100.0!)
+        Me.INDlblExtensionLlamada.SizeF = New System.Drawing.SizeF(52.08334!, 16.99999!)
+        Me.INDlblExtensionLlamada.Text = "INDlblExtensionLlamada"
+        '
+        'XrLabel8
+        '
+        Me.XrLabel8.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.XrLabel8.LocationFloat = New DevExpress.Utils.PointFloat(10.00012!, 0!)
+        Me.XrLabel8.Name = "XrLabel8"
+        Me.XrLabel8.Padding = New DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100.0!)
+        Me.XrLabel8.SizeF = New System.Drawing.SizeF(117.7083!, 17.0!)
+        Me.XrLabel8.StylePriority.UseFont = False
+        Me.XrLabel8.Text = "Numero Telefonico:"
+        '
+        'INDlblNumeroTelefonicollamada
+        '
+        Me.INDlblNumeroTelefonicollamada.DataBindings.AddRange(New DevExpress.XtraReports.UI.XRBinding() {New DevExpress.XtraReports.UI.XRBinding("Text", Nothing, "Eventos Todo.NUMTELCON")})
+        Me.INDlblNumeroTelefonicollamada.LocationFloat = New DevExpress.Utils.PointFloat(127.7084!, 0!)
+        Me.INDlblNumeroTelefonicollamada.Name = "INDlblNumeroTelefonicollamada"
+        Me.INDlblNumeroTelefonicollamada.Padding = New DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100.0!)
+        Me.INDlblNumeroTelefonicollamada.SizeF = New System.Drawing.SizeF(140.6251!, 16.99999!)
+        Me.INDlblNumeroTelefonicollamada.Text = "INDlblNumeroTelefonicollamada"
+        '
+        'GroupBasicos
+        '
+        Me.GroupBasicos.Controls.AddRange(New DevExpress.XtraReports.UI.XRControl() {Me.XrLine3, Me.XrLabel1, Me.XrLabel4, Me.BookLblIdentificacion, Me.XrLabel3, Me.INDlblApellidos, Me.XrLabel19, Me.INDlblNombres, Me.XrLabel21, Me.INDlblEdad, Me.XrLabel22, Me.INDlblSexo, Me.XrLabel23, Me.INDlblTipoDocumento, Me.XrLabel24, Me.INDlblNumeroDocumento, Me.XrLabel25, Me.INDlblDireccion, Me.XrLabel26, Me.INDlblTelefono, Me.XrLabel27, Me.XrLabel28, Me.XrLabel29, Me.INDlblTipoPaciente, Me.XrLabel31, Me.INDlblTipoAfiliado, Me.XrLine2})
+        Me.GroupBasicos.HeightF = 152.0833!
+        Me.GroupBasicos.Level = 5
+        Me.GroupBasicos.Name = "GroupBasicos"
+        '
+        'XrLine3
+        '
+        Me.XrLine3.LocationFloat = New DevExpress.Utils.PointFloat(4.4!, 139.9167!)
+        Me.XrLine3.Name = "XrLine3"
+        Me.XrLine3.SizeF = New System.Drawing.SizeF(745.6584!, 8.0!)
+        '
+        'XrLabel1
+        '
+        Me.XrLabel1.DataBindings.AddRange(New DevExpress.XtraReports.UI.XRBinding() {New DevExpress.XtraReports.UI.XRBinding("Text", Nothing, "Cabecera Reporte.NOMBRE ENTIDAD PACIENTE")})
+        Me.XrLabel1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.XrLabel1.LocationFloat = New DevExpress.Utils.PointFloat(116.9995!, 121.0!)
+        Me.XrLabel1.Name = "XrLabel1"
+        Me.XrLabel1.Padding = New DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100.0!)
+        Me.XrLabel1.SizeF = New System.Drawing.SizeF(263.0005!, 17.00001!)
+        Me.XrLabel1.StylePriority.UseFont = False
+        Me.XrLabel1.Text = "INDlblEntidad"
+        '
+        'XrLabel4
+        '
+        Me.XrLabel4.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.XrLabel4.LocationFloat = New DevExpress.Utils.PointFloat(9.999927!, 121.0!)
+        Me.XrLabel4.Name = "XrLabel4"
+        Me.XrLabel4.Padding = New DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100.0!)
+        Me.XrLabel4.SizeF = New System.Drawing.SizeF(105.2498!, 17.0!)
+        Me.XrLabel4.StylePriority.UseFont = False
+        Me.XrLabel4.Text = "Seguridad Social:"
+        '
+        'XrLabel3
+        '
+        Me.XrLabel3.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.XrLabel3.LocationFloat = New DevExpress.Utils.PointFloat(9.99999!, 35.00001!)
+        Me.XrLabel3.Name = "XrLabel3"
+        Me.XrLabel3.Padding = New DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100.0!)
+        Me.XrLabel3.SizeF = New System.Drawing.SizeF(61.79166!, 17.00001!)
+        Me.XrLabel3.StylePriority.UseFont = False
+        Me.XrLabel3.Text = "Apellidos:"
+        '
+        'INDlblApellidos
+        '
+        Me.INDlblApellidos.DataBindings.AddRange(New DevExpress.XtraReports.UI.XRBinding() {New DevExpress.XtraReports.UI.XRBinding("Text", Nothing, "Cabecera Reporte.APELLIDOS")})
+        Me.INDlblApellidos.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.INDlblApellidos.LocationFloat = New DevExpress.Utils.PointFloat(71.79165!, 35.00001!)
+        Me.INDlblApellidos.Name = "INDlblApellidos"
+        Me.INDlblApellidos.Padding = New DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100.0!)
+        Me.INDlblApellidos.SizeF = New System.Drawing.SizeF(308.2083!, 17.0!)
+        Me.INDlblApellidos.StylePriority.UseFont = False
+        Me.INDlblApellidos.Text = "INDlblApellidos"
+        '
+        'XrLabel19
+        '
+        Me.XrLabel19.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.XrLabel19.LocationFloat = New DevExpress.Utils.PointFloat(9.99999!, 52.00002!)
+        Me.XrLabel19.Name = "XrLabel19"
+        Me.XrLabel19.Padding = New DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100.0!)
+        Me.XrLabel19.SizeF = New System.Drawing.SizeF(61.79166!, 17.0!)
+        Me.XrLabel19.StylePriority.UseFont = False
+        Me.XrLabel19.Text = "Nombres:"
+        '
+        'INDlblNombres
+        '
+        Me.INDlblNombres.DataBindings.AddRange(New DevExpress.XtraReports.UI.XRBinding() {New DevExpress.XtraReports.UI.XRBinding("Text", Nothing, "Cabecera Reporte.NOMBRES")})
+        Me.INDlblNombres.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.INDlblNombres.LocationFloat = New DevExpress.Utils.PointFloat(71.79165!, 52.00002!)
+        Me.INDlblNombres.Name = "INDlblNombres"
+        Me.INDlblNombres.Padding = New DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100.0!)
+        Me.INDlblNombres.SizeF = New System.Drawing.SizeF(308.2083!, 17.0!)
+        Me.INDlblNombres.StylePriority.UseFont = False
+        Me.INDlblNombres.Text = "INDlblNombres"
+        '
+        'XrLabel21
+        '
+        Me.XrLabel21.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.XrLabel21.LocationFloat = New DevExpress.Utils.PointFloat(393.0!, 52.00002!)
+        Me.XrLabel21.Name = "XrLabel21"
+        Me.XrLabel21.Padding = New DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100.0!)
+        Me.XrLabel21.SizeF = New System.Drawing.SizeF(42.0!, 17.0!)
+        Me.XrLabel21.StylePriority.UseFont = False
+        Me.XrLabel21.Text = "Edad:"
+        '
+        'INDlblEdad
+        '
+        Me.INDlblEdad.DataBindings.AddRange(New DevExpress.XtraReports.UI.XRBinding() {New DevExpress.XtraReports.UI.XRBinding("Text", Nothing, "Cabecera Reporte.FECHA DE NACIMIENTO")})
+        Me.INDlblEdad.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.INDlblEdad.LocationFloat = New DevExpress.Utils.PointFloat(435.0001!, 52.00002!)
+        Me.INDlblEdad.Name = "INDlblEdad"
+        Me.INDlblEdad.Padding = New DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100.0!)
+        Me.INDlblEdad.SizeF = New System.Drawing.SizeF(266.0!, 17.0!)
+        Me.INDlblEdad.StylePriority.UseFont = False
+        Me.INDlblEdad.Text = "INDlblEdad"
+        '
+        'XrLabel22
+        '
+        Me.XrLabel22.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.XrLabel22.LocationFloat = New DevExpress.Utils.PointFloat(393.0!, 69.00002!)
+        Me.XrLabel22.Name = "XrLabel22"
+        Me.XrLabel22.Padding = New DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100.0!)
+        Me.XrLabel22.SizeF = New System.Drawing.SizeF(42.0!, 17.0!)
+        Me.XrLabel22.StylePriority.UseFont = False
+        Me.XrLabel22.Text = "Sexo:"
+        '
+        'INDlblSexo
+        '
+        Me.INDlblSexo.DataBindings.AddRange(New DevExpress.XtraReports.UI.XRBinding() {New DevExpress.XtraReports.UI.XRBinding("Text", Nothing, "Cabecera Reporte.SEXO")})
+        Me.INDlblSexo.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.INDlblSexo.LocationFloat = New DevExpress.Utils.PointFloat(435.0001!, 69.00002!)
+        Me.INDlblSexo.Name = "INDlblSexo"
+        Me.INDlblSexo.Padding = New DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100.0!)
+        Me.INDlblSexo.SizeF = New System.Drawing.SizeF(266.0!, 17.0!)
+        Me.INDlblSexo.StylePriority.UseFont = False
+        Me.INDlblSexo.Text = "INDlblSexo"
+        '
+        'XrLabel23
+        '
+        Me.XrLabel23.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.XrLabel23.LocationFloat = New DevExpress.Utils.PointFloat(393.0!, 35.00001!)
+        Me.XrLabel23.Name = "XrLabel23"
+        Me.XrLabel23.Padding = New DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100.0!)
+        Me.XrLabel23.SizeF = New System.Drawing.SizeF(100.0!, 17.0!)
+        Me.XrLabel23.StylePriority.UseFont = False
+        Me.XrLabel23.Text = "Tipo Documento:"
+        '
+        'INDlblTipoDocumento
+        '
+        Me.INDlblTipoDocumento.CanGrow = False
+        Me.INDlblTipoDocumento.DataBindings.AddRange(New DevExpress.XtraReports.UI.XRBinding() {New DevExpress.XtraReports.UI.XRBinding("Text", Nothing, "Cabecera Reporte.TIPO DOCUMENTO")})
+        Me.INDlblTipoDocumento.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.INDlblTipoDocumento.LocationFloat = New DevExpress.Utils.PointFloat(493.0!, 35.00001!)
+        Me.INDlblTipoDocumento.Name = "INDlblTipoDocumento"
+        Me.INDlblTipoDocumento.Padding = New DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100.0!)
+        Me.INDlblTipoDocumento.SizeF = New System.Drawing.SizeF(33.0!, 17.0!)
+        Me.INDlblTipoDocumento.StylePriority.UseFont = False
+        Me.INDlblTipoDocumento.Text = "INDlblTipoDoc"
+        Me.INDlblTipoDocumento.WordWrap = False
+        '
+        'XrLabel24
+        '
+        Me.XrLabel24.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.XrLabel24.LocationFloat = New DevExpress.Utils.PointFloat(526.0001!, 35.00001!)
+        Me.XrLabel24.Name = "XrLabel24"
+        Me.XrLabel24.Padding = New DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100.0!)
+        Me.XrLabel24.SizeF = New System.Drawing.SizeF(54.49994!, 17.00001!)
+        Me.XrLabel24.StylePriority.UseFont = False
+        Me.XrLabel24.Text = "Numero:"
+        '
+        'INDlblNumeroDocumento
+        '
+        Me.INDlblNumeroDocumento.Bookmark = "# de Documento"
+        Me.INDlblNumeroDocumento.BookmarkParent = Me.BookLblIdentificacion
+        Me.INDlblNumeroDocumento.DataBindings.AddRange(New DevExpress.XtraReports.UI.XRBinding() {New DevExpress.XtraReports.UI.XRBinding("Text", Nothing, "Cabecera Reporte.CODIGO PACIENTE")})
+        Me.INDlblNumeroDocumento.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.INDlblNumeroDocumento.LocationFloat = New DevExpress.Utils.PointFloat(580.5!, 35.00001!)
+        Me.INDlblNumeroDocumento.Name = "INDlblNumeroDocumento"
+        Me.INDlblNumeroDocumento.Padding = New DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100.0!)
+        Me.INDlblNumeroDocumento.SizeF = New System.Drawing.SizeF(161.4999!, 17.0!)
+        Me.INDlblNumeroDocumento.StylePriority.UseFont = False
+        Me.INDlblNumeroDocumento.Text = "INDlblNumeroDoc"
+        '
+        'XrLabel25
+        '
+        Me.XrLabel25.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.XrLabel25.LocationFloat = New DevExpress.Utils.PointFloat(9.99999!, 69.00002!)
+        Me.XrLabel25.Name = "XrLabel25"
+        Me.XrLabel25.Padding = New DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100.0!)
+        Me.XrLabel25.SizeF = New System.Drawing.SizeF(61.79166!, 17.0!)
+        Me.XrLabel25.StylePriority.UseFont = False
+        Me.XrLabel25.Text = "Dirección:"
+        '
+        'INDlblDireccion
+        '
+        Me.INDlblDireccion.DataBindings.AddRange(New DevExpress.XtraReports.UI.XRBinding() {New DevExpress.XtraReports.UI.XRBinding("Text", Nothing, "Cabecera Reporte.DIRECCION")})
+        Me.INDlblDireccion.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.INDlblDireccion.LocationFloat = New DevExpress.Utils.PointFloat(71.79165!, 69.00002!)
+        Me.INDlblDireccion.Name = "INDlblDireccion"
+        Me.INDlblDireccion.Padding = New DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100.0!)
+        Me.INDlblDireccion.SizeF = New System.Drawing.SizeF(308.2083!, 17.0!)
+        Me.INDlblDireccion.StylePriority.UseFont = False
+        Me.INDlblDireccion.Text = "INDlblDireccion"
+        '
+        'XrLabel26
+        '
+        Me.XrLabel26.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.XrLabel26.LocationFloat = New DevExpress.Utils.PointFloat(9.99999!, 87.00002!)
+        Me.XrLabel26.Name = "XrLabel26"
+        Me.XrLabel26.Padding = New DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100.0!)
+        Me.XrLabel26.SizeF = New System.Drawing.SizeF(61.79166!, 17.0!)
+        Me.XrLabel26.StylePriority.UseFont = False
+        Me.XrLabel26.Text = "Teléfono:"
+        '
+        'INDlblTelefono
+        '
+        Me.INDlblTelefono.DataBindings.AddRange(New DevExpress.XtraReports.UI.XRBinding() {New DevExpress.XtraReports.UI.XRBinding("Text", Nothing, "Cabecera Reporte.TELEFONO")})
+        Me.INDlblTelefono.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.INDlblTelefono.LocationFloat = New DevExpress.Utils.PointFloat(71.79165!, 87.00002!)
+        Me.INDlblTelefono.Name = "INDlblTelefono"
+        Me.INDlblTelefono.Padding = New DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100.0!)
+        Me.INDlblTelefono.SizeF = New System.Drawing.SizeF(308.2083!, 17.0!)
+        Me.INDlblTelefono.StylePriority.UseFont = False
+        Me.INDlblTelefono.Text = "INDlblTelefono"
+        '
+        'XrLabel27
+        '
+        Me.XrLabel27.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.XrLabel27.LocationFloat = New DevExpress.Utils.PointFloat(10.00005!, 104.0!)
+        Me.XrLabel27.Name = "XrLabel27"
+        Me.XrLabel27.Padding = New DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100.0!)
+        Me.XrLabel27.SizeF = New System.Drawing.SizeF(133.0!, 17.0!)
+        Me.XrLabel27.StylePriority.UseFont = False
+        Me.XrLabel27.Text = "Entidad Responsable:"
+        '
+        'XrLabel28
+        '
+        Me.XrLabel28.DataBindings.AddRange(New DevExpress.XtraReports.UI.XRBinding() {New DevExpress.XtraReports.UI.XRBinding("Text", Nothing, "Cabecera Reporte.NOMBRE ENTIDAD")})
+        Me.XrLabel28.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.XrLabel28.LocationFloat = New DevExpress.Utils.PointFloat(143.0001!, 104.0!)
+        Me.XrLabel28.Name = "XrLabel28"
+        Me.XrLabel28.Padding = New DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100.0!)
+        Me.XrLabel28.SizeF = New System.Drawing.SizeF(236.9999!, 17.0!)
+        Me.XrLabel28.StylePriority.UseFont = False
+        Me.XrLabel28.Text = "INDlblEntidad"
+        '
+        'XrLabel29
+        '
+        Me.XrLabel29.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.XrLabel29.LocationFloat = New DevExpress.Utils.PointFloat(393.0!, 86.00003!)
+        Me.XrLabel29.Name = "XrLabel29"
+        Me.XrLabel29.Padding = New DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100.0!)
+        Me.XrLabel29.SizeF = New System.Drawing.SizeF(83.66666!, 17.00001!)
+        Me.XrLabel29.StylePriority.UseFont = False
+        Me.XrLabel29.Text = "Tipo Paciente:"
+        '
+        'INDlblTipoPaciente
+        '
+        Me.INDlblTipoPaciente.DataBindings.AddRange(New DevExpress.XtraReports.UI.XRBinding() {New DevExpress.XtraReports.UI.XRBinding("Text", Nothing, "Cabecera Reporte.TIPO PACIENTE")})
+        Me.INDlblTipoPaciente.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.INDlblTipoPaciente.LocationFloat = New DevExpress.Utils.PointFloat(476.6667!, 86.00003!)
+        Me.INDlblTipoPaciente.Name = "INDlblTipoPaciente"
+        Me.INDlblTipoPaciente.Padding = New DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100.0!)
+        Me.INDlblTipoPaciente.SizeF = New System.Drawing.SizeF(266.3333!, 17.0!)
+        Me.INDlblTipoPaciente.StylePriority.UseFont = False
+        Me.INDlblTipoPaciente.Text = "INDlblTipoPaciente"
+        '
+        'XrLabel31
+        '
+        Me.XrLabel31.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.XrLabel31.LocationFloat = New DevExpress.Utils.PointFloat(393.0!, 104.0!)
+        Me.XrLabel31.Name = "XrLabel31"
+        Me.XrLabel31.Padding = New DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100.0!)
+        Me.XrLabel31.SizeF = New System.Drawing.SizeF(83.66663!, 17.0!)
+        Me.XrLabel31.StylePriority.UseFont = False
+        Me.XrLabel31.Text = "Tipo Afiliado:"
+        '
+        'INDlblTipoAfiliado
+        '
+        Me.INDlblTipoAfiliado.DataBindings.AddRange(New DevExpress.XtraReports.UI.XRBinding() {New DevExpress.XtraReports.UI.XRBinding("Text", Nothing, "Cabecera Reporte.TIPO AFILIADO")})
+        Me.INDlblTipoAfiliado.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.INDlblTipoAfiliado.LocationFloat = New DevExpress.Utils.PointFloat(477.0!, 103.0!)
+        Me.INDlblTipoAfiliado.Name = "INDlblTipoAfiliado"
+        Me.INDlblTipoAfiliado.Padding = New DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100.0!)
+        Me.INDlblTipoAfiliado.SizeF = New System.Drawing.SizeF(266.0!, 17.0!)
+        Me.INDlblTipoAfiliado.StylePriority.UseFont = False
+        Me.INDlblTipoAfiliado.Text = "INDlblTipoAfiliado"
+        '
+        'XrLine2
+        '
+        Me.XrLine2.LocationFloat = New DevExpress.Utils.PointFloat(10.00001!, 0!)
+        Me.XrLine2.Name = "XrLine2"
+        Me.XrLine2.SizeF = New System.Drawing.SizeF(745.6584!, 8.0!)
+        '
+        'XrLabel7
+        '
+        Me.XrLabel7.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.XrLabel7.LocationFloat = New DevExpress.Utils.PointFloat(9.99999!, 51.00002!)
+        Me.XrLabel7.Name = "XrLabel7"
+        Me.XrLabel7.Padding = New DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100.0!)
+        Me.XrLabel7.SizeF = New System.Drawing.SizeF(98.62502!, 17.00002!)
+        Me.XrLabel7.StylePriority.UseFont = False
+        Me.XrLabel7.Text = "Observaciones:"
+        '
+        'INDlblObservaciones
+        '
+        Me.INDlblObservaciones.DataBindings.AddRange(New DevExpress.XtraReports.UI.XRBinding() {New DevExpress.XtraReports.UI.XRBinding("Text", Nothing, "Eventos Todo.COMGENREG")})
+        Me.INDlblObservaciones.LocationFloat = New DevExpress.Utils.PointFloat(108.625!, 51.00002!)
+        Me.INDlblObservaciones.Multiline = True
+        Me.INDlblObservaciones.Name = "INDlblObservaciones"
+        Me.INDlblObservaciones.Padding = New DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100.0!)
+        Me.INDlblObservaciones.SizeF = New System.Drawing.SizeF(633.3749!, 16.99998!)
+        Me.INDlblObservaciones.Text = "INDlblObservaciones"
+        '
+        'XrLabel6
+        '
+        Me.XrLabel6.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.XrLabel6.LocationFloat = New DevExpress.Utils.PointFloat(10.00001!, 34.00002!)
+        Me.XrLabel6.Name = "XrLabel6"
+        Me.XrLabel6.Padding = New DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100.0!)
+        Me.XrLabel6.SizeF = New System.Drawing.SizeF(133.0001!, 17.0!)
+        Me.XrLabel6.StylePriority.UseFont = False
+        Me.XrLabel6.Text = "Número autorización:"
+        '
+        'INDlblNumeroAutorizacion
+        '
+        Me.INDlblNumeroAutorizacion.Bookmark = "Numero Autorizacion"
+        Me.INDlblNumeroAutorizacion.DataBindings.AddRange(New DevExpress.XtraReports.UI.XRBinding() {New DevExpress.XtraReports.UI.XRBinding("Text", Nothing, "Eventos Todo.NUMVALDER")})
+        Me.INDlblNumeroAutorizacion.LocationFloat = New DevExpress.Utils.PointFloat(143.0002!, 34.00002!)
+        Me.INDlblNumeroAutorizacion.Name = "INDlblNumeroAutorizacion"
+        Me.INDlblNumeroAutorizacion.Padding = New DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100.0!)
+        Me.INDlblNumeroAutorizacion.SizeF = New System.Drawing.SizeF(236.9998!, 16.99998!)
+        Me.INDlblNumeroAutorizacion.Text = "INDlblNumeroAutorizacion"
+        '
+        'XrLabel5
+        '
+        Me.XrLabel5.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.XrLabel5.LocationFloat = New DevExpress.Utils.PointFloat(9.99999!, 17.00004!)
+        Me.XrLabel5.Name = "XrLabel5"
+        Me.XrLabel5.Padding = New DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100.0!)
+        Me.XrLabel5.SizeF = New System.Drawing.SizeF(78.0499!, 17.0!)
+        Me.XrLabel5.StylePriority.UseFont = False
+        Me.XrLabel5.Text = "Tipo evento:"
+        '
+        'INDlblTipoEvento
+        '
+        Me.INDlblTipoEvento.Bookmark = "Tipo Evento"
+        Me.INDlblTipoEvento.DataBindings.AddRange(New DevExpress.XtraReports.UI.XRBinding() {New DevExpress.XtraReports.UI.XRBinding("Text", Nothing, "Eventos Todo.TipoEvento")})
+        Me.INDlblTipoEvento.LocationFloat = New DevExpress.Utils.PointFloat(88.04992!, 17.00004!)
+        Me.INDlblTipoEvento.Name = "INDlblTipoEvento"
+        Me.INDlblTipoEvento.Padding = New DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100.0!)
+        Me.INDlblTipoEvento.SizeF = New System.Drawing.SizeF(291.9502!, 16.99997!)
+        Me.INDlblTipoEvento.Text = "INDlblTipoEvento"
+        '
+        'XrLabel14
+        '
+        Me.XrLabel14.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.XrLabel14.LocationFloat = New DevExpress.Utils.PointFloat(10.00005!, 0!)
+        Me.XrLabel14.Name = "XrLabel14"
+        Me.XrLabel14.Padding = New DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100.0!)
+        Me.XrLabel14.SizeF = New System.Drawing.SizeF(78.0499!, 17.0!)
+        Me.XrLabel14.StylePriority.UseFont = False
+        Me.XrLabel14.Text = "Entidad:"
+        '
+        'INDlblEntidad
+        '
+        Me.INDlblEntidad.Bookmark = "Entidad"
+        Me.INDlblEntidad.DataBindings.AddRange(New DevExpress.XtraReports.UI.XRBinding() {New DevExpress.XtraReports.UI.XRBinding("Text", Nothing, "Eventos Todo.NOMENTIDA")})
+        Me.INDlblEntidad.LocationFloat = New DevExpress.Utils.PointFloat(88.04993!, 0!)
+        Me.INDlblEntidad.Name = "INDlblEntidad"
+        Me.INDlblEntidad.Padding = New DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100.0!)
+        Me.INDlblEntidad.SizeF = New System.Drawing.SizeF(291.9501!, 16.99998!)
+        Me.INDlblEntidad.Text = "INDlblEntidad"
+        '
+        'PageFooter
+        '
+        Me.PageFooter.Controls.AddRange(New DevExpress.XtraReports.UI.XRControl() {Me.XrLabel30})
+        Me.PageFooter.HeightF = 21.79165!
+        Me.PageFooter.Name = "PageFooter"
+        '
+        'XrLabel30
+        '
+        Me.XrLabel30.Font = New System.Drawing.Font("Arial", 7.0!)
+        Me.XrLabel30.LocationFloat = New DevExpress.Utils.PointFloat(10.00001!, 9.999974!)
+        Me.XrLabel30.Name = "XrLabel30"
+        Me.XrLabel30.Padding = New DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100.0!)
+        Me.XrLabel30.SizeF = New System.Drawing.SizeF(308.0!, 11.79167!)
+        Me.XrLabel30.StylePriority.UseFont = False
+        Me.XrLabel30.Text = "Powered by Indigo Vie Cloud Platform"
+        '
+        'XrLabel36
+        '
+        Me.XrLabel36.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.XrLabel36.LocationFloat = New DevExpress.Utils.PointFloat(447.5!, 73.25001!)
+        Me.XrLabel36.Name = "XrLabel36"
+        Me.XrLabel36.Padding = New DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100.0!)
+        Me.XrLabel36.SizeF = New System.Drawing.SizeF(133.0003!, 17.00002!)
+        Me.XrLabel36.StylePriority.UseFont = False
+        Me.XrLabel36.Text = "Fecha registro"
+        '
+        'XrLabel35
+        '
+        Me.XrLabel35.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.XrLabel35.LocationFloat = New DevExpress.Utils.PointFloat(447.5!, 56.25!)
+        Me.XrLabel35.Name = "XrLabel35"
+        Me.XrLabel35.Padding = New DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100.0!)
+        Me.XrLabel35.SizeF = New System.Drawing.SizeF(133.0001!, 17.00002!)
+        Me.XrLabel35.StylePriority.UseFont = False
+        Me.XrLabel35.Text = "Usuario que registra:"
+        '
+        'XrLabel32
+        '
+        Me.XrLabel32.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.XrLabel32.LocationFloat = New DevExpress.Utils.PointFloat(393.0001!, 0!)
+        Me.XrLabel32.Name = "XrLabel32"
+        Me.XrLabel32.Padding = New DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100.0!)
+        Me.XrLabel32.SizeF = New System.Drawing.SizeF(57.29167!, 17.0!)
+        Me.XrLabel32.StylePriority.UseFont = False
+        Me.XrLabel32.Text = "Servicio:"
+        '
+        'XrLabel33
+        '
+        Me.XrLabel33.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.XrLabel33.LocationFloat = New DevExpress.Utils.PointFloat(393.0001!, 17.00001!)
+        Me.XrLabel33.Name = "XrLabel33"
+        Me.XrLabel33.Padding = New DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100.0!)
+        Me.XrLabel33.SizeF = New System.Drawing.SizeF(57.29167!, 17.0!)
+        Me.XrLabel33.StylePriority.UseFont = False
+        Me.XrLabel33.Text = "Estado:"
+        '
+        'XrLabel34
+        '
+        Me.XrLabel34.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.XrLabel34.LocationFloat = New DevExpress.Utils.PointFloat(393.0001!, 34.00002!)
+        Me.XrLabel34.Name = "XrLabel34"
+        Me.XrLabel34.Padding = New DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100.0!)
+        Me.XrLabel34.SizeF = New System.Drawing.SizeF(115.0334!, 17.0!)
+        Me.XrLabel34.StylePriority.UseFont = False
+        Me.XrLabel34.Text = "Cantidad solicitada:"
+        '
+        'GroupAutorizacionServicios
+        '
+        Me.GroupAutorizacionServicios.Controls.AddRange(New DevExpress.XtraReports.UI.XRControl() {Me.INDlbInfoPacienteDato, Me.INDlbPacienteNotificadoDato, Me.INDlbInfoPaciente, Me.INDlbPacienteNotificado, Me.XrLabel55, Me.XrLabel54, Me.XrLabel52, Me.XrLabel46, Me.XrLabel37, Me.XrLabel14, Me.INDlblEntidad, Me.INDlblTipoEvento, Me.XrLabel5, Me.INDlblNumeroAutorizacion, Me.XrLabel6, Me.INDlblObservaciones, Me.XrLabel7, Me.XrLabel32, Me.XrLabel33, Me.XrLabel34})
+        Me.GroupAutorizacionServicios.HeightF = 85.00005!
+        Me.GroupAutorizacionServicios.Level = 4
+        Me.GroupAutorizacionServicios.Name = "GroupAutorizacionServicios"
+        Me.GroupAutorizacionServicios.Visible = False
+        '
+        'INDlbInfoPacienteDato
+        '
+        Me.INDlbInfoPacienteDato.Bookmark = "Entidad"
+        Me.INDlbInfoPacienteDato.DataBindings.AddRange(New DevExpress.XtraReports.UI.XRBinding() {New DevExpress.XtraReports.UI.XRBinding("Text", Nothing, "Eventos Todo.InfoPaciente")})
+        Me.INDlbInfoPacienteDato.LocationFloat = New DevExpress.Utils.PointFloat(393.0001!, 68.0!)
+        Me.INDlbInfoPacienteDato.Multiline = True
+        Me.INDlbInfoPacienteDato.Name = "INDlbInfoPacienteDato"
+        Me.INDlbInfoPacienteDato.Padding = New DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100.0!)
+        Me.INDlbInfoPacienteDato.SizeF = New System.Drawing.SizeF(348.9997!, 16.99998!)
+        Me.INDlbInfoPacienteDato.Text = "INDlblEntidad"
+        Me.INDlbInfoPacienteDato.Visible = False
+        '
+        'INDlbPacienteNotificadoDato
+        '
+        Me.INDlbPacienteNotificadoDato.Bookmark = "Entidad"
+        Me.INDlbPacienteNotificadoDato.DataBindings.AddRange(New DevExpress.XtraReports.UI.XRBinding() {New DevExpress.XtraReports.UI.XRBinding("Text", Nothing, "Eventos Todo.PacienteNotificado")})
+        Me.INDlbPacienteNotificadoDato.LocationFloat = New DevExpress.Utils.PointFloat(127.7083!, 68.00003!)
+        Me.INDlbPacienteNotificadoDato.Name = "INDlbPacienteNotificadoDato"
+        Me.INDlbPacienteNotificadoDato.Padding = New DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100.0!)
+        Me.INDlbPacienteNotificadoDato.SizeF = New System.Drawing.SizeF(73.2914!, 16.99998!)
+        Me.INDlbPacienteNotificadoDato.Text = "INDlblEntidad"
+        Me.INDlbPacienteNotificadoDato.Visible = False
+        '
+        'INDlbInfoPaciente
+        '
+        Me.INDlbInfoPaciente.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.INDlbInfoPaciente.LocationFloat = New DevExpress.Utils.PointFloat(224.3749!, 68.00003!)
+        Me.INDlbInfoPaciente.Name = "INDlbInfoPaciente"
+        Me.INDlbInfoPaciente.Padding = New DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100.0!)
+        Me.INDlbInfoPaciente.SizeF = New System.Drawing.SizeF(168.6251!, 17.00002!)
+        Me.INDlbInfoPaciente.StylePriority.UseFont = False
+        Me.INDlbInfoPaciente.Text = "Información dada al paciente:"
+        Me.INDlbInfoPaciente.Visible = False
+        '
+        'INDlbPacienteNotificado
+        '
+        Me.INDlbPacienteNotificado.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.INDlbPacienteNotificado.LocationFloat = New DevExpress.Utils.PointFloat(9.999927!, 68.00003!)
+        Me.INDlbPacienteNotificado.Name = "INDlbPacienteNotificado"
+        Me.INDlbPacienteNotificado.Padding = New DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100.0!)
+        Me.INDlbPacienteNotificado.SizeF = New System.Drawing.SizeF(117.7084!, 17.00002!)
+        Me.INDlbPacienteNotificado.StylePriority.UseFont = False
+        Me.INDlbPacienteNotificado.Text = "Paciente notificado:"
+        Me.INDlbPacienteNotificado.Visible = False
+        '
+        'XrLabel55
+        '
+        Me.XrLabel55.Bookmark = "Entidad"
+        Me.XrLabel55.DataBindings.AddRange(New DevExpress.XtraReports.UI.XRBinding() {New DevExpress.XtraReports.UI.XRBinding("Text", Nothing, "Eventos Todo.CantidadSolcitada")})
+        Me.XrLabel55.LocationFloat = New DevExpress.Utils.PointFloat(508.0335!, 34.00005!)
+        Me.XrLabel55.Name = "XrLabel55"
+        Me.XrLabel55.Padding = New DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100.0!)
+        Me.XrLabel55.SizeF = New System.Drawing.SizeF(52.45807!, 16.99998!)
+        Me.XrLabel55.Text = "INDlblEntidad"
+        '
+        'XrLabel54
+        '
+        Me.XrLabel54.Bookmark = "Entidad"
+        Me.XrLabel54.DataBindings.AddRange(New DevExpress.XtraReports.UI.XRBinding() {New DevExpress.XtraReports.UI.XRBinding("Text", Nothing, "Eventos Todo.Servicio")})
+        Me.XrLabel54.LocationFloat = New DevExpress.Utils.PointFloat(450.2916!, 0!)
+        Me.XrLabel54.Name = "XrLabel54"
+        Me.XrLabel54.Padding = New DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100.0!)
+        Me.XrLabel54.SizeF = New System.Drawing.SizeF(291.7081!, 16.99998!)
+        Me.XrLabel54.Text = "INDlblEntidad"
+        '
+        'XrLabel52
+        '
+        Me.XrLabel52.Bookmark = "Entidad"
+        Me.XrLabel52.DataBindings.AddRange(New DevExpress.XtraReports.UI.XRBinding() {New DevExpress.XtraReports.UI.XRBinding("Text", Nothing, "Eventos Todo.ESTADO")})
+        Me.XrLabel52.LocationFloat = New DevExpress.Utils.PointFloat(450.2917!, 17.00001!)
+        Me.XrLabel52.Name = "XrLabel52"
+        Me.XrLabel52.Padding = New DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100.0!)
+        Me.XrLabel52.SizeF = New System.Drawing.SizeF(291.7081!, 16.99998!)
+        Me.XrLabel52.Text = "INDlblEntidad"
+        '
+        'XrLabel46
+        '
+        Me.XrLabel46.Bookmark = "Entidad"
+        Me.XrLabel46.DataBindings.AddRange(New DevExpress.XtraReports.UI.XRBinding() {New DevExpress.XtraReports.UI.XRBinding("Text", Nothing, "Eventos Todo.CantidadAutorizada")})
+        Me.XrLabel46.LocationFloat = New DevExpress.Utils.PointFloat(689.5418!, 34.00002!)
+        Me.XrLabel46.Name = "XrLabel46"
+        Me.XrLabel46.Padding = New DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100.0!)
+        Me.XrLabel46.SizeF = New System.Drawing.SizeF(52.45807!, 16.99998!)
+        Me.XrLabel46.Text = "INDlblEntidad"
+        '
+        'XrLabel37
+        '
+        Me.XrLabel37.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.XrLabel37.LocationFloat = New DevExpress.Utils.PointFloat(569.0417!, 34.00002!)
+        Me.XrLabel37.Name = "XrLabel37"
+        Me.XrLabel37.Padding = New DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100.0!)
+        Me.XrLabel37.SizeF = New System.Drawing.SizeF(120.5001!, 17.0!)
+        Me.XrLabel37.StylePriority.UseFont = False
+        Me.XrLabel37.Text = "Cantidad autorizada:"
+        '
+        'GroupAtencionUrgencias
+        '
+        Me.GroupAtencionUrgencias.Controls.AddRange(New DevExpress.XtraReports.UI.XRControl() {Me.XrLabel53, Me.XrLabel44, Me.XrLabel42, Me.XrLabel38, Me.XrLabel39, Me.XrLabel41, Me.XrLabel43, Me.XrLabel45, Me.XrLabel48, Me.XrLabel40})
+        Me.GroupAtencionUrgencias.HeightF = 51.00004!
+        Me.GroupAtencionUrgencias.Level = 3
+        Me.GroupAtencionUrgencias.Name = "GroupAtencionUrgencias"
+        '
+        'XrLabel53
+        '
+        Me.XrLabel53.Bookmark = "Entidad"
+        Me.XrLabel53.DataBindings.AddRange(New DevExpress.XtraReports.UI.XRBinding() {New DevExpress.XtraReports.UI.XRBinding("Text", Nothing, "Eventos Todo.ESTADO")})
+        Me.XrLabel53.LocationFloat = New DevExpress.Utils.PointFloat(88.04983!, 16.99994!)
+        Me.XrLabel53.Name = "XrLabel53"
+        Me.XrLabel53.Padding = New DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100.0!)
+        Me.XrLabel53.SizeF = New System.Drawing.SizeF(291.7081!, 16.99998!)
+        Me.XrLabel53.Text = "INDlblEntidad"
+        '
+        'XrLabel44
+        '
+        Me.XrLabel44.DataBindings.AddRange(New DevExpress.XtraReports.UI.XRBinding() {New DevExpress.XtraReports.UI.XRBinding("Text", Nothing, "Eventos Todo.COMGENREG")})
+        Me.XrLabel44.LocationFloat = New DevExpress.Utils.PointFloat(112.9539!, 33.99995!)
+        Me.XrLabel44.Multiline = True
+        Me.XrLabel44.Name = "XrLabel44"
+        Me.XrLabel44.Padding = New DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100.0!)
+        Me.XrLabel44.SizeF = New System.Drawing.SizeF(629.0458!, 16.99998!)
+        Me.XrLabel44.Text = "INDlblObservaciones"
+        '
+        'XrLabel42
+        '
+        Me.XrLabel42.Bookmark = "Numero Autorizacion"
+        Me.XrLabel42.DataBindings.AddRange(New DevExpress.XtraReports.UI.XRBinding() {New DevExpress.XtraReports.UI.XRBinding("Text", Nothing, "Eventos Todo.NUMVALDER")})
+        Me.XrLabel42.LocationFloat = New DevExpress.Utils.PointFloat(526.0001!, 17.00001!)
+        Me.XrLabel42.Name = "XrLabel42"
+        Me.XrLabel42.Padding = New DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100.0!)
+        Me.XrLabel42.SizeF = New System.Drawing.SizeF(215.9996!, 16.99999!)
+        Me.XrLabel42.Text = "INDlblNumeroAutorizacion"
+        '
+        'XrLabel38
+        '
+        Me.XrLabel38.Bookmark = "Entidad"
+        Me.XrLabel38.DataBindings.AddRange(New DevExpress.XtraReports.UI.XRBinding() {New DevExpress.XtraReports.UI.XRBinding("Text", Nothing, "Eventos Todo.NOMENTIDA")})
+        Me.XrLabel38.LocationFloat = New DevExpress.Utils.PointFloat(88.05!, 0!)
+        Me.XrLabel38.Name = "XrLabel38"
+        Me.XrLabel38.Padding = New DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100.0!)
+        Me.XrLabel38.SizeF = New System.Drawing.SizeF(291.9501!, 16.99998!)
+        Me.XrLabel38.Text = "INDlblEntidad"
+        '
+        'XrLabel39
+        '
+        Me.XrLabel39.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.XrLabel39.LocationFloat = New DevExpress.Utils.PointFloat(9.999927!, 17.00001!)
+        Me.XrLabel39.Name = "XrLabel39"
+        Me.XrLabel39.Padding = New DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100.0!)
+        Me.XrLabel39.SizeF = New System.Drawing.SizeF(78.0499!, 17.0!)
+        Me.XrLabel39.StylePriority.UseFont = False
+        Me.XrLabel39.Text = "Estado:"
+        '
+        'XrLabel41
+        '
+        Me.XrLabel41.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.XrLabel41.LocationFloat = New DevExpress.Utils.PointFloat(9.999926!, 34.00002!)
+        Me.XrLabel41.Name = "XrLabel41"
+        Me.XrLabel41.Padding = New DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100.0!)
+        Me.XrLabel41.SizeF = New System.Drawing.SizeF(102.954!, 17.00002!)
+        Me.XrLabel41.StylePriority.UseFont = False
+        Me.XrLabel41.Text = "Observaciones:"
+        '
+        'XrLabel43
+        '
+        Me.XrLabel43.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.XrLabel43.LocationFloat = New DevExpress.Utils.PointFloat(393.0!, 16.99994!)
+        Me.XrLabel43.Name = "XrLabel43"
+        Me.XrLabel43.Padding = New DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100.0!)
+        Me.XrLabel43.SizeF = New System.Drawing.SizeF(133.0001!, 17.0!)
+        Me.XrLabel43.StylePriority.UseFont = False
+        Me.XrLabel43.Text = "Número autorización:"
+        '
+        'XrLabel45
+        '
+        Me.XrLabel45.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.XrLabel45.LocationFloat = New DevExpress.Utils.PointFloat(393.0!, 0!)
+        Me.XrLabel45.Name = "XrLabel45"
+        Me.XrLabel45.Padding = New DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100.0!)
+        Me.XrLabel45.SizeF = New System.Drawing.SizeF(78.0499!, 17.0!)
+        Me.XrLabel45.StylePriority.UseFont = False
+        Me.XrLabel45.Text = "Tipo evento:"
+        '
+        'XrLabel48
+        '
+        Me.XrLabel48.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.XrLabel48.LocationFloat = New DevExpress.Utils.PointFloat(9.999927!, 0!)
+        Me.XrLabel48.Name = "XrLabel48"
+        Me.XrLabel48.Padding = New DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100.0!)
+        Me.XrLabel48.SizeF = New System.Drawing.SizeF(78.0499!, 17.0!)
+        Me.XrLabel48.StylePriority.UseFont = False
+        Me.XrLabel48.Text = "Entidad:"
+        '
+        'XrLabel40
+        '
+        Me.XrLabel40.Bookmark = "Tipo Evento"
+        Me.XrLabel40.DataBindings.AddRange(New DevExpress.XtraReports.UI.XRBinding() {New DevExpress.XtraReports.UI.XRBinding("Text", Nothing, "Eventos Todo.TipoEvento")})
+        Me.XrLabel40.LocationFloat = New DevExpress.Utils.PointFloat(471.0499!, 0!)
+        Me.XrLabel40.Name = "XrLabel40"
+        Me.XrLabel40.Padding = New DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100.0!)
+        Me.XrLabel40.SizeF = New System.Drawing.SizeF(270.9498!, 16.99998!)
+        Me.XrLabel40.Text = "INDlblTipoEvento"
+        '
+        'LblUsuarioRegistro
+        '
+        Me.LblUsuarioRegistro.CanGrow = False
+        Me.LblUsuarioRegistro.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.LblUsuarioRegistro.LocationFloat = New DevExpress.Utils.PointFloat(580.4999!, 56.25!)
+        Me.LblUsuarioRegistro.Name = "LblUsuarioRegistro"
+        Me.LblUsuarioRegistro.Padding = New DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100.0!)
+        Me.LblUsuarioRegistro.SizeF = New System.Drawing.SizeF(174.9998!, 17.0!)
+        Me.LblUsuarioRegistro.StylePriority.UseFont = False
+        Me.LblUsuarioRegistro.WordWrap = False
+        '
+        'LblFechaRegistro
+        '
+        Me.LblFechaRegistro.CanGrow = False
+        Me.LblFechaRegistro.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.LblFechaRegistro.LocationFloat = New DevExpress.Utils.PointFloat(580.5!, 73.25001!)
+        Me.LblFechaRegistro.Name = "LblFechaRegistro"
+        Me.LblFechaRegistro.Padding = New DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100.0!)
+        Me.LblFechaRegistro.SizeF = New System.Drawing.SizeF(174.9998!, 17.0!)
+        Me.LblFechaRegistro.StylePriority.UseFont = False
+        Me.LblFechaRegistro.WordWrap = False
+        '
+        'ReportFooter
+        '
+        Me.ReportFooter.Controls.AddRange(New DevExpress.XtraReports.UI.XRControl() {Me.XrLabel35, Me.XrLabel36, Me.LblUsuarioRegistro, Me.LblFechaRegistro})
+        Me.ReportFooter.HeightF = 90.25003!
+        Me.ReportFooter.Name = "ReportFooter"
+        Me.ReportFooter.PageBreak = DevExpress.XtraReports.UI.PageBreak.AfterBand
+        '
+        'rptADRegistroEventos
+        '
+        Me.Bands.AddRange(New DevExpress.XtraReports.UI.Band() {Me.Detail, Me.TopMargin, Me.BottomMargin, Me.CabeceraReporte, Me.PageHeader, Me.GroupPaginaWeb, Me.GroupFax, Me.GroupLlamadaTelefonica, Me.GroupBasicos, Me.PageFooter, Me.GroupAutorizacionServicios, Me.GroupAtencionUrgencias, Me.ReportFooter})
+        Me.Bookmark = "Registro de Eventos"
+        Me.DisplayName = "RegistroEventos"
+        Me.Margins = New System.Drawing.Printing.Margins(50, 43, 25, 25)
+        Me.ScriptLanguage = DevExpress.XtraReports.ScriptLanguage.VisualBasic
+        Me.SnapGridSize = 4.4!
+        Me.Version = "15.1"
+        CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
+
+    End Sub
+    Friend WithEvents Detail As DevExpress.XtraReports.UI.DetailBand
+    Friend WithEvents TopMargin As DevExpress.XtraReports.UI.TopMarginBand
+    Friend WithEvents BottomMargin As DevExpress.XtraReports.UI.BottomMarginBand
+    Friend WithEvents CabeceraReporte As DevExpress.XtraReports.UI.ReportHeaderBand
+    Friend WithEvents INDLblNombreReporte As DevExpress.XtraReports.UI.XRLabel
+    Friend WithEvents INDLblNombreEmpresaCliente As DevExpress.XtraReports.UI.XRLabel
+    Friend WithEvents INDLblNitCliente As DevExpress.XtraReports.UI.XRLabel
+    Friend WithEvents PageHeader As DevExpress.XtraReports.UI.PageHeaderBand
+    Friend WithEvents GroupPaginaWeb As DevExpress.XtraReports.UI.GroupHeaderBand
+    Friend WithEvents GroupFax As DevExpress.XtraReports.UI.GroupHeaderBand
+    Friend WithEvents GroupLlamadaTelefonica As DevExpress.XtraReports.UI.GroupHeaderBand
+    Friend WithEvents XrLine1 As DevExpress.XtraReports.UI.XRLine
+    Friend WithEvents XrPageInfo1 As DevExpress.XtraReports.UI.XRPageInfo
+    Friend WithEvents GroupBasicos As DevExpress.XtraReports.UI.GroupHeaderBand
+    Friend WithEvents INDlblEntidad As DevExpress.XtraReports.UI.XRLabel
+    Friend WithEvents XrLabel5 As DevExpress.XtraReports.UI.XRLabel
+    Friend WithEvents INDlblTipoEvento As DevExpress.XtraReports.UI.XRLabel
+    Friend WithEvents XrLabel14 As DevExpress.XtraReports.UI.XRLabel
+    Friend WithEvents XrLabel7 As DevExpress.XtraReports.UI.XRLabel
+    Friend WithEvents INDlblObservaciones As DevExpress.XtraReports.UI.XRLabel
+    Friend WithEvents XrLabel6 As DevExpress.XtraReports.UI.XRLabel
+    Friend WithEvents INDlblNumeroAutorizacion As DevExpress.XtraReports.UI.XRLabel
+    Friend WithEvents INDlblCargoLlamada As DevExpress.XtraReports.UI.XRLabel
+    Friend WithEvents XrLabel12 As DevExpress.XtraReports.UI.XRLabel
+    Friend WithEvents INDlblPersonaContactoLlamada As DevExpress.XtraReports.UI.XRLabel
+    Friend WithEvents XrLabel2 As DevExpress.XtraReports.UI.XRLabel
+    Friend WithEvents XrLabel11 As DevExpress.XtraReports.UI.XRLabel
+    Friend WithEvents INDlblHoraFinalLlamada As DevExpress.XtraReports.UI.XRLabel
+    Friend WithEvents XrLabel10 As DevExpress.XtraReports.UI.XRLabel
+    Friend WithEvents INDlblHorainicialLlamada As DevExpress.XtraReports.UI.XRLabel
+    Friend WithEvents XrLabel9 As DevExpress.XtraReports.UI.XRLabel
+    Friend WithEvents INDlblExtensionLlamada As DevExpress.XtraReports.UI.XRLabel
+    Friend WithEvents XrLabel8 As DevExpress.XtraReports.UI.XRLabel
+    Friend WithEvents INDlblNumeroTelefonicollamada As DevExpress.XtraReports.UI.XRLabel
+    Friend WithEvents INDlblPaginaWeb As DevExpress.XtraReports.UI.XRLabel
+    Friend WithEvents XrLabel20 As DevExpress.XtraReports.UI.XRLabel
+    Friend WithEvents INDlblFechaRegistroPagina As DevExpress.XtraReports.UI.XRLabel
+    Friend WithEvents XrLabel18 As DevExpress.XtraReports.UI.XRLabel
+    Friend WithEvents INDlblFechaEnvioFax As DevExpress.XtraReports.UI.XRLabel
+    Friend WithEvents XrLabel15 As DevExpress.XtraReports.UI.XRLabel
+    Friend WithEvents XrLabel17 As DevExpress.XtraReports.UI.XRLabel
+    Friend WithEvents INDlblIntentos As DevExpress.XtraReports.UI.XRLabel
+    Friend WithEvents XrLabel16 As DevExpress.XtraReports.UI.XRLabel
+    Friend WithEvents INDlblExtensionFax As DevExpress.XtraReports.UI.XRLabel
+    Friend WithEvents XrLabel13 As DevExpress.XtraReports.UI.XRLabel
+    Friend WithEvents INDlblNumeroTelefonicoFax As DevExpress.XtraReports.UI.XRLabel
+    Friend WithEvents PageFooter As DevExpress.XtraReports.UI.PageFooterBand
+    Friend WithEvents XrLabel30 As DevExpress.XtraReports.UI.XRLabel
+    Friend WithEvents XrLine2 As DevExpress.XtraReports.UI.XRLine
+    Public WithEvents XrLabel1 As DevExpress.XtraReports.UI.XRLabel
+    Public WithEvents XrLabel4 As DevExpress.XtraReports.UI.XRLabel
+    Friend WithEvents BookLblIdentificacion As DevExpress.XtraReports.UI.XRLabel
+    Friend WithEvents XrLabel3 As DevExpress.XtraReports.UI.XRLabel
+    Friend WithEvents INDlblApellidos As DevExpress.XtraReports.UI.XRLabel
+    Friend WithEvents XrLabel19 As DevExpress.XtraReports.UI.XRLabel
+    Friend WithEvents INDlblNombres As DevExpress.XtraReports.UI.XRLabel
+    Friend WithEvents XrLabel21 As DevExpress.XtraReports.UI.XRLabel
+    Friend WithEvents INDlblEdad As DevExpress.XtraReports.UI.XRLabel
+    Friend WithEvents XrLabel22 As DevExpress.XtraReports.UI.XRLabel
+    Friend WithEvents INDlblSexo As DevExpress.XtraReports.UI.XRLabel
+    Friend WithEvents XrLabel23 As DevExpress.XtraReports.UI.XRLabel
+    Friend WithEvents INDlblTipoDocumento As DevExpress.XtraReports.UI.XRLabel
+    Friend WithEvents XrLabel24 As DevExpress.XtraReports.UI.XRLabel
+    Friend WithEvents INDlblNumeroDocumento As DevExpress.XtraReports.UI.XRLabel
+    Friend WithEvents XrLabel25 As DevExpress.XtraReports.UI.XRLabel
+    Friend WithEvents INDlblDireccion As DevExpress.XtraReports.UI.XRLabel
+    Friend WithEvents XrLabel26 As DevExpress.XtraReports.UI.XRLabel
+    Friend WithEvents INDlblTelefono As DevExpress.XtraReports.UI.XRLabel
+    Friend WithEvents XrLabel27 As DevExpress.XtraReports.UI.XRLabel
+    Friend WithEvents XrLabel28 As DevExpress.XtraReports.UI.XRLabel
+    Friend WithEvents XrLabel29 As DevExpress.XtraReports.UI.XRLabel
+    Friend WithEvents INDlblTipoPaciente As DevExpress.XtraReports.UI.XRLabel
+    Friend WithEvents XrLabel31 As DevExpress.XtraReports.UI.XRLabel
+    Friend WithEvents INDlblTipoAfiliado As DevExpress.XtraReports.UI.XRLabel
+    Public WithEvents INDlblIngreso As DevExpress.XtraReports.UI.XRLabel
+    Friend WithEvents XrLabel95 As DevExpress.XtraReports.UI.XRLabel
+    Friend WithEvents XrLabel34 As DevExpress.XtraReports.UI.XRLabel
+    Friend WithEvents XrLabel33 As DevExpress.XtraReports.UI.XRLabel
+    Friend WithEvents XrLabel32 As DevExpress.XtraReports.UI.XRLabel
+    Friend WithEvents XrLabel36 As DevExpress.XtraReports.UI.XRLabel
+    Friend WithEvents XrLabel35 As DevExpress.XtraReports.UI.XRLabel
+    Friend WithEvents GroupAutorizacionServicios As DevExpress.XtraReports.UI.GroupHeaderBand
+    Friend WithEvents GroupAtencionUrgencias As DevExpress.XtraReports.UI.GroupHeaderBand
+    Friend WithEvents XrLabel37 As DevExpress.XtraReports.UI.XRLabel
+    Friend WithEvents XrLabel39 As DevExpress.XtraReports.UI.XRLabel
+    Friend WithEvents XrLabel41 As DevExpress.XtraReports.UI.XRLabel
+    Friend WithEvents XrLabel43 As DevExpress.XtraReports.UI.XRLabel
+    Friend WithEvents XrLabel45 As DevExpress.XtraReports.UI.XRLabel
+    Friend WithEvents XrLabel48 As DevExpress.XtraReports.UI.XRLabel
+    Friend WithEvents XrLabel44 As DevExpress.XtraReports.UI.XRLabel
+    Friend WithEvents XrLabel42 As DevExpress.XtraReports.UI.XRLabel
+    Friend WithEvents XrLabel38 As DevExpress.XtraReports.UI.XRLabel
+    Friend WithEvents XrLabel40 As DevExpress.XtraReports.UI.XRLabel
+    Friend WithEvents XrLabel46 As DevExpress.XtraReports.UI.XRLabel
+    Friend WithEvents LblFechaRegistro As DevExpress.XtraReports.UI.XRLabel
+    Friend WithEvents LblUsuarioRegistro As DevExpress.XtraReports.UI.XRLabel
+    Friend WithEvents XrLine3 As DevExpress.XtraReports.UI.XRLine
+    Friend WithEvents ReportFooter As DevExpress.XtraReports.UI.ReportFooterBand
+    Friend WithEvents XrLabel52 As DevExpress.XtraReports.UI.XRLabel
+    Friend WithEvents XrLabel53 As DevExpress.XtraReports.UI.XRLabel
+    Friend WithEvents XrLabel54 As DevExpress.XtraReports.UI.XRLabel
+    Friend WithEvents XrLabel55 As DevExpress.XtraReports.UI.XRLabel
+    Friend WithEvents INDlbInfoPacienteDato As DevExpress.XtraReports.UI.XRLabel
+    Friend WithEvents INDlbPacienteNotificadoDato As DevExpress.XtraReports.UI.XRLabel
+    Friend WithEvents INDlbInfoPaciente As DevExpress.XtraReports.UI.XRLabel
+    Friend WithEvents INDlbPacienteNotificado As DevExpress.XtraReports.UI.XRLabel
+End Class

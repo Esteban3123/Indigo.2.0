@@ -1,0 +1,69 @@
+﻿'***********************************************************************
+' Assembly         : Domain.Security
+' Author           : Juan Diego Diaz M.
+' Created          : 12-11-2013
+'
+' Copyright        : (c) . All rights reserved.
+'***********************************************************************
+
+#Region "Imports"
+Imports Domain.Security.Entities
+Imports Domain.Base
+#End Region
+Public Interface IContainersRepository
+
+    ''' <summary>
+    ''' Función que obtiene una lista de Contenedores
+    ''' </summary>
+    ''' <returns>Lista de Contenedores</returns>
+    Function getContainers() As List(Of Containers)
+
+    Function ListCompanies() As List(Of Company)
+
+    ''' <summary>
+    ''' Obtiene el nombre del contenedor de seguridad
+    ''' </summary>
+    ''' <returns>Nombre del contenedor de seguridad</returns>
+    Function getSecurityContainerName() As String
+
+    ' ''' <summary>
+    ' ''' Obtiene el nombre del contenedor de la interaccion con costos
+    ' ''' </summary>
+    ' ''' <returns>Nombre del contenedor de Indigo Crystal HIS</returns>
+    Function getInteropCostContainerName() As String
+
+    ''' <summary>
+    ''' Obtiene el nombre del contenedor de la interaccion con costos
+    ''' </summary>
+    ''' <returns>Nombre del contenedor de Indigo Crystal HIS</returns>
+    Function getIndigoConnectionString() As String
+
+    ''' <summary>
+    ''' Función para obtener un contenedor
+    ''' </summary>
+    ''' <returns>Objeto Contenedor</returns>
+    Function getContainersByName(Name As String) As Containers
+
+    ''' <summary>
+    ''' Obtiene los contenedores para el codigo de empresa dado
+    ''' </summary>
+    ''' <param name="code">Codigo de empresa a consultar</param>
+    ''' <returns>Contenedores</returns>
+    Function getContainersByCode(code As String) As Containers
+
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="idCompany"></param>
+    ''' <returns></returns>
+    Function getContainersById(ByVal idCompany As Integer) As Containers
+
+    ''' <summary>
+    ''' Lista las compañias que tiene permiso el usuario
+    ''' </summary>
+    ''' <param name="idUser"></param>
+    ''' <returns></returns>
+    Function getCompaniesByUser(ByVal idUser As Integer) As List(Of Company)
+
+End Interface
+

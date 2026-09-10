@@ -1,0 +1,3 @@
+﻿Public Class FrmNotificationItemDetail
+
+End Class

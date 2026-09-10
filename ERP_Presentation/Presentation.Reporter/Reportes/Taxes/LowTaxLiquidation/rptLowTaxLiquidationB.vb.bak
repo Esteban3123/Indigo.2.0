@@ -1,0 +1,79 @@
+﻿#Region "Imports"
+Imports Infrastructure.CrossCutting.Base
+Imports Infrastructure.Data.Xpo
+Imports Infrastructure.Data.Xpo.TaxesRepository
+Imports Infrastructure.Data.Xpo.PortfolioRepository
+Imports Infrastructure.Data.Xpo.SecurityRepository
+'Imports Domain.Entities
+Imports DevExpress.XtraReports.UI
+Imports Presentation.Base
+Imports DevExpress.XtraReports.Parameters
+
+Imports DevExpress.Xpo
+#End Region
+
+Public Class rptLowTaxLiquidationB
+    Implements IReport
+
+    ''' <summary>
+    ''' Variable para inicializar los valores de sesion
+    ''' </summary>
+    Dim IndigoSessionValues As SessionValues = SessionValues.Instance
+
+    ''' <summary>
+    ''' Variable para crear el filtro
+    ''' </summary>
+    Dim filtroConsulta As String = Nothing
+
+    ''' <summary>
+    ''' Variable list para pasar al datasource
+    ''' </summary>
+    Dim INDList As List(Of TaxesLowTaxLiquidationDetailReportXpo)
+
+    Private INDUser As Object
+
+    Public Sub CargarDataSource() Implements IReport.CargarDataSource
+        Dim filtroConsulta As String = "LowTaxLiquidationId = " & ParametrosReporte(0)
+        INDList = XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).BudgetService.GetCollection(Of TaxesLowTaxLiquidationDetailReportXpo)(Nothing, filtroConsulta)
+
+        If INDList IsNot Nothing Then
+            Dim INDCodeUser = CType(INDList(0), TaxesLowTaxLiquidationDetailReportXpo).LowTaxLiquidationId.CreationUser.Trim()
+            INDUser = XpoServiceEx.Instance(IndigoSessionValues.SecurityContainer).SecurityService.GetCollection(Of Infrastructure.Data.Xpo.SecurityRepository.UserXpo)(Nothing, "UserCode = '" & INDCodeUser & "'")
+        End If
+        Me.DataSource = INDList
+    End Sub
+
+    Public Function GetExceptionDetails(exception As Exception) As String
+        Dim properties = exception.[GetType]().GetProperties()
+        Dim fields = properties.[Select](Function([property]) New With { _
+            Key .Name = [property].Name, _
+            Key .Value = [property].GetValue(exception, Nothing) _
+        }).[Select](Function(x) [String].Format("{0} : {1}", x.Name, If(x.Value IsNot Nothing, x.Value.ToString(), [String].Empty)))
+        Return [String].Join(vbLf, fields)
+    End Function
+
+    Public Sub CargarImagenes() Implements IReport.CargarImagenes
+
+    End Sub
+
+    Public ReadOnly Property NameReport As String Implements IReport.NameReport
+        Get
+            Return ""
+        End Get
+    End Property
+
+    Public Property ParametrosReporte As Object() Implements IReport.ParametrosReporte
+
+    Private Sub rptListTaxes_BeforePrint(sender As Object, e As Printing.PrintEventArgs) Handles MyBase.BeforePrint
+        Me.INDLblUserPrint.Text = "Usuario Impresión :  " & IndigoSessionValues.UserIndigo & " - " & IndigoSessionValues.UserIndigoName
+    End Sub
+
+    Private Sub XrBarCode2_BeforePrint(sender As Object, e As Printing.PrintEventArgs) Handles XrBarCode2.BeforePrint
+        Dim InvoiceNumber = CType(INDList(0), TaxesLowTaxLiquidationDetailReportXpo).LowTaxLiquidationId.InvoiceNumber.Trim()
+        Dim TotalToPay As Integer = Convert.ToUInt32(CType(INDList(0), TaxesLowTaxLiquidationDetailReportXpo).LowTaxLiquidationId.TotalToPay)
+        Dim DocumentDate = CType(INDList(0), TaxesLowTaxLiquidationDetailReportXpo).LowTaxLiquidationId.DocumentDate.Year
+
+        XrBarCode2.Text = "(415)7709998000506(8020)" & InvoiceNumber.ToString & "(3900)" & TotalToPay.ToString("D" + "10") & "(96)" & DocumentDate
+
+    End Sub
+End Class

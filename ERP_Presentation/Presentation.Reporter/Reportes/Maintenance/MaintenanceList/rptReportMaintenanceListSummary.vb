@@ -1,0 +1,100 @@
+﻿#Region "Librerias Importadas"
+Imports Infrastructure.CrossCutting.Base
+Imports Infrastructure.Data.Xpo
+Imports Infrastructure.Data.Xpo.MaintenanceRepository
+Imports Presentation.Base
+#End Region
+
+Public Class rptReportMaintenanceListSummary
+    Implements IReport
+    Implements IReportAsync
+
+#Region "Properties"
+    ''' <summary>
+    ''' Variable para inicializar los valores de sesion
+    ''' </summary>
+    Dim IndigoSessionValues As SessionValues = SessionValues.Instance
+
+#End Region
+
+#Region "LoadData"
+
+    Public Sub CargarDataSource() Implements IReport.CargarDataSource
+        Try
+            Dim filtroConsulta As String = Nothing
+            filtroConsulta = String.Format("ProgramDate >= #" & Format(ParametrosReporte(0), "yyyy-MM-dd") & "# AND ProgramDate <= #" & Format(ParametrosReporte(1), "yyyy-MM-dd") & "#")
+            'Filtrar por documento
+            If Not String.IsNullOrEmpty(ParametrosReporte(2)) Then
+                filtroConsulta &= String.Format(" AND Id IN ({0})", ParametrosReporte(2))
+            End If
+            'Filtrar por placa
+            If Not String.IsNullOrEmpty(ParametrosReporte(3)) Then
+                filtroConsulta &= String.Format(" AND PhysicalAssetId.Id IN ({0})", ParametrosReporte(3))
+            End If
+            ''Filtrar por articulo
+            If Not String.IsNullOrEmpty(ParametrosReporte(4)) Then
+                filtroConsulta &= String.Format(" AND PhysicalAssetId.ItemId.Id IN ({0})", ParametrosReporte(4))
+            End If
+            ''Filtrar por encargado
+            If Not String.IsNullOrEmpty(ParametrosReporte(5)) Then
+                filtroConsulta &= String.Format(" AND MaintenanceResponsibleId IN ({0})", ParametrosReporte(5))
+            End If
+            ''Filtrar por responsable
+            If Not String.IsNullOrEmpty(ParametrosReporte(6)) Then
+                filtroConsulta &= String.Format(" AND Id.PhysicalAssetId.ResponsibleId IN ({0})", ParametrosReporte(6))
+            End If
+            ''Filtrar por ubicacion
+            If Not String.IsNullOrEmpty(ParametrosReporte(7)) Then
+                filtroConsulta &= String.Format(" AND Id.PhysicalAssetId.LocationId IN ({0})", ParametrosReporte(7))
+            End If
+            ''Filtrar por catalogo de articulo
+            If Not String.IsNullOrEmpty(ParametrosReporte(8)) Then
+                filtroConsulta &= String.Format(" AND PhysicalAssetId.ItemId.ItemCatalogId IN ({0})", ParametrosReporte(8))
+            End If
+            ''Filtrar por estado
+            If Not String.IsNullOrEmpty(ParametrosReporte(10)) And ParametrosReporte(10) <> 5 Then
+                filtroConsulta &= " AND WorkOrderState = " & ParametrosReporte(10)
+            End If
+
+            Me.DataSource = XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).MaintenanceService.GetCollection(Of ViewWorkOrderReportXpo)(Nothing, filtroConsulta)
+        Catch ex As Exception
+            MessageIndigo.Show(GetExceptionDetails(ex), MessageType.Errores, Me.Text, Botones.Aceptar, "")
+        End Try
+    End Sub
+
+    Public Function CargarDataSourceAsync() As Task Implements IReportAsync.CargarDataSourceAsync
+        Return Task.Factory.StartNew(AddressOf CargarDataSource)
+    End Function
+#End Region
+
+#Region "Methods"
+    Public Function GetExceptionDetails(exception As Exception) As String
+        Dim properties = exception.[GetType]().GetProperties()
+        Dim fields = properties.[Select](Function([property]) New With {
+            Key .Name = [property].Name,
+            Key .Value = [property].GetValue(exception, Nothing)
+        }).[Select](Function(x) [String].Format("{0} : {1}", x.Name, If(x.Value IsNot Nothing, x.Value.ToString(), [String].Empty)))
+        Return [String].Join(vbLf, fields)
+    End Function
+
+    Public Sub CargarImagenes() Implements IReport.CargarImagenes
+
+    End Sub
+
+    Public ReadOnly Property NameReport As String Implements IReport.NameReport
+        Get
+            Return ""
+        End Get
+    End Property
+
+    Public Property ParametrosReporte As Object() Implements IReport.ParametrosReporte
+
+    Private Sub rptReportMaintenanceListSummaryt_BeforePrint(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles MyBase.BeforePrint
+        INDLblCompany.Text = IndigoSessionValues.IndigoCompanyName
+        INDLblNitCompany.Text = "Nit:" & IndigoSessionValues.IndigoCompanyNit
+        Me.INDLblUserPrint.Text = "Usuario Impresión : " & IndigoSessionValues.UserIndigo & " - " & IndigoSessionValues.UserIndigoName
+        Me.INDGroupBy.Value = ParametrosReporte(9)
+    End Sub
+#End Region
+
+End Class

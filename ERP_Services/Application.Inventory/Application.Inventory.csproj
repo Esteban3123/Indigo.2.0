@@ -1,0 +1,415 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{355F1DEE-04D6-492C-8BBF-22B00E19AC79}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Application.Inventory</RootNamespace>
+    <AssemblyName>Application.Inventory</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debugcito|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\Debugcito\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debugcito|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\Debugcito\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\DLL\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer">
+      <HintPath>..\DLL\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="Infrastructure.CrossCutting.Exceptions, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\DLL\Infrastructure.CrossCutting.Exceptions.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.13.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.Entity" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Transactions" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AdjustmentConcept\AdjustmentConceptAdminService.cs" />
+    <Compile Include="AdministrationRoute\AdministrationRouteAdminService.cs" />
+    <Compile Include="AdministrationRoute\IAdministrationRouteAdminService.cs" />
+    <Compile Include="AntineoplasicoMedication\AntineoplasicoMedicationAdminService.cs" />
+    <Compile Include="AntineoplasicoMedication\IAntineoplasicoMedicationAdminService.cs" />
+    <Compile Include="ATCEntity\ATCEntityAdminService.cs" />
+    <Compile Include="ATCEntity\IATCEntityAdminService.cs" />
+    <Compile Include="ATC\ATCAdminService.cs" />
+    <Compile Include="ATC\IATCAdminService.cs" />
+    <Compile Include="AttributeProductType\AttributeProductTypeAdminService.cs" />
+    <Compile Include="AttributeProductType\IAttributeProductTypeAdminService.cs" />
+    <Compile Include="BacterialResistanceMedication\BacterialResistanceMedicationAdminService.cs" />
+    <Compile Include="BacterialResistanceMedication\IBacterialResistanceMedicationAdminService.cs" />
+    <Compile Include="BatchSerial\BatchSerialAdminService.cs" />
+    <Compile Include="BatchSerial\IBatchSerialAdminService.cs" />
+    <Compile Include="BlockRecordInventory\BlockRecordInventoryAdminService.cs" />
+    <Compile Include="BlockRecordInventory\IBlockRecordInventoryAdminService.cs" />
+    <Compile Include="AdjustmentConcept\IAdjustmentConceptAdminService.cs" />
+    <Compile Include="ConsignmentCostList\ConsignmentCostListAdminService.cs" />
+    <Compile Include="ConsignmentCostList\IConsignmentCostListAdminService.cs" />
+    <Compile Include="ConsignmentTransfer\ConsignmentTransferAdminService.cs" />
+    <Compile Include="ConsignmentTransfer\IConsignmentTransferAdminService.cs" />
+    <Compile Include="ConsumeService\ConsumeServiceAdminService.cs" />
+    <Compile Include="ConsumeService\ConsumeServiceIntegration.cs" />
+    <Compile Include="ConsumeService\IConsumeServiceAdminService.cs" />
+    <Compile Include="DashBoardPharmacy\DashBoardPharmacyAdminService.cs" />
+    <Compile Include="DashBoardPharmacy\IDashBoardPharmacyAdminService.cs" />
+    <Compile Include="DCI\DCIAdminService.cs" />
+    <Compile Include="DCI\IDCIAdminService.cs" />
+    <Compile Include="DecreaseMaximumLimit\DecreaseMaximumLimitAdminService.cs" />
+    <Compile Include="DecreaseMaximumLimit\IDecreaseMaximumLimitAdminService.cs" />
+    <Compile Include="DocumentInvoiceProductSalesDetail\DocumentInvoiceProductSalesDetailAdminService.cs" />
+    <Compile Include="DocumentInvoiceProductSalesDetail\IDocumentInvoiceProductSalesDetailAdminService.cs" />
+    <Compile Include="DocumentInvoiceProductSales\DocumentInvoiceProductSalesAdminService.cs" />
+    <Compile Include="DocumentInvoiceProductSales\IDocumentInvoiceProductSalesAdminService.cs" />
+    <Compile Include="EntranceVoucherDevolution\EntranceVoucherDevolutionAdminService.cs" />
+    <Compile Include="EntranceVoucherDevolution\IEntranceVoucherDevolutionAdminService.cs" />
+    <Compile Include="EntranceVoucher\EntranceVoucherAdminService.cs" />
+    <Compile Include="EntranceVoucher\IEntranceVoucherAdminService.cs" />
+    <Compile Include="InventoryAdjustment\IInventoryAdjustmentAdminService.cs" />
+    <Compile Include="InventoryAdjustment\InventoryAdjustmentAdminService.cs" />
+    <Compile Include="ConsignmentInventoryRemission\IConsignmentInventoryRemissionAdminService.cs" />
+    <Compile Include="ConsignmentInventoryRemission\ConsignmentInventoryRemissionAdminService.cs" />
+    <Compile Include="InventoryContractAssignment\IInventoryContractAssignmentAdminService.cs" />
+    <Compile Include="InventoryContractAssignment\InventoryContractAssignmentAdminService.cs" />
+    <Compile Include="InventoryContractDetail\IInventoryContractDetailAdminService.cs" />
+    <Compile Include="InventoryContractDetail\InventoryContractDetailAdminService.cs" />
+    <Compile Include="InventoryContractModification\IInventoryContractModificationAdminService.cs" />
+    <Compile Include="InventoryContractModification\InventoryContractModificationAdminService.cs" />
+    <Compile Include="InventoryContractType\IInventoryContractTypeAdminService.cs" />
+    <Compile Include="InventoryContractType\InventoryContractTypeAdminService.cs" />
+    <Compile Include="InventoryContract\IInventoryContractAdminService.cs" />
+    <Compile Include="InventoryContract\InventoryContractAdminService.cs" />
+    <Compile Include="InventoryControlService\IInventoryControlServiceAdminService.cs" />
+    <Compile Include="InventoryControlService\InventoryControlServiceAdminService.cs" />
+    <Compile Include="InventoryControl\IInventoryControlAdminService.cs" />
+    <Compile Include="InventoryControl\InventoryControlAdminService.cs" />
+    <Compile Include="InventoryKardex\IInventoryKardexAdminService.cs" />
+    <Compile Include="InventoryKardex\InventoryKardexAdminService.cs" />
+    <Compile Include="InventoryMassiveConfirm\IInventoryMassiveConfirmAdminService.cs" />
+    <Compile Include="InventoryMassiveConfirm\InventoryMassiveConfirmAdminService.cs" />
+    <Compile Include="Rollback\IAdminServiceRollbackStrategy.cs" />
+    <Compile Include="Rollback\RollbackStrategyFactory.cs" />
+    <Compile Include="StorageTemperature\IStorageTemperatureAdminService.cs" />
+    <Compile Include="StorageTemperature\StorageTemperatureAdminService.cs" />
+    <Compile Include="InventoryProduct\IInventoryProductAdminService.cs" />
+    <Compile Include="InventoryProduct\InventoryProductAdminService.cs" />
+    <Compile Include="InventorySupplie\IInventorySupplieAdminService.cs" />
+    <Compile Include="InventorySupplie\InventorySupplieAdminService.cs" />
+    <Compile Include="DevolutionCause\IDevolutionCauseAdminService.cs" />
+    <Compile Include="DevolutionCause\DevolutionCauseAdminService.cs" />
+    <Compile Include="MedicationType\IMedicationTypeAdminService.cs" />
+    <Compile Include="MedicationType\MedicationTypeAdminService.cs" />
+    <Compile Include="PharmaceuticalDispensingTransfer\IPharmaceuticalDispensingTransferAdminService.cs" />
+    <Compile Include="PharmaceuticalDispensingTransfer\PharmaceuticalDispensingTransferAdminService.cs" />
+    <Compile Include="PharmaceuticalFormGrouping\IPharmaceuticalFormGroupingAdminService.cs" />
+    <Compile Include="PharmaceuticalFormGrouping\PharmaceuticalFormGroupingAdminService.cs" />
+    <Compile Include="ProductInTransitDetail\IProductInTransitDetailAdminService.cs" />
+    <Compile Include="ProductInTransitDetail\ProductInTransitDetailAdminService.cs" />
+    <Compile Include="ProductInTransit\IProductInTransitAdminService.cs" />
+    <Compile Include="ProductInTransit\ProductInTransitAdminService.cs" />
+    <Compile Include="PurchaseRequestDetail\IPurchaseRequestDetailAdminService.cs" />
+    <Compile Include="InventoryRequestDetail\IInventoryRequestDetailAdminService.cs" />
+    <Compile Include="PurchaseRequestDetail\PurchaseRequestDetailAdminService.cs" />
+    <Compile Include="InventoryRequestDetail\InventoryRequestDetailAdminService.cs" />
+    <Compile Include="InventoryRequestDevolution\IInventoryRequestDevolutionAdminService.cs" />
+    <Compile Include="InventoryRequestDevolution\InventoryRequestDevolutionAdminService.cs" />
+    <Compile Include="PurchaseRequest\IPurchaseRequestAdminService.cs" />
+    <Compile Include="InventoryRequest\IInventoryRequestAdminService.cs" />
+    <Compile Include="PurchaseRequest\PurchaseRequestAdminService.cs" />
+    <Compile Include="InventoryRequest\InventoryRequestAdminService.cs" />
+    <Compile Include="InventoryRiskLevel\IInventoryRiskLevelAdminService.cs" />
+    <Compile Include="InventoryRiskLevel\InventoryRiskLevelAdminService.cs" />
+    <Compile Include="LoanMerchandiseDevolution\ILoanMerchandiseDevolutionAdminService.cs" />
+    <Compile Include="LoanMerchandiseDevolution\LoanMerchandiseDevolutionAdminService.cs" />
+    <Compile Include="LoanMerchandiseDevolutionDetail\ILoanMerchandiseDevolutionDetailAdminService.cs" />
+    <Compile Include="LoanMerchandiseDevolutionDetail\LoanMerchandiseDevolutionDetailAdminService.cs" />
+    <Compile Include="LoanMerchandiseDetail\ILoanMerchandiseDetailAdminService.cs" />
+    <Compile Include="LoanMerchandiseDetail\LoanMerchandiseDetailAdminService.cs" />
+    <Compile Include="LoanMerchandise\ILoanMerchandiseAdminService.cs" />
+    <Compile Include="LoanMerchandise\LoanMerchandiseAdminService.cs" />
+    <Compile Include="Manufacturer\IManufacturerAdminService.cs" />
+    <Compile Include="Manufacturer\ManufacturerAdminService.cs" />
+    <Compile Include="MeasureUnit\IMeasureUnitAdminService.cs" />
+    <Compile Include="MeasureUnit\MeasureUnitAdminService.cs" />
+    <Compile Include="OtherWithholdingDeduction\IOtherWithholdingDeductionAdminService.cs" />
+    <Compile Include="OtherWithholdingDeduction\OtherWithholdingDeductionAdminService.cs" />
+    <Compile Include="PackagingUnit\IPackagingUnitAdminService.cs" />
+    <Compile Include="PackagingUnit\PackagingUnitAdminService.cs" />
+    <Compile Include="PharmaceuticalDispensingDetailBatchSerial\IPharmaceuticalDispensingDetailBatchSerialAdminService.cs" />
+    <Compile Include="PharmaceuticalDispensingDetailBatchSerial\PharmaceuticalDispensingDetailBatchSerialAdminService.cs" />
+    <Compile Include="PharmaceuticalDispensingDevolutionDetail\IPharmaceuticalDispensingDevolutionDetailAdminService.cs" />
+    <Compile Include="PharmaceuticalDispensingDevolutionDetail\PharmaceuticalDispensingDevolutionDetailAdminService.cs" />
+    <Compile Include="PharmaceuticalDispensingDevolution\IPharmaceuticalDispensingDevolutionAdminService.cs" />
+    <Compile Include="PharmaceuticalDispensingDevolution\PharmaceuticalDispensingDevolutionAdminService.cs" />
+    <Compile Include="PharmaceuticalDispensing\IPharmaceuticalDispensingAdminService.cs" />
+    <Compile Include="PharmaceuticalDispensing\PharmaceuticalDispensingAdminService.cs" />
+    <Compile Include="PharmaceuticalForm\IPharmaceuticalFormAdminService.cs" />
+    <Compile Include="PharmaceuticalForm\PharmaceuticalFormAdminService.cs" />
+    <Compile Include="PharmacologicalGroup\IPharmacologicalGroupAdminService.cs" />
+    <Compile Include="PharmacologicalGroup\PharmacologicalGroupAdminService.cs" />
+    <Compile Include="PhysicalInventory\IPhysicalInventoryAdminService.cs" />
+    <Compile Include="PhysicalInventory\PhysicalInventoryAdminService.cs" />
+    <Compile Include="ProductGroups\IProductGroupsAdminService.cs" />
+    <Compile Include="ProductGroups\ProductGroupsAdminService.cs" />
+    <Compile Include="ProductRateDetail\IProductRateDetailAdminService.cs" />
+    <Compile Include="ProductRateDetail\ProductRateDetailAdminService.cs" />
+    <Compile Include="ProductSubGroups\IProductSubGroupsAdminService.cs" />
+    <Compile Include="ProductSubGroups\ProductSubGroupsAdminService.cs" />
+    <Compile Include="ProductTemplate\IProductTemplateAdminService.cs" />
+    <Compile Include="ProductTemplate\ProductTemplateAdminService.cs" />
+    <Compile Include="ProductType\IProductTypeAdminService.cs" />
+    <Compile Include="ProductType\ProductTypeAdminService.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="PurchaseOrderDetail\IPurchaseOrderDetailAdminService.cs" />
+    <Compile Include="PurchaseOrderDetail\PurchaseOrderDetailAdminService.cs" />
+    <Compile Include="PurchaseOrderDevolution\IPurchaseOrderDevolutionAdminService.cs" />
+    <Compile Include="PurchaseOrderDevolution\PurchaseOrderDevolutionAdminService.cs" />
+    <Compile Include="PurchaseOrder\IPurchaseOrderAdminService.cs" />
+    <Compile Include="PurchaseOrder\PurchaseOrderAdminService.cs" />
+    <Compile Include="RemissionDevolution\IRemissionDevolutionAdminService.cs" />
+    <Compile Include="RemissionDevolution\RemissionDevolutionAdminService.cs" />
+    <Compile Include="ConsignmentInventoryRemissionDetail\IConsignmentInventoryRemissionDetailAdminService.cs" />
+    <Compile Include="ConsignmentInventoryRemissionDetail\ConsignmentInventoryRemissionDetailAdminService.cs" />
+    <Compile Include="ConsignmentInventoryRemissionDetailBatchSerial\IConsignmentInventoryRemissionDetailBatchSerialAdminService.cs" />
+    <Compile Include="ConsignmentInventoryRemissionDetailBatchSerial\ConsignmentInventoryRemissionDetailBatchSerialAdminService.cs" />
+    <Compile Include="RemissionEntranceDetailBatchSerial\IRemissionEntranceDetailBatchSerialAdminService.cs" />
+    <Compile Include="RemissionEntranceDetailBatchSerial\RemissionEntranceDetailBatchSerialAdminService.cs" />
+    <Compile Include="RemissionEntranceDetail\IRemissionEntranceDetailAdminService.cs" />
+    <Compile Include="RemissionEntranceDetail\RemissionEntranceDetailAdminService.cs" />
+    <Compile Include="RemissionEntrance\IRemissionEntranceAdminService.cs" />
+    <Compile Include="RemissionEntrance\RemissionEntranceAdminService.cs" />
+    <Compile Include="RemissionOutputDetailPhysical\IRemissionOutputDetailPhysicalAdminService.cs" />
+    <Compile Include="RemissionOutputDetailPhysical\RemissionOutputDetailPhysicalAdminService.cs" />
+    <Compile Include="RemissionOutputDetail\IRemissionOutputDetailAdminService.cs" />
+    <Compile Include="RemissionOutputDetail\RemissionOutputDetailAdminService.cs" />
+    <Compile Include="RemissionOutput\IRemissionOutputAdminService.cs" />
+    <Compile Include="RemissionOutput\RemissionOutputAdminService.cs" />
+    <Compile Include="Reports\IReportsAdminService.cs" />
+    <Compile Include="Reports\ReportsAdminService.cs" />
+    <Compile Include="RequestParam\IRequestParamAdminService.cs" />
+    <Compile Include="RequestParam\RequestParamAdminService.cs" />
+    <Compile Include="Sequense\IInventorySequenceAdminService.cs" />
+    <Compile Include="Sequense\InventorySequenceAdminService.cs" />
+    <Compile Include="SettingInventory\ISettingInventoryAdminService.cs" />
+    <Compile Include="SettingInventory\SettingInventoryAdminService.cs" />
+    <Compile Include="ShelfType\IShelfTypeAdminService.cs" />
+    <Compile Include="ShelfType\ShelfTypeAdminService.cs" />
+    <Compile Include="SurgicalPackageProcess\ISurgicalPackageProcessAdminService.cs" />
+    <Compile Include="SurgicalPackageProcess\SurgicalPackageProcessAdminService.cs" />
+    <Compile Include="TransferOrderDetailBatchSerial\ITransferOrderDetailBatchSerialAdminService.cs" />
+    <Compile Include="TransferOrderDetailBatchSerial\TransferOrderDetailBatchSerialAdminService.cs" />
+    <Compile Include="TransferOrderDetail\ITransferOrderDetailAdminService.cs" />
+    <Compile Include="TransferOrderDetail\TransferOrderDetailAdminService.cs" />
+    <Compile Include="TransferOrderDevolution\ITransferOrderDevolutionAdminService.cs" />
+    <Compile Include="TransferOrderDevolution\TransferOrderDevolutionAdminService.cs" />
+    <Compile Include="TransferOrder\ITransferOrderAdminService.cs" />
+    <Compile Include="TransferOrder\TransferOrderAdminService.cs" />
+    <Compile Include="UpdateExpirationDate\IUpdateExpirationDateAdminService.cs" />
+    <Compile Include="UpdateExpirationDate\UpdateExpirationDateAdminService.cs" />
+    <Compile Include="UPRUnits\IUPRUnitsAdminService.cs" />
+    <Compile Include="UPRUnits\UPRUnitsAdminService.cs" />
+    <Compile Include="WarehouseStock\IWarehouseStockAdminService.cs" />
+    <Compile Include="WarehouseStock\WarehouseStockAdminService.cs" />
+    <Compile Include="Warehouse\IWarehouseAdminService.cs" />
+    <Compile Include="Warehouse\WarehouseAdminService.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Application.Accounting\Application.Accounting.vbproj">
+      <Project>{3eca7b1f-d62b-4223-9f17-53a1c5b3a0c9}</Project>
+      <Name>Application.Accounting</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Application.Base\Application.Base.vbproj">
+      <Project>{0e700653-1525-4d34-aa89-bfb243f6515c}</Project>
+      <Name>Application.Base</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Application.Common\Application.Common.vbproj">
+      <Project>{0509E89E-92DF-4B99-A74B-3043C7E6B1D2}</Project>
+      <Name>Application.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Application.Events\Application.Events.csproj">
+      <Project>{b1afea8e-8308-457e-a0c7-cff4acf86b1c}</Project>
+      <Name>Application.Events</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Application.Payments\Application.Payments.vbproj">
+      <Project>{6d5a593d-d08d-4c4e-8cac-0a7cf615522e}</Project>
+      <Name>Application.Payments</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Application.Receivable\Application.Portfolio.vbproj">
+      <Project>{0e3ce6cd-428b-4c23-96f8-5080650f898a}</Project>
+      <Name>Application.Portfolio</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Application.Security\Application.Security.vbproj">
+      <Project>{57355c0b-d732-4ab2-88a4-4ab855376599}</Project>
+      <Name>Application.Security</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Application.Treasury\Application.Treasury.vbproj">
+      <Project>{b7a6adb9-46bd-4791-bafb-626b69358166}</Project>
+      <Name>Application.Treasury</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Domain.Base.Entities\Domain.Base.Entities.vbproj">
+      <Project>{78734d29-0073-4d48-9d0b-2362d0243e36}</Project>
+      <Name>Domain.Base.Entities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Domain.Base\Domain.Base.vbproj">
+      <Project>{8157f242-6a69-44c1-a9ac-19f0ee5cb8a2}</Project>
+      <Name>Domain.Base</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Domain.Crystal.Entities\Domain.Crystal.Entities.vbproj">
+      <Project>{aef25407-1a53-4f3b-93cb-5258a6b80951}</Project>
+      <Name>Domain.Crystal.Entities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Domain.Crystal\Domain.Crystal.vbproj">
+      <Project>{fb110e4f-2309-46ef-8a11-d979517e315b}</Project>
+      <Name>Domain.Crystal</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Domain.Entities.Service\Domain.Entities.Service.vbproj">
+      <Project>{99e9ab54-bb1b-4279-99e7-b4b8e7068ce7}</Project>
+      <Name>Domain.Entities.Service</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Domain.Entities\Domain.Entities.vbproj">
+      <Project>{0551aef4-ed84-4745-b00b-7475f26015cc}</Project>
+      <Name>Domain.Entities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Domain.Glosas.Entities\Domain.Glosas.Entities.vbproj">
+      <Project>{C4A3AF40-8832-4A2A-BE14-1BE3B94C9048}</Project>
+      <Name>Domain.Glosas.Entities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Domain.Inventory\Domain.Inventory.csproj">
+      <Project>{62504CDC-606B-4D89-9E9F-0A18C43FD8A4}</Project>
+      <Name>Domain.Inventory</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Domain.Payroll.Entities\Domain.Payroll.Entities.vbproj">
+      <Project>{f0fe946f-2bd9-4bb8-8741-51ea3d862237}</Project>
+      <Name>Domain.Payroll.Entities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Domain.Payroll\Domain.Payroll.vbproj">
+      <Project>{0b26cafa-8df4-49ab-8943-41a91d67694e}</Project>
+      <Name>Domain.Payroll</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Domain.Security.Entities\Domain.Security.Entities.vbproj">
+      <Project>{99f1c077-1e8f-432f-b5d0-e801bf6d6a39}</Project>
+      <Name>Domain.Security.Entities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastructure.CrossCutting.Audit\Infrastructure.CrossCutting.Audit.vbproj">
+      <Project>{d2b2306d-6404-46cd-8a22-f827f3e1b75c}</Project>
+      <Name>Infrastructure.CrossCutting.Audit</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastructure.CrossCutting.Base\Infrastructure.CrossCutting.Base.vbproj">
+      <Project>{2773d9f7-93bd-4520-9726-bce0d8875696}</Project>
+      <Name>Infrastructure.CrossCutting.Base</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastructure.CrossCutting.Interface\Infrastructure.CrossCutting.Interface.vbproj">
+      <Project>{3f7ae2a8-2cb6-4feb-9545-d70601c40846}</Project>
+      <Name>Infrastructure.CrossCutting.Interface</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastructure.CrossCutting.Queue\Infrastructure.CrossCutting.Queue.vbproj">
+      <Project>{4ECC4501-B252-4AFF-A829-DC46BCCA069B}</Project>
+      <Name>Infrastructure.CrossCutting.Queue</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastructure.CrossCutting.Resources\Infrastructure.CrossCutting.Resources.vbproj">
+      <Project>{134f5b02-eba4-4414-bb62-bf5d55e2b906}</Project>
+      <Name>Infrastructure.CrossCutting.Resources</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastructure.CrossCutting.Rollback\Infrastructure.CrossCutting.Rollback.csproj">
+      <Project>{6BFD498B-A576-4BAC-B6C7-CB49EB39E3F5}</Project>
+      <Name>Infrastructure.CrossCutting.Rollback</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastructure.Data.Base\Infrastructure.Data.Base.vbproj">
+      <Project>{69C4FE61-549B-42E8-ADAC-18D1CFC83FED}</Project>
+      <Name>Infrastructure.Data.Base</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastructure.Data.CrystalRepository\Infrastructure.Data.CrystalRepository.vbproj">
+      <Project>{99bd064d-fb14-49bc-a2e5-a8b26b6a0f95}</Project>
+      <Name>Infrastructure.Data.CrystalRepository</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\RabbitMQ.Bus\RabbitMQ.Bus.csproj">
+      <Project>{a4a2d503-c198-4dd6-baba-1884933491d8}</Project>
+      <Name>RabbitMQ.Bus</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

@@ -1,0 +1,82 @@
+﻿#Region "Librerias Importadas"
+Imports DevExpress.XtraEditors
+Imports Infrastructure.CrossCutting.Base
+Imports Infrastructure.Data.Xpo.CrystalRepository
+Imports Infrastructure.Data.Xpo
+Imports Presentation.CloudAgent
+Imports Presentation.Reporter
+Imports System.Xml
+Imports DevExpress.XtraReports.UI
+#End Region
+
+Public Class rptReportConsumtionAverage
+    Implements IReport
+    ''' <summary>
+    ''' Variable para inicializar los valores de sesion
+    ''' </summary>
+    Dim IndigoSessionValues As SessionValues = SessionValues.Instance
+
+    Dim xmlDoc As XmlDocument
+
+    Public ReadOnly Property NameReport As String Implements IReport.NameReport
+    Public Property ParametrosReporte As Object() Implements IReport.ParametrosReporte
+    Public Sub CargarImagenes() Implements IReport.CargarImagenes
+    End Sub
+    Private Sub IReport_CargarDataSource() Implements IReport.CargarDataSource
+    End Sub
+
+    Public Async Function CargarDataSource() As Task
+        Dim parameters As String = ParametrosReporte(0)
+        xmlDoc = New XmlDocument
+        xmlDoc.LoadXml(parameters)
+        Dim Resultado As DataSet = Await IndigoConecta.Instancia.CurrentCloud.IndigoInventory.ListAverageEntranceOrderAsync(parameters, Me.IndigoSessionValues)
+        If Resultado.Tables("Inventory_SP_AverageReportEntranceOrder") IsNot Nothing AndAlso Resultado.Tables("Inventory_SP_AverageReportEntranceOrder").Rows.Count > 0 Then
+            Me.DataSource = Resultado
+        Else
+            Me.DataSource = Nothing
+        End If
+    End Function
+
+
+    Private Sub rptReporteAuditoriaHC_BeforePrint(sender As Object, e As Printing.PrintEventArgs) Handles MyBase.BeforePrint
+        'Cargar los valores del titulo.
+        Dim esC As Globalization.CultureInfo = New Globalization.CultureInfo("es-ES")
+        Dim _InitialDate As Date = Convert.ToDateTime(xmlDoc.GetElementsByTagName("InitialDate")(0).InnerText)
+        Dim _EndDate As Date = Convert.ToDateTime(xmlDoc.GetElementsByTagName("EndDate")(0).InnerText)
+        Me.INDLblDate.Text = String.Format("Desde {0} hasta {1}", _InitialDate.ToString("f", esC), _EndDate.ToString("f", esC))
+
+        Dim ReportType As String = xmlDoc.GetElementsByTagName("ReportType")(0).InnerText
+        If ReportType = "Resumido" Then
+            Dim Count As Integer = 0
+            'Labels cabecera.
+            For Each Cell As XRTableCell In XrTableRow2.Cells
+                Cell.Tag = Count
+                Count += 1
+            Next
+            Count = 0
+            'Campos del detalle.
+            For Each Cell As XRTableCell In XrTableRow1.Cells
+                Cell.Tag = Count
+                Count += 1
+            Next
+            'Esconder labels cabecera.
+            For Each Cell As XRTableCell In XrTableRow2.Cells
+                If Cell.Tag >= 3 And Cell.Tag <= 14 Then
+                    Cell.Visible = False
+                End If
+            Next
+            'Esconder labels detalle.
+            For Each Cell As XRTableCell In XrTableRow1.Cells
+                If Cell.Tag >= 2 And Cell.Tag <= 13 Then
+                    Cell.Visible = False
+                End If
+            Next
+
+        End If
+
+        Me.INDLblCompany.Text = IndigoSessionValues.IndigoCompanyName
+        Me.INDLblNitCompany.Text = "Nit : " & IndigoSessionValues.IndigoCompanyNit
+        Me.INDUserImp.Text = "Usuario Impresión : " & IndigoSessionValues.UserIndigo & " - " & IndigoSessionValues.UserIndigoName
+    End Sub
+
+End Class

@@ -1,0 +1,3336 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:wsap="http://schemas.xmlsoap.org/ws/2004/08/addressing/policy" xmlns:wsa10="http://www.w3.org/2005/08/addressing" xmlns:tns="http://tempuri.org/" xmlns:msc="http://schemas.microsoft.com/ws/2005/12/wsdl/contract" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:wsx="http://schemas.xmlsoap.org/ws/2004/09/mex" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="CommonERPService" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsp:Policy wsu:Id="basicHttps_Endpoint_CommonERP_policy">
+    <wsp:ExactlyOne>
+      <wsp:All>
+        <sp:TransportBinding xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <wsp:Policy>
+            <sp:TransportToken>
+              <wsp:Policy>
+                <sp:HttpsToken RequireClientCertificate="false" />
+              </wsp:Policy>
+            </sp:TransportToken>
+            <sp:AlgorithmSuite>
+              <wsp:Policy>
+                <sp:Basic256 />
+              </wsp:Policy>
+            </sp:AlgorithmSuite>
+            <sp:Layout>
+              <wsp:Policy>
+                <sp:Strict />
+              </wsp:Policy>
+            </sp:Layout>
+          </wsp:Policy>
+        </sp:TransportBinding>
+      </wsp:All>
+    </wsp:ExactlyOne>
+  </wsp:Policy>
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://tempuri.org/Imports">
+      <xsd:import schemaLocation="https://localhost:9001/ServiceEntity/CommonERP.svc?xsd=xsd0" namespace="http://tempuri.org/" />
+      <xsd:import schemaLocation="https://localhost:9001/ServiceEntity/CommonERP.svc?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+      <xsd:import schemaLocation="https://localhost:9001/ServiceEntity/CommonERP.svc?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/Infrastructure.CrossCutting.Base" />
+      <xsd:import schemaLocation="https://localhost:9001/ServiceEntity/CommonERP.svc?xsd=xsd3" namespace="http://schemas.datacontract.org/2004/07/System" />
+      <xsd:import schemaLocation="https://localhost:9001/ServiceEntity/CommonERP.svc?xsd=xsd4" namespace="http://schemas.datacontract.org/2004/07/Domain.Security.Entities" />
+      <xsd:import schemaLocation="https://localhost:9001/ServiceEntity/CommonERP.svc?xsd=xsd5" namespace="http://schemas.datacontract.org/2004/07/Domain.Entities" />
+      <xsd:import schemaLocation="https://localhost:9001/ServiceEntity/CommonERP.svc?xsd=xsd6" namespace="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" />
+      <xsd:import schemaLocation="https://localhost:9001/ServiceEntity/CommonERP.svc?xsd=xsd7" />
+      <xsd:import schemaLocation="https://localhost:9001/ServiceEntity/CommonERP.svc?xsd=xsd8" namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
+      <xsd:import schemaLocation="https://localhost:9001/ServiceEntity/CommonERP.svc?xsd=xsd9" namespace="http://schemas.datacontract.org/2004/07/Domain.Common.Entities" />
+      <xsd:import schemaLocation="https://localhost:9001/ServiceEntity/CommonERP.svc?xsd=xsd10" namespace="http://schemas.datacontract.org/2004/07/System.Data" />
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="ICommonERPService_ListAllCity_InputMessage">
+    <wsdl:part name="parameters" element="tns:ListAllCity" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_ListAllCity_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ListAllCityResponse" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_GetCity_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetCity" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_GetCity_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetCityResponse" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_GetCityByDepartment_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetCityByDepartment" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_GetCityByDepartment_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetCityByDepartmentResponse" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_SaveCity_InputMessage">
+    <wsdl:part name="parameters" element="tns:SaveCity" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_SaveCity_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SaveCityResponse" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_DeleteCity_InputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteCity" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_DeleteCity_OutputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteCityResponse" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_ListAllCitiesByIdDepartment_InputMessage">
+    <wsdl:part name="parameters" element="tns:ListAllCitiesByIdDepartment" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_ListAllCitiesByIdDepartment_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ListAllCitiesByIdDepartmentResponse" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_GetCityById_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetCityById" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_GetCityById_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetCityByIdResponse" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_ChangeStateCity_InputMessage">
+    <wsdl:part name="parameters" element="tns:ChangeStateCity" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_ChangeStateCity_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ChangeStateCityResponse" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_GetFieldsNULL_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetFieldsNULL" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_GetFieldsNULL_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetFieldsNULLResponse" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_ListAllCountry_InputMessage">
+    <wsdl:part name="parameters" element="tns:ListAllCountry" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_ListAllCountry_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ListAllCountryResponse" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_GetCountry_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetCountry" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_GetCountry_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetCountryResponse" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_GetCountryById_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetCountryById" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_GetCountryById_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetCountryByIdResponse" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_SaveCountry_InputMessage">
+    <wsdl:part name="parameters" element="tns:SaveCountry" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_SaveCountry_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SaveCountryResponse" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_DeleteCountry_InputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteCountry" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_DeleteCountry_OutputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteCountryResponse" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_ListAllCurrency_InputMessage">
+    <wsdl:part name="parameters" element="tns:ListAllCurrency" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_ListAllCurrency_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ListAllCurrencyResponse" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_GetCurrency_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetCurrency" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_GetCurrency_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetCurrencyResponse" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_GetCurrencyById_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetCurrencyById" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_GetCurrencyById_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetCurrencyByIdResponse" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_SaveCurrency_InputMessage">
+    <wsdl:part name="parameters" element="tns:SaveCurrency" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_SaveCurrency_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SaveCurrencyResponse" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_DeleteCurrency_InputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteCurrency" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_DeleteCurrency_OutputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteCurrencyResponse" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_UpdateCurrency_InputMessage">
+    <wsdl:part name="parameters" element="tns:UpdateCurrency" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_UpdateCurrency_OutputMessage">
+    <wsdl:part name="parameters" element="tns:UpdateCurrencyResponse" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_GetTRMbyCurrencyId_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetTRMbyCurrencyId" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_GetTRMbyCurrencyId_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetTRMbyCurrencyIdResponse" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_ListAllDepartment_InputMessage">
+    <wsdl:part name="parameters" element="tns:ListAllDepartment" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_ListAllDepartment_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ListAllDepartmentResponse" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_GetDepartment_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetDepartment" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_GetDepartment_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetDepartmentResponse" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_GetDepartments_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetDepartments" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_GetDepartments_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetDepartmentsResponse" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_SaveDepartment_InputMessage">
+    <wsdl:part name="parameters" element="tns:SaveDepartment" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_SaveDepartment_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SaveDepartmentResponse" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_DeleteDepartment_InputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteDepartment" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_DeleteDepartment_OutputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteDepartmentResponse" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_GetDepartmentById_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetDepartmentById" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_GetDepartmentById_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetDepartmentByIdResponse" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_ChangeStateDepartment_InputMessage">
+    <wsdl:part name="parameters" element="tns:ChangeStateDepartment" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_ChangeStateDepartment_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ChangeStateDepartmentResponse" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_ListAllBlockRecord_InputMessage">
+    <wsdl:part name="parameters" element="tns:ListAllBlockRecord" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_ListAllBlockRecord_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ListAllBlockRecordResponse" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_GetBlockRecordByIdformAndIdRecord_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetBlockRecordByIdformAndIdRecord" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_GetBlockRecordByIdformAndIdRecord_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetBlockRecordByIdformAndIdRecordResponse" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_SaveBlockRecord_InputMessage">
+    <wsdl:part name="parameters" element="tns:SaveBlockRecord" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_SaveBlockRecord_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SaveBlockRecordResponse" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_DeleteBlockRecord_InputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteBlockRecord" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_DeleteBlockRecord_OutputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteBlockRecordResponse" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_SP_UnlockBlockRecord_InputMessage">
+    <wsdl:part name="parameters" element="tns:SP_UnlockBlockRecord" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_SP_UnlockBlockRecord_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SP_UnlockBlockRecordResponse" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_ListAllBasicAudit_InputMessage">
+    <wsdl:part name="parameters" element="tns:ListAllBasicAudit" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_ListAllBasicAudit_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ListAllBasicAuditResponse" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_GetBasicAuditById_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetBasicAuditById" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_GetBasicAuditById_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetBasicAuditByIdResponse" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_ListBasicAuditByEntity_InputMessage">
+    <wsdl:part name="parameters" element="tns:ListBasicAuditByEntity" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_ListBasicAuditByEntity_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ListBasicAuditByEntityResponse" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_ListBasicAuditByIdUsuario_InputMessage">
+    <wsdl:part name="parameters" element="tns:ListBasicAuditByIdUsuario" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_ListBasicAuditByIdUsuario_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ListBasicAuditByIdUsuarioResponse" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_ListBasicAuditByIdIdFormAndIdEntity_InputMessage">
+    <wsdl:part name="parameters" element="tns:ListBasicAuditByIdIdFormAndIdEntity" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_ListBasicAuditByIdIdFormAndIdEntity_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ListBasicAuditByIdIdFormAndIdEntityResponse" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_ListBasicAuditByTag_InputMessage">
+    <wsdl:part name="parameters" element="tns:ListBasicAuditByTag" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_ListBasicAuditByTag_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ListBasicAuditByTagResponse" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_SaveBasicAudit_InputMessage">
+    <wsdl:part name="parameters" element="tns:SaveBasicAudit" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_SaveBasicAudit_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SaveBasicAuditResponse" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_ListAllPhoneType_InputMessage">
+    <wsdl:part name="parameters" element="tns:ListAllPhoneType" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_ListAllPhoneType_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ListAllPhoneTypeResponse" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_GetPhoneType_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetPhoneType" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_GetPhoneType_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetPhoneTypeResponse" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_SavePhoneType_InputMessage">
+    <wsdl:part name="parameters" element="tns:SavePhoneType" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_SavePhoneType_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SavePhoneTypeResponse" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_DeletePhoneType_InputMessage">
+    <wsdl:part name="parameters" element="tns:DeletePhoneType" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_DeletePhoneType_OutputMessage">
+    <wsdl:part name="parameters" element="tns:DeletePhoneTypeResponse" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_GetThirdPartyByNit_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetThirdPartyByNit" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_GetThirdPartyByNit_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetThirdPartyByNitResponse" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_GetPersonByIdentification_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetPersonByIdentification" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_GetPersonByIdentification_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetPersonByIdentificationResponse" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_ListAllThirdParty_InputMessage">
+    <wsdl:part name="parameters" element="tns:ListAllThirdParty" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_ListAllThirdParty_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ListAllThirdPartyResponse" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_ValidateLenghtNit_InputMessage">
+    <wsdl:part name="parameters" element="tns:ValidateLenghtNit" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_ValidateLenghtNit_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ValidateLenghtNitResponse" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_SaveThirdParty_InputMessage">
+    <wsdl:part name="parameters" element="tns:SaveThirdParty" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_SaveThirdParty_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SaveThirdPartyResponse" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_DeleteThirdParty_InputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteThirdParty" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_DeleteThirdParty_OutputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteThirdPartyResponse" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_GetThirdPartyById_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetThirdPartyById" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_GetThirdPartyById_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetThirdPartyByIdResponse" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_UpdateStateThirdParty_InputMessage">
+    <wsdl:part name="parameters" element="tns:UpdateStateThirdParty" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_UpdateStateThirdParty_OutputMessage">
+    <wsdl:part name="parameters" element="tns:UpdateStateThirdPartyResponse" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_ListAllDisability_InputMessage">
+    <wsdl:part name="parameters" element="tns:ListAllDisability" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_ListAllDisability_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ListAllDisabilityResponse" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_DeleteDisability_InputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteDisability" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_DeleteDisability_OutputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteDisabilityResponse" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_SaveDisability_InputMessage">
+    <wsdl:part name="parameters" element="tns:SaveDisability" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_SaveDisability_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SaveDisabilityResponse" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_GetDisability_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetDisability" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_GetDisability_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetDisabilityResponse" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_ListAllTimeUnit_InputMessage">
+    <wsdl:part name="parameters" element="tns:ListAllTimeUnit" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_ListAllTimeUnit_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ListAllTimeUnitResponse" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_GetTimeUnit_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetTimeUnit" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_GetTimeUnit_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetTimeUnitResponse" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_SaveTimeUnit_InputMessage">
+    <wsdl:part name="parameters" element="tns:SaveTimeUnit" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_SaveTimeUnit_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SaveTimeUnitResponse" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_DeleteTimeUnit_InputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteTimeUnit" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_DeleteTimeUnit_OutputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteTimeUnitResponse" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_ListAllHolidays_InputMessage">
+    <wsdl:part name="parameters" element="tns:ListAllHolidays" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_ListAllHolidays_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ListAllHolidaysResponse" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_DeleteHoliday_InputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteHoliday" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_DeleteHoliday_OutputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteHolidayResponse" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_SaveHoliday_InputMessage">
+    <wsdl:part name="parameters" element="tns:SaveHoliday" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_SaveHoliday_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SaveHolidayResponse" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_GetHoliday_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetHoliday" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_GetHoliday_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetHolidayResponse" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_ListHolidaybyYear_InputMessage">
+    <wsdl:part name="parameters" element="tns:ListHolidaybyYear" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_ListHolidaybyYear_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ListHolidaybyYearResponse" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_ListHolidayBetweenDate_InputMessage">
+    <wsdl:part name="parameters" element="tns:ListHolidayBetweenDate" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_ListHolidayBetweenDate_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ListHolidayBetweenDateResponse" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_ListConceptGlosas_InputMessage">
+    <wsdl:part name="parameters" element="tns:ListConceptGlosas" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_ListConceptGlosas_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ListConceptGlosasResponse" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_ListConceptGlosaByType_InputMessage">
+    <wsdl:part name="parameters" element="tns:ListConceptGlosaByType" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_ListConceptGlosaByType_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ListConceptGlosaByTypeResponse" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_ListConceptGlosaByListTypes_InputMessage">
+    <wsdl:part name="parameters" element="tns:ListConceptGlosaByListTypes" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_ListConceptGlosaByListTypes_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ListConceptGlosaByListTypesResponse" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_GetOperatingUnitByCode_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetOperatingUnitByCode" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_GetOperatingUnitByCode_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetOperatingUnitByCodeResponse" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_GetOperatingUnitById_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetOperatingUnitById" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_GetOperatingUnitById_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetOperatingUnitByIdResponse" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_SaveOperatingUnit_InputMessage">
+    <wsdl:part name="parameters" element="tns:SaveOperatingUnit" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_SaveOperatingUnit_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SaveOperatingUnitResponse" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_DeleteOperatingUnit_InputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteOperatingUnit" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_DeleteOperatingUnit_OutputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteOperatingUnitResponse" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_ListAllOperatingUnit_InputMessage">
+    <wsdl:part name="parameters" element="tns:ListAllOperatingUnit" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_ListAllOperatingUnit_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ListAllOperatingUnitResponse" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_ListAllOperatingUnitCommand_InputMessage">
+    <wsdl:part name="parameters" element="tns:ListAllOperatingUnitCommand" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_ListAllOperatingUnitCommand_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ListAllOperatingUnitCommandResponse" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_ListAllBank_InputMessage">
+    <wsdl:part name="parameters" element="tns:ListAllBank" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_ListAllBank_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ListAllBankResponse" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_DeleteBank_InputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteBank" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_DeleteBank_OutputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteBankResponse" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_SaveBank_InputMessage">
+    <wsdl:part name="parameters" element="tns:SaveBank" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_SaveBank_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SaveBankResponse" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_UpdateStateBank_InputMessage">
+    <wsdl:part name="parameters" element="tns:UpdateStateBank" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_UpdateStateBank_OutputMessage">
+    <wsdl:part name="parameters" element="tns:UpdateStateBankResponse" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_GetBank_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetBank" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_GetBank_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetBankResponse" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_GetBankById_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetBankById" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_GetBankById_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetBankByIdResponse" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_SaveSuppliersDistributionLines_InputMessage">
+    <wsdl:part name="parameters" element="tns:SaveSuppliersDistributionLines" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_SaveSuppliersDistributionLines_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SaveSuppliersDistributionLinesResponse" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_DeleteSuppliersDistributionLines_InputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteSuppliersDistributionLines" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_DeleteSuppliersDistributionLines_OutputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteSuppliersDistributionLinesResponse" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_GetSuppliersDistributionLinesByIdSupplier_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetSuppliersDistributionLinesByIdSupplier" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_GetSuppliersDistributionLinesByIdSupplier_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetSuppliersDistributionLinesByIdSupplierResponse" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_GetSuppliersDistributionLinesById_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetSuppliersDistributionLinesById" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_GetSuppliersDistributionLinesById_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetSuppliersDistributionLinesByIdResponse" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_GetICARetentionConceptBySupplierDistributionLine_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetICARetentionConceptBySupplierDistributionLine" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_GetICARetentionConceptBySupplierDistributionLine_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetICARetentionConceptBySupplierDistributionLineResponse" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_GetDistributionLinesByIdSupplierAndAccusationConcept_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetDistributionLinesByIdSupplierAndAccusationConcept" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_GetDistributionLinesByIdSupplierAndAccusationConcept_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetDistributionLinesByIdSupplierAndAccusationConceptResponse" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_SaveDistributionLines_InputMessage">
+    <wsdl:part name="parameters" element="tns:SaveDistributionLines" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_SaveDistributionLines_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SaveDistributionLinesResponse" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_DeleteDistributionLines_InputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteDistributionLines" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_DeleteDistributionLines_OutputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteDistributionLinesResponse" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_GetDistributionLinesById_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetDistributionLinesById" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_GetDistributionLinesById_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetDistributionLinesByIdResponse" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_GetDistributionLines_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetDistributionLines" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_GetDistributionLines_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetDistributionLinesResponse" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_ChangeStateDistributionLines_InputMessage">
+    <wsdl:part name="parameters" element="tns:ChangeStateDistributionLines" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_ChangeStateDistributionLines_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ChangeStateDistributionLinesResponse" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_GetSequenseByIdForm_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetSequenseByIdForm" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_GetSequenseByIdForm_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetSequenseByIdFormResponse" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_GetNumericSequenseGroupById_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetNumericSequenseGroupById" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_GetNumericSequenseGroupById_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetNumericSequenseGroupByIdResponse" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_ListSequences_InputMessage">
+    <wsdl:part name="parameters" element="tns:ListSequences" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_ListSequences_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ListSequencesResponse" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_SaveSequence_InputMessage">
+    <wsdl:part name="parameters" element="tns:SaveSequence" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_SaveSequence_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SaveSequenceResponse" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_SavePatternSequence_InputMessage">
+    <wsdl:part name="parameters" element="tns:SavePatternSequence" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_SavePatternSequence_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SavePatternSequenceResponse" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_GetPatternSequence_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetPatternSequence" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_GetPatternSequence_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetPatternSequenceResponse" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_GetPatternSequenceByName_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetPatternSequenceByName" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_GetPatternSequenceByName_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetPatternSequenceByNameResponse" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_SaveEconomicActivity_InputMessage">
+    <wsdl:part name="parameters" element="tns:SaveEconomicActivity" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_SaveEconomicActivity_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SaveEconomicActivityResponse" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_DeleteEconomicActivity_InputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteEconomicActivity" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_DeleteEconomicActivity_OutputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteEconomicActivityResponse" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_GetEconomicActivityById_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetEconomicActivityById" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_GetEconomicActivityById_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetEconomicActivityByIdResponse" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_GetEconomicActivity_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetEconomicActivity" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_GetEconomicActivity_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetEconomicActivityResponse" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_ChangeStateEconomicActivity_InputMessage">
+    <wsdl:part name="parameters" element="tns:ChangeStateEconomicActivity" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_ChangeStateEconomicActivity_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ChangeStateEconomicActivityResponse" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_GetSuppliersDetailTypeByIdSupplier_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetSuppliersDetailTypeByIdSupplier" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_GetSuppliersDetailTypeByIdSupplier_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetSuppliersDetailTypeByIdSupplierResponse" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_GetSuppliersDetailTypeById_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetSuppliersDetailTypeById" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_GetSuppliersDetailTypeById_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetSuppliersDetailTypeByIdResponse" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_ListAllSupplier_InputMessage">
+    <wsdl:part name="parameters" element="tns:ListAllSupplier" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_ListAllSupplier_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ListAllSupplierResponse" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_SaveBalancedScorecard_InputMessage">
+    <wsdl:part name="parameters" element="tns:SaveBalancedScorecard" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_SaveBalancedScorecard_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SaveBalancedScorecardResponse" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_GetAttachmentById_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetAttachmentById" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_GetAttachmentById_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetAttachmentByIdResponse" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_GetAttachmentsByFormAndEntity_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetAttachmentsByFormAndEntity" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_GetAttachmentsByFormAndEntity_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetAttachmentsByFormAndEntityResponse" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_SaveAttachment_InputMessage">
+    <wsdl:part name="parameters" element="tns:SaveAttachment" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_SaveAttachment_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SaveAttachmentResponse" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_DeleteAttachment_InputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteAttachment" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_DeleteAttachment_OutputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteAttachmentResponse" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_SaveTaxExemptions_InputMessage">
+    <wsdl:part name="parameters" element="tns:SaveTaxExemptions" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_SaveTaxExemptions_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SaveTaxExemptionsResponse" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_GetTaxExemptionsById_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetTaxExemptionsById" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_GetTaxExemptionsById_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetTaxExemptionsByIdResponse" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_GetTaxExemptions_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetTaxExemptions" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_GetTaxExemptions_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetTaxExemptionsResponse" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_ChangeStateTaxExemptions_InputMessage">
+    <wsdl:part name="parameters" element="tns:ChangeStateTaxExemptions" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_ChangeStateTaxExemptions_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ChangeStateTaxExemptionsResponse" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_GetDataTable_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetDataTable" />
+  </wsdl:message>
+  <wsdl:message name="ICommonERPService_GetDataTable_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetDataTableResponse" />
+  </wsdl:message>
+  <wsdl:portType name="ICommonERPService">
+    <wsdl:operation name="ListAllCity">
+      <wsdl:input wsaw:Action="http://tempuri.org/ICommonERPCity/ListAllCity" message="tns:ICommonERPService_ListAllCity_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ICommonERPCity/ListAllCityResponse" message="tns:ICommonERPService_ListAllCity_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetCity">
+      <wsdl:input wsaw:Action="http://tempuri.org/ICommonERPCity/GetCity" message="tns:ICommonERPService_GetCity_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ICommonERPCity/GetCityResponse" message="tns:ICommonERPService_GetCity_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetCityByDepartment">
+      <wsdl:input wsaw:Action="http://tempuri.org/ICommonERPCity/GetCityByDepartment" message="tns:ICommonERPService_GetCityByDepartment_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ICommonERPCity/GetCityByDepartmentResponse" message="tns:ICommonERPService_GetCityByDepartment_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SaveCity">
+      <wsdl:input wsaw:Action="http://tempuri.org/ICommonERPCity/SaveCity" message="tns:ICommonERPService_SaveCity_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ICommonERPCity/SaveCityResponse" message="tns:ICommonERPService_SaveCity_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="DeleteCity">
+      <wsdl:input wsaw:Action="http://tempuri.org/ICommonERPCity/DeleteCity" message="tns:ICommonERPService_DeleteCity_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ICommonERPCity/DeleteCityResponse" message="tns:ICommonERPService_DeleteCity_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ListAllCitiesByIdDepartment">
+      <wsdl:input wsaw:Action="http://tempuri.org/ICommonERPCity/ListAllCitiesByIdDepartment" message="tns:ICommonERPService_ListAllCitiesByIdDepartment_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ICommonERPCity/ListAllCitiesByIdDepartmentResponse" message="tns:ICommonERPService_ListAllCitiesByIdDepartment_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetCityById">
+      <wsdl:input wsaw:Action="http://tempuri.org/ICommonERPCity/GetCityById" message="tns:ICommonERPService_GetCityById_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ICommonERPCity/GetCityByIdResponse" message="tns:ICommonERPService_GetCityById_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ChangeStateCity">
+      <wsdl:input wsaw:Action="http://tempuri.org/ICommonERPCity/ChangeStateCity" message="tns:ICommonERPService_ChangeStateCity_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ICommonERPCity/ChangeStateCityResponse" message="tns:ICommonERPService_ChangeStateCity_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetFieldsNULL">
+      <wsdl:input wsaw:Action="http://tempuri.org/ICommonERPCommon/GetFieldsNULL" message="tns:ICommonERPService_GetFieldsNULL_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ICommonERPCommon/GetFieldsNULLResponse" message="tns:ICommonERPService_GetFieldsNULL_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ListAllCountry">
+      <wsdl:input wsaw:Action="http://tempuri.org/ICommonERPCountry/ListAllCountry" message="tns:ICommonERPService_ListAllCountry_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ICommonERPCountry/ListAllCountryResponse" message="tns:ICommonERPService_ListAllCountry_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetCountry">
+      <wsdl:input wsaw:Action="http://tempuri.org/ICommonERPCountry/GetCountry" message="tns:ICommonERPService_GetCountry_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ICommonERPCountry/GetCountryResponse" message="tns:ICommonERPService_GetCountry_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetCountryById">
+      <wsdl:input wsaw:Action="http://tempuri.org/ICommonERPCountry/GetCountryById" message="tns:ICommonERPService_GetCountryById_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ICommonERPCountry/GetCountryByIdResponse" message="tns:ICommonERPService_GetCountryById_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SaveCountry">
+      <wsdl:input wsaw:Action="http://tempuri.org/ICommonERPCountry/SaveCountry" message="tns:ICommonERPService_SaveCountry_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ICommonERPCountry/SaveCountryResponse" message="tns:ICommonERPService_SaveCountry_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="DeleteCountry">
+      <wsdl:input wsaw:Action="http://tempuri.org/ICommonERPCountry/DeleteCountry" message="tns:ICommonERPService_DeleteCountry_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ICommonERPCountry/DeleteCountryResponse" message="tns:ICommonERPService_DeleteCountry_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ListAllCurrency">
+      <wsdl:input wsaw:Action="http://tempuri.org/ICommonERPCurrency/ListAllCurrency" message="tns:ICommonERPService_ListAllCurrency_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ICommonERPCurrency/ListAllCurrencyResponse" message="tns:ICommonERPService_ListAllCurrency_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetCurrency">
+      <wsdl:input wsaw:Action="http://tempuri.org/ICommonERPCurrency/GetCurrency" message="tns:ICommonERPService_GetCurrency_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ICommonERPCurrency/GetCurrencyResponse" message="tns:ICommonERPService_GetCurrency_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetCurrencyById">
+      <wsdl:input wsaw:Action="http://tempuri.org/ICommonERPCurrency/GetCurrencyById" message="tns:ICommonERPService_GetCurrencyById_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ICommonERPCurrency/GetCurrencyByIdResponse" message="tns:ICommonERPService_GetCurrencyById_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SaveCurrency">
+      <wsdl:input wsaw:Action="http://tempuri.org/ICommonERPCurrency/SaveCurrency" message="tns:ICommonERPService_SaveCurrency_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ICommonERPCurrency/SaveCurrencyResponse" message="tns:ICommonERPService_SaveCurrency_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="DeleteCurrency">
+      <wsdl:input wsaw:Action="http://tempuri.org/ICommonERPCurrency/DeleteCurrency" message="tns:ICommonERPService_DeleteCurrency_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ICommonERPCurrency/DeleteCurrencyResponse" message="tns:ICommonERPService_DeleteCurrency_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="UpdateCurrency">
+      <wsdl:input wsaw:Action="http://tempuri.org/ICommonERPCurrency/UpdateCurrency" message="tns:ICommonERPService_UpdateCurrency_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ICommonERPCurrency/UpdateCurrencyResponse" message="tns:ICommonERPService_UpdateCurrency_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetTRMbyCurrencyId">
+      <wsdl:input wsaw:Action="http://tempuri.org/ICommonERPCurrency/GetTRMbyCurrencyId" message="tns:ICommonERPService_GetTRMbyCurrencyId_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ICommonERPCurrency/GetTRMbyCurrencyIdResponse" message="tns:ICommonERPService_GetTRMbyCurrencyId_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ListAllDepartment">
+      <wsdl:input wsaw:Action="http://tempuri.org/ICommonERPDepartment/ListAllDepartment" message="tns:ICommonERPService_ListAllDepartment_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ICommonERPDepartment/ListAllDepartmentResponse" message="tns:ICommonERPService_ListAllDepartment_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetDepartment">
+      <wsdl:input wsaw:Action="http://tempuri.org/ICommonERPDepartment/GetDepartment" message="tns:ICommonERPService_GetDepartment_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ICommonERPDepartment/GetDepartmentResponse" message="tns:ICommonERPService_GetDepartment_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetDepartments">
+      <wsdl:input wsaw:Action="http://tempuri.org/ICommonERPDepartment/GetDepartments" message="tns:ICommonERPService_GetDepartments_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ICommonERPDepartment/GetDepartmentsResponse" message="tns:ICommonERPService_GetDepartments_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SaveDepartment">
+      <wsdl:input wsaw:Action="http://tempuri.org/ICommonERPDepartment/SaveDepartment" message="tns:ICommonERPService_SaveDepartment_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ICommonERPDepartment/SaveDepartmentResponse" message="tns:ICommonERPService_SaveDepartment_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="DeleteDepartment">
+      <wsdl:input wsaw:Action="http://tempuri.org/ICommonERPDepartment/DeleteDepartment" message="tns:ICommonERPService_DeleteDepartment_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ICommonERPDepartment/DeleteDepartmentResponse" message="tns:ICommonERPService_DeleteDepartment_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetDepartmentById">
+      <wsdl:input wsaw:Action="http://tempuri.org/ICommonERPDepartment/GetDepartmentById" message="tns:ICommonERPService_GetDepartmentById_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ICommonERPDepartment/GetDepartmentByIdResponse" message="tns:ICommonERPService_GetDepartmentById_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ChangeStateDepartment">
+      <wsdl:input wsaw:Action="http://tempuri.org/ICommonERPDepartment/ChangeStateDepartment" message="tns:ICommonERPService_ChangeStateDepartment_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ICommonERPDepartment/ChangeStateDepartmentResponse" message="tns:ICommonERPService_ChangeStateDepartment_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ListAllBlockRecord">
+      <wsdl:input wsaw:Action="http://tempuri.org/ICommonERPBlockRecord/ListAllBlockRecord" message="tns:ICommonERPService_ListAllBlockRecord_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ICommonERPBlockRecord/ListAllBlockRecordResponse" message="tns:ICommonERPService_ListAllBlockRecord_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetBlockRecordByIdformAndIdRecord">
+      <wsdl:input wsaw:Action="http://tempuri.org/ICommonERPBlockRecord/GetBlockRecordByIdformAndIdRecord" message="tns:ICommonERPService_GetBlockRecordByIdformAndIdRecord_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ICommonERPBlockRecord/GetBlockRecordByIdformAndIdRecordResponse" message="tns:ICommonERPService_GetBlockRecordByIdformAndIdRecord_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SaveBlockRecord">
+      <wsdl:input wsaw:Action="http://tempuri.org/ICommonERPBlockRecord/SaveBlockRecord" message="tns:ICommonERPService_SaveBlockRecord_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ICommonERPBlockRecord/SaveBlockRecordResponse" message="tns:ICommonERPService_SaveBlockRecord_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="DeleteBlockRecord">
+      <wsdl:input wsaw:Action="http://tempuri.org/ICommonERPBlockRecord/DeleteBlockRecord" message="tns:ICommonERPService_DeleteBlockRecord_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ICommonERPBlockRecord/DeleteBlockRecordResponse" message="tns:ICommonERPService_DeleteBlockRecord_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SP_UnlockBlockRecord">
+      <wsdl:input wsaw:Action="http://tempuri.org/ICommonERPBlockRecord/SP_UnlockBlockRecord" message="tns:ICommonERPService_SP_UnlockBlockRecord_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ICommonERPBlockRecord/SP_UnlockBlockRecordResponse" message="tns:ICommonERPService_SP_UnlockBlockRecord_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ListAllBasicAudit">
+      <wsdl:input wsaw:Action="http://tempuri.org/ICommonERPBasicAudit/ListAllBasicAudit" message="tns:ICommonERPService_ListAllBasicAudit_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ICommonERPBasicAudit/ListAllBasicAuditResponse" message="tns:ICommonERPService_ListAllBasicAudit_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetBasicAuditById">
+      <wsdl:input wsaw:Action="http://tempuri.org/ICommonERPBasicAudit/GetBasicAuditById" message="tns:ICommonERPService_GetBasicAuditById_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ICommonERPBasicAudit/GetBasicAuditByIdResponse" message="tns:ICommonERPService_GetBasicAuditById_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ListBasicAuditByEntity">
+      <wsdl:input wsaw:Action="http://tempuri.org/ICommonERPBasicAudit/ListBasicAuditByEntity" message="tns:ICommonERPService_ListBasicAuditByEntity_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ICommonERPBasicAudit/ListBasicAuditByEntityResponse" message="tns:ICommonERPService_ListBasicAuditByEntity_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ListBasicAuditByIdUsuario">
+      <wsdl:input wsaw:Action="http://tempuri.org/ICommonERPBasicAudit/ListBasicAuditByIdUsuario" message="tns:ICommonERPService_ListBasicAuditByIdUsuario_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ICommonERPBasicAudit/ListBasicAuditByIdUsuarioResponse" message="tns:ICommonERPService_ListBasicAuditByIdUsuario_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ListBasicAuditByIdIdFormAndIdEntity">
+      <wsdl:input wsaw:Action="http://tempuri.org/ICommonERPBasicAudit/ListBasicAuditByIdIdFormAndIdEntity" message="tns:ICommonERPService_ListBasicAuditByIdIdFormAndIdEntity_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ICommonERPBasicAudit/ListBasicAuditByIdIdFormAndIdEntityResponse" message="tns:ICommonERPService_ListBasicAuditByIdIdFormAndIdEntity_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ListBasicAuditByTag">
+      <wsdl:input wsaw:Action="http://tempuri.org/ICommonERPBasicAudit/ListBasicAuditByTag" message="tns:ICommonERPService_ListBasicAuditByTag_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ICommonERPBasicAudit/ListBasicAuditByTagResponse" message="tns:ICommonERPService_ListBasicAuditByTag_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SaveBasicAudit">
+      <wsdl:input wsaw:Action="http://tempuri.org/ICommonERPBasicAudit/SaveBasicAudit" message="tns:ICommonERPService_SaveBasicAudit_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ICommonERPBasicAudit/SaveBasicAuditResponse" message="tns:ICommonERPService_SaveBasicAudit_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ListAllPhoneType">
+      <wsdl:input wsaw:Action="http://tempuri.org/ICommonERPPhoneType/ListAllPhoneType" message="tns:ICommonERPService_ListAllPhoneType_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ICommonERPPhoneType/ListAllPhoneTypeResponse" message="tns:ICommonERPService_ListAllPhoneType_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetPhoneType">
+      <wsdl:input wsaw:Action="http://tempuri.org/ICommonERPPhoneType/GetPhoneType" message="tns:ICommonERPService_GetPhoneType_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ICommonERPPhoneType/GetPhoneTypeResponse" message="tns:ICommonERPService_GetPhoneType_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SavePhoneType">
+      <wsdl:input wsaw:Action="http://tempuri.org/ICommonERPPhoneType/SavePhoneType" message="tns:ICommonERPService_SavePhoneType_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ICommonERPPhoneType/SavePhoneTypeResponse" message="tns:ICommonERPService_SavePhoneType_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="DeletePhoneType">
+      <wsdl:input wsaw:Action="http://tempuri.org/ICommonERPPhoneType/DeletePhoneType" message="tns:ICommonERPService_DeletePhoneType_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ICommonERPPhoneType/DeletePhoneTypeResponse" message="tns:ICommonERPService_DeletePhoneType_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetThirdPartyByNit">
+      <wsdl:input wsaw:Action="http://tempuri.org/ICommonERPThirdParty/GetThirdPartyByNit" message="tns:ICommonERPService_GetThirdPartyByNit_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ICommonERPThirdParty/GetThirdPartyByNitResponse" message="tns:ICommonERPService_GetThirdPartyByNit_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetPersonByIdentification">
+      <wsdl:input wsaw:Action="http://tempuri.org/ICommonERPThirdParty/GetPersonByIdentification" message="tns:ICommonERPService_GetPersonByIdentification_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ICommonERPThirdParty/GetPersonByIdentificationResponse" message="tns:ICommonERPService_GetPersonByIdentification_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ListAllThirdParty">
+      <wsdl:input wsaw:Action="http://tempuri.org/ICommonERPThirdParty/ListAllThirdParty" message="tns:ICommonERPService_ListAllThirdParty_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ICommonERPThirdParty/ListAllThirdPartyResponse" message="tns:ICommonERPService_ListAllThirdParty_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ValidateLenghtNit">
+      <wsdl:input wsaw:Action="http://tempuri.org/ICommonERPThirdParty/ValidateLenghtNit" message="tns:ICommonERPService_ValidateLenghtNit_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ICommonERPThirdParty/ValidateLenghtNitResponse" message="tns:ICommonERPService_ValidateLenghtNit_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SaveThirdParty">
+      <wsdl:input wsaw:Action="http://tempuri.org/ICommonERPThirdParty/SaveThirdParty" message="tns:ICommonERPService_SaveThirdParty_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ICommonERPThirdParty/SaveThirdPartyResponse" message="tns:ICommonERPService_SaveThirdParty_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="DeleteThirdParty">
+      <wsdl:input wsaw:Action="http://tempuri.org/ICommonERPThirdParty/DeleteThirdParty" message="tns:ICommonERPService_DeleteThirdParty_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ICommonERPThirdParty/DeleteThirdPartyResponse" message="tns:ICommonERPService_DeleteThirdParty_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetThirdPartyById">
+      <wsdl:input wsaw:Action="http://tempuri.org/ICommonERPThirdParty/GetThirdPartyById" message="tns:ICommonERPService_GetThirdPartyById_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ICommonERPThirdParty/GetThirdPartyByIdResponse" message="tns:ICommonERPService_GetThirdPartyById_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="UpdateStateThirdParty">
+      <wsdl:input wsaw:Action="http://tempuri.org/ICommonERPThirdParty/UpdateStateThirdParty" message="tns:ICommonERPService_UpdateStateThirdParty_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ICommonERPThirdParty/UpdateStateThirdPartyResponse" message="tns:ICommonERPService_UpdateStateThirdParty_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ListAllDisability">
+      <wsdl:input wsaw:Action="http://tempuri.org/ICommonERPDisability/ListAllDisability" message="tns:ICommonERPService_ListAllDisability_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ICommonERPDisability/ListAllDisabilityResponse" message="tns:ICommonERPService_ListAllDisability_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="DeleteDisability">
+      <wsdl:input wsaw:Action="http://tempuri.org/ICommonERPDisability/DeleteDisability" message="tns:ICommonERPService_DeleteDisability_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ICommonERPDisability/DeleteDisabilityResponse" message="tns:ICommonERPService_DeleteDisability_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SaveDisability">
+      <wsdl:input wsaw:Action="http://tempuri.org/ICommonERPDisability/SaveDisability" message="tns:ICommonERPService_SaveDisability_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ICommonERPDisability/SaveDisabilityResponse" message="tns:ICommonERPService_SaveDisability_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetDisability">
+      <wsdl:input wsaw:Action="http://tempuri.org/ICommonERPDisability/GetDisability" message="tns:ICommonERPService_GetDisability_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ICommonERPDisability/GetDisabilityResponse" message="tns:ICommonERPService_GetDisability_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ListAllTimeUnit">
+      <wsdl:input wsaw:Action="http://tempuri.org/ICommonERPTimeUnit/ListAllTimeUnit" message="tns:ICommonERPService_ListAllTimeUnit_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ICommonERPTimeUnit/ListAllTimeUnitResponse" message="tns:ICommonERPService_ListAllTimeUnit_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetTimeUnit">
+      <wsdl:input wsaw:Action="http://tempuri.org/ICommonERPTimeUnit/GetTimeUnit" message="tns:ICommonERPService_GetTimeUnit_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ICommonERPTimeUnit/GetTimeUnitResponse" message="tns:ICommonERPService_GetTimeUnit_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SaveTimeUnit">
+      <wsdl:input wsaw:Action="http://tempuri.org/ICommonERPTimeUnit/SaveTimeUnit" message="tns:ICommonERPService_SaveTimeUnit_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ICommonERPTimeUnit/SaveTimeUnitResponse" message="tns:ICommonERPService_SaveTimeUnit_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="DeleteTimeUnit">
+      <wsdl:input wsaw:Action="http://tempuri.org/ICommonERPTimeUnit/DeleteTimeUnit" message="tns:ICommonERPService_DeleteTimeUnit_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ICommonERPTimeUnit/DeleteTimeUnitResponse" message="tns:ICommonERPService_DeleteTimeUnit_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ListAllHolidays">
+      <wsdl:input wsaw:Action="http://tempuri.org/ICommonERPHoliday/ListAllHolidays" message="tns:ICommonERPService_ListAllHolidays_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ICommonERPHoliday/ListAllHolidaysResponse" message="tns:ICommonERPService_ListAllHolidays_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="DeleteHoliday">
+      <wsdl:input wsaw:Action="http://tempuri.org/ICommonERPHoliday/DeleteHoliday" message="tns:ICommonERPService_DeleteHoliday_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ICommonERPHoliday/DeleteHolidayResponse" message="tns:ICommonERPService_DeleteHoliday_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SaveHoliday">
+      <wsdl:input wsaw:Action="http://tempuri.org/ICommonERPHoliday/SaveHoliday" message="tns:ICommonERPService_SaveHoliday_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ICommonERPHoliday/SaveHolidayResponse" message="tns:ICommonERPService_SaveHoliday_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetHoliday">
+      <wsdl:input wsaw:Action="http://tempuri.org/ICommonERPHoliday/GetHoliday" message="tns:ICommonERPService_GetHoliday_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ICommonERPHoliday/GetHolidayResponse" message="tns:ICommonERPService_GetHoliday_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ListHolidaybyYear">
+      <wsdl:input wsaw:Action="http://tempuri.org/ICommonERPHoliday/ListHolidaybyYear" message="tns:ICommonERPService_ListHolidaybyYear_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ICommonERPHoliday/ListHolidaybyYearResponse" message="tns:ICommonERPService_ListHolidaybyYear_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ListHolidayBetweenDate">
+      <wsdl:input wsaw:Action="http://tempuri.org/ICommonERPHoliday/ListHolidayBetweenDate" message="tns:ICommonERPService_ListHolidayBetweenDate_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ICommonERPHoliday/ListHolidayBetweenDateResponse" message="tns:ICommonERPService_ListHolidayBetweenDate_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ListConceptGlosas">
+      <wsdl:input wsaw:Action="http://tempuri.org/ICommonERPConceptGlosas/ListConceptGlosas" message="tns:ICommonERPService_ListConceptGlosas_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ICommonERPConceptGlosas/ListConceptGlosasResponse" message="tns:ICommonERPService_ListConceptGlosas_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ListConceptGlosaByType">
+      <wsdl:input wsaw:Action="http://tempuri.org/ICommonERPConceptGlosas/ListConceptGlosaByType" message="tns:ICommonERPService_ListConceptGlosaByType_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ICommonERPConceptGlosas/ListConceptGlosaByTypeResponse" message="tns:ICommonERPService_ListConceptGlosaByType_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ListConceptGlosaByListTypes">
+      <wsdl:input wsaw:Action="http://tempuri.org/ICommonERPConceptGlosas/ListConceptGlosaByListTypes" message="tns:ICommonERPService_ListConceptGlosaByListTypes_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ICommonERPConceptGlosas/ListConceptGlosaByListTypesResponse" message="tns:ICommonERPService_ListConceptGlosaByListTypes_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetOperatingUnitByCode">
+      <wsdl:input wsaw:Action="http://tempuri.org/ICommonERPOperatingUnit/GetOperatingUnitByCode" message="tns:ICommonERPService_GetOperatingUnitByCode_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ICommonERPOperatingUnit/GetOperatingUnitByCodeResponse" message="tns:ICommonERPService_GetOperatingUnitByCode_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetOperatingUnitById">
+      <wsdl:input wsaw:Action="http://tempuri.org/ICommonERPOperatingUnit/GetOperatingUnitById" message="tns:ICommonERPService_GetOperatingUnitById_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ICommonERPOperatingUnit/GetOperatingUnitByIdResponse" message="tns:ICommonERPService_GetOperatingUnitById_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SaveOperatingUnit">
+      <wsdl:input wsaw:Action="http://tempuri.org/ICommonERPOperatingUnit/SaveOperatingUnit" message="tns:ICommonERPService_SaveOperatingUnit_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ICommonERPOperatingUnit/SaveOperatingUnitResponse" message="tns:ICommonERPService_SaveOperatingUnit_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="DeleteOperatingUnit">
+      <wsdl:input wsaw:Action="http://tempuri.org/ICommonERPOperatingUnit/DeleteOperatingUnit" message="tns:ICommonERPService_DeleteOperatingUnit_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ICommonERPOperatingUnit/DeleteOperatingUnitResponse" message="tns:ICommonERPService_DeleteOperatingUnit_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ListAllOperatingUnit">
+      <wsdl:input wsaw:Action="http://tempuri.org/ICommonERPOperatingUnit/ListAllOperatingUnit" message="tns:ICommonERPService_ListAllOperatingUnit_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ICommonERPOperatingUnit/ListAllOperatingUnitResponse" message="tns:ICommonERPService_ListAllOperatingUnit_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ListAllOperatingUnitCommand">
+      <wsdl:input wsaw:Action="http://tempuri.org/ICommonERPOperatingUnit/ListAllOperatingUnitCommand" message="tns:ICommonERPService_ListAllOperatingUnitCommand_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ICommonERPOperatingUnit/ListAllOperatingUnitCommandResponse" message="tns:ICommonERPService_ListAllOperatingUnitCommand_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ListAllBank">
+      <wsdl:input wsaw:Action="http://tempuri.org/ICommonERPBank/ListAllBank" message="tns:ICommonERPService_ListAllBank_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ICommonERPBank/ListAllBankResponse" message="tns:ICommonERPService_ListAllBank_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="DeleteBank">
+      <wsdl:input wsaw:Action="http://tempuri.org/ICommonERPBank/DeleteBank" message="tns:ICommonERPService_DeleteBank_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ICommonERPBank/DeleteBankResponse" message="tns:ICommonERPService_DeleteBank_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SaveBank">
+      <wsdl:input wsaw:Action="http://tempuri.org/ICommonERPBank/SaveBank" message="tns:ICommonERPService_SaveBank_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ICommonERPBank/SaveBankResponse" message="tns:ICommonERPService_SaveBank_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="UpdateStateBank">
+      <wsdl:input wsaw:Action="http://tempuri.org/ICommonERPBank/UpdateStateBank" message="tns:ICommonERPService_UpdateStateBank_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ICommonERPBank/UpdateStateBankResponse" message="tns:ICommonERPService_UpdateStateBank_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetBank">
+      <wsdl:input wsaw:Action="http://tempuri.org/ICommonERPBank/GetBank" message="tns:ICommonERPService_GetBank_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ICommonERPBank/GetBankResponse" message="tns:ICommonERPService_GetBank_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetBankById">
+      <wsdl:input wsaw:Action="http://tempuri.org/ICommonERPBank/GetBankById" message="tns:ICommonERPService_GetBankById_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ICommonERPBank/GetBankByIdResponse" message="tns:ICommonERPService_GetBankById_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SaveSuppliersDistributionLines">
+      <wsdl:input wsaw:Action="http://tempuri.org/ICommonERPSuppliersDistributionLines/SaveSuppliersDistributionLines" message="tns:ICommonERPService_SaveSuppliersDistributionLines_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ICommonERPSuppliersDistributionLines/SaveSuppliersDistributionLinesResponse" message="tns:ICommonERPService_SaveSuppliersDistributionLines_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="DeleteSuppliersDistributionLines">
+      <wsdl:input wsaw:Action="http://tempuri.org/ICommonERPSuppliersDistributionLines/DeleteSuppliersDistributionLines" message="tns:ICommonERPService_DeleteSuppliersDistributionLines_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ICommonERPSuppliersDistributionLines/DeleteSuppliersDistributionLinesResponse" message="tns:ICommonERPService_DeleteSuppliersDistributionLines_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetSuppliersDistributionLinesByIdSupplier">
+      <wsdl:input wsaw:Action="http://tempuri.org/ICommonERPSuppliersDistributionLines/GetSuppliersDistributionLinesByIdSupplier" message="tns:ICommonERPService_GetSuppliersDistributionLinesByIdSupplier_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ICommonERPSuppliersDistributionLines/GetSuppliersDistributionLinesByIdSupplierResponse" message="tns:ICommonERPService_GetSuppliersDistributionLinesByIdSupplier_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetSuppliersDistributionLinesById">
+      <wsdl:input wsaw:Action="http://tempuri.org/ICommonERPSuppliersDistributionLines/GetSuppliersDistributionLinesById" message="tns:ICommonERPService_GetSuppliersDistributionLinesById_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ICommonERPSuppliersDistributionLines/GetSuppliersDistributionLinesByIdResponse" message="tns:ICommonERPService_GetSuppliersDistributionLinesById_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetICARetentionConceptBySupplierDistributionLine">
+      <wsdl:input wsaw:Action="http://tempuri.org/ICommonERPSuppliersDistributionLines/GetICARetentionConceptBySupplierDistributionLine" message="tns:ICommonERPService_GetICARetentionConceptBySupplierDistributionLine_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ICommonERPSuppliersDistributionLines/GetICARetentionConceptBySupplierDistributionLineResponse" message="tns:ICommonERPService_GetICARetentionConceptBySupplierDistributionLine_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetDistributionLinesByIdSupplierAndAccusationConcept">
+      <wsdl:input wsaw:Action="http://tempuri.org/ICommonERPSuppliersDistributionLines/GetDistributionLinesByIdSupplierAndAccusationConcept" message="tns:ICommonERPService_GetDistributionLinesByIdSupplierAndAccusationConcept_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ICommonERPSuppliersDistributionLines/GetDistributionLinesByIdSupplierAndAccusationConceptResponse" message="tns:ICommonERPService_GetDistributionLinesByIdSupplierAndAccusationConcept_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SaveDistributionLines">
+      <wsdl:input wsaw:Action="http://tempuri.org/ICommonERPDistributionLines/SaveDistributionLines" message="tns:ICommonERPService_SaveDistributionLines_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ICommonERPDistributionLines/SaveDistributionLinesResponse" message="tns:ICommonERPService_SaveDistributionLines_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="DeleteDistributionLines">
+      <wsdl:input wsaw:Action="http://tempuri.org/ICommonERPDistributionLines/DeleteDistributionLines" message="tns:ICommonERPService_DeleteDistributionLines_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ICommonERPDistributionLines/DeleteDistributionLinesResponse" message="tns:ICommonERPService_DeleteDistributionLines_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetDistributionLinesById">
+      <wsdl:input wsaw:Action="http://tempuri.org/ICommonERPDistributionLines/GetDistributionLinesById" message="tns:ICommonERPService_GetDistributionLinesById_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ICommonERPDistributionLines/GetDistributionLinesByIdResponse" message="tns:ICommonERPService_GetDistributionLinesById_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetDistributionLines">
+      <wsdl:input wsaw:Action="http://tempuri.org/ICommonERPDistributionLines/GetDistributionLines" message="tns:ICommonERPService_GetDistributionLines_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ICommonERPDistributionLines/GetDistributionLinesResponse" message="tns:ICommonERPService_GetDistributionLines_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ChangeStateDistributionLines">
+      <wsdl:input wsaw:Action="http://tempuri.org/ICommonERPDistributionLines/ChangeStateDistributionLines" message="tns:ICommonERPService_ChangeStateDistributionLines_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ICommonERPDistributionLines/ChangeStateDistributionLinesResponse" message="tns:ICommonERPService_ChangeStateDistributionLines_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetSequenseByIdForm">
+      <wsdl:input wsaw:Action="http://tempuri.org/ICommonSequense/GetSequenseByIdForm" message="tns:ICommonERPService_GetSequenseByIdForm_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ICommonSequense/GetSequenseByIdFormResponse" message="tns:ICommonERPService_GetSequenseByIdForm_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetNumericSequenseGroupById">
+      <wsdl:input wsaw:Action="http://tempuri.org/ICommonSequense/GetNumericSequenseGroupById" message="tns:ICommonERPService_GetNumericSequenseGroupById_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ICommonSequense/GetNumericSequenseGroupByIdResponse" message="tns:ICommonERPService_GetNumericSequenseGroupById_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ListSequences">
+      <wsdl:input wsaw:Action="http://tempuri.org/ICommonSequense/ListSequences" message="tns:ICommonERPService_ListSequences_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ICommonSequense/ListSequencesResponse" message="tns:ICommonERPService_ListSequences_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SaveSequence">
+      <wsdl:input wsaw:Action="http://tempuri.org/ICommonSequense/SaveSequence" message="tns:ICommonERPService_SaveSequence_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ICommonSequense/SaveSequenceResponse" message="tns:ICommonERPService_SaveSequence_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SavePatternSequence">
+      <wsdl:input wsaw:Action="http://tempuri.org/ICommonSequense/SavePatternSequence" message="tns:ICommonERPService_SavePatternSequence_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ICommonSequense/SavePatternSequenceResponse" message="tns:ICommonERPService_SavePatternSequence_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetPatternSequence">
+      <wsdl:input wsaw:Action="http://tempuri.org/ICommonSequense/GetPatternSequence" message="tns:ICommonERPService_GetPatternSequence_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ICommonSequense/GetPatternSequenceResponse" message="tns:ICommonERPService_GetPatternSequence_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetPatternSequenceByName">
+      <wsdl:input wsaw:Action="http://tempuri.org/ICommonSequense/GetPatternSequenceByName" message="tns:ICommonERPService_GetPatternSequenceByName_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ICommonSequense/GetPatternSequenceByNameResponse" message="tns:ICommonERPService_GetPatternSequenceByName_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SaveEconomicActivity">
+      <wsdl:input wsaw:Action="http://tempuri.org/ICommonERPEconomicActivity/SaveEconomicActivity" message="tns:ICommonERPService_SaveEconomicActivity_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ICommonERPEconomicActivity/SaveEconomicActivityResponse" message="tns:ICommonERPService_SaveEconomicActivity_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="DeleteEconomicActivity">
+      <wsdl:input wsaw:Action="http://tempuri.org/ICommonERPEconomicActivity/DeleteEconomicActivity" message="tns:ICommonERPService_DeleteEconomicActivity_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ICommonERPEconomicActivity/DeleteEconomicActivityResponse" message="tns:ICommonERPService_DeleteEconomicActivity_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetEconomicActivityById">
+      <wsdl:input wsaw:Action="http://tempuri.org/ICommonERPEconomicActivity/GetEconomicActivityById" message="tns:ICommonERPService_GetEconomicActivityById_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ICommonERPEconomicActivity/GetEconomicActivityByIdResponse" message="tns:ICommonERPService_GetEconomicActivityById_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetEconomicActivity">
+      <wsdl:input wsaw:Action="http://tempuri.org/ICommonERPEconomicActivity/GetEconomicActivity" message="tns:ICommonERPService_GetEconomicActivity_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ICommonERPEconomicActivity/GetEconomicActivityResponse" message="tns:ICommonERPService_GetEconomicActivity_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ChangeStateEconomicActivity">
+      <wsdl:input wsaw:Action="http://tempuri.org/ICommonERPEconomicActivity/ChangeStateEconomicActivity" message="tns:ICommonERPService_ChangeStateEconomicActivity_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ICommonERPEconomicActivity/ChangeStateEconomicActivityResponse" message="tns:ICommonERPService_ChangeStateEconomicActivity_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetSuppliersDetailTypeByIdSupplier">
+      <wsdl:input wsaw:Action="http://tempuri.org/ICommonERPSuppliersDetailType/GetSuppliersDetailTypeByIdSupplier" message="tns:ICommonERPService_GetSuppliersDetailTypeByIdSupplier_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ICommonERPSuppliersDetailType/GetSuppliersDetailTypeByIdSupplierResponse" message="tns:ICommonERPService_GetSuppliersDetailTypeByIdSupplier_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetSuppliersDetailTypeById">
+      <wsdl:input wsaw:Action="http://tempuri.org/ICommonERPSuppliersDetailType/GetSuppliersDetailTypeById" message="tns:ICommonERPService_GetSuppliersDetailTypeById_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ICommonERPSuppliersDetailType/GetSuppliersDetailTypeByIdResponse" message="tns:ICommonERPService_GetSuppliersDetailTypeById_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ListAllSupplier">
+      <wsdl:input wsaw:Action="http://tempuri.org/ICommonERPSuppliersDetailType/ListAllSupplier" message="tns:ICommonERPService_ListAllSupplier_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ICommonERPSuppliersDetailType/ListAllSupplierResponse" message="tns:ICommonERPService_ListAllSupplier_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SaveBalancedScorecard">
+      <wsdl:input wsaw:Action="http://tempuri.org/ICommonERPBalancedScorecard/SaveBalancedScorecard" message="tns:ICommonERPService_SaveBalancedScorecard_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ICommonERPBalancedScorecard/SaveBalancedScorecardResponse" message="tns:ICommonERPService_SaveBalancedScorecard_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAttachmentById">
+      <wsdl:input wsaw:Action="http://tempuri.org/ICommonERPAttachment/GetAttachmentById" message="tns:ICommonERPService_GetAttachmentById_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ICommonERPAttachment/GetAttachmentByIdResponse" message="tns:ICommonERPService_GetAttachmentById_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAttachmentsByFormAndEntity">
+      <wsdl:input wsaw:Action="http://tempuri.org/ICommonERPAttachment/GetAttachmentsByFormAndEntity" message="tns:ICommonERPService_GetAttachmentsByFormAndEntity_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ICommonERPAttachment/GetAttachmentsByFormAndEntityResponse" message="tns:ICommonERPService_GetAttachmentsByFormAndEntity_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SaveAttachment">
+      <wsdl:input wsaw:Action="http://tempuri.org/ICommonERPAttachment/SaveAttachment" message="tns:ICommonERPService_SaveAttachment_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ICommonERPAttachment/SaveAttachmentResponse" message="tns:ICommonERPService_SaveAttachment_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="DeleteAttachment">
+      <wsdl:input wsaw:Action="http://tempuri.org/ICommonERPAttachment/DeleteAttachment" message="tns:ICommonERPService_DeleteAttachment_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ICommonERPAttachment/DeleteAttachmentResponse" message="tns:ICommonERPService_DeleteAttachment_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SaveTaxExemptions">
+      <wsdl:input wsaw:Action="http://tempuri.org/ICommonERPTaxExemptions/SaveTaxExemptions" message="tns:ICommonERPService_SaveTaxExemptions_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ICommonERPTaxExemptions/SaveTaxExemptionsResponse" message="tns:ICommonERPService_SaveTaxExemptions_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetTaxExemptionsById">
+      <wsdl:input wsaw:Action="http://tempuri.org/ICommonERPTaxExemptions/GetTaxExemptionsById" message="tns:ICommonERPService_GetTaxExemptionsById_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ICommonERPTaxExemptions/GetTaxExemptionsByIdResponse" message="tns:ICommonERPService_GetTaxExemptionsById_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetTaxExemptions">
+      <wsdl:input wsaw:Action="http://tempuri.org/ICommonERPTaxExemptions/GetTaxExemptions" message="tns:ICommonERPService_GetTaxExemptions_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ICommonERPTaxExemptions/GetTaxExemptionsResponse" message="tns:ICommonERPService_GetTaxExemptions_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ChangeStateTaxExemptions">
+      <wsdl:input wsaw:Action="http://tempuri.org/ICommonERPTaxExemptions/ChangeStateTaxExemptions" message="tns:ICommonERPService_ChangeStateTaxExemptions_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ICommonERPTaxExemptions/ChangeStateTaxExemptionsResponse" message="tns:ICommonERPService_ChangeStateTaxExemptions_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetDataTable">
+      <wsdl:input wsaw:Action="http://tempuri.org/ICommonERPService/GetDataTable" message="tns:ICommonERPService_GetDataTable_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ICommonERPService/GetDataTableResponse" message="tns:ICommonERPService_GetDataTable_OutputMessage" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="basicHttp_Endpoint_CommonERP" type="tns:ICommonERPService">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="ListAllCity">
+      <soap:operation soapAction="http://tempuri.org/ICommonERPCity/ListAllCity" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCity">
+      <soap:operation soapAction="http://tempuri.org/ICommonERPCity/GetCity" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCityByDepartment">
+      <soap:operation soapAction="http://tempuri.org/ICommonERPCity/GetCityByDepartment" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveCity">
+      <soap:operation soapAction="http://tempuri.org/ICommonERPCity/SaveCity" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteCity">
+      <soap:operation soapAction="http://tempuri.org/ICommonERPCity/DeleteCity" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ListAllCitiesByIdDepartment">
+      <soap:operation soapAction="http://tempuri.org/ICommonERPCity/ListAllCitiesByIdDepartment" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCityById">
+      <soap:operation soapAction="http://tempuri.org/ICommonERPCity/GetCityById" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ChangeStateCity">
+      <soap:operation soapAction="http://tempuri.org/ICommonERPCity/ChangeStateCity" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetFieldsNULL">
+      <soap:operation soapAction="http://tempuri.org/ICommonERPCommon/GetFieldsNULL" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ListAllCountry">
+      <soap:operation soapAction="http://tempuri.org/ICommonERPCountry/ListAllCountry" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCountry">
+      <soap:operation soapAction="http://tempuri.org/ICommonERPCountry/GetCountry" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCountryById">
+      <soap:operation soapAction="http://tempuri.org/ICommonERPCountry/GetCountryById" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveCountry">
+      <soap:operation soapAction="http://tempuri.org/ICommonERPCountry/SaveCountry" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteCountry">
+      <soap:operation soapAction="http://tempuri.org/ICommonERPCountry/DeleteCountry" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ListAllCurrency">
+      <soap:operation soapAction="http://tempuri.org/ICommonERPCurrency/ListAllCurrency" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCurrency">
+      <soap:operation soapAction="http://tempuri.org/ICommonERPCurrency/GetCurrency" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCurrencyById">
+      <soap:operation soapAction="http://tempuri.org/ICommonERPCurrency/GetCurrencyById" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveCurrency">
+      <soap:operation soapAction="http://tempuri.org/ICommonERPCurrency/SaveCurrency" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteCurrency">
+      <soap:operation soapAction="http://tempuri.org/ICommonERPCurrency/DeleteCurrency" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateCurrency">
+      <soap:operation soapAction="http://tempuri.org/ICommonERPCurrency/UpdateCurrency" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetTRMbyCurrencyId">
+      <soap:operation soapAction="http://tempuri.org/ICommonERPCurrency/GetTRMbyCurrencyId" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ListAllDepartment">
+      <soap:operation soapAction="http://tempuri.org/ICommonERPDepartment/ListAllDepartment" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetDepartment">
+      <soap:operation soapAction="http://tempuri.org/ICommonERPDepartment/GetDepartment" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetDepartments">
+      <soap:operation soapAction="http://tempuri.org/ICommonERPDepartment/GetDepartments" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveDepartment">
+      <soap:operation soapAction="http://tempuri.org/ICommonERPDepartment/SaveDepartment" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteDepartment">
+      <soap:operation soapAction="http://tempuri.org/ICommonERPDepartment/DeleteDepartment" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetDepartmentById">
+      <soap:operation soapAction="http://tempuri.org/ICommonERPDepartment/GetDepartmentById" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ChangeStateDepartment">
+      <soap:operation soapAction="http://tempuri.org/ICommonERPDepartment/ChangeStateDepartment" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ListAllBlockRecord">
+      <soap:operation soapAction="http://tempuri.org/ICommonERPBlockRecord/ListAllBlockRecord" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetBlockRecordByIdformAndIdRecord">
+      <soap:operation soapAction="http://tempuri.org/ICommonERPBlockRecord/GetBlockRecordByIdformAndIdRecord" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveBlockRecord">
+      <soap:operation soapAction="http://tempuri.org/ICommonERPBlockRecord/SaveBlockRecord" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteBlockRecord">
+      <soap:operation soapAction="http://tempuri.org/ICommonERPBlockRecord/DeleteBlockRecord" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SP_UnlockBlockRecord">
+      <soap:operation soapAction="http://tempuri.org/ICommonERPBlockRecord/SP_UnlockBlockRecord" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ListAllBasicAudit">
+      <soap:operation soapAction="http://tempuri.org/ICommonERPBasicAudit/ListAllBasicAudit" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetBasicAuditById">
+      <soap:operation soapAction="http://tempuri.org/ICommonERPBasicAudit/GetBasicAuditById" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ListBasicAuditByEntity">
+      <soap:operation soapAction="http://tempuri.org/ICommonERPBasicAudit/ListBasicAuditByEntity" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ListBasicAuditByIdUsuario">
+      <soap:operation soapAction="http://tempuri.org/ICommonERPBasicAudit/ListBasicAuditByIdUsuario" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ListBasicAuditByIdIdFormAndIdEntity">
+      <soap:operation soapAction="http://tempuri.org/ICommonERPBasicAudit/ListBasicAuditByIdIdFormAndIdEntity" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ListBasicAuditByTag">
+      <soap:operation soapAction="http://tempuri.org/ICommonERPBasicAudit/ListBasicAuditByTag" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveBasicAudit">
+      <soap:operation soapAction="http://tempuri.org/ICommonERPBasicAudit/SaveBasicAudit" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ListAllPhoneType">
+      <soap:operation soapAction="http://tempuri.org/ICommonERPPhoneType/ListAllPhoneType" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetPhoneType">
+      <soap:operation soapAction="http://tempuri.org/ICommonERPPhoneType/GetPhoneType" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SavePhoneType">
+      <soap:operation soapAction="http://tempuri.org/ICommonERPPhoneType/SavePhoneType" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeletePhoneType">
+      <soap:operation soapAction="http://tempuri.org/ICommonERPPhoneType/DeletePhoneType" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetThirdPartyByNit">
+      <soap:operation soapAction="http://tempuri.org/ICommonERPThirdParty/GetThirdPartyByNit" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetPersonByIdentification">
+      <soap:operation soapAction="http://tempuri.org/ICommonERPThirdParty/GetPersonByIdentification" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ListAllThirdParty">
+      <soap:operation soapAction="http://tempuri.org/ICommonERPThirdParty/ListAllThirdParty" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ValidateLenghtNit">
+      <soap:operation soapAction="http://tempuri.org/ICommonERPThirdParty/ValidateLenghtNit" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveThirdParty">
+      <soap:operation soapAction="http://tempuri.org/ICommonERPThirdParty/SaveThirdParty" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteThirdParty">
+      <soap:operation soapAction="http://tempuri.org/ICommonERPThirdParty/DeleteThirdParty" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetThirdPartyById">
+      <soap:operation soapAction="http://tempuri.org/ICommonERPThirdParty/GetThirdPartyById" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateStateThirdParty">
+      <soap:operation soapAction="http://tempuri.org/ICommonERPThirdParty/UpdateStateThirdParty" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ListAllDisability">
+      <soap:operation soapAction="http://tempuri.org/ICommonERPDisability/ListAllDisability" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteDisability">
+      <soap:operation soapAction="http://tempuri.org/ICommonERPDisability/DeleteDisability" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveDisability">
+      <soap:operation soapAction="http://tempuri.org/ICommonERPDisability/SaveDisability" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetDisability">
+      <soap:operation soapAction="http://tempuri.org/ICommonERPDisability/GetDisability" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ListAllTimeUnit">
+      <soap:operation soapAction="http://tempuri.org/ICommonERPTimeUnit/ListAllTimeUnit" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetTimeUnit">
+      <soap:operation soapAction="http://tempuri.org/ICommonERPTimeUnit/GetTimeUnit" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveTimeUnit">
+      <soap:operation soapAction="http://tempuri.org/ICommonERPTimeUnit/SaveTimeUnit" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteTimeUnit">
+      <soap:operation soapAction="http://tempuri.org/ICommonERPTimeUnit/DeleteTimeUnit" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ListAllHolidays">
+      <soap:operation soapAction="http://tempuri.org/ICommonERPHoliday/ListAllHolidays" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteHoliday">
+      <soap:operation soapAction="http://tempuri.org/ICommonERPHoliday/DeleteHoliday" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveHoliday">
+      <soap:operation soapAction="http://tempuri.org/ICommonERPHoliday/SaveHoliday" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetHoliday">
+      <soap:operation soapAction="http://tempuri.org/ICommonERPHoliday/GetHoliday" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ListHolidaybyYear">
+      <soap:operation soapAction="http://tempuri.org/ICommonERPHoliday/ListHolidaybyYear" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ListHolidayBetweenDate">
+      <soap:operation soapAction="http://tempuri.org/ICommonERPHoliday/ListHolidayBetweenDate" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ListConceptGlosas">
+      <soap:operation soapAction="http://tempuri.org/ICommonERPConceptGlosas/ListConceptGlosas" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ListConceptGlosaByType">
+      <soap:operation soapAction="http://tempuri.org/ICommonERPConceptGlosas/ListConceptGlosaByType" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ListConceptGlosaByListTypes">
+      <soap:operation soapAction="http://tempuri.org/ICommonERPConceptGlosas/ListConceptGlosaByListTypes" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetOperatingUnitByCode">
+      <soap:operation soapAction="http://tempuri.org/ICommonERPOperatingUnit/GetOperatingUnitByCode" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetOperatingUnitById">
+      <soap:operation soapAction="http://tempuri.org/ICommonERPOperatingUnit/GetOperatingUnitById" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveOperatingUnit">
+      <soap:operation soapAction="http://tempuri.org/ICommonERPOperatingUnit/SaveOperatingUnit" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteOperatingUnit">
+      <soap:operation soapAction="http://tempuri.org/ICommonERPOperatingUnit/DeleteOperatingUnit" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ListAllOperatingUnit">
+      <soap:operation soapAction="http://tempuri.org/ICommonERPOperatingUnit/ListAllOperatingUnit" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ListAllOperatingUnitCommand">
+      <soap:operation soapAction="http://tempuri.org/ICommonERPOperatingUnit/ListAllOperatingUnitCommand" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ListAllBank">
+      <soap:operation soapAction="http://tempuri.org/ICommonERPBank/ListAllBank" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteBank">
+      <soap:operation soapAction="http://tempuri.org/ICommonERPBank/DeleteBank" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveBank">
+      <soap:operation soapAction="http://tempuri.org/ICommonERPBank/SaveBank" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateStateBank">
+      <soap:operation soapAction="http://tempuri.org/ICommonERPBank/UpdateStateBank" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetBank">
+      <soap:operation soapAction="http://tempuri.org/ICommonERPBank/GetBank" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetBankById">
+      <soap:operation soapAction="http://tempuri.org/ICommonERPBank/GetBankById" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveSuppliersDistributionLines">
+      <soap:operation soapAction="http://tempuri.org/ICommonERPSuppliersDistributionLines/SaveSuppliersDistributionLines" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteSuppliersDistributionLines">
+      <soap:operation soapAction="http://tempuri.org/ICommonERPSuppliersDistributionLines/DeleteSuppliersDistributionLines" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetSuppliersDistributionLinesByIdSupplier">
+      <soap:operation soapAction="http://tempuri.org/ICommonERPSuppliersDistributionLines/GetSuppliersDistributionLinesByIdSupplier" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetSuppliersDistributionLinesById">
+      <soap:operation soapAction="http://tempuri.org/ICommonERPSuppliersDistributionLines/GetSuppliersDistributionLinesById" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetICARetentionConceptBySupplierDistributionLine">
+      <soap:operation soapAction="http://tempuri.org/ICommonERPSuppliersDistributionLines/GetICARetentionConceptBySupplierDistributionLine" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetDistributionLinesByIdSupplierAndAccusationConcept">
+      <soap:operation soapAction="http://tempuri.org/ICommonERPSuppliersDistributionLines/GetDistributionLinesByIdSupplierAndAccusationConcept" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveDistributionLines">
+      <soap:operation soapAction="http://tempuri.org/ICommonERPDistributionLines/SaveDistributionLines" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteDistributionLines">
+      <soap:operation soapAction="http://tempuri.org/ICommonERPDistributionLines/DeleteDistributionLines" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetDistributionLinesById">
+      <soap:operation soapAction="http://tempuri.org/ICommonERPDistributionLines/GetDistributionLinesById" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetDistributionLines">
+      <soap:operation soapAction="http://tempuri.org/ICommonERPDistributionLines/GetDistributionLines" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ChangeStateDistributionLines">
+      <soap:operation soapAction="http://tempuri.org/ICommonERPDistributionLines/ChangeStateDistributionLines" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetSequenseByIdForm">
+      <soap:operation soapAction="http://tempuri.org/ICommonSequense/GetSequenseByIdForm" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetNumericSequenseGroupById">
+      <soap:operation soapAction="http://tempuri.org/ICommonSequense/GetNumericSequenseGroupById" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ListSequences">
+      <soap:operation soapAction="http://tempuri.org/ICommonSequense/ListSequences" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveSequence">
+      <soap:operation soapAction="http://tempuri.org/ICommonSequense/SaveSequence" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SavePatternSequence">
+      <soap:operation soapAction="http://tempuri.org/ICommonSequense/SavePatternSequence" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetPatternSequence">
+      <soap:operation soapAction="http://tempuri.org/ICommonSequense/GetPatternSequence" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetPatternSequenceByName">
+      <soap:operation soapAction="http://tempuri.org/ICommonSequense/GetPatternSequenceByName" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveEconomicActivity">
+      <soap:operation soapAction="http://tempuri.org/ICommonERPEconomicActivity/SaveEconomicActivity" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteEconomicActivity">
+      <soap:operation soapAction="http://tempuri.org/ICommonERPEconomicActivity/DeleteEconomicActivity" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetEconomicActivityById">
+      <soap:operation soapAction="http://tempuri.org/ICommonERPEconomicActivity/GetEconomicActivityById" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetEconomicActivity">
+      <soap:operation soapAction="http://tempuri.org/ICommonERPEconomicActivity/GetEconomicActivity" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ChangeStateEconomicActivity">
+      <soap:operation soapAction="http://tempuri.org/ICommonERPEconomicActivity/ChangeStateEconomicActivity" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetSuppliersDetailTypeByIdSupplier">
+      <soap:operation soapAction="http://tempuri.org/ICommonERPSuppliersDetailType/GetSuppliersDetailTypeByIdSupplier" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetSuppliersDetailTypeById">
+      <soap:operation soapAction="http://tempuri.org/ICommonERPSuppliersDetailType/GetSuppliersDetailTypeById" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ListAllSupplier">
+      <soap:operation soapAction="http://tempuri.org/ICommonERPSuppliersDetailType/ListAllSupplier" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveBalancedScorecard">
+      <soap:operation soapAction="http://tempuri.org/ICommonERPBalancedScorecard/SaveBalancedScorecard" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAttachmentById">
+      <soap:operation soapAction="http://tempuri.org/ICommonERPAttachment/GetAttachmentById" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAttachmentsByFormAndEntity">
+      <soap:operation soapAction="http://tempuri.org/ICommonERPAttachment/GetAttachmentsByFormAndEntity" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveAttachment">
+      <soap:operation soapAction="http://tempuri.org/ICommonERPAttachment/SaveAttachment" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteAttachment">
+      <soap:operation soapAction="http://tempuri.org/ICommonERPAttachment/DeleteAttachment" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveTaxExemptions">
+      <soap:operation soapAction="http://tempuri.org/ICommonERPTaxExemptions/SaveTaxExemptions" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetTaxExemptionsById">
+      <soap:operation soapAction="http://tempuri.org/ICommonERPTaxExemptions/GetTaxExemptionsById" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetTaxExemptions">
+      <soap:operation soapAction="http://tempuri.org/ICommonERPTaxExemptions/GetTaxExemptions" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ChangeStateTaxExemptions">
+      <soap:operation soapAction="http://tempuri.org/ICommonERPTaxExemptions/ChangeStateTaxExemptions" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetDataTable">
+      <soap:operation soapAction="http://tempuri.org/ICommonERPService/GetDataTable" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="basicHttps_Endpoint_CommonERP" type="tns:ICommonERPService">
+    <wsp:PolicyReference URI="#basicHttps_Endpoint_CommonERP_policy" />
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="ListAllCity">
+      <soap:operation soapAction="http://tempuri.org/ICommonERPCity/ListAllCity" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCity">
+      <soap:operation soapAction="http://tempuri.org/ICommonERPCity/GetCity" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCityByDepartment">
+      <soap:operation soapAction="http://tempuri.org/ICommonERPCity/GetCityByDepartment" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveCity">
+      <soap:operation soapAction="http://tempuri.org/ICommonERPCity/SaveCity" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteCity">
+      <soap:operation soapAction="http://tempuri.org/ICommonERPCity/DeleteCity" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ListAllCitiesByIdDepartment">
+      <soap:operation soapAction="http://tempuri.org/ICommonERPCity/ListAllCitiesByIdDepartment" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCityById">
+      <soap:operation soapAction="http://tempuri.org/ICommonERPCity/GetCityById" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ChangeStateCity">
+      <soap:operation soapAction="http://tempuri.org/ICommonERPCity/ChangeStateCity" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetFieldsNULL">
+      <soap:operation soapAction="http://tempuri.org/ICommonERPCommon/GetFieldsNULL" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ListAllCountry">
+      <soap:operation soapAction="http://tempuri.org/ICommonERPCountry/ListAllCountry" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCountry">
+      <soap:operation soapAction="http://tempuri.org/ICommonERPCountry/GetCountry" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCountryById">
+      <soap:operation soapAction="http://tempuri.org/ICommonERPCountry/GetCountryById" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveCountry">
+      <soap:operation soapAction="http://tempuri.org/ICommonERPCountry/SaveCountry" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteCountry">
+      <soap:operation soapAction="http://tempuri.org/ICommonERPCountry/DeleteCountry" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ListAllCurrency">
+      <soap:operation soapAction="http://tempuri.org/ICommonERPCurrency/ListAllCurrency" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCurrency">
+      <soap:operation soapAction="http://tempuri.org/ICommonERPCurrency/GetCurrency" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCurrencyById">
+      <soap:operation soapAction="http://tempuri.org/ICommonERPCurrency/GetCurrencyById" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveCurrency">
+      <soap:operation soapAction="http://tempuri.org/ICommonERPCurrency/SaveCurrency" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteCurrency">
+      <soap:operation soapAction="http://tempuri.org/ICommonERPCurrency/DeleteCurrency" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateCurrency">
+      <soap:operation soapAction="http://tempuri.org/ICommonERPCurrency/UpdateCurrency" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetTRMbyCurrencyId">
+      <soap:operation soapAction="http://tempuri.org/ICommonERPCurrency/GetTRMbyCurrencyId" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ListAllDepartment">
+      <soap:operation soapAction="http://tempuri.org/ICommonERPDepartment/ListAllDepartment" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetDepartment">
+      <soap:operation soapAction="http://tempuri.org/ICommonERPDepartment/GetDepartment" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetDepartments">
+      <soap:operation soapAction="http://tempuri.org/ICommonERPDepartment/GetDepartments" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveDepartment">
+      <soap:operation soapAction="http://tempuri.org/ICommonERPDepartment/SaveDepartment" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteDepartment">
+      <soap:operation soapAction="http://tempuri.org/ICommonERPDepartment/DeleteDepartment" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetDepartmentById">
+      <soap:operation soapAction="http://tempuri.org/ICommonERPDepartment/GetDepartmentById" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ChangeStateDepartment">
+      <soap:operation soapAction="http://tempuri.org/ICommonERPDepartment/ChangeStateDepartment" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ListAllBlockRecord">
+      <soap:operation soapAction="http://tempuri.org/ICommonERPBlockRecord/ListAllBlockRecord" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetBlockRecordByIdformAndIdRecord">
+      <soap:operation soapAction="http://tempuri.org/ICommonERPBlockRecord/GetBlockRecordByIdformAndIdRecord" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveBlockRecord">
+      <soap:operation soapAction="http://tempuri.org/ICommonERPBlockRecord/SaveBlockRecord" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteBlockRecord">
+      <soap:operation soapAction="http://tempuri.org/ICommonERPBlockRecord/DeleteBlockRecord" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SP_UnlockBlockRecord">
+      <soap:operation soapAction="http://tempuri.org/ICommonERPBlockRecord/SP_UnlockBlockRecord" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ListAllBasicAudit">
+      <soap:operation soapAction="http://tempuri.org/ICommonERPBasicAudit/ListAllBasicAudit" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetBasicAuditById">
+      <soap:operation soapAction="http://tempuri.org/ICommonERPBasicAudit/GetBasicAuditById" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ListBasicAuditByEntity">
+      <soap:operation soapAction="http://tempuri.org/ICommonERPBasicAudit/ListBasicAuditByEntity" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ListBasicAuditByIdUsuario">
+      <soap:operation soapAction="http://tempuri.org/ICommonERPBasicAudit/ListBasicAuditByIdUsuario" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ListBasicAuditByIdIdFormAndIdEntity">
+      <soap:operation soapAction="http://tempuri.org/ICommonERPBasicAudit/ListBasicAuditByIdIdFormAndIdEntity" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ListBasicAuditByTag">
+      <soap:operation soapAction="http://tempuri.org/ICommonERPBasicAudit/ListBasicAuditByTag" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveBasicAudit">
+      <soap:operation soapAction="http://tempuri.org/ICommonERPBasicAudit/SaveBasicAudit" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ListAllPhoneType">
+      <soap:operation soapAction="http://tempuri.org/ICommonERPPhoneType/ListAllPhoneType" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetPhoneType">
+      <soap:operation soapAction="http://tempuri.org/ICommonERPPhoneType/GetPhoneType" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SavePhoneType">
+      <soap:operation soapAction="http://tempuri.org/ICommonERPPhoneType/SavePhoneType" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeletePhoneType">
+      <soap:operation soapAction="http://tempuri.org/ICommonERPPhoneType/DeletePhoneType" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetThirdPartyByNit">
+      <soap:operation soapAction="http://tempuri.org/ICommonERPThirdParty/GetThirdPartyByNit" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetPersonByIdentification">
+      <soap:operation soapAction="http://tempuri.org/ICommonERPThirdParty/GetPersonByIdentification" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ListAllThirdParty">
+      <soap:operation soapAction="http://tempuri.org/ICommonERPThirdParty/ListAllThirdParty" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ValidateLenghtNit">
+      <soap:operation soapAction="http://tempuri.org/ICommonERPThirdParty/ValidateLenghtNit" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveThirdParty">
+      <soap:operation soapAction="http://tempuri.org/ICommonERPThirdParty/SaveThirdParty" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteThirdParty">
+      <soap:operation soapAction="http://tempuri.org/ICommonERPThirdParty/DeleteThirdParty" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetThirdPartyById">
+      <soap:operation soapAction="http://tempuri.org/ICommonERPThirdParty/GetThirdPartyById" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateStateThirdParty">
+      <soap:operation soapAction="http://tempuri.org/ICommonERPThirdParty/UpdateStateThirdParty" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ListAllDisability">
+      <soap:operation soapAction="http://tempuri.org/ICommonERPDisability/ListAllDisability" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteDisability">
+      <soap:operation soapAction="http://tempuri.org/ICommonERPDisability/DeleteDisability" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveDisability">
+      <soap:operation soapAction="http://tempuri.org/ICommonERPDisability/SaveDisability" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetDisability">
+      <soap:operation soapAction="http://tempuri.org/ICommonERPDisability/GetDisability" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ListAllTimeUnit">
+      <soap:operation soapAction="http://tempuri.org/ICommonERPTimeUnit/ListAllTimeUnit" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetTimeUnit">
+      <soap:operation soapAction="http://tempuri.org/ICommonERPTimeUnit/GetTimeUnit" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveTimeUnit">
+      <soap:operation soapAction="http://tempuri.org/ICommonERPTimeUnit/SaveTimeUnit" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteTimeUnit">
+      <soap:operation soapAction="http://tempuri.org/ICommonERPTimeUnit/DeleteTimeUnit" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ListAllHolidays">
+      <soap:operation soapAction="http://tempuri.org/ICommonERPHoliday/ListAllHolidays" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteHoliday">
+      <soap:operation soapAction="http://tempuri.org/ICommonERPHoliday/DeleteHoliday" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveHoliday">
+      <soap:operation soapAction="http://tempuri.org/ICommonERPHoliday/SaveHoliday" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetHoliday">
+      <soap:operation soapAction="http://tempuri.org/ICommonERPHoliday/GetHoliday" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ListHolidaybyYear">
+      <soap:operation soapAction="http://tempuri.org/ICommonERPHoliday/ListHolidaybyYear" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ListHolidayBetweenDate">
+      <soap:operation soapAction="http://tempuri.org/ICommonERPHoliday/ListHolidayBetweenDate" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ListConceptGlosas">
+      <soap:operation soapAction="http://tempuri.org/ICommonERPConceptGlosas/ListConceptGlosas" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ListConceptGlosaByType">
+      <soap:operation soapAction="http://tempuri.org/ICommonERPConceptGlosas/ListConceptGlosaByType" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ListConceptGlosaByListTypes">
+      <soap:operation soapAction="http://tempuri.org/ICommonERPConceptGlosas/ListConceptGlosaByListTypes" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetOperatingUnitByCode">
+      <soap:operation soapAction="http://tempuri.org/ICommonERPOperatingUnit/GetOperatingUnitByCode" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetOperatingUnitById">
+      <soap:operation soapAction="http://tempuri.org/ICommonERPOperatingUnit/GetOperatingUnitById" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveOperatingUnit">
+      <soap:operation soapAction="http://tempuri.org/ICommonERPOperatingUnit/SaveOperatingUnit" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteOperatingUnit">
+      <soap:operation soapAction="http://tempuri.org/ICommonERPOperatingUnit/DeleteOperatingUnit" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ListAllOperatingUnit">
+      <soap:operation soapAction="http://tempuri.org/ICommonERPOperatingUnit/ListAllOperatingUnit" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ListAllOperatingUnitCommand">
+      <soap:operation soapAction="http://tempuri.org/ICommonERPOperatingUnit/ListAllOperatingUnitCommand" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ListAllBank">
+      <soap:operation soapAction="http://tempuri.org/ICommonERPBank/ListAllBank" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteBank">
+      <soap:operation soapAction="http://tempuri.org/ICommonERPBank/DeleteBank" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveBank">
+      <soap:operation soapAction="http://tempuri.org/ICommonERPBank/SaveBank" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateStateBank">
+      <soap:operation soapAction="http://tempuri.org/ICommonERPBank/UpdateStateBank" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetBank">
+      <soap:operation soapAction="http://tempuri.org/ICommonERPBank/GetBank" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetBankById">
+      <soap:operation soapAction="http://tempuri.org/ICommonERPBank/GetBankById" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveSuppliersDistributionLines">
+      <soap:operation soapAction="http://tempuri.org/ICommonERPSuppliersDistributionLines/SaveSuppliersDistributionLines" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteSuppliersDistributionLines">
+      <soap:operation soapAction="http://tempuri.org/ICommonERPSuppliersDistributionLines/DeleteSuppliersDistributionLines" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetSuppliersDistributionLinesByIdSupplier">
+      <soap:operation soapAction="http://tempuri.org/ICommonERPSuppliersDistributionLines/GetSuppliersDistributionLinesByIdSupplier" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetSuppliersDistributionLinesById">
+      <soap:operation soapAction="http://tempuri.org/ICommonERPSuppliersDistributionLines/GetSuppliersDistributionLinesById" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetICARetentionConceptBySupplierDistributionLine">
+      <soap:operation soapAction="http://tempuri.org/ICommonERPSuppliersDistributionLines/GetICARetentionConceptBySupplierDistributionLine" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetDistributionLinesByIdSupplierAndAccusationConcept">
+      <soap:operation soapAction="http://tempuri.org/ICommonERPSuppliersDistributionLines/GetDistributionLinesByIdSupplierAndAccusationConcept" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveDistributionLines">
+      <soap:operation soapAction="http://tempuri.org/ICommonERPDistributionLines/SaveDistributionLines" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteDistributionLines">
+      <soap:operation soapAction="http://tempuri.org/ICommonERPDistributionLines/DeleteDistributionLines" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetDistributionLinesById">
+      <soap:operation soapAction="http://tempuri.org/ICommonERPDistributionLines/GetDistributionLinesById" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetDistributionLines">
+      <soap:operation soapAction="http://tempuri.org/ICommonERPDistributionLines/GetDistributionLines" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ChangeStateDistributionLines">
+      <soap:operation soapAction="http://tempuri.org/ICommonERPDistributionLines/ChangeStateDistributionLines" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetSequenseByIdForm">
+      <soap:operation soapAction="http://tempuri.org/ICommonSequense/GetSequenseByIdForm" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetNumericSequenseGroupById">
+      <soap:operation soapAction="http://tempuri.org/ICommonSequense/GetNumericSequenseGroupById" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ListSequences">
+      <soap:operation soapAction="http://tempuri.org/ICommonSequense/ListSequences" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveSequence">
+      <soap:operation soapAction="http://tempuri.org/ICommonSequense/SaveSequence" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SavePatternSequence">
+      <soap:operation soapAction="http://tempuri.org/ICommonSequense/SavePatternSequence" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetPatternSequence">
+      <soap:operation soapAction="http://tempuri.org/ICommonSequense/GetPatternSequence" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetPatternSequenceByName">
+      <soap:operation soapAction="http://tempuri.org/ICommonSequense/GetPatternSequenceByName" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveEconomicActivity">
+      <soap:operation soapAction="http://tempuri.org/ICommonERPEconomicActivity/SaveEconomicActivity" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteEconomicActivity">
+      <soap:operation soapAction="http://tempuri.org/ICommonERPEconomicActivity/DeleteEconomicActivity" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetEconomicActivityById">
+      <soap:operation soapAction="http://tempuri.org/ICommonERPEconomicActivity/GetEconomicActivityById" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetEconomicActivity">
+      <soap:operation soapAction="http://tempuri.org/ICommonERPEconomicActivity/GetEconomicActivity" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ChangeStateEconomicActivity">
+      <soap:operation soapAction="http://tempuri.org/ICommonERPEconomicActivity/ChangeStateEconomicActivity" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetSuppliersDetailTypeByIdSupplier">
+      <soap:operation soapAction="http://tempuri.org/ICommonERPSuppliersDetailType/GetSuppliersDetailTypeByIdSupplier" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetSuppliersDetailTypeById">
+      <soap:operation soapAction="http://tempuri.org/ICommonERPSuppliersDetailType/GetSuppliersDetailTypeById" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ListAllSupplier">
+      <soap:operation soapAction="http://tempuri.org/ICommonERPSuppliersDetailType/ListAllSupplier" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveBalancedScorecard">
+      <soap:operation soapAction="http://tempuri.org/ICommonERPBalancedScorecard/SaveBalancedScorecard" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAttachmentById">
+      <soap:operation soapAction="http://tempuri.org/ICommonERPAttachment/GetAttachmentById" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAttachmentsByFormAndEntity">
+      <soap:operation soapAction="http://tempuri.org/ICommonERPAttachment/GetAttachmentsByFormAndEntity" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveAttachment">
+      <soap:operation soapAction="http://tempuri.org/ICommonERPAttachment/SaveAttachment" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteAttachment">
+      <soap:operation soapAction="http://tempuri.org/ICommonERPAttachment/DeleteAttachment" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveTaxExemptions">
+      <soap:operation soapAction="http://tempuri.org/ICommonERPTaxExemptions/SaveTaxExemptions" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetTaxExemptionsById">
+      <soap:operation soapAction="http://tempuri.org/ICommonERPTaxExemptions/GetTaxExemptionsById" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetTaxExemptions">
+      <soap:operation soapAction="http://tempuri.org/ICommonERPTaxExemptions/GetTaxExemptions" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ChangeStateTaxExemptions">
+      <soap:operation soapAction="http://tempuri.org/ICommonERPTaxExemptions/ChangeStateTaxExemptions" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetDataTable">
+      <soap:operation soapAction="http://tempuri.org/ICommonERPService/GetDataTable" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="CommonERPService">
+    <wsdl:port name="basicHttp_Endpoint_CommonERP" binding="tns:basicHttp_Endpoint_CommonERP">
+      <soap:address location="http://its10008:9000/ServiceEntity/CommonERP.svc/basicHttpCommonERP" />
+    </wsdl:port>
+    <wsdl:port name="basicHttps_Endpoint_CommonERP" binding="tns:basicHttps_Endpoint_CommonERP">
+      <soap:address location="https://localhost:9001/ServiceEntity/CommonERP.svc/basicHttpsCommonERP" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

@@ -1,0 +1,2866 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>
+    </SchemaVersion>
+    <ProjectGuid>{AB3573A9-5ACF-4971-B298-BE3A1ED617E8}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>Presentation.CloudAgent</RootNamespace>
+    <AssemblyName>Presentation.CloudAgent</AssemblyName>
+    <FileAlignment>512</FileAlignment>
+    <MyType>Windows</MyType>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DocumentationFile>Presentation.CloudAgent.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <Prefer32Bit>false</Prefer32Bit>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DocumentationFile>Presentation.CloudAgent.xml</DocumentationFile>
+    <NoWarn>
+    </NoWarn>
+    <WarningsAsErrors>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</WarningsAsErrors>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionExplicit>On</OptionExplicit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionCompare>Binary</OptionCompare>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionStrict>On</OptionStrict>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionInfer>On</OptionInfer>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debugcito|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\Debugcito\</OutputPath>
+    <DocumentationFile>Presentation.CloudAgent.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Roldan|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\Roldan\</OutputPath>
+    <DocumentationFile>Presentation.CloudAgent.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DocumentationFile>Presentation.CloudAgent.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DocumentationFile>Presentation.CloudAgent.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <WarningsAsErrors>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</WarningsAsErrors>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debugcito|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x64\Debugcito\</OutputPath>
+    <DocumentationFile>Presentation.CloudAgent.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Roldan|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x64\Roldan\</OutputPath>
+    <DocumentationFile>Presentation.CloudAgent.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DocumentationFile>Presentation.CloudAgent.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DocumentationFile>Presentation.CloudAgent.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <WarningsAsErrors>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</WarningsAsErrors>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debugcito|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x86\Debugcito\</OutputPath>
+    <DocumentationFile>Presentation.CloudAgent.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Roldan|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x86\Roldan\</OutputPath>
+    <DocumentationFile>Presentation.CloudAgent.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'VieBuild|AnyCPU'">
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\VieBuild\</OutputPath>
+    <DocumentationFile>Presentation.CloudAgent.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <WarningsAsErrors>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</WarningsAsErrors>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'VieBuild|x64'">
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x64\VieBuild\</OutputPath>
+    <DocumentationFile>Presentation.CloudAgent.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <WarningsAsErrors>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</WarningsAsErrors>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'VieBuild|x86'">
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x86\VieBuild\</OutputPath>
+    <DocumentationFile>Presentation.CloudAgent.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <WarningsAsErrors>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</WarningsAsErrors>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="DevExpress.Charts.v25.1.Core, Version=25.1.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="DevExpress.DataVisualization.v25.1.Core, Version=25.1.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="DevExpress.Spreadsheet.v25.1.Core, Version=25.1.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="Domain.AccountManagement">
+      <HintPath>..\DLL\Domain.AccountManagement.dll</HintPath>
+    </Reference>
+    <Reference Include="Domain.Base, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\DLL\Domain.Base.dll</HintPath>
+    </Reference>
+    <Reference Include="Domain.Base.Entities, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\DLL\Domain.Base.Entities.dll</HintPath>
+    </Reference>
+    <Reference Include="Domain.Billing">
+      <HintPath>..\DLL\Domain.Billing.dll</HintPath>
+    </Reference>
+    <Reference Include="Domain.Common.Entities, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\DLL\Domain.Common.Entities.dll</HintPath>
+    </Reference>
+    <Reference Include="Domain.Crystal.Entities, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\DLL\Domain.Crystal.Entities.dll</HintPath>
+    </Reference>
+    <Reference Include="Domain.DocumentalSystem.Entities, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\DLL\Domain.DocumentalSystem.Entities.dll</HintPath>
+    </Reference>
+    <Reference Include="Domain.Entities, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\DLL\Domain.Entities.dll</HintPath>
+    </Reference>
+    <Reference Include="Domain.InteropCost.Entities">
+      <HintPath>..\DLL\Domain.InteropCost.Entities.dll</HintPath>
+    </Reference>
+    <Reference Include="Domain.Maintenance.Entities, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\DLL\Domain.Maintenance.Entities.dll</HintPath>
+    </Reference>
+    <Reference Include="Domain.Payroll.Entities, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\DLL\Domain.Payroll.Entities.dll</HintPath>
+    </Reference>
+    <Reference Include="Domain.Portfolio">
+      <HintPath>..\DLL\Domain.Portfolio.dll</HintPath>
+    </Reference>
+    <Reference Include="Domain.Security.Entities">
+      <HintPath>..\DLL\Domain.Security.Entities.dll</HintPath>
+    </Reference>
+    <Reference Include="Domain.Treasury">
+      <HintPath>..\DLL\Domain.Treasury.dll</HintPath>
+    </Reference>
+    <Reference Include="Futesh">
+      <HintPath>..\DLL\Futesh.dll</HintPath>
+    </Reference>
+    <Reference Include="Indigo.Singleton, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\DLL\Indigo.Singleton.dll</HintPath>
+    </Reference>
+    <Reference Include="Infrastructure.CrossCutting.Base, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\DLL\Infrastructure.CrossCutting.Base.dll</HintPath>
+    </Reference>
+    <Reference Include="Infrastructure.CrossCutting.Root, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\DLL\Infrastructure.CrossCutting.Root.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Numerics.Vectors, Version=4.1.4.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Numerics.Vectors.4.5.0\lib\net46\System.Numerics.Vectors.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Import Include="System" />
+    <Import Include="System.Collections" />
+    <Import Include="System.Collections.Generic" />
+    <Import Include="System.Diagnostics" />
+    <Import Include="System.Linq" />
+    <Import Include="System.Xml.Linq" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Cloud.vb" />
+    <Compile Include="Enumeraciones.vb" />
+    <Compile Include="ICloud.vb" />
+    <Compile Include="IndigoConect.vb" />
+    <Compile Include="IndigoConecta.vb" />
+    <Compile Include="My Project\AssemblyInfo.vb" />
+    <Compile Include="My Project\Application.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Application.myapp</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="My Project\Resources.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="My Project\Settings.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="Provider\UnityMessageBehavior.vb" />
+    <Compile Include="Provider\UnityMessageInspector.vb" />
+    <Compile Include="Service References\IndigoAzureService\Reference.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Service References\IndigoIntegrationServiceReference\Reference.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Service References\IndigoReference.Accounting\Reference.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Service References\IndigoReference.AccountManagement\Reference.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Service References\IndigoReference.Admissions\Reference.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Service References\IndigoReference.Authorization\Reference.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Service References\IndigoReference.Billing\Reference.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Service References\IndigoReference.Bionexo\Reference.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Service References\IndigoReference.Budget\Reference.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Service References\IndigoReference.CommonERP\Reference.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Service References\IndigoReference.Common\Reference.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Service References\IndigoReference.Contract\Reference.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Service References\IndigoReference.Cost\Reference.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Service References\IndigoReference.Crystal\Reference.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Service References\IndigoReference.DocumentalSystem\Reference.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Service References\IndigoReference.ElectronicDocuments\Reference.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Service References\IndigoReference.FileManager\Reference.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Service References\IndigoReference.FixedAsset\Reference.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Service References\IndigoReference.Glosas\Reference.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Service References\IndigoReference.Indexing\Reference.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Service References\IndigoReference.InteropCost\Reference.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Service References\IndigoReference.Inventory\Reference.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Service References\IndigoReference.Maintenance\Reference.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Service References\IndigoReference.MedicalFees\Reference.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Service References\IndigoReference.MixingStation\Reference.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Service References\IndigoReference.Payments\Reference.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Service References\IndigoReference.Payroll\Reference.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Service References\IndigoReference.Portfolio\Reference.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Service References\IndigoReference.SBS\Reference.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Service References\IndigoReference.SecurityDefault\Reference.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Service References\IndigoReference.Security\Reference.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Service References\IndigoReference.Taxes\Reference.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Service References\IndigoReference.Treasury\Reference.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="My Project\Resources.resx">
+      <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.vb</LastGenOutput>
+      <CustomToolNamespace>My.Resources</CustomToolNamespace>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="My Project\Application.myapp">
+      <Generator>MyApplicationCodeGenerator</Generator>
+      <LastGenOutput>Application.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="My Project\DataSources\Domain.AccountingContext.AccountClass.datasource" />
+    <None Include="My Project\DataSources\Domain.AccountingContext.AccountLevel.datasource" />
+    <None Include="My Project\DataSources\Domain.AccountingContext.DocumentType.datasource" />
+    <None Include="My Project\DataSources\Domain.AccountingContext.RetentionConcept.datasource" />
+    <None Include="My Project\DataSources\Domain.Base.Entities.ActionMessageResult.datasource" />
+    <None Include="My Project\DataSources\Domain.Base.Entities.ActionResult.datasource" />
+    <None Include="My Project\DataSources\Domain.Base.Entities.IndexedDocumentResultSet.datasource" />
+    <None Include="My Project\DataSources\Domain.Common.Entities.BasicAudit.datasource" />
+    <None Include="My Project\DataSources\Domain.Common.Entities.BlockRecord.datasource" />
+    <None Include="My Project\DataSources\Domain.Common.Entities.City.datasource" />
+    <None Include="My Project\DataSources\Domain.Common.Entities.Company.datasource" />
+    <None Include="My Project\DataSources\Domain.Common.Entities.CompanyAll.datasource" />
+    <None Include="My Project\DataSources\Domain.Common.Entities.CompanyIndigo.datasource" />
+    <None Include="My Project\DataSources\Domain.Common.Entities.ConceptGlosas.datasource" />
+    <None Include="My Project\DataSources\Domain.Common.Entities.CostCenter.datasource" />
+    <None Include="My Project\DataSources\Domain.Common.Entities.Country1.datasource" />
+    <None Include="My Project\DataSources\Domain.Common.Entities.Department1.datasource" />
+    <None Include="My Project\DataSources\Domain.Common.Entities.Disability.datasource" />
+    <None Include="My Project\DataSources\Domain.Common.Entities.FunctionalUnit.datasource" />
+    <None Include="My Project\DataSources\Domain.Common.Entities.HealthCenter.datasource" />
+    <None Include="My Project\DataSources\Domain.Common.Entities.HealthCenterAll1.datasource" />
+    <None Include="My Project\DataSources\Domain.Common.Entities.Holiday.datasource" />
+    <None Include="My Project\DataSources\Domain.Common.Entities.MilitaryCard.datasource" />
+    <None Include="My Project\DataSources\Domain.Common.Entities.Person.datasource" />
+    <None Include="My Project\DataSources\Domain.Common.Entities.PhoneType.datasource" />
+    <None Include="My Project\DataSources\Domain.Common.Entities.ThirdParty.datasource" />
+    <None Include="My Project\DataSources\Domain.Common.Entities.TimeUnit1.datasource" />
+    <None Include="My Project\DataSources\Domain.DocumentalSystem.Entities.DocumentsNews.datasource" />
+    <None Include="My Project\DataSources\Domain.DocumentalSystem.Entities.DocumentsStore.datasource" />
+    <None Include="My Project\DataSources\Domain.DocumentalSystem.Entities.FileContainer1.datasource" />
+    <None Include="My Project\DataSources\Domain.DocumentalSystem.Entities.FileContainersForm.datasource" />
+    <None Include="My Project\DataSources\Domain.DocumentalSystem.Entities.Metadata.datasource" />
+    <None Include="My Project\DataSources\Domain.Entities.AccountClass.datasource" />
+    <None Include="My Project\DataSources\Domain.Entities.Accounting.datasource" />
+    <None Include="My Project\DataSources\Domain.Entities.AccountLevel.datasource" />
+    <None Include="My Project\DataSources\Domain.Entities.AccountPayable.datasource" />
+    <None Include="My Project\DataSources\Domain.Entities.AccountPayableConceptNotes2.datasource" />
+    <None Include="My Project\DataSources\Domain.Entities.AccountPayableConcepts2.datasource" />
+    <None Include="My Project\DataSources\Domain.Entities.AccountPayableShares.datasource" />
+    <None Include="My Project\DataSources\Domain.Entities.AccountReceivable.datasource" />
+    <None Include="My Project\DataSources\Domain.Entities.AccountReceivableShare.datasource" />
+    <None Include="My Project\DataSources\Domain.Entities.Address.datasource" />
+    <None Include="My Project\DataSources\Domain.Entities.AdjustmentConcept.datasource" />
+    <None Include="My Project\DataSources\Domain.Entities.AdministrationRoute.datasource" />
+    <None Include="My Project\DataSources\Domain.Entities.AdvancePayments2.datasource" />
+    <None Include="My Project\DataSources\Domain.Entities.AgesPayments.datasource" />
+    <None Include="My Project\DataSources\Domain.Entities.AgesPortfolio.datasource" />
+    <None Include="My Project\DataSources\Domain.Entities.Area.datasource" />
+    <None Include="My Project\DataSources\Domain.Entities.AttachedDeclarations.datasource" />
+    <None Include="My Project\DataSources\Domain.Entities.AttributeProductType.datasource" />
+    <None Include="My Project\DataSources\Domain.Entities.Bank.datasource" />
+    <None Include="My Project\DataSources\Domain.Entities.BankCity.datasource" />
+    <None Include="My Project\DataSources\Domain.Entities.BlockRecordAccounting.datasource" />
+    <None Include="My Project\DataSources\Domain.Entities.BlockRecordBudget.datasource" />
+    <None Include="My Project\DataSources\Domain.Entities.BlockRecordContract.datasource" />
+    <None Include="My Project\DataSources\Domain.Entities.BlockRecordFixedAsset1.datasource" />
+    <None Include="My Project\DataSources\Domain.Entities.BlockRecordGeneralLedger.datasource" />
+    <None Include="My Project\DataSources\Domain.Entities.BlockRecordInventory.datasource" />
+    <None Include="My Project\DataSources\Domain.Entities.BlockRecordMaintenance.datasource" />
+    <None Include="My Project\DataSources\Domain.Entities.BlockRecordPayments1.datasource" />
+    <None Include="My Project\DataSources\Domain.Entities.BlockRecordPortfolio.datasource" />
+    <None Include="My Project\DataSources\Domain.Entities.BlockRecordTreasury.datasource" />
+    <None Include="My Project\DataSources\Domain.Entities.Budget.datasource" />
+    <None Include="My Project\DataSources\Domain.Entities.BudgetaryEntity1.datasource" />
+    <None Include="My Project\DataSources\Domain.Entities.BudgetaryValidity1.datasource" />
+    <None Include="My Project\DataSources\Domain.Entities.BudgetConcept.datasource" />
+    <None Include="My Project\DataSources\Domain.Entities.BudgetDependency.datasource" />
+    <None Include="My Project\DataSources\Domain.Entities.BudgetEntities1.datasource" />
+    <None Include="My Project\DataSources\Domain.Entities.BudgetEntry.datasource" />
+    <None Include="My Project\DataSources\Domain.Entities.BudgetInstitution.datasource" />
+    <None Include="My Project\DataSources\Domain.Entities.BudgetInstitutions.datasource" />
+    <None Include="My Project\DataSources\Domain.Entities.BudgetItem1.datasource" />
+    <None Include="My Project\DataSources\Domain.Entities.BudgetModification.datasource" />
+    <None Include="My Project\DataSources\Domain.Entities.BudgetParameter.datasource" />
+    <None Include="My Project\DataSources\Domain.Entities.CancellationCheck.datasource" />
+    <None Include="My Project\DataSources\Domain.Entities.CancellationChecks.datasource" />
+    <None Include="My Project\DataSources\Domain.Entities.Card.datasource" />
+    <None Include="My Project\DataSources\Domain.Entities.Cards.datasource" />
+    <None Include="My Project\DataSources\Domain.Entities.CashReceiptConcept.datasource" />
+    <None Include="My Project\DataSources\Domain.Entities.CashReceiptConcepts.datasource" />
+    <None Include="My Project\DataSources\Domain.Entities.CashReceiptDetails.datasource" />
+    <None Include="My Project\DataSources\Domain.Entities.CashReceipts.datasource" />
+    <None Include="My Project\DataSources\Domain.Entities.CashRegister.datasource" />
+    <None Include="My Project\DataSources\Domain.Entities.CashRegisters.datasource" />
+    <None Include="My Project\DataSources\Domain.Entities.CashRegisterUser.datasource" />
+    <None Include="My Project\DataSources\Domain.Entities.Category1.datasource" />
+    <None Include="My Project\DataSources\Domain.Entities.CheckBlock.datasource" />
+    <None Include="My Project\DataSources\Domain.Entities.Checkbooks.datasource" />
+    <None Include="My Project\DataSources\Domain.Entities.CheckCashing.datasource" />
+    <None Include="My Project\DataSources\Domain.Entities.Checks.datasource" />
+    <None Include="My Project\DataSources\Domain.Entities.Classification.datasource" />
+    <None Include="My Project\DataSources\Domain.Entities.ClosedMonth.datasource" />
+    <None Include="My Project\DataSources\Domain.Entities.CloseMonthComplex.datasource" />
+    <None Include="My Project\DataSources\Domain.Entities.CompanySettings.datasource" />
+    <None Include="My Project\DataSources\Domain.Entities.Concept1.datasource" />
+    <None Include="My Project\DataSources\Domain.Entities.ConceptShuttle.datasource" />
+    <None Include="My Project\DataSources\Domain.Entities.Consignment.datasource" />
+    <None Include="My Project\DataSources\Domain.Entities.ConsignmentTransfer.datasource" />
+    <None Include="My Project\DataSources\Domain.Entities.Contract.datasource" />
+    <None Include="My Project\DataSources\Domain.Entities.ContractEntity.datasource" />
+    <None Include="My Project\DataSources\Domain.Entities.ContractMinimumWage.datasource" />
+    <None Include="My Project\DataSources\Domain.Entities.ContractSequence.datasource" />
+    <None Include="My Project\DataSources\Domain.Entities.CostCenter.datasource" />
+    <None Include="My Project\DataSources\Domain.Entities.CrossingAccount.datasource" />
+    <None Include="My Project\DataSources\Domain.Entities.CrossingAccountDetailCxC.datasource" />
+    <None Include="My Project\DataSources\Domain.Entities.CrossingAccountDetailCxP.datasource" />
+    <None Include="My Project\DataSources\Domain.Entities.CupsEntity.datasource" />
+    <None Include="My Project\DataSources\Domain.Entities.CUPSEntity1.datasource" />
+    <None Include="My Project\DataSources\Domain.Entities.CupsGroup.datasource" />
+    <None Include="My Project\DataSources\Domain.Entities.CupsHomologation.datasource" />
+    <None Include="My Project\DataSources\Domain.Entities.CupsSubgroup.datasource" />
+    <None Include="My Project\DataSources\Domain.Entities.DCI.datasource" />
+    <None Include="My Project\DataSources\Domain.Entities.Deduction.datasource" />
+    <None Include="My Project\DataSources\Domain.Entities.DeferredCausation.datasource" />
+    <None Include="My Project\DataSources\Domain.Entities.DeferredCausationShare.datasource" />
+    <None Include="My Project\DataSources\Domain.Entities.Dependency.datasource" />
+    <None Include="My Project\DataSources\Domain.Entities.DischargeBill.datasource" />
+    <None Include="My Project\DataSources\Domain.Entities.DistributionLines.datasource" />
+    <None Include="My Project\DataSources\Domain.Entities.DocumentType.datasource" />
+    <None Include="My Project\DataSources\Domain.Entities.EarningsType.datasource" />
+    <None Include="My Project\DataSources\Domain.Entities.EconomicIndicator.datasource" />
+    <None Include="My Project\DataSources\Domain.Entities.EntityBankAccount.datasource" />
+    <None Include="My Project\DataSources\Domain.Entities.EntityBankAccounts.datasource" />
+    <None Include="My Project\DataSources\Domain.Entities.EntityBankAccountUser.datasource" />
+    <None Include="My Project\DataSources\Domain.Entities.ExpenseConcept.datasource" />
+    <None Include="My Project\DataSources\Domain.Entities.ExpenseConcepts.datasource" />
+    <None Include="My Project\DataSources\Domain.Entities.ExpenseType.datasource" />
+    <None Include="My Project\DataSources\Domain.Entities.FixedAssetClassification.datasource" />
+    <None Include="My Project\DataSources\Domain.Entities.GeneralLedgerSequence.datasource" />
+    <None Include="My Project\DataSources\Domain.Entities.GeneralLedgerSettings.datasource" />
+    <None Include="My Project\DataSources\Domain.Entities.Group.datasource" />
+    <None Include="My Project\DataSources\Domain.Entities.HealthAdministrator.datasource" />
+    <None Include="My Project\DataSources\Domain.Entities.InflationAdjustment.datasource" />
+    <None Include="My Project\DataSources\Domain.Entities.InitialBalance2.datasource" />
+    <None Include="My Project\DataSources\Domain.Entities.InitialBalanceAccountPayable.datasource" />
+    <None Include="My Project\DataSources\Domain.Entities.InitialBalanceAdvance.datasource" />
+    <None Include="My Project\DataSources\Domain.Entities.InventoryMeasurementUnit.datasource" />
+    <None Include="My Project\DataSources\Domain.Entities.InventorySequence.datasource" />
+    <None Include="My Project\DataSources\Domain.Entities.IPSService.datasource" />
+    <None Include="My Project\DataSources\Domain.Entities.IPSServiceGroup.datasource" />
+    <None Include="My Project\DataSources\Domain.Entities.Iva.datasource" />
+    <None Include="My Project\DataSources\Domain.Entities.JournalVouchers.datasource" />
+    <None Include="My Project\DataSources\Domain.Entities.JournalVoucherTypes.datasource" />
+    <None Include="My Project\DataSources\Domain.Entities.LevelCategory.datasource" />
+    <None Include="My Project\DataSources\Domain.Entities.MainAccountLevels.datasource" />
+    <None Include="My Project\DataSources\Domain.Entities.MainAccounts.datasource" />
+    <None Include="My Project\DataSources\Domain.Entities.Manufacturer.datasource" />
+    <None Include="My Project\DataSources\Domain.Entities.MarketingUnit.datasource" />
+    <None Include="My Project\DataSources\Domain.Entities.MoneyAdvance.datasource" />
+    <None Include="My Project\DataSources\Domain.Entities.MovementAccountPayables.datasource" />
+    <None Include="My Project\DataSources\Domain.Entities.NoteConcept.datasource" />
+    <None Include="My Project\DataSources\Domain.Entities.NoteConcepts.datasource" />
+    <None Include="My Project\DataSources\Domain.Entities.OpeningBalance.datasource" />
+    <None Include="My Project\DataSources\Domain.Entities.OperatingUnit.datasource" />
+    <None Include="My Project\DataSources\Domain.Entities.OtherWithholdingDeduction.datasource" />
+    <None Include="My Project\DataSources\Domain.Entities.OutstandingChecks.datasource" />
+    <None Include="My Project\DataSources\Domain.Entities.Parameter1.datasource" />
+    <None Include="My Project\DataSources\Domain.Entities.PatrimonialPart.datasource" />
+    <None Include="My Project\DataSources\Domain.Entities.PaymentMethods.datasource" />
+    <None Include="My Project\DataSources\Domain.Entities.PaymentNotes2.datasource" />
+    <None Include="My Project\DataSources\Domain.Entities.PaymentNotesAccountPayableAdvance.datasource" />
+    <None Include="My Project\DataSources\Domain.Entities.PaymentsConcept.datasource" />
+    <None Include="My Project\DataSources\Domain.Entities.PaymentsNote.datasource" />
+    <None Include="My Project\DataSources\Domain.Entities.PaymentsNoteConcept.datasource" />
+    <None Include="My Project\DataSources\Domain.Entities.PaymentsSecuence2.datasource" />
+    <None Include="My Project\DataSources\Domain.Entities.PaymentTransfer.datasource" />
+    <None Include="My Project\DataSources\Domain.Entities.PharmaceuticalForm.datasource" />
+    <None Include="My Project\DataSources\Domain.Entities.PharmacologicalGroup.datasource" />
+    <None Include="My Project\DataSources\Domain.Entities.PortfolioAdvance.datasource" />
+    <None Include="My Project\DataSources\Domain.Entities.PortfolioConcept.datasource" />
+    <None Include="My Project\DataSources\Domain.Entities.FinancialSource.datasource" />
+    <None Include="My Project\DataSources\Domain.Entities.PortfolioInitialBalance.datasource" />
+    <None Include="My Project\DataSources\Domain.Entities.PortfolioInitialBalanceAccountReceivable.datasource" />
+    <None Include="My Project\DataSources\Domain.Entities.PortfolioInitialBalanceAdvance.datasource" />
+    <None Include="My Project\DataSources\Domain.Entities.PortfolioNote.datasource" />
+    <None Include="My Project\DataSources\Domain.Entities.PortfolioNoteAccountReceivableAdvance.datasource" />
+    <None Include="My Project\DataSources\Domain.Entities.PortfolioNoteConcept.datasource" />
+    <None Include="My Project\DataSources\Domain.Entities.PortfolioNoteDetail.datasource" />
+    <None Include="My Project\DataSources\Domain.Entities.PortfolioSequence.datasource" />
+    <None Include="My Project\DataSources\Domain.Entities.PortfolioTransfer.datasource" />
+    <None Include="My Project\DataSources\Domain.Entities.PortfolioTransferDetail.datasource" />
+    <None Include="My Project\DataSources\Domain.Entities.ProcedureTemplate.datasource" />
+    <None Include="My Project\DataSources\Domain.Entities.Product.datasource" />
+    <None Include="My Project\DataSources\Domain.Entities.ProductGroup.datasource" />
+    <None Include="My Project\DataSources\Domain.Entities.ProductSubGroup.datasource" />
+    <None Include="My Project\DataSources\Domain.Entities.ProductType.datasource" />
+    <None Include="My Project\DataSources\Domain.Entities.ProvisionRanges.datasource" />
+    <None Include="My Project\DataSources\Domain.Entities.PUC.datasource" />
+    <None Include="My Project\DataSources\Domain.Entities.RateManual.datasource" />
+    <None Include="My Project\DataSources\Domain.Entities.RateManualDetail.datasource" />
+    <None Include="My Project\DataSources\Domain.Entities.Refunds.datasource" />
+    <None Include="My Project\DataSources\Domain.Entities.RequirementTemplate.datasource" />
+    <None Include="My Project\DataSources\Domain.Entities.RetentionConcept.datasource" />
+    <None Include="My Project\DataSources\Domain.Entities.RetentionConcepts.datasource" />
+    <None Include="My Project\DataSources\Domain.Entities.RevenueType1.datasource" />
+    <None Include="My Project\DataSources\Domain.Entities.Route.datasource" />
+    <None Include="My Project\DataSources\Domain.Entities.SchedulePayment.datasource" />
+    <None Include="My Project\DataSources\Domain.Entities.SequenceTreasuryC.datasource" />
+    <None Include="My Project\DataSources\Domain.Entities.SequenseAccountingC.datasource" />
+    <None Include="My Project\DataSources\Domain.Entities.SequenseBudgetC1.datasource" />
+    <None Include="My Project\DataSources\Domain.Entities.SequenseCommonC.datasource" />
+    <None Include="My Project\DataSources\Domain.Entities.SequenseFixedAssetC.datasource" />
+    <None Include="My Project\DataSources\Domain.Entities.SequenseMaintenanceC.datasource" />
+    <None Include="My Project\DataSources\Domain.Entities.SequensePaymentsC3.datasource" />
+    <None Include="My Project\DataSources\Domain.Entities.SequensePortfolioC1.datasource" />
+    <None Include="My Project\DataSources\Domain.Entities.SequenseTreasuryC1.datasource" />
+    <None Include="My Project\DataSources\Domain.Entities.SettingAccounting.datasource" />
+    <None Include="My Project\DataSources\Domain.Entities.SettingBudget.datasource" />
+    <None Include="My Project\DataSources\Domain.Entities.SettingPayments.datasource" />
+    <None Include="My Project\DataSources\Domain.Entities.SettingPortfolio.datasource" />
+    <None Include="My Project\DataSources\Domain.Entities.SettingsTreasury.datasource" />
+    <None Include="My Project\DataSources\Domain.Entities.Shareholding.datasource" />
+    <None Include="My Project\DataSources\Domain.Entities.SP_ChangeStatusJournalVouchers_Result.datasource" />
+    <None Include="My Project\DataSources\Domain.Entities.SP_GetJournalVouchersByStatus_Result.datasource" />
+    <None Include="My Project\DataSources\Domain.Entities.Sp_PUC_Result.datasource" />
+    <None Include="My Project\DataSources\Domain.Entities.SP_SchedulePayment_Result.datasource" />
+    <None Include="My Project\DataSources\Domain.Entities.StatementFolio.datasource" />
+    <None Include="My Project\DataSources\Domain.Entities.Supplier.datasource" />
+    <None Include="My Project\DataSources\Domain.Entities.SuppliersDistributionLines.datasource" />
+    <None Include="My Project\DataSources\Domain.Entities.SurgicalGroup.datasource" />
+    <None Include="My Project\DataSources\Domain.Entities.SurgicalProcedureService.datasource" />
+    <None Include="My Project\DataSources\Domain.Entities.ThridPartyBankAccount.datasource" />
+    <None Include="My Project\DataSources\Domain.Entities.ThridPartyBankAccounts.datasource" />
+    <None Include="My Project\DataSources\Domain.Entities.TreasuryAdvances.datasource" />
+    <None Include="My Project\DataSources\Domain.Entities.TreasuryControl.datasource" />
+    <None Include="My Project\DataSources\Domain.Entities.TreasuryPaymentConcept.datasource" />
+    <None Include="My Project\DataSources\Domain.Entities.TreasuryPaymentConcepts.datasource" />
+    <None Include="My Project\DataSources\Domain.Entities.UVRRange.datasource" />
+    <None Include="My Project\DataSources\Domain.Entities.Validity.datasource" />
+    <None Include="My Project\DataSources\Domain.Entities.VoucherTransaction.datasource" />
+    <None Include="My Project\DataSources\Domain.Entities.VoucherTransactionDetails.datasource" />
+    <None Include="My Project\DataSources\Domain.Entities.Warehouse.datasource" />
+    <None Include="My Project\DataSources\Domain.Glosas.Entities.AccountSettingsFOX_PrivateMethod1.datasource" />
+    <None Include="My Project\DataSources\Domain.Glosas.Entities.AccountSettingsFOX_PublicMethod1.datasource" />
+    <None Include="My Project\DataSources\Domain.Glosas.Entities.AccountSettingsNET_PrivateMethod1.datasource" />
+    <None Include="My Project\DataSources\Domain.Glosas.Entities.AuthorizationHealthCenter.datasource" />
+    <None Include="My Project\DataSources\Domain.Glosas.Entities.Company.datasource" />
+    <None Include="My Project\DataSources\Domain.Glosas.Entities.CompanyHealthCenter.datasource" />
+    <None Include="My Project\DataSources\Domain.Glosas.Entities.ConceptGlosa.datasource" />
+    <None Include="My Project\DataSources\Domain.Glosas.Entities.ConciliationC.datasource" />
+    <None Include="My Project\DataSources\Domain.Glosas.Entities.ConciliationD.datasource" />
+    <None Include="My Project\DataSources\Domain.Glosas.Entities.ConciliationParticipants.datasource" />
+    <None Include="My Project\DataSources\Domain.Glosas.Entities.ControlParametersTime.datasource" />
+    <None Include="My Project\DataSources\Domain.Glosas.Entities.Customer.datasource" />
+    <None Include="My Project\DataSources\Domain.Glosas.Entities.DetailedConcept.datasource" />
+    <None Include="My Project\DataSources\Domain.Glosas.Entities.DetailedConceptsAll.datasource" />
+    <None Include="My Project\DataSources\Domain.Glosas.Entities.GeneralConcept.datasource" />
+    <None Include="My Project\DataSources\Domain.Glosas.Entities.GeneralConceptsAll.datasource" />
+    <None Include="My Project\DataSources\Domain.Glosas.Entities.GlosaDevolutionsReceptionC.datasource" />
+    <None Include="My Project\DataSources\Domain.Glosas.Entities.GlosaDevolutionsReceptionD.datasource" />
+    <None Include="My Project\DataSources\Domain.Glosas.Entities.GlosaInvoiceDetail.datasource" />
+    <None Include="My Project\DataSources\Domain.Glosas.Entities.GlosaInvoiceDetailQX.datasource" />
+    <None Include="My Project\DataSources\Domain.Glosas.Entities.GlosaMovementDevolutions1.datasource" />
+    <None Include="My Project\DataSources\Domain.Glosas.Entities.GlosaMovementGlosa.datasource" />
+    <None Include="My Project\DataSources\Domain.Glosas.Entities.GlosaObjectionsReceptionC.datasource" />
+    <None Include="My Project\DataSources\Domain.Glosas.Entities.GlosaObjectionsReceptionD.datasource" />
+    <None Include="My Project\DataSources\Domain.Glosas.Entities.GlosaPortfolioGlosada.datasource" />
+    <None Include="My Project\DataSources\Domain.Glosas.Entities.GlosasParametersInterface.datasource" />
+    <None Include="My Project\DataSources\Domain.Glosas.Entities.GlosasPrivateParametersInterface.datasource" />
+    <None Include="My Project\DataSources\Domain.Glosas.Entities.GlosasPublicParametersInterface.datasource" />
+    <None Include="My Project\DataSources\Domain.Glosas.Entities.JustificationTemplate.datasource" />
+    <None Include="My Project\DataSources\Domain.Glosas.Entities.ObjectionsReceptionC.datasource" />
+    <None Include="My Project\DataSources\Domain.Glosas.Entities.ObjectionsReceptionD.datasource" />
+    <None Include="My Project\DataSources\Domain.Glosas.Entities.ObservationInvoice.datasource" />
+    <None Include="My Project\DataSources\Domain.Glosas.Entities.PartialPaymentsC.datasource" />
+    <None Include="My Project\DataSources\Domain.Glosas.Entities.RadicateInvoiceC1.datasource" />
+    <None Include="My Project\DataSources\Domain.Glosas.Entities.RadicateInvoiceD1.datasource" />
+    <None Include="My Project\DataSources\Domain.Glosas.Entities.RegisterObjection.datasource" />
+    <None Include="My Project\DataSources\Domain.Glosas.Entities.Responsible.datasource" />
+    <None Include="My Project\DataSources\Domain.Glosas.Entities.ResponsibleAll.datasource" />
+    <None Include="My Project\DataSources\Domain.Glosas.Entities.ResponsibleMovements.datasource" />
+    <None Include="My Project\DataSources\Domain.Glosas.Entities.SEGUSUARU.datasource" />
+    <None Include="My Project\DataSources\Domain.Glosas.Entities.SpecificConcept.datasource" />
+    <None Include="My Project\DataSources\Domain.Glosas.Entities.SpecificConceptsAll.datasource" />
+    <None Include="My Project\DataSources\Domain.Glosas.Entities.SP_AccountingConceptList_Result.datasource" />
+    <None Include="My Project\DataSources\Domain.Glosas.Entities.SP_AccountsList_Result.datasource" />
+    <None Include="My Project\DataSources\Domain.Glosas.Entities.SP_CustomerPersist_Result.datasource" />
+    <None Include="My Project\DataSources\Domain.Glosas.Entities.SP_InvoiceTraceabilityConciliation_Result.datasource" />
+    <None Include="My Project\DataSources\Domain.Glosas.Entities.SP_InvoiceTraceabilityDevolution_Result.datasource" />
+    <None Include="My Project\DataSources\Domain.Glosas.Entities.SP_InvoiceTraceabilityRadication_Result.datasource" />
+    <None Include="My Project\DataSources\Domain.Glosas.Entities.SP_InvoiceTraceability_Result.datasource" />
+    <None Include="My Project\DataSources\Domain.Glosas.Entities.SP_TypeDocumentList_Result.datasource" />
+    <None Include="My Project\DataSources\Domain.Glosas.Entities.TimeParameters.datasource" />
+    <None Include="My Project\DataSources\Domain.Glosas.Entities.TransferJuridicalDebtCollectionC.datasource" />
+    <None Include="My Project\DataSources\Domain.Glosas.Entities.TransferJuridicalDebtCollectionD.datasource" />
+    <None Include="My Project\DataSources\Domain.Maintenance.Entities.AccesoryDetail.datasource" />
+    <None Include="My Project\DataSources\Domain.Maintenance.Entities.Accessory.datasource" />
+    <None Include="My Project\DataSources\Domain.Maintenance.Entities.Area.datasource" />
+    <None Include="My Project\DataSources\Domain.Maintenance.Entities.Branch.datasource" />
+    <None Include="My Project\DataSources\Domain.Maintenance.Entities.Brand.datasource" />
+    <None Include="My Project\DataSources\Domain.Maintenance.Entities.City.datasource" />
+    <None Include="My Project\DataSources\Domain.Maintenance.Entities.Consumable.datasource" />
+    <None Include="My Project\DataSources\Domain.Maintenance.Entities.ConsumableDetail.datasource" />
+    <None Include="My Project\DataSources\Domain.Maintenance.Entities.CostCenter.datasource" />
+    <None Include="My Project\DataSources\Domain.Maintenance.Entities.Equipment.datasource" />
+    <None Include="My Project\DataSources\Domain.Maintenance.Entities.EquipmentFunction.datasource" />
+    <None Include="My Project\DataSources\Domain.Maintenance.Entities.EquipmentHistory.datasource" />
+    <None Include="My Project\DataSources\Domain.Maintenance.Entities.EquipmentReceptionC.datasource" />
+    <None Include="My Project\DataSources\Domain.Maintenance.Entities.EquipmentRegistration.datasource" />
+    <None Include="My Project\DataSources\Domain.Maintenance.Entities.EquipmentRequirement.datasource" />
+    <None Include="My Project\DataSources\Domain.Maintenance.Entities.EquipmentType.datasource" />
+    <None Include="My Project\DataSources\Domain.Maintenance.Entities.Floor.datasource" />
+    <None Include="My Project\DataSources\Domain.Maintenance.Entities.Insurance.datasource" />
+    <None Include="My Project\DataSources\Domain.Maintenance.Entities.InventoryType.datasource" />
+    <None Include="My Project\DataSources\Domain.Maintenance.Entities.Location.datasource" />
+    <None Include="My Project\DataSources\Domain.Maintenance.Entities.LocationType.datasource" />
+    <None Include="My Project\DataSources\Domain.Maintenance.Entities.Manufacturer.datasource" />
+    <None Include="My Project\DataSources\Domain.Maintenance.Entities.MeasurementUnit.datasource" />
+    <None Include="My Project\DataSources\Domain.Maintenance.Entities.Part.datasource" />
+    <None Include="My Project\DataSources\Domain.Maintenance.Entities.PartDetail.datasource" />
+    <None Include="My Project\DataSources\Domain.Maintenance.Entities.PhysicalRisk.datasource" />
+    <None Include="My Project\DataSources\Domain.Maintenance.Entities.Poliza.datasource" />
+    <None Include="My Project\DataSources\Domain.Maintenance.Entities.PolizaType.datasource" />
+    <None Include="My Project\DataSources\Domain.Maintenance.Entities.Responsible.datasource" />
+    <None Include="My Project\DataSources\Domain.Maintenance.Entities.Room.datasource" />
+    <None Include="My Project\DataSources\Domain.Maintenance.Entities.SequenseCommonC.datasource" />
+    <None Include="My Project\DataSources\Domain.Maintenance.Entities.SupplierMaintenance.datasource" />
+    <None Include="My Project\DataSources\Domain.Maintenance.Entities.TechnicalLog.datasource" />
+    <None Include="My Project\DataSources\Domain.Maintenance.Entities.TemplateEquipmentType.datasource" />
+    <None Include="My Project\DataSources\Domain.Maintenance.Entities.ThirdParty.datasource" />
+    <None Include="My Project\DataSources\Domain.Maintenance.Entities.Tower.datasource" />
+    <None Include="My Project\DataSources\Domain.Maintenance.Entities.TowerDetail.datasource" />
+    <None Include="My Project\DataSources\Domain.Maintenance.Entities.Trademark.datasource" />
+    <None Include="My Project\DataSources\Domain.Payroll.Entities.AccountingStructure.datasource" />
+    <None Include="My Project\DataSources\Domain.Payroll.Entities.AgreementsC.datasource" />
+    <None Include="My Project\DataSources\Domain.Payroll.Entities.AuditoryBankFile.datasource" />
+    <None Include="My Project\DataSources\Domain.Payroll.Entities.AuthorizationConcept.datasource" />
+    <None Include="My Project\DataSources\Domain.Payroll.Entities.Autoliquidation.datasource" />
+    <None Include="My Project\DataSources\Domain.Payroll.Entities.Bank.datasource" />
+    <None Include="My Project\DataSources\Domain.Payroll.Entities.BranchOffice.datasource" />
+    <None Include="My Project\DataSources\Domain.Payroll.Entities.BusinessUnit.datasource" />
+    <None Include="My Project\DataSources\Domain.Payroll.Entities.Company.datasource" />
+    <None Include="My Project\DataSources\Domain.Payroll.Entities.Concept1.datasource" />
+    <None Include="My Project\DataSources\Domain.Payroll.Entities.ConceptAccountingStructure.datasource" />
+    <None Include="My Project\DataSources\Domain.Payroll.Entities.ContractGroup.datasource" />
+    <None Include="My Project\DataSources\Domain.Payroll.Entities.ContractLiquidation.datasource" />
+    <None Include="My Project\DataSources\Domain.Payroll.Entities.ContractModificationReason1.datasource" />
+    <None Include="My Project\DataSources\Domain.Payroll.Entities.ContractTemplate.datasource" />
+    <None Include="My Project\DataSources\Domain.Payroll.Entities.ContractType.datasource" />
+    <None Include="My Project\DataSources\Domain.Payroll.Entities.ContributorType.datasource" />
+    <None Include="My Project\DataSources\Domain.Payroll.Entities.Corporation.datasource" />
+    <None Include="My Project\DataSources\Domain.Payroll.Entities.CostCenter.datasource" />
+    <None Include="My Project\DataSources\Domain.Payroll.Entities.CostDistributions.datasource" />
+    <None Include="My Project\DataSources\Domain.Payroll.Entities.EducationLevel1.datasource" />
+    <None Include="My Project\DataSources\Domain.Payroll.Entities.EducationLevels.datasource" />
+    <None Include="My Project\DataSources\Domain.Payroll.Entities.Employee1.datasource" />
+    <None Include="My Project\DataSources\Domain.Payroll.Entities.EmployeeType1.datasource" />
+    <None Include="My Project\DataSources\Domain.Payroll.Entities.FunctionalUnit.datasource" />
+    <None Include="My Project\DataSources\Domain.Payroll.Entities.Fund1.datasource" />
+    <None Include="My Project\DataSources\Domain.Payroll.Entities.Funds.datasource" />
+    <None Include="My Project\DataSources\Domain.Payroll.Entities.GeneralParameter.datasource" />
+    <None Include="My Project\DataSources\Domain.Payroll.Entities.Group.datasource" />
+    <None Include="My Project\DataSources\Domain.Payroll.Entities.HumanTalent.datasource" />
+    <None Include="My Project\DataSources\Domain.Payroll.Entities.Inability.datasource" />
+    <None Include="My Project\DataSources\Domain.Payroll.Entities.IncentivePayment.datasource" />
+    <None Include="My Project\DataSources\Domain.Payroll.Entities.JobBondingType1.datasource" />
+    <None Include="My Project\DataSources\Domain.Payroll.Entities.KindsAgreements.datasource" />
+    <None Include="My Project\DataSources\Domain.Payroll.Entities.Kinship.datasource" />
+    <None Include="My Project\DataSources\Domain.Payroll.Entities.Language1.datasource" />
+    <None Include="My Project\DataSources\Domain.Payroll.Entities.Liquidation.datasource" />
+    <None Include="My Project\DataSources\Domain.Payroll.Entities.ManualConcepts.datasource" />
+    <None Include="My Project\DataSources\Domain.Payroll.Entities.Novelty.datasource" />
+    <None Include="My Project\DataSources\Domain.Payroll.Entities.PayrollParameter.datasource" />
+    <None Include="My Project\DataSources\Domain.Payroll.Entities.PensionaryType.datasource" />
+    <None Include="My Project\DataSources\Domain.Payroll.Entities.Position.datasource" />
+    <None Include="My Project\DataSources\Domain.Payroll.Entities.PositionLevel.datasource" />
+    <None Include="My Project\DataSources\Domain.Glosas.Entities.SP_invoiceList_Result.datasource" />
+    <None Include="My Project\DataSources\Domain.Payroll.Entities.Profession1.datasource" />
+    <None Include="My Project\DataSources\Domain.Payroll.Entities.ProfessionalRisk.datasource" />
+    <None Include="My Project\DataSources\Domain.Payroll.Entities.Professions.datasource" />
+    <None Include="My Project\DataSources\Domain.Payroll.Entities.Retention.datasource" />
+    <None Include="My Project\DataSources\Domain.Payroll.Entities.RetirementReason.datasource" />
+    <None Include="My Project\DataSources\Domain.Payroll.Entities.Schedule.datasource" />
+    <None Include="My Project\DataSources\Domain.Payroll.Entities.ScheduleDetail.datasource" />
+    <None Include="My Project\DataSources\Domain.Payroll.Entities.ScheduleTemplate.datasource" />
+    <None Include="My Project\DataSources\Domain.Payroll.Entities.StudyCenter.datasource" />
+    <None Include="My Project\DataSources\Domain.Payroll.Entities.StudyType.datasource" />
+    <None Include="My Project\DataSources\Domain.Payroll.Entities.ThirdParty1.datasource" />
+    <None Include="My Project\DataSources\Domain.Payroll.Entities.UnemployedLiquidation.datasource" />
+    <None Include="My Project\DataSources\Domain.Payroll.Entities.Vacation.datasource" />
+    <None Include="My Project\DataSources\Domain.Payroll.Entities.VacationPeriod.datasource" />
+    <None Include="My Project\DataSources\Domain.Payroll.Entities.WorkCenter.datasource" />
+    <None Include="My Project\DataSources\Domain.Security.Entities.Containers.datasource" />
+    <None Include="My Project\DataSources\Domain.Security.Entities.FilePerson1.datasource" />
+    <None Include="My Project\DataSources\Domain.Security.Entities.FormERP1.datasource" />
+    <None Include="My Project\DataSources\Domain.Security.Entities.Group1.datasource" />
+    <None Include="My Project\DataSources\Domain.Security.Entities.GroupAll1.datasource" />
+    <None Include="My Project\DataSources\Domain.Security.Entities.GroupUser1.datasource" />
+    <None Include="My Project\DataSources\Domain.Security.Entities.PermissionCompany.datasource" />
+    <None Include="My Project\DataSources\Domain.Security.Entities.PermissionForm1.datasource" />
+    <None Include="My Project\DataSources\Domain.Security.Entities.PermissionRoll1.datasource" />
+    <None Include="My Project\DataSources\Domain.Security.Entities.PermissionsFormsActive.datasource" />
+    <None Include="My Project\DataSources\Domain.Security.Entities.PermissionUser1.datasource" />
+    <None Include="My Project\DataSources\Domain.Security.Entities.PermissionUserModuleForm1.datasource" />
+    <None Include="My Project\DataSources\Domain.Security.Entities.PermissionUserToolbar1.datasource" />
+    <None Include="My Project\DataSources\Domain.Security.Entities.Person1.datasource" />
+    <None Include="My Project\DataSources\Domain.Security.Entities.RolAll1.datasource" />
+    <None Include="My Project\DataSources\Domain.Security.Entities.Roll1.datasource" />
+    <None Include="My Project\DataSources\Domain.Security.Entities.User1.datasource" />
+    <None Include="My Project\DataSources\Domain.Security.Entities.UserOperatingUnit1.datasource" />
+    <None Include="My Project\DataSources\Domain.Security.Entities.UsersGroupUser1.datasource" />
+    <None Include="My Project\DataSources\SA.IndigoCrystal.Dominio.Admisiones.Entidades.Actividad.datasource" />
+    <None Include="My Project\DataSources\SA.IndigoCrystal.Dominio.Admisiones.Entidades.CoincidenciasPacientes.datasource" />
+    <None Include="My Project\DataSources\SA.IndigoCrystal.Dominio.Admisiones.Entidades.Departamento.datasource" />
+    <None Include="My Project\DataSources\SA.IndigoCrystal.Dominio.Admisiones.Entidades.Diagnosticos.datasource" />
+    <None Include="My Project\DataSources\SA.IndigoCrystal.Dominio.Admisiones.Entidades.DiagnosticoSindromatico.datasource" />
+    <None Include="My Project\DataSources\SA.IndigoCrystal.Dominio.Admisiones.Entidades.Diasfestivos.datasource" />
+    <None Include="My Project\DataSources\SA.IndigoCrystal.Dominio.Admisiones.Entidades.DocumentosPaciente.datasource" />
+    <None Include="My Project\DataSources\SA.IndigoCrystal.Dominio.Admisiones.Entidades.Empresas.datasource" />
+    <None Include="My Project\DataSources\SA.IndigoCrystal.Dominio.Admisiones.Entidades.Entidad.datasource" />
+    <None Include="My Project\DataSources\SA.IndigoCrystal.Dominio.Admisiones.Entidades.Especialidad.datasource" />
+    <None Include="My Project\DataSources\SA.IndigoCrystal.Dominio.Admisiones.Entidades.EspecialidadesProfesionales.datasource" />
+    <None Include="My Project\DataSources\SA.IndigoCrystal.Dominio.Admisiones.Entidades.EspecialidadProfesional.datasource" />
+    <None Include="My Project\DataSources\SA.IndigoCrystal.Dominio.Admisiones.Entidades.Municipio.datasource" />
+    <None Include="My Project\DataSources\SA.IndigoCrystal.Dominio.Admisiones.Entidades.Niveles.datasource" />
+    <None Include="My Project\DataSources\SA.IndigoCrystal.Dominio.Admisiones.Entidades.ObjetoUbicacion.datasource" />
+    <None Include="My Project\DataSources\SA.IndigoCrystal.Dominio.Admisiones.Entidades.Paciente.datasource" />
+    <None Include="My Project\DataSources\SA.IndigoCrystal.Dominio.Admisiones.Entidades.Parametros3047Centro.datasource" />
+    <None Include="My Project\DataSources\SA.IndigoCrystal.Dominio.Admisiones.Entidades.Profesional.datasource" />
+    <None Include="My Project\DataSources\SA.IndigoCrystal.Dominio.Admisiones.Entidades.Profesiones.datasource" />
+    <None Include="My Project\DataSources\SA.IndigoCrystal.Dominio.Admisiones.Entidades.Salarios.datasource" />
+    <None Include="My Project\DataSources\SA.IndigoCrystal.Dominio.Admisiones.Entidades.Ubicacion.datasource" />
+    <None Include="My Project\DataSources\SA.IndigoCrystal.Dominio.CitasMedicas.Entidades.ActividadMedica.datasource" />
+    <None Include="My Project\DataSources\SA.IndigoCrystal.Dominio.CitasMedicas.Entidades.CausaAnulacion.datasource" />
+    <None Include="My Project\DataSources\SA.IndigoCrystal.Dominio.CitasMedicas.Entidades.Consultorios.datasource" />
+    <None Include="My Project\DataSources\SA.IndigoCrystal.Dominio.CitasMedicas.Entidades.Especialidad.datasource" />
+    <None Include="My Project\DataSources\SA.IndigoCrystal.Dominio.CitasMedicas.Entidades.EspecialidadActividad.datasource" />
+    <None Include="My Project\DataSources\SA.IndigoCrystal.Dominio.Contratos.Entidades.CapitulosClasificacionCUPS.datasource" />
+    <None Include="My Project\DataSources\SA.IndigoCrystal.Dominio.Contratos.Entidades.CentroAtencion.datasource" />
+    <None Include="My Project\DataSources\SA.IndigoCrystal.Dominio.Contratos.Entidades.ConceptosFacturacion.datasource" />
+    <None Include="My Project\DataSources\SA.IndigoCrystal.Dominio.Contratos.Entidades.CUPS.datasource" />
+    <None Include="My Project\DataSources\SA.IndigoCrystal.Dominio.Contratos.Entidades.CUPSDetallado.datasource" />
+    <None Include="My Project\DataSources\SA.IndigoCrystal.Dominio.Contratos.Entidades.EntidadesAdministradoras.datasource" />
+    <None Include="My Project\DataSources\SA.IndigoCrystal.Dominio.Contratos.Entidades.GruposCUPS.datasource" />
+    <None Include="My Project\DataSources\SA.IndigoCrystal.Dominio.Contratos.Entidades.IVA.datasource" />
+    <None Include="My Project\DataSources\SA.IndigoCrystal.Dominio.Contratos.Entidades.JerarquiaCUPS.datasource" />
+    <None Include="My Project\DataSources\SA.IndigoCrystal.Dominio.Contratos.Entidades.SubGruposCUPS.datasource" />
+    <None Include="My Project\DataSources\SA.IndigoCrystal.Dominio.Contratos.Entidades.UnidadFuncional.datasource" />
+    <None Include="My Project\DataSources\SA.IndigoCrystal.Dominio.Contratos.Entidades.UnidadMercadeo.datasource" />
+    <None Include="My Project\DataSources\SA.IndigoCrystal.Dominio.Contratos.Entidades.UnidadMercadeoEdicion.datasource" />
+    <None Include="My Project\DataSources\SA.IndigoCrystal.Dominio.Contratos.Entidades.UnidadMercadeoPortafolio.datasource" />
+    <None Include="My Project\DataSources\SA.IndigoCrystal.Dominio.Entidades.Grupo.datasource" />
+    <None Include="My Project\DataSources\SA.IndigoCrystal.Dominio.Seguridad.Entidades.CentroAtencion.datasource" />
+    <None Include="My Project\DataSources\SA.IndigoCrystal.Dominio.Seguridad.Entidades.Empresa.datasource" />
+    <None Include="My Project\DataSources\SA.IndigoCrystal.Dominio.Seguridad.Entidades.Modulo.datasource" />
+    <None Include="My Project\DataSources\SA.IndigoCrystal.Dominio.Seguridad.Entidades.PermisosBarraUsuario.datasource" />
+    <None Include="My Project\DataSources\SA.IndigoCrystal.Dominio.Seguridad.Entidades.Persona.datasource" />
+    <None Include="My Project\DataSources\SA.IndigoCrystal.Dominio.Seguridad.Entidades.SeguridadGrupoUsuario.datasource" />
+    <None Include="My Project\DataSources\SA.IndigoCrystal.Dominio.Seguridad.Entidades.SeguridadMenuUsuario.datasource" />
+    <None Include="My Project\DataSources\SA.IndigoCrystal.Dominio.Seguridad.Entidades.SeguridadModuloUsuario.datasource" />
+    <None Include="My Project\DataSources\SA.IndigoCrystal.Dominio.Seguridad.Entidades.SeguridadPermisosFormularios.datasource" />
+    <None Include="My Project\DataSources\SA.IndigoCrystal.Dominio.Seguridad.Entidades.SeguridadPermisosRoles.datasource" />
+    <None Include="My Project\DataSources\SA.IndigoCrystal.Dominio.Seguridad.Entidades.SeguridadPermisosUsuarios.datasource" />
+    <None Include="My Project\DataSources\SA.IndigoCrystal.Dominio.Seguridad.Entidades.SeguridadPermsisFormularios.datasource" />
+    <None Include="My Project\DataSources\SA.IndigoCrystal.Dominio.Seguridad.Entidades.SeguridadRolesUsuario.datasource" />
+    <None Include="My Project\DataSources\SA.IndigoCrystal.Dominio.Seguridad.Entidades.SeguridadUsuario.datasource" />
+    <None Include="My Project\DataSources\SA.IndigoCrystal.Dominio.Seguridad.Entidades.UnidadFuncional.datasource" />
+    <None Include="My Project\DataSources\SA.IndigoCrystal.ServiciosDistribuidos.Seguridad.RespuestaUsuario.datasource" />
+    <None Include="My Project\DataSources\System.Data.DataSet.datasource" />
+    <None Include="My Project\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <CustomToolNamespace>My</CustomToolNamespace>
+      <LastGenOutput>Settings.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="packages.config" />
+    <None Include="Service References\IndigoAzureService\Presentation.CloudAgent.IndigoAzureService.MultimediaLogin.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\IndigoAzureService\Presentation.CloudAgent.IndigoAzureService.Weather.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\IndigoAzureService\Service.wsdl" />
+    <None Include="Service References\IndigoAzureService\Service.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoAzureService\Service1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoAzureService\Service2.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoIntegrationServiceReference\InventoryService1.wsdl" />
+    <None Include="Service References\IndigoIntegrationServiceReference\item13.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoIntegrationServiceReference\item131.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoIntegrationServiceReference\item1310.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoIntegrationServiceReference\item1311.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoIntegrationServiceReference\item132.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoIntegrationServiceReference\item133.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoIntegrationServiceReference\item134.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoIntegrationServiceReference\item135.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoIntegrationServiceReference\item136.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoIntegrationServiceReference\item137.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoIntegrationServiceReference\item138.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoIntegrationServiceReference\item139.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Accounting\Accounting.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Accounting\Accounting1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Accounting\Accounting10.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Accounting\Accounting11.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Accounting\Accounting2.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Accounting\Accounting3.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Accounting\Accounting4.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Accounting\Accounting5.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Accounting\Accounting6.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Accounting\Accounting7.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Accounting\Accounting8.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Accounting\Accounting92.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Accounting\Accounting93.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Accounting\AccountingService.wsdl" />
+    <None Include="Service References\IndigoReference.AccountManagement\AccountManagement.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.AccountManagement\AccountManagement1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.AccountManagement\AccountManagement2.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.AccountManagement\AccountManagement3.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.AccountManagement\AccountManagement4.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.AccountManagement\AccountManagement5.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.AccountManagement\AccountManagement6.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.AccountManagement\AccountManagement7.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.AccountManagement\AccountManagement8.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.AccountManagement\AccountManagement81.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.AccountManagement\AccountManagement82.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.AccountManagement\AccountManagementService.wsdl" />
+    <None Include="Service References\IndigoReference.Admissions\Admissions.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Admissions\Admissions1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Admissions\Admissions2.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Admissions\Admissions3.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Admissions\Admissions4.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Admissions\Admissions5.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Admissions\AdmissionsService.wsdl" />
+    <None Include="Service References\IndigoReference.Authorization\Authorization.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Authorization\Authorization1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Authorization\Authorization2.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Authorization\Authorization3.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Authorization\Authorization4.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Authorization\Authorization5.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Authorization\Authorization6.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Authorization\Authorization7.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Authorization\Authorization8.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Authorization\AuthorizationService1.wsdl" />
+    <None Include="Service References\IndigoReference.Billing\Billing.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Billing\Billing1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Billing\Billing10.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Billing\Billing11.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Billing\Billing12.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Billing\Billing13.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Billing\Billing14.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Billing\Billing15.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Billing\Billing16.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Billing\Billing17.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Billing\Billing18.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Billing\Billing19.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Billing\Billing2.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Billing\Billing20.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Billing\Billing21.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Billing\Billing22.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Billing\Billing23.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Billing\Billing24.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Billing\Billing25.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Billing\Billing26.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Billing\Billing27.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Billing\Billing28.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Billing\Billing29.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Billing\Billing3.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Billing\Billing30.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Billing\Billing31.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Billing\Billing32.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Billing\Billing33.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Billing\Billing34.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Billing\Billing35.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Billing\Billing4.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Billing\Billing5.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Billing\Billing6.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Billing\Billing7.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Billing\Billing8.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Billing\Billing9.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Billing\BillingService.wsdl" />
+    <None Include="Service References\IndigoReference.Billing\BillingService1.wsdl" />
+    <None Include="Service References\IndigoReference.Billing\item.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Billing\item1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Billing\item10.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Billing\item2.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Billing\item3.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Billing\item4.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Billing\item5.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Billing\item6.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Billing\item7.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Billing\item8.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Billing\item9.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Bionexo\BionexoBeanService1.wsdl" />
+    <None Include="Service References\IndigoReference.Budget\BudgetService.wsdl" />
+    <None Include="Service References\IndigoReference.Budget\BudgetService1.wsdl" />
+    <None Include="Service References\IndigoReference.Budget\item.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Budget\item1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Budget\item2.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Budget\item3.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Budget\item4.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Budget\item5.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Budget\item6.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Budget\item7.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Budget\item8.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.CommonERP\CommonERP1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.CommonERP\CommonERP10.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.CommonERP\CommonERP11.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.CommonERP\CommonERP12.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.CommonERP\CommonERP13.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.CommonERP\CommonERP14.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.CommonERP\CommonERP15.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.CommonERP\CommonERP16.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.CommonERP\CommonERP17.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.CommonERP\CommonERP18.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.CommonERP\CommonERP19.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.CommonERP\CommonERPService.wsdl" />
+    <None Include="Service References\IndigoReference.CommonERP\CommonERPService1.wsdl" />
+    <None Include="Service References\IndigoReference.CommonERP\item.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.CommonERP\item7.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Common\CommonService1.wsdl" />
+    <None Include="Service References\IndigoReference.Common\item4.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Common\item41.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Common\item42.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Common\item43.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Contract\Contract.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Contract\Contract1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Contract\Contract11.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Contract\Contract12.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Contract\Contract13.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Contract\Contract14.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Contract\Contract15.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Contract\Contract16.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Contract\Contract17.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Contract\Contract18.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Contract\Contract19.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Contract\Contract2.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Contract\Contract20.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Contract\Contract21.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Contract\Contract22.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Contract\Contract3.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Contract\Contract4.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Contract\Contract5.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Contract\Contract6.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Contract\Contract7.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Contract\Contract8.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Contract\Contract9.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Contract\ContractService1.wsdl" />
+    <None Include="Service References\IndigoReference.Contract\ContractService11.wsdl" />
+    <None Include="Service References\IndigoReference.Contract\ContractService2.wsdl" />
+    <None Include="Service References\IndigoReference.Contract\item81.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Contract\item82.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Contract\item83.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Contract\item84.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Contract\item85.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Contract\item86.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Contract\item87.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Cost\Cost.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Cost\Cost1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Cost\Cost10.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Cost\Cost11.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Cost\Cost111.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Cost\Cost1110.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Cost\Cost112.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Cost\Cost113.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Cost\Cost114.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Cost\Cost115.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Cost\Cost116.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Cost\Cost117.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Cost\Cost118.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Cost\Cost119.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Cost\Cost13.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Cost\Cost2.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Cost\Cost3.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Cost\Cost4.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Cost\Cost5.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Cost\Cost6.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Cost\Cost7.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Cost\Cost8.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Cost\Cost9.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Cost\CostService.wsdl" />
+    <None Include="Service References\IndigoReference.Cost\CostService1.wsdl" />
+    <None Include="Service References\IndigoReference.Crystal\Crystal11.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Crystal\Crystal111.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Crystal\Crystal1110.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Crystal\Crystal112.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Crystal\Crystal113.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Crystal\Crystal114.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Crystal\Crystal115.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Crystal\Crystal116.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Crystal\Crystal117.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Crystal\Crystal118.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Crystal\Crystal119.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Crystal\CrystalService1.wsdl" />
+    <None Include="Service References\IndigoReference.DocumentalSystem\DocumentalSystem.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.DocumentalSystem\DocumentalSystem1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.DocumentalSystem\DocumentalSystem2.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.DocumentalSystem\DocumentalSystem3.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.DocumentalSystem\DocumentalSystem4.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.DocumentalSystem\DocumentalSystem5.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.DocumentalSystem\DocumentalSystem6.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.DocumentalSystem\DocumentalSystem7.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.DocumentalSystem\DocumentalSystemService.wsdl" />
+    <None Include="Service References\IndigoReference.ElectronicDocuments\ElectronicDocuments.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.ElectronicDocuments\ElectronicDocuments1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.ElectronicDocuments\ElectronicDocuments2.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.ElectronicDocuments\ElectronicDocuments3.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.ElectronicDocuments\ElectronicDocuments4.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.ElectronicDocuments\ElectronicDocuments5.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.ElectronicDocuments\ElectronicDocuments6.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.ElectronicDocuments\ElectronicDocuments7.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.ElectronicDocuments\ElectronicDocumentsService.wsdl" />
+    <None Include="Service References\IndigoReference.FileManager\FileManagerService.wsdl" />
+    <None Include="Service References\IndigoReference.FileManager\item.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.FileManager\item1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.FileManager\item2.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.FixedAsset\FixedAssets.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.FixedAsset\FixedAssets1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.FixedAsset\FixedAssets10.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.FixedAsset\FixedAssets11.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.FixedAsset\FixedAssets12.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.FixedAsset\FixedAssets13.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.FixedAsset\FixedAssets14.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.FixedAsset\FixedAssets15.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.FixedAsset\FixedAssets16.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.FixedAsset\FixedAssets17.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.FixedAsset\FixedAssets18.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.FixedAsset\FixedAssets9.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.FixedAsset\FixedAssetService11.wsdl" />
+    <None Include="Service References\IndigoReference.Glosas\Glosas.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Glosas\Glosas11.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Glosas\Glosas111.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Glosas\Glosas1110.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Glosas\Glosas1111.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Glosas\Glosas112.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Glosas\Glosas113.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Glosas\Glosas114.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Glosas\Glosas115.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Glosas\Glosas116.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Glosas\Glosas117.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Glosas\Glosas118.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Glosas\Glosas119.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Glosas\GlosasService.wsdl" />
+    <None Include="Service References\IndigoReference.Indexing\Indexing.wsdl" />
+    <None Include="Service References\IndigoReference.Indexing\item.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Indexing\item1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Indexing\item2.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Indexing\item3.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Indexing\item4.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.InteropCost\InteropCostService1.wsdl" />
+    <None Include="Service References\IndigoReference.InteropCost\item7.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.InteropCost\item71.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.InteropCost\item710.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.InteropCost\item711.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.InteropCost\item72.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.InteropCost\item73.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.InteropCost\item74.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.InteropCost\item75.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.InteropCost\item76.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.InteropCost\item77.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.InteropCost\item78.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.InteropCost\item79.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Inventory\Inventory.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Inventory\Inventory1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Inventory\Inventory10.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Inventory\Inventory11.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Inventory\Inventory12.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Inventory\Inventory13.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Inventory\Inventory14.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Inventory\Inventory141.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Inventory\Inventory142.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Inventory\Inventory151.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Inventory\Inventory2.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Inventory\Inventory3.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Inventory\Inventory4.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Inventory\Inventory5.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Inventory\Inventory6.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Inventory\Inventory7.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Inventory\Inventory8.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Inventory\Inventory9.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Inventory\InventoryService.wsdl" />
+    <None Include="Service References\IndigoReference.Maintenance\item910.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Maintenance\item911.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Maintenance\item912.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Maintenance\item913.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Maintenance\item914.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Maintenance\item915.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Maintenance\item916.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Maintenance\item917.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Maintenance\item918.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Maintenance\item919.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Maintenance\item920.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Maintenance\item921.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Maintenance\item922.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Maintenance\item923.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Maintenance\item924.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Maintenance\item925.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Maintenance\item99.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Maintenance\MaintanceService11.wsdl" />
+    <None Include="Service References\IndigoReference.Maintenance\MaintanceService12.wsdl" />
+    <None Include="Service References\IndigoReference.Maintenance\MaintanceService13.wsdl" />
+    <None Include="Service References\IndigoReference.Maintenance\Maintenance8.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Maintenance\Maintenance81.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Maintenance\Maintenance82.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Maintenance\Maintenance83.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Maintenance\Maintenance84.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Maintenance\Maintenance85.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Maintenance\Maintenance86.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Maintenance\Maintenance87.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.MedicalFees\MedicalFees.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.MedicalFees\MedicalFees8.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.MedicalFees\MedicalFees81.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.MedicalFees\MedicalFees82.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.MedicalFees\MedicalFees83.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.MedicalFees\MedicalFees84.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.MedicalFees\MedicalFees85.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.MedicalFees\MedicalFees86.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.MedicalFees\MedicalFees87.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.MedicalFees\MedicalFeesService1.wsdl" />
+    <None Include="Service References\IndigoReference.MixingStation\MixingStationService.wsdl" />
+    <None Include="Service References\IndigoReference.Payments\Payments.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Payments\Payments8.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Payments\Payments81.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Payments\Payments82.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Payments\Payments83.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Payments\Payments84.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Payments\Payments85.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Payments\Payments86.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Payments\Payments87.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Payments\Payments88.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Payments\PaymentsService1.wsdl" />
+    <None Include="Service References\IndigoReference.Payroll\item1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Payroll\item4.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Payroll\item8.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Payroll\Payroll121.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Payroll\Payroll1210.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Payroll\Payroll1211.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Payroll\Payroll122.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Payroll\Payroll123.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Payroll\Payroll124.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Payroll\Payroll125.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Payroll\Payroll126.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Payroll\Payroll127.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Payroll\Payroll128.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Payroll\Payroll129.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Payroll\Payroll25.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Payroll\Payroll26.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Payroll\Payroll27.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Payroll\Payroll28.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Payroll\Payroll29.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Payroll\Payroll30.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Payroll\Payroll31.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Payroll\Payroll32.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Payroll\Payroll33.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Payroll\Payroll34.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Payroll\Payroll35.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Payroll\Payroll36.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Payroll\Payroll37.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Payroll\Payroll38.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Payroll\Payroll39.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Payroll\PayrollService.wsdl" />
+    <None Include="Service References\IndigoReference.Payroll\PayrollService1.wsdl" />
+    <None Include="Service References\IndigoReference.Payroll\PayrollService2.wsdl" />
+    <None Include="Service References\IndigoReference.Portfolio\item1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Portfolio\item11.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Portfolio\item110.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Portfolio\item12.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Portfolio\item13.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Portfolio\item14.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Portfolio\item15.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Portfolio\item16.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Portfolio\item17.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Portfolio\item18.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Portfolio\item19.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Portfolio\Portfolio.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Portfolio\Portfolio1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Portfolio\Portfolio10.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Portfolio\Portfolio101.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Portfolio\Portfolio1010.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Portfolio\Portfolio102.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Portfolio\Portfolio103.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Portfolio\Portfolio104.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Portfolio\Portfolio105.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Portfolio\Portfolio106.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Portfolio\Portfolio107.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Portfolio\Portfolio108.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Portfolio\Portfolio109.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Portfolio\Portfolio2.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Portfolio\PortfolioService.wsdl" />
+    <None Include="Service References\IndigoReference.Portfolio\PortfolioService1.wsdl" />
+    <None Include="Service References\IndigoReference.Portfolio\Presentation.CloudAgent.IndigoReference.Portfolio.ActionMessageResultOfEconomicIndicatorMbb067J0.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\IndigoReference.Portfolio\Presentation.CloudAgent.IndigoReference.Portfolio.DeleteEconomicIndicatorResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\IndigoReference.Portfolio\Presentation.CloudAgent.IndigoReference.Portfolio.EconomicIndicator.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\IndigoReference.Portfolio\Presentation.CloudAgent.IndigoReference.Portfolio.GetAllEconomicIndicatorResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\IndigoReference.Portfolio\Presentation.CloudAgent.IndigoReference.Portfolio.GetEconomicIndicatorResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\IndigoReference.Portfolio\Presentation.CloudAgent.IndigoReference.Portfolio.SaveEconomicIndicatorResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\IndigoReference.SBS\VIEERPIntegration.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.SBS\VIEERPIntegration1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.SBS\VIEERPIntegration10.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.SBS\VIEERPIntegration2.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.SBS\VIEERPIntegration3.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.SBS\VIEERPIntegration4.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.SBS\VIEERPIntegration5.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.SBS\VIEERPIntegration6.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.SBS\VIEERPIntegration7.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.SBS\VIEERPIntegration8.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.SBS\VIEERPIntegration9.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.SBS\VIEERPIntegrationServices.wsdl" />
+    <None Include="Service References\IndigoReference.SecurityDefault\item.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.SecurityDefault\item1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.SecurityDefault\item2.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.SecurityDefault\item3.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.SecurityDefault\item4.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.SecurityDefault\item5.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.SecurityDefault\item6.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.SecurityDefault\item7.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.SecurityDefault\item8.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.SecurityDefault\item9.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.SecurityDefault\item91.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.SecurityDefault\SecurityService.wsdl" />
+    <None Include="Service References\IndigoReference.Security\Security.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Security\Security1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Security\Security10.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Security\Security11.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Security\Security2.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Security\Security3.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Security\Security4.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Security\Security5.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Security\Security6.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Security\Security7.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Security\Security8.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Security\Security9.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Security\SecurityService1.wsdl" />
+    <None Include="Service References\IndigoReference.Taxes\item61.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Taxes\item62.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Taxes\item63.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Taxes\item64.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Taxes\item65.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Taxes\item66.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Taxes\item67.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Taxes\item68.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Taxes\item69.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Taxes\TaxesService.wsdl" />
+    <None Include="Service References\IndigoReference.Treasury\Treasury.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Treasury\Treasury141.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Treasury\Treasury1410.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Treasury\Treasury1411.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Treasury\Treasury1412.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Treasury\Treasury142.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Treasury\Treasury143.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Treasury\Treasury144.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Treasury\Treasury145.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Treasury\Treasury146.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Treasury\Treasury147.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Treasury\Treasury148.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Treasury\Treasury149.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IndigoReference.Treasury\TreasuryService1.wsdl" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadataStorage Include="Service References\IndigoAzureService\" />
+    <WCFMetadataStorage Include="Service References\IndigoIntegrationServiceReference\" />
+    <WCFMetadataStorage Include="Service References\IndigoReference.Accounting\" />
+    <WCFMetadataStorage Include="Service References\IndigoReference.AccountManagement\" />
+    <WCFMetadataStorage Include="Service References\IndigoReference.Admissions\" />
+    <WCFMetadataStorage Include="Service References\IndigoReference.Authorization\" />
+    <WCFMetadataStorage Include="Service References\IndigoReference.Billing\" />
+    <WCFMetadataStorage Include="Service References\IndigoReference.Bionexo\" />
+    <WCFMetadataStorage Include="Service References\IndigoReference.Budget\" />
+    <WCFMetadataStorage Include="Service References\IndigoReference.CommonERP\" />
+    <WCFMetadataStorage Include="Service References\IndigoReference.Common\" />
+    <WCFMetadataStorage Include="Service References\IndigoReference.Contract\" />
+    <WCFMetadataStorage Include="Service References\IndigoReference.Cost\" />
+    <WCFMetadataStorage Include="Service References\IndigoReference.Crystal\" />
+    <WCFMetadataStorage Include="Service References\IndigoReference.DocumentalSystem\" />
+    <WCFMetadataStorage Include="Service References\IndigoReference.ElectronicDocuments\" />
+    <WCFMetadataStorage Include="Service References\IndigoReference.FileManager\" />
+    <WCFMetadataStorage Include="Service References\IndigoReference.FixedAsset\" />
+    <WCFMetadataStorage Include="Service References\IndigoReference.Glosas\" />
+    <WCFMetadataStorage Include="Service References\IndigoReference.Indexing\" />
+    <WCFMetadataStorage Include="Service References\IndigoReference.InteropCost\" />
+    <WCFMetadataStorage Include="Service References\IndigoReference.Inventory\" />
+    <WCFMetadataStorage Include="Service References\IndigoReference.Maintenance\" />
+    <WCFMetadataStorage Include="Service References\IndigoReference.MedicalFees\" />
+    <WCFMetadataStorage Include="Service References\IndigoReference.MixingStation\" />
+    <WCFMetadataStorage Include="Service References\IndigoReference.Payments\" />
+    <WCFMetadataStorage Include="Service References\IndigoReference.Payroll\" />
+    <WCFMetadataStorage Include="Service References\IndigoReference.Portfolio\" />
+    <WCFMetadataStorage Include="Service References\IndigoReference.SBS\" />
+    <WCFMetadataStorage Include="Service References\IndigoReference.SecurityDefault\" />
+    <WCFMetadataStorage Include="Service References\IndigoReference.Security\" />
+    <WCFMetadataStorage Include="Service References\IndigoReference.Taxes\" />
+    <WCFMetadataStorage Include="Service References\IndigoReference.Treasury\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\IndigoAzureService\Service.disco" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\IndigoAzureService\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\IndigoAzureService\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\IndigoAzureService\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.vb</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\IndigoReference.Payroll\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\IndigoReference.Payroll\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\IndigoReference.Payroll\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.vb</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\IndigoReference.CommonERP\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\IndigoReference.CommonERP\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\IndigoReference.CommonERP\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.vb</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\IndigoReference.Treasury\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\IndigoReference.Treasury\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\IndigoReference.Treasury\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.vb</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\IndigoReference.Portfolio\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\IndigoReference.Portfolio\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\IndigoReference.Portfolio\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.vb</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\IndigoReference.Payments\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\IndigoReference.Payments\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\IndigoReference.Payments\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.vb</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\IndigoReference.Contract\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\IndigoReference.Contract\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\IndigoReference.Contract\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.vb</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\IndigoReference.InteropCost\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\IndigoReference.InteropCost\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\IndigoReference.InteropCost\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.vb</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\IndigoReference.MedicalFees\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\IndigoReference.MedicalFees\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\IndigoReference.MedicalFees\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.vb</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\IndigoReference.Crystal\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\IndigoReference.Crystal\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\IndigoReference.Crystal\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.vb</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\IndigoReference.FileManager\item.disco" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\IndigoReference.FileManager\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\IndigoReference.FileManager\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\IndigoReference.FileManager\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.vb</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\IndigoReference.Common\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\IndigoReference.Common\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\IndigoReference.Common\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.vb</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\IndigoReference.DocumentalSystem\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\IndigoReference.DocumentalSystem\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\IndigoReference.DocumentalSystem\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.vb</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\IndigoReference.Maintenance\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\IndigoReference.Maintenance\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\IndigoReference.Maintenance\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.vb</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\IndigoReference.Security\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\IndigoReference.Security\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\IndigoReference.Security\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.vb</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\IndigoReference.Glosas\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\IndigoReference.Glosas\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\IndigoReference.Glosas\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.vb</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\IndigoReference.Billing\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\IndigoReference.Billing\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\IndigoReference.Billing\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.vb</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\IndigoReference.Bionexo\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\IndigoReference.Bionexo\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\IndigoReference.Bionexo\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.vb</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\IndigoReference.Indexing\item.disco" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\IndigoReference.Indexing\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\IndigoReference.Indexing\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\IndigoReference.Indexing\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.vb</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\IndigoReference.Taxes\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\IndigoReference.Taxes\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\IndigoReference.Taxes\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.vb</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\IndigoReference.Billing\item.disco" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\IndigoReference.Contract\item1.disco" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\IndigoReference.InteropCost\item1.disco" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\IndigoReference.Taxes\item1.disco" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\IndigoReference.Maintenance\item11.disco" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\IndigoReference.Maintenance\item12.disco" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\IndigoIntegrationServiceReference\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\IndigoIntegrationServiceReference\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\IndigoIntegrationServiceReference\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.vb</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\IndigoReference.Accounting\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\IndigoReference.Accounting\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\IndigoReference.Accounting\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.vb</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\IndigoReference.Budget\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\IndigoReference.Budget\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\IndigoReference.Budget\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.vb</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\IndigoReference.FixedAsset\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\IndigoReference.FixedAsset\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\IndigoReference.FixedAsset\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.vb</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\IndigoReference.Cost\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\IndigoReference.Cost\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\IndigoReference.Cost\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.vb</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\IndigoReference.Portfolio\item.disco" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\IndigoReference.DocumentalSystem\DocumentalSystem.disco" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\IndigoReference.Common\item1.disco" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\IndigoReference.Authorization\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\IndigoReference.Authorization\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\IndigoReference.Authorization\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.vb</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\IndigoIntegrationServiceReference\item1.disco" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\IndigoReference.Budget\item.disco" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\IndigoReference.SecurityDefault\item.disco" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\IndigoReference.SecurityDefault\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\IndigoReference.SecurityDefault\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\IndigoReference.SecurityDefault\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.vb</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\IndigoReference.SBS\VIEERPIntegration.disco" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\IndigoReference.SBS\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\IndigoReference.SBS\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\IndigoReference.SBS\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.vb</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\IndigoReference.Billing\Billing.disco" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\IndigoReference.Billing\Billing1.disco" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\IndigoReference.Contract\Contract.disco" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\IndigoReference.ElectronicDocuments\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\IndigoReference.ElectronicDocuments\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\IndigoReference.ElectronicDocuments\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.vb</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\IndigoReference.ElectronicDocuments\ElectronicDocuments.disco" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\IndigoReference.ElectronicDocuments\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\IndigoReference.ElectronicDocuments\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\IndigoReference.ElectronicDocuments\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.vb</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\IndigoReference.Payroll\Payroll.disco" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\IndigoReference.Authorization\Authorization.disco" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\IndigoReference.Maintenance\Maintenance1.disco" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\IndigoReference.Glosas\Glosas1.disco" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\IndigoReference.MedicalFees\MedicalFees1.disco" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\IndigoReference.CommonERP\CommonERP1.disco" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\IndigoReference.Payroll\Payroll1.disco" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\IndigoReference.Inventory\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\IndigoReference.Inventory\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\IndigoReference.Inventory\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.vb</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\IndigoReference.FixedAsset\FixedAssets1.disco" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\IndigoReference.Admissions\Admissions.disco" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\IndigoReference.Admissions\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\IndigoReference.Admissions\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\IndigoReference.Admissions\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.vb</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\IndigoReference.Contract\Contract2.disco" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\IndigoReference.Cost\Cost.disco" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\IndigoReference.MixingStation\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\IndigoReference.MixingStation\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\IndigoReference.MixingStation\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.vb</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\IndigoReference.Contract\Contract3.disco" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\IndigoReference.AccountManagement\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\IndigoReference.AccountManagement\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\IndigoReference.AccountManagement\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.vb</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Infrastructure.Base\Infrastructure.Base.csproj">
+      <Project>{31D8CF24-FBCE-431A-8764-0C3CB8A4076D}</Project>
+      <Name>Infrastructure.Base</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastructure.CrossCutting.Exceptions\Infrastructure.CrossCutting.Exceptions.vbproj">
+      <Project>{4DDB3588-6BC6-4545-85CA-222B8348492F}</Project>
+      <Name>Infrastructure.CrossCutting.Exceptions</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\IndigoReference.ElectronicDocuments\ElectronicDocuments1.disco" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\IndigoReference.Crystal\Crystal1.disco" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

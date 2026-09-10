@@ -1,0 +1,285 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{86F76E42-9F3C-4728-84CA-245C069DAC20}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>Application.Maintenance</RootNamespace>
+    <AssemblyName>Application.Maintenance</AssemblyName>
+    <FileAlignment>512</FileAlignment>
+    <MyType>Windows</MyType>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DocumentationFile>Application.Maintenance.xml</DocumentationFile>
+    <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DocumentationFile>Application.Maintenance.xml</DocumentationFile>
+    <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionExplicit>On</OptionExplicit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionCompare>Binary</OptionCompare>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionStrict>Off</OptionStrict>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionInfer>On</OptionInfer>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debugcito|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\Debugcito\</OutputPath>
+    <DocumentationFile>Application.Maintenance.xml</DocumentationFile>
+    <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DocumentationFile>Application.Maintenance.xml</DocumentationFile>
+    <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DocumentationFile>Application.Maintenance.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debugcito|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x64\Debugcito\</OutputPath>
+    <DocumentationFile>Application.Maintenance.xml</DocumentationFile>
+    <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\DLL\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="Infrastructure.CrossCutting.Exceptions, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\DLL\Infrastructure.CrossCutting.Exceptions.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Data.Entity, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="System.Transactions" />
+    <Reference Include="System.Core" />
+  </ItemGroup>
+  <ItemGroup>
+    <Import Include="Microsoft.VisualBasic" />
+    <Import Include="System" />
+    <Import Include="System.Collections" />
+    <Import Include="System.Collections.Generic" />
+    <Import Include="System.Data" />
+    <Import Include="System.Diagnostics" />
+    <Import Include="System.Linq" />
+    <Import Include="System.Xml.Linq" />
+    <Import Include="System.Threading.Tasks" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Accessory\AccesoryAdminService.vb" />
+    <Compile Include="Accessory\IAccesoryAdminService.vb" />
+    <Compile Include="BlockRecord\BlockRecordMaintenanceAdminService.vb" />
+    <Compile Include="BlockRecord\IBlockRecordMaintenanceAdminService.vb" />
+    <Compile Include="Brand\BrandAdminService.vb" />
+    <Compile Include="Brand\IBrandAdminService.vb" />
+    <Compile Include="Consumable\ConsumibleAdminService.vb" />
+    <Compile Include="Consumable\IConsumableAdminServic3.vb" />
+    <Compile Include="EquipmenrRegister\EquipmentRegistrationAdminService.vb" />
+    <Compile Include="EquipmenrRegister\IEquipmentRegistrationAdminService.vb" />
+    <Compile Include="EquipmentFunction\EquipmentFunctionAdminService.vb" />
+    <Compile Include="EquipmentFunction\IEquipmentFunctionAdminService.vb" />
+    <Compile Include="EquipmentHistory\EquipmentHistoryAdminService.vb" />
+    <Compile Include="EquipmentHistory\IEquipmentHistoryAdminService.vb" />
+    <Compile Include="EquipmentRequirement\EquipmentRequirementAdminService.vb" />
+    <Compile Include="EquipmentRequirement\IEquipmentRequirementAdminService.vb" />
+    <Compile Include="Equipment\EquipmentAdminService.vb" />
+    <Compile Include="Equipment\IEquipmentAdminService.vb" />
+    <Compile Include="MaintenanceFailureRequest\IMaintenanceFailureRequestAdminService.vb" />
+    <Compile Include="MaintenanceFailureRequest\MaintenanceFailureRequestAdminService.vb" />
+    <Compile Include="MaintenanceManufacturers\MaintenanceManufacturersAdminService.vb" />
+    <Compile Include="MaintenanceManufacturers\IMaintenanceManufacturersAdminService.vb" />
+    <Compile Include="MaintenanceParameter\IMaintenanceParameterAdminService.vb" />
+    <Compile Include="MaintenanceParameter\MaintenanceParameterAdminService.vb" />
+    <Compile Include="MaintenancePlanAndMetrology\IMaintenancePlanAndMetrologyAdminService.vb" />
+    <Compile Include="MaintenancePlanAndMetrology\MaintenancePlanAndMetrologyAdminService.vb" />
+    <Compile Include="MaintenancePlan\IMaintenancePlanAdminService.vb" />
+    <Compile Include="MaintenancePlan\MaintenancePlanAdminService.vb" />
+    <Compile Include="MaintenanceProtocol\IMaintenanceProtocolAdminService.vb" />
+    <Compile Include="MaintenanceProtocol\MaintenanceProtocolAdminService.vb" />
+    <Compile Include="MaintenanceContract\IMaintenanceContractAdminService.vb" />
+    <Compile Include="MaintenanceContract\MaintenanceContractAdminService.vb" />
+    <Compile Include="MaintenanceResponsible\MaintenanceResponsibleAdminService.vb" />
+    <Compile Include="MaintenanceResponsible\IMaintenanceResponsibleAdminService.vb" />
+    <Compile Include="MaintenanceTools\IMaintenanceToolsAdminService.vb" />
+    <Compile Include="MaintenanceTools\MaintenanceToolsAdminService.vb" />
+    <Compile Include="PhysicalRisk\IPhysicalRiskAdminService.vb" />
+    <Compile Include="PhysicalRisk\PhysicalRiskAdminService.vb" />
+    <Compile Include="Reports\IReportAdminService.vb" />
+    <Compile Include="Reports\ReportAdminService.vb" />
+    <Compile Include="Sequense\IMaintenanceSequenseAdminService.vb" />
+    <Compile Include="Sequense\MaintenanceSequenseAdminService.vb" />
+    <Compile Include="Supplier\ISupplierAdminService.vb" />
+    <Compile Include="Supplier\SupplierAdminService.vb" />
+    <Compile Include="MeasurementUnit\IMeasurementUnitAdminService.vb" />
+    <Compile Include="MeasurementUnit\MeasurementUnitAdminService.vb" />
+    <Compile Include="My Project\AssemblyInfo.vb" />
+    <Compile Include="My Project\Application.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Application.myapp</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="My Project\Resources.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="My Project\Settings.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="TechnicalLog\ITechnicalLogAdminService.vb" />
+    <Compile Include="TechnicalLog\TechnicalLogAdminService.vb" />
+    <Compile Include="TemplateEquipmentType\ITemplateEquipmentTypeAdminService.vb" />
+    <Compile Include="TemplateEquipmentType\TemplateEquipmentTypeAdminService.vb" />
+    <Compile Include="WorkOrder\IWorkOrderAdminService.vb" />
+    <Compile Include="WorkOrder\WorkOrderAdminService.vb" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="My Project\Resources.resx">
+      <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.vb</LastGenOutput>
+      <CustomToolNamespace>My.Resources</CustomToolNamespace>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="My Project\Application.myapp">
+      <Generator>MyApplicationCodeGenerator</Generator>
+      <LastGenOutput>Application.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="My Project\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <CustomToolNamespace>My</CustomToolNamespace>
+      <LastGenOutput>Settings.Designer.vb</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Application.Base\Application.Base.vbproj">
+      <Project>{0e700653-1525-4d34-aa89-bfb243f6515c}</Project>
+      <Name>Application.Base</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Application.Common\Application.Common.vbproj">
+      <Project>{0509e89e-92df-4b99-a74b-3043c7e6b1d2}</Project>
+      <Name>Application.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Application.Events\Application.Events.csproj">
+      <Project>{b1afea8e-8308-457e-a0c7-cff4acf86b1c}</Project>
+      <Name>Application.Events</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Domain.Base.Entities\Domain.Base.Entities.vbproj">
+      <Project>{78734d29-0073-4d48-9d0b-2362d0243e36}</Project>
+      <Name>Domain.Base.Entities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Domain.Base\Domain.Base.vbproj">
+      <Project>{8157f242-6a69-44c1-a9ac-19f0ee5cb8a2}</Project>
+      <Name>Domain.Base</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Domain.Common.Entities\Domain.Common.Entities.vbproj">
+      <Project>{3d09a7e6-8638-45ad-b6c9-5496ae263ef0}</Project>
+      <Name>Domain.Common.Entities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Domain.Entities\Domain.Entities.vbproj">
+      <Project>{0551aef4-ed84-4745-b00b-7475f26015cc}</Project>
+      <Name>Domain.Entities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Domain.Maintenance.Entities\Domain.Maintenance.Entities.vbproj">
+      <Project>{446b9431-03a5-4ec3-91ba-98b48630c400}</Project>
+      <Name>Domain.Maintenance.Entities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Domain.Maintenance\Domain.Maintenance.vbproj">
+      <Project>{21e7389b-f4ee-454a-9559-10b919970e89}</Project>
+      <Name>Domain.Maintenance</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Domain.Notification\Domain.Notification.vbproj">
+      <Project>{FC92FCEF-36BE-4D15-84B7-4034C79A0AA1}</Project>
+      <Name>Domain.Notification</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastructure.CrossCutting.Audit\Infrastructure.CrossCutting.Audit.vbproj">
+      <Project>{d2b2306d-6404-46cd-8a22-f827f3e1b75c}</Project>
+      <Name>Infrastructure.CrossCutting.Audit</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastructure.CrossCutting.Base\Infrastructure.CrossCutting.Base.vbproj">
+      <Project>{2773d9f7-93bd-4520-9726-bce0d8875696}</Project>
+      <Name>Infrastructure.CrossCutting.Base</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastructure.CrossCutting.Queue\Infrastructure.CrossCutting.Queue.vbproj">
+      <Project>{4ECC4501-B252-4AFF-A829-DC46BCCA069B}</Project>
+      <Name>Infrastructure.CrossCutting.Queue</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastructure.CrossCutting.Resources\Infrastructure.CrossCutting.Resources.vbproj">
+      <Project>{134F5B02-EBA4-4414-BB62-BF5D55E2B906}</Project>
+      <Name>Infrastructure.CrossCutting.Resources</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\RabbitMQ.Bus\RabbitMQ.Bus.csproj">
+      <Project>{A4A2D503-C198-4DD6-BABA-1884933491D8}</Project>
+      <Name>RabbitMQ.Bus</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

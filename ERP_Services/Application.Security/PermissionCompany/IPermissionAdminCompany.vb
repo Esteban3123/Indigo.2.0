@@ -1,0 +1,44 @@
+﻿'***********************************************************************
+' Assembly         : Application.Security
+' Author           : Jorge Leonardo Vernaza
+' Created          : 01-08-2013
+'                    
+' Last Modified By : 
+' Last Modified On : 
+'
+' Copyright        : (c) . All rights reserved.
+'***********************************************************************
+
+#Region "Imports"
+Imports Domain.Security.Entities
+Imports Infrastructure.CrossCutting.Base
+Imports Domain.Base
+Imports Domain.Base.Entities
+#End Region
+
+Public Interface IPermissionAdminCompany
+    Inherits IDisposable
+
+    ''' <summary>
+    ''' Graba permisos de las empresas
+    ''' </summary>
+    Function SavePermissionCompany(ByVal PermissionCompany As List(Of PermissionCompany), ByVal audit As AuditMessage) As Boolean
+
+    ''' <summary>
+    ''' Lists the permissions companies.
+    ''' </summary>
+    ''' <returns></returns>
+    Function ListPermissionsCompanies(ByVal UserCode As String) As List(Of PermissionCompany)
+
+    ''' <summary>
+    ''' Metodo para saber si el usuario tiene permiso para la empresa seleccionada
+    ''' </summary>
+    ''' <param name="UserCode"></param>
+    ''' <param name="CompanyCode"></param>
+    ''' <returns></returns>
+    Function GetPermissionUserCompany(ByVal UserCode As String, ByVal UserPass As String, ByVal CompanyCode As String) As ActionResult(Of User)
+
+    Function LoginUserCompany(ByVal userCode As String, ByVal userPasswd As String, ByVal companyCode As String, ByVal appVersion As Version) As ActionResult(Of UserLogin)
+
+End Interface
+

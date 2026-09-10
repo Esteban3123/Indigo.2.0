@@ -1,0 +1,331 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://tempuri.org/" elementFormDefault="qualified" targetNamespace="http://tempuri.org/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import schemaLocation="http://localhost:9000/DistributedService.DocumentalSystem.Deployment/DocumentalSystem.svc?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/Domain.DocumentalSystem.Entities" />
+  <xs:import schemaLocation="http://localhost:9000/DistributedService.DocumentalSystem.Deployment/DocumentalSystem.svc?xsd=xsd4" namespace="http://schemas.microsoft.com/Message" />
+  <xs:import schemaLocation="http://localhost:9000/DistributedService.DocumentalSystem.Deployment/DocumentalSystem.svc?xsd=xsd5" namespace="http://schemas.datacontract.org/2004/07/Infrastructure.CrossCutting.Base" />
+  <xs:import schemaLocation="http://localhost:9000/DistributedService.DocumentalSystem.Deployment/DocumentalSystem.svc?xsd=xsd3" namespace="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" />
+  <xs:element name="ListAllDocuments">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q1="http://schemas.datacontract.org/2004/07/Domain.DocumentalSystem.Entities" minOccurs="0" name="sessionInf" nillable="true" type="q1:SessionInfo" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ListAllDocumentsResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q2="http://schemas.datacontract.org/2004/07/Domain.DocumentalSystem.Entities" minOccurs="0" name="ListAllDocumentsResult" nillable="true" type="q2:ArrayOfDocumentsStore" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetDocument">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q3="http://schemas.datacontract.org/2004/07/Domain.DocumentalSystem.Entities" minOccurs="0" name="sessionInf" nillable="true" type="q3:SessionInfo" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetDocumentResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q4="http://schemas.microsoft.com/Message" name="GetDocumentResult" type="q4:StreamBody" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetDocumentById">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q5="http://schemas.datacontract.org/2004/07/Domain.DocumentalSystem.Entities" minOccurs="0" name="sessionInf" nillable="true" type="q5:SessionInfo" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetDocumentByIdResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q6="http://schemas.datacontract.org/2004/07/Domain.DocumentalSystem.Entities" minOccurs="0" name="GetDocumentByIdResult" nillable="true" type="q6:DocumentsStore" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="DocumentInfo">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q7="http://schemas.microsoft.com/Message" name="DocumentStream" type="q7:StreamBody" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="AttachDate" type="xs:dateTime" />
+  <xs:element name="DocumentStreamLength" type="xs:long" />
+  <xs:element name="FileName" nillable="true" type="xs:string" />
+  <xs:element name="IdEntity" type="xs:int" />
+  <xs:element name="IdFileContainer" type="xs:int" />
+  <xs:element name="IdForm" type="xs:int" />
+  <xs:element name="MetaData" nillable="true" type="xs:string" />
+  <xs:element xmlns:q8="http://schemas.datacontract.org/2004/07/Domain.DocumentalSystem.Entities" name="SessionInf" nillable="true" type="q8:SessionInfo" />
+  <xs:element name="UseFormMetaData" type="xs:boolean" />
+  <xs:element name="ResponseDocument">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="response" type="xs:boolean" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element xmlns:q9="http://schemas.datacontract.org/2004/07/Domain.DocumentalSystem.Entities" name="documentStore" nillable="true" type="q9:DocumentsStore" />
+  <xs:element name="message" nillable="true" type="xs:string" />
+  <xs:element name="GetDocumentFullText">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q10="http://schemas.datacontract.org/2004/07/Domain.DocumentalSystem.Entities" minOccurs="0" name="sessionInf" nillable="true" type="q10:SessionInfo" />
+        <xs:element minOccurs="0" name="inMenu" type="xs:boolean" />
+        <xs:element minOccurs="0" name="skip" type="xs:long" />
+        <xs:element minOccurs="0" name="top" type="xs:long" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetDocumentFullTextResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q11="http://schemas.datacontract.org/2004/07/Domain.DocumentalSystem.Entities" minOccurs="0" name="GetDocumentFullTextResult" nillable="true" type="q11:ArrayOfDocumentsStore" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="getDocumentByIdForm">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q12="http://schemas.datacontract.org/2004/07/Domain.DocumentalSystem.Entities" minOccurs="0" name="sessionInf" nillable="true" type="q12:SessionInfo" />
+        <xs:element minOccurs="0" name="withTop" type="xs:boolean" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="getDocumentByIdFormResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q13="http://schemas.datacontract.org/2004/07/Domain.DocumentalSystem.Entities" minOccurs="0" name="getDocumentByIdFormResult" nillable="true" type="q13:ArrayOfDocumentsStore" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="getDocumentByIdFormAndIdEntity">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q14="http://schemas.datacontract.org/2004/07/Domain.DocumentalSystem.Entities" minOccurs="0" name="sessionInf" nillable="true" type="q14:SessionInfo" />
+        <xs:element minOccurs="0" name="IdEntity" type="xs:int" />
+        <xs:element minOccurs="0" name="withTop" type="xs:boolean" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="getDocumentByIdFormAndIdEntityResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q15="http://schemas.datacontract.org/2004/07/Domain.DocumentalSystem.Entities" minOccurs="0" name="getDocumentByIdFormAndIdEntityResult" nillable="true" type="q15:ArrayOfDocumentsStore" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ListDocumentByIdFormAndIdFileContainer">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="IdForm" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="IdFileContainer" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="TextSearch" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="FullText" type="xs:boolean" />
+        <xs:element xmlns:q16="http://schemas.datacontract.org/2004/07/Infrastructure.CrossCutting.Base" minOccurs="0" name="session" nillable="true" type="q16:SessionValues" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ListDocumentByIdFormAndIdFileContainerResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q17="http://schemas.datacontract.org/2004/07/Domain.DocumentalSystem.Entities" minOccurs="0" name="ListDocumentByIdFormAndIdFileContainerResult" nillable="true" type="q17:ArrayOfDocumentsStore" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="DeleteDocument">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q18="http://schemas.datacontract.org/2004/07/Domain.DocumentalSystem.Entities" minOccurs="0" name="document" nillable="true" type="q18:DocumentsStore" />
+        <xs:element xmlns:q19="http://schemas.datacontract.org/2004/07/Domain.DocumentalSystem.Entities" minOccurs="0" name="sessionInf" nillable="true" type="q19:SessionInfo" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="DeleteDocumentResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q20="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="DeleteDocumentResult" nillable="true" type="q20:ActionResult" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ListAllFileContainers">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q21="http://schemas.datacontract.org/2004/07/Infrastructure.CrossCutting.Base" minOccurs="0" name="session" nillable="true" type="q21:SessionValues" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ListAllFileContainersResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q22="http://schemas.datacontract.org/2004/07/Domain.DocumentalSystem.Entities" minOccurs="0" name="ListAllFileContainersResult" nillable="true" type="q22:ArrayOfFileContainer" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetFileContainer">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="Id" nillable="true" type="xs:string" />
+        <xs:element xmlns:q23="http://schemas.datacontract.org/2004/07/Infrastructure.CrossCutting.Base" minOccurs="0" name="session" nillable="true" type="q23:SessionValues" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetFileContainerResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q24="http://schemas.datacontract.org/2004/07/Domain.DocumentalSystem.Entities" minOccurs="0" name="GetFileContainerResult" nillable="true" type="q24:FileContainer" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="DeleteFileContainer">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q25="http://schemas.datacontract.org/2004/07/Domain.DocumentalSystem.Entities" minOccurs="0" name="fileContainer" nillable="true" type="q25:FileContainer" />
+        <xs:element xmlns:q26="http://schemas.datacontract.org/2004/07/Infrastructure.CrossCutting.Base" minOccurs="0" name="session" nillable="true" type="q26:SessionValues" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="DeleteFileContainerResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q27="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="DeleteFileContainerResult" nillable="true" type="q27:ActionResultOfFileContainerdLrABzi_S" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SaveFileContainer">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q28="http://schemas.datacontract.org/2004/07/Domain.DocumentalSystem.Entities" minOccurs="0" name="fileContainer" nillable="true" type="q28:FileContainer" />
+        <xs:element xmlns:q29="http://schemas.datacontract.org/2004/07/Infrastructure.CrossCutting.Base" minOccurs="0" name="session" nillable="true" type="q29:SessionValues" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SaveFileContainerResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q30="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="SaveFileContainerResult" nillable="true" type="q30:ActionResultOfFileContainerdLrABzi_S" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ListAllFileContainersForm">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q31="http://schemas.datacontract.org/2004/07/Infrastructure.CrossCutting.Base" minOccurs="0" name="session" nillable="true" type="q31:SessionValues" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ListAllFileContainersFormResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q32="http://schemas.datacontract.org/2004/07/Domain.DocumentalSystem.Entities" minOccurs="0" name="ListAllFileContainersFormResult" nillable="true" type="q32:ArrayOfFileContainersForm" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ListFileContainersFormByIdFileContainer">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="Id" nillable="true" type="xs:string" />
+        <xs:element xmlns:q33="http://schemas.datacontract.org/2004/07/Infrastructure.CrossCutting.Base" minOccurs="0" name="session" nillable="true" type="q33:SessionValues" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ListFileContainersFormByIdFileContainerResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q34="http://schemas.datacontract.org/2004/07/Domain.DocumentalSystem.Entities" minOccurs="0" name="ListFileContainersFormByIdFileContainerResult" nillable="true" type="q34:ArrayOfFileContainersForm" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ListFileContainersFormByIdForm">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="Id" nillable="true" type="xs:string" />
+        <xs:element xmlns:q35="http://schemas.datacontract.org/2004/07/Infrastructure.CrossCutting.Base" minOccurs="0" name="session" nillable="true" type="q35:SessionValues" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ListFileContainersFormByIdFormResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q36="http://schemas.datacontract.org/2004/07/Domain.DocumentalSystem.Entities" minOccurs="0" name="ListFileContainersFormByIdFormResult" nillable="true" type="q36:ArrayOfFileContainersForm" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ListAllMetadata">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q37="http://schemas.datacontract.org/2004/07/Domain.DocumentalSystem.Entities" minOccurs="0" name="sessionInf" nillable="true" type="q37:SessionInfo" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ListAllMetadataResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q38="http://schemas.datacontract.org/2004/07/Domain.DocumentalSystem.Entities" minOccurs="0" name="ListAllMetadataResult" nillable="true" type="q38:ArrayOfMetadata" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetMetadataByFileContainer">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q39="http://schemas.datacontract.org/2004/07/Domain.DocumentalSystem.Entities" minOccurs="0" name="sessionInf" nillable="true" type="q39:SessionInfo" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetMetadataByFileContainerResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q40="http://schemas.datacontract.org/2004/07/Domain.DocumentalSystem.Entities" minOccurs="0" name="GetMetadataByFileContainerResult" nillable="true" type="q40:ArrayOfMetadata" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ListMetadataByFileContainer">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="IdFileContainer" nillable="true" type="xs:string" />
+        <xs:element xmlns:q41="http://schemas.datacontract.org/2004/07/Infrastructure.CrossCutting.Base" minOccurs="0" name="Indigo" nillable="true" type="q41:SessionValues" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ListMetadataByFileContainerResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q42="http://schemas.datacontract.org/2004/07/Domain.DocumentalSystem.Entities" minOccurs="0" name="ListMetadataByFileContainerResult" nillable="true" type="q42:ArrayOfMetadata" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="saveListMetata">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q43="http://schemas.datacontract.org/2004/07/Domain.DocumentalSystem.Entities" minOccurs="0" name="_listMetadata" nillable="true" type="q43:ArrayOfMetadata" />
+        <xs:element xmlns:q44="http://schemas.datacontract.org/2004/07/Infrastructure.CrossCutting.Base" minOccurs="0" name="indigo" nillable="true" type="q44:SessionValues" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="saveListMetataResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q45="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="saveListMetataResult" nillable="true" type="q45:ActionResult" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="DeleteMetadata">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q46="http://schemas.datacontract.org/2004/07/Domain.DocumentalSystem.Entities" minOccurs="0" name="_objMetadata" nillable="true" type="q46:Metadata" />
+        <xs:element xmlns:q47="http://schemas.datacontract.org/2004/07/Infrastructure.CrossCutting.Base" minOccurs="0" name="indigo" nillable="true" type="q47:SessionValues" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="DeleteMetadataResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q48="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="DeleteMetadataResult" nillable="true" type="q48:ActionResult" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

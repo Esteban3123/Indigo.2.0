@@ -1,0 +1,3083 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:wsap="http://schemas.xmlsoap.org/ws/2004/08/addressing/policy" xmlns:wsa10="http://www.w3.org/2005/08/addressing" xmlns:tns="http://tempuri.org/" xmlns:msc="http://schemas.microsoft.com/ws/2005/12/wsdl/contract" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:wsx="http://schemas.xmlsoap.org/ws/2004/09/mex" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="AuthorizationService" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsp:Policy wsu:Id="basicHttps_Endpoint_Authorization_policy">
+    <wsp:ExactlyOne>
+      <wsp:All>
+        <sp:TransportBinding xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <wsp:Policy>
+            <sp:TransportToken>
+              <wsp:Policy>
+                <sp:HttpsToken RequireClientCertificate="false" />
+              </wsp:Policy>
+            </sp:TransportToken>
+            <sp:AlgorithmSuite>
+              <wsp:Policy>
+                <sp:Basic256 />
+              </wsp:Policy>
+            </sp:AlgorithmSuite>
+            <sp:Layout>
+              <wsp:Policy>
+                <sp:Strict />
+              </wsp:Policy>
+            </sp:Layout>
+          </wsp:Policy>
+        </sp:TransportBinding>
+      </wsp:All>
+    </wsp:ExactlyOne>
+  </wsp:Policy>
+  <wsp:Policy wsu:Id="wsHttp_Endpoint_Authorization_policy">
+    <wsp:ExactlyOne>
+      <wsp:All>
+        <wsaw:UsingAddressing />
+      </wsp:All>
+    </wsp:ExactlyOne>
+  </wsp:Policy>
+  <wsp:Policy wsu:Id="netTcp_Endpoint_Authorization_policy">
+    <wsp:ExactlyOne>
+      <wsp:All>
+        <msb:BinaryEncoding xmlns:msb="http://schemas.microsoft.com/ws/06/2004/mspolicy/netbinary1" />
+        <wsaw:UsingAddressing />
+      </wsp:All>
+    </wsp:ExactlyOne>
+  </wsp:Policy>
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://tempuri.org/Imports">
+      <xsd:import schemaLocation="https://localhost:444/ServiceEntity/Authorization.svc?xsd=xsd0" namespace="http://tempuri.org/" />
+      <xsd:import schemaLocation="https://localhost:444/ServiceEntity/Authorization.svc?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+      <xsd:import schemaLocation="https://localhost:444/ServiceEntity/Authorization.svc?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/Domain.Entities" />
+      <xsd:import schemaLocation="https://localhost:444/ServiceEntity/Authorization.svc?xsd=xsd3" namespace="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" />
+      <xsd:import schemaLocation="https://localhost:444/ServiceEntity/Authorization.svc?xsd=xsd4" />
+      <xsd:import schemaLocation="https://localhost:444/ServiceEntity/Authorization.svc?xsd=xsd5" namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
+      <xsd:import schemaLocation="https://localhost:444/ServiceEntity/Authorization.svc?xsd=xsd6" namespace="http://schemas.datacontract.org/2004/07/Infrastructure.CrossCutting.Base" />
+      <xsd:import schemaLocation="https://localhost:444/ServiceEntity/Authorization.svc?xsd=xsd7" namespace="http://schemas.datacontract.org/2004/07/System" />
+      <xsd:import schemaLocation="https://localhost:444/ServiceEntity/Authorization.svc?xsd=xsd8" namespace="http://schemas.datacontract.org/2004/07/System.ComponentModel" />
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="IAuthorizationService_GetBlockRecordAuthorizationByIdformAndIdRecord_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetBlockRecordAuthorizationByIdformAndIdRecord" />
+  </wsdl:message>
+  <wsdl:message name="IAuthorizationService_GetBlockRecordAuthorizationByIdformAndIdRecord_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetBlockRecordAuthorizationByIdformAndIdRecordResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAuthorizationService_SaveBlockRecordAuthorization_InputMessage">
+    <wsdl:part name="parameters" element="tns:SaveBlockRecordAuthorization" />
+  </wsdl:message>
+  <wsdl:message name="IAuthorizationService_SaveBlockRecordAuthorization_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SaveBlockRecordAuthorizationResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAuthorizationService_DeleteBlockRecordAuthorization_InputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteBlockRecordAuthorization" />
+  </wsdl:message>
+  <wsdl:message name="IAuthorizationService_DeleteBlockRecordAuthorization_OutputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteBlockRecordAuthorizationResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAuthorizationService_GetSequenseByIdForm_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetSequenseByIdForm" />
+  </wsdl:message>
+  <wsdl:message name="IAuthorizationService_GetSequenseByIdForm_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetSequenseByIdFormResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAuthorizationService_GetNumericSequenseGroupById_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetNumericSequenseGroupById" />
+  </wsdl:message>
+  <wsdl:message name="IAuthorizationService_GetNumericSequenseGroupById_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetNumericSequenseGroupByIdResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAuthorizationService_SaveSequence_InputMessage">
+    <wsdl:part name="parameters" element="tns:SaveSequence" />
+  </wsdl:message>
+  <wsdl:message name="IAuthorizationService_SaveSequence_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SaveSequenceResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAuthorizationService_SaveAuthorizationGroup_InputMessage">
+    <wsdl:part name="parameters" element="tns:SaveAuthorizationGroup" />
+  </wsdl:message>
+  <wsdl:message name="IAuthorizationService_SaveAuthorizationGroup_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SaveAuthorizationGroupResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAuthorizationService_DeleteAuthorizationGroup_InputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteAuthorizationGroup" />
+  </wsdl:message>
+  <wsdl:message name="IAuthorizationService_DeleteAuthorizationGroup_OutputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteAuthorizationGroupResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAuthorizationService_GetAuthorizationGroup_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetAuthorizationGroup" />
+  </wsdl:message>
+  <wsdl:message name="IAuthorizationService_GetAuthorizationGroup_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetAuthorizationGroupResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAuthorizationService_GetAuthorizationGroupById_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetAuthorizationGroupById" />
+  </wsdl:message>
+  <wsdl:message name="IAuthorizationService_GetAuthorizationGroupById_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetAuthorizationGroupByIdResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAuthorizationService_ChangeStateAuthorizationGroup_InputMessage">
+    <wsdl:part name="parameters" element="tns:ChangeStateAuthorizationGroup" />
+  </wsdl:message>
+  <wsdl:message name="IAuthorizationService_ChangeStateAuthorizationGroup_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ChangeStateAuthorizationGroupResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAuthorizationService_SaveCancellationReasons_InputMessage">
+    <wsdl:part name="parameters" element="tns:SaveCancellationReasons" />
+  </wsdl:message>
+  <wsdl:message name="IAuthorizationService_SaveCancellationReasons_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SaveCancellationReasonsResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAuthorizationService_DeleteCancellationReasons_InputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteCancellationReasons" />
+  </wsdl:message>
+  <wsdl:message name="IAuthorizationService_DeleteCancellationReasons_OutputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteCancellationReasonsResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAuthorizationService_GetCancellationReasons_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetCancellationReasons" />
+  </wsdl:message>
+  <wsdl:message name="IAuthorizationService_GetCancellationReasons_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetCancellationReasonsResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAuthorizationService_GetCancellationReasonsById_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetCancellationReasonsById" />
+  </wsdl:message>
+  <wsdl:message name="IAuthorizationService_GetCancellationReasonsById_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetCancellationReasonsByIdResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAuthorizationService_ChangeStateCancellationReasons_InputMessage">
+    <wsdl:part name="parameters" element="tns:ChangeStateCancellationReasons" />
+  </wsdl:message>
+  <wsdl:message name="IAuthorizationService_ChangeStateCancellationReasons_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ChangeStateCancellationReasonsResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAuthorizationService_SaveAuthorizationSource_InputMessage">
+    <wsdl:part name="parameters" element="tns:SaveAuthorizationSource" />
+  </wsdl:message>
+  <wsdl:message name="IAuthorizationService_SaveAuthorizationSource_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SaveAuthorizationSourceResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAuthorizationService_DeleteAuthorizationSource_InputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteAuthorizationSource" />
+  </wsdl:message>
+  <wsdl:message name="IAuthorizationService_DeleteAuthorizationSource_OutputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteAuthorizationSourceResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAuthorizationService_GetAuthorizationSource_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetAuthorizationSource" />
+  </wsdl:message>
+  <wsdl:message name="IAuthorizationService_GetAuthorizationSource_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetAuthorizationSourceResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAuthorizationService_GetAuthorizationSourceById_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetAuthorizationSourceById" />
+  </wsdl:message>
+  <wsdl:message name="IAuthorizationService_GetAuthorizationSourceById_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetAuthorizationSourceByIdResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAuthorizationService_ChangeStateAuthorizationSource_InputMessage">
+    <wsdl:part name="parameters" element="tns:ChangeStateAuthorizationSource" />
+  </wsdl:message>
+  <wsdl:message name="IAuthorizationService_ChangeStateAuthorizationSource_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ChangeStateAuthorizationSourceResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAuthorizationService_SaveAuthorizationScheduleTemplate_InputMessage">
+    <wsdl:part name="parameters" element="tns:SaveAuthorizationScheduleTemplate" />
+  </wsdl:message>
+  <wsdl:message name="IAuthorizationService_SaveAuthorizationScheduleTemplate_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SaveAuthorizationScheduleTemplateResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAuthorizationService_DeleteAuthorizationScheduleTemplate_InputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteAuthorizationScheduleTemplate" />
+  </wsdl:message>
+  <wsdl:message name="IAuthorizationService_DeleteAuthorizationScheduleTemplate_OutputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteAuthorizationScheduleTemplateResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAuthorizationService_GetAuthorizationScheduleTemplate_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetAuthorizationScheduleTemplate" />
+  </wsdl:message>
+  <wsdl:message name="IAuthorizationService_GetAuthorizationScheduleTemplate_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetAuthorizationScheduleTemplateResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAuthorizationService_GetAuthorizationScheduleTemplateById_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetAuthorizationScheduleTemplateById" />
+  </wsdl:message>
+  <wsdl:message name="IAuthorizationService_GetAuthorizationScheduleTemplateById_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetAuthorizationScheduleTemplateByIdResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAuthorizationService_ChangeStateAuthorizationScheduleTemplate_InputMessage">
+    <wsdl:part name="parameters" element="tns:ChangeStateAuthorizationScheduleTemplate" />
+  </wsdl:message>
+  <wsdl:message name="IAuthorizationService_ChangeStateAuthorizationScheduleTemplate_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ChangeStateAuthorizationScheduleTemplateResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAuthorizationService_SaveAuthorizationPortfolio_InputMessage">
+    <wsdl:part name="parameters" element="tns:SaveAuthorizationPortfolio" />
+  </wsdl:message>
+  <wsdl:message name="IAuthorizationService_SaveAuthorizationPortfolio_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SaveAuthorizationPortfolioResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAuthorizationService_DeleteAuthorizationPortfolio_InputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteAuthorizationPortfolio" />
+  </wsdl:message>
+  <wsdl:message name="IAuthorizationService_DeleteAuthorizationPortfolio_OutputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteAuthorizationPortfolioResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAuthorizationService_GetAuthorizationPortfolio_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetAuthorizationPortfolio" />
+  </wsdl:message>
+  <wsdl:message name="IAuthorizationService_GetAuthorizationPortfolio_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetAuthorizationPortfolioResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAuthorizationService_GetAuthorizationPortfolioById_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetAuthorizationPortfolioById" />
+  </wsdl:message>
+  <wsdl:message name="IAuthorizationService_GetAuthorizationPortfolioById_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetAuthorizationPortfolioByIdResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAuthorizationService_ChangeStateAuthorizationPortfolio_InputMessage">
+    <wsdl:part name="parameters" element="tns:ChangeStateAuthorizationPortfolio" />
+  </wsdl:message>
+  <wsdl:message name="IAuthorizationService_ChangeStateAuthorizationPortfolio_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ChangeStateAuthorizationPortfolioResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAuthorizationService_SP_CopyAndPasteAuthorizationPortfolioCareCenter_InputMessage">
+    <wsdl:part name="parameters" element="tns:SP_CopyAndPasteAuthorizationPortfolioCareCenter" />
+  </wsdl:message>
+  <wsdl:message name="IAuthorizationService_SP_CopyAndPasteAuthorizationPortfolioCareCenter_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SP_CopyAndPasteAuthorizationPortfolioCareCenterResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAuthorizationService_SP_CopyAndPasteAuthorizationPortfolioCUPSEntity_InputMessage">
+    <wsdl:part name="parameters" element="tns:SP_CopyAndPasteAuthorizationPortfolioCUPSEntity" />
+  </wsdl:message>
+  <wsdl:message name="IAuthorizationService_SP_CopyAndPasteAuthorizationPortfolioCUPSEntity_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SP_CopyAndPasteAuthorizationPortfolioCUPSEntityResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAuthorizationService_SP_CopyAndPasteAuthorizationPortfolioInventoryProduct_InputMessage">
+    <wsdl:part name="parameters" element="tns:SP_CopyAndPasteAuthorizationPortfolioInventoryProduct" />
+  </wsdl:message>
+  <wsdl:message name="IAuthorizationService_SP_CopyAndPasteAuthorizationPortfolioInventoryProduct_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SP_CopyAndPasteAuthorizationPortfolioInventoryProductResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAuthorizationService_SaveConfigurationServicesAmbulatory_InputMessage">
+    <wsdl:part name="parameters" element="tns:SaveConfigurationServicesAmbulatory" />
+  </wsdl:message>
+  <wsdl:message name="IAuthorizationService_SaveConfigurationServicesAmbulatory_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SaveConfigurationServicesAmbulatoryResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAuthorizationService_DeleteConfigurationServicesAmbulatory_InputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteConfigurationServicesAmbulatory" />
+  </wsdl:message>
+  <wsdl:message name="IAuthorizationService_DeleteConfigurationServicesAmbulatory_OutputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteConfigurationServicesAmbulatoryResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAuthorizationService_GetConfigurationServicesAmbulatoryById_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetConfigurationServicesAmbulatoryById" />
+  </wsdl:message>
+  <wsdl:message name="IAuthorizationService_GetConfigurationServicesAmbulatoryById_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetConfigurationServicesAmbulatoryByIdResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAuthorizationService_SaveAuthorizationSchedule_InputMessage">
+    <wsdl:part name="parameters" element="tns:SaveAuthorizationSchedule" />
+  </wsdl:message>
+  <wsdl:message name="IAuthorizationService_SaveAuthorizationSchedule_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SaveAuthorizationScheduleResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAuthorizationService_DeleteAuthorizationSchedule_InputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteAuthorizationSchedule" />
+  </wsdl:message>
+  <wsdl:message name="IAuthorizationService_DeleteAuthorizationSchedule_OutputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteAuthorizationScheduleResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAuthorizationService_GetAuthorizationScheduleById_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetAuthorizationScheduleById" />
+  </wsdl:message>
+  <wsdl:message name="IAuthorizationService_GetAuthorizationScheduleById_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetAuthorizationScheduleByIdResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAuthorizationService_GetTraceabilityPaperworkById_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetTraceabilityPaperworkById" />
+  </wsdl:message>
+  <wsdl:message name="IAuthorizationService_GetTraceabilityPaperworkById_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetTraceabilityPaperworkByIdResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAuthorizationService_AssignTraceabilityPaperwork_InputMessage">
+    <wsdl:part name="parameters" element="tns:AssignTraceabilityPaperwork" />
+  </wsdl:message>
+  <wsdl:message name="IAuthorizationService_AssignTraceabilityPaperwork_OutputMessage">
+    <wsdl:part name="parameters" element="tns:AssignTraceabilityPaperworkResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAuthorizationService_SaveTraceabilityPaperwork_InputMessage">
+    <wsdl:part name="parameters" element="tns:SaveTraceabilityPaperwork" />
+  </wsdl:message>
+  <wsdl:message name="IAuthorizationService_SaveTraceabilityPaperwork_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SaveTraceabilityPaperworkResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAuthorizationService_SP_SaveAcceptanceAuthorization_InputMessage">
+    <wsdl:part name="parameters" element="tns:SP_SaveAcceptanceAuthorization" />
+  </wsdl:message>
+  <wsdl:message name="IAuthorizationService_SP_SaveAcceptanceAuthorization_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SP_SaveAcceptanceAuthorizationResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAuthorizationService_DeleteTraceabilityPaperwork_InputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteTraceabilityPaperwork" />
+  </wsdl:message>
+  <wsdl:message name="IAuthorizationService_DeleteTraceabilityPaperwork_OutputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteTraceabilityPaperworkResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAuthorizationService_GetManagementMedicalOrderById_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetManagementMedicalOrderById" />
+  </wsdl:message>
+  <wsdl:message name="IAuthorizationService_GetManagementMedicalOrderById_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetManagementMedicalOrderByIdResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAuthorizationService_SaveManagementMedicalOrder_InputMessage">
+    <wsdl:part name="parameters" element="tns:SaveManagementMedicalOrder" />
+  </wsdl:message>
+  <wsdl:message name="IAuthorizationService_SaveManagementMedicalOrder_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SaveManagementMedicalOrderResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAuthorizationService_SaveManagementMedicalOrderWithdrawal_InputMessage">
+    <wsdl:part name="parameters" element="tns:SaveManagementMedicalOrderWithdrawal" />
+  </wsdl:message>
+  <wsdl:message name="IAuthorizationService_SaveManagementMedicalOrderWithdrawal_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SaveManagementMedicalOrderWithdrawalResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAuthorizationService_SP_SaveContractCoverage_InputMessage">
+    <wsdl:part name="parameters" element="tns:SP_SaveContractCoverage" />
+  </wsdl:message>
+  <wsdl:message name="IAuthorizationService_SP_SaveContractCoverage_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SP_SaveContractCoverageResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAuthorizationService_GetSettingsAuthorization_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetSettingsAuthorization" />
+  </wsdl:message>
+  <wsdl:message name="IAuthorizationService_GetSettingsAuthorization_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetSettingsAuthorizationResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAuthorizationService_SaveSettingsAuthorization_InputMessage">
+    <wsdl:part name="parameters" element="tns:SaveSettingsAuthorization" />
+  </wsdl:message>
+  <wsdl:message name="IAuthorizationService_SaveSettingsAuthorization_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SaveSettingsAuthorizationResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAuthorizationService_SaveAuthorizationOutsourcedServices_InputMessage">
+    <wsdl:part name="parameters" element="tns:SaveAuthorizationOutsourcedServices" />
+  </wsdl:message>
+  <wsdl:message name="IAuthorizationService_SaveAuthorizationOutsourcedServices_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SaveAuthorizationOutsourcedServicesResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAuthorizationService_GetAuthorizationOutsourcedServices_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetAuthorizationOutsourcedServices" />
+  </wsdl:message>
+  <wsdl:message name="IAuthorizationService_GetAuthorizationOutsourcedServices_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetAuthorizationOutsourcedServicesResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAuthorizationService_GetAuthorizationOutsourcedServicesById_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetAuthorizationOutsourcedServicesById" />
+  </wsdl:message>
+  <wsdl:message name="IAuthorizationService_GetAuthorizationOutsourcedServicesById_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetAuthorizationOutsourcedServicesByIdResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAuthorizationService_GetReportRequests_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetReportRequests" />
+  </wsdl:message>
+  <wsdl:message name="IAuthorizationService_GetReportRequests_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetReportRequestsResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAuthorizationService_SaveAuthorizationRejection_InputMessage">
+    <wsdl:part name="parameters" element="tns:SaveAuthorizationRejection" />
+  </wsdl:message>
+  <wsdl:message name="IAuthorizationService_SaveAuthorizationRejection_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SaveAuthorizationRejectionResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAuthorizationService_DeleteAuthorizationRejection_InputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteAuthorizationRejection" />
+  </wsdl:message>
+  <wsdl:message name="IAuthorizationService_DeleteAuthorizationRejection_OutputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteAuthorizationRejectionResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAuthorizationService_GetAuthorizationRejection_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetAuthorizationRejection" />
+  </wsdl:message>
+  <wsdl:message name="IAuthorizationService_GetAuthorizationRejection_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetAuthorizationRejectionResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAuthorizationService_GetAuthorizationRejectionById_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetAuthorizationRejectionById" />
+  </wsdl:message>
+  <wsdl:message name="IAuthorizationService_GetAuthorizationRejectionById_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetAuthorizationRejectionByIdResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAuthorizationService_ChangeStateAuthorizationRejection_InputMessage">
+    <wsdl:part name="parameters" element="tns:ChangeStateAuthorizationRejection" />
+  </wsdl:message>
+  <wsdl:message name="IAuthorizationService_ChangeStateAuthorizationRejection_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ChangeStateAuthorizationRejectionResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAuthorizationService_GetPostponementReasonsById_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetPostponementReasonsById" />
+  </wsdl:message>
+  <wsdl:message name="IAuthorizationService_GetPostponementReasonsById_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetPostponementReasonsByIdResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAuthorizationService_GetPostponementReasons_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetPostponementReasons" />
+  </wsdl:message>
+  <wsdl:message name="IAuthorizationService_GetPostponementReasons_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetPostponementReasonsResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAuthorizationService_SavePostponementReasons_InputMessage">
+    <wsdl:part name="parameters" element="tns:SavePostponementReasons" />
+  </wsdl:message>
+  <wsdl:message name="IAuthorizationService_SavePostponementReasons_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SavePostponementReasonsResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAuthorizationService_ChangeStatePostponementReasons_InputMessage">
+    <wsdl:part name="parameters" element="tns:ChangeStatePostponementReasons" />
+  </wsdl:message>
+  <wsdl:message name="IAuthorizationService_ChangeStatePostponementReasons_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ChangeStatePostponementReasonsResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAuthorizationService_DeletePostponementReasons_InputMessage">
+    <wsdl:part name="parameters" element="tns:DeletePostponementReasons" />
+  </wsdl:message>
+  <wsdl:message name="IAuthorizationService_DeletePostponementReasons_OutputMessage">
+    <wsdl:part name="parameters" element="tns:DeletePostponementReasonsResponse" />
+  </wsdl:message>
+  <wsdl:portType name="IAuthorizationService">
+    <wsdl:operation name="GetBlockRecordAuthorizationByIdformAndIdRecord">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAuthorizationBlockRecordAuthorization/GetBlockRecordAuthorizationByIdformAndIdRecord" message="tns:IAuthorizationService_GetBlockRecordAuthorizationByIdformAndIdRecord_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAuthorizationBlockRecordAuthorization/GetBlockRecordAuthorizationByIdformAndIdRecordResponse" message="tns:IAuthorizationService_GetBlockRecordAuthorizationByIdformAndIdRecord_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SaveBlockRecordAuthorization">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAuthorizationBlockRecordAuthorization/SaveBlockRecordAuthorization" message="tns:IAuthorizationService_SaveBlockRecordAuthorization_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAuthorizationBlockRecordAuthorization/SaveBlockRecordAuthorizationResponse" message="tns:IAuthorizationService_SaveBlockRecordAuthorization_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="DeleteBlockRecordAuthorization">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAuthorizationBlockRecordAuthorization/DeleteBlockRecordAuthorization" message="tns:IAuthorizationService_DeleteBlockRecordAuthorization_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAuthorizationBlockRecordAuthorization/DeleteBlockRecordAuthorizationResponse" message="tns:IAuthorizationService_DeleteBlockRecordAuthorization_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetSequenseByIdForm">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAuthorizationSequence/GetSequenseByIdForm" message="tns:IAuthorizationService_GetSequenseByIdForm_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAuthorizationSequence/GetSequenseByIdFormResponse" message="tns:IAuthorizationService_GetSequenseByIdForm_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetNumericSequenseGroupById">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAuthorizationSequence/GetNumericSequenseGroupById" message="tns:IAuthorizationService_GetNumericSequenseGroupById_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAuthorizationSequence/GetNumericSequenseGroupByIdResponse" message="tns:IAuthorizationService_GetNumericSequenseGroupById_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SaveSequence">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAuthorizationSequence/SaveSequence" message="tns:IAuthorizationService_SaveSequence_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAuthorizationSequence/SaveSequenceResponse" message="tns:IAuthorizationService_SaveSequence_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SaveAuthorizationGroup">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAuthorizationServiceAuthorizationGroup/SaveAuthorizationGroup" message="tns:IAuthorizationService_SaveAuthorizationGroup_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAuthorizationServiceAuthorizationGroup/SaveAuthorizationGroupResponse" message="tns:IAuthorizationService_SaveAuthorizationGroup_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="DeleteAuthorizationGroup">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAuthorizationServiceAuthorizationGroup/DeleteAuthorizationGroup" message="tns:IAuthorizationService_DeleteAuthorizationGroup_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAuthorizationServiceAuthorizationGroup/DeleteAuthorizationGroupResponse" message="tns:IAuthorizationService_DeleteAuthorizationGroup_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAuthorizationGroup">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAuthorizationServiceAuthorizationGroup/GetAuthorizationGroup" message="tns:IAuthorizationService_GetAuthorizationGroup_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAuthorizationServiceAuthorizationGroup/GetAuthorizationGroupResponse" message="tns:IAuthorizationService_GetAuthorizationGroup_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAuthorizationGroupById">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAuthorizationServiceAuthorizationGroup/GetAuthorizationGroupById" message="tns:IAuthorizationService_GetAuthorizationGroupById_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAuthorizationServiceAuthorizationGroup/GetAuthorizationGroupByIdResponse" message="tns:IAuthorizationService_GetAuthorizationGroupById_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ChangeStateAuthorizationGroup">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAuthorizationServiceAuthorizationGroup/ChangeStateAuthorizationGroup" message="tns:IAuthorizationService_ChangeStateAuthorizationGroup_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAuthorizationServiceAuthorizationGroup/ChangeStateAuthorizationGroupResponse" message="tns:IAuthorizationService_ChangeStateAuthorizationGroup_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SaveCancellationReasons">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAuthorizationServiceCancellationReasons/SaveCancellationReasons" message="tns:IAuthorizationService_SaveCancellationReasons_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAuthorizationServiceCancellationReasons/SaveCancellationReasonsResponse" message="tns:IAuthorizationService_SaveCancellationReasons_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="DeleteCancellationReasons">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAuthorizationServiceCancellationReasons/DeleteCancellationReasons" message="tns:IAuthorizationService_DeleteCancellationReasons_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAuthorizationServiceCancellationReasons/DeleteCancellationReasonsResponse" message="tns:IAuthorizationService_DeleteCancellationReasons_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetCancellationReasons">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAuthorizationServiceCancellationReasons/GetCancellationReasons" message="tns:IAuthorizationService_GetCancellationReasons_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAuthorizationServiceCancellationReasons/GetCancellationReasonsResponse" message="tns:IAuthorizationService_GetCancellationReasons_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetCancellationReasonsById">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAuthorizationServiceCancellationReasons/GetCancellationReasonsById" message="tns:IAuthorizationService_GetCancellationReasonsById_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAuthorizationServiceCancellationReasons/GetCancellationReasonsByIdResponse" message="tns:IAuthorizationService_GetCancellationReasonsById_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ChangeStateCancellationReasons">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAuthorizationServiceCancellationReasons/ChangeStateCancellationReasons" message="tns:IAuthorizationService_ChangeStateCancellationReasons_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAuthorizationServiceCancellationReasons/ChangeStateCancellationReasonsResponse" message="tns:IAuthorizationService_ChangeStateCancellationReasons_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SaveAuthorizationSource">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAuthorizationServiceAuthorizationSource/SaveAuthorizationSource" message="tns:IAuthorizationService_SaveAuthorizationSource_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAuthorizationServiceAuthorizationSource/SaveAuthorizationSourceResponse" message="tns:IAuthorizationService_SaveAuthorizationSource_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="DeleteAuthorizationSource">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAuthorizationServiceAuthorizationSource/DeleteAuthorizationSource" message="tns:IAuthorizationService_DeleteAuthorizationSource_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAuthorizationServiceAuthorizationSource/DeleteAuthorizationSourceResponse" message="tns:IAuthorizationService_DeleteAuthorizationSource_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAuthorizationSource">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAuthorizationServiceAuthorizationSource/GetAuthorizationSource" message="tns:IAuthorizationService_GetAuthorizationSource_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAuthorizationServiceAuthorizationSource/GetAuthorizationSourceResponse" message="tns:IAuthorizationService_GetAuthorizationSource_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAuthorizationSourceById">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAuthorizationServiceAuthorizationSource/GetAuthorizationSourceById" message="tns:IAuthorizationService_GetAuthorizationSourceById_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAuthorizationServiceAuthorizationSource/GetAuthorizationSourceByIdResponse" message="tns:IAuthorizationService_GetAuthorizationSourceById_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ChangeStateAuthorizationSource">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAuthorizationServiceAuthorizationSource/ChangeStateAuthorizationSource" message="tns:IAuthorizationService_ChangeStateAuthorizationSource_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAuthorizationServiceAuthorizationSource/ChangeStateAuthorizationSourceResponse" message="tns:IAuthorizationService_ChangeStateAuthorizationSource_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SaveAuthorizationScheduleTemplate">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAuthorizationServiceAuthorizationScheduleTemplate/SaveAuthorizationScheduleTemplate" message="tns:IAuthorizationService_SaveAuthorizationScheduleTemplate_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAuthorizationServiceAuthorizationScheduleTemplate/SaveAuthorizationScheduleTemplateResponse" message="tns:IAuthorizationService_SaveAuthorizationScheduleTemplate_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="DeleteAuthorizationScheduleTemplate">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAuthorizationServiceAuthorizationScheduleTemplate/DeleteAuthorizationScheduleTemplate" message="tns:IAuthorizationService_DeleteAuthorizationScheduleTemplate_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAuthorizationServiceAuthorizationScheduleTemplate/DeleteAuthorizationScheduleTemplateResponse" message="tns:IAuthorizationService_DeleteAuthorizationScheduleTemplate_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAuthorizationScheduleTemplate">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAuthorizationServiceAuthorizationScheduleTemplate/GetAuthorizationScheduleTemplate" message="tns:IAuthorizationService_GetAuthorizationScheduleTemplate_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAuthorizationServiceAuthorizationScheduleTemplate/GetAuthorizationScheduleTemplateResponse" message="tns:IAuthorizationService_GetAuthorizationScheduleTemplate_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAuthorizationScheduleTemplateById">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAuthorizationServiceAuthorizationScheduleTemplate/GetAuthorizationScheduleTemplateById" message="tns:IAuthorizationService_GetAuthorizationScheduleTemplateById_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAuthorizationServiceAuthorizationScheduleTemplate/GetAuthorizationScheduleTemplateByIdResponse" message="tns:IAuthorizationService_GetAuthorizationScheduleTemplateById_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ChangeStateAuthorizationScheduleTemplate">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAuthorizationServiceAuthorizationScheduleTemplate/ChangeStateAuthorizationScheduleTemplate" message="tns:IAuthorizationService_ChangeStateAuthorizationScheduleTemplate_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAuthorizationServiceAuthorizationScheduleTemplate/ChangeStateAuthorizationScheduleTemplateResponse" message="tns:IAuthorizationService_ChangeStateAuthorizationScheduleTemplate_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SaveAuthorizationPortfolio">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAuthorizationServiceAuthorizationPortfolio/SaveAuthorizationPortfolio" message="tns:IAuthorizationService_SaveAuthorizationPortfolio_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAuthorizationServiceAuthorizationPortfolio/SaveAuthorizationPortfolioResponse" message="tns:IAuthorizationService_SaveAuthorizationPortfolio_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="DeleteAuthorizationPortfolio">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAuthorizationServiceAuthorizationPortfolio/DeleteAuthorizationPortfolio" message="tns:IAuthorizationService_DeleteAuthorizationPortfolio_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAuthorizationServiceAuthorizationPortfolio/DeleteAuthorizationPortfolioResponse" message="tns:IAuthorizationService_DeleteAuthorizationPortfolio_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAuthorizationPortfolio">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAuthorizationServiceAuthorizationPortfolio/GetAuthorizationPortfolio" message="tns:IAuthorizationService_GetAuthorizationPortfolio_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAuthorizationServiceAuthorizationPortfolio/GetAuthorizationPortfolioResponse" message="tns:IAuthorizationService_GetAuthorizationPortfolio_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAuthorizationPortfolioById">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAuthorizationServiceAuthorizationPortfolio/GetAuthorizationPortfolioById" message="tns:IAuthorizationService_GetAuthorizationPortfolioById_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAuthorizationServiceAuthorizationPortfolio/GetAuthorizationPortfolioByIdResponse" message="tns:IAuthorizationService_GetAuthorizationPortfolioById_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ChangeStateAuthorizationPortfolio">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAuthorizationServiceAuthorizationPortfolio/ChangeStateAuthorizationPortfolio" message="tns:IAuthorizationService_ChangeStateAuthorizationPortfolio_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAuthorizationServiceAuthorizationPortfolio/ChangeStateAuthorizationPortfolioResponse" message="tns:IAuthorizationService_ChangeStateAuthorizationPortfolio_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SP_CopyAndPasteAuthorizationPortfolioCareCenter">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAuthorizationServiceAuthorizationPortfolio/SP_CopyAndPasteAuthorizationPortfolioCareCenter" message="tns:IAuthorizationService_SP_CopyAndPasteAuthorizationPortfolioCareCenter_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAuthorizationServiceAuthorizationPortfolio/SP_CopyAndPasteAuthorizationPortfolioCareCenterResponse" message="tns:IAuthorizationService_SP_CopyAndPasteAuthorizationPortfolioCareCenter_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SP_CopyAndPasteAuthorizationPortfolioCUPSEntity">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAuthorizationServiceAuthorizationPortfolio/SP_CopyAndPasteAuthorizationPortfolioCUPSEntity" message="tns:IAuthorizationService_SP_CopyAndPasteAuthorizationPortfolioCUPSEntity_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAuthorizationServiceAuthorizationPortfolio/SP_CopyAndPasteAuthorizationPortfolioCUPSEntityResponse" message="tns:IAuthorizationService_SP_CopyAndPasteAuthorizationPortfolioCUPSEntity_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SP_CopyAndPasteAuthorizationPortfolioInventoryProduct">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAuthorizationServiceAuthorizationPortfolio/SP_CopyAndPasteAuthorizationPortfolioInventoryProduct" message="tns:IAuthorizationService_SP_CopyAndPasteAuthorizationPortfolioInventoryProduct_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAuthorizationServiceAuthorizationPortfolio/SP_CopyAndPasteAuthorizationPortfolioInventoryProductResponse" message="tns:IAuthorizationService_SP_CopyAndPasteAuthorizationPortfolioInventoryProduct_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SaveConfigurationServicesAmbulatory">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAuthorizationServiceConfigurationServicesAmbulatory/SaveConfigurationServicesAmbulatory" message="tns:IAuthorizationService_SaveConfigurationServicesAmbulatory_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAuthorizationServiceConfigurationServicesAmbulatory/SaveConfigurationServicesAmbulatoryResponse" message="tns:IAuthorizationService_SaveConfigurationServicesAmbulatory_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="DeleteConfigurationServicesAmbulatory">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAuthorizationServiceConfigurationServicesAmbulatory/DeleteConfigurationServicesAmbulatory" message="tns:IAuthorizationService_DeleteConfigurationServicesAmbulatory_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAuthorizationServiceConfigurationServicesAmbulatory/DeleteConfigurationServicesAmbulatoryResponse" message="tns:IAuthorizationService_DeleteConfigurationServicesAmbulatory_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetConfigurationServicesAmbulatoryById">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAuthorizationServiceConfigurationServicesAmbulatory/GetConfigurationServicesAmbulatoryById" message="tns:IAuthorizationService_GetConfigurationServicesAmbulatoryById_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAuthorizationServiceConfigurationServicesAmbulatory/GetConfigurationServicesAmbulatoryByIdResponse" message="tns:IAuthorizationService_GetConfigurationServicesAmbulatoryById_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SaveAuthorizationSchedule">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAuthorizationServiceAuthorizationSchedule/SaveAuthorizationSchedule" message="tns:IAuthorizationService_SaveAuthorizationSchedule_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAuthorizationServiceAuthorizationSchedule/SaveAuthorizationScheduleResponse" message="tns:IAuthorizationService_SaveAuthorizationSchedule_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="DeleteAuthorizationSchedule">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAuthorizationServiceAuthorizationSchedule/DeleteAuthorizationSchedule" message="tns:IAuthorizationService_DeleteAuthorizationSchedule_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAuthorizationServiceAuthorizationSchedule/DeleteAuthorizationScheduleResponse" message="tns:IAuthorizationService_DeleteAuthorizationSchedule_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAuthorizationScheduleById">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAuthorizationServiceAuthorizationSchedule/GetAuthorizationScheduleById" message="tns:IAuthorizationService_GetAuthorizationScheduleById_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAuthorizationServiceAuthorizationSchedule/GetAuthorizationScheduleByIdResponse" message="tns:IAuthorizationService_GetAuthorizationScheduleById_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetTraceabilityPaperworkById">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAuthorizationServiceTraceabilityPaperwork/GetTraceabilityPaperworkById" message="tns:IAuthorizationService_GetTraceabilityPaperworkById_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAuthorizationServiceTraceabilityPaperwork/GetTraceabilityPaperworkByIdResponse" message="tns:IAuthorizationService_GetTraceabilityPaperworkById_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="AssignTraceabilityPaperwork">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAuthorizationServiceTraceabilityPaperwork/AssignTraceabilityPaperwork" message="tns:IAuthorizationService_AssignTraceabilityPaperwork_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAuthorizationServiceTraceabilityPaperwork/AssignTraceabilityPaperworkResponse" message="tns:IAuthorizationService_AssignTraceabilityPaperwork_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SaveTraceabilityPaperwork">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAuthorizationServiceTraceabilityPaperwork/SaveTraceabilityPaperwork" message="tns:IAuthorizationService_SaveTraceabilityPaperwork_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAuthorizationServiceTraceabilityPaperwork/SaveTraceabilityPaperworkResponse" message="tns:IAuthorizationService_SaveTraceabilityPaperwork_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SP_SaveAcceptanceAuthorization">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAuthorizationServiceTraceabilityPaperwork/SP_SaveAcceptanceAuthorization" message="tns:IAuthorizationService_SP_SaveAcceptanceAuthorization_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAuthorizationServiceTraceabilityPaperwork/SP_SaveAcceptanceAuthorizationResponse" message="tns:IAuthorizationService_SP_SaveAcceptanceAuthorization_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="DeleteTraceabilityPaperwork">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAuthorizationServiceTraceabilityPaperwork/DeleteTraceabilityPaperwork" message="tns:IAuthorizationService_DeleteTraceabilityPaperwork_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAuthorizationServiceTraceabilityPaperwork/DeleteTraceabilityPaperworkResponse" message="tns:IAuthorizationService_DeleteTraceabilityPaperwork_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetManagementMedicalOrderById">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAuthorizationServiceManagementMedicalOrder/GetManagementMedicalOrderById" message="tns:IAuthorizationService_GetManagementMedicalOrderById_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAuthorizationServiceManagementMedicalOrder/GetManagementMedicalOrderByIdResponse" message="tns:IAuthorizationService_GetManagementMedicalOrderById_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SaveManagementMedicalOrder">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAuthorizationServiceManagementMedicalOrder/SaveManagementMedicalOrder" message="tns:IAuthorizationService_SaveManagementMedicalOrder_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAuthorizationServiceManagementMedicalOrder/SaveManagementMedicalOrderResponse" message="tns:IAuthorizationService_SaveManagementMedicalOrder_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SaveManagementMedicalOrderWithdrawal">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAuthorizationServiceManagementMedicalOrder/SaveManagementMedicalOrderWithdrawal" message="tns:IAuthorizationService_SaveManagementMedicalOrderWithdrawal_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAuthorizationServiceManagementMedicalOrder/SaveManagementMedicalOrderWithdrawalResponse" message="tns:IAuthorizationService_SaveManagementMedicalOrderWithdrawal_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SP_SaveContractCoverage">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAuthorizationServiceDashboardContractCoverage/SP_SaveContractCoverage" message="tns:IAuthorizationService_SP_SaveContractCoverage_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAuthorizationServiceDashboardContractCoverage/SP_SaveContractCoverageResponse" message="tns:IAuthorizationService_SP_SaveContractCoverage_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetSettingsAuthorization">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAuthorizationServiceSettingsAuthorization/GetSettingsAuthorization" message="tns:IAuthorizationService_GetSettingsAuthorization_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAuthorizationServiceSettingsAuthorization/GetSettingsAuthorizationResponse" message="tns:IAuthorizationService_GetSettingsAuthorization_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SaveSettingsAuthorization">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAuthorizationServiceSettingsAuthorization/SaveSettingsAuthorization" message="tns:IAuthorizationService_SaveSettingsAuthorization_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAuthorizationServiceSettingsAuthorization/SaveSettingsAuthorizationResponse" message="tns:IAuthorizationService_SaveSettingsAuthorization_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SaveAuthorizationOutsourcedServices">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAuthorizationServiceAuthorizationOutsourcedServices/SaveAuthorizationOutsourcedServices" message="tns:IAuthorizationService_SaveAuthorizationOutsourcedServices_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAuthorizationServiceAuthorizationOutsourcedServices/SaveAuthorizationOutsourcedServicesResponse" message="tns:IAuthorizationService_SaveAuthorizationOutsourcedServices_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAuthorizationOutsourcedServices">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAuthorizationServiceAuthorizationOutsourcedServices/GetAuthorizationOutsourcedServices" message="tns:IAuthorizationService_GetAuthorizationOutsourcedServices_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAuthorizationServiceAuthorizationOutsourcedServices/GetAuthorizationOutsourcedServicesResponse" message="tns:IAuthorizationService_GetAuthorizationOutsourcedServices_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAuthorizationOutsourcedServicesById">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAuthorizationServiceAuthorizationOutsourcedServices/GetAuthorizationOutsourcedServicesById" message="tns:IAuthorizationService_GetAuthorizationOutsourcedServicesById_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAuthorizationServiceAuthorizationOutsourcedServices/GetAuthorizationOutsourcedServicesByIdResponse" message="tns:IAuthorizationService_GetAuthorizationOutsourcedServicesById_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetReportRequests">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAuthorizationServiceReports/GetReportRequests" message="tns:IAuthorizationService_GetReportRequests_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAuthorizationServiceReports/GetReportRequestsResponse" message="tns:IAuthorizationService_GetReportRequests_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SaveAuthorizationRejection">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAuthorizationServiceAuthorizationRejection/SaveAuthorizationRejection" message="tns:IAuthorizationService_SaveAuthorizationRejection_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAuthorizationServiceAuthorizationRejection/SaveAuthorizationRejectionResponse" message="tns:IAuthorizationService_SaveAuthorizationRejection_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="DeleteAuthorizationRejection">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAuthorizationServiceAuthorizationRejection/DeleteAuthorizationRejection" message="tns:IAuthorizationService_DeleteAuthorizationRejection_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAuthorizationServiceAuthorizationRejection/DeleteAuthorizationRejectionResponse" message="tns:IAuthorizationService_DeleteAuthorizationRejection_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAuthorizationRejection">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAuthorizationServiceAuthorizationRejection/GetAuthorizationRejection" message="tns:IAuthorizationService_GetAuthorizationRejection_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAuthorizationServiceAuthorizationRejection/GetAuthorizationRejectionResponse" message="tns:IAuthorizationService_GetAuthorizationRejection_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAuthorizationRejectionById">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAuthorizationServiceAuthorizationRejection/GetAuthorizationRejectionById" message="tns:IAuthorizationService_GetAuthorizationRejectionById_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAuthorizationServiceAuthorizationRejection/GetAuthorizationRejectionByIdResponse" message="tns:IAuthorizationService_GetAuthorizationRejectionById_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ChangeStateAuthorizationRejection">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAuthorizationServiceAuthorizationRejection/ChangeStateAuthorizationRejection" message="tns:IAuthorizationService_ChangeStateAuthorizationRejection_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAuthorizationServiceAuthorizationRejection/ChangeStateAuthorizationRejectionResponse" message="tns:IAuthorizationService_ChangeStateAuthorizationRejection_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetPostponementReasonsById">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAuthorizationServicePostponementReasons/GetPostponementReasonsById" message="tns:IAuthorizationService_GetPostponementReasonsById_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAuthorizationServicePostponementReasons/GetPostponementReasonsByIdResponse" message="tns:IAuthorizationService_GetPostponementReasonsById_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetPostponementReasons">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAuthorizationServicePostponementReasons/GetPostponementReasons" message="tns:IAuthorizationService_GetPostponementReasons_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAuthorizationServicePostponementReasons/GetPostponementReasonsResponse" message="tns:IAuthorizationService_GetPostponementReasons_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SavePostponementReasons">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAuthorizationServicePostponementReasons/SavePostponementReasons" message="tns:IAuthorizationService_SavePostponementReasons_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAuthorizationServicePostponementReasons/SavePostponementReasonsResponse" message="tns:IAuthorizationService_SavePostponementReasons_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ChangeStatePostponementReasons">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAuthorizationServicePostponementReasons/ChangeStatePostponementReasons" message="tns:IAuthorizationService_ChangeStatePostponementReasons_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAuthorizationServicePostponementReasons/ChangeStatePostponementReasonsResponse" message="tns:IAuthorizationService_ChangeStatePostponementReasons_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="DeletePostponementReasons">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAuthorizationServicePostponementReasons/DeletePostponementReasons" message="tns:IAuthorizationService_DeletePostponementReasons_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAuthorizationServicePostponementReasons/DeletePostponementReasonsResponse" message="tns:IAuthorizationService_DeletePostponementReasons_OutputMessage" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="basicHttp_Endpoint_Authorization" type="tns:IAuthorizationService">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="GetBlockRecordAuthorizationByIdformAndIdRecord">
+      <soap:operation soapAction="http://tempuri.org/IAuthorizationBlockRecordAuthorization/GetBlockRecordAuthorizationByIdformAndIdRecord" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveBlockRecordAuthorization">
+      <soap:operation soapAction="http://tempuri.org/IAuthorizationBlockRecordAuthorization/SaveBlockRecordAuthorization" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteBlockRecordAuthorization">
+      <soap:operation soapAction="http://tempuri.org/IAuthorizationBlockRecordAuthorization/DeleteBlockRecordAuthorization" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetSequenseByIdForm">
+      <soap:operation soapAction="http://tempuri.org/IAuthorizationSequence/GetSequenseByIdForm" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetNumericSequenseGroupById">
+      <soap:operation soapAction="http://tempuri.org/IAuthorizationSequence/GetNumericSequenseGroupById" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveSequence">
+      <soap:operation soapAction="http://tempuri.org/IAuthorizationSequence/SaveSequence" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveAuthorizationGroup">
+      <soap:operation soapAction="http://tempuri.org/IAuthorizationServiceAuthorizationGroup/SaveAuthorizationGroup" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteAuthorizationGroup">
+      <soap:operation soapAction="http://tempuri.org/IAuthorizationServiceAuthorizationGroup/DeleteAuthorizationGroup" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAuthorizationGroup">
+      <soap:operation soapAction="http://tempuri.org/IAuthorizationServiceAuthorizationGroup/GetAuthorizationGroup" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAuthorizationGroupById">
+      <soap:operation soapAction="http://tempuri.org/IAuthorizationServiceAuthorizationGroup/GetAuthorizationGroupById" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ChangeStateAuthorizationGroup">
+      <soap:operation soapAction="http://tempuri.org/IAuthorizationServiceAuthorizationGroup/ChangeStateAuthorizationGroup" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveCancellationReasons">
+      <soap:operation soapAction="http://tempuri.org/IAuthorizationServiceCancellationReasons/SaveCancellationReasons" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteCancellationReasons">
+      <soap:operation soapAction="http://tempuri.org/IAuthorizationServiceCancellationReasons/DeleteCancellationReasons" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCancellationReasons">
+      <soap:operation soapAction="http://tempuri.org/IAuthorizationServiceCancellationReasons/GetCancellationReasons" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCancellationReasonsById">
+      <soap:operation soapAction="http://tempuri.org/IAuthorizationServiceCancellationReasons/GetCancellationReasonsById" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ChangeStateCancellationReasons">
+      <soap:operation soapAction="http://tempuri.org/IAuthorizationServiceCancellationReasons/ChangeStateCancellationReasons" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveAuthorizationSource">
+      <soap:operation soapAction="http://tempuri.org/IAuthorizationServiceAuthorizationSource/SaveAuthorizationSource" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteAuthorizationSource">
+      <soap:operation soapAction="http://tempuri.org/IAuthorizationServiceAuthorizationSource/DeleteAuthorizationSource" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAuthorizationSource">
+      <soap:operation soapAction="http://tempuri.org/IAuthorizationServiceAuthorizationSource/GetAuthorizationSource" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAuthorizationSourceById">
+      <soap:operation soapAction="http://tempuri.org/IAuthorizationServiceAuthorizationSource/GetAuthorizationSourceById" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ChangeStateAuthorizationSource">
+      <soap:operation soapAction="http://tempuri.org/IAuthorizationServiceAuthorizationSource/ChangeStateAuthorizationSource" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveAuthorizationScheduleTemplate">
+      <soap:operation soapAction="http://tempuri.org/IAuthorizationServiceAuthorizationScheduleTemplate/SaveAuthorizationScheduleTemplate" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteAuthorizationScheduleTemplate">
+      <soap:operation soapAction="http://tempuri.org/IAuthorizationServiceAuthorizationScheduleTemplate/DeleteAuthorizationScheduleTemplate" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAuthorizationScheduleTemplate">
+      <soap:operation soapAction="http://tempuri.org/IAuthorizationServiceAuthorizationScheduleTemplate/GetAuthorizationScheduleTemplate" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAuthorizationScheduleTemplateById">
+      <soap:operation soapAction="http://tempuri.org/IAuthorizationServiceAuthorizationScheduleTemplate/GetAuthorizationScheduleTemplateById" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ChangeStateAuthorizationScheduleTemplate">
+      <soap:operation soapAction="http://tempuri.org/IAuthorizationServiceAuthorizationScheduleTemplate/ChangeStateAuthorizationScheduleTemplate" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveAuthorizationPortfolio">
+      <soap:operation soapAction="http://tempuri.org/IAuthorizationServiceAuthorizationPortfolio/SaveAuthorizationPortfolio" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteAuthorizationPortfolio">
+      <soap:operation soapAction="http://tempuri.org/IAuthorizationServiceAuthorizationPortfolio/DeleteAuthorizationPortfolio" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAuthorizationPortfolio">
+      <soap:operation soapAction="http://tempuri.org/IAuthorizationServiceAuthorizationPortfolio/GetAuthorizationPortfolio" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAuthorizationPortfolioById">
+      <soap:operation soapAction="http://tempuri.org/IAuthorizationServiceAuthorizationPortfolio/GetAuthorizationPortfolioById" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ChangeStateAuthorizationPortfolio">
+      <soap:operation soapAction="http://tempuri.org/IAuthorizationServiceAuthorizationPortfolio/ChangeStateAuthorizationPortfolio" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SP_CopyAndPasteAuthorizationPortfolioCareCenter">
+      <soap:operation soapAction="http://tempuri.org/IAuthorizationServiceAuthorizationPortfolio/SP_CopyAndPasteAuthorizationPortfolioCareCenter" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SP_CopyAndPasteAuthorizationPortfolioCUPSEntity">
+      <soap:operation soapAction="http://tempuri.org/IAuthorizationServiceAuthorizationPortfolio/SP_CopyAndPasteAuthorizationPortfolioCUPSEntity" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SP_CopyAndPasteAuthorizationPortfolioInventoryProduct">
+      <soap:operation soapAction="http://tempuri.org/IAuthorizationServiceAuthorizationPortfolio/SP_CopyAndPasteAuthorizationPortfolioInventoryProduct" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveConfigurationServicesAmbulatory">
+      <soap:operation soapAction="http://tempuri.org/IAuthorizationServiceConfigurationServicesAmbulatory/SaveConfigurationServicesAmbulatory" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteConfigurationServicesAmbulatory">
+      <soap:operation soapAction="http://tempuri.org/IAuthorizationServiceConfigurationServicesAmbulatory/DeleteConfigurationServicesAmbulatory" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetConfigurationServicesAmbulatoryById">
+      <soap:operation soapAction="http://tempuri.org/IAuthorizationServiceConfigurationServicesAmbulatory/GetConfigurationServicesAmbulatoryById" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveAuthorizationSchedule">
+      <soap:operation soapAction="http://tempuri.org/IAuthorizationServiceAuthorizationSchedule/SaveAuthorizationSchedule" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteAuthorizationSchedule">
+      <soap:operation soapAction="http://tempuri.org/IAuthorizationServiceAuthorizationSchedule/DeleteAuthorizationSchedule" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAuthorizationScheduleById">
+      <soap:operation soapAction="http://tempuri.org/IAuthorizationServiceAuthorizationSchedule/GetAuthorizationScheduleById" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetTraceabilityPaperworkById">
+      <soap:operation soapAction="http://tempuri.org/IAuthorizationServiceTraceabilityPaperwork/GetTraceabilityPaperworkById" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AssignTraceabilityPaperwork">
+      <soap:operation soapAction="http://tempuri.org/IAuthorizationServiceTraceabilityPaperwork/AssignTraceabilityPaperwork" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveTraceabilityPaperwork">
+      <soap:operation soapAction="http://tempuri.org/IAuthorizationServiceTraceabilityPaperwork/SaveTraceabilityPaperwork" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SP_SaveAcceptanceAuthorization">
+      <soap:operation soapAction="http://tempuri.org/IAuthorizationServiceTraceabilityPaperwork/SP_SaveAcceptanceAuthorization" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteTraceabilityPaperwork">
+      <soap:operation soapAction="http://tempuri.org/IAuthorizationServiceTraceabilityPaperwork/DeleteTraceabilityPaperwork" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetManagementMedicalOrderById">
+      <soap:operation soapAction="http://tempuri.org/IAuthorizationServiceManagementMedicalOrder/GetManagementMedicalOrderById" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveManagementMedicalOrder">
+      <soap:operation soapAction="http://tempuri.org/IAuthorizationServiceManagementMedicalOrder/SaveManagementMedicalOrder" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveManagementMedicalOrderWithdrawal">
+      <soap:operation soapAction="http://tempuri.org/IAuthorizationServiceManagementMedicalOrder/SaveManagementMedicalOrderWithdrawal" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SP_SaveContractCoverage">
+      <soap:operation soapAction="http://tempuri.org/IAuthorizationServiceDashboardContractCoverage/SP_SaveContractCoverage" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetSettingsAuthorization">
+      <soap:operation soapAction="http://tempuri.org/IAuthorizationServiceSettingsAuthorization/GetSettingsAuthorization" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveSettingsAuthorization">
+      <soap:operation soapAction="http://tempuri.org/IAuthorizationServiceSettingsAuthorization/SaveSettingsAuthorization" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveAuthorizationOutsourcedServices">
+      <soap:operation soapAction="http://tempuri.org/IAuthorizationServiceAuthorizationOutsourcedServices/SaveAuthorizationOutsourcedServices" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAuthorizationOutsourcedServices">
+      <soap:operation soapAction="http://tempuri.org/IAuthorizationServiceAuthorizationOutsourcedServices/GetAuthorizationOutsourcedServices" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAuthorizationOutsourcedServicesById">
+      <soap:operation soapAction="http://tempuri.org/IAuthorizationServiceAuthorizationOutsourcedServices/GetAuthorizationOutsourcedServicesById" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetReportRequests">
+      <soap:operation soapAction="http://tempuri.org/IAuthorizationServiceReports/GetReportRequests" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveAuthorizationRejection">
+      <soap:operation soapAction="http://tempuri.org/IAuthorizationServiceAuthorizationRejection/SaveAuthorizationRejection" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteAuthorizationRejection">
+      <soap:operation soapAction="http://tempuri.org/IAuthorizationServiceAuthorizationRejection/DeleteAuthorizationRejection" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAuthorizationRejection">
+      <soap:operation soapAction="http://tempuri.org/IAuthorizationServiceAuthorizationRejection/GetAuthorizationRejection" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAuthorizationRejectionById">
+      <soap:operation soapAction="http://tempuri.org/IAuthorizationServiceAuthorizationRejection/GetAuthorizationRejectionById" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ChangeStateAuthorizationRejection">
+      <soap:operation soapAction="http://tempuri.org/IAuthorizationServiceAuthorizationRejection/ChangeStateAuthorizationRejection" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetPostponementReasonsById">
+      <soap:operation soapAction="http://tempuri.org/IAuthorizationServicePostponementReasons/GetPostponementReasonsById" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetPostponementReasons">
+      <soap:operation soapAction="http://tempuri.org/IAuthorizationServicePostponementReasons/GetPostponementReasons" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SavePostponementReasons">
+      <soap:operation soapAction="http://tempuri.org/IAuthorizationServicePostponementReasons/SavePostponementReasons" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ChangeStatePostponementReasons">
+      <soap:operation soapAction="http://tempuri.org/IAuthorizationServicePostponementReasons/ChangeStatePostponementReasons" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeletePostponementReasons">
+      <soap:operation soapAction="http://tempuri.org/IAuthorizationServicePostponementReasons/DeletePostponementReasons" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="basicHttps_Endpoint_Authorization" type="tns:IAuthorizationService">
+    <wsp:PolicyReference URI="#basicHttps_Endpoint_Authorization_policy" />
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="GetBlockRecordAuthorizationByIdformAndIdRecord">
+      <soap:operation soapAction="http://tempuri.org/IAuthorizationBlockRecordAuthorization/GetBlockRecordAuthorizationByIdformAndIdRecord" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveBlockRecordAuthorization">
+      <soap:operation soapAction="http://tempuri.org/IAuthorizationBlockRecordAuthorization/SaveBlockRecordAuthorization" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteBlockRecordAuthorization">
+      <soap:operation soapAction="http://tempuri.org/IAuthorizationBlockRecordAuthorization/DeleteBlockRecordAuthorization" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetSequenseByIdForm">
+      <soap:operation soapAction="http://tempuri.org/IAuthorizationSequence/GetSequenseByIdForm" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetNumericSequenseGroupById">
+      <soap:operation soapAction="http://tempuri.org/IAuthorizationSequence/GetNumericSequenseGroupById" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveSequence">
+      <soap:operation soapAction="http://tempuri.org/IAuthorizationSequence/SaveSequence" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveAuthorizationGroup">
+      <soap:operation soapAction="http://tempuri.org/IAuthorizationServiceAuthorizationGroup/SaveAuthorizationGroup" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteAuthorizationGroup">
+      <soap:operation soapAction="http://tempuri.org/IAuthorizationServiceAuthorizationGroup/DeleteAuthorizationGroup" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAuthorizationGroup">
+      <soap:operation soapAction="http://tempuri.org/IAuthorizationServiceAuthorizationGroup/GetAuthorizationGroup" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAuthorizationGroupById">
+      <soap:operation soapAction="http://tempuri.org/IAuthorizationServiceAuthorizationGroup/GetAuthorizationGroupById" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ChangeStateAuthorizationGroup">
+      <soap:operation soapAction="http://tempuri.org/IAuthorizationServiceAuthorizationGroup/ChangeStateAuthorizationGroup" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveCancellationReasons">
+      <soap:operation soapAction="http://tempuri.org/IAuthorizationServiceCancellationReasons/SaveCancellationReasons" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteCancellationReasons">
+      <soap:operation soapAction="http://tempuri.org/IAuthorizationServiceCancellationReasons/DeleteCancellationReasons" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCancellationReasons">
+      <soap:operation soapAction="http://tempuri.org/IAuthorizationServiceCancellationReasons/GetCancellationReasons" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCancellationReasonsById">
+      <soap:operation soapAction="http://tempuri.org/IAuthorizationServiceCancellationReasons/GetCancellationReasonsById" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ChangeStateCancellationReasons">
+      <soap:operation soapAction="http://tempuri.org/IAuthorizationServiceCancellationReasons/ChangeStateCancellationReasons" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveAuthorizationSource">
+      <soap:operation soapAction="http://tempuri.org/IAuthorizationServiceAuthorizationSource/SaveAuthorizationSource" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteAuthorizationSource">
+      <soap:operation soapAction="http://tempuri.org/IAuthorizationServiceAuthorizationSource/DeleteAuthorizationSource" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAuthorizationSource">
+      <soap:operation soapAction="http://tempuri.org/IAuthorizationServiceAuthorizationSource/GetAuthorizationSource" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAuthorizationSourceById">
+      <soap:operation soapAction="http://tempuri.org/IAuthorizationServiceAuthorizationSource/GetAuthorizationSourceById" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ChangeStateAuthorizationSource">
+      <soap:operation soapAction="http://tempuri.org/IAuthorizationServiceAuthorizationSource/ChangeStateAuthorizationSource" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveAuthorizationScheduleTemplate">
+      <soap:operation soapAction="http://tempuri.org/IAuthorizationServiceAuthorizationScheduleTemplate/SaveAuthorizationScheduleTemplate" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteAuthorizationScheduleTemplate">
+      <soap:operation soapAction="http://tempuri.org/IAuthorizationServiceAuthorizationScheduleTemplate/DeleteAuthorizationScheduleTemplate" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAuthorizationScheduleTemplate">
+      <soap:operation soapAction="http://tempuri.org/IAuthorizationServiceAuthorizationScheduleTemplate/GetAuthorizationScheduleTemplate" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAuthorizationScheduleTemplateById">
+      <soap:operation soapAction="http://tempuri.org/IAuthorizationServiceAuthorizationScheduleTemplate/GetAuthorizationScheduleTemplateById" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ChangeStateAuthorizationScheduleTemplate">
+      <soap:operation soapAction="http://tempuri.org/IAuthorizationServiceAuthorizationScheduleTemplate/ChangeStateAuthorizationScheduleTemplate" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveAuthorizationPortfolio">
+      <soap:operation soapAction="http://tempuri.org/IAuthorizationServiceAuthorizationPortfolio/SaveAuthorizationPortfolio" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteAuthorizationPortfolio">
+      <soap:operation soapAction="http://tempuri.org/IAuthorizationServiceAuthorizationPortfolio/DeleteAuthorizationPortfolio" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAuthorizationPortfolio">
+      <soap:operation soapAction="http://tempuri.org/IAuthorizationServiceAuthorizationPortfolio/GetAuthorizationPortfolio" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAuthorizationPortfolioById">
+      <soap:operation soapAction="http://tempuri.org/IAuthorizationServiceAuthorizationPortfolio/GetAuthorizationPortfolioById" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ChangeStateAuthorizationPortfolio">
+      <soap:operation soapAction="http://tempuri.org/IAuthorizationServiceAuthorizationPortfolio/ChangeStateAuthorizationPortfolio" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SP_CopyAndPasteAuthorizationPortfolioCareCenter">
+      <soap:operation soapAction="http://tempuri.org/IAuthorizationServiceAuthorizationPortfolio/SP_CopyAndPasteAuthorizationPortfolioCareCenter" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SP_CopyAndPasteAuthorizationPortfolioCUPSEntity">
+      <soap:operation soapAction="http://tempuri.org/IAuthorizationServiceAuthorizationPortfolio/SP_CopyAndPasteAuthorizationPortfolioCUPSEntity" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SP_CopyAndPasteAuthorizationPortfolioInventoryProduct">
+      <soap:operation soapAction="http://tempuri.org/IAuthorizationServiceAuthorizationPortfolio/SP_CopyAndPasteAuthorizationPortfolioInventoryProduct" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveConfigurationServicesAmbulatory">
+      <soap:operation soapAction="http://tempuri.org/IAuthorizationServiceConfigurationServicesAmbulatory/SaveConfigurationServicesAmbulatory" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteConfigurationServicesAmbulatory">
+      <soap:operation soapAction="http://tempuri.org/IAuthorizationServiceConfigurationServicesAmbulatory/DeleteConfigurationServicesAmbulatory" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetConfigurationServicesAmbulatoryById">
+      <soap:operation soapAction="http://tempuri.org/IAuthorizationServiceConfigurationServicesAmbulatory/GetConfigurationServicesAmbulatoryById" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveAuthorizationSchedule">
+      <soap:operation soapAction="http://tempuri.org/IAuthorizationServiceAuthorizationSchedule/SaveAuthorizationSchedule" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteAuthorizationSchedule">
+      <soap:operation soapAction="http://tempuri.org/IAuthorizationServiceAuthorizationSchedule/DeleteAuthorizationSchedule" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAuthorizationScheduleById">
+      <soap:operation soapAction="http://tempuri.org/IAuthorizationServiceAuthorizationSchedule/GetAuthorizationScheduleById" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetTraceabilityPaperworkById">
+      <soap:operation soapAction="http://tempuri.org/IAuthorizationServiceTraceabilityPaperwork/GetTraceabilityPaperworkById" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AssignTraceabilityPaperwork">
+      <soap:operation soapAction="http://tempuri.org/IAuthorizationServiceTraceabilityPaperwork/AssignTraceabilityPaperwork" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveTraceabilityPaperwork">
+      <soap:operation soapAction="http://tempuri.org/IAuthorizationServiceTraceabilityPaperwork/SaveTraceabilityPaperwork" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SP_SaveAcceptanceAuthorization">
+      <soap:operation soapAction="http://tempuri.org/IAuthorizationServiceTraceabilityPaperwork/SP_SaveAcceptanceAuthorization" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteTraceabilityPaperwork">
+      <soap:operation soapAction="http://tempuri.org/IAuthorizationServiceTraceabilityPaperwork/DeleteTraceabilityPaperwork" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetManagementMedicalOrderById">
+      <soap:operation soapAction="http://tempuri.org/IAuthorizationServiceManagementMedicalOrder/GetManagementMedicalOrderById" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveManagementMedicalOrder">
+      <soap:operation soapAction="http://tempuri.org/IAuthorizationServiceManagementMedicalOrder/SaveManagementMedicalOrder" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveManagementMedicalOrderWithdrawal">
+      <soap:operation soapAction="http://tempuri.org/IAuthorizationServiceManagementMedicalOrder/SaveManagementMedicalOrderWithdrawal" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SP_SaveContractCoverage">
+      <soap:operation soapAction="http://tempuri.org/IAuthorizationServiceDashboardContractCoverage/SP_SaveContractCoverage" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetSettingsAuthorization">
+      <soap:operation soapAction="http://tempuri.org/IAuthorizationServiceSettingsAuthorization/GetSettingsAuthorization" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveSettingsAuthorization">
+      <soap:operation soapAction="http://tempuri.org/IAuthorizationServiceSettingsAuthorization/SaveSettingsAuthorization" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveAuthorizationOutsourcedServices">
+      <soap:operation soapAction="http://tempuri.org/IAuthorizationServiceAuthorizationOutsourcedServices/SaveAuthorizationOutsourcedServices" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAuthorizationOutsourcedServices">
+      <soap:operation soapAction="http://tempuri.org/IAuthorizationServiceAuthorizationOutsourcedServices/GetAuthorizationOutsourcedServices" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAuthorizationOutsourcedServicesById">
+      <soap:operation soapAction="http://tempuri.org/IAuthorizationServiceAuthorizationOutsourcedServices/GetAuthorizationOutsourcedServicesById" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetReportRequests">
+      <soap:operation soapAction="http://tempuri.org/IAuthorizationServiceReports/GetReportRequests" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveAuthorizationRejection">
+      <soap:operation soapAction="http://tempuri.org/IAuthorizationServiceAuthorizationRejection/SaveAuthorizationRejection" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteAuthorizationRejection">
+      <soap:operation soapAction="http://tempuri.org/IAuthorizationServiceAuthorizationRejection/DeleteAuthorizationRejection" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAuthorizationRejection">
+      <soap:operation soapAction="http://tempuri.org/IAuthorizationServiceAuthorizationRejection/GetAuthorizationRejection" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAuthorizationRejectionById">
+      <soap:operation soapAction="http://tempuri.org/IAuthorizationServiceAuthorizationRejection/GetAuthorizationRejectionById" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ChangeStateAuthorizationRejection">
+      <soap:operation soapAction="http://tempuri.org/IAuthorizationServiceAuthorizationRejection/ChangeStateAuthorizationRejection" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetPostponementReasonsById">
+      <soap:operation soapAction="http://tempuri.org/IAuthorizationServicePostponementReasons/GetPostponementReasonsById" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetPostponementReasons">
+      <soap:operation soapAction="http://tempuri.org/IAuthorizationServicePostponementReasons/GetPostponementReasons" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SavePostponementReasons">
+      <soap:operation soapAction="http://tempuri.org/IAuthorizationServicePostponementReasons/SavePostponementReasons" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ChangeStatePostponementReasons">
+      <soap:operation soapAction="http://tempuri.org/IAuthorizationServicePostponementReasons/ChangeStatePostponementReasons" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeletePostponementReasons">
+      <soap:operation soapAction="http://tempuri.org/IAuthorizationServicePostponementReasons/DeletePostponementReasons" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="wsHttp_Endpoint_Authorization" type="tns:IAuthorizationService">
+    <wsp:PolicyReference URI="#wsHttp_Endpoint_Authorization_policy" />
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="GetBlockRecordAuthorizationByIdformAndIdRecord">
+      <soap12:operation soapAction="http://tempuri.org/IAuthorizationBlockRecordAuthorization/GetBlockRecordAuthorizationByIdformAndIdRecord" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveBlockRecordAuthorization">
+      <soap12:operation soapAction="http://tempuri.org/IAuthorizationBlockRecordAuthorization/SaveBlockRecordAuthorization" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteBlockRecordAuthorization">
+      <soap12:operation soapAction="http://tempuri.org/IAuthorizationBlockRecordAuthorization/DeleteBlockRecordAuthorization" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetSequenseByIdForm">
+      <soap12:operation soapAction="http://tempuri.org/IAuthorizationSequence/GetSequenseByIdForm" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetNumericSequenseGroupById">
+      <soap12:operation soapAction="http://tempuri.org/IAuthorizationSequence/GetNumericSequenseGroupById" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveSequence">
+      <soap12:operation soapAction="http://tempuri.org/IAuthorizationSequence/SaveSequence" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveAuthorizationGroup">
+      <soap12:operation soapAction="http://tempuri.org/IAuthorizationServiceAuthorizationGroup/SaveAuthorizationGroup" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteAuthorizationGroup">
+      <soap12:operation soapAction="http://tempuri.org/IAuthorizationServiceAuthorizationGroup/DeleteAuthorizationGroup" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAuthorizationGroup">
+      <soap12:operation soapAction="http://tempuri.org/IAuthorizationServiceAuthorizationGroup/GetAuthorizationGroup" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAuthorizationGroupById">
+      <soap12:operation soapAction="http://tempuri.org/IAuthorizationServiceAuthorizationGroup/GetAuthorizationGroupById" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ChangeStateAuthorizationGroup">
+      <soap12:operation soapAction="http://tempuri.org/IAuthorizationServiceAuthorizationGroup/ChangeStateAuthorizationGroup" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveCancellationReasons">
+      <soap12:operation soapAction="http://tempuri.org/IAuthorizationServiceCancellationReasons/SaveCancellationReasons" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteCancellationReasons">
+      <soap12:operation soapAction="http://tempuri.org/IAuthorizationServiceCancellationReasons/DeleteCancellationReasons" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCancellationReasons">
+      <soap12:operation soapAction="http://tempuri.org/IAuthorizationServiceCancellationReasons/GetCancellationReasons" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCancellationReasonsById">
+      <soap12:operation soapAction="http://tempuri.org/IAuthorizationServiceCancellationReasons/GetCancellationReasonsById" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ChangeStateCancellationReasons">
+      <soap12:operation soapAction="http://tempuri.org/IAuthorizationServiceCancellationReasons/ChangeStateCancellationReasons" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveAuthorizationSource">
+      <soap12:operation soapAction="http://tempuri.org/IAuthorizationServiceAuthorizationSource/SaveAuthorizationSource" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteAuthorizationSource">
+      <soap12:operation soapAction="http://tempuri.org/IAuthorizationServiceAuthorizationSource/DeleteAuthorizationSource" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAuthorizationSource">
+      <soap12:operation soapAction="http://tempuri.org/IAuthorizationServiceAuthorizationSource/GetAuthorizationSource" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAuthorizationSourceById">
+      <soap12:operation soapAction="http://tempuri.org/IAuthorizationServiceAuthorizationSource/GetAuthorizationSourceById" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ChangeStateAuthorizationSource">
+      <soap12:operation soapAction="http://tempuri.org/IAuthorizationServiceAuthorizationSource/ChangeStateAuthorizationSource" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveAuthorizationScheduleTemplate">
+      <soap12:operation soapAction="http://tempuri.org/IAuthorizationServiceAuthorizationScheduleTemplate/SaveAuthorizationScheduleTemplate" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteAuthorizationScheduleTemplate">
+      <soap12:operation soapAction="http://tempuri.org/IAuthorizationServiceAuthorizationScheduleTemplate/DeleteAuthorizationScheduleTemplate" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAuthorizationScheduleTemplate">
+      <soap12:operation soapAction="http://tempuri.org/IAuthorizationServiceAuthorizationScheduleTemplate/GetAuthorizationScheduleTemplate" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAuthorizationScheduleTemplateById">
+      <soap12:operation soapAction="http://tempuri.org/IAuthorizationServiceAuthorizationScheduleTemplate/GetAuthorizationScheduleTemplateById" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ChangeStateAuthorizationScheduleTemplate">
+      <soap12:operation soapAction="http://tempuri.org/IAuthorizationServiceAuthorizationScheduleTemplate/ChangeStateAuthorizationScheduleTemplate" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveAuthorizationPortfolio">
+      <soap12:operation soapAction="http://tempuri.org/IAuthorizationServiceAuthorizationPortfolio/SaveAuthorizationPortfolio" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteAuthorizationPortfolio">
+      <soap12:operation soapAction="http://tempuri.org/IAuthorizationServiceAuthorizationPortfolio/DeleteAuthorizationPortfolio" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAuthorizationPortfolio">
+      <soap12:operation soapAction="http://tempuri.org/IAuthorizationServiceAuthorizationPortfolio/GetAuthorizationPortfolio" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAuthorizationPortfolioById">
+      <soap12:operation soapAction="http://tempuri.org/IAuthorizationServiceAuthorizationPortfolio/GetAuthorizationPortfolioById" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ChangeStateAuthorizationPortfolio">
+      <soap12:operation soapAction="http://tempuri.org/IAuthorizationServiceAuthorizationPortfolio/ChangeStateAuthorizationPortfolio" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SP_CopyAndPasteAuthorizationPortfolioCareCenter">
+      <soap12:operation soapAction="http://tempuri.org/IAuthorizationServiceAuthorizationPortfolio/SP_CopyAndPasteAuthorizationPortfolioCareCenter" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SP_CopyAndPasteAuthorizationPortfolioCUPSEntity">
+      <soap12:operation soapAction="http://tempuri.org/IAuthorizationServiceAuthorizationPortfolio/SP_CopyAndPasteAuthorizationPortfolioCUPSEntity" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SP_CopyAndPasteAuthorizationPortfolioInventoryProduct">
+      <soap12:operation soapAction="http://tempuri.org/IAuthorizationServiceAuthorizationPortfolio/SP_CopyAndPasteAuthorizationPortfolioInventoryProduct" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveConfigurationServicesAmbulatory">
+      <soap12:operation soapAction="http://tempuri.org/IAuthorizationServiceConfigurationServicesAmbulatory/SaveConfigurationServicesAmbulatory" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteConfigurationServicesAmbulatory">
+      <soap12:operation soapAction="http://tempuri.org/IAuthorizationServiceConfigurationServicesAmbulatory/DeleteConfigurationServicesAmbulatory" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetConfigurationServicesAmbulatoryById">
+      <soap12:operation soapAction="http://tempuri.org/IAuthorizationServiceConfigurationServicesAmbulatory/GetConfigurationServicesAmbulatoryById" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveAuthorizationSchedule">
+      <soap12:operation soapAction="http://tempuri.org/IAuthorizationServiceAuthorizationSchedule/SaveAuthorizationSchedule" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteAuthorizationSchedule">
+      <soap12:operation soapAction="http://tempuri.org/IAuthorizationServiceAuthorizationSchedule/DeleteAuthorizationSchedule" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAuthorizationScheduleById">
+      <soap12:operation soapAction="http://tempuri.org/IAuthorizationServiceAuthorizationSchedule/GetAuthorizationScheduleById" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetTraceabilityPaperworkById">
+      <soap12:operation soapAction="http://tempuri.org/IAuthorizationServiceTraceabilityPaperwork/GetTraceabilityPaperworkById" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AssignTraceabilityPaperwork">
+      <soap12:operation soapAction="http://tempuri.org/IAuthorizationServiceTraceabilityPaperwork/AssignTraceabilityPaperwork" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveTraceabilityPaperwork">
+      <soap12:operation soapAction="http://tempuri.org/IAuthorizationServiceTraceabilityPaperwork/SaveTraceabilityPaperwork" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SP_SaveAcceptanceAuthorization">
+      <soap12:operation soapAction="http://tempuri.org/IAuthorizationServiceTraceabilityPaperwork/SP_SaveAcceptanceAuthorization" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteTraceabilityPaperwork">
+      <soap12:operation soapAction="http://tempuri.org/IAuthorizationServiceTraceabilityPaperwork/DeleteTraceabilityPaperwork" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetManagementMedicalOrderById">
+      <soap12:operation soapAction="http://tempuri.org/IAuthorizationServiceManagementMedicalOrder/GetManagementMedicalOrderById" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveManagementMedicalOrder">
+      <soap12:operation soapAction="http://tempuri.org/IAuthorizationServiceManagementMedicalOrder/SaveManagementMedicalOrder" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveManagementMedicalOrderWithdrawal">
+      <soap12:operation soapAction="http://tempuri.org/IAuthorizationServiceManagementMedicalOrder/SaveManagementMedicalOrderWithdrawal" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SP_SaveContractCoverage">
+      <soap12:operation soapAction="http://tempuri.org/IAuthorizationServiceDashboardContractCoverage/SP_SaveContractCoverage" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetSettingsAuthorization">
+      <soap12:operation soapAction="http://tempuri.org/IAuthorizationServiceSettingsAuthorization/GetSettingsAuthorization" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveSettingsAuthorization">
+      <soap12:operation soapAction="http://tempuri.org/IAuthorizationServiceSettingsAuthorization/SaveSettingsAuthorization" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveAuthorizationOutsourcedServices">
+      <soap12:operation soapAction="http://tempuri.org/IAuthorizationServiceAuthorizationOutsourcedServices/SaveAuthorizationOutsourcedServices" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAuthorizationOutsourcedServices">
+      <soap12:operation soapAction="http://tempuri.org/IAuthorizationServiceAuthorizationOutsourcedServices/GetAuthorizationOutsourcedServices" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAuthorizationOutsourcedServicesById">
+      <soap12:operation soapAction="http://tempuri.org/IAuthorizationServiceAuthorizationOutsourcedServices/GetAuthorizationOutsourcedServicesById" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetReportRequests">
+      <soap12:operation soapAction="http://tempuri.org/IAuthorizationServiceReports/GetReportRequests" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveAuthorizationRejection">
+      <soap12:operation soapAction="http://tempuri.org/IAuthorizationServiceAuthorizationRejection/SaveAuthorizationRejection" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteAuthorizationRejection">
+      <soap12:operation soapAction="http://tempuri.org/IAuthorizationServiceAuthorizationRejection/DeleteAuthorizationRejection" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAuthorizationRejection">
+      <soap12:operation soapAction="http://tempuri.org/IAuthorizationServiceAuthorizationRejection/GetAuthorizationRejection" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAuthorizationRejectionById">
+      <soap12:operation soapAction="http://tempuri.org/IAuthorizationServiceAuthorizationRejection/GetAuthorizationRejectionById" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ChangeStateAuthorizationRejection">
+      <soap12:operation soapAction="http://tempuri.org/IAuthorizationServiceAuthorizationRejection/ChangeStateAuthorizationRejection" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetPostponementReasonsById">
+      <soap12:operation soapAction="http://tempuri.org/IAuthorizationServicePostponementReasons/GetPostponementReasonsById" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetPostponementReasons">
+      <soap12:operation soapAction="http://tempuri.org/IAuthorizationServicePostponementReasons/GetPostponementReasons" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SavePostponementReasons">
+      <soap12:operation soapAction="http://tempuri.org/IAuthorizationServicePostponementReasons/SavePostponementReasons" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ChangeStatePostponementReasons">
+      <soap12:operation soapAction="http://tempuri.org/IAuthorizationServicePostponementReasons/ChangeStatePostponementReasons" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeletePostponementReasons">
+      <soap12:operation soapAction="http://tempuri.org/IAuthorizationServicePostponementReasons/DeletePostponementReasons" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="netTcp_Endpoint_Authorization" type="tns:IAuthorizationService">
+    <wsp:PolicyReference URI="#netTcp_Endpoint_Authorization_policy" />
+    <soap12:binding transport="http://schemas.microsoft.com/soap/tcp" />
+    <wsdl:operation name="GetBlockRecordAuthorizationByIdformAndIdRecord">
+      <soap12:operation soapAction="http://tempuri.org/IAuthorizationBlockRecordAuthorization/GetBlockRecordAuthorizationByIdformAndIdRecord" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveBlockRecordAuthorization">
+      <soap12:operation soapAction="http://tempuri.org/IAuthorizationBlockRecordAuthorization/SaveBlockRecordAuthorization" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteBlockRecordAuthorization">
+      <soap12:operation soapAction="http://tempuri.org/IAuthorizationBlockRecordAuthorization/DeleteBlockRecordAuthorization" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetSequenseByIdForm">
+      <soap12:operation soapAction="http://tempuri.org/IAuthorizationSequence/GetSequenseByIdForm" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetNumericSequenseGroupById">
+      <soap12:operation soapAction="http://tempuri.org/IAuthorizationSequence/GetNumericSequenseGroupById" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveSequence">
+      <soap12:operation soapAction="http://tempuri.org/IAuthorizationSequence/SaveSequence" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveAuthorizationGroup">
+      <soap12:operation soapAction="http://tempuri.org/IAuthorizationServiceAuthorizationGroup/SaveAuthorizationGroup" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteAuthorizationGroup">
+      <soap12:operation soapAction="http://tempuri.org/IAuthorizationServiceAuthorizationGroup/DeleteAuthorizationGroup" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAuthorizationGroup">
+      <soap12:operation soapAction="http://tempuri.org/IAuthorizationServiceAuthorizationGroup/GetAuthorizationGroup" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAuthorizationGroupById">
+      <soap12:operation soapAction="http://tempuri.org/IAuthorizationServiceAuthorizationGroup/GetAuthorizationGroupById" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ChangeStateAuthorizationGroup">
+      <soap12:operation soapAction="http://tempuri.org/IAuthorizationServiceAuthorizationGroup/ChangeStateAuthorizationGroup" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveCancellationReasons">
+      <soap12:operation soapAction="http://tempuri.org/IAuthorizationServiceCancellationReasons/SaveCancellationReasons" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteCancellationReasons">
+      <soap12:operation soapAction="http://tempuri.org/IAuthorizationServiceCancellationReasons/DeleteCancellationReasons" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCancellationReasons">
+      <soap12:operation soapAction="http://tempuri.org/IAuthorizationServiceCancellationReasons/GetCancellationReasons" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCancellationReasonsById">
+      <soap12:operation soapAction="http://tempuri.org/IAuthorizationServiceCancellationReasons/GetCancellationReasonsById" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ChangeStateCancellationReasons">
+      <soap12:operation soapAction="http://tempuri.org/IAuthorizationServiceCancellationReasons/ChangeStateCancellationReasons" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveAuthorizationSource">
+      <soap12:operation soapAction="http://tempuri.org/IAuthorizationServiceAuthorizationSource/SaveAuthorizationSource" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteAuthorizationSource">
+      <soap12:operation soapAction="http://tempuri.org/IAuthorizationServiceAuthorizationSource/DeleteAuthorizationSource" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAuthorizationSource">
+      <soap12:operation soapAction="http://tempuri.org/IAuthorizationServiceAuthorizationSource/GetAuthorizationSource" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAuthorizationSourceById">
+      <soap12:operation soapAction="http://tempuri.org/IAuthorizationServiceAuthorizationSource/GetAuthorizationSourceById" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ChangeStateAuthorizationSource">
+      <soap12:operation soapAction="http://tempuri.org/IAuthorizationServiceAuthorizationSource/ChangeStateAuthorizationSource" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveAuthorizationScheduleTemplate">
+      <soap12:operation soapAction="http://tempuri.org/IAuthorizationServiceAuthorizationScheduleTemplate/SaveAuthorizationScheduleTemplate" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteAuthorizationScheduleTemplate">
+      <soap12:operation soapAction="http://tempuri.org/IAuthorizationServiceAuthorizationScheduleTemplate/DeleteAuthorizationScheduleTemplate" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAuthorizationScheduleTemplate">
+      <soap12:operation soapAction="http://tempuri.org/IAuthorizationServiceAuthorizationScheduleTemplate/GetAuthorizationScheduleTemplate" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAuthorizationScheduleTemplateById">
+      <soap12:operation soapAction="http://tempuri.org/IAuthorizationServiceAuthorizationScheduleTemplate/GetAuthorizationScheduleTemplateById" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ChangeStateAuthorizationScheduleTemplate">
+      <soap12:operation soapAction="http://tempuri.org/IAuthorizationServiceAuthorizationScheduleTemplate/ChangeStateAuthorizationScheduleTemplate" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveAuthorizationPortfolio">
+      <soap12:operation soapAction="http://tempuri.org/IAuthorizationServiceAuthorizationPortfolio/SaveAuthorizationPortfolio" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteAuthorizationPortfolio">
+      <soap12:operation soapAction="http://tempuri.org/IAuthorizationServiceAuthorizationPortfolio/DeleteAuthorizationPortfolio" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAuthorizationPortfolio">
+      <soap12:operation soapAction="http://tempuri.org/IAuthorizationServiceAuthorizationPortfolio/GetAuthorizationPortfolio" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAuthorizationPortfolioById">
+      <soap12:operation soapAction="http://tempuri.org/IAuthorizationServiceAuthorizationPortfolio/GetAuthorizationPortfolioById" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ChangeStateAuthorizationPortfolio">
+      <soap12:operation soapAction="http://tempuri.org/IAuthorizationServiceAuthorizationPortfolio/ChangeStateAuthorizationPortfolio" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SP_CopyAndPasteAuthorizationPortfolioCareCenter">
+      <soap12:operation soapAction="http://tempuri.org/IAuthorizationServiceAuthorizationPortfolio/SP_CopyAndPasteAuthorizationPortfolioCareCenter" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SP_CopyAndPasteAuthorizationPortfolioCUPSEntity">
+      <soap12:operation soapAction="http://tempuri.org/IAuthorizationServiceAuthorizationPortfolio/SP_CopyAndPasteAuthorizationPortfolioCUPSEntity" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SP_CopyAndPasteAuthorizationPortfolioInventoryProduct">
+      <soap12:operation soapAction="http://tempuri.org/IAuthorizationServiceAuthorizationPortfolio/SP_CopyAndPasteAuthorizationPortfolioInventoryProduct" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveConfigurationServicesAmbulatory">
+      <soap12:operation soapAction="http://tempuri.org/IAuthorizationServiceConfigurationServicesAmbulatory/SaveConfigurationServicesAmbulatory" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteConfigurationServicesAmbulatory">
+      <soap12:operation soapAction="http://tempuri.org/IAuthorizationServiceConfigurationServicesAmbulatory/DeleteConfigurationServicesAmbulatory" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetConfigurationServicesAmbulatoryById">
+      <soap12:operation soapAction="http://tempuri.org/IAuthorizationServiceConfigurationServicesAmbulatory/GetConfigurationServicesAmbulatoryById" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveAuthorizationSchedule">
+      <soap12:operation soapAction="http://tempuri.org/IAuthorizationServiceAuthorizationSchedule/SaveAuthorizationSchedule" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteAuthorizationSchedule">
+      <soap12:operation soapAction="http://tempuri.org/IAuthorizationServiceAuthorizationSchedule/DeleteAuthorizationSchedule" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAuthorizationScheduleById">
+      <soap12:operation soapAction="http://tempuri.org/IAuthorizationServiceAuthorizationSchedule/GetAuthorizationScheduleById" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetTraceabilityPaperworkById">
+      <soap12:operation soapAction="http://tempuri.org/IAuthorizationServiceTraceabilityPaperwork/GetTraceabilityPaperworkById" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AssignTraceabilityPaperwork">
+      <soap12:operation soapAction="http://tempuri.org/IAuthorizationServiceTraceabilityPaperwork/AssignTraceabilityPaperwork" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveTraceabilityPaperwork">
+      <soap12:operation soapAction="http://tempuri.org/IAuthorizationServiceTraceabilityPaperwork/SaveTraceabilityPaperwork" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SP_SaveAcceptanceAuthorization">
+      <soap12:operation soapAction="http://tempuri.org/IAuthorizationServiceTraceabilityPaperwork/SP_SaveAcceptanceAuthorization" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteTraceabilityPaperwork">
+      <soap12:operation soapAction="http://tempuri.org/IAuthorizationServiceTraceabilityPaperwork/DeleteTraceabilityPaperwork" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetManagementMedicalOrderById">
+      <soap12:operation soapAction="http://tempuri.org/IAuthorizationServiceManagementMedicalOrder/GetManagementMedicalOrderById" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveManagementMedicalOrder">
+      <soap12:operation soapAction="http://tempuri.org/IAuthorizationServiceManagementMedicalOrder/SaveManagementMedicalOrder" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveManagementMedicalOrderWithdrawal">
+      <soap12:operation soapAction="http://tempuri.org/IAuthorizationServiceManagementMedicalOrder/SaveManagementMedicalOrderWithdrawal" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SP_SaveContractCoverage">
+      <soap12:operation soapAction="http://tempuri.org/IAuthorizationServiceDashboardContractCoverage/SP_SaveContractCoverage" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetSettingsAuthorization">
+      <soap12:operation soapAction="http://tempuri.org/IAuthorizationServiceSettingsAuthorization/GetSettingsAuthorization" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveSettingsAuthorization">
+      <soap12:operation soapAction="http://tempuri.org/IAuthorizationServiceSettingsAuthorization/SaveSettingsAuthorization" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveAuthorizationOutsourcedServices">
+      <soap12:operation soapAction="http://tempuri.org/IAuthorizationServiceAuthorizationOutsourcedServices/SaveAuthorizationOutsourcedServices" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAuthorizationOutsourcedServices">
+      <soap12:operation soapAction="http://tempuri.org/IAuthorizationServiceAuthorizationOutsourcedServices/GetAuthorizationOutsourcedServices" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAuthorizationOutsourcedServicesById">
+      <soap12:operation soapAction="http://tempuri.org/IAuthorizationServiceAuthorizationOutsourcedServices/GetAuthorizationOutsourcedServicesById" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetReportRequests">
+      <soap12:operation soapAction="http://tempuri.org/IAuthorizationServiceReports/GetReportRequests" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveAuthorizationRejection">
+      <soap12:operation soapAction="http://tempuri.org/IAuthorizationServiceAuthorizationRejection/SaveAuthorizationRejection" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteAuthorizationRejection">
+      <soap12:operation soapAction="http://tempuri.org/IAuthorizationServiceAuthorizationRejection/DeleteAuthorizationRejection" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAuthorizationRejection">
+      <soap12:operation soapAction="http://tempuri.org/IAuthorizationServiceAuthorizationRejection/GetAuthorizationRejection" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAuthorizationRejectionById">
+      <soap12:operation soapAction="http://tempuri.org/IAuthorizationServiceAuthorizationRejection/GetAuthorizationRejectionById" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ChangeStateAuthorizationRejection">
+      <soap12:operation soapAction="http://tempuri.org/IAuthorizationServiceAuthorizationRejection/ChangeStateAuthorizationRejection" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetPostponementReasonsById">
+      <soap12:operation soapAction="http://tempuri.org/IAuthorizationServicePostponementReasons/GetPostponementReasonsById" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetPostponementReasons">
+      <soap12:operation soapAction="http://tempuri.org/IAuthorizationServicePostponementReasons/GetPostponementReasons" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SavePostponementReasons">
+      <soap12:operation soapAction="http://tempuri.org/IAuthorizationServicePostponementReasons/SavePostponementReasons" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ChangeStatePostponementReasons">
+      <soap12:operation soapAction="http://tempuri.org/IAuthorizationServicePostponementReasons/ChangeStatePostponementReasons" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeletePostponementReasons">
+      <soap12:operation soapAction="http://tempuri.org/IAuthorizationServicePostponementReasons/DeletePostponementReasons" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="AuthorizationService">
+    <wsdl:port name="basicHttp_Endpoint_Authorization" binding="tns:basicHttp_Endpoint_Authorization">
+      <soap:address location="http://its101:9000/ServiceEntity/Authorization.svc/basicHttpAuthorization" />
+    </wsdl:port>
+    <wsdl:port name="basicHttps_Endpoint_Authorization" binding="tns:basicHttps_Endpoint_Authorization">
+      <soap:address location="https://localhost:444/ServiceEntity/Authorization.svc/basicHttpsAuthorization" />
+    </wsdl:port>
+    <wsdl:port name="wsHttp_Endpoint_Authorization" binding="tns:wsHttp_Endpoint_Authorization">
+      <soap12:address location="http://its101:9000/ServiceEntity/Authorization.svc/wsHttpAuthorization" />
+      <wsa10:EndpointReference>
+        <wsa10:Address>http://its101:9000/ServiceEntity/Authorization.svc/wsHttpAuthorization</wsa10:Address>
+      </wsa10:EndpointReference>
+    </wsdl:port>
+    <wsdl:port name="netTcp_Endpoint_Authorization" binding="tns:netTcp_Endpoint_Authorization">
+      <soap12:address location="net.tcp://its101:9000/ServiceEntity/Authorization.svc/netTcpAuthorization" />
+      <wsa10:EndpointReference>
+        <wsa10:Address>net.tcp://its101:9000/ServiceEntity/Authorization.svc/netTcpAuthorization</wsa10:Address>
+      </wsa10:EndpointReference>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

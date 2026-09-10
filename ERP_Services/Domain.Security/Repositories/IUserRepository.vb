@@ -1,0 +1,272 @@
+﻿'***********************************************************************
+' Assembly         : Domain.Security
+' Author           : WalterSierra
+' Created          : 11-03-2011
+'
+' Last Modified By : Juan F. Tamayo
+' Last Modified On : 2013-02-28
+'
+' Copyright        : (c) . All rights reserved.
+'***********************************************************************
+
+#Region "Imports"
+Imports Domain.Base
+Imports Domain.Security.Entities
+#End Region
+
+''' <summary>
+''' Metodos y funciones necesarias para el manejo de usuarios
+''' </summary>
+Public Interface IUserRepository
+    Inherits IRepository(Of User)
+    ''' <summary>
+    ''' Lists the permissions user form.
+    ''' </summary>
+    ''' <param name="CodeUser">The code user.</param>
+    ''' <param name="CodeMenu">The code menu.</param>
+    ''' <param name="CodeOpcion">The code opcion.</param>
+    ''' <param name="tenantId">Id de tenant.</param>
+    ''' <returns></returns>
+    Function ListPermissionsUserForm(CodeUser As String, CodeMenu As String, CodeOpcion As String, tenantId As Short) As Boolean
+
+    ''' <summary>
+    ''' Listar un usuario especifico
+    ''' </summary>
+    ''' <param name="codeUser">el codigo del usuario.</param>
+    ''' <returns></returns>
+    Function GetUser(ByVal codeUser As String, Optional email As String = Nothing) As User
+
+    ''' <summary>
+    ''' Listar un usuario especifico
+    ''' </summary>
+    ''' <param name="codeUser">el codigo del usuario.</param>
+    ''' <param name="containerId">id de container.</param>
+    ''' <returns></returns>
+    Function GetUser(ByVal codeUser As String, ByVal containerId As Integer) As User
+
+    ''' <summary>
+    ''' Listar un usuario especifico sin agregados
+    ''' </summary>
+    ''' <param name="codeUser">el codigo del usuario.</param>
+    ''' <returns></returns>
+    Function GetUserObjectOnly(ByVal codeUser As String) As User
+
+    Function ListUsersByCodes(ByVal listCodes As List(Of String)) As List(Of User)
+
+    Function ListUsersByIds(ByVal listIds As List(Of Integer)) As List(Of User)
+
+    ''' <summary>
+    ''' Listar un usuario especifico con los agregados de persona y archivos
+    ''' </summary>
+    ''' <param name="codeUser">el codigo del usuario.</param>
+    ''' <returns></returns>
+    Function GetUserPersonFileByCode(ByVal codeUser As String) As User
+
+    ''' <summary>
+    ''' Listar un usuario especifico con los agregados de persona y archivos
+    ''' </summary>
+    ''' <param name="codeUser">el codigo del usuario.</param>
+    ''' <returns></returns>
+    Function GetUserPersonFile(ByVal codeUser As String, password As String) As User
+
+    ''' <summary>
+    ''' Buscar usuarios por nombre
+    ''' </summary>
+    ''' <param name="nameUser">el nombre del usuario</param>
+    ''' <returns></returns>
+    Function FindUserByName(ByVal nameUser As String) As List(Of User)
+
+    ''' <summary>
+    ''' Bloquear un usuario
+    ''' </summary>
+    ''' <param name="codeUser">el codigo del usuario.</param>
+    ''' <returns></returns>
+    Function LockUser(ByVal codeUser As String) As Boolean
+
+    ''' <summary>
+    ''' Lists the permissions user.	
+    ''' </summary>
+    ''' <param name="codeUser">The code user.</param>
+    ''' <param name="authorized">Authorized.</param>
+    ''' <returns>List of user permissions</returns>
+    Function ListPermissionsUserAuthorized(codeUser As String, authorized As Boolean) As List(Of PermissionUser)
+
+    ''' <summary>
+    ''' Lista todos los permisos del usuario
+    ''' </summary>
+    ''' <param name="codeUser">el codigo del usuario</param>
+    ''' <returns></returns>
+    Function ListPermissionsUser(ByVal codeUser As String) As List(Of PermissionUser)
+
+    ''' <summary>
+    ''' Lista todos los ids de los formularios con permiso solicitado,
+    ''' asignados al usuario y al rol que tiene el usuario
+    ''' </summary>
+    ''' <param name="tenantId">tenant id</param>
+    ''' <param name="rollCode">roll id</param>
+    ''' <param name="codeUser">Código del usuario</param>
+    ''' <param name="action">Código de Accion</param>
+    ''' <returns>Lista de ids de formularios</returns>
+    Function ListPermissionFormsUserV2(tenantId As Short, rollCode As String, codeUser As String, action As String) As List(Of ProductCatalog)
+
+    ''' <summary>
+    ''' Lista todos los ids de los formularios con permiso solicitado,
+    ''' asignados al usuario y al rol que tiene el usuario
+    ''' </summary>
+    ''' <param name="tenantId">tenant id</param>
+    ''' <param name="rollCode">roll id</param>
+    ''' <param name="codeUser">Código del usuario</param>
+    ''' <returns>Lista de ids de formularios</returns>
+    Function ListPermissionFormsUser(ByVal tenantId As Short, ByVal rollCode As String, ByVal codeUser As String, action As String) As List(Of String)
+
+    ''' <summary>
+    ''' Lista todos los permisos del usuario
+    ''' </summary>
+    ''' <param name="codeUser">el codigo del usuario</param>
+    ''' <returns></returns>
+    Function ListPermissionsOperatingUnit(ByVal codeUser As String, ByVal idCompany As Integer) As List(Of UserOperatingUnit)
+
+    ''' <summary>
+    ''' Lista Los Permisos por Usuario.
+    ''' </summary>
+    ''' <param name="codeUser">el codigo de usuario</param>
+    ''' <param name="codeMenu">el codigo del menu</param>
+    ''' <param name="authorized">si tiene o no permiso</param>
+    ''' <param name="tenantId">id de tenant</param>
+    ''' <returns></returns>
+    Function ListPermissionsUser(ByVal codeUser As String, codeMenu As String, authorized As Boolean, tenantId As Short) As List(Of PermissionUser)
+
+    ''' <summary>
+    ''' Lista Los Permisos por Usuario.
+    ''' </summary>
+    ''' <param name="codeMenu">el codigo del menu</param>
+    ''' <param name="codeUser">el codigo del usuario</param>
+    ''' <returns></returns>
+    Function ListPermissionsUser(ByVal codeUser As String, codeMenu As String) As List(Of PermissionUser)
+
+    ''' <summary>
+    ''' Guardar las preferencias del usuario en el funcional de login
+    ''' </summary>
+    ''' <param name="codeUser">el codigo del usuario.</param>
+    ''' <param name="role">el perfil (1. administrativo, 2. Asistencial).</param>
+    ''' <param name="CareCenter">el codigo del centro de atencion.</param>
+    ''' <param name="unitFunctional">el codigo de la unidad funcional.</param>
+    ''' <returns></returns>
+    Function SaveLoginLocation(ByVal codeUser As String, role As Integer, CareCenter As String, ByVal unitFunctional As String) As Boolean
+
+    ''' <summary>
+    ''' Cambiar la contraseña
+    ''' </summary>
+    ''' <param name="codeUser">se envia id de usario.</param>
+    ''' <param name="newPassword">la contraseña nueva.</param>
+    ''' <returns></returns>
+    Function ChangePassword(ByVal codeUser As String, ByVal newPassword As String) As Boolean
+
+    ''' <summary>
+    ''' consultar persona especifica
+    ''' </summary>
+    ''' <param name="identification">The identificacion.</param>
+    ''' <returns></returns>
+    Function GetPerson(ByVal identification As String) As Person
+    Function GetRollById(Id As Integer) As Roll
+    Function GetPermissionUserByUserId(userId As Integer) As List(Of PermissionUser)
+
+    ''' <summary>
+    ''' consultar persona especifica
+    ''' </summary>
+    ''' <param name="identification">The identificacion.</param>
+    ''' <returns></returns>
+    Function GetUser(ByVal identification As Integer) As User
+    ''' <summary>
+    ''' Gets the user by Id	
+    ''' </summary>
+    ''' <param name="Id">Id.</param>
+    ''' <returns></returns>
+    ''' <remarks></remarks>
+    Function GetUserById(Id As String) As User
+
+    ''' <summary>
+    ''' Obtiene el usuario por codigo
+    ''' </summary>
+    ''' <param name="code"></param>
+    ''' <returns></returns>
+    Function GetUserByCodeSimple(code As String) As User
+
+    ''' <summary>
+    ''' Lista todos los usuarios
+    ''' </summary>
+    ''' <returns></returns>
+    ''' <remarks></remarks>
+    Function ListAllUser() As List(Of User)
+
+    ''' <summary>
+    ''' Valida si el usuario y la contraseña existen y coinciden
+    ''' </summary>
+    ''' <param name="codeUser"></param>
+    ''' <param name="password"></param>
+    ''' <returns></returns>
+    ''' <remarks></remarks>
+    Function ValidateUser(ByVal codeUser As String, password As String) As Boolean
+
+    ''' <summary>
+    ''' Actualiza los campos de bloqueo y de intentos fallidos de un usuario especifico
+    ''' </summary>
+    ''' <param name="userId"></param>
+    ''' <param name="lockUser"></param>
+    ''' <param name="failedAccount"></param>
+    ''' <returns></returns>
+    ''' <remarks></remarks>
+    Function UpdateUserLockFailedCount(userId As Integer, lockUser As Boolean, failedAccount As Integer) As Boolean
+
+    ''' <summary>
+    ''' Lista todos los tipos de telefonos
+    ''' </summary>
+    ''' <returns>Lista de tipo de telefono</returns>
+    ''' <remarks></remarks>
+    Function ListAllPhoneType() As List(Of PhoneType)
+
+    ''' <summary>
+    ''' Consulta todos los numeros telefonocos de una persona
+    ''' </summary>
+    ''' <param name="personId"></param>
+    ''' <returns></returns>
+    Function GetPhoneByPersonId(personId As Integer) As List(Of Phone)
+
+    ''' <summary>
+    ''' Consulta todos los correos de una person
+    ''' </summary>
+    ''' <param name="personId"></param>
+    ''' <returns></returns>
+    Function GetMailsByPersonId(personId As Integer) As List(Of Email)
+
+    ''' <summary>
+    ''' Consulta todas las direcciones asociadas a una persona
+    ''' </summary>
+    ''' <param name="personId"></param>
+    ''' <returns></returns>
+    Function GetAddressByPersonId(personId As Integer) As List(Of Address)
+
+    ''' <summary>
+    ''' Consulta el usuario por el correo electronico
+    ''' </summary>
+    ''' <param name="email"></param>
+    ''' <returns></returns>
+    Function GetUserByEmail(email As String) As User
+
+    ''' <summary>
+    ''' Consulta el token de la firma electronica de un usuario especifico
+    ''' </summary>
+    ''' <param name="userId"></param>
+    ''' <returns></returns>
+    Function GetUserElectronicSignatureToken(userId As Integer) As String
+
+    ''' <summary>
+    ''' Obtiene la ruta del informe para un usuario específico, un contenedor dado y una unidad operativa.
+    ''' </summary>
+    ''' <param name="IdUser"></param>
+    ''' <param name="IdContainer"></param>
+    ''' <param name="IdOperatingUnit"></param>
+    ''' <returns></returns>
+    Function GetReportPathByUser(IdUser As Integer, Optional IdContainer As Integer = 0, Optional IdOperatingUnit As Integer = 0) As String
+
+End Interface

@@ -1,0 +1,252 @@
+﻿'***********************************************************************
+' Assembly         : Infrastructure.Data.SecurityRepository
+' Author           : Juan Diego Diaz M.
+' Created          : 06-02-2014
+'
+' Copyright        : (c) . All rights reserved.
+'***********************************************************************
+
+#Region "Imports"
+Imports Domain.Security.Entities
+Imports Domain.Security
+Imports System.Dynamic
+Imports Infrastructure.CrossCutting.Interface
+Imports System.Configuration
+
+#End Region
+
+''' <summary>
+''' Repositorio para Contenedores
+''' </summary>
+Public Class ContainersRepository
+    Implements IContainersRepository
+
+    'Devuelve el contexto en este repositorio 
+    Private _context As ISeguridadUnitOfWork
+
+    ''' <summary>
+    '''inicializa la neva instancia de <see cref="GroupRepository" /> clase.
+    ''' </summary>
+    ''' <param name="contex">el contexto.</param>
+    Public Sub New(ByVal contex As ISeguridadUnitOfWork)
+        _context = contex
+    End Sub
+
+    ''' <summary>
+    ''' Función para obtener una lista de contenedores
+    ''' </summary>
+    ''' <returns>Lista de Contenedores</returns>
+    Public Function getContainers() As List(Of Containers) Implements IContainersRepository.getContainers
+        'Dim result = (From a In _context.Containers.Include("UserOperatingUnit").Include("PermissionCompany")
+        '             Select a).ToList
+        Dim result = (From a In _context.Containers
+                      Select a).ToList
+
+        If result IsNot Nothing AndAlso result.Count > 0 Then
+            Dim ctc = From r In result
+                      Join tc In _context.TenantContainer.Where(Function(tc) tc.State = True)
+                        On r.Id Equals tc.ContainerId
+                      Join t In _context.Tenant
+                          On tc.TenantId Equals t.Id
+                      Select r, tc, t
+            If ctc.Count > 0 Then
+                For Each reg In ctc
+                    reg.r.TenantId = reg.tc.TenantId
+                    reg.r.TenantName = reg.t.Name
+                Next
+            End If
+
+            Return result
+        Else
+            Return New List(Of Containers)()
+        End If
+    End Function
+
+    ''' <summary>
+    ''' Obtiene el nombre del contenedor de seguridad
+    ''' </summary>
+    ''' <returns>Nombre del contenedor de seguridad</returns>
+    Public Function getSecurityContainerName() As String Implements IContainersRepository.getSecurityContainerName
+        Dim containerName = System.Configuration.ConfigurationManager.AppSettings(Infrastructure.CrossCutting.Base.ConfigurationFile.SECURITY_CONTAINER_PARAMETER_NAME)
+        If containerName IsNot Nothing Then
+            Return containerName.ToString()
+        Else
+            Return String.Empty
+        End If
+    End Function
+
+    ''' <summary>
+    ''' Función para obtener un contenedor
+    ''' </summary>
+    ''' <returns>Objeto Contenedor</returns>
+    Public Function getContainersByName(Name As String) As Containers Implements IContainersRepository.getContainersByName
+        Dim result = (From a In _context.Containers
+                      Where a.Name = Name
+                     Select a).FirstOrDefault
+
+        If result IsNot Nothing Then
+            Return result
+        Else
+            Return New Containers
+        End If
+    End Function
+
+    ''' <summary>
+    ''' Obtiene los contenedores para el codigo de empresa dado
+    ''' </summary>
+    ''' <param name="code">Codigo de empresa a consultar</param>
+    ''' <returns>Contenedores</returns>
+    Public Function getContainersByCode(code As String) As Containers Implements IContainersRepository.getContainersByCode
+        Dim result = (From a In _context.Containers
+                      Where a.Code = code
+                      Select a).FirstOrDefault
+
+        If result IsNot Nothing Then
+            Return result
+        Else
+            Return New Containers
+        End If
+    End Function
+
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="idCompany"></param>
+    ''' <returns></returns>
+    Public Function getContainersById(ByVal idCompany As Integer) As Containers Implements IContainersRepository.getContainersById
+        Dim result = (From a In _context.Containers
+                      Where a.Id = idCompany
+                      Select a).FirstOrDefault
+
+        If result IsNot Nothing Then
+            Return result
+        Else
+            Return New Containers
+        End If
+    End Function
+
+    ''' <summary>
+    ''' Obtiene el nombre del contenedor de Indigo Crystal HIS
+    ''' </summary>
+    ''' <returns>Nombre del contenedor de Indigo Crystal HIS</returns>
+    Public Function getInteropCostContainerName() As String Implements IContainersRepository.getInteropCostContainerName
+        Dim containerName = System.Configuration.ConfigurationManager.AppSettings(Infrastructure.CrossCutting.Base.ConfigurationFile.INTEROP_COST_CONTAINER_PARAMETER_NAME)
+        If containerName IsNot Nothing Then
+            Return containerName.ToString()
+        Else
+            Return String.Empty
+        End If
+    End Function
+
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <returns></returns>
+    ''' <remarks></remarks>
+    Public Function getIndigoConnectionString() As String Implements IContainersRepository.getIndigoConnectionString
+        Dim containerName = System.Configuration.ConfigurationManager.ConnectionStrings(Infrastructure.CrossCutting.Base.ConfigurationFile.CONX_GENESIS)
+        If containerName IsNot Nothing Then
+            Return containerName.ToString()
+        Else
+            Return String.Empty
+        End If
+    End Function
+
+    Public Function ListCompanies() As List(Of Company) Implements IContainersRepository.ListCompanies
+        Dim conx As New ConectionSQL(ConfigurationManager.AppSettings(Infrastructure.CrossCutting.Base.ConfigurationFile.SECURITY_CONTAINER_PARAMETER_NAME))
+        Dim query = "
+SELECT 
+	C.Id, C.Code, C.Name, C.FoundationalContainer, C.TransactionalContainer, C.DocumentalContainer, C.VituelContainer, C.HISContainer, C.InteropCostContainer, C.HISIntegration,
+	C.GlossesIntegration, C.PayrollIntegration, C.HumanTalentIntegration,C.DispensingIntegration, C.CompanyNit, C.Address, C.Telephone, C.ProductionCompany,
+	C.LyncIntegration, C.Version, C.[State], C.CompanyType, C.VerificationDigitNit, C.ServiceConfigurationId, TC.TenantId
+FROM [Security].[Containers] C
+LEFT OUTER JOIN [Security].TenantContainer TC ON TC.ContainerId = C.Id
+WHERE C.[State] = 1"
+
+        Dim dt As DataTable = conx.ExecuteCommand_Data(query)
+        Dim res As List(Of Company) = New List(Of Company)()
+        For Each r As DataRow In dt.Rows
+            Dim company = New Company()
+            company.Id = CInt(r("Id"))
+            company.Code = r("Code").ToString()
+            company.Name = r("Name").ToString()
+            company.FoundationalContainer = r("FoundationalContainer").ToString()
+            company.TransactionalContainer = r("TransactionalContainer").ToString()
+            company.DocumentalContainer = r("DocumentalContainer").ToString()
+            company.VituelContainer = r("VituelContainer").ToString()
+            company.HISContainer = r("HISContainer").ToString()
+            company.InteropCostContainer = r("InteropCostContainer").ToString()
+            company.HISIntegration = CByte(r("HISIntegration"))
+            company.GlossesIntegration = CByte(r("GlossesIntegration"))
+            company.PayrollIntegration = CByte(r("PayrollIntegration"))
+            company.HumanTalentIntegration = CByte(r("HumanTalentIntegration"))
+            company.DispensingIntegration = CByte(r("DispensingIntegration"))
+            company.CompanyType = CByte(r("CompanyType"))
+            company.CompanyNit = r("CompanyNit").ToString()
+            company.VerificationDigitNit = r("VerificationDigitNit").ToString().Trim()
+            company.Address = r("Address").ToString()
+            company.Telephone = r("Telephone").ToString()
+            company.ProductionCompany = CBool(r("ProductionCompany"))
+            company.State = CBool(r("State"))
+            company.Version = r("Version").ToString()
+            company.IndigoConnectionString = Me.getIndigoConnectionString()
+            company.SecurityContainer = Me.getSecurityContainerName()
+            company.TenantId = If(r("TenantId") Is DBNull.Value, CShort(0), CShort(r("TenantId")))
+            company.ServiceConfigurationId = If(r("ServiceConfigurationId") Is DBNull.Value, CByte(0), CByte(r("ServiceConfigurationId")))
+            'company.InteropCostContainer = Me.getInteropCostContainerName()
+            res.Add(company)
+        Next
+        Return res
+    End Function
+
+    ''' <summary>
+    ''' Lista las compañias que tiene permiso el usuario
+    ''' </summary>
+    ''' <param name="idUser"></param>
+    ''' <returns></returns>
+    Public Function getCompaniesByUser(ByVal idUser As Integer) As List(Of Company) Implements IContainersRepository.getCompaniesByUser
+        Dim pcs = From pc In _context.PermissionCompany
+                  Where pc.IdUser = idUser
+                  Select pc
+        If pcs.Count > 0 Then
+            Dim ics As String = Me.getIndigoConnectionString()
+            Dim scn As String = Me.getSecurityContainerName()
+            Dim cs = From pc In pcs
+                     Join c In _context.Containers
+                         On pc.IdContainer Equals c.Id
+                     Group Join tc In _context.TenantContainer.Where(Function(tca) tca.State = True)
+                On c.Id Equals tc.ContainerId Into Group
+                     From tc In Group.DefaultIfEmpty()
+                     Select New Company() With {
+            .Id = c.Id,
+            .Code = c.Code,
+            .Name = c.Name,
+            .FoundationalContainer = c.FoundationalContainer,
+            .TransactionalContainer = c.TransactionalContainer,
+            .DocumentalContainer = c.DocumentalContainer,
+            .VituelContainer = c.VituelContainer,
+            .HISContainer = c.HISContainer,
+            .InteropCostContainer = c.InteropCostContainer,
+            .HISIntegration = c.HISIntegration,
+            .GlossesIntegration = c.GlossesIntegration,
+            .PayrollIntegration = c.PayrollIntegration,
+            .HumanTalentIntegration = c.HumanTalentIntegration,
+            .DispensingIntegration = c.DispensingIntegration,
+            .CompanyType = c.CompanyType,
+            .CompanyNit = c.CompanyNit,
+            .VerificationDigitNit = c.VerificationDigitNit.Trim,
+            .Address = c.Address,
+            .Telephone = c.Telephone,
+            .ProductionCompany = c.ProductionCompany,
+            .State = c.State,
+            .Version = c.Version,
+            .IndigoConnectionString = ics,
+            .SecurityContainer = scn,
+            .TenantId = If(tc Is Nothing, CShort(0), tc.TenantId),
+            .ServiceConfigurationId = If(c.ServiceConfiguration Is Nothing, CByte(0), c.ServiceConfiguration.Id)}
+            Return cs.ToList
+        Else
+            Return New List(Of Company)
+        End If
+    End Function
+End Class

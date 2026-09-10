@@ -1,0 +1,1052 @@
+﻿'***********************************************************************
+' Assembly         : Domain.Glosas
+' Author           : Daniel Eduardo Arévalo Bonilla
+' Created          : 19-02-2014
+'
+' Copyright        : (c) . All rights reserved.
+'***********************************************************************
+
+Imports System.Configuration
+Imports System.Data.SqlClient
+Imports System.Text
+Imports Domain.Base.Entities
+Imports Domain.Entities
+Imports Infrastructure.CrossCutting.Base
+
+Public Class RIPSPlane
+    Implements IRIPSPlane
+
+    Private _radicateInvoiceDRepository As IRadicateInvoiceDRepository
+
+    Public Sub New(radicateInvoiceDRepository As IRadicateInvoiceDRepository)
+        _radicateInvoiceDRepository = radicateInvoiceDRepository
+    End Sub
+
+#Region "MegaRIPS"
+
+    ''' <summary>
+    ''' Obtiene los registros para generar el archivo plano MegaRIPS
+    ''' </summary>
+    ''' <param name="radicateInvoiceId">Id del radicado de la factura</param>
+    ''' <returns>Lista de registros</returns>
+    Public Function GetMegaRIPSByRadicateInvoiceId(radicateInvoiceId As Integer, companyCode As String, Optional invoicesList As List(Of RIPSBilling) = Nothing) As String Implements IRIPSPlane.GetMegaRIPSByRadicateInvoiceId
+        Dim sBuilder As String
+        Dim result As List(Of SP_GenerateMegaRIPS_Result) = Nothing
+        If invoicesList IsNot Nothing AndAlso invoicesList.Any() Then
+            Dim invoiceListIsStr As String = String.Join("", invoicesList.Select(Function(o) String.Format("<InvoiceIds><Id>{0}</Id></InvoiceIds>", o.InvoiceId)).ToArray())
+            Try
+                Dim dtResult As New DataTable()
+                Using conn As New SqlConnection(String.Format(ConfigurationManager.ConnectionStrings(Infrastructure.CrossCutting.Base.ConfigurationFile.CONX_GENESIS).ConnectionString, "", ServerSessionValues.Current.CurrentContainer))
+                    conn.Open()
+                    Dim command As New SqlCommand("[Billing].[SP_GenerateMegaRIPSBilling]", conn)
+                    command.CommandType = CommandType.StoredProcedure
+                    command.Parameters.AddWithValue("InvoiceListIds", invoiceListIsStr)
+                    command.Parameters.AddWithValue("companyCode", companyCode)
+                    Dim resultado As SqlDataReader = command.ExecuteReader(CommandBehavior.CloseConnection)
+                    dtResult.Load(resultado)
+                    conn.Close()
+                End Using
+                'Return dtResult.Rows.Count > 0 AndAlso dtResult.Rows(0)("Resultado").ToString().Equals("1")
+                If dtResult.Rows.Count > 0 Then
+                    result = New List(Of SP_GenerateMegaRIPS_Result)()
+                    For Each rw As DataRow In dtResult.Rows
+                        Dim gm As New SP_GenerateMegaRIPS_Result()
+                        Try
+                            With gm
+                                .Apellido = rw("Apellido")
+                                .CantidadProcedi = rw("CantidadProcedi")
+                                .Clasificacion_Origen = rw("Clasificacion_Origen")
+                                .CodAutorizacion = If(rw("CodAutorizacion") Is DBNull.Value, Nothing, rw("CodAutorizacion"))
+                                .Codigo_facturacion_principal = rw("Codigo_facturacion_principal")
+                                .Cod_Contrato = rw("Cod_Contrato")
+                                .Cod_Cuenta = If(rw("Cod_Cuenta") Is DBNull.Value, Nothing, rw("Cod_Cuenta"))
+                                .Cod_Eps = rw("Cod_Eps")
+                                .Cod_Hab_IPS = rw("Cod_Hab_IPS")
+                                .Cod_procedi_Detalle = rw("Cod_procedi_Detalle")
+                                .Cod_Regional = rw("Cod_Regional")
+                                .Con_Des = rw("Con_Des")
+                                .Copago = If(rw("Copago") Is DBNull.Value, Nothing, rw("Copago"))
+                                .Descripcion_procedi = rw("Descripcion_procedi")
+                                .Descuento = rw("Descuento")
+                                .DiagnosticoPrincipal = rw("DiagnosticoPrincipal")
+                                .DIAGNOSTICO_SECUNDARIO_1 = rw("DIAGNOSTICO_SECUNDARIO_1")
+                                .DIAGNOSTICO_SECUNDARIO_2 = rw("DIAGNOSTICO_SECUNDARIO_2")
+                                .Dias_Trat = rw("Dias_Trat")
+                                .Discapacidad = rw("Discapacidad")
+                                .Edad = If(rw("Edad") Is DBNull.Value, Nothing, rw("Edad"))
+                                .Estado_Paciente = rw("Estado_Paciente")
+                                .FechaProcedi = rw("FechaProcedi")
+                                .FECHA_ENTRADA = rw("FECHA_ENTRADA")
+                                .Fecha_Fact = rw("Fecha_Fact")
+                                .FECHA_SALIDA = If(rw("FECHA_SALIDA") Is DBNull.Value, Nothing, rw("FECHA_SALIDA"))
+                                .Fin_Consulta = rw("Fin_Consulta")
+                                .HoraProcedi = rw("HoraProcedi")
+                                .HORA_ENTRADA = rw("HORA_ENTRADA")
+                                .HORA_SALIDA = rw("HORA_SALIDA")
+                                .Ndoc_Paciente = rw("Ndoc_Paciente")
+                                .Nombre = rw("Nombre")
+                                .Nume_Fac = rw("Nume_Fac")
+                                .Num_Cod_IPS = If(rw("Num_Cod_IPS") Is DBNull.Value, Nothing, rw("Num_Cod_IPS"))
+                                .Periodo = rw("Periodo")
+                                .Prefijo = rw("Prefijo")
+                                .SegApellido = rw("SegApellido")
+                                .SegNombre = rw("SegNombre")
+                                .ServiceDate = rw("ServiceDate")
+                                .Sexo = rw("Sexo")
+                                .Tdoc_Paciente = rw("Tdoc_Paciente")
+                                .TIPO_DIAG = rw("TIPO_DIAG")
+                                .Tipo_Doc_IPS = rw("Tipo_Doc_IPS")
+                                .Tipo_Paquete = rw("Tipo_Paquete")
+                                .Tipo_Prestacion = rw("Tipo_Prestacion")
+                                .Tipo_Servicio = rw("Tipo_Servicio")
+                                .ValorBruto = rw("ValorBruto")
+                                .ValorTotalServicio = If(rw("ValorTotalServicio") Is DBNull.Value, Nothing, rw("ValorTotalServicio"))
+                                .ValorUnitario = If(rw("ValorUnitario") Is DBNull.Value, Nothing, rw("ValorUnitario"))
+                                .VALOR_COMPARTIDO_PACIENTE = rw("VALOR_COMPARTIDO_PACIENTE")
+                                .Valor_Copago_Compartido = rw("Valor_Copago_Compartido")
+                                .VALOR_COPAGO_PACIENTE = If(rw("VALOR_COPAGO_PACIENTE") Is DBNull.Value, Nothing, rw("VALOR_COPAGO_PACIENTE"))
+                                .Valor_Ico = rw("Valor_Ico")
+                                .Valor_Iva = rw("Valor_Iva")
+                                .Valor_Moderadora = rw("Valor_Moderadora")
+                                .VALOR_MODERADORA_PACIENTE = If(rw("VALOR_MODERADORA_PACIENTE") Is DBNull.Value, Nothing, rw("VALOR_MODERADORA_PACIENTE"))
+                                .Valor_Neto = rw("Valor_Neto")
+                            End With
+                        Catch ex As Exception
+                            sBuilder = String.Empty
+                        End Try
+
+                        result.Add(gm)
+                    Next
+                End If
+                sBuilder = String.Join(vbCrLf, (From d In result.OrderBy(Function(m) m.Codigo_facturacion_principal) Select d.FieldsToString()).ToArray())
+            Catch ex As Exception
+                sBuilder = String.Empty
+            End Try
+        Else
+            result = _radicateInvoiceDRepository.GetMegaRIPSByRadicateInvoiceId(radicateInvoiceId, companyCode)
+            sBuilder = String.Join(vbCrLf, (From d In result.OrderBy(Function(m) m.Codigo_facturacion_principal) Select d.FieldsToString()).ToArray())
+        End If
+        Return sBuilder
+    End Function
+
+#End Region
+
+#Region "RIPS"
+
+    Dim GlobalCodigoIPS As String
+
+    Public Function AFStructure(data As List(Of SP_GenerateAFFileData_Result), Session As SessionValues) As StringBuilder Implements IRIPSPlane.AFStructure
+        Dim NitIPS As String = Session.IndigoCompanyNit
+        Dim RazonSocial As String = Session.IndigoCompanyName
+
+        Dim resultPlane As New StringBuilder()
+        For Each item In data
+            GlobalCodigoIPS = item.IPSCode
+
+            Dim lineHead As String = ""
+            lineHead &= Utils.StringPad(item.IPSCode, MaxSize(item.IPSCode, 12), " ", Utils.PadType.STR_PAD_RIGHT)
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(RazonSocial, MaxSize(RazonSocial, 60), " ", Utils.PadType.STR_PAD_RIGHT)
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(item.IdentificationTypeCode, MaxSize(item.IdentificationTypeCode, 2), " ", Utils.PadType.STR_PAD_RIGHT)
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(NitIPS, MaxSize(NitIPS, 16), " ", Utils.PadType.STR_PAD_RIGHT)
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(item.InvoiceNumber, MaxSize(item.InvoiceNumber, 20), " ", Utils.PadType.STR_PAD_RIGHT)
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(item.InvoiceDate, MaxSize(item.InvoiceDate, 10), " ", Utils.PadType.STR_PAD_RIGHT)
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(item.AdmissionDate, MaxSize(item.AdmissionDate, 10), " ", Utils.PadType.STR_PAD_RIGHT)
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(item.OutputDate, MaxSize(item.OutputDate, 10), " ", Utils.PadType.STR_PAD_RIGHT)
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(item.HealthEntityCode, MaxSize(item.HealthEntityCode, 6), " ", Utils.PadType.STR_PAD_RIGHT)
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(item.ThirdPartyName, MaxSize(item.ThirdPartyName, 30), " ", Utils.PadType.STR_PAD_RIGHT).ToString().Trim()
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(item.ContractNumber, MaxSize(item.ContractNumber, 15), " ", Utils.PadType.STR_PAD_RIGHT)
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(item.CareGroupName, MaxSize(item.CareGroupName, 30), " ", Utils.PadType.STR_PAD_RIGHT)
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(item.PolicyNumber, MaxSize(item.PolicyNumber, 10), " ", Utils.PadType.STR_PAD_RIGHT)
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(item.TotalPatientSalesPrice.ToString().Replace(",", "."), MaxSize(item.TotalPatientSalesPrice.ToString().Replace(",", "."), 15), " ", Utils.PadType.STR_PAD_RIGHT)
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(item.CommissionValue.ToString().Replace(",", "."), MaxSize(item.CommissionValue.ToString().Replace(",", "."), 15), " ", Utils.PadType.STR_PAD_RIGHT)
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(item.PatientDiscount.ToString().Replace(",", "."), MaxSize(item.PatientDiscount.ToString().Replace(",", "."), 15), " ", Utils.PadType.STR_PAD_RIGHT)
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(item.ThirdPartySalesValue.ToString().Replace(",", "."), MaxSize(item.ThirdPartySalesValue.ToString().Replace(",", "."), 15), " ", Utils.PadType.STR_PAD_RIGHT)
+
+            If resultPlane.Length > 0 Then
+                resultPlane.AppendLine("")
+            End If
+            resultPlane.Append(lineHead)
+        Next
+        Return resultPlane
+    End Function
+
+    Public Function USStructure(data As List(Of SP_GenerateUSFileData_Result)) As StringBuilder Implements IRIPSPlane.USStructure
+        Dim lineHead As String
+        Dim resultPlane As New StringBuilder()
+        Dim _userType As String
+        For Each item In data
+            lineHead = ""
+            _userType = ""
+            If item.UserType = "1" OrElse item.UserType = "3" Then 'administrador o super administrador
+                _userType = "1"
+            Else
+                _userType = "2"
+            End If
+            lineHead &= Utils.StringPad(item.IdentificationTypeCode, 2, " ", Utils.PadType.STR_PAD_RIGHT)
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(item.IdentificationNumber, MaxSize(item.IdentificationNumber, 20), " ", Utils.PadType.STR_PAD_RIGHT)
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(item.HealthEntityCode, MaxSize(item.HealthEntityCode, 6), " ", Utils.PadType.STR_PAD_RIGHT)
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(_userType, 1, " ", Utils.PadType.STR_PAD_RIGHT)
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(item.FirstLastName, MaxSize(item.FirstLastName, 30), " ", Utils.PadType.STR_PAD_RIGHT)
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(item.SecondLastName, MaxSize(item.SecondLastName, 30), " ", Utils.PadType.STR_PAD_RIGHT)
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(item.FirstName, MaxSize(item.FirstName, 20), " ", Utils.PadType.STR_PAD_RIGHT)
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(item.SecondName, MaxSize(item.SecondName, 20), " ", Utils.PadType.STR_PAD_RIGHT)
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(item.Age, MaxSize(item.Age, 3), " ", Utils.PadType.STR_PAD_RIGHT)
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(item.UnitMeasureAge, 1, " ", Utils.PadType.STR_PAD_RIGHT)
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(item.Gender, 1, " ", Utils.PadType.STR_PAD_RIGHT)
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(item.Department, 2, " ", Utils.PadType.STR_PAD_RIGHT)
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(item.City, 3, " ", Utils.PadType.STR_PAD_RIGHT)
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(item.ResidentialZone, 1, " ", Utils.PadType.STR_PAD_RIGHT)
+
+            If resultPlane.Length > 0 Then
+                resultPlane.AppendLine("")
+            End If
+            resultPlane.Append(lineHead)
+        Next
+        Return resultPlane
+    End Function
+
+    Public Function ACStructure(data As List(Of SP_GenerateACFileData_Result)) As StringBuilder Implements IRIPSPlane.ACStructure
+        Dim resultPlane As New StringBuilder()
+        For Each item In data
+            GlobalCodigoIPS = item.IPSCode
+
+            Dim lineHead As String = ""
+            lineHead &= Utils.StringPad(item.InvoiceNumber, MaxSize(item.InvoiceNumber, 20), " ", Utils.PadType.STR_PAD_RIGHT)
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(item.IPSCode, MaxSize(item.IPSCode, 12), " ", Utils.PadType.STR_PAD_RIGHT)
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(item.IdentificationTypeCode, 2, " ", Utils.PadType.STR_PAD_RIGHT)
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(item.IdentificationNumber, MaxSize(item.IdentificationNumber, 20), " ", Utils.PadType.STR_PAD_RIGHT)
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(item.ServiceDate, MaxSize(item.ServiceDate, 10), " ", Utils.PadType.STR_PAD_RIGHT)
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(item.AuthorizationNumber, MaxSize(item.AuthorizationNumber, 15), " ", Utils.PadType.STR_PAD_RIGHT)
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(item.RIPSCode, MaxSize(item.RIPSCode, 8), " ", Utils.PadType.STR_PAD_RIGHT)
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(item.ConsultationPurpose, MaxSize(item.ConsultationPurpose, 2), "", Utils.PadType.STR_PAD_RIGHT)
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(item.ExternalCause, MaxSize(item.ExternalCause, 2), " ", Utils.PadType.STR_PAD_RIGHT)
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(item.MainDiagnosticCode, MaxSize(item.MainDiagnosticCode, 4), " ", Utils.PadType.STR_PAD_RIGHT)
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(item.DiagnosticCodeRel1, MaxSize(item.DiagnosticCodeRel1, 4), " ", Utils.PadType.STR_PAD_RIGHT)
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(item.DiagnosticCodeRel2, MaxSize(item.DiagnosticCodeRel2, 4), " ", Utils.PadType.STR_PAD_RIGHT)
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(item.DiagnosticCodeRel3, MaxSize(item.DiagnosticCodeRel3, 4), " ", Utils.PadType.STR_PAD_RIGHT)
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(item.DiagnosticType, 1, " ", Utils.PadType.STR_PAD_RIGHT)
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(item.TotalSalesPrice.ToString().Replace(",", "."), MaxSize(item.TotalSalesPrice.ToString().Replace(",", "."), 15), "", Utils.PadType.STR_PAD_RIGHT)
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(item.ModeratorFee.ToString().Replace(",", "."), MaxSize(item.ModeratorFee.ToString().Replace(",", "."), 15), "", Utils.PadType.STR_PAD_RIGHT)
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(item.NetToPay.ToString().Replace(",", "."), MaxSize(item.NetToPay.ToString().Replace(",", "."), 15), "", Utils.PadType.STR_PAD_RIGHT)
+
+            If resultPlane.Length > 0 Then
+                resultPlane.AppendLine("")
+            End If
+            resultPlane.Append(lineHead)
+        Next
+        Return resultPlane
+    End Function
+
+    Public Function APStructure(data As List(Of SP_GenerateAPFileData_Result), ServiceCode As String) As StringBuilder Implements IRIPSPlane.APStructure
+        Dim resultPlane As New StringBuilder()
+        For Each item In data
+            GlobalCodigoIPS = item.IPSCode
+
+            Dim StrCodigoProcedimiento = String.Empty
+            Select Case ServiceCode
+                Case "1"
+                    StrCodigoProcedimiento = item.RIPSCode
+                Case "2"
+                    StrCodigoProcedimiento = item.RIPSCode
+                Case "3"
+                    StrCodigoProcedimiento = item.ManualRateCode
+            End Select
+
+            Dim lineHead As String = ""
+            lineHead &= Utils.StringPad(item.InvoiceNumber, MaxSize(item.InvoiceNumber, 20), " ", Utils.PadType.STR_PAD_RIGHT)
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(item.IPSCode, MaxSize(item.IPSCode, 12), " ", Utils.PadType.STR_PAD_RIGHT)
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(item.IdentificationTypeCode, MaxSize(item.IdentificationTypeCode, 2), " ", Utils.PadType.STR_PAD_RIGHT)
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(item.IdentificationNumber, MaxSize(item.IdentificationNumber, 20), " ", Utils.PadType.STR_PAD_RIGHT)
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(item.ServiceDate, MaxSize(item.ServiceDate, 10), " ", Utils.PadType.STR_PAD_RIGHT)
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(item.AuthorizationNumber, MaxSize(item.AuthorizationNumber, 15), " ", Utils.PadType.STR_PAD_RIGHT)
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(StrCodigoProcedimiento, MaxSize(StrCodigoProcedimiento, 20), " ", Utils.PadType.STR_PAD_RIGHT)
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(item.ScopeRealization, MaxSize(item.ScopeRealization, 1), " ", Utils.PadType.STR_PAD_RIGHT)
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(item.ProcedutePurpose, MaxSize(item.ProcedutePurpose, 1), " ", Utils.PadType.STR_PAD_RIGHT)
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(item.PersonalService, MaxSize(item.PersonalService, 1), " ", Utils.PadType.STR_PAD_RIGHT)
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(item.MainDiagnosticCode, MaxSize(item.MainDiagnosticCode, 4), " ", Utils.PadType.STR_PAD_RIGHT)
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(item.MainDiagnosticCode, MaxSize(item.MainDiagnosticCode, 4), " ", Utils.PadType.STR_PAD_RIGHT)
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(item.Complication, MaxSize(item.Complication, 4), " ", Utils.PadType.STR_PAD_RIGHT)
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(item.FormSurgicalAct, MaxSize(item.FormSurgicalAct, 1), " ", Utils.PadType.STR_PAD_RIGHT)
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(item.TotalSalesPrice.ToString.Replace(",", "."), MaxSize(item.TotalSalesPrice.ToString.Replace(",", "."), 15), " ", Utils.PadType.STR_PAD_RIGHT)
+
+            If resultPlane.Length > 0 Then
+                resultPlane.AppendLine("")
+            End If
+            resultPlane.Append(lineHead)
+        Next
+        Return resultPlane
+    End Function
+
+    Public Function ATStructure(data As List(Of SP_GenerateATFileData_Result), ServiceCode As String) As StringBuilder Implements IRIPSPlane.ATStructure
+        Dim resultPlane As New StringBuilder()
+        For Each item In data
+            Dim StrCodigoProcedimiento As String = ""
+            Dim StrNombreServicio As String = ""
+            Select Case ServiceCode
+                Case "1"
+                    StrCodigoProcedimiento = item.RIPSCode.ToString.Trim
+                    StrNombreServicio = item.CUPSDescription.ToString.Trim
+                Case "2"
+                    StrCodigoProcedimiento = item.CUPSCode.ToString.Trim
+                    StrNombreServicio = item.CUPSDescription.ToString.Trim
+                Case "3"
+                    StrCodigoProcedimiento = item.ManualRateCode.ToString.Trim
+                    StrNombreServicio = item.ManualRateName.ToString.Trim
+                Case "4"
+                    StrCodigoProcedimiento = item.CUPSCode.ToString.Trim
+                    StrNombreServicio = If(String.IsNullOrEmpty(item.ContractDescriptionName), item.CUPSDescription.ToString.Trim, item.ContractDescriptionName.ToString.Trim)
+                Case "5"
+                    StrCodigoProcedimiento = item.CUPSCode.ToString.Trim
+                    StrNombreServicio = If(String.IsNullOrEmpty(item.ContractDescriptionName), item.CUPSDescription.ToString.Trim, item.CUPSDescription.ToString.Trim + " " + item.ContractDescriptionName.ToString.Trim)
+            End Select
+            StrNombreServicio = StrNombreServicio.Replace(",", ".")
+            StrNombreServicio = StrNombreServicio.Replace("*", " ")
+            StrNombreServicio = StrNombreServicio.Replace("-", " ")
+            StrNombreServicio = StrNombreServicio.Replace("(", "")
+            StrNombreServicio = StrNombreServicio.Replace(")", "")
+            StrNombreServicio = StrNombreServicio.Replace("'", "")
+            StrNombreServicio = StrNombreServicio.Replace("%", " ")
+            StrNombreServicio = StrNombreServicio.Replace("+", " ")
+            StrNombreServicio = StrNombreServicio.Replace("""", " ")
+            StrNombreServicio = StrNombreServicio.Replace("á", "a")
+            StrNombreServicio = StrNombreServicio.Replace("é", "e")
+            StrNombreServicio = StrNombreServicio.Replace("í", "i")
+            StrNombreServicio = StrNombreServicio.Replace("ó", "o")
+            StrNombreServicio = StrNombreServicio.Replace("ú", "u")
+            StrNombreServicio = StrNombreServicio.Replace("Á", "A")
+            StrNombreServicio = StrNombreServicio.Replace("É", "E")
+            StrNombreServicio = StrNombreServicio.Replace("Í", "I")
+            StrNombreServicio = StrNombreServicio.Replace("Ó", "O")
+            StrNombreServicio = StrNombreServicio.Replace("Ú", "U")
+            StrNombreServicio = StrNombreServicio.CleanSpecialChars()
+
+            Dim lineHead As String = ""
+            lineHead &= Utils.StringPad(item.InvoiceNumber, MaxSize(item.InvoiceNumber, 20), " ", Utils.PadType.STR_PAD_RIGHT)
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(item.IPSCode, MaxSize(item.IPSCode, 12), " ", Utils.PadType.STR_PAD_RIGHT)
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(item.IdentificationTypeCode, MaxSize(item.IdentificationTypeCode, 2), " ", Utils.PadType.STR_PAD_RIGHT)
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(item.IdentificationNumber, MaxSize(item.IdentificationNumber.Trim(), 20), " ", Utils.PadType.STR_PAD_RIGHT)
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(item.AuthorizationNumber, MaxSize(item.AuthorizationNumber, 15), " ", Utils.PadType.STR_PAD_RIGHT)
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(item.TypeService, MaxSize(item.TypeService, 1), " ", Utils.PadType.STR_PAD_RIGHT)
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(StrCodigoProcedimiento, MaxSize(StrCodigoProcedimiento, 20), " ", Utils.PadType.STR_PAD_RIGHT)
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(StrNombreServicio, MaxSize(StrNombreServicio, 60), " ", Utils.PadType.STR_PAD_RIGHT)
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(item.InvoicedQuantity, item.InvoicedQuantity.ToString.Length, " ", Utils.PadType.STR_PAD_RIGHT)
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(item.TotalSalesPrice.ToString.Replace(",", "."), MaxSize(item.TotalSalesPrice.ToString.Replace(",", "."), 15), " ", Utils.PadType.STR_PAD_RIGHT)
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(item.GrandTotalSalesPrice.ToString.Replace(",", "."), MaxSize(item.GrandTotalSalesPrice.ToString.Replace(",", "."), 15), " ", Utils.PadType.STR_PAD_RIGHT)
+
+            If resultPlane.Length > 0 Then
+                resultPlane.AppendLine("")
+            End If
+            resultPlane.Append(lineHead)
+        Next
+        Return resultPlane
+    End Function
+
+    Public Function ANStructure(data As List(Of SP_GenerateANFileData_Result)) As StringBuilder Implements IRIPSPlane.ANStructure
+        Dim resultPlane As New StringBuilder()
+        For Each item In data
+            Dim lineHead As String = ""
+            lineHead &= Utils.StringPad(item.InvoiceNumber, MaxSize(item.InvoiceNumber, 20), " ", Utils.PadType.STR_PAD_RIGHT)
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(item.IPSCode, MaxSize(item.IPSCode, 12), " ", Utils.PadType.STR_PAD_RIGHT)
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(item.IdentificationTypeCode, MaxSize(item.IdentificationTypeCode, 2), " ", Utils.PadType.STR_PAD_RIGHT)
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(item.IdentificationNumber, MaxSize(item.IdentificationNumber, 20), " ", Utils.PadType.STR_PAD_RIGHT)
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(item.BirthDate, MaxSize(item.BirthDate, 10), " ", Utils.PadType.STR_PAD_RIGHT)
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(item.BirthTime, MaxSize(item.BirthTime, 5), " ", Utils.PadType.STR_PAD_RIGHT)
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(item.GestationalAge, MaxSize(item.GestationalAge, 2), " ", Utils.PadType.STR_PAD_RIGHT)
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(item.AntenatalControl, MaxSize(item.AntenatalControl, 1), " ", Utils.PadType.STR_PAD_RIGHT)
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(item.Gender, MaxSize(item.Gender, 1), " ", Utils.PadType.STR_PAD_RIGHT)
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(item.Weight, MaxSize(item.Weight, 4), " ", Utils.PadType.STR_PAD_RIGHT)
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(item.DiagnosticCode, MaxSize(item.DiagnosticCode, 4), " ", Utils.PadType.STR_PAD_RIGHT)
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(item.CauseDeath, MaxSize(item.CauseDeath, 4), " ", Utils.PadType.STR_PAD_RIGHT)
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(item.DeathDate, MaxSize(item.DeathDate, 10), " ", Utils.PadType.STR_PAD_RIGHT)
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(item.DeathTime, MaxSize(item.DeathTime, 5), " ", Utils.PadType.STR_PAD_RIGHT)
+
+            If resultPlane.Length > 0 Then
+                resultPlane.AppendLine("")
+            End If
+            resultPlane.Append(lineHead)
+        Next
+        Return resultPlane
+    End Function
+
+    Public Function AUStructure(data As List(Of SP_GenerateAUFileData_Result)) As StringBuilder Implements IRIPSPlane.AUStructure
+        Dim resultPlane As New StringBuilder()
+        For Each item In data
+            GlobalCodigoIPS = item.IPSCode
+
+            Dim lineHead As String = ""
+            lineHead &= Utils.StringPad(item.InvoiceNumber, MaxSize(item.InvoiceNumber, 20), " ", Utils.PadType.STR_PAD_RIGHT)
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(item.IPSCode, MaxSize(item.IPSCode, 12), " ", Utils.PadType.STR_PAD_RIGHT)
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(item.IdentificationTypeCode, MaxSize(item.IdentificationTypeCode, 2), " ", Utils.PadType.STR_PAD_RIGHT)
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(item.IdentificationNumber, MaxSize(item.IdentificationNumber, 20), " ", Utils.PadType.STR_PAD_RIGHT)
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(item.AdmissionDate, MaxSize(item.AdmissionDate, 10), " ", Utils.PadType.STR_PAD_RIGHT)
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(item.AdmissionTime, MaxSize(item.AdmissionTime, 5), " ", Utils.PadType.STR_PAD_RIGHT)
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(item.AuthorizationNumber, MaxSize(item.AuthorizationNumber, 15), " ", Utils.PadType.STR_PAD_RIGHT)
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(item.ExternalCause, MaxSize(item.ExternalCause, 2), " ", Utils.PadType.STR_PAD_RIGHT)
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(item.Diagnostic, MaxSize(item.Diagnostic, 4), " ", Utils.PadType.STR_PAD_RIGHT)
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(item.Diagnostic, MaxSize(item.Diagnostic, 4), " ", Utils.PadType.STR_PAD_RIGHT)
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(item.Diagnostic, MaxSize(item.Diagnostic, 4), " ", Utils.PadType.STR_PAD_RIGHT)
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(item.Diagnostic, MaxSize(item.Diagnostic, 4), " ", Utils.PadType.STR_PAD_RIGHT)
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(item.UserDestination, MaxSize(item.UserDestination, 1), " ", Utils.PadType.STR_PAD_RIGHT)
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(item.OutputState, MaxSize(item.OutputState, 1), " ", Utils.PadType.STR_PAD_RIGHT)
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(item.CauseDeath, MaxSize(item.CauseDeath, 4), " ", Utils.PadType.STR_PAD_RIGHT)
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(item.OutDate, MaxSize(item.OutDate, 10), " ", Utils.PadType.STR_PAD_RIGHT)
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(item.OutTime, MaxSize(item.OutTime, 5), " ", Utils.PadType.STR_PAD_RIGHT)
+
+            If resultPlane.Length > 0 Then
+                resultPlane.AppendLine("")
+            End If
+            resultPlane.Append(lineHead)
+        Next
+        Return resultPlane
+    End Function
+
+    Public Function AHStructure(data As List(Of SP_GenerateAHFileData_Result)) As StringBuilder Implements IRIPSPlane.AHStructure
+        Dim resultPlane As New StringBuilder()
+        For Each item In data
+            Dim lineHead As String = ""
+            lineHead &= Utils.StringPad(item.InvoiceNumber, MaxSize(item.InvoiceNumber, 20), " ", Utils.PadType.STR_PAD_RIGHT)
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(item.IPSCode, MaxSize(item.IPSCode, 12), " ", Utils.PadType.STR_PAD_RIGHT)
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(item.IdentificationTypeCode, MaxSize(item.IdentificationTypeCode, 2), " ", Utils.PadType.STR_PAD_RIGHT)
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(item.IdentificationNumber, MaxSize(item.IdentificationNumber, 20), " ", Utils.PadType.STR_PAD_RIGHT)
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(item.ViaIncome, MaxSize(item.ViaIncome, 1), " ", Utils.PadType.STR_PAD_RIGHT)
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(item.AdmissionDate, MaxSize(item.AdmissionDate, 10), " ", Utils.PadType.STR_PAD_RIGHT)
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(item.AdmissionTime, MaxSize(item.AdmissionTime, 5), " ", Utils.PadType.STR_PAD_RIGHT)
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(item.AuthorizationNumber, MaxSize(item.AuthorizationNumber, 15), " ", Utils.PadType.STR_PAD_RIGHT)
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(item.ExternalCause, MaxSize(item.ExternalCause, 2), " ", Utils.PadType.STR_PAD_RIGHT)
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(item.DiagnosticAdmission, MaxSize(item.DiagnosticAdmission, 4), " ", Utils.PadType.STR_PAD_RIGHT)
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(item.DiagnosticEgress, MaxSize(item.DiagnosticEgress, 4), " ", Utils.PadType.STR_PAD_RIGHT)
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(item.DiagnosticEgress, MaxSize(item.DiagnosticEgress, 4), " ", Utils.PadType.STR_PAD_RIGHT)
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(item.DiagnosticEgress, MaxSize(item.DiagnosticEgress, 4), " ", Utils.PadType.STR_PAD_RIGHT)
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(item.DiagnosticEgress, MaxSize(item.DiagnosticEgress, 4), " ", Utils.PadType.STR_PAD_RIGHT)
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(item.DiagnosticComplication, MaxSize(item.DiagnosticComplication, 4), " ", Utils.PadType.STR_PAD_RIGHT)
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(item.OutputState, MaxSize(item.OutputState, 1), " ", Utils.PadType.STR_PAD_RIGHT)
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(item.CauseDeath, MaxSize(item.CauseDeath, 4), " ", Utils.PadType.STR_PAD_RIGHT)
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(item.OutDate, MaxSize(item.OutDate, 10), " ", Utils.PadType.STR_PAD_RIGHT)
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(item.OutTime, MaxSize(item.OutTime, 5), " ", Utils.PadType.STR_PAD_RIGHT)
+
+            If resultPlane.Length > 0 Then
+                resultPlane.AppendLine("")
+            End If
+            resultPlane.Append(lineHead)
+        Next
+        Return resultPlane
+    End Function
+
+    Public Function AMStructure(data As List(Of SP_GenerateAMFileData_Result), CodificationType As String) As StringBuilder Implements IRIPSPlane.AMStructure
+        Dim resultPlane As New StringBuilder()
+        For Each item In data
+            GlobalCodigoIPS = item.IPSCode
+
+            Dim StrCodigoMedicamento = String.Empty
+            Select Case CodificationType
+                Case "1"
+                    StrCodigoMedicamento = item.CodeCUM
+                Case "2"
+                    StrCodigoMedicamento = item.Code
+                Case "3"
+                    StrCodigoMedicamento = item.CodeAlternative
+                Case "4"
+                    StrCodigoMedicamento = item.CodeAlternativeTwo
+            End Select
+
+            Dim NombreMedicamento = item.DrugName
+            NombreMedicamento = NombreMedicamento.Replace("á", "a")
+            NombreMedicamento = NombreMedicamento.Replace("é", "e")
+            NombreMedicamento = NombreMedicamento.Replace("í", "i")
+            NombreMedicamento = NombreMedicamento.Replace("ó", "o")
+            NombreMedicamento = NombreMedicamento.Replace("ú", "u")
+            NombreMedicamento = NombreMedicamento.Replace("ñ", "n")
+            NombreMedicamento = NombreMedicamento.Replace(",", ".")
+            NombreMedicamento = NombreMedicamento.Replace("*", " ")
+            NombreMedicamento = NombreMedicamento.Replace("-", " ")
+            NombreMedicamento = NombreMedicamento.Replace("(", "")
+            NombreMedicamento = NombreMedicamento.Replace(")", "")
+            NombreMedicamento = NombreMedicamento.Replace("'", "")
+            NombreMedicamento = NombreMedicamento.Replace("%", " ")
+            NombreMedicamento = NombreMedicamento.Replace("+", " ")
+            NombreMedicamento = NombreMedicamento.Replace("""", " ")
+
+            Dim FormaFarmaceutica = item.PharmaceuticalForm
+            FormaFarmaceutica = FormaFarmaceutica.Replace("á", "a")
+            FormaFarmaceutica = FormaFarmaceutica.Replace("é", "e")
+            FormaFarmaceutica = FormaFarmaceutica.Replace("í", "i")
+            FormaFarmaceutica = FormaFarmaceutica.Replace("ó", "o")
+            FormaFarmaceutica = FormaFarmaceutica.Replace("ú", "u")
+            FormaFarmaceutica = FormaFarmaceutica.Replace(",", ".")
+
+            Dim lineHead As String = ""
+            lineHead &= Utils.StringPad(item.InvoiceNumber, MaxSize(item.InvoiceNumber, 20), " ", Utils.PadType.STR_PAD_RIGHT)
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(item.IPSCode, MaxSize(item.IPSCode, 12), " ", Utils.PadType.STR_PAD_RIGHT)
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(item.IdentificationTypeCode, MaxSize(item.IdentificationTypeCode, 2), " ", Utils.PadType.STR_PAD_RIGHT)
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(item.IdentificationNumber, MaxSize(item.IdentificationNumber.Trim(), 20), " ", Utils.PadType.STR_PAD_RIGHT)
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(item.AuthorizationNumber, MaxSize(item.AuthorizationNumber.Trim(), 15), " ", Utils.PadType.STR_PAD_RIGHT)
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(StrCodigoMedicamento, MaxSize(StrCodigoMedicamento, 20), " ", Utils.PadType.STR_PAD_RIGHT)
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(item.MedicationType, MaxSize(item.MedicationType, 1), " ", Utils.PadType.STR_PAD_RIGHT)
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(NombreMedicamento, MaxSize(NombreMedicamento, 30), " ", Utils.PadType.STR_PAD_RIGHT)
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(FormaFarmaceutica, MaxSize(FormaFarmaceutica, 20), " ", Utils.PadType.STR_PAD_RIGHT)
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(item.Concentration.ToString().Replace(",", "."), MaxSize(item.Concentration, 20), " ", Utils.PadType.STR_PAD_RIGHT)
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(item.UnitMeasure, MaxSize(item.UnitMeasure, 20), " ", Utils.PadType.STR_PAD_RIGHT)
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(item.InvoicedQuantity, MaxSize(item.InvoicedQuantity, 5), " ", Utils.PadType.STR_PAD_RIGHT)
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(item.TotalSalesPrice.ToString.Replace(",", "."), MaxSize(item.TotalSalesPrice.ToString.Replace(",", "."), 15), " ", Utils.PadType.STR_PAD_RIGHT)
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(item.GrandTotalSalesPrice.ToString.Replace(",", "."), MaxSize(item.GrandTotalSalesPrice.ToString.Replace(",", "."), 15), " ", Utils.PadType.STR_PAD_RIGHT)
+
+            If resultPlane.Length > 0 Then
+                resultPlane.AppendLine("")
+            End If
+            resultPlane.Append(lineHead)
+        Next
+        Return resultPlane
+    End Function
+
+    Public Function CTFile(ConsecutiveRadicateInvoice As String, ListPlaneRIPS As List(Of ActionMessageResult(Of StringBuilder))) As ActionMessageResult(Of StringBuilder) Implements IRIPSPlane.CTFile
+        Dim ActualMonth = Month(Date.Now).ToString()
+        Dim ActualYear = Year(Date.Now)
+        Dim result As New ActionMessageResult(Of StringBuilder)
+        Dim resultPlane As New StringBuilder()
+        Dim MonthValid As String
+        Try
+            If Len(ActualMonth) = 1 Then
+                MonthValid = "0" & ActualMonth
+            Else
+                MonthValid = ActualMonth
+            End If
+            If ListPlaneRIPS.Count() > 0 Then
+                For Each item In ListPlaneRIPS
+                    If item.StateResult Then
+                        Dim RegisterCount As Integer = 1 + RegularExpressions.Regex.Matches(item.ObjectEmbbeded.ToString(), Environment.NewLine).Count
+                        RegisterCount = IIf(RegisterCount = 0, 1, RegisterCount)
+
+                        Dim lineHead As String = ""
+                        lineHead &= Utils.StringPad(GlobalCodigoIPS, MaxSize(GlobalCodigoIPS, 12), " ", Utils.PadType.STR_PAD_RIGHT)
+                        lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+                        lineHead &= Utils.StringPad(Date.Now.ToString("dd/MM/yyyy"), MaxSize((Date.Now.ToString("dd/MM/yyyy")), 20), " ", Utils.PadType.STR_PAD_RIGHT)
+                        lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+                        lineHead &= Utils.StringPad(item.Message, MaxSize(item.Message, 8), " ", Utils.PadType.STR_PAD_RIGHT)
+                        lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+                        lineHead &= Utils.StringPad(RegisterCount, MaxSize(RegisterCount, 10), " ", Utils.PadType.STR_PAD_RIGHT)
+
+                        If resultPlane.Length > 0 Then
+                            resultPlane.AppendLine("")
+                        End If
+                        resultPlane.Append(lineHead)
+                    End If
+                Next
+                result.Message = "CT" & ConsecutiveRadicateInvoice
+                result.ObjectEmbbeded = resultPlane
+                result.StateResult = True
+            Else
+                result.StateResult = False
+            End If
+        Catch ex As Exception
+            result.StateResult = False
+        End Try
+        Return result
+    End Function
+
+#End Region
+
+#Region "FURIPS"
+
+    Public Function FURIPS1Structure(data As List(Of SP_GenerateFURIPS1FileData_Result)) As StringBuilder Implements IRIPSPlane.FURIPS1Structure
+        Dim resultPlane As New StringBuilder()
+        For Each item In data
+            Dim lineHead As String = ""
+            lineHead &= Utils.StringPad(item.NumeroRadicadoAnterior, MaxSize(item.NumeroRadicadoAnterior, 10), " ", Utils.PadType.STR_PAD_RIGHT).ToString.Trim() ' 1
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(item.RespuestaGlosa, MaxSize(item.RespuestaGlosa, 1), " ", Utils.PadType.STR_PAD_RIGHT).ToString.Trim() ' 2
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(item.NumeroFactura, MaxSize(item.NumeroFactura, 20), " ", Utils.PadType.STR_PAD_RIGHT).ToString.Trim() ' 3
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(item.ConsecutivoReclamacion, MaxSize(item.ConsecutivoReclamacion, 12), " ", Utils.PadType.STR_PAD_RIGHT).ToString.Trim() ' 4
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(item.PrestadorServicioSalud, MaxSize(item.PrestadorServicioSalud, 12), " ", Utils.PadType.STR_PAD_RIGHT).ToString.Trim() ' 5
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(item.PrimerApellidoVictima, MaxSize(item.PrimerApellidoVictima, 20), " ", Utils.PadType.STR_PAD_RIGHT).ToString.Trim() ' 6
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(item.SegundoApellidoVictima, MaxSize(item.SegundoApellidoVictima, 30), " ", Utils.PadType.STR_PAD_RIGHT).ToString.Trim() ' 7
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(item.PrimerNombreVictima, MaxSize(item.PrimerNombreVictima, 20), " ", Utils.PadType.STR_PAD_RIGHT).ToString.Trim() ' 8
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(item.SegundoNombreVictima, MaxSize(item.SegundoNombreVictima, 30), " ", Utils.PadType.STR_PAD_RIGHT).ToString.Trim() ' 9
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(item.TipoDocumentoVictima, MaxSize(item.TipoDocumentoVictima, 2), " ", Utils.PadType.STR_PAD_RIGHT).ToString.Trim() ' 10
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(item.NumeroDocumentoVictima, MaxSize(item.NumeroDocumentoVictima, 16), " ", Utils.PadType.STR_PAD_RIGHT).ToString.Trim() ' 11
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(item.FechaNacimientoVictima, MaxSize(item.FechaNacimientoVictima, 10), " ", Utils.PadType.STR_PAD_RIGHT).ToString.Trim() ' 12
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(item.SexoVictima, MaxSize(item.SexoVictima, 1), " ", Utils.PadType.STR_PAD_RIGHT).ToString.Trim() ' 13
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(item.DireccionVictima, MaxSize(item.DireccionVictima, 40), " ", Utils.PadType.STR_PAD_RIGHT).ToString.Trim() ' 14
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(item.DepartamentoResidenciaVictima, MaxSize(item.DepartamentoResidenciaVictima, 2), " ", Utils.PadType.STR_PAD_RIGHT).ToString.Trim() ' 15
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(item.CodigoMunicipioVictima, MaxSize(item.CodigoMunicipioVictima, 3), " ", Utils.PadType.STR_PAD_RIGHT).ToString.Trim() ' 16
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(item.TelefonoVictima, MaxSize(item.TelefonoVictima, 10), " ", Utils.PadType.STR_PAD_RIGHT).ToString.Trim() ' 17
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(item.CondicionVictima, MaxSize(item.CondicionVictima, 1), " ", Utils.PadType.STR_PAD_RIGHT).ToString.Trim() ' 18
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(item.NaturalezaEvento, MaxSize(item.NaturalezaEvento, 2), " ", Utils.PadType.STR_PAD_RIGHT).ToString.Trim() ' 19
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(item.DescripcionEvento, MaxSize(item.DescripcionEvento, 25), " ", Utils.PadType.STR_PAD_RIGHT).ToString.Trim() ' 20
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(item.DireccionEvento, MaxSize(item.DireccionEvento, 40), " ", Utils.PadType.STR_PAD_RIGHT).ToString.Trim() ' 21
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(item.FechaEvento, MaxSize(item.FechaEvento, 10), " ", Utils.PadType.STR_PAD_RIGHT).ToString.Trim() ' 22
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(item.HoraEvento, MaxSize(item.HoraEvento, 5), " ", Utils.PadType.STR_PAD_RIGHT).ToString.Trim() ' 23
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(item.DepartamentoEvento, MaxSize(item.DepartamentoEvento, 2), " ", Utils.PadType.STR_PAD_RIGHT).ToString.Trim() ' 24
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(item.CiudadEvento, MaxSize(item.CiudadEvento, 3), " ", Utils.PadType.STR_PAD_RIGHT).ToString.Trim() ' 25
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(item.ZonaEvento, MaxSize(item.ZonaEvento, 1), " ", Utils.PadType.STR_PAD_RIGHT).ToString.Trim() ' 26
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(item.EstadoAsegurado, MaxSize(item.EstadoAsegurado, 1), " ", Utils.PadType.STR_PAD_RIGHT).ToString.Trim() ' 27
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(item.Marca, MaxSize(item.Marca, 15), " ", Utils.PadType.STR_PAD_RIGHT).ToString.Trim() ' 28
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(item.Placa, MaxSize(item.Placa, 6), " ", Utils.PadType.STR_PAD_RIGHT).ToString.Trim() ' 29
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(item.TipoVehiculo, MaxSize(item.TipoVehiculo, 1), " ", Utils.PadType.STR_PAD_RIGHT).ToString.Trim() ' 30
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(item.CodigoAseguradora, MaxSize(item.CodigoAseguradora, 6), " ", Utils.PadType.STR_PAD_RIGHT).ToString.Trim() ' 31
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(item.NumeroSOAT, MaxSize(item.NumeroSOAT, 20), " ", Utils.PadType.STR_PAD_RIGHT).ToString.Trim() ' 32
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(item.FechaInicioVigenciaPoliza, MaxSize(item.FechaInicioVigenciaPoliza, 10), " ", Utils.PadType.STR_PAD_RIGHT).ToString.Trim() ' 33
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(item.FechaFinVigenciaPoliza, MaxSize(item.FechaFinVigenciaPoliza, 10), " ", Utils.PadType.STR_PAD_RIGHT).ToString.Trim() ' 34
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(item.IntervencionAutoridad, MaxSize(item.IntervencionAutoridad, 1), " ", Utils.PadType.STR_PAD_RIGHT).ToString.Trim() ' 35
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(item.CobroExcedente, MaxSize(item.CobroExcedente, 1), " ", Utils.PadType.STR_PAD_RIGHT).ToString.Trim() ' 36
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(" ", 1, " ", Utils.PadType.STR_PAD_RIGHT).ToString.Trim() ' 37
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(" ", 1, " ", Utils.PadType.STR_PAD_RIGHT).ToString.Trim() ' 38
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(" ", 1, " ", Utils.PadType.STR_PAD_RIGHT).ToString.Trim() ' 39
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(" ", 1, " ", Utils.PadType.STR_PAD_RIGHT).ToString.Trim() ' 40
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(" ", 1, " ", Utils.PadType.STR_PAD_RIGHT).ToString.Trim() ' 41
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(" ", 1, " ", Utils.PadType.STR_PAD_RIGHT).ToString.Trim() ' 42
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(item.TipoDocumentoPropietario, MaxSize(item.TipoDocumentoPropietario, 2), " ", Utils.PadType.STR_PAD_RIGHT).ToString.Trim() ' 43
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(item.NumeroDocumentoPropietario, MaxSize(item.NumeroDocumentoPropietario, 16), " ", Utils.PadType.STR_PAD_RIGHT).ToString.Trim() ' 44
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(item.PrimerApellidoPropietario, MaxSize(item.PrimerApellidoPropietario, 40), " ", Utils.PadType.STR_PAD_RIGHT).ToString.Trim() ' 45
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(item.SegundoApellidoPropietario, MaxSize(item.SegundoApellidoPropietario, 30), " ", Utils.PadType.STR_PAD_RIGHT).ToString.Trim() ' 46
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(item.PrimerNombrePropietario, MaxSize(item.PrimerNombrePropietario, 20), " ", Utils.PadType.STR_PAD_RIGHT).ToString.Trim() ' 47
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(item.SegundoNombrePropietario, MaxSize(item.SegundoNombrePropietario, 30), " ", Utils.PadType.STR_PAD_RIGHT).ToString.Trim() ' 48
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(item.DireccionPropietario, MaxSize(item.DireccionPropietario, 40), " ", Utils.PadType.STR_PAD_RIGHT).ToString.Trim() ' 49
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(item.TelefonoPropietario, MaxSize(item.TelefonoPropietario, 10), " ", Utils.PadType.STR_PAD_RIGHT).ToString.Trim() ' 50
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(item.DepartamentoPropietario, MaxSize(item.DepartamentoPropietario, 2), " ", Utils.PadType.STR_PAD_RIGHT).ToString.Trim() ' 51
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(item.MunicipioPropietario, MaxSize(item.MunicipioPropietario, 3), " ", Utils.PadType.STR_PAD_RIGHT).ToString.Trim() ' 52
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(item.PrimerApellidoConductor, MaxSize(item.PrimerApellidoConductor, 20), " ", Utils.PadType.STR_PAD_RIGHT).ToString.Trim() ' 53
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(item.SegundoApellidoConductor, MaxSize(item.SegundoApellidoConductor, 30), " ", Utils.PadType.STR_PAD_RIGHT).ToString.Trim() ' 54
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(item.PrimerNombreConductor, MaxSize(item.PrimerNombreConductor, 20), " ", Utils.PadType.STR_PAD_RIGHT).ToString.Trim() ' 55
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(item.SegundoNombreConductor, MaxSize(item.SegundoNombreConductor, 30), " ", Utils.PadType.STR_PAD_RIGHT).ToString.Trim() ' 56
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(item.TipoDocumentoConductor, MaxSize(item.TipoDocumentoConductor, 2), " ", Utils.PadType.STR_PAD_RIGHT).ToString.Trim() ' 57
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(item.NumeroDocumentoConductor, MaxSize(item.NumeroDocumentoConductor, 16), " ", Utils.PadType.STR_PAD_RIGHT).ToString.Trim() ' 58
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(item.DireccionConductor, MaxSize(item.DireccionConductor, 40), " ", Utils.PadType.STR_PAD_RIGHT).ToString.Trim() ' 59
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(item.DepartamentoConductor, MaxSize(item.DepartamentoConductor, 2), " ", Utils.PadType.STR_PAD_RIGHT).ToString.Trim() ' 60
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(item.MunicipioConductor, MaxSize(item.MunicipioConductor, 3), " ", Utils.PadType.STR_PAD_RIGHT).ToString.Trim() ' 61
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(item.TelefonoConductor, MaxSize(item.TelefonoConductor, 10), " ", Utils.PadType.STR_PAD_RIGHT).ToString.Trim() ' 62
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(item.TipoReferencia, MaxSize(item.TipoReferencia, 1), " ", Utils.PadType.STR_PAD_RIGHT).ToString.Trim() ' 63
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(item.FechaRemison, MaxSize(item.FechaRemison, 10), " ", Utils.PadType.STR_PAD_RIGHT).ToString.Trim() ' 64
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(item.HoraSalida, MaxSize(item.HoraSalida, 5), " ", Utils.PadType.STR_PAD_RIGHT).ToString.Trim() ' 65
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(item.CodigoHabilitacionPrestador, MaxSize(item.CodigoHabilitacionPrestador, 12), " ", Utils.PadType.STR_PAD_RIGHT).ToString.Trim() ' 66
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(item.ProfesionalRemite, MaxSize(item.ProfesionalRemite, 60), " ", Utils.PadType.STR_PAD_RIGHT).ToString.Trim() ' 67
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(item.CargoProfesionalRemite, MaxSize(item.CargoProfesionalRemite, 30), " ", Utils.PadType.STR_PAD_RIGHT).ToString.Trim() ' 68
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(item.FechaIngreso, MaxSize(item.FechaIngreso, 10), " ", Utils.PadType.STR_PAD_RIGHT).ToString.Trim() ' 69
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(item.HoraIngreso, MaxSize(item.HoraIngreso, 5), " ", Utils.PadType.STR_PAD_RIGHT).ToString.Trim() ' 70
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(item.CodigoHabilitacionRecibe, MaxSize(item.CodigoHabilitacionRecibe, 12), " ", Utils.PadType.STR_PAD_RIGHT).ToString.Trim() ' 71
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(item.ProfesionalRecibe, MaxSize(item.ProfesionalRecibe, 60), " ", Utils.PadType.STR_PAD_RIGHT).ToString.Trim() ' 72
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(item.CargoProfesionalRecibe, MaxSize(item.CargoProfesionalRecibe, 30), " ", Utils.PadType.STR_PAD_RIGHT).ToString.Trim() ' 73
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(item.PlacaAmbulancia, MaxSize(item.PlacaAmbulancia, 6), " ", Utils.PadType.STR_PAD_RIGHT).ToString.Trim() ' 74
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(item.TransporteDesde, MaxSize(item.TransporteDesde, 40), " ", Utils.PadType.STR_PAD_RIGHT).ToString.Trim() ' 75
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(item.TransporteHasta, MaxSize(item.TransporteHasta, 40), " ", Utils.PadType.STR_PAD_RIGHT).ToString.Trim() ' 76
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(item.TipoServicioAmbulancia, MaxSize(item.TipoServicioAmbulancia, 1), " ", Utils.PadType.STR_PAD_RIGHT).ToString.Trim() ' 77
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(item.ZonaRecogeAmbulancia, MaxSize(item.ZonaRecogeAmbulancia, 1), " ", Utils.PadType.STR_PAD_RIGHT).ToString.Trim() ' 78
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(item.FechaIngresoVictima, MaxSize(item.FechaIngresoVictima, 10), " ", Utils.PadType.STR_PAD_RIGHT).ToString.Trim() ' 79
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(item.HoraIngresoVictima, MaxSize(item.HoraIngresoVictima, 5), " ", Utils.PadType.STR_PAD_RIGHT).ToString.Trim() ' 80
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(item.FechaEgresoVictima, MaxSize(item.FechaEgresoVictima, 10), " ", Utils.PadType.STR_PAD_RIGHT).ToString.Trim() ' 81
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(item.HoraEgresoVictima, MaxSize(item.HoraEgresoVictima, 5), " ", Utils.PadType.STR_PAD_RIGHT).ToString.Trim() ' 82
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(item.CodigoDiagnosticoIngresoPrincipal, MaxSize(item.CodigoDiagnosticoIngresoPrincipal, 4), " ", Utils.PadType.STR_PAD_RIGHT).ToString.Trim() ' 83
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(item.CodigoDiagnosticoIngresoUno, MaxSize(item.CodigoDiagnosticoIngresoUno, 4), " ", Utils.PadType.STR_PAD_RIGHT).ToString.Trim() ' 84
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(item.CodigoDiagnosticoIngresoDos, MaxSize(item.CodigoDiagnosticoIngresoDos, 4), " ", Utils.PadType.STR_PAD_RIGHT).ToString.Trim() ' 85
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(item.CodigoDiagnosticoEgresoPrincipal, MaxSize(item.CodigoDiagnosticoEgresoPrincipal, 4), " ", Utils.PadType.STR_PAD_RIGHT).ToString.Trim() ' 86
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(item.CodigoDiagnosticoEgresoUno, MaxSize(item.CodigoDiagnosticoEgresoUno, 4), " ", Utils.PadType.STR_PAD_RIGHT).ToString.Trim() ' 87
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(item.CodigoDiagnosticoEgresoDos, MaxSize(item.CodigoDiagnosticoEgresoDos, 4), " ", Utils.PadType.STR_PAD_RIGHT).ToString.Trim() ' 88
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(item.PrimerApellidoMedico, MaxSize(item.PrimerApellidoMedico, 20), " ", Utils.PadType.STR_PAD_RIGHT).ToString.Trim() ' 89
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(item.SegundoApellidoMedico, MaxSize(item.SegundoApellidoMedico, 30), " ", Utils.PadType.STR_PAD_RIGHT).ToString.Trim() ' 90
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(item.PrimerNombreMedico, MaxSize(item.PrimerNombreMedico, 20), " ", Utils.PadType.STR_PAD_RIGHT).ToString.Trim() ' 91
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(item.SegundoNombreMedico, MaxSize(item.SegundoNombreMedico, 30), " ", Utils.PadType.STR_PAD_RIGHT).ToString.Trim() ' 92
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(item.TipoDocumentoMedico, MaxSize(item.TipoDocumentoMedico, 2), " ", Utils.PadType.STR_PAD_RIGHT).ToString.Trim() ' 93
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(item.NumeroDocumentoMedico, MaxSize(item.NumeroDocumentoMedico, 16), " ", Utils.PadType.STR_PAD_RIGHT).ToString.Trim() ' 94
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(item.NumeroRegistroMedico, MaxSize(item.NumeroRegistroMedico, 16), " ", Utils.PadType.STR_PAD_RIGHT).ToString.Trim() ' 95
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(item.TotalFacturadoGastosMedicos, MaxSize(item.TotalFacturadoGastosMedicos, 15), " ", Utils.PadType.STR_PAD_RIGHT).ToString.Trim() ' 96
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(item.TotalReclamadoGastosMedicos, MaxSize(item.TotalReclamadoGastosMedicos, 15), " ", Utils.PadType.STR_PAD_RIGHT).ToString.Trim() ' 97
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(item.TotalFacturadoMovilizacion, MaxSize(item.TotalFacturadoMovilizacion, 15), " ", Utils.PadType.STR_PAD_RIGHT).ToString.Trim() ' 98
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(item.TotalReclamadoMovilizacion, MaxSize(item.TotalReclamadoMovilizacion, 15), " ", Utils.PadType.STR_PAD_RIGHT).ToString.Trim() ' 99
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(item.TotalFolios, MaxSize(item.TotalFolios, 3), " ", Utils.PadType.STR_PAD_RIGHT).ToString.Trim() ' 100
+
+            If resultPlane.Length > 0 Then
+                resultPlane.AppendLine("")
+            End If
+            resultPlane.Append(lineHead)
+        Next
+        Return resultPlane
+    End Function
+
+    Public Function FURIPS2Structure(data As List(Of SP_GenerateFURIPS2FileData_Result)) As StringBuilder Implements IRIPSPlane.FURIPS2Structure
+        Dim resultPlane As New StringBuilder()
+        For Each item In data
+            Dim lineHead As String = ""
+            lineHead &= Utils.StringPad(item.NumeroFactura, MaxSize(item.NumeroFactura, 20), " ", Utils.PadType.STR_PAD_RIGHT).ToString.Trim()
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(item.Ingreso, MaxSize(item.Ingreso, 20), " ", Utils.PadType.STR_PAD_RIGHT).ToString.Trim()
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(item.Tipo, MaxSize(item.Tipo, 1), " ", Utils.PadType.STR_PAD_RIGHT).ToString.Trim()
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(item.CodigoCUM, MaxSize(item.CodigoCUM, 15), " ", Utils.PadType.STR_PAD_RIGHT).ToString.Trim()
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(item.Descripcion, MaxSize(item.Descripcion, 40), " ", Utils.PadType.STR_PAD_RIGHT).ToString.Trim()
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(item.Cantidad, MaxSize(item.Cantidad, 15), " ", Utils.PadType.STR_PAD_RIGHT).ToString.Trim()
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(item.ValorUnitario.ToString.Replace(",", "."), MaxSize(item.ValorUnitario.ToString.Replace(",", "."), 15), " ", Utils.PadType.STR_PAD_RIGHT).ToString.Trim()
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(item.SubTotal.ToString.Replace(",", "."), MaxSize(item.SubTotal.ToString.Replace(",", "."), 15), " ", Utils.PadType.STR_PAD_RIGHT).ToString.Trim()
+            lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(item.Total.ToString.Replace(",", "."), MaxSize(item.Total.ToString.Replace(",", "."), 15), " ", Utils.PadType.STR_PAD_RIGHT).ToString.Trim()
+
+            If resultPlane.Length > 0 Then
+                resultPlane.AppendLine("")
+            End If
+            resultPlane.Append(lineHead)
+        Next
+        Return resultPlane
+    End Function
+
+#End Region
+
+#Region "MegaPlane"
+
+    Public Function MegaPlaneStructure(data As List(Of SP_GenerateMegaPlaneFileData_Result)) As StringBuilder Implements IRIPSPlane.MegaPlaneStructure
+        Dim resultPlane As New StringBuilder()
+
+        Dim currentDate = DateTime.Now
+        Dim header = data.FirstOrDefault()
+        Dim subHeadQuantity = data.Select(Function(d) d.InvoiceId).Distinct().Count()
+        Dim detailQuantity = data.Count()
+
+        Dim lineHead As String = ""
+        lineHead &= Utils.StringPad(0, 1, 0, Utils.PadType.STR_PAD_LEFT)
+        lineHead &= Utils.StringPad(detailQuantity, 6, 0, Utils.PadType.STR_PAD_LEFT)
+        lineHead &= Utils.StringPad(subHeadQuantity, 6, 0, Utils.PadType.STR_PAD_LEFT)
+        lineHead &= Utils.StringPad(currentDate.ToString("dd/MM/yyyy"), 10, " ", Utils.PadType.STR_PAD_RIGHT)
+        lineHead &= Utils.StringPad(header.IPSCode, 3, " ", Utils.PadType.STR_PAD_RIGHT)
+        lineHead &= Utils.StringPad(header.IPSDocumentType, 2, " ", Utils.PadType.STR_PAD_LEFT)
+        lineHead &= Utils.StringPad(header.IPSNit, 15, 0, Utils.PadType.STR_PAD_LEFT)
+        lineHead &= Utils.StringPad(header.IPSDigitVerification, 1, 0, Utils.PadType.STR_PAD_LEFT)
+        lineHead &= Utils.StringPad(header.IPSName, 50, " ", Utils.PadType.STR_PAD_RIGHT)
+        lineHead &= Utils.StringPad(header.CustomerDocumentType, 2, " ", Utils.PadType.STR_PAD_RIGHT)
+        lineHead &= Utils.StringPad(header.CustomerNit, 15, 0, Utils.PadType.STR_PAD_LEFT)
+        lineHead &= Utils.StringPad(header.CustomerDigitVerification, 1, 0, Utils.PadType.STR_PAD_LEFT)
+        lineHead &= Utils.StringPad(header.CustomerName, 50, " ", Utils.PadType.STR_PAD_RIGHT)
+        resultPlane.Append(lineHead)
+
+        For Each invoice In data.GroupBy(Function(d) d.InvoiceId).ToList()
+            Dim subHeader = data.Where(Function(d) d.InvoiceId = invoice.Key).FirstOrDefault()
+            Dim netValueLetters = Utils.Num2Text(subHeader.InvoiceNetValue).ToString()
+
+            Dim lineSubHead As String = ""
+            lineSubHead &= Utils.StringPad(1, 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineSubHead &= Utils.StringPad(0, 1, 0, Utils.PadType.STR_PAD_LEFT)
+            lineSubHead &= Utils.StringPad(subHeader.InvoiceDate, 10, " ", Utils.PadType.STR_PAD_RIGHT)
+            lineSubHead &= Utils.StringPad(subHeader.InvoicePrefix, 6, " ", Utils.PadType.STR_PAD_RIGHT)
+            lineSubHead &= Utils.StringPad(subHeader.InvoiceNumber, 10, 0, Utils.PadType.STR_PAD_LEFT)
+            lineSubHead &= Utils.StringPad(subHeader.InvoiceGrossValue, 12, 0, Utils.PadType.STR_PAD_LEFT)
+            lineSubHead &= Utils.StringPad(subHeader.InvoiceNetValue, 12, 0, Utils.PadType.STR_PAD_LEFT)
+            lineSubHead &= Utils.StringPad(netValueLetters, 80, " ", Utils.PadType.STR_PAD_RIGHT)
+            lineSubHead &= Utils.StringPad(0, 10, 0, Utils.PadType.STR_PAD_LEFT)
+            lineSubHead &= Utils.StringPad(subHeader.InvoiceModeratingFee, 10, 0, Utils.PadType.STR_PAD_LEFT)
+            lineSubHead &= Utils.StringPad(subHeader.InvoiceCopay, 10, 0, Utils.PadType.STR_PAD_LEFT)
+            lineSubHead &= Utils.StringPad("SERV", 10, " ", Utils.PadType.STR_PAD_RIGHT)
+            lineSubHead &= Utils.StringPad(0, 10, 0, Utils.PadType.STR_PAD_LEFT)
+            lineSubHead &= Utils.StringPad(0, 1, 0, Utils.PadType.STR_PAD_LEFT)
+            resultPlane.AppendLine("")
+            resultPlane.Append(lineSubHead)
+
+
+            For Each detail In data.Where(Function(d) d.InvoiceId = invoice.Key).ToList()
+                Dim lineDetailHead As String = ""
+                lineDetailHead &= Utils.StringPad(2, 1, 0, Utils.PadType.STR_PAD_LEFT)
+                lineDetailHead &= Utils.StringPad(detail.DetailInvoiceNumber, 10, 0, Utils.PadType.STR_PAD_LEFT)
+                lineDetailHead &= Utils.StringPad(detail.DetailAuthorizationNumber.Trim(), 15, 0, Utils.PadType.STR_PAD_LEFT)
+                lineDetailHead &= Utils.StringPad(detail.DetailDocumentType, 2, " ", Utils.PadType.STR_PAD_RIGHT)
+                lineDetailHead &= Utils.StringPad(detail.DetailDocumentNumber, 16, " ", Utils.PadType.STR_PAD_RIGHT)
+                lineDetailHead &= Utils.StringPad(detail.DetailLastName, 25, " ", Utils.PadType.STR_PAD_RIGHT)
+                lineDetailHead &= Utils.StringPad(detail.DetailFirstName, 15, " ", Utils.PadType.STR_PAD_RIGHT)
+                lineDetailHead &= Utils.StringPad(detail.DetailAdmissionDate, 10, " ", Utils.PadType.STR_PAD_RIGHT)
+                lineDetailHead &= Utils.StringPad(detail.DetailOutputDate, 10, " ", Utils.PadType.STR_PAD_RIGHT)
+                lineDetailHead &= Utils.StringPad(detail.DetailAttentionType, 2, 0, Utils.PadType.STR_PAD_LEFT)
+                lineDetailHead &= Utils.StringPad(detail.DetailCode, 12, " ", Utils.PadType.STR_PAD_RIGHT)
+                lineDetailHead &= Utils.StringPad(detail.DetailDescription, 100, " ", Utils.PadType.STR_PAD_RIGHT)
+                lineDetailHead &= Utils.StringPad(detail.DetailQuantity, 6, 0, Utils.PadType.STR_PAD_LEFT)
+                lineDetailHead &= Utils.StringPad(0, 1, 0, Utils.PadType.STR_PAD_LEFT)
+                lineDetailHead &= Utils.StringPad(detail.DetailUnitValue, 12, 0, Utils.PadType.STR_PAD_LEFT)
+                lineDetailHead &= Utils.StringPad(detail.DetailTotalValue, 12, 0, Utils.PadType.STR_PAD_LEFT)
+                lineDetailHead &= Utils.StringPad(detail.DetailDiagnostic, 7, " ", Utils.PadType.STR_PAD_RIGHT)
+                lineDetailHead &= Utils.StringPad(detail.DetailModeratingFee, 12, 0, Utils.PadType.STR_PAD_LEFT)
+                lineDetailHead &= Utils.StringPad(detail.DetailCopay, 12, 0, Utils.PadType.STR_PAD_LEFT)
+                resultPlane.AppendLine("")
+                resultPlane.Append(lineDetailHead)
+            Next
+        Next
+        Return resultPlane
+    End Function
+
+#End Region
+
+    ''' <summary>
+    ''' Función pra calcular el tamaño máximo del campo que utilizará el plano
+    ''' </summary>
+    ''' <param name="VarField">Campo</param>
+    ''' <param name="MaxLength">Tamaño Máximo</param>
+    ''' <returns>Integer</returns>
+    ''' <remarks></remarks>
+    Public Function MaxSize(VarField As String, MaxLength As Integer) As Integer
+        Dim Size As Integer = 0
+        If Len(VarField) < MaxLength Then
+            Size = Len(VarField)
+        Else
+            Size = MaxLength
+        End If
+        Return Size
+    End Function
+
+#Region "IDisposable Support"
+
+    Private disposedValue As Boolean ' Para detectar llamadas redundantes
+
+    ' IDisposable
+    Protected Overridable Sub Dispose(disposing As Boolean)
+        If Not disposedValue Then
+            If disposing Then
+                ' TODO: elimine el estado administrado (objetos administrados).
+            End If
+            _radicateInvoiceDRepository = Nothing
+            IndigoGC.Execute()
+        End If
+        disposedValue = True
+    End Sub
+
+    ' TODO: reemplace Finalize() solo si el anterior Dispose(disposing As Boolean) tiene código para liberar recursos no administrados.
+    'Protected Overrides Sub Finalize()
+    '    ' No cambie este código. Coloque el código de limpieza en el anterior Dispose(disposing As Boolean).
+    '    Dispose(False)
+    '    MyBase.Finalize()
+    'End Sub
+
+    ' Visual Basic agrega este código para implementar correctamente el patrón descartable.
+    Public Sub Dispose() Implements IDisposable.Dispose
+        ' No cambie este código. Coloque el código de limpieza en el anterior Dispose(disposing As Boolean).
+        Dispose(True)
+        ' TODO: quite la marca de comentario de la siguiente línea si Finalize() se ha reemplazado antes.
+        GC.SuppressFinalize(Me)
+    End Sub
+
+#End Region
+
+End Class

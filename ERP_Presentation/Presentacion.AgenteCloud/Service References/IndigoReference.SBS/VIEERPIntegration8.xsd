@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:ser="http://schemas.microsoft.com/2003/10/Serialization/" xmlns:tns="http://schemas.datacontract.org/2004/07/Indigo.Sinapsis.Core.Domain.Customer" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/Indigo.Sinapsis.Core.Domain.Customer" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import schemaLocation="http://appserver-sbs.azurewebsites.net/VIEERPIntegration.svc?xsd=xsd4" namespace="http://schemas.datacontract.org/2004/07/Indigo.Sinapsis.Core.Domain.IFF" />
+  <xs:import schemaLocation="http://appserver-sbs.azurewebsites.net/VIEERPIntegration.svc?xsd=xsd3" namespace="http://schemas.datacontract.org/2004/07/Indigo.Sinapsis.Core.Domain.Company" />
+  <xs:import schemaLocation="http://appserver-sbs.azurewebsites.net/VIEERPIntegration.svc?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+  <xs:complexType name="CustomerAddressOfguid">
+    <xs:annotation>
+      <xs:appinfo>
+        <GenericType Name="CustomerAddressOf{0}{#}" Namespace="http://schemas.datacontract.org/2004/07/Indigo.Sinapsis.Core.Domain.Customer" xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
+          <GenericParameter Name="guid" Namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+        </GenericType>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element minOccurs="0" name="AddressNumber" nillable="true" type="xs:string" />
+      <xs:element xmlns:q1="http://schemas.datacontract.org/2004/07/Indigo.Sinapsis.Core.Domain.IFF" minOccurs="0" name="City" nillable="true" type="q1:CityOfguid" />
+      <xs:element xmlns:q2="http://schemas.datacontract.org/2004/07/Indigo.Sinapsis.Core.Domain.Company" minOccurs="0" name="Company" nillable="true" type="q2:CompanyOfguid" />
+      <xs:element minOccurs="0" name="Customer" nillable="true" type="tns:CustomerOfguid" />
+      <xs:element minOccurs="0" name="CustomerAddressAux" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="CustomerAddressDescription" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="CustomerAddressID" type="ser:guid" />
+      <xs:element minOccurs="0" name="CustomerAddressPrincipal" type="xs:boolean" />
+      <xs:element minOccurs="0" name="Identifier" type="ser:guid" />
+      <xs:element minOccurs="0" name="IsActive" type="xs:boolean" />
+      <xs:element minOccurs="0" name="PostalCode" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="PrincipalForContry" type="xs:boolean" />
+      <xs:element xmlns:q3="http://schemas.datacontract.org/2004/07/Indigo.Sinapsis.Core.Domain.IFF" minOccurs="0" name="Purpose" nillable="true" type="q3:AdressPurposeOfguid" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="CustomerAddressOfguid" nillable="true" type="tns:CustomerAddressOfguid" />
+  <xs:complexType name="CustomerOfguid">
+    <xs:annotation>
+      <xs:appinfo>
+        <GenericType Name="CustomerOf{0}{#}" Namespace="http://schemas.datacontract.org/2004/07/Indigo.Sinapsis.Core.Domain.Customer" xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
+          <GenericParameter Name="guid" Namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+        </GenericType>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element xmlns:q4="http://schemas.datacontract.org/2004/07/Indigo.Sinapsis.Core.Domain.Company" minOccurs="0" name="Company" nillable="true" type="q4:CompanyOfguid" />
+      <xs:element xmlns:q5="http://schemas.datacontract.org/2004/07/Indigo.Sinapsis.Core.Domain.IFF" minOccurs="0" name="CorporateSector" nillable="true" type="q5:CorporateSectorOfguid" />
+      <xs:element minOccurs="0" name="CustomerID" type="ser:guid" />
+      <xs:element minOccurs="0" name="CustomerName" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="CustomerState" type="xs:boolean" />
+      <xs:element minOccurs="0" name="CustomerTINNumber" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="CustomerViePlatformIntegrationURI" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Identifier" type="ser:guid" />
+      <xs:element xmlns:q6="http://schemas.datacontract.org/2004/07/Indigo.Sinapsis.Core.Domain.IFF" minOccurs="0" name="IntegrationMode" nillable="true" type="q6:IntegrationModeOfguid" />
+      <xs:element minOccurs="0" name="IsActive" type="xs:boolean" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="CustomerOfguid" nillable="true" type="tns:CustomerOfguid" />
+</xs:schema>

@@ -1,0 +1,573 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:ser="http://schemas.microsoft.com/2003/10/Serialization/" xmlns:tns="http://schemas.datacontract.org/2004/07/Indigo.Sinapsis.Core.Domain.IFF" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/Indigo.Sinapsis.Core.Domain.IFF" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import schemaLocation="http://appserver-sbs.azurewebsites.net/VIEERPIntegration.svc?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+  <xs:import schemaLocation="http://appserver-sbs.azurewebsites.net/VIEERPIntegration.svc?xsd=xsd8" namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
+  <xs:complexType name="CityOfguid">
+    <xs:annotation>
+      <xs:appinfo>
+        <GenericType Name="CityOf{0}{#}" Namespace="http://schemas.datacontract.org/2004/07/Indigo.Sinapsis.Core.Domain.IFF" xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
+          <GenericParameter Name="guid" Namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+        </GenericType>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element minOccurs="0" name="CityID" type="ser:guid" />
+      <xs:element minOccurs="0" name="CityName" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="GeographicalState" nillable="true" type="tns:GeographicalStateOfguid" />
+      <xs:element minOccurs="0" name="Identifier" type="ser:guid" />
+      <xs:element minOccurs="0" name="IsActive" type="xs:boolean" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="CityOfguid" nillable="true" type="tns:CityOfguid" />
+  <xs:complexType name="GeographicalStateOfguid">
+    <xs:annotation>
+      <xs:appinfo>
+        <GenericType Name="GeographicalStateOf{0}{#}" Namespace="http://schemas.datacontract.org/2004/07/Indigo.Sinapsis.Core.Domain.IFF" xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
+          <GenericParameter Name="guid" Namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+        </GenericType>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element minOccurs="0" name="City" nillable="true" type="tns:ArrayOfCityOfguid" />
+      <xs:element minOccurs="0" name="Country" nillable="true" type="tns:CountryOfguid" />
+      <xs:element minOccurs="0" name="GeographicalStateID" type="ser:guid" />
+      <xs:element minOccurs="0" name="GeographicalStateName" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Identifier" type="ser:guid" />
+      <xs:element minOccurs="0" name="IsActive" type="xs:boolean" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="GeographicalStateOfguid" nillable="true" type="tns:GeographicalStateOfguid" />
+  <xs:complexType name="ArrayOfCityOfguid">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="CityOfguid" nillable="true" type="tns:CityOfguid" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfCityOfguid" nillable="true" type="tns:ArrayOfCityOfguid" />
+  <xs:complexType name="CountryOfguid">
+    <xs:annotation>
+      <xs:appinfo>
+        <GenericType Name="CountryOf{0}{#}" Namespace="http://schemas.datacontract.org/2004/07/Indigo.Sinapsis.Core.Domain.IFF" xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
+          <GenericParameter Name="guid" Namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+        </GenericType>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element minOccurs="0" name="CountryID" type="ser:guid" />
+      <xs:element minOccurs="0" name="CountryName" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="GeographicalState" nillable="true" type="tns:ArrayOfGeographicalStateOfguid" />
+      <xs:element minOccurs="0" name="Identifier" type="ser:guid" />
+      <xs:element minOccurs="0" name="IsActive" type="xs:boolean" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="CountryOfguid" nillable="true" type="tns:CountryOfguid" />
+  <xs:complexType name="ArrayOfGeographicalStateOfguid">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="GeographicalStateOfguid" nillable="true" type="tns:GeographicalStateOfguid" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfGeographicalStateOfguid" nillable="true" type="tns:ArrayOfGeographicalStateOfguid" />
+  <xs:complexType name="AdressPurposeOfguid">
+    <xs:annotation>
+      <xs:appinfo>
+        <GenericType Name="AdressPurposeOf{0}{#}" Namespace="http://schemas.datacontract.org/2004/07/Indigo.Sinapsis.Core.Domain.IFF" xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
+          <GenericParameter Name="guid" Namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+        </GenericType>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Identifier" type="ser:guid" />
+      <xs:element minOccurs="0" name="IsActive" type="xs:boolean" />
+      <xs:element minOccurs="0" name="PurposeID" type="ser:guid" />
+      <xs:element minOccurs="0" name="PurposeName" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="AdressPurposeOfguid" nillable="true" type="tns:AdressPurposeOfguid" />
+  <xs:complexType name="ContactTypeOfguid">
+    <xs:annotation>
+      <xs:appinfo>
+        <GenericType Name="ContactTypeOf{0}{#}" Namespace="http://schemas.datacontract.org/2004/07/Indigo.Sinapsis.Core.Domain.IFF" xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
+          <GenericParameter Name="guid" Namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+        </GenericType>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element minOccurs="0" name="ContactTypeID" type="ser:guid" />
+      <xs:element minOccurs="0" name="ContactTypeName" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Identifier" type="ser:guid" />
+      <xs:element minOccurs="0" name="IsActive" type="xs:boolean" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ContactTypeOfguid" nillable="true" type="tns:ContactTypeOfguid" />
+  <xs:complexType name="CompanyTypeOfguid">
+    <xs:annotation>
+      <xs:appinfo>
+        <GenericType Name="CompanyTypeOf{0}{#}" Namespace="http://schemas.datacontract.org/2004/07/Indigo.Sinapsis.Core.Domain.IFF" xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
+          <GenericParameter Name="guid" Namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+        </GenericType>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element minOccurs="0" name="CompanyTypeID" type="ser:guid" />
+      <xs:element minOccurs="0" name="CompanyTypeLogisticOperator" type="xs:boolean" />
+      <xs:element minOccurs="0" name="CompanyTypeName" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Identifier" type="ser:guid" />
+      <xs:element minOccurs="0" name="IsActive" type="xs:boolean" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="CompanyTypeOfguid" nillable="true" type="tns:CompanyTypeOfguid" />
+  <xs:complexType name="CompanyTypeLicenseOfguid">
+    <xs:annotation>
+      <xs:appinfo>
+        <GenericType Name="CompanyTypeLicenseOf{0}{#}" Namespace="http://schemas.datacontract.org/2004/07/Indigo.Sinapsis.Core.Domain.IFF" xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
+          <GenericParameter Name="guid" Namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+        </GenericType>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Identifier" type="ser:guid" />
+      <xs:element minOccurs="0" name="IsActive" type="xs:boolean" />
+      <xs:element minOccurs="0" name="NameLicense" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="TypeLicenseID" type="ser:guid" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="CompanyTypeLicenseOfguid" nillable="true" type="tns:CompanyTypeLicenseOfguid" />
+  <xs:complexType name="CorporateSectorOfguid">
+    <xs:annotation>
+      <xs:appinfo>
+        <GenericType Name="CorporateSectorOf{0}{#}" Namespace="http://schemas.datacontract.org/2004/07/Indigo.Sinapsis.Core.Domain.IFF" xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
+          <GenericParameter Name="guid" Namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+        </GenericType>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element minOccurs="0" name="CorporateSectorID" type="ser:guid" />
+      <xs:element minOccurs="0" name="CorporateSectorName" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Identifier" type="ser:guid" />
+      <xs:element minOccurs="0" name="IsActive" type="xs:boolean" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="CorporateSectorOfguid" nillable="true" type="tns:CorporateSectorOfguid" />
+  <xs:complexType name="AwardedOptionOfguid">
+    <xs:annotation>
+      <xs:appinfo>
+        <GenericType Name="AwardedOptionOf{0}{#}" Namespace="http://schemas.datacontract.org/2004/07/Indigo.Sinapsis.Core.Domain.IFF" xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
+          <GenericParameter Name="guid" Namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+        </GenericType>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element minOccurs="0" name="AwardedOptionExtra" type="xs:boolean" />
+      <xs:element minOccurs="0" name="AwardedOptionID" type="ser:guid" />
+      <xs:element minOccurs="0" name="AwardedOptionIcon" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="AwardedOptionName" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="AwardedOptionPosition" type="xs:int" />
+      <xs:element minOccurs="0" name="Identifier" type="ser:guid" />
+      <xs:element minOccurs="0" name="IsActive" type="xs:boolean" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="AwardedOptionOfguid" nillable="true" type="tns:AwardedOptionOfguid" />
+  <xs:complexType name="BiddingStatusOfguid">
+    <xs:annotation>
+      <xs:appinfo>
+        <GenericType Name="BiddingStatusOf{0}{#}" Namespace="http://schemas.datacontract.org/2004/07/Indigo.Sinapsis.Core.Domain.IFF" xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
+          <GenericParameter Name="guid" Namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+        </GenericType>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element minOccurs="0" name="BiddingStatusAward" type="xs:boolean" />
+      <xs:element minOccurs="0" name="BiddingStatusClosed" type="xs:boolean" />
+      <xs:element minOccurs="0" name="BiddingStatusDefault" type="xs:boolean" />
+      <xs:element minOccurs="0" name="BiddingStatusFinished" type="xs:boolean" />
+      <xs:element minOccurs="0" name="BiddingStatusID" type="ser:guid" />
+      <xs:element minOccurs="0" name="BiddingStatusLock" type="xs:boolean" />
+      <xs:element minOccurs="0" name="BiddingStatusName" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="BiddingStatusOption" nillable="true" type="tns:ArrayOfBiddingStatusOfguid" />
+      <xs:element minOccurs="0" name="BiddingStatusOrder" type="xs:int" />
+      <xs:element minOccurs="0" name="BiddingStatusPublish" type="xs:boolean" />
+      <xs:element minOccurs="0" name="Identifier" type="ser:guid" />
+      <xs:element minOccurs="0" name="IsActive" type="xs:boolean" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="BiddingStatusOfguid" nillable="true" type="tns:BiddingStatusOfguid" />
+  <xs:complexType name="ArrayOfBiddingStatusOfguid">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="BiddingStatusOfguid" nillable="true" type="tns:BiddingStatusOfguid" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfBiddingStatusOfguid" nillable="true" type="tns:ArrayOfBiddingStatusOfguid" />
+  <xs:complexType name="CurrencyOfguid">
+    <xs:annotation>
+      <xs:appinfo>
+        <GenericType Name="CurrencyOf{0}{#}" Namespace="http://schemas.datacontract.org/2004/07/Indigo.Sinapsis.Core.Domain.IFF" xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
+          <GenericParameter Name="guid" Namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+        </GenericType>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element minOccurs="0" name="CurrencyCode" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="CurrencyID" type="ser:guid" />
+      <xs:element minOccurs="0" name="CurrencyName" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Identifier" type="ser:guid" />
+      <xs:element minOccurs="0" name="IsActive" type="xs:boolean" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="CurrencyOfguid" nillable="true" type="tns:CurrencyOfguid" />
+  <xs:complexType name="PaymentMethodOfguid">
+    <xs:annotation>
+      <xs:appinfo>
+        <GenericType Name="PaymentMethodOf{0}{#}" Namespace="http://schemas.datacontract.org/2004/07/Indigo.Sinapsis.Core.Domain.IFF" xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
+          <GenericParameter Name="guid" Namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+        </GenericType>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Identifier" type="ser:guid" />
+      <xs:element minOccurs="0" name="IsActive" type="xs:boolean" />
+      <xs:element minOccurs="0" name="PaymentMethodID" type="ser:guid" />
+      <xs:element minOccurs="0" name="PaymentMethodName" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="PaymentMethodWeight" type="xs:int" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="PaymentMethodOfguid" nillable="true" type="tns:PaymentMethodOfguid" />
+  <xs:complexType name="PurchaseMethodOfguid">
+    <xs:annotation>
+      <xs:appinfo>
+        <GenericType Name="PurchaseMethodOf{0}{#}" Namespace="http://schemas.datacontract.org/2004/07/Indigo.Sinapsis.Core.Domain.IFF" xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
+          <GenericParameter Name="guid" Namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+        </GenericType>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Identifier" type="ser:guid" />
+      <xs:element minOccurs="0" name="IsActive" type="xs:boolean" />
+      <xs:element minOccurs="0" name="PurchaseMethodID" type="ser:guid" />
+      <xs:element minOccurs="0" name="PurchaseMethodName" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="PurchaseMethodOfguid" nillable="true" type="tns:PurchaseMethodOfguid" />
+  <xs:complexType name="CategoryOfguid">
+    <xs:annotation>
+      <xs:appinfo>
+        <GenericType Name="CategoryOf{0}{#}" Namespace="http://schemas.datacontract.org/2004/07/Indigo.Sinapsis.Core.Domain.IFF" xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
+          <GenericParameter Name="guid" Namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+        </GenericType>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element minOccurs="0" name="CategoryID" type="ser:guid" />
+      <xs:element minOccurs="0" name="CategoryName" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="CategoryParent" nillable="true" type="ser:guid" />
+      <xs:element minOccurs="0" name="CategoryWeight" type="xs:int" />
+      <xs:element minOccurs="0" name="Identifier" type="ser:guid" />
+      <xs:element minOccurs="0" name="IsActive" type="xs:boolean" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="CategoryOfguid" nillable="true" type="tns:CategoryOfguid" />
+  <xs:complexType name="ManufacturerOfguid">
+    <xs:annotation>
+      <xs:appinfo>
+        <GenericType Name="ManufacturerOf{0}{#}" Namespace="http://schemas.datacontract.org/2004/07/Indigo.Sinapsis.Core.Domain.IFF" xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
+          <GenericParameter Name="guid" Namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+        </GenericType>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Identifier" type="ser:guid" />
+      <xs:element minOccurs="0" name="IsActive" type="xs:boolean" />
+      <xs:element minOccurs="0" name="ManufacturerID" type="ser:guid" />
+      <xs:element minOccurs="0" name="ManufacturerName" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ManufacturerOfguid" nillable="true" type="tns:ManufacturerOfguid" />
+  <xs:complexType name="PackageUnitOfguid">
+    <xs:annotation>
+      <xs:appinfo>
+        <GenericType Name="PackageUnitOf{0}{#}" Namespace="http://schemas.datacontract.org/2004/07/Indigo.Sinapsis.Core.Domain.IFF" xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
+          <GenericParameter Name="guid" Namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+        </GenericType>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Identifier" type="ser:guid" />
+      <xs:element minOccurs="0" name="IsActive" type="xs:boolean" />
+      <xs:element minOccurs="0" name="PackageUnitID" type="ser:guid" />
+      <xs:element minOccurs="0" name="PackageUnitName" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="PackageUnitOfguid" nillable="true" type="tns:PackageUnitOfguid" />
+  <xs:complexType name="ProductTypeOfguid">
+    <xs:annotation>
+      <xs:appinfo>
+        <GenericType Name="ProductTypeOf{0}{#}" Namespace="http://schemas.datacontract.org/2004/07/Indigo.Sinapsis.Core.Domain.IFF" xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
+          <GenericParameter Name="guid" Namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+        </GenericType>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Identifier" type="ser:guid" />
+      <xs:element minOccurs="0" name="IsActive" type="xs:boolean" />
+      <xs:element minOccurs="0" name="ProductTypeID" type="ser:guid" />
+      <xs:element minOccurs="0" name="ProductTypeName" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ProductTypeOfguid" nillable="true" type="tns:ProductTypeOfguid" />
+  <xs:complexType name="TypeSaleTaxOfguid">
+    <xs:annotation>
+      <xs:appinfo>
+        <GenericType Name="TypeSaleTaxOf{0}{#}" Namespace="http://schemas.datacontract.org/2004/07/Indigo.Sinapsis.Core.Domain.IFF" xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
+          <GenericParameter Name="guid" Namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+        </GenericType>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Identifier" type="ser:guid" />
+      <xs:element minOccurs="0" name="IsActive" type="xs:boolean" />
+      <xs:element minOccurs="0" name="TypeSaleTaxDefault" type="xs:boolean" />
+      <xs:element minOccurs="0" name="TypeSaleTaxID" type="ser:guid" />
+      <xs:element minOccurs="0" name="TypeSaleTaxName" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="TypeSaleTaxPercent" nillable="true" type="xs:decimal" />
+      <xs:element minOccurs="0" name="TypeSaleTaxState" type="xs:boolean" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="TypeSaleTaxOfguid" nillable="true" type="tns:TypeSaleTaxOfguid" />
+  <xs:complexType name="VariableOfguid">
+    <xs:annotation>
+      <xs:appinfo>
+        <GenericType Name="VariableOf{0}{#}" Namespace="http://schemas.datacontract.org/2004/07/Indigo.Sinapsis.Core.Domain.IFF" xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
+          <GenericParameter Name="guid" Namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+        </GenericType>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Identifier" type="ser:guid" />
+      <xs:element minOccurs="0" name="IsActive" type="xs:boolean" />
+      <xs:element minOccurs="0" name="TemplateIndex" type="xs:int" />
+      <xs:element minOccurs="0" name="VariableAlias" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="VariableDescription" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="VariableFormat" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="VariableID" type="ser:guid" />
+      <xs:element minOccurs="0" name="VariableIsRequired" type="xs:boolean" />
+      <xs:element minOccurs="0" name="VariableName" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="VariableToSupplier" type="xs:boolean" />
+      <xs:element minOccurs="0" name="VariableType" nillable="true" type="tns:VariableTypeOfguid" />
+      <xs:element minOccurs="0" name="VariableValues" nillable="true" type="xs:string" />
+      <xs:element xmlns:q1="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="VariableValuesDelimited" nillable="true" type="q1:ArrayOfstring" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="VariableOfguid" nillable="true" type="tns:VariableOfguid" />
+  <xs:complexType name="VariableTypeOfguid">
+    <xs:annotation>
+      <xs:appinfo>
+        <GenericType Name="VariableTypeOf{0}{#}" Namespace="http://schemas.datacontract.org/2004/07/Indigo.Sinapsis.Core.Domain.IFF" xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
+          <GenericParameter Name="guid" Namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+        </GenericType>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Identifier" type="ser:guid" />
+      <xs:element minOccurs="0" name="IsActive" type="xs:boolean" />
+      <xs:element minOccurs="0" name="VariableTypeID" type="ser:guid" />
+      <xs:element minOccurs="0" name="VariableTypeName" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="VariableTypeOfguid" nillable="true" type="tns:VariableTypeOfguid" />
+  <xs:complexType name="AcknowledgmentOfguid">
+    <xs:annotation>
+      <xs:appinfo>
+        <GenericType Name="AcknowledgmentOf{0}{#}" Namespace="http://schemas.datacontract.org/2004/07/Indigo.Sinapsis.Core.Domain.IFF" xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
+          <GenericParameter Name="guid" Namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+        </GenericType>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element minOccurs="0" name="AcknowledgmentID" type="ser:guid" />
+      <xs:element minOccurs="0" name="AcknowledgmentName" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Identifier" type="ser:guid" />
+      <xs:element minOccurs="0" name="IsActive" type="xs:boolean" />
+      <xs:element minOccurs="0" name="Weight" type="xs:decimal" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="AcknowledgmentOfguid" nillable="true" type="tns:AcknowledgmentOfguid" />
+  <xs:complexType name="SalesExperienceOfguid">
+    <xs:annotation>
+      <xs:appinfo>
+        <GenericType Name="SalesExperienceOf{0}{#}" Namespace="http://schemas.datacontract.org/2004/07/Indigo.Sinapsis.Core.Domain.IFF" xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
+          <GenericParameter Name="guid" Namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+        </GenericType>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Identifier" type="ser:guid" />
+      <xs:element minOccurs="0" name="IsActive" type="xs:boolean" />
+      <xs:element minOccurs="0" name="SalesExperienceID" type="ser:guid" />
+      <xs:element minOccurs="0" name="SalesExperienceVolume" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Weight" type="xs:decimal" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="SalesExperienceOfguid" nillable="true" type="tns:SalesExperienceOfguid" />
+  <xs:complexType name="AwardChangeReasonOfguid">
+    <xs:annotation>
+      <xs:appinfo>
+        <GenericType Name="AwardChangeReasonOf{0}{#}" Namespace="http://schemas.datacontract.org/2004/07/Indigo.Sinapsis.Core.Domain.IFF" xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
+          <GenericParameter Name="guid" Namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+        </GenericType>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element minOccurs="0" name="AwardChangeReasonID" type="ser:guid" />
+      <xs:element minOccurs="0" name="AwardChangeReasonName" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Identifier" type="ser:guid" />
+      <xs:element minOccurs="0" name="IsActive" type="xs:boolean" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="AwardChangeReasonOfguid" nillable="true" type="tns:AwardChangeReasonOfguid" />
+  <xs:complexType name="ProductQualityOfguid">
+    <xs:annotation>
+      <xs:appinfo>
+        <GenericType Name="ProductQualityOf{0}{#}" Namespace="http://schemas.datacontract.org/2004/07/Indigo.Sinapsis.Core.Domain.IFF" xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
+          <GenericParameter Name="guid" Namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+        </GenericType>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Identifier" type="ser:guid" />
+      <xs:element minOccurs="0" name="IsActive" type="xs:boolean" />
+      <xs:element minOccurs="0" name="ProductQualityID" type="ser:guid" />
+      <xs:element minOccurs="0" name="ProductQualityIcon" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="ProductQualityValue" nillable="true" type="xs:int" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ProductQualityOfguid" nillable="true" type="tns:ProductQualityOfguid" />
+  <xs:complexType name="RehabilitateReasonOfguid">
+    <xs:annotation>
+      <xs:appinfo>
+        <GenericType Name="RehabilitateReasonOf{0}{#}" Namespace="http://schemas.datacontract.org/2004/07/Indigo.Sinapsis.Core.Domain.IFF" xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
+          <GenericParameter Name="guid" Namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+        </GenericType>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Identifier" type="ser:guid" />
+      <xs:element minOccurs="0" name="IsActive" type="xs:boolean" />
+      <xs:element minOccurs="0" name="RehabilitateReasonID" type="ser:guid" />
+      <xs:element minOccurs="0" name="RehabilitateReasonName" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="RehabilitateReasonOfguid" nillable="true" type="tns:RehabilitateReasonOfguid" />
+  <xs:complexType name="ContractStatusOfguid">
+    <xs:annotation>
+      <xs:appinfo>
+        <GenericType Name="ContractStatusOf{0}{#}" Namespace="http://schemas.datacontract.org/2004/07/Indigo.Sinapsis.Core.Domain.IFF" xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
+          <GenericParameter Name="guid" Namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+        </GenericType>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element minOccurs="0" name="ContractStatusAgree" type="xs:boolean" />
+      <xs:element minOccurs="0" name="ContractStatusCancel" type="xs:boolean" />
+      <xs:element minOccurs="0" name="ContractStatusClosed" type="xs:boolean" />
+      <xs:element minOccurs="0" name="ContractStatusDefault" type="xs:boolean" />
+      <xs:element minOccurs="0" name="ContractStatusDisagree" type="xs:boolean" />
+      <xs:element minOccurs="0" name="ContractStatusID" type="ser:guid" />
+      <xs:element minOccurs="0" name="ContractStatusName" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="ContractStatusOrder" type="xs:int" />
+      <xs:element minOccurs="0" name="ContractStatusRead" type="xs:boolean" />
+      <xs:element minOccurs="0" name="Identifier" type="ser:guid" />
+      <xs:element minOccurs="0" name="IsActive" type="xs:boolean" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ContractStatusOfguid" nillable="true" type="tns:ContractStatusOfguid" />
+  <xs:complexType name="ContractProductLockReasonOfguid">
+    <xs:annotation>
+      <xs:appinfo>
+        <GenericType Name="ContractProductLockReasonOf{0}{#}" Namespace="http://schemas.datacontract.org/2004/07/Indigo.Sinapsis.Core.Domain.IFF" xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
+          <GenericParameter Name="guid" Namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+        </GenericType>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element minOccurs="0" name="ContractProductLockReasonID" type="ser:guid" />
+      <xs:element minOccurs="0" name="ContractProductLockReasonName" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Identifier" type="ser:guid" />
+      <xs:element minOccurs="0" name="IsActive" type="xs:boolean" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ContractProductLockReasonOfguid" nillable="true" type="tns:ContractProductLockReasonOfguid" />
+  <xs:complexType name="IntegrationModeOfguid">
+    <xs:annotation>
+      <xs:appinfo>
+        <GenericType Name="IntegrationModeOf{0}{#}" Namespace="http://schemas.datacontract.org/2004/07/Indigo.Sinapsis.Core.Domain.IFF" xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
+          <GenericParameter Name="guid" Namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+        </GenericType>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Identifier" type="ser:guid" />
+      <xs:element minOccurs="0" name="IntegrationModeID" type="ser:guid" />
+      <xs:element minOccurs="0" name="IntegrationModeName" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="IsActive" type="xs:boolean" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="IntegrationModeOfguid" nillable="true" type="tns:IntegrationModeOfguid" />
+  <xs:complexType name="LogisticCompanyOfguid">
+    <xs:annotation>
+      <xs:appinfo>
+        <GenericType Name="LogisticCompanyOf{0}{#}" Namespace="http://schemas.datacontract.org/2004/07/Indigo.Sinapsis.Core.Domain.IFF" xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
+          <GenericParameter Name="guid" Namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+        </GenericType>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Identifier" type="ser:guid" />
+      <xs:element minOccurs="0" name="IsActive" type="xs:boolean" />
+      <xs:element minOccurs="0" name="LogisticCompanyEmail" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="LogisticCompanyID" type="ser:guid" />
+      <xs:element minOccurs="0" name="LogisticCompanyName" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="LogisticCompanyPhone" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="LogisticCompanyTrackingURI" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="LogisticCompanyOfguid" nillable="true" type="tns:LogisticCompanyOfguid" />
+  <xs:complexType name="PurchaseOrderReasonOfguid">
+    <xs:annotation>
+      <xs:appinfo>
+        <GenericType Name="PurchaseOrderReasonOf{0}{#}" Namespace="http://schemas.datacontract.org/2004/07/Indigo.Sinapsis.Core.Domain.IFF" xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
+          <GenericParameter Name="guid" Namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+        </GenericType>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Identifier" type="ser:guid" />
+      <xs:element minOccurs="0" name="IsActive" type="xs:boolean" />
+      <xs:element minOccurs="0" name="PurchaseOrderReasonID" type="ser:guid" />
+      <xs:element minOccurs="0" name="PurchaseOrderReasonName" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="PurchaseOrderReasonOfguid" nillable="true" type="tns:PurchaseOrderReasonOfguid" />
+  <xs:complexType name="PurchaseOrderStatusOfguid">
+    <xs:annotation>
+      <xs:appinfo>
+        <GenericType Name="PurchaseOrderStatusOf{0}{#}" Namespace="http://schemas.datacontract.org/2004/07/Indigo.Sinapsis.Core.Domain.IFF" xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
+          <GenericParameter Name="guid" Namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+        </GenericType>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Identifier" type="ser:guid" />
+      <xs:element minOccurs="0" name="IsActive" type="xs:boolean" />
+      <xs:element minOccurs="0" name="PurchaseOrderStatusAgree" type="xs:boolean" />
+      <xs:element minOccurs="0" name="PurchaseOrderStatusCancel" type="xs:boolean" />
+      <xs:element minOccurs="0" name="PurchaseOrderStatusCompleted" type="xs:boolean" />
+      <xs:element minOccurs="0" name="PurchaseOrderStatusCreated" type="xs:boolean" />
+      <xs:element minOccurs="0" name="PurchaseOrderStatusDefault" type="xs:boolean" />
+      <xs:element minOccurs="0" name="PurchaseOrderStatusDisagree" type="xs:boolean" />
+      <xs:element minOccurs="0" name="PurchaseOrderStatusID" type="ser:guid" />
+      <xs:element minOccurs="0" name="PurchaseOrderStatusName" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="PurchaseOrderStatusOrder" type="xs:int" />
+      <xs:element minOccurs="0" name="PurchaseOrderStatusPartialSended" type="xs:boolean" />
+      <xs:element minOccurs="0" name="PurchaseOrderStatusRead" type="xs:boolean" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="PurchaseOrderStatusOfguid" nillable="true" type="tns:PurchaseOrderStatusOfguid" />
+</xs:schema>

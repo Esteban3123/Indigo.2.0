@@ -1,0 +1,98 @@
+<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
+Partial Public Class rptSubMassiveConfirmCrossing
+    Inherits DevExpress.XtraReports.UI.XtraReport
+
+    'XtraReport overrides dispose to clean up the component list.
+    <System.Diagnostics.DebuggerNonUserCode()> _
+    Protected Overrides Sub Dispose(ByVal disposing As Boolean)
+        If disposing AndAlso components IsNot Nothing Then
+            components.Dispose()
+        End If
+        MyBase.Dispose(disposing)
+    End Sub
+
+    'Required by the Designer
+    Private components As System.ComponentModel.IContainer
+
+    'NOTE: The following procedure is required by the Designer
+    'It can be modified using the Designer.  
+    'Do not modify it using the code editor.
+    <System.Diagnostics.DebuggerStepThrough()> _
+    Private Sub InitializeComponent()
+        Me.components = New System.ComponentModel.Container()
+        Me.Detail = New DevExpress.XtraReports.UI.DetailBand()
+        Me.TopMargin = New DevExpress.XtraReports.UI.TopMarginBand()
+        Me.BottomMargin = New DevExpress.XtraReports.UI.BottomMarginBand()
+        Me.XrSubreport1 = New DevExpress.XtraReports.UI.XRSubreport()
+        Me.BindingSource1 = New System.Windows.Forms.BindingSource(Me.components)
+        Me.RptCrossingAccount1 = New Presentation.Reporter.rptCrossingAccount()
+        CType(Me.BindingSource1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RptCrossingAccount1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
+        '
+        'Detail
+        '
+        Me.Detail.Controls.AddRange(New DevExpress.XtraReports.UI.XRControl() {Me.XrSubreport1})
+        Me.Detail.HeightF = 100.0!
+        Me.Detail.Name = "Detail"
+        Me.Detail.Padding = New DevExpress.XtraPrinting.PaddingInfo(0, 0, 0, 0, 100.0!)
+        Me.Detail.PageBreak = DevExpress.XtraReports.UI.PageBreak.BeforeBand
+        Me.Detail.TextAlignment = DevExpress.XtraPrinting.TextAlignment.TopLeft
+        '
+        'TopMargin
+        '
+        Me.TopMargin.HeightF = 25.0!
+        Me.TopMargin.Name = "TopMargin"
+        Me.TopMargin.Padding = New DevExpress.XtraPrinting.PaddingInfo(0, 0, 0, 0, 100.0!)
+        Me.TopMargin.TextAlignment = DevExpress.XtraPrinting.TextAlignment.TopLeft
+        '
+        'BottomMargin
+        '
+        Me.BottomMargin.HeightF = 23.0!
+        Me.BottomMargin.Name = "BottomMargin"
+        Me.BottomMargin.Padding = New DevExpress.XtraPrinting.PaddingInfo(0, 0, 0, 0, 100.0!)
+        Me.BottomMargin.TextAlignment = DevExpress.XtraPrinting.TextAlignment.TopLeft
+        '
+        'XrSubreport1
+        '
+        Me.XrSubreport1.LocationFloat = New DevExpress.Utils.PointFloat(0.0!, 0.0!)
+        Me.XrSubreport1.Name = "XrSubreport1"
+        Me.XrSubreport1.ParameterBindings.Add(New DevExpress.XtraReports.UI.ParameterBinding("INDSubIdCrossing", Nothing, "Id"))
+        Me.XrSubreport1.ReportSource = New Presentation.Reporter.rptCrossingAccount()
+        Me.XrSubreport1.SizeF = New System.Drawing.SizeF(750.0!, 100.0!)
+        '
+        'BindingSource1
+        '
+        Me.BindingSource1.DataSource = GetType(Infrastructure.Data.Xpo.TreasuryRepository.TreasuryCrossingAccountXpo)
+        '
+        'RptCrossingAccount1
+        '
+        Me.RptCrossingAccount1.Font = New DevExpress.Drawing.DXFont("Arial", 9.5!)
+        Me.RptCrossingAccount1.Margins = New System.Drawing.Printing.Margins(49, 50, 26, 100)
+        Me.RptCrossingAccount1.Name = "RptCrossingAccount1"
+        Me.RptCrossingAccount1.PageHeight = 1100
+        Me.RptCrossingAccount1.PageWidth = 850
+        Me.RptCrossingAccount1.ParametrosReporte = Nothing
+        Me.RptCrossingAccount1.ScriptLanguage = DevExpress.XtraReports.ScriptLanguage.VisualBasic
+        Me.RptCrossingAccount1.Version = "15.1"
+        '
+        'rptSubMassiveConfirmCrossing
+        '
+        Me.Bands.AddRange(New DevExpress.XtraReports.UI.Band() {Me.Detail, Me.TopMargin, Me.BottomMargin})
+        Me.DataSource = Me.BindingSource1
+        Me.Margins = New DevExpress.Drawing.DXMargins(48, 52, 25, 23)
+        Me.RequestParameters = False
+        Me.ScriptLanguage = DevExpress.XtraReports.ScriptLanguage.VisualBasic
+        Me.Version = "15.1"
+        CType(Me.BindingSource1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RptCrossingAccount1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
+
+    End Sub
+    Friend WithEvents Detail As DevExpress.XtraReports.UI.DetailBand
+    Friend WithEvents TopMargin As DevExpress.XtraReports.UI.TopMarginBand
+    Friend WithEvents BottomMargin As DevExpress.XtraReports.UI.BottomMarginBand
+    Friend WithEvents XrSubreport1 As DevExpress.XtraReports.UI.XRSubreport
+    Friend WithEvents BindingSource1 As System.Windows.Forms.BindingSource
+    Friend WithEvents RptCrossingAccount1 As Presentation.Reporter.rptCrossingAccount
+End Class

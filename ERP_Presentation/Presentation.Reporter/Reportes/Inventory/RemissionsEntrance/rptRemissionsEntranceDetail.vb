@@ -1,0 +1,176 @@
+﻿#Region "Librerias Importadas"
+Imports Infrastructure.CrossCutting.Base
+Imports Infrastructure.Data.Xpo.InventoryRepository
+Imports Infrastructure.Data.Xpo
+#End Region
+
+Public Class rptRemissionsEntranceDetail
+    Implements IReport
+    Implements IReportAsync
+
+    ''' <summary>
+    ''' Variable para inicializar los valores de sesion
+    ''' </summary>
+    Dim IndigoSessionValues As SessionValues = SessionValues.Instance
+
+    Dim filtroConsulta As String = Nothing
+
+    Public Function GetFilter()
+        If ParametrosReporte(0) IsNot Nothing And ParametrosReporte(1) IsNot Nothing Then
+            filtroConsulta = "GetDate(RemissionDate) >= #" & Format(ParametrosReporte(0), "yyyy-MM-dd") & "# AND GetDate(RemissionDate) <= #" & Format(ParametrosReporte(1), "yyyy-MM-dd") & "#"
+        End If
+
+        ' si filtra por documento
+        If ParametrosReporte(3) IsNot Nothing And ParametrosReporte(4) IsNot Nothing Then
+            If filtroConsulta Is Nothing Then
+                filtroConsulta = "CodeRemision >= '" & ParametrosReporte(3) & "' AND CodeRemision <= '" & ParametrosReporte(4) & "'"
+            Else
+                filtroConsulta &= " AND CodeRemision >= '" & ParametrosReporte(3) & "' AND CodeRemision <= '" & ParametrosReporte(4) & "'"
+            End If
+        End If
+
+        'si  filtra por proveedor
+        If ParametrosReporte(5) IsNot Nothing And ParametrosReporte(6) IsNot Nothing Then
+            If filtroConsulta Is Nothing Then
+                filtroConsulta = "CodeSupplier >= '" & ParametrosReporte(5) & "' AND CodeSupplier <= '" & ParametrosReporte(6) & "'"
+            Else
+                filtroConsulta &= " AND CodeSupplier >= '" & ParametrosReporte(5) & "' AND CodeSupplier <= '" & ParametrosReporte(6) & "'"
+            End If
+        End If
+
+        'si filtra por Prodcuto
+        If ParametrosReporte(7) IsNot Nothing And ParametrosReporte(8) IsNot Nothing Then
+            If filtroConsulta Is Nothing Then
+                filtroConsulta = "CodeProduct >= '" & ParametrosReporte(7) & "' AND CodeProduct <= '" & ParametrosReporte(8) & "'"
+            Else
+                filtroConsulta &= " AND CodeProduct >= '" & ParametrosReporte(7) & "' AND CodeProduct <= '" & ParametrosReporte(8) & "'"
+            End If
+        End If
+
+        'si filtra por Prodcuto
+        If ParametrosReporte(9) IsNot Nothing Then
+            If filtroConsulta Is Nothing Then
+                If ParametrosReporte(9) <> 1 Then
+                    filtroConsulta = "OutstandingQuantity > 0"
+                End If
+            Else
+                If ParametrosReporte(9) <> 1 Then
+                    filtroConsulta &= " AND OutstandingQuantity > 0"
+                End If
+            End If
+        End If
+
+        'si filtra por almacenes
+        If ParametrosReporte(11) <> String.Empty Then
+            If filtroConsulta IsNot Nothing Then
+                filtroConsulta &= " AND IdWarehouse In (" & ParametrosReporte(11) & ")"
+            Else
+                filtroConsulta &= "IdWarehouse In (" & ParametrosReporte(11) & ")"
+            End If
+        End If
+
+        'si filtra por Estado
+        If ParametrosReporte(13) <> String.Empty Then
+            If filtroConsulta IsNot Nothing Then
+                filtroConsulta &= " AND Status In (" & ParametrosReporte(13) & ")"
+            Else
+                filtroConsulta &= "Status In (" & ParametrosReporte(13) & ")"
+            End If
+        End If
+        Return filtroConsulta
+    End Function
+
+    Public Sub CargarDataSource() Implements IReport.CargarDataSource
+        GetFilter()
+        Me.DataSource = XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).InventoryService.ListRemissionEntranceDeatilReport(filtroConsulta)
+    End Sub
+
+    ''' <summary>
+    ''' Carga Asincrono para no bloquear la interfaz de usuario
+    ''' </summary>
+    Public Function CargarDataSourceAsync() As Task Implements IReportAsync.CargarDataSourceAsync
+        Return Task.Factory.StartNew(AddressOf CargarDataSource)
+    End Function
+
+    Public Sub CargarImagenes() Implements IReport.CargarImagenes
+
+    End Sub
+
+    Public ReadOnly Property NameReport As String Implements IReport.NameReport
+        Get
+            Return ""
+        End Get
+    End Property
+
+    Public Property ParametrosReporte As Object() Implements IReport.ParametrosReporte
+
+    Private Sub rptRemissionsEntranceDetail_BeforePrint(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles MyBase.BeforePrint
+        INDLblCompany.Text = IndigoSessionValues.IndigoCompanyName
+        INDLblNitCompany.Text = "Nit:" & IndigoSessionValues.IndigoCompanyNit
+        Me.INDUserImp.Text = "Usuario Impresión : " & IndigoSessionValues.UserIndigo & " - " & IndigoSessionValues.UserIndigoName
+        Me.INDParameterGroup.Value = ParametrosReporte(10)
+        'Muestra Los almacenes seleccionados
+        If ParametrosReporte(12) <> String.Empty Then
+            INDLblSubTitleWarehouse.Text = "Informe Comprendido de los Almacenes :" & ParametrosReporte(12)
+        End If
+        If ParametrosReporte(0) IsNot Nothing And ParametrosReporte(1) IsNot Nothing Then
+            Me.INDLblSubTitle.Text = "Informe comprendido entre " & CDate(ParametrosReporte(0)).ToString("yyyy-MM-dd") & " y " & CDate(ParametrosReporte(1)).ToString("yyyy-MM-dd")
+        End If
+    End Sub
+
+    Private Sub XrTableCell15_BeforePrint(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles XrTableCell15.BeforePrint
+        Dim row = GetCurrentRow()
+        Dim Value = DirectCast(row, InventoryViewRemissionEntranceDetailReportXpo)?.InitialValue
+        Dim CurrencyAbbreviation = DirectCast(row, InventoryViewRemissionEntranceDetailReportXpo)?.CurrencyAbbreviation
+
+        If Value > 0 AndAlso Not String.IsNullOrEmpty(CurrencyAbbreviation) Then
+            XrTableCell15.Text = Utils.GetMoneyWithISO4217(Value, CurrencyAbbreviation)
+        End If
+    End Sub
+
+    Private Sub XrTableCell18_BeforePrint(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles XrTableCell18.BeforePrint
+        Dim row = GetCurrentRow()
+        Dim Value = DirectCast(row, InventoryViewRemissionEntranceDetailReportXpo)?.TotalOutstandingQuantity
+        Dim CurrencyAbbreviation = DirectCast(row, InventoryViewRemissionEntranceDetailReportXpo)?.CurrencyAbbreviation
+
+        If Value > 0 AndAlso Not String.IsNullOrEmpty(CurrencyAbbreviation) Then
+            XrTableCell18.Text = Utils.GetMoneyWithISO4217(Value, CurrencyAbbreviation)
+        End If
+    End Sub
+
+    Private Sub XrTableCell21_SummaryGetResult(sender As Object, e As DevExpress.XtraReports.UI.SummaryGetResultEventArgs) Handles XrTableCell21.SummaryGetResult
+        Dim row = GetCurrentRow()
+
+        Dim CurrencyAbbreviation = DirectCast(row, InventoryViewRemissionEntranceDetailReportXpo)?.CurrencyAbbreviation
+        e.Result = Utils.GetMoneyWithISO4217(e.CalculatedValues.ToEntityList(Of Decimal).Sum(), If(String.IsNullOrEmpty(CurrencyAbbreviation),
+                                             IndigoSessionValues.CurrencyISO4217, CurrencyAbbreviation))
+        e.Handled = True
+    End Sub
+
+    Private Sub XrTableCell22_SummaryGetResult(sender As Object, e As DevExpress.XtraReports.UI.SummaryGetResultEventArgs) Handles XrTableCell22.SummaryGetResult
+        Dim row = GetCurrentRow()
+
+        Dim CurrencyAbbreviation = DirectCast(row, InventoryViewRemissionEntranceDetailReportXpo)?.CurrencyAbbreviation
+        e.Result = Utils.GetMoneyWithISO4217(e.CalculatedValues.ToEntityList(Of Decimal).Sum(), If(String.IsNullOrEmpty(CurrencyAbbreviation),
+                                             IndigoSessionValues.CurrencyISO4217, CurrencyAbbreviation))
+        e.Handled = True
+    End Sub
+
+    Private Sub XrTableCell35_SummaryGetResult(sender As Object, e As DevExpress.XtraReports.UI.SummaryGetResultEventArgs) Handles XrTableCell35.SummaryGetResult
+        Dim row = GetCurrentRow()
+
+        Dim CurrencyAbbreviation = DirectCast(row, InventoryViewRemissionEntranceDetailReportXpo)?.CurrencyAbbreviation
+        e.Result = Utils.GetMoneyWithISO4217(e.CalculatedValues.ToEntityList(Of Decimal).Sum(), If(String.IsNullOrEmpty(CurrencyAbbreviation),
+                                             IndigoSessionValues.CurrencyISO4217, CurrencyAbbreviation))
+        e.Handled = True
+    End Sub
+
+    Private Sub XrTableCell37_SummaryGetResult(sender As Object, e As DevExpress.XtraReports.UI.SummaryGetResultEventArgs) Handles XrTableCell37.SummaryGetResult
+        Dim row = GetCurrentRow()
+
+        Dim CurrencyAbbreviation = DirectCast(row, InventoryViewRemissionEntranceDetailReportXpo)?.CurrencyAbbreviation
+        e.Result = Utils.GetMoneyWithISO4217(e.CalculatedValues.ToEntityList(Of Decimal).Sum(), If(String.IsNullOrEmpty(CurrencyAbbreviation),
+                                             IndigoSessionValues.CurrencyISO4217, CurrencyAbbreviation))
+        e.Handled = True
+    End Sub
+End Class

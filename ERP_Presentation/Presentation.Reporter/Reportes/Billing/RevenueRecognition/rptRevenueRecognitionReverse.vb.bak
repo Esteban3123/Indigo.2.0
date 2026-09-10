@@ -1,0 +1,75 @@
+﻿Imports System.Drawing.Printing
+Imports DevExpress.Xpo
+Imports DevExpress.XtraReports.Parameters
+Imports DevExpress.XtraReports.UI
+Imports Domain.Entities
+Imports Infrastructure.CrossCutting.Base
+Imports Infrastructure.Data.Xpo
+Imports Infrastructure.Data.Xpo.BillingRepository
+Imports Presentation.Reporter
+
+Public Class rptRevenueRecognitionReverse
+    Implements IReport
+    ''' <summary>
+    ''' Variable para inicializar los valores de sesion
+    ''' </summary>
+    Dim IndigoSessionValues As SessionValues = SessionValues.Instance
+
+    ''' <summary>
+    ''' Unidad operativa
+    ''' </summary>
+    Dim _operatingUnit As OperatingUnit
+
+    Const CNameReport = "Reconocimiento de Ingresos.FrmRecognition"
+
+    Dim listreport As List(Of ViewListRecognitionReverse)
+    Private INDUser As Object
+    Private OperatingUnit As XPCollection
+
+
+    Public Sub CargarDataSource() Implements IReport.CargarDataSource
+        Dim filtroConsulta As String = " RecognitionId IN (" & ParametrosReporte(0) & ") "
+        listreport = XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).BillingService.GetCollection(Of ViewListRecognitionReverse)(Nothing, filtroConsulta)
+
+        If listreport IsNot Nothing AndAlso listreport.Count > 0 Then
+            Dim INDCodeUser = CType(listreport(0), ViewListRecognitionReverse).UserCode.Trim()
+            INDUser = XpoServiceEx.Instance(IndigoSessionValues.SecurityContainer).BillingService.GetCollection(Of Infrastructure.Data.Xpo.SecurityRepository.UserXpo)(Nothing, "UserCode = '" & INDCodeUser & "'")
+            Me.DataSource = listreport
+
+
+            Dim OperatingUnitId = CType(listreport(0), ViewListRecognitionReverse).OperativeUnitId
+            OperatingUnit = XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).AccountingService.ListOperatingUnitByIdd(OperatingUnitId)
+            Me.INDlblAddress.Text = If(Me.OperatingUnit(0).Address IsNot Nothing, Me.OperatingUnit(0).Address.Trim() & If(Me.OperatingUnit(0).IdCity IsNot Nothing, If(Me.OperatingUnit(0).IdCity.Name IsNot Nothing, " " & Me.OperatingUnit(0).IdCity.Name.Trim() & If(Me.OperatingUnit(0).IdCity.DepartamentId IsNot Nothing, " - " & Me.OperatingUnit(0).IdCity.DepartamentId.Name.Trim(), String.Empty), String.Empty), String.Empty), String.Empty)
+            Me.INDlblPhoneEmail.Text = If(Me.OperatingUnit(0).Phone IsNot Nothing, Me.OperatingUnit(0).Phone.Trim() & If(Me.OperatingUnit(0).EmailAudit IsNot Nothing, " - " & Me.OperatingUnit(0).EmailAudit.Trim(), String.Empty), String.Empty)
+        End If
+    End Sub
+    Public ReadOnly Property NameReport As String Implements IReport.NameReport
+        Get
+            Return rptRevenueRecognitionReverse.CNameReport
+        End Get
+    End Property
+
+    Public Property ParametrosReporte As Object() Implements IReport.ParametrosReporte
+
+    Public Sub CargarImagenes() Implements IReport.CargarImagenes
+
+    End Sub
+
+    Private Sub rptRevenueRecognition_BeforePrint(sender As Object, e As PrintEventArgs) Handles MyBase.BeforePrint
+        If Me.Parameters.Count > 0 And Me.Parameters(0).Value > 0 Then
+            Dim ParametrosFilter As ParameterCollection = Me.Parameters
+            ParametrosReporte = New Object() {ParametrosFilter.GetByName("INDIdRecognition").Value}
+            CargarDataSource()
+        End If
+
+        If listreport IsNot Nothing AndAlso listreport.Count > 0 Then
+            INDLblCompany.Text = IndigoSessionValues.IndigoCompanyName
+            INDLblNitCompany.Text = "Nit:" & IndigoSessionValues.IndigoCompanyNit
+            INDUserImp.Text = "Usuario Impresión : " & IndigoSessionValues.UserIndigo & " - " & IndigoSessionValues.UserIndigoName
+            If INDUser.count() > 0 Then
+                INDUserCreate.Text = INDUser(0).CodeName
+            End If
+        End If
+    End Sub
+
+End Class

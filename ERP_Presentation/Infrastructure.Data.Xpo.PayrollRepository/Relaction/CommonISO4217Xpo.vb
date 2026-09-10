@@ -1,0 +1,74 @@
+﻿Imports System
+Imports DevExpress.Xpo
+Imports DevExpress.Data.Filtering
+
+<Persistent("Common.ISO4217")>
+Partial Public Class ISO4217Xpo
+    Inherits XPLiteObject
+
+#Region "Builder"
+    Public Sub New(ByVal session As Session)
+        MyBase.New(session)
+    End Sub
+    Public Sub New()
+        MyBase.New(Session.DefaultSession)
+    End Sub
+    Public Overrides Sub AfterConstruction()
+        MyBase.AfterConstruction()
+    End Sub
+#End Region
+
+#Region "Members"
+    Dim fId As Integer
+    <Key(True)>
+    Public Property Id() As Integer
+        Get
+            Return fId
+        End Get
+        Set(ByVal value As Integer)
+            SetPropertyValue(Of Integer)("Id", fId, value)
+        End Set
+    End Property
+
+    Dim fCodeAbbreviation As String
+    <Persistent("CodeAbbreviation")>
+    Public Property CodeAbbreviation() As String
+        Get
+            Return fCodeAbbreviation
+        End Get
+        Set(ByVal value As String)
+            SetPropertyValue(Of String)("CodeAbbreviation", fCodeAbbreviation, value)
+        End Set
+    End Property
+
+    Dim fCurrencyName As String
+    <Persistent("CurrencyName")>
+    Public Property CurrencyName() As String
+        Get
+            Return fCurrencyName
+        End Get
+        Set(ByVal value As String)
+            SetPropertyValue(Of String)("CurrencyName", fCurrencyName, value)
+        End Set
+    End Property
+
+#End Region
+
+#Region "PersistentAlias"
+    <PersistentAlias("concat(CodeAbbreviation,' - ', CurrencyName)")>
+    Public ReadOnly Property CodeName() As String
+        Get
+            Return Convert.ToString(Me.EvaluateAlias("CodeName"))
+        End Get
+    End Property
+#End Region
+
+#Region "Association"
+    <Association("ISO4217Xpo_Reference_CurrencyPayroll", GetType(CommonCurrencyXpo))>
+    Public ReadOnly Property CommonCurrencyXpo() As XPCollection(Of CommonCurrencyXpo)
+        Get
+            Return GetCollection(Of CommonCurrencyXpo)("CommonCurrencyXpo")
+        End Get
+    End Property
+#End Region
+End Class

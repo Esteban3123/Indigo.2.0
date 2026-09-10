@@ -1,0 +1,105 @@
+﻿#Region "Librerias Importadas"
+Imports Infrastructure.CrossCutting.Base
+Imports Infrastructure.Data.Xpo
+Imports Infrastructure.Data.Xpo.PayrollRepository
+Imports Domain.Entities
+Imports Presentation.Base
+#End Region
+
+Public Class rptListTradeUnion
+    Implements IReport
+
+    ''' <summary>
+    ''' Variable para inicializar los valores de sesion
+    ''' </summary>
+    Dim IndigoSessionValues As SessionValues = SessionValues.Instance
+
+    Private boss As List(Of PayrollPayrollSettingsReportXpo)
+
+    Private bossOnly As String
+    Public Sub CargarDataSource() Implements IReport.CargarDataSource
+        Try
+
+            Dim filtroConsulta As String = Nothing
+
+            'filtro por fechas
+            filtroConsulta = " ConceptClass = '044' AND PayrollDate >= #" & Format(ParametrosReporte(0), "yyyy-MM-dd") & "# AND PayrollDate <= #" & Format(ParametrosReporte(1), "yyyy-MM-dd") & "#"
+
+            'filtro por empleado
+            If ParametrosReporte(2) IsNot Nothing Then
+                filtroConsulta &= " AND PayrollId.EmployeeId.Id = " & ParametrosReporte(2)
+            End If
+
+            'filtro por grupo
+            If ParametrosReporte(3) IsNot Nothing And ParametrosReporte(4) IsNot Nothing Then
+                filtroConsulta &= " AND PayrollId.GroupId.Code >= '" & ParametrosReporte(3) & "' AND PayrollId.GroupId.Code <= '" & ParametrosReporte(4) & "'"
+            End If
+
+            'filtro por sindicato
+            If ParametrosReporte(5) IsNot Nothing Then
+                filtroConsulta &= " AND IdThirdParty = '" & ParametrosReporte(5) & "'"
+            End If
+
+            'filtro por sucursal
+            Dim sucursalIni As String = IIf(ParametrosReporte(6) Is Nothing Or ParametrosReporte(6) = String.Empty, "NULL", ParametrosReporte(6))
+            Dim sucursalFin As String = IIf(ParametrosReporte(7) Is Nothing Or ParametrosReporte(7) = String.Empty, "NULL", ParametrosReporte(7))
+
+            filtroConsulta = String.Format("{0} AND ((PayrollId.ContractId.FunctionalUnitId.BranchOfficeId >= {1} AND PayrollId.ContractId.FunctionalUnitId.BranchOfficeId <= {2}) OR ({1} IS NULL AND {2} IS NULL))", filtroConsulta, sucursalIni, sucursalFin)
+
+
+            ''filtro por Unidad funcional
+            'If ParametrosReporte(7) IsNot Nothing And ParametrosReporte(8) IsNot Nothing Then
+            '    filtroConsulta &= " AND ContractId.FunctionalUnitId.Code >= '" & ParametrosReporte(7) & "' AND ContractId.FunctionalUnitId.Code <= '" & ParametrosReporte(8) & "'"
+            'End If
+
+            Me.DataSource = XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).PayrollService.GetCollection(Of PayrollLiquidationDetail)(Nothing, filtroConsulta)
+        Catch ex As Exception
+            MessageIndigo.Show(GetExceptionDetails(ex), MessageType.Errores, Me.Text, Botones.Aceptar, "")
+        End Try
+    End Sub
+
+    Public Function GetExceptionDetails(exception As Exception) As String
+        Dim properties = exception.[GetType]().GetProperties()
+        Dim fields = properties.[Select](Function([property]) New With { _
+            Key .Name = [property].Name, _
+            Key .Value = [property].GetValue(exception, Nothing) _
+        }).[Select](Function(x) [String].Format("{0} : {1}", x.Name, If(x.Value IsNot Nothing, x.Value.ToString(), [String].Empty)))
+        Return [String].Join(vbLf, fields)
+    End Function
+
+    Public Sub CargarImagenes() Implements IReport.CargarImagenes
+
+    End Sub
+
+    Public ReadOnly Property NameReport As String Implements IReport.NameReport
+        Get
+            Return ""
+        End Get
+    End Property
+
+    Public Property ParametrosReporte As Object() Implements IReport.ParametrosReporte
+
+    Private Sub rptContributionFunds_BeforePrint(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles MyBase.BeforePrint
+        INDPrGroup.Value = ParametrosReporte(2)
+
+        INDLblCompany.Text = IndigoSessionValues.IndigoCompanyName
+        INDLblNitCompany.Text = "Nit:" & IndigoSessionValues.IndigoCompanyNit
+        INDLblDate.Text = "Informe comprendido entre " & CDate(ParametrosReporte(0)).ToString("dd De MMMM Del yyyy") & " " & CDate(ParametrosReporte(1)).ToString("A dd De MMMM Del yyyy")
+        Me.INDLblUserPrint.Text = "Usuario Impresión : " & IndigoSessionValues.UserIndigo & " - " & IndigoSessionValues.UserIndigoName
+        ' Inicializar la localización del reporte (formato de moneda)
+        UtilitiesReporter.InitializeReportLocalization(Me, IndigoSessionValues, 1)
+
+        boss = XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).PayrollService.GetCollection(Of PayrollPayrollSettingsReportXpo)(Nothing, Nothing)
+
+        Dim bos = From b In boss
+                   Select jefe = b.PayrollChiefThirdPartyId.Name
+
+        For Each j In bos
+            bossOnly = j.ToString()
+        Next
+
+        XrLabel1.Text = bossOnly
+
+
+    End Sub
+End Class

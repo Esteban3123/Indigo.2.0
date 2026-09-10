@@ -1,0 +1,514 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://tempuri.org/" elementFormDefault="qualified" targetNamespace="http://tempuri.org/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import schemaLocation="https://localhost:9001/ServiceEntity/AccountManagement.svc?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/Domain.Entities" />
+  <xs:import schemaLocation="https://localhost:9001/ServiceEntity/AccountManagement.svc?xsd=xsd7" namespace="http://schemas.datacontract.org/2004/07/Infrastructure.CrossCutting.Base" />
+  <xs:import schemaLocation="https://localhost:9001/ServiceEntity/AccountManagement.svc?xsd=xsd3" namespace="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" />
+  <xs:import schemaLocation="https://localhost:9001/ServiceEntity/AccountManagement.svc?xsd=xsd6" namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
+  <xs:import schemaLocation="https://localhost:9001/ServiceEntity/AccountManagement.svc?xsd=xsd8" namespace="http://schemas.datacontract.org/2004/07/Domain.AccountManagement.Model" />
+  <xs:element name="ListManagementAreasByUserCode">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="userCode" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ListManagementAreasByUserCodeResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q1="http://schemas.datacontract.org/2004/07/Domain.Entities" minOccurs="0" name="ListManagementAreasByUserCodeResult" nillable="true" type="q1:ArrayOfManagementAreas" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="DeleteManagementAreas">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q2="http://schemas.datacontract.org/2004/07/Domain.Entities" minOccurs="0" name="ManagementAreas" nillable="true" type="q2:ManagementAreas" />
+        <xs:element xmlns:q3="http://schemas.datacontract.org/2004/07/Infrastructure.CrossCutting.Base" minOccurs="0" name="audit" nillable="true" type="q3:AuditMessage" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="DeleteManagementAreasResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q4="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="DeleteManagementAreasResult" nillable="true" type="q4:ActionResult" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SaveManagementAreas">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q5="http://schemas.datacontract.org/2004/07/Domain.Entities" minOccurs="0" name="ManagementAreas" nillable="true" type="q5:ManagementAreas" />
+        <xs:element minOccurs="0" name="idSequense" type="xs:long" />
+        <xs:element xmlns:q6="http://schemas.datacontract.org/2004/07/Infrastructure.CrossCutting.Base" minOccurs="0" name="audit" nillable="true" type="q6:AuditMessage" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SaveManagementAreasResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q7="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="SaveManagementAreasResult" nillable="true" type="q7:ActionResultOfManagementAreasMbb067J0" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetManagementAreasById">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="id" type="xs:int" />
+        <xs:element xmlns:q8="http://schemas.datacontract.org/2004/07/Infrastructure.CrossCutting.Base" minOccurs="0" name="audit" nillable="true" type="q8:AuditMessage" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetManagementAreasByIdResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q9="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="GetManagementAreasByIdResult" nillable="true" type="q9:ActionResultOfManagementAreasMbb067J0" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetManagementAreasByCode">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="code" nillable="true" type="xs:string" />
+        <xs:element xmlns:q10="http://schemas.datacontract.org/2004/07/Infrastructure.CrossCutting.Base" minOccurs="0" name="audit" nillable="true" type="q10:AuditMessage" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetManagementAreasByCodeResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q11="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="GetManagementAreasByCodeResult" nillable="true" type="q11:ActionResultOfManagementAreasMbb067J0" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ChangeStateManagementAreas">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="code" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="state" type="xs:boolean" />
+        <xs:element xmlns:q12="http://schemas.datacontract.org/2004/07/Infrastructure.CrossCutting.Base" minOccurs="0" name="audit" nillable="true" type="q12:AuditMessage" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ChangeStateManagementAreasResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q13="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="ChangeStateManagementAreasResult" nillable="true" type="q13:ActionResultOfManagementAreasMbb067J0" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetAllManagementAreas">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetAllManagementAreasResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q14="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="GetAllManagementAreasResult" nillable="true" type="q14:ActionResultOfArrayOfManagementAreasMbb067J0" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetSequenseByIdForm">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="idForm" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetSequenseByIdFormResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q15="http://schemas.datacontract.org/2004/07/Domain.Entities" minOccurs="0" name="GetSequenseByIdFormResult" nillable="true" type="q15:AccountManagementSequence" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetNumericSequenseGroupById">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="id" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetNumericSequenseGroupByIdResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q16="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="GetNumericSequenseGroupByIdResult" nillable="true" type="q16:ArrayOfstring" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SaveSequence">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q17="http://schemas.datacontract.org/2004/07/Domain.Entities" minOccurs="0" name="seq" nillable="true" type="q17:AccountManagementSequence" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SaveSequenceResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q18="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="SaveSequenceResult" nillable="true" type="q18:ActionResult" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetBlockRecordAccountManagementByIdformAndIdRecord">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="IdForm" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="IdRecord" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetBlockRecordAccountManagementByIdformAndIdRecordResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q19="http://schemas.datacontract.org/2004/07/Domain.Entities" minOccurs="0" name="GetBlockRecordAccountManagementByIdformAndIdRecordResult" nillable="true" type="q19:BlockRecordAccountManagement" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SaveBlockRecordAccountManagement">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q20="http://schemas.datacontract.org/2004/07/Domain.Entities" minOccurs="0" name="BlockRecordAccountManagement" nillable="true" type="q20:BlockRecordAccountManagement" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SaveBlockRecordAccountManagementResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q21="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="SaveBlockRecordAccountManagementResult" nillable="true" type="q21:ActionResultOfBlockRecordAccountManagementMbb067J0" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="DeleteBlockRecordAccountManagement">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q22="http://schemas.datacontract.org/2004/07/Domain.Entities" minOccurs="0" name="BlockRecordAccountManagement" nillable="true" type="q22:BlockRecordAccountManagement" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="DeleteBlockRecordAccountManagementResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q23="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="DeleteBlockRecordAccountManagementResult" nillable="true" type="q23:ActionResult" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetAccountManagementParametersById">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="id" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetAccountManagementParametersByIdResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q24="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="GetAccountManagementParametersByIdResult" nillable="true" type="q24:ActionResultOfAccountManagementParametersMbb067J0" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SaveAccountManagementParameters">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q25="http://schemas.datacontract.org/2004/07/Domain.Entities" minOccurs="0" name="AccountManagementParameters" nillable="true" type="q25:AccountManagementParameters" />
+        <xs:element xmlns:q26="http://schemas.datacontract.org/2004/07/Infrastructure.CrossCutting.Base" minOccurs="0" name="audit" nillable="true" type="q26:AuditMessage" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SaveAccountManagementParametersResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q27="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="SaveAccountManagementParametersResult" nillable="true" type="q27:ActionResultOfAccountManagementParametersMbb067J0" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetAvailableUsers">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetAvailableUsersResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q28="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="GetAvailableUsersResult" nillable="true" type="q28:ActionResultOfArrayOfUsersAssignmentMbb067J0" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetUsersWithDistributedAccounts">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetUsersWithDistributedAccountsResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q29="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="GetUsersWithDistributedAccountsResult" nillable="true" type="q29:ActionResultOfArrayOfUsersAssignmentMbb067J0" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ListRejectionReasonByUserCode">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="userCode" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ListRejectionReasonByUserCodeResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q30="http://schemas.datacontract.org/2004/07/Domain.Entities" minOccurs="0" name="ListRejectionReasonByUserCodeResult" nillable="true" type="q30:ArrayOfRejectionReason" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetRejectionReasonById">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="id" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetRejectionReasonByIdResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q31="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="GetRejectionReasonByIdResult" nillable="true" type="q31:ActionResultOfRejectionReasonMbb067J0" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetRejectionReasonByCode">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="code" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetRejectionReasonByCodeResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q32="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="GetRejectionReasonByCodeResult" nillable="true" type="q32:ActionResultOfRejectionReasonMbb067J0" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SaveRejectionReason">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q33="http://schemas.datacontract.org/2004/07/Domain.Entities" minOccurs="0" name="rejectionReason" nillable="true" type="q33:RejectionReason" />
+        <xs:element xmlns:q34="http://schemas.datacontract.org/2004/07/Infrastructure.CrossCutting.Base" minOccurs="0" name="audit" nillable="true" type="q34:AuditMessage" />
+        <xs:element minOccurs="0" name="idSecuence" type="xs:long" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SaveRejectionReasonResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q35="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="SaveRejectionReasonResult" nillable="true" type="q35:ActionResultOfRejectionReasonMbb067J0" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="DeleteRejectionReason">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q36="http://schemas.datacontract.org/2004/07/Domain.Entities" minOccurs="0" name="rejectionReason" nillable="true" type="q36:RejectionReason" />
+        <xs:element xmlns:q37="http://schemas.datacontract.org/2004/07/Infrastructure.CrossCutting.Base" minOccurs="0" name="audit" nillable="true" type="q37:AuditMessage" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="DeleteRejectionReasonResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q38="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="DeleteRejectionReasonResult" nillable="true" type="q38:ActionResult" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ChangeStateRejectionReason">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="code" nillable="true" type="xs:string" />
+        <xs:element xmlns:q39="http://schemas.datacontract.org/2004/07/Infrastructure.CrossCutting.Base" minOccurs="0" name="audit" nillable="true" type="q39:AuditMessage" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ChangeStateRejectionReasonResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q40="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="ChangeStateRejectionReasonResult" nillable="true" type="q40:ActionResultOfRejectionReasonMbb067J0" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ListAllRejectionReasons">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ListAllRejectionReasonsResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q41="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="ListAllRejectionReasonsResult" nillable="true" type="q41:ActionResultOfArrayOfRejectionReasonMbb067J0" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="RequestFolioTransferToUser">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q42="http://schemas.datacontract.org/2004/07/Domain.Entities" minOccurs="0" name="folioTransferRequest" nillable="true" type="q42:ArrayOfFolioTransfer" />
+        <xs:element xmlns:q43="http://schemas.datacontract.org/2004/07/Infrastructure.CrossCutting.Base" minOccurs="0" name="audit" nillable="true" type="q43:AuditMessage" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="RequestFolioTransferToUserResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q44="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="RequestFolioTransferToUserResult" nillable="true" type="q44:ActionResult" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SuspendFolioAlert">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q45="http://schemas.datacontract.org/2004/07/Domain.Entities" minOccurs="0" name="folioAlert" nillable="true" type="q45:FolioAlert" />
+        <xs:element xmlns:q46="http://schemas.datacontract.org/2004/07/Infrastructure.CrossCutting.Base" minOccurs="0" name="audit" nillable="true" type="q46:AuditMessage" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SuspendFolioAlertResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q47="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="SuspendFolioAlertResult" nillable="true" type="q47:ActionResult" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SaveFolioAlert">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q48="http://schemas.datacontract.org/2004/07/Domain.Entities" minOccurs="0" name="folioAlert" nillable="true" type="q48:FolioAlert" />
+        <xs:element xmlns:q49="http://schemas.datacontract.org/2004/07/Infrastructure.CrossCutting.Base" minOccurs="0" name="audit" nillable="true" type="q49:AuditMessage" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SaveFolioAlertResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q50="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="SaveFolioAlertResult" nillable="true" type="q50:ActionResultOfFolioAlertMbb067J0" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetAllAlerts">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetAllAlertsResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q51="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="GetAllAlertsResult" nillable="true" type="q51:ActionResultOfArrayOfFolioAlertMbb067J0" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ListFolioEvents">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="attentionCenter" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="admissionNumber" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="patientCode" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="userCode" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ListFolioEventsResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q52="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="ListFolioEventsResult" nillable="true" type="q52:ActionResultOfArrayOfVFolioTraceabilityPropertiese_PT_SFPnk" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ListFolioTransferRequests">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="attentionCenter" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="managementAreaCode" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="userCode" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ListFolioTransferRequestsResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q53="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="ListFolioTransferRequestsResult" nillable="true" type="q53:ActionResultOfArrayOfVDashboardPropertiese_PT_SFPnk" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ProcessTransferRequest">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q54="http://schemas.datacontract.org/2004/07/Domain.Entities" minOccurs="0" name="folioTransfer" nillable="true" type="q54:FolioTransfer" />
+        <xs:element minOccurs="0" name="newState" type="xs:unsignedByte" />
+        <xs:element minOccurs="0" name="operation" nillable="true" type="xs:string" />
+        <xs:element xmlns:q55="http://schemas.datacontract.org/2004/07/Infrastructure.CrossCutting.Base" minOccurs="0" name="audit" nillable="true" type="q55:AuditMessage" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ProcessTransferRequestResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q56="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="ProcessTransferRequestResult" nillable="true" type="q56:ActionResultOfFolioTransferMbb067J0" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetUserFolios">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="userCode" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetUserFoliosResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q57="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="GetUserFoliosResult" nillable="true" type="q57:ActionResultOfArrayOfGetUserFoliose_PT_SFPnk" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetPendingAssignmentByCareCenterAndEntryType">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="careCenter" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="entryType" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetPendingAssignmentByCareCenterAndEntryTypeResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q58="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="GetPendingAssignmentByCareCenterAndEntryTypeResult" nillable="true" type="q58:ActionResultOfArrayOfVPendingAssignmente_PT_SFPnk" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GenerateManualAssignment">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q59="http://schemas.datacontract.org/2004/07/Domain.Entities" minOccurs="0" name="patientsToAssign" nillable="true" type="q59:ArrayOfAutomaticEntryDistribution" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GenerateManualAssignmentResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q60="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="GenerateManualAssignmentResult" nillable="true" type="q60:ActionResultOfArrayOfAutomaticEntryDistributionMbb067J0" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GenerateAutomaticAssignment">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q61="http://schemas.datacontract.org/2004/07/Domain.AccountManagement.Model" minOccurs="0" name="patientsToAssign" nillable="true" type="q61:ArrayOfAutomaticDistributionMessage" />
+        <xs:element xmlns:q62="http://schemas.datacontract.org/2004/07/Infrastructure.CrossCutting.Base" minOccurs="0" name="session" nillable="true" type="q62:SessionValues" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GenerateAutomaticAssignmentResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q63="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="GenerateAutomaticAssignmentResult" nillable="true" type="q63:ActionResult" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

@@ -1,0 +1,238 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{FB110E4F-2309-46EF-8A11-D979517E315B}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>Domain.Crystal</RootNamespace>
+    <AssemblyName>Domain.Crystal</AssemblyName>
+    <FileAlignment>512</FileAlignment>
+    <MyType>Windows</MyType>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DocumentationFile>Domain.Crystal.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DocumentationFile>Domain.Crystal.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionExplicit>On</OptionExplicit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionCompare>Binary</OptionCompare>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionStrict>Off</OptionStrict>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionInfer>On</OptionInfer>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debugcito|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\Debugcito\</OutputPath>
+    <DocumentationFile>Domain.Crystal.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DocumentationFile>Domain.Crystal.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DocumentationFile>Domain.Crystal.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debugcito|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x64\Debugcito\</OutputPath>
+    <DocumentationFile>Domain.Crystal.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+  </ItemGroup>
+  <ItemGroup>
+    <Import Include="Microsoft.VisualBasic" />
+    <Import Include="System" />
+    <Import Include="System.Collections.Generic" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="My Project\AssemblyInfo.vb" />
+    <Compile Include="My Project\Application.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Application.myapp</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="My Project\Resources.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="My Project\Settings.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="Repositories\IADCENATENRepository.vb" />
+    <Compile Include="Repositories\IADCONCOEXrepository.vb" />
+    <Compile Include="Repositories\IAdmissionRepository.vb" />
+    <Compile Include="Repositories\IAGACTIMEDRepository.vb" />
+    <Compile Include="Repositories\IAGACTMDDDRepository.vb" />
+    <Compile Include="Repositories\IAGASICITARepository.vb" />
+    <Compile Include="Repositories\IAGCITASERIPSRepository.vb" />
+    <Compile Include="Repositories\IAMBORDIMARepository.vb" />
+    <Compile Include="Repositories\IAMBORDLABRepository.vb" />
+    <Compile Include="Repositories\IAMBORDPATRepository.vb" />
+    <Compile Include="Repositories\IBedRateRepository.vb" />
+    <Compile Include="Repositories\IBedRepository.vb" />
+    <Compile Include="Repositories\ICHTIPESTARepository.vb" />
+    <Compile Include="Repositories\IConsecutiveRepository.vb" />
+    <Compile Include="Repositories\ICrystalEntityRepository.vb" />
+    <Compile Include="Repositories\IDashboardPharmacyDetailDevolutionRepository.vb" />
+    <Compile Include="Repositories\IDashboardPharmacyDetailSurgicalPackageRepository.vb" />
+    <Compile Include="Repositories\IDashboardPharmacyDetailRepository.vb" />
+    <Compile Include="Repositories\IDevolutionMedicationDetailRepository.vb" />
+    <Compile Include="Repositories\IDevolutionMedicationRepository.vb" />
+    <Compile Include="Repositories\IExternalConsultationRepository.vb" />
+    <Compile Include="Repositories\IHCCONOXIGRepository.vb" />
+    <Compile Include="Repositories\IHCFISIPRORepository.vb" />
+    <Compile Include="Repositories\IHCFARMEPCRepository.vb" />
+    <Compile Include="Repositories\IHCPLAOTRPROCUPSRepository.vb" />
+    <Compile Include="Repositories\IRoutingLogRepository.vb" />
+    <Compile Include="Repositories\IHCFARMEPDRepository.vb" />
+    <Compile Include="Repositories\IHCORHEMSERRepository.vb" />
+    <Compile Include="Repositories\IHCHISPACARepository.vb" />
+    <Compile Include="Repositories\IHCHOGASINRepository.vb" />
+    <Compile Include="Repositories\IHCINTESERRepository.vb" />
+    <Compile Include="Repositories\IHCJUNOPMHRepository.vb" />
+    <Compile Include="Repositories\IHCORDIMAGRepository.vb" />
+    <Compile Include="Repositories\IHCORDINTERepository.vb" />
+    <Compile Include="Repositories\IHCORDLABORepository.vb" />
+    <Compile Include="Repositories\IHCORDPATORepository.vb" />
+    <Compile Include="Repositories\IHCORDPRONRepository.vb" />
+    <Compile Include="Repositories\IHCORDPROQRepository.vb" />
+    <Compile Include="Repositories\IHCPARPACSRepository.vb" />
+    <Compile Include="Repositories\IHCPROCTERRepository.vb" />
+    <Compile Include="Repositories\IHCQXEQUIPRepository.vb" />
+    <Compile Include="Repositories\IHCQXINFORRepository.vb" />
+    <Compile Include="Repositories\IHCQXREALIRepository.vb" />
+    <Compile Include="Repositories\IHCREGEGRERepository.vb" />
+    <Compile Include="Repositories\IHCUNITHISRepository.vb" />
+    <Compile Include="Repositories\IHealthCareProfessionalRepository.vb" />
+    <Compile Include="Repositories\IHealthProfessionalRepository.vb" />
+    <Compile Include="Repositories\IHospitalInventoryRepository.vb" />
+    <Compile Include="Repositories\IIHLISTPRORepository.vb" />
+    <Compile Include="Repositories\IINCONSECURepository.vb" />
+    <Compile Include="Repositories\IINCUPSIPSRepository.vb" />
+    <Compile Include="Repositories\IINCUPSSUBRepository.vb" />
+    <Compile Include="Repositories\IINPACIENTTOPANURepository.vb" />
+    <Compile Include="Repositories\IINPRODPATRepository.vb" />
+    <Compile Include="Repositories\IINUNIFUNCRepository.vb" />
+    <Compile Include="Repositories\IKardexCrystalRepository.vb" />
+    <Compile Include="Repositories\IMedicalPrescriptionRepository.vb" />
+    <Compile Include="Repositories\ILevelPatientRepository.vb" />
+    <Compile Include="Repositories\IPhysicalInventoryCrystalRepository.vb" />
+    <Compile Include="Repositories\IPatientConsecutiveRepository.vb" />
+    <Compile Include="Repositories\IPharmacyDetailRepository.vb" />
+    <Compile Include="Repositories\IPharmacyRepository.vb" />
+    <Compile Include="Repositories\IRISGRIMAGERepository.vb" />
+    <Compile Include="Repositories\ISEGpermirRepository.vb" />
+    <Compile Include="Repositories\ISEGpermiuRepository.vb" />
+    <Compile Include="Repositories\ISEGrolesuRepository.vb" />
+    <Compile Include="Repositories\ISEGgruusuRepository.vb" />
+    <Compile Include="Repositories\ISEGusuaruRepository.vb" />
+    <Compile Include="Repositories\ISpecialityRepository.vb" />
+    <Compile Include="Repositories\IPatientRepository.vb" />
+    <Compile Include="Repositories\IParameterRepository.vb" />
+    <Compile Include="Repositories\IStayDetailRepository.vb" />
+    <Compile Include="Repositories\IStayRepository.vb" />
+    <Compile Include="Repositories\ISurgicalExpenseSheetRepository.vb" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="My Project\Resources.resx">
+      <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.vb</LastGenOutput>
+      <CustomToolNamespace>My.Resources</CustomToolNamespace>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="My Project\Application.myapp">
+      <Generator>MyApplicationCodeGenerator</Generator>
+      <LastGenOutput>Application.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="My Project\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <CustomToolNamespace>My</CustomToolNamespace>
+      <LastGenOutput>Settings.Designer.vb</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Services\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Domain.Base.Entities\Domain.Base.Entities.vbproj">
+      <Project>{78734d29-0073-4d48-9d0b-2362d0243e36}</Project>
+      <Name>Domain.Base.Entities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Domain.Base\Domain.Base.vbproj">
+      <Project>{8157f242-6a69-44c1-a9ac-19f0ee5cb8a2}</Project>
+      <Name>Domain.Base</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Domain.Crystal.Entities\Domain.Crystal.Entities.vbproj">
+      <Project>{aef25407-1a53-4f3b-93cb-5258a6b80951}</Project>
+      <Name>Domain.Crystal.Entities</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

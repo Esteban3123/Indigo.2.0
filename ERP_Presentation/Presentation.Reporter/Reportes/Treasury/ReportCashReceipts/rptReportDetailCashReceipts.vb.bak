@@ -1,0 +1,73 @@
+﻿Imports DevExpress.XtraReports.UI
+Imports Infrastructure.CrossCutting.Base
+Imports Infrastructure.Data.Xpo
+Imports Infrastructure.Data.Xpo.BillingRepository
+Imports Infrastructure.Data.Xpo.TreasuryRepository
+Imports Presentation.Base
+
+Public Class rptReportDetailCashReceipts
+    Implements IReport
+
+
+    ''' <summary>
+    ''' Variable para inicializar los valores de sesion
+    ''' </summary>
+    Dim IndigoSessionValues As SessionValues = SessionValues.Instance
+
+    Dim Currency As String
+
+    Public Sub CargarDataSource() Implements IReport.CargarDataSource
+        Try
+            Dim y As List(Of TreasuryCashReceiptsXpo) = Me.DataSource
+            Dim groupData = From i In y
+                            Group By i.CurrencyAbbreviation Into g = Group
+                            Select CurrencyAbbreviation, Value = g.Sum(Function(x) (x.Value - x.ReverseValue)),
+                                ReverseValue = g.Sum(Function(t) If({"Cancelado", "Reversado"}.Contains(t.Status), 0, t.Value))
+
+            DetailReport.DataSource = groupData
+            Me.DataSource = Nothing
+        Catch ex As Exception
+            MessageIndigo.Show(GetExceptionDetails(ex), MessageType.Errores, Me.Text, Botones.Aceptar, "")
+        End Try
+    End Sub
+
+    Public Sub CargarImagenes() Implements IReport.CargarImagenes
+
+    End Sub
+
+    Public Function GetExceptionDetails(exception As Exception) As String
+        Dim properties = exception.[GetType]().GetProperties()
+        Dim fields = properties.[Select](Function([property]) New With {
+            Key .Name = [property].Name,
+            Key .Value = [property].GetValue(exception, Nothing)
+        }).[Select](Function(x) [String].Format("{0} : {1}", x.Name, If(x.Value IsNot Nothing, x.Value.ToString(), [String].Empty)))
+        Return [String].Join(vbLf, fields)
+    End Function
+
+    Public ReadOnly Property NameReport As String Implements IReport.NameReport
+        Get
+            Return ""
+        End Get
+    End Property
+
+    Public Property ParametrosReporte As Object() Implements IReport.ParametrosReporte
+
+
+    Private Sub rptReportDetailCashReceipts_BeforePrint(sender As Object, e As Printing.PrintEventArgs) Handles MyBase.BeforePrint
+        CargarDataSource()
+    End Sub
+
+    Private Sub IvaTotalValueCell_BeforePrint(sender As Object, e As Printing.PrintEventArgs) Handles IvaTotalValueCell.BeforePrint
+        IvaTotalValueCell.Text = Utils.GetMoneyWithISO4217(CDec(IvaTotalValueCell.Text), If(String.IsNullOrEmpty(Currency),
+                                             IndigoSessionValues.CurrencyISO4217, Currency))
+    End Sub
+
+    Private Sub TotalSalePriceCol_BeforePrint(sender As Object, e As Printing.PrintEventArgs) Handles TotalSalePriceCol.BeforePrint
+        TotalSalePriceCol.Text = Utils.GetMoneyWithISO4217(CDec(TotalSalePriceCol.Text), If(String.IsNullOrEmpty(Currency),
+                                             IndigoSessionValues.CurrencyISO4217, Currency))
+    End Sub
+
+    Private Sub CurrencyCol_BeforePrint(sender As Object, e As Printing.PrintEventArgs) Handles CurrencyCol.BeforePrint
+        Currency = CurrencyCol.Text
+    End Sub
+End Class

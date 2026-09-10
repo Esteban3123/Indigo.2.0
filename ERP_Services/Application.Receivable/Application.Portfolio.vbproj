@@ -1,0 +1,324 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\EntityFramework.6.4.4\build\EntityFramework.props" Condition="Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.props')" />
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{0E3CE6CD-428B-4C23-96F8-5080650F898A}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>Application.Portfolio</RootNamespace>
+    <AssemblyName>Application.Portfolio</AssemblyName>
+    <FileAlignment>512</FileAlignment>
+    <MyType>Windows</MyType>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+    <TargetFrameworkProfile />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DocumentationFile>Application.Portfolio.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DocumentationFile>Application.Portfolio.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionExplicit>On</OptionExplicit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionCompare>Binary</OptionCompare>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionStrict>Off</OptionStrict>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionInfer>On</OptionInfer>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debugcito|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\Debugcito\</OutputPath>
+    <DocumentationFile>Application.Portfolio.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Roldan|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\Roldan\</OutputPath>
+    <DocumentationFile>Application.Portfolio.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DocumentationFile>Application.Portfolio.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DocumentationFile>Application.Portfolio.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debugcito|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x64\Debugcito\</OutputPath>
+    <DocumentationFile>Application.Portfolio.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Roldan|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x64\Roldan\</OutputPath>
+    <DocumentationFile>Application.Portfolio.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.4.4\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.4.4\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="Infrastructure.CrossCutting.Exceptions, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\DLL\Infrastructure.CrossCutting.Exceptions.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Transactions" />
+    <Reference Include="System.Core" />
+  </ItemGroup>
+  <ItemGroup>
+    <Import Include="Microsoft.VisualBasic" />
+    <Import Include="System" />
+    <Import Include="System.Collections" />
+    <Import Include="System.Collections.Generic" />
+    <Import Include="System.Data" />
+    <Import Include="System.Diagnostics" />
+    <Import Include="System.Linq" />
+    <Import Include="System.Xml.Linq" />
+    <Import Include="System.Threading.Tasks" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AccountReceivableDocument\AccountReceivableDocumentAdminService.vb" />
+    <Compile Include="AccountReceivableDocument\IAccountReceivableDocumentAdminService.vb" />
+    <Compile Include="AccountReceivableShare\AccountReceivableShareAdminService.vb" />
+    <Compile Include="AccountReceivableShare\IAccountReceivableShareAdminService.vb" />
+    <Compile Include="AccountReceivable\AccountReceivableAdminService.vb" />
+    <Compile Include="AccountReceivable\IAccountReceivableAdminService.vb" />
+    <Compile Include="AgesPortfolio\AgePortfolioAdminService.vb" />
+    <Compile Include="AgesPortfolio\IAgePortfolioAdminService.vb" />
+    <Compile Include="BlockRecordPortfolio\BlockRecordPortfolioAdminService.vb" />
+    <Compile Include="BlockRecordPortfolio\IBlockRecordPotfolioAdminService.vb" />
+    <Compile Include="BudgetAllocationInitialBalances\BudgetAllocationInitialBalancesAdminService.vb" />
+    <Compile Include="BudgetAllocationInitialBalances\IBudgetAllocationInitialBalancesAdminService.vb" />
+    <Compile Include="PortfolioConciliation\IPortfolioConciliationAdminService.vb" />
+    <Compile Include="PortfolioConciliation\PortfolioConciliationAdminService.vb" />
+    <Compile Include="PortfolioConciliationConcepts\PortfolioConciliationConceptsAdminService.vb" />
+    <Compile Include="PortfolioConciliationConcepts\IPortfolioConciliationConceptsAdminService.vb" />
+    <Compile Include="CircularZeroThirty\CircularZeroThirtyAdminService.vb" />
+    <Compile Include="CircularZeroThirty\ICircularZeroThirtyAdminService.vb" />
+    <Compile Include="DemandStatus\IPortfolioDemandStatusAdminService.vb" />
+    <Compile Include="DemandStatus\PortfolioDemandStatusAdminService.vb" />
+    <Compile Include="EconomicIndicator\EconomicIndicatorAdminService.vb" />
+    <Compile Include="EconomicIndicator\IEconomicIndicatorAdminService.vb" />
+    <Compile Include="HardCollection\HardCollectionAdminService.vb" />
+    <Compile Include="HardCollection\IHardCollectionAdminService.vb" />
+    <Compile Include="Lawyer\ILawyerAdminService.vb" />
+    <Compile Include="Lawyer\LawyerAdminService.vb" />
+    <Compile Include="My Project\AssemblyInfo.vb" />
+    <Compile Include="My Project\Application.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Application.myapp</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="My Project\Resources.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="My Project\Settings.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="PortfolioAdvance\IPortfolioAdvanceAdminService.vb" />
+    <Compile Include="PortfolioAdvance\PortfolioAdvanceAdminService.vb" />
+    <Compile Include="AccountReceivableConcept\IAccountReceivableConceptAdminService.vb" />
+    <Compile Include="AccountReceivableConcept\AccountReceivableConceptAdminService.vb" />
+    <Compile Include="PortfolioDeteriorationClassification\IPortfolioDeteriorationClassificationAdminService.vb" />
+    <Compile Include="PortfolioDeteriorationClassification\PortfolioDeteriorationClassificationAdminService.vb" />
+    <Compile Include="PortfolioInitialBalance\IPortfolioInitialBalanceAdminService.vb" />
+    <Compile Include="PortfolioInitialBalance\PortfolioInitialBalanceAdminService.vb" />
+    <Compile Include="PortfolioMassiveConfirm\IPortfolioMassiveConfirmAdminService.vb" />
+    <Compile Include="PortfolioMassiveConfirm\PortfolioMassiveConfirmAdminService.vb" />
+    <Compile Include="PortfolioNoteConcept\IPortfolioNoteConceptAdminService.vb" />
+    <Compile Include="PortfolioNoteConcept\PortfolioNoteConceptAdminService.vb" />
+    <Compile Include="PortfolioNote\IPortfolioNoteAdminService.vb" />
+    <Compile Include="PortfolioNote\PortfolioNoteAdminService.vb" />
+    <Compile Include="PortfolioProvision\IPortfolioProvisionAdminService.vb" />
+    <Compile Include="PortfolioProvision\PortfolioProvisionAdminService.vb" />
+    <Compile Include="PortfolioReclassification\IPortfolioReclassificationAdminService.vb" />
+    <Compile Include="PortfolioReclassification\PortfolioReclassificationAdminService.vb" />
+    <Compile Include="PortfolioRevaluation\IPortfolioRevaluationAdminService.vb" />
+    <Compile Include="PortfolioRevaluation\PortfolioRevaluationAdminService.vb" />
+    <Compile Include="PortfolioTransfers\IPortfolioTransfersAdminService.vb" />
+    <Compile Include="PortfolioTransfers\PortfolioTransfersAdminService.vb" />
+    <Compile Include="ProvisionRanges\IProvisionRangesAdminService.vb" />
+    <Compile Include="ProvisionRanges\ProvisionRangesAdminService.vb" />
+    <Compile Include="Reports\IReportAdminService.vb" />
+    <Compile Include="Reports\ReportAdminService.vb" />
+    <Compile Include="Sequense\PortfolioSequenseAdminService.vb" />
+    <Compile Include="Sequense\IPortfolioSequenseAdminService.vb" />
+    <Compile Include="SettingPortfolio\ISettingPortfolioAdminService.vb" />
+    <Compile Include="SettingPortfolio\SettingPortfolioAdminService.vb" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="My Project\Resources.resx">
+      <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.vb</LastGenOutput>
+      <CustomToolNamespace>My.Resources</CustomToolNamespace>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="My Project\Application.myapp">
+      <Generator>MyApplicationCodeGenerator</Generator>
+      <LastGenOutput>Application.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="My Project\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <CustomToolNamespace>My</CustomToolNamespace>
+      <LastGenOutput>Settings.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Application.Accounting\Application.Accounting.vbproj">
+      <Project>{3eca7b1f-d62b-4223-9f17-53a1c5b3a0c9}</Project>
+      <Name>Application.Accounting</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Application.Base\Application.Base.vbproj">
+      <Project>{0E700653-1525-4D34-AA89-BFB243F6515C}</Project>
+      <Name>Application.Base</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Application.EventHandlers\Application.EventHandlers.csproj">
+      <Project>{BC7DB3BE-4B97-49D3-92B1-DBAC5AA3021B}</Project>
+      <Name>Application.EventHandlers</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Application.FileManager\Application.FileManager.vbproj">
+      <Project>{7d6da14c-f4d7-497b-9343-a5346483447a}</Project>
+      <Name>Application.FileManager</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Application.Payments\Application.Payments.vbproj">
+      <Project>{6d5a593d-d08d-4c4e-8cac-0a7cf615522e}</Project>
+      <Name>Application.Payments</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Domain.Base.Entities\Domain.Base.Entities.vbproj">
+      <Project>{78734D29-0073-4D48-9D0B-2362D0243E36}</Project>
+      <Name>Domain.Base.Entities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Domain.Base\Domain.Base.vbproj">
+      <Project>{8157F242-6A69-44C1-A9AC-19F0EE5CB8A2}</Project>
+      <Name>Domain.Base</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Domain.Common.Entities\Domain.Common.Entities.vbproj">
+      <Project>{3D09A7E6-8638-45AD-B6C9-5496AE263EF0}</Project>
+      <Name>Domain.Common.Entities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Domain.Entities.Service\Domain.Entities.Service.vbproj">
+      <Project>{99e9ab54-bb1b-4279-99e7-b4b8e7068ce7}</Project>
+      <Name>Domain.Entities.Service</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Domain.Entities\Domain.Entities.vbproj">
+      <Project>{0551AEF4-ED84-4745-B00B-7475F26015CC}</Project>
+      <Name>Domain.Entities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Domain.Payroll\Domain.Payroll.vbproj">
+      <Project>{0b26cafa-8df4-49ab-8943-41a91d67694e}</Project>
+      <Name>Domain.Payroll</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Domain.Portfolio\Domain.Portfolio.csproj">
+      <Project>{1B7118EF-69BD-44F2-8546-4FC318F7098A}</Project>
+      <Name>Domain.Portfolio</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastructure.CrossCutting.Audit\Infrastructure.CrossCutting.Audit.vbproj">
+      <Project>{D2B2306D-6404-46CD-8A22-F827F3E1B75C}</Project>
+      <Name>Infrastructure.CrossCutting.Audit</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastructure.CrossCutting.Base\Infrastructure.CrossCutting.Base.vbproj">
+      <Project>{2773D9F7-93BD-4520-9726-BCE0D8875696}</Project>
+      <Name>Infrastructure.CrossCutting.Base</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastructure.CrossCutting.Resources\Infrastructure.CrossCutting.Resources.vbproj">
+      <Project>{134f5b02-eba4-4414-bb62-bf5d55e2b906}</Project>
+      <Name>Infrastructure.CrossCutting.Resources</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
+  <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>Este proyecto hace referencia a los paquetes NuGet que faltan en este equipo. Use la restauración de paquetes NuGet para descargarlos. Para obtener más información, consulte http://go.microsoft.com/fwlink/?LinkID=322105. El archivo que falta es {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\EntityFramework.6.4.4\build\EntityFramework.props'))" />
+    <Error Condition="!Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\EntityFramework.6.4.4\build\EntityFramework.targets'))" />
+  </Target>
+  <Import Project="..\packages\EntityFramework.6.4.4\build\EntityFramework.targets" Condition="Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.targets')" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

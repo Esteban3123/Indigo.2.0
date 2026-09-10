@@ -1,0 +1,3 @@
+﻿Public Class rptAccountingCrossingOtherConcept
+
+End Class

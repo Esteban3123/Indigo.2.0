@@ -1,0 +1,143 @@
+#Region "Librerias Improtadas"
+Imports Infrastructure.CrossCutting.Base
+Imports Infrastructure.Data.Xpo
+Imports Infrastructure.Data.Xpo.FixedAssetRepository
+Imports Domain.Entities
+Imports DevExpress.XtraReports.UI
+Imports System.Drawing.Printing
+Imports DevExpress.XtraReports.Parameters
+Imports Infrastructure.Data.Xpo.SecurityRepository
+
+#End Region
+
+Public Class rptFixedAssetReclassification
+    Implements IReport
+
+    ''' <summary>
+    ''' Variable para inicializar los valores de sesion
+    ''' </summary>
+    Dim IndigoSessionValues As SessionValues = SessionValues.Instance
+
+    Private INDList As List(Of FixedAssetReclassificationDetailBookReportXpo)
+
+    Public Sub CargarDataSource() Implements IReport.CargarDataSource
+        Dim filtroConsulta As String = "FixedAssetReclassificationDetailId.FixedAssetReclassificationId.Id = " & ParametrosReporte(0)
+        INDList = XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).BillingService.GetCollection(Of FixedAssetReclassificationDetailBookReportXpo)(Nothing, filtroConsulta)
+        If INDList.Count > 0 Then
+            Dim INDNameUser = CType(INDList(0), FixedAssetReclassificationDetailBookReportXpo).FixedAssetReclassificationDetailId.FixedAssetReclassificationId.CreationUser.Trim()
+            Dim INDListUser = XpoServiceEx.Instance(IndigoSessionValues.SecurityContainer).SecurityService.GetCollection(Of UserXpo)(Nothing, "UserCode = '" & INDNameUser & "'")
+
+            If INDListUser IsNot Nothing AndAlso INDListUser.Count > 0 Then
+                Dim INDCodName = CType(INDListUser(0), UserXpo).CodeName.Trim
+                Me.INDUserCreate.Text = INDCodName
+            End If
+        End If
+        Me.DataSource = INDList
+    End Sub
+
+    Public Sub CargarImagenes() Implements IReport.CargarImagenes
+
+    End Sub
+
+    Public ReadOnly Property NameReport As String Implements IReport.NameReport
+        Get
+            Return ""
+        End Get
+    End Property
+
+    Public Property ParametrosReporte As Object() Implements IReport.ParametrosReporte
+
+    Private Sub rptFixedAssetReclassification_BeforePrint(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles MyBase.BeforePrint
+        'Dim filtroConsulta As String = "Id = " & ParametrosReporte(0)
+        If Me.Parameters.Count > 0 And Me.Parameters(0).Value > 0 Then
+            Dim ParametrosFilter As ParameterCollection = Me.Parameters
+            ParametrosReporte = New Object() {ParametrosFilter("INDFixedAssetReclassificationId").Value, ParametrosFilter("INDOperatingUnitId").Value}
+            CargarDataSource()
+        End If
+
+        INDLblCompany.Text = IndigoSessionValues.IndigoCompanyName
+
+
+        Dim address, phoneNumber, codeips, city As String
+        'cargar direccion, telefono y codigo ips
+        If ParametrosReporte(1) IsNot Nothing Then
+            Dim operatingUnit = XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).CommonService.ListOperatingUnitById(ParametrosReporte(1))
+            address = operatingUnit(0).Address
+            phoneNumber = operatingUnit(0).Phone
+            codeips = operatingUnit(0).IPSCode
+            If operatingUnit(0).IdCity IsNot Nothing Then
+                city = operatingUnit(0).IdCity.Descripcion
+            Else
+                city = "No asignada(o)"
+            End If
+        Else
+            address = "No asignada(o)"
+            phoneNumber = "No asignada(o)"
+            codeips = "No asignada(o)"
+            city = "No asignada(o)"
+        End If
+
+        INDLblNitCompany.Text = "Nit:" & IndigoSessionValues.IndigoCompanyNit & " - Dirección: " & address &
+                            " - Teléfono: " & phoneNumber & " - Código IPS: " & codeips
+
+        INDUserImp.Text = "Usuario Impresión : " & IndigoSessionValues.UserIndigo & " - " & IndigoSessionValues.UserIndigoName
+
+
+    End Sub
+#Region "Cambio de Simbolos Moneda"
+    Private Sub XrTableCell2_BeforePrint(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles XrTableCell2.BeforePrint
+        Dim row = GetCurrentRow()
+        XrTableCell2.Text = Utils.GetMoneyWithISO4217(XrTableCell2.Text, If(String.IsNullOrEmpty(DirectCast(row, Infrastructure.Data.Xpo.FixedAssetRepository.FixedAssetReclassificationDetailBookReportXpo).LegalBookId.OfficialCurrencyId.Abbreviation),
+        IndigoSessionValues.CurrencyISO4217, DirectCast(row, Infrastructure.Data.Xpo.FixedAssetRepository.FixedAssetReclassificationDetailBookReportXpo).LegalBookId.OfficialCurrencyId.Abbreviation))
+    End Sub
+
+    Private Sub XrTableCell4_BeforePrint(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles XrTableCell4.BeforePrint
+        Dim row = GetCurrentRow()
+        XrTableCell4.Text = Utils.GetMoneyWithISO4217(XrTableCell4.Text, If(String.IsNullOrEmpty(DirectCast(row, Infrastructure.Data.Xpo.FixedAssetRepository.FixedAssetReclassificationDetailBookReportXpo).LegalBookId.OfficialCurrencyId.Abbreviation),
+        IndigoSessionValues.CurrencyISO4217, DirectCast(row, Infrastructure.Data.Xpo.FixedAssetRepository.FixedAssetReclassificationDetailBookReportXpo).LegalBookId.OfficialCurrencyId.Abbreviation))
+
+    End Sub
+
+    Private Sub XrTableCell32_BeforePrint(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles XrTableCell32.BeforePrint
+        Dim row = GetCurrentRow()
+        XrTableCell32.Text = Utils.GetMoneyWithISO4217(XrTableCell32.Text, If(String.IsNullOrEmpty(DirectCast(row, Infrastructure.Data.Xpo.FixedAssetRepository.FixedAssetReclassificationDetailBookReportXpo).LegalBookId.OfficialCurrencyId.Abbreviation),
+        IndigoSessionValues.CurrencyISO4217, DirectCast(row, Infrastructure.Data.Xpo.FixedAssetRepository.FixedAssetReclassificationDetailBookReportXpo).LegalBookId.OfficialCurrencyId.Abbreviation))
+
+    End Sub
+    Private Sub XrTableCell6_BeforePrint(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles XrTableCell6.BeforePrint
+        Dim row = GetCurrentRow()
+        XrTableCell6.Text = Utils.GetMoneyWithISO4217(XrTableCell6.Text, If(String.IsNullOrEmpty(DirectCast(row, Infrastructure.Data.Xpo.FixedAssetRepository.FixedAssetReclassificationDetailBookReportXpo).LegalBookId.OfficialCurrencyId.Abbreviation),
+        IndigoSessionValues.CurrencyISO4217, DirectCast(row, Infrastructure.Data.Xpo.FixedAssetRepository.FixedAssetReclassificationDetailBookReportXpo).LegalBookId.OfficialCurrencyId.Abbreviation))
+
+    End Sub
+
+    Private Sub XrTableCell37_SummaryGetResult(sender As Object, e As SummaryGetResultEventArgs) Handles XrTableCell37.SummaryGetResult
+        Dim row = GetCurrentRow()
+        e.Result = Utils.GetMoneyWithISO4217(e.CalculatedValues.ToEntityList(Of Decimal).Sum(), If(String.IsNullOrEmpty(DirectCast(row, Infrastructure.Data.Xpo.FixedAssetRepository.FixedAssetReclassificationDetailBookReportXpo).LegalBookId.OfficialCurrencyId.Abbreviation),
+                                             IndigoSessionValues.CurrencyISO4217, (DirectCast(row, Infrastructure.Data.Xpo.FixedAssetRepository.FixedAssetReclassificationDetailBookReportXpo).LegalBookId.OfficialCurrencyId.Abbreviation)))
+        e.Handled = True
+    End Sub
+
+    Private Sub XrTableCell40_SummaryGetResult(sender As Object, e As SummaryGetResultEventArgs) Handles XrTableCell40.SummaryGetResult
+        Dim row = GetCurrentRow()
+        e.Result = Utils.GetMoneyWithISO4217(e.CalculatedValues.ToEntityList(Of Decimal).Sum(), If(String.IsNullOrEmpty(DirectCast(row, Infrastructure.Data.Xpo.FixedAssetRepository.FixedAssetReclassificationDetailBookReportXpo).LegalBookId.OfficialCurrencyId.Abbreviation),
+                                             IndigoSessionValues.CurrencyISO4217, (DirectCast(row, Infrastructure.Data.Xpo.FixedAssetRepository.FixedAssetReclassificationDetailBookReportXpo).LegalBookId.OfficialCurrencyId.Abbreviation)))
+        e.Handled = True
+    End Sub
+
+    Private Sub XrTableCell7_SummaryGetResult(sender As Object, e As SummaryGetResultEventArgs) Handles XrTableCell7.SummaryGetResult
+        Dim row = GetCurrentRow()
+        e.Result = Utils.GetMoneyWithISO4217(e.CalculatedValues.ToEntityList(Of Decimal).Sum(), If(String.IsNullOrEmpty(DirectCast(row, Infrastructure.Data.Xpo.FixedAssetRepository.FixedAssetReclassificationDetailBookReportXpo).LegalBookId.OfficialCurrencyId.Abbreviation),
+                                             IndigoSessionValues.CurrencyISO4217, (DirectCast(row, Infrastructure.Data.Xpo.FixedAssetRepository.FixedAssetReclassificationDetailBookReportXpo).LegalBookId.OfficialCurrencyId.Abbreviation)))
+        e.Handled = True
+    End Sub
+
+    Private Sub XrTableCell8_SummaryGetResult(sender As Object, e As SummaryGetResultEventArgs) Handles XrTableCell8.SummaryGetResult
+        Dim row = GetCurrentRow()
+        e.Result = Utils.GetMoneyWithISO4217(e.CalculatedValues.ToEntityList(Of Decimal).Sum(), If(String.IsNullOrEmpty(DirectCast(row, Infrastructure.Data.Xpo.FixedAssetRepository.FixedAssetReclassificationDetailBookReportXpo).LegalBookId.OfficialCurrencyId.Abbreviation),
+                                             IndigoSessionValues.CurrencyISO4217, (DirectCast(row, Infrastructure.Data.Xpo.FixedAssetRepository.FixedAssetReclassificationDetailBookReportXpo).LegalBookId.OfficialCurrencyId.Abbreviation)))
+        e.Handled = True
+    End Sub
+
+#End Region
+End Class

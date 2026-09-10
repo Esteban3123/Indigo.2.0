@@ -1,0 +1,474 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{E16B7310-400A-46DD-B7AB-C54EA51F197C}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Infrastructure.Data.Xpo.InventoryRepository</RootNamespace>
+    <AssemblyName>Infrastructure.Data.Xpo.InventoryRepository</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <TargetFrameworkProfile />
+    <NoWarn>$(NoWarn);XAF0014</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debugcito|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\Debugcito\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debugcito|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\Debugcito\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debugcito|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debugcito\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'VieBuild|AnyCPU'">
+    <OutputPath>bin\VieBuild\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'VieBuild|x64'">
+    <OutputPath>bin\x64\VieBuild\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'VieBuild|x86'">
+    <OutputPath>bin\x86\VieBuild\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="DevExpress.Drawing.v25.1, Version=25.1.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Printing.v25.1.Core, Version=25.1.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Data.v25.1, Version=25.1.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.ExpressApp.v25.1, Version=25.1.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Xpo.v25.1, Version=25.1.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="Infrastructure.CrossCutting.Base">
+      <HintPath>..\DLL\Infrastructure.CrossCutting.Base.dll</HintPath>
+    </Reference>
+    <Reference Include="Infrastructure.CrossCutting.Resources">
+      <HintPath>..\DLL\Infrastructure.CrossCutting.Resources.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="Microsoft.CSharp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ClosedMonthModulesConciliationXpo.cs" />
+    <Compile Include="ConsignmentInventoryRemissionDetailControlXpo.cs" />
+    <Compile Include="ConsignmentTransferDetailBatchSerialXpo.cs" />
+    <Compile Include="ConsignmentTransferXpo.cs" />
+    <Compile Include="DrugActiveXpo.cs" />
+    <Compile Include="InventoryConsigmentTransferDetailXpo.cs" />
+    <Compile Include="StorageTemperatureXpo.cs" />
+    <Compile Include="MedicationTypeXpo.cs" />
+    <Compile Include="PharmaceuticalFormGroupingXpo.cs" />
+    <Compile Include="UPRUnitsXpo.cs" />
+    <Compile Include="ViewListRequestDetailAuthorizedXpo.cs" />
+    <Compile Include="ViewListRequestDetailUnauthorizedXpo.cs" />
+    <Compile Include="PETDefaultSettingsXpo.cs" />
+    <Compile Include="ProductHierarchyXpo.cs" />
+    <Compile Include="ProductInTransitDetailXpo.cs" />
+    <Compile Include="ProductInTransitXpo.cs" />
+    <Compile Include="ProductRateGeneralConditionXpo.cs" />
+    <Compile Include="ProductRateGeneralXpo.cs" />
+    <Compile Include="Relation\CommonISO4217Xpo.cs" />
+    <Compile Include="Relation\MixingStationCampaignReportsXpo.cs" />
+    <Compile Include="Relation\PayrollFunctionalUnitXpo.cs" />
+    <Compile Include="Report\InventoryRequestOtherDetailReportXpo.cs" />
+    <Compile Include="ViewRequestParamFunctionalUnitXpo.cs" />
+    <Compile Include="RequestParamXpo.cs" />
+    <Compile Include="RequestTypeXpo.cs" />
+    <Compile Include="DrugInteractionXpo.cs" />
+    <Compile Include="ProductRateDetailPackageXpo.cs" />
+    <Compile Include="Relation\CurrencyXpo.cs" />
+    <Compile Include="Relation\PackageXpo.cs" />
+    <Compile Include="Relation\PackageDetailXpo.cs" />
+    <Compile Include="Report\ViewReportPharmaceuticalDispensingNeckBandPatientXpo.cs" />
+    <Compile Include="ViewATCAdministrationRouteXpo.cs" />
+    <Compile Include="ATCEntityXpo.cs" />
+    <Compile Include="AttributeProductTypeOptionListXpo.cs" />
+    <Compile Include="Common_ThirdParty.cs" />
+    <Compile Include="Common_ThirdParty.Designer.cs">
+      <DependentUpon>Common_ThirdParty.cs</DependentUpon>
+    </Compile>
+    <Compile Include="InventoryContractAssignmentXpo.cs" />
+    <Compile Include="InventoryContractModificationXpo.cs" />
+    <Compile Include="InventoryShelfTypeXpo.cs" />
+    <Compile Include="InventorySupplieXpo.cs" />
+    <Compile Include="DevolutionCauseXpo.cs" />
+    <Compile Include="PharmaceuticalDispensingTransferDetailXpo.cs" />
+    <Compile Include="PharmaceuticalDispensingTransferXpo.cs" />
+    <Compile Include="Relation\BillingAuthorizationXpo.cs" />
+    <Compile Include="Relation\ContractCareGroupXpo.cs" />
+    <Compile Include="Relation\ContractExternalClientsXpo.cs" />
+    <Compile Include="Relation\ContractDescriptionsXpo.cs" />
+    <Compile Include="Relation\CupsEntityXpo.cs" />
+    <Compile Include="Relation\InventoryQuotationPharmaceuticalDispensingDetailXpo.cs" />
+    <Compile Include="Relation\InventoryQuotationXpo.cs" />
+    <Compile Include="Relation\InventoryRetentionConceptsXpo.cs" />
+    <Compile Include="Report\DevolutionCauseReportXpo.cs" />
+    <Compile Include="Report\FixedAssetFixedAssetItemReportXpo.cs" />
+    <Compile Include="Report\FixedAssetTrademarkReportXpo.cs" />
+    <Compile Include="Report\InventoryContractAssignmentReportXpo.cs" />
+    <Compile Include="Report\InventoryContractModificationReportXpo.cs" />
+    <Compile Include="Report\InventoryContractReportXpo.cs" />
+    <Compile Include="Report\InventoryDashboardPharmacyDevolutionReportXpo.cs" />
+    <Compile Include="Report\InventoryAccountPayableDocumentSupportReportXpo.cs" />
+    <Compile Include="Report\InventoryDocumentSupportReport.cs" />
+    <Compile Include="Report\InventoryPurchaseRequestDetailReportXpo.cs" />
+    <Compile Include="Report\InventoryPurchaseRequestReportXpo.cs" />
+    <Compile Include="ViewListATCEntityRelatedDCIXpo.cs" />
+    <Compile Include="EntranceVoucherDevolutionXpo.cs" />
+    <Compile Include="InventoryContractDetailXpo.cs" />
+    <Compile Include="InventoryContractTypeXpo.cs" />
+    <Compile Include="PurchaseRequestDetailXpo.cs" />
+    <Compile Include="PurchaseRequestXpo.cs" />
+    <Compile Include="MedicalFormulaDetailDeferredXpo.cs" />
+    <Compile Include="MedicalFormulaDetailXpo.cs" />
+    <Compile Include="MedicalFormulaXpo.cs" />
+    <Compile Include="InventoryControlXpo.cs" />
+    <Compile Include="InventoryPurcharseOrderDetailXpo.cs" />
+    <Compile Include="InventoryPurchaseOrderXpo.cs" />
+    <Compile Include="ConsignmentInventoryRemissionDetailBatchSerialXpo.cs" />
+    <Compile Include="InventoryRemissionEntranceDetailBatchSerialXpo.cs" />
+    <Compile Include="ConsignmentInventoryRemissionDetailXpo.cs" />
+    <Compile Include="InventoryRemissionEntranceDetailXpo.cs" />
+    <Compile Include="InventoryRequestDetailXpo.cs" />
+    <Compile Include="InventoryRequestDevolutionXpo.cs" />
+    <Compile Include="InventoryRequestXpo.cs" />
+    <Compile Include="InventoryRiskLevelXpo.cs" />
+    <Compile Include="InventoryServiceXpoEx.cs" />
+    <Compile Include="InventoryTRansferOrderDetailBatchSerialXpo.cs" />
+    <Compile Include="InventoryTransferOrderDetailXpo.cs" />
+    <Compile Include="InventoryTransferOrderXpo.cs" />
+    <Compile Include="MeasureUnitXpo.cs" />
+    <Compile Include="BillingGroupXpo.cs" />
+    <Compile Include="GeneralLedgerIVAXpo.cs" />
+    <Compile Include="ATCXpo.cs" />
+    <Compile Include="InventoryProductXpo.cs" />
+    <Compile Include="DiagnosticXpo.cs" />
+    <Compile Include="BatchSerialXpo.cs" />
+    <Compile Include="EntranceVoucherXpo.cs" />
+    <Compile Include="GeneralLedgerJournalVoucherTypesXpo.cs" />
+    <Compile Include="InventoryAdjustmentXpo.cs" />
+    <Compile Include="InventoryLoanMerchandiseXpo.cs" />
+    <Compile Include="InventoryLoanMerchandiseDetailXpo.cs" />
+    <Compile Include="InventoryControlDetailXpo.cs" />
+    <Compile Include="InventoryControlDetailBatchSerialXpo.cs" />
+    <Compile Include="InventorylistPharmaceuticalDispensingXpo.cs" />
+    <Compile Include="InventoryDocumentInvoiceProductSalesXpo.cs" />
+    <Compile Include="InventoryViewAdmissionProductXpo.cs" />
+    <Compile Include="InventoryViewAdmissionProductDetailXpo.cs" />
+    <Compile Include="FunctionalUnitXpo.cs" />
+    <Compile Include="InventoryControlDocumentXpo.cs" />
+    <Compile Include="KardexXpo.cs" />
+    <Compile Include="InventoryPurchaseOrderDevolutionXpo.cs" />
+    <Compile Include="InventoryPurchaseOrderDevolutionDetailXpo.cs" />
+    <Compile Include="Contract_CareGroup.cs" />
+    <Compile Include="Contract_CareGroup.Designer.cs">
+      <DependentUpon>Contract_CareGroup.cs</DependentUpon>
+    </Compile>
+    <Compile Include="PharmaceuticalDispensingDevolutionDetailXpo.cs" />
+    <Compile Include="OtherWithholdingDeductionsXpo.cs" />
+    <Compile Include="AccountPayableConceptsXpo.cs" />
+    <Compile Include="ConsignmentInventoryRemissionXpo.cs" />
+    <Compile Include="CareGroupByCareCenterXpo.cs" />
+    <Compile Include="PhysicalInventoryCustodyXpo.cs" />
+    <Compile Include="Report\BillingElectronicDocumentReportXpo.cs" />
+    <Compile Include="Report\CommonOperatingUnitReportXpo.cs" />
+    <Compile Include="Report\ContractCareGroupReportXpo.cs" />
+    <Compile Include="Report\ContractHealthAdministratorReportXpo.cs" />
+    <Compile Include="Report\InventoryAdministrationRouteReportXpo.cs" />
+    <Compile Include="Report\InventoryBillingInvoiceReportXpo.cs" />
+    <Compile Include="Report\InventoryControlDetailBatchSerialReportXpo.cs" />
+    <Compile Include="Report\InventoryControlDetailReportXpo.cs" />
+    <Compile Include="Report\InventoryControlReportXpo.cs" />
+    <Compile Include="Report\InventoryPayrollBranchOfficeReportXpo.cs" />
+    <Compile Include="Report\InventoryPharmaceuticalFormReportXpo.cs" />
+    <Compile Include="Report\InventoryProductRateReportXpo.cs" />
+    <Compile Include="Report\InventoryPurchaseOrderDevolutionDetailReportXpo.cs" />
+    <Compile Include="Report\InventoryPurchaseOrderDevolutionReportXpo.cs" />
+    <Compile Include="Report\InventoryConsignmentInventoryRemissionDetailBatchSerialReportXpo.cs" />
+    <Compile Include="Report\InventoryConsignmentInventoryRemissionDetailReportXpo.cs" />
+    <Compile Include="Report\InventoryConsignmentInventoryRemissionReportXpo.cs" />
+    <Compile Include="Report\InventoryViewEntranceVoucherReportXpo.cs" />
+    <Compile Include="Report\InventoryViewKardexForPharmacyReportXpo.cs" />
+    <Compile Include="Report\InventoryViewPharmaceuticalReportXpo.cs" />
+    <Compile Include="Report\InventoryViewRemissionEntranceDetailReportXpo.cs" />
+    <Compile Include="Report\InventoryViewReportaccountingSummaryAReportXpo.cs" />
+    <Compile Include="Report\InventoryViewReportaccountingSummaryBReportXpo.cs" />
+    <Compile Include="Report\InventoryViewReportDevolutionOfRequests.cs" />
+    <Compile Include="Report\InventoryViewReportKardexVsPhysicalReportXpo.cs" />
+    <Compile Include="Report\InventoryViewReportListRateXpo.cs" />
+    <Compile Include="Report\InventoryViewReportPharmaceuticalDispensingWithINDIGO999Xpo.cs" />
+    <Compile Include="Report\InventoryViewReportPhysicalInventoryByColumnsReportXpo.cs" />
+    <Compile Include="Report\InventoryViewReportWarehousesProductsReportXpo.cs" />
+    <Compile Include="Report\InventoryViewSalesReportXpo.cs" />
+    <Compile Include="Report\InventoryViewTransferOrderReportXpo.cs" />
+    <Compile Include="Report\InventoryWarehouseUserReportXpo.cs" />
+    <Compile Include="SettingInventoryXpo.cs" />
+    <Compile Include="Relation\BillingInvoiceXpo.cs" />
+    <Compile Include="Relation\ThirdPartyXpo.cs" />
+    <Compile Include="InventoryLoanMerchandiseDevolutionXpo.cs" />
+    <Compile Include="InventoryLoanMerchandiseDevolutionDetailXpo.cs" />
+    <Compile Include="PharmaceuticalDispensingDevolutionXpo.cs" />
+    <Compile Include="RemissionDevolutionXpo.cs" />
+    <Compile Include="Relation\OperatingUnitXpo.cs" />
+    <Compile Include="PharmaceuticalDispensingXpo.cs" />
+    <Compile Include="PharmaceuticalDispensingDetailXpo.cs" />
+    <Compile Include="PharmaceuticalDispensingDetailBatchSerialXpo.cs" />
+    <Compile Include="Relation\CustomerXpo.cs" />
+    <Compile Include="RemissionOutputXpo.cs" />
+    <Compile Include="Relation\DistributionLinesXpo.cs" />
+    <Compile Include="Relation\SuppliersDistributionLinesXpo.cs" />
+    <Compile Include="RemissionEntranceXpo.cs" />
+    <Compile Include="Relation\SupplierXpo.cs" />
+    <Compile Include="InventoryContractXpo.cs" />
+    <Compile Include="Report\BillingAuthorizationReportXpo.cs" />
+    <Compile Include="Report\InventoryAdjustmentControlReportXpo.cs" />
+    <Compile Include="Report\InventoryAdjustmentDetailBatchSerialReportXpo.cs" />
+    <Compile Include="Report\InventoryAdjustmentDetailReportXpo.cs" />
+    <Compile Include="Report\InventoryAdjustmentReportXpo.cs" />
+    <Compile Include="Report\InventoryCommonDistributionLineReportXpo.cs" />
+    <Compile Include="Report\InventoryCommonSupplierDistributionLineReportXpo.cs" />
+    <Compile Include="Report\InventoryDashboardPharmacyReportXpo.cs" />
+    <Compile Include="Report\InventoryDocumentInvoiceProductSalesDetailBatchSerialReportXpo.cs" />
+    <Compile Include="Report\InventoryDocumentInvoiceProductSalesDetailReportXpo.cs" />
+    <Compile Include="Report\InventoryDocumentInvoiceProductSalesReportXpo.cs" />
+    <Compile Include="Report\InventoryEntranceVoucherDevolutionDetailReportXpo.cs" />
+    <Compile Include="Report\InventoryEntranceVoucherDevolutionOtherDeductionReportXpo.cs" />
+    <Compile Include="Report\InventoryEntranceVouhcerDevolutionReportXpo.cs" />
+    <Compile Include="Report\InventoryLoanMerchandiseDetailBatchSerialReportXpo.cs" />
+    <Compile Include="Report\InventoryLoanMerchandiseDetailReportXpo.cs" />
+    <Compile Include="Report\InventoryLoanMerchandiseDevolutionDetailBatchSerialReportXpo.cs" />
+    <Compile Include="Report\InventoryLoanMerchandiseDevolutionDetailReportXpo.cs" />
+    <Compile Include="Report\InventoryLoanMerchandiseDevolutionReportXpo.cs" />
+    <Compile Include="Report\InventoryLoanMerchandiseReportXpo.cs" />
+    <Compile Include="Report\InventoryMeasurementUnitReportXpo.cs" />
+    <Compile Include="Report\InventoryPaymentAccountPayableReport.cs" />
+    <Compile Include="Report\InventoryPayrollFunctionalUnitXpo.cs" />
+    <Compile Include="Report\InventoryPharmaceuticalDispensingDetailBatchSerialReportXpo.cs" />
+    <Compile Include="Report\InventoryPharmaceuticalDispensingDetailReportXpo.cs" />
+    <Compile Include="Report\InventoryATCReportXpo.cs" />
+    <Compile Include="Report\InventoryBatchSerialReportXpo.cs" />
+    <Compile Include="Report\InventoryCommonAddressXpo.cs" />
+    <Compile Include="Report\InventoryCommonCityXpo.cs" />
+    <Compile Include="Report\InventoryCommonCustomerReportXpo.cs" />
+    <Compile Include="Report\InventoryCommonDepartmentXpo.cs" />
+    <Compile Include="Report\InventoryCommonPersonXpo.cs" />
+    <Compile Include="Report\InventoryCommonPhoneXpo.cs" />
+    <Compile Include="Report\InventoryCommonSupplierXpo.cs" />
+    <Compile Include="Report\InventoryCommonThirdPartyXpo.cs" />
+    <Compile Include="Report\InventoryEntranceVoucherDetailBatchSerialReportXpo.cs" />
+    <Compile Include="Report\InventoryEntranceVoucherDetailReportXpo.cs" />
+    <Compile Include="Report\InventoryEntranceVoucherOtherDeductionReportXpo.cs" />
+    <Compile Include="Report\InventoryEntranceVoucherReportXpo.cs" />
+    <Compile Include="Report\InventoryGeneralLedgerMainAccountClassesReportXpo.cs" />
+    <Compile Include="Report\InventoryGeneralLedgerMainAccountsLevelsReportXpo.cs" />
+    <Compile Include="Report\InventoryGeneralLedgerMainAccountsReportXpo.cs" />
+    <Compile Include="Report\InventoryKardexReportXpo.cs" />
+    <Compile Include="Report\InventoryPackagingReportXpo.cs" />
+    <Compile Include="Report\InventoryPayrollCostCenterReportXpo.cs" />
+    <Compile Include="Report\InventoryPharmaceuticalDispensingDevolutionDetailReportXpo.cs" />
+    <Compile Include="Report\InventoryPharmaceuticalDispensingDevolutionReportXpo.cs" />
+    <Compile Include="Report\InventoryPharmaceuticalDispensingReportXpo.cs" />
+    <Compile Include="Report\InventoryPharmaceuticalViewDispensingDevolutionReportXpo.cs" />
+    <Compile Include="Report\InventoryPharmaceuticalViewDispensingReportXpo.cs" />
+    <Compile Include="Report\InventoryPharmacologicalGroupReportXpo.cs" />
+    <Compile Include="Report\InventoryPhysicalInventoryReportXpo.cs" />
+    <Compile Include="Report\InventoryProductGroupReportXpo.cs" />
+    <Compile Include="Report\InventoryProductReportXpo.cs" />
+    <Compile Include="Report\InventoryProductSubGroupReportXpo.cs" />
+    <Compile Include="Report\InventoryProductTypeReportXpo.cs" />
+    <Compile Include="Report\InventoryPurchaseOrderDetailReportXpo.cs" />
+    <Compile Include="Report\InventoryPurchaseOrderReportXpo.cs" />
+    <Compile Include="Report\InventoryRemissionDevolutionDetailReportXpo.cs" />
+    <Compile Include="Report\InventoryRemissionDevolutionReportXpo.cs" />
+    <Compile Include="Report\InventoryRemissionEntranceDetailBatchSerialReportXpo.cs" />
+    <Compile Include="Report\InventoryRemissionEntranceDetailReportXpo.cs" />
+    <Compile Include="Report\InventoryRemissionEntranceReportXpo.cs" />
+    <Compile Include="Report\InventoryRemissionOutputDetailPhysicalReportXpo.cs" />
+    <Compile Include="Report\InventoryRemissionOutputDetailReportXpo.cs" />
+    <Compile Include="Report\InventoryRemissionOutputReportXpo.cs" />
+    <Compile Include="Report\InventoryRequestDetailReportXpo.cs" />
+    <Compile Include="Report\InventoryRequestReportXpo.cs" />
+    <Compile Include="Report\InventoryTransferOrderDetailBatchSerialReportXpo.cs" />
+    <Compile Include="Report\InventoryTransferOrderDetailReportXpo.cs" />
+    <Compile Include="Report\InventoryTransferOrderDevolutionDetailReportXpo.cs" />
+    <Compile Include="Report\InventoryTransferOrderDevolutionReportXpo.cs" />
+    <Compile Include="Report\InventoryTransferOrderReportXpo.cs" />
+    <Compile Include="Report\InventoryViewReportKardexXpo.cs" />
+    <Compile Include="Report\InventoryWarehouseReportXpo.cs" />
+    <Compile Include="Report\InventoryAdjustmentConceptReportXpo.cs" />
+    <Compile Include="TransferOrderDevolutionDetail.cs" />
+    <Compile Include="TransferOrderDevolutionXpo.cs" />
+    <Compile Include="ViewListProductCustodyXpo.cs" />
+    <Compile Include="ViewListSuppliersByControlXpo.cs" />
+    <Compile Include="ViewRealizedDispensingByManualDispensingXpo.cs" />
+    <Compile Include="ViewValidateQuantityPurchaseOrderDetailXpo.cs" />
+    <Compile Include="View\ViewFunctionalUnitUserRequestParamXpo.cs" />
+    <Compile Include="View\ViewWarehouseUserRequestParamXpo.cs" />
+    <Compile Include="View\ViewRequestParamAuthUserXpo.cs" />
+    <Compile Include="View\ViewClosedMonthValuedInventoryXpo.cs" />
+    <Compile Include="View\ViewClosedMonthConciliationMovementsXpo.cs" />
+    <Compile Include="View\ViewManualMovementsXpo.cs" />
+    <Compile Include="View\ViewEntranceVoucherDevolutionXpo.cs" />
+    <Compile Include="View\ViewListConsignmentWarehouseProductsBatchSerialXpo.cs" />
+    <Compile Include="View\ViewListConsignmentWarehouseProductsXpo.cs" />
+    <Compile Include="View\ViewListRequestDetailXpo.cs" />
+    <Compile Include="View\ViewPharmaceuticalDispensingAdmissionXpo.cs" />
+    <Compile Include="View\ViewListRequestDetailImport.cs" />
+    <Compile Include="View\ViewReportProductBarcodeXpo.cs" />
+    <Compile Include="View\ViewCommitmentDetailXpo.cs" />
+    <Compile Include="View\ViewConsignmentInventoryRemissionWithoutLegalizeXpo.cs" />
+    <Compile Include="View\ViewLASAMedication.cs" />
+    <Compile Include="View\ViewPurchaseRequestToOrderXpo.cs" />
+    <Compile Include="AdjustmentConceptuserXpo.cs" />
+    <Compile Include="View\ViewRequestParamWarehouse.cs" />
+    <Compile Include="View\ViewRequestParamXpo.cs" />
+    <Compile Include="WarehouseRestrictedConditionsXpo.cs" />
+    <Compile Include="WarehouseUserXpo.cs" />
+    <Compile Include="PhysicalInventoryXpo.cs" />
+    <Compile Include="ProductRateXpo.cs" />
+    <Compile Include="ProductRateDetailXpo.cs" />
+    <Compile Include="POSPathologiesXpo.cs" />
+    <Compile Include="PackagingUnitXpo.cs" />
+    <Compile Include="PharmacologicalGroupXpo.cs" />
+    <Compile Include="AdjustmentConceptXpo.cs" />
+    <Compile Include="ManufacturersXpo.cs" />
+    <Compile Include="AttributeProductTypeXpo.cs" />
+    <Compile Include="DCIXpo.cs" />
+    <Compile Include="PharmaceuticalFormXpo.cs" />
+    <Compile Include="AdministrationRouteXpo.cs" />
+    <Compile Include="ProductTypeXpo.cs" />
+    <Compile Include="WarehouseXpo.cs" />
+    <Compile Include="ProductSubGroupXpo.cs" />
+    <Compile Include="ProductGroupXpo.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Infraestructure.Data.Xpo.InteropCostRepository\Infrastructure.Data.Xpo.InteropCostRepository.vbproj">
+      <Project>{9BDF6A3F-E62B-4CCF-B9EC-78092FC8A756}</Project>
+      <Name>Infrastructure.Data.Xpo.InteropCostRepository</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastructure.CrossCutting.Xpo.Base\Infrastructure.CrossCutting.Xpo.Base.vbproj">
+      <Project>{06aea7a4-8792-405e-97e6-4b6fb10502b5}</Project>
+      <Name>Infrastructure.CrossCutting.Xpo.Base</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastructure.Data.Xpo.FixedAsset\Infrastructure.Data.Xpo.FixedAssetRepository.vbproj">
+      <Project>{0577946D-AE93-4EE6-991B-91BCC9D8EE34}</Project>
+      <Name>Infrastructure.Data.Xpo.FixedAssetRepository</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastructure.Data.Xpo.PayrollRepository\Infrastructure.Data.Xpo.PayrollRepository.vbproj">
+      <Project>{CE46AB34-7B36-422F-AE89-2D5F759E1960}</Project>
+      <Name>Infrastructure.Data.Xpo.PayrollRepository</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastructure.Data.Xpo.PortfolioRepository\Infrastructure.Data.Xpo.PortfolioRepository.vbproj">
+      <Project>{ab90b939-7342-4d1e-8a01-13b863c8f0dc}</Project>
+      <Name>Infrastructure.Data.Xpo.PortfolioRepository</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+  <ItemGroup>
+    <PackageReference Include="DevExpress.ExpressApp.CodeAnalysis" Version="25.1.3">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+</Project>

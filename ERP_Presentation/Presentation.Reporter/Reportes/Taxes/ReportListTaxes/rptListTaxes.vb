@@ -1,0 +1,148 @@
+#Region "Imports"
+Imports Infrastructure.CrossCutting.Base
+Imports Infrastructure.Data.Xpo
+Imports Infrastructure.Data.Xpo.TaxesRepository
+Imports Infrastructure.Data.Xpo.PortfolioRepository
+Imports Infrastructure.Data.Xpo.SecurityRepository
+'Imports Domain.Entities
+Imports DevExpress.XtraReports.UI
+Imports Presentation.Base
+Imports DevExpress.XtraReports.Parameters
+
+Imports DevExpress.Xpo
+
+Imports Domain.Entities
+Imports System.Drawing.Printing
+Imports Infrastructure.CrossCutting.Resources
+Imports System.Threading
+#End Region
+
+Public Class rptListTaxes
+    Implements IReport
+
+    ''' <summary>
+    ''' Variable para inicializar los valores de sesion
+    ''' </summary>
+    Dim IndigoSessionValues As SessionValues = SessionValues.Instance
+
+    ''' <summary>
+    ''' Variable para crear el filtro
+    ''' </summary>
+    Dim filtroConsulta As String = Nothing
+
+    ''' <summary>
+    ''' Variable list para pasar al datasource
+    ''' </summary>
+    Dim IndList As XPCollection(Of TaxesViewGenerateInvoiceReportXpo)
+
+    Public Sub CargarDataSource() Implements IReport.CargarDataSource
+        'Try
+        '    If ParametrosReporte.Length > 4 Then
+
+        '        'filtro por Cedula catastral de los predios
+        '        If ParametrosReporte(0) IsNot Nothing AndAlso ParametrosReporte(1) IsNot Nothing Then
+        '            filtroConsulta = "Code >= '" & ParametrosReporte(0) & "' AND Code <= '" & ParametrosReporte(1) & "'"
+        '        End If
+
+        '        'filtro por Dirección
+        '        If ParametrosReporte(2) IsNot Nothing AndAlso ParametrosReporte(3) IsNot Nothing Then
+        '            If filtroConsulta Is Nothing Then
+        '                filtroConsulta &= "Addres >= '" & ParametrosReporte(2) & "' AND Addres <= '" & ParametrosReporte(3) & "'"
+        '            Else
+        '                filtroConsulta &= " AND Addres >= '" & ParametrosReporte(2) & "' AND Addres <= '" & ParametrosReporte(3) & "'"
+        '            End If
+        '        End If
+
+
+        '        'filtro por Tercero Popietario
+        '        If ParametrosReporte(4) IsNot Nothing Then
+        '            If filtroConsulta Is Nothing Then
+        '                filtroConsulta &= "Nit = '" & ParametrosReporte(4) & "'"
+        '            Else
+        '                filtroConsulta &= " AND Nit = '" & ParametrosReporte(4) & "'"
+        '            End If
+        '        End If
+
+        '        Me.DataSource = XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).TaxesService.ListViewTaxes(filtroConsulta)
+        '    Else
+        '        filtroConsulta = "TaId = " & ParametrosReporte(0)
+        '        Me.DataSource = XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).TaxesService.ListViewTaxes(filtroConsulta)
+        '    End If
+        '    'Me.DataSource = IndList
+        'Catch ex As Exception
+        '    MessageIndigo.Show(GetExceptionDetails(ex), MessageType.Errores, Me.Text, Botones.Aceptar, "")
+        'End Try
+    End Sub
+
+    Public Async Function CargarDataSource1() As task
+        Try
+            If ParametrosReporte.Length > 4 Then
+
+                'filtro por Cedula catastral de los predios
+                If ParametrosReporte(0) IsNot Nothing AndAlso ParametrosReporte(1) IsNot Nothing Then
+                    filtroConsulta = "Code >= '" & ParametrosReporte(0) & "' AND Code <= '" & ParametrosReporte(1) & "'"
+                End If
+
+                'filtro por Dirección
+                If ParametrosReporte(2) IsNot Nothing AndAlso ParametrosReporte(3) IsNot Nothing Then
+                    If filtroConsulta Is Nothing Then
+                        filtroConsulta &= "Addres >= '" & ParametrosReporte(2) & "' AND Addres <= '" & ParametrosReporte(3) & "'"
+                    Else
+                        filtroConsulta &= " AND Addres >= '" & ParametrosReporte(2) & "' AND Addres <= '" & ParametrosReporte(3) & "'"
+                    End If
+                End If
+
+
+                'filtro por Tercero Popietario
+                If ParametrosReporte(4) IsNot Nothing Then
+                    If filtroConsulta Is Nothing Then
+                        filtroConsulta &= "Nit = '" & ParametrosReporte(4) & "'"
+                    Else
+                        filtroConsulta &= " AND Nit = '" & ParametrosReporte(4) & "'"
+                    End If
+                End If
+
+                Await Task.Run(Sub() Me.DataSource = XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).TaxesService.ListViewTaxes(filtroConsulta))
+            Else
+                'filtroConsulta = "TaId = " & ParametrosReporte(0)
+                'Await Task.Run(Sub() Me.DataSource = XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).TaxesService.ListViewTaxes(filtroConsulta))
+
+                Await Task.Run(Sub() Me.DataSource = XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).TaxesService.ListViewTaxes("Code In ('" & String.Join("','", CType(ParametrosReporte(0), List(Of String))) & "')"))
+            End If
+            'Me.DataSource = IndList
+        Catch ex As Exception
+            MessageIndigo.Show(GetExceptionDetails(ex), MessageType.Errores, Me.Text, Botones.Aceptar, "")
+        End Try
+    End Function
+
+    Public Function GetExceptionDetails(exception As Exception) As String
+        Dim properties = exception.[GetType]().GetProperties()
+        Dim fields = properties.[Select](Function([property]) New With { _
+            Key .Name = [property].Name, _
+            Key .Value = [property].GetValue(exception, Nothing) _
+        }).[Select](Function(x) [String].Format("{0} : {1}", x.Name, If(x.Value IsNot Nothing, x.Value.ToString(), [String].Empty)))
+        Return [String].Join(vbLf, fields)
+    End Function
+
+    Public Sub CargarImagenes() Implements IReport.CargarImagenes
+
+    End Sub
+
+    Public ReadOnly Property NameReport As String Implements IReport.NameReport
+        Get
+            Return ""
+        End Get
+    End Property
+
+    Public Property ParametrosReporte As Object() Implements IReport.ParametrosReporte
+
+    Private Sub rptListTaxes_BeforePrint(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles MyBase.BeforePrint
+        'If Me.Parameters.Count > 0 And Me.Parameters(0).Value > 0 Then
+        '    Dim ParametrosFilter As ParameterCollection = Me.Parameters
+        '    ParametrosReporte = New Object() {ParametrosFilter("PrMapListTaxes").Value}
+        '    CargarDataSource1()
+        'End If
+
+        Me.INDLblUserPrint.Text = "Usuario Impresión :  " & IndigoSessionValues.UserIndigo & " - " & IndigoSessionValues.UserIndigoName
+    End Sub
+End Class

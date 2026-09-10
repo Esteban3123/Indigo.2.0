@@ -1,0 +1,89 @@
+﻿#Region "Imports"
+
+Imports Infrastructure.CrossCutting.Base
+Imports Infrastructure.Data.Xpo
+Imports Infrastructure.Data.Xpo.InventoryRepository
+Imports Infrastructure.Data.Xpo.SecurityRepository
+Imports Presentation.Base
+
+#End Region
+
+Public Class rptPharmaceuticalDispensingDevolutionReport
+    Implements IReport
+
+#Region "Properties"
+
+    ''' <summary>
+    ''' Variable para inicializar los valores de sesion
+    ''' </summary>
+    Dim IndigoSessionValues As SessionValues = SessionValues.Instance
+
+    Public Property ParametrosReporte As Object() Implements IReport.ParametrosReporte
+
+    Public ReadOnly Property NameReport As String Implements IReport.NameReport
+        Get
+            Return ""
+        End Get
+    End Property
+
+#End Region
+
+#Region "Load Data"
+
+    Public Sub CargarDataSource() Implements IReport.CargarDataSource
+        Try
+            Dim filtroConsulta As String
+            If ParametrosReporte(0).GetType().Equals(GetType(Domain.Entities.PharmaceuticalDispensingDevolution)) Then
+                filtroConsulta = String.Format("PharmaceuticalDispensingDevolutionId.Code = '{0}'", ParametrosReporte(0).Code)
+            Else
+                filtroConsulta = "PharmaceuticalDispensingDevolutionId.Id = " & ParametrosReporte(0)
+            End If
+
+            Dim ListDetail = XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).InventoryService.ListViewPharmaceuticalDispensingDevolutionDetailFilters(filtroConsulta)
+            If ListDetail.Count > 0 Then
+                Dim INDNameUser = CType(ListDetail(0), InventoryPharmaceuticalDispensingDevolutionDetailReportXpo).PharmaceuticalDispensingDevolutionId.CreationUser.Trim()
+
+                Dim INDListUser = XpoServiceEx.Instance(IndigoSessionValues.SecurityContainer).SecurityService.GetCollection(Of UserXpo)(Nothing, "UserCode = '" & INDNameUser & "'")
+
+                If INDListUser IsNot Nothing Then
+                    Dim INDCodName = CType(INDListUser(0), UserXpo).CodeName.Trim
+                    Me.INDUserCreate.Text = INDCodName
+                End If
+            End If
+            Me.DataSource = ListDetail
+        Catch ex As Exception
+            MessageIndigo.Show(GetExceptionDetails(ex), MessageType.Errores, Me.Text, Botones.Aceptar, "")
+        End Try
+
+    End Sub
+
+#End Region
+
+#Region "Methods"
+
+    Public Sub CargarImagenes() Implements IReport.CargarImagenes
+
+    End Sub
+
+    Public Function GetExceptionDetails(exception As Exception) As String
+        Dim properties = exception.[GetType]().GetProperties()
+        Dim fields = properties.[Select](Function([property]) New With {
+            Key .Name = [property].Name,
+            Key .Value = [property].GetValue(exception, Nothing)
+        }).[Select](Function(x) [String].Format("{0} : {1}", x.Name, If(x.Value IsNot Nothing, x.Value.ToString(), [String].Empty)))
+        Return [String].Join(vbLf, fields)
+    End Function
+
+#End Region
+
+#Region "Events"
+
+    Private Sub rptPharmaceuticalDispensingDevolutionReport_BeforePrint(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles MyBase.BeforePrint
+        INDLblCompany.Text = IndigoSessionValues.IndigoCompanyName
+        INDLblNitCompany.Text = "Nit:" & IndigoSessionValues.IndigoCompanyNit
+        INDUserImp.Text = "Usuario Impresión: " & IndigoSessionValues.UserIndigoName
+    End Sub
+
+#End Region
+
+End Class

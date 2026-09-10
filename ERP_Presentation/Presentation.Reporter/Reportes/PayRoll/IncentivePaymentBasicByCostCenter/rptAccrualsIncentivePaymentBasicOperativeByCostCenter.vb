@@ -1,0 +1,66 @@
+﻿#Region "Librerias Importadas"
+Imports Infrastructure.CrossCutting.Base
+Imports Infrastructure.Data.Xpo
+Imports Infrastructure.Data.Xpo.PayrollRepository
+Imports Domain.Entities
+#End Region
+
+Public Class rptAccrualsIncentivePaymentBasicOperativeByCostCenter
+    Implements IReport
+
+
+    ''' <summary>
+    ''' Variable para inicializar los valores de sesion
+    ''' </summary>
+    Dim IndigoSessionValues As SessionValues = SessionValues.Instance
+
+    Public Sub CargarDataSource() Implements IReport.CargarDataSource
+        Dim filtroConsulta As String = "PeriodInitialDate >= '" & Format(ParametrosReporte(0), "yyyy-MM-dd") & "' AND ConceptType = 1 And PeriodEndDate <= '" & Format(ParametrosReporte(1), "yyyy-MM-dd") & "'"
+
+        'filtro tipo de empleado
+
+        filtroConsulta &= " And EmployeeTypeCode = " & ParametrosReporte(2)
+
+        'filtro por Centro de costo
+        If ParametrosReporte(3) IsNot Nothing And ParametrosReporte(4) IsNot Nothing Then
+            filtroConsulta &= " And CostCenetrCode >= '" & Me.ParametrosReporte(3) & "' AND CostCenetrCode <= '" & ParametrosReporte(4) & "'"
+        End If
+
+        'filtro Periodo
+        If ParametrosReporte(5) <> 3 Then
+            filtroConsulta &= " And Period = " & ParametrosReporte(5)
+        End If
+
+        Dim sucursalIni As String = IIf(ParametrosReporte(8) Is Nothing Or ParametrosReporte(8) = String.Empty, "NULL", ParametrosReporte(8))
+        Dim sucursalFin As String = IIf(ParametrosReporte(9) Is Nothing Or ParametrosReporte(9) = String.Empty, "NULL", ParametrosReporte(9))
+
+        filtroConsulta = String.Format("{0} AND ((BranchOfficeID >= {1} AND BranchOfficeID <= {2}) OR ({1} IS NULL AND {2} IS NULL))", filtroConsulta, sucursalIni, sucursalFin)
+
+        Dim groupIni As String = IIf(ParametrosReporte(6) Is Nothing, "NULL", ParametrosReporte(6))
+        Dim groupFin As String = IIf(ParametrosReporte(7) Is Nothing, "NULL", ParametrosReporte(7))
+
+        filtroConsulta = String.Format("{0} AND ((GroupId >= {1} AND GroupId <= {2}) OR ({1} IS NULL AND {2} IS NULL))", filtroConsulta, groupIni, groupFin)
+
+        Me.DataSource = XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).PayrollService.GetCollection(Of PayrollVIncentivePaymentReportXpo)(Nothing, filtroConsulta)
+
+    End Sub
+
+    Public Sub CargarImagenes() Implements IReport.CargarImagenes
+
+    End Sub
+
+    Public ReadOnly Property NameReport As String Implements IReport.NameReport
+        Get
+            Return ""
+        End Get
+    End Property
+
+    Public Property ParametrosReporte As Object() Implements IReport.ParametrosReporte
+
+    Private Sub rptIncentivePaymentBasicOperative_BeforePrint(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles MyBase.BeforePrint
+        Me.INDLblCompany.Text = IndigoSessionValues.IndigoCompanyName
+        Me.INDLblNitCompany.Text = IndigoSessionValues.IndigoCompanyNit
+        INDUserImp.Text = "Usuario Impresión : " & IndigoSessionValues.UserIndigo & " - " & IndigoSessionValues.UserIndigoName
+        INDLblDate.Text = "PAGO PRIMA SERVICIOS " & CDate(Me.ParametrosReporte(1)).ToString("De MMMM Del yyyy").ToUpper()
+    End Sub
+End Class

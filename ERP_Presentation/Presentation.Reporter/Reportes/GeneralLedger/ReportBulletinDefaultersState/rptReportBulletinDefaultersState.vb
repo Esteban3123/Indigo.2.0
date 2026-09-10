@@ -1,0 +1,93 @@
+﻿#Region "Imports"
+Imports Infrastructure.CrossCutting.Base
+Imports Infrastructure.Data.Xpo
+Imports Infrastructure.Data.Xpo.AccountingRepository
+Imports Domain.Entities
+Imports DevExpress.XtraReports.UI
+Imports DevExpress.XtraRichEdit.Model
+Imports System.Configuration
+Imports DevExpress.DataAccess
+Imports DevExpress.DataAccess.ConnectionParameters
+Imports Presentation.Base
+Imports System.Data.SqlClient
+Imports Presentation.CloudAgent
+#End Region
+
+
+Public Class rptReportBulletinDefaultersState
+    Implements IReport
+
+    ''' <summary>
+    ''' Variable para inicializar los valores de sesion
+    ''' </summary>
+    Dim IndigoSessionValues As SessionValues = SessionValues.Instance
+
+    ''' <summary>
+    ''' Variable par obtener la tabla de Trazabilidad
+    ''' </summary>
+    Dim dtReportBulletinDefaultersState As DataTable
+
+    Public Sub CargarDataSource() Implements IReport.CargarDataSource
+
+    End Sub
+
+    Public Async Function CargarDataSource1() As task
+        Try
+            Dim ds As DataSet = Await IndigoConecta.Instancia.CurrentCloud.IndigoAccounting.GetListReportBulletinDefaultersStateAsync(Format(ParametrosReporte(0), "yyyy-MM-dd"), Me.ParametrosReporte(1), ParametrosReporte(2), ParametrosReporte(3), ParametrosReporte(4), ParametrosReporte(5), ParametrosReporte(6), Me.IndigoSessionValues)
+            If ds IsNot Nothing Then
+                dtReportBulletinDefaultersState = ds.Tables("ReportBulletinDefaultersState")
+                Me.DataSource = dtReportBulletinDefaultersState
+                Me.DataMember = "ReportBulletinDefaultersState"
+            Else
+                Me.DataSource = Nothing
+            End If
+
+        Catch ex As Exception
+            MessageIndigo.Show(GetExceptionDetails(ex), MessageType.Errores, Me.Text, Botones.Aceptar, "")
+        End Try
+    End Function
+
+    Public Function GetExceptionDetails(exception As Exception) As String
+        Dim properties = exception.[GetType]().GetProperties()
+        Dim fields = properties.[Select](Function([property]) New With { _
+            Key .Name = [property].Name, _
+            Key .Value = [property].GetValue(exception, Nothing) _
+        }).[Select](Function(x) [String].Format("{0} : {1}", x.Name, If(x.Value IsNot Nothing, x.Value.ToString(), [String].Empty)))
+        Return [String].Join(vbLf, fields)
+    End Function
+
+    Public Sub CargarImagenes() Implements IReport.CargarImagenes
+
+    End Sub
+
+    Public ReadOnly Property NameReport As String Implements IReport.NameReport
+        Get
+            Return ""
+        End Get
+    End Property
+
+    Public Property ParametrosReporte As Object() Implements IReport.ParametrosReporte
+
+    Private Sub rptReportBulletinDefaultersState_BeforePrint(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles MyBase.BeforePrint
+        INDLblCompany.Text = IndigoSessionValues.IndigoCompanyName
+        INDLblNitCompany.Text = "Nit:" & IndigoSessionValues.IndigoCompanyNit
+        Me.INDLblUserPrint.Text = "Usuario Impresión : " & IndigoSessionValues.UserIndigo & " - " & IndigoSessionValues.UserIndigoName
+        Me.XrLabel3.Text = "Fecha De Corte (" & Format(ParametrosReporte(0), "yyyy-MM-dd") & ")"
+        Dim Periodo As String = Nothing
+        If ParametrosReporte(3) = 1 Then
+            Periodo = "Dias"
+        ElseIf ParametrosReporte(3) = 2 Then
+            Periodo = "Semanas"
+        ElseIf ParametrosReporte(3) = 3 Then
+            Periodo = "Meses"
+        ElseIf ParametrosReporte(3) = 4 Then
+            Periodo = "Años"
+        End If
+        Me.XrLabel2.Text = "Periodo De Mora (" & ParametrosReporte(4) & " - " & Periodo & ")"
+        If ParametrosReporte(7) = 1 Then
+            Detail.Visible = False
+        Else
+            Detail.Visible = True
+        End If
+    End Sub
+End Class

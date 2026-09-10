@@ -1,0 +1,157 @@
+﻿#Region "Librerias Importadas"
+Imports Presentation.Base
+Imports Infrastructure.CrossCutting.Base
+Imports Infrastructure.Data.Xpo
+Imports Infrastructure.Data.Xpo.InteropCostRepository
+Imports Domain.Entities
+Imports Presentation.CloudAgent
+Imports DevExpress.XtraReports.UI
+Imports System.Drawing.Printing
+Imports DevExpress.XtraReports.Parameters
+Imports Infrastructure.Data.Xpo.SecurityRepository
+
+#End Region
+
+Public Class rptReportConsolidatedCCLogisticByDays
+    Implements IReport
+    Implements IReportAsync
+
+    ''' <summary>
+    ''' Variable para inicializar los valores de sesion
+    ''' </summary>
+    Dim IndigoSessionValues As SessionValues = SessionValues.Instance
+
+    Dim ListReportConsolidatedCCLogistic As List(Of SP_ReportConsolidatedCCLogisticA_Result)
+
+    Dim pcCodeDetailIni As InteropCostProductionCenterReportXpo
+    Private pcDetailStartCode As String
+    Private pcDetailEndCode As String
+    Private muStartId As String
+    Private muEndId As String
+    Private tupla As Integer
+    Public Sub CargarDataSource() Implements IReport.CargarDataSource
+        Try
+            Dim pcLogisticId = CType(XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).InteropCostService.GetCollection(Of InteropCostProductionCenterReportXpo)(Nothing, " Code = '" & ParametrosReporte(2) & "'")(0), InteropCostProductionCenterReportXpo).Id
+            If ParametrosReporte(3) <> "" Then
+                pcDetailStartCode = ParametrosReporte(3)
+            End If
+            If ParametrosReporte(4) <> "" Then
+                pcDetailEndCode = ParametrosReporte(4)
+            End If
+            If ParametrosReporte(5) <> "" Then
+                muStartId = CType(XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).InteropCostService.GetCollection(Of InventoryMeasurementUnitXpo)(Nothing, " Code = '" & ParametrosReporte(5) & "'")(0), InventoryMeasurementUnitXpo).Id
+            End If
+            If ParametrosReporte(6) <> "" Then
+                muEndId = CType(XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).InteropCostService.GetCollection(Of InventoryMeasurementUnitXpo)(Nothing, " Code = '" & ParametrosReporte(6) & "'")(0), InventoryMeasurementUnitXpo).Id
+            End If
+
+            ListReportConsolidatedCCLogistic = IndigoConecta.Instancia.CurrentCloud.IndigoInteropCost.ListReportConsolidatedCCLogistic(Format(ParametrosReporte(0), "yyyy-MM-dd"), Format(ParametrosReporte(1), "yyyy-MM-dd"), CInt(pcLogisticId), pcDetailStartCode, pcDetailEndCode, CInt(muStartId), CInt(muEndId), ParametrosReporte(7))
+
+            Me.DataSource = ListReportConsolidatedCCLogistic
+        Catch ex As Exception
+            MessageIndigo.Show(GetExceptionDetails(ex), MessageType.Errores, Me.Text, Botones.Aceptar, "")
+        End Try
+    End Sub
+    Public Function CargarDataSourceAsync() As Task Implements IReportAsync.CargarDataSourceAsync
+        Return Task.Factory.StartNew(AddressOf CargarDataSource)
+    End Function
+
+    Public Function GetExceptionDetails(exception As Exception) As String
+        Dim properties = exception.[GetType]().GetProperties()
+        Dim fields = properties.[Select](Function([property]) New With { _
+            Key .Name = [property].Name, _
+            Key .Value = [property].GetValue(exception, Nothing) _
+        }).[Select](Function(x) [String].Format("{0} : {1}", x.Name, If(x.Value IsNot Nothing, x.Value.ToString(), [String].Empty)))
+        Return [String].Join(vbLf, fields)
+    End Function
+
+    Public Sub CargarImagenes() Implements IReport.CargarImagenes
+
+    End Sub
+
+    Public ReadOnly Property NameReport As String Implements IReport.NameReport
+        Get
+            Return Nothing
+        End Get
+    End Property
+
+    Public Property ParametrosReporte As Object() Implements IReport.ParametrosReporte
+
+    Private Sub rptReportConsolidatedCCLogistic_BeforePrint(sender As Object, e As Printing.PrintEventArgs) Handles MyBase.BeforePrint
+        Me.INDLblCompany.Text = IndigoSessionValues.IndigoCompanyName
+        Me.INDLblNitCompany.Text = IndigoSessionValues.IndigoCompanyNit
+        INDUserImp.Text = "Usuario Impresión : " & IndigoSessionValues.UserIndigo & " - " & IndigoSessionValues.UserIndigoName
+        INDLblDate.Text = "Informe comprendido entre " & CDate(Me.ParametrosReporte(0)).ToString("dd De MMMM Del yyyy") & " " & CDate(Me.ParametrosReporte(1)).ToString("A dd De MMMM Del yyyy")
+    End Sub
+
+    Private Sub GroupHeader2_BeforePrint_1(sender As Object, e As PrintEventArgs) Handles GroupHeader2.BeforePrint
+        CleanTable(XrTableRow1)
+
+        Dim DetailProdCenINTERNOId As Integer
+        Dim DetailMeasurementUnitINTERNO As Integer
+        Dim DetailProdCenterId As Integer
+        Dim DetailMeasurementUnitId As Integer
+        Dim totalTupla As Integer
+        DetailProdCenterId = ListReportConsolidatedCCLogistic.Item(tupla).DetailProductionCenterId
+        DetailMeasurementUnitId = ListReportConsolidatedCCLogistic.Item(tupla).InventoryMeasurementUnitId
+
+        DetailProdCenINTERNOId = DetailProdCenterId
+        DetailMeasurementUnitINTERNO = DetailMeasurementUnitId
+        While (DetailProdCenINTERNOId = DetailProdCenterId) And (DetailMeasurementUnitINTERNO = DetailMeasurementUnitId)
+
+            ''Se ingresa el valor a la celda correspondiente
+            XrTableRow1.Cells.Item(CInt(ListReportConsolidatedCCLogistic.Item(tupla).day)).Text() = (String.Format("{0:#,#}", (ListReportConsolidatedCCLogistic.Item(tupla).Cantidad)))
+
+            DetailProdCenterId = ListReportConsolidatedCCLogistic.Item(tupla).DetailProductionCenterId
+
+            ''Total de cada tupla
+            If DetailProdCenINTERNOId = DetailProdCenterId Then
+                totalTupla = totalTupla + ListReportConsolidatedCCLogistic.Item(tupla).Cantidad
+                XrTableRow1.Cells.Item(32).Text() = totalTupla
+            End If
+
+            ''Total por grupo (Unidad de Medida)
+            XrTableRow4.Cells.Item(CInt(ListReportConsolidatedCCLogistic.Item(tupla).day)).Text() = String.Format("{0:#,#}", (CInt(XrTableRow4.Cells.Item(CInt(ListReportConsolidatedCCLogistic.Item(tupla).day)).Text())) + CInt((String.Format("{0:0}", (ListReportConsolidatedCCLogistic.Item(tupla).Cantidad)))))
+            ''Total por grupo (Estructura Organizacional)
+            XrTableRow3.Cells.Item(CInt(ListReportConsolidatedCCLogistic.Item(tupla).day)).Text() = String.Format("{0:#,#}", (CInt(XrTableRow3.Cells.Item(CInt(ListReportConsolidatedCCLogistic.Item(tupla).day)).Text())) + CInt((String.Format("{0:0}", (ListReportConsolidatedCCLogistic.Item(tupla).Cantidad)))))
+
+            ''Total de todo el reporte
+            XrTableRow5.Cells.Item(CInt(ListReportConsolidatedCCLogistic.Item(tupla).day)).Text() = String.Format("{0:#,#}", (CInt(XrTableRow5.Cells.Item(CInt(ListReportConsolidatedCCLogistic.Item(tupla).day)).Text())) + CInt((String.Format("{0:0}", (ListReportConsolidatedCCLogistic.Item(tupla).Cantidad)))))
+
+            ''Controla el índice de la tabla para editar el contenido de las celdas
+            tupla += 1
+
+            ''Si la tupla excede la cantidad de celdas disponibles terminara la iteración
+            If tupla = (ListReportConsolidatedCCLogistic.Count) Then
+                Exit While
+            End If
+
+            DetailProdCenINTERNOId = ListReportConsolidatedCCLogistic.Item(tupla).DetailProductionCenterId
+            DetailMeasurementUnitINTERNO = ListReportConsolidatedCCLogistic.Item(tupla).InventoryMeasurementUnitId
+
+        End While
+    End Sub
+
+    Private Sub GroupHeader1_BeforePrint(sender As Object, e As PrintEventArgs) Handles GroupHeader1.BeforePrint
+        CleanTable(XrTableRow4)
+    End Sub
+    Private Sub GroupHeader3_BeforePrint(sender As Object, e As PrintEventArgs) Handles GroupHeader3.BeforePrint
+        CleanTable(XrTableRow3)
+    End Sub
+    Public Sub CleanTable(ByVal a As DevExpress.XtraReports.UI.XRTableRow)
+        For i As Integer = 1 To a.Cells.Count - 1
+            a.Cells.Item(i).Text = 0
+        Next
+    End Sub
+
+    Private Sub GroupFooter2_BeforePrint(sender As Object, e As PrintEventArgs) Handles GroupFooter2.BeforePrint
+        XrTableRow4.Cells.Item(32).Text() = CInt(XrTableRow4.Cells.Item(32).Text()) + CInt(XrTableRow1.Cells.Item(32).Text())
+        XrTableRow3.Cells.Item(32).Text() = CInt(XrTableRow3.Cells.Item(32).Text()) + CInt(XrTableRow1.Cells.Item(32).Text())
+    End Sub
+
+    Private Sub GroupFooter1_AfterPrint(sender As Object, e As EventArgs) Handles GroupFooter1.AfterPrint
+        XrTableRow5.Cells.Item(32).Text() = CInt(XrTableRow5.Cells.Item(32).Text()) + CInt(XrTableRow4.Cells.Item(32).Text())
+    End Sub
+
+
+End Class

@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://tempuri.org/" elementFormDefault="qualified" targetNamespace="http://tempuri.org/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import schemaLocation="http://localhost:9000/ServiceEntity/Taxes.svc/ServiceEntity/?xsd=xsd2" namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
+  <xs:import schemaLocation="http://localhost:9000/ServiceEntity/Taxes.svc/ServiceEntity/?xsd=xsd3" namespace="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" />
+  <xs:import schemaLocation="http://localhost:9000/ServiceEntity/Taxes.svc/ServiceEntity/?xsd=xsd5" namespace="http://schemas.datacontract.org/2004/07/Infrastructure.CrossCutting.Base" />
+  <xs:import schemaLocation="http://localhost:9000/ServiceEntity/Taxes.svc/ServiceEntity/?xsd=xsd6" namespace="http://schemas.datacontract.org/2004/07/Domain.Entities" />
+  <xs:element name="ValidateLoadPlaneCollection">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q1="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="data" nillable="true" type="q1:ArrayOfstring" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ValidateLoadPlaneCollectionResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q2="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="ValidateLoadPlaneCollectionResult" nillable="true" type="q2:ActionResultOfArrayOfTupleOfintstringstringstring5F2dSckg" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SaveLoadPlaneCollection">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q3="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="data" nillable="true" type="q3:ArrayOfstring" />
+        <xs:element xmlns:q4="http://schemas.datacontract.org/2004/07/Infrastructure.CrossCutting.Base" minOccurs="0" name="audit" nillable="true" type="q4:AuditMessage" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SaveLoadPlaneCollectionResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q5="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="SaveLoadPlaneCollectionResult" nillable="true" type="q5:ActionResult" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetAllTaxedProperties">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetAllTaxedPropertiesResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q6="http://schemas.datacontract.org/2004/07/Domain.Entities" minOccurs="0" name="GetAllTaxedPropertiesResult" nillable="true" type="q6:ArrayOfTaxesProperty" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetTaxesPropertyByCode">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="code" nillable="true" type="xs:string" />
+        <xs:element xmlns:q7="http://schemas.datacontract.org/2004/07/Infrastructure.CrossCutting.Base" minOccurs="0" name="session" nillable="true" type="q7:SessionValues" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetTaxesPropertyByCodeResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q8="http://schemas.datacontract.org/2004/07/Domain.Entities" minOccurs="0" name="GetTaxesPropertyByCodeResult" nillable="true" type="q8:TaxesProperty" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SaveTaxesLiquidation">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="Year" type="xs:int" />
+        <xs:element minOccurs="0" name="CadastralIdentification" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="CadastralIdentification2" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="Address" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="Address2" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="OwnerId" type="xs:int" />
+        <xs:element minOccurs="0" name="PropertyType" type="xs:int" />
+        <xs:element xmlns:q9="http://schemas.datacontract.org/2004/07/Infrastructure.CrossCutting.Base" minOccurs="0" name="audit" nillable="true" type="q9:AuditMessage" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SaveTaxesLiquidationResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q10="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="SaveTaxesLiquidationResult" nillable="true" type="q10:ActionResultOfTupleOfintstring5F2dSckg" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ConfirmTaxesLiquidation">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="Year" type="xs:int" />
+        <xs:element minOccurs="0" name="Ids" nillable="true" type="xs:string" />
+        <xs:element xmlns:q11="http://schemas.datacontract.org/2004/07/Infrastructure.CrossCutting.Base" minOccurs="0" name="audit" nillable="true" type="q11:AuditMessage" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ConfirmTaxesLiquidationResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q12="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="ConfirmTaxesLiquidationResult" nillable="true" type="q12:ActionResultOfTupleOfstringstringstringstring5F2dSckg" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetLowTaxLiquidation">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="consecutive" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetLowTaxLiquidationResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q13="http://schemas.datacontract.org/2004/07/Domain.Entities" minOccurs="0" name="GetLowTaxLiquidationResult" nillable="true" type="q13:LowTaxLiquidation" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SaveLowTaxLiquidation">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q14="http://schemas.datacontract.org/2004/07/Domain.Entities" minOccurs="0" name="Entity" nillable="true" type="q14:LowTaxLiquidation" />
+        <xs:element minOccurs="0" name="state" type="xs:int" />
+        <xs:element xmlns:q15="http://schemas.datacontract.org/2004/07/Infrastructure.CrossCutting.Base" minOccurs="0" name="audit" nillable="true" type="q15:AuditMessage" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SaveLowTaxLiquidationResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q16="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="SaveLowTaxLiquidationResult" nillable="true" type="q16:ActionResultOfLowTaxLiquidationMbb067J0" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SP_ValidateTaxBase">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q17="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="ListData" nillable="true" type="q17:ArrayOfstring" />
+        <xs:element minOccurs="0" name="Year" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SP_ValidateTaxBaseResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q18="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="SP_ValidateTaxBaseResult" nillable="true" type="q18:ActionResultOfArrayOfSP_ValidateTaxBase_ResultMbb067J0" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

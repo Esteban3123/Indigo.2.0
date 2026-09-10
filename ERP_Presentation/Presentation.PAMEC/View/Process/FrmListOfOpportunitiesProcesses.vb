@@ -1,0 +1,3 @@
+﻿Public Class FrmListOfOpportunitiesProcesses
+
+End Class

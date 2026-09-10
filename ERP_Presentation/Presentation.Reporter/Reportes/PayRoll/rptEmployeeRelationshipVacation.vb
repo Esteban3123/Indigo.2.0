@@ -1,0 +1,70 @@
+﻿#Region "Librerias Improtadas"
+Imports Infrastructure.CrossCutting.Base
+Imports Infrastructure.Data.Xpo
+Imports Infrastructure.Data.Xpo.PayrollRepository
+Imports Domain.Entities
+#End Region
+
+Public Class rptEmployeeRelationshipVacation
+    Implements IReport
+
+    ''' <summary>
+    ''' Variable para inicializar los valores de sesion
+    ''' </summary>
+    Dim IndigoSessionValues As SessionValues = SessionValues.Instance
+
+    Private fechaIni As Date
+    Private fechaFin As Date
+
+    Public Sub CargarDataSource() Implements IReport.CargarDataSource
+        
+        fechaIni = New Date(Me.ParametrosReporte(0), Me.ParametrosReporte(1), 1)
+        Dim fecha As Date = fechaIni.AddMonths(+1)
+        fechaFin = fecha.AddDays(-1)
+
+        Dim filtroConsulta As String = ""
+        If ParametrosReporte(4) <> 1 Then
+            filtroConsulta = "LiquidationDate >= '" & Format(fechaIni, "yyyyMMdd") & "' And LiquidationDate <= '" & Format(fechaFin, "yyyyMMdd") & "'"
+        Else
+            filtroConsulta = "VacationStartDate >= '" & Format(fechaIni, "yyyyMMdd") & "' And VacationStartDate <= '" & Format(fechaFin, "yyyyMMdd") & "'"
+        End If
+
+        'filtro por Grupo
+        If ParametrosReporte(2) IsNot Nothing And ParametrosReporte(3) IsNot Nothing Then
+            filtroConsulta &= " And VacationPeriodId.ContractId.GroupId.Code >= '" & Me.ParametrosReporte(2) & "' AND VacationPeriodId.ContractId.GroupId.Code <= '" & ParametrosReporte(3) & "'"
+        End If
+
+        Dim listVacation As List(Of PayrollVacation) = XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).PayrollService.GetCollection(Of PayrollVacation)(Nothing, filtroConsulta)
+        Dim listVacationNew As New List(Of PayrollVacation)
+        For Each item As PayrollVacation In listVacation
+            Dim query = (From e In listVacationNew Where e.VacationStartDate = item.VacationStartDate And e.VacationEndDate = item.VacationEndDate And e.VacationPeriodId.EmployeeId.Id = item.VacationPeriodId.EmployeeId.Id Select e).ToList()
+            If query.Count = 0 Then
+                listVacationNew.Add(item)
+            End If
+        Next
+        Me.DataSource = listVacationNew
+        INDLblDate.Text = "Informe comprendido entre " & CDate(fechaIni).ToString("dd De MMMM Del yyyy") & " " & CDate(fechaFin).ToString(" al   dd De MMMM Del yyyy")
+        INDLblDateMonth.Text = "PAGOS DE NÓMINA DEL MES DE " & CDate(fechaIni).ToString(" MMMM DE yyyy").ToUpper()
+    End Sub
+
+    Public Sub CargarImagenes() Implements IReport.CargarImagenes
+
+    End Sub
+
+    Public ReadOnly Property NameReport As String Implements IReport.NameReport
+        Get
+            Return ""
+        End Get
+    End Property
+
+    Public Property ParametrosReporte As Object() Implements IReport.ParametrosReporte
+
+    Private Sub rptEmployeeRelationshipVacation_BeforePrint(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles MyBase.BeforePrint
+
+        INDLblCompany.Text = IndigoSessionValues.IndigoCompanyName
+        INDLblNitCompany.Text = "Nit:" & IndigoSessionValues.IndigoCompanyNit
+        INDUserImp.Text = "Usuario Impresión : " & IndigoSessionValues.UserIndigo & " - " & IndigoSessionValues.UserIndigoName
+        ' Inicializar la localización del reporte (formato de moneda)
+        UtilitiesReporter.InitializeReportLocalization(Me, IndigoSessionValues, 1)
+    End Sub
+End Class

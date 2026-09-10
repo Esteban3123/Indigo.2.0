@@ -1,0 +1,106 @@
+﻿#Region "Librerias Importadas"
+Imports Infrastructure.CrossCutting.Base
+Imports Infrastructure.Data.Xpo.InventoryRepository
+Imports Infrastructure.Data.Xpo
+Imports Presentation.Base
+Imports System.Globalization
+Imports Domain.Entities
+#End Region
+
+Public Class rptSubEntranceVoucher
+    Implements IReport
+    Implements IReportAsync
+
+
+    ''' <summary>
+    ''' Variable para inicializar los valores de sesion
+    ''' </summary>
+    Dim IndigoSessionValues As SessionValues = SessionValues.Instance
+
+    ''' <summary>
+    ''' Obtiene el listado de los datos del reporte
+    ''' </summary>
+    Private INDList As List(Of InventoryEntranceVoucherReportXpo)
+
+    ''' <summary>
+    ''' obtiene la abreviacion de la moneda
+    ''' </summary>
+    Private CurrencyAbbreviation As String
+
+    ''' <summary>
+    ''' obtiene la informacion de la moneda seleccionada
+    ''' </summary>
+    ''' <returns></returns>
+    Public Property Currency As Currency
+
+    Public Sub CargarDataSource() Implements IReport.CargarDataSource
+        Try
+            Dim Filter As String = Nothing
+
+            'filtro por fechas
+            If ParametrosReporte(0) IsNot Nothing And ParametrosReporte(1) IsNot Nothing Then
+                Filter = "DocumentDate >= #" & Format(ParametrosReporte(0), "yyyy-MM-dd") & "# AND DocumentDate <= #" & Format(ParametrosReporte(1), "yyyy-MM-dd") & "#"
+            End If
+
+            'si filtra por documento
+            If Not String.IsNullOrEmpty(ParametrosReporte(2)) Then
+                Filter &= If(String.IsNullOrEmpty(Filter), "", " AND ") & String.Format("Id In ({0})", ParametrosReporte(2))
+            End If
+
+            'si filtra por proveedor
+            If Not String.IsNullOrEmpty(ParametrosReporte(3)) Then
+                Filter &= If(String.IsNullOrEmpty(Filter), "", " AND ") & String.Format("SupplierId.IdThirdParty.Id IN ({0})", ParametrosReporte(3))
+            End If
+
+            'filtro por estado 
+            If ParametrosReporte(5) <> 4 Then
+                Filter &= If(String.IsNullOrEmpty(Filter), "", " AND ") & String.Format("Status IN ({0})", ParametrosReporte(5))
+            End If
+
+            'filtro por moneda
+            If Currency IsNot Nothing Then
+                Filter &= If(String.IsNullOrEmpty(Filter), "", " AND ") & String.Format("CurrencyId IN ({0})", Currency.Id)
+            End If
+
+            INDList = XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).TreasuryService.GetCollection(Of InventoryEntranceVoucherReportXpo)(Nothing, Filter)
+            Me.DataSource = INDList
+
+        Catch ex As Exception
+            MessageIndigo.Show(GetExceptionDetails(ex), MessageType.Errores, Me.Text, Botones.Aceptar, "")
+        End Try
+
+    End Sub
+    Public Function CargarDataSourceAsync() As Task Implements IReportAsync.CargarDataSourceAsync
+        Return Task.Factory.StartNew(AddressOf CargarDataSource)
+    End Function
+
+    Public Function GetExceptionDetails(exception As Exception) As String
+        Dim properties = exception.[GetType]().GetProperties()
+        Dim fields = properties.[Select](Function([property]) New With {
+            Key .Name = [property].Name,
+            Key .Value = [property].GetValue(exception, Nothing)
+        }).[Select](Function(x) [String].Format("{0} : {1}", x.Name, If(x.Value IsNot Nothing, x.Value.ToString(), [String].Empty)))
+        Return [String].Join(vbLf, fields)
+    End Function
+
+    Public Sub CargarImagenes() Implements IReport.CargarImagenes
+
+    End Sub
+
+    Public ReadOnly Property NameReport As String Implements IReport.NameReport
+        Get
+            Return ""
+        End Get
+    End Property
+
+    Public Property ParametrosReporte As Object() Implements IReport.ParametrosReporte
+
+    Private Sub rptSubEntranceVoucher_BeforePrint(sender As Object, e As Printing.PrintEventArgs) Handles MyBase.BeforePrint
+        Dim _culture As CultureInfo = CultureInfo.CurrentCulture.Clone()
+        If INDList IsNot Nothing And Currency IsNot Nothing Then
+            CurrencyAbbreviation = Currency?.Abbreviation
+            _culture.NumberFormat = CurrencyAbbreviation.GetNumberFormat
+            ApplyLocalization(_culture)
+        End If
+    End Sub
+End Class

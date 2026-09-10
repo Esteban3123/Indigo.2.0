@@ -1,0 +1,88 @@
+﻿'***********************************************************************
+' Assembly         : Infrastructure.CrossCutting.MessageStore
+' Author           : Juan F. Tamayo
+' Created          : 2015-10-28
+'
+' Copyright        : (c) . All rights reserved.
+'***********************************************************************
+
+#Region "Imports"
+
+Imports System.Configuration
+Imports System.Web.Configuration
+Imports Infrastructure.CrossCutting.Base
+
+#End Region
+
+''' <summary>
+''' Provee servicio tecnicos que ayudan a diferentes tareas
+''' </summary>
+Public NotInheritable Class Helpers
+
+#Region "Consts"
+
+    ''' <summary>
+    ''' Nombre del parámetro en el archivo de configuración, el cual
+    ''' contiene la ruta del almacén de mensajes
+    ''' </summary>
+    Public Const PATHSTORE_NAMEPARAM As String = "_PathMessageStore_"
+
+#End Region
+
+#Region "Fields"
+
+    ''' <summary>
+    ''' Ruta por defecto usada para el almacén de mensajes
+    ''' </summary>
+    Public Shared ReadOnly DefaultPath As String = System.IO.Path.Combine(Utils.LocalFolder(), "Vie HealtTech", "MessageStore")
+    'Public Shared ReadOnly DefaultPath As String = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), "Indigo Technologies", "MessageStore")
+
+#End Region
+
+#Region "Functions"
+
+    ''' <summary>
+    ''' Verifica y se asegura de que la ruta exista
+    ''' </summary>
+    ''' <param name="path">Ruta a comprobar</param>
+    Public Shared Sub EnsurePathExists(ByVal path As String)
+        If Not My.Computer.FileSystem.DirectoryExists(path) Then
+            My.Computer.FileSystem.CreateDirectory(path)
+        End If
+    End Sub
+
+    ''' <summary>
+    ''' Verifica y asegura que la ruta por defecto del almacén
+    ''' de mensajes exista. Validando de la misma forma que
+    ''' el parámetro de configuración por defecto exista
+    ''' </summary>
+    ''' <returns>La ruta configurada en el parámetro</returns>
+    Public Shared Function EnsureDefaultPathFileStoreParamExists() As String
+        'Obtenemos el archivo de configuración de la aplicación
+        Dim appConfig As Configuration = Nothing
+        If System.IO.Path.GetFileName(AppDomain.CurrentDomain.SetupInformation.ConfigurationFile).ToLower().Equals("web.config") Then
+            appConfig = WebConfigurationManager.OpenWebConfiguration("~")
+        Else
+            appConfig = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None)
+        End If
+        Dim valueParam = appConfig.AppSettings.Settings(PATHSTORE_NAMEPARAM)
+        If valueParam IsNot Nothing Then 'Si el parametro existe
+            If Not valueParam.Value.Trim().Equals(String.Empty) Then
+                EnsurePathExists(valueParam.Value.Trim())
+            Else
+                valueParam.Value = DefaultPath
+                EnsurePathExists(valueParam.Value)
+            End If
+        Else 'Si no existe
+            valueParam = New KeyValueConfigurationElement(PATHSTORE_NAMEPARAM, DefaultPath)
+            appConfig.AppSettings.Settings.Add(valueParam)
+            EnsurePathExists(valueParam.Value)
+            appConfig.Save(ConfigurationSaveMode.Modified, True)
+            'ConfigurationManager.RefreshSection("appSettings")
+        End If
+        Return valueParam.Value.Trim()
+    End Function
+
+#End Region
+
+End Class

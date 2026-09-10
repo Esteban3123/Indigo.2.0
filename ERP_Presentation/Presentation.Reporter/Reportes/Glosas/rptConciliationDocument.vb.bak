@@ -1,0 +1,51 @@
+﻿Imports Infrastructure.CrossCutting.Base
+Imports Infrastructure.Data.Xpo
+Imports Infrastructure.Data.Xpo.GlosasRepository
+
+Public Class rptConciliationDocument
+    Implements IReport
+
+    ''' <summary>
+    ''' Variable para inicializar los valores de sesion
+    ''' </summary>
+    Dim IndigoSessionValues As SessionValues = SessionValues.Instance
+
+    Const CNameReport = "Glosas.FrmConciliation"
+
+    'Private _INDConciliationId As String
+
+    'Public Property INDConciliationId As String
+    '    Get
+    '        Return Me._INDConciliationId
+    '    End Get
+    '    Set(value As String)
+    '        Me._INDConciliationId = value
+    '    End Set
+    'End Property
+
+    Public Property ParametrosReporte As Object() Implements IReport.ParametrosReporte
+
+    ''' <summary>
+    ''' Metodo para cargar imagenes
+    ''' </summary>
+    Public Sub CargarImagenes() Implements IReport.CargarImagenes
+
+    End Sub
+
+    Public Sub CargarDataSource() Implements IReport.CargarDataSource
+        Me.DataSource = XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).GlosasService.GetCollection(Of Glosas_GlosaMovementGlosa)(Nothing, "InvoiceDetailId.ObjectionsReceptionDId.PortfolioGlosaId.Glosas_ConciliationD[ConciliationCId.Id=" & Me.ParametrosReporte(0) & "] ")
+    End Sub
+
+    Public ReadOnly Property NameReport As String Implements IReport.NameReport
+        Get
+            Return rptConciliationDocument.CNameReport
+        End Get
+    End Property
+
+    Private Sub rptConciliationDocument_BeforePrint(sender As Object, e As Printing.PrintEventArgs) Handles MyBase.BeforePrint
+
+        Me.INDLblNombreEmpresaCliente.Text = IndigoSessionValues.IndigoCompanyName
+        Me.INDLblNitCliente.Text = IndigoSessionValues.IndigoCompanyNit
+
+    End Sub
+End Class

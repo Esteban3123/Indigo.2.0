@@ -1,0 +1,141 @@
+﻿#Region "Imports"
+
+Imports DevExpress.XtraReports.UI
+Imports Infrastructure.CrossCutting.Base
+Imports Presentation.Base
+Imports Presentation.CloudAgent
+Imports System.Globalization
+#End Region
+
+Public Class rptResultStatusAnualGroupSubReports
+    Implements IReport
+
+#Region "Properties"
+
+    ''' <summary>
+    ''' Variable para inicializar los valores de sesion
+    ''' </summary>
+    Dim IndigoSessionValues As SessionValues = SessionValues.Instance
+
+    Dim criterias As Dictionary(Of String, String)
+
+    ''' <summary>
+    ''' Variable par obtener la tabla de Trazabilidad
+    ''' </summary>
+    Dim dtReportResulStatus As DataTable
+
+    Public Property ParametrosReporte As Object() Implements IReport.ParametrosReporte
+
+    Public ReadOnly Property NameReport As String Implements IReport.NameReport
+        Get
+            Return ""
+        End Get
+    End Property
+
+    Public TotalValue1 As Decimal = 0
+    Public TotalValue2 As Decimal = 0
+    Public TotalValue3 As Decimal = 0
+
+    ''' <summary>
+    ''' Variable par obtener el nombre de la moneda del libro
+    ''' </summary>
+    Dim currencyName As String
+
+    ''' <summary>
+    ''' Variable par obtener la abreviacion de la moneda del libro
+    ''' </summary>
+    Dim currencyAbbreviation As String
+
+#End Region
+
+#Region "Load Data"
+
+    Public Sub CargarDataSource() Implements IReport.CargarDataSource
+
+    End Sub
+
+    ''' <summary>
+    ''' se ejecuta para cargar los datasource de los subreport
+    ''' </summary>
+    ''' <param name="Natures">1 = debito, 2 = credito</param>
+    ''' <returns></returns>
+    ''' <remarks></remarks>
+    Public Async Function FillListResultStatus(ByVal Natures As String) As Task(Of DataTable)
+        Try
+            criterias = ParametrosReporte(0)
+            criterias.Remove("Natures")
+            criterias.Add("Natures", Natures)
+
+            Dim ds As DataSet = Await IndigoConecta.Instancia.CurrentCloud.IndigoAccounting.GetReportResulStatusAsync(criterias, Me.IndigoSessionValues)
+            If ds IsNot Nothing Then
+                dtReportResulStatus = ds.Tables("ReportResulStatus")
+                currencyName = dtReportResulStatus.Rows(0).Field(Of String)("LegalBookCurrency")
+                currencyAbbreviation = dtReportResulStatus.Rows(0).Field(Of String)("LegalBookCurrencyAbbreviation")
+            Else
+                dtReportResulStatus = Nothing
+            End If
+            Return dtReportResulStatus
+        Catch ex As Exception
+            MessageIndigo.Show(GetExceptionDetails(ex), MessageType.Errores, Me.Text, Botones.Aceptar, "")
+            Return dtReportResulStatus
+        End Try
+    End Function
+
+#End Region
+
+#Region "Methods"
+
+    Public Sub CargarImagenes() Implements IReport.CargarImagenes
+
+    End Sub
+
+    Public Function GetExceptionDetails(exception As Exception) As String
+        Dim properties = exception.[GetType]().GetProperties()
+        Dim fields = properties.[Select](Function([property]) New With {
+            Key .Name = [property].Name,
+            Key .Value = [property].GetValue(exception, Nothing)
+        }).[Select](Function(x) [String].Format("{0} : {1}", x.Name, If(x.Value IsNot Nothing, x.Value.ToString(), [String].Empty)))
+        Return [String].Join(vbLf, fields)
+    End Function
+
+#End Region
+
+#Region "Events"
+
+    Private Sub rptResultStatus_BeforePrint(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles MyBase.BeforePrint
+        Dim initialRangefechaIni As Date = New Date(Me.criterias("InitialRangeYear"), Me.criterias("InitialRangeMonthStart"), 1)
+        Dim initialRangefechafin As Date = New Date(Me.criterias("InitialRangeYear"), Me.criterias("InitialRangeMonthEnd"), 1)
+
+        'Cargar los valores del titulo
+        Me.INDLblCompany.Text = IndigoSessionValues.IndigoCompanyName
+        Me.INDLblNitCompany.Text = "Nit : " & IndigoSessionValues.IndigoCompanyNit
+        Me.INDLblUserPrint.Text = "Usuario Impresión : " & IndigoSessionValues.UserIndigo & " - " & IndigoSessionValues.UserIndigoName
+        INDLblDate.Text = "Informe comprendido entre " & initialRangefechaIni.ToString("MMMM Del yyyy") & " " & initialRangefechafin.ToString("A MMMM Del yyyy")
+        INDLblTitle.Text = Me.criterias("Title")
+        INDCllPeriodCurrent.Text = "" & initialRangefechaIni.ToString("yyyy")
+        INDLblBook.Text = Me.criterias("LegalBookName")
+        Dim INDGroupSubAuxiliar As GroupHeaderBand = INDSbrAnual.ReportSource.FindControl("INDGhSubAuxiliar", True)
+
+        Me.INDcellValue1.Text = FormatCurrency(Me.TotalValue1)
+        Me.INDcellValue2.Text = FormatCurrency(Me.TotalValue2)
+        Me.INDcellValue3.Text = FormatCurrency(Me.TotalValue3)
+
+        If Me.criterias("IncludedAccountNumber") = False Then
+            Dim xrTableRow As XRTableRow = XrTable1.Rows(0)
+            If xrTableRow.Cells(XrTableCell1.Name) IsNot Nothing Then
+                Dim control = Me.FindControl(XrTableCell1.Name, True)
+                xrTableRow.Cells.Remove(control)
+            End If
+        End If
+
+        If currencyAbbreviation IsNot Nothing Then
+            Dim _culture As CultureInfo = CultureInfo.CurrentCulture.Clone()
+            _culture.NumberFormat = currencyAbbreviation.GetNumberFormat
+            ApplyLocalization(_culture)
+        End If
+        Me.CurrencyLabel.Text = "Moneda: " + currencyName
+    End Sub
+
+#End Region
+
+End Class

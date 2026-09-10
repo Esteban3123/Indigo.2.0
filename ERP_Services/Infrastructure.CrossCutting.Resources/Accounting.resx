@@ -1,0 +1,656 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="AddDetail" xml:space="preserve">
+    <value>El Detalle del Documento Contable es  invalido</value>
+    <comment>se usa para validar que existan mas de 1 registro en el detalle</comment>
+  </data>
+  <data name="Balance" xml:space="preserve">
+    <value>EL Documento Contable no esta Balanceado</value>
+    <comment>se usa para solicitar detalle</comment>
+  </data>
+  <data name="BaseInvalid" xml:space="preserve">
+    <value>El valor de la base no debe ser menor que el valor de la base minima de la retencion</value>
+    <comment>se usa para informar que el valor de la base no se puede aplciar</comment>
+  </data>
+  <data name="BaseVal" xml:space="preserve">
+    <value>Ingrese el Valor Base de la Retención</value>
+    <comment>se usa para pedir el valor de la base</comment>
+  </data>
+  <data name="FrmAccountClass_DontExists" xml:space="preserve">
+    <value>La clase cuenta no existe</value>
+    <comment>Se usa para notificar al usuario que la clase cuenta no existe</comment>
+  </data>
+  <data name="FrmAccountClass_IndexContent" xml:space="preserve">
+    <value>Código: {0} | Descripción: {1}</value>
+    <comment>Se usa para generar el contenido del documento indexado</comment>
+  </data>
+  <data name="FrmAccountClass_IndexTitle" xml:space="preserve">
+    <value>Registro de Clases Contables # {0}</value>
+    <comment>Se usa para generar el titulo del documento indexado</comment>
+  </data>
+  <data name="FrmAccountingVoucher_DontExists" xml:space="preserve">
+    <value>El Documento Contable no Existe</value>
+    <comment>se usa paa informar que no exists el registro contable</comment>
+  </data>
+  <data name="FrmAccountLevel_DontExists" xml:space="preserve">
+    <value>El Nivel de  cuenta no existe</value>
+    <comment>Se usa para notificar al usuario que la clase cuenta no existe</comment>
+  </data>
+  <data name="FrmAccountLevel_IndexContent" xml:space="preserve">
+    <value>Código: {0} | Descripción: {1}</value>
+    <comment>Se usa para generar el contenido del documento indexado</comment>
+  </data>
+  <data name="FrmAccountLevel_IndexTitle" xml:space="preserve">
+    <value>Registro de Niveles de Cuenta # {0}</value>
+    <comment>Se usa para generar el titulo del documento indexado</comment>
+  </data>
+  <data name="FrmDocumentType_DontExists" xml:space="preserve">
+    <value>El tipo de documento no existe</value>
+    <comment>Se usa para notificar al usuario que el tipo de documento no existe</comment>
+  </data>
+  <data name="FrmDocumentType_IndexContent" xml:space="preserve">
+    <value>Código: {0} | Nombre: {1}</value>
+    <comment>Se usa para generar el contenido del documento indexado</comment>
+  </data>
+  <data name="FrmDocumentType_IndexTitle" xml:space="preserve">
+    <value>Registro de Tipo de Documento # {0}</value>
+    <comment>Se usa para generar el titulo del documento indexado</comment>
+  </data>
+  <data name="FrmPatrimonialParticipation_IndexContent" xml:space="preserve">
+    <value>Código: {0} | Nombre: {1}</value>
+    <comment>Se usa para generar el contenido del documento indexado</comment>
+  </data>
+  <data name="FrmPatrimonialParticipation_IndexTitle" xml:space="preserve">
+    <value>Registro de Participación Patrimonial # {0}</value>
+    <comment>Se usa para generar el titulo del documento indexado</comment>
+  </data>
+  <data name="FrmPuc_NoExistLevel" xml:space="preserve">
+    <value>No Existe el Nivel Superior de Esta Cuenta</value>
+    <comment>se usa para informar que no hay nivel superior</comment>
+  </data>
+  <data name="FrmRetentionConcept_DontExists" xml:space="preserve">
+    <value>El concepto de retención no existe</value>
+    <comment>Se usa para notificar al usuario que el concepto de retención no existe</comment>
+  </data>
+  <data name="FrmRetentionConcept_IndexContent" xml:space="preserve">
+    <value>Código: {0} | Descripción: {1} | Tasa%: {2}</value>
+    <comment>Se usa para generar el contenido del documento indexado</comment>
+  </data>
+  <data name="FrmRetentionConcept_IndexTitle" xml:space="preserve">
+    <value>Registro de Concepto de Retención # {0}</value>
+    <comment>Se usa para generar el titulo del documento indexado</comment>
+  </data>
+  <data name="FrmStatementFolio_DontExists" xml:space="preserve">
+    <value>El Anexo de Declaración no existe</value>
+    <comment>se usa para informar al usuario que el anexo de declaracion no existe</comment>
+  </data>
+  <data name="FrmStatementFolio_IndexContent" xml:space="preserve">
+    <value>Código: {0} | Nombre: {1}</value>
+    <comment>Se usa para generar el contenido del documento indexado</comment>
+  </data>
+  <data name="FrmStatementFolio_IndexTitle" xml:space="preserve">
+    <value>Registro de Anexos de Declaración # {0}</value>
+    <comment>Se usa para generar el titulo del documento indexado</comment>
+  </data>
+  <data name="NoDetailRetention" xml:space="preserve">
+    <value>La retención seleccionada no tiene rangos de retención, seleccione otra.</value>
+    <comment>se usa para informar que no hay rangos en la retencion</comment>
+  </data>
+  <data name="NoIndexRetention" xml:space="preserve">
+    <value>No se encontro ningún rango a aplicar para ese valor base.</value>
+    <comment>Se usa para informar que no hay valor para este valor base</comment>
+  </data>
+  <data name="NothingDetail" xml:space="preserve">
+    <value>No se ha agregado ningún item al Detalle del Documento Contable</value>
+    <comment>se usa para solicitar detalle</comment>
+  </data>
+  <data name="SelectDateDocument" xml:space="preserve">
+    <value>Seleccione la Fecha del Documento</value>
+    <comment>Se usa para solicitar la fecha del documenyto</comment>
+  </data>
+  <data name="SelectRetention" xml:space="preserve">
+    <value>Seleccione la Retención</value>
+    <comment>se usa para solicitar la retencion</comment>
+  </data>
+  <data name="SelectTypeDocument" xml:space="preserve">
+    <value>Seleccione el Tipo de Documento</value>
+    <comment>se usa para solicitar el tipo de documento</comment>
+  </data>
+  <data name="NoExist" xml:space="preserve">
+    <value>El Comprobante Contable no Existe, Desea Crear uno Nuevo</value>
+    <comment>se usa para informar que no existe el documento contable</comment>
+  </data>
+  <data name="SaveVoucher" xml:space="preserve">
+    <value />
+  </data>
+  <data name="FrmAccoutingVoucher_IndexContent" xml:space="preserve">
+    <value>Consecutivo : {0}</value>
+    <comment>Se usa para generar el contenido del documento indexado</comment>
+  </data>
+  <data name="FrmAccoutingVoucher_IndexTitle" xml:space="preserve">
+    <value>Registro de Documento Contable # {0}</value>
+    <comment>Se usa para generar el titulo del documento indexado</comment>
+  </data>
+  <data name="MonthClose" xml:space="preserve">
+    <value>El Periodo que intenta cerrar ya se encuentra cerrado.</value>
+    <comment>valida que el mes que s equiere cerrar no este cerrado</comment>
+  </data>
+  <data name="ValueInitial" xml:space="preserve">
+    <value>El valor inicial no puede ser mayor o igual que el valor final</value>
+    <comment>se usa para notificar al usuario que el valor inicial no puede ser mayor o igual que el valor final</comment>
+  </data>
+  <data name="UsedRange" xml:space="preserve">
+    <value>El rango de valores que intenta crear esta contenido en uno de los rangos existentes</value>
+    <comment>se usa para notifica al usuario que el rango de valores que intenta crear ya se esta usando</comment>
+  </data>
+  <data name="RetentionRangeList" xml:space="preserve">
+    <value>Los conceptos de retención por rango deben tener minimo un rango de retención</value>
+    <comment>se usa para notificar al usuario que un concepto por raqngo debe tener minimo un rango de retencion</comment>
+  </data>
+  <data name="BudgetExist" xml:space="preserve">
+    <value>El Rubro ya se encuentra en la lista</value>
+    <comment>se usa para informar que ya se encuentra el rubrro</comment>
+  </data>
+  <data name="MonthSelectClose" xml:space="preserve">
+    <value>El periodo se encuentra cerrado. Periodo abierto: {0}</value>
+    <comment>Se usa para indicar que el periodo seleccionado se encuentra cerrado</comment>
+  </data>
+  <data name="Disconfirm" xml:space="preserve">
+    <value>¿Desea desconfirmar el Documento Contable?.</value>
+    <comment>se usa para pedir la confirmacion del usuario</comment>
+  </data>
+  <data name="Canceled" xml:space="preserve">
+    <value>Se ha Anulado el documento contable.</value>
+    <comment>se usa para informar que se ha anulado</comment>
+  </data>
+  <data name="Confirm" xml:space="preserve">
+    <value>Se ha Confirmado el documento contable</value>
+    <comment>se usa para informar que se confirmo</comment>
+  </data>
+  <data name="DesconfirmDocument" xml:space="preserve">
+    <value>Se ha Desconfirmado el Documento Contable</value>
+    <comment>se usa para informar que se desconfirma</comment>
+  </data>
+  <data name="OpenPeriod" xml:space="preserve">
+    <value>Periodos abiertos: {0}</value>
+    <comment>Se usa para indicar el periodo abierto</comment>
+  </data>
+  <data name="MonthsSelectClosed" xml:space="preserve">
+    <value>El periodo se encuentra cerrado. Periodos abiertos: {0}</value>
+    <comment>Se usa para indicar que el periodo seleccionado se encuentra cerrado</comment>
+  </data>
+  <data name="PeriodFormat" xml:space="preserve">
+    <value>{0} de {1}</value>
+    <comment>Se usa para formar un periodo con mes y año</comment>
+  </data>
+  <data name="FrmAccountingVoucher_IndexContent" xml:space="preserve">
+    <value>Consecutivo: {0} | Tipo de Documenyo: {1} | Modulo: {2} | Fecha: {3}</value>
+    <comment>se usa para indexar el contenido</comment>
+  </data>
+  <data name="FrmAccountingVoucher_IndexTitle" xml:space="preserve">
+    <value>Documento Contable # {0}</value>
+    <comment>se usa para mostrar el titulo</comment>
+  </data>
+  <data name="ConfirmCloseMonth" xml:space="preserve">
+    <value>Realmente desea cerrar el periodo de : {0}</value>
+  </data>
+  <data name="OpenPeriodNothing" xml:space="preserve">
+    <value>No existen periodos abiertos</value>
+    <comment>se usa para notificar que no hay periodos abiertos</comment>
+  </data>
+  <data name="SaveJournalVouchers" xml:space="preserve">
+    <value>Se ha guardado el documento contable {0} con el consecutivo N° {1}</value>
+  </data>
+  <data name="SaveCloseMonth" xml:space="preserve">
+    <value>Se ha cerrado el mes de {0} y se han confirmado los documentos contables con consecutivo N° {1}</value>
+    <comment>se usa para miostar el mes cerrado</comment>
+  </data>
+  <data name="SaveCloseSingle" xml:space="preserve">
+    <value>Se ha cerrado el mes de {0}</value>
+    <comment>se usa para iformar el mes cerrado</comment>
+  </data>
+  <data name="ValidateOpenMonthUp" xml:space="preserve">
+    <value>El periodo posterior a {0} no se encuentra abierto, no se puede continuar.</value>
+    <comment>se usa para validar la apertura de mes</comment>
+  </data>
+  <data name="ValidateOpenMonthDown" xml:space="preserve">
+    <value>El periodo anterior a {0} no se encuentra abierto, no se puede continuar.</value>
+    <comment>se usa para notificar que no esta abierto el periodo necesario</comment>
+  </data>
+  <data name="Accounting" xml:space="preserve">
+    <value>Contabilidad</value>
+    <comment>Se usa para indicar que esta en contabilidad</comment>
+  </data>
+  <data name="AccountPayable" xml:space="preserve">
+    <value>Cuenta por pagar</value>
+    <comment>Se usa para indicar que esta en cuentas por pagar</comment>
+  </data>
+  <data name="CashReceipts" xml:space="preserve">
+    <value>Recibos de caja</value>
+    <comment>Se usa para indicar que esta en contabilidad</comment>
+  </data>
+  <data name="InitialBalance" xml:space="preserve">
+    <value>Saldo Inicial</value>
+    <comment>Se usa para indicar que esta en saldo inicial</comment>
+  </data>
+  <data name="PaymentNotes" xml:space="preserve">
+    <value>Notas de pagos</value>
+    <comment>Se usa para indicar que esta en notas de pagos</comment>
+  </data>
+  <data name="VoucherTransaction" xml:space="preserve">
+    <value>Comprobante de egreso</value>
+    <comment>Se usa para indicar que esta en comprobante de egreso</comment>
+  </data>
+  <data name="PeriodCannotClosed" xml:space="preserve">
+    <value>El periodo de {0}, no se puede cerrar porque existen documentos sin confirmar</value>
+    <comment>se usa para notificar que el periodo no se puede cerrar</comment>
+  </data>
+  <data name="SelectNature" xml:space="preserve">
+    <value>Seleccione la naturaleza de la retención</value>
+    <comment>se usa para notificar que se debe seleccionar la naturaleza de la retencion</comment>
+  </data>
+  <data name="AccountingEntity" xml:space="preserve">
+    <value>Contabilidad - Comprobantes Contables</value>
+    <comment>se usa para localizar la entidad en cierre de mes</comment>
+  </data>
+  <data name="AccountPayableEntity" xml:space="preserve">
+    <value>Cuentas por Pagar - Cuenta por Pagar</value>
+    <comment>se usa para localizar la entidad en cierre de mes</comment>
+  </data>
+  <data name="AdvancePaymentsEntity" xml:space="preserve">
+    <value>Cuentas por Pagar - Anticipos</value>
+    <comment>se usa para localizar la entidad en cierre de mes</comment>
+  </data>
+  <data name="CashReceiptEntity" xml:space="preserve">
+    <value>Tesoreria - Recibo de Caja</value>
+    <comment>se usa para localizar la entidad en cierre de mes</comment>
+  </data>
+  <data name="CrossingEntity" xml:space="preserve">
+    <value>Tesoreria - Cruce CXC - CXP</value>
+    <comment>se usa para localizar la entidad en cierre de mes</comment>
+  </data>
+  <data name="DepositEntity" xml:space="preserve">
+    <value>Tesoreria - Consignaciones</value>
+    <comment>se usa para localizar la entidad en cierre de mes</comment>
+  </data>
+  <data name="FundDispersionEntity" xml:space="preserve">
+    <value>Tesoreria - Dispersión de Fondos</value>
+    <comment>se usa para localizar la entidad en cierre de mes</comment>
+  </data>
+  <data name="InitialBalanceEntity" xml:space="preserve">
+    <value>Cuentas por Pagar - Saldo Inicial</value>
+    <comment>se usa para localizar la entidad en cierre de mes</comment>
+  </data>
+  <data name="PaymentNotesEntity" xml:space="preserve">
+    <value>Cuentas por Pagar - Notas</value>
+    <comment>se usa para localizar la entidad en cierre de mes</comment>
+  </data>
+  <data name="PaymentTransferEntity" xml:space="preserve">
+    <value>Cuentas por Pagar - Traslado</value>
+    <comment>se usa para localizar la entidad en cierre de mes</comment>
+  </data>
+  <data name="PortfolioNotesEntity" xml:space="preserve">
+    <value>Cuentas por Cobrar - Notas</value>
+    <comment>se usa para localizar la entidad en cierre de mes</comment>
+  </data>
+  <data name="RefundEntity" xml:space="preserve">
+    <value>Tesoreria - Reembolso</value>
+    <comment>se usa para localizar la entidad en cierre de mes</comment>
+  </data>
+  <data name="String" xml:space="preserve">
+    <value>se usa para localizar la entidad en cierre de mes</value>
+    <comment>se usa para localizar la entidad en cierre de mes</comment>
+  </data>
+  <data name="TreasuryNotes" xml:space="preserve">
+    <value>Tesoreria - Notas</value>
+    <comment>se usa para localizar la entidad en cierre de mes</comment>
+  </data>
+  <data name="VoucherTransactionEntity" xml:space="preserve">
+    <value>Tesoreria - Comprobante de Egreso</value>
+    <comment>se usa para localizar la entidad en cierre de mes</comment>
+  </data>
+  <data name="ConfirmedDocuments" xml:space="preserve">
+    <value>Se confirmaron los documentos con Nº {0}</value>
+  </data>
+  <data name="DocumentConfirmed" xml:space="preserve">
+    <value>Se confirmo el documento Nº {0}</value>
+  </data>
+  <data name="OnlyConfirm" xml:space="preserve">
+    <value>Solo podra confirmar desde el modulo donde se generó</value>
+  </data>
+  <data name="FrmParametersAccounting_DontExist" xml:space="preserve">
+    <value>No existe una configuración para esta unidad operativa</value>
+  </data>
+  <data name="MonthSelectedClose" xml:space="preserve">
+    <value>El periodo actual se encuentra cerrado</value>
+    <comment>se usa para indicar que la fecha del servidor se encuentra cerrado</comment>
+  </data>
+  <data name="FrmReportAuxiliary_AccountRange" xml:space="preserve">
+    <value>El filtro de Cuenta debe tener un valor inicial y un valor final</value>
+    <comment>se usa para notificar al usuario que un reporte por rango de cuentas debe tener un valor inicial y un valor final</comment>
+  </data>
+  <data name="FrmReportAuxiliary_CompareAccount" xml:space="preserve">
+    <value>La Cuenta Inicial no puede ser mayor al Cuenta Final</value>
+    <comment>se usa para comparar la cuenta inicial y final necesaria para generar el reporte</comment>
+  </data>
+  <data name="FrmReportAuxiliary_CompareDate" xml:space="preserve">
+    <value>La Fecha Inicial no puede ser mayor a la Fecha Final</value>
+    <comment>se usa para comparar la fecha inicial y final necesaria para generar el reporte</comment>
+  </data>
+  <data name="FrmReportAuxiliary_CompareThirdParty" xml:space="preserve">
+    <value>El tercero inicial no puede ser mayor al tercero final</value>
+    <comment>se usa para comparar el tercero inicial y final necesario para generar el reporte</comment>
+  </data>
+  <data name="FrmReportAuxiliary_CostCenterRange" xml:space="preserve">
+    <value>El filtro de centro de costo debe tener mínimo  un valor seleccionado</value>
+    <comment>se usa para notificar al usuario que un reporte por rango de centro de costos debe tener minimo un valor seleccionado</comment>
+  </data>
+  <data name="FrmReportAuxiliary_ThirdPartyRange" xml:space="preserve">
+    <value>El filtro de tercero debe tener mínimo un valor seleccionado</value>
+    <comment>se usa para notificar al usuario que un reporte por rango de terceros debe tener un valor inicial y un valor final</comment>
+  </data>
+  <data name="FrmReportMoveList_TypeVoucherRange" xml:space="preserve">
+    <value>El filtro de tipo de comprobante debe tener un valor inicial y un valor final</value>
+    <comment>se usa para notificar al usuario que un reporte por rango de tipo de comprobante debe tener minimo un valor seleccionado</comment>
+  </data>
+  <data name="ValidateAccount" xml:space="preserve">
+    <value>Debe seleccionar una Cuenta para generar el Reporte</value>
+    <comment>Se usa para validar que una cuenta sea seleccionada al momento de generar un reporte asociado a la misma</comment>
+  </data>
+  <data name="FrmReportMoveList_VoucherRange" xml:space="preserve">
+    <value>El filtro de comprobante debe tener mínimo un valor seleccionado</value>
+    <comment>se usa para notificar al usuario que un reporte por rango de comprobante debe tener minimo un valor seleccionado</comment>
+  </data>
+  <data name="FrmGeneralLedgerIVA_IndexContent" xml:space="preserve">
+    <value>Código: {0} | Nombre: {1}</value>
+    <comment>Se usa para generar el contenido del documento indexado</comment>
+  </data>
+  <data name="FrmGeneralLedgerIVA_IndexTitle" xml:space="preserve">
+    <value>Registro de Tipo de Documento # {0}</value>
+    <comment>Se usa para generar el titulo del documento indexado</comment>
+  </data>
+  <data name="AccountPayable_TAG" xml:space="preserve">
+    <value>730</value>
+  </data>
+  <data name="CashReceipts_TAG" xml:space="preserve">
+    <value>635</value>
+  </data>
+  <data name="Consignment_TAG" xml:space="preserve">
+    <value>638</value>
+  </data>
+  <data name="InventoryAdjustment_TAG" xml:space="preserve">
+    <value>318</value>
+  </data>
+  <data name="LoanMerchandiseDevolution_TAG" xml:space="preserve">
+    <value>1518</value>
+  </data>
+  <data name="LoanMerchandise_TAG" xml:space="preserve">
+    <value>1514</value>
+  </data>
+  <data name="PaymentNotes_TAG" xml:space="preserve">
+    <value>731</value>
+  </data>
+  <data name="PaymentTransfer_TAG" xml:space="preserve">
+    <value>746</value>
+  </data>
+  <data name="PharmaceuticalDispensingDevolution_TAG" xml:space="preserve">
+    <value>1516</value>
+  </data>
+  <data name="PharmaceuticalDispensing_TAG" xml:space="preserve">
+    <value>322</value>
+  </data>
+  <data name="PortfolioNote_TAG" xml:space="preserve">
+    <value>686</value>
+  </data>
+  <data name="PortfolioTransfer_TAG" xml:space="preserve">
+    <value>687</value>
+  </data>
+  <data name="TransferOrderDevolution_TAG" xml:space="preserve">
+    <value>322</value>
+  </data>
+  <data name="TransferOrder_TAG" xml:space="preserve">
+    <value>1519</value>
+  </data>
+  <data name="TreasuryNote_TAG" xml:space="preserve">
+    <value>637</value>
+  </data>
+  <data name="VoucherTransaction_TAG" xml:space="preserve">
+    <value>636</value>
+  </data>
+  <data name="PortfolioReclassification_TAG" xml:space="preserve">
+    <value>1529</value>
+  </data>
+  <data name="FrmBook_DontExists" xml:space="preserve">
+    <value>El libro contable no existe</value>
+    <comment>Se usa para indicarle al usuario que el registro no existe</comment>
+  </data>
+  <data name="FrmBook_IndexContent" xml:space="preserve">
+    <value>Código: {0} | Nombre: {1}</value>
+    <comment>Se usa para generar el contenido del documento indexado</comment>
+  </data>
+  <data name="FrmBook_IndexTitle" xml:space="preserve">
+    <value>Registro de Libro Contable # {0}</value>
+    <comment>Se usa para generar el titulo del documento indexado</comment>
+  </data>
+  <data name="RadicateInvoiceC_TAG" xml:space="preserve">
+    <value>509</value>
+  </data>
+  <data name="DocumentInvoiceProductSales_TAG" xml:space="preserve">
+    <value>1561</value>
+  </data>
+  <data name="InvoiceEntityCapitated" xml:space="preserve">
+    <value>Facturas a Entidades Capitadas</value>
+  </data>
+  <data name="GlosaObjectionsReceptionD_TAG" xml:space="preserve">
+    <value>508</value>
+  </data>
+  <data name="LowTaxLiquidation_TAG" xml:space="preserve">
+    <value>1826</value>
+  </data>
+  <data name="AccountReceivableDocument_TAG" xml:space="preserve">
+    <value>1522</value>
+  </data>
+  <data name="FrmCostCenter_DontExists" xml:space="preserve">
+    <value>El Centro de Costo no existe</value>
+  </data>
+  <data name="FrmCostCenter_IndexContent" xml:space="preserve">
+    <value>Código: {0} | Nombre: {1}</value>
+  </data>
+  <data name="FrmCostCenter__IndexTitle" xml:space="preserve">
+    <value>Registro de Centro de Costo # {0}</value>
+  </data>
+  <data name="FixedAssetActiveOutput_TAG" xml:space="preserve">
+    <value>1778</value>
+    <comment>Se usa para abrir el form del proceso que realizó el comprobante contable</comment>
+  </data>
+  <data name="RemissionDevolution_TAG" xml:space="preserve">
+    <value>329</value>
+  </data>
+  <data name="RemissionEntrance_TAG" xml:space="preserve">
+    <value>317</value>
+  </data>
+  <data name="RemissionOutput_TAG" xml:space="preserve">
+    <value>323</value>
+  </data>
+  <data name="RemissionReclassification_TAG" xml:space="preserve">
+    <value>1402</value>
+  </data>
+  <data name="ConsignmentInventoryRemission_TAG" xml:space="preserve">
+    <value>1977</value>
+  </data>
+  <data name="DocumentInvoiceProductSalesReclassification_TAG" xml:space="preserve">
+    <value>1561</value>
+  </data>
+  <data name="PharmaceuticalDispensingDevolutionReclassification_TAG" xml:space="preserve">
+    <value>1516</value>
+  </data>
+  <data name="PharmaceuticalDispensingReclassification_TAG" xml:space="preserve">
+    <value>322</value>
+  </data>
+  <data name="ConsignmentInventoryRemissionDevolution_TAG" xml:space="preserve">
+    <value>329</value>
+  </data>
+  <data name="RemissionEntranceDevolution_TAG" xml:space="preserve">
+    <value>329</value>
+  </data>
+  <data name="RemissionOutputDevolution_TAG" xml:space="preserve">
+    <value>329</value>
+  </data>
+  <data name="FixedAssetEntryDevolution_TAG" xml:space="preserve">
+    <value>1119</value>
+    <comment>Id Formulario Devolución Ingreso de Activos Fijos</comment>
+  </data>
+  <data name="FixedAssetEntry_TAG" xml:space="preserve">
+    <value>1116</value>
+    <comment>Id Formulario Ingreso de Activos Fijos</comment>
+  </data>
+  <data name="FixedAssetReclassification_TAG" xml:space="preserve">
+    <value>1994</value>
+  </data>
+  <data name="PortfolioProvisionAndDeterioration_TAG" xml:space="preserve">
+    <value>1927</value>
+  </data>
+  <data name="BasicBilling_TAG" xml:space="preserve">
+    <value>2038</value>
+    <comment>Id Formulario Facturación Básica</comment>
+  </data>
+  <data name="InvoiceEntityCapitatedDistributionEntity" xml:space="preserve">
+    <value>Distribución de Ingresos Monto Fijo</value>
+  </data>
+  <data name="InvoiceEntityCapitatedDistribution_TAG" xml:space="preserve">
+    <value>2057</value>
+    <comment>Id Formulario Distribución de Ingresos Monto Fijo</comment>
+  </data>
+  <data name="FrmExogenousFormat_DontExists" xml:space="preserve">
+    <value>El código del Formato de Exógena no existe.</value>
+    <comment>Se usa para indicarle al usuario que el formato de exógena no existe.</comment>
+  </data>
+  <data name="FrmExogenousFormat_IndexContent" xml:space="preserve">
+    <value>Código: {0} | Nombre: {1}</value>
+    <comment>Se usa para generar el contenido del documento indexado</comment>
+  </data>
+  <data name="FrmExogenousFormat_IndexTitle" xml:space="preserve">
+    <value>Registro de formato de exógena # {0}</value>
+    <comment>Se usa para generar el titulo del documento indexado</comment>
+  </data>
+  <data name="TransferOrderReclassification" xml:space="preserve">
+    <value>Reclasificación ordenes de traslado</value>
+  </data>
+</root>

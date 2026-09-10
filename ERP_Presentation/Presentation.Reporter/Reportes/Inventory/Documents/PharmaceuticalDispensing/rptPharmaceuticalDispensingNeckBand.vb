@@ -1,0 +1,103 @@
+#Region "Librerias Improtadas"
+Imports Infrastructure.CrossCutting.Base
+Imports Infrastructure.Data.Xpo
+Imports Infrastructure.Data.Xpo.InventoryRepository
+Imports Infrastructure.Data.Xpo.CrystalRepository
+Imports DevExpress.XtraReports.UI
+Imports System.Drawing.Printing
+Imports DevExpress.XtraPrinting
+Imports DevExpress.XtraPrinting.Native
+Imports DevExpress.XtraReports.Parameters
+Imports Infrastructure.Data.Xpo.SecurityRepository
+
+#End Region
+
+Public Class rptPharmaceuticalDispensingNeckBand
+    Implements IReport
+
+    ''' <summary>
+    ''' Variable para inicializar los valores de sesion
+    ''' </summary>
+    Dim IndigoSessionValues As SessionValues = SessionValues.Instance
+    Dim count As Integer
+    Dim filtroConsulta As String
+    Public Sub CargarDataSource() Implements IReport.CargarDataSource
+        'If ParametrosReporte.Length > 1 Then
+
+        '    filtroConsulta = "DispensacionCode = '" & ParametrosReporte(0) & "'"
+        'Else
+        '    filtroConsulta = "Id = " & ParametrosReporte(0)
+        'End If
+        'Dim INDListReport As List(Of InventoryPharmaceuticalViewDispensingReportXpo) = XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).InventoryService.ListViewPharmaceuticalDispensingFilters(filtroConsulta).ToList()
+
+        ''count = INDListt.Item(0).Inventory_PharmaceuticalDispensingDetails.Count * 100
+
+        ''count = INDListReport.Count * 80
+
+        ''Se obtiene el Código Del Paciente
+        'Dim INDListPatient As List(Of AdmissionXpo) = XpoServiceEx.Instance(IndigoSessionValues.HisContainer).CrystalService.GetCollection(Of AdmissionXpo)(Nothing, "NUMINGRES = '" & CType(INDListReport(0), InventoryPharmaceuticalViewDispensingReportXpo).AdmissionNumber & "'")
+        'Dim INDPatientCode As String = INDListPatient(0).IPCODPACI.ToString.Substring(52).Replace("(", "").Replace(")", "")
+
+        ''Se obtiene el Código Del Paciente y el Nombre Completo
+        'Dim INDList3 = XpoServiceEx.Instance(IndigoSessionValues.HisContainer).CrystalService.GetCollection(Of PatientXpo)(Nothing, "IPCODPACI = '" & INDPatientCode & "'")
+        'XrTableCell6.Text = CType(INDList3(0), PatientXpo).IPCODPACI.Trim
+        'XrTableCell2.Text = CType(INDList3(0), PatientXpo).IPNOMCOMP.Trim
+
+        'If INDListReport.Count > 0 Then
+        '    Dim INDNameUser = CType(INDListReport(0), InventoryPharmaceuticalViewDispensingReportXpo).CreationUser.Trim()
+
+        '    Dim INDListUser = XpoServiceEx.Instance(IndigoSessionValues.SecurityContainer).SecurityService.GetCollection(Of UserXpo)(Nothing, "UserCode = '" & INDNameUser & "'")
+
+        '    If INDListUser IsNot Nothing Then
+        '        Dim INDCodName = CType(INDListUser(0), UserXpo).CodeName.Trim
+        '        Me.INDUserCreate.Text = "Usuario Creación: " & INDCodName
+        '    End If
+        'End If
+
+        Dim pharmaceutical = CType(ParametrosReporte(0), Domain.Entities.PharmaceuticalDispensing)
+
+        XrTableCell6.Text = pharmaceutical.CodePatient
+        XrTableCell2.Text = pharmaceutical.PantientName
+        XrTableCell10.Text = pharmaceutical.AdmissionNumber
+        XrTableCell3.Text = pharmaceutical.FunctionUnitName.Trim()
+        XrTableCell20.Text = pharmaceutical.Code
+        XrTableCell14.Text = pharmaceutical.DocumentDate
+        INDUserImp.Text = "Usuario Impresión: " & pharmaceutical.CreationUser
+        Me.INDUserCreate.Text = "Usuario Creación: " & pharmaceutical.CodeNameUser
+        
+
+
+        Me.DataSource = pharmaceutical.PharmaceuticalDispensingDetail.ToList()
+    End Sub
+
+    Public Sub CargarImagenes() Implements IReport.CargarImagenes
+
+    End Sub
+
+    Public ReadOnly Property NameReport As String Implements IReport.NameReport
+        Get
+            Return ""
+        End Get
+    End Property
+
+    Public Property ParametrosReporte As Object() Implements IReport.ParametrosReporte
+
+    Private Sub rptPharmaceuticalDispensingNeckBand_BeforePrint(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles MyBase.BeforePrint
+        If Me.Parameters.Count > 0 And Me.Parameters(0).Value > 0 Then
+            Dim ParametrosFilter As ParameterCollection = Me.Parameters
+            ParametrosReporte = New Object() {ParametrosFilter("INDSubIdPharmaceutical").Value}
+            CargarDataSource()
+        End If
+
+        INDLblCompany.Text = IndigoSessionValues.IndigoCompanyName
+        INDLblNitCompany.Text = "Nit:" & IndigoSessionValues.IndigoCompanyNit
+        'INDUserImp.Text = IndigoSessionValues.UserIndigoName
+
+        Dim reporte As XtraReport = (CType(sender, XtraReport))
+        reporte.Watermark.PageRange = "1"
+
+        'Dim page = count + 340
+        'Dim reporte As XtraReport = (CType(sender, XtraReport))
+        'reporte.PageHeight = page
+    End Sub
+End Class

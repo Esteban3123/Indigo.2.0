@@ -1,0 +1,75 @@
+﻿#Region "Librerias Importadas"
+Imports Infrastructure.CrossCutting.Base
+Imports Infrastructure.Data.Xpo.InventoryRepository
+Imports Infrastructure.Data.Xpo
+Imports Presentation.Reporter
+#End Region
+
+
+Public Class rptPhysicalInventoryCustody
+    Implements IReport
+    ''' <summary>
+    ''' Variable para inicializar los valores de sesion
+    ''' </summary>
+    Dim IndigoSessionValues As SessionValues = SessionValues.Instance
+
+    Public Sub CargarDataSource() Implements IReport.CargarDataSource
+        Dim filtroConsulta As String = ""
+
+        'si filtra por almacenes
+        If ParametrosReporte(0) IsNot Nothing And ParametrosReporte(1) IsNot Nothing Then
+            If filtroConsulta = "" Then
+                filtroConsulta &= "WarehouseCode >= '" & ParametrosReporte(0) & "' AND WarehouseCode <= '" & ParametrosReporte(1) & "'"
+            Else
+                filtroConsulta &= " AND WarehouseCode >= '" & ParametrosReporte(0) & "' AND WarehouseCode <= '" & ParametrosReporte(1) & "'"
+            End If
+        End If
+
+        ' si filtra por productos
+        If ParametrosReporte(2) IsNot Nothing And ParametrosReporte(3) IsNot Nothing Then
+            If filtroConsulta = "" Then
+                filtroConsulta &= "ProductCode >= '" & ParametrosReporte(2) & "' AND ProductCode <= '" & ParametrosReporte(3) & "'"
+            Else
+                filtroConsulta &= " AND ProductCode >= '" & ParametrosReporte(2) & "' AND ProductCode <= '" & ParametrosReporte(3) & "'"
+            End If
+        End If
+
+        If ParametrosReporte(5) = 2 Then
+            If filtroConsulta = "" Then
+                filtroConsulta &= "Quantity >  '0' "
+            Else
+                filtroConsulta &= " AND Quantity > '0' "
+            End If
+        End If
+
+
+        'Organiza el filtro por Codigo ó Producto
+        Dim filterOrder As List(Of ViewListProductCustodyXpo) = XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).TreasuryService.GetCollection(Of ViewListProductCustodyXpo)(Nothing, filtroConsulta)
+        If ParametrosReporte(6) = 1 Then
+            filterOrder = filterOrder.OrderBy(Function(x) x.ProductCode).ToList
+        Else
+            filterOrder = filterOrder.OrderBy(Function(x) x.ProductName).ToList
+        End If
+
+        Me.DataSource = filterOrder
+
+    End Sub
+
+    Public Sub CargarImagenes() Implements IReport.CargarImagenes
+        
+    End Sub
+
+    Public ReadOnly Property NameReport As String Implements IReport.NameReport
+        Get
+            Return ""
+        End Get
+    End Property
+
+    Public Property ParametrosReporte As Object() Implements IReport.ParametrosReporte
+    Private Sub rptPhysicalInventoryCustody_BeforePrint(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles MyBase.BeforePrint
+        INDLblCompany.Text = IndigoSessionValues.IndigoCompanyName
+        INDLblNitCompany.Text = "Nit:" & IndigoSessionValues.IndigoCompanyNit
+        Me.INDUserImp.Text = "Usuario Impresión : " & IndigoSessionValues.UserIndigo & " - " & IndigoSessionValues.UserIndigoName
+        INDGroupBy.Value = ParametrosReporte(4)
+    End Sub
+End Class

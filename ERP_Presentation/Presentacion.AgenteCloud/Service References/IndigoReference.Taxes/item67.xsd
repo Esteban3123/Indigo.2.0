@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:ser="http://schemas.microsoft.com/2003/10/Serialization/" xmlns:tns="http://schemas.datacontract.org/2004/07/System" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/System" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import schemaLocation="http://localhost:9000/ServiceEntity/Taxes.svc/ServiceEntity/?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+  <xs:complexType name="ArrayOfTupleOfintstringstringstring">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="TupleOfintstringstringstring" nillable="true" type="tns:TupleOfintstringstringstring" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfTupleOfintstringstringstring" nillable="true" type="tns:ArrayOfTupleOfintstringstringstring" />
+  <xs:complexType name="TupleOfintstringstringstring">
+    <xs:annotation>
+      <xs:appinfo>
+        <GenericType Name="TupleOf{0}{1}{2}{3}{#}" Namespace="http://schemas.datacontract.org/2004/07/System" xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
+          <GenericParameter Name="int" Namespace="http://www.w3.org/2001/XMLSchema" />
+          <GenericParameter Name="string" Namespace="http://www.w3.org/2001/XMLSchema" />
+          <GenericParameter Name="string" Namespace="http://www.w3.org/2001/XMLSchema" />
+          <GenericParameter Name="string" Namespace="http://www.w3.org/2001/XMLSchema" />
+        </GenericType>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="m_Item1" type="xs:int" />
+      <xs:element name="m_Item2" nillable="true" type="xs:string" />
+      <xs:element name="m_Item3" nillable="true" type="xs:string" />
+      <xs:element name="m_Item4" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="TupleOfintstringstringstring" nillable="true" type="tns:TupleOfintstringstringstring" />
+  <xs:complexType name="IntPtr">
+    <xs:annotation>
+      <xs:appinfo>
+        <IsValueType xmlns="http://schemas.microsoft.com/2003/10/Serialization/">true</IsValueType>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:any minOccurs="0" maxOccurs="unbounded" namespace="##local" processContents="skip" />
+    </xs:sequence>
+    <xs:attribute ref="ser:FactoryType" />
+  </xs:complexType>
+  <xs:element name="IntPtr" nillable="true" type="tns:IntPtr" />
+  <xs:complexType name="TupleOfintstring">
+    <xs:annotation>
+      <xs:appinfo>
+        <GenericType Name="TupleOf{0}{1}{#}" Namespace="http://schemas.datacontract.org/2004/07/System" xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
+          <GenericParameter Name="int" Namespace="http://www.w3.org/2001/XMLSchema" />
+          <GenericParameter Name="string" Namespace="http://www.w3.org/2001/XMLSchema" />
+        </GenericType>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="m_Item1" type="xs:int" />
+      <xs:element name="m_Item2" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="TupleOfintstring" nillable="true" type="tns:TupleOfintstring" />
+  <xs:complexType name="TupleOfstringstringstringstring">
+    <xs:annotation>
+      <xs:appinfo>
+        <GenericType Name="TupleOf{0}{1}{2}{3}{#}" Namespace="http://schemas.datacontract.org/2004/07/System" xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
+          <GenericParameter Name="string" Namespace="http://www.w3.org/2001/XMLSchema" />
+          <GenericParameter Name="string" Namespace="http://www.w3.org/2001/XMLSchema" />
+          <GenericParameter Name="string" Namespace="http://www.w3.org/2001/XMLSchema" />
+          <GenericParameter Name="string" Namespace="http://www.w3.org/2001/XMLSchema" />
+        </GenericType>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="m_Item1" nillable="true" type="xs:string" />
+      <xs:element name="m_Item2" nillable="true" type="xs:string" />
+      <xs:element name="m_Item3" nillable="true" type="xs:string" />
+      <xs:element name="m_Item4" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="TupleOfstringstringstringstring" nillable="true" type="tns:TupleOfstringstringstringstring" />
+  <xs:complexType name="EventHandler">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:MulticastDelegate" />
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="EventHandler" nillable="true" type="tns:EventHandler" />
+  <xs:complexType name="MulticastDelegate">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:Delegate" />
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="MulticastDelegate" nillable="true" type="tns:MulticastDelegate" />
+  <xs:complexType name="Delegate">
+    <xs:sequence>
+      <xs:any minOccurs="0" maxOccurs="unbounded" namespace="##local" processContents="skip" />
+    </xs:sequence>
+    <xs:attribute ref="ser:FactoryType" />
+  </xs:complexType>
+  <xs:element name="Delegate" nillable="true" type="tns:Delegate" />
+</xs:schema>

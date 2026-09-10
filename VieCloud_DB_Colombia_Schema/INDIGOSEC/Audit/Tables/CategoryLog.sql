@@ -1,0 +1,9 @@
+﻿CREATE TABLE [Audit].[CategoryLog] (
+    [ID]         INT IDENTITY (1, 1) NOT NULL,
+    [IdCategory] INT NOT NULL,
+    [IdLog]      INT NOT NULL,
+    CONSTRAINT [PK_CATEGORYLOG] PRIMARY KEY CLUSTERED ([ID] ASC),
+    CONSTRAINT [FK_CATEGORYLOG_CATEGORY] FOREIGN KEY ([IdCategory]) REFERENCES [Audit].[Category] ([Id]),
+    CONSTRAINT [FK_CATEGORYLOG_LOG] FOREIGN KEY ([IdLog]) REFERENCES [Audit].[Log] ([Id])
+);
+

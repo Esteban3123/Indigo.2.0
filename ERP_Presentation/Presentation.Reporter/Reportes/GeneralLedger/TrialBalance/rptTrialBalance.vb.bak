@@ -1,0 +1,516 @@
+﻿#Region "Imports"
+
+Imports DevExpress.XtraReports.UI
+Imports Infrastructure.CrossCutting.Base
+Imports Presentation.Base
+Imports Presentation.CloudAgent
+Imports System.Globalization
+
+#End Region
+
+Public Class rptTrialBalance
+    Implements IReport
+    Implements IReportAsync
+
+#Region "Properties"
+
+    ''' <summary>
+    ''' Variable para inicializar los valores de sesion
+    ''' </summary>
+    Dim IndigoSessionValues As SessionValues = SessionValues.Instance
+
+    Dim criterias As Dictionary(Of String, String)
+
+    ''' <summary>
+    ''' Variable par obtener la tabla de Trazabilidad
+    ''' </summary>
+    Dim dtReportBalances As DataTable
+
+    Public totalSumAccount As Decimal = 0
+
+    Public totalSumNewBalanceAccount As Decimal = 0
+
+    Public totalSumThirdParty As Decimal = 0
+
+    Public totalSumNewBalanceThirdParty As Decimal = 0
+
+    Public totalSumCostCenter As Decimal = 0
+
+    Public totalSumNewBalanceCostCenter As Decimal = 0
+
+    ''' <summary>
+    ''' Variable par obtener el nombre de la moneda del libro
+    ''' </summary>
+    Dim currencyName As String
+
+    ''' <summary>
+    ''' Variable par obtener la abreviacion de la moneda del libro
+    ''' </summary>
+    Dim currencyAbbreviation As String
+
+#End Region
+
+#Region "Load Data"
+
+    Public Sub CargarDataSource() Implements IReport.CargarDataSource
+
+    End Sub
+
+    ''' <summary>
+    ''' Carga el datasource para generar el reporte
+    ''' </summary>
+    ''' <returns></returns>
+    Public Async Function CargarDataSourceAsync() As Task Implements IReportAsync.CargarDataSourceAsync
+        Try
+            criterias = ParametrosReporte(0)
+
+            Dim ds As DataSet = Await IndigoConecta.Instancia.CurrentCloud.IndigoAccounting.GetReportBalancesAsync(criterias, Me.IndigoSessionValues)
+            If ds.Tables(0).Rows.Count > 0 Then
+                dtReportBalances = ds.Tables("ReportBalances")
+                Me.DataSource = dtReportBalances
+                Me.DataMember = "ReportBalances"
+                currencyName = dtReportBalances.Rows(0).Field(Of String)("LegalBookCurrency")
+                currencyAbbreviation = dtReportBalances.Rows(0).Field(Of String)("LegalBookCurrencyAbbreviation")
+            Else
+                Me.DataSource = Nothing
+            End If
+        Catch ex As Exception
+            MessageIndigo.Show(GetExceptionDetails(ex), MessageType.Errores, Me.Text, Botones.Aceptar, "")
+        End Try
+    End Function
+
+#End Region
+
+#Region "Methods"
+
+    Public Function GetExceptionDetails(exception As Exception) As String
+        Dim properties = exception.[GetType]().GetProperties()
+        Dim fields = properties.[Select](Function([property]) New With { _
+            Key .Name = [property].Name, _
+            Key .Value = [property].GetValue(exception, Nothing) _
+        }).[Select](Function(x) [String].Format("{0} : {1}", x.Name, If(x.Value IsNot Nothing, x.Value.ToString(), [String].Empty)))
+        Return [String].Join(vbLf, fields)
+    End Function
+
+    Public Sub CargarImagenes() Implements IReport.CargarImagenes
+
+    End Sub
+
+    Public ReadOnly Property NameReport As String Implements IReport.NameReport
+        Get
+            Return ""
+        End Get
+    End Property
+
+    Public Property ParametrosReporte As Object() Implements IReport.ParametrosReporte
+
+#End Region
+
+#Region "Events"
+
+    Private Sub rptTrialBalance_BeforePrint(sender As Object, e As Printing.PrintEventArgs) Handles MyBase.BeforePrint
+        Dim INDFechaIni As Date = "01/" & criterias("MonthStart") & "/" & criterias("Year")
+        Dim INDFechaEnd As Date = "01/" & criterias("MonthEnd") & "/" & criterias("Year")
+
+        'Cargar los valores del titulo
+        Me.INDLblCompany.Text = IndigoSessionValues.IndigoCompanyName
+        Me.INDLblNitCompany.Text = "Nit : " & IndigoSessionValues.IndigoCompanyNit
+        Me.INDLblUserPrint.Text = "Usuario Impresión : " & IndigoSessionValues.UserIndigo & " - " & IndigoSessionValues.UserIndigoName
+        Me.INDLblDate.Text = "Informe comprendido entre " & INDFechaIni.ToString("MMMM Del yyyy") & " " & INDFechaEnd.ToString("A MMMM Del yyyy")
+        Me.INDLblBook.Text = Me.criterias("LegalBookName").ToString()
+
+        'detallar tercero
+        INDGhThirdParty.Visible = criterias("DetailingThird")
+
+        'detallar centro de costo
+        INDGhCostCenter.Visible = criterias("DetailingCostCenter")
+
+        'imprimir el reporte cuando las cuentas 0,8,9 no afectan totales
+        If criterias("AccountsAffectedTotal") = True Then
+            INDTblTotalNotAccountsOrden.Visible = False
+            INDTblTotalGeneral.Visible = True
+        Else
+            INDTblTotalNotAccountsOrden.Visible = True
+            INDTblTotalGeneral.Visible = False
+        End If
+
+        If currencyAbbreviation IsNot Nothing Then
+            Dim _culture As CultureInfo = CultureInfo.CurrentCulture.Clone()
+            _culture.NumberFormat = New CultureInfo(currencyAbbreviation.GetCultureId).NumberFormat
+            ApplyLocalization(_culture)
+        End If
+        Me.CurrencyLabel.Text = "Moneda: " + currencyName
+    End Sub
+
+    Private Sub XrTable6_BeforePrint(sender As Object, e As Printing.PrintEventArgs) Handles XrTable6.BeforePrint
+        Dim table As XRTable = CType(sender, XRTable)
+        Dim row As XRTableRow = table.Rows(0)
+        If criterias("DetailingThird") = False And criterias("DetailingCostCenter") = False Then
+            If row.Cells("XrTableCell43") IsNot Nothing And row.Cells("XrTableCell44") IsNot Nothing Then
+                row.Cells.Remove(XrTableCell43)
+                row.Cells.Remove(XrTableCell44)
+                XrTableCell41.WidthF = 70
+                XrTableCell42.WidthF = 229
+                XrTableCell45.WidthF = 125
+                XrTableCell46.WidthF = 125
+                XrTableCell47.WidthF = 125
+                XrTableCell48.WidthF = 125
+            End If
+        ElseIf criterias("DetailingThird") = True And criterias("DetailingCostCenter") = False Then
+            If row.Cells("XrTableCell44") IsNot Nothing Then
+                row.Cells.Remove(XrTableCell44)
+                XrTableCell41.WidthF = 70
+                XrTableCell42.WidthF = 224
+                XrTableCell43.WidthF = 85
+                XrTableCell45.WidthF = 105
+                XrTableCell46.WidthF = 105
+                XrTableCell47.WidthF = 105
+                XrTableCell48.WidthF = 105
+            End If
+        End If
+    End Sub
+
+    Private Sub XrTable1_BeforePrint(sender As Object, e As Printing.PrintEventArgs) Handles XrTable1.BeforePrint
+        Dim table As XRTable = CType(sender, XRTable)
+        Dim row As XRTableRow = table.Rows(0)
+        If criterias("DetailingThird") = False And criterias("DetailingCostCenter") = False Then
+            If row.Cells("XrTableCell3") IsNot Nothing And row.Cells("XrTableCell4") IsNot Nothing Then
+                row.Cells.Remove(XrTableCell3)
+                row.Cells.Remove(XrTableCell4)
+                XrTableCell1.WidthF = 70
+                XrTableCell2.WidthF = 229
+                XrTableCell5.WidthF = 125
+                XrTableCell6.WidthF = 125
+                XrTableCell7.WidthF = 125
+                XrTableCell8.WidthF = 125
+            End If
+        ElseIf criterias("DetailingThird") = True And criterias("DetailingCostCenter") = False Then
+            If row.Cells("XrTableCell4") IsNot Nothing Then
+                row.Cells.Remove(XrTableCell4)
+                XrTableCell1.WidthF = 70
+                XrTableCell2.WidthF = 224
+                XrTableCell3.WidthF = 85
+                XrTableCell5.WidthF = 105
+                XrTableCell6.WidthF = 105
+                XrTableCell7.WidthF = 105
+                XrTableCell8.WidthF = 105
+            End If
+        End If
+    End Sub
+
+    Private Sub XrTable7_BeforePrint(sender As Object, e As Printing.PrintEventArgs) Handles XrTable7.BeforePrint
+        Dim table As XRTable = CType(sender, XRTable)
+        Dim row As XRTableRow = table.Rows(0)
+        If criterias("DetailingThird") = True And criterias("DetailingCostCenter") = False Then
+            If row.Cells("XrTableCell52") IsNot Nothing Then
+                row.Cells.Remove(XrTableCell52)
+                XrTableCell49.WidthF = 70
+                XrTableCell50.WidthF = 224
+                XrTableCell51.WidthF = 85
+                XrTableCell53.WidthF = 105
+                XrTableCell54.WidthF = 105
+                XrTableCell55.WidthF = 105
+                XrTableCell56.WidthF = 105
+            End If
+        End If
+    End Sub
+
+    Private Sub XrTable9_BeforePrint(sender As Object, e As Printing.PrintEventArgs) Handles XrTable9.BeforePrint
+        Dim table As XRTable = CType(sender, XRTable)
+        Dim row As XRTableRow = table.Rows(0)
+        If criterias("DetailingThird") = False And criterias("DetailingCostCenter") = False Then
+            XrTableCell74.WidthF = 304
+            XrTableCell65.WidthF = 130
+            XrTableCell66.WidthF = 240
+            XrTableCell67.WidthF = 125
+        ElseIf criterias("DetailingThird") = True And criterias("DetailingCostCenter") = False Then
+            XrTableCell74.WidthF = 394
+            XrTableCell65.WidthF = 105
+            XrTableCell66.WidthF = 195
+            XrTableCell67.WidthF = 105
+        End If
+    End Sub
+
+    Private Sub INDTblTotalGeneral_BeforePrint(sender As Object, e As Printing.PrintEventArgs) Handles INDTblTotalGeneral.BeforePrint
+        Dim table As XRTable = CType(sender, XRTable)
+        Dim row As XRTableRow = table.Rows(0)
+        If criterias("DetailingThird") = False And criterias("DetailingCostCenter") = False Then
+            XrTableCell68.WidthF = 299
+            XrTableCell83.WidthF = 107
+            XrTableCell9.WidthF = 16
+            XrTableCell69.WidthF = 125
+            XrTableCell70.WidthF = 125
+            XrTableCell84.WidthF = 107
+            XrTableCell12.WidthF = 16
+        ElseIf criterias("DetailingThird") = True And criterias("DetailingCostCenter") = False Then
+            XrTableCell68.WidthF = 379
+            XrTableCell83.WidthF = 87
+            XrTableCell9.WidthF = 16
+            XrTableCell69.WidthF = 105
+            XrTableCell70.WidthF = 105
+            XrTableCell84.WidthF = 87
+            XrTableCell12.WidthF = 16
+        Else
+            XrTableCell68.WidthF = 431
+            XrTableCell83.WidthF = 77
+            XrTableCell9.WidthF = 15
+            XrTableCell69.WidthF = 92
+            XrTableCell70.WidthF = 92
+            XrTableCell84.WidthF = 92
+            XrTableCell12.WidthF = 15
+        End If
+        Dim row2 As XRTableRow = table.Rows(1)
+        If criterias("DetailingThird") = False And criterias("DetailingCostCenter") = False Then
+            XrTableCell10.WidthF = 421
+            XrTableCell11.WidthF = 16
+            XrTableCell13.WidthF = 342
+            XrTableCell14.WidthF = 16
+        ElseIf criterias("DetailingThird") = True And criterias("DetailingCostCenter") = False Then
+            XrTableCell10.WidthF = 481
+            XrTableCell11.WidthF = 16
+            XrTableCell13.WidthF = 282
+            XrTableCell14.WidthF = 16
+        Else
+            XrTableCell10.WidthF = 520
+            XrTableCell11.WidthF = 16
+            XrTableCell13.WidthF = 240
+            XrTableCell14.WidthF = 16
+        End If
+    End Sub
+
+    Private Sub INDTblTotalNotAccountsOrden_BeforePrint(sender As Object, e As Printing.PrintEventArgs) Handles INDTblTotalNotAccountsOrden.BeforePrint
+        Dim table As XRTable = CType(sender, XRTable)
+        Dim row As XRTableRow = table.Rows(0)
+        If criterias("DetailingThird") = False And criterias("DetailingCostCenter") = False Then
+            XrTableCell71.WidthF = 299
+            XrTableCell85.WidthF = 107
+            XrTableCell20.WidthF = 16
+            XrTableCell72.WidthF = 125
+            XrTableCell73.WidthF = 125
+            XrTableCell86.WidthF = 107
+            XrTableCell17.WidthF = 16
+        ElseIf criterias("DetailingThird") = True And criterias("DetailingCostCenter") = False Then
+            XrTableCell71.WidthF = 379
+            XrTableCell85.WidthF = 87
+            XrTableCell20.WidthF = 16
+            XrTableCell72.WidthF = 105
+            XrTableCell73.WidthF = 105
+            XrTableCell86.WidthF = 87
+            XrTableCell17.WidthF = 16
+        Else
+            XrTableCell71.WidthF = 431
+            XrTableCell85.WidthF = 77
+            XrTableCell20.WidthF = 15
+            XrTableCell72.WidthF = 92
+            XrTableCell73.WidthF = 92
+            XrTableCell86.WidthF = 77
+            XrTableCell17.WidthF = 16
+        End If
+        Dim row2 As XRTableRow = table.Rows(1)
+        If criterias("DetailingThird") = False And criterias("DetailingCostCenter") = False Then
+            XrTableCell15.WidthF = 421
+            XrTableCell21.WidthF = 16
+            XrTableCell18.WidthF = 342
+            XrTableCell19.WidthF = 16
+        ElseIf criterias("DetailingThird") = True And criterias("DetailingCostCenter") = False Then
+            XrTableCell15.WidthF = 481
+            XrTableCell21.WidthF = 16
+            XrTableCell18.WidthF = 282
+            XrTableCell19.WidthF = 16
+        Else
+            XrTableCell15.WidthF = 520
+            XrTableCell21.WidthF = 16
+            XrTableCell18.WidthF = 240
+            XrTableCell19.WidthF = 16
+        End If
+    End Sub
+
+#Region "Sumatoria Cuenta"
+
+#Region "Saldo Anterior"
+
+    Private Sub XrTableCell45_SummaryGetResult(sender As Object, e As SummaryGetResultEventArgs) Handles XrTableCell45.SummaryGetResult
+        If GetCurrentColumnValue("nature") = "Debito" Then
+            If totalSumAccount >= 0 Then
+                e.Result = CStr(Microsoft.VisualBasic.Format(totalSumAccount, "c2")) & " DB"
+            Else
+                e.Result = CStr(Microsoft.VisualBasic.Format(Math.Abs(totalSumAccount), "c2")) & " CR"
+            End If
+        Else
+            If totalSumAccount >= 0 Then
+                e.Result = CStr(Microsoft.VisualBasic.Format(totalSumAccount, "c2")) & " CR"
+            Else
+                e.Result = CStr(Microsoft.VisualBasic.Format(Math.Abs(totalSumAccount), "c2")) & " DB"
+            End If
+        End If
+        e.Handled = True
+    End Sub
+
+    Private Sub XrTableCell45_SummaryReset(sender As Object, e As EventArgs) Handles XrTableCell45.SummaryReset
+        totalSumAccount = 0
+    End Sub
+
+    Private Sub XrTableCell45_SummaryRowChanged(sender As Object, e As EventArgs) Handles XrTableCell45.SummaryRowChanged
+        totalSumAccount += Convert.ToDecimal(GetCurrentColumnValue("previousBalance"))
+    End Sub
+
+#End Region
+
+#Region "Nuevo Saldo"
+
+    Private Sub XrTableCell48_SummaryGetResult(sender As Object, e As SummaryGetResultEventArgs) Handles XrTableCell48.SummaryGetResult
+        If GetCurrentColumnValue("nature") = "Debito" Then
+            If totalSumNewBalanceAccount >= 0 Then
+                e.Result = CStr(Microsoft.VisualBasic.Format(totalSumNewBalanceAccount, "c2")) & " DB"
+            Else
+                e.Result = CStr(Microsoft.VisualBasic.Format(Math.Abs(totalSumNewBalanceAccount), "c2")) & " CR"
+            End If
+        Else
+            If totalSumNewBalanceAccount >= 0 Then
+                e.Result = CStr(Microsoft.VisualBasic.Format(totalSumNewBalanceAccount, "c2")) & " CR"
+            Else
+                e.Result = CStr(Microsoft.VisualBasic.Format(Math.Abs(totalSumNewBalanceAccount), "c2")) & " DB"
+            End If
+        End If
+        e.Handled = True
+    End Sub
+
+    Private Sub XrTableCell48_SummaryReset(sender As Object, e As EventArgs) Handles XrTableCell48.SummaryReset
+        totalSumNewBalanceAccount = 0
+    End Sub
+
+    Private Sub XrTableCell48_SummaryRowChanged(sender As Object, e As EventArgs) Handles XrTableCell48.SummaryRowChanged
+        totalSumNewBalanceAccount += Convert.ToDecimal(GetCurrentColumnValue("newBalance"))
+    End Sub
+
+#End Region
+
+#End Region
+
+#Region "Sumatoria Tercero"
+
+#Region "Saldo Anterior"
+
+    Private Sub XrTableCell53_SummaryGetResult(sender As Object, e As SummaryGetResultEventArgs) Handles XrTableCell53.SummaryGetResult
+        If GetCurrentColumnValue("nature") = "Debito" Then
+            If totalSumThirdParty >= 0 Then
+                e.Result = CStr(Microsoft.VisualBasic.Format(totalSumThirdParty, "c2")) & " DB"
+            Else
+                e.Result = CStr(Microsoft.VisualBasic.Format(Math.Abs(totalSumThirdParty), "c2")) & " CR"
+            End If
+        Else
+            If totalSumThirdParty >= 0 Then
+                e.Result = CStr(Microsoft.VisualBasic.Format(totalSumThirdParty, "c2")) & " CR"
+            Else
+                e.Result = CStr(Microsoft.VisualBasic.Format(Math.Abs(totalSumThirdParty), "c2")) & " DB"
+            End If
+        End If
+        e.Handled = True
+    End Sub
+
+    Private Sub XrTableCell53_SummaryReset(sender As Object, e As EventArgs) Handles XrTableCell53.SummaryReset
+        totalSumThirdParty = 0
+    End Sub
+
+    Private Sub XrTableCell53_SummaryRowChanged(sender As Object, e As EventArgs) Handles XrTableCell53.SummaryRowChanged
+        totalSumThirdParty += Convert.ToDecimal(GetCurrentColumnValue("previousBalance"))
+    End Sub
+
+#End Region
+
+#Region "Nuevo Saldo"
+
+    Private Sub XrTableCell56_SummaryGetResult(sender As Object, e As SummaryGetResultEventArgs) Handles XrTableCell56.SummaryGetResult
+        If GetCurrentColumnValue("nature") = "Debito" Then
+            If totalSumNewBalanceThirdParty >= 0 Then
+                e.Result = CStr(Microsoft.VisualBasic.Format(totalSumNewBalanceThirdParty, "c2")) & " DB"
+            Else
+                e.Result = CStr(Microsoft.VisualBasic.Format(Math.Abs(totalSumNewBalanceThirdParty), "c2")) & " CR"
+            End If
+        Else
+            If totalSumNewBalanceThirdParty >= 0 Then
+                e.Result = CStr(Microsoft.VisualBasic.Format(totalSumNewBalanceThirdParty, "c2")) & " CR"
+            Else
+                e.Result = CStr(Microsoft.VisualBasic.Format(Math.Abs(totalSumNewBalanceThirdParty), "c2")) & " DB"
+            End If
+        End If
+        e.Handled = True
+    End Sub
+
+    Private Sub XrTableCell56_SummaryReset(sender As Object, e As EventArgs) Handles XrTableCell56.SummaryReset
+        totalSumNewBalanceThirdParty = 0
+    End Sub
+
+    Private Sub XrTableCell56_SummaryRowChanged(sender As Object, e As EventArgs) Handles XrTableCell56.SummaryRowChanged
+        totalSumNewBalanceThirdParty += Convert.ToDecimal(GetCurrentColumnValue("newBalance"))
+    End Sub
+
+#End Region
+
+#End Region
+
+#Region "Sumatoria Centro de costo"
+
+#Region "Saldo Anterior"
+
+    Private Sub XrTableCell61_SummaryGetResult(sender As Object, e As SummaryGetResultEventArgs) Handles XrTableCell61.SummaryGetResult
+        If GetCurrentColumnValue("nature") = "Debito" Then
+            If totalSumCostCenter >= 0 Then
+                e.Result = CStr(Microsoft.VisualBasic.Format(totalSumCostCenter, "c2")) & " DB"
+            Else
+                e.Result = CStr(Microsoft.VisualBasic.Format(Math.Abs(totalSumCostCenter), "c2")) & " CR"
+            End If
+        Else
+            If totalSumCostCenter >= 0 Then
+                e.Result = CStr(Microsoft.VisualBasic.Format(totalSumCostCenter, "c2")) & " CR"
+            Else
+                e.Result = CStr(Microsoft.VisualBasic.Format(Math.Abs(totalSumCostCenter), "c2")) & " DB"
+            End If
+        End If
+        e.Handled = True
+    End Sub
+
+    Private Sub XrTableCell61_SummaryReset(sender As Object, e As EventArgs) Handles XrTableCell61.SummaryReset
+        totalSumCostCenter = 0
+    End Sub
+
+    Private Sub XrTableCell61_SummaryRowChanged(sender As Object, e As EventArgs) Handles XrTableCell61.SummaryRowChanged
+        totalSumCostCenter += Convert.ToDecimal(GetCurrentColumnValue("previousBalance"))
+    End Sub
+
+#End Region
+
+#Region "Nuevo Saldo"
+
+    Private Sub XrTableCell64_SummaryGetResult(sender As Object, e As SummaryGetResultEventArgs) Handles XrTableCell64.SummaryGetResult
+        If GetCurrentColumnValue("nature") = "Debito" Then
+            If totalSumNewBalanceCostCenter >= 0 Then
+                e.Result = CStr(Microsoft.VisualBasic.Format(totalSumNewBalanceCostCenter, "c2")) & " DB"
+            Else
+                e.Result = CStr(Microsoft.VisualBasic.Format(Math.Abs(totalSumNewBalanceCostCenter), "c2")) & " CR"
+            End If
+        Else
+            If totalSumNewBalanceCostCenter >= 0 Then
+                e.Result = CStr(Microsoft.VisualBasic.Format(totalSumNewBalanceCostCenter, "c2")) & " CR"
+            Else
+                e.Result = CStr(Microsoft.VisualBasic.Format(Math.Abs(totalSumNewBalanceCostCenter), "c2")) & " DB"
+            End If
+        End If
+        e.Handled = True
+    End Sub
+
+    Private Sub XrTableCell64_SummaryReset(sender As Object, e As EventArgs) Handles XrTableCell64.SummaryReset
+        totalSumNewBalanceCostCenter = 0
+    End Sub
+
+    Private Sub XrTableCell64_SummaryRowChanged(sender As Object, e As EventArgs) Handles XrTableCell64.SummaryRowChanged
+        totalSumNewBalanceCostCenter += Convert.ToDecimal(GetCurrentColumnValue("newBalance"))
+    End Sub
+
+#End Region
+
+#End Region
+
+#End Region
+
+End Class

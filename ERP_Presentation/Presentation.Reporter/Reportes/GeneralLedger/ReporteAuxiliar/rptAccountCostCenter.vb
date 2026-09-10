@@ -1,0 +1,81 @@
+﻿#Region "Librerias Improtadas"
+Imports Infrastructure.CrossCutting.Base
+Imports Infrastructure.CrossCutting.Resources
+Imports Infrastructure.Data.Xpo
+Imports Infrastructure.Data.Xpo.AccountingRepository
+Imports Domain.Entities
+Imports DevExpress.XtraReports.UI
+Imports System.Drawing.Printing
+Imports System.Threading
+Imports Presentation.Base
+
+#End Region
+
+Public Class rptAccountCostCenter
+    Implements IReport
+
+    ''' <summary>
+    ''' Variable para inicializar los valores de sesion
+    ''' </summary>
+    Dim IndigoSessionValues As SessionValues = SessionValues.Instance
+
+    Public Sub CargarDataSource() Implements IReport.CargarDataSource
+       
+    End Sub
+
+    Public Async Function CargarDataSource1() As task
+         Try
+            Await Task.Run(Sub() Me.DataSource = XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).AccountingService.GetCollectionAccountCostCenter(ParametrosReporte(8), ParametrosReporte(0), ParametrosReporte(1), ParametrosReporte(2), ParametrosReporte(3), ParametrosReporte(4), ParametrosReporte(5), ParametrosReporte(6), ParametrosReporte(7), ParametrosReporte(10)))
+        Catch ex As Exception
+            MessageIndigo.Show(GetExceptionDetails(ex), MessageType.Errores, Me.Text, Botones.Aceptar, "")
+        End Try
+    End Function
+
+    Public Function GetExceptionDetails(exception As Exception) As String
+        Dim properties = exception.[GetType]().GetProperties()
+        Dim fields = properties.[Select](Function([property]) New With { _
+            Key .Name = [property].Name, _
+            Key .Value = [property].GetValue(exception, Nothing) _
+        }).[Select](Function(x) [String].Format("{0} : {1}", x.Name, If(x.Value IsNot Nothing, x.Value.ToString(), [String].Empty)))
+        Return [String].Join(vbLf, fields)
+    End Function
+
+    Public Sub CargarImagenes() Implements IReport.CargarImagenes
+
+    End Sub
+
+    Public ReadOnly Property NameReport As String Implements IReport.NameReport
+        Get
+            Return ""
+        End Get
+    End Property
+
+    Public Property ParametrosReporte As Object() Implements IReport.ParametrosReporte
+
+    Private Sub rptAccountCostCenter_BeforePrint(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles MyBase.BeforePrint
+        INDSortByDateOrConsecutive.Value = ParametrosReporte(11)
+        If ParametrosReporte(9) = True Then
+            Detail.Visible = False
+            XrTable3.Rows.RemoveAt(0)
+            GroupHeader2.HeightF = 40
+        End If
+
+        Me.INDLblCompany.Text = IndigoSessionValues.IndigoCompanyName
+        Me.INDLblNitCompany.Text = "Nit : " & IndigoSessionValues.IndigoCompanyNit
+        Me.INDLblUserPrint.Text = "Usuario Impresión : " & IndigoSessionValues.UserIndigo & " - " & IndigoSessionValues.UserIndigoName
+        INDLblDate.Text = "Informe comprendido entre " & CDate(Me.ParametrosReporte(0)).ToString("dd De MMMM Del yyyy") & " " & CDate(Me.ParametrosReporte(1)).ToString("A dd De MMMM Del yyyy")
+    End Sub
+
+    Private Sub XrTable7_BeforePrint(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles XrTable7.BeforePrint
+        Dim table As XRTable = CType(sender, XRTable)
+        If GetCurrentColumnValue("Detail") = String.Empty Then
+            table.HeightF = 0
+            table.Visible = False
+            Detail.HeightF = 20
+        Else
+            table.Visible = True
+            table.HeightF = 20
+            Detail.HeightF = 40
+        End If
+    End Sub
+End Class

@@ -1,0 +1,95 @@
+﻿Imports Infrastructure.CrossCutting.Base
+Imports Infrastructure.Data.Xpo
+Imports Infrastructure.Data.Xpo.GlosasRepository
+Imports Domain.Entities
+Imports DevExpress.XtraReports.UI
+Imports DevExpress.XtraRichEdit.Model
+Imports System.Configuration
+Imports DevExpress.DataAccess
+Imports DevExpress.DataAccess.ConnectionParameters
+Imports System.Data.SqlClient
+Imports Presentation.CloudAgent
+Imports System.Drawing
+Imports DevExpress.XtraPrinting.Drawing
+Imports Infrastructure.Data.Xpo.PortfolioRepository
+
+Public Class rptPortfolioConciliationActDetail
+    Implements IReport
+
+    ''' <summary>
+    ''' Variable para inicializar los valores de sesion
+    ''' </summary>
+    Dim IndigoSessionValues As SessionValues = SessionValues.Instance
+    ''' <summary>
+    ''' Nombre del reporte
+    ''' </summary>
+    ''' <remarks></remarks>
+    Const CNameReport = "Portfolio.FrmPortfolioConciliation"
+    ''' <summary>
+    ''' Indica si lleva o no marca de agua
+    ''' </summary>
+    ''' <remarks></remarks>
+    Dim watermark As Boolean
+
+    ''' <summary>
+    ''' Unidad operativa
+    ''' </summary>
+    Dim _operatingUnit As OperatingUnit
+
+
+
+    Public Sub CargarDataSource() Implements IReport.CargarDataSource
+        watermark = Me.ParametrosReporte(3)
+        _operatingUnit = Me.ParametrosReporte(2)
+        If Me.ParametrosReporte(0) IsNot Nothing OrElse Me.ParametrosReporte(0) IsNot String.Empty Then
+            Dim filtroConsulta As String = " PortfolioConciliationId =" & Me.ParametrosReporte(0)
+            Me.BindingSource1.DataSource = XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).PortfolioService.GetCollection(Of PortfolioConciliationDetailXpo)(Nothing, filtroConsulta)
+            Me.BindingSource2.DataSource = XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).PortfolioService.GetCollection(Of PortfolioConciliationParticipantsXpo)(Nothing, filtroConsulta)
+            Me.BindingSource3.DataSource = XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).PortfolioService.GetCollection(Of PortfolioConciliationXpo)(Nothing, "Id =" & Me.ParametrosReporte(0))
+        End If
+
+        If Me._operatingUnit IsNot Nothing Then
+            Me.INDlblAddress.Text = If(Me._operatingUnit.Address IsNot Nothing, Me._operatingUnit.Address.Trim() & If(Me._operatingUnit.City IsNot Nothing, If(Me._operatingUnit.City.Name IsNot Nothing, " " & Me._operatingUnit.City.Name.Trim() & If(Me._operatingUnit.City.Department IsNot Nothing, " - " & Me._operatingUnit.City.Department.Name.Trim(), String.Empty), String.Empty), String.Empty), String.Empty)
+            Me.INDlblPhoneEmail.Text = If(Me._operatingUnit.Phone IsNot Nothing, Me._operatingUnit.Phone.Trim() & If(Me._operatingUnit.EmailAudit IsNot Nothing, " - " & Me._operatingUnit.EmailAudit.Trim(), String.Empty), String.Empty)
+            Me.INDlbLocation.Text = If(Me._operatingUnit.City IsNot Nothing, Me._operatingUnit.City.Name, String.Empty)
+        End If
+    End Sub
+
+    Public Sub CargarImagenes() Implements IReport.CargarImagenes
+
+    End Sub
+
+    Public ReadOnly Property NameReport As String Implements IReport.NameReport
+        Get
+            Return rptPortfolioConciliationActDetail.CNameReport
+        End Get
+    End Property
+
+    Public Property ParametrosReporte As Object() Implements IReport.ParametrosReporte
+
+
+    Public Sub New()
+        ' This call is required by the designer.
+        InitializeComponent()
+    End Sub
+
+    Private Sub rptPortfolioConciliationActDetail_BeforePrint(sender As Object, e As Printing.PrintEventArgs) Handles MyBase.BeforePrint
+        Me.INDLblNombreEmpresaCliente.Text = IndigoSessionValues.IndigoCompanyName
+        Me.INDLblNitCliente.Text = IndigoSessionValues.IndigoCompanyNit
+        If watermark = True Then
+            SetTextWatermark(CType(sender, XtraReport))
+        End If
+    End Sub
+
+    Sub SetTextWatermark(report As XtraReport)
+        ' Adjust text watermark settings.
+        report.Watermark.Text = "Sin Confirmar"
+        report.Watermark.TextDirection = DirectionMode.ForwardDiagonal
+        report.Watermark.Font = New Font(report.Watermark.Font.FontFamily, 80)
+        report.Watermark.ForeColor = Color.DodgerBlue
+        'report.Watermark.Transparency = 150
+        report.Watermark.TextTransparency = 200
+        report.Watermark.ShowBehind = False
+        report.Watermark.PageRange = "1,3-5"
+    End Sub
+End Class

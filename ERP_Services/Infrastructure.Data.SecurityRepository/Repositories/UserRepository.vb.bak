@@ -1,0 +1,628 @@
+﻿'***********************************************************************
+' Assembly         : Infraestructura.Datos.RepositorioSeguridad
+' Author           : OscarSierra
+' Created          : 03-11-2011
+'
+' Last Modified By : Juan F. Tamayo
+' Last Modified On : 2013-02-28
+' Description      : 
+'
+' Copyright        : (c) . All rights reserved.
+'***********************************************************************
+
+#Region "Imports"
+Imports Infrastructure.Data.Base
+Imports Domain.Security.Entities
+Imports Domain.Security
+Imports System.Globalization
+Imports System.Data.Entity
+Imports Domain.Base.Entities
+Imports Infrastructure.CrossCutting.Security
+Imports Infrastructure.CrossCutting.Interface
+Imports System.Configuration
+
+#End Region
+
+''' <summary>
+''' Esta clase contiene cada uno de los metodos y funciones que no son comunes dentro del repositorio generico ubicado
+''' en Infraestructura.Base	 ademas implementa de la interfaz ubicada en la capa de Dominio.Seguridad. Esta clase es la encargada 
+''' realizar las respectivas consultas y operaciones del CRUD para la entidad de Usuarios.
+''' </summary>
+Public Class UserRepository
+    Inherits GenericRepository(Of User)
+    Implements IUserRepository
+
+    ''' <summary>
+    ''' Esta variable  contiene el contexto de nuestro modelo.
+    ''' </summary>
+    Private _context As ISeguridadUnitOfWork
+    ''' <summary>
+    ''' Inicializa una nueva instancia <see cref="UserRepository" /> class.	
+    ''' </summary>
+    ''' <param name="contex">nThe contex.</param>
+    ''' <remarks></remarks>
+    Public Sub New(ByVal contex As ISeguridadUnitOfWork)
+        MyBase.New(contex)
+        _context = contex
+    End Sub
+
+    ''' <summary>
+    ''' Changes the password.	
+    ''' </summary>
+    ''' <param name="codeUser">se envia id de usario.</param>
+    ''' <param name="newPassword">The new password.</param>
+    ''' <returns></returns>
+    ''' <remarks></remarks>
+    Public Function ChangePassword(codeUser As String, newPassword As String) As Boolean Implements IUserRepository.ChangePassword
+        Dim user = (From e In _context.User
+                    Where e.Id = CInt(codeUser)
+                    Select e).Single
+
+        user.Password = newPassword
+        user.DateLastChangePassword = Date.Now
+        user.ChangePassword = False
+
+        SaveEntity(user)
+        Return True
+    End Function
+
+    ''' <summary>
+    ''' Finds the name of the user by.	
+    ''' </summary>
+    ''' <param name="nameUser">The name user.</param>
+    ''' <returns></returns>
+    ''' <remarks></remarks>
+    Public Function FindUserByName(nameUser As String) As List(Of User) Implements IUserRepository.FindUserByName
+        'If Not _context Is Nothing Then
+        '    Dim usuarios = From e In _context.SeguridadUsuario
+        '                          Where e.i = nombre.Trim And e.EstadoEliminado = False
+        '                          Select e
+        '    Return usuarios.ToList
+        'Else
+        '    Throw New ArgumentNullException("Context")
+        'End If
+        Return Nothing
+    End Function
+
+    ''' <summary>
+    ''' Gets the person by key.	
+    ''' </summary>
+    ''' <param name="identification">The identification.</param>
+    ''' <returns></returns>
+    ''' <remarks></remarks>
+    Public Function GetPersonByKey(identification As String) As Person Implements IUserRepository.GetPerson
+        Dim person = From e In _context.Person.Include("Address").Include("Email").Include("Phone").Include("FilePerson")
+                     Where (e.Identification = identification)
+                     Select e
+
+        If person.Count > 0 Then
+            Return person.Single
+        Else
+            Return New Person
+        End If
+    End Function
+
+    ''' <summary>
+    ''' Gets the user by code.	
+    ''' </summary>
+    ''' <param name="codeUser">The code user.</param>
+    ''' <returns></returns>
+    ''' <remarks></remarks>
+    Public Function GetUserByCode(codeUser As String) As User Implements IUserRepository.GetUser
+        If codeUser = System.String.Empty Then
+            Throw New ArgumentNullException("codeUser")
+        End If
+        'Dim usuario = (From e In _context.User.Include("Person").Include("PermissionUser").Include("GroupUser").Include("GroupUser.UsersGroupUser").Include("Roll") _
+        '              .Include("Roll.PermissionRoll").Include("Person.Address").Include("Person.Phone").Include("Person.Email").Include("Person.FilePerson").Include("PermissionCompany").Include("UserOperatingUnit")
+        '               Where (e.UserCode = codeUser)
+        '               Select e).FirstOrDefault()
+
+        Dim usuario = (From e In _context.User.Include("Tenant")'.Include("Person")
+                       Where (e.UserCode = codeUser)
+                       Select e).FirstOrDefault()
+
+        If usuario IsNot Nothing AndAlso usuario.Id > 0 Then
+
+            'Dim permissionUser = (From p In _context.PermissionUser Where p.IdUser = usuario.Id Select p).ToList()
+            'permissionUser.ForEach(Sub(p)
+            '                           usuario.PermissionUser.Add(p)
+            '                       End Sub)
+            'Dim address = (From a In _context.Address Where a.IdPerson = usuario.Person.Id Select a).ToList()
+            'address.ForEach(Sub(a)
+            '                    usuario.Person.Address.Add(a)
+            '                End Sub)
+            'Dim phones = (From a In _context.Phone Where a.IdPerson = usuario.Person.Id Select a).ToList()
+            'phones.ForEach(Sub(p)
+            '                   usuario.Person.Phone.Add(p)
+            '               End Sub)
+            'Dim mails = (From a In _context.Email Where a.IdPerson = usuario.Person.Id Select a).ToList()
+            'mails.ForEach(Sub(m)
+            '                  usuario.Person.Email.Add(m)
+            '              End Sub)
+            'Dim filepersons = (From a In _context.FilePerson Where a.IdPerson = usuario.Person.Id Select a).ToList()
+            'filepersons.ForEach(Sub(f)
+            '                        usuario.Person.FilePerson.Add(f)
+            '                    End Sub)
+            usuario.Person = (From p In _context.Person Where p.Id = usuario.IdPerson Select p).FirstOrDefault
+            Dim permissionsCompany = (From p In _context.PermissionCompany Where p.IdUser = usuario.Id Select p).ToList()
+            permissionsCompany.ForEach(Sub(p)
+                                           usuario.PermissionCompany.Add(p)
+                                       End Sub)
+            Dim userOperatingUnit = (From u In _context.UserOperatingUnit Where u.IdUser = usuario.Id Select u).ToList()
+            userOperatingUnit.ForEach(Sub(u)
+                                          usuario.UserOperatingUnit.Add(u)
+                                      End Sub)
+
+            Return usuario
+        Else
+            Return New User()
+        End If
+    End Function
+
+    ''' <summary>
+    ''' Gets the user by code.	
+    ''' </summary>
+    ''' <param name="codeUser">The code user.</param>
+    ''' <param name="containerId">id de container.</param>
+    ''' <returns></returns>
+    ''' <remarks></remarks>
+    Public Function GetUserByCode(codeUser As String, containerId As Integer) As User Implements IUserRepository.GetUser
+        If codeUser = System.String.Empty Then
+            Throw New ArgumentNullException("codeUser")
+        End If
+        If containerId = 0 Then
+            Throw New ArgumentNullException("containerId")
+        End If
+        Dim usuario As User
+        Dim usuarios = (From e In _context.User.Include("Tenant")
+                        Where (e.UserCode = codeUser)
+                        Select e)
+
+        If usuarios.Count > 0 Then
+
+            Dim permissionsCompany = (From p In _context.PermissionCompany Where p.IdContainer = containerId Select p)
+            If permissionsCompany.Count > 0 Then
+                usuario = (From u In usuarios
+                           Join pc In permissionsCompany
+                                 On u.Id Equals pc.IdUser
+                           Select u).FirstOrDefault
+            Else
+                usuario = usuarios.FirstOrDefault
+            End If
+            If usuario IsNot Nothing Then
+                permissionsCompany = (From p In _context.PermissionCompany Where p.IdUser = usuario.Id Select p)
+                permissionsCompany.ToList().ForEach(Sub(p)
+                                                        usuario.PermissionCompany.Add(p)
+                                                    End Sub)
+                Dim userOperatingUnit = (From u In _context.UserOperatingUnit Where u.IdUser = usuario.Id Select u).ToList()
+                userOperatingUnit.ForEach(Sub(u)
+                                              usuario.UserOperatingUnit.Add(u)
+                                          End Sub)
+                usuario.Person = (From p In _context.Person Where p.Id = usuario.IdPerson Select p).FirstOrDefault
+                Return usuario
+            Else
+                Return New User
+            End If
+
+        Else
+            Return New User()
+        End If
+    End Function
+
+    ''' <summary>
+    ''' Consulta usuario por codigo y id de tenant
+    ''' </summary>
+    ''' <param name="codeUser">codigo de usuario.</param>
+    ''' <param name="tenantId">id de tenant.</param>
+    ''' <returns></returns>
+    ''' <remarks></remarks>
+    Public Function GetUserByCodeTenantId(codeUser As String, tenantId As Short) As User Implements IUserRepository.GetUserByCodeTenantId
+        If codeUser = System.String.Empty Then
+            Throw New ArgumentNullException("codeUser")
+        End If
+        'If tenantId = 0 Then
+        '    Throw New ArgumentNullException("tenantId")
+        'End If
+        Dim usuario As User
+        If tenantId = 0 Then
+            usuario = (From e In _context.User.Include("Tenant")
+                       Where e.UserCode = codeUser AndAlso e.TenantId Is Nothing
+                       Select e).FirstOrDefault
+        Else
+            usuario = (From e In _context.User.Include("Tenant")
+                       Where e.UserCode = codeUser AndAlso e.TenantId = tenantId
+                       Select e).FirstOrDefault
+        End If
+
+
+        If usuario IsNot Nothing Then
+            Dim permissionsCompany = (From p In _context.PermissionCompany Where p.IdUser = usuario.Id Select p)
+            permissionsCompany.ToList().ForEach(Sub(p)
+                                                    usuario.PermissionCompany.Add(p)
+                                                End Sub)
+            Dim userOperatingUnit = (From u In _context.UserOperatingUnit Where u.IdUser = usuario.Id Select u).ToList()
+            userOperatingUnit.ForEach(Sub(u)
+                                          usuario.UserOperatingUnit.Add(u)
+                                      End Sub)
+            usuario.Person = (From p In _context.Person Where p.Id = usuario.IdPerson Select p).FirstOrDefault
+            Return usuario
+        Else
+            Return New User
+        End If
+    End Function
+
+    Public Function GetPhoneByPersonId(personId As Integer) As List(Of Phone) Implements IUserRepository.GetPhoneByPersonId
+        Return (From p In _context.Phone Where p.IdPerson = personId Select p).ToList()
+    End Function
+
+    Public Function GetMailsByPersonId(personId As Integer) As List(Of Email) Implements IUserRepository.GetMailsByPersonId
+        Return (From e In _context.Email Where e.IdPerson = personId Select e).ToList()
+    End Function
+
+    Public Function GetUserByEmail(email As String) As User Implements IUserRepository.GetUserByEmail
+        Dim persons = (From e In _context.Email Where e.Email1 = email Select e)
+        If persons.Count > 0 Then
+            Return (From e In _context.User Where e.IdPerson = persons.FirstOrDefault().IdPerson Select e).FirstOrDefault
+        Else
+            Return Nothing
+        End If
+    End Function
+
+    Public Function GetAddressByPersonId(personId As Integer) As List(Of Address) Implements IUserRepository.GetAddressByPersonId
+        Return (From e In _context.Address Where e.IdPerson = personId Select e).ToList()
+    End Function
+
+    Public Function GetRollById(Id As Integer) As Roll Implements IUserRepository.GetRollById
+        Return (From e In _context.Roll Where e.Id = Id Select e).FirstOrDefault()
+    End Function
+
+    Public Function GetPermissionUserByUserId(userId As Integer) As List(Of PermissionUser) Implements IUserRepository.GetPermissionUserByUserId
+        Return (From e In _context.PermissionUser Where e.IdUser = userId Select e).ToList()
+    End Function
+
+    ''' <summary>
+    ''' Gets the user by code.	
+    ''' </summary>
+    ''' <param name="codeUser">The code user.</param>
+    ''' <returns></returns>
+    ''' <remarks></remarks>
+    Public Function GetUser(codeUser As String) As User Implements IUserRepository.GetUserObjectOnly
+        If codeUser = System.String.Empty Then
+            Throw New ArgumentNullException("codeUser")
+        End If
+        Dim usuario = From e In _context.User
+                      Where (e.UserCode = codeUser)
+                      Select e
+        If usuario.Count > 0 Then
+            Return usuario.Single
+        Else
+            Return New User
+        End If
+    End Function
+
+    Public Function ListUsersByCodes(ByVal listCodes As List(Of String)) As List(Of User) Implements IUserRepository.ListUsersByCodes
+        If listCodes Is Nothing Then
+            Throw New ArgumentNullException("listCodes")
+        End If
+        Dim res = (From e In _context.User.Include("Person") Where (listCodes.Contains(e.UserCode)) Select e).ToList
+        If res IsNot Nothing AndAlso res.Count > 0 Then
+            Return res
+        End If
+        Return New List(Of User)()
+    End Function
+
+    Public Function ListUsersByIds(listIds As List(Of Integer)) As List(Of User) Implements IUserRepository.ListUsersByIds
+        If listIds Is Nothing Then
+            Throw New ArgumentNullException("listIds")
+        End If
+        Dim res = (From e In _context.User.Include("Person") Where (listIds.Contains(e.Id)) Select e).ToList
+        If res IsNot Nothing AndAlso res.Count > 0 Then
+            Return res
+        End If
+        Return New List(Of User)()
+    End Function
+
+    ''' <summary>
+    ''' Obtiene el usuario a traves del codigo
+    ''' </summary>
+    ''' <param name="codeUser"></param>
+    ''' <returns></returns>
+    ''' <remarks></remarks>
+    Public Function GetUserPersonFileByCode(codeUser As String) As User Implements IUserRepository.GetUserPersonFileByCode
+        If codeUser = System.String.Empty Then
+            Throw New ArgumentNullException("codeUser")
+        End If
+        Dim usuario = From e In _context.User.Include("Person").Include("Person.FilePerson").Include("Person.Email")
+                      Where (e.UserCode = codeUser)
+                      Select e
+        If usuario.Count > 0 Then
+            Return usuario.Single
+        Else
+            Return Nothing
+        End If
+    End Function
+
+    ''' <summary>
+    ''' Obtengo los datos del usuario y persona
+    ''' </summary>
+    ''' <param name="codeUser"></param>
+    ''' <returns></returns>
+    ''' <remarks></remarks>
+    Public Function GetUserPersonFile(codeUser As String, password As String) As User Implements IUserRepository.GetUserPersonFile
+        If codeUser = System.String.Empty Then
+            Throw New ArgumentNullException("codeUser")
+        End If
+        Dim passwordEncript = IndigoRijndael.Encrypt(password)
+        Dim usuario = From e In _context.User.Include("Person").Include("Person.FilePerson").Include("Person.Email")
+                      Where (e.UserCode = codeUser And e.Password = passwordEncript)
+                      Select e
+        If usuario.Count > 0 Then
+            Return usuario.Single
+        Else
+            Return Nothing
+        End If
+    End Function
+
+    ''' <summary>
+    ''' Gets the user by key.	
+    ''' </summary>
+    ''' <param name="identification">The identification.</param>
+    ''' <returns></returns>
+    ''' <remarks></remarks>
+    Public Function GetUserByKey(identification As Integer) As User Implements IUserRepository.GetUser
+        Dim result = From e In _context.User
+                     Where e.UserCode = identification
+                     Select e
+
+        If result.Count > 0 Then
+            Return result.Single
+        Else
+            Return New User
+        End If
+    End Function
+
+    ''' <summary>
+    ''' Lists the permissions user.	
+    ''' </summary>
+    ''' <param name="codeUser">The code user.</param>
+    ''' <returns></returns>
+    ''' <remarks></remarks>
+    Public Function ListPermissionsUser(codeUser As String) As List(Of PermissionUser) Implements IUserRepository.ListPermissionsUser
+        Dim permissionsUser = (From p In _context.PermissionUser
+                               Join u In _context.User On u.Id Equals p.IdUser
+                               Where u.UserCode = codeUser
+                               Select p).ToList()
+        'Dim permissionsUser = (From e In _context.PermissionUser.Include("User").AsNoTracking()
+        '                       Where e.User.UserCode = codeUser
+        '                       Select e).ToList()
+        Return If(permissionsUser IsNot Nothing, permissionsUser, New List(Of PermissionUser)())
+    End Function
+
+
+    ''' <summary>
+    ''' Lists the permissions user.	
+    ''' </summary>
+    ''' <param name="codeUser">The code user.</param>
+    ''' <param name="companyCode">The company code.</param>
+    ''' <param name="authorized">Authorized.</param>
+    ''' <returns>List of user permissions</returns>
+    Public Function ListPermissionsUserAuthorized(codeUser As String, authorized As Boolean) As List(Of PermissionUser) Implements IUserRepository.ListPermissionsUserAuthorized
+        Dim permissionsUser = (From e In _context.PermissionUser.Include("User")
+                               Where e.User.UserCode = codeUser And e.ActionValue = authorized
+                               Select e).ToList()
+        Return If(permissionsUser IsNot Nothing, permissionsUser, New List(Of PermissionUser)())
+
+    End Function
+
+    ''' <summary>
+    ''' Lists the permissions user.	
+    ''' </summary>
+    ''' <param name="codeUser">The code user.</param>
+    ''' <param name="codeMenu">The code menu.</param>
+    ''' <returns></returns>
+    ''' <remarks></remarks>
+    Public Function ListPermissionsUser(codeUser As String, codeMenu As String) As List(Of PermissionUser) Implements IUserRepository.ListPermissionsUser
+        Dim permissionsUser = (From e In _context.PermissionUser.Include("User")
+                               Where e.User.UserCode = codeUser And e.IdForm = codeMenu
+                               Select e).ToList()
+        Return If(permissionsUser IsNot Nothing, permissionsUser, New List(Of PermissionUser)())
+    End Function
+
+    ''' <summary>
+    ''' Lists the permissions user.	
+    ''' </summary>
+    ''' <param name="codeUser">The code user.</param>
+    ''' <param name="codeMenu">The code menu.</param>
+    ''' <param name="authorized">The authorized.</param>
+    ''' <returns></returns>
+    ''' <remarks></remarks>
+    Public Function ListPermissionsUser(codeUser As String, codeMenu As String, authorized As Boolean) As List(Of PermissionUser) Implements IUserRepository.ListPermissionsUser
+        Dim permissionsUser = (From e In _context.PermissionUser.Include("User")
+                               Where e.User.UserCode = codeUser And e.IdForm = codeMenu And e.ActionValue = authorized
+                               Select e).ToList()
+        Return If(permissionsUser IsNot Nothing, permissionsUser, New List(Of PermissionUser)())
+    End Function
+
+    ''' <summary>
+    ''' Locks the user.	
+    ''' </summary>
+    ''' <param name="codeUser">The code user.</param>
+    ''' <returns></returns>
+    ''' <remarks></remarks>
+    Public Function LockUser(codeUser As String) As Boolean Implements IUserRepository.LockUser
+        Dim usuario As User
+        If codeUser = System.String.Empty Then
+            Throw New ArgumentNullException("codeUser")
+        End If
+
+        If Not _context Is Nothing Then
+            usuario = (From e In _context.User
+                       Where (e.UserCode = codeUser.Trim)
+                       Select e).Single
+            usuario.State = False
+            'todo: AGREGAR PROPIEDAD
+
+            UpdateEntity(usuario)
+        End If
+
+        Return True
+    End Function
+
+    ''' <summary>
+    ''' Saves the location login.	
+    ''' </summary>
+    ''' <param name="codeUser">The code user.</param>
+    ''' <param name="role">The role.</param>
+    ''' <param name="CareCenter">The health care.</param>
+    ''' <param name="unitFunctional">The unit functional.</param>
+    ''' <returns></returns>
+    ''' <remarks></remarks>
+    Public Function SaveLocationLogin(codeUser As String, role As Integer, CareCenter As String, unitFunctional As String) As Boolean Implements IUserRepository.SaveLoginLocation
+        Dim user = (From e In _context.User
+                    Where e.UserCode = codeUser.Trim
+                    Select e).Single
+        UpdateEntity(user)
+        Return True
+    End Function
+
+    ''' <summary>
+    ''' metodo que develve los valores originales de la entidad {T}
+    ''' </summary>
+    ''' <typeparam name="TEntity">el tipo de la entidad.</typeparam>
+    ''' <param name="entity">el objeto de la entidad.</param>
+    ''' <returns></returns>
+    Public Function GetSourceValues(Of TEntity)(ByVal entity As TEntity) As TEntity
+        Return IndigoContext.GetSourceValues(entity, CType(_context, DbContext))
+    End Function
+
+
+    Public Function ListPermissionsUserForm(CodeUser As String, CodeMenu As String, CodeOpcion As String) As Boolean Implements IUserRepository.ListPermissionsUserForm
+        Dim permission = (From e In _context.PermissionUser Join
+                          i In _context.User On e.IdUser Equals i.Id
+                          Where i.UserCode = CodeUser And e.IdForm = CodeMenu.Trim And e.Action = CodeOpcion And e.ActionValue = True
+                          Select e).ToList()
+
+        If permission IsNot Nothing AndAlso permission.Count > 0 Then
+            Return True
+        Else
+            Return False
+        End If
+    End Function
+
+    ''' <summary>
+    ''' Gets the user by Id	
+    ''' </summary>
+    ''' <param name="Id">Id.</param>
+    ''' <returns></returns>
+    ''' <remarks></remarks>
+    Public Function GetUserById(Id As String) As User Implements IUserRepository.GetUserById
+        Dim result = From e In _context.User.Include("Person")
+                     Where e.Id = CInt(Id)
+                     Select e
+
+        If result.Count > 0 Then
+            Return result.Single
+        Else
+            Return New User
+        End If
+    End Function
+
+    ''' <summary>
+    ''' Obtiene el usuario por codigo
+    ''' </summary>
+    ''' <param name="code"></param>
+    ''' <returns></returns>
+    Public Function GetUserByCodeSimple(code As String) As User Implements IUserRepository.GetUserByCodeSimple
+        Return (From e In _context.User.Include("Person")
+                Where e.UserCode = code
+                Select e).FirstOrDefault()
+    End Function
+
+    ''' <summary>
+    ''' Lista todos los usuarios
+    ''' </summary>
+    ''' <returns></returns>
+    ''' <remarks></remarks>
+    Public Function ListAllUser() As List(Of User) Implements IUserRepository.ListAllUser
+        Dim user = From e In _context.User.Include("Person")
+                   Select e
+        Return user.ToList()
+    End Function
+
+    Public Function ListPermissionsOperatingUnit(codeUser As String, idCompany As Integer) As List(Of UserOperatingUnit) Implements IUserRepository.ListPermissionsOperatingUnit
+        Dim queryUserOperating = From e In _context.UserOperatingUnit.Include("User").Include("Containers")
+                                 Where e.IdContainer = idCompany And e.User.UserCode = codeUser
+        Return queryUserOperating.ToList()
+    End Function
+
+    ''' <summary>
+    ''' Valida que el usuario y la contraseña existan
+    ''' </summary>
+    ''' <param name="codeUser">se envia id del usuario</param>
+    ''' <param name="password"></param>
+    ''' <returns></returns>
+    ''' <remarks></remarks>
+    Public Function ValidateUser(codeUser As String, password As String) As Boolean Implements IUserRepository.ValidateUser
+        'Dim query = From e In _context.User Where e.UserCode = codeUser And e.Password = password Select e
+        Dim query = From e In _context.User Where e.Id = CInt(codeUser) And e.Password = password Select e
+        If query.Count > 0 Then
+            Return True
+        Else
+            Return False
+        End If
+    End Function
+
+    ''' <summary>
+    ''' Lista todos los ids de los formularios con permiso de solicitado,
+    ''' asignados al usuario y al rol que tiene el usuario
+    ''' </summary>
+    ''' <param name="codeUser">Código del usuario</param>
+    ''' <returns>Lista de ids de formularios</returns>
+    Public Function ListPermissionFormsUser(codeUser As String, action As String) As List(Of String) Implements IUserRepository.ListPermissionFormsUser
+        Dim list As New List(Of String)()
+        Dim idRol = (From e In _context.User Where e.UserCode = codeUser Select e).FirstOrDefault()
+        If idRol IsNot Nothing Then
+            Dim pRol = (From t In _context.PermissionRoll.Include("Roll") Where t.IdRoll = idRol.RollCode And t.Action = action And t.ActionValue = True Select t.IdForm).ToList()
+            'If pRol IsNot Nothing AndAlso pRol.Count > 0 Then
+            '    For Each r In pRol
+            '        list.Add(r.IdForm)
+            '    Next
+            'End If
+            Dim pUser = (From r In _context.PermissionUser.Include("User") Where r.IdUser = idRol.Id And r.Action = action And r.ActionValue = True Select r.IdForm).ToList()
+            'If pUser IsNot Nothing AndAlso pUser.Count > 0 Then
+            '    For Each p In pUser
+            '        If Not list.Contains(p.IdForm) Then
+            '            list.Add(p.IdForm)
+            '        End If
+            '    Next
+            'End If
+            list = pRol.Union(pUser).Distinct().ToList()
+        End If
+        Return list
+    End Function
+
+    ''' <summary>
+    ''' Actualiza los campos de bloqueo y de intentos fallidos de un usuario especifico
+    ''' </summary>
+    ''' <param name="userId"></param>
+    ''' <param name="lockUser"></param>
+    ''' <param name="failedAccount"></param>
+    ''' <returns></returns>
+    ''' <remarks></remarks>
+    Public Function UpdateUserLockFailedCount(userId As Integer, lockUser As Boolean, failedAccount As Integer) As Boolean Implements IUserRepository.UpdateUserLockFailedCount
+        Dim conx As New ConectionSQL(ConfigurationManager.AppSettings(Infrastructure.CrossCutting.Base.ConfigurationFile.SECURITY_CONTAINER_PARAMETER_NAME))
+        conx.ExecuteCommand("update Security.[User] set FailedPasswordCount = " & failedAccount.ToString & ", IsLockedOut = " & lockUser.ToString & " where Id = " & userId.ToString)
+        Return True
+    End Function
+
+    ''' <summary>
+    ''' Lista los tipos de telefono
+    ''' </summary>
+    ''' <returns></returns>
+    Public Function ListAllPhoneType() As List(Of PhoneType) Implements IUserRepository.ListAllPhoneType
+        Dim phoneType = From e In _context.PhoneType
+                        Select e
+        Return phoneType.ToList()
+    End Function
+
+End Class

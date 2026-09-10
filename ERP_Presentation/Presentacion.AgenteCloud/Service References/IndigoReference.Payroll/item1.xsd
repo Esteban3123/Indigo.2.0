@@ -1,0 +1,2487 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:ser="http://schemas.microsoft.com/2003/10/Serialization/" xmlns:tns="http://schemas.datacontract.org/2004/07/Domain.Payroll.Entities" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/Domain.Payroll.Entities" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import schemaLocation="http://localhost:9000/Payroll.svc/ServiceEntity/?xsd=xsd4" namespace="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" />
+  <xs:import schemaLocation="http://localhost:9000/Payroll.svc/ServiceEntity/?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+  <xs:complexType name="ArrayOfEducationLevel">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="EducationLevel" nillable="true" type="tns:EducationLevel" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfEducationLevel" nillable="true" type="tns:ArrayOfEducationLevel" />
+  <xs:complexType name="EducationLevel">
+    <xs:sequence>
+      <xs:element xmlns:q1="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="ChangeTracker" nillable="true" type="q1:ObjectChangeTracker" />
+      <xs:element minOccurs="0" name="Code" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="EducationLevelAux" nillable="true" type="tns:EducationLevel" />
+      <xs:element minOccurs="0" name="Id" type="xs:unsignedByte" />
+      <xs:element minOccurs="0" name="Name" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="State" type="xs:boolean" />
+    </xs:sequence>
+    <xs:attribute ref="ser:Id" />
+    <xs:attribute ref="ser:Ref" />
+  </xs:complexType>
+  <xs:element name="EducationLevel" nillable="true" type="tns:EducationLevel" />
+  <xs:complexType name="ArrayOfFund">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="Fund" nillable="true" type="tns:Fund" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfFund" nillable="true" type="tns:ArrayOfFund" />
+  <xs:complexType name="Fund">
+    <xs:sequence>
+      <xs:element xmlns:q2="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="ChangeTracker" nillable="true" type="q2:ObjectChangeTracker" />
+      <xs:element minOccurs="0" name="Code" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="CompensationFund" type="xs:boolean" />
+      <xs:element minOccurs="0" name="FundAux" nillable="true" type="tns:Fund" />
+      <xs:element minOccurs="0" name="FundContract" nillable="true" type="tns:ArrayOfFundContract" />
+      <xs:element minOccurs="0" name="Health" type="xs:boolean" />
+      <xs:element minOccurs="0" name="Id" type="xs:int" />
+      <xs:element minOccurs="0" name="MinistryCode" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Name" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Pension" type="xs:boolean" />
+      <xs:element minOccurs="0" name="Risk" type="xs:boolean" />
+      <xs:element minOccurs="0" name="State" type="xs:boolean" />
+      <xs:element minOccurs="0" name="ThirdParty" nillable="true" type="tns:ThirdParty" />
+      <xs:element minOccurs="0" name="ThirdPartyId" type="xs:int" />
+      <xs:element minOccurs="0" name="Type" type="xs:unsignedByte" />
+      <xs:element minOccurs="0" name="Unemployment" type="xs:boolean" />
+    </xs:sequence>
+    <xs:attribute ref="ser:Id" />
+    <xs:attribute ref="ser:Ref" />
+  </xs:complexType>
+  <xs:element name="Fund" nillable="true" type="tns:Fund" />
+  <xs:complexType name="ArrayOfFundContract">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="FundContract" nillable="true" type="tns:FundContract" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfFundContract" nillable="true" type="tns:ArrayOfFundContract" />
+  <xs:complexType name="FundContract">
+    <xs:sequence>
+      <xs:element xmlns:q3="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="ChangeTracker" nillable="true" type="q3:ObjectChangeTracker" />
+      <xs:element minOccurs="0" name="Contract" nillable="true" type="tns:Contract" />
+      <xs:element minOccurs="0" name="ContractId" type="xs:int" />
+      <xs:element minOccurs="0" name="EndingDate" nillable="true" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="Fund" nillable="true" type="tns:Fund" />
+      <xs:element minOccurs="0" name="FundContractAux" nillable="true" type="tns:FundContract" />
+      <xs:element minOccurs="0" name="FundId" type="xs:int" />
+      <xs:element minOccurs="0" name="FundType" type="xs:unsignedByte" />
+      <xs:element minOccurs="0" name="Id" type="xs:int" />
+      <xs:element minOccurs="0" name="InitialDate" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="MembershipNumber" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="State" type="xs:boolean" />
+      <xs:element minOccurs="0" name="UnemployedLiquidation" nillable="true" type="tns:ArrayOfUnemployedLiquidation" />
+      <xs:element minOccurs="0" name="VoluntaryContribution" type="xs:boolean" />
+      <xs:element minOccurs="0" name="VoluntaryContributionValue" nillable="true" type="xs:decimal" />
+    </xs:sequence>
+    <xs:attribute ref="ser:Id" />
+    <xs:attribute ref="ser:Ref" />
+  </xs:complexType>
+  <xs:element name="FundContract" nillable="true" type="tns:FundContract" />
+  <xs:complexType name="Contract">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Autoliquidation" nillable="true" type="tns:ArrayOfAutoliquidation" />
+      <xs:element minOccurs="0" name="Bank" nillable="true" type="tns:Bank" />
+      <xs:element minOccurs="0" name="BankAccountNumber" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="BankAccountType" type="xs:int" />
+      <xs:element minOccurs="0" name="BankId" type="xs:unsignedByte" />
+      <xs:element minOccurs="0" name="BaseIncome" nillable="true" type="xs:decimal" />
+      <xs:element minOccurs="0" name="BasicSalary" type="xs:decimal" />
+      <xs:element xmlns:q4="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="ChangeTracker" nillable="true" type="q4:ObjectChangeTracker" />
+      <xs:element minOccurs="0" name="ContractAux" nillable="true" type="tns:Contract" />
+      <xs:element minOccurs="0" name="ContractCreationDate" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="ContractEndingDate" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="ContractInitialDate" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="ContractLiquidation" nillable="true" type="tns:ArrayOfContractLiquidation" />
+      <xs:element minOccurs="0" name="ContractModificationReason" nillable="true" type="tns:ContractModificationReason" />
+      <xs:element minOccurs="0" name="ContractModificationReasonId" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="ContractType" nillable="true" type="tns:ContractType" />
+      <xs:element minOccurs="0" name="ContractTypeId" type="xs:int" />
+      <xs:element minOccurs="0" name="CostDistributions" nillable="true" type="tns:ArrayOfCostDistributions" />
+      <xs:element minOccurs="0" name="CreationUserId" type="xs:int" />
+      <xs:element minOccurs="0" name="Employee" nillable="true" type="tns:Employee" />
+      <xs:element minOccurs="0" name="EmployeeId" type="xs:int" />
+      <xs:element minOccurs="0" name="FunctionalUnit" nillable="true" type="tns:FunctionalUnit" />
+      <xs:element minOccurs="0" name="FunctionalUnitId" type="xs:int" />
+      <xs:element minOccurs="0" name="FundContract" nillable="true" type="tns:ArrayOfFundContract" />
+      <xs:element minOccurs="0" name="Group" nillable="true" type="tns:Group" />
+      <xs:element minOccurs="0" name="GroupId" type="xs:int" />
+      <xs:element minOccurs="0" name="HoursDaily" type="xs:unsignedByte" />
+      <xs:element minOccurs="0" name="Id" type="xs:int" />
+      <xs:element minOccurs="0" name="IncentivePayment" nillable="true" type="tns:ArrayOfIncentivePayment" />
+      <xs:element minOccurs="0" name="IncomeDailyBase" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="InitialContractNumber" type="xs:int" />
+      <xs:element minOccurs="0" name="JobBondingDate" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="LastLiquidationDate" nillable="true" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="LastModificationDate" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="Liquidation" nillable="true" type="tns:ArrayOfLiquidation" />
+      <xs:element minOccurs="0" name="LiquidationPayroll" type="xs:unsignedByte" />
+      <xs:element minOccurs="0" name="ModificationDate" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="ModificationUserId" type="xs:int" />
+      <xs:element minOccurs="0" name="Notes" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="PaymentPeriod" type="xs:unsignedByte" />
+      <xs:element minOccurs="0" name="PaymentType" type="xs:unsignedByte" />
+      <xs:element minOccurs="0" name="Position" nillable="true" type="tns:Position" />
+      <xs:element minOccurs="0" name="PositionId" type="xs:int" />
+      <xs:element minOccurs="0" name="RetirementDate" nillable="true" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="RetirementReason" nillable="true" type="tns:RetirementReason" />
+      <xs:element minOccurs="0" name="RetirementReasonId" nillable="true" type="xs:unsignedByte" />
+      <xs:element minOccurs="0" name="RowType" type="xs:unsignedByte" />
+      <xs:element minOccurs="0" name="ScheduleDetail" nillable="true" type="tns:ArrayOfScheduleDetail" />
+      <xs:element minOccurs="0" name="Status" type="xs:unsignedByte" />
+      <xs:element minOccurs="0" name="TrialPeriod" type="xs:boolean" />
+      <xs:element minOccurs="0" name="TrialPeriodSalaryPercentage" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="TrialPeriodTime" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="TypeOfPensionContribution" type="xs:unsignedByte" />
+      <xs:element minOccurs="0" name="UnemployedLiquidation" nillable="true" type="tns:ArrayOfUnemployedLiquidation" />
+      <xs:element minOccurs="0" name="VacationPeriod" nillable="true" type="tns:ArrayOfVacationPeriod" />
+      <xs:element minOccurs="0" name="Valid" type="xs:boolean" />
+    </xs:sequence>
+    <xs:attribute ref="ser:Id" />
+    <xs:attribute ref="ser:Ref" />
+  </xs:complexType>
+  <xs:element name="Contract" nillable="true" type="tns:Contract" />
+  <xs:complexType name="ArrayOfAutoliquidation">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="Autoliquidation" nillable="true" type="tns:Autoliquidation" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfAutoliquidation" nillable="true" type="tns:ArrayOfAutoliquidation" />
+  <xs:complexType name="Autoliquidation">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="AutoliquidationAux" nillable="true" type="tns:Autoliquidation" />
+      <xs:element minOccurs="0" name="AutoliquidationDate" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="BasicSalary" nillable="true" type="xs:decimal" />
+      <xs:element xmlns:q5="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="ChangeTracker" nillable="true" type="q5:ObjectChangeTracker" />
+      <xs:element minOccurs="0" name="CompensationFundContributionValue" nillable="true" type="xs:decimal" />
+      <xs:element minOccurs="0" name="CompensationFundEnrollmentDays" nillable="true" type="xs:short" />
+      <xs:element minOccurs="0" name="CompensationFundIBC" nillable="true" type="xs:decimal" />
+      <xs:element minOccurs="0" name="CompensationFundId" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="Contract" nillable="true" type="tns:Contract" />
+      <xs:element minOccurs="0" name="ContractId" type="xs:int" />
+      <xs:element minOccurs="0" name="DisabilitiesValue" nillable="true" type="xs:decimal" />
+      <xs:element minOccurs="0" name="EmployeeHealthContributionValue" nillable="true" type="xs:decimal" />
+      <xs:element minOccurs="0" name="EmployeePensionContributionValue" nillable="true" type="xs:decimal" />
+      <xs:element minOccurs="0" name="EmployerHealthContributionValue" nillable="true" type="xs:decimal" />
+      <xs:element minOccurs="0" name="EmployerPensionContributionValue" nillable="true" type="xs:decimal" />
+      <xs:element minOccurs="0" name="Group" nillable="true" type="tns:Group" />
+      <xs:element minOccurs="0" name="GroupId" type="xs:int" />
+      <xs:element minOccurs="0" name="HealthContributionValue" nillable="true" type="xs:decimal" />
+      <xs:element minOccurs="0" name="HealthEnrollmentDays" nillable="true" type="xs:short" />
+      <xs:element minOccurs="0" name="HealthFundId" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="HealthIBC" nillable="true" type="xs:decimal" />
+      <xs:element minOccurs="0" name="ICBFContributionValue" nillable="true" type="xs:decimal" />
+      <xs:element minOccurs="0" name="ICBFIBC" nillable="true" type="xs:decimal" />
+      <xs:element minOccurs="0" name="Id" type="xs:int" />
+      <xs:element minOccurs="0" name="IncentivePaymentValue" nillable="true" type="xs:decimal" />
+      <xs:element minOccurs="0" name="PensionContributionValue" nillable="true" type="xs:decimal" />
+      <xs:element minOccurs="0" name="PensionEnrollmentDays" nillable="true" type="xs:short" />
+      <xs:element minOccurs="0" name="PensionFundId" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="PensionIBC" nillable="true" type="xs:decimal" />
+      <xs:element minOccurs="0" name="PensionSolidarityFundContributionValue" nillable="true" type="xs:decimal" />
+      <xs:element minOccurs="0" name="PeriodIBC" nillable="true" type="xs:decimal" />
+      <xs:element minOccurs="0" name="ProfessionalRiskContributionValue" nillable="true" type="xs:decimal" />
+      <xs:element minOccurs="0" name="ProfessionalRiskEnrollmentDays" nillable="true" type="xs:short" />
+      <xs:element minOccurs="0" name="ProfessionalRiskFundId" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="ProfessionalRiskIBC" nillable="true" type="xs:decimal" />
+      <xs:element minOccurs="0" name="SenaContributionValue" nillable="true" type="xs:decimal" />
+      <xs:element minOccurs="0" name="SenaIBC" nillable="true" type="xs:decimal" />
+      <xs:element minOccurs="0" name="State" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="UPCAditionalValue" nillable="true" type="xs:decimal" />
+      <xs:element minOccurs="0" name="UnemploymentIBC" nillable="true" type="xs:decimal" />
+      <xs:element minOccurs="0" name="UnemploymentValue" nillable="true" type="xs:decimal" />
+      <xs:element minOccurs="0" name="VacationValue" nillable="true" type="xs:decimal" />
+      <xs:element minOccurs="0" name="VoluntaryHealthContributionValue" nillable="true" type="xs:decimal" />
+      <xs:element minOccurs="0" name="VoluntaryPensionContributionValue" nillable="true" type="xs:decimal" />
+      <xs:element minOccurs="0" name="WorkCenterId" nillable="true" type="xs:int" />
+    </xs:sequence>
+    <xs:attribute ref="ser:Id" />
+    <xs:attribute ref="ser:Ref" />
+  </xs:complexType>
+  <xs:element name="Autoliquidation" nillable="true" type="tns:Autoliquidation" />
+  <xs:complexType name="Group">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="AgreementsC" nillable="true" type="tns:ArrayOfAgreementsC" />
+      <xs:element minOccurs="0" name="Apply" type="xs:boolean" />
+      <xs:element minOccurs="0" name="AuthorizationConceptGroup" nillable="true" type="tns:ArrayOfAuthorizationConceptGroup" />
+      <xs:element minOccurs="0" name="Autoliquidation" nillable="true" type="tns:ArrayOfAutoliquidation" />
+      <xs:element xmlns:q6="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="ChangeTracker" nillable="true" type="q6:ObjectChangeTracker" />
+      <xs:element minOccurs="0" name="Code" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Company" nillable="true" type="tns:Company" />
+      <xs:element minOccurs="0" name="CompanyId" type="xs:int" />
+      <xs:element minOccurs="0" name="ConceptGroup" nillable="true" type="tns:ArrayOfConceptGroup" />
+      <xs:element minOccurs="0" name="Contract" nillable="true" type="tns:ArrayOfContract" />
+      <xs:element minOccurs="0" name="ContractClass" type="xs:unsignedByte" />
+      <xs:element minOccurs="0" name="CostDistributions" nillable="true" type="tns:ArrayOfCostDistributions" />
+      <xs:element minOccurs="0" name="GroupAux" nillable="true" type="tns:Group" />
+      <xs:element minOccurs="0" name="GroupEventConcept" nillable="true" type="tns:ArrayOfGroupEventConcept" />
+      <xs:element minOccurs="0" name="HandlingProvisions" type="xs:boolean" />
+      <xs:element minOccurs="0" name="HumanTalent" nillable="true" type="tns:ArrayOfHumanTalent" />
+      <xs:element minOccurs="0" name="Id" type="xs:int" />
+      <xs:element minOccurs="0" name="IncentivePayment" nillable="true" type="tns:ArrayOfIncentivePayment" />
+      <xs:element minOccurs="0" name="LastDateLiquidation" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="Liquidation" type="xs:unsignedByte" />
+      <xs:element minOccurs="0" name="Liquidation1" nillable="true" type="tns:ArrayOfLiquidation" />
+      <xs:element minOccurs="0" name="Month" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Name" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="NextDateLiquidation" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="Novelty" nillable="true" type="tns:ArrayOfNovelty" />
+      <xs:element minOccurs="0" name="PayrollParameter" nillable="true" type="tns:PayrollParameter" />
+      <xs:element minOccurs="0" name="PayrollParameterId" type="xs:int" />
+      <xs:element minOccurs="0" name="ScheduleDetail" nillable="true" type="tns:ArrayOfScheduleDetail" />
+      <xs:element minOccurs="0" name="ScheduleTemplate" nillable="true" type="tns:ArrayOfScheduleTemplate" />
+      <xs:element minOccurs="0" name="State" type="xs:boolean" />
+    </xs:sequence>
+    <xs:attribute ref="ser:Id" />
+    <xs:attribute ref="ser:Ref" />
+  </xs:complexType>
+  <xs:element name="Group" nillable="true" type="tns:Group" />
+  <xs:complexType name="ArrayOfAgreementsC">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="AgreementsC" nillable="true" type="tns:AgreementsC" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfAgreementsC" nillable="true" type="tns:ArrayOfAgreementsC" />
+  <xs:complexType name="AgreementsC">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="AgreementValue" type="xs:decimal" />
+      <xs:element minOccurs="0" name="AgreementsCAux" nillable="true" type="tns:AgreementsC" />
+      <xs:element minOccurs="0" name="AgreementsD" nillable="true" type="tns:ArrayOfAgreementsD" />
+      <xs:element xmlns:q7="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="ChangeTracker" nillable="true" type="q7:ObjectChangeTracker" />
+      <xs:element minOccurs="0" name="CommentChangeState" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Comments" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Company" nillable="true" type="tns:Company" />
+      <xs:element minOccurs="0" name="CompanyId" type="xs:int" />
+      <xs:element minOccurs="0" name="Concept" nillable="true" type="tns:Concept" />
+      <xs:element minOccurs="0" name="ConceptId" type="xs:int" />
+      <xs:element minOccurs="0" name="Consecutive" type="xs:int" />
+      <xs:element minOccurs="0" name="CurrentBalance" nillable="true" type="xs:decimal" />
+      <xs:element minOccurs="0" name="Employee" nillable="true" type="tns:Employee" />
+      <xs:element minOccurs="0" name="EmployeeId" type="xs:int" />
+      <xs:element minOccurs="0" name="EndDateSuspend" nillable="true" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="Group" nillable="true" type="tns:Group" />
+      <xs:element minOccurs="0" name="GroupId" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="Id" type="xs:int" />
+      <xs:element minOccurs="0" name="KindsAgreements" nillable="true" type="tns:KindsAgreements" />
+      <xs:element minOccurs="0" name="KindsAgreementsId" type="xs:int" />
+      <xs:element minOccurs="0" name="LiquidationType" type="xs:unsignedByte" />
+      <xs:element minOccurs="0" name="NumberShares" type="xs:int" />
+      <xs:element minOccurs="0" name="StartingDate" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="State" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="TermType" type="xs:unsignedByte" />
+      <xs:element minOccurs="0" name="TimeStamp" nillable="true" type="xs:base64Binary" />
+    </xs:sequence>
+    <xs:attribute ref="ser:Id" />
+    <xs:attribute ref="ser:Ref" />
+  </xs:complexType>
+  <xs:element name="AgreementsC" nillable="true" type="tns:AgreementsC" />
+  <xs:complexType name="ArrayOfAgreementsD">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="AgreementsD" nillable="true" type="tns:AgreementsD" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfAgreementsD" nillable="true" type="tns:ArrayOfAgreementsD" />
+  <xs:complexType name="AgreementsD">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="AgreementsC" nillable="true" type="tns:AgreementsC" />
+      <xs:element minOccurs="0" name="AgreementsCId" type="xs:int" />
+      <xs:element minOccurs="0" name="AgreementsDAux" nillable="true" type="tns:AgreementsD" />
+      <xs:element xmlns:q8="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="ChangeTracker" nillable="true" type="q8:ObjectChangeTracker" />
+      <xs:element minOccurs="0" name="DatePayment" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="Id" type="xs:int" />
+      <xs:element minOccurs="0" name="ShareValuePaid" type="xs:decimal" />
+      <xs:element minOccurs="0" name="StateShare" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="TimeStamp" nillable="true" type="xs:base64Binary" />
+      <xs:element minOccurs="0" name="TypePayment" type="xs:unsignedByte" />
+    </xs:sequence>
+    <xs:attribute ref="ser:Id" />
+    <xs:attribute ref="ser:Ref" />
+  </xs:complexType>
+  <xs:element name="AgreementsD" nillable="true" type="tns:AgreementsD" />
+  <xs:complexType name="Employee">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="AdmissionDate" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="AgreementsC" nillable="true" type="tns:ArrayOfAgreementsC" />
+      <xs:element minOccurs="0" name="Apply" type="xs:boolean" />
+      <xs:element minOccurs="0" name="AuthorizationConceptEmployee" nillable="true" type="tns:ArrayOfAuthorizationConceptEmployee" />
+      <xs:element minOccurs="0" name="AverageYearHealth" nillable="true" type="xs:decimal" />
+      <xs:element xmlns:q9="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="ChangeTracker" nillable="true" type="q9:ObjectChangeTracker" />
+      <xs:element minOccurs="0" name="CodeNameConcatenated" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Contract" nillable="true" type="tns:ArrayOfContract" />
+      <xs:element minOccurs="0" name="ContractLiquidation" nillable="true" type="tns:ArrayOfContractLiquidation" />
+      <xs:element minOccurs="0" name="CostCenter" nillable="true" type="tns:CostCenter" />
+      <xs:element minOccurs="0" name="CostCenterId" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="CostDistributions" nillable="true" type="tns:ArrayOfCostDistributions" />
+      <xs:element minOccurs="0" name="DateModified" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="EducationDeductionValue" nillable="true" type="xs:decimal" />
+      <xs:element minOccurs="0" name="EmployeeAux" nillable="true" type="tns:Employee" />
+      <xs:element minOccurs="0" name="EmployeeFootprint" nillable="true" type="xs:base64Binary" />
+      <xs:element minOccurs="0" name="EmployeeType" nillable="true" type="tns:EmployeeType" />
+      <xs:element minOccurs="0" name="EmployeeTypeId" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="HousingDeductionValue" nillable="true" type="xs:decimal" />
+      <xs:element minOccurs="0" name="Id" type="xs:int" />
+      <xs:element minOccurs="0" name="Liquidation" nillable="true" type="tns:ArrayOfLiquidation" />
+      <xs:element minOccurs="0" name="Novelty" nillable="true" type="tns:ArrayOfNovelty" />
+      <xs:element minOccurs="0" name="NoveltyScheduleDetail" nillable="true" type="tns:ArrayOfNoveltyScheduleDetail" />
+      <xs:element minOccurs="0" name="Pensionary" type="xs:boolean" />
+      <xs:element minOccurs="0" name="PensionaryStatus" nillable="true" type="xs:boolean" />
+      <xs:element minOccurs="0" name="PensionaryTypeId" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="PhotoPath" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="ProfessionalRiskPercentage" nillable="true" type="xs:decimal" />
+      <xs:element minOccurs="0" name="Relationship" nillable="true" type="tns:ArrayOfRelationship" />
+      <xs:element minOccurs="0" name="RetiredForeign" nillable="true" type="xs:boolean" />
+      <xs:element minOccurs="0" name="Schedule" nillable="true" type="tns:ArrayOfSchedule" />
+      <xs:element minOccurs="0" name="ScheduleDetail" nillable="true" type="tns:ArrayOfScheduleDetail" />
+      <xs:element minOccurs="0" name="State" type="xs:boolean" />
+      <xs:element minOccurs="0" name="ThirdParty" nillable="true" type="tns:ThirdParty" />
+      <xs:element minOccurs="0" name="ThirdPartyId" type="xs:int" />
+      <xs:element minOccurs="0" name="TradeUnion" type="xs:unsignedByte" />
+      <xs:element minOccurs="0" name="UnemployedLiquidation" nillable="true" type="tns:ArrayOfUnemployedLiquidation" />
+      <xs:element minOccurs="0" name="UserModified" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="VacationLastDateLiquidation" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="VacationPeriod" nillable="true" type="tns:ArrayOfVacationPeriod" />
+      <xs:element minOccurs="0" name="WorkCenter" nillable="true" type="tns:WorkCenter" />
+      <xs:element minOccurs="0" name="WorkCenterId" nillable="true" type="xs:int" />
+    </xs:sequence>
+    <xs:attribute ref="ser:Id" />
+    <xs:attribute ref="ser:Ref" />
+  </xs:complexType>
+  <xs:element name="Employee" nillable="true" type="tns:Employee" />
+  <xs:complexType name="ArrayOfAuthorizationConceptEmployee">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="AuthorizationConceptEmployee" nillable="true" type="tns:AuthorizationConceptEmployee" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfAuthorizationConceptEmployee" nillable="true" type="tns:ArrayOfAuthorizationConceptEmployee" />
+  <xs:complexType name="AuthorizationConceptEmployee">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="AuthorizationConcept" nillable="true" type="tns:AuthorizationConcept" />
+      <xs:element minOccurs="0" name="AuthorizationConceptEmployeeAux" nillable="true" type="tns:AuthorizationConceptEmployee" />
+      <xs:element minOccurs="0" name="AuthorizationConceptId" type="xs:int" />
+      <xs:element xmlns:q10="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="ChangeTracker" nillable="true" type="q10:ObjectChangeTracker" />
+      <xs:element minOccurs="0" name="Employee" nillable="true" type="tns:Employee" />
+      <xs:element minOccurs="0" name="EmployeeId" type="xs:int" />
+      <xs:element minOccurs="0" name="Id" type="xs:int" />
+      <xs:element minOccurs="0" name="State" type="xs:boolean" />
+    </xs:sequence>
+    <xs:attribute ref="ser:Id" />
+    <xs:attribute ref="ser:Ref" />
+  </xs:complexType>
+  <xs:element name="AuthorizationConceptEmployee" nillable="true" type="tns:AuthorizationConceptEmployee" />
+  <xs:complexType name="AuthorizationConcept">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Apply" type="xs:boolean" />
+      <xs:element minOccurs="0" name="AuthorizationConceptAux" nillable="true" type="tns:AuthorizationConcept" />
+      <xs:element minOccurs="0" name="AuthorizationConceptEmployee" nillable="true" type="tns:ArrayOfAuthorizationConceptEmployee" />
+      <xs:element minOccurs="0" name="AuthorizationConceptGroup" nillable="true" type="tns:ArrayOfAuthorizationConceptGroup" />
+      <xs:element xmlns:q11="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="ChangeTracker" nillable="true" type="q11:ObjectChangeTracker" />
+      <xs:element minOccurs="0" name="Concept" nillable="true" type="tns:Concept" />
+      <xs:element minOccurs="0" name="ConceptId" type="xs:int" />
+      <xs:element minOccurs="0" name="Id" type="xs:int" />
+      <xs:element minOccurs="0" name="State" type="xs:boolean" />
+    </xs:sequence>
+    <xs:attribute ref="ser:Id" />
+    <xs:attribute ref="ser:Ref" />
+  </xs:complexType>
+  <xs:element name="AuthorizationConcept" nillable="true" type="tns:AuthorizationConcept" />
+  <xs:complexType name="ArrayOfAuthorizationConceptGroup">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="AuthorizationConceptGroup" nillable="true" type="tns:AuthorizationConceptGroup" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfAuthorizationConceptGroup" nillable="true" type="tns:ArrayOfAuthorizationConceptGroup" />
+  <xs:complexType name="AuthorizationConceptGroup">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="AuthorizationConcept" nillable="true" type="tns:AuthorizationConcept" />
+      <xs:element minOccurs="0" name="AuthorizationConceptGroupAux" nillable="true" type="tns:AuthorizationConceptGroup" />
+      <xs:element minOccurs="0" name="AuthorizationConceptId" type="xs:int" />
+      <xs:element xmlns:q12="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="ChangeTracker" nillable="true" type="q12:ObjectChangeTracker" />
+      <xs:element minOccurs="0" name="Group" nillable="true" type="tns:Group" />
+      <xs:element minOccurs="0" name="GroupId" type="xs:int" />
+      <xs:element minOccurs="0" name="Id" type="xs:int" />
+      <xs:element minOccurs="0" name="State" type="xs:boolean" />
+    </xs:sequence>
+    <xs:attribute ref="ser:Id" />
+    <xs:attribute ref="ser:Ref" />
+  </xs:complexType>
+  <xs:element name="AuthorizationConceptGroup" nillable="true" type="tns:AuthorizationConceptGroup" />
+  <xs:complexType name="FunctionalUnit">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Apply" type="xs:boolean" />
+      <xs:element minOccurs="0" name="BranchOffice" nillable="true" type="tns:BranchOffice" />
+      <xs:element minOccurs="0" name="BranchOfficeId" type="xs:int" />
+      <xs:element xmlns:q13="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="ChangeTracker" nillable="true" type="q13:ObjectChangeTracker" />
+      <xs:element minOccurs="0" name="Code" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Contract" nillable="true" type="tns:ArrayOfContract" />
+      <xs:element minOccurs="0" name="CostCenter" nillable="true" type="tns:CostCenter" />
+      <xs:element minOccurs="0" name="CostCenterId" type="xs:int" />
+      <xs:element minOccurs="0" name="FunctionalUnitAux" nillable="true" type="tns:FunctionalUnit" />
+      <xs:element minOccurs="0" name="FunctionalUnitResponsible" nillable="true" type="tns:ArrayOfFunctionalUnitResponsible" />
+      <xs:element minOccurs="0" name="Id" type="xs:int" />
+      <xs:element minOccurs="0" name="Name" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="NoveltyScheduleDetail" nillable="true" type="tns:ArrayOfNoveltyScheduleDetail" />
+      <xs:element minOccurs="0" name="NoveltyScheduleDetail1" nillable="true" type="tns:ArrayOfNoveltyScheduleDetail" />
+      <xs:element minOccurs="0" name="Schedule" nillable="true" type="tns:ArrayOfSchedule" />
+      <xs:element minOccurs="0" name="ScheduleDetail" nillable="true" type="tns:ArrayOfScheduleDetail" />
+      <xs:element minOccurs="0" name="ScheduleDetail1" nillable="true" type="tns:ArrayOfScheduleDetail" />
+      <xs:element minOccurs="0" name="ScheduleTemplateFunctionalUnit" nillable="true" type="tns:ArrayOfScheduleTemplateFunctionalUnit" />
+      <xs:element minOccurs="0" name="State" type="xs:boolean" />
+    </xs:sequence>
+    <xs:attribute ref="ser:Id" />
+    <xs:attribute ref="ser:Ref" />
+  </xs:complexType>
+  <xs:element name="FunctionalUnit" nillable="true" type="tns:FunctionalUnit" />
+  <xs:complexType name="BranchOffice">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Address" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="BranchOfficeAux" nillable="true" type="tns:BranchOffice" />
+      <xs:element xmlns:q14="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="ChangeTracker" nillable="true" type="q14:ObjectChangeTracker" />
+      <xs:element minOccurs="0" name="City" nillable="true" type="tns:City" />
+      <xs:element minOccurs="0" name="CityId" type="xs:int" />
+      <xs:element minOccurs="0" name="Code" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Company" nillable="true" type="tns:Company" />
+      <xs:element minOccurs="0" name="CompanyId" type="xs:int" />
+      <xs:element minOccurs="0" name="FunctionalUnit" nillable="true" type="tns:ArrayOfFunctionalUnit" />
+      <xs:element minOccurs="0" name="Id" type="xs:int" />
+      <xs:element minOccurs="0" name="Name" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="NoveltyScheduleDetail" nillable="true" type="tns:ArrayOfNoveltyScheduleDetail" />
+      <xs:element minOccurs="0" name="ScheduleDetail" nillable="true" type="tns:ArrayOfScheduleDetail" />
+      <xs:element minOccurs="0" name="State" type="xs:boolean" />
+      <xs:element minOccurs="0" name="Telephone" nillable="true" type="xs:string" />
+    </xs:sequence>
+    <xs:attribute ref="ser:Id" />
+    <xs:attribute ref="ser:Ref" />
+  </xs:complexType>
+  <xs:element name="BranchOffice" nillable="true" type="tns:BranchOffice" />
+  <xs:complexType name="City">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="BranchOffice" nillable="true" type="tns:ArrayOfBranchOffice" />
+      <xs:element xmlns:q15="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="ChangeTracker" nillable="true" type="q15:ObjectChangeTracker" />
+      <xs:element minOccurs="0" name="CityAux" nillable="true" type="tns:City" />
+      <xs:element minOccurs="0" name="Code" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Company" nillable="true" type="tns:ArrayOfCompany" />
+      <xs:element minOccurs="0" name="DepartamentId" type="xs:int" />
+      <xs:element minOccurs="0" name="Department" nillable="true" type="tns:Department" />
+      <xs:element minOccurs="0" name="HumanTalent" nillable="true" type="tns:ArrayOfHumanTalent" />
+      <xs:element minOccurs="0" name="HumanTalent1" nillable="true" type="tns:ArrayOfHumanTalent" />
+      <xs:element minOccurs="0" name="Id" type="xs:int" />
+      <xs:element minOccurs="0" name="Name" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Person" nillable="true" type="tns:ArrayOfPerson" />
+      <xs:element minOccurs="0" name="Person1" nillable="true" type="tns:ArrayOfPerson" />
+      <xs:element minOccurs="0" name="PersonStudy" nillable="true" type="tns:ArrayOfPersonStudy" />
+      <xs:element minOccurs="0" name="State" type="xs:boolean" />
+      <xs:element minOccurs="0" name="WorkCenter" nillable="true" type="tns:ArrayOfWorkCenter" />
+    </xs:sequence>
+    <xs:attribute ref="ser:Id" />
+    <xs:attribute ref="ser:Ref" />
+  </xs:complexType>
+  <xs:element name="City" nillable="true" type="tns:City" />
+  <xs:complexType name="ArrayOfBranchOffice">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="BranchOffice" nillable="true" type="tns:BranchOffice" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfBranchOffice" nillable="true" type="tns:ArrayOfBranchOffice" />
+  <xs:complexType name="ArrayOfCompany">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="Company" nillable="true" type="tns:Company" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfCompany" nillable="true" type="tns:ArrayOfCompany" />
+  <xs:complexType name="Company">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="AgreementType" nillable="true" type="xs:boolean" />
+      <xs:element minOccurs="0" name="AgreementsC" nillable="true" type="tns:ArrayOfAgreementsC" />
+      <xs:element minOccurs="0" name="BranchOffice" nillable="true" type="tns:ArrayOfBranchOffice" />
+      <xs:element xmlns:q16="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="ChangeTracker" nillable="true" type="q16:ObjectChangeTracker" />
+      <xs:element minOccurs="0" name="City" nillable="true" type="tns:City" />
+      <xs:element minOccurs="0" name="CityId" type="xs:int" />
+      <xs:element minOccurs="0" name="CodeNameConcatenated" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="CompanyAux" nillable="true" type="tns:Company" />
+      <xs:element minOccurs="0" name="CostDistributions" nillable="true" type="tns:ArrayOfCostDistributions" />
+      <xs:element minOccurs="0" name="Group" nillable="true" type="tns:ArrayOfGroup" />
+      <xs:element minOccurs="0" name="Id" type="xs:int" />
+      <xs:element minOccurs="0" name="LegalRepresentative" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Name" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Nit" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="PayrollType" nillable="true" type="xs:boolean" />
+      <xs:element minOccurs="0" name="State" type="xs:boolean" />
+      <xs:element minOccurs="0" name="ThirdParty" nillable="true" type="tns:ThirdParty" />
+      <xs:element minOccurs="0" name="ThirdPartyId" nillable="true" type="xs:int" />
+    </xs:sequence>
+    <xs:attribute ref="ser:Id" />
+    <xs:attribute ref="ser:Ref" />
+  </xs:complexType>
+  <xs:element name="Company" nillable="true" type="tns:Company" />
+  <xs:complexType name="ArrayOfCostDistributions">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="CostDistributions" nillable="true" type="tns:CostDistributions" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfCostDistributions" nillable="true" type="tns:ArrayOfCostDistributions" />
+  <xs:complexType name="CostDistributions">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="AccountingStatementNumber" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="AccruedValue" nillable="true" type="xs:decimal" />
+      <xs:element xmlns:q17="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="ChangeTracker" nillable="true" type="q17:ObjectChangeTracker" />
+      <xs:element minOccurs="0" name="Company" nillable="true" type="tns:Company" />
+      <xs:element minOccurs="0" name="CompanyId" type="xs:int" />
+      <xs:element minOccurs="0" name="CompanyNit" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Concept" nillable="true" type="tns:Concept" />
+      <xs:element minOccurs="0" name="ConceptId" type="xs:int" />
+      <xs:element minOccurs="0" name="Contract" nillable="true" type="tns:Contract" />
+      <xs:element minOccurs="0" name="ContractId" type="xs:int" />
+      <xs:element minOccurs="0" name="CostCenter" nillable="true" type="tns:CostCenter" />
+      <xs:element minOccurs="0" name="CostCenterId" type="xs:int" />
+      <xs:element minOccurs="0" name="CostDistributionsAux" nillable="true" type="tns:CostDistributions" />
+      <xs:element minOccurs="0" name="DeductedValue" nillable="true" type="xs:decimal" />
+      <xs:element minOccurs="0" name="Employee" nillable="true" type="tns:Employee" />
+      <xs:element minOccurs="0" name="EmployeeId" type="xs:int" />
+      <xs:element minOccurs="0" name="Group" nillable="true" type="tns:Group" />
+      <xs:element minOccurs="0" name="GroupId" type="xs:int" />
+      <xs:element minOccurs="0" name="Id" type="xs:int" />
+      <xs:element minOccurs="0" name="PayrollDateLiquidated" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="SubCostCenterId" nillable="true" type="xs:int" />
+    </xs:sequence>
+    <xs:attribute ref="ser:Id" />
+    <xs:attribute ref="ser:Ref" />
+  </xs:complexType>
+  <xs:element name="CostDistributions" nillable="true" type="tns:CostDistributions" />
+  <xs:complexType name="Concept">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="AffectIBC" nillable="true" type="xs:boolean" />
+      <xs:element minOccurs="0" name="AffectIBCARP" nillable="true" type="xs:boolean" />
+      <xs:element minOccurs="0" name="AffectIBCCompensationFund" nillable="true" type="xs:boolean" />
+      <xs:element minOccurs="0" name="AffectIBCHealth" nillable="true" type="xs:boolean" />
+      <xs:element minOccurs="0" name="AffectIBCICBF" nillable="true" type="xs:boolean" />
+      <xs:element minOccurs="0" name="AffectIBCIncentivePayment" nillable="true" type="xs:boolean" />
+      <xs:element minOccurs="0" name="AffectIBCPension" nillable="true" type="xs:boolean" />
+      <xs:element minOccurs="0" name="AffectIBCRTF" nillable="true" type="xs:boolean" />
+      <xs:element minOccurs="0" name="AffectIBCSENA" nillable="true" type="xs:boolean" />
+      <xs:element minOccurs="0" name="AffectIBCSeverance" nillable="true" type="xs:boolean" />
+      <xs:element minOccurs="0" name="AffectIBCVacation" nillable="true" type="xs:boolean" />
+      <xs:element minOccurs="0" name="AgreementsC" nillable="true" type="tns:ArrayOfAgreementsC" />
+      <xs:element minOccurs="0" name="AuthorizationConcept" nillable="true" type="tns:ArrayOfAuthorizationConcept" />
+      <xs:element xmlns:q18="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="ChangeTracker" nillable="true" type="q18:ObjectChangeTracker" />
+      <xs:element minOccurs="0" name="Code" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="CodeNameConcatenated" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="ConceptAux" nillable="true" type="tns:Concept" />
+      <xs:element minOccurs="0" name="ConceptClass" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="ConceptGroup" nillable="true" type="tns:ArrayOfConceptGroup" />
+      <xs:element minOccurs="0" name="ConceptType" type="xs:unsignedByte" />
+      <xs:element minOccurs="0" name="CostDistributions" nillable="true" type="tns:ArrayOfCostDistributions" />
+      <xs:element minOccurs="0" name="Formulates" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="GroupEventConcept" nillable="true" type="tns:ArrayOfGroupEventConcept" />
+      <xs:element minOccurs="0" name="Id" type="xs:int" />
+      <xs:element minOccurs="0" name="LiquidationDetail" nillable="true" type="tns:ArrayOfLiquidationDetail" />
+      <xs:element minOccurs="0" name="Name" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="ScheduleDetailConcept" nillable="true" type="tns:ArrayOfScheduleDetailConcept" />
+      <xs:element minOccurs="0" name="ScheduleTemplateConceptDetail" nillable="true" type="tns:ArrayOfScheduleTemplateConceptDetail" />
+      <xs:element minOccurs="0" name="State" type="xs:boolean" />
+    </xs:sequence>
+    <xs:attribute ref="ser:Id" />
+    <xs:attribute ref="ser:Ref" />
+  </xs:complexType>
+  <xs:element name="Concept" nillable="true" type="tns:Concept" />
+  <xs:complexType name="ArrayOfAuthorizationConcept">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="AuthorizationConcept" nillable="true" type="tns:AuthorizationConcept" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfAuthorizationConcept" nillable="true" type="tns:ArrayOfAuthorizationConcept" />
+  <xs:complexType name="ArrayOfConceptGroup">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="ConceptGroup" nillable="true" type="tns:ConceptGroup" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfConceptGroup" nillable="true" type="tns:ArrayOfConceptGroup" />
+  <xs:complexType name="ConceptGroup">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Apply" type="xs:boolean" />
+      <xs:element xmlns:q19="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="ChangeTracker" nillable="true" type="q19:ObjectChangeTracker" />
+      <xs:element minOccurs="0" name="Concept" nillable="true" type="tns:Concept" />
+      <xs:element minOccurs="0" name="ConceptGroupAux" nillable="true" type="tns:ConceptGroup" />
+      <xs:element minOccurs="0" name="ConceptId" type="xs:int" />
+      <xs:element minOccurs="0" name="Group" nillable="true" type="tns:Group" />
+      <xs:element minOccurs="0" name="GroupId" type="xs:int" />
+      <xs:element minOccurs="0" name="Id" type="xs:int" />
+      <xs:element minOccurs="0" name="LiquidateBy" type="xs:unsignedByte" />
+      <xs:element minOccurs="0" name="MaximunDiscount" type="xs:boolean" />
+    </xs:sequence>
+    <xs:attribute ref="ser:Id" />
+    <xs:attribute ref="ser:Ref" />
+  </xs:complexType>
+  <xs:element name="ConceptGroup" nillable="true" type="tns:ConceptGroup" />
+  <xs:complexType name="ScheduleTemplateFunctionalUnit">
+    <xs:sequence>
+      <xs:element xmlns:q20="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="ChangeTracker" nillable="true" type="q20:ObjectChangeTracker" />
+      <xs:element minOccurs="0" name="FunctionalUnit" nillable="true" type="tns:FunctionalUnit" />
+      <xs:element minOccurs="0" name="FunctionalUnitId" type="xs:int" />
+      <xs:element minOccurs="0" name="Id" type="xs:int" />
+      <xs:element minOccurs="0" name="ScheduleTemplate" nillable="true" type="tns:ScheduleTemplate" />
+      <xs:element minOccurs="0" name="ScheduleTemplateFunctionalUnitAux" nillable="true" type="tns:ScheduleTemplateFunctionalUnit" />
+      <xs:element minOccurs="0" name="ScheduleTemplateId" type="xs:int" />
+    </xs:sequence>
+    <xs:attribute ref="ser:Id" />
+    <xs:attribute ref="ser:Ref" />
+  </xs:complexType>
+  <xs:element name="ScheduleTemplateFunctionalUnit" nillable="true" type="tns:ScheduleTemplateFunctionalUnit" />
+  <xs:complexType name="ScheduleTemplate">
+    <xs:sequence>
+      <xs:element xmlns:q21="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="ChangeTracker" nillable="true" type="q21:ObjectChangeTracker" />
+      <xs:element minOccurs="0" name="Code" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Group" nillable="true" type="tns:Group" />
+      <xs:element minOccurs="0" name="GroupId" type="xs:int" />
+      <xs:element minOccurs="0" name="Id" type="xs:int" />
+      <xs:element minOccurs="0" name="Letter" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Name" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="NoveltyScheduleDetail" nillable="true" type="tns:ArrayOfNoveltyScheduleDetail" />
+      <xs:element minOccurs="0" name="ScheduleDetail" nillable="true" type="tns:ArrayOfScheduleDetail" />
+      <xs:element minOccurs="0" name="ScheduleTemplateAux" nillable="true" type="tns:ScheduleTemplate" />
+      <xs:element minOccurs="0" name="ScheduleTemplateConcept" nillable="true" type="tns:ArrayOfScheduleTemplateConcept" />
+      <xs:element minOccurs="0" name="ScheduleTemplateFunctionalUnit" nillable="true" type="tns:ArrayOfScheduleTemplateFunctionalUnit" />
+      <xs:element minOccurs="0" name="State" type="xs:boolean" />
+    </xs:sequence>
+    <xs:attribute ref="ser:Id" />
+    <xs:attribute ref="ser:Ref" />
+  </xs:complexType>
+  <xs:element name="ScheduleTemplate" nillable="true" type="tns:ScheduleTemplate" />
+  <xs:complexType name="ArrayOfNoveltyScheduleDetail">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="NoveltyScheduleDetail" nillable="true" type="tns:NoveltyScheduleDetail" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfNoveltyScheduleDetail" nillable="true" type="tns:ArrayOfNoveltyScheduleDetail" />
+  <xs:complexType name="NoveltyScheduleDetail">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="BranchOffice" nillable="true" type="tns:BranchOffice" />
+      <xs:element minOccurs="0" name="BranchOfficeId" type="xs:int" />
+      <xs:element xmlns:q22="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="ChangeTracker" nillable="true" type="q22:ObjectChangeTracker" />
+      <xs:element minOccurs="0" name="CompanyId" type="xs:int" />
+      <xs:element minOccurs="0" name="CostCenter" nillable="true" type="tns:CostCenter" />
+      <xs:element minOccurs="0" name="CostCenterId" type="xs:int" />
+      <xs:element minOccurs="0" name="DateDetail" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="Employee" nillable="true" type="tns:Employee" />
+      <xs:element minOccurs="0" name="EmployeeId" type="xs:int" />
+      <xs:element minOccurs="0" name="FunctionalUnit" nillable="true" type="tns:FunctionalUnit" />
+      <xs:element minOccurs="0" name="FunctionalUnit1" nillable="true" type="tns:FunctionalUnit" />
+      <xs:element minOccurs="0" name="FunctionalUnitId" type="xs:int" />
+      <xs:element minOccurs="0" name="GroupId" type="xs:int" />
+      <xs:element minOccurs="0" name="Id" type="xs:int" />
+      <xs:element minOccurs="0" name="Letter" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="NoveltyScheduleDetailAux" nillable="true" type="tns:NoveltyScheduleDetail" />
+      <xs:element minOccurs="0" name="NoveltyScheduleDetailHour" nillable="true" type="tns:ArrayOfNoveltyScheduleDetailHour" />
+      <xs:element minOccurs="0" name="PayrollLiquidationNumber" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Period" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="ScheduleFunctionalUnitId" type="xs:int" />
+      <xs:element minOccurs="0" name="ScheduleTemplate" nillable="true" type="tns:ScheduleTemplate" />
+      <xs:element minOccurs="0" name="ScheduleTemplateId" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="State" type="xs:boolean" />
+      <xs:element minOccurs="0" name="Status" type="xs:int" />
+      <xs:element minOccurs="0" name="TotalNumberHours" type="xs:int" />
+    </xs:sequence>
+    <xs:attribute ref="ser:Id" />
+    <xs:attribute ref="ser:Ref" />
+  </xs:complexType>
+  <xs:element name="NoveltyScheduleDetail" nillable="true" type="tns:NoveltyScheduleDetail" />
+  <xs:complexType name="CostCenter">
+    <xs:sequence>
+      <xs:element xmlns:q23="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="ChangeTracker" nillable="true" type="q23:ObjectChangeTracker" />
+      <xs:element minOccurs="0" name="Code" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="CostCenterAux" nillable="true" type="tns:CostCenter" />
+      <xs:element minOccurs="0" name="CostDistributions" nillable="true" type="tns:ArrayOfCostDistributions" />
+      <xs:element minOccurs="0" name="Employee" nillable="true" type="tns:ArrayOfEmployee" />
+      <xs:element minOccurs="0" name="FunctionalUnit" nillable="true" type="tns:ArrayOfFunctionalUnit" />
+      <xs:element minOccurs="0" name="Id" type="xs:int" />
+      <xs:element minOccurs="0" name="Name" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="NoveltyScheduleDetail" nillable="true" type="tns:ArrayOfNoveltyScheduleDetail" />
+      <xs:element minOccurs="0" name="ScheduleDetail" nillable="true" type="tns:ArrayOfScheduleDetail" />
+      <xs:element minOccurs="0" name="State" type="xs:boolean" />
+      <xs:element minOccurs="0" name="TimeStamp" nillable="true" type="xs:base64Binary" />
+    </xs:sequence>
+    <xs:attribute ref="ser:Id" />
+    <xs:attribute ref="ser:Ref" />
+  </xs:complexType>
+  <xs:element name="CostCenter" nillable="true" type="tns:CostCenter" />
+  <xs:complexType name="ArrayOfEmployee">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="Employee" nillable="true" type="tns:Employee" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfEmployee" nillable="true" type="tns:ArrayOfEmployee" />
+  <xs:complexType name="ArrayOfFunctionalUnit">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="FunctionalUnit" nillable="true" type="tns:FunctionalUnit" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfFunctionalUnit" nillable="true" type="tns:ArrayOfFunctionalUnit" />
+  <xs:complexType name="ArrayOfScheduleDetail">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="ScheduleDetail" nillable="true" type="tns:ScheduleDetail" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfScheduleDetail" nillable="true" type="tns:ArrayOfScheduleDetail" />
+  <xs:complexType name="ScheduleDetail">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="BranchOffice" nillable="true" type="tns:BranchOffice" />
+      <xs:element minOccurs="0" name="BranchOfficeId" type="xs:int" />
+      <xs:element minOccurs="0" name="CenterCostId" type="xs:int" />
+      <xs:element xmlns:q24="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="ChangeTracker" nillable="true" type="q24:ObjectChangeTracker" />
+      <xs:element minOccurs="0" name="CompanyId" type="xs:int" />
+      <xs:element minOccurs="0" name="Contract" nillable="true" type="tns:Contract" />
+      <xs:element minOccurs="0" name="ContractId" type="xs:int" />
+      <xs:element minOccurs="0" name="CostCenter" nillable="true" type="tns:CostCenter" />
+      <xs:element minOccurs="0" name="DateDetail" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="Employee" nillable="true" type="tns:Employee" />
+      <xs:element minOccurs="0" name="EmployeeId" type="xs:int" />
+      <xs:element minOccurs="0" name="FunctionalUnit" nillable="true" type="tns:FunctionalUnit" />
+      <xs:element minOccurs="0" name="FunctionalUnit1" nillable="true" type="tns:FunctionalUnit" />
+      <xs:element minOccurs="0" name="FunctionalUnitId" type="xs:int" />
+      <xs:element minOccurs="0" name="Group" nillable="true" type="tns:Group" />
+      <xs:element minOccurs="0" name="GroupId" type="xs:int" />
+      <xs:element minOccurs="0" name="Id" type="xs:int" />
+      <xs:element minOccurs="0" name="Letter" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="PayrollLiquidationNumber" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Schedule" nillable="true" type="tns:ArrayOfSchedule" />
+      <xs:element minOccurs="0" name="Schedule1" nillable="true" type="tns:ArrayOfSchedule" />
+      <xs:element minOccurs="0" name="Schedule10" nillable="true" type="tns:ArrayOfSchedule" />
+      <xs:element minOccurs="0" name="Schedule11" nillable="true" type="tns:ArrayOfSchedule" />
+      <xs:element minOccurs="0" name="Schedule12" nillable="true" type="tns:ArrayOfSchedule" />
+      <xs:element minOccurs="0" name="Schedule13" nillable="true" type="tns:ArrayOfSchedule" />
+      <xs:element minOccurs="0" name="Schedule14" nillable="true" type="tns:ArrayOfSchedule" />
+      <xs:element minOccurs="0" name="Schedule15" nillable="true" type="tns:ArrayOfSchedule" />
+      <xs:element minOccurs="0" name="Schedule16" nillable="true" type="tns:ArrayOfSchedule" />
+      <xs:element minOccurs="0" name="Schedule17" nillable="true" type="tns:ArrayOfSchedule" />
+      <xs:element minOccurs="0" name="Schedule18" nillable="true" type="tns:ArrayOfSchedule" />
+      <xs:element minOccurs="0" name="Schedule19" nillable="true" type="tns:ArrayOfSchedule" />
+      <xs:element minOccurs="0" name="Schedule2" nillable="true" type="tns:ArrayOfSchedule" />
+      <xs:element minOccurs="0" name="Schedule20" nillable="true" type="tns:ArrayOfSchedule" />
+      <xs:element minOccurs="0" name="Schedule21" nillable="true" type="tns:ArrayOfSchedule" />
+      <xs:element minOccurs="0" name="Schedule22" nillable="true" type="tns:ArrayOfSchedule" />
+      <xs:element minOccurs="0" name="Schedule23" nillable="true" type="tns:ArrayOfSchedule" />
+      <xs:element minOccurs="0" name="Schedule24" nillable="true" type="tns:ArrayOfSchedule" />
+      <xs:element minOccurs="0" name="Schedule25" nillable="true" type="tns:ArrayOfSchedule" />
+      <xs:element minOccurs="0" name="Schedule26" nillable="true" type="tns:ArrayOfSchedule" />
+      <xs:element minOccurs="0" name="Schedule27" nillable="true" type="tns:ArrayOfSchedule" />
+      <xs:element minOccurs="0" name="Schedule28" nillable="true" type="tns:ArrayOfSchedule" />
+      <xs:element minOccurs="0" name="Schedule29" nillable="true" type="tns:ArrayOfSchedule" />
+      <xs:element minOccurs="0" name="Schedule3" nillable="true" type="tns:ArrayOfSchedule" />
+      <xs:element minOccurs="0" name="Schedule30" nillable="true" type="tns:ArrayOfSchedule" />
+      <xs:element minOccurs="0" name="Schedule4" nillable="true" type="tns:ArrayOfSchedule" />
+      <xs:element minOccurs="0" name="Schedule5" nillable="true" type="tns:ArrayOfSchedule" />
+      <xs:element minOccurs="0" name="Schedule6" nillable="true" type="tns:ArrayOfSchedule" />
+      <xs:element minOccurs="0" name="Schedule7" nillable="true" type="tns:ArrayOfSchedule" />
+      <xs:element minOccurs="0" name="Schedule8" nillable="true" type="tns:ArrayOfSchedule" />
+      <xs:element minOccurs="0" name="Schedule9" nillable="true" type="tns:ArrayOfSchedule" />
+      <xs:element minOccurs="0" name="ScheduleDetailAux" nillable="true" type="tns:ScheduleDetail" />
+      <xs:element minOccurs="0" name="ScheduleDetailHour" nillable="true" type="tns:ArrayOfScheduleDetailHour" />
+      <xs:element minOccurs="0" name="ScheduleFunctionalUnitId" type="xs:int" />
+      <xs:element minOccurs="0" name="ScheduleTemplate" nillable="true" type="tns:ScheduleTemplate" />
+      <xs:element minOccurs="0" name="ScheduleTemplateId" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="State" type="xs:boolean" />
+      <xs:element minOccurs="0" name="Status" type="xs:int" />
+      <xs:element minOccurs="0" name="TotalNumberHours" type="xs:int" />
+    </xs:sequence>
+    <xs:attribute ref="ser:Id" />
+    <xs:attribute ref="ser:Ref" />
+  </xs:complexType>
+  <xs:element name="ScheduleDetail" nillable="true" type="tns:ScheduleDetail" />
+  <xs:complexType name="ArrayOfSchedule">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="Schedule" nillable="true" type="tns:Schedule" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfSchedule" nillable="true" type="tns:ArrayOfSchedule" />
+  <xs:complexType name="Schedule">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Apply" type="xs:boolean" />
+      <xs:element xmlns:q25="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="ChangeTracker" nillable="true" type="q25:ObjectChangeTracker" />
+      <xs:element minOccurs="0" name="D01" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="D02" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="D03" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="D04" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="D05" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="D06" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="D07" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="D08" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="D09" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="D10" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="D11" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="D12" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="D13" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="D14" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="D15" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="D16" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="D17" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="D18" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="D19" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="D20" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="D21" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="D22" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="D23" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="D24" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="D25" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="D26" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="D27" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="D28" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="D29" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="D30" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="D31" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="Employee" nillable="true" type="tns:Employee" />
+      <xs:element minOccurs="0" name="EmployeeId" type="xs:int" />
+      <xs:element minOccurs="0" name="FunctionalUnit" nillable="true" type="tns:FunctionalUnit" />
+      <xs:element minOccurs="0" name="FunctionalUnitId" type="xs:int" />
+      <xs:element minOccurs="0" name="Id" type="xs:int" />
+      <xs:element minOccurs="0" name="Period" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="ScheduleAux" nillable="true" type="tns:Schedule" />
+      <xs:element minOccurs="0" name="ScheduleDetail" nillable="true" type="tns:ScheduleDetail" />
+      <xs:element minOccurs="0" name="ScheduleDetail1" nillable="true" type="tns:ScheduleDetail" />
+      <xs:element minOccurs="0" name="ScheduleDetail10" nillable="true" type="tns:ScheduleDetail" />
+      <xs:element minOccurs="0" name="ScheduleDetail11" nillable="true" type="tns:ScheduleDetail" />
+      <xs:element minOccurs="0" name="ScheduleDetail12" nillable="true" type="tns:ScheduleDetail" />
+      <xs:element minOccurs="0" name="ScheduleDetail13" nillable="true" type="tns:ScheduleDetail" />
+      <xs:element minOccurs="0" name="ScheduleDetail14" nillable="true" type="tns:ScheduleDetail" />
+      <xs:element minOccurs="0" name="ScheduleDetail15" nillable="true" type="tns:ScheduleDetail" />
+      <xs:element minOccurs="0" name="ScheduleDetail16" nillable="true" type="tns:ScheduleDetail" />
+      <xs:element minOccurs="0" name="ScheduleDetail17" nillable="true" type="tns:ScheduleDetail" />
+      <xs:element minOccurs="0" name="ScheduleDetail18" nillable="true" type="tns:ScheduleDetail" />
+      <xs:element minOccurs="0" name="ScheduleDetail19" nillable="true" type="tns:ScheduleDetail" />
+      <xs:element minOccurs="0" name="ScheduleDetail2" nillable="true" type="tns:ScheduleDetail" />
+      <xs:element minOccurs="0" name="ScheduleDetail20" nillable="true" type="tns:ScheduleDetail" />
+      <xs:element minOccurs="0" name="ScheduleDetail21" nillable="true" type="tns:ScheduleDetail" />
+      <xs:element minOccurs="0" name="ScheduleDetail22" nillable="true" type="tns:ScheduleDetail" />
+      <xs:element minOccurs="0" name="ScheduleDetail23" nillable="true" type="tns:ScheduleDetail" />
+      <xs:element minOccurs="0" name="ScheduleDetail24" nillable="true" type="tns:ScheduleDetail" />
+      <xs:element minOccurs="0" name="ScheduleDetail25" nillable="true" type="tns:ScheduleDetail" />
+      <xs:element minOccurs="0" name="ScheduleDetail26" nillable="true" type="tns:ScheduleDetail" />
+      <xs:element minOccurs="0" name="ScheduleDetail27" nillable="true" type="tns:ScheduleDetail" />
+      <xs:element minOccurs="0" name="ScheduleDetail28" nillable="true" type="tns:ScheduleDetail" />
+      <xs:element minOccurs="0" name="ScheduleDetail29" nillable="true" type="tns:ScheduleDetail" />
+      <xs:element minOccurs="0" name="ScheduleDetail3" nillable="true" type="tns:ScheduleDetail" />
+      <xs:element minOccurs="0" name="ScheduleDetail30" nillable="true" type="tns:ScheduleDetail" />
+      <xs:element minOccurs="0" name="ScheduleDetail4" nillable="true" type="tns:ScheduleDetail" />
+      <xs:element minOccurs="0" name="ScheduleDetail5" nillable="true" type="tns:ScheduleDetail" />
+      <xs:element minOccurs="0" name="ScheduleDetail6" nillable="true" type="tns:ScheduleDetail" />
+      <xs:element minOccurs="0" name="ScheduleDetail7" nillable="true" type="tns:ScheduleDetail" />
+      <xs:element minOccurs="0" name="ScheduleDetail8" nillable="true" type="tns:ScheduleDetail" />
+      <xs:element minOccurs="0" name="ScheduleDetail9" nillable="true" type="tns:ScheduleDetail" />
+      <xs:element minOccurs="0" name="State" type="xs:boolean" />
+      <xs:element minOccurs="0" name="TotalHour" type="xs:int" />
+    </xs:sequence>
+    <xs:attribute ref="ser:Id" />
+    <xs:attribute ref="ser:Ref" />
+  </xs:complexType>
+  <xs:element name="Schedule" nillable="true" type="tns:Schedule" />
+  <xs:complexType name="Bank">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="AccountNumber" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="AccountType" type="xs:unsignedByte" />
+      <xs:element minOccurs="0" name="AchCode" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="BankAux" nillable="true" type="tns:Bank" />
+      <xs:element xmlns:q26="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="ChangeTracker" nillable="true" type="q26:ObjectChangeTracker" />
+      <xs:element minOccurs="0" name="Code" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Contract" nillable="true" type="tns:ArrayOfContract" />
+      <xs:element minOccurs="0" name="Id" type="xs:unsignedByte" />
+      <xs:element minOccurs="0" name="Name" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="State" type="xs:boolean" />
+      <xs:element minOccurs="0" name="ThirdPartyId" nillable="true" type="xs:int" />
+    </xs:sequence>
+    <xs:attribute ref="ser:Id" />
+    <xs:attribute ref="ser:Ref" />
+  </xs:complexType>
+  <xs:element name="Bank" nillable="true" type="tns:Bank" />
+  <xs:complexType name="ArrayOfContract">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="Contract" nillable="true" type="tns:Contract" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfContract" nillable="true" type="tns:ArrayOfContract" />
+  <xs:complexType name="WorkCenter">
+    <xs:sequence>
+      <xs:element xmlns:q27="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="ChangeTracker" nillable="true" type="q27:ObjectChangeTracker" />
+      <xs:element minOccurs="0" name="City" nillable="true" type="tns:City" />
+      <xs:element minOccurs="0" name="CityId" type="xs:int" />
+      <xs:element minOccurs="0" name="Code" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Employee" nillable="true" type="tns:ArrayOfEmployee" />
+      <xs:element minOccurs="0" name="Id" type="xs:int" />
+      <xs:element minOccurs="0" name="Liquidation" nillable="true" type="tns:ArrayOfLiquidation" />
+      <xs:element minOccurs="0" name="Name" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="State" nillable="true" type="xs:boolean" />
+      <xs:element minOccurs="0" name="WorkCenterAux" nillable="true" type="tns:WorkCenter" />
+    </xs:sequence>
+    <xs:attribute ref="ser:Id" />
+    <xs:attribute ref="ser:Ref" />
+  </xs:complexType>
+  <xs:element name="WorkCenter" nillable="true" type="tns:WorkCenter" />
+  <xs:complexType name="ArrayOfLiquidation">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="Liquidation" nillable="true" type="tns:Liquidation" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfLiquidation" nillable="true" type="tns:ArrayOfLiquidation" />
+  <xs:complexType name="Liquidation">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="AccountingVouchersNumber" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="AccumulatedBenefit" nillable="true" type="xs:decimal" />
+      <xs:element minOccurs="0" name="AccumulatedDisabilityValue" nillable="true" type="xs:decimal" />
+      <xs:element minOccurs="0" name="AccumulatedOtherAccrued" nillable="true" type="xs:decimal" />
+      <xs:element minOccurs="0" name="AccumulatedOtherDeducted" nillable="true" type="xs:decimal" />
+      <xs:element minOccurs="0" name="AdditionalPUTValue" nillable="true" type="xs:decimal" />
+      <xs:element minOccurs="0" name="AffiliateHealthDays" nillable="true" type="xs:short" />
+      <xs:element minOccurs="0" name="AmbulatoryDisabilityAuthorizationNumber" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="AmbulatoryDisabilityDays" nillable="true" type="xs:unsignedByte" />
+      <xs:element minOccurs="0" name="AmbulatoryDisabilityEndDate" nillable="true" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="AmbulatoryDisabilityInitialDate" nillable="true" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="AmbulatoryDisabilityValue" nillable="true" type="xs:decimal" />
+      <xs:element minOccurs="0" name="BasicSalary" type="xs:decimal" />
+      <xs:element minOccurs="0" name="BonusValueServices" nillable="true" type="xs:decimal" />
+      <xs:element minOccurs="0" name="CalculatedWithholdingValue" nillable="true" type="xs:decimal" />
+      <xs:element xmlns:q28="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="ChangeTracker" nillable="true" type="q28:ObjectChangeTracker" />
+      <xs:element minOccurs="0" name="CompensationAccumulated" nillable="true" type="xs:decimal" />
+      <xs:element minOccurs="0" name="CompletePayroll" type="xs:boolean" />
+      <xs:element minOccurs="0" name="Contract" nillable="true" type="tns:Contract" />
+      <xs:element minOccurs="0" name="ContractId" type="xs:int" />
+      <xs:element minOccurs="0" name="DaysWorked" type="xs:unsignedByte" />
+      <xs:element minOccurs="0" name="DeductingAccumulated" nillable="true" type="xs:decimal" />
+      <xs:element minOccurs="0" name="DisabilityDays" nillable="true" type="xs:unsignedByte" />
+      <xs:element minOccurs="0" name="DisabilityHospitalDays" nillable="true" type="xs:unsignedByte" />
+      <xs:element minOccurs="0" name="DisabilityHospitalEndDate" nillable="true" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="DisabilityHospitalInitialDate" nillable="true" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="DisabilityHospitalReleasedNumber" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="DisabilityHospitalValue" nillable="true" type="xs:decimal" />
+      <xs:element minOccurs="0" name="DiurnalOvertime" nillable="true" type="xs:decimal" />
+      <xs:element minOccurs="0" name="Employee" nillable="true" type="tns:Employee" />
+      <xs:element minOccurs="0" name="EmployeeHealthContributionValue" nillable="true" type="xs:decimal" />
+      <xs:element minOccurs="0" name="EmployeeId" type="xs:int" />
+      <xs:element minOccurs="0" name="EmployerHealthContributionValue" nillable="true" type="xs:decimal" />
+      <xs:element minOccurs="0" name="EmployerPensionContributionValue" nillable="true" type="xs:decimal" />
+      <xs:element minOccurs="0" name="EveningOvertime" nillable="true" type="xs:decimal" />
+      <xs:element minOccurs="0" name="ExemptValueRetention" nillable="true" type="xs:decimal" />
+      <xs:element minOccurs="0" name="FamilyCompensationFundContributionValue" nillable="true" type="xs:decimal" />
+      <xs:element minOccurs="0" name="Group" nillable="true" type="tns:Group" />
+      <xs:element minOccurs="0" name="GroupId" type="xs:int" />
+      <xs:element minOccurs="0" name="HealthContributionLicensesValue" nillable="true" type="xs:decimal" />
+      <xs:element minOccurs="0" name="HealthFundId" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="HealthJCB" nillable="true" type="xs:decimal" />
+      <xs:element minOccurs="0" name="HealthJCBLicenses" nillable="true" type="xs:decimal" />
+      <xs:element minOccurs="0" name="HealthLicensesDays" nillable="true" type="xs:unsignedByte" />
+      <xs:element minOccurs="0" name="HolidaysEveningHours" nillable="true" type="xs:unsignedByte" />
+      <xs:element minOccurs="0" name="HoursHolidays" nillable="true" type="xs:unsignedByte" />
+      <xs:element minOccurs="0" name="IBCCompensationFund" nillable="true" type="xs:decimal" />
+      <xs:element minOccurs="0" name="IBCICBF" nillable="true" type="xs:decimal" />
+      <xs:element minOccurs="0" name="IBCIncentivePayment" nillable="true" type="xs:decimal" />
+      <xs:element minOccurs="0" name="IBCOccupationalRisks" type="xs:decimal" />
+      <xs:element minOccurs="0" name="IBCSENA" nillable="true" type="xs:decimal" />
+      <xs:element minOccurs="0" name="IBCUnemployment" nillable="true" type="xs:decimal" />
+      <xs:element minOccurs="0" name="IBCUnemploymentNoSanctions" nillable="true" type="xs:decimal" />
+      <xs:element minOccurs="0" name="IBCVacation" nillable="true" type="xs:decimal" />
+      <xs:element minOccurs="0" name="ICBFContributionValue" nillable="true" type="xs:decimal" />
+      <xs:element minOccurs="0" name="Id" type="xs:int" />
+      <xs:element minOccurs="0" name="LicenseDays" nillable="true" type="xs:unsignedByte" />
+      <xs:element minOccurs="0" name="LicenseValue" nillable="true" type="xs:decimal" />
+      <xs:element minOccurs="0" name="LiquidationAux" nillable="true" type="tns:Liquidation" />
+      <xs:element minOccurs="0" name="LiquidationDetail" nillable="true" type="tns:ArrayOfLiquidationDetail" />
+      <xs:element minOccurs="0" name="LiquidationPeriod" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="MaternityLeaveAutorizationNumber" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="MaternityLeaveDays" nillable="true" type="xs:decimal" />
+      <xs:element minOccurs="0" name="MaternityLeaveEndDate" nillable="true" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="MaternityLeaveInitialDate" nillable="true" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="MaternityLeaveValue" nillable="true" type="xs:decimal" />
+      <xs:element minOccurs="0" name="Message" nillable="true" type="tns:ArrayOfMessage" />
+      <xs:element minOccurs="0" name="OccupationalRisksContributionValue" nillable="true" type="xs:decimal" />
+      <xs:element minOccurs="0" name="OccupationalRisksDays" nillable="true" type="xs:unsignedByte" />
+      <xs:element minOccurs="0" name="OccupationalRisksDisabilityAutorizationNumber" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="OccupationalRisksDisabilityEndDate" nillable="true" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="OccupationalRisksDisabilityInitialDate" nillable="true" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="OccupationalRisksDisabilityValue" nillable="true" type="xs:decimal" />
+      <xs:element minOccurs="0" name="OccupationalRisksFundId" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="Overtime" nillable="true" type="xs:decimal" />
+      <xs:element minOccurs="0" name="ParafiscalContribution" nillable="true" type="xs:decimal" />
+      <xs:element minOccurs="0" name="PayrollConfirmationDate" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="PayrollConfirmationUser" type="xs:int" />
+      <xs:element minOccurs="0" name="PayrollDateLiquidated" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="PayrollDays" type="xs:unsignedByte" />
+      <xs:element minOccurs="0" name="PayrollProcessDate" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="PayrollProcessUser" type="xs:int" />
+      <xs:element minOccurs="0" name="PensionContributionDays" nillable="true" type="xs:short" />
+      <xs:element minOccurs="0" name="PensionContributionValue" nillable="true" type="xs:decimal" />
+      <xs:element minOccurs="0" name="PensionEnrollmentDays" nillable="true" type="xs:short" />
+      <xs:element minOccurs="0" name="PensionFundId" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="PensionJCB" nillable="true" type="xs:decimal" />
+      <xs:element minOccurs="0" name="PensionSolidarityFundContributionDays" nillable="true" type="xs:short" />
+      <xs:element minOccurs="0" name="PensionSolidarityFundEnrollmentDays" nillable="true" type="xs:short" />
+      <xs:element minOccurs="0" name="PensionSolidarityFundId" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="PensionSolidarityFundValueContribution" nillable="true" type="xs:decimal" />
+      <xs:element minOccurs="0" name="PeriodJCB" nillable="true" type="xs:decimal" />
+      <xs:element minOccurs="0" name="PermissionDays" nillable="true" type="xs:unsignedByte" />
+      <xs:element minOccurs="0" name="PermissionsValue" nillable="true" type="xs:decimal" />
+      <xs:element minOccurs="0" name="ProvisionDays" nillable="true" type="xs:unsignedByte" />
+      <xs:element minOccurs="0" name="ProvisionsValue" nillable="true" type="xs:decimal" />
+      <xs:element minOccurs="0" name="QuoteHealthDays" nillable="true" type="xs:short" />
+      <xs:element minOccurs="0" name="QuotedCompensationDays" type="xs:unsignedByte" />
+      <xs:element minOccurs="0" name="QuotedOccupationalRisksDays" type="xs:unsignedByte" />
+      <xs:element minOccurs="0" name="RealBaseRetention" nillable="true" type="xs:decimal" />
+      <xs:element minOccurs="0" name="RegisterStatus" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="RetentionPercentageApplied" nillable="true" type="xs:unsignedByte" />
+      <xs:element minOccurs="0" name="RetirementLiquidationDate" nillable="true" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="SalaryType" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="SanctionDays" nillable="true" type="xs:unsignedByte" />
+      <xs:element minOccurs="0" name="SanctionEndDate" nillable="true" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="SanctionInitialDate" nillable="true" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="SanctionValue" nillable="true" type="xs:decimal" />
+      <xs:element minOccurs="0" name="SenaContributionValue" nillable="true" type="xs:decimal" />
+      <xs:element minOccurs="0" name="TotalAccrued" type="xs:decimal" />
+      <xs:element minOccurs="0" name="TotalBaseRetention" nillable="true" type="xs:decimal" />
+      <xs:element minOccurs="0" name="TotalDeducted" type="xs:decimal" />
+      <xs:element minOccurs="0" name="TotalPaid" type="xs:decimal" />
+      <xs:element minOccurs="0" name="UnemploymentAccumulated" nillable="true" type="xs:decimal" />
+      <xs:element minOccurs="0" name="UnpaidLicenseAutorizarionNumber" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="UnpaidLicenseDays" nillable="true" type="xs:unsignedByte" />
+      <xs:element minOccurs="0" name="UnpaidLicenseEndDate" nillable="true" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="UnpaidLicenseInitialDate" nillable="true" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="UnpaidLicenseValue" nillable="true" type="xs:decimal" />
+      <xs:element minOccurs="0" name="VacationDays" nillable="true" type="xs:unsignedByte" />
+      <xs:element minOccurs="0" name="VacationEndDate" nillable="true" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="VacationHealthContributionValueEmployee" nillable="true" type="xs:decimal" />
+      <xs:element minOccurs="0" name="VacationHealthContributionValueEmployer" nillable="true" type="xs:decimal" />
+      <xs:element minOccurs="0" name="VacationHealthJCB" nillable="true" type="xs:unsignedByte" />
+      <xs:element minOccurs="0" name="VacationInitialDate" nillable="true" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="VacationNumberBussinesDays" nillable="true" type="xs:unsignedByte" />
+      <xs:element minOccurs="0" name="VacationPensionContributionValueEmployee" nillable="true" type="xs:decimal" />
+      <xs:element minOccurs="0" name="VacationPensionContributionValueEmployer" nillable="true" type="xs:decimal" />
+      <xs:element minOccurs="0" name="VacationPensionJCB" nillable="true" type="xs:unsignedByte" />
+      <xs:element minOccurs="0" name="VacationValueEnjoy" nillable="true" type="xs:decimal" />
+      <xs:element minOccurs="0" name="VacationValueLiquidated" nillable="true" type="xs:decimal" />
+      <xs:element minOccurs="0" name="ValueOtherBonuses" nillable="true" type="xs:decimal" />
+      <xs:element minOccurs="0" name="ValueTransportingRelief" nillable="true" type="xs:decimal" />
+      <xs:element minOccurs="0" name="VoluntaryContributionPensionValue" nillable="true" type="xs:decimal" />
+      <xs:element minOccurs="0" name="VoluntaryHealthContributionValue" nillable="true" type="xs:decimal" />
+      <xs:element minOccurs="0" name="VoluntaryHealthFundId" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="VoluntaryPensionFundId" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="WorkCenter" nillable="true" type="tns:WorkCenter" />
+      <xs:element minOccurs="0" name="WorkCenterId" type="xs:int" />
+    </xs:sequence>
+    <xs:attribute ref="ser:Id" />
+    <xs:attribute ref="ser:Ref" />
+  </xs:complexType>
+  <xs:element name="Liquidation" nillable="true" type="tns:Liquidation" />
+  <xs:complexType name="ArrayOfLiquidationDetail">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="LiquidationDetail" nillable="true" type="tns:LiquidationDetail" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfLiquidationDetail" nillable="true" type="tns:ArrayOfLiquidationDetail" />
+  <xs:complexType name="LiquidationDetail">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="AccruedValue" nillable="true" type="xs:decimal" />
+      <xs:element minOccurs="0" name="AgreementsId" nillable="true" type="xs:int" />
+      <xs:element xmlns:q29="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="ChangeTracker" nillable="true" type="q29:ObjectChangeTracker" />
+      <xs:element minOccurs="0" name="Concept" nillable="true" type="tns:Concept" />
+      <xs:element minOccurs="0" name="ConceptClass" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="ConceptCode" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="ConceptDetail" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="ConceptFormulate" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="ConceptId" type="xs:int" />
+      <xs:element minOccurs="0" name="ConceptTotalValue" type="xs:decimal" />
+      <xs:element minOccurs="0" name="ConceptType" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="DeductedValue" nillable="true" type="xs:decimal" />
+      <xs:element minOccurs="0" name="Id" type="xs:int" />
+      <xs:element minOccurs="0" name="InitialBalance" nillable="true" type="xs:decimal" />
+      <xs:element minOccurs="0" name="Liquidation" nillable="true" type="tns:Liquidation" />
+      <xs:element minOccurs="0" name="LiquidationDetailAux" nillable="true" type="tns:LiquidationDetail" />
+      <xs:element minOccurs="0" name="LiquidationPeriod" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="PayrollDate" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="PayrollId" type="xs:int" />
+      <xs:element minOccurs="0" name="RegisterStatus" type="xs:int" />
+      <xs:element minOccurs="0" name="ReplaceConceptFormulate" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="RetentionBase" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="RetentionPercentage" nillable="true" type="xs:unsignedByte" />
+    </xs:sequence>
+    <xs:attribute ref="ser:Id" />
+    <xs:attribute ref="ser:Ref" />
+  </xs:complexType>
+  <xs:element name="LiquidationDetail" nillable="true" type="tns:LiquidationDetail" />
+  <xs:complexType name="HumanTalent">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="CardClass" nillable="true" type="xs:string" />
+      <xs:element xmlns:q30="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="ChangeTracker" nillable="true" type="q30:ObjectChangeTracker" />
+      <xs:element minOccurs="0" name="City" nillable="true" type="tns:City" />
+      <xs:element minOccurs="0" name="City1" nillable="true" type="tns:City" />
+      <xs:element minOccurs="0" name="CityExpeditionId" type="xs:int" />
+      <xs:element minOccurs="0" name="CityId" type="xs:int" />
+      <xs:element minOccurs="0" name="Customer" nillable="true" type="tns:Customer" />
+      <xs:element minOccurs="0" name="CustomerId" type="xs:int" />
+      <xs:element minOccurs="0" name="DistrictNumber" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="ExpeditionDate" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="Group" nillable="true" type="tns:Group" />
+      <xs:element minOccurs="0" name="GroupId" type="xs:int" />
+      <xs:element minOccurs="0" name="HumanTalentAux" nillable="true" type="tns:HumanTalent" />
+      <xs:element minOccurs="0" name="Id" type="xs:int" />
+      <xs:element minOccurs="0" name="InpersonaId" type="xs:int" />
+      <xs:element minOccurs="0" name="MilitaryCard" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Person" nillable="true" type="tns:Person" />
+    </xs:sequence>
+    <xs:attribute ref="ser:Id" />
+    <xs:attribute ref="ser:Ref" />
+  </xs:complexType>
+  <xs:element name="HumanTalent" nillable="true" type="tns:HumanTalent" />
+  <xs:complexType name="Customer">
+    <xs:sequence>
+      <xs:element xmlns:q31="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="ChangeTracker" nillable="true" type="q31:ObjectChangeTracker" />
+      <xs:element minOccurs="0" name="CustomerAux" nillable="true" type="tns:Customer" />
+      <xs:element minOccurs="0" name="HumanTalent" nillable="true" type="tns:ArrayOfHumanTalent" />
+      <xs:element minOccurs="0" name="Id" type="xs:int" />
+      <xs:element minOccurs="0" name="Name" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Nit" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="State" type="xs:boolean" />
+      <xs:element minOccurs="0" name="TimeStamp" nillable="true" type="xs:base64Binary" />
+    </xs:sequence>
+    <xs:attribute ref="ser:Id" />
+    <xs:attribute ref="ser:Ref" />
+  </xs:complexType>
+  <xs:element name="Customer" nillable="true" type="tns:Customer" />
+  <xs:complexType name="ArrayOfHumanTalent">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="HumanTalent" nillable="true" type="tns:HumanTalent" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfHumanTalent" nillable="true" type="tns:ArrayOfHumanTalent" />
+  <xs:complexType name="Person">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Address" nillable="true" type="tns:ArrayOfAddress" />
+      <xs:element minOccurs="0" name="BirthCityId" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="BirthDate" nillable="true" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="BloodGroup" nillable="true" type="xs:string" />
+      <xs:element xmlns:q32="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="ChangeTracker" nillable="true" type="q32:ObjectChangeTracker" />
+      <xs:element minOccurs="0" name="City" nillable="true" type="tns:City" />
+      <xs:element minOccurs="0" name="City1" nillable="true" type="tns:City" />
+      <xs:element minOccurs="0" name="DeathDate" nillable="true" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="Dependents" nillable="true" type="xs:unsignedByte" />
+      <xs:element minOccurs="0" name="Email" nillable="true" type="tns:ArrayOfEmail" />
+      <xs:element minOccurs="0" name="Fingerprint" nillable="true" type="xs:base64Binary" />
+      <xs:element minOccurs="0" name="FirstLastName" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="FirstName" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Gender" nillable="true" type="xs:unsignedByte" />
+      <xs:element minOccurs="0" name="HumanTalent" nillable="true" type="tns:ArrayOfHumanTalent" />
+      <xs:element minOccurs="0" name="Id" type="xs:int" />
+      <xs:element minOccurs="0" name="IdentificacionCityId" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="IdentificationExpeditionDate" nillable="true" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="IdentificationNumber" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="IdentificationType" type="xs:int" />
+      <xs:element minOccurs="0" name="MaritalStatus" nillable="true" type="xs:unsignedByte" />
+      <xs:element minOccurs="0" name="MilitaryCardId" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="MilitaryCardNumber" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="PersonAux" nillable="true" type="tns:Person" />
+      <xs:element minOccurs="0" name="PersonDisability" nillable="true" type="tns:ArrayOfPersonDisability" />
+      <xs:element minOccurs="0" name="PersonLanguage" nillable="true" type="tns:ArrayOfPersonLanguage" />
+      <xs:element minOccurs="0" name="PersonNationality" nillable="true" type="tns:ArrayOfPersonNationality" />
+      <xs:element minOccurs="0" name="PersonProfession" nillable="true" type="tns:ArrayOfPersonProfession" />
+      <xs:element minOccurs="0" name="PersonStudy" nillable="true" type="tns:ArrayOfPersonStudy" />
+      <xs:element minOccurs="0" name="Phone" nillable="true" type="tns:ArrayOfPhone" />
+      <xs:element minOccurs="0" name="RH" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="SecondLastName" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="SecondName" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="SonNumber" nillable="true" type="xs:unsignedByte" />
+      <xs:element minOccurs="0" name="State" type="xs:boolean" />
+      <xs:element minOccurs="0" name="ThirdParty" nillable="true" type="tns:ArrayOfThirdParty" />
+    </xs:sequence>
+    <xs:attribute ref="ser:Id" />
+    <xs:attribute ref="ser:Ref" />
+  </xs:complexType>
+  <xs:element name="Person" nillable="true" type="tns:Person" />
+  <xs:complexType name="ArrayOfAddress">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="Address" nillable="true" type="tns:Address" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfAddress" nillable="true" type="tns:ArrayOfAddress" />
+  <xs:complexType name="Address">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="AddressAux" nillable="true" type="tns:Address" />
+      <xs:element minOccurs="0" name="Addresss" nillable="true" type="xs:string" />
+      <xs:element xmlns:q33="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="ChangeTracker" nillable="true" type="q33:ObjectChangeTracker" />
+      <xs:element minOccurs="0" name="Id" type="xs:int" />
+      <xs:element minOccurs="0" name="IdPerson" type="xs:int" />
+      <xs:element minOccurs="0" name="Person" nillable="true" type="tns:Person" />
+      <xs:element minOccurs="0" name="State" type="xs:boolean" />
+      <xs:element minOccurs="0" name="Synchronized" nillable="true" type="xs:string" />
+    </xs:sequence>
+    <xs:attribute ref="ser:Id" />
+    <xs:attribute ref="ser:Ref" />
+  </xs:complexType>
+  <xs:element name="Address" nillable="true" type="tns:Address" />
+  <xs:complexType name="PersonProfession">
+    <xs:sequence>
+      <xs:element xmlns:q34="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="ChangeTracker" nillable="true" type="q34:ObjectChangeTracker" />
+      <xs:element minOccurs="0" name="Id" type="xs:int" />
+      <xs:element minOccurs="0" name="IdProfession" type="xs:unsignedByte" />
+      <xs:element minOccurs="0" name="IsSupported" type="xs:boolean" />
+      <xs:element minOccurs="0" name="Person" nillable="true" type="tns:Person" />
+      <xs:element minOccurs="0" name="PersonId" type="xs:int" />
+      <xs:element minOccurs="0" name="PersonProfessionAux" nillable="true" type="tns:PersonProfession" />
+      <xs:element minOccurs="0" name="PersonStudy" nillable="true" type="tns:PersonStudy" />
+      <xs:element minOccurs="0" name="PersonStudyId" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="Profession" nillable="true" type="tns:Profession" />
+      <xs:element minOccurs="0" name="State" type="xs:boolean" />
+    </xs:sequence>
+    <xs:attribute ref="ser:Id" />
+    <xs:attribute ref="ser:Ref" />
+  </xs:complexType>
+  <xs:element name="PersonProfession" nillable="true" type="tns:PersonProfession" />
+  <xs:complexType name="PersonStudy">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="AverageGrade" nillable="true" type="xs:decimal" />
+      <xs:element xmlns:q35="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="ChangeTracker" nillable="true" type="q35:ObjectChangeTracker" />
+      <xs:element minOccurs="0" name="City" nillable="true" type="tns:City" />
+      <xs:element minOccurs="0" name="CityId" type="xs:int" />
+      <xs:element minOccurs="0" name="EndingDate" nillable="true" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="GraduationDate" nillable="true" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="Id" type="xs:int" />
+      <xs:element minOccurs="0" name="IsFormal" type="xs:boolean" />
+      <xs:element minOccurs="0" name="IsInternal" nillable="true" type="xs:boolean" />
+      <xs:element minOccurs="0" name="Length" type="xs:int" />
+      <xs:element minOccurs="0" name="Name" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Person" nillable="true" type="tns:Person" />
+      <xs:element minOccurs="0" name="PersonId" type="xs:int" />
+      <xs:element minOccurs="0" name="PersonProfession" nillable="true" type="tns:ArrayOfPersonProfession" />
+      <xs:element minOccurs="0" name="PersonStudyAux" nillable="true" type="tns:PersonStudy" />
+      <xs:element minOccurs="0" name="ProfessionalCardExpeditionDate" nillable="true" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="ProfessionalCardNumber" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="ProfessionalCardOnProcess" nillable="true" type="xs:boolean" />
+      <xs:element minOccurs="0" name="StartDate" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="State" type="xs:boolean" />
+      <xs:element minOccurs="0" name="Status" nillable="true" type="xs:unsignedByte" />
+      <xs:element minOccurs="0" name="StudyCenter" nillable="true" type="tns:StudyCenter" />
+      <xs:element minOccurs="0" name="StudyCenterId" type="xs:int" />
+      <xs:element minOccurs="0" name="StudyType" nillable="true" type="tns:StudyType" />
+      <xs:element minOccurs="0" name="StudyTypeId" type="xs:int" />
+      <xs:element minOccurs="0" name="StudyValue" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="StudyValueCompanyPercentage" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="TimeUnit" nillable="true" type="tns:TimeUnit" />
+      <xs:element minOccurs="0" name="TimeUnitId" type="xs:int" />
+    </xs:sequence>
+    <xs:attribute ref="ser:Id" />
+    <xs:attribute ref="ser:Ref" />
+  </xs:complexType>
+  <xs:element name="PersonStudy" nillable="true" type="tns:PersonStudy" />
+  <xs:complexType name="ArrayOfPersonProfession">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="PersonProfession" nillable="true" type="tns:PersonProfession" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfPersonProfession" nillable="true" type="tns:ArrayOfPersonProfession" />
+  <xs:complexType name="StudyCenter">
+    <xs:sequence>
+      <xs:element xmlns:q36="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="ChangeTracker" nillable="true" type="q36:ObjectChangeTracker" />
+      <xs:element minOccurs="0" name="Code" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Id" type="xs:int" />
+      <xs:element minOccurs="0" name="Name" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="PersonStudy" nillable="true" type="tns:ArrayOfPersonStudy" />
+      <xs:element minOccurs="0" name="State" type="xs:boolean" />
+      <xs:element minOccurs="0" name="StudyCenterAux" nillable="true" type="tns:StudyCenter" />
+    </xs:sequence>
+    <xs:attribute ref="ser:Id" />
+    <xs:attribute ref="ser:Ref" />
+  </xs:complexType>
+  <xs:element name="StudyCenter" nillable="true" type="tns:StudyCenter" />
+  <xs:complexType name="ArrayOfPersonStudy">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="PersonStudy" nillable="true" type="tns:PersonStudy" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfPersonStudy" nillable="true" type="tns:ArrayOfPersonStudy" />
+  <xs:complexType name="StudyType">
+    <xs:sequence>
+      <xs:element xmlns:q37="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="ChangeTracker" nillable="true" type="q37:ObjectChangeTracker" />
+      <xs:element minOccurs="0" name="Code" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Id" type="xs:int" />
+      <xs:element minOccurs="0" name="Name" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="PersonStudy" nillable="true" type="tns:ArrayOfPersonStudy" />
+      <xs:element minOccurs="0" name="State" type="xs:boolean" />
+      <xs:element minOccurs="0" name="StudyLevel" type="xs:unsignedByte" />
+      <xs:element minOccurs="0" name="StudyTypeAux" nillable="true" type="tns:StudyType" />
+    </xs:sequence>
+    <xs:attribute ref="ser:Id" />
+    <xs:attribute ref="ser:Ref" />
+  </xs:complexType>
+  <xs:element name="StudyType" nillable="true" type="tns:StudyType" />
+  <xs:complexType name="Profession">
+    <xs:sequence>
+      <xs:element xmlns:q38="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="ChangeTracker" nillable="true" type="q38:ObjectChangeTracker" />
+      <xs:element minOccurs="0" name="Code" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Id" type="xs:unsignedByte" />
+      <xs:element minOccurs="0" name="Name" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="PersonProfession" nillable="true" type="tns:ArrayOfPersonProfession" />
+      <xs:element minOccurs="0" name="ProfessionAux" nillable="true" type="tns:Profession" />
+      <xs:element minOccurs="0" name="State" type="xs:boolean" />
+      <xs:element minOccurs="0" name="StudyLevel" type="xs:unsignedByte" />
+    </xs:sequence>
+    <xs:attribute ref="ser:Id" />
+    <xs:attribute ref="ser:Ref" />
+  </xs:complexType>
+  <xs:element name="Profession" nillable="true" type="tns:Profession" />
+  <xs:complexType name="PersonDisability">
+    <xs:sequence>
+      <xs:element xmlns:q39="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="ChangeTracker" nillable="true" type="q39:ObjectChangeTracker" />
+      <xs:element minOccurs="0" name="Disability" nillable="true" type="tns:Disability" />
+      <xs:element minOccurs="0" name="DisabilityId" type="xs:int" />
+      <xs:element minOccurs="0" name="Id" type="xs:int" />
+      <xs:element minOccurs="0" name="Percentage" type="xs:int" />
+      <xs:element minOccurs="0" name="Person" nillable="true" type="tns:Person" />
+      <xs:element minOccurs="0" name="PersonDisabilityAux" nillable="true" type="tns:PersonDisability" />
+      <xs:element minOccurs="0" name="PersonId" type="xs:int" />
+    </xs:sequence>
+    <xs:attribute ref="ser:Id" />
+    <xs:attribute ref="ser:Ref" />
+  </xs:complexType>
+  <xs:element name="PersonDisability" nillable="true" type="tns:PersonDisability" />
+  <xs:complexType name="Disability">
+    <xs:sequence>
+      <xs:element xmlns:q40="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="ChangeTracker" nillable="true" type="q40:ObjectChangeTracker" />
+      <xs:element minOccurs="0" name="Code" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Description" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="DisabilityAux" nillable="true" type="tns:Disability" />
+      <xs:element minOccurs="0" name="Id" type="xs:int" />
+      <xs:element minOccurs="0" name="PersonDisability" nillable="true" type="tns:ArrayOfPersonDisability" />
+      <xs:element minOccurs="0" name="State" type="xs:boolean" />
+    </xs:sequence>
+    <xs:attribute ref="ser:Id" />
+    <xs:attribute ref="ser:Ref" />
+  </xs:complexType>
+  <xs:element name="Disability" nillable="true" type="tns:Disability" />
+  <xs:complexType name="ArrayOfPersonDisability">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="PersonDisability" nillable="true" type="tns:PersonDisability" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfPersonDisability" nillable="true" type="tns:ArrayOfPersonDisability" />
+  <xs:complexType name="ScheduleDetailHour">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="AppliedLiquidationConcept" type="xs:boolean" />
+      <xs:element minOccurs="0" name="Approved" type="xs:boolean" />
+      <xs:element xmlns:q41="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="ChangeTracker" nillable="true" type="q41:ObjectChangeTracker" />
+      <xs:element minOccurs="0" name="DateTimeEnding" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="DateTimeInitial" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="Event" type="xs:boolean" />
+      <xs:element minOccurs="0" name="Id" type="xs:int" />
+      <xs:element minOccurs="0" name="NextDay" type="xs:boolean" />
+      <xs:element minOccurs="0" name="ScheduleDetail" nillable="true" type="tns:ScheduleDetail" />
+      <xs:element minOccurs="0" name="ScheduleDetailConcept" nillable="true" type="tns:ArrayOfScheduleDetailConcept" />
+      <xs:element minOccurs="0" name="ScheduleDetailHourAux" nillable="true" type="tns:ScheduleDetailHour" />
+      <xs:element minOccurs="0" name="ScheduleDetailId" type="xs:int" />
+      <xs:element minOccurs="0" name="State" type="xs:boolean" />
+      <xs:element minOccurs="0" name="TotalNumberHours" type="xs:int" />
+    </xs:sequence>
+    <xs:attribute ref="ser:Id" />
+    <xs:attribute ref="ser:Ref" />
+  </xs:complexType>
+  <xs:element name="ScheduleDetailHour" nillable="true" type="tns:ScheduleDetailHour" />
+  <xs:complexType name="ArrayOfScheduleDetailConcept">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="ScheduleDetailConcept" nillable="true" type="tns:ScheduleDetailConcept" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfScheduleDetailConcept" nillable="true" type="tns:ArrayOfScheduleDetailConcept" />
+  <xs:complexType name="ScheduleDetailConcept">
+    <xs:sequence>
+      <xs:element xmlns:q42="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="ChangeTracker" nillable="true" type="q42:ObjectChangeTracker" />
+      <xs:element minOccurs="0" name="Concept" nillable="true" type="tns:Concept" />
+      <xs:element minOccurs="0" name="ConceptId" type="xs:int" />
+      <xs:element minOccurs="0" name="ConceptType" type="xs:unsignedByte" />
+      <xs:element minOccurs="0" name="Id" type="xs:int" />
+      <xs:element minOccurs="0" name="ScheduleDetailConceptAux" nillable="true" type="tns:ScheduleDetailConcept" />
+      <xs:element minOccurs="0" name="ScheduleDetailHour" nillable="true" type="tns:ScheduleDetailHour" />
+      <xs:element minOccurs="0" name="ScheduleDetailHourId" nillable="true" type="xs:int" />
+    </xs:sequence>
+    <xs:attribute ref="ser:Id" />
+    <xs:attribute ref="ser:Ref" />
+  </xs:complexType>
+  <xs:element name="ScheduleDetailConcept" nillable="true" type="tns:ScheduleDetailConcept" />
+  <xs:complexType name="ContractModificationReason">
+    <xs:sequence>
+      <xs:element xmlns:q43="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="ChangeTracker" nillable="true" type="q43:ObjectChangeTracker" />
+      <xs:element minOccurs="0" name="Code" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Contract" nillable="true" type="tns:ArrayOfContract" />
+      <xs:element minOccurs="0" name="ContractModificationReasonAux" nillable="true" type="tns:ContractModificationReason" />
+      <xs:element minOccurs="0" name="Description" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Id" type="xs:int" />
+      <xs:element minOccurs="0" name="Name" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="State" type="xs:boolean" />
+    </xs:sequence>
+    <xs:attribute ref="ser:Id" />
+    <xs:attribute ref="ser:Ref" />
+  </xs:complexType>
+  <xs:element name="ContractModificationReason" nillable="true" type="tns:ContractModificationReason" />
+  <xs:complexType name="TimeUnit">
+    <xs:sequence>
+      <xs:element xmlns:q44="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="ChangeTracker" nillable="true" type="q44:ObjectChangeTracker" />
+      <xs:element minOccurs="0" name="Code" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Id" type="xs:int" />
+      <xs:element minOccurs="0" name="Name" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="PersonStudy" nillable="true" type="tns:ArrayOfPersonStudy" />
+      <xs:element minOccurs="0" name="State" type="xs:boolean" />
+      <xs:element minOccurs="0" name="TimeUnitAux" nillable="true" type="tns:TimeUnit" />
+    </xs:sequence>
+    <xs:attribute ref="ser:Id" />
+    <xs:attribute ref="ser:Ref" />
+  </xs:complexType>
+  <xs:element name="TimeUnit" nillable="true" type="tns:TimeUnit" />
+  <xs:complexType name="PersonLanguage">
+    <xs:sequence>
+      <xs:element xmlns:q45="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="ChangeTracker" nillable="true" type="q45:ObjectChangeTracker" />
+      <xs:element minOccurs="0" name="Id" type="xs:int" />
+      <xs:element minOccurs="0" name="Language" nillable="true" type="tns:Language" />
+      <xs:element minOccurs="0" name="LanguageId" type="xs:unsignedByte" />
+      <xs:element minOccurs="0" name="LanguageLevel" type="xs:unsignedByte" />
+      <xs:element minOccurs="0" name="Person" nillable="true" type="tns:Person" />
+      <xs:element minOccurs="0" name="PersonId" type="xs:int" />
+      <xs:element minOccurs="0" name="PersonLanguageAux" nillable="true" type="tns:PersonLanguage" />
+    </xs:sequence>
+    <xs:attribute ref="ser:Id" />
+    <xs:attribute ref="ser:Ref" />
+  </xs:complexType>
+  <xs:element name="PersonLanguage" nillable="true" type="tns:PersonLanguage" />
+  <xs:complexType name="Language">
+    <xs:sequence>
+      <xs:element xmlns:q46="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="ChangeTracker" nillable="true" type="q46:ObjectChangeTracker" />
+      <xs:element minOccurs="0" name="Code" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Id" type="xs:unsignedByte" />
+      <xs:element minOccurs="0" name="LanguageAux" nillable="true" type="tns:Language" />
+      <xs:element minOccurs="0" name="Name" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="PersonLanguage" nillable="true" type="tns:ArrayOfPersonLanguage" />
+      <xs:element minOccurs="0" name="State" type="xs:boolean" />
+    </xs:sequence>
+    <xs:attribute ref="ser:Id" />
+    <xs:attribute ref="ser:Ref" />
+  </xs:complexType>
+  <xs:element name="Language" nillable="true" type="tns:Language" />
+  <xs:complexType name="ArrayOfPersonLanguage">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="PersonLanguage" nillable="true" type="tns:PersonLanguage" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfPersonLanguage" nillable="true" type="tns:ArrayOfPersonLanguage" />
+  <xs:complexType name="Message">
+    <xs:sequence>
+      <xs:element xmlns:q47="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="ChangeTracker" nillable="true" type="q47:ObjectChangeTracker" />
+      <xs:element minOccurs="0" name="Description" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Error" type="xs:boolean" />
+      <xs:element minOccurs="0" name="Id" type="xs:int" />
+      <xs:element minOccurs="0" name="Liquidation" nillable="true" type="tns:Liquidation" />
+      <xs:element minOccurs="0" name="LiquitadionId" type="xs:int" />
+      <xs:element minOccurs="0" name="MessageAux" nillable="true" type="tns:Message" />
+      <xs:element minOccurs="0" name="PayrollDate" type="xs:dateTime" />
+    </xs:sequence>
+    <xs:attribute ref="ser:Id" />
+    <xs:attribute ref="ser:Ref" />
+  </xs:complexType>
+  <xs:element name="Message" nillable="true" type="tns:Message" />
+  <xs:complexType name="ThirdParty">
+    <xs:sequence>
+      <xs:element xmlns:q48="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="ChangeTracker" nillable="true" type="q48:ObjectChangeTracker" />
+      <xs:element minOccurs="0" name="Company" nillable="true" type="tns:ArrayOfCompany" />
+      <xs:element minOccurs="0" name="ContributionType" type="xs:unsignedByte" />
+      <xs:element minOccurs="0" name="CreationDate" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="Employee" nillable="true" type="tns:ArrayOfEmployee" />
+      <xs:element minOccurs="0" name="Fund" nillable="true" type="tns:ArrayOfFund" />
+      <xs:element minOccurs="0" name="Ica" type="xs:boolean" />
+      <xs:element minOccurs="0" name="IcaPercentage" type="xs:decimal" />
+      <xs:element minOccurs="0" name="IcaTop" type="xs:boolean" />
+      <xs:element minOccurs="0" name="IcaTopValue" type="xs:decimal" />
+      <xs:element minOccurs="0" name="Id" type="xs:int" />
+      <xs:element minOccurs="0" name="Name" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Nit" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Person" nillable="true" type="tns:Person" />
+      <xs:element minOccurs="0" name="PersonId" type="xs:int" />
+      <xs:element minOccurs="0" name="PersonType" type="xs:unsignedByte" />
+      <xs:element minOccurs="0" name="RetentionType" type="xs:unsignedByte" />
+      <xs:element minOccurs="0" name="ThirdPartyAux" nillable="true" type="tns:ThirdParty" />
+      <xs:element minOccurs="0" name="UserId" type="xs:int" />
+    </xs:sequence>
+    <xs:attribute ref="ser:Id" />
+    <xs:attribute ref="ser:Ref" />
+  </xs:complexType>
+  <xs:element name="ThirdParty" nillable="true" type="tns:ThirdParty" />
+  <xs:complexType name="UnemployedLiquidation">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="AuthorizationDate" nillable="true" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="AverageMothNumber" nillable="true" type="xs:int" />
+      <xs:element xmlns:q49="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="ChangeTracker" nillable="true" type="q49:ObjectChangeTracker" />
+      <xs:element minOccurs="0" name="ConfirmLiquidated" type="xs:boolean" />
+      <xs:element minOccurs="0" name="ConfirmationDate" nillable="true" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="Contract" nillable="true" type="tns:Contract" />
+      <xs:element minOccurs="0" name="ContractId" type="xs:int" />
+      <xs:element minOccurs="0" name="DeductSanctionsDays" nillable="true" type="xs:boolean" />
+      <xs:element minOccurs="0" name="Employee" nillable="true" type="tns:Employee" />
+      <xs:element minOccurs="0" name="EmployeeId" type="xs:int" />
+      <xs:element minOccurs="0" name="FundContract" nillable="true" type="tns:FundContract" />
+      <xs:element minOccurs="0" name="FundContractId" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="IBCAverage" nillable="true" type="xs:decimal" />
+      <xs:element minOccurs="0" name="Id" type="xs:int" />
+      <xs:element minOccurs="0" name="ResolutionNumber" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="SanctionTotalDays" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="Status" nillable="true" type="xs:boolean" />
+      <xs:element minOccurs="0" name="TotalUnemployed" nillable="true" type="xs:decimal" />
+      <xs:element minOccurs="0" name="UnemployedEndingDate" nillable="true" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="UnemployedInitialDate" nillable="true" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="UnemployedInterestPayDate" nillable="true" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="UnemployedInterestPercentage" nillable="true" type="xs:decimal" />
+      <xs:element minOccurs="0" name="UnemployedInterestTotal" nillable="true" type="xs:decimal" />
+      <xs:element minOccurs="0" name="UnemployedLiquidationAux" nillable="true" type="tns:UnemployedLiquidation" />
+      <xs:element minOccurs="0" name="UnemployedLiquidationDate" nillable="true" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="UnemployedLiquidationDetail" nillable="true" type="tns:ArrayOfUnemployedLiquidationDetail" />
+      <xs:element minOccurs="0" name="UnemployedLiquidationType" type="xs:boolean" />
+      <xs:element minOccurs="0" name="UnemployedPaidTotal" nillable="true" type="xs:decimal" />
+      <xs:element minOccurs="0" name="UnemployedPayDate" nillable="true" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="UnemployedRetirementReason" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="WorkedTotalDays" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="Year" type="xs:int" />
+    </xs:sequence>
+    <xs:attribute ref="ser:Id" />
+    <xs:attribute ref="ser:Ref" />
+  </xs:complexType>
+  <xs:element name="UnemployedLiquidation" nillable="true" type="tns:UnemployedLiquidation" />
+  <xs:complexType name="ArrayOfUnemployedLiquidationDetail">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="UnemployedLiquidationDetail" nillable="true" type="tns:UnemployedLiquidationDetail" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfUnemployedLiquidationDetail" nillable="true" type="tns:ArrayOfUnemployedLiquidationDetail" />
+  <xs:complexType name="UnemployedLiquidationDetail">
+    <xs:sequence>
+      <xs:element xmlns:q50="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="ChangeTracker" nillable="true" type="q50:ObjectChangeTracker" />
+      <xs:element minOccurs="0" name="Id" type="xs:int" />
+      <xs:element minOccurs="0" name="Month" type="xs:unsignedByte" />
+      <xs:element minOccurs="0" name="Salary" type="xs:decimal" />
+      <xs:element minOccurs="0" name="SanctionsDays" type="xs:int" />
+      <xs:element minOccurs="0" name="UnemployedAverage" type="xs:decimal" />
+      <xs:element minOccurs="0" name="UnemployedLiquidation" nillable="true" type="tns:UnemployedLiquidation" />
+      <xs:element minOccurs="0" name="UnemployedLiquidationDetailAux" nillable="true" type="tns:UnemployedLiquidationDetail" />
+      <xs:element minOccurs="0" name="UnemployedLiquidationId" type="xs:int" />
+      <xs:element minOccurs="0" name="ValIBC" type="xs:decimal" />
+      <xs:element minOccurs="0" name="ValIBCNotSanction" type="xs:decimal" />
+      <xs:element minOccurs="0" name="WorkedDays" type="xs:unsignedByte" />
+      <xs:element minOccurs="0" name="Year" type="xs:int" />
+    </xs:sequence>
+    <xs:attribute ref="ser:Id" />
+    <xs:attribute ref="ser:Ref" />
+  </xs:complexType>
+  <xs:element name="UnemployedLiquidationDetail" nillable="true" type="tns:UnemployedLiquidationDetail" />
+  <xs:complexType name="IncentivePayment">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="AverageSalary" type="xs:decimal" />
+      <xs:element minOccurs="0" name="BasicSalary" type="xs:decimal" />
+      <xs:element xmlns:q51="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="ChangeTracker" nillable="true" type="q51:ObjectChangeTracker" />
+      <xs:element minOccurs="0" name="Contract" nillable="true" type="tns:Contract" />
+      <xs:element minOccurs="0" name="ContractId" type="xs:int" />
+      <xs:element minOccurs="0" name="ContractInitialDate" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="Group" nillable="true" type="tns:Group" />
+      <xs:element minOccurs="0" name="GroupId" type="xs:int" />
+      <xs:element minOccurs="0" name="Id" type="xs:int" />
+      <xs:element minOccurs="0" name="IncentivePaymentAux" nillable="true" type="tns:IncentivePayment" />
+      <xs:element minOccurs="0" name="PaidDays" type="xs:short" />
+      <xs:element minOccurs="0" name="PaidValue" type="xs:decimal" />
+      <xs:element minOccurs="0" name="PaymentType" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="PayrollNextDate" nillable="true" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="Period" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="PeriodEndDate" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="PeriodInitialDate" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="SanctionDays" nillable="true" type="xs:short" />
+      <xs:element minOccurs="0" name="TransportHelpValue" nillable="true" type="xs:decimal" />
+      <xs:element minOccurs="0" name="WorkingDays" type="xs:short" />
+    </xs:sequence>
+    <xs:attribute ref="ser:Id" />
+    <xs:attribute ref="ser:Ref" />
+  </xs:complexType>
+  <xs:element name="IncentivePayment" nillable="true" type="tns:IncentivePayment" />
+  <xs:complexType name="Phone">
+    <xs:sequence>
+      <xs:element xmlns:q52="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="ChangeTracker" nillable="true" type="q52:ObjectChangeTracker" />
+      <xs:element minOccurs="0" name="Id" type="xs:int" />
+      <xs:element minOccurs="0" name="IdPerson" type="xs:int" />
+      <xs:element minOccurs="0" name="IdPhoneType" type="xs:short" />
+      <xs:element minOccurs="0" name="Person" nillable="true" type="tns:Person" />
+      <xs:element minOccurs="0" name="Phone1" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="PhoneAux" nillable="true" type="tns:Phone" />
+      <xs:element minOccurs="0" name="State" type="xs:boolean" />
+      <xs:element minOccurs="0" name="Synchronized" nillable="true" type="xs:string" />
+    </xs:sequence>
+    <xs:attribute ref="ser:Id" />
+    <xs:attribute ref="ser:Ref" />
+  </xs:complexType>
+  <xs:element name="Phone" nillable="true" type="tns:Phone" />
+  <xs:complexType name="NoveltyScheduleDetailHour">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="AppliedLiquidationConcept" type="xs:boolean" />
+      <xs:element xmlns:q53="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="ChangeTracker" nillable="true" type="q53:ObjectChangeTracker" />
+      <xs:element minOccurs="0" name="DateTimeEnding" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="DateTimeInitial" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="Id" type="xs:int" />
+      <xs:element minOccurs="0" name="NextDay" type="xs:int" />
+      <xs:element minOccurs="0" name="NoveltyScheduleDetail" nillable="true" type="tns:NoveltyScheduleDetail" />
+      <xs:element minOccurs="0" name="NoveltyScheduleDetailConcept" nillable="true" type="tns:ArrayOfNoveltyScheduleDetailConcept" />
+      <xs:element minOccurs="0" name="NoveltyScheduleDetailHourAux" nillable="true" type="tns:NoveltyScheduleDetailHour" />
+      <xs:element minOccurs="0" name="NoveltyScheduleDetailId" type="xs:int" />
+      <xs:element minOccurs="0" name="State" type="xs:boolean" />
+      <xs:element minOccurs="0" name="TotalNumberHours" type="xs:int" />
+    </xs:sequence>
+    <xs:attribute ref="ser:Id" />
+    <xs:attribute ref="ser:Ref" />
+  </xs:complexType>
+  <xs:element name="NoveltyScheduleDetailHour" nillable="true" type="tns:NoveltyScheduleDetailHour" />
+  <xs:complexType name="ArrayOfNoveltyScheduleDetailConcept">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="NoveltyScheduleDetailConcept" nillable="true" type="tns:NoveltyScheduleDetailConcept" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfNoveltyScheduleDetailConcept" nillable="true" type="tns:ArrayOfNoveltyScheduleDetailConcept" />
+  <xs:complexType name="NoveltyScheduleDetailConcept">
+    <xs:sequence>
+      <xs:element xmlns:q54="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="ChangeTracker" nillable="true" type="q54:ObjectChangeTracker" />
+      <xs:element minOccurs="0" name="ConceptId" type="xs:int" />
+      <xs:element minOccurs="0" name="ConceptType" type="xs:unsignedByte" />
+      <xs:element minOccurs="0" name="Id" type="xs:int" />
+      <xs:element minOccurs="0" name="NoveltyScheduleDetailConceptAux" nillable="true" type="tns:NoveltyScheduleDetailConcept" />
+      <xs:element minOccurs="0" name="NoveltyScheduleDetailHour" nillable="true" type="tns:NoveltyScheduleDetailHour" />
+      <xs:element minOccurs="0" name="NoveltyScheduleDetailHourId" type="xs:int" />
+    </xs:sequence>
+    <xs:attribute ref="ser:Id" />
+    <xs:attribute ref="ser:Ref" />
+  </xs:complexType>
+  <xs:element name="NoveltyScheduleDetailConcept" nillable="true" type="tns:NoveltyScheduleDetailConcept" />
+  <xs:complexType name="PersonNationality">
+    <xs:sequence>
+      <xs:element xmlns:q55="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="ChangeTracker" nillable="true" type="q55:ObjectChangeTracker" />
+      <xs:element minOccurs="0" name="Country" nillable="true" type="tns:Country" />
+      <xs:element minOccurs="0" name="CountryId" type="xs:int" />
+      <xs:element minOccurs="0" name="Id" type="xs:int" />
+      <xs:element minOccurs="0" name="Person" nillable="true" type="tns:Person" />
+      <xs:element minOccurs="0" name="PersonId" type="xs:int" />
+      <xs:element minOccurs="0" name="PersonNationalityAux" nillable="true" type="tns:PersonNationality" />
+      <xs:element minOccurs="0" name="State" type="xs:boolean" />
+    </xs:sequence>
+    <xs:attribute ref="ser:Id" />
+    <xs:attribute ref="ser:Ref" />
+  </xs:complexType>
+  <xs:element name="PersonNationality" nillable="true" type="tns:PersonNationality" />
+  <xs:complexType name="Country">
+    <xs:sequence>
+      <xs:element xmlns:q56="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="ChangeTracker" nillable="true" type="q56:ObjectChangeTracker" />
+      <xs:element minOccurs="0" name="Code" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="CountryAux" nillable="true" type="tns:Country" />
+      <xs:element minOccurs="0" name="Department" nillable="true" type="tns:ArrayOfDepartment" />
+      <xs:element minOccurs="0" name="Id" type="xs:int" />
+      <xs:element minOccurs="0" name="Name" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Nationality" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="PersonNationality" nillable="true" type="tns:ArrayOfPersonNationality" />
+      <xs:element minOccurs="0" name="State" type="xs:boolean" />
+    </xs:sequence>
+    <xs:attribute ref="ser:Id" />
+    <xs:attribute ref="ser:Ref" />
+  </xs:complexType>
+  <xs:element name="Country" nillable="true" type="tns:Country" />
+  <xs:complexType name="ArrayOfDepartment">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="Department" nillable="true" type="tns:Department" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfDepartment" nillable="true" type="tns:ArrayOfDepartment" />
+  <xs:complexType name="Department">
+    <xs:sequence>
+      <xs:element xmlns:q57="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="ChangeTracker" nillable="true" type="q57:ObjectChangeTracker" />
+      <xs:element minOccurs="0" name="City" nillable="true" type="tns:ArrayOfCity" />
+      <xs:element minOccurs="0" name="Code" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Country" nillable="true" type="tns:Country" />
+      <xs:element minOccurs="0" name="CountryId" type="xs:int" />
+      <xs:element minOccurs="0" name="DepartmentAux" nillable="true" type="tns:Department" />
+      <xs:element minOccurs="0" name="Id" type="xs:int" />
+      <xs:element minOccurs="0" name="Name" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="State" type="xs:boolean" />
+    </xs:sequence>
+    <xs:attribute ref="ser:Id" />
+    <xs:attribute ref="ser:Ref" />
+  </xs:complexType>
+  <xs:element name="Department" nillable="true" type="tns:Department" />
+  <xs:complexType name="ArrayOfCity">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="City" nillable="true" type="tns:City" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfCity" nillable="true" type="tns:ArrayOfCity" />
+  <xs:complexType name="EmployeeType">
+    <xs:sequence>
+      <xs:element xmlns:q58="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="ChangeTracker" nillable="true" type="q58:ObjectChangeTracker" />
+      <xs:element minOccurs="0" name="Code" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Employee" nillable="true" type="tns:ArrayOfEmployee" />
+      <xs:element minOccurs="0" name="EmployeeTypeAux" nillable="true" type="tns:EmployeeType" />
+      <xs:element minOccurs="0" name="Id" type="xs:int" />
+      <xs:element minOccurs="0" name="Name" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="State" type="xs:boolean" />
+    </xs:sequence>
+    <xs:attribute ref="ser:Id" />
+    <xs:attribute ref="ser:Ref" />
+  </xs:complexType>
+  <xs:element name="EmployeeType" nillable="true" type="tns:EmployeeType" />
+  <xs:complexType name="PayrollParameter">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="AverageMonthVacation" type="xs:unsignedByte" />
+      <xs:element xmlns:q59="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="ChangeTracker" nillable="true" type="q59:ObjectChangeTracker" />
+      <xs:element minOccurs="0" name="CompensationFundContributionPercentage" type="xs:decimal" />
+      <xs:element minOccurs="0" name="EducationHealthDiscountPercentage" type="xs:decimal" />
+      <xs:element minOccurs="0" name="EmployeeHealthContributionPercentage" type="xs:decimal" />
+      <xs:element minOccurs="0" name="EmployeePensionContributionPercentage" type="xs:decimal" />
+      <xs:element minOccurs="0" name="EmployerHealthContributionPercentage" type="xs:decimal" />
+      <xs:element minOccurs="0" name="EmployerPensionContributionPercentage" type="xs:decimal" />
+      <xs:element minOccurs="0" name="EndTimeOrdinaryDay" type="ser:duration" />
+      <xs:element minOccurs="0" name="Group" nillable="true" type="tns:ArrayOfGroup" />
+      <xs:element minOccurs="0" name="HealthContributionMaximunSalary" type="xs:unsignedByte" />
+      <xs:element minOccurs="0" name="HousingDeductionMaximumValue" type="xs:decimal" />
+      <xs:element minOccurs="0" name="ICBFContributionPercentage" type="xs:decimal" />
+      <xs:element minOccurs="0" name="Id" type="xs:int" />
+      <xs:element minOccurs="0" name="InitialTimeOrdinaryDay" type="ser:duration" />
+      <xs:element minOccurs="0" name="InstitutionalMinimumSalary" type="xs:decimal" />
+      <xs:element minOccurs="0" name="LegalSalaryMinimum" type="xs:decimal" />
+      <xs:element minOccurs="0" name="LiquidateVacation" type="xs:boolean" />
+      <xs:element minOccurs="0" name="MaxPremiumByYear" type="xs:int" />
+      <xs:element minOccurs="0" name="MaxVacationByYear" type="xs:int" />
+      <xs:element minOccurs="0" name="MaximunDiscountPercentage" type="xs:decimal" />
+      <xs:element minOccurs="0" name="PayrollParameterAux" nillable="true" type="tns:PayrollParameter" />
+      <xs:element minOccurs="0" name="RTFExemptPercentage" type="xs:decimal" />
+      <xs:element minOccurs="0" name="SaturdayBusinessDay" type="xs:boolean" />
+      <xs:element minOccurs="0" name="SenaContributionPercentage" type="xs:decimal" />
+      <xs:element minOccurs="0" name="SundayBusinessDay" type="xs:boolean" />
+      <xs:element minOccurs="0" name="TransportHelpValue" type="xs:decimal" />
+      <xs:element minOccurs="0" name="VacationAdvanced" type="xs:boolean" />
+      <xs:element minOccurs="0" name="VacationDays" type="xs:unsignedByte" />
+    </xs:sequence>
+    <xs:attribute ref="ser:Id" />
+    <xs:attribute ref="ser:Ref" />
+  </xs:complexType>
+  <xs:element name="PayrollParameter" nillable="true" type="tns:PayrollParameter" />
+  <xs:complexType name="ArrayOfGroup">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="Group" nillable="true" type="tns:Group" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfGroup" nillable="true" type="tns:ArrayOfGroup" />
+  <xs:complexType name="Email">
+    <xs:sequence>
+      <xs:element xmlns:q60="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="ChangeTracker" nillable="true" type="q60:ObjectChangeTracker" />
+      <xs:element minOccurs="0" name="Email1" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="EmailAux" nillable="true" type="tns:Email" />
+      <xs:element minOccurs="0" name="Id" type="xs:int" />
+      <xs:element minOccurs="0" name="IdPerson" type="xs:int" />
+      <xs:element minOccurs="0" name="Person" nillable="true" type="tns:Person" />
+      <xs:element minOccurs="0" name="State" type="xs:boolean" />
+      <xs:element minOccurs="0" name="Synchronized" nillable="true" type="xs:string" />
+    </xs:sequence>
+    <xs:attribute ref="ser:Id" />
+    <xs:attribute ref="ser:Ref" />
+  </xs:complexType>
+  <xs:element name="Email" nillable="true" type="tns:Email" />
+  <xs:complexType name="Novelty">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="AutorizationNumber" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="CalculationType" nillable="true" type="xs:unsignedByte" />
+      <xs:element xmlns:q61="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="ChangeTracker" nillable="true" type="q61:ObjectChangeTracker" />
+      <xs:element minOccurs="0" name="Consecutive" type="xs:int" />
+      <xs:element minOccurs="0" name="Days" type="xs:unsignedByte" />
+      <xs:element minOccurs="0" name="EPSDays" nillable="true" type="xs:unsignedByte" />
+      <xs:element minOccurs="0" name="EPSRecognizeValue" nillable="true" type="xs:decimal" />
+      <xs:element minOccurs="0" name="Employee" nillable="true" type="tns:Employee" />
+      <xs:element minOccurs="0" name="EmployeeBaseSalary" type="xs:decimal" />
+      <xs:element minOccurs="0" name="EmployeeId" type="xs:int" />
+      <xs:element minOccurs="0" name="EmployerDays" nillable="true" type="xs:unsignedByte" />
+      <xs:element minOccurs="0" name="EndDate" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="Extension" type="xs:unsignedByte" />
+      <xs:element minOccurs="0" name="Group" nillable="true" type="tns:Group" />
+      <xs:element minOccurs="0" name="GroupId" type="xs:int" />
+      <xs:element minOccurs="0" name="IBC" type="xs:decimal" />
+      <xs:element minOccurs="0" name="Id" type="xs:int" />
+      <xs:element minOccurs="0" name="InabilityClass" nillable="true" type="xs:unsignedByte" />
+      <xs:element minOccurs="0" name="LicenseClass" nillable="true" type="xs:unsignedByte" />
+      <xs:element minOccurs="0" name="LiquidatedIBCorSalary" type="xs:unsignedByte" />
+      <xs:element minOccurs="0" name="LiquidationBase" type="xs:int" />
+      <xs:element minOccurs="0" name="NoveltyAux" nillable="true" type="tns:Novelty" />
+      <xs:element minOccurs="0" name="NoveltyLiquidate" type="xs:boolean" />
+      <xs:element minOccurs="0" name="PaidEmployerValue" nillable="true" type="xs:decimal" />
+      <xs:element minOccurs="0" name="PaidPayrollValue" nillable="true" type="xs:decimal" />
+      <xs:element minOccurs="0" name="RealDate" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="Reason" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="RiskType" nillable="true" type="xs:unsignedByte" />
+      <xs:element minOccurs="0" name="Status" type="xs:unsignedByte" />
+      <xs:element minOccurs="0" name="TypeNovelty" type="xs:unsignedByte" />
+      <xs:element minOccurs="0" name="Value" nillable="true" type="xs:decimal" />
+    </xs:sequence>
+    <xs:attribute ref="ser:Id" />
+    <xs:attribute ref="ser:Ref" />
+  </xs:complexType>
+  <xs:element name="Novelty" nillable="true" type="tns:Novelty" />
+  <xs:complexType name="Relationship">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="BirthDate" nillable="true" type="xs:dateTime" />
+      <xs:element xmlns:q62="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="ChangeTracker" nillable="true" type="q62:ObjectChangeTracker" />
+      <xs:element minOccurs="0" name="Dependent" type="xs:boolean" />
+      <xs:element minOccurs="0" name="Employee" nillable="true" type="tns:Employee" />
+      <xs:element minOccurs="0" name="EmployeeId" type="xs:int" />
+      <xs:element minOccurs="0" name="Id" type="xs:int" />
+      <xs:element minOccurs="0" name="Kinship" nillable="true" type="tns:Kinship" />
+      <xs:element minOccurs="0" name="KinshipId" type="xs:int" />
+      <xs:element minOccurs="0" name="Name" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="ProvidesUPC" type="xs:boolean" />
+      <xs:element minOccurs="0" name="RelationshipAux" nillable="true" type="tns:Relationship" />
+      <xs:element minOccurs="0" name="State" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="UPCValue" type="xs:decimal" />
+    </xs:sequence>
+    <xs:attribute ref="ser:Id" />
+    <xs:attribute ref="ser:Ref" />
+  </xs:complexType>
+  <xs:element name="Relationship" nillable="true" type="tns:Relationship" />
+  <xs:complexType name="Kinship">
+    <xs:sequence>
+      <xs:element xmlns:q63="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="ChangeTracker" nillable="true" type="q63:ObjectChangeTracker" />
+      <xs:element minOccurs="0" name="Code" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Id" type="xs:int" />
+      <xs:element minOccurs="0" name="KinshipAux" nillable="true" type="tns:Kinship" />
+      <xs:element minOccurs="0" name="Name" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Relationship" nillable="true" type="tns:ArrayOfRelationship" />
+      <xs:element minOccurs="0" name="State" type="xs:boolean" />
+    </xs:sequence>
+    <xs:attribute ref="ser:Id" />
+    <xs:attribute ref="ser:Ref" />
+  </xs:complexType>
+  <xs:element name="Kinship" nillable="true" type="tns:Kinship" />
+  <xs:complexType name="ArrayOfRelationship">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="Relationship" nillable="true" type="tns:Relationship" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfRelationship" nillable="true" type="tns:ArrayOfRelationship" />
+  <xs:complexType name="GroupEventConcept">
+    <xs:sequence>
+      <xs:element xmlns:q64="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="ChangeTracker" nillable="true" type="q64:ObjectChangeTracker" />
+      <xs:element minOccurs="0" name="Concept" nillable="true" type="tns:Concept" />
+      <xs:element minOccurs="0" name="ConceptId" type="xs:int" />
+      <xs:element minOccurs="0" name="Group" nillable="true" type="tns:Group" />
+      <xs:element minOccurs="0" name="GroupEventConceptAux" nillable="true" type="tns:GroupEventConcept" />
+      <xs:element minOccurs="0" name="GroupId" type="xs:int" />
+      <xs:element minOccurs="0" name="Id" type="xs:int" />
+      <xs:element minOccurs="0" name="TypeDay" type="xs:unsignedByte" />
+      <xs:element minOccurs="0" name="TypeSchedule" type="xs:unsignedByte" />
+    </xs:sequence>
+    <xs:attribute ref="ser:Id" />
+    <xs:attribute ref="ser:Ref" />
+  </xs:complexType>
+  <xs:element name="GroupEventConcept" nillable="true" type="tns:GroupEventConcept" />
+  <xs:complexType name="ScheduleTemplateConcept">
+    <xs:sequence>
+      <xs:element xmlns:q65="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="ChangeTracker" nillable="true" type="q65:ObjectChangeTracker" />
+      <xs:element minOccurs="0" name="Consecutive" type="xs:unsignedByte" />
+      <xs:element minOccurs="0" name="EndingTime" type="ser:duration" />
+      <xs:element minOccurs="0" name="Id" type="xs:int" />
+      <xs:element minOccurs="0" name="InitialTime" type="ser:duration" />
+      <xs:element minOccurs="0" name="NextDay" type="xs:boolean" />
+      <xs:element minOccurs="0" name="NumberHour" type="xs:int" />
+      <xs:element minOccurs="0" name="ScheduleTemplate" nillable="true" type="tns:ScheduleTemplate" />
+      <xs:element minOccurs="0" name="ScheduleTemplateConceptAux" nillable="true" type="tns:ScheduleTemplateConcept" />
+      <xs:element minOccurs="0" name="ScheduleTemplateConceptDetail" nillable="true" type="tns:ArrayOfScheduleTemplateConceptDetail" />
+      <xs:element minOccurs="0" name="ScheduleTemplateId" type="xs:int" />
+      <xs:element minOccurs="0" name="State" type="xs:boolean" />
+    </xs:sequence>
+    <xs:attribute ref="ser:Id" />
+    <xs:attribute ref="ser:Ref" />
+  </xs:complexType>
+  <xs:element name="ScheduleTemplateConcept" nillable="true" type="tns:ScheduleTemplateConcept" />
+  <xs:complexType name="ArrayOfScheduleTemplateConceptDetail">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="ScheduleTemplateConceptDetail" nillable="true" type="tns:ScheduleTemplateConceptDetail" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfScheduleTemplateConceptDetail" nillable="true" type="tns:ArrayOfScheduleTemplateConceptDetail" />
+  <xs:complexType name="ScheduleTemplateConceptDetail">
+    <xs:sequence>
+      <xs:element xmlns:q66="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="ChangeTracker" nillable="true" type="q66:ObjectChangeTracker" />
+      <xs:element minOccurs="0" name="Concept" nillable="true" type="tns:Concept" />
+      <xs:element minOccurs="0" name="ConceptId" type="xs:int" />
+      <xs:element minOccurs="0" name="ConceptType" type="xs:unsignedByte" />
+      <xs:element minOccurs="0" name="Id" type="xs:int" />
+      <xs:element minOccurs="0" name="ScheduleTemplateConcept" nillable="true" type="tns:ScheduleTemplateConcept" />
+      <xs:element minOccurs="0" name="ScheduleTemplateConceptDetailAux" nillable="true" type="tns:ScheduleTemplateConceptDetail" />
+      <xs:element minOccurs="0" name="ScheduleTemplateConceptId" type="xs:int" />
+    </xs:sequence>
+    <xs:attribute ref="ser:Id" />
+    <xs:attribute ref="ser:Ref" />
+  </xs:complexType>
+  <xs:element name="ScheduleTemplateConceptDetail" nillable="true" type="tns:ScheduleTemplateConceptDetail" />
+  <xs:complexType name="KindsAgreements">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="AgreementsC" nillable="true" type="tns:ArrayOfAgreementsC" />
+      <xs:element xmlns:q67="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="ChangeTracker" nillable="true" type="q67:ObjectChangeTracker" />
+      <xs:element minOccurs="0" name="Code" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="CodeNameConcatenated" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Description" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Id" type="xs:int" />
+      <xs:element minOccurs="0" name="KindsAgreementsAux" nillable="true" type="tns:KindsAgreements" />
+      <xs:element minOccurs="0" name="State" type="xs:boolean" />
+      <xs:element minOccurs="0" name="TimeStamp" nillable="true" type="xs:base64Binary" />
+    </xs:sequence>
+    <xs:attribute ref="ser:Id" />
+    <xs:attribute ref="ser:Ref" />
+  </xs:complexType>
+  <xs:element name="KindsAgreements" nillable="true" type="tns:KindsAgreements" />
+  <xs:complexType name="ContractLiquidation">
+    <xs:sequence>
+      <xs:element xmlns:q68="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="ChangeTracker" nillable="true" type="q68:ObjectChangeTracker" />
+      <xs:element minOccurs="0" name="Contract" nillable="true" type="tns:Contract" />
+      <xs:element minOccurs="0" name="ContractId" type="xs:int" />
+      <xs:element minOccurs="0" name="ContractLiquidationAux" nillable="true" type="tns:ContractLiquidation" />
+      <xs:element minOccurs="0" name="ContractLiquidationDetail" nillable="true" type="tns:ArrayOfContractLiquidationDetail" />
+      <xs:element minOccurs="0" name="Employee" nillable="true" type="tns:Employee" />
+      <xs:element minOccurs="0" name="EmployeeId" type="xs:int" />
+      <xs:element minOccurs="0" name="Id" type="xs:int" />
+      <xs:element minOccurs="0" name="RetirementDate" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="RetirementReason" nillable="true" type="tns:RetirementReason" />
+      <xs:element minOccurs="0" name="RetirementReasonId" type="xs:unsignedByte" />
+      <xs:element minOccurs="0" name="Status" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="TotalAccrued" type="xs:decimal" />
+      <xs:element minOccurs="0" name="TotalDeducted" type="xs:decimal" />
+      <xs:element minOccurs="0" name="TotalPaid" type="xs:decimal" />
+    </xs:sequence>
+    <xs:attribute ref="ser:Id" />
+    <xs:attribute ref="ser:Ref" />
+  </xs:complexType>
+  <xs:element name="ContractLiquidation" nillable="true" type="tns:ContractLiquidation" />
+  <xs:complexType name="ArrayOfContractLiquidationDetail">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="ContractLiquidationDetail" nillable="true" type="tns:ContractLiquidationDetail" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfContractLiquidationDetail" nillable="true" type="tns:ArrayOfContractLiquidationDetail" />
+  <xs:complexType name="ContractLiquidationDetail">
+    <xs:sequence>
+      <xs:element xmlns:q69="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="ChangeTracker" nillable="true" type="q69:ObjectChangeTracker" />
+      <xs:element minOccurs="0" name="ContractLiquidation" nillable="true" type="tns:ContractLiquidation" />
+      <xs:element minOccurs="0" name="ContractLiquidationDetailAux" nillable="true" type="tns:ContractLiquidationDetail" />
+      <xs:element minOccurs="0" name="ContractLiquidationId" type="xs:int" />
+      <xs:element minOccurs="0" name="Description" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="EndingDate" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="Id" type="xs:int" />
+      <xs:element minOccurs="0" name="InitialDate" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="Value" type="xs:decimal" />
+    </xs:sequence>
+    <xs:attribute ref="ser:Id" />
+    <xs:attribute ref="ser:Ref" />
+  </xs:complexType>
+  <xs:element name="ContractLiquidationDetail" nillable="true" type="tns:ContractLiquidationDetail" />
+  <xs:complexType name="VacationPeriod">
+    <xs:sequence>
+      <xs:element xmlns:q70="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="ChangeTracker" nillable="true" type="q70:ObjectChangeTracker" />
+      <xs:element minOccurs="0" name="Contract" nillable="true" type="tns:Contract" />
+      <xs:element minOccurs="0" name="ContractId" type="xs:int" />
+      <xs:element minOccurs="0" name="Employee" nillable="true" type="tns:Employee" />
+      <xs:element minOccurs="0" name="EmployeeId" type="xs:int" />
+      <xs:element minOccurs="0" name="EndDatePeriod" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="Id" type="xs:int" />
+      <xs:element minOccurs="0" name="InitialDatePeriod" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="PendingDays" type="xs:unsignedByte" />
+      <xs:element minOccurs="0" name="TakenDays" type="xs:unsignedByte" />
+      <xs:element minOccurs="0" name="Vacation" nillable="true" type="tns:ArrayOfVacation" />
+      <xs:element minOccurs="0" name="VacationDays" type="xs:unsignedByte" />
+      <xs:element minOccurs="0" name="VacationPeriodAux" nillable="true" type="tns:VacationPeriod" />
+    </xs:sequence>
+    <xs:attribute ref="ser:Id" />
+    <xs:attribute ref="ser:Ref" />
+  </xs:complexType>
+  <xs:element name="VacationPeriod" nillable="true" type="tns:VacationPeriod" />
+  <xs:complexType name="ArrayOfVacation">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="Vacation" nillable="true" type="tns:Vacation" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfVacation" nillable="true" type="tns:ArrayOfVacation" />
+  <xs:complexType name="Vacation">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="BaseLiquidation" type="xs:decimal" />
+      <xs:element xmlns:q71="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="ChangeTracker" nillable="true" type="q71:ObjectChangeTracker" />
+      <xs:element minOccurs="0" name="EnjoyDays" type="xs:unsignedByte" />
+      <xs:element minOccurs="0" name="HealthContribution" type="xs:decimal" />
+      <xs:element minOccurs="0" name="Id" type="xs:int" />
+      <xs:element minOccurs="0" name="IncorporationDate" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="IncorporationDateReal" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="LiquidationDate" nillable="true" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="NotWorkedDays" type="xs:int" />
+      <xs:element minOccurs="0" name="PensionContribution" type="xs:decimal" />
+      <xs:element minOccurs="0" name="State" type="xs:unsignedByte" />
+      <xs:element minOccurs="0" name="StateIncorporation" type="xs:unsignedByte" />
+      <xs:element minOccurs="0" name="TakenDays" type="xs:unsignedByte" />
+      <xs:element minOccurs="0" name="TakenDaysReal" type="xs:int" />
+      <xs:element minOccurs="0" name="TypeLiquidation" type="xs:unsignedByte" />
+      <xs:element minOccurs="0" name="TypePayment" type="xs:unsignedByte" />
+      <xs:element minOccurs="0" name="TypeVacation" type="xs:unsignedByte" />
+      <xs:element minOccurs="0" name="VacationAux" nillable="true" type="tns:Vacation" />
+      <xs:element minOccurs="0" name="VacationEndDate" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="VacationPeriod" nillable="true" type="tns:VacationPeriod" />
+      <xs:element minOccurs="0" name="VacationPeriodId" type="xs:int" />
+      <xs:element minOccurs="0" name="VacationStartDate" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="VacationValue" type="xs:decimal" />
+      <xs:element minOccurs="0" name="VacationValueNet" type="xs:decimal" />
+      <xs:element minOccurs="0" name="WorkedDays" type="xs:int" />
+    </xs:sequence>
+    <xs:attribute ref="ser:Id" />
+    <xs:attribute ref="ser:Ref" />
+  </xs:complexType>
+  <xs:element name="Vacation" nillable="true" type="tns:Vacation" />
+  <xs:complexType name="RetirementReason">
+    <xs:sequence>
+      <xs:element xmlns:q72="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="ChangeTracker" nillable="true" type="q72:ObjectChangeTracker" />
+      <xs:element minOccurs="0" name="Code" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Compensation" type="xs:boolean" />
+      <xs:element minOccurs="0" name="Contract" nillable="true" type="tns:ArrayOfContract" />
+      <xs:element minOccurs="0" name="ContractLiquidation" nillable="true" type="tns:ArrayOfContractLiquidation" />
+      <xs:element minOccurs="0" name="Id" type="xs:unsignedByte" />
+      <xs:element minOccurs="0" name="Name" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="RetirementReasonAux" nillable="true" type="tns:RetirementReason" />
+      <xs:element minOccurs="0" name="State" type="xs:boolean" />
+    </xs:sequence>
+    <xs:attribute ref="ser:Id" />
+    <xs:attribute ref="ser:Ref" />
+  </xs:complexType>
+  <xs:element name="RetirementReason" nillable="true" type="tns:RetirementReason" />
+  <xs:complexType name="ArrayOfContractLiquidation">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="ContractLiquidation" nillable="true" type="tns:ContractLiquidation" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfContractLiquidation" nillable="true" type="tns:ArrayOfContractLiquidation" />
+  <xs:complexType name="FunctionalUnitResponsible">
+    <xs:sequence>
+      <xs:element xmlns:q73="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="ChangeTracker" nillable="true" type="q73:ObjectChangeTracker" />
+      <xs:element minOccurs="0" name="Fullname" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="FunctionalUnit" nillable="true" type="tns:FunctionalUnit" />
+      <xs:element minOccurs="0" name="FunctionalUnitId" type="xs:int" />
+      <xs:element minOccurs="0" name="FunctionalUnitResponsibleAux" nillable="true" type="tns:FunctionalUnitResponsible" />
+      <xs:element minOccurs="0" name="Id" type="xs:int" />
+      <xs:element minOccurs="0" name="User" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="UserId" type="xs:int" />
+    </xs:sequence>
+    <xs:attribute ref="ser:Id" />
+    <xs:attribute ref="ser:Ref" />
+  </xs:complexType>
+  <xs:element name="FunctionalUnitResponsible" nillable="true" type="tns:FunctionalUnitResponsible" />
+  <xs:complexType name="Position">
+    <xs:sequence>
+      <xs:element xmlns:q74="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="ChangeTracker" nillable="true" type="q74:ObjectChangeTracker" />
+      <xs:element minOccurs="0" name="Code" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Contract" nillable="true" type="tns:ArrayOfContract" />
+      <xs:element minOccurs="0" name="HandlesTurnsChart" type="xs:boolean" />
+      <xs:element minOccurs="0" name="Id" type="xs:int" />
+      <xs:element minOccurs="0" name="MaxBasicSalary" type="xs:int" />
+      <xs:element minOccurs="0" name="MaxHourAmount" type="xs:int" />
+      <xs:element minOccurs="0" name="MinBasicSalary" type="xs:int" />
+      <xs:element minOccurs="0" name="MinHourAmount" type="xs:int" />
+      <xs:element minOccurs="0" name="Name" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="NightlyChargeAuthorization" type="xs:boolean" />
+      <xs:element minOccurs="0" name="PositionAux" nillable="true" type="tns:Position" />
+      <xs:element minOccurs="0" name="PositionLevel" nillable="true" type="tns:PositionLevel" />
+      <xs:element minOccurs="0" name="PositionLevelId" type="xs:unsignedByte" />
+      <xs:element minOccurs="0" name="ProfessionalRisk" nillable="true" type="tns:ProfessionalRisk" />
+      <xs:element minOccurs="0" name="ProfessionalRiskLevelId" type="xs:int" />
+      <xs:element minOccurs="0" name="Simulation" type="xs:boolean" />
+      <xs:element minOccurs="0" name="State" type="xs:boolean" />
+    </xs:sequence>
+    <xs:attribute ref="ser:Id" />
+    <xs:attribute ref="ser:Ref" />
+  </xs:complexType>
+  <xs:element name="Position" nillable="true" type="tns:Position" />
+  <xs:complexType name="PositionLevel">
+    <xs:sequence>
+      <xs:element xmlns:q75="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="ChangeTracker" nillable="true" type="q75:ObjectChangeTracker" />
+      <xs:element minOccurs="0" name="Code" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Id" type="xs:unsignedByte" />
+      <xs:element minOccurs="0" name="Name" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Position" nillable="true" type="tns:ArrayOfPosition" />
+      <xs:element minOccurs="0" name="PositionLevelAux" nillable="true" type="tns:PositionLevel" />
+      <xs:element minOccurs="0" name="State" type="xs:boolean" />
+    </xs:sequence>
+    <xs:attribute ref="ser:Id" />
+    <xs:attribute ref="ser:Ref" />
+  </xs:complexType>
+  <xs:element name="PositionLevel" nillable="true" type="tns:PositionLevel" />
+  <xs:complexType name="ArrayOfPosition">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="Position" nillable="true" type="tns:Position" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfPosition" nillable="true" type="tns:ArrayOfPosition" />
+  <xs:complexType name="ContractType">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="AutoRenew" type="xs:boolean" />
+      <xs:element xmlns:q76="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="ChangeTracker" nillable="true" type="q76:ObjectChangeTracker" />
+      <xs:element minOccurs="0" name="Code" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Contract" nillable="true" type="tns:ArrayOfContract" />
+      <xs:element minOccurs="0" name="ContractClass" type="xs:unsignedByte" />
+      <xs:element minOccurs="0" name="ContractTemplate" nillable="true" type="tns:ArrayOfContractTemplate" />
+      <xs:element minOccurs="0" name="ContractTypeAux" nillable="true" type="tns:ContractType" />
+      <xs:element minOccurs="0" name="Id" type="xs:int" />
+      <xs:element minOccurs="0" name="JobBondingType" nillable="true" type="tns:JobBondingType" />
+      <xs:element minOccurs="0" name="JobBondingTypeId" type="xs:unsignedByte" />
+      <xs:element minOccurs="0" name="Name" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="SalaryType" type="xs:unsignedByte" />
+      <xs:element minOccurs="0" name="SeveranceType" type="xs:unsignedByte" />
+      <xs:element minOccurs="0" name="State" type="xs:boolean" />
+      <xs:element minOccurs="0" name="TestPeriod" type="xs:boolean" />
+      <xs:element minOccurs="0" name="Undefined" type="xs:boolean" />
+    </xs:sequence>
+    <xs:attribute ref="ser:Id" />
+    <xs:attribute ref="ser:Ref" />
+  </xs:complexType>
+  <xs:element name="ContractType" nillable="true" type="tns:ContractType" />
+  <xs:complexType name="ArrayOfContractTemplate">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="ContractTemplate" nillable="true" type="tns:ContractTemplate" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfContractTemplate" nillable="true" type="tns:ArrayOfContractTemplate" />
+  <xs:complexType name="ContractTemplate">
+    <xs:sequence>
+      <xs:element xmlns:q77="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="ChangeTracker" nillable="true" type="q77:ObjectChangeTracker" />
+      <xs:element minOccurs="0" name="Code" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="ContractTemplateAux" nillable="true" type="tns:ContractTemplate" />
+      <xs:element minOccurs="0" name="ContractType" nillable="true" type="tns:ContractType" />
+      <xs:element minOccurs="0" name="ContractTypeId" type="xs:int" />
+      <xs:element minOccurs="0" name="FullContract" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Id" type="xs:int" />
+      <xs:element minOccurs="0" name="Name" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="State" type="xs:boolean" />
+    </xs:sequence>
+    <xs:attribute ref="ser:Id" />
+    <xs:attribute ref="ser:Ref" />
+  </xs:complexType>
+  <xs:element name="ContractTemplate" nillable="true" type="tns:ContractTemplate" />
+  <xs:complexType name="ProfessionalRisk">
+    <xs:sequence>
+      <xs:element xmlns:q78="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="ChangeTracker" nillable="true" type="q78:ObjectChangeTracker" />
+      <xs:element minOccurs="0" name="Code" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Id" type="xs:int" />
+      <xs:element minOccurs="0" name="Name" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Percentage" type="xs:decimal" />
+      <xs:element minOccurs="0" name="Position" nillable="true" type="tns:ArrayOfPosition" />
+      <xs:element minOccurs="0" name="ProfessionalRiskAux" nillable="true" type="tns:ProfessionalRisk" />
+      <xs:element minOccurs="0" name="State" type="xs:boolean" />
+    </xs:sequence>
+    <xs:attribute ref="ser:Id" />
+    <xs:attribute ref="ser:Ref" />
+  </xs:complexType>
+  <xs:element name="ProfessionalRisk" nillable="true" type="tns:ProfessionalRisk" />
+  <xs:complexType name="JobBondingType">
+    <xs:sequence>
+      <xs:element xmlns:q79="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="ChangeTracker" nillable="true" type="q79:ObjectChangeTracker" />
+      <xs:element minOccurs="0" name="Code" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="ContractType" nillable="true" type="tns:ArrayOfContractType" />
+      <xs:element minOccurs="0" name="Id" type="xs:unsignedByte" />
+      <xs:element minOccurs="0" name="JobBondingTypeAux" nillable="true" type="tns:JobBondingType" />
+      <xs:element minOccurs="0" name="Name" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="State" type="xs:boolean" />
+    </xs:sequence>
+    <xs:attribute ref="ser:Id" />
+    <xs:attribute ref="ser:Ref" />
+  </xs:complexType>
+  <xs:element name="JobBondingType" nillable="true" type="tns:JobBondingType" />
+  <xs:complexType name="ArrayOfContractType">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="ContractType" nillable="true" type="tns:ContractType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfContractType" nillable="true" type="tns:ArrayOfContractType" />
+  <xs:complexType name="ArrayOfPersonNationality">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="PersonNationality" nillable="true" type="tns:PersonNationality" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfPersonNationality" nillable="true" type="tns:ArrayOfPersonNationality" />
+  <xs:complexType name="ArrayOfEmail">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="Email" nillable="true" type="tns:Email" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfEmail" nillable="true" type="tns:ArrayOfEmail" />
+  <xs:complexType name="ArrayOfPhone">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="Phone" nillable="true" type="tns:Phone" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfPhone" nillable="true" type="tns:ArrayOfPhone" />
+  <xs:complexType name="ArrayOfThirdParty">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="ThirdParty" nillable="true" type="tns:ThirdParty" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfThirdParty" nillable="true" type="tns:ArrayOfThirdParty" />
+  <xs:complexType name="ArrayOfMessage">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="Message" nillable="true" type="tns:Message" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfMessage" nillable="true" type="tns:ArrayOfMessage" />
+  <xs:complexType name="ArrayOfScheduleDetailHour">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="ScheduleDetailHour" nillable="true" type="tns:ScheduleDetailHour" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfScheduleDetailHour" nillable="true" type="tns:ArrayOfScheduleDetailHour" />
+  <xs:complexType name="ArrayOfNoveltyScheduleDetailHour">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="NoveltyScheduleDetailHour" nillable="true" type="tns:NoveltyScheduleDetailHour" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfNoveltyScheduleDetailHour" nillable="true" type="tns:ArrayOfNoveltyScheduleDetailHour" />
+  <xs:complexType name="ArrayOfScheduleTemplateConcept">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="ScheduleTemplateConcept" nillable="true" type="tns:ScheduleTemplateConcept" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfScheduleTemplateConcept" nillable="true" type="tns:ArrayOfScheduleTemplateConcept" />
+  <xs:complexType name="ArrayOfScheduleTemplateFunctionalUnit">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="ScheduleTemplateFunctionalUnit" nillable="true" type="tns:ScheduleTemplateFunctionalUnit" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfScheduleTemplateFunctionalUnit" nillable="true" type="tns:ArrayOfScheduleTemplateFunctionalUnit" />
+  <xs:complexType name="ArrayOfGroupEventConcept">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="GroupEventConcept" nillable="true" type="tns:GroupEventConcept" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfGroupEventConcept" nillable="true" type="tns:ArrayOfGroupEventConcept" />
+  <xs:complexType name="ArrayOfPerson">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="Person" nillable="true" type="tns:Person" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfPerson" nillable="true" type="tns:ArrayOfPerson" />
+  <xs:complexType name="ArrayOfWorkCenter">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="WorkCenter" nillable="true" type="tns:WorkCenter" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfWorkCenter" nillable="true" type="tns:ArrayOfWorkCenter" />
+  <xs:complexType name="ArrayOfFunctionalUnitResponsible">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="FunctionalUnitResponsible" nillable="true" type="tns:FunctionalUnitResponsible" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfFunctionalUnitResponsible" nillable="true" type="tns:ArrayOfFunctionalUnitResponsible" />
+  <xs:complexType name="ArrayOfNovelty">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="Novelty" nillable="true" type="tns:Novelty" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfNovelty" nillable="true" type="tns:ArrayOfNovelty" />
+  <xs:complexType name="ArrayOfUnemployedLiquidation">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="UnemployedLiquidation" nillable="true" type="tns:UnemployedLiquidation" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfUnemployedLiquidation" nillable="true" type="tns:ArrayOfUnemployedLiquidation" />
+  <xs:complexType name="ArrayOfVacationPeriod">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="VacationPeriod" nillable="true" type="tns:VacationPeriod" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfVacationPeriod" nillable="true" type="tns:ArrayOfVacationPeriod" />
+  <xs:complexType name="ArrayOfIncentivePayment">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="IncentivePayment" nillable="true" type="tns:IncentivePayment" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfIncentivePayment" nillable="true" type="tns:ArrayOfIncentivePayment" />
+  <xs:complexType name="ArrayOfScheduleTemplate">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="ScheduleTemplate" nillable="true" type="tns:ScheduleTemplate" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfScheduleTemplate" nillable="true" type="tns:ArrayOfScheduleTemplate" />
+  <xs:complexType name="ArrayOfPositionLevel">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="PositionLevel" nillable="true" type="tns:PositionLevel" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfPositionLevel" nillable="true" type="tns:ArrayOfPositionLevel" />
+  <xs:complexType name="ArrayOfProfession">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="Profession" nillable="true" type="tns:Profession" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfProfession" nillable="true" type="tns:ArrayOfProfession" />
+  <xs:complexType name="ArrayOfRetirementReason">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="RetirementReason" nillable="true" type="tns:RetirementReason" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfRetirementReason" nillable="true" type="tns:ArrayOfRetirementReason" />
+  <xs:complexType name="ArrayOfLanguage">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="Language" nillable="true" type="tns:Language" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfLanguage" nillable="true" type="tns:ArrayOfLanguage" />
+  <xs:complexType name="ArrayOfKinship">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="Kinship" nillable="true" type="tns:Kinship" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfKinship" nillable="true" type="tns:ArrayOfKinship" />
+  <xs:complexType name="ArrayOfCostCenter">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="CostCenter" nillable="true" type="tns:CostCenter" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfCostCenter" nillable="true" type="tns:ArrayOfCostCenter" />
+  <xs:complexType name="ArrayOfBank">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="Bank" nillable="true" type="tns:Bank" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfBank" nillable="true" type="tns:ArrayOfBank" />
+  <xs:complexType name="ArrayOfPensionaryType">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="PensionaryType" nillable="true" type="tns:PensionaryType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfPensionaryType" nillable="true" type="tns:ArrayOfPensionaryType" />
+  <xs:complexType name="PensionaryType">
+    <xs:sequence>
+      <xs:element xmlns:q80="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="ChangeTracker" nillable="true" type="q80:ObjectChangeTracker" />
+      <xs:element minOccurs="0" name="Code" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Id" type="xs:int" />
+      <xs:element minOccurs="0" name="Name" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="PensionaryTypeAux" nillable="true" type="tns:PensionaryType" />
+      <xs:element minOccurs="0" name="State" type="xs:boolean" />
+    </xs:sequence>
+    <xs:attribute ref="ser:Id" />
+    <xs:attribute ref="ser:Ref" />
+  </xs:complexType>
+  <xs:element name="PensionaryType" nillable="true" type="tns:PensionaryType" />
+  <xs:complexType name="ArrayOfStudyType">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="StudyType" nillable="true" type="tns:StudyType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfStudyType" nillable="true" type="tns:ArrayOfStudyType" />
+  <xs:complexType name="ArrayOfContractGroup">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="ContractGroup" nillable="true" type="tns:ContractGroup" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfContractGroup" nillable="true" type="tns:ArrayOfContractGroup" />
+  <xs:complexType name="ContractGroup">
+    <xs:sequence>
+      <xs:element xmlns:q81="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="ChangeTracker" nillable="true" type="q81:ObjectChangeTracker" />
+      <xs:element minOccurs="0" name="Code" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="ContractGroupAux" nillable="true" type="tns:ContractGroup" />
+      <xs:element minOccurs="0" name="Description" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Id" type="xs:int" />
+      <xs:element minOccurs="0" name="Name" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="State" type="xs:boolean" />
+    </xs:sequence>
+    <xs:attribute ref="ser:Id" />
+    <xs:attribute ref="ser:Ref" />
+  </xs:complexType>
+  <xs:element name="ContractGroup" nillable="true" type="tns:ContractGroup" />
+  <xs:complexType name="ArrayOfProfessionalRisk">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="ProfessionalRisk" nillable="true" type="tns:ProfessionalRisk" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfProfessionalRisk" nillable="true" type="tns:ArrayOfProfessionalRisk" />
+  <xs:complexType name="ArrayOfStudyCenter">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="StudyCenter" nillable="true" type="tns:StudyCenter" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfStudyCenter" nillable="true" type="tns:ArrayOfStudyCenter" />
+  <xs:complexType name="ArrayOfContributorType">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="ContributorType" nillable="true" type="tns:ContributorType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfContributorType" nillable="true" type="tns:ArrayOfContributorType" />
+  <xs:complexType name="ContributorType">
+    <xs:sequence>
+      <xs:element xmlns:q82="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="ChangeTracker" nillable="true" type="q82:ObjectChangeTracker" />
+      <xs:element minOccurs="0" name="Code" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="ContributorTypeAux" nillable="true" type="tns:ContributorType" />
+      <xs:element minOccurs="0" name="Id" type="xs:int" />
+      <xs:element minOccurs="0" name="Name" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="State" type="xs:boolean" />
+    </xs:sequence>
+    <xs:attribute ref="ser:Id" />
+    <xs:attribute ref="ser:Ref" />
+  </xs:complexType>
+  <xs:element name="ContributorType" nillable="true" type="tns:ContributorType" />
+  <xs:complexType name="ArrayOfRetention">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="Retention" nillable="true" type="tns:Retention" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfRetention" nillable="true" type="tns:ArrayOfRetention" />
+  <xs:complexType name="Retention">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="AdditionalRate" type="xs:decimal" />
+      <xs:element xmlns:q83="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="ChangeTracker" nillable="true" type="q83:ObjectChangeTracker" />
+      <xs:element minOccurs="0" name="Code" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Consecutive" type="xs:int" />
+      <xs:element minOccurs="0" name="Consecutive1" nillable="true" type="tns:Consecutive" />
+      <xs:element minOccurs="0" name="ConsecutiveId" type="xs:int" />
+      <xs:element minOccurs="0" name="Id" type="xs:int" />
+      <xs:element minOccurs="0" name="Rate" type="xs:decimal" />
+      <xs:element minOccurs="0" name="RetentionAux" nillable="true" type="tns:Retention" />
+      <xs:element minOccurs="0" name="State" type="xs:boolean" />
+      <xs:element minOccurs="0" name="UVTMax" type="xs:decimal" />
+      <xs:element minOccurs="0" name="UVTMin" type="xs:decimal" />
+      <xs:element minOccurs="0" name="UVTValue" type="xs:decimal" />
+      <xs:element minOccurs="0" name="Year" type="xs:int" />
+    </xs:sequence>
+    <xs:attribute ref="ser:Id" />
+    <xs:attribute ref="ser:Ref" />
+  </xs:complexType>
+  <xs:element name="Retention" nillable="true" type="tns:Retention" />
+  <xs:complexType name="Consecutive">
+    <xs:sequence>
+      <xs:element xmlns:q84="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="ChangeTracker" nillable="true" type="q84:ObjectChangeTracker" />
+      <xs:element minOccurs="0" name="Code" type="xs:int" />
+      <xs:element minOccurs="0" name="ConsecutiveAux" nillable="true" type="tns:Consecutive" />
+      <xs:element minOccurs="0" name="Description" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Id" type="xs:int" />
+      <xs:element minOccurs="0" name="NumberConsecutive" type="xs:decimal" />
+      <xs:element minOccurs="0" name="Retention" nillable="true" type="tns:ArrayOfRetention" />
+    </xs:sequence>
+    <xs:attribute ref="ser:Id" />
+    <xs:attribute ref="ser:Ref" />
+  </xs:complexType>
+  <xs:element name="Consecutive" nillable="true" type="tns:Consecutive" />
+  <xs:complexType name="ArrayOfConcept">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="Concept" nillable="true" type="tns:Concept" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfConcept" nillable="true" type="tns:ArrayOfConcept" />
+  <xs:complexType name="ArrayOfJobBondingType">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="JobBondingType" nillable="true" type="tns:JobBondingType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfJobBondingType" nillable="true" type="tns:ArrayOfJobBondingType" />
+  <xs:complexType name="ArrayOfPayrollParameter">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="PayrollParameter" nillable="true" type="tns:PayrollParameter" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfPayrollParameter" nillable="true" type="tns:ArrayOfPayrollParameter" />
+  <xs:complexType name="ArrayOfKindsAgreements">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="KindsAgreements" nillable="true" type="tns:KindsAgreements" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfKindsAgreements" nillable="true" type="tns:ArrayOfKindsAgreements" />
+</xs:schema>

@@ -1,0 +1,141 @@
+﻿#Region "Librerias Importadas"
+Imports Infrastructure.CrossCutting.Base
+Imports Infrastructure.Data.Xpo.InventoryRepository
+Imports Infrastructure.Data.Xpo
+Imports DevExpress.Data.Filtering
+Imports Presentation.Reporter
+Imports DevExpress.XtraReports.UI
+#End Region
+
+Public Class rptReportPurchaseOrder
+    Implements IReport
+    Implements IReportAsync
+
+    ''' <summary>
+    ''' Variable para inicializar los valores de sesion
+    ''' </summary>
+    Dim IndigoSessionValues As SessionValues = SessionValues.Instance
+
+    Public Sub CargarDataSource() Implements IReport.CargarDataSource
+        Dim filter As String = Nothing
+
+        'filtro por fechas
+        If ParametrosReporte(0) IsNot Nothing And ParametrosReporte(1) IsNot Nothing Then
+            filter = "GetDate(DocumentDate) >= #" & Format(ParametrosReporte(0), "yyyy-MM-dd") & "# AND GetDate(DocumentDate) <= #" & Format(ParametrosReporte(1), "yyyy-MM-dd") & "#"
+        End If
+
+        'si filtra por Estado
+        If ParametrosReporte(5) <> 4 Then
+            filter &= If(String.IsNullOrEmpty(filter), "", " AND ") & String.Format("Status IN ({0})", ParametrosReporte(5))
+        End If
+
+        'si filtra por Almacen
+        If Not String.IsNullOrEmpty(ParametrosReporte(6)) Then
+            filter &= If(String.IsNullOrEmpty(filter), "", " AND ") & String.Format(" WarehouseId.Id IN ({0})", ParametrosReporte(6))
+        End If
+
+        'si filtra por proveedor
+        If Not String.IsNullOrEmpty(ParametrosReporte(3)) Then
+            filter &= If(String.IsNullOrEmpty(filter), "", " AND ") & String.Format("SupplierId.IdThirdParty.Id IN ({0})", ParametrosReporte(3))
+        End If
+
+        'si filtra por documento
+        If Not String.IsNullOrEmpty(ParametrosReporte(2)) Then
+            filter &= If(String.IsNullOrEmpty(filter), "", " AND ") & String.Format("Id IN ({0})", ParametrosReporte(2))
+        End If
+
+        Me.DataSource = XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).TreasuryService.GetCollection(Of InventoryPurchaseOrderReportXpo)(Nothing, filter)
+    End Sub
+    Public Function CargarDataSourceAsync() As Task Implements IReportAsync.CargarDataSourceAsync
+        Return Task.Factory.StartNew(AddressOf CargarDataSource)
+    End Function
+
+    Public Sub CargarImagenes() Implements IReport.CargarImagenes
+
+    End Sub
+
+    Public ReadOnly Property NameReport As String Implements IReport.NameReport
+        Get
+            Return ""
+        End Get
+    End Property
+
+    Public Property ParametrosReporte As Object() Implements IReport.ParametrosReporte
+
+    Private Sub rptReportPurchaseOrder_BeforePrint(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles MyBase.BeforePrint
+        Me.INDLblNameCompany.Text = IndigoSessionValues.IndigoCompanyName
+        Me.INDLblNitCompany.Text = "Nit : " & IndigoSessionValues.IndigoCompanyNit
+        Me.INDUserImp.Text = "Usuario Impresión : " & IndigoSessionValues.UserIndigo & " - " & IndigoSessionValues.UserIndigoName
+
+        Me.INDPrmGroupBy.Value = ParametrosReporte(4)
+        If ParametrosReporte(0) IsNot Nothing And ParametrosReporte(1) IsNot Nothing Then
+            Me.INDLblSubTitle.Text = "Informe comprendido entre " & CDate(Me.ParametrosReporte(0)).ToString("dd De MMMM Del yyyy") & " " & CDate(Me.ParametrosReporte(1)).ToString("A dd De MMMM Del yyyy")
+        End If
+    End Sub
+
+    Private Sub XrTableCell14_BeforePrint(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles XrTableCell14.BeforePrint
+        Dim row = GetCurrentRow()
+        XrTableCell14.Text = Utils.GetMoneyWithISO4217(XrTableCell14.Text, If(String.IsNullOrEmpty(row.CurrencyAbbreviation),
+                                             IndigoSessionValues.CurrencyISO4217, row.CurrencyAbbreviation))
+    End Sub
+
+    Private Sub XrTableCell15_BeforePrint(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles XrTableCell15.BeforePrint
+        Dim row = GetCurrentRow()
+        XrTableCell15.Text = Utils.GetMoneyWithISO4217(XrTableCell15.Text, If(String.IsNullOrEmpty(row.CurrencyAbbreviation),
+                                             IndigoSessionValues.CurrencyISO4217, row.CurrencyAbbreviation))
+    End Sub
+
+    Private Sub XrTableCell16_BeforePrint(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles XrTableCell16.BeforePrint
+        Dim row = GetCurrentRow()
+        XrTableCell16.Text = Utils.GetMoneyWithISO4217(XrTableCell16.Text, If(String.IsNullOrEmpty(row.CurrencyAbbreviation),
+                                             IndigoSessionValues.CurrencyISO4217, row.CurrencyAbbreviation))
+    End Sub
+
+    Private Sub XrTableCell17_BeforePrint(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles XrTableCell17.BeforePrint
+        Dim row = GetCurrentRow()
+        XrTableCell17.Text = Utils.GetMoneyWithISO4217(XrTableCell17.Text, If(String.IsNullOrEmpty(row.CurrencyAbbreviation),
+                                             IndigoSessionValues.CurrencyISO4217, row.CurrencyAbbreviation))
+    End Sub
+
+
+    Private Sub XrTableCell20_SummaryGetResult(sender As Object, e As DevExpress.XtraReports.UI.SummaryGetResultEventArgs) Handles XrTableCell20.SummaryGetResult, XrTableCell21.SummaryGetResult,
+                                                                                                                                   XrTableCell22.SummaryGetResult, XrTableCell23.SummaryGetResult
+        Dim row = GetCurrentRow()
+        e.Result = Utils.GetMoneyWithISO4217(e.CalculatedValues.ToEntityList(Of Decimal).Sum(), If(String.IsNullOrEmpty(row?.CurrencyAbbreviation),
+                                             IndigoSessionValues.CurrencyISO4217, row?.CurrencyAbbreviation))
+        e.Handled = True
+    End Sub
+
+    Private Sub ReportFooter_BeforePrint(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles ReportFooter.BeforePrint
+        Dim List As List(Of InventoryPurchaseOrderReportXpo) = Me.DataSource
+        Dim GroupByCurrency = (From x In List.ToList()
+                               Group By x.CurrencyAbbreviation Into Group
+                               Select CurrencyAbbreviation, SumValue = Group.Sum(Function(f) f.Value), SumDiscount = Group.Sum(Function(f) f.DiscountValue),
+                                   SumIva = Group.Sum(Function(f) f.IvaValue), SumTotal = Group.Sum(Function(f) f.TotalValue), SumDocs = Group.Count())
+        Dim row = 0
+        For Each ObjItem In GroupByCurrency
+            XrTable2.InsertRowBelow(XrTable2.Rows.LastRow)
+            Dim irow = XrTable2.Rows.LastRow.Index
+            For Each Column As XRTableCell In XrTableRow6
+                Dim cell = XrTable2.Rows(irow).Cells.Item(Column.Index)
+                Select Case Column.Name
+                    Case NameOf(XrTableCell25)
+                        cell.Text = $"Total Ordenes de Compra - {ObjItem.CurrencyAbbreviation}"
+                    Case NameOf(XrTableCell26)
+                        cell.Text = Utils.GetMoneyWithISO4217(ObjItem.SumValue, ObjItem.CurrencyAbbreviation)
+                    Case NameOf(XrTableCell27)
+                        cell.Text = Utils.GetMoneyWithISO4217(ObjItem.SumDiscount, ObjItem.CurrencyAbbreviation)
+                    Case NameOf(XrTableCell28)
+                        cell.Text = Utils.GetMoneyWithISO4217(ObjItem.SumIva, ObjItem.CurrencyAbbreviation)
+                    Case NameOf(XrTableCell29)
+                        cell.Text = Utils.GetMoneyWithISO4217(ObjItem.SumTotal, ObjItem.CurrencyAbbreviation)
+                    Case NameOf(XrTableCell30)
+                        cell.Text = ObjItem.SumDocs.ToString()
+                    Case NameOf(XrTableCell31)
+                        cell.Text = "Docs"
+                End Select
+                XrTable2.Rows(irow).Cells.Add(cell)
+            Next
+        Next
+    End Sub
+End Class

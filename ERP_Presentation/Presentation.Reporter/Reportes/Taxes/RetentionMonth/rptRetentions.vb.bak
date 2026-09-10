@@ -1,0 +1,111 @@
+﻿#Region "Librerias Importadas"
+Imports Infrastructure.CrossCutting.Base
+Imports Infrastructure.Data.Xpo.TaxesRepository
+Imports Infrastructure.Data.Xpo
+Imports DevExpress.XtraReports.UI
+Imports Presentation.Base
+Imports Presentation.CloudAgent
+#End Region
+
+Public Class rptRetentions
+    Implements IReport
+
+    ''' <summary>
+    ''' Variable para inicializar los valores de sesion
+    ''' </summary>
+    Dim IndigoSessionValues As SessionValues = SessionValues.Instance
+
+    ''' <summary>
+    ''' Variable para obtener la tabla de Trazabilidad
+    ''' </summary>
+    Dim dtReport As DataTable
+
+    Public Sub CargarDataSource() Implements IReport.CargarDataSource
+        Try
+            Dim filtroConsulta As String = Nothing
+
+            filtroConsulta = "VoucherDate >= #" & Format(ParametrosReporte(0), "yyyy-MM-dd") & "# AND VoucherDate <= #" & Format(ParametrosReporte(1), "yyyy-MM-dd") & "#"
+
+            'Se filtra por Cuentas
+            If ParametrosReporte(2) IsNot Nothing And ParametrosReporte(3) IsNot Nothing Then
+                filtroConsulta &= " AND Number >= '" & ParametrosReporte(2) & "' AND Number <= '" & ParametrosReporte(3) & "'"
+            End If
+
+            'Se filtra por Terceros
+            If ParametrosReporte(4) IsNot Nothing And ParametrosReporte(5) IsNot Nothing Then
+                filtroConsulta &= " AND Nit >= '" & ParametrosReporte(4) & "' AND Nit <= '" & ParametrosReporte(5) & "'"
+            End If
+
+            Me.DataSource = XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).PaymentsService.GetCollection(Of GeneralLedgerRetentionsReportXpo)(Nothing, filtroConsulta)
+        Catch ex As Exception
+            MessageIndigo.Show(GetExceptionDetails(ex), MessageType.Errores, Me.Text, Botones.Aceptar, "")
+        End Try
+    End Sub
+
+    ''' <summary>
+    ''' Carga el datasource para generar el reporte
+    ''' </summary>
+    ''' <returns></returns>
+    Public Async Function CargarDataSource1(_criteria As Dictionary(Of String, String), _filters As Dictionary(Of String, String)) As Task
+        Try
+            Dim ds As DataSet = Await IndigoConecta.Instancia.CurrentCloud.IndigoAccounting.GetListReportRetentionsAsync(
+                _criteria, _filters, Me.IndigoSessionValues
+            )
+
+            If ds.Tables(0).Rows.Count > 0 Then
+                dtReport = ds.Tables("ReportRetentions")
+                Me.DataSource = dtReport
+                Me.DataMember = "ReportRetentions"
+            Else
+                Me.DataSource = Nothing
+            End If
+        Catch ex As Exception
+            MessageIndigo.Show(GetExceptionDetails(ex), MessageType.Errores, Me.Text, Botones.Aceptar, "")
+        End Try
+    End Function
+
+    Public Sub CargarImagenes() Implements IReport.CargarImagenes
+
+    End Sub
+
+    Public ReadOnly Property NameReport As String Implements IReport.NameReport
+        Get
+            Return ""
+        End Get
+    End Property
+
+    Public Property ParametrosReporte As Object() Implements IReport.ParametrosReporte
+
+    Private Sub rptRetentions_BeforePrint(sender As Object, e As Printing.PrintEventArgs) Handles MyBase.BeforePrint
+        INDLblCompany.Text = IndigoSessionValues.IndigoCompanyName
+        INDLblNitCompany.Text = "Nit:" & IndigoSessionValues.IndigoCompanyNit
+        INDLblDate.Text = "Informe comprendido entre " & CDate(ParametrosReporte(0)).ToString("dd De MMMM Del yyyy") & " " & CDate(ParametrosReporte(1)).ToString("A dd De MMMM Del yyyy")
+        Me.INDLblUserPrint.Text = "Usuario Impresión : " & IndigoSessionValues.UserIndigo & " - " & IndigoSessionValues.UserIndigoName
+    End Sub
+
+    Public Function GetExceptionDetails(exception As Exception) As String
+        Dim properties = exception.[GetType]().GetProperties()
+        Dim fields = properties.[Select](Function([property]) New With {
+            Key .Name = [property].Name,
+            Key .Value = [property].GetValue(exception, Nothing)
+        }).[Select](Function(x) [String].Format("{0} : {1}", x.Name, If(x.Value IsNot Nothing, x.Value.ToString(), [String].Empty)))
+        Return [String].Join(vbLf, fields)
+    End Function
+
+
+
+    'Private Sub Detail_BeforePrint(sender As Object, e As Printing.PrintEventArgs) Handles Detail.BeforePrint
+    '    Dim Coment = (GetCurrentColumnValue("Detail"))
+    '    Dim table8 As XRTable = CType(XrTable1, XRTable)
+    '    Dim Detalle As DetailBand = CType(Detail, DetailBand)
+    '    If Coment Is Nothing OrElse String.IsNullOrEmpty(Coment.ToString.Trim) Then
+    '        table8.Visible = False
+    '        table8.HeightF = 0
+    '        Detalle.HeightF = 23
+    '    Else
+    '        table8.Visible = True
+    '        table8.HeightF = 20
+    '        Detalle.HeightF = 48
+    '    End If
+    'End Sub
+End Class

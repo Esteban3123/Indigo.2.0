@@ -1,0 +1,279 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="GENESISDOCUMENTALModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="DocumentsStore">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="IdForm" Type="int" />
+          <Property Name="IdEntity" Type="int" />
+          <Property Name="IdFileContainer" Type="int" />
+          <Property Name="MetaData" Type="varchar" MaxLength="500" />
+          <Property Name="UseFormMetadata" Type="bit" />
+          <Property Name="Type" Type="varchar" MaxLength="10" />
+          <Property Name="Content" Type="varbinary(max)" />
+          <Property Name="Name" Type="varchar" MaxLength="100" />
+          <Property Name="AttachDate" Type="datetime" />
+          <Property Name="State" Type="bit" Nullable="false" />
+          <Property Name="TimeStamp" Type="timestamp" StoreGeneratedPattern="Computed" Nullable="false" />
+        </EntityType>
+        <EntityType Name="FileContainer">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="UseFormMetada" Type="bit" />
+          <Property Name="State" Type="bit" Nullable="false" />
+          <Property Name="TimeStamp" Type="timestamp" StoreGeneratedPattern="Computed" Nullable="false" />
+        </EntityType>
+        <EntityType Name="FileContainersForm">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="IdFileContainer" Type="int" Nullable="false" />
+          <Property Name="IdForm" Type="int" Nullable="false" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FormName" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Metadata">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IdFileContainer" Type="int" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="DataType" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="Long" Type="int" Nullable="false" />
+          <Property Name="State" Type="bit" Nullable="false" />
+          <Property Name="TimeStamp" Type="timestamp" StoreGeneratedPattern="Computed" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_FileContainersForm_FileContainer">
+          <End Role="FileContainer" Type="Self.FileContainer" Multiplicity="1" />
+          <End Role="FileContainersForm" Type="Self.FileContainersForm" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FileContainer">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="FileContainersForm">
+              <PropertyRef Name="IdFileContainer" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Metadata_FileContainer">
+          <End Role="FileContainer" Type="Self.FileContainer" Multiplicity="1" />
+          <End Role="Metadata" Type="Self.Metadata" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FileContainer">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Metadata">
+              <PropertyRef Name="IdFileContainer" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="GENESISDOCUMENTALModelStoreContainer">
+          <EntitySet Name="DocumentsStore" EntityType="Self.DocumentsStore" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="FileContainer" EntityType="Self.FileContainer" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="FileContainersForm" EntityType="Self.FileContainersForm" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Metadata" EntityType="Self.Metadata" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_FileContainersForm_FileContainer" Association="Self.FK_FileContainersForm_FileContainer">
+            <End Role="FileContainer" EntitySet="FileContainer" />
+            <End Role="FileContainersForm" EntitySet="FileContainersForm" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Metadata_FileContainer" Association="Self.FK_Metadata_FileContainer">
+            <End Role="FileContainer" EntitySet="FileContainer" />
+            <End Role="Metadata" EntitySet="Metadata" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="GENESISDOCUMENTALModel" Alias="Self" p1:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:p1="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="GENESISDOCUMENTALEntities" p1:LazyLoadingEnabled="true">
+          <EntitySet Name="DocumentsStore" EntityType="GENESISDOCUMENTALModel.DocumentsStore" />
+          <EntitySet Name="FileContainer" EntityType="GENESISDOCUMENTALModel.FileContainer" />
+          <EntitySet Name="FileContainersForm" EntityType="GENESISDOCUMENTALModel.FileContainersForm" />
+          <EntitySet Name="Metadata" EntityType="GENESISDOCUMENTALModel.Metadata" />
+          <AssociationSet Name="FK_FileContainersForm_FileContainer" Association="GENESISDOCUMENTALModel.FK_FileContainersForm_FileContainer">
+            <End Role="FileContainer" EntitySet="FileContainer" />
+            <End Role="FileContainersForm" EntitySet="FileContainersForm" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Metadata_FileContainer" Association="GENESISDOCUMENTALModel.FK_Metadata_FileContainer">
+            <End Role="FileContainer" EntitySet="FileContainer" />
+            <End Role="Metadata" EntitySet="Metadata" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="DocumentsStore">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Guid" Nullable="false" />
+          <Property Name="IdForm" Type="Int32" />
+          <Property Name="IdEntity" Type="Int32" />
+          <Property Name="IdFileContainer" Type="Int32" />
+          <Property Name="MetaData" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="UseFormMetadata" Type="Boolean" />
+          <Property Name="Type" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="Content" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="AttachDate" Type="DateTime" Precision="3" />
+          <Property Name="State" Type="Boolean" Nullable="false" />
+          <Property Name="TimeStamp" Type="Binary" Nullable="false" MaxLength="8" FixedLength="true" p1:StoreGeneratedPattern="Computed" ConcurrencyMode="Fixed" />
+        </EntityType>
+        <EntityType Name="FileContainer">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="UseFormMetada" Type="Boolean" />
+          <Property Name="State" Type="Boolean" Nullable="false" />
+          <Property Name="TimeStamp" Type="Binary" Nullable="false" MaxLength="8" FixedLength="true" p1:StoreGeneratedPattern="Computed" ConcurrencyMode="Fixed" />
+          <NavigationProperty Name="FileContainersForm" Relationship="GENESISDOCUMENTALModel.FK_FileContainersForm_FileContainer" FromRole="FileContainer" ToRole="FileContainersForm" />
+          <NavigationProperty Name="Metadata" Relationship="GENESISDOCUMENTALModel.FK_Metadata_FileContainer" FromRole="FileContainer" ToRole="Metadata" />
+        </EntityType>
+        <EntityType Name="FileContainersForm">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="IdFileContainer" Type="Int32" Nullable="false" />
+          <Property Name="IdForm" Type="Int32" Nullable="false" />
+          <Property Name="Id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="FormName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="FileContainer" Relationship="GENESISDOCUMENTALModel.FK_FileContainersForm_FileContainer" FromRole="FileContainersForm" ToRole="FileContainer" />
+        </EntityType>
+        <EntityType Name="Metadata">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="IdFileContainer" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="DataType" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Long" Type="Int32" Nullable="false" />
+          <Property Name="State" Type="Boolean" Nullable="false" />
+          <Property Name="TimeStamp" Type="Binary" Nullable="false" MaxLength="8" FixedLength="true" p1:StoreGeneratedPattern="Computed" ConcurrencyMode="Fixed" />
+          <NavigationProperty Name="FileContainer" Relationship="GENESISDOCUMENTALModel.FK_Metadata_FileContainer" FromRole="Metadata" ToRole="FileContainer" />
+        </EntityType>
+        <Association Name="FK_FileContainersForm_FileContainer">
+          <End Type="GENESISDOCUMENTALModel.FileContainer" Role="FileContainer" Multiplicity="1" />
+          <End Type="GENESISDOCUMENTALModel.FileContainersForm" Role="FileContainersForm" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FileContainer">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="FileContainersForm">
+              <PropertyRef Name="IdFileContainer" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Metadata_FileContainer">
+          <End Type="GENESISDOCUMENTALModel.FileContainer" Role="FileContainer" Multiplicity="1" />
+          <End Type="GENESISDOCUMENTALModel.Metadata" Role="Metadata" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FileContainer">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Metadata">
+              <PropertyRef Name="IdFileContainer" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="GENESISDOCUMENTALModelStoreContainer" CdmEntityContainer="GENESISDOCUMENTALEntities">
+          <EntitySetMapping Name="DocumentsStore">
+            <EntityTypeMapping TypeName="GENESISDOCUMENTALModel.DocumentsStore">
+              <MappingFragment StoreEntitySet="DocumentsStore">
+                <ScalarProperty Name="TimeStamp" ColumnName="TimeStamp" />
+                <ScalarProperty Name="State" ColumnName="State" />
+                <ScalarProperty Name="AttachDate" ColumnName="AttachDate" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Content" ColumnName="Content" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="UseFormMetadata" ColumnName="UseFormMetadata" />
+                <ScalarProperty Name="MetaData" ColumnName="MetaData" />
+                <ScalarProperty Name="IdFileContainer" ColumnName="IdFileContainer" />
+                <ScalarProperty Name="IdEntity" ColumnName="IdEntity" />
+                <ScalarProperty Name="IdForm" ColumnName="IdForm" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FileContainer">
+            <EntityTypeMapping TypeName="GENESISDOCUMENTALModel.FileContainer">
+              <MappingFragment StoreEntitySet="FileContainer">
+                <ScalarProperty Name="TimeStamp" ColumnName="TimeStamp" />
+                <ScalarProperty Name="State" ColumnName="State" />
+                <ScalarProperty Name="UseFormMetada" ColumnName="UseFormMetada" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FileContainersForm">
+            <EntityTypeMapping TypeName="GENESISDOCUMENTALModel.FileContainersForm">
+              <MappingFragment StoreEntitySet="FileContainersForm">
+                <ScalarProperty Name="FormName" ColumnName="FormName" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="IdForm" ColumnName="IdForm" />
+                <ScalarProperty Name="IdFileContainer" ColumnName="IdFileContainer" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Metadata">
+            <EntityTypeMapping TypeName="GENESISDOCUMENTALModel.Metadata">
+              <MappingFragment StoreEntitySet="Metadata">
+                <ScalarProperty Name="TimeStamp" ColumnName="TimeStamp" />
+                <ScalarProperty Name="State" ColumnName="State" />
+                <ScalarProperty Name="Long" ColumnName="Long" />
+                <ScalarProperty Name="DataType" ColumnName="DataType" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="IdFileContainer" ColumnName="IdFileContainer" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="False" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+        <DesignerProperty Name="UseLegacyProvider" Value="False" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams>
+      <Diagram DiagramId="b1bdcde6ecab4deea5e308193e09fc4d" Name="Diagram1">
+        <EntityTypeShape EntityType="GENESISDOCUMENTALModel.DocumentsStore" Width="1.5" PointX="5.75" PointY="0.75" />
+        <EntityTypeShape EntityType="GENESISDOCUMENTALModel.FileContainer" Width="1.5" PointX="0.75" PointY="2.5" />
+        <EntityTypeShape EntityType="GENESISDOCUMENTALModel.FileContainersForm" Width="1.5" PointX="3" PointY="4.375" />
+        <EntityTypeShape EntityType="GENESISDOCUMENTALModel.Metadata" Width="1.5" PointX="3" PointY="1.125" />
+        <AssociationConnector Association="GENESISDOCUMENTALModel.FK_FileContainersForm_FileContainer" />
+        <AssociationConnector Association="GENESISDOCUMENTALModel.FK_Metadata_FileContainer" />
+      </Diagram>
+    </Diagrams>
+  </Designer>
+</edmx:Edmx>

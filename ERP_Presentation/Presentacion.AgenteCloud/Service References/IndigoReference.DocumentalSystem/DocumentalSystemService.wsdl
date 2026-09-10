@@ -1,0 +1,676 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:wsap="http://schemas.xmlsoap.org/ws/2004/08/addressing/policy" xmlns:wsa10="http://www.w3.org/2005/08/addressing" xmlns:tns="http://tempuri.org/" xmlns:msc="http://schemas.microsoft.com/ws/2005/12/wsdl/contract" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:wsx="http://schemas.xmlsoap.org/ws/2004/09/mex" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="DocumentalSystemService" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsp:Policy wsu:Id="basicHttp_Endpoint_DocumentalSystem_policy">
+    <wsp:ExactlyOne>
+      <wsp:All>
+        <wsoma:OptimizedMimeSerialization xmlns:wsoma="http://schemas.xmlsoap.org/ws/2004/09/policy/optimizedmimeserialization" />
+      </wsp:All>
+    </wsp:ExactlyOne>
+  </wsp:Policy>
+  <wsp:Policy wsu:Id="wsHttp_Endpoint_DocumentalSystem_policy">
+    <wsp:ExactlyOne>
+      <wsp:All>
+        <wsoma:OptimizedMimeSerialization xmlns:wsoma="http://schemas.xmlsoap.org/ws/2004/09/policy/optimizedmimeserialization" />
+        <wsaw:UsingAddressing />
+      </wsp:All>
+    </wsp:ExactlyOne>
+  </wsp:Policy>
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://tempuri.org/Imports">
+      <xsd:import schemaLocation="http://localhost:9000/DistributedService.DocumentalSystem.Deployment/DocumentalSystem.svc?xsd=xsd0" namespace="http://tempuri.org/" />
+      <xsd:import schemaLocation="http://localhost:9000/DistributedService.DocumentalSystem.Deployment/DocumentalSystem.svc?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+      <xsd:import schemaLocation="http://localhost:9000/DistributedService.DocumentalSystem.Deployment/DocumentalSystem.svc?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/Domain.DocumentalSystem.Entities" />
+      <xsd:import schemaLocation="http://localhost:9000/DistributedService.DocumentalSystem.Deployment/DocumentalSystem.svc?xsd=xsd3" namespace="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" />
+      <xsd:import schemaLocation="http://localhost:9000/DistributedService.DocumentalSystem.Deployment/DocumentalSystem.svc?xsd=xsd4" namespace="http://schemas.microsoft.com/Message" />
+      <xsd:import schemaLocation="http://localhost:9000/DistributedService.DocumentalSystem.Deployment/DocumentalSystem.svc?xsd=xsd5" namespace="http://schemas.datacontract.org/2004/07/Infrastructure.CrossCutting.Base" />
+      <xsd:import schemaLocation="http://localhost:9000/DistributedService.DocumentalSystem.Deployment/DocumentalSystem.svc?xsd=xsd6" namespace="http://schemas.datacontract.org/2004/07/System" />
+      <xsd:import schemaLocation="http://localhost:9000/DistributedService.DocumentalSystem.Deployment/DocumentalSystem.svc?xsd=xsd7" namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="IDocumentalSystemService_ListAllDocuments_InputMessage">
+    <wsdl:part name="parameters" element="tns:ListAllDocuments" />
+  </wsdl:message>
+  <wsdl:message name="IDocumentalSystemService_ListAllDocuments_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ListAllDocumentsResponse" />
+  </wsdl:message>
+  <wsdl:message name="IDocumentalSystemService_GetDocument_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetDocument" />
+  </wsdl:message>
+  <wsdl:message name="IDocumentalSystemService_GetDocument_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetDocumentResponse" />
+  </wsdl:message>
+  <wsdl:message name="IDocumentalSystemService_GetDocumentById_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetDocumentById" />
+  </wsdl:message>
+  <wsdl:message name="IDocumentalSystemService_GetDocumentById_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetDocumentByIdResponse" />
+  </wsdl:message>
+  <wsdl:message name="DocumentInfo">
+    <wsdl:part name="parameters" element="tns:DocumentInfo" />
+  </wsdl:message>
+  <wsdl:message name="DocumentInfo_Headers">
+    <wsdl:part name="AttachDate" element="tns:AttachDate" />
+    <wsdl:part name="DocumentStreamLength" element="tns:DocumentStreamLength" />
+    <wsdl:part name="FileName" element="tns:FileName" />
+    <wsdl:part name="IdEntity" element="tns:IdEntity" />
+    <wsdl:part name="IdFileContainer" element="tns:IdFileContainer" />
+    <wsdl:part name="IdForm" element="tns:IdForm" />
+    <wsdl:part name="MetaData" element="tns:MetaData" />
+    <wsdl:part name="SessionInf" element="tns:SessionInf" />
+    <wsdl:part name="UseFormMetaData" element="tns:UseFormMetaData" />
+  </wsdl:message>
+  <wsdl:message name="ResponseDocument">
+    <wsdl:part name="parameters" element="tns:ResponseDocument" />
+  </wsdl:message>
+  <wsdl:message name="ResponseDocument_Headers">
+    <wsdl:part name="documentStore" element="tns:documentStore" />
+    <wsdl:part name="message" element="tns:message" />
+  </wsdl:message>
+  <wsdl:message name="IDocumentalSystemService_GetDocumentFullText_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetDocumentFullText" />
+  </wsdl:message>
+  <wsdl:message name="IDocumentalSystemService_GetDocumentFullText_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetDocumentFullTextResponse" />
+  </wsdl:message>
+  <wsdl:message name="IDocumentalSystemService_getDocumentByIdForm_InputMessage">
+    <wsdl:part name="parameters" element="tns:getDocumentByIdForm" />
+  </wsdl:message>
+  <wsdl:message name="IDocumentalSystemService_getDocumentByIdForm_OutputMessage">
+    <wsdl:part name="parameters" element="tns:getDocumentByIdFormResponse" />
+  </wsdl:message>
+  <wsdl:message name="IDocumentalSystemService_getDocumentByIdFormAndIdEntity_InputMessage">
+    <wsdl:part name="parameters" element="tns:getDocumentByIdFormAndIdEntity" />
+  </wsdl:message>
+  <wsdl:message name="IDocumentalSystemService_getDocumentByIdFormAndIdEntity_OutputMessage">
+    <wsdl:part name="parameters" element="tns:getDocumentByIdFormAndIdEntityResponse" />
+  </wsdl:message>
+  <wsdl:message name="IDocumentalSystemService_ListDocumentByIdFormAndIdFileContainer_InputMessage">
+    <wsdl:part name="parameters" element="tns:ListDocumentByIdFormAndIdFileContainer" />
+  </wsdl:message>
+  <wsdl:message name="IDocumentalSystemService_ListDocumentByIdFormAndIdFileContainer_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ListDocumentByIdFormAndIdFileContainerResponse" />
+  </wsdl:message>
+  <wsdl:message name="IDocumentalSystemService_DeleteDocument_InputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteDocument" />
+  </wsdl:message>
+  <wsdl:message name="IDocumentalSystemService_DeleteDocument_OutputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteDocumentResponse" />
+  </wsdl:message>
+  <wsdl:message name="IDocumentalSystemService_ListAllFileContainers_InputMessage">
+    <wsdl:part name="parameters" element="tns:ListAllFileContainers" />
+  </wsdl:message>
+  <wsdl:message name="IDocumentalSystemService_ListAllFileContainers_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ListAllFileContainersResponse" />
+  </wsdl:message>
+  <wsdl:message name="IDocumentalSystemService_GetFileContainer_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetFileContainer" />
+  </wsdl:message>
+  <wsdl:message name="IDocumentalSystemService_GetFileContainer_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetFileContainerResponse" />
+  </wsdl:message>
+  <wsdl:message name="IDocumentalSystemService_DeleteFileContainer_InputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteFileContainer" />
+  </wsdl:message>
+  <wsdl:message name="IDocumentalSystemService_DeleteFileContainer_OutputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteFileContainerResponse" />
+  </wsdl:message>
+  <wsdl:message name="IDocumentalSystemService_SaveFileContainer_InputMessage">
+    <wsdl:part name="parameters" element="tns:SaveFileContainer" />
+  </wsdl:message>
+  <wsdl:message name="IDocumentalSystemService_SaveFileContainer_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SaveFileContainerResponse" />
+  </wsdl:message>
+  <wsdl:message name="IDocumentalSystemService_ListAllFileContainersForm_InputMessage">
+    <wsdl:part name="parameters" element="tns:ListAllFileContainersForm" />
+  </wsdl:message>
+  <wsdl:message name="IDocumentalSystemService_ListAllFileContainersForm_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ListAllFileContainersFormResponse" />
+  </wsdl:message>
+  <wsdl:message name="IDocumentalSystemService_ListFileContainersFormByIdFileContainer_InputMessage">
+    <wsdl:part name="parameters" element="tns:ListFileContainersFormByIdFileContainer" />
+  </wsdl:message>
+  <wsdl:message name="IDocumentalSystemService_ListFileContainersFormByIdFileContainer_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ListFileContainersFormByIdFileContainerResponse" />
+  </wsdl:message>
+  <wsdl:message name="IDocumentalSystemService_ListFileContainersFormByIdForm_InputMessage">
+    <wsdl:part name="parameters" element="tns:ListFileContainersFormByIdForm" />
+  </wsdl:message>
+  <wsdl:message name="IDocumentalSystemService_ListFileContainersFormByIdForm_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ListFileContainersFormByIdFormResponse" />
+  </wsdl:message>
+  <wsdl:message name="IDocumentalSystemService_ListAllMetadata_InputMessage">
+    <wsdl:part name="parameters" element="tns:ListAllMetadata" />
+  </wsdl:message>
+  <wsdl:message name="IDocumentalSystemService_ListAllMetadata_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ListAllMetadataResponse" />
+  </wsdl:message>
+  <wsdl:message name="IDocumentalSystemService_GetMetadataByFileContainer_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetMetadataByFileContainer" />
+  </wsdl:message>
+  <wsdl:message name="IDocumentalSystemService_GetMetadataByFileContainer_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetMetadataByFileContainerResponse" />
+  </wsdl:message>
+  <wsdl:message name="IDocumentalSystemService_ListMetadataByFileContainer_InputMessage">
+    <wsdl:part name="parameters" element="tns:ListMetadataByFileContainer" />
+  </wsdl:message>
+  <wsdl:message name="IDocumentalSystemService_ListMetadataByFileContainer_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ListMetadataByFileContainerResponse" />
+  </wsdl:message>
+  <wsdl:message name="IDocumentalSystemService_saveListMetata_InputMessage">
+    <wsdl:part name="parameters" element="tns:saveListMetata" />
+  </wsdl:message>
+  <wsdl:message name="IDocumentalSystemService_saveListMetata_OutputMessage">
+    <wsdl:part name="parameters" element="tns:saveListMetataResponse" />
+  </wsdl:message>
+  <wsdl:message name="IDocumentalSystemService_DeleteMetadata_InputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteMetadata" />
+  </wsdl:message>
+  <wsdl:message name="IDocumentalSystemService_DeleteMetadata_OutputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteMetadataResponse" />
+  </wsdl:message>
+  <wsdl:portType name="IDocumentalSystemService">
+    <wsdl:operation name="ListAllDocuments">
+      <wsdl:input wsaw:Action="http://tempuri.org/IDocumentsStore/ListAllDocuments" message="tns:IDocumentalSystemService_ListAllDocuments_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IDocumentsStore/ListAllDocumentsResponse" message="tns:IDocumentalSystemService_ListAllDocuments_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetDocument">
+      <wsdl:input wsaw:Action="http://tempuri.org/IDocumentsStore/GetDocument" message="tns:IDocumentalSystemService_GetDocument_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IDocumentsStore/GetDocumentResponse" message="tns:IDocumentalSystemService_GetDocument_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetDocumentById">
+      <wsdl:input wsaw:Action="http://tempuri.org/IDocumentsStore/GetDocumentById" message="tns:IDocumentalSystemService_GetDocumentById_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IDocumentsStore/GetDocumentByIdResponse" message="tns:IDocumentalSystemService_GetDocumentById_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SaveDocument">
+      <wsdl:input wsaw:Action="http://tempuri.org/IDocumentsStore/SaveDocument" name="DocumentInfo" message="tns:DocumentInfo" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IDocumentsStore/SaveDocumentResponse" name="ResponseDocument" message="tns:ResponseDocument" />
+    </wsdl:operation>
+    <wsdl:operation name="GetDocumentFullText">
+      <wsdl:input wsaw:Action="http://tempuri.org/IDocumentsStore/GetDocumentFullText" message="tns:IDocumentalSystemService_GetDocumentFullText_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IDocumentsStore/GetDocumentFullTextResponse" message="tns:IDocumentalSystemService_GetDocumentFullText_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="getDocumentByIdForm">
+      <wsdl:input wsaw:Action="http://tempuri.org/IDocumentsStore/getDocumentByIdForm" message="tns:IDocumentalSystemService_getDocumentByIdForm_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IDocumentsStore/getDocumentByIdFormResponse" message="tns:IDocumentalSystemService_getDocumentByIdForm_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="getDocumentByIdFormAndIdEntity">
+      <wsdl:input wsaw:Action="http://tempuri.org/IDocumentsStore/getDocumentByIdFormAndIdEntity" message="tns:IDocumentalSystemService_getDocumentByIdFormAndIdEntity_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IDocumentsStore/getDocumentByIdFormAndIdEntityResponse" message="tns:IDocumentalSystemService_getDocumentByIdFormAndIdEntity_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ListDocumentByIdFormAndIdFileContainer">
+      <wsdl:input wsaw:Action="http://tempuri.org/IDocumentsStore/ListDocumentByIdFormAndIdFileContainer" message="tns:IDocumentalSystemService_ListDocumentByIdFormAndIdFileContainer_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IDocumentsStore/ListDocumentByIdFormAndIdFileContainerResponse" message="tns:IDocumentalSystemService_ListDocumentByIdFormAndIdFileContainer_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="DeleteDocument">
+      <wsdl:input wsaw:Action="http://tempuri.org/IDocumentsStore/DeleteDocument" message="tns:IDocumentalSystemService_DeleteDocument_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IDocumentsStore/DeleteDocumentResponse" message="tns:IDocumentalSystemService_DeleteDocument_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ListAllFileContainers">
+      <wsdl:input wsaw:Action="http://tempuri.org/IFileContainer/ListAllFileContainers" message="tns:IDocumentalSystemService_ListAllFileContainers_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IFileContainer/ListAllFileContainersResponse" message="tns:IDocumentalSystemService_ListAllFileContainers_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetFileContainer">
+      <wsdl:input wsaw:Action="http://tempuri.org/IFileContainer/GetFileContainer" message="tns:IDocumentalSystemService_GetFileContainer_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IFileContainer/GetFileContainerResponse" message="tns:IDocumentalSystemService_GetFileContainer_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="DeleteFileContainer">
+      <wsdl:input wsaw:Action="http://tempuri.org/IFileContainer/DeleteFileContainer" message="tns:IDocumentalSystemService_DeleteFileContainer_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IFileContainer/DeleteFileContainerResponse" message="tns:IDocumentalSystemService_DeleteFileContainer_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SaveFileContainer">
+      <wsdl:input wsaw:Action="http://tempuri.org/IFileContainer/SaveFileContainer" message="tns:IDocumentalSystemService_SaveFileContainer_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IFileContainer/SaveFileContainerResponse" message="tns:IDocumentalSystemService_SaveFileContainer_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ListAllFileContainersForm">
+      <wsdl:input wsaw:Action="http://tempuri.org/IFileContainersForm/ListAllFileContainersForm" message="tns:IDocumentalSystemService_ListAllFileContainersForm_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IFileContainersForm/ListAllFileContainersFormResponse" message="tns:IDocumentalSystemService_ListAllFileContainersForm_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ListFileContainersFormByIdFileContainer">
+      <wsdl:input wsaw:Action="http://tempuri.org/IFileContainersForm/ListFileContainersFormByIdFileContainer" message="tns:IDocumentalSystemService_ListFileContainersFormByIdFileContainer_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IFileContainersForm/ListFileContainersFormByIdFileContainerResponse" message="tns:IDocumentalSystemService_ListFileContainersFormByIdFileContainer_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ListFileContainersFormByIdForm">
+      <wsdl:input wsaw:Action="http://tempuri.org/IFileContainersForm/ListFileContainersFormByIdForm" message="tns:IDocumentalSystemService_ListFileContainersFormByIdForm_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IFileContainersForm/ListFileContainersFormByIdFormResponse" message="tns:IDocumentalSystemService_ListFileContainersFormByIdForm_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ListAllMetadata">
+      <wsdl:input wsaw:Action="http://tempuri.org/IMetaData/ListAllMetadata" message="tns:IDocumentalSystemService_ListAllMetadata_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IMetaData/ListAllMetadataResponse" message="tns:IDocumentalSystemService_ListAllMetadata_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetMetadataByFileContainer">
+      <wsdl:input wsaw:Action="http://tempuri.org/IMetaData/GetMetadataByFileContainer" message="tns:IDocumentalSystemService_GetMetadataByFileContainer_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IMetaData/GetMetadataByFileContainerResponse" message="tns:IDocumentalSystemService_GetMetadataByFileContainer_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ListMetadataByFileContainer">
+      <wsdl:input wsaw:Action="http://tempuri.org/IMetaData/ListMetadataByFileContainer" message="tns:IDocumentalSystemService_ListMetadataByFileContainer_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IMetaData/ListMetadataByFileContainerResponse" message="tns:IDocumentalSystemService_ListMetadataByFileContainer_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="saveListMetata">
+      <wsdl:input wsaw:Action="http://tempuri.org/IMetaData/saveListMetata" message="tns:IDocumentalSystemService_saveListMetata_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IMetaData/saveListMetataResponse" message="tns:IDocumentalSystemService_saveListMetata_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="DeleteMetadata">
+      <wsdl:input wsaw:Action="http://tempuri.org/IMetaData/DeleteMetadata" message="tns:IDocumentalSystemService_DeleteMetadata_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IMetaData/DeleteMetadataResponse" message="tns:IDocumentalSystemService_DeleteMetadata_OutputMessage" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="basicHttp_Endpoint_DocumentalSystem" type="tns:IDocumentalSystemService">
+    <wsp:PolicyReference URI="#basicHttp_Endpoint_DocumentalSystem_policy" />
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="ListAllDocuments">
+      <soap:operation soapAction="http://tempuri.org/IDocumentsStore/ListAllDocuments" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetDocument">
+      <soap:operation soapAction="http://tempuri.org/IDocumentsStore/GetDocument" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetDocumentById">
+      <soap:operation soapAction="http://tempuri.org/IDocumentsStore/GetDocumentById" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveDocument">
+      <soap:operation soapAction="http://tempuri.org/IDocumentsStore/SaveDocument" style="document" />
+      <wsdl:input name="DocumentInfo">
+        <soap:header message="tns:DocumentInfo_Headers" part="AttachDate" use="literal" />
+        <soap:header message="tns:DocumentInfo_Headers" part="DocumentStreamLength" use="literal" />
+        <soap:header message="tns:DocumentInfo_Headers" part="FileName" use="literal" />
+        <soap:header message="tns:DocumentInfo_Headers" part="IdEntity" use="literal" />
+        <soap:header message="tns:DocumentInfo_Headers" part="IdFileContainer" use="literal" />
+        <soap:header message="tns:DocumentInfo_Headers" part="IdForm" use="literal" />
+        <soap:header message="tns:DocumentInfo_Headers" part="MetaData" use="literal" />
+        <soap:header message="tns:DocumentInfo_Headers" part="SessionInf" use="literal" />
+        <soap:header message="tns:DocumentInfo_Headers" part="UseFormMetaData" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="ResponseDocument">
+        <soap:header message="tns:ResponseDocument_Headers" part="documentStore" use="literal" />
+        <soap:header message="tns:ResponseDocument_Headers" part="message" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetDocumentFullText">
+      <soap:operation soapAction="http://tempuri.org/IDocumentsStore/GetDocumentFullText" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getDocumentByIdForm">
+      <soap:operation soapAction="http://tempuri.org/IDocumentsStore/getDocumentByIdForm" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getDocumentByIdFormAndIdEntity">
+      <soap:operation soapAction="http://tempuri.org/IDocumentsStore/getDocumentByIdFormAndIdEntity" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ListDocumentByIdFormAndIdFileContainer">
+      <soap:operation soapAction="http://tempuri.org/IDocumentsStore/ListDocumentByIdFormAndIdFileContainer" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteDocument">
+      <soap:operation soapAction="http://tempuri.org/IDocumentsStore/DeleteDocument" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ListAllFileContainers">
+      <soap:operation soapAction="http://tempuri.org/IFileContainer/ListAllFileContainers" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetFileContainer">
+      <soap:operation soapAction="http://tempuri.org/IFileContainer/GetFileContainer" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteFileContainer">
+      <soap:operation soapAction="http://tempuri.org/IFileContainer/DeleteFileContainer" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveFileContainer">
+      <soap:operation soapAction="http://tempuri.org/IFileContainer/SaveFileContainer" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ListAllFileContainersForm">
+      <soap:operation soapAction="http://tempuri.org/IFileContainersForm/ListAllFileContainersForm" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ListFileContainersFormByIdFileContainer">
+      <soap:operation soapAction="http://tempuri.org/IFileContainersForm/ListFileContainersFormByIdFileContainer" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ListFileContainersFormByIdForm">
+      <soap:operation soapAction="http://tempuri.org/IFileContainersForm/ListFileContainersFormByIdForm" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ListAllMetadata">
+      <soap:operation soapAction="http://tempuri.org/IMetaData/ListAllMetadata" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetMetadataByFileContainer">
+      <soap:operation soapAction="http://tempuri.org/IMetaData/GetMetadataByFileContainer" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ListMetadataByFileContainer">
+      <soap:operation soapAction="http://tempuri.org/IMetaData/ListMetadataByFileContainer" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="saveListMetata">
+      <soap:operation soapAction="http://tempuri.org/IMetaData/saveListMetata" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteMetadata">
+      <soap:operation soapAction="http://tempuri.org/IMetaData/DeleteMetadata" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="wsHttp_Endpoint_DocumentalSystem" type="tns:IDocumentalSystemService">
+    <wsp:PolicyReference URI="#wsHttp_Endpoint_DocumentalSystem_policy" />
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="ListAllDocuments">
+      <soap12:operation soapAction="http://tempuri.org/IDocumentsStore/ListAllDocuments" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetDocument">
+      <soap12:operation soapAction="http://tempuri.org/IDocumentsStore/GetDocument" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetDocumentById">
+      <soap12:operation soapAction="http://tempuri.org/IDocumentsStore/GetDocumentById" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveDocument">
+      <soap12:operation soapAction="http://tempuri.org/IDocumentsStore/SaveDocument" style="document" />
+      <wsdl:input name="DocumentInfo">
+        <soap12:header message="tns:DocumentInfo_Headers" part="AttachDate" use="literal" />
+        <soap12:header message="tns:DocumentInfo_Headers" part="DocumentStreamLength" use="literal" />
+        <soap12:header message="tns:DocumentInfo_Headers" part="FileName" use="literal" />
+        <soap12:header message="tns:DocumentInfo_Headers" part="IdEntity" use="literal" />
+        <soap12:header message="tns:DocumentInfo_Headers" part="IdFileContainer" use="literal" />
+        <soap12:header message="tns:DocumentInfo_Headers" part="IdForm" use="literal" />
+        <soap12:header message="tns:DocumentInfo_Headers" part="MetaData" use="literal" />
+        <soap12:header message="tns:DocumentInfo_Headers" part="SessionInf" use="literal" />
+        <soap12:header message="tns:DocumentInfo_Headers" part="UseFormMetaData" use="literal" />
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="ResponseDocument">
+        <soap12:header message="tns:ResponseDocument_Headers" part="documentStore" use="literal" />
+        <soap12:header message="tns:ResponseDocument_Headers" part="message" use="literal" />
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetDocumentFullText">
+      <soap12:operation soapAction="http://tempuri.org/IDocumentsStore/GetDocumentFullText" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getDocumentByIdForm">
+      <soap12:operation soapAction="http://tempuri.org/IDocumentsStore/getDocumentByIdForm" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getDocumentByIdFormAndIdEntity">
+      <soap12:operation soapAction="http://tempuri.org/IDocumentsStore/getDocumentByIdFormAndIdEntity" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ListDocumentByIdFormAndIdFileContainer">
+      <soap12:operation soapAction="http://tempuri.org/IDocumentsStore/ListDocumentByIdFormAndIdFileContainer" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteDocument">
+      <soap12:operation soapAction="http://tempuri.org/IDocumentsStore/DeleteDocument" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ListAllFileContainers">
+      <soap12:operation soapAction="http://tempuri.org/IFileContainer/ListAllFileContainers" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetFileContainer">
+      <soap12:operation soapAction="http://tempuri.org/IFileContainer/GetFileContainer" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteFileContainer">
+      <soap12:operation soapAction="http://tempuri.org/IFileContainer/DeleteFileContainer" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveFileContainer">
+      <soap12:operation soapAction="http://tempuri.org/IFileContainer/SaveFileContainer" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ListAllFileContainersForm">
+      <soap12:operation soapAction="http://tempuri.org/IFileContainersForm/ListAllFileContainersForm" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ListFileContainersFormByIdFileContainer">
+      <soap12:operation soapAction="http://tempuri.org/IFileContainersForm/ListFileContainersFormByIdFileContainer" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ListFileContainersFormByIdForm">
+      <soap12:operation soapAction="http://tempuri.org/IFileContainersForm/ListFileContainersFormByIdForm" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ListAllMetadata">
+      <soap12:operation soapAction="http://tempuri.org/IMetaData/ListAllMetadata" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetMetadataByFileContainer">
+      <soap12:operation soapAction="http://tempuri.org/IMetaData/GetMetadataByFileContainer" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ListMetadataByFileContainer">
+      <soap12:operation soapAction="http://tempuri.org/IMetaData/ListMetadataByFileContainer" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="saveListMetata">
+      <soap12:operation soapAction="http://tempuri.org/IMetaData/saveListMetata" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteMetadata">
+      <soap12:operation soapAction="http://tempuri.org/IMetaData/DeleteMetadata" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="DocumentalSystemService">
+    <wsdl:port name="basicHttp_Endpoint_DocumentalSystem" binding="tns:basicHttp_Endpoint_DocumentalSystem">
+      <soap:address location="http://localhost:9000/DistributedService.DocumentalSystem.Deployment/DocumentalSystem.svc/basicHttpDocumentalSystem" />
+    </wsdl:port>
+    <wsdl:port name="wsHttp_Endpoint_DocumentalSystem" binding="tns:wsHttp_Endpoint_DocumentalSystem">
+      <soap12:address location="http://localhost:9000/DistributedService.DocumentalSystem.Deployment/DocumentalSystem.svc/wsHttpDocumentalSystem" />
+      <wsa10:EndpointReference>
+        <wsa10:Address>http://localhost:9000/DistributedService.DocumentalSystem.Deployment/DocumentalSystem.svc/wsHttpDocumentalSystem</wsa10:Address>
+      </wsa10:EndpointReference>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

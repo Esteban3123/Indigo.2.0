@@ -1,0 +1,445 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{020C0C10-A6D2-43B0-AE5A-D1EABEA2F16C}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>Infrastructure.Data.Xpo.BillingRepository</RootNamespace>
+    <AssemblyName>Infrastructure.Data.Xpo.BillingRepository</AssemblyName>
+    <FileAlignment>512</FileAlignment>
+    <MyType>Windows</MyType>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DocumentationFile>Infrastructure.Data.Xpo.BillingRepository.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DocumentationFile>Infrastructure.Data.Xpo.BillingRepository.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionExplicit>On</OptionExplicit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionCompare>Binary</OptionCompare>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionStrict>Off</OptionStrict>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionInfer>On</OptionInfer>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debugcito|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\Debugcito\</OutputPath>
+    <DocumentationFile>Infrastructure.Data.Xpo.BillingRepository.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DocumentationFile>Infrastructure.Data.Xpo.BillingRepository.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DocumentationFile>Infrastructure.Data.Xpo.BillingRepository.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debugcito|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x64\Debugcito\</OutputPath>
+    <DocumentationFile>Infrastructure.Data.Xpo.BillingRepository.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DocumentationFile>Infrastructure.Data.Xpo.BillingRepository.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DocumentationFile>Infrastructure.Data.Xpo.BillingRepository.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debugcito|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x86\Debugcito\</OutputPath>
+    <DocumentationFile>Infrastructure.Data.Xpo.BillingRepository.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'VieBuild|AnyCPU'">
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\VieBuild\</OutputPath>
+    <DocumentationFile>Infrastructure.Data.Xpo.BillingRepository.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'VieBuild|x64'">
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x64\VieBuild\</OutputPath>
+    <DocumentationFile>Infrastructure.Data.Xpo.BillingRepository.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'VieBuild|x86'">
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x86\VieBuild\</OutputPath>
+    <DocumentationFile>Infrastructure.Data.Xpo.BillingRepository.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="DevExpress.Drawing.v25.1, Version=25.1.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Printing.v25.1.Core, Version=25.1.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Data.v25.1, Version=25.1.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Xpo.v25.1, Version=25.1.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="Infrastructure.CrossCutting.Base, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\DLL\Infrastructure.CrossCutting.Base.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+  </ItemGroup>
+  <ItemGroup>
+    <Import Include="Microsoft.VisualBasic" />
+    <Import Include="System" />
+    <Import Include="System.Collections.Generic" />
+    <Import Include="System.Linq" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ConditionSalesUserXpo.vb" />
+    <Compile Include="RIPSSupportRecord.vb" />
+    <Compile Include="Reports\InvoiceEntityCapitatedGroupersReportXpo.vb" />
+    <Compile Include="ViewListBasicBillingForImportXpo.vb" />
+    <Compile Include="ConditionSalesXpo.vb" />
+    <Compile Include="BillingJustificationControlXpo.vb" />
+    <Compile Include="BillingJustificationControlUserXpo.vb" />
+    <Compile Include="CustomTRMXpo.vb" />
+    <Compile Include="DocumentSupportDetailXpo.vb" />
+    <Compile Include="ElectronicRIPSDetailTraceability.vb" />
+    <Compile Include="ElectronicRIPSTraceability.vb" />
+    <Compile Include="ElectronicSupportDocumentAdjustmentNoteDetailXpo.vb" />
+    <Compile Include="ElectronicSupportDocumentAdjustmentNoteXpo.vb" />
+    <Compile Include="Causesofattention.vb" />
+    <Compile Include="NumberingAuthorizationUserXpo.vb" />
+    <Compile Include="NumberingAuthorizationXpo.vb" />
+    <Compile Include="ElectronicSupportDocumentXpo.vb" />
+    <Compile Include="ProductAndServiceFeeUserDetailXpo.vb" />
+    <Compile Include="Reports\BillingInvoiceCopayXpo.vb" />
+    <Compile Include="ServiceFeeDetailXpo.vb" />
+    <Compile Include="ProductFeeDetailXpo.vb" />
+    <Compile Include="ProductAndServicesFeeXpo.vb" />
+    <Compile Include="ProductServiceDetailXpo.vb" />
+    <Compile Include="BasicBillingXpo.vb" />
+    <Compile Include="BillingPharmaceuticalDispensingDetailXpo.vb" />
+    <Compile Include="ConceptsCausesStatusFolioUsersXpo.vb" />
+    <Compile Include="DefinitionRateDetailXpo.vb" />
+    <Compile Include="ElectronicDocumentNotificationXpo.vb" />
+    <Compile Include="InventoryWarehouseXpo.vb" />
+    <Compile Include="DocumentInvoiceProductSalesDevolutionXpo.vb" />
+    <Compile Include="ContractDescriptionsXpo.vb" />
+    <Compile Include="CUPSEntityContractDescriptionsXpo.vb" />
+    <Compile Include="ElectronicDocumentDetailXpo.vb" />
+    <Compile Include="ElectronicDocumentXpo.vb" />
+    <Compile Include="BillingGroupXpo.vb" />
+    <Compile Include="BillingServiceXpoEx.vb" />
+    <Compile Include="BillingViewListInvoiceAndPatientXpo.vb" />
+    <Compile Include="BillingVSlipOutAndAdmission.vb" />
+    <Compile Include="CustomerXpo.vb" />
+    <Compile Include="InvoiceEntityCapitatedDistributionXpo.vb" />
+    <Compile Include="ListQuotationXpo.vb" />
+    <Compile Include="BranchOfficeXpo.vb" />
+    <Compile Include="ConceptsCausesStatusFolioXpo.vb" />
+    <Compile Include="QuotationPharmaceuticalDispensingDetailBatchSerialXpo.vb" />
+    <Compile Include="QuotationPharmaceuticalDispensingDetailXpo.vb" />
+    <Compile Include="Relations\CommonISO4217Xpo.vb" />
+    <Compile Include="Relations\GeneralLedgerIVAXpo.vb" />
+    <Compile Include="Relations\CommonCurrencyXpo.vb" />
+    <Compile Include="Reports\BasicBillingDetailReportXpo.vb" />
+    <Compile Include="Reports\BasicBillingReportXpo.vb" />
+    <Compile Include="Reports\BillingElectronicDocumentReportXpo.vb" />
+    <Compile Include="Reports\BillingConceptReportXpo.vb" />
+    <Compile Include="Reports\BillingVReportInvoiceCustomerRetention.vb" />
+    <Compile Include="Reports\BillingVReportListInvoice.vb" />
+    <Compile Include="Reports\BillingViewReportQuotation.vb" />
+    <Compile Include="Reports\BillingViewReportQuotationDetails.vb" />
+    <Compile Include="Reports\BillingVReportInvoicePartial.vb" />
+    <Compile Include="Reports\BillingVReportInvoicePartialDetail.vb" />
+    <Compile Include="Reports\FixedAssetItemReportXpo.vb" />
+    <Compile Include="Reports\FixedAssetPhysicalAssetReportXpo.vb" />
+    <Compile Include="Reports\GroupersCareGroupXpo.vb" />
+    <Compile Include="Reports\GroupersXpo.vb" />
+    <Compile Include="Reports\InvoiceEntityCapitatedDistributionDetailReportXpo.vb" />
+    <Compile Include="Reports\InvoiceEntityCapitatedDistributionReportXpo.vb" />
+    <Compile Include="Reports\SubLargeDetail.vb" />
+    <Compile Include="QuotationServiceOrderDetailXpo.vb" />
+    <Compile Include="QuotationXpo.vb" />
+    <Compile Include="QuotationServiceOrderDetailDistributionXpo.vb" />
+    <Compile Include="QuotationServiceOrderDetailSurgicalXpo.vb" />
+    <Compile Include="SalesExecutiveXpo.vb" />
+    <Compile Include="SupportDocumentXpo.vb" />
+    <Compile Include="ViewBillingStatisticsWithServicesXpo.vb" />
+    <Compile Include="ViewDashboardQuotedHospitableXpo.vb" />
+    <Compile Include="ViewDocumentInvoiceProductSalesDevolutionDetailsXpo.vb" />
+    <Compile Include="ViewListCUPSEntityAndInventoryProductXpo.vb" />
+    <Compile Include="ViewBillingStatisticsXpo.vb" />
+    <Compile Include="ViewListAppointmentsXpo.vb" />
+    <Compile Include="ViewAdministrativeNotesAccountControlAmbulatoryXpo.vb" />
+    <Compile Include="ViewInterconsultsAccountControlAmbulatoryXpo.vb" />
+    <Compile Include="ViewImagesAccountControlAmbulatoryXpo.vb" />
+    <Compile Include="ViewServiceOrderDetailXpo.vb" />
+    <Compile Include="ViewPathologiesAccountControlAmbulatoryXpo.vb" />
+    <Compile Include="ViewListRecognitionEntranceReverse.vb" />
+    <Compile Include="InvoiceCategoriesXpo.vb" />
+    <Compile Include="InvoiceCategoriesUserXpo.vb" />
+    <Compile Include="InvoiceEntityCapitatedXpo.vb" />
+    <Compile Include="FunctionalUnitXpo.vb" />
+    <Compile Include="CostCenterXpo.vb" />
+    <Compile Include="CareGroupInvoiceCategoriesXpo.vb" />
+    <Compile Include="BillingRevenueControlCourtAccountXpo.vb" />
+    <Compile Include="Reports\BillingAuthorizationReportXpo.vb" />
+    <Compile Include="Reports\BillingViewRadicatedInvoicReportXpo.vb" />
+    <Compile Include="Reports\BillingViewReportBilledServicesReportXpo.vb" />
+    <Compile Include="Reports\BillingVReportInvoice.vb" />
+    <Compile Include="Reports\BillingVReportInvoiceDetailLoad.vb" />
+    <Compile Include="Reports\BillingVReportInvoiceDetail.vb" />
+    <Compile Include="Reports\BillingVReportInvoiceDetailAnulate.vb" />
+    <Compile Include="Reports\CommonAddressXpo.vb" />
+    <Compile Include="Reports\CommonCityXpo.vb" />
+    <Compile Include="Reports\CommonDepartmentXpo.vb" />
+    <Compile Include="Reports\CommonPersonXpo.vb" />
+    <Compile Include="Reports\CommonPhoneXpo.vb" />
+    <Compile Include="Reports\ConceptAccountReportXpo.vb" />
+    <Compile Include="Reports\ConceptReportXpo.vb" />
+    <Compile Include="Reports\InvoiceEntityCapitatedReportXpo.vb" />
+    <Compile Include="Reports\InventoryProductReportXpo.vb" />
+    <Compile Include="Reports\InvoiceCategoriesReportXpo.vb" />
+    <Compile Include="Reports\PortfolioAccountReceivableXpo.vb" />
+    <Compile Include="Reports\SettingsBillingReportXpo.vb" />
+    <Compile Include="SlipOutXpo.vb" />
+    <Compile Include="ViewListRecognitionDetailXpo.vb" />
+    <Compile Include="ViewListRecognitionEntrance.vb" />
+    <Compile Include="ViewListRecognitionReverse.vb" />
+    <Compile Include="ViewListRevenueControlForAnnullateInvoiceXpo.vb" />
+    <Compile Include="BillingReversalReasonXpo.vb" />
+    <Compile Include="InventoryProductXpo.vb" />
+    <Compile Include="Reports\AdministratorHealthXpo.vb" />
+    <Compile Include="Reports\ContractsEntityXpo.vb" />
+    <Compile Include="Reports\ContractsXpo.vb" />
+    <Compile Include="Reports\ControlRevenueDetailXpo.vb" />
+    <Compile Include="Reports\ControlRevenueXpo.vb" />
+    <Compile Include="Reports\DetailInvoicesXpo.vb" />
+    <Compile Include="Reports\EntityCUPSXpo.vb" />
+    <Compile Include="Reports\GroupBillingXpo.vb" />
+    <Compile Include="Reports\CareGroupReportXpo.vb" />
+    <Compile Include="Reports\GroupServiceIPSXpo.vb" />
+    <Compile Include="Reports\InvoicesXpo.vb" />
+    <Compile Include="Reports\OrderServiceDetailDistributionXpo.vb" />
+    <Compile Include="Reports\OrderServiceDetailSurgicalXpo.vb" />
+    <Compile Include="Reports\OrderServiceDetailXpo.vb" />
+    <Compile Include="Reports\OrderServiceXpo.vb" />
+    <Compile Include="Reports\ServiceIPSXpo.vb" />
+    <Compile Include="Reports\ThirdsPartyXpo.vb" />
+    <Compile Include="InventoryProductRateXpo.vb" />
+    <Compile Include="InventoryProductRateDetailXpo.vb" />
+    <Compile Include="ViewListRevenueControlXpo.vb" />
+    <Compile Include="StoreProcedures\SP_ListRevenueControlByIdResult.vb" />
+    <Compile Include="ThirdPartyXpo.vb" />
+    <Compile Include="My Project\AssemblyInfo.vb" />
+    <Compile Include="My Project\Application.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Application.myapp</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="My Project\Resources.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="My Project\Settings.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="BillingAuthorizationXpo.vb" />
+    <Compile Include="BillingAuthorizationUserXpo.vb" />
+    <Compile Include="BillingDeadlineXpo.vb" />
+    <Compile Include="InvoiceXpo.vb" />
+    <Compile Include="InvoiceDetailXpo.vb" />
+    <Compile Include="InvoiceDetailBasicInvoiceXpo.vb" />
+    <Compile Include="InvoicePortfolioAdvanceXpo.vb" />
+    <Compile Include="RevenueControlXpo.vb" />
+    <Compile Include="RevenueControlDetailXpo.vb" />
+    <Compile Include="ServiceOrderXpo.vb" />
+    <Compile Include="ServiceOrderDetailXpo.vb" />
+    <Compile Include="ServiceOrderDetailDistributionXpo.vb" />
+    <Compile Include="ServiceOrderDetailSurgicalXpo.vb" />
+    <Compile Include="SettingsBillingXpo.vb" />
+    <Compile Include="CareGroupXpo.vb" />
+    <Compile Include="CareGroupRateXpo.vb" />
+    <Compile Include="ContractXpo.vb" />
+    <Compile Include="ContractEntityXpo.vb" />
+    <Compile Include="ContractMinimumWageXpo.vb" />
+    <Compile Include="CUPSEntityXpo.vb" />
+    <Compile Include="CupsGroupXpo.vb" />
+    <Compile Include="CupsHomologationXpo.vb" />
+    <Compile Include="CupsSubgroupXpo.vb" />
+    <Compile Include="HealthAdministratorXpo.vb" />
+    <Compile Include="IPSServiceXpo.vb" />
+    <Compile Include="BillingConceptXpo.vb" />
+    <Compile Include="MarketingUnitXpo.vb" />
+    <Compile Include="MarketingUnitCupsXpo.vb" />
+    <Compile Include="ProcedureCupsXpo.vb" />
+    <Compile Include="ProcedureTemplateXpo.vb" />
+    <Compile Include="RateByFixedXpo.vb" />
+    <Compile Include="RateByFormulaXpo.vb" />
+    <Compile Include="RateByFunctionalUnitXpo.vb" />
+    <Compile Include="RateBySpecialtyXpo.vb" />
+    <Compile Include="RateByStandardXpo.vb" />
+    <Compile Include="RateByUnitTypeXpo.vb" />
+    <Compile Include="RateManualXpo.vb" />
+    <Compile Include="RateManualDetailXpo.vb" />
+    <Compile Include="RateManualDetailSurgicalXpo.vb" />
+    <Compile Include="RequirementXpo.vb" />
+    <Compile Include="RequirementTemplateXpo.vb" />
+    <Compile Include="SurgeriesPercentageManualXpo.vb" />
+    <Compile Include="SurgicalGroupXpo.vb" />
+    <Compile Include="SurgicalProcedureServiceXpo.vb" />
+    <Compile Include="UVRRangeXpo.vb" />
+    <Compile Include="ViewListNoSurgical.vb" />
+    <Compile Include="ViewListReverseRecognitionDetailXpo.vb" />
+    <Compile Include="ViewListSurgicalAndPackageXpo.vb" />
+    <Compile Include="ViewAdmissionsToAccountControlAmbulatoryXpo.vb" />
+    <Compile Include="ViewLaboratoriesAccountControlAmbulatoryXpo.vb" />
+    <Compile Include="ViewOdontologyProceduresXpo.vb" />
+    <Compile Include="ViewDocumentInvoiceProductSalesByDevolutionXpo.vb" />
+    <Compile Include="ViewRIASCupsXpo.vb" />
+    <Compile Include="ViewRevenueControl.vb" />
+    <Compile Include="ViewRIPSInvoicePopulationGroup.vb" />
+    <Compile Include="ViewRIPSInvoice.vb" />
+    <Compile Include="Views\ViewReportBillingNoteWithDetailsXpo.vb" />
+    <Compile Include="Views\ViewListBillingConceptXpo.vb" />
+    <Compile Include="Views\ViewAdmissionLock_AccountControlValidationsXpo.vb" />
+    <Compile Include="Views\ViewBillingNoteInvoiceXpo.vb" />
+    <Compile Include="Views\ViewBillingNoteXpo.vb" />
+    <Compile Include="Views\ViewOpenRevenueReportSummaryXpo.vb" />
+    <Compile Include="Views\ViewQuotationAdmissionInformationXpo.vb" />
+    <Compile Include="Views\ViewOpenRevenueReportXpo.vb" />
+    <Compile Include="Views\ViewTaxDevolutionXpo.vb" />
+    <Compile Include="Views\ViewRelatedInvoicesXpo.vb" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="My Project\Resources.resx">
+      <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.vb</LastGenOutput>
+      <CustomToolNamespace>My.Resources</CustomToolNamespace>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="BillingModel.xpo" />
+    <None Include="BillingModel.xpo.diagram">
+      <DependentUpon>BillingModel.xpo</DependentUpon>
+    </None>
+    <None Include="My Project\Application.myapp">
+      <Generator>MyApplicationCodeGenerator</Generator>
+      <LastGenOutput>Application.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="My Project\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <CustomToolNamespace>My</CustomToolNamespace>
+      <LastGenOutput>Settings.Designer.vb</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Infrastructure.CrossCutting.Xpo.Base\Infrastructure.CrossCutting.Xpo.Base.vbproj">
+      <Project>{06AEA7A4-8792-405E-97E6-4B6FB10502B5}</Project>
+      <Name>Infrastructure.CrossCutting.Xpo.Base</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastructure.Data.Xpo.InventoryRepository\Infrastructure.Data.Xpo.InventoryRepository.csproj">
+      <Project>{e16b7310-400a-46dd-b7ab-c54ea51f197c}</Project>
+      <Name>Infrastructure.Data.Xpo.InventoryRepository</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Presentation.Billing.Entities\Presentation.Billing.Entities.vbproj">
+      <Project>{524087D0-760E-449E-888B-C9C31F7ED4D8}</Project>
+      <Name>Presentation.Billing.Entities</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

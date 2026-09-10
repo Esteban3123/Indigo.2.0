@@ -1,0 +1,155 @@
+﻿#Region "Librerias Importadas"
+Imports Infrastructure.CrossCutting.Base
+Imports Infrastructure.Data.Xpo
+Imports Infrastructure.Data.Xpo.PayrollRepository
+Imports Domain.Entities
+Imports DevExpress.DataAccess
+Imports DevExpress.DataAccess.ConnectionParameters
+
+
+Imports Infrastructure.Data.Xpo.BudgetRepository
+
+Imports DevExpress.XtraReports.UI
+Imports DevExpress.XtraRichEdit.Model
+Imports System.Configuration
+
+Imports Presentation.Base
+Imports System.Data.SqlClient
+Imports Presentation.CloudAgent
+Imports System.Globalization
+
+#End Region
+
+Public Class rptPayrollKardex
+    Implements IReport
+
+    ''' <summary>
+    ''' Variable para inicializar los valores de sesion
+    ''' </summary>
+    Dim IndigoSessionValues As SessionValues = SessionValues.Instance
+
+    Dim liquidation As List(Of PayrollLiquidation)
+    Dim fechaInicial As Date
+    Dim fechaFinal As Date
+
+    Public Sub CargarDataSource() Implements IReport.CargarDataSource
+
+        fechaInicial = New Date(ParametrosReporte(1), 1, 1)
+        fechaFinal = New Date(ParametrosReporte(1), 12, 31)
+
+        Dim filtro = "EmployeeId.Id = " & ParametrosReporte(0) & " AND PayrollDateLiquidated >= #" & Format(fechaInicial, "yyyy-MM-dd") & "# AND PayrollDateLiquidated <= #" & Format(fechaFinal, "yyyy-MM-dd") & "#"
+        'filtro por estado
+        If ParametrosReporte(3) <> "T" Then
+            filtro &= " AND RegisterStatus = '" & ParametrosReporte(3) & "'"
+        End If
+
+        'filtro por Grupo
+        If ParametrosReporte(4) IsNot Nothing And ParametrosReporte(5) IsNot Nothing Then
+            filtro &= " AND GroupId.Code >= '" & ParametrosReporte(4) & "' AND GroupId.Code <= '" & ParametrosReporte(5) & "'"
+        End If
+
+        'filtro por Unidad funcional
+        If ParametrosReporte(6) IsNot Nothing And ParametrosReporte(7) IsNot Nothing Then
+            filtro &= " AND ContractId.FunctionalUnitId.Code >= '" & ParametrosReporte(6) & "' AND ContractId.FunctionalUnitId.Code <= '" & ParametrosReporte(7) & "'"
+        End If
+
+        liquidation = XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).TreasuryService.GetCollection(Of PayrollLiquidation)(Nothing, filtro)
+        Me.DataSource = liquidation
+
+        For Each item In liquidation
+            Dim mes = Month(item.PayrollDateLiquidated)
+            Dim months() As String = {"Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"}
+            item.Mes = months(mes - 1)
+        Next
+
+        INDemployeeId.Value = ParametrosReporte(0)
+
+        INDstatus.Value = ParametrosReporte(1)
+        INDConceptType.Value = ParametrosReporte(8)
+
+        'FillListPayrollKardex()
+
+    End Sub
+
+    ''' <summary>
+    ''' se ejecuta para cargar el datasource del subreporte de devengos
+    ''' </summary>
+    ''' <returns></returns>
+    ''' <remarks></remarks>
+    Public Sub FillListPayrollKardex()
+        Dim filtroConsulta As String = ""
+        filtroConsulta = "PayrollId.EmployeeId.Id = " & ParametrosReporte(0) & " AND PayrollDate >= #" & Format(fechaInicial, "yyyy-MM-dd") & "# AND PayrollDate <= #" & Format(fechaFinal, "yyyy-MM-dd") & "#"
+
+        'filtro por estado
+        If ParametrosReporte(3) <> "T" Then
+            filtroConsulta &= " AND PayrollId.RegisterStatus = '" & ParametrosReporte(3) & "'"
+        End If
+
+        ''filtro por Grupo
+        'If ParametrosReporte(4) IsNot Nothing And ParametrosReporte(5) IsNot Nothing Then
+        '    filtroConsulta &= " AND GroupId.Code >= '" & ParametrosReporte(4) & "' AND GroupId.Code <= '" & ParametrosReporte(5) & "'"
+        'End If
+
+        Dim lista As List(Of PayrollLiquidationDetail) = XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).TreasuryService.GetCollection(Of PayrollLiquidationDetail)(Nothing, filtroConsulta)
+        Dim conceptos = (From x In lista Select New With {Key x.ConceptId.Id, x.ConceptId.Name, x.ConceptId.ConceptType, x.PayrollDate}).ToList().Distinct()
+        Dim devengados As New List(Of PayrollKardex)
+        Dim deducido As New List(Of PayrollKardex)
+        For Each item In conceptos
+            Dim concepto As New PayrollKardex()
+            concepto.Nombre = item.Name
+            concepto.Enero = (From e In lista Where e.PayrollDate.Month = 1 And e.ConceptId.Id = item.Id Select e.ConceptTotalValue).Sum()
+            concepto.Febrero = (From e In lista Where e.PayrollDate.Month = 2 And e.ConceptId.Id = item.Id Select e.ConceptTotalValue).Sum()
+            concepto.Marzo = (From e In lista Where e.PayrollDate.Month = 3 And e.ConceptId.Id = item.Id Select e.ConceptTotalValue).Sum()
+            concepto.Abril = (From e In lista Where e.PayrollDate.Month = 4 And e.ConceptId.Id = item.Id Select e.ConceptTotalValue).Sum()
+            concepto.Mayo = (From e In lista Where e.PayrollDate.Month = 5 And e.ConceptId.Id = item.Id Select e.ConceptTotalValue).Sum()
+            concepto.Junio = (From e In lista Where e.PayrollDate.Month = 6 And e.ConceptId.Id = item.Id Select e.ConceptTotalValue).Sum()
+            concepto.Julio = (From e In lista Where e.PayrollDate.Month = 7 And e.ConceptId.Id = item.Id Select e.ConceptTotalValue).Sum()
+            concepto.Agosto = (From e In lista Where e.PayrollDate.Month = 8 And e.ConceptId.Id = item.Id Select e.ConceptTotalValue).Sum()
+            concepto.Septiembre = (From e In lista Where e.PayrollDate.Month = 9 And e.ConceptId.Id = item.Id Select e.ConceptTotalValue).Sum()
+            concepto.Octubre = (From e In lista Where e.PayrollDate.Month = 10 And e.ConceptId.Id = item.Id Select e.ConceptTotalValue).Sum()
+            concepto.Noviembre = (From e In lista Where e.PayrollDate.Month = 11 And e.ConceptId.Id = item.Id Select e.ConceptTotalValue).Sum()
+            concepto.Diciembre = (From e In lista Where e.PayrollDate.Month = 12 And e.ConceptId.Id = item.Id Select e.ConceptTotalValue).Sum()
+            concepto.Total = concepto.Enero + concepto.Febrero + concepto.Marzo + concepto.Abril + concepto.Mayo + concepto.Junio + concepto.Julio +
+                            concepto.Agosto + concepto.Septiembre + concepto.Octubre + concepto.Noviembre + concepto.Diciembre
+            If item.ConceptType = 1 Then
+                devengados.Add(concepto)
+            ElseIf item.ConceptType = 2 Then
+                deducido.Add(concepto)
+            End If
+        Next
+        Me.INDSrAccroauls.ReportSource.DataSource = devengados
+        Me.INDSrDeductions.ReportSource.DataSource = deducido
+    End Sub
+
+    Public Sub CargarImagenes() Implements IReport.CargarImagenes
+
+    End Sub
+
+    Public ReadOnly Property NameReport As String Implements IReport.NameReport
+        Get
+            Return ""
+        End Get
+    End Property
+
+    Public Property ParametrosReporte As Object() Implements IReport.ParametrosReporte
+
+    Private Sub rptPayrollKardex_BeforePrint(sender As Object, e As Printing.PrintEventArgs) Handles MyBase.BeforePrint
+        InitializeReportLocalization()
+        INDLblCompany.Text = IndigoSessionValues.IndigoCompanyName
+        INDLblNitCompany.Text = "Nit:" & IndigoSessionValues.IndigoCompanyNit
+        INDLblSubtitle.Text = "Año reportado: " & ParametrosReporte(1)
+    End Sub
+
+    ''' <summary>
+    ''' Metodo para inicializar la moneda según la configuración de nómina
+    ''' </summary>
+    Private Sub InitializeReportLocalization()
+        Dim companySettings As PayrollSettingsXpo =
+            XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).PayrollService.GetXPOObject(Of PayrollSettingsXpo)(Nothing)
+        If companySettings IsNot Nothing Then
+            Dim culture As CultureInfo = CultureInfo.CurrentCulture.Clone()
+            culture.NumberFormat = companySettings.CurrencyId.Abbreviation.GetNumberFormat()
+            ApplyLocalization(culture)
+        End If
+    End Sub
+End Class

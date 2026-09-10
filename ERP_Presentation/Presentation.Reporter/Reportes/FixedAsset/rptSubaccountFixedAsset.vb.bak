@@ -1,0 +1,190 @@
+﻿#Region "Librerias Importadas"
+Imports Presentation.Base
+Imports Infrastructure.CrossCutting.Base
+Imports Infrastructure.Data.Xpo
+Imports Infrastructure.Data.Xpo.FixedAssetRepository
+Imports Domain.Entities
+Imports Presentation.CloudAgent
+
+#End Region
+
+Public Class rptSubaccountFixedAsset
+    Implements IReport
+    Implements IReportAsync
+
+    ''' <summary>
+    ''' Variable para inicializar los valores de sesion
+    ''' </summary>
+    Dim IndigoSessionValues As SessionValues = SessionValues.Instance
+
+    ''' <summary>
+    ''' Variable par obtener la tabla de Trazabilidad
+    ''' </summary>
+    Dim dtReportSubAccount As DataTable
+
+    ''' <summary>
+    ''' Parámetros de activo fijo
+    ''' </summary>
+    Private currencyAbbreviation As String
+
+    ''' <summary>
+    ''' Variable para darle formato de decimales a los valores del reporte
+    ''' </summary>
+    Private decimalFormat As String
+
+    Public Sub CargarDataSource() Implements IReport.CargarDataSource
+        Try
+            GetCurrencyAbbreviationByBook(ParametrosReporte(6))
+            Dim ds As DataSet = IndigoConecta.Instancia.CurrentCloud.IndigoAccounting.GetListReportSubAccount(ParametrosReporte(0), ParametrosReporte(1), ParametrosReporte(2), ParametrosReporte(3), ParametrosReporte(4), ParametrosReporte(5), ParametrosReporte(6), Me.IndigoSessionValues)
+            If ds.Tables(0).Rows.Count > 0 Then
+                dtReportSubAccount = ds.Tables("ReportSubAccount")
+                Me.DataSource = dtReportSubAccount
+                Me.DataMember = "ReportSubAccount"
+            Else
+                Me.DataSource = Nothing
+            End If
+        Catch ex As Exception
+            MessageIndigo.Show(GetExceptionDetails(ex), MessageType.Errores, Me.Text, Botones.Aceptar, "")
+        End Try
+    End Sub
+
+    ''' <summary>
+    ''' Retorna Async los datos para evitar bloque de interfaz
+    ''' </summary>
+    ''' <returns></returns>
+    ''' <remarks></remarks>
+    Public Function CargarDataSourceAsync() As Task Implements IReportAsync.CargarDataSourceAsync
+        Return task.Factory.StartNew(AddressOf CargarDataSource)
+    End Function
+
+    Public Function GetExceptionDetails(exception As Exception) As String
+        Dim properties = exception.[GetType]().GetProperties()
+        Dim fields = properties.[Select](Function([property]) New With { _
+            Key .Name = [property].Name, _
+            Key .Value = [property].GetValue(exception, Nothing) _
+        }).[Select](Function(x) [String].Format("{0} : {1}", x.Name, If(x.Value IsNot Nothing, x.Value.ToString(), [String].Empty)))
+        Return [String].Join(vbLf, fields)
+    End Function
+
+    Public Sub CargarImagenes() Implements IReport.CargarImagenes
+
+    End Sub
+
+    Public ReadOnly Property NameReport As String Implements IReport.NameReport
+        Get
+            Return ""
+        End Get
+    End Property
+
+    Public Property ParametrosReporte As Object() Implements IReport.ParametrosReporte
+
+    Private Sub rptSubaccountFixedAsset_BeforePrint(sender As Object, e As Printing.PrintEventArgs) Handles MyBase.BeforePrint
+        INDLblCompany.Text = IndigoSessionValues.IndigoCompanyName
+        INDLblNitCompany.Text = "Nit:" & IndigoSessionValues.IndigoCompanyNit
+        Me.INDLblUserPrint.Text = "Usuario Impresión : " & IndigoSessionValues.UserIndigo & " - " & IndigoSessionValues.UserIndigoName
+    End Sub
+
+    ''' <summary>
+    ''' Método para obtener la abreviación de la moneda según el libro seleccionado
+    ''' </summary>
+    ''' <param name="bookId"></param>
+    Private Sub GetCurrencyAbbreviationByBook(bookId)
+        Dim selectedBook = XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).AccountingService.GetBookById(bookId)
+        Dim roundingType = selectedBook(0).CommonCurrency.RoundingType
+        currencyAbbreviation = If(String.IsNullOrEmpty(selectedBook(0).CommonCurrency.Abbreviation), IndigoSessionValues.CurrencyISO4217, selectedBook(0).CommonCurrency.Abbreviation)
+
+        If roundingType IsNot Nothing Then
+            FormatValueWithDecimals(roundingType)
+        End If
+    End Sub
+
+    ''' <summary>
+    ''' Método para formatear los valores del reporte según el tipo de redondeo parametrizado a la moneda
+    ''' </summary>
+    ''' <param name="roundingType"></param>
+    Private Sub FormatValueWithDecimals(roundingType As Integer)
+        Select Case roundingType
+            Case 1
+                decimalFormat = 2
+            Case 2
+                decimalFormat = 1
+            Case >= 3
+                decimalFormat = 0
+        End Select
+    End Sub
+
+    ''' <summary>
+    ''' Eventos que controlan la visualización de los valores del reporte
+    ''' </summary>
+    ''' <param name="sender"></param>
+    ''' <param name="e"></param>
+#Region "Cambio Símbolo Moneda"
+    Private Sub XrTableCell12_BeforePrint(sender As Object, e As Printing.PrintEventArgs) Handles XrTableCell12.BeforePrint
+        XrTableCell12.Text = Utils.GetMoneyWithISO4217(XrTableCell12.Text, currencyAbbreviation, decimalFormat)
+    End Sub
+
+    Private Sub XrTableCell13_BeforePrint(sender As Object, e As Printing.PrintEventArgs) Handles XrTableCell13.BeforePrint
+        XrTableCell13.Text = Utils.GetMoneyWithISO4217(XrTableCell13.Text, currencyAbbreviation, decimalFormat)
+    End Sub
+
+    Private Sub XrTableCell14_BeforePrint(sender As Object, e As Printing.PrintEventArgs) Handles XrTableCell14.BeforePrint
+        XrTableCell14.Text = Utils.GetMoneyWithISO4217(XrTableCell14.Text, currencyAbbreviation, decimalFormat)
+    End Sub
+
+    Private Sub XrTableCell21_BeforePrint(sender As Object, e As Printing.PrintEventArgs) Handles XrTableCell21.BeforePrint
+        XrTableCell21.Text = Utils.GetMoneyWithISO4217(XrTableCell21.Text, currencyAbbreviation, decimalFormat)
+    End Sub
+
+    Private Sub XrTableCell23_BeforePrint(sender As Object, e As Printing.PrintEventArgs) Handles XrTableCell23.BeforePrint
+        XrTableCell23.Text = Utils.GetMoneyWithISO4217(XrTableCell23.Text, currencyAbbreviation, decimalFormat)
+    End Sub
+
+#Region "GroupSummary"
+    Private Sub XrTableCell15_SummaryGetResult(sender As Object, e As DevExpress.XtraReports.UI.SummaryGetResultEventArgs) Handles XrTableCell15.SummaryGetResult
+        e.Result = Utils.GetMoneyWithISO4217(e.CalculatedValues.ToEntityList(Of Decimal).Sum(), currencyAbbreviation, decimalFormat)
+        e.Handled = True
+    End Sub
+
+    Private Sub XrTableCell10_SummaryGetResult(sender As Object, e As DevExpress.XtraReports.UI.SummaryGetResultEventArgs) Handles XrTableCell10.SummaryGetResult
+        e.Result = Utils.GetMoneyWithISO4217(e.CalculatedValues.ToEntityList(Of Decimal).Sum(), currencyAbbreviation, decimalFormat)
+        e.Handled = True
+    End Sub
+
+    Private Sub XrTableCell4_SummaryGetResult(sender As Object, e As DevExpress.XtraReports.UI.SummaryGetResultEventArgs) Handles XrTableCell4.SummaryGetResult
+        e.Result = Utils.GetMoneyWithISO4217(e.CalculatedValues.ToEntityList(Of Decimal).Sum(), currencyAbbreviation, decimalFormat)
+        e.Handled = True
+    End Sub
+
+    Private Sub XrTableCell49_SummaryGetResult(sender As Object, e As DevExpress.XtraReports.UI.SummaryGetResultEventArgs) Handles XrTableCell49.SummaryGetResult
+        e.Result = Utils.GetMoneyWithISO4217(e.CalculatedValues.ToEntityList(Of Decimal).Sum(), currencyAbbreviation, decimalFormat)
+        e.Handled = True
+    End Sub
+
+    Private Sub XrTableCell52_SummaryGetResult(sender As Object, e As DevExpress.XtraReports.UI.SummaryGetResultEventArgs) Handles XrTableCell52.SummaryGetResult
+        e.Result = Utils.GetMoneyWithISO4217(e.CalculatedValues.ToEntityList(Of Decimal).Sum(), currencyAbbreviation, decimalFormat)
+        e.Handled = True
+    End Sub
+
+    Private Sub XrTableCell27_SummaryGetResult(sender As Object, e As DevExpress.XtraReports.UI.SummaryGetResultEventArgs) Handles XrTableCell27.SummaryGetResult
+        e.Result = Utils.GetMoneyWithISO4217(e.CalculatedValues.ToEntityList(Of Decimal).Sum(), currencyAbbreviation, decimalFormat)
+        e.Handled = True
+    End Sub
+
+    Private Sub XrTableCell26_SummaryGetResult(sender As Object, e As DevExpress.XtraReports.UI.SummaryGetResultEventArgs) Handles XrTableCell26.SummaryGetResult
+        e.Result = Utils.GetMoneyWithISO4217(e.CalculatedValues.ToEntityList(Of Decimal).Sum(), currencyAbbreviation, decimalFormat)
+        e.Handled = True
+    End Sub
+
+    Private Sub XrTableCell24_SummaryGetResult(sender As Object, e As DevExpress.XtraReports.UI.SummaryGetResultEventArgs) Handles XrTableCell24.SummaryGetResult
+        e.Result = Utils.GetMoneyWithISO4217(e.CalculatedValues.ToEntityList(Of Decimal).Sum(), currencyAbbreviation, decimalFormat)
+        e.Handled = True
+    End Sub
+
+    Private Sub XrTableCell73_SummaryGetResult(sender As Object, e As DevExpress.XtraReports.UI.SummaryGetResultEventArgs) Handles XrTableCell73.SummaryGetResult
+        e.Result = Utils.GetMoneyWithISO4217(e.CalculatedValues.ToEntityList(Of Decimal).Sum(), currencyAbbreviation, decimalFormat)
+        e.Handled = True
+    End Sub
+#End Region
+#End Region
+
+End Class

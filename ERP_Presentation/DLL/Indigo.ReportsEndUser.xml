@@ -1,0 +1,543 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Indigo.ReportsEndUser</name>
+    </assembly>
+    <members>
+        <member name="T:IndigoReportsEndUser.IterceptacionRepPersonalizado">
+            <summary>
+            Clase Para La interceptacion de los eventos del Diseñador en tiempo de ejecución..
+            </summary>
+        </member>
+        <member name="F:IndigoReportsEndUser.IterceptacionRepPersonalizado.valoresSesion">
+            <summary>
+            Variable de los Valores de Sesion.
+            </summary>
+        </member>
+        <member name="M:IndigoReportsEndUser.IterceptacionRepPersonalizado.GuardarReporte(DevExpress.XtraReports.UI.XtraReport,IndigoReportsBase.TipodeReporte)">
+            <summary>
+            Metodo que controla el almacenamiento de archivos en DD.
+            </summary>
+            <param name="reporte">The reporte.</param>
+            <param name="TipodeReporte">The tipode reporte.</param>
+        </member>
+        <member name="F:IndigoReportsEndUser.frmAdministrarPermisos.valoresSesion">
+            <summary>
+            Variable de los Valores de Sesion.
+            </summary>
+        </member>
+        <member name="P:IndigoReportsEndUser.frmAdministrarPermisos.Id_Reporte">
+            <summary>
+            Contiene el id del reporte
+            </summary>
+            <value></value>
+            <returns></returns>
+            <remarks></remarks>
+        </member>
+        <member name="F:IndigoReportsEndUser.frmAdministrarPermisos.dtPermisosUsuarios">
+            <summary>
+            tabla de permisos de usuario
+            </summary>
+            <remarks></remarks>
+        </member>
+        <member name="F:IndigoReportsEndUser.frmAdministrarPermisos.dtPermisosRol">
+            <summary>
+            tabla de permisos de Rol
+            </summary>
+            <remarks></remarks>
+        </member>
+        <member name="F:IndigoReportsEndUser.frmAdministrarPermisos.listUsuariosGuardar">
+            <summary>
+            Listado de usuarios a guardar
+            </summary>
+            <remarks></remarks>
+        </member>
+        <member name="F:IndigoReportsEndUser.frmAdministrarPermisos.listRolesGuardar">
+            <summary>
+            Listado de roles a guardar
+            </summary>
+            <remarks></remarks>
+        </member>
+        <member name="F:IndigoReportsEndUser.frmAdministrarPermisos.listUsuariosEliminar">
+            <summary>
+            Listado de usaurios a eliminar
+            </summary>
+            <remarks></remarks>
+        </member>
+        <member name="F:IndigoReportsEndUser.frmAdministrarPermisos.listRolesEliminar">
+            <summary>
+            Listado de roles a elimar
+            </summary>
+            <remarks></remarks>
+        </member>
+        <member name="F:IndigoReportsEndUser.frmAdministrarPermisos.usuarioRejillaSeleccionado">
+            <summary>
+            Usuario que se selecciona para eliminar
+            </summary>
+            <remarks></remarks>
+        </member>
+        <member name="F:IndigoReportsEndUser.frmAdministrarPermisos.rolRejillaSeleccionado">
+            <summary>
+            Rol que se selecciona para eliminar
+            </summary>
+            <remarks></remarks>
+        </member>
+        <member name="M:IndigoReportsEndUser.frmAdministrarPermisos.#ctor(System.Int32,System.String)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="_id_reporte"></param>
+            <param name="_nombreReporte"></param>
+            <remarks></remarks>
+        </member>
+        <member name="M:IndigoReportsEndUser.frmAdministrarPermisos.frmAdministrarPermisos_Load(System.Object,System.EventArgs)">
+            <summary>
+            Load
+            </summary>
+            <param name="sender"></param>
+            <param name="e"></param>
+            <remarks></remarks>
+        </member>
+        <member name="M:IndigoReportsEndUser.frmAdministrarPermisos.CargarUsuariosConPermisos">
+            <summary>
+            Carga permisos de usuario
+            </summary>
+            <remarks></remarks>
+        </member>
+        <member name="M:IndigoReportsEndUser.frmAdministrarPermisos.CargarRolesConPermisos">
+            <summary>
+            carga permisos de roles
+            </summary>
+            <remarks></remarks>
+        </member>
+        <member name="M:IndigoReportsEndUser.frmAdministrarPermisos.Guardar">
+            <summary>
+            Metodo para guardar cambios
+            </summary>
+            <remarks></remarks>
+        </member>
+        <member name="M:IndigoReportsEndUser.frmAdministrarPermisos.TabbedControlGroup1_SelectedPageChanged(System.Object,DevExpress.XtraLayout.LayoutTabPageChangedEventArgs)">
+            <summary>
+            cuando se cambia de pestaña
+            </summary>
+            <param name="sender"></param>
+            <param name="e"></param>
+            <remarks></remarks>
+        </member>
+        <member name="M:IndigoReportsEndUser.frmAdministrarPermisos.UsuariosRepositoryItemPopupContainerEdit1_Click(System.Object,System.EventArgs)">
+            <summary>
+            Click en eliminar usuario
+            </summary>
+            <param name="sender"></param>
+            <param name="e"></param>
+            <remarks></remarks>
+        </member>
+        <member name="M:IndigoReportsEndUser.frmAdministrarPermisos.RolRepositoryItemPopupContainerEdit2_Click(System.Object,System.EventArgs)">
+            <summary>
+            Click Eliminar Rol
+            </summary>
+            <param name="sender"></param>
+            <param name="e"></param>
+            <remarks></remarks>
+        </member>
+        <member name="M:IndigoReportsEndUser.frmAdministrarPermisos.INDgvUsuarios_FocusedRowChanged(System.Object,DevExpress.XtraGrid.Views.Base.FocusedRowChangedEventArgs)">
+            <summary>
+            evento cada que se selecciona una fila de la rejilla
+            </summary>
+            <param name="sender"></param>
+            <param name="e"></param>
+            <remarks></remarks>
+        </member>
+        <member name="M:IndigoReportsEndUser.frmAdministrarPermisos.INDgvRoles_FocusedRowChanged(System.Object,DevExpress.XtraGrid.Views.Base.FocusedRowChangedEventArgs)">
+            <summary>
+            evento cada que se selecciona una fila de la rejilla
+            </summary>
+            <param name="sender"></param>
+            <param name="e"></param>
+            <remarks></remarks>
+        </member>
+        <member name="M:IndigoReportsEndUser.frmAdministrarPermisos.INDsbGuardar_Click(System.Object,System.EventArgs)">
+            <summary>
+            Click en boton guardar
+            </summary>
+            <param name="sender"></param>
+            <param name="e"></param>
+            <remarks></remarks>
+        </member>
+        <member name="M:IndigoReportsEndUser.frmAdministrarPermisos.CtrBarraBotones1_Click_Btn_GuardarN(System.Object,DevExpress.XtraBars.ItemClickEventArgs)">
+            <summary>
+            Click en Guardar
+            </summary>
+            <param name="sender"></param>
+            <param name="e"></param>
+            <remarks></remarks>
+        </member>
+        <member name="M:IndigoReportsEndUser.frmParametrosReportes.ConsultaCentro">
+            <summary>
+            Procedimiento para consultar Centros de Atencion
+            </summary>
+        </member>
+        <member name="M:IndigoReportsEndUser.frmParametrosReportes.INDglCentroAtencion_QueryPopUp(System.Object,System.ComponentModel.CancelEventArgs)">
+            <summary>
+            Handles the QueryPopUp event of the INDglCentroAtencion control.
+            </summary>
+            <param name="sender">The source of the event.</param>
+            <param name="e">The <see cref="T:System.ComponentModel.CancelEventArgs" /> instance containing the event data.</param>
+        </member>
+        <member name="M:IndigoReportsEndUser.frmParametrosReportes.ConsultaUnidadFucnional">
+            <summary>
+            Consultas the unidad funcional.
+            </summary>
+        </member>
+        <member name="M:IndigoReportsEndUser.frmParametrosReportes.INDglUnidadFuncional_QueryPopUp(System.Object,System.ComponentModel.CancelEventArgs)">
+            <summary>
+            Handles the QueryPopUp event of the INDglUnidadFuncional control.
+            </summary>
+            <param name="sender">The source of the event.</param>
+            <param name="e">The <see cref="T:System.ComponentModel.CancelEventArgs" /> instance containing the event data.</param>
+        </member>
+        <member name="M:IndigoReportsEndUser.frmParametrosReportes.INDglCentroAtencion_EditValueChanged(System.Object,System.EventArgs)">
+            <summary>
+            Manejador para el cambio de Centro de Atencion, actualiza las propiedades de la clase.
+            </summary>
+            <param name="sender">The source of the event.</param>
+            <param name="e">The <see cref="T:System.EventArgs" /> instance containing the event data.</param>
+        </member>
+        <member name="M:IndigoReportsEndUser.frmParametrosReportes.INDglUnidadFuncional_EditValueChanged(System.Object,System.EventArgs)">
+            <summary>
+            Manejador para el cambio de Unidad Funcional, actualiza las propiedades de la clase
+            </summary>
+            <param name="sender">The source of the event.</param>
+            <param name="e">The <see cref="T:System.EventArgs" /> instance containing the event data.</param>
+        </member>
+        <member name="F:IndigoReportsEndUser.frmReportesdeUsuario.valoresSesion">
+            <summary>
+            Variable de los Valores de Sesion.
+            </summary>
+        </member>
+        <member name="F:IndigoReportsEndUser.frmReportesdeUsuario.dtReportes">
+            <summary>
+            Tabla de reportes
+            </summary>
+            <remarks></remarks>
+        </member>
+        <member name="F:IndigoReportsEndUser.frmReportesdeUsuario.ms">
+            <summary>
+            
+            </summary>
+            <remarks></remarks>
+        </member>
+        <member name="M:IndigoReportsEndUser.frmReportesdeUsuario.frmReportesdeUsuario_Load(System.Object,System.EventArgs)">
+            <summary>
+            Load formulario
+            </summary>
+            <param name="sender"></param>
+            <param name="e"></param>
+            <remarks></remarks>
+        </member>
+        <member name="M:IndigoReportsEndUser.frmReportesdeUsuario.INDgridReportesView_FocusedRowChanged(System.Object,DevExpress.XtraGrid.Views.Base.FocusedRowChangedEventArgs)">
+            <summary>
+            Manejador del evento FocusedRowChanged del control INDgridReportesAplicacionView, 
+            que me permite mostrar el nombre del archivo del reporte seleccionado en un textBox.
+            </summary>
+        </member>
+        <member name="M:IndigoReportsEndUser.frmReportesdeUsuario.INDsbActualizar_Click(System.Object,System.EventArgs)">
+            <summary>
+            Actualiza la información de reportes
+            </summary>
+            <param name="sender"></param>
+            <param name="e"></param>
+            <remarks></remarks>
+        </member>
+        <member name="M:IndigoReportsEndUser.frmReportesdeUsuario.CtrREPBarraControles_Click_Btn_Visualizar(System.Object,DevExpress.XtraBars.ItemClickEventArgs)">
+            <summary>
+            Click visualizar reporte desde el barra botones
+            </summary>
+            <param name="sender"></param>
+            <param name="e"></param>
+            <remarks></remarks>
+        </member>
+        <member name="F:IndigoReportsEndUser.frmReportesPersonalizados.valoresSesion">
+            <summary>
+            Variable de los Valores de Sesion.
+            </summary>
+        </member>
+        <member name="F:IndigoReportsEndUser.frmReportesPersonalizados.dsReportes">
+            <summary>
+            Variable que contiene el dataset de Reportes
+            </summary>
+        </member>
+        <member name="F:IndigoReportsEndUser.frmReportesPersonalizados.formDisenador">
+            <summary>
+            Variable que Instancia la Clase XRDESIGNFORM que es la encargada de cargar .
+            el disenador en tiempo de ejecucion.
+            </summary>
+        </member>
+        <member name="F:IndigoReportsEndUser.frmReportesPersonalizados.ReportePersonalizado">
+            <summary>
+            Entidad utilizada para enviar los datos del reporte al interceptor de los eventos del reporteador
+            </summary>
+            <remarks></remarks>
+        </member>
+        <member name="F:IndigoReportsEndUser.frmReportesPersonalizados.dtReportes">
+            <summary>
+            tabla que contiene todos los reportes
+            </summary>
+            <remarks></remarks>
+        </member>
+        <member name="F:IndigoReportsEndUser.frmReportesPersonalizados._ID">
+            <summary>
+            Almacena el id del registro seleccinado
+            </summary>
+            <remarks></remarks>
+        </member>
+        <member name="F:IndigoReportsEndUser.frmReportesPersonalizados._nombreReporte">
+            <summary>
+            Contiene el nombre del reporte seleccionado
+            </summary>
+            <remarks></remarks>
+        </member>
+        <member name="F:IndigoReportsEndUser.frmReportesPersonalizados.connectionStorageService">
+            <summary>
+            Contiene el nombre del reporte seleccionado
+            </summary>
+            <remarks></remarks>
+        </member>
+        <member name="M:IndigoReportsEndUser.frmReportesPersonalizados.frmReportesReporteador_Load(System.Object,System.EventArgs)">
+            <summary>
+            Manejador del evento LOAD del frontal.
+            </summary>
+        </member>
+        <member name="M:IndigoReportsEndUser.frmReportesPersonalizados.EventoCerrarReporteador(System.Object,System.Windows.Forms.FormClosingEventArgs)">
+            <summary>
+            Evento necesario para Cuando el Reporteador Cierra La Rejilla Vuelva a Cargar con lo nuevos registros.
+            </summary>
+            <param name="sender">The sender.</param>
+        </member>
+        <member name="M:IndigoReportsEndUser.frmReportesPersonalizados.CargarRejilla">
+            <summary>
+            Metodo que se utiliza para carga la Rejilla de reportes
+            </summary>
+        </member>
+        <member name="M:IndigoReportsEndUser.frmReportesPersonalizados.INDbtnCancelar_Click(System.Object,System.EventArgs)">
+            <summary>
+            Metodo del Boton Cancelar que me cierra el frontal.
+            </summary>
+        </member>
+        <member name="M:IndigoReportsEndUser.frmReportesPersonalizados.INDgridReportesAplicacionView_FocusedRowChanged(System.Object,DevExpress.XtraGrid.Views.Base.FocusedRowChangedEventArgs)">
+            <summary>
+            Manejador del evento FocusedRowChanged del control INDgridReportesAplicacionView, 
+            que me permite mostrar el nombre del archivo del reporte seleccionado en un textBox.
+            </summary>
+        </member>
+        <member name="M:IndigoReportsEndUser.frmReportesPersonalizados.DesignMdiController_DesignPanelLoaded(System.Object,DevExpress.XtraReports.UserDesigner.DesignerLoadedEventArgs)">
+            <summary>
+            METODO PARA ADICIONAR UN CONTROL AL TOOLBOX.
+            </summary>
+        </member>
+        <member name="M:IndigoReportsEndUser.frmReportesPersonalizados.INDCerrarSesion_MouseDown(System.Object,System.Windows.Forms.MouseEventArgs)">
+            <summary>
+            Metodo Para Poder Cerrar la sesion de Desarrollador y quedar como usuario comun.
+            </summary>
+            <param name="sender">The source of the event.</param>
+            <param name="e">The <see cref="T:System.Windows.Forms.MouseEventArgs" /> instance containing the event data.</param>
+        </member>
+        <member name="M:IndigoReportsEndUser.frmReportesPersonalizados.Click_Btn_Modificar(System.Object,DevExpress.XtraBars.ItemClickEventArgs)">
+            <summary>
+            Metodo que se dispara Cuando da click en el boton Modificar
+            para abrir una nueva instancia y mostrar el reporte.
+            </summary>
+        </member>
+        <member name="T:IndigoReportsEndUser.frmSeguridadDeveloper">
+            <summary>
+            Clase del frontal de session del Developer.
+            </summary>
+        </member>
+        <member name="M:IndigoReportsEndUser.frmSeguridadDeveloper.cmdCancelar_Click(System.Object,System.EventArgs)">
+            <summary>
+            Metodo del boton Cancelar.
+            </summary>
+        </member>
+        <member name="M:IndigoReportsEndUser.frmSeguridadDeveloper.cmdAceptar_Click(System.Object,System.EventArgs)">
+            <summary>
+            Metodo del Boton Aceptar Para Validar la session del Desarrollador.
+            </summary>
+            <param name="sender">The source of the event.</param>
+            <param name="e">The <see cref="T:System.EventArgs" /> instance containing the event data.</param>
+        </member>
+        <member name="M:IndigoReportsEndUser.frmSeguridadDeveloper.txtPassword_Validating(System.Object,System.ComponentModel.CancelEventArgs)">
+            <summary>
+            Validacion del campo password
+            </summary>
+            <param name="sender">The source of the event.</param>
+            <param name="e">The <see cref="T:System.ComponentModel.CancelEventArgs" /> instance containing the event data.</param>
+        </member>
+        <member name="M:IndigoReportsEndUser.frmSeguridadDeveloper.frmSeguridadDeveloper_FormClosed(System.Object,System.Windows.Forms.FormClosedEventArgs)">
+            <summary>
+            Metodo que Se dispara cuando se cierra el frontal.
+            </summary>
+            <param name="sender">The source of the event.</param>
+            <param name="e">The <see cref="T:System.Windows.Forms.FormClosedEventArgs" /> instance containing the event data.</param>
+        </member>
+        <member name="F:IndigoReportsEndUser.frmReportesReporteador.valoresSesion">
+            <summary>
+            Variable de los Valores de Sesion.
+            </summary>
+        </member>
+        <member name="F:IndigoReportsEndUser.frmReportesReporteador.dtReportes">
+            <summary>
+            Variable que contiene el dataset de Reportes
+            </summary>
+        </member>
+        <member name="F:IndigoReportsEndUser.frmReportesReporteador.formDisenador">
+            <summary>
+            Variable que Instancia la Clase XRDESIGNFORM que es la encargada de cargar .
+            el disenador en tiempo de ejecucion.
+            </summary>
+        </member>
+        <member name="M:IndigoReportsEndUser.frmReportesReporteador.frmReportesReporteador_Load(System.Object,System.EventArgs)">
+            <summary>
+            Manejador del evento LOAD del frontal.
+            </summary>
+        </member>
+        <member name="M:IndigoReportsEndUser.frmReportesReporteador.EventoCerrarReporteador(System.Object,System.Windows.Forms.FormClosingEventArgs)">
+            <summary>
+            Evento necesario para Cuando el Reporteador Cierra La Rejilla Vuelva a Cargar con lo nuevos registros.
+            </summary>
+            <param name="sender">The sender.</param>
+        </member>
+        <member name="M:IndigoReportsEndUser.frmReportesReporteador.CargarRejilla">
+            <summary>
+            Metodo que se utiliza para carga la Rejilla de reportes
+            </summary>
+        </member>
+        <member name="M:IndigoReportsEndUser.frmReportesReporteador.INDbtnCancelar_Click(System.Object,System.EventArgs)">
+            <summary>
+            Metodo del Boton Cancelar que me cierra el frontal.
+            </summary>
+        </member>
+        <member name="M:IndigoReportsEndUser.frmReportesReporteador.XtraTabControl1_SelectedPageChanging(System.Object,DevExpress.XtraTab.TabPageChangingEventArgs)">
+            <summary>
+            Evento que se dispara al momento que se cambia entre pestañas del reporteador.
+            </summary>
+        </member>
+        <member name="M:IndigoReportsEndUser.frmReportesReporteador.EventoCambiodePestana(System.Object,System.EventArgs)">
+            <summary>
+            Evento necesario para Cambiar El estado de la propiedad EsPersonalizado
+            Ya que en el reporteador puede existir mas de un reporte abierto.
+            </summary>
+            <param name="sender">The sender.</param>
+        </member>
+        <member name="M:IndigoReportsEndUser.frmReportesReporteador.INDgridReportesAplicacionView_FocusedRowChanged(System.Object,DevExpress.XtraGrid.Views.Base.FocusedRowChangedEventArgs)">
+            <summary>
+            Manejador del evento FocusedRowChanged del control INDgridReportesAplicacionView, 
+            que me permite mostrar el nombre del archivo del reporte seleccionado en un textBox.
+            </summary>
+        </member>
+        <member name="M:IndigoReportsEndUser.frmReportesReporteador.DesignMdiController_DesignPanelLoaded(System.Object,DevExpress.XtraReports.UserDesigner.DesignerLoadedEventArgs)">
+            <summary>
+            METODO PARA ADICIONAR UN CONTROL AL TOOLBOX.
+            </summary>
+        </member>
+        <member name="M:IndigoReportsEndUser.frmReportesReporteador.INDCerrarSesion_MouseDown(System.Object,System.Windows.Forms.MouseEventArgs)">
+            <summary>
+            Metodo Para Poder Cerrar la sesion de Desarrollador y quedar como usuario comun.
+            </summary>
+            <param name="sender">The source of the event.</param>
+            <param name="e">The <see cref="T:System.Windows.Forms.MouseEventArgs" /> instance containing the event data.</param>
+        </member>
+        <member name="M:IndigoReportsEndUser.frmReportesReporteador.Click_Btn_Modificar(System.Object,DevExpress.XtraBars.ItemClickEventArgs)">
+            <summary>
+            Metodo que se dispara Cuando da click en el boton Modificar
+            para abrir una nueva instancia y mostrar el reporte.
+            </summary>
+        </member>
+        <member name="T:IndigoReportsEndUser.InterceptacionReporteador">
+            <summary>
+            Clase Para La interceptacion de los eventos del Diseñador en tiempo de ejecución..
+            </summary>
+        </member>
+        <member name="F:IndigoReportsEndUser.InterceptacionReporteador.valoresSesion">
+            <summary>
+            Variable de los Valores de Sesion.
+            </summary>
+        </member>
+        <member name="M:IndigoReportsEndUser.InterceptacionReporteador.GuardarReporte(DevExpress.XtraReports.UI.XtraReport,IndigoReportsBase.TipodeReporte)">
+            <summary>
+            Metodo que controla el almacenamiento de archivos en DD.
+            </summary>
+            <param name="reporte">The reporte.</param>
+            <param name="TipodeReporte">The tipode reporte.</param>
+        </member>
+        <member name="M:IndigoReportsEndUser.InterceptacionReporteador.VerificarControlesEspeciales(DevExpress.XtraReports.UI.XtraReport,IndigoReportsBase.TipodeReporte)">
+            <summary>
+            Metodo para Verificar en los reportes la existencia de controles especiales(XtraGrid, XtraPivotGrid, XtraBars, XtraVerticalGrid, XtraTreeList y XtraNavBar).
+            </summary>
+        </member>
+        <member name="M:IndigoReportsEndUser.InterceptacionReporteador.GetReportedeAplicacion(System.String,System.String)">
+            <summary>
+            Obtiene El Objeto del tipo Xtrareport dependiendo del reporte de aplicación.
+            </summary>
+            <param name="reporte">El reporte.</param>
+            <returns></returns>
+        </member>
+        <member name="F:IndigoReportsEndUser.NuevoReportePersonalizado.valoresSesion">
+            <summary>
+            Variable de los Valores de Sesion.
+            </summary>
+        </member>
+        <member name="P:IndigoReportsEndUser.NuevoReportePersonalizado._ID">
+            <summary>
+            Contiene el id si es un registro a modificar
+            </summary>
+            <value></value>
+            <returns></returns>
+            <remarks></remarks>
+        </member>
+        <member name="M:IndigoReportsEndUser.NuevoReportePersonalizado.NuevoReportePersonalizado_Load(System.Object,System.EventArgs)">
+            <summary>
+            load formulario
+            </summary>
+            <param name="sender"></param>
+            <param name="e"></param>
+            <remarks></remarks>
+        </member>
+        <member name="F:IndigoReportsEndUser.FrmVisorReportes.ValoresSesion">
+            <summary>
+            variable que se utiliza para instanciar los valores de sesion.
+            </summary>
+        </member>
+        <member name="M:IndigoReportsEndUser.FrmVisorReportes.Cargar(DevExpress.XtraReports.UI.XtraReport)">
+            <summary>
+            Carga los reportes
+            </summary>
+            <remarks></remarks>
+        </member>
+        <member name="T:IndigoReportsEndUser.Properties.Resources">
+            <summary>
+              Clase de recurso fuertemente tipado, para buscar cadenas traducidas, etc.
+            </summary>
+        </member>
+        <member name="P:IndigoReportsEndUser.Properties.Resources.ResourceManager">
+            <summary>
+              Devuelve la instancia de ResourceManager almacenada en caché utilizada por esta clase.
+            </summary>
+        </member>
+        <member name="P:IndigoReportsEndUser.Properties.Resources.Culture">
+            <summary>
+              Reemplaza la propiedad CurrentUICulture del subproceso actual para todas las
+              búsquedas de recursos mediante esta clase de recurso fuertemente tipado.
+            </summary>
+        </member>
+        <member name="P:IndigoReportsEndUser.Properties.Resources.BotonVerde16x16">
+            <summary>
+              Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+            </summary>
+        </member>
+        <member name="P:IndigoReportsEndUser.Properties.Resources.Seguridad_16x16">
+            <summary>
+              Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+            </summary>
+        </member>
+    </members>
+</doc>

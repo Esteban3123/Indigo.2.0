@@ -1,0 +1,144 @@
+﻿#Region "Librerias Improtadas"
+Imports Infrastructure.CrossCutting.Base
+Imports Infrastructure.Data.Xpo
+Imports Infrastructure.Data.Xpo.FixedAssetRepository
+Imports Domain.Entities
+Imports DevExpress.XtraReports.UI
+Imports System.Drawing.Printing
+Imports DevExpress.XtraReports.Parameters
+Imports Presentation.Base
+Imports Infrastructure.Data.Xpo.SecurityRepository
+Imports Infrastructure.Data.Xpo.PaymentsRepository
+Imports System.Globalization
+
+#End Region
+
+Public Class rptFixedAssetEntry
+    Implements IReport
+
+    ''' <summary>
+    ''' Variable para inicializar los valores de sesion
+    ''' </summary>
+    Dim IndigoSessionValues As SessionValues = SessionValues.Instance
+    ''' <summary>
+    ''' obtiene la informacion de la moneda seleccionada
+    ''' </summary>
+    ''' <returns></returns>
+    Public Property Currency As Currency
+
+    Private INDList As List(Of FixedAssetFixedAssetEntryReportXpo)
+    Private CurrencyAbbreviation As String = SessionValues.Instance.CurrencyISO4217
+    Public Sub CargarDataSource() Implements IReport.CargarDataSource
+        Try
+            Dim filtroConsulta As String = "Id = " & ParametrosReporte(0)
+            INDList = XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).FixedAsset.GetCollection(Of FixedAssetFixedAssetEntryReportXpo)(Nothing, filtroConsulta)
+            If INDList.Count > 0 Then
+                Dim SupplierId = CType(INDList(0), FixedAssetFixedAssetEntryReportXpo).SupplierId.Id
+                Dim BillNumber = CType(INDList(0), FixedAssetFixedAssetEntryReportXpo).InvoiceNumber.Trim()
+                Dim INDNameUser As String = CType(INDList(0), FixedAssetFixedAssetEntryReportXpo).CreationUser.Trim()
+
+                'Cuenta x Pagar
+                Dim Filter As String = String.Format("IdSupplier.Id = {0} AND BillNumber = '{1}'", SupplierId, BillNumber)
+                Dim listReport As List(Of PaymentsAccountPayable) = XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).PaymentsService.GetCollection(Of PaymentsAccountPayable)(Nothing, Filter)
+                For Each item In listReport
+                    INDcelAccountPayableCode.Text = item.Code
+                Next
+
+                'Usuario creación
+                Dim INDListUser As List(Of UserXpo) = XpoServiceEx.Instance(IndigoSessionValues.SecurityContainer).SecurityService.GetCollection(Of UserXpo)(Nothing, "UserCode = '" & INDNameUser & "'")
+                If INDListUser IsNot Nothing And INDListUser.Count > 0 Then
+                    Dim INDCodName As String = CType(INDListUser(0), UserXpo).CodeName.Trim
+                    Me.INDUserCreate.Text = INDCodName
+                End If
+            End If
+
+            Me.DataSource = INDList
+
+        Catch ex As Exception
+            MessageIndigo.Show(GetExceptionDetails(ex), MessageType.Errores, Me.Text, Botones.Aceptar, "")
+        End Try
+    End Sub
+
+    Public Function GetExceptionDetails(exception As Exception) As String
+        Dim properties = exception.[GetType]().GetProperties()
+        Dim fields = properties.[Select](Function([property]) New With {
+            Key .Name = [property].Name,
+            Key .Value = [property].GetValue(exception, Nothing)
+        }).[Select](Function(x) [String].Format("{0} : {1}", x.Name, If(x.Value IsNot Nothing, x.Value.ToString(), [String].Empty)))
+        Return [String].Join(vbLf, fields)
+    End Function
+
+    Public Sub CargarImagenes() Implements IReport.CargarImagenes
+
+    End Sub
+
+    Public ReadOnly Property NameReport As String Implements IReport.NameReport
+        Get
+            Return ""
+        End Get
+    End Property
+
+    Public Property ParametrosReporte As Object() Implements IReport.ParametrosReporte
+
+    Private Sub rptFixedAssetEntry_BeforePrint(sender As Object, e As PrintEventArgs) Handles MyBase.BeforePrint
+        If SessionValues.Instance.Culture.Name = "es-CR" Then
+            XrTableRow14.Visible = False
+            XrTableRow16.Visible = False
+            XrTableRow17.Visible = False
+            XrTableRow19.Visible = False
+            XrTableRow20.Visible = False
+        Else
+            XrTableRow14.Visible = True
+            XrTableRow16.Visible = True
+            XrTableRow17.Visible = True
+            XrTableRow19.Visible = True
+            XrTableRow20.Visible = True
+        End If
+
+        If Me.Parameters.Count > 0 And Me.Parameters(0).Value > 0 And Parameters(1).Value > 0 Then
+            Dim ParametrosFilter As ParameterCollection = Me.Parameters
+            ParametrosReporte = New Object() {ParametrosFilter.GetByName("INDPrFixedAssetEntryId").Value, ParametrosFilter.GetByName("INDPrOperatingUnitId").Value}
+            CargarDataSource()
+        End If
+
+        INDlblCompany.Text = IndigoSessionValues.IndigoCompanyName
+
+        Dim address, phoneNumber, codeips, city, owner As String
+        'cargar direccion, telefono y codigo ips
+        If ParametrosReporte(1) IsNot Nothing Then
+            Dim operatingUnit = XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).CommonService.ListOperatingUnitById(ParametrosReporte(1))
+            Dim SettingFixedAsset = XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).FixedAsset.ListSettingFixedAssetByOperatingUnitId(ParametrosReporte(1))
+            owner = SettingFixedAsset(0).IdThirdPartyResponsible.NitName
+            address = operatingUnit(0).Address
+            phoneNumber = operatingUnit(0).Phone
+            codeips = operatingUnit(0).IPSCode
+            If operatingUnit(0).IdCity IsNot Nothing Then
+                city = operatingUnit(0).IdCity.Descripcion
+            Else
+                city = "No asignada(o)"
+            End If
+        Else
+            address = "No asignada(o)"
+            phoneNumber = "No asignada(o)"
+            codeips = "No asignada(o)"
+            city = "No asignada(o)"
+            owner = "No asignada(o)"
+        End If
+
+		Dim _culture As CultureInfo = CultureInfo.CurrentCulture.Clone()
+		CurrencyAbbreviation = If(Currency?.Abbreviation,
+						  If(INDList?.FirstOrDefault()?.CurrencyAbbreviation, CurrencyAbbreviation))
+		_culture.NumberFormat = New CultureInfo(CurrencyAbbreviation.GetCultureId).NumberFormat
+		ApplyLocalization(_culture)
+
+		INDlblNitCompany.Text = "Nit:" & IndigoSessionValues.IndigoCompanyNit
+        INDcelAddress.Text = address
+        INDcelCity.Text = city
+        INDcelPhone.Text = phoneNumber
+        Jefe.Text = owner
+
+        INDUserImp.Text = "Usuario Impresión : " & IndigoSessionValues.UserIndigo & " - " & IndigoSessionValues.UserIndigoName
+
+    End Sub
+
+End Class

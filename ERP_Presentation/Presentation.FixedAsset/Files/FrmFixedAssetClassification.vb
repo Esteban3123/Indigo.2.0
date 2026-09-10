@@ -1,0 +1,3 @@
+﻿Public Class FrmFixedAssetClassification
+
+End Class

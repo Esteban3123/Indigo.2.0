@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://schemas.datacontract.org/2004/07/Infrastructure.CrossCutting.Base" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/Infrastructure.CrossCutting.Base" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import schemaLocation="http://localhost:9000/ServiceEntity/Taxes.svc/ServiceEntity/?xsd=xsd4" namespace="http://schemas.datacontract.org/2004/07/System" />
+  <xs:complexType name="AuditMessage">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="CodeUser" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Company" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="CompanyType" type="xs:int" />
+      <xs:element minOccurs="0" name="ComputerName" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="ContainerSecurity" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="DispensingIntegration" type="xs:unsignedByte" />
+      <xs:element minOccurs="0" name="Functional" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="IdUser" type="xs:int" />
+      <xs:element minOccurs="0" name="NameUser" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="WindowsUser" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="AuditMessage" nillable="true" type="tns:AuditMessage" />
+  <xs:complexType name="SessionValues">
+    <xs:sequence>
+      <xs:element xmlns:q1="http://schemas.datacontract.org/2004/07/System" minOccurs="0" name="AppHandle" type="q1:IntPtr" />
+      <xs:element minOccurs="0" name="AuditMessageWcf" nillable="true" type="tns:AuditMessage" />
+      <xs:element minOccurs="0" name="AutoPersona" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="City" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="CommonFilesPath" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="DataBaseDocumentalSystem" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="DocumentalContainer" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="DocumentalSystemWebServiceProtocol" type="tns:Protocol" />
+      <xs:element minOccurs="0" name="HisContainer" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="IndexingWebServiceProtocol" type="tns:Protocol" />
+      <xs:element minOccurs="0" name="IndigoCompany" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="IndigoCompanyAddress" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="IndigoCompanyLyncIntegration" type="xs:boolean" />
+      <xs:element minOccurs="0" name="IndigoCompanyName" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="IndigoCompanyNit" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="IndigoCompanyPhoneNumber" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="IndigoCompanyType" type="xs:int" />
+      <xs:element minOccurs="0" name="IndigoConnectionString" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="IndigoContainer" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="IndigoContainerId" type="xs:int" />
+      <xs:element minOccurs="0" name="IndigoDispensingIntegration" type="xs:int" />
+      <xs:element minOccurs="0" name="IndigoGlossesIntegration" type="xs:int" />
+      <xs:element minOccurs="0" name="IndigoOperatingUnitId" type="xs:int" />
+      <xs:element minOccurs="0" name="IndigoPayrollIntegration" type="xs:int" />
+      <xs:element minOccurs="0" name="IndigoVersion" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="InteropCostContainer" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="LocalCache" type="xs:boolean" />
+      <xs:element minOccurs="0" name="LocalReportsPath" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="ModuleName" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="ModuleNameGroup" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="ModuleTag" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="ModuleValueGroup" type="xs:int" />
+      <xs:element minOccurs="0" name="NotificationWebServiceProtocol" type="tns:Protocol" />
+      <xs:element minOccurs="0" name="PwdDocumentalSystem" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="SecurityContainer" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="ServerReportsPath" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="StartSelection" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="TransactionalContainer" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="UpdatePath" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="UriIndexingWebService" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="UriNotificationWebService" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="UriServerDocumentalSystem" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="UriWebServices" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="UriWebServicesXpo" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="UserAdministrator" type="xs:boolean" />
+      <xs:element minOccurs="0" name="UserCharge" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="UserDocumentalSystem" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="UserEmail" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="UserFilesPath" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="UserGroup" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="UserIndigo" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="UserIndigoId" type="xs:int" />
+      <xs:element minOccurs="0" name="UserIndigoName" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="UserInterface" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="UserPersonalNote" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="UserRol" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="UserType" type="tns:UserType" />
+      <xs:element minOccurs="0" name="VituelContainer" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="WebServiceProtocol" type="tns:Protocol" />
+      <xs:element minOccurs="0" name="WebServiceProtocolXpo" type="tns:Protocol" />
+      <xs:element minOccurs="0" name="_userType" type="tns:UserType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="SessionValues" nillable="true" type="tns:SessionValues" />
+  <xs:simpleType name="Protocol">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="basicHttp" />
+      <xs:enumeration value="wsHttp" />
+      <xs:enumeration value="netTcp" />
+      <xs:enumeration value="Ninguno" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:element name="Protocol" nillable="true" type="tns:Protocol" />
+  <xs:simpleType name="UserType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="EnumDefault" />
+      <xs:enumeration value="Administrative" />
+      <xs:enumeration value="CareCenter" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:element name="UserType" nillable="true" type="tns:UserType" />
+</xs:schema>

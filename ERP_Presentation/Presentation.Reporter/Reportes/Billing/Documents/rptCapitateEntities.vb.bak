@@ -1,0 +1,68 @@
+﻿#Region "Librerias Improtadas"
+Imports Infrastructure.CrossCutting.Base
+Imports Infrastructure.Data.Xpo
+Imports Infrastructure.Data.Xpo.BillingRepository
+Imports Infrastructure.Data.Xpo.CrystalRepository
+Imports Domain.Entities
+Imports DevExpress.XtraReports.UI
+Imports System.Drawing.Printing
+Imports Infrastructure.Data.Xpo.SecurityRepository
+
+#End Region
+
+Public Class rptCapitateEntities
+    Implements IReport
+
+    ''' <summary>
+    ''' Variable para inicializar los valores de sesion
+    ''' </summary>
+    Dim IndigoSessionValues As SessionValues = SessionValues.Instance
+    Dim INDList
+
+    Public Sub CargarDataSource() Implements IReport.CargarDataSource
+        Dim filtroConsulta As String = "Id = " & ParametrosReporte(0)
+        INDList = XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).BillingService.GetCollection(Of InvoiceEntityCapitatedReportXpo)(Nothing, filtroConsulta)
+        If INDList.Count > 0 Then
+            Dim INDNameUser = CType(INDList(0), InvoiceEntityCapitatedReportXpo).CreationUser.Trim()
+
+            Dim INDListUser = XpoServiceEx.Instance(IndigoSessionValues.SecurityContainer).SecurityService.GetCollection(Of UserXpo)(Nothing, "UserCode = '" & INDNameUser & "'")
+
+            If INDListUser IsNot Nothing Then
+                Dim INDCodName = CType(INDListUser(0), UserXpo).CodeName.Trim
+                Me.INDUserCreate.Text = INDCodName
+            End If
+        End If
+        Me.DataSource = INDList
+    End Sub
+
+    Public Sub CargarImagenes() Implements IReport.CargarImagenes
+
+    End Sub
+
+    Public ReadOnly Property NameReport As String Implements IReport.NameReport
+        Get
+            Return ""
+        End Get
+    End Property
+
+    Public Property ParametrosReporte As Object() Implements IReport.ParametrosReporte
+
+    Private Sub rptCapitateEntities_BeforePrint(sender As Object, e As Printing.PrintEventArgs) Handles MyBase.BeforePrint
+        INDLblCompany.Text = IndigoSessionValues.IndigoCompanyName
+        INDLblNitCompany.Text = "Nit:" & IndigoSessionValues.IndigoCompanyNit
+        INDUserImp.Text = "Usuario Impresión: " & IndigoSessionValues.UserIndigoName
+
+        Dim INDFechaInicial = Format(CType(INDList(0), InvoiceEntityCapitatedReportXpo).InitialDate, "dd MMM yyyy")
+        Dim INDFechaFinal = Format(CType(INDList(0), InvoiceEntityCapitatedReportXpo).EndDate, "dd MMM yyyy")
+        XrLabel1.Text = "Liquidación de Servicios entre " + INDFechaInicial + _
+                            " y " + INDFechaFinal
+
+        XrLabel2.Text = "Por concepto de los servicios médicos prestados correspondientes al periodo comprendido entre el " + _
+                            INDFechaInicial + " y " + INDFechaFinal + _
+                            " discriminados en soportes anexos."
+
+        Me.XrTableCell38.Text = Utils.Num2Text(Convert.ToDouble(GetCurrentColumnValue("TotalValue"))).ToString & " PESOS M/Cte."
+
+    End Sub
+
+End Class

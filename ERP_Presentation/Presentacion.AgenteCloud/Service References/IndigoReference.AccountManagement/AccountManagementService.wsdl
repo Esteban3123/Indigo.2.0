@@ -1,0 +1,1040 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:wsap="http://schemas.xmlsoap.org/ws/2004/08/addressing/policy" xmlns:wsa10="http://www.w3.org/2005/08/addressing" xmlns:tns="http://tempuri.org/" xmlns:msc="http://schemas.microsoft.com/ws/2005/12/wsdl/contract" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:wsx="http://schemas.xmlsoap.org/ws/2004/09/mex" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="AccountManagementService" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsp:Policy wsu:Id="basicHttps_Endpoint_AccountManagement_policy">
+    <wsp:ExactlyOne>
+      <wsp:All>
+        <sp:TransportBinding xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <wsp:Policy>
+            <sp:TransportToken>
+              <wsp:Policy>
+                <sp:HttpsToken RequireClientCertificate="false" />
+              </wsp:Policy>
+            </sp:TransportToken>
+            <sp:AlgorithmSuite>
+              <wsp:Policy>
+                <sp:Basic256 />
+              </wsp:Policy>
+            </sp:AlgorithmSuite>
+            <sp:Layout>
+              <wsp:Policy>
+                <sp:Strict />
+              </wsp:Policy>
+            </sp:Layout>
+          </wsp:Policy>
+        </sp:TransportBinding>
+      </wsp:All>
+    </wsp:ExactlyOne>
+  </wsp:Policy>
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://tempuri.org/Imports">
+      <xsd:import schemaLocation="https://localhost:9001/ServiceEntity/AccountManagement.svc?xsd=xsd0" namespace="http://tempuri.org/" />
+      <xsd:import schemaLocation="https://localhost:9001/ServiceEntity/AccountManagement.svc?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+      <xsd:import schemaLocation="https://localhost:9001/ServiceEntity/AccountManagement.svc?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/Domain.Entities" />
+      <xsd:import schemaLocation="https://localhost:9001/ServiceEntity/AccountManagement.svc?xsd=xsd3" namespace="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" />
+      <xsd:import schemaLocation="https://localhost:9001/ServiceEntity/AccountManagement.svc?xsd=xsd4" />
+      <xsd:import schemaLocation="https://localhost:9001/ServiceEntity/AccountManagement.svc?xsd=xsd5" namespace="http://schemas.datacontract.org/2004/07/Domain.Common.Entities" />
+      <xsd:import schemaLocation="https://localhost:9001/ServiceEntity/AccountManagement.svc?xsd=xsd6" namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
+      <xsd:import schemaLocation="https://localhost:9001/ServiceEntity/AccountManagement.svc?xsd=xsd7" namespace="http://schemas.datacontract.org/2004/07/Infrastructure.CrossCutting.Base" />
+      <xsd:import schemaLocation="https://localhost:9001/ServiceEntity/AccountManagement.svc?xsd=xsd8" namespace="http://schemas.datacontract.org/2004/07/Domain.AccountManagement.Model" />
+      <xsd:import schemaLocation="https://localhost:9001/ServiceEntity/AccountManagement.svc?xsd=xsd9" namespace="http://schemas.datacontract.org/2004/07/System" />
+      <xsd:import schemaLocation="https://localhost:9001/ServiceEntity/AccountManagement.svc?xsd=xsd10" namespace="http://schemas.datacontract.org/2004/07/Domain.Security.Entities" />
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="IAccountManagementService_ListManagementAreasByUserCode_InputMessage">
+    <wsdl:part name="parameters" element="tns:ListManagementAreasByUserCode" />
+  </wsdl:message>
+  <wsdl:message name="IAccountManagementService_ListManagementAreasByUserCode_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ListManagementAreasByUserCodeResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAccountManagementService_DeleteManagementAreas_InputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteManagementAreas" />
+  </wsdl:message>
+  <wsdl:message name="IAccountManagementService_DeleteManagementAreas_OutputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteManagementAreasResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAccountManagementService_SaveManagementAreas_InputMessage">
+    <wsdl:part name="parameters" element="tns:SaveManagementAreas" />
+  </wsdl:message>
+  <wsdl:message name="IAccountManagementService_SaveManagementAreas_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SaveManagementAreasResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAccountManagementService_GetManagementAreasById_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetManagementAreasById" />
+  </wsdl:message>
+  <wsdl:message name="IAccountManagementService_GetManagementAreasById_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetManagementAreasByIdResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAccountManagementService_GetManagementAreasByCode_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetManagementAreasByCode" />
+  </wsdl:message>
+  <wsdl:message name="IAccountManagementService_GetManagementAreasByCode_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetManagementAreasByCodeResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAccountManagementService_ChangeStateManagementAreas_InputMessage">
+    <wsdl:part name="parameters" element="tns:ChangeStateManagementAreas" />
+  </wsdl:message>
+  <wsdl:message name="IAccountManagementService_ChangeStateManagementAreas_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ChangeStateManagementAreasResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAccountManagementService_GetAllManagementAreas_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetAllManagementAreas" />
+  </wsdl:message>
+  <wsdl:message name="IAccountManagementService_GetAllManagementAreas_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetAllManagementAreasResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAccountManagementService_GetSequenseByIdForm_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetSequenseByIdForm" />
+  </wsdl:message>
+  <wsdl:message name="IAccountManagementService_GetSequenseByIdForm_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetSequenseByIdFormResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAccountManagementService_GetNumericSequenseGroupById_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetNumericSequenseGroupById" />
+  </wsdl:message>
+  <wsdl:message name="IAccountManagementService_GetNumericSequenseGroupById_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetNumericSequenseGroupByIdResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAccountManagementService_SaveSequence_InputMessage">
+    <wsdl:part name="parameters" element="tns:SaveSequence" />
+  </wsdl:message>
+  <wsdl:message name="IAccountManagementService_SaveSequence_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SaveSequenceResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAccountManagementService_GetBlockRecordAccountManagementByIdformAndIdRecord_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetBlockRecordAccountManagementByIdformAndIdRecord" />
+  </wsdl:message>
+  <wsdl:message name="IAccountManagementService_GetBlockRecordAccountManagementByIdformAndIdRecord_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetBlockRecordAccountManagementByIdformAndIdRecordResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAccountManagementService_SaveBlockRecordAccountManagement_InputMessage">
+    <wsdl:part name="parameters" element="tns:SaveBlockRecordAccountManagement" />
+  </wsdl:message>
+  <wsdl:message name="IAccountManagementService_SaveBlockRecordAccountManagement_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SaveBlockRecordAccountManagementResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAccountManagementService_DeleteBlockRecordAccountManagement_InputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteBlockRecordAccountManagement" />
+  </wsdl:message>
+  <wsdl:message name="IAccountManagementService_DeleteBlockRecordAccountManagement_OutputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteBlockRecordAccountManagementResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAccountManagementService_GetAccountManagementParametersById_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetAccountManagementParametersById" />
+  </wsdl:message>
+  <wsdl:message name="IAccountManagementService_GetAccountManagementParametersById_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetAccountManagementParametersByIdResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAccountManagementService_SaveAccountManagementParameters_InputMessage">
+    <wsdl:part name="parameters" element="tns:SaveAccountManagementParameters" />
+  </wsdl:message>
+  <wsdl:message name="IAccountManagementService_SaveAccountManagementParameters_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SaveAccountManagementParametersResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAccountManagementService_GetAvailableUsers_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetAvailableUsers" />
+  </wsdl:message>
+  <wsdl:message name="IAccountManagementService_GetAvailableUsers_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetAvailableUsersResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAccountManagementService_GetUsersWithDistributedAccounts_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetUsersWithDistributedAccounts" />
+  </wsdl:message>
+  <wsdl:message name="IAccountManagementService_GetUsersWithDistributedAccounts_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetUsersWithDistributedAccountsResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAccountManagementService_ListRejectionReasonByUserCode_InputMessage">
+    <wsdl:part name="parameters" element="tns:ListRejectionReasonByUserCode" />
+  </wsdl:message>
+  <wsdl:message name="IAccountManagementService_ListRejectionReasonByUserCode_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ListRejectionReasonByUserCodeResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAccountManagementService_GetRejectionReasonById_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetRejectionReasonById" />
+  </wsdl:message>
+  <wsdl:message name="IAccountManagementService_GetRejectionReasonById_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetRejectionReasonByIdResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAccountManagementService_GetRejectionReasonByCode_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetRejectionReasonByCode" />
+  </wsdl:message>
+  <wsdl:message name="IAccountManagementService_GetRejectionReasonByCode_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetRejectionReasonByCodeResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAccountManagementService_SaveRejectionReason_InputMessage">
+    <wsdl:part name="parameters" element="tns:SaveRejectionReason" />
+  </wsdl:message>
+  <wsdl:message name="IAccountManagementService_SaveRejectionReason_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SaveRejectionReasonResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAccountManagementService_DeleteRejectionReason_InputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteRejectionReason" />
+  </wsdl:message>
+  <wsdl:message name="IAccountManagementService_DeleteRejectionReason_OutputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteRejectionReasonResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAccountManagementService_ChangeStateRejectionReason_InputMessage">
+    <wsdl:part name="parameters" element="tns:ChangeStateRejectionReason" />
+  </wsdl:message>
+  <wsdl:message name="IAccountManagementService_ChangeStateRejectionReason_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ChangeStateRejectionReasonResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAccountManagementService_ListAllRejectionReasons_InputMessage">
+    <wsdl:part name="parameters" element="tns:ListAllRejectionReasons" />
+  </wsdl:message>
+  <wsdl:message name="IAccountManagementService_ListAllRejectionReasons_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ListAllRejectionReasonsResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAccountManagementService_RequestFolioTransferToUser_InputMessage">
+    <wsdl:part name="parameters" element="tns:RequestFolioTransferToUser" />
+  </wsdl:message>
+  <wsdl:message name="IAccountManagementService_RequestFolioTransferToUser_OutputMessage">
+    <wsdl:part name="parameters" element="tns:RequestFolioTransferToUserResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAccountManagementService_SuspendFolioAlert_InputMessage">
+    <wsdl:part name="parameters" element="tns:SuspendFolioAlert" />
+  </wsdl:message>
+  <wsdl:message name="IAccountManagementService_SuspendFolioAlert_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SuspendFolioAlertResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAccountManagementService_SaveFolioAlert_InputMessage">
+    <wsdl:part name="parameters" element="tns:SaveFolioAlert" />
+  </wsdl:message>
+  <wsdl:message name="IAccountManagementService_SaveFolioAlert_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SaveFolioAlertResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAccountManagementService_GetAllAlerts_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetAllAlerts" />
+  </wsdl:message>
+  <wsdl:message name="IAccountManagementService_GetAllAlerts_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetAllAlertsResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAccountManagementService_ListFolioEvents_InputMessage">
+    <wsdl:part name="parameters" element="tns:ListFolioEvents" />
+  </wsdl:message>
+  <wsdl:message name="IAccountManagementService_ListFolioEvents_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ListFolioEventsResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAccountManagementService_ListFolioTransferRequests_InputMessage">
+    <wsdl:part name="parameters" element="tns:ListFolioTransferRequests" />
+  </wsdl:message>
+  <wsdl:message name="IAccountManagementService_ListFolioTransferRequests_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ListFolioTransferRequestsResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAccountManagementService_ProcessTransferRequest_InputMessage">
+    <wsdl:part name="parameters" element="tns:ProcessTransferRequest" />
+  </wsdl:message>
+  <wsdl:message name="IAccountManagementService_ProcessTransferRequest_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ProcessTransferRequestResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAccountManagementService_GetUserFolios_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetUserFolios" />
+  </wsdl:message>
+  <wsdl:message name="IAccountManagementService_GetUserFolios_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetUserFoliosResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAccountManagementService_GetPendingAssignmentByCareCenterAndEntryType_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetPendingAssignmentByCareCenterAndEntryType" />
+  </wsdl:message>
+  <wsdl:message name="IAccountManagementService_GetPendingAssignmentByCareCenterAndEntryType_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetPendingAssignmentByCareCenterAndEntryTypeResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAccountManagementService_GenerateManualAssignment_InputMessage">
+    <wsdl:part name="parameters" element="tns:GenerateManualAssignment" />
+  </wsdl:message>
+  <wsdl:message name="IAccountManagementService_GenerateManualAssignment_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GenerateManualAssignmentResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAccountManagementService_GenerateAutomaticAssignment_InputMessage">
+    <wsdl:part name="parameters" element="tns:GenerateAutomaticAssignment" />
+  </wsdl:message>
+  <wsdl:message name="IAccountManagementService_GenerateAutomaticAssignment_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GenerateAutomaticAssignmentResponse" />
+  </wsdl:message>
+  <wsdl:portType name="IAccountManagementService">
+    <wsdl:operation name="ListManagementAreasByUserCode">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAccountManagementServiceManagementAreas/ListManagementAreasByUserCode" message="tns:IAccountManagementService_ListManagementAreasByUserCode_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAccountManagementServiceManagementAreas/ListManagementAreasByUserCodeResponse" message="tns:IAccountManagementService_ListManagementAreasByUserCode_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="DeleteManagementAreas">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAccountManagementServiceManagementAreas/DeleteManagementAreas" message="tns:IAccountManagementService_DeleteManagementAreas_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAccountManagementServiceManagementAreas/DeleteManagementAreasResponse" message="tns:IAccountManagementService_DeleteManagementAreas_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SaveManagementAreas">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAccountManagementServiceManagementAreas/SaveManagementAreas" message="tns:IAccountManagementService_SaveManagementAreas_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAccountManagementServiceManagementAreas/SaveManagementAreasResponse" message="tns:IAccountManagementService_SaveManagementAreas_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetManagementAreasById">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAccountManagementServiceManagementAreas/GetManagementAreasById" message="tns:IAccountManagementService_GetManagementAreasById_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAccountManagementServiceManagementAreas/GetManagementAreasByIdResponse" message="tns:IAccountManagementService_GetManagementAreasById_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetManagementAreasByCode">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAccountManagementServiceManagementAreas/GetManagementAreasByCode" message="tns:IAccountManagementService_GetManagementAreasByCode_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAccountManagementServiceManagementAreas/GetManagementAreasByCodeResponse" message="tns:IAccountManagementService_GetManagementAreasByCode_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ChangeStateManagementAreas">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAccountManagementServiceManagementAreas/ChangeStateManagementAreas" message="tns:IAccountManagementService_ChangeStateManagementAreas_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAccountManagementServiceManagementAreas/ChangeStateManagementAreasResponse" message="tns:IAccountManagementService_ChangeStateManagementAreas_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAllManagementAreas">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAccountManagementServiceManagementAreas/GetAllManagementAreas" message="tns:IAccountManagementService_GetAllManagementAreas_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAccountManagementServiceManagementAreas/GetAllManagementAreasResponse" message="tns:IAccountManagementService_GetAllManagementAreas_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetSequenseByIdForm">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAccountManagementSequence/GetSequenseByIdForm" message="tns:IAccountManagementService_GetSequenseByIdForm_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAccountManagementSequence/GetSequenseByIdFormResponse" message="tns:IAccountManagementService_GetSequenseByIdForm_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetNumericSequenseGroupById">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAccountManagementSequence/GetNumericSequenseGroupById" message="tns:IAccountManagementService_GetNumericSequenseGroupById_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAccountManagementSequence/GetNumericSequenseGroupByIdResponse" message="tns:IAccountManagementService_GetNumericSequenseGroupById_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SaveSequence">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAccountManagementSequence/SaveSequence" message="tns:IAccountManagementService_SaveSequence_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAccountManagementSequence/SaveSequenceResponse" message="tns:IAccountManagementService_SaveSequence_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetBlockRecordAccountManagementByIdformAndIdRecord">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAccountManagementBlockRecordAccountManagement/GetBlockRecordAccountManagementByIdformAndIdRecord" message="tns:IAccountManagementService_GetBlockRecordAccountManagementByIdformAndIdRecord_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAccountManagementBlockRecordAccountManagement/GetBlockRecordAccountManagementByIdformAndIdRecordResponse" message="tns:IAccountManagementService_GetBlockRecordAccountManagementByIdformAndIdRecord_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SaveBlockRecordAccountManagement">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAccountManagementBlockRecordAccountManagement/SaveBlockRecordAccountManagement" message="tns:IAccountManagementService_SaveBlockRecordAccountManagement_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAccountManagementBlockRecordAccountManagement/SaveBlockRecordAccountManagementResponse" message="tns:IAccountManagementService_SaveBlockRecordAccountManagement_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="DeleteBlockRecordAccountManagement">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAccountManagementBlockRecordAccountManagement/DeleteBlockRecordAccountManagement" message="tns:IAccountManagementService_DeleteBlockRecordAccountManagement_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAccountManagementBlockRecordAccountManagement/DeleteBlockRecordAccountManagementResponse" message="tns:IAccountManagementService_DeleteBlockRecordAccountManagement_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountManagementParametersById">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAccountManagementServiceAccountManagementParameters/GetAccountManagementParametersById" message="tns:IAccountManagementService_GetAccountManagementParametersById_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAccountManagementServiceAccountManagementParameters/GetAccountManagementParametersByIdResponse" message="tns:IAccountManagementService_GetAccountManagementParametersById_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SaveAccountManagementParameters">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAccountManagementServiceAccountManagementParameters/SaveAccountManagementParameters" message="tns:IAccountManagementService_SaveAccountManagementParameters_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAccountManagementServiceAccountManagementParameters/SaveAccountManagementParametersResponse" message="tns:IAccountManagementService_SaveAccountManagementParameters_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAvailableUsers">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAccountManagementServiceAccountManagementParameters/GetAvailableUsers" message="tns:IAccountManagementService_GetAvailableUsers_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAccountManagementServiceAccountManagementParameters/GetAvailableUsersResponse" message="tns:IAccountManagementService_GetAvailableUsers_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetUsersWithDistributedAccounts">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAccountManagementServiceAccountManagementParameters/GetUsersWithDistributedAccounts" message="tns:IAccountManagementService_GetUsersWithDistributedAccounts_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAccountManagementServiceAccountManagementParameters/GetUsersWithDistributedAccountsResponse" message="tns:IAccountManagementService_GetUsersWithDistributedAccounts_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ListRejectionReasonByUserCode">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAccountManagementServiceRejectionReason/ListRejectionReasonByUserCode" message="tns:IAccountManagementService_ListRejectionReasonByUserCode_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAccountManagementServiceRejectionReason/ListRejectionReasonByUserCodeResponse" message="tns:IAccountManagementService_ListRejectionReasonByUserCode_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetRejectionReasonById">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAccountManagementServiceRejectionReason/GetRejectionReasonById" message="tns:IAccountManagementService_GetRejectionReasonById_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAccountManagementServiceRejectionReason/GetRejectionReasonByIdResponse" message="tns:IAccountManagementService_GetRejectionReasonById_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetRejectionReasonByCode">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAccountManagementServiceRejectionReason/GetRejectionReasonByCode" message="tns:IAccountManagementService_GetRejectionReasonByCode_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAccountManagementServiceRejectionReason/GetRejectionReasonByCodeResponse" message="tns:IAccountManagementService_GetRejectionReasonByCode_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SaveRejectionReason">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAccountManagementServiceRejectionReason/SaveRejectionReason" message="tns:IAccountManagementService_SaveRejectionReason_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAccountManagementServiceRejectionReason/SaveRejectionReasonResponse" message="tns:IAccountManagementService_SaveRejectionReason_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="DeleteRejectionReason">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAccountManagementServiceRejectionReason/DeleteRejectionReason" message="tns:IAccountManagementService_DeleteRejectionReason_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAccountManagementServiceRejectionReason/DeleteRejectionReasonResponse" message="tns:IAccountManagementService_DeleteRejectionReason_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ChangeStateRejectionReason">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAccountManagementServiceRejectionReason/ChangeStateRejectionReason" message="tns:IAccountManagementService_ChangeStateRejectionReason_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAccountManagementServiceRejectionReason/ChangeStateRejectionReasonResponse" message="tns:IAccountManagementService_ChangeStateRejectionReason_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ListAllRejectionReasons">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAccountManagementServiceRejectionReason/ListAllRejectionReasons" message="tns:IAccountManagementService_ListAllRejectionReasons_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAccountManagementServiceRejectionReason/ListAllRejectionReasonsResponse" message="tns:IAccountManagementService_ListAllRejectionReasons_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="RequestFolioTransferToUser">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAccountManagementServiceFolioTransfer/RequestFolioTransferToUser" message="tns:IAccountManagementService_RequestFolioTransferToUser_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAccountManagementServiceFolioTransfer/RequestFolioTransferToUserResponse" message="tns:IAccountManagementService_RequestFolioTransferToUser_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SuspendFolioAlert">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAccountManagementServiceFolioTransfer/SuspendFolioAlert" message="tns:IAccountManagementService_SuspendFolioAlert_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAccountManagementServiceFolioTransfer/SuspendFolioAlertResponse" message="tns:IAccountManagementService_SuspendFolioAlert_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SaveFolioAlert">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAccountManagementServiceFolioTransfer/SaveFolioAlert" message="tns:IAccountManagementService_SaveFolioAlert_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAccountManagementServiceFolioTransfer/SaveFolioAlertResponse" message="tns:IAccountManagementService_SaveFolioAlert_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAllAlerts">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAccountManagementServiceFolioTransfer/GetAllAlerts" message="tns:IAccountManagementService_GetAllAlerts_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAccountManagementServiceFolioTransfer/GetAllAlertsResponse" message="tns:IAccountManagementService_GetAllAlerts_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ListFolioEvents">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAccountManagementServiceFolioTransfer/ListFolioEvents" message="tns:IAccountManagementService_ListFolioEvents_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAccountManagementServiceFolioTransfer/ListFolioEventsResponse" message="tns:IAccountManagementService_ListFolioEvents_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ListFolioTransferRequests">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAccountManagementServiceFolioTransfer/ListFolioTransferRequests" message="tns:IAccountManagementService_ListFolioTransferRequests_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAccountManagementServiceFolioTransfer/ListFolioTransferRequestsResponse" message="tns:IAccountManagementService_ListFolioTransferRequests_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ProcessTransferRequest">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAccountManagementServiceFolioTransfer/ProcessTransferRequest" message="tns:IAccountManagementService_ProcessTransferRequest_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAccountManagementServiceFolioTransfer/ProcessTransferRequestResponse" message="tns:IAccountManagementService_ProcessTransferRequest_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetUserFolios">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAccountManagementServiceFolioTransfer/GetUserFolios" message="tns:IAccountManagementService_GetUserFolios_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAccountManagementServiceFolioTransfer/GetUserFoliosResponse" message="tns:IAccountManagementService_GetUserFolios_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetPendingAssignmentByCareCenterAndEntryType">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAccountManagementDashboardAccountAssignment/GetPendingAssignmentByCareCenterAndEntryType" message="tns:IAccountManagementService_GetPendingAssignmentByCareCenterAndEntryType_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAccountManagementDashboardAccountAssignment/GetPendingAssignmentByCareCenterAndEntryTypeResponse" message="tns:IAccountManagementService_GetPendingAssignmentByCareCenterAndEntryType_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GenerateManualAssignment">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAccountManagementDashboardAccountAssignment/GenerateManualAssignment" message="tns:IAccountManagementService_GenerateManualAssignment_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAccountManagementDashboardAccountAssignment/GenerateManualAssignmentResponse" message="tns:IAccountManagementService_GenerateManualAssignment_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GenerateAutomaticAssignment">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAccountManagementDashboardAccountAssignment/GenerateAutomaticAssignment" message="tns:IAccountManagementService_GenerateAutomaticAssignment_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAccountManagementDashboardAccountAssignment/GenerateAutomaticAssignmentResponse" message="tns:IAccountManagementService_GenerateAutomaticAssignment_OutputMessage" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="basicHttp_Endpoint_AccountManagement" type="tns:IAccountManagementService">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="ListManagementAreasByUserCode">
+      <soap:operation soapAction="http://tempuri.org/IAccountManagementServiceManagementAreas/ListManagementAreasByUserCode" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteManagementAreas">
+      <soap:operation soapAction="http://tempuri.org/IAccountManagementServiceManagementAreas/DeleteManagementAreas" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveManagementAreas">
+      <soap:operation soapAction="http://tempuri.org/IAccountManagementServiceManagementAreas/SaveManagementAreas" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetManagementAreasById">
+      <soap:operation soapAction="http://tempuri.org/IAccountManagementServiceManagementAreas/GetManagementAreasById" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetManagementAreasByCode">
+      <soap:operation soapAction="http://tempuri.org/IAccountManagementServiceManagementAreas/GetManagementAreasByCode" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ChangeStateManagementAreas">
+      <soap:operation soapAction="http://tempuri.org/IAccountManagementServiceManagementAreas/ChangeStateManagementAreas" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAllManagementAreas">
+      <soap:operation soapAction="http://tempuri.org/IAccountManagementServiceManagementAreas/GetAllManagementAreas" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetSequenseByIdForm">
+      <soap:operation soapAction="http://tempuri.org/IAccountManagementSequence/GetSequenseByIdForm" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetNumericSequenseGroupById">
+      <soap:operation soapAction="http://tempuri.org/IAccountManagementSequence/GetNumericSequenseGroupById" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveSequence">
+      <soap:operation soapAction="http://tempuri.org/IAccountManagementSequence/SaveSequence" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetBlockRecordAccountManagementByIdformAndIdRecord">
+      <soap:operation soapAction="http://tempuri.org/IAccountManagementBlockRecordAccountManagement/GetBlockRecordAccountManagementByIdformAndIdRecord" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveBlockRecordAccountManagement">
+      <soap:operation soapAction="http://tempuri.org/IAccountManagementBlockRecordAccountManagement/SaveBlockRecordAccountManagement" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteBlockRecordAccountManagement">
+      <soap:operation soapAction="http://tempuri.org/IAccountManagementBlockRecordAccountManagement/DeleteBlockRecordAccountManagement" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountManagementParametersById">
+      <soap:operation soapAction="http://tempuri.org/IAccountManagementServiceAccountManagementParameters/GetAccountManagementParametersById" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveAccountManagementParameters">
+      <soap:operation soapAction="http://tempuri.org/IAccountManagementServiceAccountManagementParameters/SaveAccountManagementParameters" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAvailableUsers">
+      <soap:operation soapAction="http://tempuri.org/IAccountManagementServiceAccountManagementParameters/GetAvailableUsers" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetUsersWithDistributedAccounts">
+      <soap:operation soapAction="http://tempuri.org/IAccountManagementServiceAccountManagementParameters/GetUsersWithDistributedAccounts" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ListRejectionReasonByUserCode">
+      <soap:operation soapAction="http://tempuri.org/IAccountManagementServiceRejectionReason/ListRejectionReasonByUserCode" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetRejectionReasonById">
+      <soap:operation soapAction="http://tempuri.org/IAccountManagementServiceRejectionReason/GetRejectionReasonById" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetRejectionReasonByCode">
+      <soap:operation soapAction="http://tempuri.org/IAccountManagementServiceRejectionReason/GetRejectionReasonByCode" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveRejectionReason">
+      <soap:operation soapAction="http://tempuri.org/IAccountManagementServiceRejectionReason/SaveRejectionReason" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteRejectionReason">
+      <soap:operation soapAction="http://tempuri.org/IAccountManagementServiceRejectionReason/DeleteRejectionReason" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ChangeStateRejectionReason">
+      <soap:operation soapAction="http://tempuri.org/IAccountManagementServiceRejectionReason/ChangeStateRejectionReason" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ListAllRejectionReasons">
+      <soap:operation soapAction="http://tempuri.org/IAccountManagementServiceRejectionReason/ListAllRejectionReasons" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RequestFolioTransferToUser">
+      <soap:operation soapAction="http://tempuri.org/IAccountManagementServiceFolioTransfer/RequestFolioTransferToUser" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SuspendFolioAlert">
+      <soap:operation soapAction="http://tempuri.org/IAccountManagementServiceFolioTransfer/SuspendFolioAlert" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveFolioAlert">
+      <soap:operation soapAction="http://tempuri.org/IAccountManagementServiceFolioTransfer/SaveFolioAlert" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAllAlerts">
+      <soap:operation soapAction="http://tempuri.org/IAccountManagementServiceFolioTransfer/GetAllAlerts" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ListFolioEvents">
+      <soap:operation soapAction="http://tempuri.org/IAccountManagementServiceFolioTransfer/ListFolioEvents" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ListFolioTransferRequests">
+      <soap:operation soapAction="http://tempuri.org/IAccountManagementServiceFolioTransfer/ListFolioTransferRequests" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ProcessTransferRequest">
+      <soap:operation soapAction="http://tempuri.org/IAccountManagementServiceFolioTransfer/ProcessTransferRequest" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetUserFolios">
+      <soap:operation soapAction="http://tempuri.org/IAccountManagementServiceFolioTransfer/GetUserFolios" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetPendingAssignmentByCareCenterAndEntryType">
+      <soap:operation soapAction="http://tempuri.org/IAccountManagementDashboardAccountAssignment/GetPendingAssignmentByCareCenterAndEntryType" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GenerateManualAssignment">
+      <soap:operation soapAction="http://tempuri.org/IAccountManagementDashboardAccountAssignment/GenerateManualAssignment" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GenerateAutomaticAssignment">
+      <soap:operation soapAction="http://tempuri.org/IAccountManagementDashboardAccountAssignment/GenerateAutomaticAssignment" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="basicHttps_Endpoint_AccountManagement" type="tns:IAccountManagementService">
+    <wsp:PolicyReference URI="#basicHttps_Endpoint_AccountManagement_policy" />
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="ListManagementAreasByUserCode">
+      <soap:operation soapAction="http://tempuri.org/IAccountManagementServiceManagementAreas/ListManagementAreasByUserCode" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteManagementAreas">
+      <soap:operation soapAction="http://tempuri.org/IAccountManagementServiceManagementAreas/DeleteManagementAreas" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveManagementAreas">
+      <soap:operation soapAction="http://tempuri.org/IAccountManagementServiceManagementAreas/SaveManagementAreas" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetManagementAreasById">
+      <soap:operation soapAction="http://tempuri.org/IAccountManagementServiceManagementAreas/GetManagementAreasById" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetManagementAreasByCode">
+      <soap:operation soapAction="http://tempuri.org/IAccountManagementServiceManagementAreas/GetManagementAreasByCode" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ChangeStateManagementAreas">
+      <soap:operation soapAction="http://tempuri.org/IAccountManagementServiceManagementAreas/ChangeStateManagementAreas" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAllManagementAreas">
+      <soap:operation soapAction="http://tempuri.org/IAccountManagementServiceManagementAreas/GetAllManagementAreas" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetSequenseByIdForm">
+      <soap:operation soapAction="http://tempuri.org/IAccountManagementSequence/GetSequenseByIdForm" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetNumericSequenseGroupById">
+      <soap:operation soapAction="http://tempuri.org/IAccountManagementSequence/GetNumericSequenseGroupById" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveSequence">
+      <soap:operation soapAction="http://tempuri.org/IAccountManagementSequence/SaveSequence" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetBlockRecordAccountManagementByIdformAndIdRecord">
+      <soap:operation soapAction="http://tempuri.org/IAccountManagementBlockRecordAccountManagement/GetBlockRecordAccountManagementByIdformAndIdRecord" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveBlockRecordAccountManagement">
+      <soap:operation soapAction="http://tempuri.org/IAccountManagementBlockRecordAccountManagement/SaveBlockRecordAccountManagement" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteBlockRecordAccountManagement">
+      <soap:operation soapAction="http://tempuri.org/IAccountManagementBlockRecordAccountManagement/DeleteBlockRecordAccountManagement" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountManagementParametersById">
+      <soap:operation soapAction="http://tempuri.org/IAccountManagementServiceAccountManagementParameters/GetAccountManagementParametersById" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveAccountManagementParameters">
+      <soap:operation soapAction="http://tempuri.org/IAccountManagementServiceAccountManagementParameters/SaveAccountManagementParameters" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAvailableUsers">
+      <soap:operation soapAction="http://tempuri.org/IAccountManagementServiceAccountManagementParameters/GetAvailableUsers" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetUsersWithDistributedAccounts">
+      <soap:operation soapAction="http://tempuri.org/IAccountManagementServiceAccountManagementParameters/GetUsersWithDistributedAccounts" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ListRejectionReasonByUserCode">
+      <soap:operation soapAction="http://tempuri.org/IAccountManagementServiceRejectionReason/ListRejectionReasonByUserCode" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetRejectionReasonById">
+      <soap:operation soapAction="http://tempuri.org/IAccountManagementServiceRejectionReason/GetRejectionReasonById" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetRejectionReasonByCode">
+      <soap:operation soapAction="http://tempuri.org/IAccountManagementServiceRejectionReason/GetRejectionReasonByCode" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveRejectionReason">
+      <soap:operation soapAction="http://tempuri.org/IAccountManagementServiceRejectionReason/SaveRejectionReason" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteRejectionReason">
+      <soap:operation soapAction="http://tempuri.org/IAccountManagementServiceRejectionReason/DeleteRejectionReason" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ChangeStateRejectionReason">
+      <soap:operation soapAction="http://tempuri.org/IAccountManagementServiceRejectionReason/ChangeStateRejectionReason" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ListAllRejectionReasons">
+      <soap:operation soapAction="http://tempuri.org/IAccountManagementServiceRejectionReason/ListAllRejectionReasons" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RequestFolioTransferToUser">
+      <soap:operation soapAction="http://tempuri.org/IAccountManagementServiceFolioTransfer/RequestFolioTransferToUser" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SuspendFolioAlert">
+      <soap:operation soapAction="http://tempuri.org/IAccountManagementServiceFolioTransfer/SuspendFolioAlert" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveFolioAlert">
+      <soap:operation soapAction="http://tempuri.org/IAccountManagementServiceFolioTransfer/SaveFolioAlert" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAllAlerts">
+      <soap:operation soapAction="http://tempuri.org/IAccountManagementServiceFolioTransfer/GetAllAlerts" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ListFolioEvents">
+      <soap:operation soapAction="http://tempuri.org/IAccountManagementServiceFolioTransfer/ListFolioEvents" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ListFolioTransferRequests">
+      <soap:operation soapAction="http://tempuri.org/IAccountManagementServiceFolioTransfer/ListFolioTransferRequests" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ProcessTransferRequest">
+      <soap:operation soapAction="http://tempuri.org/IAccountManagementServiceFolioTransfer/ProcessTransferRequest" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetUserFolios">
+      <soap:operation soapAction="http://tempuri.org/IAccountManagementServiceFolioTransfer/GetUserFolios" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetPendingAssignmentByCareCenterAndEntryType">
+      <soap:operation soapAction="http://tempuri.org/IAccountManagementDashboardAccountAssignment/GetPendingAssignmentByCareCenterAndEntryType" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GenerateManualAssignment">
+      <soap:operation soapAction="http://tempuri.org/IAccountManagementDashboardAccountAssignment/GenerateManualAssignment" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GenerateAutomaticAssignment">
+      <soap:operation soapAction="http://tempuri.org/IAccountManagementDashboardAccountAssignment/GenerateAutomaticAssignment" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="AccountManagementService">
+    <wsdl:port name="basicHttp_Endpoint_AccountManagement" binding="tns:basicHttp_Endpoint_AccountManagement">
+      <soap:address location="http://c-10010:9000/ServiceEntity/AccountManagement.svc/basicHttpAccountManagement" />
+    </wsdl:port>
+    <wsdl:port name="basicHttps_Endpoint_AccountManagement" binding="tns:basicHttps_Endpoint_AccountManagement">
+      <soap:address location="https://localhost:9001/ServiceEntity/AccountManagement.svc/basicHttpsAccountManagement" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

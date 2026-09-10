@@ -1,0 +1,567 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<XtraReportsLayoutSerializer SerializerVersion="20.1.8.0" Ref="0" ControlType="DevExpress.XtraReports.UI.XtraReport, DevExpress.XtraReports.v20.1, Version=20.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" Name="rptHCAplicacionDeMedicamentoPorDia" DisplayName="rptHCAplicacionDeMedicamentoPorDia" Bookmark="Aplicacion de Medicamento por Dia" Margins="45, 36, 14, 30" PaperName="Este Reporte Muestra el detalle de aplicacion de Medicamentos por Dia. " PageWidth="850" PageHeight="1100" ScriptLanguage="VisualBasic" Version="20.1" RequestParameters="false" DataMember="Datos Paciente">
+  <Parameters>
+    <Item1 Ref="2" Description="Contabilizar Productos" ValueInfo="False" Name="Parametro" Type="#Ref-1" />
+    <Item2 Ref="3" Description="Agrupación por Producto" ValueInfo="False" Name="ParametroAgrupacion" Type="#Ref-1" />
+    <Item3 Ref="4" Description="Mostrar la Firma" ValueInfo="True" Name="ParametroFirma" Type="#Ref-1" />
+  </Parameters>
+  <Bands>
+    <Item1 Ref="5" ControlType="DetailBand" Name="Detail" HeightF="20.12501" TextAlignment="TopLeft" Padding="0,0,0,0,100">
+      <Controls>
+        <Item1 Ref="6" ControlType="XRLabel" Name="XrLabel24" ProcessDuplicatesMode="Suppress" Text="REGISTRO DE APLICACIÓN" TextAlignment="TopLeft" SizeF="769,17.00001" LocationFloat="2.384186E-05,0" Font="Arial, 9pt, style=Bold, Underline" BackColor="Gainsboro" Padding="2,2,0,0,100">
+          <StylePriority Ref="7" UseFont="false" UseBackColor="false" UseTextAlignment="false" />
+        </Item1>
+      </Controls>
+    </Item1>
+    <Item2 Ref="8" ControlType="TopMarginBand" Name="TopMargin" HeightF="14" TextAlignment="TopJustify" Font="Times New Roman, 9.75pt" Padding="0,0,0,0,100">
+      <StylePriority Ref="9" UseFont="false" UseTextAlignment="false" />
+    </Item2>
+    <Item3 Ref="10" ControlType="BottomMarginBand" Name="BottomMargin" HeightF="30" TextAlignment="TopLeft" Padding="0,0,0,0,100" />
+    <Item4 Ref="11" ControlType="ReportHeaderBand" Name="CabeceraReporte" HeightF="79.58333">
+      <Controls>
+        <Item1 Ref="12" ControlType="XRLine" Name="XrLine1" SizeF="765.7499,2.083336" LocationFloat="0,77.49999" />
+        <Item2 Ref="13" ControlType="XRLabel" Name="INDLblNitCliente" Text="800000100-0" LockedInUserDesigner="true" TextAlignment="MiddleCenter" SizeF="752,17" LocationFloat="10.00001,24.99998" Font="Arial, 9.75pt" Padding="2,2,0,0,100">
+          <StylePriority Ref="14" UseFont="false" UseTextAlignment="false" />
+        </Item2>
+        <Item3 Ref="15" ControlType="XRLabel" Name="INDLblNombreEmpresaCliente" Text="INDIGO TECHNOLOGIES" AnchorVertical="Top" LockedInUserDesigner="true" TextAlignment="MiddleCenter" SizeF="752,25" LocationFloat="10.00001,0" Font="Times New Roman, 14.25pt, style=Bold" Padding="2,2,0,0,100">
+          <StylePriority Ref="16" UseFont="false" UseTextAlignment="false" />
+        </Item3>
+        <Item4 Ref="17" ControlType="XRLabel" Name="INDLblNombreReporte" Text="APLICACIÓN DE MEDICAMENTOS POR DIA" LockedInUserDesigner="true" TextAlignment="MiddleCenter" SizeF="752,25" LocationFloat="10.00001,41.99998" Font="Arial, 11.25pt, style=Bold" Padding="2,2,0,0,100">
+          <StylePriority Ref="18" UseFont="false" UseTextAlignment="false" />
+        </Item4>
+      </Controls>
+    </Item4>
+    <Item5 Ref="19" ControlType="PageHeaderBand" Name="PageHeader" HeightF="20.00001">
+      <Controls>
+        <Item1 Ref="20" ControlType="XRLabel" Name="XrLabel25" Text="Fecha De Impresión:" SizeF="125.4999,17.00001" LocationFloat="10.00001,0.9166718" Font="Arial, 8.25pt, style=Bold" Padding="2,2,0,0,100">
+          <StylePriority Ref="21" UseFont="false" />
+        </Item1>
+        <Item2 Ref="22" ControlType="XRPageInfo" Name="XrPageInfo2" PageInfo="DateTime" TextFormatString="{0:dddd, dd' de 'MMMM' de 'yyyy hh:mm tt}" LockedInUserDesigner="true" SizeF="284.3751,17.00001" LocationFloat="135.4999,0.9166718" Padding="2,2,0,0,100" />
+        <Item3 Ref="23" ControlType="XRLine" Name="XrLine2" SizeF="765.7499,2.083334" LocationFloat="0,17.91668" />
+        <Item4 Ref="24" ControlType="XRPageInfo" Name="XrPageInfo1" TextFormatString="Página {0}/{1}" TextAlignment="TopRight" SizeF="130,17" LocationFloat="620,0" Padding="2,2,0,0,100">
+          <StylePriority Ref="25" UseTextAlignment="false" />
+        </Item4>
+      </Controls>
+    </Item5>
+    <Item6 Ref="26" ControlType="GroupHeaderBand" Name="GroupHeader1" Level="1" HeightF="124.5833">
+      <Controls>
+        <Item1 Ref="27" ControlType="XRLabel" Name="XrLabel5" ProcessDuplicatesMode="Suppress" Text="IDENTIFICACIÓN" TextAlignment="TopLeft" Bookmark="Identificación" SizeF="769,17.00001" LocationFloat="2.384186E-05,3.499985" Font="Arial, 9pt, style=Bold, Underline" BackColor="Gainsboro" Padding="2,2,0,0,100">
+          <StylePriority Ref="28" UseFont="false" UseBackColor="false" UseTextAlignment="false" />
+        </Item1>
+        <Item2 Ref="29" ControlType="XRLabel" Name="XrLabel14" Text="Tipo Paciente:" TextAlignment="TopLeft" SizeF="84.08337,17.00001" LocationFloat="418.7499,71.50002" Font="Arial, 8.25pt, style=Bold" Padding="2,2,0,0,100">
+          <StylePriority Ref="30" UseFont="false" UseTextAlignment="false" />
+        </Item2>
+        <Item3 Ref="31" ControlType="XRLabel" Name="XrLabel12" Text="Teléfono:" SizeF="66.99998,17.00001" LocationFloat="10.00001,71.50002" Font="Arial, 8.25pt, style=Bold" Padding="2,2,0,0,100">
+          <StylePriority Ref="32" UseFont="false" />
+        </Item3>
+        <Item4 Ref="33" ControlType="XRLabel" Name="XrLabel10" Text="Dirección:" TextAlignment="TopLeft" SizeF="67,17" LocationFloat="9.999974,54.50001" Font="Arial, 8.25pt, style=Bold" Padding="2,2,0,0,100">
+          <StylePriority Ref="34" UseFont="false" UseTextAlignment="false" />
+        </Item4>
+        <Item5 Ref="35" ControlType="XRLabel" Name="INDlblDireccion" Text="INDlblDireccion" TextAlignment="TopLeft" SizeF="326.0417,17" LocationFloat="76.99997,54.50001" Font="Arial, 8.25pt" Padding="2,2,0,0,100">
+          <ExpressionBindings>
+            <Item1 Ref="36" EventName="BeforePrint" PropertyName="Text" Expression="[Cabecera Reporte.DIRECCION]" />
+          </ExpressionBindings>
+          <StylePriority Ref="37" UseFont="false" UseTextAlignment="false" />
+        </Item5>
+        <Item6 Ref="38" ControlType="XRLabel" Name="XrLabel11" Text="Numero:" SizeF="54.49994,17.00001" LocationFloat="553.8333,20.49999" Font="Arial, 8.25pt, style=Bold" Padding="2,2,0,0,100">
+          <StylePriority Ref="39" UseFont="false" />
+        </Item6>
+        <Item7 Ref="40" ControlType="XRLabel" Name="XrLabel26" Text="Tipo Afiliado:" SizeF="84.08337,17.00001" LocationFloat="418.7499,88.50002" Font="Arial, 8.25pt, style=Bold" Padding="2,2,0,0,100">
+          <StylePriority Ref="41" UseFont="false" />
+        </Item7>
+        <Item8 Ref="42" ControlType="XRLabel" Name="INDlblTipoAfiliado" Text="INDlblTipoAfiliado" TextAlignment="TopLeft" SizeF="239.3751,17" LocationFloat="502.8333,88.50002" Font="Arial, 8.25pt" Padding="2,2,0,0,100">
+          <ExpressionBindings>
+            <Item1 Ref="43" EventName="BeforePrint" PropertyName="Text" Expression="[Cabecera Reporte.TIPO AFILIADO]" />
+          </ExpressionBindings>
+          <StylePriority Ref="44" UseFont="false" UseTextAlignment="false" />
+        </Item8>
+        <Item9 Ref="45" ControlType="XRLabel" Name="INDlblTipoPaciente" Text="INDlblTipoPaciente" TextAlignment="TopLeft" SizeF="239.3751,17.00001" LocationFloat="502.8333,71.50002" Font="Arial, 8.25pt" Padding="2,2,0,0,100">
+          <ExpressionBindings>
+            <Item1 Ref="46" EventName="BeforePrint" PropertyName="Text" Expression="[Cabecera Reporte.TIPO PACIENTE]" />
+          </ExpressionBindings>
+          <StylePriority Ref="47" UseFont="false" UseTextAlignment="false" />
+        </Item9>
+        <Item10 Ref="48" ControlType="XRLabel" Name="INDlblEntidad" Text="INDlblEntidad" TextAlignment="TopLeft" SizeF="267.5418,17" LocationFloat="135.5,88.50002" Font="Arial, 8.25pt" Padding="2,2,0,0,100">
+          <ExpressionBindings>
+            <Item1 Ref="49" EventName="BeforePrint" PropertyName="Text" Expression="[Cabecera Reporte.NOMBRE ENTIDAD]" />
+          </ExpressionBindings>
+          <StylePriority Ref="50" UseFont="false" UseTextAlignment="false" />
+        </Item10>
+        <Item11 Ref="51" ControlType="XRLabel" Name="XrLabel13" Text="Entidad Responsable:" TextAlignment="TopLeft" SizeF="125.4999,17" LocationFloat="9.999974,88.50002" Font="Arial, 8.25pt, style=Bold" Padding="2,2,0,0,100">
+          <StylePriority Ref="52" UseFont="false" UseTextAlignment="false" />
+        </Item11>
+        <Item12 Ref="53" ControlType="XRLabel" Name="INDlblNumeroDocumento" Text="INDlblNumeroDoc" TextAlignment="TopLeft" Bookmark="# de Documento" BookmarkParent="#Ref-27" SizeF="133.8752,17.00001" LocationFloat="608.3332,20.49999" Font="Arial, 8.25pt" Padding="2,2,0,0,100">
+          <ExpressionBindings>
+            <Item1 Ref="54" EventName="BeforePrint" PropertyName="Text" Expression="[Cabecera Reporte.CODIGO PACIENTE]" />
+          </ExpressionBindings>
+          <StylePriority Ref="55" UseFont="false" UseTextAlignment="false" />
+        </Item12>
+        <Item13 Ref="56" ControlType="XRLabel" Name="XrLabel2" Text="Apellidos:" TextAlignment="TopLeft" SizeF="67,17" LocationFloat="9.999998,20.49999" Font="Arial, 8.25pt, style=Bold" Padding="2,2,0,0,100">
+          <StylePriority Ref="57" UseFont="false" UseTextAlignment="false" />
+        </Item13>
+        <Item14 Ref="58" ControlType="XRLabel" Name="INDlblApellidos" Text="INDlblApellidos" TextAlignment="TopLeft" SizeF="326.0417,17.00001" LocationFloat="77,20.49999" Font="Arial, 8.25pt" Padding="2,2,0,0,100">
+          <ExpressionBindings>
+            <Item1 Ref="59" EventName="BeforePrint" PropertyName="Text" Expression="[Cabecera Reporte.APELLIDOS]" />
+          </ExpressionBindings>
+          <StylePriority Ref="60" UseFont="false" UseTextAlignment="false" />
+        </Item14>
+        <Item15 Ref="61" ControlType="XRLabel" Name="INDlblTelefono" Text="INDlblTelefono" TextAlignment="TopLeft" SizeF="326.0417,17.00001" LocationFloat="77,71.50002" Font="Arial, 8.25pt" Padding="2,2,0,0,100">
+          <ExpressionBindings>
+            <Item1 Ref="62" EventName="BeforePrint" PropertyName="Text" Expression="[Cabecera Reporte.TELEFONO]" />
+          </ExpressionBindings>
+          <StylePriority Ref="63" UseFont="false" UseTextAlignment="false" />
+        </Item15>
+        <Item16 Ref="64" ControlType="XRLabel" Name="INDlblNombres" Text="INDlblNombres" TextAlignment="TopLeft" SizeF="326.0417,17.00001" LocationFloat="77,37.5" Font="Arial, 8.25pt" Padding="2,2,0,0,100">
+          <ExpressionBindings>
+            <Item1 Ref="65" EventName="BeforePrint" PropertyName="Text" Expression="[Cabecera Reporte.NOMBRES]" />
+          </ExpressionBindings>
+          <StylePriority Ref="66" UseFont="false" UseTextAlignment="false" />
+        </Item16>
+        <Item17 Ref="67" ControlType="XRLabel" Name="XrLabel7" Text="Edad:" SizeF="42,17" LocationFloat="418.75,37.5" Font="Arial, 8.25pt, style=Bold" Padding="2,2,0,0,100">
+          <StylePriority Ref="68" UseFont="false" />
+        </Item17>
+        <Item18 Ref="69" ControlType="XRLabel" Name="INDlblEdad" Text="INDlblEdad" TextAlignment="TopLeft" SizeF="281.4584,17.00001" LocationFloat="460.75,37.5" Font="Arial, 8.25pt" Padding="2,2,0,0,100">
+          <ExpressionBindings>
+            <Item1 Ref="70" EventName="BeforePrint" PropertyName="Text" Expression="[Cabecera Reporte.FECHA NACIMIENTO]" />
+          </ExpressionBindings>
+          <StylePriority Ref="71" UseFont="false" UseTextAlignment="false" />
+        </Item18>
+        <Item19 Ref="72" ControlType="XRLabel" Name="XrLabel8" Text="Sexo:" SizeF="42,17" LocationFloat="418.75,54.50001" Font="Arial, 8.25pt, style=Bold" Padding="2,2,0,0,100">
+          <StylePriority Ref="73" UseFont="false" />
+        </Item19>
+        <Item20 Ref="74" ControlType="XRLabel" Name="XrLabel6" Text="Nombres:" TextAlignment="TopLeft" SizeF="67,17" LocationFloat="9.999998,37.5" Font="Arial, 8.25pt, style=Bold" Padding="2,2,0,0,100">
+          <StylePriority Ref="75" UseFont="false" UseTextAlignment="false" />
+        </Item20>
+        <Item21 Ref="76" ControlType="XRLabel" Name="XrLabel9" Text="Tipo Documento:" TextAlignment="TopLeft" SizeF="100,17" LocationFloat="418.75,20.49999" Font="Arial, 8.25pt, style=Bold" Padding="2,2,0,0,100">
+          <StylePriority Ref="77" UseFont="false" UseTextAlignment="false" />
+        </Item21>
+        <Item22 Ref="78" ControlType="XRLabel" Name="INDlblTipoDocumento" CanGrow="false" Text="INDlblTipoDoc" TextAlignment="TopLeft" WordWrap="false" SizeF="35.08331,17.00001" LocationFloat="518.7499,20.49999" Font="Arial, 8.25pt" Padding="2,2,0,0,100">
+          <ExpressionBindings>
+            <Item1 Ref="79" EventName="BeforePrint" PropertyName="Text" Expression="[Cabecera Reporte.TIPO DOCUMENTO]" />
+          </ExpressionBindings>
+          <StylePriority Ref="80" UseFont="false" UseTextAlignment="false" />
+        </Item22>
+        <Item23 Ref="81" ControlType="XRLabel" Name="INDlblSexo" Text="INDlblSexo" TextAlignment="TopLeft" SizeF="281.4584,17.00001" LocationFloat="460.75,54.50001" Font="Arial, 8.25pt" Padding="2,2,0,0,100">
+          <ExpressionBindings>
+            <Item1 Ref="82" EventName="BeforePrint" PropertyName="Text" Expression="[Cabecera Reporte.SEXO]" />
+          </ExpressionBindings>
+          <StylePriority Ref="83" UseFont="false" UseTextAlignment="false" />
+        </Item23>
+        <Item24 Ref="84" ControlType="XRLabel" Name="XrLabel95" Text="Ingreso:" SizeF="67.00002,17.00001" LocationFloat="9.999974,105.5" Font="Arial, 8.25pt, style=Bold" Padding="2,2,0,0,100">
+          <StylePriority Ref="85" UseFont="false" />
+        </Item24>
+        <Item25 Ref="86" ControlType="XRLabel" Name="INDlblIngreso" Text="INDlblIngreso" TextAlignment="TopLeft" Bookmark="Ingreso" BookmarkParent="#Ref-27" SizeF="326.0417,17.00001" LocationFloat="76.99997,105.5" Font="Arial, 8.25pt" Padding="2,2,0,0,100">
+          <Summary Ref="87" FormatString="{0:HH:mm}" />
+          <ExpressionBindings>
+            <Item1 Ref="88" EventName="BeforePrint" PropertyName="Text" Expression="[Cabecera Reporte.INGRESO]" />
+          </ExpressionBindings>
+          <StylePriority Ref="89" UseFont="false" UseTextAlignment="false" />
+        </Item25>
+        <Item26 Ref="90" ControlType="XRLabel" Name="XrLabel47" Text="INDlblEntidad" SizeF="216.4589,17" LocationFloat="525.7496,105.5" Font="Arial, 8.25pt, charSet=0" Padding="2,2,0,0,100">
+          <ExpressionBindings>
+            <Item1 Ref="91" EventName="BeforePrint" PropertyName="Text" Expression="[Cabecera Reporte.NOMBRE ENTIDAD PACIENTE]" />
+          </ExpressionBindings>
+          <StylePriority Ref="92" UseFont="false" />
+        </Item26>
+        <Item27 Ref="93" ControlType="XRLabel" Name="XrLabel46" Text="Seguridad Social:" SizeF="105.2498,17" LocationFloat="418.7499,105.5" Font="Arial, 8.25pt, style=Bold, charSet=0" Padding="2,2,0,0,100">
+          <StylePriority Ref="94" UseFont="false" />
+        </Item27>
+      </Controls>
+    </Item6>
+    <Item7 Ref="95" ControlType="DetailReportBand" Name="DetailMedicamentoDia" Level="0" DataMember="Aplicacion Medicamento">
+      <Bands>
+        <Item1 Ref="96" ControlType="DetailBand" Name="Detail1" HeightF="34.375">
+          <Controls>
+            <Item1 Ref="97" ControlType="XRLabel" Name="XrLabel39" Text="INDlblAdministracion" TextAlignment="TopLeft" SizeF="261.9984,11.79167" LocationFloat="157.8766,2.04169" Font="Arial, 6.75pt" Padding="2,2,0,0,100">
+              <ExpressionBindings>
+                <Item1 Ref="98" EventName="BeforePrint" PropertyName="Text" Expression="[NOMBRE DEL PROFESIONAL]" />
+              </ExpressionBindings>
+              <StylePriority Ref="99" UseFont="false" UseTextAlignment="false" />
+            </Item1>
+            <Item2 Ref="100" ControlType="XRLabel" Name="INDlblHora2" Text="87:87" TextAlignment="TopLeft" SizeF="61.95999,11.79167" LocationFloat="87.87489,2.04169" Font="Arial, 6.75pt" Padding="2,2,0,0,100">
+              <ExpressionBindings>
+                <Item1 Ref="101" EventName="BeforePrint" PropertyName="Text" Expression="[HORA DE APLICACION]" />
+              </ExpressionBindings>
+              <StylePriority Ref="102" UseFont="false" UseTextAlignment="false" />
+            </Item2>
+            <Item3 Ref="103" ControlType="XRPictureBox" Name="INDPictureBoxFirmaMedico" Sizing="StretchImage" SizeF="142.0833,34.375" LocationFloat="431.9584,0">
+              <ExpressionBindings>
+                <Item1 Ref="104" EventName="BeforePrint" PropertyName="ImageSource" Expression="[FIRMA PROFESIONAL]" />
+              </ExpressionBindings>
+            </Item3>
+          </Controls>
+        </Item1>
+        <Item2 Ref="105" ControlType="GroupHeaderBand" Name="GroupAdministracion" HeightF="41.66667">
+          <GroupFields>
+            <Item1 Ref="106" FieldName="ADMINISTRACION" />
+          </GroupFields>
+          <Controls>
+            <Item1 Ref="107" ControlType="XRLabel" Name="XrLabel38" Text="Profesional Que Aplico" SizeF="141.6668,17.00001" LocationFloat="157.8766,20.12501" Font="Arial, 8.25pt, style=Bold" Padding="2,2,0,0,100">
+              <StylePriority Ref="108" UseFont="false" />
+            </Item1>
+            <Item2 Ref="109" ControlType="XRLabel" Name="XrLabel18" Text="Administración:" SizeF="100,17.00001" LocationFloat="22.87501,0" Font="Arial, 8.25pt, style=Bold" Padding="2,2,0,0,100">
+              <StylePriority Ref="110" UseFont="false" />
+            </Item2>
+            <Item3 Ref="111" ControlType="XRLabel" Name="INDlblAdministracion" Text="INDlblAdministracion" TextAlignment="TopLeft" SizeF="413.5834,17.00001" LocationFloat="135.4999,0" Font="Arial, 8.25pt" Padding="2,2,0,0,100">
+              <ExpressionBindings>
+                <Item1 Ref="112" EventName="BeforePrint" PropertyName="Text" Expression="[ADMINISTRACION]" />
+              </ExpressionBindings>
+              <StylePriority Ref="113" UseFont="false" UseTextAlignment="false" />
+            </Item3>
+            <Item4 Ref="114" ControlType="XRLabel" Name="XrLabel20" Text="Hora" SizeF="35.00012,17.00001" LocationFloat="87.87489,20.12501" Font="Arial, 8.25pt, style=Bold" Padding="2,2,0,0,100">
+              <StylePriority Ref="115" UseFont="false" />
+            </Item4>
+            <Item5 Ref="116" ControlType="XRLabel" Name="XrLabel16" Text="Firma" SizeF="141.6668,17.00001" LocationFloat="431.9584,20.12501" Font="Arial, 8.25pt, style=Bold" Padding="2,2,0,0,100">
+              <StylePriority Ref="117" UseFont="false" />
+            </Item5>
+          </Controls>
+        </Item2>
+        <Item3 Ref="118" ControlType="GroupHeaderBand" Name="GroupMedicamento" Level="1" HeightF="17.00001">
+          <GroupFields>
+            <Item1 Ref="119" FieldName="DESCRIPCION DEL PRODUCTO" />
+          </GroupFields>
+          <Controls>
+            <Item1 Ref="120" ControlType="XRLabel" Name="XrLabel17" Text="Medicamento:" SizeF="92.00001,17.00001" LocationFloat="22.87501,0" Font="Arial, 8.25pt, style=Bold" Padding="2,2,0,0,100">
+              <StylePriority Ref="121" UseFont="false" />
+            </Item1>
+            <Item2 Ref="123" ControlType="XRLabel" Name="INDlblMedicamento" Text="INDlblMedicamento" TextAlignment="TopLeft" BookmarkParent="#Ref-122" SizeF="413.5834,17.00001" LocationFloat="135.4999,0" Font="Arial, 8.25pt, style=Bold, Underline" Padding="2,2,0,0,100">
+              <ExpressionBindings>
+                <Item1 Ref="124" EventName="BeforePrint" PropertyName="Text" Expression="[DESCRIPCION DEL PRODUCTO]" />
+                <Item2 Ref="125" EventName="BeforePrint" PropertyName="Bookmark" Expression="[DESCRIPCION DEL PRODUCTO]" />
+              </ExpressionBindings>
+              <StylePriority Ref="126" UseFont="false" UseTextAlignment="false" />
+            </Item2>
+            <Item3 Ref="127" ControlType="XRLabel" Name="XrLabel3" Text="Total Producto Utilizado:" SizeF="147.9167,17.00001" LocationFloat="551.25,0" Font="Arial, 8.25pt, style=Bold" Padding="2,2,0,0,100" Visible="false">
+              <StylePriority Ref="128" UseFont="false" />
+            </Item3>
+            <Item4 Ref="129" ControlType="XRLabel" Name="XrLabel1" Text="INDlblSumProducto" TextAlignment="TopLeft" SizeF="62.83337,17.00001" LocationFloat="701.25,0" Font="Arial, 8.25pt" Padding="2,2,0,0,100" Visible="false">
+              <Summary Ref="130" Running="Group" IgnoreNullValues="true" />
+              <ExpressionBindings>
+                <Item1 Ref="131" EventName="BeforePrint" PropertyName="Text" Expression="sumSum([CANTIDAD A DESCONTAR])" />
+              </ExpressionBindings>
+              <StylePriority Ref="132" UseFont="false" UseTextAlignment="false" />
+            </Item4>
+          </Controls>
+        </Item3>
+        <Item4 Ref="133" ControlType="GroupHeaderBand" Name="GroupFecha" Level="5" HeightF="31.95833">
+          <GroupFields>
+            <Item1 Ref="134" FieldName="DIAS" />
+          </GroupFields>
+          <Controls>
+            <Item1 Ref="135" ControlType="XRLabel" Name="XrLabel15" Text="Fecha Aplicación:" SizeF="104.875,17.00001" LocationFloat="10.00001,9.374998" Font="Arial, 8.25pt, style=Bold" Padding="2,2,0,0,100">
+              <StylePriority Ref="136" UseFont="false" />
+            </Item1>
+            <Item2 Ref="122" ControlType="XRLabel" Name="INDlblFecha" TextFormatString="{0:dddd, dd' de 'MMMM' de 'yyyy}" TextAlignment="TopLeft" BookmarkParent="#Ref-6" SizeF="638.812561,17.00001" LocationFloat="117.708336,9.375" Font="Arial, 8.25pt, style=Bold" Padding="2,2,0,0,100">
+              <ExpressionBindings>
+                <Item1 Ref="137" EventName="BeforePrint" PropertyName="Text" Expression="[DIAS]" />
+              </ExpressionBindings>
+              <StylePriority Ref="138" UseFont="false" UseTextAlignment="false" />
+            </Item2>
+          </Controls>
+        </Item4>
+        <Item5 Ref="139" ControlType="GroupHeaderBand" Name="GroupUnidad" Level="3" HeightF="24">
+          <GroupFields>
+            <Item1 Ref="140" FieldName="DESCRIPCION UNIDAD FUNCIONAL" />
+          </GroupFields>
+          <Controls>
+            <Item1 Ref="141" ControlType="XRLine" Name="XrLine5" SizeF="765.7499,2.083334" LocationFloat="0,21.5" />
+            <Item2 Ref="142" ControlType="XRLabel" Name="INDlblUnidadFuncional" Text="INDlblUnidadFuncional" TextAlignment="TopLeft" SizeF="638.812561,17.00001" LocationFloat="117.708336,0" Font="Arial, 8.25pt, style=Bold" Padding="2,2,0,0,100">
+              <ExpressionBindings>
+                <Item1 Ref="143" EventName="BeforePrint" PropertyName="Text" Expression="[DESCRIPCION UNIDAD FUNCIONAL]" />
+              </ExpressionBindings>
+              <StylePriority Ref="144" UseFont="false" UseTextAlignment="false" />
+            </Item2>
+            <Item3 Ref="145" ControlType="XRLabel" Name="XrLabel19" Text="Unidad Funcional:" SizeF="104.875,17.00001" LocationFloat="10.00001,0" Font="Arial, 8.25pt, style=Bold" Padding="2,2,0,0,100">
+              <StylePriority Ref="146" UseFont="false" />
+            </Item3>
+          </Controls>
+        </Item5>
+        <Item6 Ref="147" ControlType="GroupHeaderBand" Name="GroupEstancia" Level="2" HeightF="17.00001">
+          <Controls>
+            <Item1 Ref="148" ControlType="XRLabel" Name="XrLabel21" Text="INDlblUnidadFuncional" TextAlignment="TopLeft" SizeF="648.0416,17.00001" LocationFloat="117.7082,0" Font="Arial, 8.25pt, style=Bold" Padding="2,2,0,0,100">
+              <ExpressionBindings>
+                <Item1 Ref="149" EventName="BeforePrint" PropertyName="Text" Expression="[TIPO DE ESTANCIA]" />
+              </ExpressionBindings>
+              <StylePriority Ref="150" UseFont="false" UseTextAlignment="false" />
+            </Item1>
+            <Item2 Ref="151" ControlType="XRLabel" Name="XrLabel4" Text="Tipo de Estancia:" SizeF="755.625,17.00001" LocationFloat="10.00001,0" Font="Arial, 8.25pt, style=Bold" BackColor="Gainsboro" Padding="2,2,0,0,100">
+              <StylePriority Ref="152" UseFont="false" UseBackColor="false" />
+            </Item2>
+          </Controls>
+        </Item6>
+        <Item7 Ref="153" ControlType="GroupHeaderBand" Name="GroupJustificacion" Level="4" HeightF="19.791666">
+          <GroupFields>
+            <Item1 Ref="154" FieldName="JUSTIFICACION" />
+          </GroupFields>
+          <Controls>
+            <Item1 Ref="155" ControlType="XRLabel" Name="XrLabel56" Text="Justificación:" SizeF="104.875,17.00001" LocationFloat="9.999974,0" Font="Arial, 8.25pt, style=Bold" Padding="2,2,0,0,100">
+              <StylePriority Ref="156" UseFont="false" />
+            </Item1>
+            <Item2 Ref="157" ControlType="XRLabel" Name="XrLabel55" TextFormatString="{0}" TextAlignment="TopLeft" BookmarkParent="#Ref-6" SizeF="638.812561,17.0000114" LocationFloat="117.708336,0" Font="Arial, 8.25pt, style=Bold" Padding="2,2,0,0,100">
+              <ExpressionBindings>
+                <Item1 Ref="158" EventName="BeforePrint" PropertyName="Text" Expression="[JUSTIFICACION]" />
+              </ExpressionBindings>
+              <StylePriority Ref="159" UseFont="false" UseTextAlignment="false" />
+            </Item2>
+          </Controls>
+        </Item7>
+      </Bands>
+      <ReportPrintOptions Ref="160" PrintOnEmptyDataSource="false" />
+    </Item7>
+    <Item8 Ref="161" ControlType="DetailReportBand" Name="DetailMedicamentoDia2" Level="1" DataMember="Aplicacion Medicamento" Visible="false">
+      <Bands>
+        <Item1 Ref="162" ControlType="DetailBand" Name="Detail2" HeightF="34.375">
+          <MultiColumn Ref="163" ColumnCount="19" ColumnWidth="10" ColumnSpacing="55" Layout="AcrossThenDown" />
+          <Controls>
+            <Item1 Ref="164" ControlType="XRLabel" Name="INDlblHoraAgrupacion" Text="87:87" TextAlignment="TopLeft" SizeF="50.50166,17.00001" LocationFloat="94.87495,0" Font="Arial, 8.25pt" Padding="2,2,0,0,100">
+              <ExpressionBindings>
+                <Item1 Ref="165" EventName="BeforePrint" PropertyName="Text" Expression="[HORA DE APLICACION]" />
+              </ExpressionBindings>
+              <StylePriority Ref="166" UseFont="false" UseTextAlignment="false" />
+            </Item1>
+            <Item2 Ref="167" ControlType="XRLabel" Name="XrLabel22" TextFormatString="{0:dd/MM/yyyy}" TextAlignment="TopLeft" BookmarkParent="#Ref-6" SizeF="71.99993,17.00001" LocationFloat="22.87502,0" Font="Arial, 8.25pt" Padding="2,2,0,0,100">
+              <ExpressionBindings>
+                <Item1 Ref="168" EventName="BeforePrint" PropertyName="Text" Expression="[DIAS]" />
+              </ExpressionBindings>
+              <StylePriority Ref="169" UseFont="false" UseTextAlignment="false" />
+            </Item2>
+            <Item3 Ref="170" ControlType="XRLabel" Name="XrLabel36" Text="INDlblAdministracion" TextAlignment="TopLeft" SizeF="259.2919,17.00001" LocationFloat="145.3766,0" Font="Arial, 8.25pt" Padding="2,2,0,0,100">
+              <ExpressionBindings>
+                <Item1 Ref="171" EventName="BeforePrint" PropertyName="Text" Expression="[NOMBRE DEL PROFESIONAL]" />
+              </ExpressionBindings>
+              <StylePriority Ref="172" UseFont="false" UseTextAlignment="false" />
+            </Item3>
+            <Item4 Ref="173" ControlType="XRLabel" Name="XrLabel28" Text="INDlblUnidadFuncional" TextAlignment="TopLeft" SizeF="214.4999,17.00001" LocationFloat="551.25,0" Font="Arial, 8.25pt" Padding="2,2,0,0,100">
+              <ExpressionBindings>
+                <Item1 Ref="174" EventName="BeforePrint" PropertyName="Text" Expression="[DESCRIPCION UNIDAD FUNCIONAL]" />
+              </ExpressionBindings>
+              <StylePriority Ref="175" UseFont="false" UseTextAlignment="false" />
+            </Item4>
+            <Item5 Ref="176" ControlType="XRPictureBox" Name="XrPictureBox1" Sizing="StretchImage" SizeF="142.0833,34.375" LocationFloat="404.6685,0">
+              <ExpressionBindings>
+                <Item1 Ref="177" EventName="BeforePrint" PropertyName="ImageSource" Expression="[FIRMA PROFESIONAL]" />
+              </ExpressionBindings>
+            </Item5>
+          </Controls>
+        </Item1>
+        <Item2 Ref="178" ControlType="GroupHeaderBand" Name="GroupMedicamento2" Level="2" HeightF="22.20834">
+          <Controls>
+            <Item1 Ref="179" ControlType="XRLabel" Name="XrLabel31" Text="INDlblMedicamento" TextAlignment="TopLeft" BookmarkParent="#Ref-122" SizeF="647.9169,17.00001" LocationFloat="117.7082,1.458327" Font="Arial, 8.25pt, style=Bold, Underline" Padding="2,2,0,0,100">
+              <ExpressionBindings>
+                <Item1 Ref="180" EventName="BeforePrint" PropertyName="Text" Expression="[DESCRIPCION DEL PRODUCTO]" />
+                <Item2 Ref="181" EventName="BeforePrint" PropertyName="Bookmark" Expression="[DESCRIPCION DEL PRODUCTO]" />
+              </ExpressionBindings>
+              <StylePriority Ref="182" UseFont="false" UseTextAlignment="false" />
+            </Item1>
+            <Item2 Ref="183" ControlType="XRLabel" Name="XrLabel32" Text="Medicamento:" SizeF="755.6251,17.00001" LocationFloat="10.00001,1.458327" Font="Arial, 8.25pt, style=Bold" BackColor="Gainsboro" Padding="2,2,0,0,100">
+              <StylePriority Ref="184" UseFont="false" UseBackColor="false" />
+            </Item2>
+          </Controls>
+        </Item2>
+        <Item3 Ref="185" ControlType="GroupHeaderBand" Name="GroupTitulos2" HeightF="28.00003">
+          <Controls>
+            <Item1 Ref="186" ControlType="XRLabel" Name="XrLabel29" Text="Profesional Que Aplico" SizeF="141.6668,17.00001" LocationFloat="145.3766,11" Font="Arial, 8.25pt, style=Bold" Padding="2,2,0,0,100">
+              <StylePriority Ref="187" UseFont="false" />
+            </Item1>
+            <Item2 Ref="188" ControlType="XRLabel" Name="XrLabel35" Text="Hora" SizeF="35.00012,17.00001" LocationFloat="94.87495,11.00002" Font="Arial, 8.25pt, style=Bold" Padding="2,2,0,0,100">
+              <StylePriority Ref="189" UseFont="false" />
+            </Item2>
+            <Item3 Ref="190" ControlType="XRLabel" Name="XrLabel23" Text="Fecha" SizeF="54.12501,17.00001" LocationFloat="22.87501,11.00002" Font="Arial, 8.25pt, style=Bold" Padding="2,2,0,0,100">
+              <StylePriority Ref="191" UseFont="false" />
+            </Item3>
+            <Item4 Ref="192" ControlType="XRLabel" Name="XrLabel27" Text="Unidad Funcional" SizeF="104.875,17.00001" LocationFloat="551.25,11" Font="Arial, 8.25pt, style=Bold" Padding="2,2,0,0,100">
+              <StylePriority Ref="193" UseFont="false" />
+            </Item4>
+            <Item5 Ref="194" ControlType="XRLabel" Name="XrLabel40" Text="Firma" SizeF="142.0833,17.00001" LocationFloat="404.6685,11" Font="Arial, 8.25pt, style=Bold" Padding="2,2,0,0,100">
+              <StylePriority Ref="195" UseFont="false" />
+            </Item5>
+          </Controls>
+        </Item3>
+        <Item4 Ref="196" ControlType="GroupFooterBand" Name="GroupFooter2" HeightF="24.8333">
+          <Controls>
+            <Item1 Ref="197" ControlType="XRLabel" Name="XrLabel30" Text="Numero Total de Dosis:" SizeF="136.5833,17.00001" LocationFloat="365.7082,4.791641" Font="Arial, 8.25pt, style=Bold" Padding="2,2,0,0,100" Visible="false">
+              <StylePriority Ref="198" UseFont="false" />
+            </Item1>
+            <Item2 Ref="199" ControlType="XRLine" Name="XrLine6" SizeF="766.7917,2" LocationFloat="0,21.79165" />
+            <Item3 Ref="200" ControlType="XRLabel" Name="XrLabel42" Text="Total Producto Usado:" SizeF="128.1668,17.00001" LocationFloat="570.9999,4.791641" Font="Arial, 8.25pt, style=Bold" Padding="2,2,0,0,100" Visible="false">
+              <StylePriority Ref="201" UseFont="false" />
+            </Item3>
+            <Item4 Ref="202" ControlType="XRLabel" Name="XrLabel41" Text="INDlblSumProducto" TextAlignment="TopLeft" SizeF="62.83331,17.00001" LocationFloat="699.1667,4.791641" Font="Arial, 8.25pt" Padding="2,2,0,0,100" Visible="false">
+              <Summary Ref="203" Running="Group" IgnoreNullValues="true" />
+              <ExpressionBindings>
+                <Item1 Ref="204" EventName="BeforePrint" PropertyName="Text" Expression="sumSum([CANTIDAD A DESCONTAR])" />
+              </ExpressionBindings>
+              <StylePriority Ref="205" UseFont="false" UseTextAlignment="false" />
+            </Item4>
+            <Item5 Ref="206" ControlType="XRLabel" Name="XrLabel33" Text="INDlblProAplicado" TextAlignment="TopCenter" SizeF="56.45847,17.00001" LocationFloat="502.2915,4.791641" Font="Arial, 8.25pt" Padding="2,2,0,0,100">
+              <Summary Ref="207" Running="Group" IgnoreNullValues="true" />
+              <ExpressionBindings>
+                <Item1 Ref="208" EventName="BeforePrint" PropertyName="Text" Expression="sumCount([NUMERO])" />
+              </ExpressionBindings>
+              <StylePriority Ref="209" UseFont="false" UseTextAlignment="false" />
+            </Item5>
+          </Controls>
+        </Item4>
+        <Item5 Ref="210" ControlType="GroupHeaderBand" Name="GroupAdministracion2" Level="1" HeightF="17.00001">
+          <Controls>
+            <Item1 Ref="211" ControlType="XRLabel" Name="XrLabel34" Text="INDlblAdministracion" TextAlignment="TopLeft" SizeF="635.0418,17.00001" LocationFloat="117.7083,0" Font="Arial, 8.25pt" Padding="2,2,0,0,100">
+              <ExpressionBindings>
+                <Item1 Ref="212" EventName="BeforePrint" PropertyName="Text" Expression="[ADMINISTRACION]" />
+              </ExpressionBindings>
+              <StylePriority Ref="213" UseFont="false" UseTextAlignment="false" />
+            </Item1>
+            <Item2 Ref="214" ControlType="XRLabel" Name="XrLabel37" Text="Administración:" SizeF="755.6251,17.00001" LocationFloat="10.00002,0" Font="Arial, 8.25pt, style=Bold" BackColor="Gainsboro" Padding="2,2,0,0,100">
+              <StylePriority Ref="215" UseFont="false" UseBackColor="false" />
+            </Item2>
+          </Controls>
+        </Item5>
+      </Bands>
+      <ReportPrintOptions Ref="216" PrintOnEmptyDataSource="false" />
+    </Item8>
+    <Item9 Ref="217" ControlType="DetailReportBand" Name="DetailDosisDescartadas" Level="2" DataMember="Dosis Descartada">
+      <Bands>
+        <Item1 Ref="218" ControlType="DetailBand" Name="Detail3" HeightF="97.74984">
+          <Controls>
+            <Item1 Ref="219" ControlType="XRPictureBox" Name="XrPictureBox2" Sizing="StretchImage" SizeF="142.0833,34.375" LocationFloat="570.9999,55.00005">
+              <ExpressionBindings>
+                <Item1 Ref="220" EventName="BeforePrint" PropertyName="ImageSource" Expression="[FIRMA PROFESIONAL]" />
+              </ExpressionBindings>
+            </Item1>
+            <Item2 Ref="221" ControlType="XRLabel" Name="XrLabel54" Text="Firma:" SizeF="75.41656,17.00002" LocationFloat="478.4167,55.00005" Font="Arial, 8.25pt, style=Bold" Padding="2,2,0,0,100">
+              <StylePriority Ref="222" UseFont="false" />
+            </Item2>
+            <Item3 Ref="223" ControlType="XRLabel" Name="XrLabel53" Text="87:87" TextAlignment="TopLeft" SizeF="50.50166,17.00001" LocationFloat="54.49829,38.00003" Font="Arial, 8.25pt" Padding="2,2,0,0,100">
+              <ExpressionBindings>
+                <Item1 Ref="224" EventName="BeforePrint" PropertyName="Text" Expression="[HORA DE APLICACION]" />
+              </ExpressionBindings>
+              <StylePriority Ref="225" UseFont="false" UseTextAlignment="false" />
+            </Item3>
+            <Item4 Ref="226" ControlType="XRLabel" Name="XrLabel52" Text="Hora:" SizeF="35.00012,17.00001" LocationFloat="12.50013,38.00002" Font="Arial, 8.25pt, style=Bold" BackColor="Transparent" Padding="2,2,0,0,100">
+              <StylePriority Ref="227" UseFont="false" UseBackColor="false" />
+            </Item4>
+            <Item5 Ref="228" ControlType="XRLabel" Name="XrLabel50" Text="INDlblMedicamento" TextAlignment="TopLeft" BookmarkParent="#Ref-122" SizeF="343.0416,17.00001" LocationFloat="117.7083,55.00005" Font="Arial, 8.25pt" Padding="2,2,0,0,100">
+              <ExpressionBindings>
+                <Item1 Ref="229" EventName="BeforePrint" PropertyName="Text" Expression="[USUARIO]" />
+                <Item2 Ref="230" EventName="BeforePrint" PropertyName="Text" Expression="[USUARIO]" />
+              </ExpressionBindings>
+              <StylePriority Ref="231" UseFont="false" UseTextAlignment="false" />
+            </Item5>
+            <Item6 Ref="232" ControlType="XRLabel" Name="XrLabel51" Text="Profesional:" SizeF="105.2082,17.00001" LocationFloat="12.50013,55.00003" Font="Arial, 8.25pt, style=Bold" BackColor="Transparent" Padding="2,2,0,0,100">
+              <StylePriority Ref="233" UseFont="false" UseBackColor="false" />
+            </Item6>
+            <Item7 Ref="234" ControlType="XRLabel" Name="XrLabel48" Text="Justificación:" SizeF="81.24987,17.00001" LocationFloat="117.7083,37.99998" Font="Arial, 8.25pt, style=Bold" BackColor="Transparent" Padding="2,2,0,0,100">
+              <StylePriority Ref="235" UseFont="false" UseBackColor="false" />
+            </Item7>
+            <Item8 Ref="236" ControlType="XRLabel" Name="XrLabel49" Text="INDlblMedicamento" TextAlignment="TopLeft" BookmarkParent="#Ref-122" SizeF="563.0418,17.00001" LocationFloat="198.9582,37.99998" Font="Arial, 8.25pt" Padding="2,2,0,0,100">
+              <ExpressionBindings>
+                <Item1 Ref="237" EventName="BeforePrint" PropertyName="Text" Expression="[MOTIVO SUSPENSION]" />
+                <Item2 Ref="238" EventName="BeforePrint" PropertyName="Text" Expression="[MOTIVO SUSPENSION]" />
+              </ExpressionBindings>
+              <StylePriority Ref="239" UseFont="false" UseTextAlignment="false" />
+            </Item8>
+            <Item9 Ref="240" ControlType="XRLabel" Name="INDlblAdministracionMedicamentoDescartado" Text="INDlblMedicamento" TextAlignment="TopLeft" BookmarkParent="#Ref-122" SizeF="644.2921,17.00001" LocationFloat="117.7082,20.00001" Font="Arial, 8.25pt" Padding="2,2,0,0,100">
+              <ExpressionBindings>
+                <Item1 Ref="241" EventName="BeforePrint" PropertyName="Text" Expression="[ADMINISTRACION]" />
+                <Item2 Ref="242" EventName="BeforePrint" PropertyName="Bookmark" Expression="[ADMINISTRACION]" />
+              </ExpressionBindings>
+              <StylePriority Ref="243" UseFont="false" UseTextAlignment="false" />
+            </Item9>
+            <Item10 Ref="244" ControlType="XRLabel" Name="XrLabel45" Text="Administración:" SizeF="102.375,17.00001" LocationFloat="12.5,20.00001" Font="Arial, 8.25pt, style=Bold" BackColor="Transparent" Padding="2,2,0,0,100">
+              <StylePriority Ref="245" UseFont="false" UseBackColor="false" />
+            </Item10>
+            <Item11 Ref="246" ControlType="XRLabel" Name="INDlblDescripcionProductoDescartado" Text="INDlblMedicamento" TextAlignment="TopLeft" BookmarkParent="#Ref-122" SizeF="644.2917,17.00001" LocationFloat="117.7083,0" Font="Arial, 8.25pt, style=Bold, Underline" Padding="2,2,0,0,100">
+              <ExpressionBindings>
+                <Item1 Ref="247" EventName="BeforePrint" PropertyName="Text" Expression="[DESCRIPCION DEL PRODUCTO]" />
+                <Item2 Ref="248" EventName="BeforePrint" PropertyName="Bookmark" Expression="[DESCRIPCION DEL PRODUCTO]" />
+              </ExpressionBindings>
+              <StylePriority Ref="249" UseFont="false" UseTextAlignment="false" />
+            </Item11>
+            <Item12 Ref="250" ControlType="XRLabel" Name="XrLabel44" Text="Medicamento:" SizeF="92.49992,17.00001" LocationFloat="12.5,0" Font="Arial, 8.25pt, style=Bold" BackColor="Transparent" Padding="2,2,0,0,100">
+              <StylePriority Ref="251" UseFont="false" UseBackColor="false" />
+            </Item12>
+          </Controls>
+        </Item1>
+        <Item2 Ref="252" ControlType="GroupHeaderBand" Name="GroupMedicamentos" HeightF="21.25003">
+          <Controls>
+            <Item1 Ref="253" ControlType="XRLabel" Name="XrLabel43" ProcessDuplicatesMode="Suppress" Text="DOSIS DESCARTADA" TextAlignment="TopLeft" SizeF="769,17.00001" LocationFloat="0,4.250018" Font="Arial, 9pt, style=Bold, Underline" BackColor="Gainsboro" Padding="2,2,0,0,100">
+              <StylePriority Ref="254" UseFont="false" UseBackColor="false" UseTextAlignment="false" />
+            </Item1>
+          </Controls>
+        </Item2>
+      </Bands>
+    </Item9>
+    <Item10 Ref="255" ControlType="GroupHeaderBand" Name="GroupHeaderDatosCancer" HeightF="63.91668" Visible="false">
+      <Controls>
+        <Item1 Ref="256" ControlType="XRLabel" Name="INDxrM2" TextFormatString="{0:d/MM/yyyy h:mm tt}" Text="INDlblEdad" TextAlignment="MiddleCenter" SizeF="15,17.00001" LocationFloat="149.1674,41.45836" Font="Arial, 8.25pt, charSet=0" Padding="2,2,0,0,100">
+          <ExpressionBindings>
+            <Item1 Ref="257" EventName="BeforePrint" PropertyName="Text" Expression="[Informacion Cancer.M2]" />
+          </ExpressionBindings>
+          <StylePriority Ref="258" UseFont="false" UseTextAlignment="false" />
+        </Item1>
+        <Item2 Ref="259" ControlType="XRLabel" Name="XrLabel677" Text="M:" TextAlignment="MiddleCenter" SizeF="19,17.00001" LocationFloat="114.6665,41.45836" Font="Arial, 8.25pt, style=Bold, charSet=0" Padding="2,2,0,0,100">
+          <StylePriority Ref="260" UseFont="false" UseTextAlignment="false" />
+        </Item2>
+        <Item3 Ref="261" ControlType="XRLabel" Name="INDxrM1" TextFormatString="{0:d/MM/yyyy h:mm tt}" Text="INDlblEdad" TextAlignment="MiddleCenter" SizeF="15,17.00001" LocationFloat="134.1674,41.45836" Font="Arial, 8.25pt, charSet=0" Padding="2,2,0,0,100">
+          <ExpressionBindings>
+            <Item1 Ref="262" EventName="BeforePrint" PropertyName="Text" Expression="[Informacion Cancer.M1]" />
+          </ExpressionBindings>
+          <StylePriority Ref="263" UseFont="false" UseTextAlignment="false" />
+        </Item3>
+        <Item4 Ref="264" ControlType="XRLabel" Name="INDxrN1" TextFormatString="{0:d/MM/yyyy h:mm tt}" Text="INDlblEdad" TextAlignment="MiddleCenter" SizeF="15,17.00001" LocationFloat="74.99991,41.45836" Font="Arial, 8.25pt, charSet=0" Padding="2,2,0,0,100">
+          <ExpressionBindings>
+            <Item1 Ref="265" EventName="BeforePrint" PropertyName="Text" Expression="[Informacion Cancer.N1]" />
+          </ExpressionBindings>
+          <StylePriority Ref="266" UseFont="false" UseTextAlignment="false" />
+        </Item4>
+        <Item5 Ref="267" ControlType="XRLabel" Name="XrLabel676" Text="N:" TextAlignment="MiddleCenter" SizeF="17,17.00001" LocationFloat="58.00001,41.45836" Font="Arial, 8.25pt, style=Bold, charSet=0" Padding="2,2,0,0,100">
+          <StylePriority Ref="268" UseFont="false" UseTextAlignment="false" />
+        </Item5>
+        <Item6 Ref="269" ControlType="XRLabel" Name="INDxrN2" TextFormatString="{0:d/MM/yyyy h:mm tt}" Text="INDlblEdad" TextAlignment="MiddleCenter" SizeF="15,17.00001" LocationFloat="89.99991,41.45836" Font="Arial, 8.25pt, charSet=0" Padding="2,2,0,0,100">
+          <ExpressionBindings>
+            <Item1 Ref="270" EventName="BeforePrint" PropertyName="Text" Expression="[Informacion Cancer.N2]" />
+          </ExpressionBindings>
+          <StylePriority Ref="271" UseFont="false" UseTextAlignment="false" />
+        </Item6>
+        <Item7 Ref="272" ControlType="XRLabel" Name="INDxrT2" TextFormatString="{0:d/MM/yyyy h:mm tt}" Text="INDlblEdad" TextAlignment="MiddleCenter" SizeF="15,17.00001" LocationFloat="36.99991,41.45836" Font="Arial, 8.25pt, charSet=0" Padding="2,2,0,0,100">
+          <ExpressionBindings>
+            <Item1 Ref="273" EventName="BeforePrint" PropertyName="Text" Expression="[Informacion Cancer.T2]" />
+          </ExpressionBindings>
+          <StylePriority Ref="274" UseFont="false" UseTextAlignment="false" />
+        </Item7>
+        <Item8 Ref="275" ControlType="XRLabel" Name="INDxrEstadio" Text="INDlblNombres" TextAlignment="MiddleLeft" SizeF="535.6875,17" LocationFloat="220.8334,41.45838" Font="Arial, 8.25pt, charSet=0" Padding="2,2,0,0,100">
+          <ExpressionBindings>
+            <Item1 Ref="276" EventName="BeforePrint" PropertyName="Text" Expression="[Informacion Cancer.ESTADIO]" />
+          </ExpressionBindings>
+          <StylePriority Ref="277" UseFont="false" UseTextAlignment="false" />
+        </Item8>
+        <Item9 Ref="278" ControlType="XRLabel" Name="XrLabel675" Text="T:" TextAlignment="MiddleCenter" SizeF="15,17.00001" LocationFloat="6.999997,41.45836" Font="Arial, 8.25pt, style=Bold, charSet=0" Padding="2,2,0,0,100">
+          <StylePriority Ref="279" UseFont="false" UseTextAlignment="false" />
+        </Item9>
+        <Item10 Ref="280" ControlType="XRLabel" Name="INDxrT1" TextFormatString="{0:d/MM/yyyy h:mm tt}" Text="INDlblEdad" TextAlignment="MiddleCenter" SizeF="15,17.00001" LocationFloat="21.99991,41.45836" Font="Arial, 8.25pt, charSet=0" Padding="2,2,0,0,100">
+          <ExpressionBindings>
+            <Item1 Ref="281" EventName="BeforePrint" PropertyName="Text" Expression="[Informacion Cancer.T1]" />
+          </ExpressionBindings>
+          <StylePriority Ref="282" UseFont="false" UseTextAlignment="false" />
+        </Item10>
+        <Item11 Ref="283" ControlType="XRLabel" Name="XrLabel674" Text="Dianóstico:" SizeF="67.49982,17.00001" LocationFloat="7.000222,21.45835" Font="Arial, 8.25pt, style=Bold, charSet=0" Padding="2,2,0,0,100">
+          <StylePriority Ref="284" UseFont="false" />
+        </Item11>
+        <Item12 Ref="285" ControlType="XRLabel" Name="INDxrDiagnosticoCancer" Text="INDlblNombres" SizeF="679.5422,17" LocationFloat="77.37502,21.45833" Font="Arial, 8.25pt, charSet=0" Padding="2,2,0,0,100">
+          <ExpressionBindings>
+            <Item1 Ref="286" EventName="BeforePrint" PropertyName="Text" Expression="[Informacion Cancer.Diagnostico]" />
+          </ExpressionBindings>
+          <StylePriority Ref="287" UseFont="false" />
+        </Item12>
+        <Item13 Ref="288" ControlType="XRLabel" Name="XrLabel673" Text="Estadio:" TextAlignment="MiddleLeft" SizeF="50,17" LocationFloat="170.8334,41.45838" Font="Arial, 8.25pt, style=Bold, charSet=0" Padding="2,2,0,0,100">
+          <StylePriority Ref="289" UseFont="false" UseTextAlignment="false" />
+        </Item13>
+        <Item14 Ref="290" ControlType="XRLabel" Name="XrLabel672" ProcessDuplicatesMode="Suppress" Text="DIAGNÓSTICO DE CÁNCER CONFIRMADO" Bookmark="Identificación" SizeF="769,17" LocationFloat="0,0" Font="Arial, 9pt, style=Bold, Underline, charSet=0" BackColor="Gainsboro" Padding="2,2,0,0,100">
+          <StylePriority Ref="291" UseFont="false" UseBackColor="false" />
+        </Item14>
+      </Controls>
+    </Item10>
+  </Bands>
+  <ObjectStorage>
+    <Item1 ObjectType="DevExpress.XtraReports.Serialization.ObjectStorageInfo, DevExpress.XtraReports.v20.1" Ref="1" Content="System.Boolean" Type="System.Type" />
+  </ObjectStorage>
+</XtraReportsLayoutSerializer>

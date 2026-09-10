@@ -1,0 +1,72 @@
+﻿#Region "Librerias Importadas"
+Imports Infrastructure.CrossCutting.Base
+Imports Infrastructure.Data.Xpo
+Imports Infrastructure.Data.Xpo.PayrollRepository
+Imports Domain.Entities
+#End Region
+
+Public Class rptExpeditionCDPAndRPRetroactive
+    Implements IReport
+
+    ''' <summary>
+    ''' Variable para inicializar los valores de sesion
+    ''' </summary>
+    Dim IndigoSessionValues As SessionValues = SessionValues.Instance
+
+    Public Sub CargarDataSource() Implements IReport.CargarDataSource
+        Dim filtroConsulta As String = "InitialDateRetroactive >= '" & Format(ParametrosReporte(0), "yyyy-MM-dd") & "' And InitialDateRetroactive <= '" & Format(ParametrosReporte(1), "yyyy-MM-dd") & "'"
+
+        'filtro tipo de concepto
+        If ParametrosReporte(2) IsNot Nothing Then
+            filtroConsulta &= "And ConceptType = " & ParametrosReporte(2)
+        End If
+        'filtro por tipo de empleado
+        If ParametrosReporte(3) IsNot Nothing Then
+            filtroConsulta &= " AND Code = '" & ParametrosReporte(3) & "'"
+        End If
+        Me.DataSource = XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).PayrollService.GetCollection(Of PayrollVReportExpeditionCDPAndRPRetroctiveReportXpo)(Nothing, filtroConsulta)
+
+    End Sub
+
+    Public Sub CargarImagenes() Implements IReport.CargarImagenes
+
+    End Sub
+
+    Public ReadOnly Property NameReport As String Implements IReport.NameReport
+        Get
+            Return ""
+        End Get
+    End Property
+
+    Public Property ParametrosReporte As Object() Implements IReport.ParametrosReporte
+
+    Private Sub rptExpeditionCDPAndRPRetroactive_BeforePrint(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles MyBase.BeforePrint
+
+        'INDGleConceptType.EditValue, INDGleEmployeeType.EditValue
+
+        If ParametrosReporte(2) = 1 Then
+            XrLabel1.Text = "Relación de todos los devengos Retroactivos"
+
+        End If
+        If ParametrosReporte(2) = 1 And ParametrosReporte(3) = "001" Then
+            XrLabel1.Text = "Relación de los devengos administrativos Retroactivos"
+        ElseIf ParametrosReporte(2) = 1 And ParametrosReporte(3) = "002" Then
+            XrLabel1.Text = "Relación de devengos de empleados operativos Retroactivos"
+        End If
+
+        If ParametrosReporte(2) = 2 Then
+            XrLabel1.Text = "Relación de todos los Deducciones Retroactivos"
+
+        End If
+        If ParametrosReporte(2) = 2 And ParametrosReporte(3) = "001" Then
+            XrLabel1.Text = "Relación de los Deducidos administrativos Retroactivos"
+        ElseIf ParametrosReporte(2) = 2 And ParametrosReporte(3) = "002" Then
+            XrLabel1.Text = "Relación de Deducciones de empleados operativos Retroactivos"
+        End If
+
+        Me.INDLblCompany.Text = IndigoSessionValues.IndigoCompanyName
+        Me.INDLblNitCompany.Text = IndigoSessionValues.IndigoCompanyNit
+        INDUserImp.Text = "Usuario Impresión : " & IndigoSessionValues.UserIndigo & " - " & IndigoSessionValues.UserIndigoName
+        INDLblDate.Text = "Informe comprendido entre " & CDate(Me.ParametrosReporte(0)).ToString("dd De MMMM Del yyyy") & " " & CDate(Me.ParametrosReporte(1)).ToString("A dd De MMMM Del yyyy")
+    End Sub
+End Class

@@ -1,0 +1,313 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{123DBF86-3280-47B2-93CE-C5931D1F9860}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>DistributedServices.Contract</RootNamespace>
+    <AssemblyName>DistributedServices.Contract</AssemblyName>
+    <FileAlignment>512</FileAlignment>
+    <MyType>Windows</MyType>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DocumentationFile>DistributedServices.Contract.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DocumentationFile>DistributedServices.Contract.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionExplicit>On</OptionExplicit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionCompare>Binary</OptionCompare>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionStrict>Off</OptionStrict>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionInfer>On</OptionInfer>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debugcito|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\Debugcito\</OutputPath>
+    <DocumentationFile>DistributedServices.Contract.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DocumentationFile>DistributedServices.Contract.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DocumentationFile>DistributedServices.Contract.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debugcito|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x64\Debugcito\</OutputPath>
+    <DocumentationFile>DistributedServices.Contract.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.Practices.Unity, Version=1.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\DLL\Microsoft.Practices.Unity.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Core" />
+  </ItemGroup>
+  <ItemGroup>
+    <Import Include="Microsoft.VisualBasic" />
+    <Import Include="System" />
+    <Import Include="System.Collections" />
+    <Import Include="System.Collections.Generic" />
+    <Import Include="System.Data" />
+    <Import Include="System.Diagnostics" />
+    <Import Include="System.Linq" />
+    <Import Include="System.Xml.Linq" />
+    <Import Include="System.Threading.Tasks" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ContractService.ContractDescriptions.vb" />
+    <Compile Include="ContractService.ContractMinimumWage.vb" />
+    <Compile Include="ContractService.ContractPackage.vb" />
+    <Compile Include="ContractService.CupsEntity.vb" />
+    <Compile Include="ContractService.Contract.vb" />
+    <Compile Include="ContractService.ContractEntity.vb" />
+    <Compile Include="ContractService.CareGroup.vb" />
+    <Compile Include="ContractService.ContractAccountingStructure.vb" />
+    <Compile Include="ContractService.CompanyType.vb" />
+    <Compile Include="ContractService.BillingItemsRestriction.vb" />
+    <Compile Include="ContractService.DiscountTypes.vb" />
+    <Compile Include="ContractService.RIPSServices.vb" />
+    <Compile Include="ContractService.RIPSServiceGroups.vb" />
+    <Compile Include="ContractService.SettingsContract.vb" />
+    <Compile Include="ContractService.CupsHomologation.vb" />
+    <Compile Include="ContractService.DefinitionRateDetail.vb" />
+    <Compile Include="ContractService.Groupers.vb" />
+    <Compile Include="ContractService.ImagingGroup.vb" />
+    <Compile Include="ContractService.IPSServiceGroup.vb" />
+    <Compile Include="ContractService.RateManualDetail.vb" />
+    <Compile Include="ContractService.RateManualDetailSurgical.vb" />
+    <Compile Include="ContractService.SurgeriesPercentageManual.vb" />
+    <Compile Include="ContractService.DefinitionRate.vb" />
+    <Compile Include="ContractService.SurgicalGroup.vb" />
+    <Compile Include="ContractService.RateManual.vb" />
+    <Compile Include="ContractService.RequirementTemplate.vb" />
+    <Compile Include="ContractService.SurgicalProcedureService.vb" />
+    <Compile Include="ContractService.TechnicalNote.vb" />
+    <Compile Include="ContractService.UVRRange.vb" />
+    <Compile Include="ContractService.IPSService.vb" />
+    <Compile Include="ContractService.HealthAdministrator.vb" />
+    <Compile Include="ContractService.MarketingUnit.vb" />
+    <Compile Include="ContractService.CupsSubGroup.vb" />
+    <Compile Include="ContractService.CupsGroup.vb" />
+    <Compile Include="ContractService.Sequense.vb" />
+    <Compile Include="ContractService.BlockRecordContract.vb" />
+    <Compile Include="ContractService.vb" />
+    <Compile Include="ContractService.ProcedureTemplate.vb" />
+    <Compile Include="Contracts\IContractBlockRecordContract.vb" />
+    <Compile Include="Contracts\IContractCompanyType.vb" />
+    <Compile Include="Contracts\IContractContractDescriptions.vb" />
+    <Compile Include="Contracts\IContractContractPackage.vb" />
+    <Compile Include="Contracts\IContractCupsEntity.vb" />
+    <Compile Include="Contracts\IContractContract.vb" />
+    <Compile Include="Contracts\IContractContractEntity.vb" />
+    <Compile Include="Contracts\IContractCareGroup.vb" />
+    <Compile Include="Contracts\IContractContractAccountingStructure.vb" />
+    <Compile Include="Contracts\IContractDiscountTypes.vb" />
+    <Compile Include="Contracts\IContractRateManualValidity.vb" />
+    <Compile Include="Contracts\IContractServiceBillingItemsRestriction.vb" />
+    <Compile Include="Contracts\IContractServiceRIPSServiceGroups.vb" />
+    <Compile Include="Contracts\IContractServiceRIPSServices.vb" />
+    <Compile Include="Contracts\IContractSettingsContract.vb" />
+    <Compile Include="Contracts\IContractGroupers.vb" />
+    <Compile Include="Contracts\IContractRateManualDetail.vb" />
+    <Compile Include="Contracts\IContractRateManualDetailSurgical.vb" />
+    <Compile Include="Contracts\IContractServiceContractMinimumWage.vb" />
+    <Compile Include="Contracts\IContractServiceCupsHomologation.vb" />
+    <Compile Include="Contracts\IContractServiceDefinitionRateDetail.vb" />
+    <Compile Include="Contracts\IContractServiceImagingGroup.vb" />
+    <Compile Include="Contracts\IContractServiceIPSServiceGroup.vb" />
+    <Compile Include="Contracts\IContractServiceDefinitionRate.vb" />
+    <Compile Include="Contracts\IContractServiceSurgeriesPercentageManual.vb" />
+    <Compile Include="Contracts\IContractServiceSurgicalProcedureService.vb" />
+    <Compile Include="Contracts\IContractSurgicalGroup.vb" />
+    <Compile Include="Contracts\IContractRateManual.vb" />
+    <Compile Include="Contracts\IContractServiceProcedureTemplate.vb" />
+    <Compile Include="Contracts\IContractServiceRequirementTemplate.vb" />
+    <Compile Include="Contracts\IContractTechnicalNote.vb" />
+    <Compile Include="Contracts\IContractUVRRange.vb" />
+    <Compile Include="Contracts\IContractIPSService.vb" />
+    <Compile Include="Contracts\IContractHealthAdministrator.vb" />
+    <Compile Include="Contracts\IContractMarketingUnit.vb" />
+    <Compile Include="Contracts\IContractCupsGroup.vb" />
+    <Compile Include="Contracts\IContractCupsSubGroup.vb" />
+    <Compile Include="Contracts\IContractSequense.vb" />
+    <Compile Include="Contracts\IContractService.vb" />
+    <Compile Include="My Project\AssemblyInfo.vb" />
+    <Compile Include="My Project\Application.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Application.myapp</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="My Project\Resources.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="My Project\Settings.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="Unity\Container.vb" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="My Project\Resources.resx">
+      <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.vb</LastGenOutput>
+      <CustomToolNamespace>My.Resources</CustomToolNamespace>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ContractService.RateManualValidity.vb" />
+    <None Include="app.config" />
+    <None Include="My Project\Application.myapp">
+      <Generator>MyApplicationCodeGenerator</Generator>
+      <LastGenOutput>Application.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="My Project\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <CustomToolNamespace>My</CustomToolNamespace>
+      <LastGenOutput>Settings.Designer.vb</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Application.Contract\Application.Contract.vbproj">
+      <Project>{1573e13c-2daa-459f-b74b-02e221c72c06}</Project>
+      <Name>Application.Contract</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DistributedServices.Authentication\DistributedServices.Authentication.vbproj">
+      <Project>{EBFDECA0-D6B3-470B-99AB-2CEE3C356117}</Project>
+      <Name>DistributedServices.Authentication</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Domain.Base.Entities\Domain.Base.Entities.vbproj">
+      <Project>{78734d29-0073-4d48-9d0b-2362d0243e36}</Project>
+      <Name>Domain.Base.Entities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Domain.Base\Domain.Base.vbproj">
+      <Project>{8157F242-6A69-44C1-A9AC-19F0EE5CB8A2}</Project>
+      <Name>Domain.Base</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Domain.Crystal.Entities\Domain.Crystal.Entities.vbproj">
+      <Project>{aef25407-1a53-4f3b-93cb-5258a6b80951}</Project>
+      <Name>Domain.Crystal.Entities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Domain.Crystal\Domain.Crystal.vbproj">
+      <Project>{fb110e4f-2309-46ef-8a11-d979517e315b}</Project>
+      <Name>Domain.Crystal</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Domain.Entities.Service\Domain.Entities.Service.vbproj">
+      <Project>{99e9ab54-bb1b-4279-99e7-b4b8e7068ce7}</Project>
+      <Name>Domain.Entities.Service</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Domain.Entities\Domain.Entities.vbproj">
+      <Project>{0551aef4-ed84-4745-b00b-7475f26015cc}</Project>
+      <Name>Domain.Entities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Domain.Payroll\Domain.Payroll.vbproj">
+      <Project>{0b26cafa-8df4-49ab-8943-41a91d67694e}</Project>
+      <Name>Domain.Payroll</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Domain.Security.Entities\Domain.Security.Entities.vbproj">
+      <Project>{99f1c077-1e8f-432f-b5d0-e801bf6d6a39}</Project>
+      <Name>Domain.Security.Entities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Domain.Security\Domain.Security.vbproj">
+      <Project>{435b789a-be74-4f5a-932f-0a4900825d61}</Project>
+      <Name>Domain.Security</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastructure.CrossCutting.Base\Infrastructure.CrossCutting.Base.vbproj">
+      <Project>{2773d9f7-93bd-4520-9726-bce0d8875696}</Project>
+      <Name>Infrastructure.CrossCutting.Base</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastructure.CrossCutting.Queue\Infrastructure.CrossCutting.Queue.vbproj">
+      <Project>{4ECC4501-B252-4AFF-A829-DC46BCCA069B}</Project>
+      <Name>Infrastructure.CrossCutting.Queue</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastructure.Data.Base\Infrastructure.Data.Base.vbproj">
+      <Project>{69C4FE61-549B-42E8-ADAC-18D1CFC83FED}</Project>
+      <Name>Infrastructure.Data.Base</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastructure.Data.CrystalRepository\Infrastructure.Data.CrystalRepository.vbproj">
+      <Project>{99bd064d-fb14-49bc-a2e5-a8b26b6a0f95}</Project>
+      <Name>Infrastructure.Data.CrystalRepository</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastructure.Data.ModelRepository\Infrastructure.Data.ModelRepository.vbproj">
+      <Project>{a029ee5d-d97c-45a3-a213-43e17d1dbe0d}</Project>
+      <Name>Infrastructure.Data.ModelRepository</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastructure.Data.PayrollRepository\Infrastructure.Data.PayrollRepository.vbproj">
+      <Project>{97673314-a589-43c4-a604-54ec33856a76}</Project>
+      <Name>Infrastructure.Data.PayrollRepository</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastructure.Data.SecurityRepository\Infrastructure.Data.SecurityRepository.vbproj">
+      <Project>{C1457F9B-B14F-4DCF-9F8E-B317C9A9EF8F}</Project>
+      <Name>Infrastructure.Data.SecurityRepository</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

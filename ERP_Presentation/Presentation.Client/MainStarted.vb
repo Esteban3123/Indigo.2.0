@@ -1,0 +1,211 @@
+﻿'***********************************************************************
+' Assembly         : Presentacion.Cliente
+' Author           : Oscar Ivan Sierra Jaramillo
+' Created          : 17-11-2011
+'
+' Last Modified By : Oscar Ivan Sierra Jaramillo
+' Last Modified On : 29-11-2011
+' Description      : 
+'
+' Copyright        : (c) . All rights reserved.
+'***********************************************************************
+
+#Region "Imports"
+
+Imports System.Threading
+Imports Infrastructure.CrossCutting.Exceptions
+Imports Infrastructure.CrossCutting.Base
+Imports Presentation.Base
+Imports System.Security.Principal
+Imports System.Windows.Threading
+Imports System.Security.Permissions
+Imports System.Reflection
+Imports System.IO
+Imports System.Runtime.CompilerServices
+Imports CefSharp.WinForms
+Imports DevExpress.XtraEditors
+Imports System.Configuration
+
+#End Region
+
+''' <summary>
+''' clase que sirve para controlar todas las execepciones producidas en la aplicacion para que posteriormente EL sea el encargado se hacer el respectivo gestionamiento
+''' </summary>
+Public Class MainStarted
+    Implements IDisposable
+
+    ''' <summary>
+    ''' Mains this instance..
+    ''' </summary>
+    <SecurityPermission(SecurityAction.Demand, Flags:=SecurityPermissionFlag.ControlAppDomain)>
+    <STAThread()>
+    Shared Sub Main()
+        Window.LoaderConfigurationFile.Instance.Initialize()
+        Dim MakeSingleInstance As Boolean = ConfigurationManager.AppSettings("MakeSingleInstance")
+
+        If MakeSingleInstance Then
+            Dim _process() As Process
+            _process = Process.GetProcessesByName(Process.GetCurrentProcess().ProcessName)
+            If _process.Length > 1 Then
+                Exit Sub
+            End If
+        End If
+        'se usa para resolver dll de cefsharp
+        'AddHandler AppDomain.CurrentDomain.AssemblyResolve, AddressOf Resolver
+        'LoadApp()
+        'Verificamos si el archivo de lic necesario para el formulario de digitalización
+        'existe en la carpeta System32 o SysWOW64, de lo contrario la instalamos
+        EnsureLicExists()
+        'If Not ConfigurationFile.ConfigurationFileExists() Then
+        '    Dim cw As VerifyWebBrowser = New VerifyWebBrowser
+        '    cw.GetInstallPath()
+        '    'If (Directory.Exists(String.Format("{0}\\{1}", Window.Utils.GetPathUserFiles(), "cache"))) Then
+        '    '    Directory.Delete(String.Format("{0}\\{1}", Window.Utils.GetPathUserFiles(), "cache"), True)
+        '    'End If
+        'End If            '  Handle unhandled exceptions
+        Application.SetUnhandledExceptionMode(UnhandledExceptionMode.CatchException)
+        AddHandler System.Windows.Threading.Dispatcher.CurrentDispatcher.UnhandledException, AddressOf Dispatcher_UnhandledException
+        AddHandler Application.ThreadException, AddressOf Application_ThreadException
+        AddHandler AppDomain.CurrentDomain.UnhandledException, AddressOf CurrentDomain_UnhandledException
+
+        Application.EnableVisualStyles()
+        Application.SetCompatibleTextRenderingDefault(False)
+        DevExpress.UserSkins.BonusSkins.Register()
+        'DevExpress.Skins.SkinManager.[Default].RegisterAssembly(GetType(DevExpress.UserSkins.IndigoMetroStyle2).Assembly)
+        DevExpress.LookAndFeel.UserLookAndFeel.Default.SetSkinStyle(Utils.DEFAULT_SKIN_NAME)
+        DevExpress.Skins.SkinManager.EnableFormSkins()
+        DevExpress.Skins.SkinManager.EnableMdiFormSkins()
+        'Se agrega para evitar errores en crysal
+#Disable Warning BC40000 ' El tipo o el miembro están obsoletos
+        DevExpress.Data.CurrencyDataController.DisableThreadingProblemsDetection = True
+#Enable Warning BC40000 ' El tipo o el miembro están obsoletos
+        Application.EnableVisualStyles()
+        'DevExpress.Utils.AppearanceObject.DefaultFont = New Font("Segoe UI Light", 12.0!)
+        DevExpress.XtraEditors.WindowsFormsSettings.AllowHoverAnimation = DevExpress.Utils.DefaultBoolean.True
+
+        BaseClass.RunGetXmlTasks()
+        BaseClass.LoadCulture()
+        WindowsFormsSettings.SetDPIAware()
+        WindowsFormsSettings.SetPerMonitorDpiAware()
+        WindowsFormsSettings.ForcePaintApiDiagnostics(DevExpress.Utils.Diagnostics.PaintApiDiagnosticsLevel.Default)
+
+        Dim frmMdi = New FormMdi()
+        frmMdi.Visible = False
+
+
+        Application.Run(frmMdi)
+    End Sub
+
+    ''' <summary>
+    ''' Handles the UnhandledException event of the Dispatcher control.
+    ''' </summary>
+    ''' <param name="sender">The source of the event.</param>
+    ''' <param name="e">The <see cref="DispatcherUnhandledExceptionEventArgs"/> instance containing the event data.</param>
+    Private Shared Sub Dispatcher_UnhandledException(sender As Object, e As DispatcherUnhandledExceptionEventArgs)
+        e.Handled = True
+        IndigoManagementExceptions.HandleException(e.Exception, "UIPolicy")
+    End Sub
+
+    ''' <summary>
+    ''' Handles the ThreadException event of the Application control.
+    ''' </summary>
+    ''' <param name="sender">The source of the event.</param>
+    ''' <param name="e">The <see cref="System.Threading.ThreadExceptionEventArgs" /> instance containing the event data.</param>
+    Private Shared Sub Application_ThreadException(ByVal sender As Object, ByVal e As ThreadExceptionEventArgs)
+        If TypeOf e.Exception Is System.Exception Then
+            IndigoManagementExceptions.HandleExceptionUI(e.Exception, "UIPolicy")
+        End If
+    End Sub
+
+    ''' <summary>
+    ''' Handles the UnhandledException event of the CurrentDomain control.
+    ''' </summary>
+    ''' <param name="sender">The source of the event.</param>
+    ''' <param name="e">The <see cref="System.UnhandledExceptionEventArgs" /> instance containing the event data.</param>
+    Private Shared Sub CurrentDomain_UnhandledException(ByVal sender As Object, ByVal e As UnhandledExceptionEventArgs)
+        If TypeOf e.ExceptionObject Is System.Exception Then
+            'IndigoManagementExceptions.HandleException(CType(e.ExceptionObject, System.Exception), "UIPolicy")
+            Presentation.Base.BaseClass.FreeMemory()
+            IndigoManagementExceptions.HandleExceptionUI(CType(e.ExceptionObject, System.Exception), "UIPolicy")
+        End If
+    End Sub
+
+    ''' <summary>
+    ''' Obtiene una valor que indica si el usuario
+    ''' actual que ejecuta la aplicación es administrador
+    ''' </summary>
+    ''' <returns>Valor que indica si el usuario es administrador</returns>
+    Private Shared Function IsAdministrator() As Boolean
+        Try
+            Dim wid As WindowsIdentity = WindowsIdentity.GetCurrent()
+            If wid IsNot Nothing Then
+                Dim principal As New WindowsPrincipal(wid)
+                Return principal.IsInRole(WindowsBuiltInRole.Administrator)
+            End If
+            Return False
+        Catch
+            Return False
+        End Try
+    End Function
+
+    ''' <summary>
+    ''' Asegura que el archivo de licencia exista
+    ''' </summary>
+    Private Shared Sub EnsureLicExists()
+        Dim pathWindows As String
+        If Not AppDomain.CurrentDomain.SetupInformation.ApplicationBase.Contains("WindowsApps") Then
+            pathWindows = Environment.GetFolderPath(Environment.SpecialFolder.SystemX86)
+        Else
+            pathWindows = Window.Utils.GetPathApplicationFiles()
+            If Not System.IO.Directory.Exists(pathWindows) Then
+                System.IO.Directory.CreateDirectory(pathWindows)
+            End If
+        End If
+        Dim pathLicFile As String = IO.Path.Combine(pathWindows, "DynamicDotNetTwain.lic")
+        If Not IO.File.Exists(pathLicFile) Then
+            'Verificamos si el usuario es administrador
+            If (Not IsAdministrator()) AndAlso (Not AppDomain.CurrentDomain.SetupInformation.ApplicationBase.Contains("WindowsApps")) Then
+                Using frmElevation As New FrmElevateToAdminitrator
+                    If frmElevation.ShowDialog() = DialogResult.OK Then
+                        End 'Cerramos la actual instancia
+                    End If
+                End Using
+            Else
+                'Realizamos la extracción del archivo de licencia
+                IO.File.WriteAllBytes(pathLicFile, My.Resources.DynamicDotNetTwain)
+            End If
+        End If
+    End Sub
+
+#Region "IDisposable Support"
+    Private disposedValue As Boolean ' To detect redundant calls
+
+    ' IDisposable
+    Protected Overridable Sub Dispose(disposing As Boolean)
+        If Not Me.disposedValue Then
+            If disposing Then
+                ' TODO: dispose managed state (managed objects).
+            End If
+
+            ' TODO: free unmanaged resources (unmanaged objects) and override Finalize() below.
+            ' TODO: set large fields to null.
+        End If
+        Me.disposedValue = True
+    End Sub
+
+    ' TODO: override Finalize() only if Dispose(ByVal disposing As Boolean) above has code to free unmanaged resources.
+    'Protected Overrides Sub Finalize()
+    '    ' Do not change this code.  Put cleanup code in Dispose(ByVal disposing As Boolean) above.
+    '    Dispose(False)
+    '    MyBase.Finalize()
+    'End Sub
+
+    ' This code added by Visual Basic to correctly implement the disposable pattern.
+    Public Sub Dispose() Implements IDisposable.Dispose
+        ' Do not change this code.  Put cleanup code in Dispose(disposing As Boolean) above.
+        Dispose(True)
+        GC.SuppressFinalize(Me)
+    End Sub
+#End Region
+
+End Class

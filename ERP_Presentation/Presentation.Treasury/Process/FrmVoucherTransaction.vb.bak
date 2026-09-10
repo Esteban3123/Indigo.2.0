@@ -1,0 +1,3661 @@
+﻿'***********************************************************************
+' Assembly         : Presentacion.Treasury
+' Author           : Diego Andrés Roldán
+' Created          : 29-05-2014
+'
+' Last Modified By : 
+' Last Modified On : 
+' Description      : 
+'
+' Copyright        : (c) . All rights reserved.
+'***********************************************************************
+
+#Region "Imports"
+
+Imports Presentation.Treasury.MVP
+Imports Presentation.Base
+Imports Presentation.Base.Eresources
+Imports Presentation.Base.BaseClass
+Imports Presentation.Base.Eform
+Imports Presentation.Base.Extension
+
+Imports Domain.Entities
+Imports Infrastructure.CrossCutting.Base
+Imports Presentation.Controls
+Imports Domain.Base.Entities
+Imports Infrastructure.CrossCutting.Resources
+Imports DevExpress.Xpo
+Imports System.Text
+Imports Presentation.Accounting.MVP
+Imports Presentation.Common
+Imports DevExpress.XtraGrid.Views.Grid
+Imports DevExpress.XtraGrid
+Imports Presentation.Controls.MVP
+Imports Presentation.Common.MVP
+Imports Domain.Entities.Service
+Imports Presentation.Payments.MVP
+Imports DevExpress.Data.Linq
+Imports System.ComponentModel
+Imports Infrastructure.Data.Xpo.TreasuryRepository
+Imports DevExpress.XtraLayout
+Imports Infrastructure.Data.Xpo.PaymentsRepository
+
+#End Region
+
+Public Class FrmVoucherTransaction
+    Implements IVoucherTransaction
+
+#Region "Constructor"
+
+    ''' <summary>
+    ''' Inicia el control de debitos y creditos
+    ''' </summary>
+    Public Sub New()
+        InitializeComponent()
+        ctrTmp = New CtrTotalVoucher()
+        ctrTmp.SetVoucherValueFunction(AddressOf getVoucherValue)
+        ctrTmp.PrintValueVoucher()
+        ctrTmp.Dock = DockStyle.Fill
+        AdditionalControlPanel.Controls.Add(ctrTmp)
+    End Sub
+
+#End Region
+
+#Region "Properties and variables"
+
+#Region "Variables"
+
+    Public Event LoadControlsFinish(ExpenseType As Short)
+
+    Private Property IsLoading As Boolean = False
+
+    ''' <summary>
+    ''' Obtiene el layout del frontal
+    ''' </summary>
+    Public ReadOnly Property LayoutControlForm As LayoutControl
+        Get
+            Return INDlycRoot
+        End Get
+    End Property
+    ''' <summary>
+    ''' Contiene una constante con el nombre del módulo de tesoreria
+    ''' </summary>
+    Public Const NAME_MODULE As String = "Treasury"
+    ''' <summary>
+    ''' Contiene una constante con el nombre del módulo de contabilidad
+    ''' </summary>
+    Public Const NAME_MODULE_ACCOUNTING As String = "Accounting"
+    ''' <summary>
+    ''' asíncrono para cargar las facturas
+    ''' </summary>
+    Dim asyncConcepts As BackgroundWorker
+    ''' <summary>
+    ''' variable que contiene la fecha del servidor
+    ''' </summary>
+    Private _serverDate As Date
+    ''' <summary>
+    ''' listado de anticipos de cartera para mostrar en la rejilla
+    ''' </summary>
+    Private ListVoucherTransactionAdvance As List(Of VoucherTransactionAdvance)
+    ''' <summary>
+    ''' diccionario para almacenar las edades de cartera
+    ''' </summary>
+    Dim _dictionaryAgesPayments As Dictionary(Of Integer, List(Of AgesPayments))
+    ''' <summary>
+    ''' variable que indica si se activa el popUp de las cajas para cargar el datasource solo una vez
+    ''' </summary>
+    Private _statePopUpCash As Boolean
+    ''' <summary>
+    ''' variable que indica si se activa el popUp de los centros de costo para cargar el datasource solo una vez
+    ''' </summary>
+    Private _statePopUpCostCenter As Boolean
+    ''' <summary>
+    ''' variable que indica si se activa el popUp de los terceros para cargar el datasource solo una vez
+    ''' </summary>
+    Private _statePopUpThird As Boolean
+    ''' <summary>
+    ''' variable que indica si se activa el popUp de las cuentas bancarias para cargar el datasource solo una vez
+    ''' </summary>
+    Private _statePopUpEntityBankAccount As Boolean
+    ''' <summary>
+    ''' Bandera que indica que los saldos cambiaron despues de guardar y que se debe actualizar los valores a pagar
+    ''' </summary>
+    Private _bandBalanceChanged As Boolean = False
+    ''' <summary>
+    ''' Bandera para indicar que se está editando un registro de concepto de egreso
+    ''' </summary>
+    Private _modeEditPopUpExpenseConcept As Boolean
+    ''' <summary>
+    ''' Obtiene el listado de reembolsos para mostrar en el datasource
+    ''' </summary>
+    Private _listRefund As List(Of Refunds)
+    ''' <summary>
+    ''' Control para manejar los debitos y créditos
+    ''' </summary>
+    Public ctrTmp As CtrTotalVoucher
+    ''' <summary>
+    ''' Representa a la entidad de parámetros de cxp
+    ''' </summary>
+    Public Property PaymentsSettingPaymentsXpo As PaymentsSettingPaymentsXpo Implements IVoucherTransaction.PaymentsSettingPaymentsXpo
+    ''' <summary>
+    ''' Variable que contiene la cabecera de la secuencia
+    ''' </summary>
+    Private _sequence As Domain.Entities.TreasurySequence
+    ''' <summary>
+    ''' Variable que contiene el id de la secuencia detalle
+    ''' </summary>
+    Private _idCurrentSequence As Int64
+    ''' <summary>
+    ''' Prefijo seleccionado
+    ''' </summary>
+    Private _prefixSelected As String
+    ''' <summary>
+    ''' Propiedad que indica que el formulario se abre como modal desde otro formulario
+    ''' </summary>
+    Public Property OpenFormDialog As Boolean = False
+    ''' <summary>
+    ''' Id de la unidad operativa seleccionada
+    ''' </summary>
+    Private _idOperativeUnit As Int32
+    ''' <summary>
+    ''' Variable que contiene el registro bloqueado
+    ''' </summary>
+    Dim _record As BlockRecordTreasury
+    ''' <summary>
+    ''' Variable que contiene el presentador
+    ''' </summary>
+    Dim _presenter As PVoucherTransaction
+    ''' <summary>
+    ''' Variable que contiene la entidad de comprobante de egreso
+    ''' </summary>
+    Dim _voucherTransaction As VoucherTransaction
+    ''' <summary>
+    ''' Lista que contiene el tipo de egreso
+    ''' </summary>
+    Dim ListExpenseType As List(Of Tuple(Of Short, String))
+    ''' <summary>
+    ''' Contiene la lista de tipo de documento que pide
+    ''' </summary>
+    Dim ListPaymentMethod As List(Of Tuple(Of Integer, String))
+    ''' <summary>
+    ''' Lista las clases de comprobante
+    ''' </summary>
+    Dim ListVoucherClass As List(Of Tuple(Of Integer, String))
+    ''' <summary>
+    ''' Listado de cuentas bancarias para traslado
+    ''' </summary>
+    Dim ListEntityBankAccountsTransfer As List(Of EntityBankAccounts)
+
+    Private EntityBankAccount As Object
+
+    ''' <summary>
+    ''' Variable que define el tipo de evento para la impresión del reporte
+    ''' </summary>
+    ''' <remarks></remarks>
+    Dim varImp As Integer
+#End Region
+
+#Region "Properties"
+    Public ReadOnly Property BudgetInterface As Boolean
+        Get
+            Return If(PaymentsSettingPaymentsXpo Is Nothing, False, PaymentsSettingPaymentsXpo.BudgetInterface)
+        End Get
+    End Property
+    ''' <summary>
+    ''' Obtiene o establece la clase de comprobante
+    ''' </summary>
+    Public Property VoucherClass As Byte
+        Get
+            Return CType(INDgleVoucherClass.EditValue, Integer)
+        End Get
+        Set(value As Byte)
+            INDgleVoucherClass.EditValue = value
+        End Set
+    End Property
+    Public Property EntityBankAccountDatasourceGrid As List(Of VoucherTransactionDetails)
+        Get
+            Return CType(INDGcVoucherTransactionDetail.DataSource, List(Of VoucherTransactionDetails))
+        End Get
+        Set(value As List(Of VoucherTransactionDetails))
+            INDGcVoucherTransactionDetail.DataSource = value
+            INDGcVoucherTransactionDetail.MainView = ViewTransfer
+            INDGvVoucherTransactionDetail.ViewCaption = False
+        End Set
+    End Property
+    ''' <summary>
+    ''' Obtiene o establece el datasource de los detalles del comprobante de egreso
+    ''' </summary>
+    Public Property VoucherTransactionDetailDatasource As List(Of VoucherTransactionDetails)
+        Get
+            Return CType(INDGcVoucherTransactionDetail.DataSource, List(Of VoucherTransactionDetails))
+        End Get
+        Set(value As List(Of VoucherTransactionDetails))
+            INDGcVoucherTransactionDetail.DataSource = value
+            INDGcVoucherTransactionDetail.MainView = INDGvVoucherTransactionDetail
+            ViewTransfer.ViewCaption = False
+        End Set
+    End Property
+    ''' <summary>
+    ''' Obtiene o establece las facturas a pagar o pagadas del tercero
+    ''' </summary>
+    Public Property DischargeBillDatasource As List(Of DischargeBill)
+        Get
+            Return CType(INDGcDischargeBill.DataSource, List(Of DischargeBill))
+        End Get
+        Set(value As List(Of DischargeBill))
+            INDGcDischargeBill.DataSource = value
+        End Set
+    End Property
+    ''' <summary>
+    ''' Obtiene o establece el datasource de los conceptos de pago
+    ''' </summary>
+    Public Property PaymentConceptDatasource As DevExpress.Data.Linq.LinqInstantFeedbackSource Implements IVoucherTransaction.PaymentConceptDatasource
+        Get
+            Return CType(RepositoryItemPaymentConcepts.DataSource, DevExpress.Data.Linq.LinqInstantFeedbackSource)
+        End Get
+        Set(value As DevExpress.Data.Linq.LinqInstantFeedbackSource)
+            RepositoryItemPaymentConcepts.DataSource = value
+        End Set
+    End Property
+    ''' <summary>
+    ''' Obtiene la fecha del servidor
+    ''' </summary>
+    Public Property DateServer As Date? Implements IVoucherTransaction.DateServer
+        Get
+            Return INDdeDate.EditValue
+        End Get
+        Set(value As Date?)
+            INDdeDate.EditValue = value
+        End Set
+    End Property
+    ''' <summary>
+    ''' Obtiene o establece el layout para customizacion
+    ''' </summary>
+    ''' <value>
+    ''' My layout control.
+    ''' </value>
+    Public ReadOnly Property MyLayoutControl As IndigoLayoutControl Implements IVoucherTransaction.MyLayoutControl
+        Get
+            Return Me.LayoutControls
+        End Get
+    End Property
+    ''' <summary>
+    ''' Obteniene el tag del frontal
+    ''' </summary>
+    ''' <value>
+    ''' My tag.
+    ''' </value>
+    Public ReadOnly Property MyTag As Object Implements IVoucherTransaction.MyTag
+        Get
+            Return Me.Tag
+        End Get
+    End Property
+    ''' <summary>
+    ''' Obtiene o establece la secuencia de cabecera
+    ''' </summary>
+    Public Property Sequence As TreasurySequence Implements IVoucherTransaction.Sequence
+        Get
+            Return Me._sequence
+        End Get
+        Set(value As TreasurySequence)
+            _sequence = value
+            If value IsNot Nothing AndAlso value.Id > 0 AndAlso Not value.IsManual AndAlso Not value.Sequential Then
+                Me.DicSequense.Clear()
+                For Each seq As Domain.Entities.TreasurySequenceDetail In Me._sequence.TreasurySequenceDetail
+                    Me.DicSequense.Add(seq.Id, New List(Of String)())
+                Next
+            End If
+        End Set
+    End Property
+    ''' <summary>
+    ''' Obtiene o establece el datasource de los terceros
+    ''' </summary>
+    ''' <value>
+    ''' The third party datasource.
+    ''' </value>
+    Public Property ThirdPartyDatasource As XPInstantFeedbackSource Implements IVoucherTransaction.ThirdPartyDatasource
+        Get
+            Return CType(INDsleThirdParty.Properties.DataSource, XPInstantFeedbackSource)
+        End Get
+        Set(value As XPInstantFeedbackSource)
+            INDsleThirdParty.Properties.DataSource = value
+        End Set
+    End Property
+    ''' <summary>
+    ''' Obtiene o establece el datasource para las cuentas bancarias de entidades
+    ''' </summary>
+    ''' <value>
+    ''' The entity account datasource.
+    ''' </value>
+    Public Property EntityAccountDatasource As LinqInstantFeedbackSource Implements IVoucherTransaction.EntityAccountDatasource
+        Get
+            Return CType(INDsleEntityAccount.Properties.DataSource, LinqInstantFeedbackSource)
+        End Get
+        Set(value As LinqInstantFeedbackSource)
+            INDsleEntityAccount.Properties.DataSource = value
+        End Set
+    End Property
+    ''' <summary>
+    ''' Obtiene o establece todos los centros de costo
+    ''' </summary>
+    ''' <value>
+    ''' The cost center datasource.
+    ''' </value>
+    Public Property CostCenterDatasource As XPInstantFeedbackSource Implements IVoucherTransaction.CostCenterDatasource
+        Get
+            Return CType(INDsleCostCenter.Properties.DataSource, XPInstantFeedbackSource)
+        End Get
+        Set(value As XPInstantFeedbackSource)
+            INDsleCostCenter.Properties.DataSource = value
+        End Set
+    End Property
+    ''' <summary>
+    ''' Obtiene o establece el datasource de cajas
+    ''' </summary>
+    ''' <value>
+    ''' The cash datasource.
+    ''' </value>
+    Public Property CashDatasource As LinqInstantFeedbackSource Implements IVoucherTransaction.CashDatasource
+        Get
+            Return CType(INDsleCash.Properties.DataSource, LinqInstantFeedbackSource)
+        End Get
+        Set(value As LinqInstantFeedbackSource)
+            INDsleCash.Properties.DataSource = value
+        End Set
+    End Property
+    ''' <summary>
+    ''' Obtiene o establece el codigo del documento
+    ''' </summary>
+    ''' <value>
+    ''' The code.
+    ''' </value>
+    Public Property Code As String Implements IVoucherTransaction.Code
+        Get
+            If INDbteCode.Text.Trim().Equals(ResourceManager.GetString("LabelOrTextboxNew")) Then
+                Return String.Empty
+            Else
+                Return INDbteCode.Text
+            End If
+        End Get
+        Set(value As String)
+            INDbteCode.EditValue = value
+        End Set
+    End Property
+    ''' <summary>
+    ''' Obtiene o establece el id del tercero
+    ''' </summary>
+    ''' <value>
+    ''' The identifier third party.
+    ''' </value>
+    Public Property IdThirdParty As Integer? Implements IVoucherTransaction.IdThirdParty
+        Get
+            Return INDsleThirdParty.EditValue
+        End Get
+        Set(value As Integer?)
+            INDsleThirdParty.EditValue = value
+        End Set
+    End Property
+    ''' <summary>
+    ''' Obtiene o establece el id de la cuenta contable
+    ''' </summary>
+    ''' <value>
+    ''' The identifier main account.
+    ''' </value>
+    Public Property IdMainAccount As Integer Implements IVoucherTransaction.IdMainAccount
+    ''' <summary>
+    ''' Obtiene o establece el id del centro de costo
+    ''' </summary>
+    ''' <value>
+    ''' The identifier cost center.
+    ''' </value>
+    Public Property IdCostCenter As Integer? Implements IVoucherTransaction.IdCostCenter
+    ''' <summary>
+    ''' Obtiene o establece si el comprobante afecta bancos o cajas
+    ''' </summary>
+    Public Property ExpenseType As Short Implements IVoucherTransaction.ExpenseType
+        Get
+            Return INDgleExpenseType.EditValue
+        End Get
+        Set(value As Short)
+            INDgleExpenseType.EditValue = value
+        End Set
+    End Property
+    ''' <summary>
+    ''' Obtiene o establece el detalle del comprobante
+    ''' </summary>
+    Public Property obligation As String Implements IVoucherTransaction.obligation
+        Get
+            Return INDmeDetail.Text
+        End Get
+        Set(value As String)
+            INDmeDetail.Text = value
+        End Set
+    End Property
+    ''' <summary>
+    ''' Obtiene o establece la fecha de confirmacion del documento
+    ''' </summary>
+    Public Property DocumentDate As Date? Implements IVoucherTransaction.ConfirmationDate
+        Get
+            Return INDdeDate.EditValue
+        End Get
+        Set(value As Date?)
+            INDdeDate.EditValue = value
+        End Set
+    End Property
+    ''' <summary>
+    ''' Obtiene o establece el Id de la caja
+    ''' </summary>
+    Public Property IdCashRegister As Integer? Implements IVoucherTransaction.IdCashRegister
+        Get
+            Return INDsleCash.EditValue
+        End Get
+        Set(value As Integer?)
+            INDsleCash.EditValue = value
+        End Set
+    End Property
+    ''' <summary>
+    ''' Obtiene o establece el id de la cuenta bancaria
+    ''' </summary>
+    Public Property IdEntityBankAccount As Integer? Implements IVoucherTransaction.IdEntityBankAccount
+        Get
+            Return INDsleEntityAccount.EditValue
+        End Get
+        Set(value As Integer?)
+            INDsleEntityAccount.EditValue = value
+        End Set
+    End Property
+    ''' <summary>
+    ''' Obtiene o establece el valor del comprobante
+    ''' </summary>
+    Public Property Value As Decimal Implements IVoucherTransaction.Value
+    ''' <summary>
+    ''' Obtiene o establece el método de pago si es con nota debito o cheque
+    ''' </summary>
+    Public Property PaymentMethod As Integer? Implements IVoucherTransaction.PaymentMethod
+        Get
+            Return INDglePaymentMethod.EditValue
+        End Get
+        Set(value As Integer?)
+            INDglePaymentMethod.EditValue = value
+        End Set
+    End Property
+    ''' <summary>
+    ''' Obtiene o establece el número de la nota
+    ''' </summary>
+    Public Property NoteNumber As String Implements IVoucherTransaction.NoteNumber
+        Get
+            Return INDtxtDebitNote.EditValue
+        End Get
+        Set(value As String)
+            INDtxtDebitNote.EditValue = value
+        End Set
+    End Property
+    ''' <summary>
+    ''' Obtiene o establece el id del cheque
+    ''' </summary>
+    ''' <value>
+    ''' The identifier checks.
+    ''' </value>
+    Public Property IdCheckBook As Integer? Implements IVoucherTransaction.IdChecks
+    ''' <summary>
+    ''' Obtiene o establece el numero del cheque
+    ''' </summary>
+    Public Property CheckNumber As Long? Implements IVoucherTransaction.CheckNumber
+        Get
+            Return CType(INDtxtCheck.EditValue, Long)
+        End Get
+        Set(value As Long?)
+            INDtxtCheck.EditValue = value
+        End Set
+    End Property
+    ''' <summary>
+    ''' Obtiene o establece la fecha de consignacion
+    ''' </summary>
+    Public Property TransactionDate As Date? Implements IVoucherTransaction.TransactionDate
+        Get
+            Return INDdeTransactionDate.EditValue
+        End Get
+        Set(value As Date?)
+            INDdeTransactionDate.EditValue = value
+        End Set
+    End Property
+    ''' <summary>
+    ''' Obtiene o establece si aplica la tasa por mil
+    ''' </summary>
+    Public Property TaxByMil As Boolean Implements IVoucherTransaction.TaxByMil
+        Get
+            Return INDrgXMil.EditValue
+        End Get
+        Set(value As Boolean)
+            INDrgXMil.EditValue = False
+        End Set
+    End Property
+    ''' <summary>
+    ''' Obtiene o establece la tasa por mil
+    ''' </summary>
+    Public Property TaxByMilValue As Decimal? Implements IVoucherTransaction.TaxByMilValue
+    ''' <summary>
+    ''' Obtiene o establece si hay egreso de caja menor
+    ''' </summary>
+    Public Property CashRegisterExpense As Boolean Implements IVoucherTransaction.CashRegisterExpense
+        Get
+            Return False
+        End Get
+        Set(value As Boolean)
+
+        End Set
+    End Property
+    ''' <summary>
+    ''' Obtiene o establece reembolso de egreso de caja menor
+    ''' </summary>
+    Public Property RefundCashRegisterExpense As Boolean Implements IVoucherTransaction.RefoundCashRegisterExpense
+        Get
+            Return False
+        End Get
+        Set(value As Boolean)
+
+        End Set
+    End Property
+    ''' <summary>
+    ''' Obtiene o establece el id de la dispersion de fondos
+    ''' </summary>
+    Public Property IdFundsDispersion As Integer? Implements IVoucherTransaction.IdFundsDispersion
+        Get
+            Return Nothing
+        End Get
+        Set(value As Integer?)
+
+        End Set
+    End Property
+    ''' <summary>
+    ''' Variable que guarda el numero de identificacion del beneficiario del cheque
+    ''' </summary>
+    Private _beneficiaryIdentificat As String
+    ''' <summary>
+    ''' Obtiene o establece la cedula del beneficiario
+    ''' </summary>
+    Public Property BeneficiaryIdentification As String Implements IVoucherTransaction.BeneficiaryIdentification
+        Get
+            Return _beneficiaryIdentificat
+        End Get
+        Set(value As String)
+            _beneficiaryIdentificat = value
+        End Set
+    End Property
+    ''' <summary>
+    ''' variable que guarda el nombre del beneficiario del cheque
+    ''' </summary>
+    Private _beneficiaryName As String
+    ''' <summary>
+    ''' Obtiene o establece el nombre del beneficiario
+    ''' </summary>
+    Public Property Beneficiary As String Implements IVoucherTransaction.Beneficiary
+        Get
+            Return _beneficiaryName
+        End Get
+        Set(value As String)
+            _beneficiaryName = value
+        End Set
+    End Property
+    ''' <summary>
+    ''' Obtiene o establece el egreso de la relacion de giro
+    ''' </summary>
+    Public Property TransactionRelationShip As Boolean Implements IVoucherTransaction.TransactionRelationShip
+        Get
+            Return Nothing
+        End Get
+        Set(value As Boolean)
+
+        End Set
+    End Property
+    ''' <summary>
+    ''' Obtiene o establece el cheque conciliado
+    ''' </summary>
+    Public Property CheckReconciled As Boolean Implements IVoucherTransaction.CheckReconciled
+        Get
+            Return Nothing
+        End Get
+        Set(value As Boolean)
+
+        End Set
+    End Property
+    ''' <summary>
+    ''' Obtiene o establece el id de la orden de pago
+    ''' </summary>
+    Public Property IdPaymentOrder As Integer? Implements IVoucherTransaction.IdPaymentOrder
+        Get
+            Return Nothing
+        End Get
+        Set(value As Integer?)
+
+        End Set
+    End Property
+    ''' <summary>
+    ''' Obtiene o establece si el comprobante es impreso
+    ''' </summary>
+    Public Property Printed As Boolean Implements IVoucherTransaction.Printed
+        Get
+            Return Nothing
+        End Get
+        Set(value As Boolean)
+
+        End Set
+    End Property
+    ''' <summary>
+    ''' Obtiene o establece el valor de retencion
+    ''' </summary>
+    Public Property RTEValue As Decimal Implements IVoucherTransaction.RTEValue
+        Get
+            Return Nothing
+        End Get
+        Set(value As Decimal)
+
+        End Set
+    End Property
+    ''' <summary>
+    ''' Obtiene o establece el valor de iva
+    ''' </summary>
+    Public Property IVAValue As Decimal Implements IVoucherTransaction.IVAValue
+        Get
+            Return Nothing
+        End Get
+        Set(value As Decimal)
+
+        End Set
+    End Property
+    ''' <summary>
+    ''' Obtiene o establece el valor de ica
+    ''' </summary>
+    Public Property ICAValue As Decimal Implements IVoucherTransaction.ICAValue
+        Get
+            Return Nothing
+        End Get
+        Set(value As Decimal)
+
+        End Set
+    End Property
+    ''' <summary>
+    ''' Obtiene o establece otros valores
+    ''' </summary>
+    Public Property OtherValue As Decimal Implements IVoucherTransaction.OtherValue
+        Get
+            Return Nothing
+        End Get
+        Set(value As Decimal)
+
+        End Set
+    End Property
+    Private _numberAccount As String
+    ''' <summary>
+    ''' Obtiene o establece el numero de la cuenta bancaria
+    ''' </summary>
+    Public Property BankAccountNumber As String Implements IVoucherTransaction.BankAccountNumber
+        Get
+            Return _numberAccount
+        End Get
+        Set(value As String)
+            _numberAccount = value
+        End Set
+    End Property
+    ''' <summary>
+    ''' variable que contiene el nombre del banco
+    ''' </summary>
+    Private _nameBank As String
+    ''' <summary>
+    ''' Obtiene o establece el nombre del banco
+    ''' </summary>
+    Public Property BankName As String Implements IVoucherTransaction.BankName
+        Get
+            Return _nameBank
+        End Get
+        Set(value As String)
+            _nameBank = value
+        End Set
+    End Property
+    ''' <summary>
+    ''' Detalles de la interface de presupuesto
+    ''' </summary>
+    Public Property DetailsInterfaceBudget As String Implements IVoucherTransaction.DetailsInterfaceBudget
+        Get
+            Return Nothing
+        End Get
+        Set(value As String)
+
+        End Set
+    End Property
+    ''' <summary>
+    ''' Obtiene o establece el estado del comprobante de egreso
+    ''' </summary>
+    Public Property Status As String Implements IVoucherTransaction.Status
+        Get
+            Return BarraBotones.StatusRecord
+        End Get
+        Set(value As String)
+            BarraBotones.StatusRecord = value.ToString()
+        End Set
+    End Property
+#End Region
+
+#End Region
+
+#Region "Methods and Functions"
+
+    ''' <summary>
+    ''' Validates the items note and advance.
+    ''' </summary>
+    ''' <returns></returns>
+    Private Async Function ValidateItemsNoteAndAdvance() As Task(Of Boolean)
+        If DatasourceDischargeBillPopUp IsNot Nothing AndAlso DatasourceDischargeBillPopUp.Count > 0 Then
+            Using model As New MVoucherTransaction(Me.Tag)
+                Dim result = Await model.GetAccountPayableInNoteAndAdvance(DatasourceDischargeBillPopUp.Select(Function(o) o.IdAccountPayable).ToList(), _voucherTransaction.Code)
+                If result IsNot Nothing AndAlso result.ObjectEmbbeded.Count > 0 Then
+                    Using frmValidations As New FrmValidationWarning
+                        frmValidations.Datasource = result.ObjectEmbbeded
+                        Dim frmTransparent As New FrmTransparent(frmValidations, False)
+                        If frmTransparent.ShowDialog(Me) <> System.Windows.Forms.DialogResult.OK Then
+                            Return False
+                        End If
+                    End Using
+                End If
+            End Using
+        End If
+        Return True
+    End Function
+
+    ''' <summary>
+    ''' Consulta el total de los debitos y creditos
+    ''' </summary>
+    ''' <returns></returns>
+    Private Function getVoucherValue() As Tuple(Of Decimal, Decimal)
+        Dim _byMilValue As Decimal = 0
+        If TaxByMilValue IsNot Nothing AndAlso TaxByMilValue <> 0 Then
+            _byMilValue = TaxByMilValue
+        End If
+        Return New Tuple(Of Decimal, Decimal)(Value, _byMilValue)
+    End Function
+
+    ''' <summary>
+    ''' Metodo para establecer la logica para los permisos de Guardar y Actualizar True -&gt; Muestra Guardar | False -&gt; Muestra Actualizar
+    ''' </summary>
+    ''' <param name="existeDatos"></param>
+    Public Sub LogicaBotonActualizar(existeDatos As Boolean) Implements IcrudBase.LogicaBotonActualizar
+
+    End Sub
+
+    ''' <summary>
+    ''' Esta propiedad se utiliza para Registrar en el visor de eventos
+    ''' </summary>
+    Public WriteOnly Property Mensaje(Icono As Base.EeventViewerImages) As String Implements IcrudBase.Mensaje
+        Set(value As String)
+            If Icono = EeventViewerImages.Advertencia Then
+                MessageIndigo.Show(value, MessageType.Warning, Me.Text)
+            ElseIf Icono = EeventViewerImages.Informacion Then
+                MessageIndigo.Show(value, MessageType.Information, Me.Text)
+            ElseIf Icono = EeventViewerImages.MensajeError Then
+                MessageIndigo.Show(value, MessageType.Errores, Me.Text, Botones.Aceptar, "")
+            End If
+        End Set
+    End Property
+
+    ''' <summary>
+    ''' este metodo abre el frontal de busqueda
+    ''' </summary>
+    Public Sub OpenSearch() Implements IcrudBase.OpenSearch
+        If BarraBotones.PermiteConsultar = False Then
+            Mensaje(EeventViewerImages.Advertencia) = ResourceManager.GetString("NoPermissions")
+            Exit Sub
+        End If
+        If OpenFormDialog = False Then
+            Dim listStatus As New List(Of Tuple(Of String, Byte))
+            listStatus.Add(New Tuple(Of String, Byte)(ResourceManager.GetString("StateUnconfirmed"), 1))
+            listStatus.Add(New Tuple(Of String, Byte)(ResourceManager.GetString("StateConfirmed"), 2))
+            listStatus.Add(New Tuple(Of String, Byte)(ResourceManager.GetString("StatusCanceled"), 3))
+            listStatus.Add(New Tuple(Of String, Byte)(ResourceManager.GetString("StatusReverse"), 4))
+
+            Dim listClass As New List(Of Tuple(Of String, Integer))
+            listClass.Add(New Tuple(Of String, Integer)("Pago", 1))
+            listClass.Add(New Tuple(Of String, Integer)("Reembolso", 2))
+            listClass.Add(New Tuple(Of String, Integer)("Traslado", 3))
+
+            FormSearchObjects = New FrmBusqueda
+            AddHandler FormSearchObjects.ReturnValue, AddressOf ReturnValue
+            With FormSearchObjects
+                .ListaColumnas = {New ColumnInfo() With {.Caption = "Consecutivo", .FieldName = "Code", .ColumnWidth = System.Windows.Forms.SystemInformation.PrimaryMonitorSize.Width * 0.1},
+                                  New ColumnInfo() With {.Caption = "Clase", .FieldName = "VoucherClass", .ColumnWidth = System.Windows.Forms.SystemInformation.PrimaryMonitorSize.Width * 0.1, .ColumnEdit = True, .ListItemsDatasourceColumEdit = listClass},
+                                  New ColumnInfo() With {.Caption = "Tercero", .FieldName = "IdThirdParty.NitName", .ColumnWidth = System.Windows.Forms.SystemInformation.PrimaryMonitorSize.Width * 0.25},
+                                  New ColumnInfo() With {.Caption = "Fecha Doc", .FieldName = "DocumentDate", .ColumnWidth = System.Windows.Forms.SystemInformation.PrimaryMonitorSize.Width * 0.1},
+                                  New ColumnInfo() With {.Caption = "Detalle", .FieldName = "Detail", .ColumnWidth = System.Windows.Forms.SystemInformation.PrimaryMonitorSize.Width * 0.15},
+                                  New ColumnInfo() With {.Caption = "Valor", .FieldName = "Value", .ColumnWidth = System.Windows.Forms.SystemInformation.PrimaryMonitorSize.Width * 0.1, .ColumnFormat = "C0"},
+                                  New ColumnInfo() With {.Caption = "Tasa X Mil", .FieldName = "TaxByMilValue", .ColumnWidth = System.Windows.Forms.SystemInformation.PrimaryMonitorSize.Width * 0.1, .ColumnFormat = "C0"},
+                                  New ColumnInfo() With {.Caption = "Estado", .FieldName = "Status", .ColumnWidth = System.Windows.Forms.SystemInformation.PrimaryMonitorSize.Width * 0.1, .ColumnEdit = True, .ListItemsDatasourceColumEdit = listStatus}}.ToList
+                .ValorSolicitado = "Code"
+                .ListadoOrigenDatos = Infrastructure.CrossCutting.Base.eDataSource.ListAllVoucherTransaction
+                .FormParent = Me
+                .ShowSearch()
+            End With
+        End If
+    End Sub
+
+    ''' <summary>
+    ''' Devuelve el valor del OpenSearch.
+    ''' </summary>
+    ''' <param name="ReturnValue">The return value.</param>
+    ''' <param name="ReturnObject">The return object.</param>
+    Private Async Sub ReturnValue(ByVal ReturnValue As String, ByVal ReturnObject As Object)
+        DeleteBlockedRecord()
+        INDbteCode.Text = ReturnValue
+        If INDbteCode.Text <> String.Empty Then
+            Await LoadControls()
+            If INDbteCode.Enabled = False Then
+                BarraBotones.OcultarBotonesSinPermisos(EbuttonsWithoutPermission.Buscar) = True
+            End If
+            INDbteCode.Enabled = False
+        End If
+    End Sub
+
+    ''' <summary>
+    ''' Esta propiedad establece el valor ControlAcciones
+    ''' </summary>
+    Public WriteOnly Property ActionsOnControls As Boolean Implements IVoucherTransaction.ActionsOnControls
+        Set(value As Boolean)
+
+            INDlycRoot.BeginUpdate()
+            'Grupo Principal
+            INDbteCode.Enabled = Not value
+            INDsleThirdParty.Enabled = value
+            INDdeDate.Enabled = value
+            INDmeDetail.Enabled = value
+
+            'Tipo Egreso
+            INDgleExpenseType.Enabled = value
+            INDsleEntityAccount.Enabled = value
+            INDsleCash.Enabled = value
+            INDsleCostCenter.Enabled = value
+            INDglePaymentMethod.Enabled = value
+            INDtxtDebitNote.Enabled = value
+            INDdeTransactionDate.Enabled = value
+            INDrgXMil.Enabled = False
+            INDgleVoucherClass.Enabled = value
+
+            'Conceptos de Egreso
+            INDGcVoucherTransactionDetail.Enabled = value
+            Me.BarraBotones.StatusRecordVisible = value
+
+            INDlycRoot.EndUpdate()
+
+            If value Then
+                INDgleVoucherClass.Focus()
+                INDdeDate.Properties.ReadOnly = True
+            Else
+                INDbteCode.Focus()
+            End If
+        End Set
+    End Property
+
+    ''' <summary>
+    ''' Limpia los controles
+    ''' </summary>
+    Public Sub CleanControls()
+        If _voucherTransaction IsNot Nothing AndAlso _voucherTransaction.Id = 0 AndAlso IdCheckBook <> 0 AndAlso CheckNumber <> 0 Then
+            DeleteCheckBlock()
+        End If
+        INDlycRoot.BeginUpdate()
+        ActionsOnControls = False
+        'Grupo Principal
+        INDbteCode.EditValue = Nothing
+        INDsleThirdParty.EditValue = Nothing
+        INDdeDate.EditValue = Nothing
+        Value = 0
+        INDmeDetail.EditValue = Nothing
+        ReadOnlyControls(False)
+        INDcolBalanceShare.Visible = True
+        'Tipo Egreso
+        INDgleExpenseType.EditValue = Nothing
+        INDsleEntityAccount.EditValue = Nothing
+        INDsleCash.EditValue = Nothing
+        INDsleCostCenter.EditValue = Nothing
+        PaymentMethod = Nothing
+        INDtxtDebitNote.EditValue = Nothing
+        INDtxtCheck.EditValue = Nothing
+        INDdeTransactionDate.EditValue = Nothing
+        INDrgXMil.EditValue = False
+        TaxByMilValue = 0
+        INDgleVoucherClass.EditValue = Nothing
+        EntityBankAccount = Nothing
+        INDlgrExpenditureConcept.HideControl(True)
+        INDliThirdParty.HideControl(True)
+        INDlgrExpenditureConcept.HideControl(True)
+
+        INDgleExpenseType.Properties.ReadOnly = True
+        IdCheckBook = Nothing
+        CheckNumber = Nothing
+        EntityBankAccountDatasourceGrid = Nothing
+        DischargeBillDatasource = Nothing
+        DatasourceDischargeBillPopUp = Nothing
+        VoucherTransactionDetailDatasource = Nothing
+        INDGcVoucherTransactionDetail.DataSource = Nothing
+        INDlycRoot.EndUpdate()
+        Me._voucherTransaction = Nothing
+        Me._doc = Nothing
+        Me.BarraBotones.EnableBarItems()
+        Me.BarraBotones.DisableBarDocument()
+        INDsbAddExpenseConcept.Enabled = False
+        'variables que retorna el evento agregar del concepto de egreso
+        _modeEditPopUpExpenseConcept = False
+        ListVoucherTransactionAdvance = Nothing
+        _statePopUpCash = False
+        _statePopUpCostCenter = False
+        _statePopUpThird = False
+        _statePopUpEntityBankAccount = False
+        ctrTmp.PrintValueVoucher()
+        'null text
+        INDsleThirdParty.Properties.NullText = String.Empty
+        INDsleCash.Properties.NullText = String.Empty
+        INDsleCostCenter.Properties.NullText = String.Empty
+        INDsleEntityAccount.Properties.NullText = String.Empty
+        Me.BarraBotones.StatusRecord = Nothing
+        Me.BarraBotones.StatusRecordVisible = False
+        Me.BarraBotones.CleanAuditBasic()
+        Me.BarraBotones.ReassignOperatingUnit()
+        'Ocultar layouts
+        INDliEntityBankAccount.HideControl(True)
+        INDliCash.HideControl(True)
+        INDliCostCenter.HideControl(True)
+        INDliPaymentMethod.HideControl(True)
+        INDliDebitNote.HideControl(True)
+        INDliCheck.HideControl(True)
+        INDliTransactionDate.HideControl(True)
+        'INDliXMil.HideControl(True)
+        INDsleThirdParty.Properties.ReadOnly = False
+        'INDgleExpenseType.Properties.ReadOnly = False
+
+        If indigo.UserViewMode AndAlso Not Me.FormSearchObjects.IsDisposed Then
+            Me.BarraBotones.PrepareToolbar(eAction.OnlyNew)
+        Else
+            Me.BarraBotones.PrepareToolbar(eAction.NewAndFind)
+        End If
+
+        DeleteBlockedRecord()
+    End Sub
+
+    ''' <summary>
+    ''' Validates the fields.
+    ''' </summary>
+    ''' <returns></returns>
+    Private Function ValidateFields() As Boolean
+        If ValidateControls() Then
+            If VoucherTransactionDetailDatasource Is Nothing OrElse VoucherTransactionDetailDatasource.Count = 0 Then
+                Mensaje(EeventViewerImages.Advertencia) = String.Format(ResourceManager.GetString("VoucherTransactionConceptNotFound", NAME_MODULE))
+                Return False
+            End If
+            Return True
+        Else
+            Return False
+        End If
+    End Function
+
+    ''' <summary>
+    ''' Cargamos los estados de la barra
+    ''' </summary>
+    Private Sub LoadStatus()
+        Dim listStates As New List(Of StatusRecord)()
+        listStates.Add(New StatusRecord With {.StatusValue = "1", .StatusName = ResourceManager.GetString("StateUnconfirmed"), .StatusColor = System.Drawing.Color.FromArgb(CType(CType(104, Byte), Integer), CType(CType(33, Byte), Integer), CType(CType(204, Byte), Integer))})
+        listStates.Add(New StatusRecord With {.StatusValue = "2", .StatusName = ResourceManager.GetString("StateConfirmed"), .StatusColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(122, Byte), Integer), CType(CType(204, Byte), Integer))})
+        listStates.Add(New StatusRecord With {.StatusValue = "3", .StatusName = ResourceManager.GetString("StatusCanceled"), .StatusColor = System.Drawing.Color.FromArgb(CType(CType(231, Byte), Integer), CType(CType(76, Byte), Integer), CType(CType(60, Byte), Integer))})
+        listStates.Add(New StatusRecord With {.StatusValue = "4", .StatusName = ResourceManager.GetString("StatusReverse"), .StatusColor = System.Drawing.Color.FromArgb(CType(CType(231, Byte), Integer), CType(CType(76, Byte), Integer), CType(CType(60, Byte), Integer))})
+        listStates.Add(New StatusRecord With {.StatusValue = "-1", .StatusName = ResourceManager.GetString("StatusCanceled"), .StatusColor = System.Drawing.Color.White})
+        Me.BarraBotones.States = listStates
+    End Sub
+
+    ''' <summary>
+    ''' Generates the document.
+    ''' </summary>
+    ''' <returns></returns>
+    Private Function GenerateDoc() As IndexedDocument2
+
+        Select Case VoucherClass
+            Case eVoucherClass.Payment
+                Dim _behavior As Integer = VoucherTransactionDetailDatasource.Where(Function(x) x.ExpenseConceptBehavior <> 6).Cast(Of VoucherTransactionDetails).ToList().Select(Function(y) y.ExpenseConceptBehavior).FirstOrDefault()
+                Dim dateServer = Me.GetDateServer()
+                Select Case _behavior
+                    Case 1 'traslado entre bancos
+                        Dim IdEntityBankAccountDetail As Integer = VoucherTransactionDetailDatasource.Where(Function(x) x.ExpenseConceptBehavior <> 6).Cast(Of VoucherTransactionDetails).ToList().Select(Function(y) y.IdEntityBankAccount).FirstOrDefault()
+                        Using Model As New MEntityAccount(Me.Tag)
+                            Dim _entityAccount As EntityBankAccounts = Model.GetEntityBankAccountByIdSimple(IdEntityBankAccountDetail)
+                            If Me._doc Is Nothing Then
+                                Me._doc = New IndexedDocument2 With {
+                                    .Content = String.Format(ResourceManager.GetString(Me.GetType().Name & "_IndexContent_BankTransfer", NAME_MODULE), INDsleThirdParty.Text.Split("-").ElementAt(0), INDsleThirdParty.Text.Split("-").ElementAt(1), INDsleEntityAccount.Text, String.Concat(_entityAccount.Code, " - ", _entityAccount.Bank.Name, " CTA. ", _entityAccount.Type, " ", _entityAccount.Number)),
+                                    .CreationDate = dateServer, .CreationUser = Me.indigo.UserIndigo & "-" & Me.indigo.UserIndigoName, .DocumentType = IndexedDocumentType.File,
+                                    .IdEntity = "$#" & Me.Tag & "_" & Me._voucherTransaction.Code & "#$", .IdForm = Me.Tag,
+                                    .Title = String.Format(ResourceManager.GetString(Me.GetType().Name & "_IndexTitle", NAME_MODULE), Me._voucherTransaction.Code),
+                                    .Update = dateServer, .UpdateUser = Me.indigo.UserIndigo & "-" & Me.indigo.UserIndigoName}
+                            Else
+                                Me._doc.Update = dateServer
+                                Me._doc.UpdateUser = Me.indigo.UserIndigo & "-" & Me.indigo.UserIndigoName
+                                Me._doc.Content = String.Format(ResourceManager.GetString(Me.GetType().Name & "_IndexContent_BankTransfer", NAME_MODULE), INDsleThirdParty.Text.Split("-").ElementAt(0), INDsleThirdParty.Text.Split("-").ElementAt(1), INDsleEntityAccount.Text, String.Concat(_entityAccount.Code, " - ", _entityAccount.Bank.Name, " CTA. ", _entityAccount.Type, " ", _entityAccount.Number))
+                                Me._doc.Title = String.Format(ResourceManager.GetString(Me.GetType().Name & "_IndexTitle", NAME_MODULE), Me._voucherTransaction.Code)
+                            End If
+                        End Using
+                    Case 2 'caja menor
+                        Using Model As New MPUC(Me.Tag)
+                            Dim accountO As MainAccounts = Model.GetAccountByIdSimple(_voucherTransaction.IdMainAccount)
+                            Dim accountD As MainAccounts = Model.GetAccountByIdSimple(VoucherTransactionDetailDatasource.Where(Function(x) x.ExpenseConceptBehavior <> 6).Cast(Of VoucherTransactionDetails).ToList().Select(Function(y) y.IdMainAccount).FirstOrDefault())
+                            If Me._doc Is Nothing Then
+                                Me._doc = New IndexedDocument2 With {
+                                    .Content = String.Format(ResourceManager.GetString(Me.GetType().Name & "_IndexContent_MinorCash", NAME_MODULE), INDsleThirdParty.Text.Split("-").ElementAt(0), INDsleThirdParty.Text.Split("-").ElementAt(1), INDsleCash.Text, String.Concat(accountO.Number, " - ", accountO.Name), String.Concat(accountD.Number, " - ", accountD.Name)),
+                                    .CreationDate = dateServer, .CreationUser = Me.indigo.UserIndigo & "-" & Me.indigo.UserIndigoName, .DocumentType = IndexedDocumentType.File,
+                                    .IdEntity = "$#" & Me.Tag & "_" & Me._voucherTransaction.Code & "#$", .IdForm = Me.Tag,
+                                    .Title = String.Format(ResourceManager.GetString(Me.GetType().Name & "_IndexTitle", NAME_MODULE), Me._voucherTransaction.Code),
+                                    .Update = dateServer, .UpdateUser = Me.indigo.UserIndigo & "-" & Me.indigo.UserIndigoName}
+                            Else
+                                Me._doc.Update = dateServer
+                                Me._doc.UpdateUser = Me.indigo.UserIndigo & "-" & Me.indigo.UserIndigoName
+                                Me._doc.Content = String.Format(ResourceManager.GetString(Me.GetType().Name & "_IndexContent_MinorCash", NAME_MODULE), INDsleThirdParty.Text.Split("-").ElementAt(0), INDsleThirdParty.Text.Split("-").ElementAt(1), INDsleCash.Text, String.Concat(accountO.Number, " - ", accountO.Name), String.Concat(accountD.Number, " - ", accountD.Name))
+                                Me._doc.Title = String.Format(ResourceManager.GetString(Me.GetType().Name & "_IndexTitle", NAME_MODULE), Me._voucherTransaction.Code)
+                            End If
+                        End Using
+                    Case 3
+                        Using Model As New MPUC(Me.Tag)
+                            Dim account As MainAccounts = Model.GetAccountByIdSimple(VoucherTransactionDetailDatasource.Where(Function(x) x.ExpenseConceptBehavior <> 6).Cast(Of VoucherTransactionDetails).ToList().
+                                                                                     Select(Function(y) y.IdMainAccount).FirstOrDefault())
+                            If DatasourceDischargeBillPopUp IsNot Nothing AndAlso DatasourceDischargeBillPopUp.Count > 0 Then
+                                Dim _ListBills As String = String.Join(" - ", DatasourceDischargeBillPopUp.Select(Function(x) x.AccountPayableBillNumber).Cast(Of String)().ToList().Distinct().ToList().ToArray())
+                                If Me._doc Is Nothing Then
+                                    Me._doc = New IndexedDocument2 With {
+                                        .Content = String.Format(ResourceManager.GetString(Me.GetType().Name & "_IndexContent_PaymentAdvancePaymentInvoices", NAME_MODULE), INDsleThirdParty.Text.Split("-").ElementAt(0), INDsleThirdParty.Text.Split("-").ElementAt(1), INDsleEntityAccount.Text, String.Concat(account.Number, " - ", account.Name), _ListBills),
+                                        .CreationDate = dateServer, .CreationUser = Me.indigo.UserIndigo & "-" & Me.indigo.UserIndigoName, .DocumentType = IndexedDocumentType.File,
+                                        .IdEntity = "$#" & Me.Tag & "_" & Me._voucherTransaction.Code & "#$", .IdForm = Me.Tag,
+                                        .Title = String.Format(ResourceManager.GetString(Me.GetType().Name & "_IndexTitle", NAME_MODULE), Me._voucherTransaction.Code),
+                                        .Update = dateServer, .UpdateUser = Me.indigo.UserIndigo & "-" & Me.indigo.UserIndigoName}
+                                Else
+                                    Me._doc.Update = dateServer
+                                    Me._doc.UpdateUser = Me.indigo.UserIndigo & "-" & Me.indigo.UserIndigoName
+                                    Me._doc.Content = String.Format(ResourceManager.GetString(Me.GetType().Name & "_IndexContent_PaymentAdvancePaymentInvoices", NAME_MODULE), INDsleThirdParty.Text.Split("-").ElementAt(0), INDsleThirdParty.Text.Split("-").ElementAt(1), INDsleEntityAccount.Text, String.Concat(account.Number, " - ", account.Name), _ListBills)
+                                    Me._doc.Title = String.Format(ResourceManager.GetString(Me.GetType().Name & "_IndexTitle", NAME_MODULE), Me._voucherTransaction.Code)
+                                End If
+                            End If
+                        End Using
+                    Case 4 'devolutivo de anticipos ReturningImprestRC
+                        Using Model As New MPUC(Me.Tag)
+                            Dim _ListCashReceipts As String = String.Join(" - ", (From pa In ListVoucherTransactionAdvance Select pa).Cast(Of VoucherTransactionAdvance).ToList().Select(Function(x) x.PortfolioAdvanceCode).Cast(Of String).ToList().ToArray())
+                            Dim account As MainAccounts = Model.GetAccountByIdSimple(VoucherTransactionDetailDatasource.Where(Function(x) x.ExpenseConceptBehavior <> 6).Cast(Of VoucherTransactionDetails).ToList().Select(Function(y) y.IdMainAccount).FirstOrDefault())
+                            If Me._doc Is Nothing Then
+                                Me._doc = New IndexedDocument2 With {
+                                    .Content = String.Format(ResourceManager.GetString(Me.GetType().Name & "_IndexContent_ReturningImprestRC", NAME_MODULE), INDsleThirdParty.Text.Split("-").ElementAt(0), INDsleThirdParty.Text.Split("-").ElementAt(1), INDsleEntityAccount.Text, _ListCashReceipts),
+                                    .CreationDate = dateServer, .CreationUser = Me.indigo.UserIndigo & "-" & Me.indigo.UserIndigoName, .DocumentType = IndexedDocumentType.File,
+                                    .IdEntity = "$#" & Me.Tag & "_" & Me._voucherTransaction.Code & "#$", .IdForm = Me.Tag,
+                                    .Title = String.Format(ResourceManager.GetString(Me.GetType().Name & "_IndexTitle", NAME_MODULE), Me._voucherTransaction.Code),
+                                    .Update = dateServer, .UpdateUser = Me.indigo.UserIndigo & "-" & Me.indigo.UserIndigoName}
+                            Else
+                                Me._doc.Update = dateServer
+                                Me._doc.UpdateUser = Me.indigo.UserIndigo & "-" & Me.indigo.UserIndigoName
+                                Me._doc.Content = String.Format(ResourceManager.GetString(Me.GetType().Name & "_IndexContent_ReturningImprestRC", NAME_MODULE), INDsleThirdParty.Text.Split("-").ElementAt(0), INDsleThirdParty.Text.Split("-").ElementAt(1), INDsleEntityAccount.Text, _ListCashReceipts)
+                                Me._doc.Title = String.Format(ResourceManager.GetString(Me.GetType().Name & "_IndexTitle", NAME_MODULE), Me._voucherTransaction.Code)
+                            End If
+                        End Using
+                    Case 5 'Reembolso caja menor ReturningImprestRC
+                    Case Else 'nothing
+                        If Me._doc Is Nothing Then
+                            Me._doc = New IndexedDocument2 With {
+                                .Content = String.Format(ResourceManager.GetString(Me.GetType().Name & "_IndexContent", NAME_MODULE), INDsleThirdParty.Text.Split("-").ElementAt(0), INDsleThirdParty.Text.Split("-").ElementAt(1), INDsleEntityAccount.Text),
+                                .CreationDate = dateServer, .CreationUser = Me.indigo.UserIndigo & "-" & Me.indigo.UserIndigoName, .DocumentType = IndexedDocumentType.File,
+                                .IdEntity = "$#" & Me.Tag & "_" & Me._voucherTransaction.Code & "#$", .IdForm = Me.Tag,
+                                .Title = String.Format(ResourceManager.GetString(Me.GetType().Name & "_IndexTitle", NAME_MODULE), Me._voucherTransaction.Code),
+                                .Update = dateServer, .UpdateUser = Me.indigo.UserIndigo & "-" & Me.indigo.UserIndigoName}
+                        Else
+                            Me._doc.Update = dateServer
+                            Me._doc.UpdateUser = Me.indigo.UserIndigo & "-" & Me.indigo.UserIndigoName
+                            Me._doc.Content = String.Format(ResourceManager.GetString(Me.GetType().Name & "_IndexContent", NAME_MODULE), INDsleThirdParty.Text.Split("-").ElementAt(0), INDsleThirdParty.Text.Split("-").ElementAt(1), INDsleEntityAccount.Text)
+                            Me._doc.Title = String.Format(ResourceManager.GetString(Me.GetType().Name & "_IndexTitle", NAME_MODULE), Me._voucherTransaction.Code)
+                        End If
+                End Select
+            Case eVoucherClass.Transfer
+                If ExpenseType = 1 Then
+                    Dim _listBankAccountDetail As String = String.Join("; ", (From ba In EntityBankAccountDatasourceGrid Select ba).ToList().Select(Function(x) String.Concat(x.EntityCode, " - ", x.EntityName)).Cast(Of String).ToList().ToArray())
+                    If Me._doc Is Nothing Then
+                        Me._doc = New IndexedDocument2 With {
+                            .Content = String.Format(ResourceManager.GetString(Me.GetType().Name & "_IndexContent_BankTransfer", NAME_MODULE), INDsleEntityAccount.Text, _listBankAccountDetail),
+                            .CreationDate = DateServer, .CreationUser = Me.indigo.UserIndigo & "-" & Me.indigo.UserIndigoName, .DocumentType = IndexedDocumentType.File,
+                            .IdEntity = "$#" & Me.Tag & "_" & Me._voucherTransaction.Code & "#$", .IdForm = Me.Tag,
+                            .Title = String.Format(ResourceManager.GetString(Me.GetType().Name & "_IndexTitle", NAME_MODULE), Me._voucherTransaction.Code),
+                            .Update = DateServer, .UpdateUser = Me.indigo.UserIndigo & "-" & Me.indigo.UserIndigoName}
+                    Else
+                        Me._doc.Update = DateServer
+                        Me._doc.UpdateUser = Me.indigo.UserIndigo & "-" & Me.indigo.UserIndigoName
+                        Me._doc.Content = String.Format(ResourceManager.GetString(Me.GetType().Name & "_IndexContent_BankTransfer", NAME_MODULE), INDsleEntityAccount.Text, _listBankAccountDetail)
+                        Me._doc.Title = String.Format(ResourceManager.GetString(Me.GetType().Name & "_IndexTitle", NAME_MODULE), Me._voucherTransaction.Code)
+                    End If
+                ElseIf ExpenseType = 3 Then
+                    Dim _listCashDetail As String = String.Join("; ", (From ba In EntityBankAccountDatasourceGrid Select ba).ToList().Select(Function(x) String.Concat(x.EntityCode, " - ", x.EntityName)).Cast(Of String).ToList().ToArray())
+                    If Me._doc Is Nothing Then
+                        Me._doc = New IndexedDocument2 With {
+                            .Content = String.Format(ResourceManager.GetString(Me.GetType().Name & "_IndexContent_CashTransfer", NAME_MODULE), INDsleCash.Text, _listCashDetail),
+                            .CreationDate = DateServer, .CreationUser = Me.indigo.UserIndigo & "-" & Me.indigo.UserIndigoName, .DocumentType = IndexedDocumentType.File,
+                            .IdEntity = "$#" & Me.Tag & "_" & Me._voucherTransaction.Code & "#$", .IdForm = Me.Tag,
+                            .Title = String.Format(ResourceManager.GetString(Me.GetType().Name & "_IndexTitle", NAME_MODULE), Me._voucherTransaction.Code),
+                            .Update = DateServer, .UpdateUser = Me.indigo.UserIndigo & "-" & Me.indigo.UserIndigoName}
+                    Else
+                        Me._doc.Update = DateServer
+                        Me._doc.UpdateUser = Me.indigo.UserIndigo & "-" & Me.indigo.UserIndigoName
+                        Me._doc.Content = String.Format(ResourceManager.GetString(Me.GetType().Name & "_IndexContent_CashTransfer", NAME_MODULE), INDsleCash.Text, _listCashDetail)
+                        Me._doc.Title = String.Format(ResourceManager.GetString(Me.GetType().Name & "_IndexTitle", NAME_MODULE), Me._voucherTransaction.Code)
+                    End If
+                End If
+            Case eVoucherClass.Refund
+                Using Model As New MPUC(Me.Tag)
+                    'Dim _ListCashReceipts As String = String.Join(" - ", (From pa In _listRefund Select pa).ToList().Select(Function(x) x.Code).Cast(Of String).ToList().ToArray())
+                    'Dim account As MainAccounts = Model.GetAccountByIdSimple(VoucherTransactionDetailDatasource.Where(Function(x) x.ExpenseConceptBehavior <> 6).Cast(Of VoucherTransactionDetails).ToList().Select(Function(y) y.IdMainAccount).FirstOrDefault())
+                    Dim dataOrigin As String = String.Empty
+                    If _voucherTransaction.IdEntityBankAccount IsNot Nothing Then
+                        dataOrigin = "Cuenta Bancaria : " & INDsleEntityAccount.Text
+                    Else
+                        dataOrigin = "Caja : " & INDsleCash.Text
+                    End If
+                    If Me._doc Is Nothing Then
+                        Me._doc = New IndexedDocument2 With {
+                            .Content = String.Format(ResourceManager.GetString(Me.GetType().Name & "_IndexContent_PettyCashReimbursement", NAME_MODULE), dataOrigin, dataOrigin),
+                            .CreationDate = DateServer, .CreationUser = Me.indigo.UserIndigo & "-" & Me.indigo.UserIndigoName, .DocumentType = IndexedDocumentType.File,
+                            .IdEntity = "$#" & Me.Tag & "_" & Me._voucherTransaction.Code & "#$", .IdForm = Me.Tag,
+                            .Title = String.Format(ResourceManager.GetString(Me.GetType().Name & "_IndexTitle", NAME_MODULE), Me._voucherTransaction.Code),
+                            .Update = DateServer, .UpdateUser = Me.indigo.UserIndigo & "-" & Me.indigo.UserIndigoName}
+                    Else
+                        Me._doc.Update = DateServer
+                        Me._doc.UpdateUser = Me.indigo.UserIndigo & "-" & Me.indigo.UserIndigoName
+                        Me._doc.Content = String.Format(ResourceManager.GetString(Me.GetType().Name & "_IndexContent_PettyCashReimbursement", NAME_MODULE), dataOrigin, dataOrigin)
+                        Me._doc.Title = String.Format(ResourceManager.GetString(Me.GetType().Name & "_IndexTitle", NAME_MODULE), Me._voucherTransaction.Code)
+                    End If
+                End Using
+        End Select
+        Return Me._doc
+    End Function
+
+    ''' <summary>
+    ''' Creates the type of the list expense.
+    ''' </summary>
+    ''' <exception cref="System.NotImplementedException"></exception>
+    Private Sub CreateListExpenseType()
+        ListExpenseType = New List(Of Tuple(Of Short, String))
+        Select Case VoucherClass
+            Case eVoucherClass.Payment
+                ListExpenseType.Add(New Tuple(Of Short, String)(1, ResourceManager.GetString("ExpenseTypeBankAccount", NAME_MODULE)))
+                ListExpenseType.Add(New Tuple(Of Short, String)(2, ResourceManager.GetString("CashMinor", NAME_MODULE)))
+                ListExpenseType.Add(New Tuple(Of Short, String)(3, ResourceManager.GetString("CashMajor", NAME_MODULE)))
+            Case eVoucherClass.Refund, eVoucherClass.Transfer
+                ListExpenseType.Add(New Tuple(Of Short, String)(1, ResourceManager.GetString("ExpenseTypeBankAccount", NAME_MODULE)))
+                ListExpenseType.Add(New Tuple(Of Short, String)(3, ResourceManager.GetString("CashMajor", NAME_MODULE)))
+        End Select
+        INDgleExpenseType.Properties.DataSource = ListExpenseType
+    End Sub
+
+    ''' <summary>
+    ''' Crea el listado de las opciones de generado con
+    ''' </summary>
+    Private Sub CreatePaymentMethod(ByVal Type As Integer)
+        ListPaymentMethod = New List(Of Tuple(Of Integer, String))
+        If Type = eEntityBankAccountType.Current Then
+            ListPaymentMethod.Add(New Tuple(Of Integer, String)(1, ResourceManager.GetString("PaymentMethodCheck", NAME_MODULE)))
+        End If
+        ListPaymentMethod.Add(New Tuple(Of Integer, String)(2, ResourceManager.GetString("PaymentMethodDebitNote", NAME_MODULE)))
+        INDglePaymentMethod.Properties.DataSource = ListPaymentMethod
+    End Sub
+
+    ''' <summary>
+    ''' Creates the voucher class.
+    ''' </summary>
+    Private Sub CreateVoucherClass()
+        ListVoucherClass = New List(Of Tuple(Of Integer, String))
+        ListVoucherClass.Add(New Tuple(Of Integer, String)(1, ResourceManager.GetString("VoucherClassPayment", NAME_MODULE)))
+        ListVoucherClass.Add(New Tuple(Of Integer, String)(2, ResourceManager.GetString("VoucherClassRefund", NAME_MODULE)))
+        ListVoucherClass.Add(New Tuple(Of Integer, String)(3, ResourceManager.GetString("DocumentTypeConsignmentTransfer", NAME_MODULE)))
+        INDgleVoucherClass.Properties.DataSource = ListVoucherClass
+    End Sub
+
+    ''' <summary>
+    ''' Obtiene el id del detalle de secuencia por el prefijo seleccionado
+    ''' </summary>
+    ''' <param name="prefix">Prefijo a buscar</param>
+    ''' <returns>Id del detalle de secuencia</returns>
+    Private Function GetIdSequenceByPrefix(ByVal prefix As String) As Int64
+        If Me._sequence IsNot Nothing AndAlso Me._sequence.TreasurySequenceDetail IsNot Nothing AndAlso Me._sequence.TreasurySequenceDetail.Any(Function(d) d.Prefix IsNot Nothing AndAlso d.Prefix.Trim().Equals(prefix)) Then
+            Return Me._sequence.TreasurySequenceDetail.Where(Function(d) d.Prefix IsNot Nothing AndAlso d.Prefix.Trim().Equals(prefix)).FirstOrDefault().Id
+        Else
+            Return 0
+        End If
+    End Function
+
+    ''' <summary>
+    ''' News the voucher transaction.
+    ''' </summary>
+    Private Async Function NewVoucherTransaction() As Task
+        Me._voucherTransaction = New VoucherTransaction()
+        If Me._sequence.IsManual Then
+            Me.ActionsOnControls = True
+            Me.BarraBotones.PrepareToolbar(eAction.OnlySaveConfirm)
+            Me.BarraBotones.OcultarBotonesSinPermisos(EbuttonsWithoutPermission.GestionDocumental) = True
+            Me.BarraBotones.OcultarBotonesSinPermisos(EbuttonsWithoutPermission.Auditoria) = True
+        Else
+            If Me._sequence.Scope.Equals("O") Then 'El ambito es a nivel de organización
+                Me._idCurrentSequence = Me._sequence.TreasurySequenceDetail(0).Id
+            ElseIf Me._sequence.Scope.Equals("OU") Then 'El ambito es a nivel de unidad operativa
+                If Me._sequence.TreasurySequenceDetail.Any(Function(o) o.IdOperatingUnit = Me._idOperativeUnit) Then
+                    Me._idCurrentSequence = Me._sequence.TreasurySequenceDetail.SingleOrDefault(Function(o) o.IdOperatingUnit = Me._idOperativeUnit).Id
+                Else
+                    Me.Mensaje(EeventViewerImages.Advertencia) = ResourceManager.GetString("OperatingUnitUnassigned")
+                    Me.BarraBotones.PrepareToolbar(eAction.OnlyUndo)
+                    Exit Function
+                End If
+            ElseIf Me._sequence.Scope.Equals("CC") Then
+                Dim errors = New StringBuilder()
+                For Each item In ListVoucherClass
+                    If Me._sequence.TreasurySequenceDetail Is Nothing OrElse Not Me._sequence.TreasurySequenceDetail.Any(Function(d) d.Type = item.Item1) Then
+                        errors.AppendLine(item.Item2)
+                    End If
+                Next
+                If errors.Length > 0 Then
+                    Me.Mensaje(EeventViewerImages.Advertencia) = "No existe una secuencia numérica asignada a los comprobantes de tipo: " & Environment.NewLine & errors.ToString
+                    Me.BarraBotones.PrepareToolbar(eAction.OnlyUndo)
+                    Exit Function
+                End If
+            End If
+            If Me._sequence.Sequential Then
+                Me.Code = ResourceManager.GetString("LabelOrTextboxNew")
+                Me.ActionsOnControls = True
+                Me.BarraBotones.PrepareToolbar(eAction.OnlySaveConfirm)
+                Me.BarraBotones.OcultarBotonesSinPermisos(EbuttonsWithoutPermission.GestionDocumental) = True
+                Me.BarraBotones.OcultarBotonesSinPermisos(EbuttonsWithoutPermission.Auditoria) = True
+            Else
+                If Me.DicSequense IsNot Nothing AndAlso Me.DicSequense.Count > 0 Then
+                    If Me.DicSequense(CInt(Me._idCurrentSequence)).Count > 0 Then
+                        Me.Code = Me.DicSequense(CInt(Me._idCurrentSequence))(0)
+                        Me.ActionsOnControls = True
+                        Me.BarraBotones.PrepareToolbar(eAction.OnlySaveConfirm)
+                        Me.BarraBotones.OcultarBotonesSinPermisos(EbuttonsWithoutPermission.GestionDocumental) = True
+                        Me.BarraBotones.OcultarBotonesSinPermisos(EbuttonsWithoutPermission.Auditoria) = True
+                    Else
+                        AsyncLoader(True)
+                        Using model As New MCommonTreasury(CStr(Me.Tag))
+                            Me.DicSequense(CInt(Me._idCurrentSequence)) = Await model.GetNumericSequenseGroup(CInt(Me._idCurrentSequence))
+                        End Using
+                        AsyncLoader(False)
+                        If Me.DicSequense(CInt(Me._idCurrentSequence)) IsNot Nothing AndAlso Me.DicSequense(CInt(Me._idCurrentSequence)).Count > 0 Then
+                            Me.Code = Me.DicSequense(CInt(Me._idCurrentSequence))(0)
+                            Me.ActionsOnControls = True
+                            Me.BarraBotones.PrepareToolbar(eAction.OnlySaveConfirm)
+                            Me.BarraBotones.OcultarBotonesSinPermisos(EbuttonsWithoutPermission.GestionDocumental) = True
+                            Me.BarraBotones.OcultarBotonesSinPermisos(EbuttonsWithoutPermission.Auditoria) = True
+                        Else
+                            Me.Mensaje(EeventViewerImages.Advertencia) = ResourceManager.GetString("InvalidPatternSequense")
+                        End If
+                    End If
+                Else
+                    Me.Code = ResourceManager.GetString("LabelOrTextboxNew")
+                    Me.ActionsOnControls = True
+                    Me.BarraBotones.PrepareToolbar(eAction.OnlySaveConfirm)
+                    Me.BarraBotones.OcultarBotonesSinPermisos(EbuttonsWithoutPermission.GestionDocumental) = True
+                    Me.BarraBotones.OcultarBotonesSinPermisos(EbuttonsWithoutPermission.Auditoria) = True
+                End If
+            End If
+        End If
+        _presenter.LoadDateServer(Me.GetDateServer())
+    End Function
+
+    ''' <summary>
+    ''' Elimina el registro bloqueado
+    ''' </summary>
+    Public Async Sub DeleteBlockedRecord()
+        If _record IsNot Nothing AndAlso _record.Id > 0 AndAlso _record.CodUser.Equals(Me.indigo.UserIndigo) Then
+            Using ModelCommonTreasury As New MCommonTreasury(Me.Tag)
+                Await ModelCommonTreasury.DeleteBlockRecordTreasury(_record)
+                _record = Nothing
+            End Using
+        End If
+    End Sub
+
+    Public Sub AsyncLoaderLocal(state As Boolean)
+        Me.LyiProgressBar.ContentVisible = state
+        Me.ToolBars.Enabled = Not state
+        If Not state Then
+            ActionsOnControls = Not state
+            INDbteCode.Enabled = state
+        End If
+    End Sub
+
+    ''' <summary>
+    ''' Loads the controls.
+    ''' </summary>
+    Public Async Function LoadControls() As Task
+        If Not String.IsNullOrEmpty(Code) AndAlso Not String.IsNullOrWhiteSpace(Code) Then
+            Try
+                If Me.BarraBotones.PermiteConsultar = False Then
+                    Mensaje(EeventViewerImages.Advertencia) = ResourceManager.GetString("NoPermissions")
+                    Exit Function
+                End If
+
+                Using Model As New MVoucherTransaction(Me.Tag)
+                    AsyncLoaderLocal(True)
+                    INDlycRoot.BeginUpdate()
+                    Dim result As ActionResult(Of VoucherTransaction) = Await Model.GetVoucherTransaction(Me.Code)
+                    _voucherTransaction = result.ObjectEmbbeded
+                    If _voucherTransaction IsNot Nothing AndAlso _voucherTransaction.Id > 0 Then
+                        Me.BarraBotones.StatusRecordVisible = True
+                        IsLoading = True
+                        Using ModelCommonTreasury As New MCommonTreasury(Me.Tag)
+                            _record = Await ModelCommonTreasury.GetBlockRecordTreasury(Me.Tag, _voucherTransaction.Id)
+                            Using ModelCashRegisterUser As New MCashRegisterUser(Me.Tag)
+                                With _voucherTransaction
+                                    Me.BarraBotones.AddAuditBasic(ResourceManager.GetString("CreationUser"), .CreationUser)
+                                    Me.BarraBotones.AddAuditBasic(ResourceManager.GetString("CreationDate"), .CreationDate)
+                                    Me.BarraBotones.AddAuditBasic(ResourceManager.GetString("ModificationUser"), .ModificationUser)
+                                    Me.BarraBotones.AddAuditBasic(ResourceManager.GetString("ModificationDate"), .ModificationDate)
+                                    Me.LayoutControls.SetCustomFieldsValue(.CustomProperties)
+                                    Code = .Code
+                                    VoucherClass = .VoucherClass
+                                    IdThirdParty = .IdThirdParty
+                                    IdMainAccount = .IdMainAccount
+                                    IdCostCenter = .IdCostCenter
+                                    obligation = .Detail
+                                    DocumentDate = .DocumentDate
+                                    ExpenseType = .ExpenseType
+                                    IdEntityBankAccount = .IdEntityBankAccount
+                                    IdCashRegister = .IdCashRegister
+                                    PaymentMethod = .PaymentMethod
+                                    NoteNumber = .NoteNumber
+                                    IdCheckBook = .IdChecks
+                                    CheckNumber = .CheckNumber
+                                    TransactionDate = .TransactionDate
+                                    TaxByMil = .TaxByMil
+                                    TaxByMilValue = .TaxByMilValue
+                                    Value = .Value
+                                    CashRegisterExpense = .CashRegisterExpense
+                                    RefundCashRegisterExpense = .RefundCashRegisterExpense
+                                    'IdFundsDispersion = .IdFundsDispersion
+                                    BeneficiaryIdentification = .BeneficiaryIdentification
+                                    Beneficiary = .Beneficiary
+                                    TransactionRelationShip = .TransactionRelationship
+                                    CheckReconciled = .CheckReconciled
+                                    IdPaymentOrder = .IdPaymentOrder
+                                    Printed = .Printed
+                                    RTEValue = .RTEValue
+                                    IVAValue = .IVAValue
+                                    ICAValue = .ICAValue
+                                    OtherValue = .OtherValue
+                                    BankAccountNumber = .BankAccountNumber
+                                    BankName = .BankName
+                                    DetailsInterfaceBudget = .DetailsInterfaceBudget
+                                    Status = .Status.ToString()
+                                End With
+                            End Using
+                            LoadNullText()
+                            Select Case VoucherClass
+                                Case eVoucherClass.Payment
+                                    VoucherTransactionDetailDatasource = _voucherTransaction.VoucherTransactionDetails.ToList()
+                                    Dim resultBehavior = (From x In _voucherTransaction.VoucherTransactionDetails Where x.ExpenseConceptBehavior = 4 Select x.VoucherTransactionAdvance).SingleOrDefault()
+                                    If resultBehavior IsNot Nothing Then
+                                        ListVoucherTransactionAdvance = (From r In resultBehavior Select r).ToList()
+                                    End If
+                                    INDsbAddExpenseConcept.Enabled = True
+                                Case eVoucherClass.Transfer, eVoucherClass.Refund
+                                    EntityBankAccountDatasourceGrid = _voucherTransaction.VoucherTransactionDetails.ToList()
+                            End Select
+                            Me.GetDocumentIndexed(Me.Tag & "_" & Me._voucherTransaction.Code)
+                            If _record.Id = 0 Then
+                                _record = (Await ModelCommonTreasury.SaveBlockRecordTreasury(
+                                    New BlockRecordTreasury With {.BlockDate = Date.Now, .ChangeTracker = New ObjectChangeTracker() With {.State = ObjectState.Added},
+                                        .NameUser = Me.indigo.UserIndigoName, .IdForm = Me.Tag, .CodUser = Me.indigo.UserIndigo, .IdRecord = _voucherTransaction.Id})
+                                    ).ObjectEmbbeded
+                            Else
+                                Dim xtraMessage As String = String.Format(obtenerRecurso(RegistroBloqueado, Comunes), _record.CodUser, _record.NameUser, _record.BlockDate)
+                                Me.BarraBotones.ShowXtraMessage(xtraMessage, ImagesXtraLabel.Warning, _record.CodUser)
+                            End If
+                            Me.BarraBotones.SetDocuments(_voucherTransaction.Id, Me.Tag.ToString(), Nothing, GetType(VoucherTransaction).Name)
+                            If _voucherTransaction.Status = 2 OrElse _voucherTransaction.Status = 3 OrElse _voucherTransaction.Status = 4 Then 'estado confirmado
+                                ReadOnlyControls(True)
+                                INDcolMoreInfo.OptionsColumn.AllowEdit = True
+                                INDcolMoreInfo.OptionsColumn.AllowFocus = True
+                                INDpopConMoreInfo.Enabled = True
+                                INDlcMoreInfo.Enabled = True
+                                INDlgrMoreInfo.Enabled = True
+                                INDlgrInvoices.Enabled = True
+                                INDlgrAdvancePayment.Enabled = True
+                                INDlgrBankTraslate.Enabled = True
+                                INDlgrRefund.Enabled = True
+
+                                INDcolBalanceShare.Visible = False
+                                INDcolAdvanceBalance.Visible = False
+                                Me.BarraBotones.PrepareToolbar(eAction.OnlyUndoAndAudit)
+                            Else
+                                Me.BarraBotones.PrepareToolbar(eAction.OnlyUpdateConfirmIntegratedAnnular)
+                                Me.BarraBotones.OcultarBotonesSinPermisos(EbuttonsWithoutPermission.Eliminar) = True
+                            End If
+                            BarraBotones.OcultarBotonesSinPermisos(EbuttonsWithoutPermission.Imprimir) = False
+                            Me.BarraBotones.PrintReport(PrintReportAction.None, _voucherTransaction.Id, 0, _voucherTransaction.Id)
+                            AsyncLoaderLocal(False)
+                            ActionsOnControls = True
+                            INDbteCode.Enabled = False
+                            INDGvVoucherTransactionDetail.ShowLoadingPanel()
+                            Me.BarraBotones.Enabled = False
+                            asyncConcepts = New BackgroundWorker()
+                            asyncConcepts.WorkerSupportsCancellation = True
+                            AddHandler asyncConcepts.DoWork, AddressOf asyncExpense_DoWork
+                            AddHandler asyncConcepts.RunWorkerCompleted, AddressOf asyncExpense_Complete
+                            asyncConcepts.RunWorkerAsync()
+                        End Using
+                        Me.RefreshXMilValue()
+                        ctrTmp.PrintValueVoucher()
+                    Else
+                        'Me.Mensaje(EeventViewerImages.Advertencia) = ResourceManager.GetString(Me.GetType().Name & "_DontExists", NAME_MODULE)
+                        'Me.Code = String.Empty
+                        'Me.BarraBotones.StatusRecord = eActionsStatusRecords.Inactive
+                        AsyncLoaderLocal(False)
+                        If Me._sequence.IsManual Then
+                            Await Me.NewVoucherTransaction()
+                        Else
+                            Me.Mensaje(EeventViewerImages.Advertencia) = ResourceManager.GetString(Me.GetType().Name & "_DontExists", NAME_MODULE)
+                            Me.Code = String.Empty
+                            Me.BarraBotones.StatusRecord = eActionsStatusRecords.Inactive
+                            Deshacer()
+                            INDbteCode.Focus()
+                        End If
+                    End If
+                End Using
+                IndigoGridControl1.RefreshGrid(INDGcVoucherTransactionDetail)
+                INDlycRoot.EndUpdate()
+                IsLoading = False
+                Me.BarraBotones.LoadReportsAndDefinitions()
+                RaiseEvent LoadControlsFinish(ExpenseType)
+            Catch ex As Exception
+                AsyncLoader(False)
+                INDbteCode.Enabled = False
+                Throw ex
+            End Try
+        End If
+
+    End Function
+
+    ''' <summary>
+    ''' Asigna los valores a la entidad
+    ''' </summary>
+    Private Sub AssigningValues()
+        With _voucherTransaction
+            .CustomProperties = Me.LayoutControls.GetCustomFieldsValue()
+            .Code = Code
+            .IdMainAccount = IdMainAccount
+            .IdCostCenter = IdCostCenter
+            .ExpenseType = ExpenseType
+            .Detail = obligation.Trim()
+            .DocumentDate = DocumentDate
+            .IdCashRegister = IdCashRegister
+            .IdEntityBankAccount = IdEntityBankAccount
+            .Prefix = Me._prefixSelected
+            .Value = Value
+            .VoucherClass = VoucherClass
+            .PaymentMethod = PaymentMethod
+            .NoteNumber = NoteNumber
+            .IdChecks = IdCheckBook
+            .CheckNumber = CheckNumber
+            .TransactionDate = TransactionDate
+            .TaxByMil = TaxByMil
+            .TaxByMilValue = IIf(TaxByMilValue Is Nothing, CType(0, Decimal), TaxByMilValue)
+            .CashRegisterExpense = CashRegisterExpense 'CashRegisterExpense (No se incluye en este frontal)
+            .RefundCashRegisterExpense = RefundCashRegisterExpense ' RefundCashRegisterExpense (No se incluye en este frontal)
+            .SchedulePaymentId = IdFundsDispersion ' IdFundsDispersion (No se incluye en este frontal)
+
+            Dim third As Domain.Entities.ThirdParty = Nothing
+            If IdThirdParty IsNot Nothing AndAlso IdThirdParty > 0 Then
+                .IdThirdParty = IdThirdParty
+                Using Model As New MThirdParty(Me.Tag)
+                    third = Model.GetThirdPartyByIdSimple(IdThirdParty)
+                End Using
+            End If
+
+            Using Formulario As New FrmBeneficiary
+                If _voucherTransaction.Id <> 0 Then
+                    Formulario.LoadData(.BeneficiaryIdentification, .Beneficiary)
+                ElseIf third IsNot Nothing AndAlso third.Id > 0 Then
+                    Formulario.LoadData(third.Person.IdentificationNumber, third.Name)
+                End If
+                Formulario.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent
+                Formulario.MinimizeBox = False
+                Formulario.MaximizeBox = False
+                Dim transparent As New FrmTransparent(Formulario, False)
+                transparent.ShowDialog(Me)
+                .BeneficiaryIdentification = Formulario.BeneficiaryIdentification
+                .Beneficiary = Formulario.BeneficiaryName
+            End Using
+
+            .TransactionRelationship = TransactionRelationShip ' TransactionRelationShip (No se incluye en este frontal)
+            .CheckReconciled = CheckReconciled ' CheckReconciled (No se incluye en este frontal)
+            .IdPaymentOrder = IdPaymentOrder ' IdPaymentOrder (No se incluye en este frontal)
+            .Printed = Printed ' Printed (No se incluye en este frontal)
+            .RTEValue = RTEValue ' RTEValue
+            .IVAValue = IVAValue ' IVAValue
+            .ICAValue = ICAValue ' ICAValue
+            .OtherValue = OtherValue ' OtherValue
+
+            If .IdEntityBankAccount IsNot Nothing Then
+                Using Model As New MEntityAccount(Me.Tag)
+                    Dim cuentaBancaria As EntityBankAccounts = Model.GetEntityBankAccountByIdSimple(.IdEntityBankAccount)
+                    .BankAccountNumber = cuentaBancaria.Number
+                    Using ModelBank As New Presentation.Common.MVP.MBank(Me.Tag)
+                        Dim banco As Domain.Entities.Bank = ModelBank.GetBankById(cuentaBancaria.IdBank)
+                        .BankName = banco.Name
+                    End Using
+                End Using
+            End If
+            .DetailsInterfaceBudget = DetailsInterfaceBudget
+            .IdUnitOperative = Me._idOperativeUnit
+            .Status = If(Status Is Nothing, 1, CByte(Status))
+        End With
+
+        Select Case VoucherClass
+            Case eVoucherClass.Payment
+                Dim advance As TreasuryAdvances = Nothing
+                For Each voucherDetail As VoucherTransactionDetails In VoucherTransactionDetailDatasource
+                    advance = voucherDetail.TreasuryAdvances.FirstOrDefault()
+                    If voucherDetail.Id <> 0 AndAlso advance IsNot Nothing Then
+                        If voucherDetail.AdvanceValue <> 0 Then
+                            advance.Value = voucherDetail.AdvanceValue
+                            advance.Detail = voucherDetail.AdvanceDetail
+                            advance.MarkAsModified()
+                        Else
+                            advance.MarkAsDeleted()
+                        End If
+                        _voucherTransaction.MarkAsModified()
+                    Else
+                        If voucherDetail.AdvanceValue <> 0 Then
+                            advance = New TreasuryAdvances()
+                            With advance
+                                .IdVoucherTransactionDetail = voucherDetail.Id
+                                .Detail = voucherDetail.AdvanceDetail
+                                .Value = voucherDetail.AdvanceValue
+                            End With
+                            voucherDetail.TreasuryAdvances.Add(advance)
+                        End If
+                    End If
+                    'agrego o modifico las facturas
+                    voucherDetail.DischargeBill.Clear()
+                    If DatasourceDischargeBillPopUp IsNot Nothing Then
+                        For Each dischargeBill As DischargeBill In DatasourceDischargeBillPopUp.Where(Function(x) x.ExpenseConceptId = voucherDetail.IdExpenseConcept).ToList()
+                            If dischargeBill.Id > 0 Then
+                                dischargeBill.MarkAsModified()
+                            End If
+                            voucherDetail.DischargeBill.Add(dischargeBill)
+                        Next
+                    End If
+                    'marcar como eliminadas las facturas del listado
+                    If voucherDetail.DischargeBillDelete IsNot Nothing AndAlso voucherDetail.DischargeBillDelete.Count > 0 Then
+                        For Each dischargeBill As DischargeBill In voucherDetail.DischargeBillDelete
+                            If dischargeBill.Id > 0 Then
+                                dischargeBill.MarkAsDeleted()
+                                voucherDetail.DischargeBill.Add(dischargeBill)
+                            End If
+                        Next
+                    End If
+                    If ListVoucherTransactionAdvance IsNot Nothing AndAlso ListVoucherTransactionAdvance.Count > 0 And voucherDetail.ExpenseConceptBehavior = 4 Then
+                        For Each item In ListVoucherTransactionAdvance
+                            If Not (item.ChangeTracker.State = ObjectState.Deleted AndAlso item.Id = 0) Then
+                                voucherDetail.VoucherTransactionAdvance.Add(item)
+                            End If
+                        Next
+                    End If
+                    If voucherDetail.Id = 0 Then
+                        _voucherTransaction.VoucherTransactionDetails.Add(voucherDetail)
+                    End If
+                Next
+            Case eVoucherClass.Transfer, eVoucherClass.Refund
+                EntityBankAccountDatasourceGrid.ForEach(Sub(voucherDetail)
+                                                            If voucherDetail.Id = 0 Then
+                                                                _voucherTransaction.VoucherTransactionDetails.Add(voucherDetail)
+                                                            End If
+                                                        End Sub)
+        End Select
+
+    End Sub
+
+    ''' <summary>
+    ''' Limpia los layouts
+    ''' </summary>
+    Private Sub CleanLayout()
+        INDliPaymentMethod.HideControl(True)
+        INDliDebitNote.HideControl(True)
+        INDliCheck.HideControl(True)
+        INDliCostCenter.HideControl(True)
+        INDliTransactionDate.HideControl(True)
+        'INDliXMil.HideControl(True)
+        INDliCash.HideControl(True)
+        INDliEntityBankAccount.HideControl(True)
+        PaymentMethod = Nothing
+        INDsleEntityAccount.EditValue = Nothing
+        INDsleCash.EditValue = Nothing
+        INDtxtDebitNote.EditValue = Nothing
+        INDtxtCheck.EditValue = Nothing
+        INDdeTransactionDate.EditValue = Nothing
+        INDrgXMil.EditValue = False
+        TaxByMilValue = Nothing
+        _statePopUpCash = False
+    End Sub
+
+    ''' <summary>
+    ''' Actualiza el valor de la tasa por mil
+    ''' </summary>
+    Private Sub RefreshXMilValue()
+        If IdEntityBankAccount IsNot Nothing AndAlso IdEntityBankAccount > 0 AndAlso TaxByMil = True Then
+            If EntityBankAccount IsNot Nothing AndAlso EntityBankAccount.Id > 0 Then
+                Select Case VoucherClass
+                    Case eVoucherClass.Payment
+                        If VoucherTransactionDetailDatasource IsNot Nothing Then
+                            Dim diference = VoucherTransactionDetailDatasource.Where(Function(o) o.Nature = 1).Sum(Function(x) x.Value) - VoucherTransactionDetailDatasource.Where(Function(o) o.Nature = 2).Sum(Function(x) x.Value)
+                            TaxByMilValue = TreasuryStaticServices.CalculateRateByMilValue(EntityBankAccount.Rate, diference).Item1
+                            Value = TreasuryStaticServices.CalculateRateByMilValue(EntityBankAccount.Rate, diference).Item2
+                        End If
+                    Case eVoucherClass.Transfer, eVoucherClass.Refund
+                        If EntityBankAccountDatasourceGrid IsNot Nothing Then
+                            Dim diference = EntityBankAccountDatasourceGrid.Where(Function(o) o.Nature = 1).Sum(Function(x) x.Value) - EntityBankAccountDatasourceGrid.Where(Function(o) o.Nature = 2).Sum(Function(x) x.Value)
+                            TaxByMilValue = TreasuryStaticServices.CalculateRateByMilValue(EntityBankAccount.Rate, diference).Item1
+                            Value = TreasuryStaticServices.CalculateRateByMilValue(EntityBankAccount.Rate, diference).Item2
+                        End If
+                End Select
+            End If
+        Else
+            Select Case VoucherClass
+                Case eVoucherClass.Payment
+                    If VoucherTransactionDetailDatasource IsNot Nothing Then
+                        Value = VoucherTransactionDetailDatasource.Where(Function(o) o.Nature = 1).Sum(Function(x) x.Value) - VoucherTransactionDetailDatasource.Where(Function(o) o.Nature = 2).Sum(Function(x) x.Value)
+                    End If
+                Case eVoucherClass.Transfer, eVoucherClass.Refund
+                    If EntityBankAccountDatasourceGrid IsNot Nothing Then
+                        Value = EntityBankAccountDatasourceGrid.Where(Function(o) o.Nature = 1).Sum(Function(x) x.Value) - EntityBankAccountDatasourceGrid.Where(Function(o) o.Nature = 2).Sum(Function(x) x.Value)
+                    End If
+            End Select
+        End If
+    End Sub
+
+    ''' <summary>
+    ''' Elimino un cheque bloqueado y lo envio a cheques pendientes
+    ''' </summary>
+    Private Sub DeleteCheckBlock(Optional ByVal isPending As Boolean = True)
+        'If _voucherTransaction IsNot Nothing AndAlso _voucherTransaction.Id = 0 Then
+        Dim setting As SettingsTreasury = Nothing
+        Using ModelSetting As New MSettingsTreasury(Me.Tag)
+            Dim resultSetting = ModelSetting.GetSettingsTreasuryByIdUnitOperativeSimple(Me._idOperativeUnit)
+            If resultSetting.StateResult AndAlso resultSetting.ObjectEmbbeded IsNot Nothing AndAlso resultSetting.ObjectEmbbeded.Id > 0 Then
+                setting = resultSetting.ObjectEmbbeded
+                If setting.CheckBookControl Then
+                    If IdCheckBook IsNot Nothing AndAlso CheckNumber IsNot Nothing AndAlso IdCheckBook <> 0 AndAlso CheckNumber <> 0 Then
+                        If isPending Then
+                            Using ModelOutstandingChecks As New MOutstandingChecks(Me.Tag)
+                                Dim outstandingChecks As New OutstandingChecks()
+                                With outstandingChecks
+                                    .IdCheckBook = IdCheckBook
+                                    .CheckNumber = CheckNumber
+                                End With
+                                Dim resultOutstandingChecks = ModelOutstandingChecks.SaveOutstandingChecksSimple(outstandingChecks)
+                                IdCheckBook = outstandingChecks.IdCheckBook
+                                CheckNumber = outstandingChecks.CheckNumber
+                                If resultOutstandingChecks.StateResult = False AndAlso (_voucherTransaction.Status = 1 OrElse _voucherTransaction.Status = 0) Then
+                                    Mensaje(EeventViewerImages.Advertencia) = ResourceManager.GetString("OutstandingChecksPutError", NAME_MODULE)
+                                End If
+                            End Using
+                        End If
+                        Using Model As New MCheck(Me.Tag)
+                            Dim resultOp = Model.GetCheckBlockByIdCheckBookNumberSimple(IdCheckBook, CheckNumber)
+                            Dim checkBlock As CheckBlock = resultOp.ObjectEmbbeded
+                            If checkBlock IsNot Nothing AndAlso checkBlock.Id > 0 Then
+                                checkBlock.MarkAsDeleted()
+                                Dim regBlock = Model.DeleteCheckBlockSimple(checkBlock)
+                                If regBlock.StateResult = False AndAlso (_voucherTransaction.Status = 1 OrElse _voucherTransaction.Status = 0) Then
+                                    Mensaje(EeventViewerImages.Advertencia) = ResourceManager.GetString("DeleteErrorCheckBlock", NAME_MODULE)
+                                End If
+                            End If
+                        End Using
+                        CheckNumber = Nothing
+                        IdCheckBook = Nothing
+                    End If
+                End If
+            End If
+        End Using
+        'End If
+    End Sub
+
+    ''' <summary>
+    ''' Adds the expense concept.
+    ''' </summary>
+    Private Sub AddVoucherTransactionDetail(ByVal isEdit As Boolean)
+        Me.Cursor = ChangeCursorIndigo()
+        Using Formulario As New FrmPopUpDisbursementVoucher
+            Formulario.MinimizeBox = False
+            Formulario.MaximizeBox = False
+            Formulario.IniciarCombos()
+            Formulario.VoucherClass = VoucherClass
+            AddHandler Formulario.AddVoucherDetail, AddressOf LoadExpenseConcept
+            Select Case ExpenseType
+                Case eExpenseType.BankAccount
+                    Formulario.IdEntityBankAccount = INDsleEntityAccount.EditValue
+                    Formulario.InitializeExpenseConceptNotCash()
+                Case eExpenseType.MinorCash
+                    Formulario.IdCash = INDsleCash.EditValue
+                    Formulario.InitializeExpenseConceptByCash()
+                Case eExpenseType.MajorCash
+                    Formulario.IdCash = INDsleCash.EditValue
+                    'Formulario.InitializeExpenseConceptByMajorCash()
+                    Formulario.InitializeExpenseConceptNotCash()
+            End Select
+            Select Case VoucherClass
+                Case eVoucherClass.Payment
+                    Formulario.PaymentsSettingPaymentsXpo = Me.PaymentsSettingPaymentsXpo
+                    Formulario.MainThird = IdThirdParty
+                    Dim _voucherTDetail As VoucherTransactionDetails = Nothing
+                    If isEdit Then
+                        _voucherTDetail = CType(INDGvVoucherTransactionDetail.GetRow(INDGvVoucherTransactionDetail.FocusedRowHandle), VoucherTransactionDetails)
+                        If _voucherTDetail.ExpenseConceptBehavior = eBehavior.PettyCash OrElse _voucherTDetail.ExpenseConceptBehavior = eBehavior.PaymentAdvancePaymentInvoices Then
+                            Formulario.DictionaryAgesPayments = _dictionaryAgesPayments
+                            If DatasourceDischargeBillPopUp IsNot Nothing Then
+                                Formulario.LoadListDischargeBill(DatasourceDischargeBillPopUp.Where(Function(x) x.ExpenseConceptId = _voucherTDetail.IdExpenseConcept).ToList())
+                            Else
+                                Formulario.LoadListDischargeBill(Nothing)
+                            End If
+                        ElseIf _voucherTDetail.ExpenseConceptBehavior = eBehavior.ReturningImprestRC Then 'Devolutivo de anticipos R/C
+                            Formulario.VoucherTransactionAdvance = ListVoucherTransactionAdvance
+                        End If
+                        Formulario.LoadDataVoucherTransactionDetail(_voucherTDetail)
+                    End If
+                    If VoucherTransactionDetailDatasource IsNot Nothing Then
+                        If isEdit Then
+                            Formulario.ListVoucherDetails = VoucherTransactionDetailDatasource.Where(Function(x) x.ExpenseConceptBehavior <> 6 AndAlso x.IdExpenseConcept <> _voucherTDetail.IdExpenseConcept) _
+                                                                .Cast(Of VoucherTransactionDetails).ToList()
+                        Else
+                            Formulario.ListVoucherDetails = VoucherTransactionDetailDatasource.Where(Function(x) x.ExpenseConceptBehavior <> 6).Cast(Of VoucherTransactionDetails).ToList()
+                        End If
+                    End If
+                    'Parámetros
+                    'Formulario.ThirdParthy = INDsleThirdParty.EditValue
+                Case eVoucherClass.Refund
+                    If ExpenseType = 3 Then
+                        Formulario.IdCashRegisterValidate = IdCashRegister
+                    End If
+                    Dim _voucherTDetail As VoucherTransactionDetails = CType(ViewTransfer.GetFocusedRow(), VoucherTransactionDetails)
+                    If EntityBankAccountDatasourceGrid IsNot Nothing Then
+                        If isEdit Then
+                            Formulario.ListVoucherDetails = EntityBankAccountDatasourceGrid.Where(Function(x) x.CashRegisterId <> _voucherTDetail.CashRegisterId).Cast(Of VoucherTransactionDetails).ToList()
+                        Else
+                            Formulario.ListVoucherDetails = EntityBankAccountDatasourceGrid
+                        End If
+                    End If
+                    If isEdit Then
+                        Formulario.LoadDataVoucherTransactionDetail(_voucherTDetail)
+                    End If
+                Case eVoucherClass.Transfer
+                    If ExpenseType = 3 Then
+                        Formulario.IdCashRegisterValidate = IdCashRegister
+                    End If
+                    Dim _voucherTDetail As VoucherTransactionDetails = CType(ViewTransfer.GetFocusedRow(), VoucherTransactionDetails)
+                    If EntityBankAccountDatasourceGrid IsNot Nothing Then
+                        If isEdit Then
+                            If ExpenseType = 1 Then
+                                Formulario.ListVoucherDetails = EntityBankAccountDatasourceGrid.Where(Function(x) x.IdEntityBankAccount <> _voucherTDetail.IdEntityBankAccount).Cast(Of VoucherTransactionDetails).ToList()
+                            ElseIf ExpenseType = 3 Then
+                                Formulario.ListVoucherDetails = EntityBankAccountDatasourceGrid.Where(Function(x) x.CashRegisterId <> _voucherTDetail.CashRegisterId).Cast(Of VoucherTransactionDetails).ToList()
+                            End If
+                        Else
+                            Formulario.ListVoucherDetails = EntityBankAccountDatasourceGrid
+                        End If
+                    End If
+                    If isEdit Then
+                        Formulario.LoadDataVoucherTransactionDetail(_voucherTDetail)
+                    End If
+            End Select
+            Formulario.ExpenseType = ExpenseType
+            Formulario.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent
+            If _voucherTransaction IsNot Nothing Then
+                Formulario.StatusVoucher = _voucherTransaction.Status
+            End If
+            Dim transparent As New FrmTransparent(Formulario, False)
+            Me.Cursor = System.Windows.Forms.Cursors.Default
+            transparent.ShowDialog(Me)
+        End Using
+    End Sub
+
+    ''' <summary>
+    ''' Deletes the expense concept.
+    ''' </summary>
+    Private Sub DeleteVoucherTransactionDetail()
+        If MessageIndigo.Show(ResourceManager.GetString("DeleteRecord"), MessageType.Question, Me.Text, Botones.SiNo) = System.Windows.Forms.DialogResult.Yes Then
+            Dim voucherDetail As VoucherTransactionDetails = CType(INDGvVoucherTransactionDetail.GetFocusedRow(), VoucherTransactionDetails)
+            If voucherDetail.Id > 0 Then
+                If DatasourceDischargeBillPopUp IsNot Nothing AndAlso DatasourceDischargeBillPopUp.Any(Function(x) x.ExpenseConceptId = voucherDetail.IdExpenseConcept) Then
+                    DatasourceDischargeBillPopUp.Where(Function(o) o.ExpenseConceptId = voucherDetail.IdExpenseConcept).ToList().ForEach(Sub(i)
+                                                                                                                                             'i.MarkAsDeleted()
+                                                                                                                                             voucherDetail.DischargeBill.Add(i)
+                                                                                                                                         End Sub)
+                    voucherDetail.IsDelete = True
+                Else
+                    voucherDetail.MarkAsDeleted()
+                End If
+                VoucherTransactionDetailDatasource = _voucherTransaction.VoucherTransactionDetails.Where(Function(x) x.IsDelete = False).ToList()
+            Else
+                VoucherTransactionDetailDatasource.Remove(voucherDetail)
+            End If
+            If _voucherTransaction.ChangeTracker.State <> ObjectState.Added Then
+                _voucherTransaction.MarkAsModified()
+            End If
+            INDGcVoucherTransactionDetail.DataSource = VoucherTransactionDetailDatasource
+            INDGcVoucherTransactionDetail.RefreshDataSource()
+            Me.RefreshXMilValue()
+            ctrTmp.PrintValueVoucher()
+            INDgleVoucherClass.Properties.ReadOnly = INDGcVoucherTransactionDetail.DataSource IsNot Nothing AndAlso CType(INDGcVoucherTransactionDetail.DataSource, List(Of VoucherTransactionDetails)).Count > 0
+            INDsleThirdParty.Properties.ReadOnly = INDGcVoucherTransactionDetail.DataSource IsNot Nothing AndAlso CType(INDGcVoucherTransactionDetail.DataSource, List(Of VoucherTransactionDetails)).Count > 0
+            INDgleExpenseType.Properties.ReadOnly = INDGcVoucherTransactionDetail.DataSource IsNot Nothing AndAlso CType(INDGcVoucherTransactionDetail.DataSource, List(Of VoucherTransactionDetails)).Count > 0
+        End If
+    End Sub
+
+    ''' <summary>
+    ''' Activa o Inactiva el control que agrega conceptos de egreso
+    ''' </summary>
+    Private Sub ActiveInactivePopUpExpenseConcept()
+        INDsbAddExpenseConcept.Enabled = False
+        If VoucherClass = eVoucherClass.Payment Then
+            If INDsleThirdParty.EditValue Is Nothing OrElse INDgleExpenseType.EditValue Is Nothing Then
+                INDsbAddExpenseConcept.Enabled = False
+            Else
+                If INDsleCash.EditValue Is Nothing And INDsleEntityAccount.EditValue Is Nothing Then
+                    INDsbAddExpenseConcept.Enabled = False
+                Else
+                    INDsbAddExpenseConcept.Enabled = True
+                End If
+            End If
+        ElseIf VoucherClass = eVoucherClass.Refund OrElse VoucherClass = eVoucherClass.Transfer Then
+            If INDsleCash.EditValue Is Nothing And INDsleEntityAccount.EditValue Is Nothing Then
+                INDsbAddExpenseConcept.Enabled = False
+            Else
+                INDsbAddExpenseConcept.Enabled = True
+            End If
+        End If
+    End Sub
+
+    ''' <summary>
+    ''' Loads the null text.
+    ''' </summary>
+    Private Sub LoadNullText()
+        With _voucherTransaction
+            INDsleThirdParty.Properties.NullText = _voucherTransaction.FullNameThird
+            If Not String.IsNullOrEmpty(_voucherTransaction.FullNameEntityBankAccount) Then
+                INDsleEntityAccount.Properties.NullText = _voucherTransaction.FullNameEntityBankAccount
+            End If
+            If Not String.IsNullOrEmpty(_voucherTransaction.FullNameCashRegister) Then
+                INDsleCash.Properties.NullText = _voucherTransaction.FullNameCashRegister
+            End If
+            If Not String.IsNullOrEmpty(_voucherTransaction.FullNameCostCenter) Then
+                INDsleCostCenter.Properties.NullText = _voucherTransaction.FullNameCostCenter
+            End If
+        End With
+    End Sub
+
+    ''' <summary>
+    ''' Loads the concept complex. el parameetro load es para saber si se esta leyendo de la base de datos y no se esta guardando por primera vez
+    ''' </summary>
+    Public Sub LoadVoucherTransactionDetail(tempVoucherDetailPopUp As VoucherTransactionDetails, Optional Load As Boolean = False)
+        INDlycRoot.BeginUpdate()
+        Dim voucherTransactionDetail As VoucherTransactionDetails = tempVoucherDetailPopUp
+        Select Case VoucherClass
+            Case eVoucherClass.Payment
+                If VoucherTransactionDetailDatasource Is Nothing Then
+                    VoucherTransactionDetailDatasource = New List(Of VoucherTransactionDetails)()
+                End If
+                If _modeEditPopUpExpenseConcept Then
+                    voucherTransactionDetail = CType(INDGvVoucherTransactionDetail.GetFocusedRow(), VoucherTransactionDetails)
+                    'For Each prop As System.Reflection.PropertyInfo In voucherTransactionDetail.GetType().GetProperties()
+                    '    prop.SetValue(voucherTransactionDetail, tempVoucherDetailPopUp.GetType().GetProperty(prop.Name).GetValue(prop))
+                    'Next
+                    With voucherTransactionDetail
+                        .Id = tempVoucherDetailPopUp.Id
+                        .IdThirdParty = tempVoucherDetailPopUp.IdThirdParty
+                        .IdExpenseConcept = tempVoucherDetailPopUp.IdExpenseConcept
+                        .IdEntityBankAccount = tempVoucherDetailPopUp.IdEntityBankAccount
+                        .IdMainAccount = tempVoucherDetailPopUp.IdMainAccount
+                        .Nature = tempVoucherDetailPopUp.Nature
+                        .IdCostCenter = tempVoucherDetailPopUp.IdCostCenter
+                        .Value = tempVoucherDetailPopUp.Value
+                        .PercentRetention = tempVoucherDetailPopUp.PercentRetention
+                        .IdRetentionConcept = tempVoucherDetailPopUp.IdRetentionConcept
+                        .Detail = tempVoucherDetailPopUp.Detail
+                        .FullNameMainAccount = tempVoucherDetailPopUp.FullNameMainAccount
+                        .FullNameCostCenter = tempVoucherDetailPopUp.FullNameCostCenter
+                        .FullNameThirdParty = tempVoucherDetailPopUp.FullNameThirdParty
+                        .ExpenseConceptCode = tempVoucherDetailPopUp.ExpenseConceptCode
+                        .ExpenseConceptName = tempVoucherDetailPopUp.ExpenseConceptName
+                        .ExpenseConceptBehavior = tempVoucherDetailPopUp.ExpenseConceptBehavior
+                        .IdCashFlowConcept = tempVoucherDetailPopUp.IdCashFlowConcept
+                        .CodeNameCashFlowConcept = tempVoucherDetailPopUp.CodeNameCashFlowConcept
+
+                        .AdvanceValue = tempVoucherDetailPopUp.AdvanceValue
+                        .AdvanceDetail = tempVoucherDetailPopUp.AdvanceDetail
+                        If .Nature = 1 Then
+                            .NatureName = ResourceManager.GetString("AccountNatureDebit")
+                        Else
+                            .NatureName = ResourceManager.GetString("AccountNatureCredit")
+                        End If
+                        .DischargeBillDelete = tempVoucherDetailPopUp.DischargeBillDelete
+                    End With
+                Else
+                    voucherTransactionDetail = tempVoucherDetailPopUp
+                    VoucherTransactionDetailDatasource.Add(tempVoucherDetailPopUp)
+                End If
+                INDGcVoucherTransactionDetail.RefreshDataSource()
+                Select Case tempVoucherDetailPopUp.ExpenseConceptBehavior
+                    Case 2, 3
+                        INDGcDischargeBill.RefreshDataSource()
+                    Case 4
+                    Case 5
+                        LoadRefundByCashRegisterId(tempVoucherDetailPopUp.IdMainAccount)
+                End Select
+                _modeEditPopUpExpenseConcept = False
+                Me.RefreshXMilValue()
+                ctrTmp.PrintValueVoucher()
+
+            Case eVoucherClass.Refund
+
+                If EntityBankAccountDatasourceGrid Is Nothing Then
+                    EntityBankAccountDatasourceGrid = New List(Of VoucherTransactionDetails)()
+                End If
+                If _modeEditPopUpExpenseConcept Then
+                    voucherTransactionDetail = CType(ViewTransfer.GetFocusedRow(), VoucherTransactionDetails)
+
+                    With voucherTransactionDetail
+                        .Id = tempVoucherDetailPopUp.Id
+                        .CashRegisterId = tempVoucherDetailPopUp.CashRegisterId
+                        .IdMainAccount = tempVoucherDetailPopUp.IdMainAccount
+                        .Nature = tempVoucherDetailPopUp.Nature
+                        .IdCostCenter = tempVoucherDetailPopUp.IdCostCenter
+                        .Value = tempVoucherDetailPopUp.Value
+                        .Detail = tempVoucherDetailPopUp.Detail
+                        .FullNameMainAccount = tempVoucherDetailPopUp.FullNameMainAccount
+                        .FullNameCostCenter = tempVoucherDetailPopUp.FullNameCostCenter
+                        .EntityCode = tempVoucherDetailPopUp.EntityCode
+                        .EntityName = tempVoucherDetailPopUp.EntityName
+                    End With
+
+                Else
+                    Dim _listTempVoucherDetail As List(Of VoucherTransactionDetails) = EntityBankAccountDatasourceGrid
+                    _listTempVoucherDetail.Add(tempVoucherDetailPopUp)
+                    EntityBankAccountDatasourceGrid = Nothing
+                    EntityBankAccountDatasourceGrid = _listTempVoucherDetail
+                End If
+                INDGcVoucherTransactionDetail.RefreshDataSource()
+                'LoadRefundByCashRegisterId(tempVoucherDetailPopUp.CashRegisterId)
+                _modeEditPopUpExpenseConcept = False
+                Me.RefreshXMilValue()
+                ctrTmp.PrintValueVoucher()
+
+
+            Case eVoucherClass.Transfer
+                If EntityBankAccountDatasourceGrid Is Nothing Then
+                    EntityBankAccountDatasourceGrid = New List(Of VoucherTransactionDetails)()
+                End If
+                If _modeEditPopUpExpenseConcept Then
+                    voucherTransactionDetail = CType(ViewTransfer.GetFocusedRow(), VoucherTransactionDetails)
+                    'For Each prop As System.Reflection.PropertyInfo In voucherTransactionDetail.GetType().GetProperties()
+                    '    prop.SetValue(voucherTransactionDetail, tempVoucherDetailPopUp.GetType().GetProperty(prop.Name).GetValue(tempVoucherDetailPopUp))
+                    'Next
+                    With voucherTransactionDetail
+                        .Id = tempVoucherDetailPopUp.Id
+                        .CashRegisterId = tempVoucherDetailPopUp.CashRegisterId
+                        .IdEntityBankAccount = tempVoucherDetailPopUp.IdEntityBankAccount
+                        .IdMainAccount = tempVoucherDetailPopUp.IdMainAccount
+                        .Nature = tempVoucherDetailPopUp.Nature
+                        .IdCostCenter = tempVoucherDetailPopUp.IdCostCenter
+                        .Value = tempVoucherDetailPopUp.Value
+                        .Detail = tempVoucherDetailPopUp.Detail
+                        .FullNameMainAccount = tempVoucherDetailPopUp.FullNameMainAccount
+                        .FullNameCostCenter = tempVoucherDetailPopUp.FullNameCostCenter
+                        .EntityCode = tempVoucherDetailPopUp.EntityCode
+                        .EntityName = tempVoucherDetailPopUp.EntityName
+                    End With
+                Else
+                    'voucherTransactionDetail = tempVoucherDetailPopUp
+                    Dim _listTempVoucherDetail As List(Of VoucherTransactionDetails) = EntityBankAccountDatasourceGrid
+                    _listTempVoucherDetail.Add(tempVoucherDetailPopUp)
+                    'EntityBankAccountDatasourceGrid.Add(tempVoucherDetailPopUp)
+                    EntityBankAccountDatasourceGrid = Nothing
+                    EntityBankAccountDatasourceGrid = _listTempVoucherDetail
+                End If
+                INDGcVoucherTransactionDetail.RefreshDataSource()
+                _modeEditPopUpExpenseConcept = False
+                Me.RefreshXMilValue()
+                ctrTmp.PrintValueVoucher()
+        End Select
+
+        INDgleVoucherClass.Properties.ReadOnly = True
+        INDsleThirdParty.Properties.ReadOnly = True
+        INDgleExpenseType.Properties.ReadOnly = True
+        INDlycRoot.EndUpdate()
+    End Sub
+
+    ''' <summary>
+    ''' Loads the refund by account accounting.
+    ''' </summary>
+    Private Async Sub LoadRefundByCashRegisterId(ByVal CashRegisterId As Integer)
+        Using Model As New MRefund(Me.Tag)
+            _listRefund = (Await Model.ListRefundByCashRegisterIdAsync(CashRegisterId)).ObjectEmbbeded
+        End Using
+    End Sub
+
+    ''' <summary>
+    ''' Obtiene el objeto que se agrego el el concepto de egreso
+    ''' </summary>
+    Public Async Sub LoadExpenseConcept(sender As Object, e As AddExpenseConceptEventArgs)
+        If _voucherTransaction.Id <> 0 Then
+            _voucherTransaction.MarkAsModified()
+        End If
+        Select Case VoucherClass
+            Case eVoucherClass.Payment
+                If e.ListDischargeBill IsNot Nothing AndAlso e.ListDischargeBill.Count > 0 Then
+                    Dim validationResult As New StringBuilder()
+                    For Each item In e.ListDischargeBill
+                        Using model As New MSchedulePayment(Me.Tag)
+                            Dim result As ActionResult = Await model.IsAccountPayableShareInSchedulePaymentDetailActive(item.IdAccountPayableShare)
+                            If result.StateResult Then
+                                validationResult.AppendLine(String.Format("La factura {0} con cuota {1} se encuentra agregada en las siguientes programaciones de pago activas : {2}", item.AccountPayableBillNumber, item.AccountPayableShareShare, result.Message))
+                            End If
+                        End Using
+                    Next
+                    If validationResult.Length > 0 Then
+                        Mensaje(EeventViewerImages.Informacion) = validationResult.ToString()
+                    End If
+                    If e.ListDischargeBill IsNot Nothing AndAlso e.ListDischargeBill.Count > 0 Then
+                        If DatasourceDischargeBillPopUp IsNot Nothing Then
+                            DatasourceDischargeBillPopUp.RemoveAll(Function(x) x.ExpenseConceptId = e.ListDischargeBill(0).ExpenseConceptId)
+                        Else
+                            DatasourceDischargeBillPopUp = New List(Of DischargeBill)()
+                        End If
+                        DatasourceDischargeBillPopUp.AddRange(e.ListDischargeBill)
+                    End If
+                    'DischargeBillDatasource = e.ListDischargeBill
+                End If
+
+                If e.VoucherTransactionD.ExpenseConceptBehavior = 4 Then
+                    ListVoucherTransactionAdvance = e.ListVoucherTransactionAdvance
+                End If
+            Case eVoucherClass.Refund
+                _listRefund = e.ListRefund
+            Case eVoucherClass.Transfer
+
+        End Select
+        _modeEditPopUpExpenseConcept = e.IsEditMode
+        LoadVoucherTransactionDetail(e.VoucherTransactionD)
+    End Sub
+
+    ''' <summary>
+    ''' Función que contiene la logica necesaria para manejar los cheques
+    ''' </summary>
+    ''' <returns></returns>
+    Private Async Function LoadCheck() As Task
+        If Me._idOperativeUnit = 0 Then
+            Mensaje(EeventViewerImages.Advertencia) = "Debe seleccionar una unidad Operativa"
+            Exit Function
+        End If
+
+        If IsLoading Then
+            Using modelSettins As New MSettingsTreasury(Me.Tag)
+                Dim res As ActionResult(Of SettingsTreasury) = Await modelSettins.GetSettingsTreasuryByIdUnitOperative(Me._idOperativeUnit)
+                If res.StateResult AndAlso res.ObjectEmbbeded IsNot Nothing AndAlso res.ObjectEmbbeded.Id > 0 Then
+
+                    NoteNumber = Nothing
+                    INDliCheck.HideControl(False)
+                    INDliDebitNote.HideControl(True)
+                    INDliTransactionDate.HideControl(False)
+                    TransactionDate = DocumentDate
+                    INDtxtCheck.Enabled = Not res.ObjectEmbbeded.CheckBookControl
+
+                    IdCheckBook = _voucherTransaction.IdChecks
+                    CheckNumber = _voucherTransaction.CheckNumber
+
+                End If
+            End Using
+        Else
+            Using model As New MVoucherTransaction(Me.Tag)
+                Dim res As SP_GetCheckNumber_Result = Await model.GetCheckNumberAsync(IdEntityBankAccount, Me._idOperativeUnit)
+                If res IsNot Nothing Then
+                    If res.StatusResult = "999" Then
+                        'ACCIONES DE LIMPIAR CUANDO OCURREN ERRORES
+                        INDglePaymentMethod.EditValue = Nothing
+                        Mensaje(EeventViewerImages.Advertencia) = res.MessageResult
+                        Exit Function
+                    End If
+
+                    NoteNumber = Nothing
+                    INDliCheck.HideControl(False)
+                    INDliDebitNote.HideControl(True)
+                    INDliTransactionDate.HideControl(False)
+                    TransactionDate = DocumentDate
+                    INDtxtCheck.Enabled = Not res.CheckbookControl
+                    IdCheckBook = res.CheckbookId
+                    If res.CheckbookControl Then
+                        CheckNumber = res.CheckNumberToAssign
+                    Else
+                        INDtxtCheck.Properties.MinValue = res.CheckNumberToAssign
+                        INDtxtCheck.Properties.MaxValue = res.CheckNumberEnd
+                    End If
+
+                Else
+                    Mensaje(EeventViewerImages.Advertencia) = "Ocurrieron errores. Contacte con el Administrador"
+                End If
+            End Using
+        End If
+
+        'Exit Function
+
+        'Dim setting As SettingsTreasury = Nothing
+        'Using ModelSetting As New MSettingsTreasury(Me.Tag)
+        '    Dim resultSetting = ModelSetting.GetSettingsTreasuryByIdUnitOperativeSimple(Me._idOperativeUnit)
+        '    If resultSetting.StateResult AndAlso resultSetting.ObjectEmbbeded IsNot Nothing AndAlso resultSetting.ObjectEmbbeded.Id > 0 Then
+        '        setting = resultSetting.ObjectEmbbeded
+        '        NoteNumber = Nothing
+        '        INDliCheck.HideControl(False)
+        '        INDliDebitNote.HideControl(True)
+        '        INDliTransactionDate.HideControl(False)
+        '        '_presenter.LoadTransactionalDate(_idOperativeUnit)
+        '        TransactionDate = DocumentDate
+        '        INDtxtCheck.Enabled = Not setting.CheckBookControl
+        '        If IsLoading Then
+        '            IdCheckBook = _voucherTransaction.IdChecks
+        '            CheckNumber = _voucherTransaction.CheckNumber
+        '            Exit Function
+        '        End If
+        '        'obtener el primer cheque en la lista de pendientes
+        '        Using ModelCheckBook As New MCheck(Me.Tag)
+        '            Dim _checkBook As ActionResult(Of Checkbooks) = ModelCheckBook.GetCheckByIdEntityBankAccountAndStatusSimple(IdEntityBankAccount, CShort(eStatusCheck.Active))
+        '            If _checkBook.StateResult = True AndAlso _checkBook.ObjectEmbbeded IsNot Nothing AndAlso _checkBook.ObjectEmbbeded.Id > 0 Then
+        '                Using ModelOutstandingCheck As New MOutstandingChecks(Me.Tag)
+        '                    Dim outstandingCheck As OutstandingChecks = Await ModelOutstandingCheck.GetFirstOutstandingChecks(_checkBook.ObjectEmbbeded.Id)
+        '                    If outstandingCheck IsNot Nothing AndAlso outstandingCheck.Id > 0 Then
+        '                        IdCheckBook = outstandingCheck.IdCheckBook
+        '                        CheckNumber = outstandingCheck.CheckNumber
+        '                        If setting.CheckBookControl Then
+        '                            Dim resultDelCheckPend As ActionResult = Await ModelOutstandingCheck.DeleteOutstandingChecks(outstandingCheck)
+        '                            If resultDelCheckPend.StateResult = False Then
+        '                                If (_voucherTransaction.Status = 1 OrElse _voucherTransaction.Status = 0) Then
+        '                                    Mensaje(EeventViewerImages.MensajeError) = ResourceManager.GetString("OutstandingChecksDeleteError", NAME_MODULE)
+        '                                End If
+        '                                Exit Function
+        '                            End If
+        '                            Using Model As New MCheck(Me.Tag)
+        '                                Dim checkBlock As New CheckBlock() With {.IdCheckbook = IdCheckBook, .CheckNumber = CheckNumber, .CodUser = indigo.UserIndigo}
+        '                                Dim regBlock = Await Model.SaveCheckBlock(checkBlock)
+        '                                If regBlock.StateResult = False Then
+        '                                    If (_voucherTransaction.Status = 1 OrElse _voucherTransaction.Status = 0) Then
+        '                                        Mensaje(EeventViewerImages.Advertencia) = ResourceManager.GetString("SaveErrorCheck", NAME_MODULE)
+        '                                    End If
+        '                                    Exit Function
+        '                                End If
+        '                            End Using
+        '                        End If
+        '                    Else
+        '                        Dim checkBook As Checkbooks = _checkBook.ObjectEmbbeded
+        '                        IdCheckBook = checkBook.Id
+        '                        CheckNumber = checkBook.CurrentNumber
+        '                        If setting.CheckBookControl Then
+        '                            Dim checkGood As Boolean = False
+        '                            While Not checkGood
+        '                                Dim checkBlock As CheckBlock = checkBook.CheckBlock.Where(Function(x) x.CheckNumber.Equals(Convert.ToInt64(CheckNumber))).Cast(Of CheckBlock).FirstOrDefault()
+        '                                If checkBlock Is Nothing OrElse checkBlock.Id = 0 Then
+        '                                    checkBlock = New CheckBlock() With {.IdCheckbook = checkBook.Id, .CheckNumber = CheckNumber, .CodUser = indigo.UserIndigo}
+        '                                    Dim regBlock = Await ModelCheckBook.SaveCheckBlock(checkBlock)
+        '                                    If regBlock.StateResult = False AndAlso (_voucherTransaction.Status = 1 OrElse _voucherTransaction.Status = 0) Then
+        '                                        Mensaje(EeventViewerImages.Advertencia) = ResourceManager.GetString("SaveErrorCheck", NAME_MODULE)
+        '                                    Else
+        '                                        If Not setting.CheckBookControl Then
+        '                                            INDtxtCheck.Properties.MinValue = checkBook.CurrentNumber
+        '                                            INDtxtCheck.Properties.MaxValue = checkBook.EndNumber
+        '                                        End If
+        '                                        INDtxtCheck.Enabled = Not setting.CheckBookControl
+        '                                    End If
+        '                                    checkGood = True
+        '                                Else
+        '                                    CheckNumber += 1
+        '                                End If
+        '                            End While
+        '                        End If
+        '                    End If
+        '                End Using
+        '            Else
+        '                If (_voucherTransaction.Status = 1 OrElse _voucherTransaction.Status = 0) Then
+        '                    Mensaje(EeventViewerImages.Advertencia) = ResourceManager.GetString("CheckActiveNoExist", NAME_MODULE)
+        '                End If
+        '            End If
+        '            INDtxtCheck.Enabled = Not setting.CheckBookControl
+        '        End Using
+        '    Else
+        '        If (_voucherTransaction.Status = 1 OrElse _voucherTransaction.Status = 0) Then
+        '            Mensaje(EeventViewerImages.Advertencia) = ResourceManager.GetString("NotParameterizedOperationalUnit", NAME_MODULE)
+        '            Exit Function
+        '        End If
+        '    End If
+        'End Using
+    End Function
+
+    Dim DatasourceDischargeBillPopUp As List(Of DischargeBill)
+    ''' <summary>
+    ''' método que carga las cuotas de las facturas asociadas al tercero en la rejilla (se ejecuta cuando se lee de la base de datos)
+    ''' </summary>
+    Private Sub LoadDischargeBillByVoucherTransactionId(IdVoucherTransactionD As Integer, ExpenseConceptId As Integer)
+        Using ModelXpo As New MBusqueda
+            _bandBalanceChanged = False
+            Dim filter() As Object = {IdVoucherTransactionD}
+            Dim _dischargeBillXpo As XPCollection = ModelXpo.ConsultarEntidades(eDataSource.ListDischargeBillByIdVoucherTransactionDXpo, filter)
+            Dim _tmpDischargeBill As New List(Of DischargeBill)()
+            For Each dBill As DischargeBillXpo In _dischargeBillXpo
+                Dim _dischargeBill As New DischargeBill()
+                Dim Share As Infrastructure.Data.Xpo.TreasuryRepository.AccountPayableSharesXpo = dBill.IdAccountPayableShare
+                With _dischargeBill
+                    .IdVoucherTransactionD = dBill.IdVoucherTransactionD
+                    .IdAccountPayable = Share.IdAccountPayable.Id
+                    .IdAccountPayableShare = Share.Id
+                    .AccountPayableBillNumber = Share.IdAccountPayable.BillNumber
+                    .AccountPayableShareDateExpires = Share.DateExpires
+                    .AccountPayableShareBalance = Share.Balance
+                    .AccountPayableShareShare = Share.Share
+                    .Id = dBill.Id
+                    .AdvancePercent = dBill.AdvancePercent
+                    .AdvancedValue = dBill.AdvancedValue
+                    .PaymentOrderValue = dBill.PaymentOrderValue
+                    .OperativeUnitId = Share.IdAccountPayable.IdOperatingUnit
+                    If Not TreasuryStaticServices.ValidateBalanceAccountPayableShare(Share.Balance, dBill.AdvancedValue) Then
+                        _bandBalanceChanged = True
+                    End If
+                    .IdPaymentConcept = dBill.IdPaymentConcept
+                    .ExpenseConceptId = ExpenseConceptId
+                    'Consulto las edades de cartera
+                    If _dictionaryAgesPayments Is Nothing Then
+                        _dictionaryAgesPayments = New Dictionary(Of Integer, List(Of AgesPayments))()
+                    End If
+                    If Not _dictionaryAgesPayments.ContainsKey(.OperativeUnitId) Then
+                        Using Model As New MAgesPayment(Me.Tag)
+                            Dim _agesPayment As List(Of AgesPayments) = (Model.ListAgesPaymentByUnitOperativeIdSimple(.OperativeUnitId)).ObjectEmbbeded
+                            _dictionaryAgesPayments.Add(.OperativeUnitId, _agesPayment)
+                        End Using
+                    End If
+                    Dim daysExpired As Integer = (_serverDate - .AccountPayableShareDateExpires).TotalDays
+                    If daysExpired <= 0 Then
+                        .ColorAgePortFolio = Convert.ToInt32(ePortfolioAge.ColorDefault) 'Color.FromArgb(Convert.ToInt32(ePortfolioAge.ColorDefault))
+                    Else
+                        .ColorAgePortFolio = (From ap As AgesPayments In _dictionaryAgesPayments(.OperativeUnitId) Where ap.InitialRange <= daysExpired And ap.EndRange >= daysExpired Select ap.Color).FirstOrDefault()
+                    End If
+                    If BudgetInterface Then
+                        If dBill.DischargeBillBudgetXpo IsNot Nothing Then
+                            For Each dischargeBillBudgetXpo In dBill.DischargeBillBudgetXpo
+                                _dischargeBill.DischargeBillBudget.Add(New DischargeBillBudget With {
+                                    .Id = dischargeBillBudgetXpo.Id,
+                                    .ObligationDetailId = dischargeBillBudgetXpo.ObligationDetailId,
+                                    .Value = dischargeBillBudgetXpo.Value
+                                })
+                            Next
+                        End If
+
+                        'Obtenemos los detalles presupuestales asociados a la cuenta por pagar
+                        GetObligationDetailsByDischargeBill(_dischargeBill)
+                    End If
+
+                    If _voucherTransaction.Status <> 2 Then
+                        If _bandBalanceChanged Then
+                            If Me.ParentForm.InvokeRequired Then
+                                Me.ParentForm.BeginInvoke(Sub()
+                                                              Mensaje(EeventViewerImages.Advertencia) = ResourceManager.GetString("BalanceChanged", NAME_MODULE)
+                                                          End Sub)
+                            Else
+                                Mensaje(EeventViewerImages.Advertencia) = ResourceManager.GetString("BalanceChanged", NAME_MODULE)
+                            End If
+                        End If
+                    End If
+                End With
+                _tmpDischargeBill.Add(_dischargeBill)
+            Next
+            If DatasourceDischargeBillPopUp Is Nothing Then
+                DatasourceDischargeBillPopUp = New List(Of DischargeBill)()
+            End If
+            If INDGcDischargeBill.InvokeRequired Then
+                INDGcDischargeBill.BeginInvoke(Sub()
+                                                   'DischargeBillDatasource = _tmpDischargeBill
+                                                   DatasourceDischargeBillPopUp.AddRange(_tmpDischargeBill)
+                                               End Sub)
+            Else
+                'DischargeBillDatasource = _tmpDischargeBill
+                DatasourceDischargeBillPopUp.AddRange(_tmpDischargeBill)
+            End If
+        End Using
+    End Sub
+
+    ''' <summary>
+    ''' Consulta las obligaciones presupuestales asociadas a una cuenta por pagar
+    ''' </summary>
+    ''' <remarks></remarks>
+    Private Sub GetObligationDetailsByDischargeBill(dischargeBill As DischargeBill)
+        Using model As New MVoucherTransaction(Me.Tag)
+            Dim collectionObligation = model.GetObligationDetails(dischargeBill.IdAccountPayable, If(_voucherTransaction.Status = 1, 1, 2))
+            If collectionObligation IsNot Nothing Then
+                For Each detail In collectionObligation
+                    Dim dischargeBillBudget = dischargeBill.DischargeBillBudget.FirstOrDefault(Function(d) d.ObligationDetailId = detail.Id)
+                    If dischargeBillBudget Is Nothing Then
+                        If Not _voucherTransaction.Status = 1 Then
+                            Continue For
+                        End If
+
+                        dischargeBillBudget = New DischargeBillBudget With {
+                            .ObligationDetailId = detail.Id,
+                            .Value = 0
+                        }
+                        dischargeBill.DischargeBillBudget.Add(dischargeBillBudget)
+                    End If
+
+                    dischargeBillBudget.CommitmentCode = detail.CommitmentCode
+                    dischargeBillBudget.CommitmentDocument = detail.CommitmentDocument
+                    dischargeBillBudget.CategoryCodeName = detail.CategoryCodeName
+                    dischargeBillBudget.FinancialSourceCodeName = detail.FinancialSourceCodeName
+                    dischargeBillBudget.RevenueTypeCodeName = detail.RevenueTypeCodeName
+                    dischargeBillBudget.Balance = detail.Balance
+                Next
+            End If
+        End Using
+    End Sub
+
+#End Region
+
+#Region "Events"
+
+#Region "QueryPopUp"
+    ''' <summary>
+    ''' Handles the QueryPopUp event of the RepositoryPopMoreInfo control.
+    ''' </summary>
+    ''' <param name="sender">The source of the event.</param>
+    ''' <param name="e">The <see cref="System.ComponentModel.CancelEventArgs"/> instance containing the event data.</param>
+    Private Async Sub RepositoryPopMoreInfo_QueryPopUp(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles RepositoryPopMoreInfo.QueryPopUp
+        Dim popUp As DevExpress.XtraEditors.PopupContainerEdit = CType(sender, DevExpress.XtraEditors.PopupContainerEdit)
+        If popUp.Parent IsNot Nothing Then
+            Dim view As GridView = CType(CType(popUp.Parent, GridControl).MainView, GridView)
+            Dim obj() As Object = New Object() {view.GetFocusedRow()}
+            Dim datasourceConcetp As VoucherTransactionDetails = view.GetFocusedRow()
+            If popUp.Properties.PopupControl IsNot Nothing AndAlso popUp.Properties.PopupControl.Controls IsNot Nothing AndAlso popUp.Properties.PopupControl.Controls.Count > 0 Then
+                Dim vgrid As DevExpress.XtraVerticalGrid.VGridControl = popUp.Properties.PopupControl.Controls(0).Controls(9)
+                CleanLayoutPopUpMoreInfo()
+                Select Case datasourceConcetp.ExpenseConceptBehavior
+                    Case eBehavior.TransferBetweenBanks
+                        Using Model As New MEntityAccount(Me.Tag)
+                            Dim entBank As EntityBankAccounts = Await Model.GetEntityBankAccountById(datasourceConcetp.IdEntityBankAccount)
+                            If entBank IsNot Nothing AndAlso entBank.Id > 0 Then
+                                Using ModelBank As New Presentation.Common.MVP.MBank(Me.Tag)
+                                    Dim bank As Domain.Entities.Bank = ModelBank.GetBankById(entBank.IdBank)
+                                    INDtxtBankTraslate.EditValue = String.Format(ResourceManager.GetString("EntityAccountDescription", NAME_MODULE), entBank.Code, bank.Name, entBank.Type, entBank.Number)
+                                End Using
+                            End If
+                        End Using
+                        INDlgrBankTraslate.HideControl(False)
+                    Case eBehavior.PettyCash
+                        INDlgrInvoices.HideControl(False)
+                        INDliAdvancePaymentInfo.HideControl(True)
+                    Case eBehavior.PaymentAdvancePaymentInvoices
+                        INDlgrInvoices.HideControl(False)
+                        INDliAdvancePaymentInfo.HideControl(False)
+                        INDtxtValueAdvance.EditValue = datasourceConcetp.AdvanceValue
+                        If DatasourceDischargeBillPopUp IsNot Nothing AndAlso DatasourceDischargeBillPopUp.Any() Then
+                            DischargeBillDatasource = DatasourceDischargeBillPopUp.Where(Function(x) x.ExpenseConceptId = datasourceConcetp.IdExpenseConcept).ToList()
+                            INDGcDischargeBill.RefreshDataSource()
+                        End If
+                    Case eBehavior.ReturningImprestRC
+                        INDlgrAdvancePayment.HideControl(False)
+                        If ListVoucherTransactionAdvance Is Nothing OrElse ListVoucherTransactionAdvance.Count = 0 Then
+                            LoadVoucherTransactionAdvance(datasourceConcetp.Id)
+                        End If
+                        INDgcAdvance.DataSource = ListVoucherTransactionAdvance.Where(Function(x) x.Value > 0 AndAlso x.ChangeTracker.State <> ObjectState.Deleted).ToList()
+                    Case eBehavior.PettyCashReimbursement
+                        INDlgrRefund.HideControl(False)
+                        INDgcRefund.DataSource = Nothing
+                        INDgcRefund.DataSource = _listRefund
+                    Case eBehavior.Ninguno
+                End Select
+                vgrid.DataSource = Nothing
+                vgrid.DataSource = obj
+                vgrid.RefreshDataSource()
+            End If
+        End If
+    End Sub
+
+    ''' <summary>
+    ''' Carga los anticipos de tesoreria por id del detalle
+    ''' </summary>
+    Private Sub LoadVoucherTransactionAdvance(voucherDetailId As Integer)
+        Using Model As New MVoucherTransaction(Me.Tag)
+            Dim _listVoucherTransactionAdvance = Model.ListVoucherTransactionAdvanceByVoucherTransactionDetailId(voucherDetailId)
+            ListVoucherTransactionAdvance = New List(Of VoucherTransactionAdvance)()
+            For Each item As Infrastructure.Data.Xpo.TreasuryRepository.VoucherTransactionAdvanceXpo In _listVoucherTransactionAdvance
+                Dim voucherTransactionAdvance = New VoucherTransactionAdvance()
+                With voucherTransactionAdvance
+                    .Id = item.Id
+                    .IdVoucherTransactionD = item.IdVoucherTransactionD
+                    .PortfolioAdvanceId = item.PortfolioAdvanceId.Id
+                    .Value = item.Value
+                    .Percentage = item.Percentage
+                    .PortfolioAdvanceCode = item.PortfolioAdvanceId.Code
+                    .PortfolioAdvanceDocumentDate = item.PortfolioAdvanceId.DocumentDate
+                    .PortfolioAdvanceBalance = item.PortfolioAdvanceId.Balance
+                End With
+                ListVoucherTransactionAdvance.Add(voucherTransactionAdvance)
+            Next
+        End Using
+    End Sub
+
+    ''' <summary>
+    ''' Oculta los grupos del popUp more info
+    ''' </summary>
+    Private Sub CleanLayoutPopUpMoreInfo()
+        INDlgrBankTraslate.HideControl(True)
+        INDlgrInvoices.HideControl(True)
+        INDlgrAdvancePayment.HideControl(True)
+        INDlgrRefund.HideControl(True)
+    End Sub
+#End Region
+
+#Region "Actions"
+    ''' <summary>
+    ''' Handles the ButtonAction event of the IndigoGridView1_Click control.
+    ''' </summary>
+    ''' <param name="sender">The source of the event.</param>
+    ''' <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
+    Private Sub IndigoGridView1_Click_ButtonAction(sender As Object, e As EventArgs) Handles IndigoGridView1.Click_ButtonAction, IndigoGridView1.ContexMenuActions
+        Select Case (sender.Tag)
+            Case "Add", Infrastructure.CrossCutting.Resources.ResourceManager.GetString("Add")
+                AddVoucherTransactionDetail(False)
+            Case "Edit", Infrastructure.CrossCutting.Resources.ResourceManager.GetString("Edit")
+                AddVoucherTransactionDetail(True)
+            Case "Remove", Infrastructure.CrossCutting.Resources.ResourceManager.GetString("Remove")
+                DeleteVoucherTransactionDetail()
+        End Select
+    End Sub
+
+    ''' <summary>
+    ''' Handles the ButtonAction event of the IndigoGridView2_Click control.
+    ''' </summary>
+    ''' <param name="sender">The source of the event.</param>
+    ''' <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
+    Private Sub IndigoGridView2_Click_ButtonAction(sender As Object, e As EventArgs) Handles IndigoGridView2.ContexMenuActions, IndigoGridView2.Click_ButtonAction
+        Select Case (sender.Tag)
+            Case "Add", Infrastructure.CrossCutting.Resources.ResourceManager.GetString("Add")
+                AddVoucherTransactionDetail(False)
+            Case "Edit", Infrastructure.CrossCutting.Resources.ResourceManager.GetString("Edit")
+                AddVoucherTransactionDetail(True)
+            Case "Remove", Infrastructure.CrossCutting.Resources.ResourceManager.GetString("Remove")
+                RemoveBankAccount()
+        End Select
+    End Sub
+
+    ''' <summary>
+    ''' Removes the bank account.
+    ''' </summary>
+    Private Sub RemoveBankAccount()
+        If MessageIndigo.Show(ResourceManager.GetString("DeleteRecord"), MessageType.Question, Me.Text, Botones.SiNo) = System.Windows.Forms.DialogResult.Yes Then
+            Dim voucherDetail As VoucherTransactionDetails = CType(ViewTransfer.GetFocusedRow(), VoucherTransactionDetails)
+            If voucherDetail.Id <> 0 Then
+                voucherDetail.MarkAsDeleted()
+                _voucherTransaction.MarkAsModified()
+
+            End If
+            Dim _entityDatasourceTmp = EntityBankAccountDatasourceGrid
+            _entityDatasourceTmp.Remove(voucherDetail)
+            EntityBankAccountDatasourceGrid = _entityDatasourceTmp
+            INDGcVoucherTransactionDetail.RefreshDataSource()
+            'INDgcEntityBank.DataSource = Nothing
+            'INDgcEntityBank.DataSource = EntityBankAccountDatasourceGrid
+
+            'Se valida si la entidad principal tiene datos
+            If _voucherTransaction.VoucherTransactionDetails IsNot Nothing AndAlso _voucherTransaction.VoucherTransactionDetails.Count > 0 Then
+                If _voucherTransaction.VoucherTransactionDetails.Contains(voucherDetail) AndAlso voucherDetail.Id = 0 Then
+                    _voucherTransaction.VoucherTransactionDetails.Remove(voucherDetail)
+                End If
+            End If
+
+            Me.RefreshXMilValue()
+            ctrTmp.PrintValueVoucher()
+        End If
+    End Sub
+
+#End Region
+
+#Region "Click"
+    ''' <summary>
+    ''' Handles the Click event of the INDsbAddExpenseConcept control.
+    ''' </summary>
+    ''' <param name="sender">The source of the event.</param>
+    ''' <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
+    Private Sub INDsbAddExpenseConcept_Click(sender As Object, e As EventArgs) Handles INDsbAddExpenseConcept.Click
+        AddVoucherTransactionDetail(False)
+    End Sub
+#End Region
+
+#Region "DatasourceChanged"
+    ''' <summary>
+    ''' Handles the DataSourceChanged event of the INDGcDisbursementVoucher control.
+    ''' </summary>
+    ''' <param name="sender">The source of the event.</param>
+    ''' <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
+    Private Sub INDGcDisbursementVoucher_DataSourceChanged(sender As Object, e As EventArgs) Handles INDGcVoucherTransactionDetail.DataSourceChanged
+        If VoucherTransactionDetailDatasource IsNot Nothing AndAlso VoucherTransactionDetailDatasource.Count > 0 Then
+            INDGvVoucherTransactionDetail.OptionsView.ShowFooter = True
+            INDsleThirdParty.Properties.ReadOnly = True
+            INDgleExpenseType.Properties.ReadOnly = True
+        Else
+            INDGvVoucherTransactionDetail.OptionsView.ShowFooter = False
+            INDsleThirdParty.Properties.ReadOnly = False
+            INDgleExpenseType.Properties.ReadOnly = False
+        End If
+    End Sub
+
+    ''' <summary>
+    ''' Handles the DataSourceChanged event of the INDgcEntityBank control.
+    ''' </summary>
+    ''' <param name="sender">The source of the event.</param>
+    ''' <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
+    Private Sub INDgcEntityBank_DataSourceChanged(sender As Object, e As EventArgs)
+        If EntityBankAccountDatasourceGrid IsNot Nothing AndAlso EntityBankAccountDatasourceGrid.Count > 0 Then
+            INDgleVoucherClass.Properties.ReadOnly = True
+            INDgleExpenseType.Properties.ReadOnly = True
+            If ExpenseType = 1 Then
+                INDsleEntityAccount.Properties.ReadOnly = True
+            ElseIf ExpenseType = 3 Then
+                INDsleCash.Properties.ReadOnly = True
+            End If
+        Else
+            INDgleVoucherClass.Properties.ReadOnly = False
+            INDgleExpenseType.Properties.ReadOnly = False
+            If ExpenseType = 1 Then
+                INDsleEntityAccount.Properties.ReadOnly = False
+            ElseIf ExpenseType = 3 Then
+                INDsleCash.Properties.ReadOnly = False
+            End If
+        End If
+    End Sub
+#End Region
+
+#Region "Load"
+    Private Sub Frm_Disposed(sender As Object, e As EventArgs) Handles MyBase.Disposed
+        IsLoading = Nothing
+        asyncConcepts = Nothing
+        _serverDate = Nothing
+        ListVoucherTransactionAdvance = Nothing
+        _dictionaryAgesPayments = Nothing
+        _statePopUpCash = Nothing
+        _statePopUpCostCenter = Nothing
+        _statePopUpThird = Nothing
+        _statePopUpEntityBankAccount = Nothing
+        _bandBalanceChanged = Nothing
+        _modeEditPopUpExpenseConcept = Nothing
+        _listRefund = Nothing
+        ctrTmp = Nothing
+        _sequence = Nothing
+        _idCurrentSequence = Nothing
+        _prefixSelected = Nothing
+        OpenFormDialog = Nothing
+        _idOperativeUnit = Nothing
+        _record = Nothing
+        _presenter = Nothing
+        _voucherTransaction = Nothing
+        ListExpenseType = Nothing
+        ListPaymentMethod = Nothing
+        ListVoucherClass = Nothing
+        ListEntityBankAccountsTransfer = Nothing
+        EntityBankAccount = Nothing
+    End Sub
+    ''' <summary>
+    ''' Handles the Load event of the FrmDisbursementVouchers control.
+    ''' </summary>
+    ''' <param name="sender">The source of the event.</param>
+    ''' <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
+    Private Sub FrmDisbursementVouchers_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        AddHandler System.Windows.Forms.Application.ThreadExit, AddressOf Application_ThreadExit
+        Me.LayoutControls.SetIsCustomizable(Me.INDlycRoot, True)
+        Me._idOperativeUnit = Me.BarraBotones.OperatingUnitValue
+        '****Inicializar variables*****'
+        Me._doc = Nothing
+        Me._funct = AddressOf GenerateDoc
+        Me.indigo = SessionValues.Instance
+
+        IndigoGridControl1.RefreshGrid(INDGcVoucherTransactionDetail)
+
+        _presenter = New PVoucherTransaction(Me)
+        _presenter.InitializeEntityBankAccount()
+        _presenter.LoadDateServer(Me.GetDateServer())
+        _presenter.GetSequence()
+        _presenter.InitializePaymentConcept()
+        _presenter.LoadDefinitionLayout()
+        _presenter.GetSettingsPaymentsByOperatingUnitId(Me._idOperativeUnit)
+
+        Dim listAction As New List(Of eAcciones)
+        'listAction.Add(eAcciones.Add)
+        listAction.Add(eAcciones.Remove)
+        listAction.Add(eAcciones.Edit)
+        IndigoGridView2.SetListAcction(ViewTransfer, listAction)
+        IndigoGridView1.SetListAcction(INDGvVoucherTransactionDetail, listAction)
+        For Each col As DevExpress.XtraGrid.Columns.GridColumn In INDGvVoucherTransactionDetail.Columns
+            If col.Name = "colActions" Then
+                col.Width = 250
+            End If
+        Next
+        For Each col As DevExpress.XtraGrid.Columns.GridColumn In ViewTransfer.Columns
+            If col.Name = "colActions" Then
+                col.Width = 250
+            End If
+        Next
+        _serverDate = Me.GetDateServer()
+        _statePopUpCash = False
+        _statePopUpCostCenter = False
+        _statePopUpThird = False
+        _statePopUpEntityBankAccount = False
+
+        'CreatePaymentMethod()
+        CreateVoucherClass()
+        LoadStatus()
+        Deshacer()
+    End Sub
+
+    ''' <summary>
+    ''' Handles the FormClosing event of the FrmDisbursementVouchers control.
+    ''' </summary>
+    ''' <param name="sender">The source of the event.</param>
+    ''' <param name="e">The <see cref="FormClosingEventArgs"/> instance containing the event data.</param>
+    Private Sub FrmDisbursementVouchers_FormClosing(sender As Object, e As FormClosingEventArgs) Handles MyBase.FormClosing
+        UnlockCheck()
+    End Sub
+
+    Private Sub Application_ThreadExit(sender As Object, e As EventArgs)
+        UnlockCheck()
+    End Sub
+
+    Private Sub UnlockCheck()
+        If asyncConcepts IsNot Nothing AndAlso asyncConcepts.IsBusy AndAlso asyncConcepts.WorkerSupportsCancellation Then
+            asyncConcepts.CancelAsync()
+        End If
+        DeleteBlockedRecord()
+        DeleteCheckBlock()
+    End Sub
+
+    ''' <summary>
+    ''' Handles the IdEntityLoaded event of the MyBase control.
+    ''' </summary>
+    ''' <param name="sender">The source of the event.</param>
+    ''' <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
+    Private Sub MyBase_IdEntityLoaded(sender As Object, e As EventArgs) Handles Me.IdEntityLoaded
+        If Me._voucherTransaction IsNot Nothing AndAlso Me._voucherTransaction.Id > 0 Then
+            If (MessageIndigo.Show(obtenerRecurso(Eresources.ComunesAbrirEntidad, Eform.Comunes), MessageType.Question, obtenerRecurso(Eresources.RegistroEnEdicion, Eform.Comunes), Botones.SiNo) = System.Windows.Forms.DialogResult.Yes) Then
+                CleanControls()
+                DeleteBlockedRecord()
+                Me.INDbteCode.Text = Me.IdEntity.Trim()
+                Me.LoadControls()
+            End If
+        Else 'Realiza la consulta normal
+            Me.INDbteCode.Text = Me.IdEntity.Trim()
+            Me.LoadControls()
+            If FormSearchObjects IsNot Nothing Then
+                FormSearchObjects.Close()
+            End If
+        End If
+        Me.IdEntity = String.Empty
+    End Sub
+#End Region
+
+#Region "EditValueChanged"
+    ''' <summary>
+    ''' Handles the EditValueChanged event of the INDgleExpenseType control.
+    ''' </summary>
+    ''' <param name="sender">The source of the event.</param>
+    ''' <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
+    Private Sub INDgleExpenseType_EditValueChanged(sender As Object, e As EventArgs) Handles INDgleExpenseType.EditValueChanged
+        IndigoGridControl1.RefreshGrid(INDGcVoucherTransactionDetail)
+        Select Case ExpenseType
+            Case CShort(eExpenseType.BankAccount)
+                INDliCash.HideControl()
+                INDsleCash.EditValue = Nothing
+                INDliEntityBankAccount.HideControl(False)
+                'INDliXMil.HideControl(False)
+                If VoucherClass = eVoucherClass.Refund OrElse VoucherClass = eVoucherClass.Transfer Then
+                    INDsbAddExpenseConcept.Text = ResourceManager.GetString("LabelAddBank", NAME_MODULE)
+                    INDlgrExpenditureConcept.HideControl(False)
+                End If
+            Case CShort(eExpenseType.MinorCash), CShort(eExpenseType.MajorCash)
+                INDliEntityBankAccount.HideControl()
+                INDliCostCenter.HideControl()
+                INDliPaymentMethod.HideControl()
+                INDliDebitNote.HideControl()
+                INDliCheck.HideControl()
+                INDliTransactionDate.HideControl()
+                INDsleCostCenter.EditValue = Nothing
+                INDglePaymentMethod.EditValue = Nothing
+                INDtxtDebitNote.EditValue = Nothing
+                INDrgXMil.EditValue = False
+                INDsleEntityAccount.EditValue = Nothing
+                IdCheckBook = Nothing
+                CheckNumber = 0
+                TransactionDate = Nothing
+                TaxByMil = False
+                TaxByMilValue = 0
+                'INDliXMil.HideControl()
+                INDliCash.HideControl(False)
+                _statePopUpCash = False
+                INDsleCash.EditValue = Nothing
+
+                If VoucherClass = eVoucherClass.Refund OrElse VoucherClass = eVoucherClass.Transfer Then
+                    INDsbAddExpenseConcept.Text = ResourceManager.GetString("LabelAddCash", NAME_MODULE)
+                    INDlgrExpenditureConcept.HideControl(False)
+                End If
+        End Select
+    End Sub
+
+    ''' <summary>
+    ''' Handles the EditValueChanged event of the INDgleVoucherClass control.
+    ''' </summary>
+    ''' <param name="sender">The source of the event.</param>
+    ''' <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
+    Private Sub INDgleVoucherClass_EditValueChanged(sender As Object, e As EventArgs) Handles INDgleVoucherClass.EditValueChanged
+        If VoucherClass <> 0 Then
+            IndigoGridControl1.RefreshGrid(INDGcVoucherTransactionDetail)
+            HideConceptControls()
+            Select Case VoucherClass
+                Case eVoucherClass.Payment
+                    INDlgrExpenditureConcept.HideControl(False)
+                    INDliThirdParty.HideControl(False)
+
+                    INDlgrExpenditureConcept.AllowHide = False
+                    INDliThirdParty.AllowHide = False
+
+                Case eVoucherClass.Refund, eVoucherClass.Transfer
+                    INDsleThirdParty.EditValue = Nothing
+            End Select
+            CreateListExpenseType()
+            INDgleExpenseType.Properties.ReadOnly = False
+        Else
+            INDgleExpenseType.Properties.DataSource = Nothing
+            INDgleExpenseType.Properties.ReadOnly = True
+        End If
+    End Sub
+
+    ''' <summary>
+    ''' Handles the EditValueChanging event of the INDglePaymentMethod control.
+    ''' </summary>
+    ''' <param name="sender">The source of the event.</param>
+    ''' <param name="e">The <see cref="DevExpress.XtraEditors.Controls.ChangingEventArgs"/> instance containing the event data.</param>
+    Private Sub INDglePaymentMethod_EditValueChanging(sender As Object, e As DevExpress.XtraEditors.Controls.ChangingEventArgs) Handles INDglePaymentMethod.EditValueChanging
+        If e.NewValue IsNot Nothing Then
+            If CInt(e.NewValue) = CInt(ePaymentType.DebitNote) Then
+                If _idOperativeUnit = 0 Then
+                    Mensaje(EeventViewerImages.Advertencia) = "Seleccione Unidad Operativa"
+                    e.Cancel = True
+                End If
+            End If
+        End If
+    End Sub
+
+    ''' <summary>
+    ''' Handles the EditValueChanged event of the INDglePaymentMethod control. (refactorizar este evento)
+    ''' </summary>
+    ''' <param name="sender">The source of the event.</param>
+    ''' <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
+    Private Async Sub INDglePaymentMethod_EditValueChanged(sender As Object, e As EventArgs) Handles INDglePaymentMethod.EditValueChanged
+        If INDglePaymentMethod.EditValue IsNot Nothing Then
+            If CInt(INDglePaymentMethod.EditValue) = CInt(ePaymentType.Check) Then
+                If CInt(INDtxtCheck.EditValue) <> 0 Then
+                    DeleteCheckBlock()
+                End If
+                Await LoadCheck()
+                Me.BarraBotones.LoadReportsAndDefinitions()
+            ElseIf CInt(INDglePaymentMethod.EditValue) = CInt(ePaymentType.DebitNote) Then
+                DeleteCheckBlock()
+                INDliCheck.HideControl(True)
+                INDliDebitNote.HideControl(False)
+                INDliTransactionDate.HideControl(True)
+                INDdeTransactionDate.EditValue = Nothing
+            End If
+        End If
+    End Sub
+
+    ''' <summary>
+    ''' Handles the EditValueChanged event of the INDsleEntityBankAccount control.
+    ''' </summary>
+    ''' <param name="sender">The source of the event.</param>
+    ''' <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
+    Private Sub INDsleEntityBankAccount_EditValueChanged(sender As Object, e As EventArgs) Handles INDsleEntityAccount.EditValueChanged
+        If INDsleEntityAccount.EditValue IsNot Nothing AndAlso INDsleEntityAccount.EditValue > 0 Then
+            EntityBankAccount = Nothing
+            If IsLoading Then
+                EntityBankAccount = _voucherTransaction.EntityBankAccounts
+            Else
+                EntityBankAccount = DirectCast(DirectCast(INDGvEntityAccount.GetFocusedRow(), DevExpress.Data.Async.Helpers.ReadonlyThreadSafeProxyForObjectFromAnotherThread).OriginalRow, Infrastructure.Data.Xpo.TreasuryRepository.EntityBankAccountXpo)
+                IdMainAccount = EntityBankAccount.IdMainAccount.Id
+                IdCostCenter = EntityBankAccount.IdCostCenter
+            End If
+            CreatePaymentMethod(EntityBankAccount.Type)
+            If EntityBankAccount.Type = eEntityBankAccountType.Saving AndAlso Not IsLoading Then
+                PaymentMethod = 2
+            End If
+            If EntityBankAccount IsNot Nothing AndAlso EntityBankAccount.Id > 0 Then
+                If Me._sequence.Scope.Equals("O") Then
+                    Me._idCurrentSequence = Me.GetIdSequenceByPrefix(EntityBankAccount.Prefix)
+                    Me._prefixSelected = EntityBankAccount.Prefix
+                End If
+                If EntityBankAccount.IdCostCenter IsNot Nothing AndAlso EntityBankAccount.IdCostCenter > 0 Then
+                    INDliCostCenter.HideControl(False)
+                    INDsleCostCenter.EditValue = EntityBankAccount.IdCostCenter
+                Else
+                    INDliCostCenter.HideControl()
+                    INDsleCostCenter.EditValue = Nothing
+                End If
+                If EntityBankAccount.Type = eEntityBankAccountType.Current Then
+                    If PaymentMethod IsNot Nothing AndAlso PaymentMethod > 0 Then
+                        INDglePaymentMethod_EditValueChanged(Nothing, Nothing)
+                    End If
+                End If
+            End If
+            INDliPaymentMethod.HideControl(False)
+            Me.BarraBotones.LoadReportsAndDefinitions()
+        Else
+            If Me._sequence.Scope.Equals("O") Then
+                Me._idCurrentSequence = Me.GetIdSequenceByPrefix("-")
+                Me._prefixSelected = String.Empty
+            End If
+            'INDliPaymentMethod.HideControl()
+        End If
+        ActiveInactivePopUpExpenseConcept()
+    End Sub
+
+    '''' <summary>
+    '''' Handles the EditValueChanged event of the INDrgXMil control.
+    '''' </summary>
+    '''' <param name="sender">The source of the event.</param>
+    '''' <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
+    'Private Sub INDrgXMil_EditValueChanged(sender As Object, e As EventArgs) Handles INDrgXMil.EditValueChanged
+    '    If INDrgXMil.EditValue IsNot Nothing Then
+    '        If CBool(INDrgXMil.EditValue) Then
+    '            Me.RefreshXMilValue()
+    '        Else
+    '            TaxByMilValue = Nothing
+    '            If VoucherTransactionDetailDatasource IsNot Nothing Then
+    '                Value = VoucherTransactionDetailDatasource.Sum(Function(x) x.Value) 'AccountingServices.CalculateDifferenceDebitCreditValue(debit, credit)
+    '            End If
+    '        End If
+    '    End If
+    '    ctrTmp.PrintValueVoucher()
+    'End Sub
+
+    ''' <summary>
+    ''' Handles the EditValueChanged event of the INDsleThirdParty control.
+    ''' </summary>
+    ''' <param name="sender">The source of the event.</param>
+    ''' <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
+    Private Sub INDsleThirdParty_EditValueChanged(sender As Object, e As EventArgs) Handles INDsleThirdParty.EditValueChanged
+        ActiveInactivePopUpExpenseConcept()
+    End Sub
+
+    ''' <summary>
+    ''' Handles the EditValueChanged event of the INDsleCash control.
+    ''' </summary>
+    ''' <param name="sender">The source of the event.</param>
+    ''' <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
+    Private Async Sub INDsleCash_EditValueChanged(sender As Object, e As EventArgs) Handles INDsleCash.EditValueChanged
+        If INDsleCash.EditValue IsNot Nothing AndAlso INDsleCash.EditValue > 0 AndAlso (_voucherTransaction.Status = 1 OrElse _voucherTransaction.Status = 0) Then
+            Dim band As Boolean = False
+            Using Model As New MCashRegisterUser(Me.Tag)
+                Dim ListUser As List(Of CashRegisterUser) = Await Model.ListCashRegisterUserByIdCashRegister(CStr(INDsleCash.EditValue))
+                For Each c As CashRegisterUser In ListUser
+                    If c.IdUser.Equals(Me.indigo.UserIndigoId) Then
+                        band = True
+                        Exit For
+                    End If
+                Next
+                If Not band Then
+                    Mensaje(EeventViewerImages.Advertencia) = ResourceManager.GetString("CashPermission", NAME_MODULE)
+                    INDsleCash.EditValue = Nothing
+                End If
+            End Using
+            Using Model As New MCashRegister(Me.Tag)
+                Dim cash As CashRegisters = Await Model.GetcashRegisterById(INDsleCash.EditValue)
+                If cash IsNot Nothing Then
+                    IdMainAccount = cash.IdMainAccount
+                    IdCostCenter = cash.IdCostCenter
+                    If Me._sequence.Scope.Equals("O") Then
+                        Me._idCurrentSequence = Me.GetIdSequenceByPrefix(cash.Prefix)
+                        Me._prefixSelected = cash.Prefix
+                    End If
+
+                    If cash.IdCostCenter > 0 Then
+                        INDliCostCenter.HideControl(False)
+                        INDsleCostCenter.EditValue = cash.IdCostCenter
+                    Else
+                        INDliCostCenter.HideControl(True)
+                        INDsleCostCenter.EditValue = Nothing
+                    End If
+                End If
+            End Using
+        End If
+        ActiveInactivePopUpExpenseConcept()
+    End Sub
+#End Region
+
+#Region "Activated"
+    ''' <summary>
+    ''' Handles the Activated event of the FrmVoucherTransaction control.
+    ''' </summary>
+    ''' <param name="sender">The source of the event.</param>
+    ''' <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
+    Private Sub Frm_Activated(sender As Object, e As EventArgs) Handles MyBase.Activated, MyBase.Shown
+        If INDbteCode.Text Is String.Empty Then
+            INDbteCode.Focus()
+        End If
+    End Sub
+#End Region
+
+#Region "QueryPopUp"
+    ''' <summary>
+    ''' Handles the QueryPopUp event of the INDsleCash control.
+    ''' </summary>
+    ''' <param name="sender">The source of the event.</param>
+    ''' <param name="e">The <see cref="System.ComponentModel.CancelEventArgs"/> instance containing the event data.</param>
+    Private Sub INDsleCash_QueryPopUp(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles INDsleCash.QueryPopUp
+        If Not _statePopUpCash AndAlso (_voucherTransaction.Status = 1 OrElse _voucherTransaction.Status = 0) Then
+            _presenter.InitializeCash(ExpenseType - 1)
+            _statePopUpCash = True
+        End If
+    End Sub
+
+    ''' <summary>
+    ''' Handles the QueryPopUp event of the INDsleCostCenter control.
+    ''' </summary>
+    ''' <param name="sender">The source of the event.</param>
+    ''' <param name="e">The <see cref="System.ComponentModel.CancelEventArgs"/> instance containing the event data.</param>
+    Private Sub INDsleCostCenter_QueryPopUp(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles INDsleCostCenter.QueryPopUp
+        If Not _statePopUpCostCenter AndAlso (_voucherTransaction.Status = 1 OrElse _voucherTransaction.Status = 0) Then
+            _presenter.InitializeCostCenter()
+            _statePopUpCostCenter = True
+        End If
+    End Sub
+
+    ''' <summary>
+    ''' Handles the QueryPopUp event of the INDsleThirdParty control.
+    ''' </summary>
+    ''' <param name="sender">The source of the event.</param>
+    ''' <param name="e">The <see cref="System.ComponentModel.CancelEventArgs"/> instance containing the event data.</param>
+    Private Sub INDsleThirdParty_QueryPopUp(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles INDsleThirdParty.QueryPopUp
+        If Not _statePopUpThird AndAlso (_voucherTransaction.Status = 1 OrElse _voucherTransaction.Status = 0) Then
+            _presenter.InitializeThirdParty()
+            _statePopUpThird = True
+        End If
+    End Sub
+
+    ''' <summary>
+    ''' Handles the QueryPopUp event of the INDsleEntityAccount control.
+    ''' </summary>
+    ''' <param name="sender">The source of the event.</param>
+    ''' <param name="e">The <see cref="System.ComponentModel.CancelEventArgs"/> instance containing the event data.</param>
+    Private Sub INDsleEntityAccount_QueryPopUp(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles INDsleEntityAccount.QueryPopUp
+        If Not _statePopUpEntityBankAccount AndAlso (_voucherTransaction.Status = 1 OrElse _voucherTransaction.Status = 0) Then
+            _presenter.InitializeEntityBankAccount()
+            _statePopUpEntityBankAccount = True
+        End If
+    End Sub
+#End Region
+
+#Region "ButtonClick"
+    ''' <summary>
+    ''' Handles the ButtonClick event of the INDsleThirdParty control.
+    ''' </summary>
+    ''' <param name="sender">The source of the event.</param>
+    ''' <param name="e">The <see cref="DevExpress.XtraEditors.Controls.ButtonPressedEventArgs"/> instance containing the event data.</param>
+    Private Sub INDsleThirdParty_ButtonClick(sender As Object, e As DevExpress.XtraEditors.Controls.ButtonPressedEventArgs) Handles INDsleThirdParty.ButtonClick
+        If e.Button.Kind = DevExpress.XtraEditors.Controls.ButtonPredefines.Plus Then
+            Using Formulario As New FrmThirdParty
+                Formulario.ViewModeEditHold = True
+                Formulario.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent
+                Formulario.MinimizeBox = False
+                Formulario.MaximizeBox = False
+                Formulario.Size = New Size(780, Formulario.Size.Height)
+                Dim transparent As New FrmTransparent(Formulario, False)
+                transparent.ShowDialog(Me)
+                Using Model As New MCards(MyBase.Tag)
+                    _presenter.InitializeThirdParty()
+                End Using
+            End Using
+        End If
+    End Sub
+
+    ''' <summary>
+    ''' Handles the ButtonClick event of the INDsleEntityAccount control.
+    ''' </summary>
+    ''' <param name="sender">The source of the event.</param>
+    ''' <param name="e">The <see cref="DevExpress.XtraEditors.Controls.ButtonPressedEventArgs"/> instance containing the event data.</param>
+    Private Sub INDsleEntityAccount_ButtonClick(sender As Object, e As DevExpress.XtraEditors.Controls.ButtonPressedEventArgs) Handles INDsleEntityAccount.ButtonClick
+        If e.Button.Kind = DevExpress.XtraEditors.Controls.ButtonPredefines.Plus Then
+            Using Formulario As New FrmEntityAccount
+                Formulario.ViewModeEditHold = True
+                Formulario.MinimizeBox = False
+                Formulario.MaximizeBox = False
+                Formulario.Size = New Size(780, Formulario.Size.Height)
+                Formulario.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent
+                Dim transparent As New FrmTransparent(Formulario, False)
+                transparent.ShowDialog(Me)
+                _presenter.InitializeEntityBankAccount()
+            End Using
+        End If
+    End Sub
+
+    ''' <summary>
+    ''' Handles the ButtonClick event of the INDsleCash control.
+    ''' </summary>
+    ''' <param name="sender">The source of the event.</param>
+    ''' <param name="e">The <see cref="DevExpress.XtraEditors.Controls.ButtonPressedEventArgs"/> instance containing the event data.</param>
+    Private Sub INDsleCash_ButtonClick(sender As Object, e As DevExpress.XtraEditors.Controls.ButtonPressedEventArgs) Handles INDsleCash.ButtonClick
+        If e.Button.Kind = DevExpress.XtraEditors.Controls.ButtonPredefines.Plus Then
+            Using Formulario As New FrmCash
+                Formulario.ViewModeEditHold = True
+                Formulario.MinimizeBox = False
+                Formulario.MaximizeBox = False
+                Formulario.Size = New Size(780, Formulario.Size.Height)
+                Formulario.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent
+                Dim transparent As New FrmTransparent(Formulario, False)
+                transparent.ShowDialog(Me)
+                _presenter.InitializeCash(ExpenseType - 1)
+            End Using
+        End If
+    End Sub
+
+    ''' <summary>
+    ''' Handles the ButtonClick event of the INDsleCostCenter control.
+    ''' </summary>
+    ''' <param name="sender">The source of the event.</param>
+    ''' <param name="e">The <see cref="DevExpress.XtraEditors.Controls.ButtonPressedEventArgs"/> instance containing the event data.</param>
+    Private Sub INDsleCostCenter_ButtonClick(sender As Object, e As DevExpress.XtraEditors.Controls.ButtonPressedEventArgs) Handles INDsleCostCenter.ButtonClick
+        If e.Button.Kind = DevExpress.XtraEditors.Controls.ButtonPredefines.Plus Then
+            Using Formulario As New FrmCostCenter
+                Formulario.ViewModeEditHold = True
+                Formulario.MinimizeBox = False
+                Formulario.MaximizeBox = False
+                Formulario.Size = New Size(780, Formulario.Size.Height)
+                Formulario.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent
+                Dim transparent As New FrmTransparent(Formulario, False)
+                transparent.ShowDialog(Me)
+                _presenter.InitializeCostCenter()
+            End Using
+        End If
+    End Sub
+#End Region
+
+#Region "KeyDown"
+    ''' <summary>
+    ''' Handles the KeyDown event of the INDtxtDocumentNumber control.
+    ''' </summary>
+    ''' <param name="sender">The source of the event.</param>
+    ''' <param name="e">The <see cref="KeyEventArgs"/> instance containing the event data.</param>
+    Private Async Sub INDtxtDoumentNumber_KeyDown(sender As Object, e As KeyEventArgs) Handles INDbteCode.KeyDown
+        If e.KeyCode = System.Windows.Forms.Keys.Enter Then
+            If _sequence Is Nothing OrElse _sequence.Id = 0 Then
+                Mensaje(EeventViewerImages.Advertencia) = ResourceManager.GetString("SequenceNotFound")
+                Exit Sub
+            End If
+            If Me._sequence.IsManual Then
+                If Not String.IsNullOrEmpty(Code.Trim()) Then
+                    Await Me.LoadControls()
+                Else
+                    Mensaje(EeventViewerImages.Advertencia) = "La secuencia numérica esta configurada como manual, por favor digite un código"
+                End If
+            Else
+                If String.IsNullOrEmpty(Code) Then
+                    Await Me.NewVoucherTransaction()
+                Else
+                    Await Me.LoadControls()
+                End If
+            End If
+        ElseIf e.KeyCode = System.Windows.Forms.Keys.F4 Then
+            OpenSearch()
+        End If
+    End Sub
+#End Region
+
+#End Region
+
+#Region "ICrud"
+
+    ''' <summary>
+    ''' METODO: Item buscar del control de usuarios.
+    ''' </summary>
+    Public Sub Buscar() Implements IcrudBase.Buscar
+        OpenSearch()
+    End Sub
+
+    ''' <summary>
+    ''' METODO: Item Deshacer del control de usuarios.
+    ''' </summary>
+    Public Sub Deshacer() Implements IcrudBase.Deshacer
+        CleanControls()
+    End Sub
+
+    ''' <summary>
+    ''' METODO: Item Eliminar del control de usuarios.
+    ''' </summary>
+    Public Sub Eliminar() Implements IcrudBase.Eliminar
+        'If Me._voucherTransaction IsNot Nothing AndAlso Me._voucherTransaction.Id > 0 Then
+        '    If MessageIndigo.Show(ResourceManager.GetString("DeleteRecord"), MessageType.Question, Me.Text, Botones.SiNo) = System.Windows.Forms.DialogResult.Yes Then
+        '        Using Model As New MVoucherTransaction(Me.Tag.ToString())
+        '            Me._voucherTransaction.MarkAsDeleted()
+        '            Dim result = Await RunAsyncOperation(Model.DeleteVoucherTransaction(Me._voucherTransaction))
+        '            If result.StateResult = True Then
+        '                Await Me.DeleteDocumentIndexed()
+        '                Mensaje(EeventViewerImages.Informacion) = ResourceManager.GetString("RecordDeleted")
+        '                _searchMode = False
+        '                Me.Deshacer()
+        '            Else
+        '                If result.MessageResult(0) = "-999" Then
+        '                    Mensaje(EeventViewerImages.MensajeError) = ResourceManager.GetString("ErrorConcurrence")
+        '                ElseIf result.MessageResult(0) = "-000" Then
+        '                    Mensaje(EeventViewerImages.MensajeError) = ResourceManager.GetString("ErrorDependence")
+        '                Else
+        '                    Mensaje(EeventViewerImages.MensajeError) = ResourceManager.GetString("ErrorUnknown")
+        '                End If
+        '            End If
+        '        End Using
+        '    End If
+        'End If
+    End Sub
+
+    ''' <summary>
+    ''' Handles the ButtonClick event of the INDbteCode control.
+    ''' </summary>
+    ''' <param name="sender">The source of the event.</param>
+    ''' <param name="e">The <see cref="DevExpress.XtraEditors.Controls.ButtonPressedEventArgs"/> instance containing the event data.</param>
+    Private Sub INDbteCode_ButtonClick(sender As Object, e As DevExpress.XtraEditors.Controls.ButtonPressedEventArgs) Handles INDbteCode.ButtonClick
+        Buscar()
+    End Sub
+
+    ''' <summary>
+    ''' Handles the LostFocus event of the INDdeDate control.
+    ''' </summary>
+    ''' <param name="sender">The source of the event.</param>
+    ''' <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
+    Private Async Sub INDdeDate_LostFocus(sender As Object, e As EventArgs) Handles INDdeDate.LostFocus
+        If DateServer IsNot Nothing Then
+            Using Model As New MDocumentAccount(Me.Tag)
+                If Not Await Model.ValidatePeriod(DateServer.Value.Month, DateServer.Value.Year) Then
+                    Dim periods As List(Of ClosedMonth) = Model.GetOpenPeriod()
+                    If periods IsNot Nothing AndAlso periods.Count > 0 Then
+                        Dim perOpen As String = AccountingServices.GetListOpenPeriods(periods)
+                        INDdeDate.EditValue = Nothing
+                        Mensaje(EeventViewerImages.Advertencia) = perOpen
+                        INDdeDate.Focus()
+                    Else
+                        Mensaje(EeventViewerImages.Advertencia) = ResourceManager.GetString("OpenPeriodNothing", NAME_MODULE_ACCOUNTING)
+                        INDdeDate.EditValue = Nothing
+                        INDdeDate.Focus()
+                    End If
+                End If
+            End Using
+        End If
+    End Sub
+
+    ''' <summary>
+    ''' METODO: Item Guardar del control de usuarios.
+    ''' </summary>
+    Public Async Sub Guardar(ByVal withConfirm As Boolean)
+        If ValidateFields() = False Then
+            Exit Sub
+        End If
+        AsyncLoader(True)
+        If withConfirm Then
+            If Not Await ValidateItemsNoteAndAdvance() Then
+                AsyncLoader(False)
+                Exit Sub
+            End If
+        End If
+        AssigningValues()
+        Try
+            Using Model As New MVoucherTransaction(Me.Tag.ToString())
+                Dim Result = Await Model.SaveVoucherTransaction(Me._voucherTransaction, withConfirm, Me._idCurrentSequence, Me._sequence)
+                '_presenter.GetSequence()
+                AsyncLoader(False)
+                If Result.StateResult = True Then
+                    If withConfirm Then
+                        Select Case Result.StatusCode
+                            Case eStatusResult.SUCCESS
+                                Mensaje(EeventViewerImages.Informacion) = Result.Message
+                            Case eStatusResult.WARNING
+                                Mensaje(EeventViewerImages.Advertencia) = Result.Message
+                            Case eStatusResult.EXCEPTION
+                                Mensaje(EeventViewerImages.Advertencia) = Result.Message
+                        End Select
+                        DeleteCheckBlock(False)
+                    Else
+                        If _voucherTransaction.ChangeTracker.State = Domain.Base.Entities.ObjectState.Added Then
+                            If Not Me._sequence.IsManual AndAlso Not Me._sequence.Sequential Then
+                                Me.DicSequense(Me._sequence.TreasurySequenceDetail(0).Id).RemoveAt(0)
+                            End If
+                            If Me._sequence.Sequential Then
+                                Mensaje(EeventViewerImages.Informacion) = String.Format(ResourceManager.GetString("SavedWithCode"), Result.ObjectEmbbeded.Code)
+                            Else
+                                Mensaje(EeventViewerImages.Informacion) = ResourceManager.GetString("SaveMessage")
+                            End If
+                        ElseIf _voucherTransaction.ChangeTracker.State = Domain.Base.Entities.ObjectState.Modified Then
+                            Mensaje(EeventViewerImages.Informacion) = ResourceManager.GetString("UpdateMessage")
+                        End If
+                    End If
+                    Me._voucherTransaction = Result.ObjectEmbbeded
+                    Me.UpdateIndexedDocument(Me.BarraBotones._listDocuments)
+                    Select Case varImp
+                        Case 1
+                            Me.BarraBotones.PrintReport(PrintReportAction.Create, _voucherTransaction.Id, 0, _voucherTransaction.Id)
+                        Case 2
+                            Me.BarraBotones.PrintReport(PrintReportAction.Update, _voucherTransaction.Id, 0, _voucherTransaction.Id)
+                        Case 3
+                            Me.BarraBotones.PrintReport(PrintReportAction.Confirm, _voucherTransaction.Id, 0, _voucherTransaction.Id)
+                    End Select
+                    IdCheckBook = 0
+                    CheckNumber = 0
+                    Me.Deshacer()
+                Else
+                    If Result.Message IsNot Nothing Then
+                        generateListError(Result.Message)
+                    End If
+                End If
+            End Using
+        Catch ex As Exception
+            AsyncLoader(False)
+            INDbteCode.Enabled = False
+            Throw ex
+        End Try
+    End Sub
+
+    ''' <summary>
+    ''' METODO: Item Guardar del control de usuarios.
+    ''' </summary>
+    Public Sub Guardar() Implements IcrudBase.Guardar
+
+    End Sub
+
+    ''' <summary>
+    ''' Genera el mensaje de error
+    ''' </summary>
+    ''' <param name="errors">The errors.</param>
+    Private Sub generateListError(errors As String)
+        Dim listError As New StringBuilder()
+        listError.AppendLine(ResourceManager.GetString("ErrorListMessage"))
+        listError.AppendLine(errors)
+        Mensaje(EeventViewerImages.Advertencia) = listError.ToString()
+    End Sub
+
+    ''' <summary>
+    ''' Anula el documento
+    ''' </summary>
+    Public Async Sub Anular()
+        If Me._voucherTransaction IsNot Nothing AndAlso Me._voucherTransaction.Id > 0 Then
+            If MessageIndigo.Show(ResourceManager.GetString("AnnularMessage"), MessageType.Question, Me.Text, Botones.SiNo) = System.Windows.Forms.DialogResult.Yes Then
+                _voucherTransaction.Status = 3
+                Try
+                    Using Model As New MVoucherTransaction(Me.Tag.ToString())
+                        AsyncLoader(True)
+                        Dim result = Await Model.SaveVoucherTransaction(Me._voucherTransaction, False, Me._idCurrentSequence, Me._sequence)
+                        AsyncLoader(False)
+                        If result.StateResult = True Then
+                            Mensaje(EeventViewerImages.Informacion) = ResourceManager.GetString("AnnularCorrect")
+                            Me._voucherTransaction = result.ObjectEmbbeded
+
+                            Me.BarraBotones.PrintReport(PrintReportAction.Cancel, _voucherTransaction.Id, 0, _voucherTransaction.Id)
+
+                            Me.UpdateIndexedDocument(Me.BarraBotones._listDocuments)
+                            IdCheckBook = 0
+                            CheckNumber = 0
+                            Me.Deshacer()
+                        Else
+                            '_voucherTransaction.VoucherTransactionDetails.Clear()
+                            If result.Message IsNot Nothing Then
+                                generateListError(result.Message)
+                            End If
+                        End If
+                    End Using
+                Catch ex As Exception
+                    AsyncLoader(False)
+                    INDbteCode.Enabled = False
+                    Throw ex
+                End Try
+            End If
+        End If
+    End Sub
+
+    ''' <summary>
+    ''' Confirma el comprobante de egreso
+    ''' </summary>
+    ''' <exception cref="System.NotImplementedException"></exception>
+    Private Async Sub Confirmar()
+        Try
+            Using Model As New MVoucherTransaction(Me.Tag.ToString())
+                AsyncLoader(True)
+                Dim Result = Await Model.ConfirmVoucherTransaction(Me._voucherTransaction.Id, Me._idCurrentSequence)
+                AsyncLoader(False)
+                If Result.StateResult = True Then
+                    Dim consecutive = Result.ObjectEmbbeded
+                    Mensaje(EeventViewerImages.Informacion) = String.Format(ResourceManager.GetString("DocumentConfirmWithConsecutive"), consecutive)
+                    Me.UpdateIndexedDocument(Me.BarraBotones._listDocuments)
+                    UnlockCheck()
+                    Me.Deshacer()
+                Else
+                    If Result.Message IsNot Nothing Then
+                        generateListError(Result.Message)
+                    End If
+                End If
+            End Using
+        Catch ex As Exception
+            AsyncLoader(False)
+            INDbteCode.Enabled = False
+            Throw ex
+        End Try
+    End Sub
+
+    ''' <summary>
+    ''' Validates the entity.
+    ''' </summary>
+    Private Function ValidateEntity(ByVal auxEntity As VoucherTransaction) As Boolean
+        If (auxEntity.Id = _voucherTransaction.Id AndAlso auxEntity.Code = _voucherTransaction.Code AndAlso
+            auxEntity.ExpenseType = _voucherTransaction.ExpenseType AndAlso auxEntity.Detail = _voucherTransaction.Detail AndAlso auxEntity.DocumentDate = _voucherTransaction.DocumentDate AndAlso
+            auxEntity.Value = _voucherTransaction.Value) Then
+            Return True
+        End If
+        Return False
+    End Function
+
+    ''' <summary>
+    ''' Oculta los controles de conceptos
+    ''' </summary>
+    Private Sub HideConceptControls()
+        INDliThirdParty.HideControl(True)
+        INDlgrExpenditureConcept.HideControl(True)
+    End Sub
+
+    ''' <summary>
+    ''' METODO: Item Nuevo del control de usuarios.
+    ''' </summary>
+    Public Async Sub Nuevo() Implements IcrudBase.Nuevo
+        If _sequence Is Nothing OrElse _sequence.Id = 0 Then
+            Mensaje(EeventViewerImages.Advertencia) = ResourceManager.GetString("SequenceNotFound")
+            Exit Sub
+        End If
+
+        If Me._sequence.IsManual Then
+            Deshacer()
+        Else
+            Await Me.NewVoucherTransaction()
+        End If
+    End Sub
+
+#End Region
+
+#Region "Bar Button Events"
+
+    ''' <summary>
+    ''' Barras the botones_ click actualizar.
+    ''' </summary>
+    Private Sub BarraBotones_ClickActualizar() Handles BarraBotones.ClickActualizar
+        varImp = 2
+        Guardar(False)
+    End Sub
+
+    ''' <summary>
+    ''' Barras the botones_ click buscar.
+    ''' </summary>
+    Private Sub BarraBotones_ClickBuscar() Handles BarraBotones.ClickBuscar
+        Buscar()
+    End Sub
+
+    ''' <summary>
+    ''' Barras the botones_ click deshacer.
+    ''' </summary>
+    Private Sub BarraBotones_ClickDeshacer() Handles BarraBotones.ClickDeshacer
+        Deshacer()
+    End Sub
+
+    ''' <summary>
+    ''' Barras the botones_ click eliminar.
+    ''' </summary>
+    Private Sub BarraBotones_ClickEliminar() Handles BarraBotones.ClickEliminar
+        Eliminar()
+    End Sub
+
+    ''' <summary>
+    ''' Barras the botones_ click guardar.
+    ''' </summary>
+    Private Sub BarraBotones_ClickGuardar() Handles BarraBotones.ClickGuardar
+        varImp = 1
+        Guardar(False)
+    End Sub
+
+    ''' <summary>
+    ''' Barras the botones_ click nuevo.
+    ''' </summary>
+    Private Sub BarraBotones_ClickNuevo() Handles BarraBotones.ClickNuevo
+        Deshacer()
+        Nuevo()
+    End Sub
+
+    ''' <summary>
+    ''' Barras the botones_ click confirmar.
+    ''' </summary>
+    Private Sub BarraBotones_ClickConfirmar() Handles BarraBotones.ClickConfirmar
+        'Confirmar()
+    End Sub
+
+    ''' <summary>
+    ''' Barras the botones_ click_ guardar confirmar.
+    ''' </summary>
+    Private Sub BarraBotones_Click_GuardarConfirmar() Handles BarraBotones.Click_GuardarConfirmar
+        varImp = 3
+        Guardar(True)
+    End Sub
+
+    ''' <summary>
+    ''' Barras the botones_ click_ actualizar confirmar.
+    ''' </summary>
+    Private Sub BarraBotones_Click_ActualizarConfirmar() Handles BarraBotones.Click_ActualizarConfirmar
+        varImp = 3
+        Guardar(True)
+    End Sub
+
+    ''' <summary>
+    ''' Barras the botones_ click anular.
+    ''' </summary>
+    Private Sub BarraBotones_ClickAnular() Handles BarraBotones.ClickAnular
+        Anular()
+    End Sub
+
+    ''' <summary>
+    ''' Barras the botones_ changue operating unit.
+    ''' </summary>
+    ''' <param name="operatingUnit">The operating unit.</param>
+    Private Sub BarraBotones_ChangueOperatingUnit(operatingUnit As OperatingUnit) Handles BarraBotones.ChangueOperatingUnit
+        If operatingUnit IsNot Nothing Then
+            Me._idOperativeUnit = operatingUnit.Id
+            If Me._sequence IsNot Nothing AndAlso Me._sequence.Scope.Equals("OU") AndAlso Me._sequence.TreasurySequenceDetail IsNot Nothing Then
+                If Not Me._sequence.TreasurySequenceDetail.Any(Function(o) o.IdOperatingUnit = operatingUnit.Id) Then
+                    Me.Mensaje(EeventViewerImages.Advertencia) = ResourceManager.GetString("OperatingUnitUnassigned")
+                    Me.BarraBotones.PrepareToolbar(eAction.OnlyUndo)
+                End If
+            End If
+        End If
+    End Sub
+
+    ''' <summary>
+    ''' Handles the Load event of the BarraBotones control.
+    ''' </summary>
+    ''' <param name="sender">The source of the event.</param>
+    ''' <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
+    Private Sub BarraBotones_Load(sender As Object, e As EventArgs) Handles BarraBotones.Load
+        Me.BarraBotones.ActualizarPermisosBarra(MyBase.Tag)
+    End Sub
+
+    ''' <summary>
+    ''' Se ejecuta en al dar click sobre el boton imprimir de la barra
+    ''' </summary>
+    ''' <remarks></remarks>
+    Private Sub BarraBotones_ClickImprimir() Handles BarraBotones.ClickImprimir
+        Me.BarraBotones.PrintReport(PrintReportAction.DirectPrinting, _voucherTransaction.Id, 0, _voucherTransaction.Id)
+    End Sub
+
+    Private Sub BarraBotones_QueryLoadReportsAndDefinitions(sender As Object, e As LoadReportsAndDefinitionsEventArgs) Handles BarraBotones.QueryLoadReportsAndDefinitions
+        Dim bankCode As String
+        If EntityBankAccount IsNot Nothing Then
+            If TypeOf EntityBankAccount Is EntityBankAccountXpo Then 'If bankAccount.GetType().Name.Equals(GetType(EntityBankAccountXpo).Name) Then
+                bankCode = EntityBankAccount.IdBank.Code
+            Else
+                bankCode = EntityBankAccount.Bank.Code
+            End If
+            If Me.INDliPaymentMethod.Visibility = DevExpress.XtraLayout.Utils.LayoutVisibility.Always AndAlso Me.INDglePaymentMethod.EditValue IsNot Nothing AndAlso Me.INDglePaymentMethod.EditValue = CInt(ePaymentType.Check) AndAlso Me.EntityBankAccount IsNot Nothing AndAlso Me.EntityBankAccount.IdBank IsNot Nothing Then
+                e.ListReportsAndDefinitions = e.ListReportsAndDefinitions.Where(Function(r) r.CodeEntity = If(TypeOf EntityBankAccount Is EntityBankAccountXpo, Me.EntityBankAccount.IdBank.BankFileCode, Me.EntityBankAccount.Bank.BankFileCode)).ToList()
+            Else
+                e.ListReportsAndDefinitions = e.ListReportsAndDefinitions.Where(Function(r) r.CodeEntity Is Nothing OrElse r.CodeEntity.Trim().Equals(String.Empty)).ToList()
+            End If
+        End If
+    End Sub
+
+#End Region
+
+#Region "Async"
+    ''' <summary>
+    ''' Evento asincrono que carga el concepto de egreso con las cuotas de las facturas
+    ''' </summary>
+    ''' <param name="sender">The source of the event.</param>
+    ''' <param name="e">The <see cref="DoWorkEventArgs"/> instance containing the event data.</param>
+    Private Sub asyncExpense_DoWork(sender As Object, e As DoWorkEventArgs)
+        If VoucherClass = eVoucherClass.Payment Then
+            For Each voucherDetail As VoucherTransactionDetails In VoucherTransactionDetailDatasource
+                Select Case voucherDetail.ExpenseConceptBehavior
+                    Case 2, 3
+                        LoadDischargeBillByVoucherTransactionId(voucherDetail.Id, voucherDetail.IdExpenseConcept)
+                    Case 4
+                        'Using Model As New MBusqueda
+                        '    Dim _listVoucherTransactionAdvance = Model.ConsultarEntidades(eDataSource.ListVoucherTransactionAdvance)
+                        '    ListVoucherTransactionAdvance = New List(Of VoucherTransactionAdvance)()
+                        '    For Each item As Infrastructure.Data.Xpo.TreasuryRepository.VoucherTransactionAdvanceXpo In _listVoucherTransactionAdvance
+                        '        Dim voucherTransactionAdvance = New VoucherTransactionAdvance()
+                        '        With voucherTransactionAdvance
+                        '            .Id = item.Id
+                        '            .IdVoucherTransactionD = item.IdVoucherTransactionD
+                        '            .PortfolioAdvanceId = item.PortfolioAdvanceId.Id
+                        '            .Value = item.Value
+                        '            .Percentage = item.Percentage
+                        '            .PortfolioAdvanceCode = item.PortfolioAdvanceId.Code
+                        '            .PortfolioAdvanceDocumentDate = item.PortfolioAdvanceId.DocumentDate
+                        '            .PortfolioAdvanceBalance = item.PortfolioAdvanceId.Balance
+                        '        End With
+                        '        ListVoucherTransactionAdvance.Add(voucherTransactionAdvance)
+                        '    Next
+                        'End Using
+                    Case 5
+                        Using ModelRefund As New MRefund(Me.Tag)
+                            _listRefund = (ModelRefund.ListRefundByAccountSimple(voucherDetail.IdMainAccount)).ObjectEmbbeded
+                        End Using
+                End Select
+            Next
+        End If
+    End Sub
+
+    ''' <summary>
+    ''' Método que se ejecuta al terminar la tarea asincrona de cargar el concepto de egreso con las facturas
+    ''' </summary>
+    ''' <param name="sender">The source of the event.</param>
+    ''' <param name="e">The <see cref="RunWorkerCompletedEventArgs"/> instance containing the event data.</param>
+    Private Sub asyncExpense_Complete(sender As Object, e As RunWorkerCompletedEventArgs)
+        If VoucherClass = eVoucherClass.Payment Then
+            Me.RefreshXMilValue()
+            ctrTmp.PrintValueVoucher()
+        End If
+        INDGvVoucherTransactionDetail.HideLoadingPanel()
+        Me.BarraBotones.Enabled = True
+    End Sub
+#End Region
+
+#Region "Enum"
+
+    ''' <summary>
+    ''' Enumeración que contiene el tipo de comprobante
+    ''' </summary>
+    Public Enum eExpenseType
+        BankAccount = 1
+        MinorCash = 2
+        MajorCash = 3
+        BankingProduct = 4
+    End Enum
+
+    Public Enum ePaymentType
+        Check = 1
+        ''' <summary>
+        ''' The debit note
+        ''' </summary>
+        DebitNote = 2
+    End Enum
+
+    Public Enum eEntityBankAccountType
+        Saving = 1
+        Current = 2
+    End Enum
+
+    ''' <summary>
+    ''' Enumeración de los estados de la chequera
+    ''' </summary>
+    Public Enum eStatusCheck
+        Active = 1
+        Blocked = 2
+        Finished = 3
+    End Enum
+
+    Public Enum eStatusAccountPayable
+        Registrado = 1
+        Confirmado = 2
+        Anulado = 3
+    End Enum
+
+    ''' <summary>
+    ''' Enumeracion que contiene el tracker
+    ''' </summary>
+    Public Enum eTracker
+        Unchanged = 1
+        Added = 2
+        Modified = 3
+        Deleted = 4
+    End Enum
+
+    ''' <summary>
+    ''' Enumeracion del comportamiento de los conceptos de caja menor
+    ''' </summary>
+    Public Enum eBehavior
+        ''' <summary>
+        ''' Traslado entre bancos
+        ''' </summary>
+        TransferBetweenBanks = 1
+        ''' <summary>
+        ''' Caja Menor
+        ''' </summary>
+        PettyCash = 2
+        ''' <summary>
+        ''' Pago/Anticipo de Facturas CxP
+        ''' </summary>
+        PaymentAdvancePaymentInvoices = 3
+        ''' <summary>
+        ''' Devolutivos de Anticipos RC
+        ''' </summary>
+        ReturningImprestRC = 4
+        ''' <summary>
+        '''  Reembolso de Caja Menor
+        ''' </summary>
+        PettyCashReimbursement = 5
+        ''' <summary>
+        ''' Comportamiento ninguno
+        ''' </summary>
+        Ninguno = 6
+    End Enum
+
+    Public Enum eVoucherClass
+        Payment = 1
+        Refund = 2
+        Transfer = 3
+    End Enum
+
+#End Region
+
+End Class

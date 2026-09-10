@@ -1,0 +1,73 @@
+﻿#Region "Librerias Improtadas"
+Imports Infrastructure.CrossCutting.Base
+Imports Infrastructure.Data.Xpo
+Imports Infrastructure.Data.Xpo.PayrollRepository
+Imports Domain.Entities
+Imports Presentation.Base
+Imports Domain.Payroll.Entities
+Imports Presentation.Reporter
+Imports System.Drawing.Printing
+Imports DevExpress.XtraReports.UI
+
+#End Region
+
+Public Class rptPayrollContractLiquidation
+    Implements IReport
+    ''' <summary>
+    ''' Variable para inicializar los valores de sesion
+    ''' </summary>
+    Dim IndigoSessionValues As SessionValues = SessionValues.Instance
+    Public ReadOnly Property NameReport As String Implements IReport.NameReport
+        Get
+            Return ""
+        End Get
+    End Property
+    Public Property ParametrosReporte As Object() Implements IReport.ParametrosReporte
+
+    Public Sub CargarDataSource() Implements IReport.CargarDataSource
+        Throw New NotImplementedException()
+    End Sub
+    ''' <summary>
+    ''' Metodo para cargar el datasource del reporte
+    ''' </summary>
+    ''' <param name="ListEmployee"></param>
+    Public Sub CargarDataSource1(ListEmployee As List(Of Integer))
+        Try
+            Me.DataSource = XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).PayrollService.ListContractLiquidation(ListEmployee)
+        Catch ex As Exception
+            Console.WriteLine(ex.ToString())
+            MessageIndigo.Show(GetExceptionDetails(ex), MessageType.Errores, Me.Text, Botones.Aceptar, "")
+        End Try
+    End Sub
+
+    Public Sub CargarImagenes() Implements IReport.CargarImagenes
+    End Sub
+    Public Function GetExceptionDetails(exception As Exception) As String
+        Dim properties = exception.[GetType]().GetProperties()
+        Dim fields = properties.[Select](Function([property]) New With {
+            Key .Name = [property].Name,
+            Key .Value = [property].GetValue(exception, Nothing)
+        }).[Select](Function(x) [String].Format("{0} : {1}", x.Name, If(x.Value IsNot Nothing, x.Value.ToString(), [String].Empty)))
+        Return [String].Join(vbLf, fields)
+    End Function
+    ''' <summary>
+    ''' Imprimir datos: nit y nombre del cliente y usuario de impresion
+    ''' </summary>
+    ''' <param name="sender"></param>
+    ''' <param name="e"></param>
+    Private Sub rptPayrollContractLiquidation_BeforePrint(sender As Object, e As PrintEventArgs) Handles Me.BeforePrint
+        INDPmEmployer.Value = IndigoSessionValues.IndigoCompanyName
+        XrTableCell169.Text = IndigoSessionValues.IndigoCompanyName
+        XrTableCell171.Text = "NIT. " & IndigoSessionValues.IndigoCompanyNit
+        Me.INDLblUserImp.Text = "Usuario Impresión : " & IndigoSessionValues.UserIndigo & " - " & IndigoSessionValues.UserIndigoName
+    End Sub
+    ''' <summary>
+    ''' Se dispara al cambiar el texto de la celda de pago total, se usa para convertir el valor a letras y mostrarlo en otra celda
+    ''' </summary>
+    ''' <param name="sender"></param>
+    ''' <param name="e"></param>
+    Private Sub XrTableCell161_TextChanged_1(sender As Object, e As EventArgs) Handles XrTableCell161.TextChanged
+        'Console.WriteLine(GetCurrentColumnValue("totalPaidLiquidation").ToString())
+        Me.XrTableCell162.Text = "LA SUMA DE: " & Utils.Num2Text(Convert.ToDouble(GetCurrentColumnValue("totalPaidLiquidation"))).ToString & " PESOS M/CTE."
+    End Sub
+End Class

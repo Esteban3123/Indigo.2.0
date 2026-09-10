@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://schemas.datacontract.org/2004/07/Domain.Inventory.POCO" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/Domain.Inventory.POCO" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import schemaLocation="https://localhost:9001/ServiceEntity/Inventory.svc?xsd=xsd14" namespace="http://schemas.datacontract.org/2004/07/Domain.Crystal.Entities" />
+  <xs:import schemaLocation="https://localhost:9001/ServiceEntity/Inventory.svc?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/Domain.Entities" />
+  <xs:import schemaLocation="https://localhost:9001/ServiceEntity/Inventory.svc?xsd=xsd16" namespace="http://schemas.datacontract.org/2004/07/Domain.Payroll.Entities" />
+  <xs:complexType name="ArrayOfAdmissionInformation">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="AdmissionInformation" nillable="true" type="tns:AdmissionInformation" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfAdmissionInformation" nillable="true" type="tns:ArrayOfAdmissionInformation" />
+  <xs:complexType name="AdmissionInformation">
+    <xs:sequence>
+      <xs:element xmlns:q1="http://schemas.datacontract.org/2004/07/Domain.Crystal.Entities" minOccurs="0" name="aDINGRESO" nillable="true" type="q1:ADINGRESO" />
+      <xs:element xmlns:q2="http://schemas.datacontract.org/2004/07/Domain.Entities" minOccurs="0" name="careGroup" nillable="true" type="q2:CareGroup" />
+      <xs:element xmlns:q3="http://schemas.datacontract.org/2004/07/Domain.Payroll.Entities" minOccurs="0" name="functionalUnit" nillable="true" type="q3:FunctionalUnit" />
+      <xs:element minOccurs="0" name="genderThirdParty" nillable="true" type="xs:unsignedByte" />
+      <xs:element minOccurs="0" name="healthAdministratorId" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="thirdPartyId" type="xs:int" />
+      <xs:element minOccurs="0" name="thirdPartyPatienDate" nillable="true" type="xs:dateTime" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="AdmissionInformation" nillable="true" type="tns:AdmissionInformation" />
+  <xs:complexType name="AllSurgicalPackageProcessWrapper">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Components" nillable="true">
+        <xs:complexType>
+          <xs:annotation>
+            <xs:appinfo>
+              <ActualType Name="DataTable" Namespace="http://schemas.datacontract.org/2004/07/System.Data" xmlns="http://schemas.microsoft.com/2003/10/Serialization/" />
+            </xs:appinfo>
+          </xs:annotation>
+          <xs:sequence>
+            <xs:any minOccurs="0" maxOccurs="unbounded" namespace="http://www.w3.org/2001/XMLSchema" processContents="lax" />
+            <xs:any minOccurs="1" namespace="urn:schemas-microsoft-com:xml-diffgram-v1" processContents="lax" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element minOccurs="0" name="DataUnilogMovement" nillable="true" type="tns:DataUnilogMovementModel" />
+      <xs:element minOccurs="0" name="ProgramationId" type="xs:int" />
+      <xs:element minOccurs="0" name="UserId" type="xs:int" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="AllSurgicalPackageProcessWrapper" nillable="true" type="tns:AllSurgicalPackageProcessWrapper" />
+  <xs:complexType name="DataUnilogMovementModel">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Atendimento" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="CentroCustoDestino" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="CentroCustoOrigem" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Codigo" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="CodigoDocumento" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="CodigoEAN" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="CodigoEtiqueta" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="CodigoItemDocumento" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="CodigoProgramacao" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="DataMovimentacao" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="EmpresaDestino" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="EmpresaOrigem" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Nutricao" type="xs:boolean" />
+      <xs:element minOccurs="0" name="Produto" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Programa" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Proveedor" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Quantidade" type="xs:int" />
+      <xs:element minOccurs="0" name="TipoDocumento" type="xs:int" />
+      <xs:element minOccurs="0" name="TipoMovimentacao" type="xs:int" />
+      <xs:element minOccurs="0" name="Usuario" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="DataUnilogMovementModel" nillable="true" type="tns:DataUnilogMovementModel" />
+</xs:schema>

@@ -1,0 +1,479 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{1EBF3A45-2439-4798-9156-371B7F502950}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>DistribuitedServices.Billing</RootNamespace>
+    <AssemblyName>DistribuitedServices.Billing</AssemblyName>
+    <FileAlignment>512</FileAlignment>
+    <MyType>Windows</MyType>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DocumentationFile>DistribuitedServices.Billing.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DocumentationFile>DistribuitedServices.Billing.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionExplicit>On</OptionExplicit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionCompare>Binary</OptionCompare>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionStrict>Off</OptionStrict>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionInfer>On</OptionInfer>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debugcito|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\Debugcito\</OutputPath>
+    <DocumentationFile>DistribuitedServices.Billing.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DocumentationFile>DistribuitedServices.Billing.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DocumentationFile>DistribuitedServices.Billing.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debugcito|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x64\Debugcito\</OutputPath>
+    <DocumentationFile>DistribuitedServices.Billing.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Autofac, Version=6.2.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
+      <HintPath>..\packages\Autofac.6.2.0\lib\netstandard2.0\Autofac.dll</HintPath>
+    </Reference>
+    <Reference Include="Autofac.Extensions.DependencyInjection, Version=7.1.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
+      <HintPath>..\packages\Autofac.Extensions.DependencyInjection.7.1.0\lib\netstandard2.0\Autofac.Extensions.DependencyInjection.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework">
+      <HintPath>..\DLL\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer">
+      <HintPath>..\DLL\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="Infrastructure.CrossCutting.Exceptions, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\DLL\Infrastructure.CrossCutting.Exceptions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Bcl.AsyncInterfaces, Version=8.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Bcl.AsyncInterfaces.8.0.0\lib\net462\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Bcl.TimeProvider, Version=8.0.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Bcl.TimeProvider.8.0.1\lib\net462\Microsoft.Bcl.TimeProvider.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.Extensions.Caching.Abstractions, Version=3.1.32.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Caching.Abstractions.3.1.32\lib\netstandard2.0\Microsoft.Extensions.Caching.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Caching.Memory, Version=3.1.32.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Caching.Memory.3.1.32\lib\netstandard2.0\Microsoft.Extensions.Caching.Memory.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.DependencyInjection.Abstractions, Version=3.1.32.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.DependencyInjection.Abstractions.3.1.32\lib\netstandard2.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Logging.Abstractions, Version=3.1.32.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Logging.Abstractions.3.1.32\lib\netstandard2.0\Microsoft.Extensions.Logging.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Options, Version=3.1.32.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Options.3.1.32\lib\netstandard2.0\Microsoft.Extensions.Options.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Primitives, Version=3.1.32.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Primitives.3.1.32\lib\netstandard2.0\Microsoft.Extensions.Primitives.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.IdentityModel.Abstractions, Version=8.3.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.IdentityModel.Abstractions.8.3.0\lib\net472\Microsoft.IdentityModel.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.IdentityModel.JsonWebTokens, Version=7.6.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.IdentityModel.JsonWebTokens.7.6.3\lib\net472\Microsoft.IdentityModel.JsonWebTokens.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.IdentityModel.Logging, Version=8.3.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.IdentityModel.Logging.8.3.0\lib\net472\Microsoft.IdentityModel.Logging.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.IdentityModel.Tokens, Version=7.6.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.IdentityModel.Tokens.7.6.3\lib\net472\Microsoft.IdentityModel.Tokens.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Unity, Version=2.0.414.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\DLL\Microsoft.Practices.Unity.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Buffers.4.5.1\lib\net461\System.Buffers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ComponentModel.Annotations, Version=4.2.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ComponentModel.Annotations.4.7.0\lib\net461\System.ComponentModel.Annotations.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Diagnostics.DiagnosticSource, Version=6.0.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Diagnostics.DiagnosticSource.6.0.1\lib\net461\System.Diagnostics.DiagnosticSource.dll</HintPath>
+    </Reference>
+    <Reference Include="System.IdentityModel.Tokens.Jwt, Version=7.6.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.IdentityModel.Tokens.Jwt.7.6.3\lib\net472\System.IdentityModel.Tokens.Jwt.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Memory, Version=4.0.1.2, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Memory.4.5.5\lib\net461\System.Memory.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Numerics.Vectors, Version=4.1.4.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Numerics.Vectors.4.5.0\lib\net46\System.Numerics.Vectors.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=6.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.6.1.0\lib\net462\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Text.Encodings.Web, Version=6.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Text.Encodings.Web.6.0.0\lib\net461\System.Text.Encodings.Web.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Text.Json, Version=6.0.0.10, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Text.Json.6.0.10\lib\net461\System.Text.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Threading.Tasks.Extensions, Version=4.2.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Threading.Tasks.Extensions.4.5.4\lib\net461\System.Threading.Tasks.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ValueTuple.4.5.0\lib\net47\System.ValueTuple.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Import Include="Microsoft.VisualBasic" />
+    <Import Include="System" />
+    <Import Include="System.Collections" />
+    <Import Include="System.Collections.Generic" />
+    <Import Include="System.Data" />
+    <Import Include="System.Diagnostics" />
+    <Import Include="System.Linq" />
+    <Import Include="System.Xml.Linq" />
+    <Import Include="System.Threading.Tasks" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="BillingService.AccountControlJustification.vb" />
+    <Compile Include="BillingService.ConditionSales.vb" />
+    <Compile Include="BillingService.ProductAndServiceFee.vb" />
+    <Compile Include="BillingService.RIPSSupportRecord.vb" />
+    <Compile Include="BillingService.SalesExecutive.vb" />
+    <Compile Include="BillingService.LiquidationData.vb" />
+    <Compile Include="BillingService.NumberingAuthorization.vb" />
+    <Compile Include="BillingService.ElectronicSupportDocument.vb" />
+    <Compile Include="BillingService.BasicBilling.vb" />
+    <Compile Include="BillingService.DashboardQuoted.vb" />
+    <Compile Include="BillingService.ElectronicSupportDocumentAdjustmentNote.vb" />
+    <Compile Include="BillingService.Quotation.vb" />
+    <Compile Include="BillingService.DocumentInvoiceProductSalesDevolution.vb" />
+    <Compile Include="BillingService.BillingGroup.vb" />
+    <Compile Include="BillingService.BlockRecordBilling.vb" />
+    <Compile Include="BillingService.BillingAuthorization.vb" />
+    <Compile Include="BillingService.ControlOutPatientServices.vb" />
+    <Compile Include="BillingService.InvoiceCategories.vb" />
+    <Compile Include="BillingService.InvoiceEntityCapitatedDistributionDetail.vb" />
+    <Compile Include="BillingService.InvoiceEntityCapitatedDistribution.vb" />
+    <Compile Include="BillingService.InvoiceEntityCapitated.vb" />
+    <Compile Include="BillingService.Liquidation.vb" />
+    <Compile Include="BillingService.RevenueControlDetail.vb" />
+    <Compile Include="BillingService.ServiceOrder.vb" />
+    <Compile Include="BillingService.ServiceOrderDetailDistribution.vb" />
+    <Compile Include="BillingService.ServiceOrderDetailSurgical.vb" />
+    <Compile Include="BillingService.SettingBilling.vb" />
+    <Compile Include="BillingService.SlipOut.vb" />
+    <Compile Include="BillingService.vb" />
+    <Compile Include="BillingServiceRecognition.vb" />
+    <Compile Include="Contracts\IBillingServiceConditionSales.vb" />
+    <Compile Include="Contracts\IBillingElectronicDocument.vb" />
+    <Compile Include="Contracts\IBillingServiceProductAndServiceFee.vb" />
+    <Compile Include="Contracts\IBillingServiceRIPSSupportRecord.vb" />
+    <Compile Include="Contracts\IBillingServiceSalesExecutive.vb" />
+    <Compile Include="Contracts\IBillingServiceElectronicSupportDocument.vb" />
+    <Compile Include="Contracts\IBillingServiceBasicBilling.vb" />
+    <Compile Include="Contracts\IBillingBlockRecordBilling.vb" />
+    <Compile Include="Contracts\IBillingAuthorization.vb" />
+    <Compile Include="Contracts\IBillingControlOutPatientServices.vb" />
+    <Compile Include="Contracts\IBillingSequence.vb" />
+    <Compile Include="Contracts\IBillingService.vb" />
+    <Compile Include="Contracts\IBillingServiceAccountControl.vb" />
+    <Compile Include="Contracts\IBillingServiceDashboardQuoted.vb" />
+    <Compile Include="Contracts\IBillingServiceJustificationControl.vb" />
+    <Compile Include="Contracts\IBillingServiceElectronicSupportDocumentAdjustmentNote.vb" />
+    <Compile Include="Contracts\IBillingServiceLiquidationData.vb" />
+    <Compile Include="Contracts\IBillingServiceQuotation.vb" />
+    <Compile Include="Contracts\IBillingServiceDocumentInvoiceProductSalesDevolution.vb" />
+    <Compile Include="Contracts\IBillingServiceBillingGroup.vb" />
+    <Compile Include="Contracts\IBillingServiceInvoiceCategories.vb" />
+    <Compile Include="Contracts\IBillingServiceInvoiceEntityCapitatedDistributionDetail.vb" />
+    <Compile Include="Contracts\IBillingServiceInvoiceEntityCapitatedDistribution.vb" />
+    <Compile Include="Contracts\IBillingServiceInvoiceEntityCapitated.vb" />
+    <Compile Include="Contracts\IBillingServiceLiquidation.vb" />
+    <Compile Include="Contracts\IBillingServiceRecognition.vb" />
+    <Compile Include="Contracts\IBillingServiceRevenueControlDetail.vb" />
+    <Compile Include="Contracts\IBillingServiceAccountControlJustification.vb" />
+    <Compile Include="Contracts\IBillingServiceReversalReason.vb" />
+    <Compile Include="Contracts\IBillingServiceServiceOrder.vb" />
+    <Compile Include="Contracts\IBillingServiceServiceOrderDetail.vb" />
+    <Compile Include="Contracts\IBillingServiceServiceOrderDetailDistribution.vb" />
+    <Compile Include="Contracts\IBillingServiceServiceOrderDetailSurgical.vb" />
+    <Compile Include="Contracts\IBillingServiceSettingBilling.vb" />
+    <Compile Include="BillingService.ReversalReason.vb" />
+    <Compile Include="BillingService.AccountControl.vb" />
+    <Compile Include="Contracts\IBillingServiceSlipOut.vb" />
+    <Compile Include="Contracts\IBillingServiceConceptsCausesStatusFolio.vb" />
+    <Compile Include="BillingService.ConceptsCausesStatusFolio.vb" />
+    <Compile Include="Contracts\IBillingServiceNumberingAuthorization.vb" />
+    <Compile Include="My Project\AssemblyInfo.vb" />
+    <Compile Include="My Project\Application.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Application.myapp</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="My Project\Resources.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="My Project\Settings.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="BillingService.ServiceOrderDetail.vb" />
+    <Compile Include="Unity\Container.vb" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="My Project\Resources.resx">
+      <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.vb</LastGenOutput>
+      <CustomToolNamespace>My.Resources</CustomToolNamespace>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="BillingService.Sequense.vb" />
+    <Compile Include="BillingService.ElectronicDocument.vb" />
+    <None Include="app.config" />
+    <Compile Include="BillingService.BillingJustificationControl.vb" />
+    <None Include="My Project\Application.myapp">
+      <Generator>MyApplicationCodeGenerator</Generator>
+      <LastGenOutput>Application.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="My Project\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <CustomToolNamespace>My</CustomToolNamespace>
+      <LastGenOutput>Settings.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\Application.Accounting\Application.Accounting.vbproj">
+      <Project>{3eca7b1f-d62b-4223-9f17-53a1c5b3a0c9}</Project>
+      <Name>Application.Accounting</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Application.Billing\Application.Billing.vbproj">
+      <Project>{22ec7c4c-0cab-46ad-8137-4ec5ebd42335}</Project>
+      <Name>Application.Billing</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Application.Budget\Application.Budget.vbproj">
+      <Project>{AE94C086-82BA-42E7-9502-2FE42E3FD365}</Project>
+      <Name>Application.Budget</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Application.Common\Application.Common.vbproj">
+      <Project>{0509E89E-92DF-4B99-A74B-3043C7E6B1D2}</Project>
+      <Name>Application.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Application.Contract\Application.Contract.vbproj">
+      <Project>{1573e13c-2daa-459f-b74b-02e221c72c06}</Project>
+      <Name>Application.Contract</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Application.ElectronicDocuments\Application.ElectronicDocuments.vbproj">
+      <Project>{e64b8616-9a49-44cf-9d90-49e59d35bc95}</Project>
+      <Name>Application.ElectronicDocuments</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Application.EventHandlers\Application.EventHandlers.csproj">
+      <Project>{BC7DB3BE-4B97-49D3-92B1-DBAC5AA3021B}</Project>
+      <Name>Application.EventHandlers</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Application.Glosas\Application.Glosas.vbproj">
+      <Project>{59EE539B-BFB1-4114-A11E-3BAC5971BBC3}</Project>
+      <Name>Application.Glosas</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Application.Inventory\Application.Inventory.csproj">
+      <Project>{355F1DEE-04D6-492C-8BBF-22B00E19AC79}</Project>
+      <Name>Application.Inventory</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Application.Payments\Application.Payments.vbproj">
+      <Project>{6D5A593D-D08D-4C4E-8CAC-0A7CF615522E}</Project>
+      <Name>Application.Payments</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Application.Receivable\Application.Portfolio.vbproj">
+      <Project>{0e3ce6cd-428b-4c23-96f8-5080650f898a}</Project>
+      <Name>Application.Portfolio</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Application.Security\Application.Security.vbproj">
+      <Project>{57355c0b-d732-4ab2-88a4-4ab855376599}</Project>
+      <Name>Application.Security</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Application.Treasury\Application.Treasury.vbproj">
+      <Project>{B7A6ADB9-46BD-4791-BAFB-626B69358166}</Project>
+      <Name>Application.Treasury</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DistributedServices.Authentication\DistributedServices.Authentication.vbproj">
+      <Project>{ebfdeca0-d6b3-470b-99ab-2cee3c356117}</Project>
+      <Name>DistributedServices.Authentication</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Domain.Base.Entities\Domain.Base.Entities.vbproj">
+      <Project>{78734d29-0073-4d48-9d0b-2362d0243e36}</Project>
+      <Name>Domain.Base.Entities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Domain.Base\Domain.Base.vbproj">
+      <Project>{8157F242-6A69-44C1-A9AC-19F0EE5CB8A2}</Project>
+      <Name>Domain.Base</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Domain.Billing\Domain.Billing.csproj">
+      <Project>{62EE8DEA-13FF-406E-B8D2-43CE96499C40}</Project>
+      <Name>Domain.Billing</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Domain.Crystal.Entities\Domain.Crystal.Entities.vbproj">
+      <Project>{aef25407-1a53-4f3b-93cb-5258a6b80951}</Project>
+      <Name>Domain.Crystal.Entities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Domain.Crystal.Service\Domain.Crystal.Service.vbproj">
+      <Project>{4f4c69f9-2cfc-4f40-ae1c-ab4b67208de4}</Project>
+      <Name>Domain.Crystal.Service</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Domain.Crystal\Domain.Crystal.vbproj">
+      <Project>{fb110e4f-2309-46ef-8a11-d979517e315b}</Project>
+      <Name>Domain.Crystal</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Domain.Entities.Service\Domain.Entities.Service.vbproj">
+      <Project>{99e9ab54-bb1b-4279-99e7-b4b8e7068ce7}</Project>
+      <Name>Domain.Entities.Service</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Domain.Entities\Domain.Entities.vbproj">
+      <Project>{0551aef4-ed84-4745-b00b-7475f26015cc}</Project>
+      <Name>Domain.Entities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Domain.InterfaceERPGlosa\Domain.InterfaceERPGlosa.vbproj">
+      <Project>{EAF86347-33F7-4F5E-A923-A42994C77955}</Project>
+      <Name>Domain.InterfaceERPGlosa</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Domain.Payroll\Domain.Payroll.vbproj">
+      <Project>{0b26cafa-8df4-49ab-8943-41a91d67694e}</Project>
+      <Name>Domain.Payroll</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Domain.Security.Entities\Domain.Security.Entities.vbproj">
+      <Project>{99f1c077-1e8f-432f-b5d0-e801bf6d6a39}</Project>
+      <Name>Domain.Security.Entities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Domain.Security\Domain.Security.vbproj">
+      <Project>{435b789a-be74-4f5a-932f-0a4900825d61}</Project>
+      <Name>Domain.Security</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastructure.CrossCutting.AzureBlobStorage\Infrastructure.CrossCutting.Storage.csproj">
+      <Project>{A660E715-269C-43F4-BFEF-8DEEBAA2BD17}</Project>
+      <Name>Infrastructure.CrossCutting.Storage</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastructure.CrossCutting.Base\Infrastructure.CrossCutting.Base.vbproj">
+      <Project>{2773d9f7-93bd-4520-9726-bce0d8875696}</Project>
+      <Name>Infrastructure.CrossCutting.Base</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastructure.CrossCutting.IoC\Infrastructure.CrossCutting.IOC.vbproj">
+      <Project>{6855513d-b574-40c5-812e-baf05f9bb7be}</Project>
+      <Name>Infrastructure.CrossCutting.IOC</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastructure.CrossCutting.Queue\Infrastructure.CrossCutting.Queue.vbproj">
+      <Project>{4ecc4501-b252-4aff-a829-dc46bcca069b}</Project>
+      <Name>Infrastructure.CrossCutting.Queue</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastructure.CrossCutting.Security\Infrastructure.CrossCutting.Security.vbproj">
+      <Project>{358f9e13-8e7f-41ec-be1d-b38af3e1ffa8}</Project>
+      <Name>Infrastructure.CrossCutting.Security</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastructure.Data.Base\Infrastructure.Data.Base.vbproj">
+      <Project>{69C4FE61-549B-42E8-ADAC-18D1CFC83FED}</Project>
+      <Name>Infrastructure.Data.Base</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastructure.Data.Billing\Infrastructure.Data.Billing.csproj">
+      <Project>{36D5B114-50C2-44EF-A9B3-E61F2827AEB4}</Project>
+      <Name>Infrastructure.Data.Billing</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastructure.Data.CrystalRepository\Infrastructure.Data.CrystalRepository.vbproj">
+      <Project>{99bd064d-fb14-49bc-a2e5-a8b26b6a0f95}</Project>
+      <Name>Infrastructure.Data.CrystalRepository</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastructure.Data.ModelRepository\Infrastructure.Data.ModelRepository.vbproj">
+      <Project>{a029ee5d-d97c-45a3-a213-43e17d1dbe0d}</Project>
+      <Name>Infrastructure.Data.ModelRepository</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastructure.Data.PayrollRepository\Infrastructure.Data.PayrollRepository.vbproj">
+      <Project>{97673314-a589-43c4-a604-54ec33856a76}</Project>
+      <Name>Infrastructure.Data.PayrollRepository</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastructure.Data.SecurityRepository\Infrastructure.Data.SecurityRepository.vbproj">
+      <Project>{c1457f9b-b14f-4dcf-9f8e-b317c9a9ef8f}</Project>
+      <Name>Infrastructure.Data.SecurityRepository</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

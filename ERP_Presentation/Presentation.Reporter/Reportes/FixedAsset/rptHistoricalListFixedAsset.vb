@@ -1,0 +1,154 @@
+﻿#Region "Librerias Importadas"
+Imports Presentation.Base
+Imports Infrastructure.CrossCutting.Base
+Imports Infrastructure.Data.Xpo
+Imports Infrastructure.Data.Xpo.FixedAssetRepository
+Imports Domain.Entities
+Imports Presentation.Reporter
+Imports System.Drawing.Printing
+#End Region
+
+Public Class rptHistoricalListFixedAsset
+    Implements IReport
+    Implements IReportAsync
+#Region "Globals"
+    ''' <summary>
+    ''' Variable para inicializar los valores de sesion
+    ''' </summary>
+    Private IndigoSessionValues As SessionValues = SessionValues.Instance
+
+    ''' <summary>
+    ''' Abreviación de la moneda
+    ''' </summary>
+    Private _currencyAbbreviation As String
+
+    ''' <summary>
+    ''' Variable para darle formato de decimales a los valores del reporte
+    ''' </summary>
+    Private _decimalFormat As Integer
+
+#End Region
+
+    Public Sub CargarDataSource() Implements IReport.CargarDataSource
+        Try
+            Dim filtroConsulta As String = Nothing
+
+            'filtro por responsable
+            If ParametrosReporte(0) IsNot Nothing Then
+                filtroConsulta = filtroConsulta & If(String.IsNullOrEmpty(filtroConsulta), "", " AND ") & " PhysicalAssetId.ResponsibleId.Id = " & ParametrosReporte(0)
+            End If
+
+            'filtro por Catalogo
+            If ParametrosReporte(1) IsNot Nothing Then
+                filtroConsulta = filtroConsulta & If(String.IsNullOrEmpty(filtroConsulta), "", " AND ") & " PhysicalAssetId.ItemId.ItemCatalogId.Id = " & ParametrosReporte(1)
+            End If
+
+            'filtro por tipo de adquisición
+            If ParametrosReporte(2) <> 0 Then
+                filtroConsulta = filtroConsulta & If(String.IsNullOrEmpty(filtroConsulta), "", " AND ") & " PhysicalAssetId.AdquisitionType = " & ParametrosReporte(2)
+            End If
+
+            'filtro por articulo
+            If String.IsNullOrEmpty(ParametrosReporte(3)) = False Then
+                filtroConsulta = filtroConsulta & If(String.IsNullOrEmpty(filtroConsulta), "", " AND ") & " PhysicalAssetId.ItemId.Id IN (" & ParametrosReporte(3) & ")"
+            End If
+
+            'filtro por Tipo de Equipo
+            If String.IsNullOrEmpty(ParametrosReporte(4)) = False Then
+                filtroConsulta = filtroConsulta & If(String.IsNullOrEmpty(filtroConsulta), "", " AND ") & " PhysicalAssetId.ItemId.ItemTypeId.Id IN (" & ParametrosReporte(4) & ")"
+            End If
+
+            'filtro por Placa
+            If String.IsNullOrEmpty(ParametrosReporte(5)) = False Then
+                filtroConsulta = filtroConsulta & If(String.IsNullOrEmpty(filtroConsulta), "", " AND ") & " PhysicalAssetId.Id IN (" & ParametrosReporte(5) & ")"
+            End If
+
+            Me.DataSource = XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).FixedAsset.GetCollection(Of FixedAssetTransferDetailReportXpo)(Nothing, filtroConsulta)
+            SetCurrencyFormat()
+        Catch ex As Exception
+            MessageIndigo.Show(GetExceptionDetails(ex), MessageType.Errores, Me.Text, Botones.Aceptar, "")
+        End Try
+    End Sub
+
+    Public Function GetExceptionDetails(exception As Exception) As String
+        Dim properties = exception.[GetType]().GetProperties()
+        Dim fields = properties.[Select](Function([property]) New With {
+            Key .Name = [property].Name,
+            Key .Value = [property].GetValue(exception, Nothing)
+        }).[Select](Function(x) [String].Format("{0} : {1}", x.Name, If(x.Value IsNot Nothing, x.Value.ToString(), [String].Empty)))
+        Return [String].Join(vbLf, fields)
+    End Function
+
+    Public Sub CargarImagenes() Implements IReport.CargarImagenes
+
+    End Sub
+
+    Public ReadOnly Property NameReport As String Implements IReport.NameReport
+        Get
+            Return ""
+        End Get
+    End Property
+
+    Public Property ParametrosReporte As Object() Implements IReport.ParametrosReporte
+
+    Private Sub rptHistoricalListFixedAsset_BeforePrint(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles MyBase.BeforePrint
+        INDLblCompany.Text = IndigoSessionValues.IndigoCompanyName
+        INDLblNitCompany.Text = "Nit:" & IndigoSessionValues.IndigoCompanyNit
+        Me.INDLblUserPrint.Text = "Usuario Impresión : " & IndigoSessionValues.UserIndigo & " - " & IndigoSessionValues.UserIndigoName
+        Me.XrTableCell45.Text = Utils.Num2Text(Convert.ToDouble(GetCurrentColumnValue("INDCfTotalValue"))).ToString & " PESOS M/Cte."
+    End Sub
+
+    Public Function CargarDataSourceAsync() As Task Implements IReportAsync.CargarDataSourceAsync
+        Return Task.Factory.StartNew(AddressOf CargarDataSource)
+    End Function
+
+#Region "Cambio de formato de moneda"
+    ''' <summary>
+    ''' Evento que obtiene los parámetros para establecer el formato de la moneda
+    ''' </summary>
+    Private Sub SetCurrencyFormat()
+        'Obtenemos los parámetros de activos fijos
+        Dim filter = "OperatingUnitId = " & IndigoSessionValues.IndigoOperatingUnitId
+        Dim settingFixedAsset = XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).FixedAsset.GetXPOObject(Of SettingFixedAssetXpo)(filter)
+        'Obtenemos la moneda de los parámetros
+        If settingFixedAsset.CurrencyId IsNot Nothing Then
+            _currencyAbbreviation = settingFixedAsset.CurrencyId.Abbreviation
+        End If
+        'Establecemos decimales
+        If settingFixedAsset.CurrencyId?.RoundingType IsNot Nothing Then
+            FormatValueWithDecimals(settingFixedAsset.CurrencyId.RoundingType)
+        End If
+    End Sub
+
+    ''' <summary>
+    ''' Método para formatear los valores del reporte según el tipo de redondeo parametrizado a la moneda
+    ''' </summary>
+    ''' <param name="roundingType"></param>
+    Private Sub FormatValueWithDecimals(roundingType As Integer)
+        Select Case roundingType
+            Case 1
+                _decimalFormat = 2
+            Case 2
+                _decimalFormat = 1
+            Case >= 3
+                _decimalFormat = 0
+        End Select
+    End Sub
+
+    ''' <summary>
+    ''' Método que modifica el formato de las celdas
+    ''' </summary>
+    ''' <param name="sender"></param>
+    ''' <param name="e"></param>
+    Private Sub ChangeFormat(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles XrTableCell9.BeforePrint
+        XrTableCell9.Text = Utils.GetMoneyWithISO4217(XrTableCell9.Text, _currencyAbbreviation, _decimalFormat)
+    End Sub
+
+    Private Sub ChangeFormat_SummaryGetResult(sender As Object, e As DevExpress.XtraReports.UI.SummaryGetResultEventArgs) Handles XrTableCell14.SummaryGetResult, XrTableCell40.SummaryGetResult
+        e.Result = Utils.GetMoneyWithISO4217(e.CalculatedValues.ToEntityList(Of Decimal).Sum(), _currencyAbbreviation, _decimalFormat)
+        e.Handled = True
+    End Sub
+
+#End Region
+
+End Class

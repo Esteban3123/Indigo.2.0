@@ -1,0 +1,79 @@
+﻿#Region "Imports"
+
+Imports System.Drawing.Printing
+Imports System.Globalization
+Imports Infrastructure.CrossCutting.Base
+Imports Infrastructure.Data.Xpo
+Imports Infrastructure.Data.Xpo.AccountingRepository
+Imports Presentation.CloudAgent
+
+#End Region
+
+Public Class rptCostOperatingResultsByCostCenter
+    Implements IReport
+    Implements IReportAsync
+
+#Region "Properties"
+
+    ''' <summary>
+    ''' Variable para inicializar los valores de sesion
+    ''' </summary>
+    Dim IndigoSessionValues As SessionValues = SessionValues.Instance
+
+    Public Property ParametrosReporte As Object() Implements IReport.ParametrosReporte
+
+    Public ReadOnly Property NameReport As String Implements IReport.NameReport
+        Get
+            Return ""
+        End Get
+    End Property
+
+#End Region
+
+#Region "Load Data"
+
+    Public Sub CargarDataSource() Implements IReport.CargarDataSource
+        Me.DataSource = IndigoConecta.Instancia.CurrentCloud.IndigoCost.ListReportOperatingResult(CInt(ParametrosReporte(1)), CInt(ParametrosReporte(3)), CInt(ParametrosReporte(0)), CStr(ParametrosReporte(4)), CStr(ParametrosReporte(5)), CStr(ParametrosReporte(6)))
+    End Sub
+
+    Public Function CargarDataSourceAsync() As Task Implements IReportAsync.CargarDataSourceAsync
+        Return Task.Factory.StartNew(AddressOf CargarDataSource)
+    End Function
+
+#End Region
+
+#Region "Methods"
+
+    Private Sub rptCostOperatingResultsByCostCenter_BeforePrint(sender As Object, e As PrintEventArgs) Handles MyBase.BeforePrint
+        InitializeReportLocalization()
+        Dim fechaIni = New Date(Me.ParametrosReporte(0), Me.ParametrosReporte(1), 1)
+        Dim fechafin = New Date(Me.ParametrosReporte(2), Me.ParametrosReporte(3), 1)
+        INDLblCompany.Text = IndigoSessionValues.IndigoCompanyName
+        INDLblNitCompany.Text = "Nit:" & IndigoSessionValues.IndigoCompanyNit
+        INDUserImp.Text = "Usuario Impresión : " & IndigoSessionValues.UserIndigo & " - " & IndigoSessionValues.UserIndigoName
+        INDLblDate.Text = "DESDE " & fechaIni.ToString(" MMMM DE yyyy").ToUpper() & "  HASTA " & fechafin.ToString(" MMMM DE yyyy").ToUpper()
+    End Sub
+
+    Public Sub CargarImagenes() Implements IReport.CargarImagenes
+
+    End Sub
+
+
+    ''' <summary>
+    ''' Inicializa la cultura del reporte
+    ''' </summary>
+    Private Sub InitializeReportLocalization()
+        Dim companySettings As GeneralLedgerCompanySettingsXpo =
+        XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).
+        AccountingService.GetXPOObject(Of GeneralLedgerCompanySettingsXpo)(Nothing)
+        If companySettings IsNot Nothing Then
+            Dim culture As CultureInfo = CultureInfo.CurrentCulture.Clone()
+            culture.NumberFormat = companySettings.OfficialCurrency.Abbreviation.GetNumberFormat()
+            ApplyLocalization(culture)
+        End If
+    End Sub
+
+
+#End Region
+
+End Class

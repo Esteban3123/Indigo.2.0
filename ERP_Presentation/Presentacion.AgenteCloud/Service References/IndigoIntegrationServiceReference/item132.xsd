@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://schemas.datacontract.org/2004/07/Domain.Crystal.Entities" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/Domain.Crystal.Entities" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import schemaLocation="http://localhost:9999/ServiceEntity/Inventory.svc/ServiceEntity/?xsd=xsd3" namespace="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" />
+  <xs:import schemaLocation="http://localhost:9999/ServiceEntity/Inventory.svc/ServiceEntity/?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/Domain.Entities" />
+  <xs:complexType name="ArrayOfViewDashboardPharmacyDetail">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="ViewDashboardPharmacyDetail" nillable="true" type="tns:ViewDashboardPharmacyDetail" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfViewDashboardPharmacyDetail" nillable="true" type="tns:ArrayOfViewDashboardPharmacyDetail" />
+  <xs:complexType name="ViewDashboardPharmacyDetail">
+    <xs:complexContent mixed="false">
+      <xs:extension xmlns:q1="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" base="q1:EntityOfViewDashboardPharmacyDetaili5kHDmq8">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="ADMINISTRACION" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="AdmissionNumeber" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="CUMSource" type="xs:int" />
+          <xs:element minOccurs="0" name="CantidadEntregada" nillable="true" type="xs:int" />
+          <xs:element minOccurs="0" name="CantidadPendiente" type="xs:int" />
+          <xs:element minOccurs="0" name="CantidadSolicitada" type="xs:int" />
+          <xs:element minOccurs="0" name="CareCenterCode" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="ChangeTracker" nillable="true" type="q1:ObjectChangeTracker" />
+          <xs:element minOccurs="0" name="CodePatient" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="CodigoContrato" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="CodigoEntidad" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="CodigoPaciente" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="CodigoPlan" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="ConsecutiveInputs" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="ConsecutivePescription" type="xs:int" />
+          <xs:element minOccurs="0" name="ConsecutivePharmacy" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="Consecutivo" type="xs:decimal" />
+          <xs:element minOccurs="0" name="ContratoPlan" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="Custodia" type="xs:boolean" />
+          <xs:element minOccurs="0" name="EXTRAMURAL" nillable="true" type="xs:boolean" />
+          <xs:element minOccurs="0" name="Entidad" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="Especialidad" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="Estado" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="FilaSeleccionada" nillable="true" type="xs:int" />
+          <xs:element minOccurs="0" name="FunctionUnitCode" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="IDAGEPROGQX" nillable="true" type="xs:int" />
+          <xs:element minOccurs="0" name="IDETIPHIS" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="Id" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="IdProductHeon" type="xs:int" />
+          <xs:element minOccurs="0" name="Ingreso" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="IsDeferred" type="xs:boolean" />
+          <xs:element minOccurs="0" name="ListDeferred" nillable="true" type="tns:ArrayOfViewDashboardPharmacyDetailDeferred" />
+          <xs:element minOccurs="0" name="MarcarOpcion" nillable="true" type="xs:boolean" />
+          <xs:element minOccurs="0" name="MedicalFormulaDetailId" type="xs:int" />
+          <xs:element minOccurs="0" name="Medico" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="NOPOS" nillable="true" type="xs:boolean" />
+          <xs:element minOccurs="0" name="NUMEFOLIO" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="NitMedico" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="Opcion" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="OpcionAnulado" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="PattientCode" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="Procedimiento" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="Producto" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="QuantityAsignedByHEON" type="xs:int" />
+          <xs:element minOccurs="0" name="Tipo" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="TypeProduct" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="Unico" nillable="true" type="xs:boolean" />
+          <xs:element minOccurs="0" name="UnidadMedida" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="recetarioOMedica" nillable="true" type="xs:string" />
+          <xs:element xmlns:q2="http://schemas.datacontract.org/2004/07/Domain.Entities" minOccurs="0" name="solicitudDetalle" nillable="true" type="q2:SolicitudDetalleObject" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="ViewDashboardPharmacyDetail" nillable="true" type="tns:ViewDashboardPharmacyDetail" />
+  <xs:complexType name="ArrayOfViewDashboardPharmacyDetailDeferred">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="ViewDashboardPharmacyDetailDeferred" nillable="true" type="tns:ViewDashboardPharmacyDetailDeferred" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfViewDashboardPharmacyDetailDeferred" nillable="true" type="tns:ArrayOfViewDashboardPharmacyDetailDeferred" />
+  <xs:complexType name="ViewDashboardPharmacyDetailDeferred">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="DeliveryDate" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="DeliveryQuantity" type="xs:int" />
+      <xs:element minOccurs="0" name="DeliveryQuantityDeferred" type="xs:int" />
+      <xs:element minOccurs="0" name="FirstDeliveryDate" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="Id" type="xs:int" />
+      <xs:element minOccurs="0" name="Number" type="xs:int" />
+      <xs:element minOccurs="0" name="PendingQuantity" type="xs:int" />
+      <xs:element minOccurs="0" name="Periodicity" type="xs:int" />
+      <xs:element minOccurs="0" name="ProductCode" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ViewDashboardPharmacyDetailDeferred" nillable="true" type="tns:ViewDashboardPharmacyDetailDeferred" />
+  <xs:complexType name="ArrayOfViewDashBoardPharmacy_SurgicalPackageDeatils">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="ViewDashBoardPharmacy_SurgicalPackageDeatils" nillable="true" type="tns:ViewDashBoardPharmacy_SurgicalPackageDeatils" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfViewDashBoardPharmacy_SurgicalPackageDeatils" nillable="true" type="tns:ArrayOfViewDashBoardPharmacy_SurgicalPackageDeatils" />
+  <xs:complexType name="ViewDashBoardPharmacy_SurgicalPackageDeatils">
+    <xs:complexContent mixed="false">
+      <xs:extension xmlns:q3="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" base="q3:EntityOfViewDashBoardPharmacy_SurgicalPackageDeatilsi5kHDmq8">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="AdmissionNumeber" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="CUMSource" type="xs:int" />
+          <xs:element minOccurs="0" name="CantidadEntregada" nillable="true" type="xs:int" />
+          <xs:element minOccurs="0" name="CantidadPendiente" type="xs:int" />
+          <xs:element minOccurs="0" name="CantidadSolicitada" type="xs:int" />
+          <xs:element minOccurs="0" name="CareCenterCode" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="ChangeTracker" nillable="true" type="q3:ObjectChangeTracker" />
+          <xs:element minOccurs="0" name="CodePatient" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="CodigoContrato" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="CodigoEntidad" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="CodigoPaciente" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="CodigoPlan" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="ConsecutiveInputs" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="ConsecutivePescription" type="xs:int" />
+          <xs:element minOccurs="0" name="ConsecutivePharmacy" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="Consecutivo" type="xs:decimal" />
+          <xs:element minOccurs="0" name="ContratoPlan" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="Entidad" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="Especialidad" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="Estado" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="FilaSeleccionada" nillable="true" type="xs:int" />
+          <xs:element minOccurs="0" name="FunctionUnitCode" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="GuardaGastoQX" type="xs:boolean" />
+          <xs:element minOccurs="0" name="IDAGEPROGQX" nillable="true" type="xs:int" />
+          <xs:element minOccurs="0" name="IDETIPHIS" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="Id" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="IdProductHeon" type="xs:int" />
+          <xs:element minOccurs="0" name="IdProgramacionQXPrincipal" type="xs:int" />
+          <xs:element minOccurs="0" name="Ingreso" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="MarcarOpcion" nillable="true" type="xs:boolean" />
+          <xs:element minOccurs="0" name="Medico" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="NOPOS" nillable="true" type="xs:boolean" />
+          <xs:element minOccurs="0" name="NUMEFOLIO" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="NitMedico" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="Opcion" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="OpcionAnulado" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="PattientCode" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="Procedimiento" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="Producto" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="QuantityAsignedByHEON" type="xs:int" />
+          <xs:element minOccurs="0" name="ServicioIPS" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="Tipo" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="Unico" nillable="true" type="xs:boolean" />
+          <xs:element minOccurs="0" name="UnidadMedida" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="recetarioOMedica" nillable="true" type="xs:string" />
+          <xs:element xmlns:q4="http://schemas.datacontract.org/2004/07/Domain.Entities" minOccurs="0" name="solicitudDetalle" nillable="true" type="q4:SolicitudDetalleObject" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="ViewDashBoardPharmacy_SurgicalPackageDeatils" nillable="true" type="tns:ViewDashBoardPharmacy_SurgicalPackageDeatils" />
+  <xs:complexType name="ArrayOfViewDashboardPharmacyDetailDevolution">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="ViewDashboardPharmacyDetailDevolution" nillable="true" type="tns:ViewDashboardPharmacyDetailDevolution" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfViewDashboardPharmacyDetailDevolution" nillable="true" type="tns:ArrayOfViewDashboardPharmacyDetailDevolution" />
+  <xs:complexType name="ViewDashboardPharmacyDetailDevolution">
+    <xs:complexContent mixed="false">
+      <xs:extension xmlns:q5="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" base="q5:EntityOfViewDashboardPharmacyDetailDevolutioni5kHDmq8">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="CODCENATE" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="CODPRODUC" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="CODPROSAL" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="CODUSUARI" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="CantidadDevuelta" type="xs:int" />
+          <xs:element minOccurs="0" name="CantidadPendiente" type="xs:int" />
+          <xs:element minOccurs="0" name="ChangeTracker" nillable="true" type="q5:ObjectChangeTracker" />
+          <xs:element minOccurs="0" name="CodigoPacienteDevolucion" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="Consecutivo" type="xs:int" />
+          <xs:element minOccurs="0" name="ContratoPlan" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="Entidad" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="Especialidad" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="FECRESGIS" type="xs:dateTime" />
+          <xs:element minOccurs="0" name="Id" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="Ingreso" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="Medico" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="NOPOS" type="xs:boolean" />
+          <xs:element minOccurs="0" name="PROESTADO" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="Producto" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="QuantityReceived" type="xs:int" />
+          <xs:element minOccurs="0" name="Tipo" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="UFUCODIGO" nillable="true" type="xs:string" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="ViewDashboardPharmacyDetailDevolution" nillable="true" type="tns:ViewDashboardPharmacyDetailDevolution" />
+</xs:schema>

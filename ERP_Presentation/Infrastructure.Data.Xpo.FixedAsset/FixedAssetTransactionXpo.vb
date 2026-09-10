@@ -1,0 +1,357 @@
+Imports System
+Imports DevExpress.Xpo
+Imports DevExpress.Data.Filtering
+Imports System.Collections.Generic
+Imports System.ComponentModel
+
+<Persistent("FixedAsset.FixedAssetTransaction")> _
+Public Class FixedAssetTransactionXpo
+    Inherits XPLiteObject
+    Dim fId As Integer
+    <Key(True)> _
+    Public Property Id() As Integer
+        Get
+            Return fId
+        End Get
+        Set(ByVal value As Integer)
+            SetPropertyValue(Of Integer)("Id", fId, value)
+        End Set
+    End Property
+    Dim fOperatingUnitId As Integer
+    Public Property OperatingUnitId() As Integer
+        Get
+            Return fOperatingUnitId
+        End Get
+        Set(ByVal value As Integer)
+            SetPropertyValue(Of Integer)("OperatingUnitId", fOperatingUnitId, value)
+        End Set
+    End Property
+    Dim fCode As String
+    <Indexed(Name:="IX_FixedAssetTransaction", Unique:=True)> _
+    <Size(20)> _
+    Public Property Code() As String
+        Get
+            Return fCode
+        End Get
+        Set(ByVal value As String)
+            SetPropertyValue(Of String)("Code", fCode, value)
+        End Set
+    End Property
+    Dim fDocumentDate As DateTime
+    Public Property DocumentDate() As DateTime
+        Get
+            Return fDocumentDate
+        End Get
+        Set(ByVal value As DateTime)
+            SetPropertyValue(Of DateTime)("DocumentDate", fDocumentDate, value)
+        End Set
+    End Property
+    Dim fGenerateAccountPayable As Boolean
+    Public Property GenerateAccountPayable() As Boolean
+        Get
+            Return fGenerateAccountPayable
+        End Get
+        Set(ByVal value As Boolean)
+            SetPropertyValue(Of Boolean)("GenerateAccountPayable", fGenerateAccountPayable, value)
+        End Set
+    End Property
+    Dim fThirdPartyId As Integer
+    Public Property ThirdPartyId() As Integer
+        Get
+            Return fThirdPartyId
+        End Get
+        Set(ByVal value As Integer)
+            SetPropertyValue(Of Integer)("ThirdPartyId", fThirdPartyId, value)
+        End Set
+    End Property
+    Dim fSupplierId As Integer
+    Public Property SupplierId() As Integer
+        Get
+            Return fSupplierId
+        End Get
+        Set(ByVal value As Integer)
+            SetPropertyValue(Of Integer)("SupplierId", fSupplierId, value)
+        End Set
+    End Property
+    Dim fSupplierDistributionLineId As Integer
+    Public Property SupplierDistributionLineId() As Integer
+        Get
+            Return fSupplierDistributionLineId
+        End Get
+        Set(ByVal value As Integer)
+            SetPropertyValue(Of Integer)("SupplierDistributionLineId", fSupplierDistributionLineId, value)
+        End Set
+    End Property
+    Dim fSupplierTypeId As Integer
+    Public Property SupplierTypeId() As Integer
+        Get
+            Return fSupplierTypeId
+        End Get
+        Set(ByVal value As Integer)
+            SetPropertyValue(Of Integer)("SupplierTypeId", fSupplierTypeId, value)
+        End Set
+    End Property
+    Dim fDayPeriod As Integer
+    Public Property DayPeriod() As Integer
+        Get
+            Return fDayPeriod
+        End Get
+        Set(ByVal value As Integer)
+            SetPropertyValue(Of Integer)("DayPeriod", fDayPeriod, value)
+        End Set
+    End Property
+    Dim fCreditMainAccountId As Integer
+    Public Property CreditMainAccountId() As Integer
+        Get
+            Return fCreditMainAccountId
+        End Get
+        Set(ByVal value As Integer)
+            SetPropertyValue(Of Integer)("CreditMainAccountId", fCreditMainAccountId, value)
+        End Set
+    End Property
+    Dim fCostCenterId As Integer
+    Public Property CostCenterId() As Integer
+        Get
+            Return fCostCenterId
+        End Get
+        Set(ByVal value As Integer)
+            SetPropertyValue(Of Integer)("CostCenterId", fCostCenterId, value)
+        End Set
+    End Property
+    Dim fInvoiceNumber As String
+    Public Property InvoiceNumber() As String
+        Get
+            Return fInvoiceNumber
+        End Get
+        Set(ByVal value As String)
+            SetPropertyValue(Of String)("InvoiceNumber", fInvoiceNumber, value)
+        End Set
+    End Property
+    Dim fInvoiceDate As DateTime
+    Public Property InvoiceDate() As DateTime
+        Get
+            Return fInvoiceDate
+        End Get
+        Set(ByVal value As DateTime)
+            SetPropertyValue(Of DateTime)("InvoiceDate", fInvoiceDate, value)
+        End Set
+    End Property
+    Dim fObservation As String
+    <Size(1000)> _
+    Public Property Observation() As String
+        Get
+            Return fObservation
+        End Get
+        Set(ByVal value As String)
+            SetPropertyValue(Of String)("Observation", fObservation, value)
+        End Set
+    End Property
+    Dim fValue As Decimal
+    Public Property Value() As Decimal
+        Get
+            Return fValue
+        End Get
+        Set(ByVal value As Decimal)
+            SetPropertyValue(Of Decimal)("Value", fValue, value)
+        End Set
+    End Property
+    Dim fValueDiscount As Decimal
+    Public Property ValueDiscount() As Decimal
+        Get
+            Return fValueDiscount
+        End Get
+        Set(ByVal value As Decimal)
+            SetPropertyValue(Of Decimal)("ValueDiscount", fValueDiscount, value)
+        End Set
+    End Property
+    Dim fValueTax As Decimal
+    Public Property ValueTax() As Decimal
+        Get
+            Return fValueTax
+        End Get
+        Set(ByVal value As Decimal)
+            SetPropertyValue(Of Decimal)("ValueTax", fValueTax, value)
+        End Set
+    End Property
+    Dim fWithholdingTax As Decimal
+    Public Property WithholdingTax() As Decimal
+        Get
+            Return fWithholdingTax
+        End Get
+        Set(ByVal value As Decimal)
+            SetPropertyValue(Of Decimal)("WithholdingTax", fWithholdingTax, value)
+        End Set
+    End Property
+    Dim fWithholdingICA As Decimal
+    Public Property WithholdingICA() As Decimal
+        Get
+            Return fWithholdingICA
+        End Get
+        Set(ByVal value As Decimal)
+            SetPropertyValue(Of Decimal)("WithholdingICA", fWithholdingICA, value)
+        End Set
+    End Property
+    Dim fRetentionSource As Decimal
+    Public Property RetentionSource() As Decimal
+        Get
+            Return fRetentionSource
+        End Get
+        Set(ByVal value As Decimal)
+            SetPropertyValue(Of Decimal)("RetentionSource", fRetentionSource, value)
+        End Set
+    End Property
+    Dim fRetentionOther As Decimal
+    Public Property RetentionOther() As Decimal
+        Get
+            Return fRetentionOther
+        End Get
+        Set(ByVal value As Decimal)
+            SetPropertyValue(Of Decimal)("RetentionOther", fRetentionOther, value)
+        End Set
+    End Property
+    Dim fDeductionOther As Decimal
+    Public Property DeductionOther() As Decimal
+        Get
+            Return fDeductionOther
+        End Get
+        Set(ByVal value As Decimal)
+            SetPropertyValue(Of Decimal)("DeductionOther", fDeductionOther, value)
+        End Set
+    End Property
+    Dim fTotalValue As Decimal
+    Public Property TotalValue() As Decimal
+        Get
+            Return fTotalValue
+        End Get
+        Set(ByVal value As Decimal)
+            SetPropertyValue(Of Decimal)("TotalValue", fTotalValue, value)
+        End Set
+    End Property
+    Dim fStatus As Byte
+    Public Property Status() As Byte
+        Get
+            Return fStatus
+        End Get
+        Set(ByVal value As Byte)
+            SetPropertyValue(Of Byte)("Status", fStatus, value)
+        End Set
+    End Property
+    Dim fCreationUser As String
+    <Size(20)> _
+    Public Property CreationUser() As String
+        Get
+            Return fCreationUser
+        End Get
+        Set(ByVal value As String)
+            SetPropertyValue(Of String)("CreationUser", fCreationUser, value)
+        End Set
+    End Property
+    Dim fCreationDate As DateTime
+    Public Property CreationDate() As DateTime
+        Get
+            Return fCreationDate
+        End Get
+        Set(ByVal value As DateTime)
+            SetPropertyValue(Of DateTime)("CreationDate", fCreationDate, value)
+        End Set
+    End Property
+    Dim fModificationUser As String
+    <Size(20)> _
+    Public Property ModificationUser() As String
+        Get
+            Return fModificationUser
+        End Get
+        Set(ByVal value As String)
+            SetPropertyValue(Of String)("ModificationUser", fModificationUser, value)
+        End Set
+    End Property
+    Dim fModificationDate As DateTime
+    Public Property ModificationDate() As DateTime
+        Get
+            Return fModificationDate
+        End Get
+        Set(ByVal value As DateTime)
+            SetPropertyValue(Of DateTime)("ModificationDate", fModificationDate, value)
+        End Set
+    End Property
+    Dim fConfirmationUser As String
+    <Size(20)> _
+    Public Property ConfirmationUser() As String
+        Get
+            Return fConfirmationUser
+        End Get
+        Set(ByVal value As String)
+            SetPropertyValue(Of String)("ConfirmationUser", fConfirmationUser, value)
+        End Set
+    End Property
+    Dim fConfirmationDate As DateTime
+    Public Property ConfirmationDate() As DateTime
+        Get
+            Return fConfirmationDate
+        End Get
+        Set(ByVal value As DateTime)
+            SetPropertyValue(Of DateTime)("ConfirmationDate", fConfirmationDate, value)
+        End Set
+    End Property
+    Dim fAnnulmentUser As String
+    <Size(20)> _
+    Public Property AnnulmentUser() As String
+        Get
+            Return fAnnulmentUser
+        End Get
+        Set(ByVal value As String)
+            SetPropertyValue(Of String)("AnnulmentUser", fAnnulmentUser, value)
+        End Set
+    End Property
+    Dim fAnnulmentDate As DateTime
+    Public Property AnnulmentDate() As DateTime
+        Get
+            Return fAnnulmentDate
+        End Get
+        Set(ByVal value As DateTime)
+            SetPropertyValue(Of DateTime)("AnnulmentDate", fAnnulmentDate, value)
+        End Set
+    End Property
+
+    <PersistentAlias("Iif(Status = 1, 'Sin Confirmar', Iif(Status = 2, 'Confirmado',Iif(Status = 3, 'Anulado', '')))")>
+    Public ReadOnly Property StatusName As String
+        Get
+            'Select Case fStatus
+            '    Case 1
+            '        Return "Sin Confirmar"
+            '    Case 2
+            '        Return "Confirmado"
+            '    Case 3
+            '        Return "Anulado"
+            '    Case Else
+            '        Return String.Empty
+            'End Select
+            Return Convert.ToString(Me.EvaluateAlias("StatusName"))
+        End Get
+    End Property
+    Dim fCommonCurrency As CommonCurrencyXpo
+    <Persistent("CurrencyId")>
+    <Association("CurrencyReferenceFixedAssetTransactionXpo")>
+    Public Property CommonCurrency() As CommonCurrencyXpo
+        Get
+            Return fCommonCurrency
+        End Get
+        Set(ByVal value As CommonCurrencyXpo)
+            SetPropertyValue("CommonCurrency", fCommonCurrency, value)
+        End Set
+    End Property
+    <PersistentAlias("CommonCurrency.Abbreviation")>
+    Public ReadOnly Property CurrencyAbbreviation As String
+        Get
+            Return Convert.ToString(Me.EvaluateAlias("CurrencyAbbreviation"))
+        End Get
+    End Property
+
+    Public Sub New(ByVal session As Session)
+        MyBase.New(session)
+    End Sub
+    Public Overrides Sub AfterConstruction()
+        MyBase.AfterConstruction()
+    End Sub
+End Class
+

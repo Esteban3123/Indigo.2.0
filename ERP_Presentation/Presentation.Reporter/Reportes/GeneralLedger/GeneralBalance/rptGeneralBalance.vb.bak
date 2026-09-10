@@ -1,0 +1,147 @@
+﻿#Region "Imports"
+Imports Infrastructure.CrossCutting.Base
+Imports Infrastructure.Data.Xpo
+Imports Infrastructure.Data.Xpo.AccountingRepository
+Imports Domain.Entities
+Imports DevExpress.XtraReports.UI
+Imports DevExpress.XtraRichEdit.Model
+Imports System.Configuration
+Imports DevExpress.DataAccess
+Imports DevExpress.DataAccess.ConnectionParameters
+Imports Presentation.Base
+Imports System.Data.SqlClient
+Imports Presentation.CloudAgent
+Imports System.ServiceModel
+Imports System.Globalization
+#End Region
+
+Public Class rptGeneralBalance
+    Implements IReport
+
+#Region "Properties"
+
+    ''' <summary>
+    ''' Variable para inicializar los valores de sesion
+    ''' </summary>
+    Dim IndigoSessionValues As SessionValues = SessionValues.Instance
+
+    Dim criterias As Dictionary(Of String, String)
+
+    ''' <summary>
+    ''' Variable par obtener la tabla de Trazabilidad
+    ''' </summary>
+    Dim dtReportGeneralBalance As DataTable
+
+    Public Property ParametrosReporte As Object() Implements IReport.ParametrosReporte
+
+    Public ReadOnly Property NameReport As String Implements IReport.NameReport
+        Get
+            Return ""
+        End Get
+    End Property
+
+    Dim DebitValue As Decimal
+    Dim CreditValue As Decimal
+    Dim ResultExercise As Decimal
+    Dim currencyAbbreviation As String
+
+#End Region
+
+#Region "Load Data"
+
+    Public Sub CargarDataSource() Implements IReport.CargarDataSource
+
+    End Sub
+
+    Public Async Function FillListGeneralLedgerBalance(Nature As Integer) As Task(Of DataTable)
+        Try
+            criterias = ParametrosReporte(0)
+
+            Dim criteriasClone = New Dictionary(Of String, String)(criterias)
+            criteriasClone.Add("Nature", Nature)
+
+            Dim ds As DataSet = Await IndigoConecta.Instancia.CurrentCloud.IndigoAccounting.GetListReportGeneralBalanceAsync(criteriasClone, Me.IndigoSessionValues)
+            If ds IsNot Nothing AndAlso ds.Tables(0).Rows.Count > 0 Then
+                dtReportGeneralBalance = ds.Tables("ReportGeneralBalance")
+
+                If Nature = 1 Then
+                    DebitValue = Convert.ToDecimal(dtReportGeneralBalance.Compute("SUM(NewBalance)", "MainAccountLevel = 1"))
+                ElseIf Nature = 2 Then
+                    CreditValue = Convert.ToDecimal(dtReportGeneralBalance.Compute("SUM(NewBalance)", "MainAccountLevel = 1"))
+                    ResultExercise = Convert.ToDecimal(dtReportGeneralBalance.Compute("MIN(ResultExercise)", String.Empty))
+                End If
+
+                Dim book
+                If Not String.IsNullOrEmpty(criterias.Item("LegalBookId")) Then
+                    Dim legalBookId = CDec(criterias.Item("LegalBookId"))
+                    Using scope As New OperationContextScope(IndigoConecta.Instancia.CurrentCloud.IndigoAccounting.InnerChannel)
+                        IndigoSessionValues.AuditMessageWcf.Functional = Tag
+                        Dim mess As New MessageHeader(Of AuditMessage)(IndigoSessionValues.AuditMessageWcf)
+                        Dim header As System.ServiceModel.Channels.MessageHeader = mess.GetUntypedHeader(ConfigurationFile.SESS_AUDITMESSAGE, ConfigurationFile.SESS_NAME_SPACE)
+                        OperationContext.Current.OutgoingMessageHeaders.Add(header)
+                        book = Await IndigoConecta.Instancia.CurrentCloud.IndigoAccounting.GetBookByIdAsync(legalBookId)
+                    End Using
+                    If book.ObjectEmbbeded IsNot Nothing Then
+                        currencyAbbreviation = book.ObjectEmbbeded.Currency.Abbreviation
+                    End If
+                End If
+            Else
+                dtReportGeneralBalance = Nothing
+            End If
+
+            Return dtReportGeneralBalance
+        Catch ex As Exception
+            MessageIndigo.Show(GetExceptionDetails(ex), MessageType.Errores, Me.Text, Botones.Aceptar, "")
+            Return dtReportGeneralBalance
+        End Try
+    End Function
+
+#End Region
+
+#Region "Methods"
+
+    Public Sub CargarImagenes() Implements IReport.CargarImagenes
+
+    End Sub
+
+    Public Function GetExceptionDetails(exception As Exception) As String
+        Dim properties = exception.[GetType]().GetProperties()
+        Dim fields = properties.[Select](Function([property]) New With {
+            Key .Name = [property].Name,
+            Key .Value = [property].GetValue(exception, Nothing)
+        }).[Select](Function(x) [String].Format("{0} : {1}", x.Name, If(x.Value IsNot Nothing, x.Value.ToString(), [String].Empty)))
+        Return [String].Join(vbLf, fields)
+    End Function
+
+#End Region
+
+#Region "Events"
+
+    Private Sub rptGeneralBalance_BeforePrint(sender As Object, e As Printing.PrintEventArgs) Handles MyBase.BeforePrint
+        Dim title = criterias("Title")
+        Dim endDate = New Date(criterias("YearFinal"), criterias("MonthFinal"), 1)
+        Dim endPeriod = DateAdd(DateInterval.Day, -1, DateAdd(DateInterval.Month, 1, endDate))
+
+        'Cargar los valores del titulo
+        Me.INDLblCompany.Text = IndigoSessionValues.IndigoCompanyName
+        Me.INDLblNitCompany.Text = "Nit : " & IndigoSessionValues.IndigoCompanyNit
+        Me.INDLblTitle.Text = title
+        Me.INDLblDate.Text = "Periodo Contable Terminado el " & endPeriod.ToString("dd \de MMMM \de yyyy")
+        Me.INDLblUserPrint.Text = "Usuario Impresión : " & IndigoSessionValues.UserIndigo & " - " & IndigoSessionValues.UserIndigoName
+
+        'Información de los totales
+        Me.INDLblExercise.Text = If(ResultExercise > 0, "SUPERAVIT DEL EJERCICIO", If(ResultExercise < 0, "DEFICIT DEL EJERCICIO", "RESULTADO DEL EJERCICIO"))
+        Me.INDLblValueExercise.Text = Utils.GetMoneyWithISO4217(ResultExercise, currencyAbbreviation)
+        Me.INDLblValueTotalPasivoPatrimonio.Text = Utils.GetMoneyWithISO4217(CreditValue, currencyAbbreviation)
+        Me.INDLblValueTotalActivo.Text = Utils.GetMoneyWithISO4217(DebitValue, currencyAbbreviation)
+
+
+        Dim _culture As CultureInfo
+        _culture = CultureInfo.CurrentCulture.Clone()
+        _culture.NumberFormat = currencyAbbreviation.GetNumberFormat
+        Me.ApplyLocalization(_culture)
+    End Sub
+
+#End Region
+
+End Class

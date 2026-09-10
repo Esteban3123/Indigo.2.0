@@ -1,0 +1,370 @@
+﻿#Region "Librerias Importadas"
+Imports Infrastructure.CrossCutting.Base
+Imports Infrastructure.Data.Xpo.InventoryRepository
+Imports Infrastructure.Data.Xpo
+Imports DevExpress.XtraReports.UI
+Imports DevExpress.Spreadsheet
+Imports System.Text
+Imports System.Drawing
+#End Region
+
+Public Class rptReportConsolidatedCCLogisticByColumn
+    Implements IReport
+
+    ''' <summary>
+    ''' Variable para inicializar los valores de sesion
+    ''' </summary>
+    Dim IndigoSessionValues As SessionValues = SessionValues.Instance
+    Private filterOrder As List(Of InventoryPhysicalInventoryReportXpo)
+    Private quantWar As Integer
+    Private quantProd As Integer
+    'Dim totalQuantityProduc As Integer
+
+    Private Property XrTable2 As XRTable
+    Private Property XrTableRow2 As XRTableRow
+
+    Private Property XrTableCell4 As XRTableCell
+
+    Private Property XrTableCell5 As XRTableCell
+
+    Private Property XrTableCell6 As XRTableCell
+
+    Private Property spreadsheetControl1 As Object
+
+    Public Sub CargarDataSource() Implements IReport.CargarDataSource
+        Dim filtroConsulta As String = ""
+
+        'si filtra por almacenes
+        If ParametrosReporte(0) IsNot Nothing And ParametrosReporte(1) IsNot Nothing Then
+            If filtroConsulta = "" Then
+                filtroConsulta &= "WarehouseId.Code >= '" & ParametrosReporte(0) & "' AND WarehouseId.Code <= '" & ParametrosReporte(1) & "'"
+            Else
+                filtroConsulta &= " AND WarehouseId.Code >= '" & ParametrosReporte(0) & "' AND WarehouseId.Code <= '" & ParametrosReporte(1) & "'"
+            End If
+        End If
+
+        ' si filtra por productos
+        If ParametrosReporte(2) IsNot Nothing And ParametrosReporte(3) IsNot Nothing Then
+            If filtroConsulta = "" Then
+                filtroConsulta &= "ProductId.Code >= '" & ParametrosReporte(2) & "' AND ProductId.Code <= '" & ParametrosReporte(3) & "'"
+            Else
+                filtroConsulta &= " AND ProductId.Code >= '" & ParametrosReporte(2) & "' AND ProductId.Code <= '" & ParametrosReporte(3) & "'"
+            End If
+        End If
+
+        'Organiza el filtro por Codigo ó Producto
+        filterOrder = XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).TreasuryService.GetCollection(Of InventoryPhysicalInventoryReportXpo)(Nothing, filtroConsulta)
+
+        If ParametrosReporte(6) = 1 Then
+            filterOrder = filterOrder.OrderBy(Function(x) x.ProductId.Code).ToList
+        Else
+            filterOrder = filterOrder.OrderBy(Function(x) x.ProductId.Name).ToList
+        End If
+
+        For Each item In filterOrder
+
+            If item.ProductId.MeasurementUnitId IsNot Nothing Then
+                item.PharmaceuticalForm = item.ProductId.MeasurementUnitId.Name
+            ElseIf item.ProductId.ATCId IsNot Nothing Then
+                item.PharmaceuticalForm = item.ProductId.ATCId.AdministrationRouteId.PharmaceuticalFormId.Name
+            Else
+                item.PharmaceuticalForm = String.Empty
+            End If
+        Next
+        Me.DataSource = filterOrder
+    End Sub
+
+    Public Sub CargarImagenes() Implements IReport.CargarImagenes
+
+    End Sub
+
+    Public ReadOnly Property NameReport As String Implements IReport.NameReport
+        Get
+            Return ""
+        End Get
+    End Property
+
+    Public Property ParametrosReporte As Object() Implements IReport.ParametrosReporte
+
+    Private Sub rptReportConsolidatedCCLogisticByColumn_BeforePrint(sender As Object, e As Printing.PrintEventArgs) Handles MyBase.BeforePrint
+        INDLblCompany.Text = IndigoSessionValues.IndigoCompanyName
+        INDLblNitCompany.Text = "Nit:" & IndigoSessionValues.IndigoCompanyNit
+        Me.INDUserImp.Text = "Usuario Impresión : " & IndigoSessionValues.UserIndigo & " - " & IndigoSessionValues.UserIndigoName
+        'INDGroupBy.Value = ParametrosReporte(4)      
+    End Sub
+
+    Private Sub GroupHeader1_BeforePrint(sender As Object, e As Printing.PrintEventArgs) Handles GroupHeader1.BeforePrint
+        Dim totalQuantityProduc As Integer
+        filterOrder.GroupBy(Function(x) x.WarehouseId.Name)
+
+        Dim listWarehouse = (From f In filterOrder
+                 Group fg = f.WarehouseId.Name By co = f.WarehouseId.Code, cu = f.WarehouseId.Name Into wa = Group, Count()
+                 Order By co).ToList()
+
+        If quantWar <> 1 Then
+            CreateTablet()
+        End If
+
+        If quantWar = 1 Then
+            Dim table2 As XRTable = CType(XrTable2, XRTable)
+            Dim row As XRTableRow = table2.Rows(0)
+
+            Dim t = XrTableRow2.Cells.Count()
+            For j = 4 To t
+                row.DeleteCell(row.Cells(3))
+            Next
+        End If
+
+        filterOrder = filterOrder.OrderBy(Function(x) x.WarehouseId.Code).ToList
+
+        Dim Product = (GetCurrentColumnValue("INDProductCode"))
+        Dim Batch = (GetCurrentColumnValue("INDBatchCode"))
+
+
+        If quantWar <> 1 Then
+            Dim indexx = 1
+            For Each i In listWarehouse
+                indexx += 1
+                Dim cell As New XRTableCell()
+                cell.Text = i.cu
+                cell.Name = "INDCllPageHeader" & indexx
+                XrTableRow1.Cells.Add(cell)
+
+                Dim cellTotalReport As New XRTableCell()
+                cellTotalReport.Text = 0
+                cell.Name = "INDTotalReport" & indexx
+                XrTableRow12.Cells.Add(cellTotalReport)
+            Next
+        End If
+
+        Dim rowFull As Integer
+        If (Batch IsNot Nothing) Then
+
+            For Each item In filterOrder.Where(Function(x) x.ProductId.Code = Product AndAlso x.BatchSerialId.BatchCode = Batch)
+                Dim indexRow1 As Integer = 3
+
+                While indexRow1 <= XrTableRow1.Cells.Count - 1
+
+                    If item.WarehouseId.Name = XrTableRow1.Cells.Item(indexRow1).Text Then
+
+                        If rowFull = 1 Then
+                            XrTableRow2.Cells.Item(indexRow1).Text = item.Quantity
+                        End If
+
+                        If rowFull <> 1 Then
+                            Dim cellProductQuantity As New XRTableCell()
+                            cellProductQuantity.Text = item.Quantity
+                            cellProductQuantity.Name = "INDCllDetail"
+                            XrTableRow2.Cells.Add(cellProductQuantity)
+                            cellProductQuantity.Font = New Font("Arial", 8.0!, FontStyle.Bold)
+                        End If
+
+                        XrTableRow12.Cells.Item(indexRow1 - 2).Text = Convert.ToInt32(XrTableRow12.Cells.Item(indexRow1 - 2).Text) + Convert.ToInt32(item.Quantity.ToString)
+                    ElseIf XrTableRow1.Cells.Item(indexRow1).Text <> "Total Producto" Then
+                        If rowFull <> 1 Then
+                            Dim cellProductQuantity As New XRTableCell()
+                            cellProductQuantity.Text = 0
+                            cellProductQuantity.Name = "INDCllDetail"
+                            XrTableRow2.Cells.Add(cellProductQuantity)
+                            cellProductQuantity.Font = New Font("Arial", 8.0!, FontStyle.Bold)
+                        End If
+                    End If
+                    indexRow1 += 1
+                End While
+                rowFull = 1
+            Next
+        Else
+
+            For Each item In filterOrder.Where(Function(x) x.ProductId.Code = Product)
+                Dim indexRow1 As Integer = 3
+
+                While indexRow1 <= XrTableRow1.Cells.Count - 1
+
+                    If item.WarehouseId.Name = XrTableRow1.Cells.Item(indexRow1).Text Then
+
+                        If rowFull = 1 Then
+                            XrTableRow2.Cells.Item(indexRow1).Text = item.Quantity
+                        End If
+
+                        If rowFull <> 1 Then
+                            Dim cellProductQuantity As New XRTableCell()
+                            cellProductQuantity.Text = item.Quantity
+                            cellProductQuantity.Name = "INDCllDetail"
+                            XrTableRow2.Cells.Add(cellProductQuantity)
+                            cellProductQuantity.Font = New Font("Arial", 8.0!, FontStyle.Bold)
+                        End If
+
+                        XrTableRow12.Cells.Item(indexRow1 - 2).Text = Convert.ToInt32(XrTableRow12.Cells.Item(indexRow1 - 2).Text) + Convert.ToInt32(item.Quantity.ToString)
+                    ElseIf XrTableRow1.Cells.Item(indexRow1).Text <> "Total Producto" Then
+                        If rowFull <> 1 Then
+                            Dim cellProductQuantity As New XRTableCell()
+                            cellProductQuantity.Text = 0
+                            cellProductQuantity.Name = "INDCllDetail"
+                            XrTableRow2.Cells.Add(cellProductQuantity)
+                            cellProductQuantity.Font = New Font("Arial", 8.0!, FontStyle.Bold)
+                        End If
+                    End If
+                    indexRow1 += 1
+                End While
+                rowFull = 1
+            Next
+        End If
+
+        quantWar = 1
+        'Crea la celda del Total del producto de todos los almacenes y le da su correspondiente valor
+        If quantProd <> 1 Then
+            Dim cell As New XRTableCell()
+            cell.Text = "Total Producto"
+            cell.Name = "INDCllPageHeader"
+            XrTableRow1.Cells.Add(cell)
+        End If
+
+        Dim h = XrTableRow2.Cells.Count()
+        For vf As Integer = 3 To h - 1
+            Dim f = XrTableRow2.Cells.Item(vf).Text()
+
+            totalQuantityProduc = totalQuantityProduc + f
+        Next
+
+        Dim cellProductQuantitys As New XRTableCell()
+        cellProductQuantitys.Text = totalQuantityProduc
+        cellProductQuantitys.Name = "INDCllDetail"
+        XrTableRow2.Cells.Add(cellProductQuantitys)
+
+        quantProd = 1
+
+        XrTable2_BeforePrint()
+    End Sub
+
+    Private Sub XrTable1_BeforePrint_1(sender As Object, e As Printing.PrintEventArgs) Handles XrTable1.BeforePrint
+
+        Dim table As XRTable = (CType(sender, XRTable))
+        table.WidthF = Me.PageWidth - Me.Margins.Left - Me.Margins.Right - 1
+
+        Dim row As XRTableRow = (CType(table.Rows(0), XRTableRow))
+
+        'sacar el tamaño de las celdas
+        Dim CellCount = XrTableRow1.Cells.Count
+        Dim WidthCells = 1050 / CellCount
+
+        Dim cont = 1
+        For Each cel As XRTableCell In row.Cells
+            cel.WidthF = WidthCells
+            cel.Font = New Font("Arial", 8.0!, FontStyle.Bold)
+        Next
+    End Sub
+
+    Private Sub XrTable2_BeforePrint()
+
+        Dim table As XRTable = (CType(XrTable2, XRTable))
+        table.WidthF = Me.PageWidth - Me.Margins.Left - Me.Margins.Right - 1
+
+        Dim row As XRTableRow = (CType(table.Rows(0), XRTableRow))
+
+        'sacar el tamaño de las celdas
+        Dim CellCount = XrTableRow2.Cells.Count
+        Dim WidthCells = 1050 / (CellCount)
+
+        Dim cont = 1
+        For Each cel As XRTableCell In row.Cells
+            cel.WidthF = WidthCells
+            cel.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleLeft
+            cel.Padding = New DevExpress.XtraPrinting.PaddingInfo(4, 0, 0, 0, 100.0!)
+            cel.Font = New Font("Arial", 8.0!)
+        Next
+    End Sub
+    ''' <summary>
+    ''' se ejecuta para darle un mismo tamaño a todas las celdas de una tabla
+    ''' </summary>
+    ''' <param name="sender"></param>
+    ''' <param name="e"></param>
+    ''' <remarks></remarks>
+    Private Sub XrTable12_BeforePrint(sender As Object, e As Printing.PrintEventArgs) Handles XrTable12.BeforePrint
+
+        Dim table As XRTable = (CType(sender, XRTable))
+        table.WidthF = Me.PageWidth - Me.Margins.Left - Me.Margins.Right - 1
+
+        Dim row As XRTableRow = (CType(table.Rows(0), XRTableRow))
+
+        'sacar el tamaño de las celdas
+        Dim CellCount = XrTableRow12.Cells.Count
+        Dim WidthCells = 1050 / (CellCount + 2)
+
+        Dim cont = 1
+        For Each cel As XRTableCell In row.Cells
+
+            If cont = 1 Then
+                cel.WidthF = WidthCells * 3
+            Else
+                cel.WidthF = WidthCells
+            End If
+
+            cont += 1
+            cel.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleLeft
+            cel.Padding = New DevExpress.XtraPrinting.PaddingInfo(4, 0, 0, 0, 100.0!)
+            cel.Font = New Font("Arial", 8.0!)
+        Next
+
+    End Sub
+
+    Private Sub CreateTablet()
+        Me.XrTable2 = New DevExpress.XtraReports.UI.XRTable()
+        Me.XrTableRow2 = New DevExpress.XtraReports.UI.XRTableRow()
+        Me.XrTableCell4 = New DevExpress.XtraReports.UI.XRTableCell()
+        Me.XrTableCell5 = New DevExpress.XtraReports.UI.XRTableCell()
+        Me.XrTableCell6 = New DevExpress.XtraReports.UI.XRTableCell()
+
+        CType(Me.XrTable2, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.GroupHeader1.Controls.AddRange(New DevExpress.XtraReports.UI.XRControl() {Me.XrTable2})
+
+        'XrTable2
+        '
+        Me.XrTable2.Font = New System.Drawing.Font("Arial", 8.0!, FontStyle.Bold)
+        Me.XrTable2.LocationFloat = New DevExpress.Utils.PointFloat(0.0!, 0.0!)
+        Me.XrTable2.Name = "XrTable2"
+        Me.XrTable2.Rows.AddRange(New DevExpress.XtraReports.UI.XRTableRow() {Me.XrTableRow2})
+        Me.XrTable2.SizeF = New System.Drawing.SizeF(1052.0!, 20.0!)
+        Me.XrTable2.StylePriority.UseFont = False
+        Me.XrTable2.StylePriority.UseTextAlignment = False
+        Me.XrTable2.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleCenter
+
+        '--------------------------------------------------------------------------------------------
+        '
+        'XrTableRow2
+        '
+        Me.XrTableRow2.Cells.AddRange(New DevExpress.XtraReports.UI.XRTableCell() {Me.XrTableCell4, Me.XrTableCell5, Me.XrTableCell6})
+        Me.XrTableRow2.Name = "XrTableRow2"
+        Me.XrTableRow2.Weight = 1.0R
+        '
+        'XrTableCell4
+        '
+        Me.XrTableCell4.DataBindings.AddRange(New DevExpress.XtraReports.UI.XRBinding() {New DevExpress.XtraReports.UI.XRBinding("Text", Nothing, "INDProduct")})
+        Me.XrTableCell4.Name = "XrTableCell4"
+        Me.XrTableCell4.StylePriority.UseTextAlignment = False
+        Me.XrTableCell4.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleLeft
+        Me.XrTableCell4.Weight = 1.0R
+        '
+        'XrTableCell5
+        '
+        Me.XrTableCell5.DataBindings.AddRange(New DevExpress.XtraReports.UI.XRBinding() {New DevExpress.XtraReports.UI.XRBinding("Text", Nothing, "PharmaceuticalForm")})
+        Me.XrTableCell5.Name = "XrTableCell5"
+        Me.XrTableCell5.StylePriority.UseTextAlignment = False
+        Me.XrTableCell5.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleLeft
+        Me.XrTableCell5.Weight = 1.0R
+        '
+        'XrTableCell6
+        '
+        Me.XrTableCell6.DataBindings.AddRange(New DevExpress.XtraReports.UI.XRBinding() {New DevExpress.XtraReports.UI.XRBinding("Text", Nothing, "BatchSerialId.BatchCode")})
+        Me.XrTableCell6.Name = "XrTableCell6"
+        Me.XrTableCell6.StylePriority.UseTextAlignment = False
+        Me.XrTableCell6.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleLeft
+        Me.XrTableCell6.Weight = 1.0R
+
+        CType(Me.XrTable2, System.ComponentModel.ISupportInitialize).EndInit()
+        'Friend WithEvents XrTable2 As DevExpress.XtraReports.UI.XRTable		
+        'Friend WithEvents XrTableRow2 As DevExpress.XtraReports.UI.XRTableRow		
+        'Friend WithEvents XrTableCell4 As DevExpress.XtraReports.UI.XRTableCell
+    End Sub
+
+
+End Class

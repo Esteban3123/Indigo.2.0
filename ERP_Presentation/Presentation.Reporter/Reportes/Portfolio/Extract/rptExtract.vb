@@ -1,0 +1,150 @@
+﻿#Region "Librerias Importadas"
+Imports Infrastructure.CrossCutting.Base
+Imports Infrastructure.Data.Xpo.PortfolioRepository
+Imports Infrastructure.Data.Xpo
+Imports DevExpress.XtraReports.UI
+Imports DevExpress.Xpo
+Imports System.Globalization
+#End Region
+
+Public Class rptExtract
+    Implements IReport
+
+    ''' <summary>
+    ''' Variable para inicializar los valores de sesion
+    ''' </summary>
+    Dim IndigoSessionValues As SessionValues = SessionValues.Instance
+
+    Public Sub CargarDataSource() Implements IReport.CargarDataSource
+
+        Dim filtroConsulta As String = String.Empty
+
+        'se filtra por fechas
+        If ParametrosReporte(0) IsNot Nothing And ParametrosReporte(1) IsNot Nothing Then
+            filtroConsulta &= " AND MovesDate >= #" & Format(ParametrosReporte(0), "yyyy-MM-dd HH:mm:ss") & "# AND MovesDate <= #" & Format(ParametrosReporte(1), "yyyy-MM-dd HH:mm:ss") & "#"
+        End If
+
+
+        'Se filtra por Clientes
+        If ParametrosReporte(4) IsNot Nothing And ParametrosReporte(5) IsNot Nothing Then
+            filtroConsulta &= " AND ThirdPartyNit >= '" & ParametrosReporte(4) & "' AND ThirdPartyNit <= '" & ParametrosReporte(5) & "'"
+        End If
+
+        'Se filtra por Cuentas por Cobrar (Facturas)
+        If ParametrosReporte(6) IsNot Nothing And ParametrosReporte(7) IsNot Nothing Then
+            filtroConsulta &= " AND DocumentNumber >= '" & ParametrosReporte(6) & "' AND DocumentNumber <= '" & ParametrosReporte(7) & "'"
+        End If
+
+        'Se filtra por Grupos de Atención
+        If ParametrosReporte(8) IsNot Nothing And ParametrosReporte(9) IsNot Nothing Then
+            filtroConsulta &= " AND CareGroupCode >= '" & ParametrosReporte(8) & "' AND CareGroupCode <= '" & ParametrosReporte(9) & "'"
+        End If
+
+        'Se filtra por Cuenta Contable
+        If ParametrosReporte(10) IsNot Nothing And ParametrosReporte(11) IsNot Nothing Then
+            filtroConsulta &= " AND AccountNumber >= '" & ParametrosReporte(10) & "' AND AccountNumber <= '" & ParametrosReporte(11) & "'"
+        End If
+
+        If ParametrosReporte(2) <> 4 Then
+            filtroConsulta &= " AND Status = " & ParametrosReporte(2)
+        End If
+
+        If ParametrosReporte(12) IsNot Nothing And ParametrosReporte(13) IsNot Nothing Then
+            filtroConsulta &= " AND DocumentNumber >= '" & ParametrosReporte(12) & "' AND DocumentNumber <= '" & ParametrosReporte(13) & "'"
+        End If
+
+        If ParametrosReporte(14) IsNot Nothing Then
+            filtroConsulta &= " AND AccountReceivableType in(" & ParametrosReporte(14).ToString() & ")"
+        End If
+
+        If ParametrosReporte(15) IsNot Nothing AndAlso ParametrosReporte(15) <> "Todos" Then
+            filtroConsulta &= " AND TypeDocument = '" & ParametrosReporte(15) & "'"
+        End If
+
+        'Remover el ' AND ' de los filtros.
+        If filtroConsulta IsNot String.Empty Then
+            filtroConsulta = filtroConsulta.Remove(0, 5)
+        End If
+
+
+        Dim listReport As XPCollection(Of VReportExtractAccountReceivableXpo) = XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).PortfolioService.GetAllVReportExtractAccountReceivableXpo(filtroConsulta)
+        Me.DataSource = listReport
+
+
+    End Sub
+
+    Public Sub CargarImagenes() Implements IReport.CargarImagenes
+
+    End Sub
+
+    Public ReadOnly Property NameReport As String Implements IReport.NameReport
+        Get
+            Return ""
+        End Get
+    End Property
+
+    Public Property ParametrosReporte As Object() Implements IReport.ParametrosReporte
+
+    Private Sub rptExtract_BeforePrint(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles MyBase.BeforePrint
+        INDLblCompany.Text = IndigoSessionValues.IndigoCompanyName
+        INDLblNitCompany.Text = "Nit:" & IndigoSessionValues.IndigoCompanyNit
+        Me.ViewParameter.Value = ParametrosReporte(3)
+        Me.INDLBlSubtitle.Text = "Informe comprendido entre " & CDate(ParametrosReporte(0)).ToString("dd De MMMM Del yyyy") & " " & CDate(ParametrosReporte(1)).ToString("A dd De MMMM Del yyyy")
+        INDLblUserPrint.Text = "Usuario Impresión : " & IndigoSessionValues.UserIndigo & " - " & IndigoSessionValues.UserIndigoName
+    End Sub
+
+    Private Sub XrTableCell13_BeforePrint(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles BillValueInitialCell.BeforePrint
+        Dim row = GetCurrentRow()
+        Dim _culture As CultureInfo = CultureInfo.CurrentCulture.Clone()
+        Dim CurrencyAbbreviation As String = If(String.IsNullOrEmpty(row?.CurrencyName), IndigoSessionValues.CurrencyISO4217, row?.CurrencyName)
+        _culture.NumberFormat = New CultureInfo(CurrencyAbbreviation.GetCultureId).NumberFormat
+        BillValueInitialCell.Text = String.Format(_culture.NumberFormat.CurrencySymbol + "{0:n2}", row?.BillValueInitial)
+    End Sub
+
+    Private Sub XrTableCell20_BeforePrint(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles MovesDebitExCell.BeforePrint
+        Dim row = GetCurrentRow()
+        Dim _culture As CultureInfo = CultureInfo.CurrentCulture.Clone()
+        Dim CurrencyAbbreviation As String = If(String.IsNullOrEmpty(row?.CurrencyName), IndigoSessionValues.CurrencyISO4217, row?.CurrencyName)
+        _culture.NumberFormat = New CultureInfo(CurrencyAbbreviation.GetCultureId).NumberFormat
+        MovesDebitExCell.Text = String.Format(_culture.NumberFormat.CurrencySymbol + "{0:n2}", row?.MovesDebit)
+    End Sub
+
+    Private Sub XrTableCell24_BeforePrint(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles SumMovesDebitExCell.BeforePrint
+        Dim row = GetCurrentRow()
+        Dim _culture As CultureInfo = CultureInfo.CurrentCulture.Clone()
+        Dim CurrencyAbbreviation As String = If(String.IsNullOrEmpty(row?.CurrencyName), IndigoSessionValues.CurrencyISO4217, row?.CurrencyName)
+        _culture.NumberFormat = New CultureInfo(CurrencyAbbreviation.GetCultureId).NumberFormat
+        SumMovesDebitExCell.TextFormatString = _culture.NumberFormat.CurrencySymbol + "{0:n2}"
+    End Sub
+
+    Private Sub XrTableCell15_BeforePrint(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles BllCurrentBalanceCell.BeforePrint
+        Dim row = GetCurrentRow()
+        Dim _culture As CultureInfo = CultureInfo.CurrentCulture.Clone()
+        Dim CurrencyAbbreviation As String = If(String.IsNullOrEmpty(row?.CurrencyName), IndigoSessionValues.CurrencyISO4217, row?.CurrencyName)
+        _culture.NumberFormat = New CultureInfo(CurrencyAbbreviation.GetCultureId).NumberFormat
+        BllCurrentBalanceCell.Text = String.Format(_culture.NumberFormat.CurrencySymbol + "{0:n2}", row?.BillCurrentBalance)
+    End Sub
+
+    Private Sub XrTableCell21_BeforePrint(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles MovesCreditExCell.BeforePrint
+        Dim row = GetCurrentRow()
+        Dim _culture As CultureInfo = CultureInfo.CurrentCulture.Clone()
+        Dim CurrencyAbbreviation As String = If(String.IsNullOrEmpty(row?.CurrencyName), IndigoSessionValues.CurrencyISO4217, row?.CurrencyName)
+        _culture.NumberFormat = New CultureInfo(CurrencyAbbreviation.GetCultureId).NumberFormat
+        MovesCreditExCell.Text = String.Format(_culture.NumberFormat.CurrencySymbol + "{0:n2}", row?.MovesCredit)
+    End Sub
+
+    Private Sub XrTableCell25_BeforePrint(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles SumMovesCreditExCell.BeforePrint
+        Dim row = GetCurrentRow()
+        Dim _culture As CultureInfo = CultureInfo.CurrentCulture.Clone()
+        Dim CurrencyAbbreviation As String = If(String.IsNullOrEmpty(row?.CurrencyName), IndigoSessionValues.CurrencyISO4217, row?.CurrencyName)
+        _culture.NumberFormat = New CultureInfo(CurrencyAbbreviation.GetCultureId).NumberFormat
+        SumMovesCreditExCell.TextFormatString = _culture.NumberFormat.CurrencySymbol + "{0:n2}"
+    End Sub
+
+    Private Sub XrTableCell19_BeforePrint(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles XrTableCell19.BeforePrint
+        Dim row = GetCurrentRow()
+        If String.IsNullOrEmpty(row?.CurrencyName) Then
+            XrTableCell19.Text = IndigoSessionValues.CurrencyISO4217
+        End If
+    End Sub
+End Class

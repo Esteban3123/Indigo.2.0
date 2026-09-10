@@ -1,0 +1,55 @@
+﻿'***********************************************************************
+' Assembly         : Presentacion.Payroll.File.MVP
+' Author           : Andres Felipe Quintero Garcia
+' Created          : 10-02-2025
+'
+' Last Modified By : 
+' Last Modified On : 
+' Description      : 
+'
+' Copyright        : (c) . All rights reserved.
+'***********************************************************************
+#Region "Imports"
+Imports Infrastructure.CrossCutting.Base
+Imports Presentation.Base
+#End Region
+
+Public Class PElectronicPayrollConcepts
+#Region "Fields"
+
+    ''' <summary>
+    ''' Variable utilizada para instanciar la interfaz IElectronicPayrollConcepts
+    ''' </summary>
+    Private _view As IElectronicPayrollConcepts
+    ''' <summary>
+    ''' Variable que se utilizapa para tratar los niveles de cargo como un Objeto
+    ''' </summary>
+    Private _positionLevel As Object
+    ''' <summary>
+    ''' Variable que se utiliza para instanciar la clase singlenton
+    ''' </summary>
+    Private _indigo As SessionValues = SessionValues.Instance
+
+#End Region
+
+#Region "Builders"
+
+    ''' <summary>
+    ''' Constructor de la clase presentador en el frontal de conceptos de nómina electrónica
+    ''' </summary>
+    ''' <param name="view">Vista de conceptos de nómina electrónica</param>
+    Public Sub New(ByRef view As IElectronicPayrollConcepts)
+        If view Is Nothing Then
+            Throw New ArgumentException(BaseClass.obtenerExcepcion(EexceptionsResources.MensajeConstructorPresentador))
+        Else
+            Me._view = view
+        End If
+    End Sub
+
+    Public Async Sub GetSequence()
+        Using model As New MBlockRecordAndSequensePayroll(_view.MyTag)
+            Me._view.Sequence = Await model.GetSequense()
+        End Using
+    End Sub
+#End Region
+End Class

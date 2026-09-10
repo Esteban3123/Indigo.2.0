@@ -1,0 +1,307 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>IndigoReportsBase</name>
+    </assembly>
+    <members>
+        <member name="T:IndigoReportsBase.ClsFuncionesREP">
+            <summary>
+            Funciones base de los Reportes.
+            </summary>
+        </member>
+        <member name="F:IndigoReportsBase.ClsFuncionesREP.ValoresSesion">
+            <summary>
+            Variable para los Valores de Session.
+            </summary>
+        </member>
+        <member name="T:IndigoReportsBase.ClsFuncionesREP.rptHGraficaPerfilParametros">
+            <summary>
+            estructura para parametros del reporte de grafica de perfil farmacoterapeutico
+            </summary>
+        </member>
+        <member name="P:IndigoReportsBase.ClsFuncionesREP.rptHGraficaPerfilParametros.listaEstadoMedicamento">
+            <summary>
+            Lista estados de medicamento: aplicado, sin aplicar, suspendido
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:IndigoReportsBase.ClsFuncionesREP.rptHGraficaPerfilParametros.TipoMedicamentoGrafica">
+            <summary>
+            Lista tipo de grafica a imprimir: dia, semana, mes
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:IndigoReportsBase.ClsFuncionesREP.rptHGraficaPerfilParametros.Ingreso">
+            <summary>
+            ingreso
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:IndigoReportsBase.ClsFuncionesREP.rptHGraficaPerfilParametros.Identificacion">
+            <summary>
+            identificacion
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:IndigoReportsBase.ClsFuncionesREP.rptHGraficaPerfilParametros.CodigoProducto">
+            <summary>
+            Cidugo Producto
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:IndigoReportsBase.ClsFuncionesREP.rptHGraficaPerfilParametros.NombreProducto">
+            <summary>
+            nombre del producto
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:IndigoReportsBase.ClsFuncionesREP.rptHGraficaPerfilParametros.RangoCustomizado">
+            <summary>
+            Especifica si el rango fue customizado por el usuario
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:IndigoReportsBase.ClsFuncionesREP.rptHGraficaPerfilParametros.ValMinimoEjeX">
+            <summary>
+            Objeto que determina valor minimo de eje X
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:IndigoReportsBase.ClsFuncionesREP.rptHGraficaPerfilParametros.ValMaximoEjeX">
+            <summary>
+            Objeto que determina valor maximo de eje X
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:IndigoReportsBase.ClsFuncionesREP.rptHGraficaPerfilParametros.FechaInicialPuntoLinea">
+            <summary>
+            Fecha inicial - customizable
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:IndigoReportsBase.ClsFuncionesREP.rptHGraficaPerfilParametros.FechaFinalPuntoLinea">
+            <summary>
+            Fecha final - customizable
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:IndigoReportsBase.ClsFuncionesREP.rptHGraficaPerfilParametros.Dosis">
+            <summary>
+            dosis para dibujar eje y
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:IndigoReportsBase.ClsFuncionesREP.rptHGraficaPerfilParametros.Unidad">
+            <summary>
+            unidad en texto mG, G , ML
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="F:IndigoReportsBase.ClsFuncionesREP.rptHGraficaPerfilParametros.FechaActual">
+            <summary>
+            fecha generacion de grafica
+            </summary>
+        </member>
+        <member name="P:IndigoReportsBase.ClsFuncionesREP.rptHGraficaPerfilParametros.Vista">
+            <summary>
+            Dia = 1
+            Semana = 2
+            Mes = 3
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:IndigoReportsBase.ClsFuncionesREP.EsPersonalizado">
+            <summary>
+            Obtiene o Establece si el reporte es Personalizado o es de aplicacion.
+            </summary>
+            <value>
+            <c>true</c> Si es personalizado, <c>false</c> si es de Aplicacion.
+            </value>
+        </member>
+        <member name="P:IndigoReportsBase.ClsFuncionesREP.EsDeveloper">
+            <summary>
+            Obtiene o Establece si esta ingresando como un developer.
+            </summary>
+            <value>
+            <c>true</c> Si es developer, <c>false</c> si es usuario de aplicacion.
+            </value>
+        </member>
+        <member name="P:IndigoReportsBase.ClsFuncionesREP.DescripcionReporte">
+            <summary>
+            Obtiene o Establece si esta Creando un reporte Personalizado o lo esta modificando.
+            </summary>
+            <value>
+            <c>true</c> si esta creando uno personalizado, <c>false</c> si lo esta modificando.
+            </value>
+        </member>
+        <member name="M:IndigoReportsBase.ClsFuncionesREP.RetornarCadenaDefinicionReporte(System.String)">
+            <summary>
+            Retorna una cadena de la ruta de la definicion del reporte.e
+            </summary>
+            <param name="NombreReporte">El nombre del reporte.</param>
+            <returns></returns>
+        </member>
+        <member name="M:IndigoReportsBase.ClsFuncionesREP.CrearBandaPageFooter(DevExpress.XtraReports.UI.XtraReport,System.Boolean,System.Boolean,System.Boolean)">
+            <summary>
+            Metodo usado para crear el pie de pagina general para todos los reportes.
+            </summary>
+            <param name="reporteAplicacion"></param>
+            <param name="CrearDatosMedico"></param>
+            <param name="ReporteMediaPagina"></param>
+            <remarks></remarks>
+        </member>
+        <member name="M:IndigoReportsBase.CtrREPBarraControles.BarBtnSalir_ItemClick(System.Object,DevExpress.XtraBars.ItemClickEventArgs)">
+            <summary>
+            Handles the ItemClick event of the BarBtnSalir control.
+            </summary>
+            <param name="sender">The source of the event.</param>
+            <param name="e">The <see cref="T:DevExpress.XtraBars.ItemClickEventArgs" /> instance containing the event data.</param>
+        </member>
+        <member name="M:IndigoReportsBase.CtrREPBarraControles.BarBtnModificar_ItemClick(System.Object,DevExpress.XtraBars.ItemClickEventArgs)">
+            <summary>
+            Handles the ItemClick event of the BarBtnModificar control.
+            </summary>
+            <param name="sender">The source of the event.</param>
+            <param name="e">The <see cref="T:DevExpress.XtraBars.ItemClickEventArgs" /> instance containing the event data.</param>
+        </member>
+        <member name="M:IndigoReportsBase.CtrREPBarraControles.BarBtnNuevo_ItemClick(System.Object,DevExpress.XtraBars.ItemClickEventArgs)">
+            <summary>
+            Handles the ItemClick event of the BarBtnNuevo control.
+            </summary>
+            <param name="sender">The source of the event.</param>
+            <param name="e">The <see cref="T:DevExpress.XtraBars.ItemClickEventArgs" /> instance containing the event data.</param>
+        </member>
+        <member name="M:IndigoReportsBase.CtrREPBarraControles.BarBtnEliminar_ItemClick(System.Object,DevExpress.XtraBars.ItemClickEventArgs)">
+            <summary>
+            Handles the ItemClick event of the BarBtnEliminar control.
+            </summary>
+            <param name="sender">The source of the event.</param>
+            <param name="e">The <see cref="T:DevExpress.XtraBars.ItemClickEventArgs" /> instance containing the event data.</param>
+        </member>
+        <member name="M:IndigoReportsBase.CtrREPBarraControles.BarBtnVisualizar_ItemClick(System.Object,DevExpress.XtraBars.ItemClickEventArgs)">
+            <summary>
+            Handles the ItemClick event of the BarBtnVisualizar control.
+            </summary>
+            <param name="sender">The source of the event.</param>
+            <param name="e">The <see cref="T:DevExpress.XtraBars.ItemClickEventArgs" /> instance containing the event data.</param>
+        </member>
+        <member name="T:IndigoReportsBase.eEscalas">
+            <summary>
+            Escalas de la Salud
+            </summary>
+        </member>
+        <member name="M:IndigoReportsBase.IReporte.CargarDataSource">
+            <summary>
+            Cargar el data source, esta funcion se debe invocar cada vez que se desee
+            llamar a un reporte - Solo desde codigo
+            </summary>
+        </member>
+        <member name="M:IndigoReportsBase.IReporte.CargarDeveloper">
+            <summary>
+            Metodo Cargar para el developer. este metodo es usado para la primera creacion
+            del reporte - Metodo reservado para el area de Desarrollo.
+            </summary>
+        </member>
+        <member name="M:IndigoReportsBase.IReporte.CargarImagenes">
+            <summary>
+            Metodo para Cargar Todas Las Imagenes Correspondientes a la Cabecera del Reporte
+            para la visualizacion de los logos y demas sellos de calidad.
+            </summary>
+        </member>
+        <member name="P:IndigoReportsBase.IReporte._INDFuncionaComoSubreporte">
+            <summary>
+            Obtiene o Establece si el reporte es usado como subreporte.
+            </summary>
+        </member>
+        <member name="P:IndigoReportsBase.IReporte._INDImprimeDesdeControlCuentas">
+            <summary>
+            Obtiene o Establece si el reporte se llama desde control de cuentas.
+            </summary>
+        </member>
+        <member name="P:IndigoReportsBase.IReporte._INDImprimirReporte">
+            <summary>
+            Obtiene o Establece si el reporte se debe mostrar o no.
+            </summary>
+        </member>
+        <member name="T:IndigoReportsBase.IReporteOrdenesMedicas">
+            <summary>
+            Esta Interfaz sera implementada en los reportes que utilizen el Tipo de Historia Clinica
+            y el numero de folio, asi como los parametros establecidos en la interfaz IreportePaciente.
+            </summary>
+        </member>
+        <member name="P:IndigoReportsBase.IReporteOrdenesMedicas._INDTipoHC">
+            <summary>
+            Obtiene o Establece el Tipo de Historia Clinica
+            </summary>
+        </member>
+        <member name="P:IndigoReportsBase.IReporteOrdenesMedicas._INDFolio">
+            <summary>
+            Obtiene o Establece el Numero de folio
+            </summary>
+        </member>
+        <member name="T:IndigoReportsBase.IReportePaciente">
+            <summary>
+            Esta interfaz se implementara para los reportes que tengan 
+            como parametro solamente el codigo del paciente y el ingreso.
+            </summary>
+        </member>
+        <member name="P:IndigoReportsBase.IReportePaciente._INDPaciente">
+            <summary>
+            Obtiene o Establece la identificacion del paciente.
+            </summary>
+        </member>
+        <member name="P:IndigoReportsBase.IReportePaciente._INDIngreso">
+            <summary>
+            Obtiene o Establece el Ingreso del paciente.
+            </summary>
+        </member>
+        <member name="T:IndigoReportsBase.IReporteUbicacion">
+            <summary>
+            Esta interfaz se implementara para los reportes que tengan como parametro
+            la unidad funcional, el centro de atencion y el numero del consecutivo, 
+            asi como los parametros establecidos en la interfaz IreportePaciente.
+            </summary>
+        </member>
+        <member name="P:IndigoReportsBase.IReporteUbicacion._INDUnidadFuncional">
+            <summary>
+            Obtiene o Establece la unidad funcional del paciente.
+            </summary>
+        </member>
+        <member name="P:IndigoReportsBase.IReporteUbicacion._INDCentroAtencion">
+            <summary>
+            Obtiene o Establece el centro de atencion del paciente.
+            </summary>
+        </member>
+        <member name="P:IndigoReportsBase.IReporteUbicacion._INDConsecutivoReporte">
+            <summary>
+            Obtiene o Establece el consecutivo del reporte.
+            </summary>
+        </member>
+        <member name="T:IndigoReportsBase.My.Resources.Resources">
+            <summary>
+              Clase de recurso fuertemente tipado, para buscar cadenas traducidas, etc.
+            </summary>
+        </member>
+        <member name="P:IndigoReportsBase.My.Resources.Resources.ResourceManager">
+            <summary>
+              Devuelve la instancia de ResourceManager almacenada en caché utilizada por esta clase.
+            </summary>
+        </member>
+        <member name="P:IndigoReportsBase.My.Resources.Resources.Culture">
+            <summary>
+              Reemplaza la propiedad CurrentUICulture del subproceso actual para todas las
+              búsquedas de recursos mediante esta clase de recurso fuertemente tipado.
+            </summary>
+        </member>
+        <member name="P:IndigoReportsBase.My.Resources.Resources.cerrar_32">
+            <summary>
+              Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+            </summary>
+        </member>
+        <member name="P:IndigoReportsBase.My.Resources.Resources.Image1">
+            <summary>
+              Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+            </summary>
+        </member>
+    </members>
+</doc>

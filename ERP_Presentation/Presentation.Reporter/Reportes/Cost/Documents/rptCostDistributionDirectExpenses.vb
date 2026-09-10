@@ -1,0 +1,106 @@
+﻿#Region "Imports"
+
+Imports System.Drawing.Printing
+Imports Infrastructure.CrossCutting.Base
+Imports Infrastructure.Data.Xpo
+Imports Infrastructure.Data.Xpo.CostRepository
+Imports Infrastructure.Data.Xpo.SecurityRepository
+Imports Presentation.Base
+
+#End Region
+
+Public Class rptCostDistributionDirectExpenses
+    Implements IReport
+
+#Region "Properties"
+
+    ''' <summary>
+    ''' Variable para inicializar los valores de sesion
+    ''' </summary>
+    Dim IndigoSessionValues As SessionValues = SessionValues.Instance
+
+    Public Property ParametrosReporte As Object() Implements IReport.ParametrosReporte
+
+    Public ReadOnly Property NameReport As String Implements IReport.NameReport
+        Get
+            Return Nothing
+        End Get
+    End Property
+
+    Dim viewCostReportDistributionDirectCostXpo As List(Of ViewCostReportDistributionDirectCostXpo)
+
+#End Region
+
+#Region "Load Data"
+
+    Public Sub CargarDataSource() Implements IReport.CargarDataSource
+        Try
+            Dim filtroConsulta As String = "Id = " & ParametrosReporte(0)
+            viewCostReportDistributionDirectCostXpo = XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).CostService.GetCollection(Of ViewCostReportDistributionDirectCostXpo)(Nothing, filtroConsulta)
+
+            If viewCostReportDistributionDirectCostXpo.Count > 0 Then
+                Dim INDListUser = XpoServiceEx.Instance(IndigoSessionValues.SecurityContainer).SecurityService.GetCollection(Of UserXpo)(Nothing, "UserCode = '" & viewCostReportDistributionDirectCostXpo(0).CreationUser & "'")
+                If INDListUser IsNot Nothing And INDListUser.Count > 0 Then
+                    Dim INDCodName = CType(INDListUser(0), UserXpo).CodeName.Trim
+                    Me.INDUserCreate.Text = INDCodName
+                End If
+            End If
+
+            Me.DataSource = viewCostReportDistributionDirectCostXpo
+        Catch ex As Exception
+            MessageIndigo.Show(GetExceptionDetails(ex), MessageType.Errores, Me.Text, Botones.Aceptar, "")
+        End Try
+    End Sub
+
+#End Region
+
+#Region "Methods"
+
+    Public Sub CargarImagenes() Implements IReport.CargarImagenes
+
+    End Sub
+
+    Public Function GetExceptionDetails(exception As Exception) As String
+        Dim properties = exception.[GetType]().GetProperties()
+        Dim fields = properties.[Select](Function([property]) New With {
+            Key .Name = [property].Name,
+            Key .Value = [property].GetValue(exception, Nothing)
+        }).[Select](Function(x) [String].Format("{0} : {1}", x.Name, If(x.Value IsNot Nothing, x.Value.ToString(), [String].Empty)))
+        Return [String].Join(vbLf, fields)
+    End Function
+
+#End Region
+
+#Region "Events"
+
+    Private Sub INDLblCompany_BeforePrint(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles INDLblCompany.BeforePrint
+        INDLblCompany.Text = IndigoSessionValues.IndigoCompanyName
+        INDLblNitCompany.Text = "Nit:" & IndigoSessionValues.IndigoCompanyNit
+        INDUserImp.Text = "Usuario Impresión : " & IndigoSessionValues.UserIndigo & " - " & IndigoSessionValues.UserIndigoName
+
+        If viewCostReportDistributionDirectCostXpo.Count > 0 Then
+            Dim periodo = viewCostReportDistributionDirectCostXpo(0).Month & "/" & viewCostReportDistributionDirectCostXpo(0).Year
+            INDLblDateMonth.Text = "DISTRIBUCIÓN ELEMENTOS DEL COSTO DEL MES DE " & CDate(periodo).ToString(" MMMM DE yyyy").ToUpper()
+        End If
+
+    End Sub
+
+    ''' <summary>
+    ''' EVENTO before print donde se establece la cultura con el formato
+    ''' numerico de la moneda del documento
+    ''' </summary>
+    ''' <param name="sender"></param>
+    ''' <param name="e"></param>
+    Private Sub rptCostDistributionDirectExpenses_BeforePrint(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles MyBase.BeforePrint
+        Dim currencyAbbreviation As String = viewCostReportDistributionDirectCostXpo?.FirstOrDefault?.CurrencyAbbreviation
+        If String.IsNullOrEmpty(currencyAbbreviation) Then
+            currencyAbbreviation = IndigoSessionValues?.CurrencyISO4217
+        End If
+        Dim culture As Globalization.CultureInfo = Globalization.CultureInfo.CurrentCulture.Clone()
+        culture.NumberFormat = currencyAbbreviation.GetNumberFormat()
+        Me.ApplyLocalization(culture)
+    End Sub
+
+#End Region
+
+End Class

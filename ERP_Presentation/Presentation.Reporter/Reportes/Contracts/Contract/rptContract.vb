@@ -1,0 +1,81 @@
+﻿#Region "Librerias Importadas"
+Imports Infrastructure.CrossCutting.Base
+Imports Infrastructure.Data.Xpo.ContractRepository
+Imports Infrastructure.Data.Xpo
+#End Region
+
+Public Class rptContract
+    Implements IReport
+
+    ''' <summary>
+    ''' Variable para inicializar los valores de sesion
+    ''' </summary>
+    Dim IndigoSessionValues As SessionValues = SessionValues.Instance
+
+    Public Sub CargarDataSource() Implements IReport.CargarDataSource
+        Dim filtroConsulta As String = Nothing
+
+        'filtro por Contrato
+        If ParametrosReporte(0) IsNot Nothing Then
+            filtroConsulta = "Code = '" & ParametrosReporte(0) & "'"
+        End If
+
+        ' si filtra por Administradora de Salud
+        If ParametrosReporte(1) IsNot Nothing Then
+            If filtroConsulta Is Nothing Then
+                filtroConsulta = "HealthAdministratorId.Code = '" & ParametrosReporte(1) & "'"
+            Else
+                filtroConsulta &= " AND HealthAdministratorId.Code = '" & ParametrosReporte(1) & "'"
+            End If
+        End If
+
+        ' si filtra por Entidad Contrato
+        If ParametrosReporte(2) IsNot Nothing Then
+            If filtroConsulta Is Nothing Then
+                filtroConsulta = "ContractEntityId.Code = '" & ParametrosReporte(2) & "'"
+            Else
+                filtroConsulta &= " AND ContractEntityId.Code = '" & ParametrosReporte(2) & "'"
+            End If
+        End If
+
+        ' si filtra por Número Contrato
+        Dim ContractNumber As String = ParametrosReporte(3)
+        If ParametrosReporte(3) IsNot Nothing Then
+            If ContractNumber.Length > 0 Then
+                If filtroConsulta Is Nothing Then
+                    filtroConsulta = "ContractNumber = '" & ParametrosReporte(3) & "'"
+                Else
+                    filtroConsulta &= " AND ContractNumber = '" & ParametrosReporte(3) & "'"
+                End If
+            End If
+        End If
+
+        ' si filtra por Estado
+        If ParametrosReporte(4) <> 4 Then
+            If filtroConsulta Is Nothing Then
+                filtroConsulta = "Status = " & ParametrosReporte(4)
+            Else
+                filtroConsulta &= " AND Status = " & ParametrosReporte(4)
+            End If
+        End If
+
+        Me.DataSource = XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).TreasuryService.GetCollection(Of ContractReportXpo)(Nothing, filtroConsulta)
+    End Sub
+
+    Public Sub CargarImagenes() Implements IReport.CargarImagenes
+
+    End Sub
+
+    Public ReadOnly Property NameReport As String Implements IReport.NameReport
+        Get
+            Return ""
+        End Get
+    End Property
+
+    Public Property ParametrosReporte As Object() Implements IReport.ParametrosReporte
+
+    Private Sub rptContract_BeforePrint(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles MyBase.BeforePrint
+        Me.INDLblNameCompany.Text = IndigoSessionValues.IndigoCompanyName
+        Me.INDLblNitCompany.Text = "Nit : " & IndigoSessionValues.IndigoCompanyNit
+    End Sub
+End Class

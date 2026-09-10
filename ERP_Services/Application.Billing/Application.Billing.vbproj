@@ -1,0 +1,393 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{22EC7C4C-0CAB-46AD-8137-4EC5EBD42335}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>Application.Billing</RootNamespace>
+    <AssemblyName>Application.Billing</AssemblyName>
+    <FileAlignment>512</FileAlignment>
+    <MyType>Windows</MyType>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DocumentationFile>Application.Billing.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DocumentationFile>Application.Billing.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionExplicit>On</OptionExplicit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionCompare>Binary</OptionCompare>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionStrict>Off</OptionStrict>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionInfer>On</OptionInfer>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debugcito|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\Debugcito\</OutputPath>
+    <DocumentationFile>Application.Billing.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Roldan|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\Roldan\</OutputPath>
+    <DocumentationFile>Application.Billing.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DocumentationFile>Application.Billing.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DocumentationFile>Application.Billing.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debugcito|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x64\Debugcito\</OutputPath>
+    <DocumentationFile>Application.Billing.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Roldan|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x64\Roldan\</OutputPath>
+    <DocumentationFile>Application.Billing.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework">
+      <HintPath>..\DLL\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer">
+      <HintPath>..\DLL\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="Infrastructure.CrossCutting.Exceptions, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\DLL\Infrastructure.CrossCutting.Exceptions.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.13.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.4.1, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.4.5.3\lib\net461\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Threading.Tasks.Extensions, Version=4.2.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Threading.Tasks.Extensions.4.5.4\lib\net461\System.Threading.Tasks.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Transactions" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Core" />
+  </ItemGroup>
+  <ItemGroup>
+    <Import Include="Microsoft.VisualBasic" />
+    <Import Include="System" />
+    <Import Include="System.Collections" />
+    <Import Include="System.Collections.Generic" />
+    <Import Include="System.Data" />
+    <Import Include="System.Linq" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AccountControl\AccountControlAdminService.vb" />
+    <Compile Include="AccountControl\IAccountControlAdminService.vb" />
+    <Compile Include="ConditionSales\ConditionSalesAdminService.vb" />
+    <Compile Include="ConditionSales\IConditionSalesAdminService.vb" />
+    <Compile Include="ControlOutPatientServices\IValidationFomagAdminService.vb" />
+    <Compile Include="ControlOutPatientServices\ValidationFomagAdminService.vb" />
+    <Compile Include="InvoiceCopay\IInvoiceCopayAdminService.vb" />
+    <Compile Include="InvoiceCopay\InvoiceCopayAdminService.vb" />
+    <Compile Include="Liquidation\LiquidationAgeValidationAdminService.vb" />
+    <Compile Include="Liquidation\ILiquidationAgeValidationAdminService.vb" />
+    <Compile Include="ProductAndServiceFee\ProductAndServiceFeeAdminService.vb" />
+    <Compile Include="ProductAndServiceFee\IProductAndServiceFeeAdminService.vb" />
+    <Compile Include="RIPSSupportRecord\IRIPSSupportRecordAdminService.vb" />
+    <Compile Include="RIPSSupportRecord\RIPSSupportRecordAdminService.vb" />
+    <Compile Include="SalesExecutive\SalesExecutiveAdminService.vb" />
+    <Compile Include="SalesExecutive\ISalesExecutiveAdminService.vb" />
+    <Compile Include="ElectronicSupportDocumentAdjustmentNote\ElectronicSupportDocumentAdjustmentNoteAdminService.vb" />
+    <Compile Include="ElectronicSupportDocumentAdjustmentNote\IElectronicSupportDocumentAdjustmentNoteAdminService.vb" />
+    <Compile Include="BillingJustificationControl\BillingJustificationControlAdminService.vb" />
+    <Compile Include="BillingJustificationControl\IBillingJustificationControlAdminService.vb" />
+    <Compile Include="ElectronicSupportDocument\ElectronicSupportDocumentAdminService.vb" />
+    <Compile Include="ElectronicSupportDocument\IElectronicSupportDocumentAdminService.vb" />
+    <Compile Include="AccountControlJustification\AccountControlJustificationAdminService.vb" />
+    <Compile Include="AccountControlJustification\IAccountControlJustificationAdminService.vb" />
+    <Compile Include="BasicBilling\BasicBillingAdminService.vb" />
+    <Compile Include="BasicBilling\IBasicBillingAdminService.vb" />
+    <Compile Include="BillingAuthorization\BillingAuthorizationAdminService.vb" />
+    <Compile Include="BillingAuthorization\IBillingAuthorizationAdminService.vb" />
+    <Compile Include="BillingControl\BillingControlAdminService.vb" />
+    <Compile Include="BillingControl\IBillingControlAdminService.vb" />
+    <Compile Include="BillingGroup\BillingGroupAdminService.vb" />
+    <Compile Include="BillingGroup\IBillingGroupAdminService.vb" />
+    <Compile Include="BillingReversalReason\IReversalReasonAdminService.vb" />
+    <Compile Include="BillingReversalReason\ReversalReasonAdminService.vb" />
+    <Compile Include="BillingSetting\ISettingBillingAdminService.vb" />
+    <Compile Include="BillingSetting\SettingBillingAdminService.vb" />
+    <Compile Include="BlockRecord\BillingAuthorizationAdminService.vb" />
+    <Compile Include="BlockRecord\IBlockRecordBillingAdminService.vb" />
+    <Compile Include="ControlOutPatientServices\ControlOutPatientServicesAdminService.vb" />
+    <Compile Include="ControlOutPatientServices\IControlOutPatientServicesAdminService.vb" />
+    <Compile Include="DashboardQuoted\DashboardQuotedAdminService.vb" />
+    <Compile Include="DashboardQuoted\IDashboardQuotedAdminService.vb" />
+    <Compile Include="DocumentInvoiceProductSalesDevolution\DocumentInvoiceProductSalesDevolutionAdminService.vb" />
+    <Compile Include="DocumentInvoiceProductSalesDevolution\IDocumentInvoiceProductSalesDevolutionAdminService.vb" />
+    <Compile Include="ElectronicDocument\ElectronicDocumentsAdminService.vb" />
+    <Compile Include="ElectronicDocument\IElectronicDocumentsAdminService.vb" />
+    <Compile Include="ConceptsCausesStatusFolio\ConceptsCausesStatusFolioAdminService.vb" />
+    <Compile Include="ConceptsCausesStatusFolio\IConceptsCausesStatusFolioAdminService.vb" />
+    <Compile Include="Folio\FolioAdminService.vb" />
+    <Compile Include="Folio\IFolioAdminService.vb" />
+    <Compile Include="InvoiceCategories\IInvoiceCategoriesAdminService.vb" />
+    <Compile Include="InvoiceCategories\InvoiceCategoriesAdminService.vb" />
+    <Compile Include="InvoiceEntityCapitatedDistributionDetail\IInvoiceEntityCapitatedDistributionDetailAdminService.vb" />
+    <Compile Include="InvoiceEntityCapitatedDistributionDetail\InvoiceEntityCapitatedDistributionDetailAdminService.vb" />
+    <Compile Include="InvoiceEntityCapitatedDistribution\IInvoiceEntityCapitatedDistributionAdminService.vb" />
+    <Compile Include="InvoiceEntityCapitatedDistribution\InvoiceEntityCapitatedDistributionAdminService.vb" />
+    <Compile Include="InvoiceEntityCapitated\IInvoiceEntityCapitatedAdminService.vb" />
+    <Compile Include="InvoiceEntityCapitated\InvoiceEntityCapitatedAdminService.vb" />
+    <Compile Include="Invoice\IInvoiceAdminService.vb" />
+    <Compile Include="Invoice\InvoiceAdminService.vb" />
+    <Compile Include="LiquidationData\ILiquidationDataAdminService.vb" />
+    <Compile Include="LiquidationData\LiquidationDataAdminService.vb" />
+    <Compile Include="Liquidation\ILiquidationAdminService.vb" />
+    <Compile Include="Liquidation\LiquidationAdminService.vb" />
+    <Compile Include="My Project\AssemblyInfo.vb" />
+    <Compile Include="My Project\Application.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Application.myapp</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="My Project\Resources.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="My Project\Settings.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="NumberingAuthorization\NumberingAuthorizationAdminService.vb" />
+    <Compile Include="NumberingAuthorization\INumberingAuthorizationAdminService.vb" />
+    <Compile Include="Quotation\IQuotationAdminService.vb" />
+    <Compile Include="Quotation\QuotationAdminService.vb" />
+    <Compile Include="Recognition\IRevenueRecognitionAdminService.vb" />
+    <Compile Include="Recognition\RevenueRecognitionAdminService.vb" />
+    <Compile Include="RevenueControlDetail\IRevenueControlDetailAdminService.vb" />
+    <Compile Include="RevenueControlDetail\RevenueControlDetailAdminService.vb" />
+    <Compile Include="Sequence\BillingSequenseAdminService.vb" />
+    <Compile Include="Sequence\IBillingSequenseAdminService.vb" />
+    <Compile Include="ServiceOrderDetailDistribution\IServiceOrderDetailDistributionAdminService.vb" />
+    <Compile Include="ServiceOrderDetailDistribution\ServiceOrderDetailDistributionAdminService.vb" />
+    <Compile Include="ServiceOrderDetailSurgical\IServiceOrderDetailSurgicalAdminService.vb" />
+    <Compile Include="ServiceOrderDetailSurgical\ServiceOrderDetailSurgicalAdminService.vb" />
+    <Compile Include="ServiceOrderDetail\IServiceOrderDetailAdminService.vb" />
+    <Compile Include="ServiceOrderDetail\ServiceOrderDetailAdminService.vb" />
+    <Compile Include="ServiceOrder\IServiceOrderAdminService.vb" />
+    <Compile Include="ServiceOrder\ServiceOrderAdminService.vb" />
+    <Compile Include="SlipOut\ISlipOutAdminService.vb" />
+    <Compile Include="SlipOut\SlipOutAdminService.vb" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="My Project\Resources.resx">
+      <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.vb</LastGenOutput>
+      <CustomToolNamespace>My.Resources</CustomToolNamespace>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="My Project\Application.myapp">
+      <Generator>MyApplicationCodeGenerator</Generator>
+      <LastGenOutput>Application.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="My Project\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <CustomToolNamespace>My</CustomToolNamespace>
+      <LastGenOutput>Settings.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Application.Accounting\Application.Accounting.vbproj">
+      <Project>{3eca7b1f-d62b-4223-9f17-53a1c5b3a0c9}</Project>
+      <Name>Application.Accounting</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Application.Base\Application.Base.vbproj">
+      <Project>{0e700653-1525-4d34-aa89-bfb243f6515c}</Project>
+      <Name>Application.Base</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Application.Common\Application.Common.vbproj">
+      <Project>{0509E89E-92DF-4B99-A74B-3043C7E6B1D2}</Project>
+      <Name>Application.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Application.Contract\Application.Contract.vbproj">
+      <Project>{1573E13C-2DAA-459F-B74B-02E221C72C06}</Project>
+      <Name>Application.Contract</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Application.ElectronicDocuments\Application.ElectronicDocuments.vbproj">
+      <Project>{e64b8616-9a49-44cf-9d90-49e59d35bc95}</Project>
+      <Name>Application.ElectronicDocuments</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Application.EventHandlers\Application.EventHandlers.csproj">
+      <Project>{BC7DB3BE-4B97-49D3-92B1-DBAC5AA3021B}</Project>
+      <Name>Application.EventHandlers</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Application.Events\Application.Events.csproj">
+      <Project>{b1afea8e-8308-457e-a0c7-cff4acf86b1c}</Project>
+      <Name>Application.Events</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Application.Inventory\Application.Inventory.csproj">
+      <Project>{355f1dee-04d6-492c-8bbf-22b00e19ac79}</Project>
+      <Name>Application.Inventory</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Application.Receivable\Application.Portfolio.vbproj">
+      <Project>{0e3ce6cd-428b-4c23-96f8-5080650f898a}</Project>
+      <Name>Application.Portfolio</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Application.Security\Application.Security.vbproj">
+      <Project>{57355c0b-d732-4ab2-88a4-4ab855376599}</Project>
+      <Name>Application.Security</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Application.Treasury\Application.Treasury.vbproj">
+      <Project>{B7A6ADB9-46BD-4791-BAFB-626B69358166}</Project>
+      <Name>Application.Treasury</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Domain.Base.Entities\Domain.Base.Entities.vbproj">
+      <Project>{78734d29-0073-4d48-9d0b-2362d0243e36}</Project>
+      <Name>Domain.Base.Entities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Domain.Base\Domain.Base.vbproj">
+      <Project>{8157f242-6a69-44c1-a9ac-19f0ee5cb8a2}</Project>
+      <Name>Domain.Base</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Domain.Billing\Domain.Billing.csproj">
+      <Project>{62EE8DEA-13FF-406E-B8D2-43CE96499C40}</Project>
+      <Name>Domain.Billing</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Domain.Crystal.Entities\Domain.Crystal.Entities.vbproj">
+      <Project>{aef25407-1a53-4f3b-93cb-5258a6b80951}</Project>
+      <Name>Domain.Crystal.Entities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Domain.Crystal.Service\Domain.Crystal.Service.vbproj">
+      <Project>{4F4C69F9-2CFC-4F40-AE1C-AB4B67208DE4}</Project>
+      <Name>Domain.Crystal.Service</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Domain.Crystal\Domain.Crystal.vbproj">
+      <Project>{fb110e4f-2309-46ef-8a11-d979517e315b}</Project>
+      <Name>Domain.Crystal</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Domain.Entities.Service\Domain.Entities.Service.vbproj">
+      <Project>{99e9ab54-bb1b-4279-99e7-b4b8e7068ce7}</Project>
+      <Name>Domain.Entities.Service</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Domain.Entities\Domain.Entities.vbproj">
+      <Project>{0551aef4-ed84-4745-b00b-7475f26015cc}</Project>
+      <Name>Domain.Entities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Domain.Payroll.Entities\Domain.Payroll.Entities.vbproj">
+      <Project>{f0fe946f-2bd9-4bb8-8741-51ea3d862237}</Project>
+      <Name>Domain.Payroll.Entities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Domain.Payroll\Domain.Payroll.vbproj">
+      <Project>{0b26cafa-8df4-49ab-8943-41a91d67694e}</Project>
+      <Name>Domain.Payroll</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Domain.Security.Entities\Domain.Security.Entities.vbproj">
+      <Project>{99f1c077-1e8f-432f-b5d0-e801bf6d6a39}</Project>
+      <Name>Domain.Security.Entities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Domain.Security\Domain.Security.vbproj">
+      <Project>{435b789a-be74-4f5a-932f-0a4900825d61}</Project>
+      <Name>Domain.Security</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastructure.CrossCutting.Audit\Infrastructure.CrossCutting.Audit.vbproj">
+      <Project>{d2b2306d-6404-46cd-8a22-f827f3e1b75c}</Project>
+      <Name>Infrastructure.CrossCutting.Audit</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastructure.CrossCutting.Base\Infrastructure.CrossCutting.Base.vbproj">
+      <Project>{2773d9f7-93bd-4520-9726-bce0d8875696}</Project>
+      <Name>Infrastructure.CrossCutting.Base</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastructure.CrossCutting.Queue\Infrastructure.CrossCutting.Queue.vbproj">
+      <Project>{4ECC4501-B252-4AFF-A829-DC46BCCA069B}</Project>
+      <Name>Infrastructure.CrossCutting.Queue</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastructure.CrossCutting.Resources\Infrastructure.CrossCutting.Resources.vbproj">
+      <Project>{134f5b02-eba4-4414-bb62-bf5d55e2b906}</Project>
+      <Name>Infrastructure.CrossCutting.Resources</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

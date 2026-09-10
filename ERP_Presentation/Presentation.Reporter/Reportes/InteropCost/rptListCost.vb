@@ -1,0 +1,52 @@
+﻿#Region "Librerias Improtadas"
+Imports Infrastructure.CrossCutting.Base
+Imports Infrastructure.Data.Xpo
+Imports Infrastructure.Data.Xpo.InteropCostRepository
+Imports Domain.Entities
+Imports DevExpress.XtraReports.UI
+Imports System.Drawing.Printing
+Imports DevExpress.XtraReports.Parameters
+Imports Presentation.Base
+Imports Infrastructure.Data.Xpo.SecurityRepository
+#End Region
+
+Public Class rptListCost
+    Implements IReport
+
+    ''' <summary>
+    ''' Variable para inicializar los valores de sesion
+    ''' </summary>
+    Dim IndigoSessionValues As SessionValues = SessionValues.Instance
+
+
+    Public Sub CargarDataSource() Implements IReport.CargarDataSource
+        Dim fechaIni As Date = New Date(Me.ParametrosReporte(0), 1, Me.ParametrosReporte(1))
+        Dim fechafin As Date = New Date(Me.ParametrosReporte(2), 1, Me.ParametrosReporte(3))
+
+        Dim filtroConsulta As String = "Year >= '" & Me.ParametrosReporte(0) & "' And Year <= '" & Me.ParametrosReporte(2) & "'"
+
+        filtroConsulta &= " And Month >= '" & Me.ParametrosReporte(1) & "' And Month <= '" & Me.ParametrosReporte(3) & "'"
+
+        Me.DataSource = XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).PayrollService.GetCollection(Of InteropCostViewReportGeneralProfitabilityTotalCost)(Nothing, filtroConsulta)
+        INDLblDate.Text = "DESDE " & fechaIni.ToString(" MMMM DE yyyy").ToUpper() & " HASTA " & fechafin.ToString(" MMMM DE yyyy").ToUpper()
+    End Sub
+
+    Public Sub CargarImagenes() Implements IReport.CargarImagenes
+
+    End Sub
+
+    Public ReadOnly Property NameReport As String Implements IReport.NameReport
+        Get
+            Return Nothing
+        End Get
+    End Property
+
+    Public Property ParametrosReporte As Object() Implements IReport.ParametrosReporte
+
+    Private Sub rptGeneralProfitability_BeforePrint(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles MyBase.BeforePrint
+        INDLblCompany.Text = IndigoSessionValues.IndigoCompanyName
+        INDLblNitCompany.Text = "Nit:" & IndigoSessionValues.IndigoCompanyNit
+        INDUserImp.Text = "Usuario Impresión : " & IndigoSessionValues.UserIndigo & " - " & IndigoSessionValues.UserIndigoName
+
+    End Sub
+End Class

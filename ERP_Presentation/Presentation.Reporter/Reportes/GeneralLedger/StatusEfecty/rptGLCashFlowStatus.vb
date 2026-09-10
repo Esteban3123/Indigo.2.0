@@ -1,0 +1,135 @@
+﻿#Region "Librerias Importadas"
+Imports System.Xml
+Imports Infrastructure.CrossCutting.Base
+Imports Presentation.CloudAgent
+#End Region
+
+Public Class rptGLCashFlowStatus
+    Implements IReport
+    ''' <summary>
+    ''' Variable para inicializar los valores de sesion
+    ''' </summary>
+    Dim IndigoSessionValues As SessionValues = SessionValues.Instance
+
+
+    Private _xmlDoc As XmlDocument
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <returns></returns>
+    Public Property XmlDoc() As XmlDocument
+        Get
+            Return _xmlDoc
+        End Get
+        Set(ByVal value As XmlDocument)
+            _xmlDoc = value
+        End Set
+    End Property
+
+    Private _encontroInformacion As Boolean
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <returns></returns>
+    Public Property EncontroInformacion() As Boolean
+        Get
+            Return _encontroInformacion
+        End Get
+        Set(ByVal value As Boolean)
+            _encontroInformacion = value
+        End Set
+    End Property
+
+    Public ReadOnly Property NameReport As String Implements IReport.NameReport
+    Public Property ParametrosReporte As Object() Implements IReport.ParametrosReporte
+    Public Sub CargarImagenes() Implements IReport.CargarImagenes
+    End Sub
+    Private Sub IReport_CargarDataSource() Implements IReport.CargarDataSource
+    End Sub
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    Public Async Function CargarDataSource() As Task
+
+        Dim parameters As String = ParametrosReporte(0)
+        XmlDoc = New XmlDocument
+        XmlDoc.LoadXml(parameters)
+        Dim Resultado As DataSet = Await IndigoConecta.Instancia.CurrentCloud.IndigoTreasury.ListCashFlowStatusAsync(parameters, Me.IndigoSessionValues)
+        If Resultado IsNot Nothing AndAlso Resultado.Tables.Count > 0 AndAlso Resultado.Tables(0).Rows.Count > 0 Then
+            Me.EncontroInformacion = True
+            Me.DataSource = Resultado
+        End If
+    End Function
+
+
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="sender"></param>
+    ''' <param name="e"></param>
+    Private Sub rptReporteAuditoriaHC_BeforePrint(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles MyBase.BeforePrint
+        'Logica para mostrar reporte resumido.
+
+
+        Dim esC As Globalization.CultureInfo = New Globalization.CultureInfo("es-ES")
+        Dim _InitialDate As Date = Convert.ToDateTime(XmlDoc.GetElementsByTagName("InitialDate")(0).InnerText)
+        Dim _EndDate As Date = Convert.ToDateTime(XmlDoc.GetElementsByTagName("EndDate")(0).InnerText)
+        If _InitialDate.Year = _EndDate.Year Then
+            INDLblRangeDate.Text = String.Format("PERIODO COMPRENDIDO ENTRE EL {0} AL {1}", _InitialDate.ToString("dd DE MMMM", esC), _EndDate.ToString("dd DE MMMM DE yyyy", esC))
+            INDHPeriodo.Text = String.Format("{0} al {1}", _InitialDate.ToString("dd \de MMMM", esC), _EndDate.ToString("dd \de MMMM \de yyyy", esC))
+        Else
+            INDLblRangeDate.Text = String.Format("PERIODO COMPRENDIDO ENTRE EL {0} AL {1}", _InitialDate.ToString("dd DE MMMM DE yyyy", esC), _EndDate.ToString("dd DE MMMM DE yyyy", esC))
+            INDHPeriodo.Text = String.Format("{0} al {1}", _InitialDate.ToString("dd \de MMMM \de yyyy", esC), _EndDate.ToString("dd \de MMMM \de yyyy", esC))
+
+        End If
+
+        Dim item = XmlDoc.GetElementsByTagName("Comparativo")(0).InnerText
+        If item = "1" Then
+            Dim _InitialDateComp As Date = Convert.ToDateTime(XmlDoc.GetElementsByTagName("InitialDateComp")(0).InnerText)
+            Dim _EndDateComp As Date = Convert.ToDateTime(XmlDoc.GetElementsByTagName("EndDateComp")(0).InnerText)
+            If _InitialDateComp.Year = _EndDateComp.Year Then
+                INDLblRangeDate.Text = String.Format("COMPARATIVO DEL {0}, Y ENTRE EL {1} AL {2}", INDLblRangeDate.Text,
+                _InitialDateComp.ToString("dd DE MMMM", esC), _EndDateComp.ToString("dd DE MMMM DE yyyy", esC))
+                INDHComparativo.Text = String.Format("{0} al {1}", _InitialDateComp.ToString("dd \de MMMM", esC), _EndDateComp.ToString("dd \de MMMM \de yyyy", esC))
+            Else
+                INDLblRangeDate.Text = String.Format("COMPARATIVO DEL {0}, Y ENTRE EL {1} AL {2}", INDLblRangeDate.Text,
+                _InitialDateComp.ToString("dd DE MMMM DE yyyy", esC), _EndDateComp.ToString("dd DE MMMM DE yyyy", esC))
+                INDHComparativo.Text = String.Format("{0} al {1}", _InitialDateComp.ToString("dd \de MMMM \de yyyy", esC), _EndDateComp.ToString("dd \de MMMM \de yyyy", esC))
+            End If
+
+        Else
+            INDHComparativo.Visible = False
+            INDValorComparativo.Visible = False
+            INDValorActividadComparativo.Visible = False
+            INDTotalComparativo.Visible = False
+            INDSaldoInicialComparativo.Visible = False
+            INDNetoComparativo.Visible = False
+        End If
+
+
+        'Cargar los valores del titulo.
+        Me.INDLblCompany.Text = IndigoSessionValues.IndigoCompanyName
+        Me.INDLblNitCompany.Text = "Nit : " & IndigoSessionValues.IndigoCompanyNit
+        Me.INDLblUserPrint.Text = "Usuario Impresión : " & IndigoSessionValues.UserIndigo & " - " & IndigoSessionValues.UserIndigoName
+    End Sub
+
+    Private Sub tableRow1_BeforePrint(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles tableRow1.BeforePrint
+        e.Cancel = (Convert.ToByte(Me.GetCurrentColumnValue("TipoRegistro")) = 0)
+    End Sub
+
+    Private Sub tableRow3_BeforePrint(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles tableRow3.BeforePrint
+        e.Cancel = (Convert.ToByte(Me.GetCurrentColumnValue("TipoRegistro")) = 0)
+    End Sub
+
+    Private Sub panel1_BeforePrint(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles panel1.BeforePrint
+        e.Cancel = (Convert.ToByte(Me.GetCurrentColumnValue("TipoRegistro")) = 0)
+    End Sub
+
+
+
+    'Private Sub XrTableRow1_BeforePrint(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles XrTableRow1.BeforePrint
+    '    e.Cancel = (Convert.ToByte(Me.GetCurrentColumnValue("TipoRegistro")) = 1)
+    'End Sub
+
+
+End Class

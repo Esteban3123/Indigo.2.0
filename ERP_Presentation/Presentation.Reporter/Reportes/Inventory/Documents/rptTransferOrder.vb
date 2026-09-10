@@ -1,0 +1,90 @@
+#Region "Librerias Improtadas"
+Imports System.Drawing.Printing
+Imports DevExpress.XtraReports.Parameters
+Imports Infrastructure.CrossCutting.Base
+Imports Infrastructure.Data.Xpo
+Imports Infrastructure.Data.Xpo.InventoryRepository
+Imports Infrastructure.Data.Xpo.SecurityRepository
+
+#End Region
+
+Public Class rptTransferOrder
+    Implements IReport
+
+    ''' <summary>
+    ''' Variable para inicializar los valores de sesion
+    ''' </summary>
+    Dim IndigoSessionValues As SessionValues = SessionValues.Instance
+
+    Dim INDList As List(Of InventoryTransferOrderReportXpo)
+
+    Public Sub CargarDataSource() Implements IReport.CargarDataSource
+        Dim filtroConsulta As String = "Id = " & ParametrosReporte(0)
+
+        INDList = XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).BillingService.GetCollection(Of InventoryTransferOrderReportXpo)(Nothing, filtroConsulta)
+        If INDList.Count > 0 Then
+            Dim INDNameUser = CType(INDList(0), InventoryTransferOrderReportXpo).CreationUser.Trim()
+
+            Dim INDListUser = XpoServiceEx.Instance(IndigoSessionValues.SecurityContainer).SecurityService.GetCollection(Of UserXpo)(Nothing, "UserCode = '" & INDNameUser & "'")
+
+            If INDListUser IsNot Nothing AndAlso INDListUser.Count > 0 Then
+                Dim INDCodName = CType(INDListUser(0), UserXpo).CodeName.Trim
+                Me.INDUserCreate.Text = INDCodName
+            End If
+        End If
+
+        Me.DataSource = INDList
+    End Sub
+
+    Public Function LoadDatasource() As DevExpress.Xpo.XPCollection(Of InventoryTransferOrderReportXpo)
+        Try
+            Dim filtroConsulta As String = "Id = " & ParametrosReporte(0)
+
+            INDList = XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).BillingService.GetCollection(Of InventoryTransferOrderReportXpo)(Nothing, filtroConsulta)
+            If INDList.Count > 0 Then
+                Dim INDNameUser = CType(INDList(0), InventoryTransferOrderReportXpo).CreationUser.Trim()
+
+                Dim INDList2 = XpoServiceEx.Instance(IndigoSessionValues.SecurityContainer).SecurityService.ListAllUserXpCollection(INDNameUser)
+
+                'Dim filtroConsulta2 = (From l In INDList2 Where l.UserCode = INDNameUser Select l).FirstOrDefault
+                Dim filtroConsulta2 = Nothing
+                If INDList2 IsNot Nothing AndAlso INDList2.Count > 0 Then
+                    filtroConsulta2 = INDList2.ToEntityList(Of UserXpo).FirstOrDefault
+                End If
+                If filtroConsulta2 IsNot Nothing Then
+                    Dim INDCodName = filtroConsulta2.CodeName
+                    Me.INDUserCreate.Text = INDCodName
+                End If
+            End If
+
+            Me.DataSource = INDList
+        Catch ex As Exception
+            'MessageIndigo.Show(GetExceptionDetails(ex), MessageType.Errores, Me.Text, Botones.Aceptar, "")
+            Return Nothing
+        End Try
+    End Function
+
+    Public Sub CargarImagenes() Implements IReport.CargarImagenes
+
+    End Sub
+
+    Public ReadOnly Property NameReport As String Implements IReport.NameReport
+        Get
+            Return ""
+        End Get
+    End Property
+
+    Public Property ParametrosReporte As Object() Implements IReport.ParametrosReporte
+
+    Private Sub rptTransferOrder_BeforePrint(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles MyBase.BeforePrint
+        If Me.Parameters.Count > 0 And Me.Parameters(0).Value > 0 Then
+            Dim ParametrosFilter As ParameterCollection = Me.Parameters
+            ParametrosReporte = New Object() {ParametrosFilter("INDIdTransferOrder").Value}
+            CargarDataSource()
+        End If
+
+        INDLblCompany.Text = IndigoSessionValues.IndigoCompanyName
+        INDLblNitCompany.Text = "Nit: " & IndigoSessionValues.IndigoCompanyNit
+        INDUserImp.Text = "Usuario Impresión : " & IndigoSessionValues.UserIndigo & " - " & IndigoSessionValues.UserIndigoName
+    End Sub
+End Class

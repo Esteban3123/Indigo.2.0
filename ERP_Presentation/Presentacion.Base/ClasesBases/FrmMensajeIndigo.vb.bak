@@ -1,0 +1,197 @@
+﻿Imports Infrastructure.CrossCutting.Base
+Imports DevExpress.LookAndFeel
+Imports DevExpress.Skins
+Imports Presentation.Resources
+Imports System.Drawing
+
+Public Class FrmMensajeIndigo
+
+#Region "Consts"
+
+    Private Const BUTTON_SPACING As Integer = 6
+
+#End Region
+
+#Region "Fields"
+
+    Private _dialogResultESCAPE As System.Windows.Forms.DialogResult
+
+    Private _dialogResultENTER As System.Windows.Forms.DialogResult
+
+    Private _inVerticalFit As Boolean
+
+#End Region
+
+#Region "Properties"
+
+
+
+#End Region
+
+#Region "Builders"
+
+    Public Sub New(ByVal Mensaje As String, ByVal Botones As Botones, ByVal Icono As MessageType)
+        InitializeComponent()
+        Me.BringToFront()
+        If Mensaje.Length <= 75 Then
+            Me.INDlblMensaje.MaximumSize = New Drawing.Size(170, 0)
+        Else
+            Me.INDlblMensaje.MaximumSize = New Drawing.Size(310, 0)
+        End If
+        INDlblMensaje.Text = Mensaje
+        Select Case Botones
+            Case Base.Botones.Ok
+                Boton1.Visible = True
+                CenterXControl(Boton1)
+                Boton1.Text = "OK"
+                Boton1.DialogResult = System.Windows.Forms.DialogResult.OK
+                Me._dialogResultENTER = Boton1.DialogResult
+                Me._dialogResultESCAPE = Boton1.DialogResult
+                Me.AcceptButton = Boton1
+                Me.CancelButton = Boton1
+            Case Base.Botones.SiNo
+                Boton1.Visible = True
+                Boton2.Visible = True
+                CenterXControl(Boton2, Boton1)
+                Boton1.Text = "No"
+                Boton1.DialogResult = System.Windows.Forms.DialogResult.No
+                Boton2.Text = "Si"
+                Boton2.DialogResult = System.Windows.Forms.DialogResult.Yes
+                Me._dialogResultENTER = Boton2.DialogResult
+                Me._dialogResultESCAPE = Boton1.DialogResult
+                Me.AcceptButton = Boton2
+                Me.CancelButton = Boton1
+            Case Base.Botones.AceptarCancelar
+                Boton1.Visible = True
+                Boton2.Visible = True
+                CenterXControl(Boton2, Boton1)
+                Boton1.Text = "Cancelar"
+                Boton1.DialogResult = System.Windows.Forms.DialogResult.Cancel
+                Boton2.Text = "Aceptar"
+                Boton2.DialogResult = System.Windows.Forms.DialogResult.Yes
+                Me._dialogResultENTER = Boton2.DialogResult
+                Me._dialogResultESCAPE = Boton1.DialogResult
+                Me.AcceptButton = Boton2
+                Me.CancelButton = Boton1
+            Case Base.Botones.Aceptar
+                Boton1.Visible = True
+                CenterXControl(Boton1)
+                Boton1.Text = "Aceptar"
+                Boton1.DialogResult = System.Windows.Forms.DialogResult.Yes
+                Me._dialogResultENTER = Boton1.DialogResult
+                Me._dialogResultESCAPE = Boton1.DialogResult
+                Me.AcceptButton = Boton1
+                Me.CancelButton = Boton1
+            Case Base.Botones.Cancelar
+                Boton1.Visible = True
+                CenterXControl(Boton1)
+                Boton1.Text = "Cancelar"
+                Boton1.DialogResult = System.Windows.Forms.DialogResult.Cancel
+                Me._dialogResultENTER = Boton1.DialogResult
+                Me._dialogResultESCAPE = Boton1.DialogResult
+                Me.AcceptButton = Boton1
+                Me.CancelButton = Boton1
+        End Select
+
+        INDpeIcono.EditValue = ThemeResourceManager.GetIconMessageIndigo(UserLookAndFeel.Default.ActiveSkinName, Icono)
+    End Sub
+
+#End Region
+
+#Region "Methods"
+
+    ''' <summary>
+    ''' Le da estilo al formulario según el tema
+    ''' </summary>
+    Private Sub setStyleTheme()
+        If UserLookAndFeel.Default.ActiveSkinName.Equals(Infrastructure.CrossCutting.Base.Utils.DEFAULT_SKIN_NAME) Then
+            Me.Appearance.BackColor = Drawing.Color.FromArgb(0, 148, 223)
+            Me.Appearance.BackColor2 = Drawing.Color.FromArgb(0, 148, 223)
+            Me.LookAndFeel.Style = LookAndFeelStyle.Office2003
+
+            Me.Boton1.Appearance.BackColor = Drawing.Color.FromArgb(0, 148, 223)
+            Me.Boton1.Appearance.BackColor2 = Drawing.Color.FromArgb(0, 148, 223)
+            Me.Boton1.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.HotFlat
+            Me.Boton1.Appearance.BorderColor = Drawing.Color.White
+            Me.Boton1.ForeColor = Drawing.Color.White
+            Me.Boton1.LookAndFeel.Style = ActiveLookAndFeelStyle.UltraFlat
+
+            Me.Boton2.Appearance.BackColor = Drawing.Color.FromArgb(0, 148, 223)
+            Me.Boton2.Appearance.BackColor2 = Drawing.Color.FromArgb(0, 148, 223)
+            Me.Boton2.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.HotFlat
+            Me.Boton2.Appearance.BorderColor = Drawing.Color.White
+            Me.Boton2.ForeColor = Drawing.Color.White
+            Me.Boton2.LookAndFeel.Style = ActiveLookAndFeelStyle.UltraFlat
+
+            Me.INDlblMensaje.ForeColor = Drawing.Color.White
+        Else
+            Dim skin = CommonSkins.GetSkin(UserLookAndFeel.Default.ActiveLookAndFeel)
+            Dim colr As Drawing.Color = skin(CommonSkins.SkinButton).Color.BackColor
+            If colr <> Drawing.Color.Transparent Then
+                Me.Appearance.BackColor = colr
+                Me.Appearance.BackColor2 = colr
+                Me.INDlblMensaje.ForeColor = Me.Boton1.ForeColor
+            End If
+        End If
+    End Sub
+
+    Protected Overrides Sub OnShown(e As EventArgs)
+        MyBase.OnShown(e)
+        setStyleTheme()
+    End Sub
+
+    Protected Overrides Function ProcessCmdKey(ByRef msg As System.Windows.Forms.Message, keyData As System.Windows.Forms.Keys) As Boolean
+        If keyData = System.Windows.Forms.Keys.Escape Then
+            Me.DialogResult = Me._dialogResultESCAPE
+        ElseIf keyData = System.Windows.Forms.Keys.Enter Then
+            Me.DialogResult = Me._dialogResultENTER
+        End If
+        Return MyBase.ProcessCmdKey(msg, keyData)
+    End Function
+
+    Private Sub CenterXControl(ByVal ParamArray ctrls() As System.Windows.Forms.Control)
+        Dim totalWidth As Integer = 0
+        For Each c As System.Windows.Forms.Control In ctrls
+            totalWidth += c.Size.Width + BUTTON_SPACING
+        Next
+        totalWidth -= BUTTON_SPACING
+        For i As Integer = 0 To ctrls.Length - 1
+            If i = 0 Then
+                ctrls(i).Location = New Drawing.Point(85 + CInt((Me.Size.Width - 85 - totalWidth) / 2), ctrls(i).Location.Y)
+            Else
+                ctrls(i).Location = New Drawing.Point((ctrls(i - 1).Location.X + ctrls(i - 1).Width + BUTTON_SPACING), ctrls(i).Location.Y)
+            End If
+        Next
+    End Sub
+
+    Private Sub CenterXControl(ByVal ctrl As System.Windows.Forms.Control)
+        ctrl.Location = New Drawing.Point(85 + CInt((Me.Size.Width - 85 - ctrl.Size.Width) / 2), ctrl.Location.Y)
+    End Sub
+
+    Private Sub CenterYControl(ByVal ctrl As System.Windows.Forms.Control)
+        ctrl.Location = New Drawing.Point(ctrl.Location.X, CInt((Me.Size.Height - ctrl.Size.Height) / 2))
+    End Sub
+
+#End Region
+
+#Region "Handlers"
+
+    Private Sub FrmMensajeIndigo_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        Me.CenterYControl(Me.INDpeIcono)
+    End Sub
+
+    Private Sub INDlblMensaje_Resize(sender As Object, e As EventArgs) Handles INDlblMensaje.Resize
+        If (_inVerticalFit) Then Return
+        _inVerticalFit = True
+        If INDlblMensaje.Height > 350 Then
+            INDlblMensaje.MaximumSize = New Size(INDlblMensaje.Width, 350)
+            Me.Size = New Size(400, 400)
+        Else
+            Me.Size = New Size(400, INDlblMensaje.Height + 50)
+        End If
+        _inVerticalFit = False
+    End Sub
+
+#End Region
+
+End Class

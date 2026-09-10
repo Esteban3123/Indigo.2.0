@@ -1,0 +1,8952 @@
+Imports Presentation.Controls
+
+<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
+Partial Class FrmEntityAccount
+    Inherits FormBase
+
+    'Form overrides dispose to clean up the component list.
+    <System.Diagnostics.DebuggerNonUserCode()> _
+    Protected Overrides Sub Dispose(ByVal disposing As Boolean)
+        If disposing AndAlso components IsNot Nothing Then
+            components.Dispose()
+        End If
+        MyBase.Dispose(disposing)
+    End Sub
+
+    'Required by the Windows Form Designer
+    Private components As System.ComponentModel.IContainer
+
+    'NOTE: The following procedure is required by the Windows Form Designer
+    'It can be modified using the Windows Form Designer.  
+    'Do not modify it using the code editor.
+    <System.Diagnostics.DebuggerStepThrough()> _
+    Private Sub InitializeComponent()
+        Me.components = New System.ComponentModel.Container()
+        Dim AppearanceObject1 As DevExpress.Utils.AppearanceObject = New DevExpress.Utils.AppearanceObject()
+        Dim AppearanceObject2 As DevExpress.Utils.AppearanceObject = New DevExpress.Utils.AppearanceObject()
+        Dim AppearanceObject3 As DevExpress.Utils.AppearanceObject = New DevExpress.Utils.AppearanceObject()
+        Dim AppearanceObject4 As DevExpress.Utils.AppearanceObject = New DevExpress.Utils.AppearanceObject()
+        Dim AppearanceObject5 As DevExpress.Utils.AppearanceObject = New DevExpress.Utils.AppearanceObject()
+        Dim AppearanceObject6 As DevExpress.Utils.AppearanceObject = New DevExpress.Utils.AppearanceObject()
+        Dim AppearanceObject7 As DevExpress.Utils.AppearanceObject = New DevExpress.Utils.AppearanceObject()
+        Dim AppearanceObject8 As DevExpress.Utils.AppearanceObject = New DevExpress.Utils.AppearanceObject()
+        Dim AppearanceObject9 As DevExpress.Utils.AppearanceObject = New DevExpress.Utils.AppearanceObject()
+        Dim AppearanceObject10 As DevExpress.Utils.AppearanceObject = New DevExpress.Utils.AppearanceObject()
+        Dim AppearanceObject11 As DevExpress.Utils.AppearanceObject = New DevExpress.Utils.AppearanceObject()
+        Dim AppearanceObject12 As DevExpress.Utils.AppearanceObject = New DevExpress.Utils.AppearanceObject()
+        Dim AppearanceObject13 As DevExpress.Utils.AppearanceObject = New DevExpress.Utils.AppearanceObject()
+        Dim AppearanceObject14 As DevExpress.Utils.AppearanceObject = New DevExpress.Utils.AppearanceObject()
+        Dim AppearanceObject15 As DevExpress.Utils.AppearanceObject = New DevExpress.Utils.AppearanceObject()
+        Dim AppearanceObject16 As DevExpress.Utils.AppearanceObject = New DevExpress.Utils.AppearanceObject()
+        Dim AppearanceObject17 As DevExpress.Utils.AppearanceObject = New DevExpress.Utils.AppearanceObject()
+        Dim AppearanceObject18 As DevExpress.Utils.AppearanceObject = New DevExpress.Utils.AppearanceObject()
+        Dim EditorButtonImageOptions1 As DevExpress.XtraEditors.Controls.EditorButtonImageOptions = New DevExpress.XtraEditors.Controls.EditorButtonImageOptions()
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(FrmEntityAccount))
+        Dim SerializableAppearanceObject1 As DevExpress.Utils.SerializableAppearanceObject = New DevExpress.Utils.SerializableAppearanceObject()
+        Dim SerializableAppearanceObject2 As DevExpress.Utils.SerializableAppearanceObject = New DevExpress.Utils.SerializableAppearanceObject()
+        Dim SerializableAppearanceObject3 As DevExpress.Utils.SerializableAppearanceObject = New DevExpress.Utils.SerializableAppearanceObject()
+        Dim SerializableAppearanceObject4 As DevExpress.Utils.SerializableAppearanceObject = New DevExpress.Utils.SerializableAppearanceObject()
+        Dim AppearanceObject19 As DevExpress.Utils.AppearanceObject = New DevExpress.Utils.AppearanceObject()
+        Dim AppearanceObject20 As DevExpress.Utils.AppearanceObject = New DevExpress.Utils.AppearanceObject()
+        Dim AppearanceObject21 As DevExpress.Utils.AppearanceObject = New DevExpress.Utils.AppearanceObject()
+        Dim AppearanceObject22 As DevExpress.Utils.AppearanceObject = New DevExpress.Utils.AppearanceObject()
+        Dim AppearanceObject23 As DevExpress.Utils.AppearanceObject = New DevExpress.Utils.AppearanceObject()
+        Dim AppearanceObject24 As DevExpress.Utils.AppearanceObject = New DevExpress.Utils.AppearanceObject()
+        Dim AppearanceObject25 As DevExpress.Utils.AppearanceObject = New DevExpress.Utils.AppearanceObject()
+        Dim AppearanceObject26 As DevExpress.Utils.AppearanceObject = New DevExpress.Utils.AppearanceObject()
+        Me.RepositoryItemPopupContainerEdit2 = New DevExpress.XtraEditors.Repository.RepositoryItemPopupContainerEdit()
+        Me.RepositoryItemPopupContainerEdit1 = New DevExpress.XtraEditors.Repository.RepositoryItemPopupContainerEdit()
+        Me.INDlycRoot = New DevExpress.XtraLayout.LayoutControl()
+        Me.INDsleFinancialSource = New DevExpress.XtraEditors.SearchLookUpEdit()
+        Me.GridView9 = New DevExpress.XtraGrid.Views.Grid.GridView()
+        Me.GridColumn492 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn493 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn494 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.PopupContainerControl1 = New DevExpress.XtraEditors.PopupContainerControl()
+        Me.LayoutControl1 = New DevExpress.XtraLayout.LayoutControl()
+        Me.INDtxtPrefix = New DevExpress.XtraEditors.TextEdit()
+        Me.INDsbEdit = New DevExpress.XtraEditors.SimpleButton()
+        Me.INDsbAddVoucher = New DevExpress.XtraEditors.SimpleButton()
+        Me.INDgleStatusVoucher = New DevExpress.XtraEditors.GridLookUpEdit()
+        Me.GridView2 = New DevExpress.XtraGrid.Views.Grid.GridView()
+        Me.GridColumn67 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn68 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.INDtxtCurrentNumber = New DevExpress.XtraEditors.SpinEdit()
+        Me.INDtxtEndNumber = New DevExpress.XtraEditors.SpinEdit()
+        Me.INDtxtInitialNumber = New DevExpress.XtraEditors.SpinEdit()
+        Me.LayoutControlGroup1 = New DevExpress.XtraLayout.LayoutControlGroup()
+        Me.INDliInitialNumber = New DevExpress.XtraLayout.LayoutControlItem()
+        Me.INDliEndNumber = New DevExpress.XtraLayout.LayoutControlItem()
+        Me.INDliCurrentNumber = New DevExpress.XtraLayout.LayoutControlItem()
+        Me.INDliStatusVoucher = New DevExpress.XtraLayout.LayoutControlItem()
+        Me.INDliAdd = New DevExpress.XtraLayout.LayoutControlItem()
+        Me.INDliEdit = New DevExpress.XtraLayout.LayoutControlItem()
+        Me.INDliPrefix = New DevExpress.XtraLayout.LayoutControlItem()
+        Me.INDSleCostCenterMainAccountExpenses = New DevExpress.XtraEditors.SearchLookUpEdit()
+        Me.GridView8 = New DevExpress.XtraGrid.Views.Grid.GridView()
+        Me.GridColumn390 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn391 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.INDSleThirdMainAccountExpenses = New DevExpress.XtraEditors.SearchLookUpEdit()
+        Me.GridView7 = New DevExpress.XtraGrid.Views.Grid.GridView()
+        Me.GridColumn384 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn385 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn386 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn387 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn388 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn389 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.INDSleCostCenterMainAccountCounterpart = New DevExpress.XtraEditors.SearchLookUpEdit()
+        Me.GridView6 = New DevExpress.XtraGrid.Views.Grid.GridView()
+        Me.GridColumn382 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn383 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.INDSleThirdMainAccountCounterpart = New DevExpress.XtraEditors.SearchLookUpEdit()
+        Me.GridView5 = New DevExpress.XtraGrid.Views.Grid.GridView()
+        Me.GridColumn376 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn377 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn378 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn379 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn380 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn381 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.INDtePrefix = New DevExpress.XtraEditors.TextEdit()
+        Me.INDsleUser = New Presentation.Controls.SearchLookUpEditEx()
+        Me.INDgvUsers = New DevExpress.XtraGrid.Views.Grid.GridView()
+        Me.GridColumn331 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn332 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn333 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.INDsleFMGMainAccountCounterpart = New DevExpress.XtraEditors.SearchLookUpEdit()
+        Me.GridView10 = New DevExpress.XtraGrid.Views.Grid.GridView()
+        Me.GridColumn297 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn298 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.INDsleFMGMainAccountExpenses = New DevExpress.XtraEditors.SearchLookUpEdit()
+        Me.GridView11 = New DevExpress.XtraGrid.Views.Grid.GridView()
+        Me.GridColumn299 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn300 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.INDsleThirdParty = New DevExpress.XtraEditors.SearchLookUpEdit()
+        Me.GridView4 = New DevExpress.XtraGrid.Views.Grid.GridView()
+        Me.GridColumn281 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn282 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn283 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn284 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn285 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn286 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.INDGcUser = New DevExpress.XtraGrid.GridControl()
+        Me.INDGvUser = New DevExpress.XtraGrid.Views.Grid.GridView()
+        Me.GridColumn162 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn163 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.INDsbAddUser = New DevExpress.XtraEditors.SimpleButton()
+        Me.INDtxtCurrentBalance = New DevExpress.XtraEditors.TextEdit()
+        Me.INDpopVoucher = New DevExpress.XtraEditors.PopupContainerEdit()
+        Me.INDsleAccountAccounting = New Presentation.Controls.CtrPUC()
+        Me.INDsleAccountAccountingView = New DevExpress.XtraGrid.Views.Grid.GridView()
+        Me.GridColumn593 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn594 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn595 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn596 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn597 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn598 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn599 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn600 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn601 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn602 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.INDgcCheckbook = New DevExpress.XtraGrid.GridControl()
+        Me.INDgdvCheckbook = New DevExpress.XtraGrid.Views.Grid.GridView()
+        Me.ColChkInitNumber = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.ColChkEndNumber = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.ColChkCurrent = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.ColChkStatus = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.RepositoryStatusVoucher = New DevExpress.XtraEditors.Repository.RepositoryItemGridLookUpEdit()
+        Me.RepositoryItemGridLookUpEdit1View = New DevExpress.XtraGrid.Views.Grid.GridView()
+        Me.INDbteCode = New DevExpress.XtraEditors.ButtonEdit()
+        Me.INDdteInitDate = New DevExpress.XtraEditors.DateEdit()
+        Me.INDtxtRate = New DevExpress.XtraEditors.TextEdit()
+        Me.INDtxtQuota = New DevExpress.XtraEditors.TextEdit()
+        Me.INDtxtInitialBalance = New DevExpress.XtraEditors.TextEdit()
+        Me.INDtxtNumber = New DevExpress.XtraEditors.TextEdit()
+        Me.INDsleBankEntityAccount = New DevExpress.XtraEditors.SearchLookUpEdit()
+        Me.SearchLookUpEdit1View = New DevExpress.XtraGrid.Views.Grid.GridView()
+        Me.GridColumn5 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn6 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.INDsleCity = New DevExpress.XtraEditors.SearchLookUpEdit()
+        Me.GridView3 = New DevExpress.XtraGrid.Views.Grid.GridView()
+        Me.GridColumn7 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn8 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn9 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn10 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.INDsleCostCenter = New DevExpress.XtraEditors.SearchLookUpEdit()
+        Me.GridView1 = New DevExpress.XtraGrid.Views.Grid.GridView()
+        Me.GridColumn11 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn12 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.INDgleType = New DevExpress.XtraEditors.GridLookUpEdit()
+        Me.GridLookUpEdit1View = New DevExpress.XtraGrid.Views.Grid.GridView()
+        Me.GridColumn3 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn4 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.INDSleCurrency = New DevExpress.XtraEditors.SearchLookUpEdit()
+        Me.GridView12 = New DevExpress.XtraGrid.Views.Grid.GridView()
+        Me.GridColumn565 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn566 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn567 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.INDlycgRoot = New DevExpress.XtraLayout.LayoutControlGroup()
+        Me.INDlycgGeneralInfo = New DevExpress.XtraLayout.LayoutControlGroup()
+        Me.INDlyciBank = New DevExpress.XtraLayout.LayoutControlItem()
+        Me.INDlyciCity = New DevExpress.XtraLayout.LayoutControlItem()
+        Me.INDlyciType = New DevExpress.XtraLayout.LayoutControlItem()
+        Me.INDlyciInitBalance = New DevExpress.XtraLayout.LayoutControlItem()
+        Me.INDlyciRate = New DevExpress.XtraLayout.LayoutControlItem()
+        Me.INDlyciCode = New DevExpress.XtraLayout.LayoutControlItem()
+        Me.INDlyciNumber = New DevExpress.XtraLayout.LayoutControlItem()
+        Me.INDlyciQuotaOverdraft = New DevExpress.XtraLayout.LayoutControlItem()
+        Me.INDlyciInitDate = New DevExpress.XtraLayout.LayoutControlItem()
+        Me.INDliCurrentBalance = New DevExpress.XtraLayout.LayoutControlItem()
+        Me.INDliPrefixBank = New DevExpress.XtraLayout.LayoutControlItem()
+        Me.INDlycgAccountingInfo = New DevExpress.XtraLayout.LayoutControlGroup()
+        Me.INDlyciCostCenter = New DevExpress.XtraLayout.LayoutControlItem()
+        Me.INDlyciAccount = New DevExpress.XtraLayout.LayoutControlItem()
+        Me.INDLiFMGMainAccountExpenses = New DevExpress.XtraLayout.LayoutControlItem()
+        Me.INDLiFMGMainAccountPayment = New DevExpress.XtraLayout.LayoutControlItem()
+        Me.INDliThirdParty = New DevExpress.XtraLayout.LayoutControlItem()
+        Me.INDLciThirdMainAccountCounterpart = New DevExpress.XtraLayout.LayoutControlItem()
+        Me.INDLciCostCenterMainAccountCounterpart = New DevExpress.XtraLayout.LayoutControlItem()
+        Me.INDLciThirdMainAccountExpenses = New DevExpress.XtraLayout.LayoutControlItem()
+        Me.INDLciCostCenterMainAccountExpenses = New DevExpress.XtraLayout.LayoutControlItem()
+        Me.INDlyItemFinancialSource = New DevExpress.XtraLayout.LayoutControlItem()
+        Me.INDlciCurrency = New DevExpress.XtraLayout.LayoutControlItem()
+        Me.INDlycgCheckbook = New DevExpress.XtraLayout.LayoutControlGroup()
+        Me.INDlyciCheckbook = New DevExpress.XtraLayout.LayoutControlItem()
+        Me.INDliPopVoucher = New DevExpress.XtraLayout.LayoutControlItem()
+        Me.INDlgrAutorization = New DevExpress.XtraLayout.LayoutControlGroup()
+        Me.INDliAddUser = New DevExpress.XtraLayout.LayoutControlItem()
+        Me.INDliAutorizationUsers = New DevExpress.XtraLayout.LayoutControlItem()
+        Me.INDliUser = New DevExpress.XtraLayout.LayoutControlItem()
+        Me.GridColumn588 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn589 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn590 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn591 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn592 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn583 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn584 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn585 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn586 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn587 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn578 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn579 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn580 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn581 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn582 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn573 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn574 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn575 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn576 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn577 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn568 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn569 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn570 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn571 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn572 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn560 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn561 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn562 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn563 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn564 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn555 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn556 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn557 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn558 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn559 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn550 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn551 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn552 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn553 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn554 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn545 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn546 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn547 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn548 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn549 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn540 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn541 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn542 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn543 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn544 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn535 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn536 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn537 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn538 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn539 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn530 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn531 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn532 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn533 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn534 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn525 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn526 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn527 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn528 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn529 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn520 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn521 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn522 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn523 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn524 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn515 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn516 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn517 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn518 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn519 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn510 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn511 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn512 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn513 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn514 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn505 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn506 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn507 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn508 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn509 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn500 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn501 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn502 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn503 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn504 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn495 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn496 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn497 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn498 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn499 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn487 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn488 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn489 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn490 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn491 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn482 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn483 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn484 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn485 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn486 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn477 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn478 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn479 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn480 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn481 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn472 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn473 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn474 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn475 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn476 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn467 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn468 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn469 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn470 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn471 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn462 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn463 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn464 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn465 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn466 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn457 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn458 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn459 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn460 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn461 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn452 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn453 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn454 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn455 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn456 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn447 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn448 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn449 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn450 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn451 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn442 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn443 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn444 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn445 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn446 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn437 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn438 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn439 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn440 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn441 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn432 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn433 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn434 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn435 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn436 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn427 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn428 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn429 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn430 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn431 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn422 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn423 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn424 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn425 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn426 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn417 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn418 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn419 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn420 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn421 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn412 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn413 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn414 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn415 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn416 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn407 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn408 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn409 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn410 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn411 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn402 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn403 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn404 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn405 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn406 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn397 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn398 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn399 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn400 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn401 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn392 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn393 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn394 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn395 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn396 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn371 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn372 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn373 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn374 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn375 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn366 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn367 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn368 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn369 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn370 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn361 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn362 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn363 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn364 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn365 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn356 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn357 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn358 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn359 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn360 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn351 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn352 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn353 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn354 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn355 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn346 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn347 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn348 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn349 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn350 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn341 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn342 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn343 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn344 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn345 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn336 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn337 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn338 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn339 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn340 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn164 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn165 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn166 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn334 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn335 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn326 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn327 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn328 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn329 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn330 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn321 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn322 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn323 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn324 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn325 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn316 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn317 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn318 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn319 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn320 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn311 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn312 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn313 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn314 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn315 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn306 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn307 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn308 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn309 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn310 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn301 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn302 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn303 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn304 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn305 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn292 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn293 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn294 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn295 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn296 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn287 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn288 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn289 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn290 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn291 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn276 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn277 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn278 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn279 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn280 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn271 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn272 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn273 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn274 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn275 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn266 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn267 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn268 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn269 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn270 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn261 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn262 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn263 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn264 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn265 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn256 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn257 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn258 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn259 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn260 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn251 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn252 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn253 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn254 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn255 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn246 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn247 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn248 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn249 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn250 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn241 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn242 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn243 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn244 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn245 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn236 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn237 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn238 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn239 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn240 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn231 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn232 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn233 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn234 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn235 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn226 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn227 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn228 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn229 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn230 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn221 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn222 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn223 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn224 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn225 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn216 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn217 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn218 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn219 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn220 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn211 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn212 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn213 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn214 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn215 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn206 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn207 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn208 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn209 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn210 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn201 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn202 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn203 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn204 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn205 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn196 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn197 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn198 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn199 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn200 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn191 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn192 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn193 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn194 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn195 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn188 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn189 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn190 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn185 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn186 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn187 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn182 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn183 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn184 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn179 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn180 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn181 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn176 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn177 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn178 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn173 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn174 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn175 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn170 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn171 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn172 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn167 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn168 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn169 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn159 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn160 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn161 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn156 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn157 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn158 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn153 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn154 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn155 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn150 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn151 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn152 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn147 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn148 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn149 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn144 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn145 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn146 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn141 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn142 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn143 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn138 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn139 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn140 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn135 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn136 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn137 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn132 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn133 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn134 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn129 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn130 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn131 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn126 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn127 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn128 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn123 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn124 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn125 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn120 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn121 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn122 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn117 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn118 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn119 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn114 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn115 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn116 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn111 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn112 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn113 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn108 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn109 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn110 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn105 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn106 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn107 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn102 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn103 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn104 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn99 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn100 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn101 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn96 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn97 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn98 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn93 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn94 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn95 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn90 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn91 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn92 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn87 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn88 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn89 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn84 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn85 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn86 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn81 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn82 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn83 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn78 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn79 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn80 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn75 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn76 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn77 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn72 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn73 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn74 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn69 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn70 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn71 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn64 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn65 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn66 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn61 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn62 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn63 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn58 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn59 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn60 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn55 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn56 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn57 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn52 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn53 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn54 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn49 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn50 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn51 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn46 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn47 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn48 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn43 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn44 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn45 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn40 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn41 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn42 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn37 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn38 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn39 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn34 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn35 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn36 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn31 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn32 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn33 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn28 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn29 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn30 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn25 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn26 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn27 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn22 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn23 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn24 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn19 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn20 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn21 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.IndigoDate1 = New Presentation.Controls.IndigoDate(Me.components)
+        Me.IndigoGroupControl1 = New Presentation.Controls.IndigoGroupControl(Me.components)
+        Me.IndigoLayoutControlGroup1 = New Presentation.Controls.IndigoLayoutControlGroup(Me.components)
+        Me.IndigoTextEdit1 = New Presentation.Controls.IndigoTextEdit(Me.components)
+        Me.IndigoGridControl1 = New Presentation.Controls.IndigoGridControl(Me.components)
+        Me.IndigoGridView1 = New Presentation.Controls.IndigoGridView(Me.components)
+        Me.IndigoGridLookUpControl1 = New Presentation.Controls.IndigoGridLookUpControl(Me.components)
+        Me.GridColumn1 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn2 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.IndigoSearchLookUpControl1 = New Presentation.Controls.IndigoSearchLookUpControl(Me.components)
+        Me.IndigoSimpleButton1 = New Presentation.Controls.IndigoSimpleButton(Me.components)
+        Me.IndigoPopUpContainerEdit1 = New Presentation.Controls.IndigoPopUpContainerEdit(Me.components)
+        Me.IndigoGridView2 = New Presentation.Controls.IndigoGridView(Me.components)
+        Me.CtrNavigationControl1 = New Presentation.Controls.CtrNavigationControlPanel()
+        CType(Me.INDPanelControlBase, System.ComponentModel.ISupportInitialize).BeginInit
+        Me.INDPanelControlBase.SuspendLayout
+        CType(Me.ToolBars, System.ComponentModel.ISupportInitialize).BeginInit
+        Me.ToolBars.SuspendLayout
+        CType(Me.LayoutControls, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.RepositoryItemPopupContainerEdit2, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.RepositoryItemPopupContainerEdit1, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.INDlycRoot, System.ComponentModel.ISupportInitialize).BeginInit
+        Me.INDlycRoot.SuspendLayout
+        CType(Me.INDsleFinancialSource.Properties, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.GridView9, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.PopupContainerControl1, System.ComponentModel.ISupportInitialize).BeginInit
+        Me.PopupContainerControl1.SuspendLayout
+        CType(Me.LayoutControl1, System.ComponentModel.ISupportInitialize).BeginInit
+        Me.LayoutControl1.SuspendLayout
+        CType(Me.INDtxtPrefix.Properties, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.INDgleStatusVoucher.Properties, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.GridView2, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.INDtxtCurrentNumber.Properties, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.INDtxtEndNumber.Properties, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.INDtxtInitialNumber.Properties, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.LayoutControlGroup1, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.INDliInitialNumber, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.INDliEndNumber, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.INDliCurrentNumber, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.INDliStatusVoucher, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.INDliAdd, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.INDliEdit, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.INDliPrefix, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.INDSleCostCenterMainAccountExpenses.Properties, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.GridView8, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.INDSleThirdMainAccountExpenses.Properties, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.GridView7, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.INDSleCostCenterMainAccountCounterpart.Properties, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.GridView6, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.INDSleThirdMainAccountCounterpart.Properties, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.GridView5, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.INDtePrefix.Properties, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.INDsleUser, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.INDgvUsers, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.INDsleFMGMainAccountCounterpart.Properties, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.GridView10, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.INDsleFMGMainAccountExpenses.Properties, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.GridView11, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.INDsleThirdParty.Properties, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.GridView4, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.INDGcUser, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.INDGvUser, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.INDtxtCurrentBalance.Properties, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.INDpopVoucher.Properties, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.INDsleAccountAccounting, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.INDsleAccountAccounting.Properties, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.INDsleAccountAccountingView, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.INDgcCheckbook, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.INDgdvCheckbook, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.RepositoryStatusVoucher, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.RepositoryItemGridLookUpEdit1View, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.INDbteCode.Properties, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.INDdteInitDate.Properties.CalendarTimeProperties, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.INDdteInitDate.Properties, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.INDtxtRate.Properties, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.INDtxtQuota.Properties, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.INDtxtInitialBalance.Properties, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.INDtxtNumber.Properties, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.INDsleBankEntityAccount.Properties, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.SearchLookUpEdit1View, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.INDsleCity.Properties, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.GridView3, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.INDsleCostCenter.Properties, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.GridView1, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.INDgleType.Properties, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.GridLookUpEdit1View, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.INDSleCurrency.Properties, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.GridView12, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.INDlycgRoot, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.INDlycgGeneralInfo, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.INDlyciBank, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.INDlyciCity, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.INDlyciType, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.INDlyciInitBalance, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.INDlyciRate, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.INDlyciCode, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.INDlyciNumber, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.INDlyciQuotaOverdraft, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.INDlyciInitDate, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.INDliCurrentBalance, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.INDliPrefixBank, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.INDlycgAccountingInfo, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.INDlyciCostCenter, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.INDlyciAccount, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.INDLiFMGMainAccountExpenses, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.INDLiFMGMainAccountPayment, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.INDliThirdParty, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.INDLciThirdMainAccountCounterpart, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.INDLciCostCenterMainAccountCounterpart, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.INDLciThirdMainAccountExpenses, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.INDLciCostCenterMainAccountExpenses, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.INDlyItemFinancialSource, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.INDlciCurrency, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.INDlycgCheckbook, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.INDlyciCheckbook, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.INDliPopVoucher, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.INDlgrAutorization, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.INDliAddUser, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.INDliAutorizationUsers, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.INDliUser, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.IndigoDate1, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.IndigoGroupControl1, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.IndigoLayoutControlGroup1, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.IndigoTextEdit1, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.IndigoGridControl1, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.IndigoGridView1, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.IndigoGridLookUpControl1, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.IndigoSearchLookUpControl1, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.IndigoSimpleButton1, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.IndigoPopUpContainerEdit1, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.IndigoGridView2, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.CtrNavigationControl1, System.ComponentModel.ISupportInitialize).BeginInit
+        Me.SuspendLayout
+        '
+        'INDPanelControlBase
+        '
+        Me.INDPanelControlBase.Controls.Add(Me.INDlycRoot)
+        Me.INDPanelControlBase.Controls.Add(Me.CtrNavigationControl1)
+        Me.INDPanelControlBase.Location = New System.Drawing.Point(0, 136)
+        Me.INDPanelControlBase.Margin = New System.Windows.Forms.Padding(3, 4, 3, 4)
+        Me.INDPanelControlBase.Padding = New System.Windows.Forms.Padding(0, 6, 0, 0)
+        Me.INDPanelControlBase.Size = New System.Drawing.Size(1178, 488)
+        Me.INDPanelControlBase.TabIndex = 0
+        '
+        'ToolBars
+        '
+        Me.ToolBars.Appearance.BackColor = System.Drawing.Color.Transparent
+        Me.ToolBars.Appearance.Options.UseBackColor = True
+        Me.ToolBars.Location = New System.Drawing.Point(0, 6)
+        Me.ToolBars.Margin = New System.Windows.Forms.Padding(3, 4, 3, 4)
+        Me.ToolBars.Size = New System.Drawing.Size(1178, 130)
+        '
+        'BarraBotones
+        '
+        Me.BarraBotones.Margin = New System.Windows.Forms.Padding(3, 5, 3, 5)
+        Me.BarraBotones.Size = New System.Drawing.Size(1178, 130)
+        Me.BarraBotones.TabIndex = 0
+        '
+        'RepositoryItemPopupContainerEdit2
+        '
+        Me.RepositoryItemPopupContainerEdit2.Buttons.AddRange(New DevExpress.XtraEditors.Controls.EditorButton() {New DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)})
+        Me.RepositoryItemPopupContainerEdit2.Name = "RepositoryItemPopupContainerEdit2"
+        '
+        'RepositoryItemPopupContainerEdit1
+        '
+        Me.RepositoryItemPopupContainerEdit1.Buttons.AddRange(New DevExpress.XtraEditors.Controls.EditorButton() {New DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)})
+        Me.RepositoryItemPopupContainerEdit1.Name = "RepositoryItemPopupContainerEdit1"
+        '
+        'INDlycRoot
+        '
+        Me.INDlycRoot.AllowCustomization = False
+        Me.INDlycRoot.Controls.Add(Me.INDsleFinancialSource)
+        Me.INDlycRoot.Controls.Add(Me.PopupContainerControl1)
+        Me.INDlycRoot.Controls.Add(Me.INDSleCostCenterMainAccountExpenses)
+        Me.INDlycRoot.Controls.Add(Me.INDSleThirdMainAccountExpenses)
+        Me.INDlycRoot.Controls.Add(Me.INDSleCostCenterMainAccountCounterpart)
+        Me.INDlycRoot.Controls.Add(Me.INDSleThirdMainAccountCounterpart)
+        Me.INDlycRoot.Controls.Add(Me.INDtePrefix)
+        Me.INDlycRoot.Controls.Add(Me.INDsleUser)
+        Me.INDlycRoot.Controls.Add(Me.INDsleFMGMainAccountCounterpart)
+        Me.INDlycRoot.Controls.Add(Me.INDsleFMGMainAccountExpenses)
+        Me.INDlycRoot.Controls.Add(Me.INDsleThirdParty)
+        Me.INDlycRoot.Controls.Add(Me.INDGcUser)
+        Me.INDlycRoot.Controls.Add(Me.INDsbAddUser)
+        Me.INDlycRoot.Controls.Add(Me.INDtxtCurrentBalance)
+        Me.INDlycRoot.Controls.Add(Me.INDpopVoucher)
+        Me.INDlycRoot.Controls.Add(Me.INDsleAccountAccounting)
+        Me.INDlycRoot.Controls.Add(Me.INDgcCheckbook)
+        Me.INDlycRoot.Controls.Add(Me.INDbteCode)
+        Me.INDlycRoot.Controls.Add(Me.INDdteInitDate)
+        Me.INDlycRoot.Controls.Add(Me.INDtxtRate)
+        Me.INDlycRoot.Controls.Add(Me.INDtxtQuota)
+        Me.INDlycRoot.Controls.Add(Me.INDtxtInitialBalance)
+        Me.INDlycRoot.Controls.Add(Me.INDtxtNumber)
+        Me.INDlycRoot.Controls.Add(Me.INDsleBankEntityAccount)
+        Me.INDlycRoot.Controls.Add(Me.INDsleCity)
+        Me.INDlycRoot.Controls.Add(Me.INDsleCostCenter)
+        Me.INDlycRoot.Controls.Add(Me.INDgleType)
+        Me.INDlycRoot.Controls.Add(Me.INDSleCurrency)
+        Me.INDlycRoot.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.LayoutControls.SetIsCustomizable(Me.INDlycRoot, False)
+        Me.INDlycRoot.Location = New System.Drawing.Point(202, 8)
+        Me.INDlycRoot.Name = "INDlycRoot"
+        Me.INDlycRoot.OptionsCustomizationForm.DesignTimeCustomizationFormPositionAndSize = New System.Drawing.Rectangle(621, 365, 751, 655)
+        Me.INDlycRoot.Root = Me.INDlycgRoot
+        Me.INDlycRoot.Size = New System.Drawing.Size(974, 478)
+        Me.INDlycRoot.TabIndex = 1
+        '
+        'INDsleFinancialSource
+        '
+        Me.IndigoSearchLookUpControl1.SetAppearanceEmbeddedNavigator(Me.INDsleFinancialSource, AppearanceObject1)
+        Me.IndigoSearchLookUpControl1.SetAppearanceTextFindControl(Me.INDsleFinancialSource, AppearanceObject2)
+        Me.IndigoSearchLookUpControl1.SetAppendButtonNavigator(Me.INDsleFinancialSource, False)
+        Me.IndigoTextEdit1.SetApplyStyle(Me.INDsleFinancialSource, True)
+        Me.IndigoSearchLookUpControl1.SetAutomaticOpenForm(Me.INDsleFinancialSource, False)
+        Me.IndigoTextEdit1.SetCampoObligatorio(Me.INDsleFinancialSource, False)
+        Me.IndigoSearchLookUpControl1.SetCancelEditButtonNavigator(Me.INDsleFinancialSource, False)
+        Me.IndigoSearchLookUpControl1.SetEditButtonNavigator(Me.INDsleFinancialSource, False)
+        Me.IndigoSearchLookUpControl1.SetEndEditButtonNavigator(Me.INDsleFinancialSource, False)
+        Me.INDsleFinancialSource.EnterMoveNextControl = True
+        Me.IndigoSearchLookUpControl1.SetExportButton(Me.INDsleFinancialSource, False)
+        Me.IndigoSearchLookUpControl1.SetFirstButtonNavigator(Me.INDsleFinancialSource, False)
+        Me.IndigoSearchLookUpControl1.SetLastButtonNavigator(Me.INDsleFinancialSource, False)
+        Me.INDsleFinancialSource.Location = New System.Drawing.Point(604, 373)
+        Me.IndigoTextEdit1.SetMascara(Me.INDsleFinancialSource, Presentation.Controls.IndigoTextEdit.EMask.Ninguno)
+        Me.INDsleFinancialSource.Name = "INDsleFinancialSource"
+        Me.IndigoSearchLookUpControl1.SetNextButtonNavigator(Me.INDsleFinancialSource, False)
+        Me.IndigoSearchLookUpControl1.SetNextPageButtonNavigator(Me.INDsleFinancialSource, False)
+        Me.IndigoSearchLookUpControl1.SetOpenForm(Me.INDsleFinancialSource, True)
+        Me.IndigoSearchLookUpControl1.SetPopupBestFitHeight(Me.INDsleFinancialSource, False)
+        Me.IndigoSearchLookUpControl1.SetPopupSizeable(Me.INDsleFinancialSource, False)
+        Me.IndigoSearchLookUpControl1.SetPrevButtonNavigator(Me.INDsleFinancialSource, False)
+        Me.IndigoSearchLookUpControl1.SetPrevPageButtonNavigator(Me.INDsleFinancialSource, False)
+        Me.INDsleFinancialSource.Properties.Appearance.BackColor = System.Drawing.Color.Transparent
+        Me.INDsleFinancialSource.Properties.Appearance.Font = New System.Drawing.Font("Segoe UI Light", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.INDsleFinancialSource.Properties.Appearance.ForeColor = System.Drawing.Color.FromArgb(CType(CType(40, Byte), Integer), CType(CType(40, Byte), Integer), CType(CType(40, Byte), Integer))
+        Me.INDsleFinancialSource.Properties.Appearance.Options.UseBackColor = True
+        Me.INDsleFinancialSource.Properties.Appearance.Options.UseFont = True
+        Me.INDsleFinancialSource.Properties.Appearance.Options.UseForeColor = True
+        Me.INDsleFinancialSource.Properties.AppearanceFocused.Font = New System.Drawing.Font("Segoe UI Light", 12.0!)
+        Me.INDsleFinancialSource.Properties.AppearanceFocused.Options.UseFont = True
+        Me.INDsleFinancialSource.Properties.Buttons.AddRange(New DevExpress.XtraEditors.Controls.EditorButton() {New DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)})
+        Me.INDsleFinancialSource.Properties.DisplayMember = "NameCode"
+        Me.INDsleFinancialSource.Properties.NullText = ""
+        Me.INDsleFinancialSource.Properties.PopupSizeable = False
+        Me.INDsleFinancialSource.Properties.PopupView = Me.GridView9
+        Me.INDsleFinancialSource.Properties.ShowFooter = False
+        Me.INDsleFinancialSource.Properties.ValueMember = "Id"
+        Me.IndigoSearchLookUpControl1.SetRemoveButtonNavigator(Me.INDsleFinancialSource, False)
+        Me.IndigoSearchLookUpControl1.SetSaveXmlGrid(Me.INDsleFinancialSource, True)
+        Me.IndigoSearchLookUpControl1.SetShowDeleteButton(Me.INDsleFinancialSource, True)
+        Me.IndigoSearchLookUpControl1.SetShowFindButton(Me.INDsleFinancialSource, True)
+        Me.INDsleFinancialSource.Size = New System.Drawing.Size(226, 28)
+        Me.INDsleFinancialSource.StyleController = Me.INDlycRoot
+        Me.INDsleFinancialSource.TabIndex = 20
+        Me.IndigoSearchLookUpControl1.SetTagForm(Me.INDsleFinancialSource, "201")
+        Me.IndigoTextEdit1.SetTamañoMinimoString(Me.INDsleFinancialSource, 0)
+        Me.IndigoSearchLookUpControl1.SetTextStringFormat(Me.INDsleFinancialSource, "{0} - {1}")
+        Me.IndigoSearchLookUpControl1.SetTxtFindEnterEnabled(Me.INDsleFinancialSource, False)
+        Me.IndigoSearchLookUpControl1.SetUseEmbeddedNavigator(Me.INDsleFinancialSource, False)
+        '
+        'GridView9
+        '
+        Me.GridView9.Appearance.FocusedRow.BorderColor = System.Drawing.Color.LightGray
+        Me.GridView9.Appearance.FocusedRow.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Bold)
+        Me.GridView9.Appearance.FocusedRow.Options.UseBorderColor = True
+        Me.GridView9.Appearance.FocusedRow.Options.UseFont = True
+        Me.GridView9.Appearance.GroupRow.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.GridView9.Appearance.GroupRow.Options.UseFont = True
+        Me.GridView9.Appearance.HeaderPanel.Font = New System.Drawing.Font("Segoe UI Semibold", 10.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.GridView9.Appearance.HeaderPanel.Options.UseFont = True
+        Me.GridView9.Appearance.Row.Font = New System.Drawing.Font("Segoe UI Light", 9.75!)
+        Me.GridView9.Appearance.Row.Options.UseFont = True
+        Me.GridView9.Columns.AddRange(New DevExpress.XtraGrid.Columns.GridColumn() {Me.GridColumn492, Me.GridColumn493, Me.GridColumn494})
+        Me.GridView9.FocusRectStyle = DevExpress.XtraGrid.Views.Grid.DrawFocusRectStyle.RowFocus
+        Me.GridView9.Name = "GridView9"
+        Me.GridView9.OptionsSelection.EnableAppearanceFocusedCell = False
+        Me.GridView9.OptionsView.EnableAppearanceEvenRow = True
+        Me.GridView9.OptionsView.EnableAppearanceOddRow = True
+        Me.GridView9.OptionsView.ShowAutoFilterRow = True
+        Me.GridView9.OptionsView.ShowGroupPanel = False
+        Me.IndigoGridView2.SetTemaIndigoMetro(Me.GridView9, False)
+        Me.IndigoGridView1.SetTemaIndigoMetro(Me.GridView9, False)
+        '
+        'GridColumn492
+        '
+        Me.GridColumn492.Caption = "Código"
+        Me.GridColumn492.FieldName = "Code"
+        Me.GridColumn492.Name = "GridColumn492"
+        Me.GridColumn492.Visible = True
+        Me.GridColumn492.VisibleIndex = 0
+        Me.GridColumn492.Width = 268
+        '
+        'GridColumn493
+        '
+        Me.GridColumn493.Caption = "Nombre"
+        Me.GridColumn493.FieldName = "Name"
+        Me.GridColumn493.Name = "GridColumn493"
+        Me.GridColumn493.Visible = True
+        Me.GridColumn493.VisibleIndex = 1
+        Me.GridColumn493.Width = 603
+        '
+        'GridColumn494
+        '
+        Me.GridColumn494.Caption = "Vigencia"
+        Me.GridColumn494.FieldName = "BudgetaryValidityId.Year"
+        Me.GridColumn494.Name = "GridColumn494"
+        Me.GridColumn494.Visible = True
+        Me.GridColumn494.VisibleIndex = 2
+        Me.GridColumn494.Width = 521
+        '
+        'PopupContainerControl1
+        '
+        Me.PopupContainerControl1.Controls.Add(Me.LayoutControl1)
+        Me.PopupContainerControl1.Location = New System.Drawing.Point(780, 424)
+        Me.PopupContainerControl1.Name = "PopupContainerControl1"
+        Me.PopupContainerControl1.Size = New System.Drawing.Size(429, 287)
+        Me.PopupContainerControl1.TabIndex = 14
+        '
+        'LayoutControl1
+        '
+        Me.LayoutControl1.Controls.Add(Me.INDtxtPrefix)
+        Me.LayoutControl1.Controls.Add(Me.INDsbEdit)
+        Me.LayoutControl1.Controls.Add(Me.INDsbAddVoucher)
+        Me.LayoutControl1.Controls.Add(Me.INDgleStatusVoucher)
+        Me.LayoutControl1.Controls.Add(Me.INDtxtCurrentNumber)
+        Me.LayoutControl1.Controls.Add(Me.INDtxtEndNumber)
+        Me.LayoutControl1.Controls.Add(Me.INDtxtInitialNumber)
+        Me.LayoutControl1.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.LayoutControl1.Location = New System.Drawing.Point(0, 0)
+        Me.LayoutControl1.Name = "LayoutControl1"
+        Me.LayoutControl1.OptionsCustomizationForm.DesignTimeCustomizationFormPositionAndSize = New System.Drawing.Rectangle(2890, 397, 250, 350)
+        Me.LayoutControl1.Root = Me.LayoutControlGroup1
+        Me.LayoutControl1.Size = New System.Drawing.Size(429, 287)
+        Me.LayoutControl1.TabIndex = 0
+        Me.LayoutControl1.Text = "LayoutControl1"
+        '
+        'INDtxtPrefix
+        '
+        Me.IndigoTextEdit1.SetApplyStyle(Me.INDtxtPrefix, False)
+        Me.IndigoTextEdit1.SetCampoObligatorio(Me.INDtxtPrefix, False)
+        Me.INDtxtPrefix.EnterMoveNextControl = True
+        Me.INDtxtPrefix.Location = New System.Drawing.Point(168, 118)
+        Me.IndigoTextEdit1.SetMascara(Me.INDtxtPrefix, Presentation.Controls.IndigoTextEdit.EMask.AlfaNumerico)
+        Me.INDtxtPrefix.Name = "INDtxtPrefix"
+        Me.INDtxtPrefix.Properties.Appearance.BackColor = System.Drawing.Color.Transparent
+        Me.INDtxtPrefix.Properties.Appearance.Font = New System.Drawing.Font("Segoe UI Light", 12.0!)
+        Me.INDtxtPrefix.Properties.Appearance.ForeColor = System.Drawing.Color.Black
+        Me.INDtxtPrefix.Properties.Appearance.Options.UseBackColor = True
+        Me.INDtxtPrefix.Properties.Appearance.Options.UseFont = True
+        Me.INDtxtPrefix.Properties.Appearance.Options.UseForeColor = True
+        Me.INDtxtPrefix.Properties.AppearanceFocused.BackColor = System.Drawing.Color.FromArgb(CType(CType(215, Byte), Integer), CType(CType(242, Byte), Integer), CType(CType(255, Byte), Integer))
+        Me.INDtxtPrefix.Properties.AppearanceFocused.BorderColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(148, Byte), Integer), CType(CType(223, Byte), Integer))
+        Me.INDtxtPrefix.Properties.AppearanceFocused.Font = New System.Drawing.Font("Segoe UI Light", 12.0!)
+        Me.INDtxtPrefix.Properties.AppearanceFocused.Options.UseBackColor = True
+        Me.INDtxtPrefix.Properties.AppearanceFocused.Options.UseBorderColor = True
+        Me.INDtxtPrefix.Properties.AppearanceFocused.Options.UseFont = True
+        Me.INDtxtPrefix.Properties.Mask.EditMask = "[-a-zA-Z0-9|°¬!ñÑ""#$%&/()=?¡'¿\@¨´_.:,; ]+"
+        Me.INDtxtPrefix.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx
+        Me.INDtxtPrefix.Properties.MaxLength = 5
+        Me.INDtxtPrefix.Size = New System.Drawing.Size(229, 28)
+        Me.INDtxtPrefix.StyleController = Me.LayoutControl1
+        Me.INDtxtPrefix.TabIndex = 10
+        Me.IndigoTextEdit1.SetTamañoMinimoString(Me.INDtxtPrefix, 0)
+        '
+        'INDsbEdit
+        '
+        Me.INDsbEdit.Location = New System.Drawing.Point(11, 226)
+        Me.IndigoSimpleButton1.SetModernUiIndigo(Me.INDsbEdit, False)
+        Me.INDsbEdit.Name = "INDsbEdit"
+        Me.INDsbEdit.Size = New System.Drawing.Size(386, 32)
+        Me.INDsbEdit.StyleController = Me.LayoutControl1
+        Me.INDsbEdit.TabIndex = 9
+        Me.INDsbEdit.Text = "Editar"
+        '
+        'INDsbAddVoucher
+        '
+        Me.INDsbAddVoucher.Location = New System.Drawing.Point(11, 190)
+        Me.IndigoSimpleButton1.SetModernUiIndigo(Me.INDsbAddVoucher, False)
+        Me.INDsbAddVoucher.Name = "INDsbAddVoucher"
+        Me.INDsbAddVoucher.Size = New System.Drawing.Size(386, 32)
+        Me.INDsbAddVoucher.StyleController = Me.LayoutControl1
+        Me.INDsbAddVoucher.TabIndex = 8
+        Me.INDsbAddVoucher.Text = "Agregar"
+        '
+        'INDgleStatusVoucher
+        '
+        Me.IndigoGridLookUpControl1.SetAbrirFormularioArchivo(Me.INDgleStatusVoucher, False)
+        Me.IndigoTextEdit1.SetApplyStyle(Me.INDgleStatusVoucher, False)
+        Me.IndigoTextEdit1.SetCampoObligatorio(Me.INDgleStatusVoucher, True)
+        Me.INDgleStatusVoucher.EnterMoveNextControl = True
+        Me.IndigoGridLookUpControl1.SetGuardarXmlGrid(Me.INDgleStatusVoucher, False)
+        Me.INDgleStatusVoucher.Location = New System.Drawing.Point(168, 154)
+        Me.IndigoTextEdit1.SetMascara(Me.INDgleStatusVoucher, Presentation.Controls.IndigoTextEdit.EMask.Ninguno)
+        Me.INDgleStatusVoucher.Name = "INDgleStatusVoucher"
+        Me.INDgleStatusVoucher.Properties.Appearance.BackColor = System.Drawing.Color.MistyRose
+        Me.INDgleStatusVoucher.Properties.Appearance.Font = New System.Drawing.Font("Segoe UI Light", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.INDgleStatusVoucher.Properties.Appearance.ForeColor = System.Drawing.Color.Black
+        Me.INDgleStatusVoucher.Properties.Appearance.Options.UseBackColor = True
+        Me.INDgleStatusVoucher.Properties.Appearance.Options.UseFont = True
+        Me.INDgleStatusVoucher.Properties.Appearance.Options.UseForeColor = True
+        Me.INDgleStatusVoucher.Properties.AppearanceFocused.BackColor = System.Drawing.Color.FromArgb(CType(CType(240, Byte), Integer), CType(CType(240, Byte), Integer), CType(CType(240, Byte), Integer))
+        Me.INDgleStatusVoucher.Properties.AppearanceFocused.BorderColor = System.Drawing.Color.FromArgb(CType(CType(240, Byte), Integer), CType(CType(240, Byte), Integer), CType(CType(240, Byte), Integer))
+        Me.INDgleStatusVoucher.Properties.AppearanceFocused.Font = New System.Drawing.Font("Segoe UI Light", 12.0!)
+        Me.INDgleStatusVoucher.Properties.AppearanceFocused.Options.UseBackColor = True
+        Me.INDgleStatusVoucher.Properties.AppearanceFocused.Options.UseBorderColor = True
+        Me.INDgleStatusVoucher.Properties.AppearanceFocused.Options.UseFont = True
+        Me.INDgleStatusVoucher.Properties.Buttons.AddRange(New DevExpress.XtraEditors.Controls.EditorButton() {New DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)})
+        Me.INDgleStatusVoucher.Properties.DisplayMember = "Item2"
+        Me.INDgleStatusVoucher.Properties.ImmediatePopup = True
+        Me.INDgleStatusVoucher.Properties.NullText = ""
+        Me.INDgleStatusVoucher.Properties.PopupView = Me.GridView2
+        Me.INDgleStatusVoucher.Properties.ValueMember = "Item1"
+        Me.INDgleStatusVoucher.Size = New System.Drawing.Size(229, 28)
+        Me.INDgleStatusVoucher.StyleController = Me.LayoutControl1
+        Me.INDgleStatusVoucher.TabIndex = 7
+        Me.IndigoGridLookUpControl1.SetTagFormularioAbrir(Me.INDgleStatusVoucher, Nothing)
+        Me.IndigoTextEdit1.SetTamañoMinimoString(Me.INDgleStatusVoucher, 0)
+        Me.INDgleStatusVoucher.ToolTip = "Este Campo es Necesario"
+        '
+        'GridView2
+        '
+        Me.GridView2.Appearance.FocusedRow.BorderColor = System.Drawing.Color.LightGray
+        Me.GridView2.Appearance.FocusedRow.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Bold)
+        Me.GridView2.Appearance.FocusedRow.Options.UseBorderColor = True
+        Me.GridView2.Appearance.FocusedRow.Options.UseFont = True
+        Me.GridView2.Appearance.GroupRow.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.GridView2.Appearance.GroupRow.Options.UseFont = True
+        Me.GridView2.Appearance.HeaderPanel.Font = New System.Drawing.Font("Segoe UI Semibold", 10.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.GridView2.Appearance.HeaderPanel.Options.UseFont = True
+        Me.GridView2.Appearance.Row.Font = New System.Drawing.Font("Segoe UI Light", 9.75!)
+        Me.GridView2.Appearance.Row.Options.UseFont = True
+        Me.GridView2.Columns.AddRange(New DevExpress.XtraGrid.Columns.GridColumn() {Me.GridColumn67, Me.GridColumn68})
+        Me.GridView2.FocusRectStyle = DevExpress.XtraGrid.Views.Grid.DrawFocusRectStyle.RowFocus
+        Me.GridView2.Name = "GridView2"
+        Me.GridView2.OptionsSelection.EnableAppearanceFocusedCell = False
+        Me.GridView2.OptionsView.EnableAppearanceEvenRow = True
+        Me.GridView2.OptionsView.EnableAppearanceOddRow = True
+        Me.GridView2.OptionsView.ShowAutoFilterRow = True
+        Me.GridView2.OptionsView.ShowGroupPanel = False
+        Me.IndigoGridView2.SetTemaIndigoMetro(Me.GridView2, False)
+        Me.IndigoGridView1.SetTemaIndigoMetro(Me.GridView2, False)
+        '
+        'GridColumn67
+        '
+        Me.GridColumn67.Caption = "Código"
+        Me.GridColumn67.FieldName = "Item1"
+        Me.GridColumn67.Name = "GridColumn67"
+        Me.GridColumn67.Width = 289
+        '
+        'GridColumn68
+        '
+        Me.GridColumn68.Caption = "Estado Cheque"
+        Me.GridColumn68.FieldName = "Item2"
+        Me.GridColumn68.Name = "GridColumn68"
+        Me.GridColumn68.Visible = True
+        Me.GridColumn68.VisibleIndex = 0
+        Me.GridColumn68.Width = 881
+        '
+        'INDtxtCurrentNumber
+        '
+        Me.IndigoTextEdit1.SetApplyStyle(Me.INDtxtCurrentNumber, False)
+        Me.IndigoTextEdit1.SetCampoObligatorio(Me.INDtxtCurrentNumber, True)
+        Me.INDtxtCurrentNumber.EditValue = New Decimal(New Integer() {0, 0, 0, 0})
+        Me.INDtxtCurrentNumber.EnterMoveNextControl = True
+        Me.INDtxtCurrentNumber.Location = New System.Drawing.Point(168, 82)
+        Me.IndigoTextEdit1.SetMascara(Me.INDtxtCurrentNumber, Presentation.Controls.IndigoTextEdit.EMask.Numerico)
+        Me.INDtxtCurrentNumber.Name = "INDtxtCurrentNumber"
+        Me.INDtxtCurrentNumber.Properties.Appearance.BackColor = System.Drawing.Color.FromArgb(CType(CType(215, Byte), Integer), CType(CType(242, Byte), Integer), CType(CType(255, Byte), Integer))
+        Me.INDtxtCurrentNumber.Properties.Appearance.Font = New System.Drawing.Font("Segoe UI Light", 12.0!)
+        Me.INDtxtCurrentNumber.Properties.Appearance.Options.UseBackColor = True
+        Me.INDtxtCurrentNumber.Properties.Appearance.Options.UseFont = True
+        Me.INDtxtCurrentNumber.Properties.AppearanceFocused.BackColor = System.Drawing.Color.FromArgb(CType(CType(215, Byte), Integer), CType(CType(242, Byte), Integer), CType(CType(255, Byte), Integer))
+        Me.INDtxtCurrentNumber.Properties.AppearanceFocused.BorderColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(148, Byte), Integer), CType(CType(223, Byte), Integer))
+        Me.INDtxtCurrentNumber.Properties.AppearanceFocused.Font = New System.Drawing.Font("Segoe UI Light", 12.0!)
+        Me.INDtxtCurrentNumber.Properties.AppearanceFocused.Options.UseBackColor = True
+        Me.INDtxtCurrentNumber.Properties.AppearanceFocused.Options.UseBorderColor = True
+        Me.INDtxtCurrentNumber.Properties.AppearanceFocused.Options.UseFont = True
+        Me.INDtxtCurrentNumber.Properties.Buttons.AddRange(New DevExpress.XtraEditors.Controls.EditorButton() {New DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)})
+        Me.INDtxtCurrentNumber.Properties.Mask.EditMask = "[0-9]+"
+        Me.INDtxtCurrentNumber.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx
+        Me.INDtxtCurrentNumber.Properties.MaxLength = 15
+        Me.INDtxtCurrentNumber.Size = New System.Drawing.Size(229, 28)
+        Me.INDtxtCurrentNumber.StyleController = Me.LayoutControl1
+        Me.INDtxtCurrentNumber.TabIndex = 6
+        Me.IndigoTextEdit1.SetTamañoMinimoString(Me.INDtxtCurrentNumber, 0)
+        '
+        'INDtxtEndNumber
+        '
+        Me.IndigoTextEdit1.SetApplyStyle(Me.INDtxtEndNumber, False)
+        Me.IndigoTextEdit1.SetCampoObligatorio(Me.INDtxtEndNumber, True)
+        Me.INDtxtEndNumber.EditValue = New Decimal(New Integer() {0, 0, 0, 0})
+        Me.INDtxtEndNumber.EnterMoveNextControl = True
+        Me.INDtxtEndNumber.Location = New System.Drawing.Point(168, 46)
+        Me.IndigoTextEdit1.SetMascara(Me.INDtxtEndNumber, Presentation.Controls.IndigoTextEdit.EMask.Numerico)
+        Me.INDtxtEndNumber.Name = "INDtxtEndNumber"
+        Me.INDtxtEndNumber.Properties.Appearance.BackColor = System.Drawing.Color.FromArgb(CType(CType(215, Byte), Integer), CType(CType(242, Byte), Integer), CType(CType(255, Byte), Integer))
+        Me.INDtxtEndNumber.Properties.Appearance.Font = New System.Drawing.Font("Segoe UI Light", 12.0!)
+        Me.INDtxtEndNumber.Properties.Appearance.Options.UseBackColor = True
+        Me.INDtxtEndNumber.Properties.Appearance.Options.UseFont = True
+        Me.INDtxtEndNumber.Properties.AppearanceFocused.BackColor = System.Drawing.Color.FromArgb(CType(CType(215, Byte), Integer), CType(CType(242, Byte), Integer), CType(CType(255, Byte), Integer))
+        Me.INDtxtEndNumber.Properties.AppearanceFocused.BorderColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(148, Byte), Integer), CType(CType(223, Byte), Integer))
+        Me.INDtxtEndNumber.Properties.AppearanceFocused.Font = New System.Drawing.Font("Segoe UI Light", 12.0!)
+        Me.INDtxtEndNumber.Properties.AppearanceFocused.Options.UseBackColor = True
+        Me.INDtxtEndNumber.Properties.AppearanceFocused.Options.UseBorderColor = True
+        Me.INDtxtEndNumber.Properties.AppearanceFocused.Options.UseFont = True
+        Me.INDtxtEndNumber.Properties.Buttons.AddRange(New DevExpress.XtraEditors.Controls.EditorButton() {New DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)})
+        Me.INDtxtEndNumber.Properties.Mask.EditMask = "[0-9]+"
+        Me.INDtxtEndNumber.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx
+        Me.INDtxtEndNumber.Properties.MaxLength = 15
+        Me.INDtxtEndNumber.Size = New System.Drawing.Size(229, 28)
+        Me.INDtxtEndNumber.StyleController = Me.LayoutControl1
+        Me.INDtxtEndNumber.TabIndex = 5
+        Me.IndigoTextEdit1.SetTamañoMinimoString(Me.INDtxtEndNumber, 0)
+        '
+        'INDtxtInitialNumber
+        '
+        Me.IndigoTextEdit1.SetApplyStyle(Me.INDtxtInitialNumber, False)
+        Me.IndigoTextEdit1.SetCampoObligatorio(Me.INDtxtInitialNumber, True)
+        Me.INDtxtInitialNumber.EditValue = New Decimal(New Integer() {0, 0, 0, 0})
+        Me.INDtxtInitialNumber.EnterMoveNextControl = True
+        Me.INDtxtInitialNumber.Location = New System.Drawing.Point(168, 10)
+        Me.IndigoTextEdit1.SetMascara(Me.INDtxtInitialNumber, Presentation.Controls.IndigoTextEdit.EMask.Numerico)
+        Me.INDtxtInitialNumber.Name = "INDtxtInitialNumber"
+        Me.INDtxtInitialNumber.Properties.Appearance.BackColor = System.Drawing.Color.FromArgb(CType(CType(215, Byte), Integer), CType(CType(242, Byte), Integer), CType(CType(255, Byte), Integer))
+        Me.INDtxtInitialNumber.Properties.Appearance.Font = New System.Drawing.Font("Segoe UI Light", 12.0!)
+        Me.INDtxtInitialNumber.Properties.Appearance.Options.UseBackColor = True
+        Me.INDtxtInitialNumber.Properties.Appearance.Options.UseFont = True
+        Me.INDtxtInitialNumber.Properties.AppearanceFocused.BackColor = System.Drawing.Color.FromArgb(CType(CType(215, Byte), Integer), CType(CType(242, Byte), Integer), CType(CType(255, Byte), Integer))
+        Me.INDtxtInitialNumber.Properties.AppearanceFocused.BorderColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(148, Byte), Integer), CType(CType(223, Byte), Integer))
+        Me.INDtxtInitialNumber.Properties.AppearanceFocused.Font = New System.Drawing.Font("Segoe UI Light", 12.0!)
+        Me.INDtxtInitialNumber.Properties.AppearanceFocused.Options.UseBackColor = True
+        Me.INDtxtInitialNumber.Properties.AppearanceFocused.Options.UseBorderColor = True
+        Me.INDtxtInitialNumber.Properties.AppearanceFocused.Options.UseFont = True
+        Me.INDtxtInitialNumber.Properties.Buttons.AddRange(New DevExpress.XtraEditors.Controls.EditorButton() {New DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)})
+        Me.INDtxtInitialNumber.Properties.Mask.EditMask = "[0-9]+"
+        Me.INDtxtInitialNumber.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx
+        Me.INDtxtInitialNumber.Properties.MaxLength = 15
+        Me.INDtxtInitialNumber.Size = New System.Drawing.Size(229, 28)
+        Me.INDtxtInitialNumber.StyleController = Me.LayoutControl1
+        Me.INDtxtInitialNumber.TabIndex = 4
+        Me.IndigoTextEdit1.SetTamañoMinimoString(Me.INDtxtInitialNumber, 0)
+        '
+        'LayoutControlGroup1
+        '
+        Me.LayoutControlGroup1.AppearanceGroup.Font = New System.Drawing.Font("Segoe UI", 15.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.LayoutControlGroup1.AppearanceGroup.Options.UseFont = True
+        Me.LayoutControlGroup1.AppearanceItemCaption.Font = New System.Drawing.Font("Segoe UI Light", 10.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.LayoutControlGroup1.AppearanceItemCaption.Options.UseFont = True
+        Me.LayoutControlGroup1.AppearanceTabPage.Header.Font = New System.Drawing.Font("Segoe UI Light", 12.0!)
+        Me.LayoutControlGroup1.AppearanceTabPage.Header.Options.UseFont = True
+        Me.LayoutControlGroup1.AppearanceTabPage.HeaderActive.Font = New System.Drawing.Font("Segoe UI", 12.0!)
+        Me.LayoutControlGroup1.AppearanceTabPage.HeaderActive.Options.UseFont = True
+        Me.LayoutControlGroup1.AppearanceTabPage.HeaderDisabled.Font = New System.Drawing.Font("Segoe UI Light", 12.0!)
+        Me.LayoutControlGroup1.AppearanceTabPage.HeaderDisabled.Options.UseFont = True
+        Me.LayoutControlGroup1.AppearanceTabPage.HeaderHotTracked.Font = New System.Drawing.Font("Segoe UI Light", 12.0!)
+        Me.LayoutControlGroup1.AppearanceTabPage.HeaderHotTracked.Options.UseFont = True
+        Me.LayoutControlGroup1.AppearanceTabPage.PageClient.Font = New System.Drawing.Font("Segoe UI Light", 12.0!)
+        Me.LayoutControlGroup1.AppearanceTabPage.PageClient.Options.UseFont = True
+        Me.IndigoLayoutControlGroup1.SetCampoObligatorio(Me.LayoutControlGroup1, False)
+        Me.LayoutControlGroup1.CustomizationFormText = "LayoutControlGroup1"
+        Me.LayoutControlGroup1.EnableIndentsWithoutBorders = DevExpress.Utils.DefaultBoolean.[True]
+        Me.LayoutControlGroup1.GroupBordersVisible = False
+        Me.LayoutControlGroup1.Items.AddRange(New DevExpress.XtraLayout.BaseLayoutItem() {Me.INDliInitialNumber, Me.INDliEndNumber, Me.INDliCurrentNumber, Me.INDliStatusVoucher, Me.INDliAdd, Me.INDliEdit, Me.INDliPrefix})
+        Me.LayoutControlGroup1.Name = "LayoutControlGroup1"
+        Me.LayoutControlGroup1.Size = New System.Drawing.Size(429, 287)
+        Me.LayoutControlGroup1.TextVisible = False
+        '
+        'INDliInitialNumber
+        '
+        Me.INDliInitialNumber.AllowHide = False
+        Me.INDliInitialNumber.Control = Me.INDtxtInitialNumber
+        Me.INDliInitialNumber.CustomizationFormText = "LayoutControlItem1"
+        Me.INDliInitialNumber.Location = New System.Drawing.Point(0, 0)
+        Me.INDliInitialNumber.MaxSize = New System.Drawing.Size(390, 36)
+        Me.INDliInitialNumber.MinSize = New System.Drawing.Size(390, 36)
+        Me.INDliInitialNumber.Name = "INDliInitialNumber"
+        Me.INDliInitialNumber.ShowInCustomizationForm = False
+        Me.INDliInitialNumber.Size = New System.Drawing.Size(411, 36)
+        Me.INDliInitialNumber.SizeConstraintsType = DevExpress.XtraLayout.SizeConstraintsType.Custom
+        Me.INDliInitialNumber.Text = "Número Inicial"
+        Me.INDliInitialNumber.TextAlignMode = DevExpress.XtraLayout.TextAlignModeItem.CustomSize
+        Me.INDliInitialNumber.TextSize = New System.Drawing.Size(145, 13)
+        Me.INDliInitialNumber.TextToControlDistance = 12
+        '
+        'INDliEndNumber
+        '
+        Me.INDliEndNumber.AllowHide = False
+        Me.INDliEndNumber.Control = Me.INDtxtEndNumber
+        Me.INDliEndNumber.CustomizationFormText = "LayoutControlItem2"
+        Me.INDliEndNumber.Location = New System.Drawing.Point(0, 36)
+        Me.INDliEndNumber.MaxSize = New System.Drawing.Size(390, 36)
+        Me.INDliEndNumber.MinSize = New System.Drawing.Size(390, 36)
+        Me.INDliEndNumber.Name = "INDliEndNumber"
+        Me.INDliEndNumber.ShowInCustomizationForm = False
+        Me.INDliEndNumber.Size = New System.Drawing.Size(411, 36)
+        Me.INDliEndNumber.SizeConstraintsType = DevExpress.XtraLayout.SizeConstraintsType.Custom
+        Me.INDliEndNumber.Text = "Número Final"
+        Me.INDliEndNumber.TextAlignMode = DevExpress.XtraLayout.TextAlignModeItem.CustomSize
+        Me.INDliEndNumber.TextSize = New System.Drawing.Size(145, 13)
+        Me.INDliEndNumber.TextToControlDistance = 12
+        '
+        'INDliCurrentNumber
+        '
+        Me.INDliCurrentNumber.AllowHide = False
+        Me.INDliCurrentNumber.Control = Me.INDtxtCurrentNumber
+        Me.INDliCurrentNumber.CustomizationFormText = "LayoutControlItem3"
+        Me.INDliCurrentNumber.Location = New System.Drawing.Point(0, 72)
+        Me.INDliCurrentNumber.MaxSize = New System.Drawing.Size(390, 36)
+        Me.INDliCurrentNumber.MinSize = New System.Drawing.Size(390, 36)
+        Me.INDliCurrentNumber.Name = "INDliCurrentNumber"
+        Me.INDliCurrentNumber.ShowInCustomizationForm = False
+        Me.INDliCurrentNumber.Size = New System.Drawing.Size(411, 36)
+        Me.INDliCurrentNumber.SizeConstraintsType = DevExpress.XtraLayout.SizeConstraintsType.Custom
+        Me.INDliCurrentNumber.Text = "Número Actual"
+        Me.INDliCurrentNumber.TextAlignMode = DevExpress.XtraLayout.TextAlignModeItem.CustomSize
+        Me.INDliCurrentNumber.TextSize = New System.Drawing.Size(145, 13)
+        Me.INDliCurrentNumber.TextToControlDistance = 12
+        '
+        'INDliStatusVoucher
+        '
+        Me.INDliStatusVoucher.AllowHide = False
+        Me.INDliStatusVoucher.Control = Me.INDgleStatusVoucher
+        Me.INDliStatusVoucher.CustomizationFormText = "LayoutControlItem4"
+        Me.INDliStatusVoucher.Location = New System.Drawing.Point(0, 144)
+        Me.INDliStatusVoucher.MaxSize = New System.Drawing.Size(390, 36)
+        Me.INDliStatusVoucher.MinSize = New System.Drawing.Size(390, 36)
+        Me.INDliStatusVoucher.Name = "INDliStatusVoucher"
+        Me.INDliStatusVoucher.ShowInCustomizationForm = False
+        Me.INDliStatusVoucher.Size = New System.Drawing.Size(411, 36)
+        Me.INDliStatusVoucher.SizeConstraintsType = DevExpress.XtraLayout.SizeConstraintsType.Custom
+        Me.INDliStatusVoucher.Text = "Estado"
+        Me.INDliStatusVoucher.TextAlignMode = DevExpress.XtraLayout.TextAlignModeItem.CustomSize
+        Me.INDliStatusVoucher.TextSize = New System.Drawing.Size(145, 13)
+        Me.INDliStatusVoucher.TextToControlDistance = 12
+        '
+        'INDliAdd
+        '
+        Me.INDliAdd.AllowHide = False
+        Me.INDliAdd.Control = Me.INDsbAddVoucher
+        Me.INDliAdd.CustomizationFormText = "Agregar"
+        Me.INDliAdd.Location = New System.Drawing.Point(0, 180)
+        Me.INDliAdd.MaxSize = New System.Drawing.Size(390, 36)
+        Me.INDliAdd.MinSize = New System.Drawing.Size(390, 36)
+        Me.INDliAdd.Name = "INDliAdd"
+        Me.INDliAdd.ShowInCustomizationForm = False
+        Me.INDliAdd.Size = New System.Drawing.Size(411, 36)
+        Me.INDliAdd.SizeConstraintsType = DevExpress.XtraLayout.SizeConstraintsType.Custom
+        Me.INDliAdd.TextAlignMode = DevExpress.XtraLayout.TextAlignModeItem.CustomSize
+        Me.INDliAdd.TextSize = New System.Drawing.Size(0, 0)
+        Me.INDliAdd.TextToControlDistance = 0
+        Me.INDliAdd.TextVisible = False
+        '
+        'INDliEdit
+        '
+        Me.INDliEdit.AllowHide = False
+        Me.INDliEdit.Control = Me.INDsbEdit
+        Me.INDliEdit.CustomizationFormText = "Editar"
+        Me.INDliEdit.Location = New System.Drawing.Point(0, 216)
+        Me.INDliEdit.MaxSize = New System.Drawing.Size(390, 36)
+        Me.INDliEdit.MinSize = New System.Drawing.Size(390, 36)
+        Me.INDliEdit.Name = "INDliEdit"
+        Me.INDliEdit.ShowInCustomizationForm = False
+        Me.INDliEdit.Size = New System.Drawing.Size(411, 55)
+        Me.INDliEdit.SizeConstraintsType = DevExpress.XtraLayout.SizeConstraintsType.Custom
+        Me.INDliEdit.Text = "Editar"
+        Me.INDliEdit.TextAlignMode = DevExpress.XtraLayout.TextAlignModeItem.CustomSize
+        Me.INDliEdit.TextSize = New System.Drawing.Size(0, 0)
+        Me.INDliEdit.TextToControlDistance = 0
+        Me.INDliEdit.TextVisible = False
+        Me.INDliEdit.Visibility = DevExpress.XtraLayout.Utils.LayoutVisibility.Never
+        '
+        'INDliPrefix
+        '
+        Me.INDliPrefix.AllowHide = False
+        Me.INDliPrefix.Control = Me.INDtxtPrefix
+        Me.INDliPrefix.CustomizationFormText = "Prefijo"
+        Me.INDliPrefix.Location = New System.Drawing.Point(0, 108)
+        Me.INDliPrefix.MaxSize = New System.Drawing.Size(390, 36)
+        Me.INDliPrefix.MinSize = New System.Drawing.Size(390, 36)
+        Me.INDliPrefix.Name = "INDliPrefix"
+        Me.INDliPrefix.ShowInCustomizationForm = False
+        Me.INDliPrefix.Size = New System.Drawing.Size(411, 36)
+        Me.INDliPrefix.SizeConstraintsType = DevExpress.XtraLayout.SizeConstraintsType.Custom
+        Me.INDliPrefix.Text = "Prefijo"
+        Me.INDliPrefix.TextAlignMode = DevExpress.XtraLayout.TextAlignModeItem.CustomSize
+        Me.INDliPrefix.TextSize = New System.Drawing.Size(145, 20)
+        Me.INDliPrefix.TextToControlDistance = 12
+        '
+        'INDSleCostCenterMainAccountExpenses
+        '
+        Me.IndigoSearchLookUpControl1.SetAppearanceEmbeddedNavigator(Me.INDSleCostCenterMainAccountExpenses, AppearanceObject3)
+        Me.IndigoSearchLookUpControl1.SetAppearanceTextFindControl(Me.INDSleCostCenterMainAccountExpenses, AppearanceObject4)
+        Me.IndigoSearchLookUpControl1.SetAppendButtonNavigator(Me.INDSleCostCenterMainAccountExpenses, False)
+        Me.IndigoTextEdit1.SetApplyStyle(Me.INDSleCostCenterMainAccountExpenses, False)
+        Me.IndigoSearchLookUpControl1.SetAutomaticOpenForm(Me.INDSleCostCenterMainAccountExpenses, False)
+        Me.IndigoTextEdit1.SetCampoObligatorio(Me.INDSleCostCenterMainAccountExpenses, True)
+        Me.IndigoSearchLookUpControl1.SetCancelEditButtonNavigator(Me.INDSleCostCenterMainAccountExpenses, False)
+        Me.IndigoSearchLookUpControl1.SetEditButtonNavigator(Me.INDSleCostCenterMainAccountExpenses, False)
+        Me.IndigoSearchLookUpControl1.SetEndEditButtonNavigator(Me.INDSleCostCenterMainAccountExpenses, False)
+        Me.INDSleCostCenterMainAccountExpenses.EnterMoveNextControl = True
+        Me.IndigoSearchLookUpControl1.SetExportButton(Me.INDSleCostCenterMainAccountExpenses, False)
+        Me.IndigoSearchLookUpControl1.SetFirstButtonNavigator(Me.INDSleCostCenterMainAccountExpenses, False)
+        Me.IndigoSearchLookUpControl1.SetLastButtonNavigator(Me.INDSleCostCenterMainAccountExpenses, False)
+        Me.INDSleCostCenterMainAccountExpenses.Location = New System.Drawing.Point(604, 337)
+        Me.IndigoTextEdit1.SetMascara(Me.INDSleCostCenterMainAccountExpenses, Presentation.Controls.IndigoTextEdit.EMask.Ninguno)
+        Me.INDSleCostCenterMainAccountExpenses.Name = "INDSleCostCenterMainAccountExpenses"
+        Me.IndigoSearchLookUpControl1.SetNextButtonNavigator(Me.INDSleCostCenterMainAccountExpenses, False)
+        Me.IndigoSearchLookUpControl1.SetNextPageButtonNavigator(Me.INDSleCostCenterMainAccountExpenses, False)
+        Me.IndigoSearchLookUpControl1.SetOpenForm(Me.INDSleCostCenterMainAccountExpenses, True)
+        Me.IndigoSearchLookUpControl1.SetPopupBestFitHeight(Me.INDSleCostCenterMainAccountExpenses, False)
+        Me.IndigoSearchLookUpControl1.SetPopupSizeable(Me.INDSleCostCenterMainAccountExpenses, False)
+        Me.IndigoSearchLookUpControl1.SetPrevButtonNavigator(Me.INDSleCostCenterMainAccountExpenses, False)
+        Me.IndigoSearchLookUpControl1.SetPrevPageButtonNavigator(Me.INDSleCostCenterMainAccountExpenses, False)
+        Me.INDSleCostCenterMainAccountExpenses.Properties.Appearance.BackColor = System.Drawing.Color.MistyRose
+        Me.INDSleCostCenterMainAccountExpenses.Properties.Appearance.Font = New System.Drawing.Font("Segoe UI Light", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.INDSleCostCenterMainAccountExpenses.Properties.Appearance.ForeColor = System.Drawing.Color.FromArgb(CType(CType(40, Byte), Integer), CType(CType(40, Byte), Integer), CType(CType(40, Byte), Integer))
+        Me.INDSleCostCenterMainAccountExpenses.Properties.Appearance.Options.UseBackColor = True
+        Me.INDSleCostCenterMainAccountExpenses.Properties.Appearance.Options.UseFont = True
+        Me.INDSleCostCenterMainAccountExpenses.Properties.Appearance.Options.UseForeColor = True
+        Me.INDSleCostCenterMainAccountExpenses.Properties.AppearanceFocused.BackColor = System.Drawing.Color.FromArgb(CType(CType(215, Byte), Integer), CType(CType(242, Byte), Integer), CType(CType(255, Byte), Integer))
+        Me.INDSleCostCenterMainAccountExpenses.Properties.AppearanceFocused.BorderColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(148, Byte), Integer), CType(CType(223, Byte), Integer))
+        Me.INDSleCostCenterMainAccountExpenses.Properties.AppearanceFocused.Font = New System.Drawing.Font("Segoe UI Light", 12.0!)
+        Me.INDSleCostCenterMainAccountExpenses.Properties.AppearanceFocused.Options.UseBackColor = True
+        Me.INDSleCostCenterMainAccountExpenses.Properties.AppearanceFocused.Options.UseBorderColor = True
+        Me.INDSleCostCenterMainAccountExpenses.Properties.AppearanceFocused.Options.UseFont = True
+        Me.INDSleCostCenterMainAccountExpenses.Properties.Buttons.AddRange(New DevExpress.XtraEditors.Controls.EditorButton() {New DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)})
+        Me.INDSleCostCenterMainAccountExpenses.Properties.DisplayMember = "CodeName"
+        Me.INDSleCostCenterMainAccountExpenses.Properties.NullText = ""
+        Me.INDSleCostCenterMainAccountExpenses.Properties.PopupSizeable = False
+        Me.INDSleCostCenterMainAccountExpenses.Properties.PopupView = Me.GridView8
+        Me.INDSleCostCenterMainAccountExpenses.Properties.ShowFooter = False
+        Me.INDSleCostCenterMainAccountExpenses.Properties.ValueMember = "Id"
+        Me.IndigoSearchLookUpControl1.SetRemoveButtonNavigator(Me.INDSleCostCenterMainAccountExpenses, False)
+        Me.IndigoSearchLookUpControl1.SetSaveXmlGrid(Me.INDSleCostCenterMainAccountExpenses, True)
+        Me.IndigoSearchLookUpControl1.SetShowDeleteButton(Me.INDSleCostCenterMainAccountExpenses, True)
+        Me.IndigoSearchLookUpControl1.SetShowFindButton(Me.INDSleCostCenterMainAccountExpenses, True)
+        Me.INDSleCostCenterMainAccountExpenses.Size = New System.Drawing.Size(226, 28)
+        Me.INDSleCostCenterMainAccountExpenses.StyleController = Me.INDlycRoot
+        Me.INDSleCostCenterMainAccountExpenses.TabIndex = 19
+        Me.IndigoSearchLookUpControl1.SetTagForm(Me.INDSleCostCenterMainAccountExpenses, "517")
+        Me.IndigoTextEdit1.SetTamañoMinimoString(Me.INDSleCostCenterMainAccountExpenses, 0)
+        Me.IndigoSearchLookUpControl1.SetTextStringFormat(Me.INDSleCostCenterMainAccountExpenses, "{0} - {1}")
+        Me.INDSleCostCenterMainAccountExpenses.ToolTip = "Este Campo es Necesario"
+        Me.IndigoSearchLookUpControl1.SetTxtFindEnterEnabled(Me.INDSleCostCenterMainAccountExpenses, False)
+        Me.IndigoSearchLookUpControl1.SetUseEmbeddedNavigator(Me.INDSleCostCenterMainAccountExpenses, False)
+        '
+        'GridView8
+        '
+        Me.GridView8.Appearance.FocusedRow.BorderColor = System.Drawing.Color.LightGray
+        Me.GridView8.Appearance.FocusedRow.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Bold)
+        Me.GridView8.Appearance.FocusedRow.Options.UseBorderColor = True
+        Me.GridView8.Appearance.FocusedRow.Options.UseFont = True
+        Me.GridView8.Appearance.GroupRow.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.GridView8.Appearance.GroupRow.Options.UseFont = True
+        Me.GridView8.Appearance.HeaderPanel.Font = New System.Drawing.Font("Segoe UI Semibold", 10.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.GridView8.Appearance.HeaderPanel.Options.UseFont = True
+        Me.GridView8.Appearance.Row.Font = New System.Drawing.Font("Segoe UI Light", 9.75!)
+        Me.GridView8.Appearance.Row.Options.UseFont = True
+        Me.GridView8.Columns.AddRange(New DevExpress.XtraGrid.Columns.GridColumn() {Me.GridColumn390, Me.GridColumn391})
+        Me.GridView8.FocusRectStyle = DevExpress.XtraGrid.Views.Grid.DrawFocusRectStyle.RowFocus
+        Me.GridView8.Name = "GridView8"
+        Me.GridView8.OptionsSelection.EnableAppearanceFocusedCell = False
+        Me.GridView8.OptionsView.EnableAppearanceEvenRow = True
+        Me.GridView8.OptionsView.EnableAppearanceOddRow = True
+        Me.GridView8.OptionsView.ShowAutoFilterRow = True
+        Me.GridView8.OptionsView.ShowGroupPanel = False
+        Me.IndigoGridView2.SetTemaIndigoMetro(Me.GridView8, False)
+        Me.IndigoGridView1.SetTemaIndigoMetro(Me.GridView8, False)
+        '
+        'GridColumn390
+        '
+        Me.GridColumn390.Caption = "Código"
+        Me.GridColumn390.FieldName = "Codigo"
+        Me.GridColumn390.Name = "GridColumn390"
+        Me.GridColumn390.Visible = True
+        Me.GridColumn390.VisibleIndex = 0
+        Me.GridColumn390.Width = 248
+        '
+        'GridColumn391
+        '
+        Me.GridColumn391.Caption = "Nombre"
+        Me.GridColumn391.FieldName = "Descripcion"
+        Me.GridColumn391.Name = "GridColumn391"
+        Me.GridColumn391.Visible = True
+        Me.GridColumn391.VisibleIndex = 1
+        Me.GridColumn391.Width = 576
+        '
+        'INDSleThirdMainAccountExpenses
+        '
+        Me.IndigoSearchLookUpControl1.SetAppearanceEmbeddedNavigator(Me.INDSleThirdMainAccountExpenses, AppearanceObject5)
+        Me.IndigoSearchLookUpControl1.SetAppearanceTextFindControl(Me.INDSleThirdMainAccountExpenses, AppearanceObject6)
+        Me.IndigoSearchLookUpControl1.SetAppendButtonNavigator(Me.INDSleThirdMainAccountExpenses, False)
+        Me.IndigoTextEdit1.SetApplyStyle(Me.INDSleThirdMainAccountExpenses, True)
+        Me.IndigoSearchLookUpControl1.SetAutomaticOpenForm(Me.INDSleThirdMainAccountExpenses, False)
+        Me.IndigoTextEdit1.SetCampoObligatorio(Me.INDSleThirdMainAccountExpenses, True)
+        Me.IndigoSearchLookUpControl1.SetCancelEditButtonNavigator(Me.INDSleThirdMainAccountExpenses, False)
+        Me.IndigoSearchLookUpControl1.SetEditButtonNavigator(Me.INDSleThirdMainAccountExpenses, False)
+        Me.IndigoSearchLookUpControl1.SetEndEditButtonNavigator(Me.INDSleThirdMainAccountExpenses, False)
+        Me.INDSleThirdMainAccountExpenses.EnterMoveNextControl = True
+        Me.IndigoSearchLookUpControl1.SetExportButton(Me.INDSleThirdMainAccountExpenses, False)
+        Me.IndigoSearchLookUpControl1.SetFirstButtonNavigator(Me.INDSleThirdMainAccountExpenses, False)
+        Me.IndigoSearchLookUpControl1.SetLastButtonNavigator(Me.INDSleThirdMainAccountExpenses, False)
+        Me.INDSleThirdMainAccountExpenses.Location = New System.Drawing.Point(604, 301)
+        Me.IndigoTextEdit1.SetMascara(Me.INDSleThirdMainAccountExpenses, Presentation.Controls.IndigoTextEdit.EMask.Ninguno)
+        Me.INDSleThirdMainAccountExpenses.Name = "INDSleThirdMainAccountExpenses"
+        Me.IndigoSearchLookUpControl1.SetNextButtonNavigator(Me.INDSleThirdMainAccountExpenses, False)
+        Me.IndigoSearchLookUpControl1.SetNextPageButtonNavigator(Me.INDSleThirdMainAccountExpenses, False)
+        Me.IndigoSearchLookUpControl1.SetOpenForm(Me.INDSleThirdMainAccountExpenses, True)
+        Me.IndigoSearchLookUpControl1.SetPopupBestFitHeight(Me.INDSleThirdMainAccountExpenses, False)
+        Me.IndigoSearchLookUpControl1.SetPopupSizeable(Me.INDSleThirdMainAccountExpenses, False)
+        Me.IndigoSearchLookUpControl1.SetPrevButtonNavigator(Me.INDSleThirdMainAccountExpenses, False)
+        Me.IndigoSearchLookUpControl1.SetPrevPageButtonNavigator(Me.INDSleThirdMainAccountExpenses, False)
+        Me.INDSleThirdMainAccountExpenses.Properties.Appearance.BackColor = System.Drawing.Color.MistyRose
+        Me.INDSleThirdMainAccountExpenses.Properties.Appearance.Font = New System.Drawing.Font("Segoe UI Light", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.INDSleThirdMainAccountExpenses.Properties.Appearance.ForeColor = System.Drawing.Color.FromArgb(CType(CType(40, Byte), Integer), CType(CType(40, Byte), Integer), CType(CType(40, Byte), Integer))
+        Me.INDSleThirdMainAccountExpenses.Properties.Appearance.Options.UseBackColor = True
+        Me.INDSleThirdMainAccountExpenses.Properties.Appearance.Options.UseFont = True
+        Me.INDSleThirdMainAccountExpenses.Properties.Appearance.Options.UseForeColor = True
+        Me.INDSleThirdMainAccountExpenses.Properties.AppearanceFocused.BackColor = System.Drawing.Color.FromArgb(CType(CType(215, Byte), Integer), CType(CType(242, Byte), Integer), CType(CType(255, Byte), Integer))
+        Me.INDSleThirdMainAccountExpenses.Properties.AppearanceFocused.BorderColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(148, Byte), Integer), CType(CType(223, Byte), Integer))
+        Me.INDSleThirdMainAccountExpenses.Properties.AppearanceFocused.Font = New System.Drawing.Font("Segoe UI Light", 12.0!)
+        Me.INDSleThirdMainAccountExpenses.Properties.AppearanceFocused.Options.UseBackColor = True
+        Me.INDSleThirdMainAccountExpenses.Properties.AppearanceFocused.Options.UseBorderColor = True
+        Me.INDSleThirdMainAccountExpenses.Properties.AppearanceFocused.Options.UseFont = True
+        Me.INDSleThirdMainAccountExpenses.Properties.Buttons.AddRange(New DevExpress.XtraEditors.Controls.EditorButton() {New DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)})
+        Me.INDSleThirdMainAccountExpenses.Properties.DisplayMember = "NitName"
+        Me.INDSleThirdMainAccountExpenses.Properties.NullText = ""
+        Me.INDSleThirdMainAccountExpenses.Properties.PopupFormMinSize = New System.Drawing.Size(905, 0)
+        Me.INDSleThirdMainAccountExpenses.Properties.PopupFormSize = New System.Drawing.Size(950, 0)
+        Me.INDSleThirdMainAccountExpenses.Properties.PopupSizeable = False
+        Me.INDSleThirdMainAccountExpenses.Properties.PopupView = Me.GridView7
+        Me.INDSleThirdMainAccountExpenses.Properties.ShowFooter = False
+        Me.INDSleThirdMainAccountExpenses.Properties.ValueMember = "Id"
+        Me.IndigoSearchLookUpControl1.SetRemoveButtonNavigator(Me.INDSleThirdMainAccountExpenses, False)
+        Me.IndigoSearchLookUpControl1.SetSaveXmlGrid(Me.INDSleThirdMainAccountExpenses, True)
+        Me.IndigoSearchLookUpControl1.SetShowDeleteButton(Me.INDSleThirdMainAccountExpenses, True)
+        Me.IndigoSearchLookUpControl1.SetShowFindButton(Me.INDSleThirdMainAccountExpenses, True)
+        Me.INDSleThirdMainAccountExpenses.Size = New System.Drawing.Size(226, 28)
+        Me.INDSleThirdMainAccountExpenses.StyleController = Me.INDlycRoot
+        Me.INDSleThirdMainAccountExpenses.TabIndex = 18
+        Me.IndigoSearchLookUpControl1.SetTagForm(Me.INDSleThirdMainAccountExpenses, "532")
+        Me.IndigoTextEdit1.SetTamañoMinimoString(Me.INDSleThirdMainAccountExpenses, 0)
+        Me.IndigoSearchLookUpControl1.SetTextStringFormat(Me.INDSleThirdMainAccountExpenses, "{0} - {1}")
+        Me.INDSleThirdMainAccountExpenses.ToolTip = "Este Campo es Necesario"
+        Me.IndigoSearchLookUpControl1.SetTxtFindEnterEnabled(Me.INDSleThirdMainAccountExpenses, False)
+        Me.IndigoSearchLookUpControl1.SetUseEmbeddedNavigator(Me.INDSleThirdMainAccountExpenses, False)
+        '
+        'GridView7
+        '
+        Me.GridView7.Appearance.FocusedRow.BorderColor = System.Drawing.Color.LightGray
+        Me.GridView7.Appearance.FocusedRow.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Bold)
+        Me.GridView7.Appearance.FocusedRow.Options.UseBorderColor = True
+        Me.GridView7.Appearance.FocusedRow.Options.UseFont = True
+        Me.GridView7.Appearance.GroupRow.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.GridView7.Appearance.GroupRow.Options.UseFont = True
+        Me.GridView7.Appearance.HeaderPanel.Font = New System.Drawing.Font("Segoe UI Semibold", 10.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.GridView7.Appearance.HeaderPanel.Options.UseFont = True
+        Me.GridView7.Appearance.Row.Font = New System.Drawing.Font("Segoe UI Light", 9.75!)
+        Me.GridView7.Appearance.Row.Options.UseFont = True
+        Me.GridView7.Columns.AddRange(New DevExpress.XtraGrid.Columns.GridColumn() {Me.GridColumn384, Me.GridColumn385, Me.GridColumn386, Me.GridColumn387, Me.GridColumn388, Me.GridColumn389})
+        Me.GridView7.FocusRectStyle = DevExpress.XtraGrid.Views.Grid.DrawFocusRectStyle.RowFocus
+        Me.GridView7.Name = "GridView7"
+        Me.GridView7.OptionsSelection.EnableAppearanceFocusedCell = False
+        Me.GridView7.OptionsView.EnableAppearanceEvenRow = True
+        Me.GridView7.OptionsView.EnableAppearanceOddRow = True
+        Me.GridView7.OptionsView.ShowAutoFilterRow = True
+        Me.GridView7.OptionsView.ShowGroupPanel = False
+        Me.IndigoGridView2.SetTemaIndigoMetro(Me.GridView7, False)
+        Me.IndigoGridView1.SetTemaIndigoMetro(Me.GridView7, False)
+        '
+        'GridColumn384
+        '
+        Me.GridColumn384.Caption = "Nit"
+        Me.GridColumn384.FieldName = "Nit"
+        Me.GridColumn384.Name = "GridColumn384"
+        Me.GridColumn384.Visible = True
+        Me.GridColumn384.VisibleIndex = 0
+        Me.GridColumn384.Width = 218
+        '
+        'GridColumn385
+        '
+        Me.GridColumn385.Caption = "Tipo Identificación"
+        Me.GridColumn385.FieldName = "PersonId.IdentificationTypeName"
+        Me.GridColumn385.Name = "GridColumn385"
+        Me.GridColumn385.Visible = True
+        Me.GridColumn385.VisibleIndex = 1
+        Me.GridColumn385.Width = 186
+        '
+        'GridColumn386
+        '
+        Me.GridColumn386.Caption = "Nombre"
+        Me.GridColumn386.FieldName = "Name"
+        Me.GridColumn386.Name = "GridColumn386"
+        Me.GridColumn386.Visible = True
+        Me.GridColumn386.VisibleIndex = 2
+        Me.GridColumn386.Width = 303
+        '
+        'GridColumn387
+        '
+        Me.GridColumn387.Caption = "Ciudad"
+        Me.GridColumn387.FieldName = "PersonId.IdentificacionCityId.Descripcion"
+        Me.GridColumn387.Name = "GridColumn387"
+        Me.GridColumn387.Visible = True
+        Me.GridColumn387.VisibleIndex = 3
+        Me.GridColumn387.Width = 226
+        '
+        'GridColumn388
+        '
+        Me.GridColumn388.Caption = "Tipo Ret."
+        Me.GridColumn388.FieldName = "RetentionTypeName"
+        Me.GridColumn388.Name = "GridColumn388"
+        Me.GridColumn388.Visible = True
+        Me.GridColumn388.VisibleIndex = 4
+        Me.GridColumn388.Width = 226
+        '
+        'GridColumn389
+        '
+        Me.GridColumn389.Caption = "Tipo Contr."
+        Me.GridColumn389.FieldName = "ContributionTypeName"
+        Me.GridColumn389.Name = "GridColumn389"
+        Me.GridColumn389.Visible = True
+        Me.GridColumn389.VisibleIndex = 5
+        Me.GridColumn389.Width = 233
+        '
+        'INDSleCostCenterMainAccountCounterpart
+        '
+        Me.IndigoSearchLookUpControl1.SetAppearanceEmbeddedNavigator(Me.INDSleCostCenterMainAccountCounterpart, AppearanceObject7)
+        Me.IndigoSearchLookUpControl1.SetAppearanceTextFindControl(Me.INDSleCostCenterMainAccountCounterpart, AppearanceObject8)
+        Me.IndigoSearchLookUpControl1.SetAppendButtonNavigator(Me.INDSleCostCenterMainAccountCounterpart, False)
+        Me.IndigoTextEdit1.SetApplyStyle(Me.INDSleCostCenterMainAccountCounterpart, False)
+        Me.IndigoSearchLookUpControl1.SetAutomaticOpenForm(Me.INDSleCostCenterMainAccountCounterpart, False)
+        Me.IndigoTextEdit1.SetCampoObligatorio(Me.INDSleCostCenterMainAccountCounterpart, True)
+        Me.IndigoSearchLookUpControl1.SetCancelEditButtonNavigator(Me.INDSleCostCenterMainAccountCounterpart, False)
+        Me.IndigoSearchLookUpControl1.SetEditButtonNavigator(Me.INDSleCostCenterMainAccountCounterpart, False)
+        Me.IndigoSearchLookUpControl1.SetEndEditButtonNavigator(Me.INDSleCostCenterMainAccountCounterpart, False)
+        Me.INDSleCostCenterMainAccountCounterpart.EnterMoveNextControl = True
+        Me.IndigoSearchLookUpControl1.SetExportButton(Me.INDSleCostCenterMainAccountCounterpart, False)
+        Me.IndigoSearchLookUpControl1.SetFirstButtonNavigator(Me.INDSleCostCenterMainAccountCounterpart, False)
+        Me.IndigoSearchLookUpControl1.SetLastButtonNavigator(Me.INDSleCostCenterMainAccountCounterpart, False)
+        Me.INDSleCostCenterMainAccountCounterpart.Location = New System.Drawing.Point(604, 229)
+        Me.IndigoTextEdit1.SetMascara(Me.INDSleCostCenterMainAccountCounterpart, Presentation.Controls.IndigoTextEdit.EMask.Ninguno)
+        Me.INDSleCostCenterMainAccountCounterpart.Name = "INDSleCostCenterMainAccountCounterpart"
+        Me.IndigoSearchLookUpControl1.SetNextButtonNavigator(Me.INDSleCostCenterMainAccountCounterpart, False)
+        Me.IndigoSearchLookUpControl1.SetNextPageButtonNavigator(Me.INDSleCostCenterMainAccountCounterpart, False)
+        Me.IndigoSearchLookUpControl1.SetOpenForm(Me.INDSleCostCenterMainAccountCounterpart, True)
+        Me.IndigoSearchLookUpControl1.SetPopupBestFitHeight(Me.INDSleCostCenterMainAccountCounterpart, False)
+        Me.IndigoSearchLookUpControl1.SetPopupSizeable(Me.INDSleCostCenterMainAccountCounterpart, False)
+        Me.IndigoSearchLookUpControl1.SetPrevButtonNavigator(Me.INDSleCostCenterMainAccountCounterpart, False)
+        Me.IndigoSearchLookUpControl1.SetPrevPageButtonNavigator(Me.INDSleCostCenterMainAccountCounterpart, False)
+        Me.INDSleCostCenterMainAccountCounterpart.Properties.Appearance.BackColor = System.Drawing.Color.MistyRose
+        Me.INDSleCostCenterMainAccountCounterpart.Properties.Appearance.Font = New System.Drawing.Font("Segoe UI Light", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.INDSleCostCenterMainAccountCounterpart.Properties.Appearance.ForeColor = System.Drawing.Color.FromArgb(CType(CType(40, Byte), Integer), CType(CType(40, Byte), Integer), CType(CType(40, Byte), Integer))
+        Me.INDSleCostCenterMainAccountCounterpart.Properties.Appearance.Options.UseBackColor = True
+        Me.INDSleCostCenterMainAccountCounterpart.Properties.Appearance.Options.UseFont = True
+        Me.INDSleCostCenterMainAccountCounterpart.Properties.Appearance.Options.UseForeColor = True
+        Me.INDSleCostCenterMainAccountCounterpart.Properties.AppearanceFocused.BackColor = System.Drawing.Color.FromArgb(CType(CType(215, Byte), Integer), CType(CType(242, Byte), Integer), CType(CType(255, Byte), Integer))
+        Me.INDSleCostCenterMainAccountCounterpart.Properties.AppearanceFocused.BorderColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(148, Byte), Integer), CType(CType(223, Byte), Integer))
+        Me.INDSleCostCenterMainAccountCounterpart.Properties.AppearanceFocused.Font = New System.Drawing.Font("Segoe UI Light", 12.0!)
+        Me.INDSleCostCenterMainAccountCounterpart.Properties.AppearanceFocused.Options.UseBackColor = True
+        Me.INDSleCostCenterMainAccountCounterpart.Properties.AppearanceFocused.Options.UseBorderColor = True
+        Me.INDSleCostCenterMainAccountCounterpart.Properties.AppearanceFocused.Options.UseFont = True
+        Me.INDSleCostCenterMainAccountCounterpart.Properties.Buttons.AddRange(New DevExpress.XtraEditors.Controls.EditorButton() {New DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)})
+        Me.INDSleCostCenterMainAccountCounterpart.Properties.DisplayMember = "CodeName"
+        Me.INDSleCostCenterMainAccountCounterpart.Properties.NullText = ""
+        Me.INDSleCostCenterMainAccountCounterpart.Properties.PopupSizeable = False
+        Me.INDSleCostCenterMainAccountCounterpart.Properties.PopupView = Me.GridView6
+        Me.INDSleCostCenterMainAccountCounterpart.Properties.ShowFooter = False
+        Me.INDSleCostCenterMainAccountCounterpart.Properties.ValueMember = "Id"
+        Me.IndigoSearchLookUpControl1.SetRemoveButtonNavigator(Me.INDSleCostCenterMainAccountCounterpart, False)
+        Me.IndigoSearchLookUpControl1.SetSaveXmlGrid(Me.INDSleCostCenterMainAccountCounterpart, True)
+        Me.IndigoSearchLookUpControl1.SetShowDeleteButton(Me.INDSleCostCenterMainAccountCounterpart, True)
+        Me.IndigoSearchLookUpControl1.SetShowFindButton(Me.INDSleCostCenterMainAccountCounterpart, True)
+        Me.INDSleCostCenterMainAccountCounterpart.Size = New System.Drawing.Size(226, 28)
+        Me.INDSleCostCenterMainAccountCounterpart.StyleController = Me.INDlycRoot
+        Me.INDSleCostCenterMainAccountCounterpart.TabIndex = 16
+        Me.IndigoSearchLookUpControl1.SetTagForm(Me.INDSleCostCenterMainAccountCounterpart, "517")
+        Me.IndigoTextEdit1.SetTamañoMinimoString(Me.INDSleCostCenterMainAccountCounterpart, 0)
+        Me.IndigoSearchLookUpControl1.SetTextStringFormat(Me.INDSleCostCenterMainAccountCounterpart, "{0} - {1}")
+        Me.INDSleCostCenterMainAccountCounterpart.ToolTip = "Este Campo es Necesario"
+        Me.IndigoSearchLookUpControl1.SetTxtFindEnterEnabled(Me.INDSleCostCenterMainAccountCounterpart, False)
+        Me.IndigoSearchLookUpControl1.SetUseEmbeddedNavigator(Me.INDSleCostCenterMainAccountCounterpart, False)
+        '
+        'GridView6
+        '
+        Me.GridView6.Appearance.FocusedRow.BorderColor = System.Drawing.Color.LightGray
+        Me.GridView6.Appearance.FocusedRow.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Bold)
+        Me.GridView6.Appearance.FocusedRow.Options.UseBorderColor = True
+        Me.GridView6.Appearance.FocusedRow.Options.UseFont = True
+        Me.GridView6.Appearance.GroupRow.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.GridView6.Appearance.GroupRow.Options.UseFont = True
+        Me.GridView6.Appearance.HeaderPanel.Font = New System.Drawing.Font("Segoe UI Semibold", 10.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.GridView6.Appearance.HeaderPanel.Options.UseFont = True
+        Me.GridView6.Appearance.Row.Font = New System.Drawing.Font("Segoe UI Light", 9.75!)
+        Me.GridView6.Appearance.Row.Options.UseFont = True
+        Me.GridView6.Columns.AddRange(New DevExpress.XtraGrid.Columns.GridColumn() {Me.GridColumn382, Me.GridColumn383})
+        Me.GridView6.FocusRectStyle = DevExpress.XtraGrid.Views.Grid.DrawFocusRectStyle.RowFocus
+        Me.GridView6.Name = "GridView6"
+        Me.GridView6.OptionsSelection.EnableAppearanceFocusedCell = False
+        Me.GridView6.OptionsView.EnableAppearanceEvenRow = True
+        Me.GridView6.OptionsView.EnableAppearanceOddRow = True
+        Me.GridView6.OptionsView.ShowAutoFilterRow = True
+        Me.GridView6.OptionsView.ShowGroupPanel = False
+        Me.IndigoGridView2.SetTemaIndigoMetro(Me.GridView6, False)
+        Me.IndigoGridView1.SetTemaIndigoMetro(Me.GridView6, False)
+        '
+        'GridColumn382
+        '
+        Me.GridColumn382.Caption = "Código"
+        Me.GridColumn382.FieldName = "Codigo"
+        Me.GridColumn382.Name = "GridColumn382"
+        Me.GridColumn382.Visible = True
+        Me.GridColumn382.VisibleIndex = 0
+        Me.GridColumn382.Width = 248
+        '
+        'GridColumn383
+        '
+        Me.GridColumn383.Caption = "Nombre"
+        Me.GridColumn383.FieldName = "Descripcion"
+        Me.GridColumn383.Name = "GridColumn383"
+        Me.GridColumn383.Visible = True
+        Me.GridColumn383.VisibleIndex = 1
+        Me.GridColumn383.Width = 576
+        '
+        'INDSleThirdMainAccountCounterpart
+        '
+        Me.IndigoSearchLookUpControl1.SetAppearanceEmbeddedNavigator(Me.INDSleThirdMainAccountCounterpart, AppearanceObject9)
+        Me.IndigoSearchLookUpControl1.SetAppearanceTextFindControl(Me.INDSleThirdMainAccountCounterpart, AppearanceObject10)
+        Me.IndigoSearchLookUpControl1.SetAppendButtonNavigator(Me.INDSleThirdMainAccountCounterpart, False)
+        Me.IndigoTextEdit1.SetApplyStyle(Me.INDSleThirdMainAccountCounterpart, True)
+        Me.IndigoSearchLookUpControl1.SetAutomaticOpenForm(Me.INDSleThirdMainAccountCounterpart, False)
+        Me.IndigoTextEdit1.SetCampoObligatorio(Me.INDSleThirdMainAccountCounterpart, True)
+        Me.IndigoSearchLookUpControl1.SetCancelEditButtonNavigator(Me.INDSleThirdMainAccountCounterpart, False)
+        Me.IndigoSearchLookUpControl1.SetEditButtonNavigator(Me.INDSleThirdMainAccountCounterpart, False)
+        Me.IndigoSearchLookUpControl1.SetEndEditButtonNavigator(Me.INDSleThirdMainAccountCounterpart, False)
+        Me.INDSleThirdMainAccountCounterpart.EnterMoveNextControl = True
+        Me.IndigoSearchLookUpControl1.SetExportButton(Me.INDSleThirdMainAccountCounterpart, False)
+        Me.IndigoSearchLookUpControl1.SetFirstButtonNavigator(Me.INDSleThirdMainAccountCounterpart, False)
+        Me.IndigoSearchLookUpControl1.SetLastButtonNavigator(Me.INDSleThirdMainAccountCounterpart, False)
+        Me.INDSleThirdMainAccountCounterpart.Location = New System.Drawing.Point(604, 193)
+        Me.IndigoTextEdit1.SetMascara(Me.INDSleThirdMainAccountCounterpart, Presentation.Controls.IndigoTextEdit.EMask.Ninguno)
+        Me.INDSleThirdMainAccountCounterpart.Name = "INDSleThirdMainAccountCounterpart"
+        Me.IndigoSearchLookUpControl1.SetNextButtonNavigator(Me.INDSleThirdMainAccountCounterpart, False)
+        Me.IndigoSearchLookUpControl1.SetNextPageButtonNavigator(Me.INDSleThirdMainAccountCounterpart, False)
+        Me.IndigoSearchLookUpControl1.SetOpenForm(Me.INDSleThirdMainAccountCounterpart, True)
+        Me.IndigoSearchLookUpControl1.SetPopupBestFitHeight(Me.INDSleThirdMainAccountCounterpart, False)
+        Me.IndigoSearchLookUpControl1.SetPopupSizeable(Me.INDSleThirdMainAccountCounterpart, False)
+        Me.IndigoSearchLookUpControl1.SetPrevButtonNavigator(Me.INDSleThirdMainAccountCounterpart, False)
+        Me.IndigoSearchLookUpControl1.SetPrevPageButtonNavigator(Me.INDSleThirdMainAccountCounterpart, False)
+        Me.INDSleThirdMainAccountCounterpart.Properties.Appearance.BackColor = System.Drawing.Color.MistyRose
+        Me.INDSleThirdMainAccountCounterpart.Properties.Appearance.Font = New System.Drawing.Font("Segoe UI Light", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.INDSleThirdMainAccountCounterpart.Properties.Appearance.ForeColor = System.Drawing.Color.FromArgb(CType(CType(40, Byte), Integer), CType(CType(40, Byte), Integer), CType(CType(40, Byte), Integer))
+        Me.INDSleThirdMainAccountCounterpart.Properties.Appearance.Options.UseBackColor = True
+        Me.INDSleThirdMainAccountCounterpart.Properties.Appearance.Options.UseFont = True
+        Me.INDSleThirdMainAccountCounterpart.Properties.Appearance.Options.UseForeColor = True
+        Me.INDSleThirdMainAccountCounterpart.Properties.AppearanceFocused.BackColor = System.Drawing.Color.FromArgb(CType(CType(215, Byte), Integer), CType(CType(242, Byte), Integer), CType(CType(255, Byte), Integer))
+        Me.INDSleThirdMainAccountCounterpart.Properties.AppearanceFocused.BorderColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(148, Byte), Integer), CType(CType(223, Byte), Integer))
+        Me.INDSleThirdMainAccountCounterpart.Properties.AppearanceFocused.Font = New System.Drawing.Font("Segoe UI Light", 12.0!)
+        Me.INDSleThirdMainAccountCounterpart.Properties.AppearanceFocused.Options.UseBackColor = True
+        Me.INDSleThirdMainAccountCounterpart.Properties.AppearanceFocused.Options.UseBorderColor = True
+        Me.INDSleThirdMainAccountCounterpart.Properties.AppearanceFocused.Options.UseFont = True
+        Me.INDSleThirdMainAccountCounterpart.Properties.Buttons.AddRange(New DevExpress.XtraEditors.Controls.EditorButton() {New DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)})
+        Me.INDSleThirdMainAccountCounterpart.Properties.DisplayMember = "NitName"
+        Me.INDSleThirdMainAccountCounterpart.Properties.NullText = ""
+        Me.INDSleThirdMainAccountCounterpart.Properties.PopupFormMinSize = New System.Drawing.Size(905, 0)
+        Me.INDSleThirdMainAccountCounterpart.Properties.PopupFormSize = New System.Drawing.Size(950, 0)
+        Me.INDSleThirdMainAccountCounterpart.Properties.PopupSizeable = False
+        Me.INDSleThirdMainAccountCounterpart.Properties.PopupView = Me.GridView5
+        Me.INDSleThirdMainAccountCounterpart.Properties.ShowFooter = False
+        Me.INDSleThirdMainAccountCounterpart.Properties.ValueMember = "Id"
+        Me.IndigoSearchLookUpControl1.SetRemoveButtonNavigator(Me.INDSleThirdMainAccountCounterpart, False)
+        Me.IndigoSearchLookUpControl1.SetSaveXmlGrid(Me.INDSleThirdMainAccountCounterpart, True)
+        Me.IndigoSearchLookUpControl1.SetShowDeleteButton(Me.INDSleThirdMainAccountCounterpart, True)
+        Me.IndigoSearchLookUpControl1.SetShowFindButton(Me.INDSleThirdMainAccountCounterpart, True)
+        Me.INDSleThirdMainAccountCounterpart.Size = New System.Drawing.Size(226, 28)
+        Me.INDSleThirdMainAccountCounterpart.StyleController = Me.INDlycRoot
+        Me.INDSleThirdMainAccountCounterpart.TabIndex = 15
+        Me.IndigoSearchLookUpControl1.SetTagForm(Me.INDSleThirdMainAccountCounterpart, "532")
+        Me.IndigoTextEdit1.SetTamañoMinimoString(Me.INDSleThirdMainAccountCounterpart, 0)
+        Me.IndigoSearchLookUpControl1.SetTextStringFormat(Me.INDSleThirdMainAccountCounterpart, "{0} - {1}")
+        Me.INDSleThirdMainAccountCounterpart.ToolTip = "Este Campo es Necesario"
+        Me.IndigoSearchLookUpControl1.SetTxtFindEnterEnabled(Me.INDSleThirdMainAccountCounterpart, False)
+        Me.IndigoSearchLookUpControl1.SetUseEmbeddedNavigator(Me.INDSleThirdMainAccountCounterpart, False)
+        '
+        'GridView5
+        '
+        Me.GridView5.Appearance.FocusedRow.BorderColor = System.Drawing.Color.LightGray
+        Me.GridView5.Appearance.FocusedRow.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Bold)
+        Me.GridView5.Appearance.FocusedRow.Options.UseBorderColor = True
+        Me.GridView5.Appearance.FocusedRow.Options.UseFont = True
+        Me.GridView5.Appearance.GroupRow.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.GridView5.Appearance.GroupRow.Options.UseFont = True
+        Me.GridView5.Appearance.HeaderPanel.Font = New System.Drawing.Font("Segoe UI Semibold", 10.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.GridView5.Appearance.HeaderPanel.Options.UseFont = True
+        Me.GridView5.Appearance.Row.Font = New System.Drawing.Font("Segoe UI Light", 9.75!)
+        Me.GridView5.Appearance.Row.Options.UseFont = True
+        Me.GridView5.Columns.AddRange(New DevExpress.XtraGrid.Columns.GridColumn() {Me.GridColumn376, Me.GridColumn377, Me.GridColumn378, Me.GridColumn379, Me.GridColumn380, Me.GridColumn381})
+        Me.GridView5.FocusRectStyle = DevExpress.XtraGrid.Views.Grid.DrawFocusRectStyle.RowFocus
+        Me.GridView5.Name = "GridView5"
+        Me.GridView5.OptionsSelection.EnableAppearanceFocusedCell = False
+        Me.GridView5.OptionsView.EnableAppearanceEvenRow = True
+        Me.GridView5.OptionsView.EnableAppearanceOddRow = True
+        Me.GridView5.OptionsView.ShowAutoFilterRow = True
+        Me.GridView5.OptionsView.ShowGroupPanel = False
+        Me.IndigoGridView2.SetTemaIndigoMetro(Me.GridView5, False)
+        Me.IndigoGridView1.SetTemaIndigoMetro(Me.GridView5, False)
+        '
+        'GridColumn376
+        '
+        Me.GridColumn376.Caption = "Nit"
+        Me.GridColumn376.FieldName = "Nit"
+        Me.GridColumn376.Name = "GridColumn376"
+        Me.GridColumn376.Visible = True
+        Me.GridColumn376.VisibleIndex = 0
+        Me.GridColumn376.Width = 218
+        '
+        'GridColumn377
+        '
+        Me.GridColumn377.Caption = "Tipo Identificación"
+        Me.GridColumn377.FieldName = "PersonId.IdentificationTypeName"
+        Me.GridColumn377.Name = "GridColumn377"
+        Me.GridColumn377.Visible = True
+        Me.GridColumn377.VisibleIndex = 1
+        Me.GridColumn377.Width = 186
+        '
+        'GridColumn378
+        '
+        Me.GridColumn378.Caption = "Nombre"
+        Me.GridColumn378.FieldName = "Name"
+        Me.GridColumn378.Name = "GridColumn378"
+        Me.GridColumn378.Visible = True
+        Me.GridColumn378.VisibleIndex = 2
+        Me.GridColumn378.Width = 303
+        '
+        'GridColumn379
+        '
+        Me.GridColumn379.Caption = "Ciudad"
+        Me.GridColumn379.FieldName = "PersonId.IdentificacionCityId.Descripcion"
+        Me.GridColumn379.Name = "GridColumn379"
+        Me.GridColumn379.Visible = True
+        Me.GridColumn379.VisibleIndex = 3
+        Me.GridColumn379.Width = 226
+        '
+        'GridColumn380
+        '
+        Me.GridColumn380.Caption = "Tipo Ret."
+        Me.GridColumn380.FieldName = "RetentionTypeName"
+        Me.GridColumn380.Name = "GridColumn380"
+        Me.GridColumn380.Visible = True
+        Me.GridColumn380.VisibleIndex = 4
+        Me.GridColumn380.Width = 226
+        '
+        'GridColumn381
+        '
+        Me.GridColumn381.Caption = "Tipo Contr."
+        Me.GridColumn381.FieldName = "ContributionTypeName"
+        Me.GridColumn381.Name = "GridColumn381"
+        Me.GridColumn381.Visible = True
+        Me.GridColumn381.VisibleIndex = 5
+        Me.GridColumn381.Width = 233
+        '
+        'INDtePrefix
+        '
+        Me.IndigoTextEdit1.SetApplyStyle(Me.INDtePrefix, True)
+        Me.IndigoTextEdit1.SetCampoObligatorio(Me.INDtePrefix, False)
+        Me.INDtePrefix.EnterMoveNextControl = True
+        Me.INDtePrefix.Location = New System.Drawing.Point(169, 193)
+        Me.IndigoTextEdit1.SetMascara(Me.INDtePrefix, Presentation.Controls.IndigoTextEdit.EMask.AlfaNumerico)
+        Me.INDtePrefix.Name = "INDtePrefix"
+        Me.INDtePrefix.Properties.Appearance.BackColor = System.Drawing.Color.Transparent
+        Me.INDtePrefix.Properties.Appearance.Font = New System.Drawing.Font("Segoe UI Light", 12.0!)
+        Me.INDtePrefix.Properties.Appearance.ForeColor = System.Drawing.Color.Black
+        Me.INDtePrefix.Properties.Appearance.Options.UseBackColor = True
+        Me.INDtePrefix.Properties.Appearance.Options.UseFont = True
+        Me.INDtePrefix.Properties.Appearance.Options.UseForeColor = True
+        Me.INDtePrefix.Properties.AppearanceFocused.BackColor = System.Drawing.Color.FromArgb(CType(CType(215, Byte), Integer), CType(CType(242, Byte), Integer), CType(CType(255, Byte), Integer))
+        Me.INDtePrefix.Properties.AppearanceFocused.BorderColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(148, Byte), Integer), CType(CType(223, Byte), Integer))
+        Me.INDtePrefix.Properties.AppearanceFocused.Font = New System.Drawing.Font("Segoe UI Light", 12.0!)
+        Me.INDtePrefix.Properties.AppearanceFocused.Options.UseBackColor = True
+        Me.INDtePrefix.Properties.AppearanceFocused.Options.UseBorderColor = True
+        Me.INDtePrefix.Properties.AppearanceFocused.Options.UseFont = True
+        Me.INDtePrefix.Properties.Mask.EditMask = "[-a-zA-Z0-9|°¬!ñÑ""#$%&/()=?¡'¿\@¨´_.:,; ]+"
+        Me.INDtePrefix.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx
+        Me.INDtePrefix.Properties.MaxLength = 4
+        Me.INDtePrefix.Size = New System.Drawing.Size(239, 28)
+        Me.INDtePrefix.StyleController = Me.INDlycRoot
+        Me.INDtePrefix.TabIndex = 4
+        Me.IndigoTextEdit1.SetTamañoMinimoString(Me.INDtePrefix, 0)
+        '
+        'INDsleUser
+        '
+        Me.INDsleUser.AllowQueryOne = True
+        Me.INDsleUser.Datasource = Nothing
+        Me.INDsleUser.DisplayMember = "{UserCode} - {PersonFullName}"
+        Me.INDsleUser.DisplayNullText = ""
+        Me.INDsleUser.EditValue = Nothing
+        Me.INDsleUser.EnterMoveNextControl = True
+        Me.INDsleUser.FuncQueryOnKeyEnterPressed = Nothing
+        Me.INDsleUser.IdOpenForm = 0
+        Me.INDsleUser.IsReadOnly = False
+        Me.INDsleUser.Location = New System.Drawing.Point(1525, 49)
+        Me.INDsleUser.Margin = New System.Windows.Forms.Padding(3, 4, 3, 4)
+        Me.INDsleUser.MaskControl = DevExpress.XtraEditors.Mask.MaskType.None
+        Me.INDsleUser.MaskEdit = ""
+        Me.INDsleUser.MaximumSize = New System.Drawing.Size(5000, 28)
+        Me.INDsleUser.MinimumSize = New System.Drawing.Size(100, 28)
+        Me.INDsleUser.Name = "INDsleUser"
+        Me.INDsleUser.PopUpFormSize = New System.Drawing.Size(500, 400)
+        Me.INDsleUser.Size = New System.Drawing.Size(239, 28)
+        Me.INDsleUser.TabIndex = 23
+        Me.INDsleUser.UseMaskAsDisplayFormat = False
+        Me.INDsleUser.ValueMember = "UserCode"
+        Me.INDsleUser.View = Me.INDgvUsers
+        '
+        'INDgvUsers
+        '
+        Me.INDgvUsers.Appearance.FocusedRow.BorderColor = System.Drawing.Color.LightGray
+        Me.INDgvUsers.Appearance.FocusedRow.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Bold)
+        Me.INDgvUsers.Appearance.FocusedRow.Options.UseBorderColor = True
+        Me.INDgvUsers.Appearance.FocusedRow.Options.UseFont = True
+        Me.INDgvUsers.Appearance.GroupRow.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.INDgvUsers.Appearance.GroupRow.Options.UseFont = True
+        Me.INDgvUsers.Appearance.HeaderPanel.Font = New System.Drawing.Font("Segoe UI Semibold", 10.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.INDgvUsers.Appearance.HeaderPanel.Options.UseFont = True
+        Me.INDgvUsers.Appearance.Row.Font = New System.Drawing.Font("Segoe UI Light", 9.75!)
+        Me.INDgvUsers.Appearance.Row.Options.UseFont = True
+        Me.INDgvUsers.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder
+        Me.INDgvUsers.Columns.AddRange(New DevExpress.XtraGrid.Columns.GridColumn() {Me.GridColumn331, Me.GridColumn332, Me.GridColumn333})
+        Me.INDgvUsers.Name = "INDgvUsers"
+        Me.INDgvUsers.OptionsView.EnableAppearanceEvenRow = True
+        Me.INDgvUsers.OptionsView.EnableAppearanceOddRow = True
+        Me.INDgvUsers.OptionsView.ShowAutoFilterRow = True
+        Me.INDgvUsers.OptionsView.ShowDetailButtons = False
+        Me.INDgvUsers.OptionsView.ShowGroupPanel = False
+        Me.IndigoGridView2.SetTemaIndigoMetro(Me.INDgvUsers, False)
+        Me.IndigoGridView1.SetTemaIndigoMetro(Me.INDgvUsers, False)
+        '
+        'GridColumn331
+        '
+        Me.GridColumn331.Caption = "Código"
+        Me.GridColumn331.FieldName = "UserCode"
+        Me.GridColumn331.Name = "GridColumn331"
+        Me.GridColumn331.OptionsColumn.AllowEdit = False
+        Me.GridColumn331.OptionsColumn.AllowFocus = False
+        Me.GridColumn331.Visible = True
+        Me.GridColumn331.VisibleIndex = 0
+        Me.GridColumn331.Width = 236
+        '
+        'GridColumn332
+        '
+        Me.GridColumn332.Caption = "Usuario"
+        Me.GridColumn332.FieldName = "IdPerson.Fullname"
+        Me.GridColumn332.Name = "GridColumn332"
+        Me.GridColumn332.OptionsColumn.AllowEdit = False
+        Me.GridColumn332.OptionsColumn.AllowFocus = False
+        Me.GridColumn332.Visible = True
+        Me.GridColumn332.VisibleIndex = 1
+        Me.GridColumn332.Width = 576
+        '
+        'GridColumn333
+        '
+        Me.GridColumn333.Caption = "Cargo"
+        Me.GridColumn333.FieldName = "Position"
+        Me.GridColumn333.Name = "GridColumn333"
+        Me.GridColumn333.OptionsColumn.AllowEdit = False
+        Me.GridColumn333.OptionsColumn.AllowFocus = False
+        Me.GridColumn333.Visible = True
+        Me.GridColumn333.VisibleIndex = 2
+        Me.GridColumn333.Width = 582
+        '
+        'INDsleFMGMainAccountCounterpart
+        '
+        Me.IndigoSearchLookUpControl1.SetAppearanceEmbeddedNavigator(Me.INDsleFMGMainAccountCounterpart, AppearanceObject11)
+        Me.IndigoSearchLookUpControl1.SetAppearanceTextFindControl(Me.INDsleFMGMainAccountCounterpart, AppearanceObject12)
+        Me.IndigoSearchLookUpControl1.SetAppendButtonNavigator(Me.INDsleFMGMainAccountCounterpart, False)
+        Me.IndigoTextEdit1.SetApplyStyle(Me.INDsleFMGMainAccountCounterpart, False)
+        Me.IndigoSearchLookUpControl1.SetAutomaticOpenForm(Me.INDsleFMGMainAccountCounterpart, False)
+        Me.IndigoTextEdit1.SetCampoObligatorio(Me.INDsleFMGMainAccountCounterpart, True)
+        Me.IndigoSearchLookUpControl1.SetCancelEditButtonNavigator(Me.INDsleFMGMainAccountCounterpart, False)
+        Me.IndigoSearchLookUpControl1.SetEditButtonNavigator(Me.INDsleFMGMainAccountCounterpart, False)
+        Me.IndigoSearchLookUpControl1.SetEndEditButtonNavigator(Me.INDsleFMGMainAccountCounterpart, False)
+        Me.INDsleFMGMainAccountCounterpart.EnterMoveNextControl = True
+        Me.IndigoSearchLookUpControl1.SetExportButton(Me.INDsleFMGMainAccountCounterpart, False)
+        Me.IndigoSearchLookUpControl1.SetFirstButtonNavigator(Me.INDsleFMGMainAccountCounterpart, False)
+        Me.IndigoSearchLookUpControl1.SetLastButtonNavigator(Me.INDsleFMGMainAccountCounterpart, False)
+        Me.INDsleFMGMainAccountCounterpart.Location = New System.Drawing.Point(604, 157)
+        Me.IndigoTextEdit1.SetMascara(Me.INDsleFMGMainAccountCounterpart, Presentation.Controls.IndigoTextEdit.EMask.Ninguno)
+        Me.INDsleFMGMainAccountCounterpart.Name = "INDsleFMGMainAccountCounterpart"
+        Me.IndigoSearchLookUpControl1.SetNextButtonNavigator(Me.INDsleFMGMainAccountCounterpart, False)
+        Me.IndigoSearchLookUpControl1.SetNextPageButtonNavigator(Me.INDsleFMGMainAccountCounterpart, False)
+        Me.IndigoSearchLookUpControl1.SetOpenForm(Me.INDsleFMGMainAccountCounterpart, True)
+        Me.IndigoSearchLookUpControl1.SetPopupBestFitHeight(Me.INDsleFMGMainAccountCounterpart, False)
+        Me.IndigoSearchLookUpControl1.SetPopupSizeable(Me.INDsleFMGMainAccountCounterpart, False)
+        Me.IndigoSearchLookUpControl1.SetPrevButtonNavigator(Me.INDsleFMGMainAccountCounterpart, False)
+        Me.IndigoSearchLookUpControl1.SetPrevPageButtonNavigator(Me.INDsleFMGMainAccountCounterpart, False)
+        Me.INDsleFMGMainAccountCounterpart.Properties.Appearance.BackColor = System.Drawing.Color.MistyRose
+        Me.INDsleFMGMainAccountCounterpart.Properties.Appearance.Font = New System.Drawing.Font("Segoe UI Light", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.INDsleFMGMainAccountCounterpart.Properties.Appearance.ForeColor = System.Drawing.Color.FromArgb(CType(CType(40, Byte), Integer), CType(CType(40, Byte), Integer), CType(CType(40, Byte), Integer))
+        Me.INDsleFMGMainAccountCounterpart.Properties.Appearance.Options.UseBackColor = True
+        Me.INDsleFMGMainAccountCounterpart.Properties.Appearance.Options.UseFont = True
+        Me.INDsleFMGMainAccountCounterpart.Properties.Appearance.Options.UseForeColor = True
+        Me.INDsleFMGMainAccountCounterpart.Properties.AppearanceFocused.BackColor = System.Drawing.Color.FromArgb(CType(CType(215, Byte), Integer), CType(CType(242, Byte), Integer), CType(CType(255, Byte), Integer))
+        Me.INDsleFMGMainAccountCounterpart.Properties.AppearanceFocused.BorderColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(148, Byte), Integer), CType(CType(223, Byte), Integer))
+        Me.INDsleFMGMainAccountCounterpart.Properties.AppearanceFocused.Font = New System.Drawing.Font("Segoe UI Light", 12.0!)
+        Me.INDsleFMGMainAccountCounterpart.Properties.AppearanceFocused.Options.UseBackColor = True
+        Me.INDsleFMGMainAccountCounterpart.Properties.AppearanceFocused.Options.UseBorderColor = True
+        Me.INDsleFMGMainAccountCounterpart.Properties.AppearanceFocused.Options.UseFont = True
+        Me.INDsleFMGMainAccountCounterpart.Properties.Buttons.AddRange(New DevExpress.XtraEditors.Controls.EditorButton() {New DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)})
+        Me.INDsleFMGMainAccountCounterpart.Properties.DisplayMember = "NumberName"
+        Me.INDsleFMGMainAccountCounterpart.Properties.NullText = ""
+        Me.INDsleFMGMainAccountCounterpart.Properties.PopupSizeable = False
+        Me.INDsleFMGMainAccountCounterpart.Properties.PopupView = Me.GridView10
+        Me.INDsleFMGMainAccountCounterpart.Properties.ShowFooter = False
+        Me.INDsleFMGMainAccountCounterpart.Properties.ValueMember = "Id"
+        Me.IndigoSearchLookUpControl1.SetRemoveButtonNavigator(Me.INDsleFMGMainAccountCounterpart, False)
+        Me.IndigoSearchLookUpControl1.SetSaveXmlGrid(Me.INDsleFMGMainAccountCounterpart, True)
+        Me.IndigoSearchLookUpControl1.SetShowDeleteButton(Me.INDsleFMGMainAccountCounterpart, True)
+        Me.IndigoSearchLookUpControl1.SetShowFindButton(Me.INDsleFMGMainAccountCounterpart, True)
+        Me.INDsleFMGMainAccountCounterpart.Size = New System.Drawing.Size(226, 28)
+        Me.INDsleFMGMainAccountCounterpart.StyleController = Me.INDlycRoot
+        Me.INDsleFMGMainAccountCounterpart.TabIndex = 14
+        Me.IndigoSearchLookUpControl1.SetTagForm(Me.INDsleFMGMainAccountCounterpart, "602")
+        Me.IndigoTextEdit1.SetTamañoMinimoString(Me.INDsleFMGMainAccountCounterpart, 0)
+        Me.IndigoSearchLookUpControl1.SetTextStringFormat(Me.INDsleFMGMainAccountCounterpart, "{0} - {1}")
+        Me.INDsleFMGMainAccountCounterpart.ToolTip = "Este Campo es Necesario"
+        Me.IndigoSearchLookUpControl1.SetTxtFindEnterEnabled(Me.INDsleFMGMainAccountCounterpart, False)
+        Me.IndigoSearchLookUpControl1.SetUseEmbeddedNavigator(Me.INDsleFMGMainAccountCounterpart, False)
+        '
+        'GridView10
+        '
+        Me.GridView10.Appearance.FocusedRow.BorderColor = System.Drawing.Color.LightGray
+        Me.GridView10.Appearance.FocusedRow.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Bold)
+        Me.GridView10.Appearance.FocusedRow.Options.UseBorderColor = True
+        Me.GridView10.Appearance.FocusedRow.Options.UseFont = True
+        Me.GridView10.Appearance.GroupRow.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.GridView10.Appearance.GroupRow.Options.UseFont = True
+        Me.GridView10.Appearance.HeaderPanel.Font = New System.Drawing.Font("Segoe UI Semibold", 10.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.GridView10.Appearance.HeaderPanel.Options.UseFont = True
+        Me.GridView10.Appearance.Row.Font = New System.Drawing.Font("Segoe UI Light", 9.75!)
+        Me.GridView10.Appearance.Row.Options.UseFont = True
+        Me.GridView10.Columns.AddRange(New DevExpress.XtraGrid.Columns.GridColumn() {Me.GridColumn297, Me.GridColumn298})
+        Me.GridView10.FocusRectStyle = DevExpress.XtraGrid.Views.Grid.DrawFocusRectStyle.RowFocus
+        Me.GridView10.Name = "GridView10"
+        Me.GridView10.OptionsSelection.EnableAppearanceFocusedCell = False
+        Me.GridView10.OptionsView.EnableAppearanceEvenRow = True
+        Me.GridView10.OptionsView.EnableAppearanceOddRow = True
+        Me.GridView10.OptionsView.ShowAutoFilterRow = True
+        Me.GridView10.OptionsView.ShowGroupPanel = False
+        Me.IndigoGridView2.SetTemaIndigoMetro(Me.GridView10, False)
+        Me.IndigoGridView1.SetTemaIndigoMetro(Me.GridView10, False)
+        '
+        'GridColumn297
+        '
+        Me.GridColumn297.Caption = "Número"
+        Me.GridColumn297.FieldName = "Number"
+        Me.GridColumn297.Name = "GridColumn297"
+        Me.GridColumn297.Visible = True
+        Me.GridColumn297.VisibleIndex = 0
+        Me.GridColumn297.Width = 359
+        '
+        'GridColumn298
+        '
+        Me.GridColumn298.Caption = "Name"
+        Me.GridColumn298.FieldName = "Name"
+        Me.GridColumn298.Name = "GridColumn298"
+        Me.GridColumn298.Visible = True
+        Me.GridColumn298.VisibleIndex = 1
+        Me.GridColumn298.Width = 1273
+        '
+        'INDsleFMGMainAccountExpenses
+        '
+        Me.IndigoSearchLookUpControl1.SetAppearanceEmbeddedNavigator(Me.INDsleFMGMainAccountExpenses, AppearanceObject13)
+        Me.IndigoSearchLookUpControl1.SetAppearanceTextFindControl(Me.INDsleFMGMainAccountExpenses, AppearanceObject14)
+        Me.IndigoSearchLookUpControl1.SetAppendButtonNavigator(Me.INDsleFMGMainAccountExpenses, False)
+        Me.IndigoTextEdit1.SetApplyStyle(Me.INDsleFMGMainAccountExpenses, False)
+        Me.IndigoSearchLookUpControl1.SetAutomaticOpenForm(Me.INDsleFMGMainAccountExpenses, False)
+        Me.IndigoTextEdit1.SetCampoObligatorio(Me.INDsleFMGMainAccountExpenses, True)
+        Me.IndigoSearchLookUpControl1.SetCancelEditButtonNavigator(Me.INDsleFMGMainAccountExpenses, False)
+        Me.IndigoSearchLookUpControl1.SetEditButtonNavigator(Me.INDsleFMGMainAccountExpenses, False)
+        Me.IndigoSearchLookUpControl1.SetEndEditButtonNavigator(Me.INDsleFMGMainAccountExpenses, False)
+        Me.INDsleFMGMainAccountExpenses.EnterMoveNextControl = True
+        Me.IndigoSearchLookUpControl1.SetExportButton(Me.INDsleFMGMainAccountExpenses, False)
+        Me.IndigoSearchLookUpControl1.SetFirstButtonNavigator(Me.INDsleFMGMainAccountExpenses, False)
+        Me.IndigoSearchLookUpControl1.SetLastButtonNavigator(Me.INDsleFMGMainAccountExpenses, False)
+        Me.INDsleFMGMainAccountExpenses.Location = New System.Drawing.Point(604, 265)
+        Me.IndigoTextEdit1.SetMascara(Me.INDsleFMGMainAccountExpenses, Presentation.Controls.IndigoTextEdit.EMask.Ninguno)
+        Me.INDsleFMGMainAccountExpenses.Name = "INDsleFMGMainAccountExpenses"
+        Me.IndigoSearchLookUpControl1.SetNextButtonNavigator(Me.INDsleFMGMainAccountExpenses, False)
+        Me.IndigoSearchLookUpControl1.SetNextPageButtonNavigator(Me.INDsleFMGMainAccountExpenses, False)
+        Me.IndigoSearchLookUpControl1.SetOpenForm(Me.INDsleFMGMainAccountExpenses, True)
+        Me.IndigoSearchLookUpControl1.SetPopupBestFitHeight(Me.INDsleFMGMainAccountExpenses, False)
+        Me.IndigoSearchLookUpControl1.SetPopupSizeable(Me.INDsleFMGMainAccountExpenses, False)
+        Me.IndigoSearchLookUpControl1.SetPrevButtonNavigator(Me.INDsleFMGMainAccountExpenses, False)
+        Me.IndigoSearchLookUpControl1.SetPrevPageButtonNavigator(Me.INDsleFMGMainAccountExpenses, False)
+        Me.INDsleFMGMainAccountExpenses.Properties.Appearance.BackColor = System.Drawing.Color.MistyRose
+        Me.INDsleFMGMainAccountExpenses.Properties.Appearance.Font = New System.Drawing.Font("Segoe UI Light", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.INDsleFMGMainAccountExpenses.Properties.Appearance.ForeColor = System.Drawing.Color.FromArgb(CType(CType(40, Byte), Integer), CType(CType(40, Byte), Integer), CType(CType(40, Byte), Integer))
+        Me.INDsleFMGMainAccountExpenses.Properties.Appearance.Options.UseBackColor = True
+        Me.INDsleFMGMainAccountExpenses.Properties.Appearance.Options.UseFont = True
+        Me.INDsleFMGMainAccountExpenses.Properties.Appearance.Options.UseForeColor = True
+        Me.INDsleFMGMainAccountExpenses.Properties.AppearanceFocused.BackColor = System.Drawing.Color.FromArgb(CType(CType(215, Byte), Integer), CType(CType(242, Byte), Integer), CType(CType(255, Byte), Integer))
+        Me.INDsleFMGMainAccountExpenses.Properties.AppearanceFocused.BorderColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(148, Byte), Integer), CType(CType(223, Byte), Integer))
+        Me.INDsleFMGMainAccountExpenses.Properties.AppearanceFocused.Font = New System.Drawing.Font("Segoe UI Light", 12.0!)
+        Me.INDsleFMGMainAccountExpenses.Properties.AppearanceFocused.Options.UseBackColor = True
+        Me.INDsleFMGMainAccountExpenses.Properties.AppearanceFocused.Options.UseBorderColor = True
+        Me.INDsleFMGMainAccountExpenses.Properties.AppearanceFocused.Options.UseFont = True
+        Me.INDsleFMGMainAccountExpenses.Properties.Buttons.AddRange(New DevExpress.XtraEditors.Controls.EditorButton() {New DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)})
+        Me.INDsleFMGMainAccountExpenses.Properties.DisplayMember = "NumberName"
+        Me.INDsleFMGMainAccountExpenses.Properties.NullText = ""
+        Me.INDsleFMGMainAccountExpenses.Properties.PopupSizeable = False
+        Me.INDsleFMGMainAccountExpenses.Properties.PopupView = Me.GridView11
+        Me.INDsleFMGMainAccountExpenses.Properties.ShowFooter = False
+        Me.INDsleFMGMainAccountExpenses.Properties.ValueMember = "Id"
+        Me.IndigoSearchLookUpControl1.SetRemoveButtonNavigator(Me.INDsleFMGMainAccountExpenses, False)
+        Me.IndigoSearchLookUpControl1.SetSaveXmlGrid(Me.INDsleFMGMainAccountExpenses, True)
+        Me.IndigoSearchLookUpControl1.SetShowDeleteButton(Me.INDsleFMGMainAccountExpenses, True)
+        Me.IndigoSearchLookUpControl1.SetShowFindButton(Me.INDsleFMGMainAccountExpenses, True)
+        Me.INDsleFMGMainAccountExpenses.Size = New System.Drawing.Size(226, 28)
+        Me.INDsleFMGMainAccountExpenses.StyleController = Me.INDlycRoot
+        Me.INDsleFMGMainAccountExpenses.TabIndex = 17
+        Me.IndigoSearchLookUpControl1.SetTagForm(Me.INDsleFMGMainAccountExpenses, "602")
+        Me.IndigoTextEdit1.SetTamañoMinimoString(Me.INDsleFMGMainAccountExpenses, 0)
+        Me.IndigoSearchLookUpControl1.SetTextStringFormat(Me.INDsleFMGMainAccountExpenses, "{0} - {1}")
+        Me.INDsleFMGMainAccountExpenses.ToolTip = "Este Campo es Necesario"
+        Me.IndigoSearchLookUpControl1.SetTxtFindEnterEnabled(Me.INDsleFMGMainAccountExpenses, False)
+        Me.IndigoSearchLookUpControl1.SetUseEmbeddedNavigator(Me.INDsleFMGMainAccountExpenses, False)
+        '
+        'GridView11
+        '
+        Me.GridView11.Appearance.FocusedRow.BorderColor = System.Drawing.Color.LightGray
+        Me.GridView11.Appearance.FocusedRow.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Bold)
+        Me.GridView11.Appearance.FocusedRow.Options.UseBorderColor = True
+        Me.GridView11.Appearance.FocusedRow.Options.UseFont = True
+        Me.GridView11.Appearance.GroupRow.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.GridView11.Appearance.GroupRow.Options.UseFont = True
+        Me.GridView11.Appearance.HeaderPanel.Font = New System.Drawing.Font("Segoe UI Semibold", 10.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.GridView11.Appearance.HeaderPanel.Options.UseFont = True
+        Me.GridView11.Appearance.Row.Font = New System.Drawing.Font("Segoe UI Light", 9.75!)
+        Me.GridView11.Appearance.Row.Options.UseFont = True
+        Me.GridView11.Columns.AddRange(New DevExpress.XtraGrid.Columns.GridColumn() {Me.GridColumn299, Me.GridColumn300})
+        Me.GridView11.FocusRectStyle = DevExpress.XtraGrid.Views.Grid.DrawFocusRectStyle.RowFocus
+        Me.GridView11.Name = "GridView11"
+        Me.GridView11.OptionsSelection.EnableAppearanceFocusedCell = False
+        Me.GridView11.OptionsView.EnableAppearanceEvenRow = True
+        Me.GridView11.OptionsView.EnableAppearanceOddRow = True
+        Me.GridView11.OptionsView.ShowAutoFilterRow = True
+        Me.GridView11.OptionsView.ShowGroupPanel = False
+        Me.IndigoGridView2.SetTemaIndigoMetro(Me.GridView11, False)
+        Me.IndigoGridView1.SetTemaIndigoMetro(Me.GridView11, False)
+        '
+        'GridColumn299
+        '
+        Me.GridColumn299.Caption = "Número"
+        Me.GridColumn299.FieldName = "Number"
+        Me.GridColumn299.Name = "GridColumn299"
+        Me.GridColumn299.Visible = True
+        Me.GridColumn299.VisibleIndex = 0
+        Me.GridColumn299.Width = 360
+        '
+        'GridColumn300
+        '
+        Me.GridColumn300.Caption = "Nombre"
+        Me.GridColumn300.FieldName = "Name"
+        Me.GridColumn300.Name = "GridColumn300"
+        Me.GridColumn300.Visible = True
+        Me.GridColumn300.VisibleIndex = 1
+        Me.GridColumn300.Width = 1272
+        '
+        'INDsleThirdParty
+        '
+        Me.IndigoSearchLookUpControl1.SetAppearanceEmbeddedNavigator(Me.INDsleThirdParty, AppearanceObject15)
+        Me.IndigoSearchLookUpControl1.SetAppearanceTextFindControl(Me.INDsleThirdParty, AppearanceObject16)
+        Me.IndigoSearchLookUpControl1.SetAppendButtonNavigator(Me.INDsleThirdParty, False)
+        Me.IndigoTextEdit1.SetApplyStyle(Me.INDsleThirdParty, True)
+        Me.IndigoSearchLookUpControl1.SetAutomaticOpenForm(Me.INDsleThirdParty, False)
+        Me.IndigoTextEdit1.SetCampoObligatorio(Me.INDsleThirdParty, True)
+        Me.IndigoSearchLookUpControl1.SetCancelEditButtonNavigator(Me.INDsleThirdParty, False)
+        Me.IndigoSearchLookUpControl1.SetEditButtonNavigator(Me.INDsleThirdParty, False)
+        Me.IndigoSearchLookUpControl1.SetEndEditButtonNavigator(Me.INDsleThirdParty, False)
+        Me.INDsleThirdParty.EnterMoveNextControl = True
+        Me.IndigoSearchLookUpControl1.SetExportButton(Me.INDsleThirdParty, False)
+        Me.IndigoSearchLookUpControl1.SetFirstButtonNavigator(Me.INDsleThirdParty, False)
+        Me.IndigoSearchLookUpControl1.SetLastButtonNavigator(Me.INDsleThirdParty, False)
+        Me.INDsleThirdParty.Location = New System.Drawing.Point(604, 85)
+        Me.IndigoTextEdit1.SetMascara(Me.INDsleThirdParty, Presentation.Controls.IndigoTextEdit.EMask.Ninguno)
+        Me.INDsleThirdParty.Name = "INDsleThirdParty"
+        Me.IndigoSearchLookUpControl1.SetNextButtonNavigator(Me.INDsleThirdParty, False)
+        Me.IndigoSearchLookUpControl1.SetNextPageButtonNavigator(Me.INDsleThirdParty, False)
+        Me.IndigoSearchLookUpControl1.SetOpenForm(Me.INDsleThirdParty, True)
+        Me.IndigoSearchLookUpControl1.SetPopupBestFitHeight(Me.INDsleThirdParty, False)
+        Me.IndigoSearchLookUpControl1.SetPopupSizeable(Me.INDsleThirdParty, False)
+        Me.IndigoSearchLookUpControl1.SetPrevButtonNavigator(Me.INDsleThirdParty, False)
+        Me.IndigoSearchLookUpControl1.SetPrevPageButtonNavigator(Me.INDsleThirdParty, False)
+        Me.INDsleThirdParty.Properties.Appearance.BackColor = System.Drawing.Color.MistyRose
+        Me.INDsleThirdParty.Properties.Appearance.Font = New System.Drawing.Font("Segoe UI Light", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.INDsleThirdParty.Properties.Appearance.ForeColor = System.Drawing.Color.FromArgb(CType(CType(40, Byte), Integer), CType(CType(40, Byte), Integer), CType(CType(40, Byte), Integer))
+        Me.INDsleThirdParty.Properties.Appearance.Options.UseBackColor = True
+        Me.INDsleThirdParty.Properties.Appearance.Options.UseFont = True
+        Me.INDsleThirdParty.Properties.Appearance.Options.UseForeColor = True
+        Me.INDsleThirdParty.Properties.AppearanceFocused.BackColor = System.Drawing.Color.FromArgb(CType(CType(215, Byte), Integer), CType(CType(242, Byte), Integer), CType(CType(255, Byte), Integer))
+        Me.INDsleThirdParty.Properties.AppearanceFocused.BorderColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(148, Byte), Integer), CType(CType(223, Byte), Integer))
+        Me.INDsleThirdParty.Properties.AppearanceFocused.Font = New System.Drawing.Font("Segoe UI Light", 12.0!)
+        Me.INDsleThirdParty.Properties.AppearanceFocused.Options.UseBackColor = True
+        Me.INDsleThirdParty.Properties.AppearanceFocused.Options.UseBorderColor = True
+        Me.INDsleThirdParty.Properties.AppearanceFocused.Options.UseFont = True
+        Me.INDsleThirdParty.Properties.Buttons.AddRange(New DevExpress.XtraEditors.Controls.EditorButton() {New DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)})
+        Me.INDsleThirdParty.Properties.DisplayMember = "NitName"
+        Me.INDsleThirdParty.Properties.NullText = ""
+        Me.INDsleThirdParty.Properties.PopupFormMinSize = New System.Drawing.Size(905, 0)
+        Me.INDsleThirdParty.Properties.PopupFormSize = New System.Drawing.Size(950, 0)
+        Me.INDsleThirdParty.Properties.PopupSizeable = False
+        Me.INDsleThirdParty.Properties.PopupView = Me.GridView4
+        Me.INDsleThirdParty.Properties.ShowFooter = False
+        Me.INDsleThirdParty.Properties.ValueMember = "Id"
+        Me.IndigoSearchLookUpControl1.SetRemoveButtonNavigator(Me.INDsleThirdParty, False)
+        Me.IndigoSearchLookUpControl1.SetSaveXmlGrid(Me.INDsleThirdParty, True)
+        Me.IndigoSearchLookUpControl1.SetShowDeleteButton(Me.INDsleThirdParty, True)
+        Me.IndigoSearchLookUpControl1.SetShowFindButton(Me.INDsleThirdParty, True)
+        Me.INDsleThirdParty.Size = New System.Drawing.Size(226, 28)
+        Me.INDsleThirdParty.StyleController = Me.INDlycRoot
+        Me.INDsleThirdParty.TabIndex = 12
+        Me.IndigoSearchLookUpControl1.SetTagForm(Me.INDsleThirdParty, "532")
+        Me.IndigoTextEdit1.SetTamañoMinimoString(Me.INDsleThirdParty, 0)
+        Me.IndigoSearchLookUpControl1.SetTextStringFormat(Me.INDsleThirdParty, "{0} - {1}")
+        Me.INDsleThirdParty.ToolTip = "Este Campo es Necesario"
+        Me.IndigoSearchLookUpControl1.SetTxtFindEnterEnabled(Me.INDsleThirdParty, False)
+        Me.IndigoSearchLookUpControl1.SetUseEmbeddedNavigator(Me.INDsleThirdParty, False)
+        '
+        'GridView4
+        '
+        Me.GridView4.Appearance.FocusedRow.BorderColor = System.Drawing.Color.LightGray
+        Me.GridView4.Appearance.FocusedRow.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Bold)
+        Me.GridView4.Appearance.FocusedRow.Options.UseBorderColor = True
+        Me.GridView4.Appearance.FocusedRow.Options.UseFont = True
+        Me.GridView4.Appearance.GroupRow.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.GridView4.Appearance.GroupRow.Options.UseFont = True
+        Me.GridView4.Appearance.HeaderPanel.Font = New System.Drawing.Font("Segoe UI Semibold", 10.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.GridView4.Appearance.HeaderPanel.Options.UseFont = True
+        Me.GridView4.Appearance.Row.Font = New System.Drawing.Font("Segoe UI Light", 9.75!)
+        Me.GridView4.Appearance.Row.Options.UseFont = True
+        Me.GridView4.Columns.AddRange(New DevExpress.XtraGrid.Columns.GridColumn() {Me.GridColumn281, Me.GridColumn282, Me.GridColumn283, Me.GridColumn284, Me.GridColumn285, Me.GridColumn286})
+        Me.GridView4.FocusRectStyle = DevExpress.XtraGrid.Views.Grid.DrawFocusRectStyle.RowFocus
+        Me.GridView4.Name = "GridView4"
+        Me.GridView4.OptionsSelection.EnableAppearanceFocusedCell = False
+        Me.GridView4.OptionsView.EnableAppearanceEvenRow = True
+        Me.GridView4.OptionsView.EnableAppearanceOddRow = True
+        Me.GridView4.OptionsView.ShowAutoFilterRow = True
+        Me.GridView4.OptionsView.ShowGroupPanel = False
+        Me.IndigoGridView2.SetTemaIndigoMetro(Me.GridView4, False)
+        Me.IndigoGridView1.SetTemaIndigoMetro(Me.GridView4, False)
+        '
+        'GridColumn281
+        '
+        Me.GridColumn281.Caption = "Nit"
+        Me.GridColumn281.FieldName = "Nit"
+        Me.GridColumn281.Name = "GridColumn281"
+        Me.GridColumn281.Visible = True
+        Me.GridColumn281.VisibleIndex = 0
+        Me.GridColumn281.Width = 218
+        '
+        'GridColumn282
+        '
+        Me.GridColumn282.Caption = "Tipo Identificación"
+        Me.GridColumn282.FieldName = "PersonId.IdentificationTypeName"
+        Me.GridColumn282.Name = "GridColumn282"
+        Me.GridColumn282.Visible = True
+        Me.GridColumn282.VisibleIndex = 1
+        Me.GridColumn282.Width = 186
+        '
+        'GridColumn283
+        '
+        Me.GridColumn283.Caption = "Nombre"
+        Me.GridColumn283.FieldName = "Name"
+        Me.GridColumn283.Name = "GridColumn283"
+        Me.GridColumn283.Visible = True
+        Me.GridColumn283.VisibleIndex = 2
+        Me.GridColumn283.Width = 303
+        '
+        'GridColumn284
+        '
+        Me.GridColumn284.Caption = "Ciudad"
+        Me.GridColumn284.FieldName = "PersonId.IdentificacionCityId.Descripcion"
+        Me.GridColumn284.Name = "GridColumn284"
+        Me.GridColumn284.Visible = True
+        Me.GridColumn284.VisibleIndex = 3
+        Me.GridColumn284.Width = 226
+        '
+        'GridColumn285
+        '
+        Me.GridColumn285.Caption = "Tipo Ret."
+        Me.GridColumn285.FieldName = "RetentionTypeName"
+        Me.GridColumn285.Name = "GridColumn285"
+        Me.GridColumn285.Visible = True
+        Me.GridColumn285.VisibleIndex = 4
+        Me.GridColumn285.Width = 226
+        '
+        'GridColumn286
+        '
+        Me.GridColumn286.Caption = "Tipo Contr."
+        Me.GridColumn286.FieldName = "ContributionTypeName"
+        Me.GridColumn286.Name = "GridColumn286"
+        Me.GridColumn286.Visible = True
+        Me.GridColumn286.VisibleIndex = 5
+        Me.GridColumn286.Width = 233
+        '
+        'INDGcUser
+        '
+        Me.IndigoGridControl1.SetAddActions(Me.INDGcUser, Nothing)
+        Me.IndigoGridControl1.SetControlNextFocus(Me.INDGcUser, Nothing)
+        Me.INDGcUser.Cursor = System.Windows.Forms.Cursors.Default
+        Me.IndigoGridControl1.SetExportButton(Me.INDGcUser, False)
+        Me.IndigoGridControl1.SetGuardarXml(Me.INDGcUser, True)
+        Me.IndigoGridControl1.SetHoldSize(Me.INDGcUser, False)
+        Me.IndigoGridControl1.SetHotTrack(Me.INDGcUser, False)
+        Me.INDGcUser.Location = New System.Drawing.Point(1378, 85)
+        Me.INDGcUser.MainView = Me.INDGvUser
+        Me.INDGcUser.Name = "INDGcUser"
+        Me.INDGcUser.Size = New System.Drawing.Size(486, 356)
+        Me.IndigoGridControl1.SetSizeConstraintsType(Me.INDGcUser, DevExpress.XtraLayout.SizeConstraintsType.Custom)
+        Me.INDGcUser.TabIndex = 25
+        Me.INDGcUser.ViewCollection.AddRange(New DevExpress.XtraGrid.Views.Base.BaseView() {Me.INDGvUser})
+        '
+        'INDGvUser
+        '
+        Me.INDGvUser.Appearance.FocusedRow.BorderColor = System.Drawing.Color.LightGray
+        Me.INDGvUser.Appearance.FocusedRow.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Bold)
+        Me.INDGvUser.Appearance.FocusedRow.Options.UseBackColor = True
+        Me.INDGvUser.Appearance.FocusedRow.Options.UseBorderColor = True
+        Me.INDGvUser.Appearance.FocusedRow.Options.UseFont = True
+        Me.INDGvUser.Appearance.GroupRow.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.INDGvUser.Appearance.GroupRow.Options.UseFont = True
+        Me.INDGvUser.Appearance.HeaderPanel.Font = New System.Drawing.Font("Segoe UI Semibold", 10.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.INDGvUser.Appearance.HeaderPanel.Options.UseFont = True
+        Me.INDGvUser.Appearance.Row.Font = New System.Drawing.Font("Segoe UI Light", 9.75!)
+        Me.INDGvUser.Appearance.Row.Options.UseFont = True
+        Me.INDGvUser.Appearance.ViewCaption.Font = New System.Drawing.Font("Segoe UI Light", 13.0!)
+        Me.INDGvUser.Appearance.ViewCaption.Options.UseFont = True
+        Me.INDGvUser.Columns.AddRange(New DevExpress.XtraGrid.Columns.GridColumn() {Me.GridColumn162, Me.GridColumn163})
+        Me.INDGvUser.GridControl = Me.INDGcUser
+        Me.INDGvUser.Name = "INDGvUser"
+        Me.INDGvUser.OptionsView.EnableAppearanceEvenRow = True
+        Me.INDGvUser.OptionsView.EnableAppearanceOddRow = True
+        Me.INDGvUser.OptionsView.ShowAutoFilterRow = True
+        Me.INDGvUser.OptionsView.ShowDetailButtons = False
+        Me.INDGvUser.OptionsView.ShowGroupPanel = False
+        Me.IndigoGridView2.SetTemaIndigoMetro(Me.INDGvUser, False)
+        Me.IndigoGridView1.SetTemaIndigoMetro(Me.INDGvUser, False)
+        '
+        'GridColumn162
+        '
+        Me.GridColumn162.Caption = "Código"
+        Me.GridColumn162.FieldName = "UserCode"
+        Me.GridColumn162.Name = "GridColumn162"
+        Me.GridColumn162.OptionsColumn.AllowEdit = False
+        Me.GridColumn162.OptionsColumn.AllowFocus = False
+        Me.GridColumn162.OptionsColumn.AllowMove = False
+        Me.GridColumn162.Visible = True
+        Me.GridColumn162.VisibleIndex = 0
+        Me.GridColumn162.Width = 501
+        '
+        'GridColumn163
+        '
+        Me.GridColumn163.Caption = "Nombre"
+        Me.GridColumn163.FieldName = "Person.Fullname"
+        Me.GridColumn163.Name = "GridColumn163"
+        Me.GridColumn163.OptionsColumn.AllowEdit = False
+        Me.GridColumn163.OptionsColumn.AllowFocus = False
+        Me.GridColumn163.OptionsColumn.AllowMove = False
+        Me.GridColumn163.Visible = True
+        Me.GridColumn163.VisibleIndex = 1
+        Me.GridColumn163.Width = 1131
+        '
+        'INDsbAddUser
+        '
+        Me.INDsbAddUser.Location = New System.Drawing.Point(1768, 49)
+        Me.IndigoSimpleButton1.SetModernUiIndigo(Me.INDsbAddUser, False)
+        Me.INDsbAddUser.Name = "INDsbAddUser"
+        Me.INDsbAddUser.Size = New System.Drawing.Size(96, 28)
+        Me.INDsbAddUser.StyleController = Me.INDlycRoot
+        Me.INDsbAddUser.TabIndex = 24
+        Me.INDsbAddUser.Text = "Agregar"
+        '
+        'INDtxtCurrentBalance
+        '
+        Me.IndigoTextEdit1.SetApplyStyle(Me.INDtxtCurrentBalance, False)
+        Me.IndigoTextEdit1.SetCampoObligatorio(Me.INDtxtCurrentBalance, True)
+        Me.INDtxtCurrentBalance.EditValue = "0"
+        Me.INDtxtCurrentBalance.EnterMoveNextControl = True
+        Me.INDtxtCurrentBalance.Location = New System.Drawing.Point(169, 265)
+        Me.IndigoTextEdit1.SetMascara(Me.INDtxtCurrentBalance, Presentation.Controls.IndigoTextEdit.EMask.MonedaDecimales)
+        Me.INDtxtCurrentBalance.Name = "INDtxtCurrentBalance"
+        Me.INDtxtCurrentBalance.Properties.Appearance.BackColor = System.Drawing.Color.FromArgb(CType(CType(215, Byte), Integer), CType(CType(242, Byte), Integer), CType(CType(255, Byte), Integer))
+        Me.INDtxtCurrentBalance.Properties.Appearance.Font = New System.Drawing.Font("Segoe UI Light", 12.0!)
+        Me.INDtxtCurrentBalance.Properties.Appearance.Options.UseBackColor = True
+        Me.INDtxtCurrentBalance.Properties.Appearance.Options.UseFont = True
+        Me.INDtxtCurrentBalance.Properties.Appearance.Options.UseTextOptions = True
+        Me.INDtxtCurrentBalance.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Far
+        Me.INDtxtCurrentBalance.Properties.AppearanceFocused.BackColor = System.Drawing.Color.FromArgb(CType(CType(215, Byte), Integer), CType(CType(242, Byte), Integer), CType(CType(255, Byte), Integer))
+        Me.INDtxtCurrentBalance.Properties.AppearanceFocused.BorderColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(148, Byte), Integer), CType(CType(223, Byte), Integer))
+        Me.INDtxtCurrentBalance.Properties.AppearanceFocused.Font = New System.Drawing.Font("Segoe UI Light", 12.0!)
+        Me.INDtxtCurrentBalance.Properties.AppearanceFocused.Options.UseBackColor = True
+        Me.INDtxtCurrentBalance.Properties.AppearanceFocused.Options.UseBorderColor = True
+        Me.INDtxtCurrentBalance.Properties.AppearanceFocused.Options.UseFont = True
+        Me.INDtxtCurrentBalance.Properties.Mask.EditMask = "c2"
+        Me.INDtxtCurrentBalance.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.Numeric
+        Me.INDtxtCurrentBalance.Properties.Mask.UseMaskAsDisplayFormat = True
+        Me.INDtxtCurrentBalance.Size = New System.Drawing.Size(239, 28)
+        Me.INDtxtCurrentBalance.StyleController = Me.INDlycRoot
+        Me.INDtxtCurrentBalance.TabIndex = 6
+        Me.IndigoTextEdit1.SetTamañoMinimoString(Me.INDtxtCurrentBalance, 0)
+        '
+        'INDpopVoucher
+        '
+        Me.IndigoPopUpContainerEdit1.SetButtonMoreOptions(Me.INDpopVoucher, False)
+        Me.INDpopVoucher.EditValue = "Agregar Chequera"
+        Me.IndigoPopUpContainerEdit1.SetHostControl(Me.INDpopVoucher, Nothing)
+        Me.INDpopVoucher.Location = New System.Drawing.Point(856, 49)
+        Me.INDpopVoucher.MaximumSize = New System.Drawing.Size(0, 28)
+        Me.INDpopVoucher.MinimumSize = New System.Drawing.Size(496, 26)
+        Me.INDpopVoucher.Name = "INDpopVoucher"
+        Me.IndigoPopUpContainerEdit1.SetOpenForm(Me.INDpopVoucher, False)
+        Me.IndigoPopUpContainerEdit1.SetPopUpAnimation(Me.INDpopVoucher, False)
+        Me.INDpopVoucher.Properties.Appearance.BackColor = System.Drawing.Color.Transparent
+        Me.INDpopVoucher.Properties.Appearance.Font = New System.Drawing.Font("Segoe UI Light", 12.0!)
+        Me.INDpopVoucher.Properties.Appearance.Options.UseBackColor = True
+        Me.INDpopVoucher.Properties.Appearance.Options.UseFont = True
+        Me.INDpopVoucher.Properties.Appearance.Options.UseTextOptions = True
+        Me.INDpopVoucher.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center
+        Me.INDpopVoucher.Properties.AppearanceFocused.BackColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(148, Byte), Integer), CType(CType(223, Byte), Integer))
+        Me.INDpopVoucher.Properties.AppearanceFocused.Font = New System.Drawing.Font("Segoe UI", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.INDpopVoucher.Properties.AppearanceFocused.ForeColor = System.Drawing.Color.White
+        Me.INDpopVoucher.Properties.AppearanceFocused.Options.UseBackColor = True
+        Me.INDpopVoucher.Properties.AppearanceFocused.Options.UseFont = True
+        Me.INDpopVoucher.Properties.AppearanceFocused.Options.UseForeColor = True
+        Me.INDpopVoucher.Properties.CloseUpKey = New DevExpress.Utils.KeyShortcut(System.Windows.Forms.Keys.None)
+        Me.INDpopVoucher.Properties.PopupControl = Me.PopupContainerControl1
+        Me.INDpopVoucher.Properties.PopupFormMinSize = New System.Drawing.Size(496, 276)
+        Me.INDpopVoucher.Properties.PopupFormSize = New System.Drawing.Size(496, 276)
+        Me.INDpopVoucher.Size = New System.Drawing.Size(496, 28)
+        Me.INDpopVoucher.StyleController = Me.INDlycRoot
+        Me.INDpopVoucher.TabIndex = 21
+        Me.IndigoPopUpContainerEdit1.SetTagForm(Me.INDpopVoucher, Nothing)
+        Me.IndigoPopUpContainerEdit1.SetWpfControl(Me.INDpopVoucher, Nothing)
+        '
+        'INDsleAccountAccounting
+        '
+        Me.IndigoSearchLookUpControl1.SetAppearanceEmbeddedNavigator(Me.INDsleAccountAccounting, AppearanceObject17)
+        Me.IndigoSearchLookUpControl1.SetAppearanceTextFindControl(Me.INDsleAccountAccounting, AppearanceObject18)
+        Me.IndigoSearchLookUpControl1.SetAppendButtonNavigator(Me.INDsleAccountAccounting, False)
+        Me.IndigoTextEdit1.SetApplyStyle(Me.INDsleAccountAccounting, False)
+        Me.IndigoSearchLookUpControl1.SetAutomaticOpenForm(Me.INDsleAccountAccounting, False)
+        Me.IndigoTextEdit1.SetCampoObligatorio(Me.INDsleAccountAccounting, True)
+        Me.IndigoSearchLookUpControl1.SetCancelEditButtonNavigator(Me.INDsleAccountAccounting, False)
+        Me.IndigoSearchLookUpControl1.SetEditButtonNavigator(Me.INDsleAccountAccounting, False)
+        Me.IndigoSearchLookUpControl1.SetEndEditButtonNavigator(Me.INDsleAccountAccounting, False)
+        Me.INDsleAccountAccounting.EnterMoveNextControl = True
+        Me.IndigoSearchLookUpControl1.SetExportButton(Me.INDsleAccountAccounting, False)
+        Me.IndigoSearchLookUpControl1.SetFirstButtonNavigator(Me.INDsleAccountAccounting, False)
+        Me.IndigoSearchLookUpControl1.SetLastButtonNavigator(Me.INDsleAccountAccounting, False)
+        Me.INDsleAccountAccounting.Location = New System.Drawing.Point(604, 49)
+        Me.IndigoTextEdit1.SetMascara(Me.INDsleAccountAccounting, Presentation.Controls.IndigoTextEdit.EMask.Ninguno)
+        Me.INDsleAccountAccounting.Name = "INDsleAccountAccounting"
+        Me.IndigoSearchLookUpControl1.SetNextButtonNavigator(Me.INDsleAccountAccounting, False)
+        Me.IndigoSearchLookUpControl1.SetNextPageButtonNavigator(Me.INDsleAccountAccounting, False)
+        Me.IndigoSearchLookUpControl1.SetOpenForm(Me.INDsleAccountAccounting, True)
+        Me.IndigoSearchLookUpControl1.SetPopupBestFitHeight(Me.INDsleAccountAccounting, False)
+        Me.IndigoSearchLookUpControl1.SetPopupSizeable(Me.INDsleAccountAccounting, False)
+        Me.IndigoSearchLookUpControl1.SetPrevButtonNavigator(Me.INDsleAccountAccounting, False)
+        Me.IndigoSearchLookUpControl1.SetPrevPageButtonNavigator(Me.INDsleAccountAccounting, False)
+        Me.INDsleAccountAccounting.Properties.Appearance.BackColor = System.Drawing.Color.MistyRose
+        Me.INDsleAccountAccounting.Properties.Appearance.Font = New System.Drawing.Font("Segoe UI Light", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.INDsleAccountAccounting.Properties.Appearance.ForeColor = System.Drawing.Color.FromArgb(CType(CType(40, Byte), Integer), CType(CType(40, Byte), Integer), CType(CType(40, Byte), Integer))
+        Me.INDsleAccountAccounting.Properties.Appearance.Options.UseBackColor = True
+        Me.INDsleAccountAccounting.Properties.Appearance.Options.UseFont = True
+        Me.INDsleAccountAccounting.Properties.Appearance.Options.UseForeColor = True
+        Me.INDsleAccountAccounting.Properties.AppearanceFocused.BackColor = System.Drawing.Color.FromArgb(CType(CType(215, Byte), Integer), CType(CType(242, Byte), Integer), CType(CType(255, Byte), Integer))
+        Me.INDsleAccountAccounting.Properties.AppearanceFocused.BorderColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(148, Byte), Integer), CType(CType(223, Byte), Integer))
+        Me.INDsleAccountAccounting.Properties.AppearanceFocused.Font = New System.Drawing.Font("Segoe UI Light", 12.0!)
+        Me.INDsleAccountAccounting.Properties.AppearanceFocused.Options.UseBackColor = True
+        Me.INDsleAccountAccounting.Properties.AppearanceFocused.Options.UseBorderColor = True
+        Me.INDsleAccountAccounting.Properties.AppearanceFocused.Options.UseFont = True
+        Me.INDsleAccountAccounting.Properties.Buttons.AddRange(New DevExpress.XtraEditors.Controls.EditorButton() {New DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)})
+        Me.INDsleAccountAccounting.Properties.DisplayMember = "NumberName"
+        Me.INDsleAccountAccounting.Properties.NullText = ""
+        Me.INDsleAccountAccounting.Properties.PopupFilterMode = DevExpress.XtraEditors.PopupFilterMode.Contains
+        Me.INDsleAccountAccounting.Properties.PopupFormMinSize = New System.Drawing.Size(686, 0)
+        Me.INDsleAccountAccounting.Properties.PopupSizeable = False
+        Me.INDsleAccountAccounting.Properties.PopupView = Me.INDsleAccountAccountingView
+        Me.INDsleAccountAccounting.Properties.ShowFooter = False
+        Me.INDsleAccountAccounting.Properties.ValueMember = "Id"
+        Me.IndigoSearchLookUpControl1.SetRemoveButtonNavigator(Me.INDsleAccountAccounting, False)
+        Me.IndigoSearchLookUpControl1.SetSaveXmlGrid(Me.INDsleAccountAccounting, True)
+        Me.IndigoSearchLookUpControl1.SetShowDeleteButton(Me.INDsleAccountAccounting, True)
+        Me.IndigoSearchLookUpControl1.SetShowFindButton(Me.INDsleAccountAccounting, True)
+        Me.INDsleAccountAccounting.Size = New System.Drawing.Size(226, 28)
+        Me.INDsleAccountAccounting.StyleController = Me.INDlycRoot
+        Me.INDsleAccountAccounting.TabIndex = 11
+        Me.IndigoSearchLookUpControl1.SetTagForm(Me.INDsleAccountAccounting, "602")
+        Me.IndigoTextEdit1.SetTamañoMinimoString(Me.INDsleAccountAccounting, 0)
+        Me.IndigoSearchLookUpControl1.SetTextStringFormat(Me.INDsleAccountAccounting, "{0} - {1}")
+        Me.INDsleAccountAccounting.ToolTip = "Este Campo es Necesario"
+        Me.IndigoSearchLookUpControl1.SetTxtFindEnterEnabled(Me.INDsleAccountAccounting, False)
+        Me.IndigoSearchLookUpControl1.SetUseEmbeddedNavigator(Me.INDsleAccountAccounting, False)
+        '
+        'INDsleAccountAccountingView
+        '
+        Me.INDsleAccountAccountingView.Appearance.FocusedRow.BorderColor = System.Drawing.Color.LightGray
+        Me.INDsleAccountAccountingView.Appearance.FocusedRow.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Bold)
+        Me.INDsleAccountAccountingView.Appearance.FocusedRow.Options.UseBorderColor = True
+        Me.INDsleAccountAccountingView.Appearance.FocusedRow.Options.UseFont = True
+        Me.INDsleAccountAccountingView.Appearance.GroupRow.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.INDsleAccountAccountingView.Appearance.GroupRow.Options.UseFont = True
+        Me.INDsleAccountAccountingView.Appearance.HeaderPanel.Font = New System.Drawing.Font("Segoe UI Semibold", 10.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.INDsleAccountAccountingView.Appearance.HeaderPanel.Options.UseFont = True
+        Me.INDsleAccountAccountingView.Appearance.Row.Font = New System.Drawing.Font("Segoe UI Light", 9.75!)
+        Me.INDsleAccountAccountingView.Appearance.Row.Options.UseFont = True
+        Me.INDsleAccountAccountingView.Columns.AddRange(New DevExpress.XtraGrid.Columns.GridColumn() {Me.GridColumn598, Me.GridColumn599, Me.GridColumn600, Me.GridColumn601, Me.GridColumn602})
+        Me.INDsleAccountAccountingView.FocusRectStyle = DevExpress.XtraGrid.Views.Grid.DrawFocusRectStyle.RowFocus
+        Me.INDsleAccountAccountingView.Name = "INDsleAccountAccountingView"
+        Me.INDsleAccountAccountingView.OptionsFind.FindFilterColumns = "Number"
+        Me.INDsleAccountAccountingView.OptionsSelection.EnableAppearanceFocusedCell = False
+        Me.INDsleAccountAccountingView.OptionsView.EnableAppearanceEvenRow = True
+        Me.INDsleAccountAccountingView.OptionsView.EnableAppearanceOddRow = True
+        Me.INDsleAccountAccountingView.OptionsView.ShowAutoFilterRow = True
+        Me.INDsleAccountAccountingView.OptionsView.ShowDetailButtons = False
+        Me.INDsleAccountAccountingView.OptionsView.ShowGroupPanel = False
+        Me.IndigoGridView2.SetTemaIndigoMetro(Me.INDsleAccountAccountingView, False)
+        Me.IndigoGridView1.SetTemaIndigoMetro(Me.INDsleAccountAccountingView, False)
+        '
+        'GridColumn593
+        '
+        Me.GridColumn593.Caption = "Id"
+        Me.GridColumn593.FieldName = "Id"
+        Me.GridColumn593.Name = "GridColumn593"
+        '
+        'GridColumn594
+        '
+        Me.GridColumn594.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn594.Caption = "Código"
+        Me.GridColumn594.FieldName = "Number"
+        Me.GridColumn594.Name = "GridColumn594"
+        '
+        'GridColumn595
+        '
+        Me.GridColumn595.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn595.Caption = "Nombre"
+        Me.GridColumn595.FieldName = "Name"
+        Me.GridColumn595.Name = "GridColumn595"
+        Me.GridColumn595.Width = 88
+        '
+        'GridColumn596
+        '
+        Me.GridColumn596.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn596.Caption = "Maneja Tercero"
+        Me.GridColumn596.FieldName = "HandlesThirdParty"
+        Me.GridColumn596.Name = "GridColumn596"
+        Me.GridColumn596.Width = 171
+        '
+        'GridColumn597
+        '
+        Me.GridColumn597.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn597.Caption = "Maneja Centro de Costo"
+        Me.GridColumn597.FieldName = "HandlesCostCenter"
+        Me.GridColumn597.Name = "GridColumn597"
+        Me.GridColumn597.Width = 350
+        '
+        'GridColumn598
+        '
+        Me.GridColumn598.Caption = "Id"
+        Me.GridColumn598.FieldName = "Id"
+        Me.GridColumn598.MinWidth = 17
+        Me.GridColumn598.Name = "GridColumn598"
+        Me.GridColumn598.Width = 64
+        '
+        'GridColumn599
+        '
+        Me.GridColumn599.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn599.Caption = "Código"
+        Me.GridColumn599.FieldName = "Number"
+        Me.GridColumn599.MinWidth = 17
+        Me.GridColumn599.Name = "GridColumn599"
+        Me.GridColumn599.Visible = True
+        Me.GridColumn599.VisibleIndex = 0
+        Me.GridColumn599.Width = 66
+        '
+        'GridColumn600
+        '
+        Me.GridColumn600.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn600.Caption = "Nombre"
+        Me.GridColumn600.FieldName = "Name"
+        Me.GridColumn600.MinWidth = 17
+        Me.GridColumn600.Name = "GridColumn600"
+        Me.GridColumn600.Visible = True
+        Me.GridColumn600.VisibleIndex = 1
+        Me.GridColumn600.Width = 76
+        '
+        'GridColumn601
+        '
+        Me.GridColumn601.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn601.Caption = "Maneja Tercero"
+        Me.GridColumn601.FieldName = "HandlesThirdParty"
+        Me.GridColumn601.MinWidth = 17
+        Me.GridColumn601.Name = "GridColumn601"
+        Me.GridColumn601.Visible = True
+        Me.GridColumn601.VisibleIndex = 2
+        Me.GridColumn601.Width = 148
+        '
+        'GridColumn602
+        '
+        Me.GridColumn602.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn602.Caption = "Maneja Centro de Costo"
+        Me.GridColumn602.FieldName = "HandlesCostCenter"
+        Me.GridColumn602.MinWidth = 17
+        Me.GridColumn602.Name = "GridColumn602"
+        Me.GridColumn602.Visible = True
+        Me.GridColumn602.VisibleIndex = 3
+        Me.GridColumn602.Width = 300
+        '
+        'INDgcCheckbook
+        '
+        Me.IndigoGridControl1.SetAddActions(Me.INDgcCheckbook, Nothing)
+        Me.IndigoGridControl1.SetControlNextFocus(Me.INDgcCheckbook, Nothing)
+        Me.IndigoGridControl1.SetExportButton(Me.INDgcCheckbook, False)
+        Me.IndigoGridControl1.SetGuardarXml(Me.INDgcCheckbook, True)
+        Me.IndigoGridControl1.SetHoldSize(Me.INDgcCheckbook, False)
+        Me.IndigoGridControl1.SetHotTrack(Me.INDgcCheckbook, False)
+        Me.INDgcCheckbook.Location = New System.Drawing.Point(856, 85)
+        Me.INDgcCheckbook.MainView = Me.INDgdvCheckbook
+        Me.INDgcCheckbook.Name = "INDgcCheckbook"
+        Me.INDgcCheckbook.RepositoryItems.AddRange(New DevExpress.XtraEditors.Repository.RepositoryItem() {Me.RepositoryStatusVoucher})
+        Me.INDgcCheckbook.Size = New System.Drawing.Size(496, 356)
+        Me.IndigoGridControl1.SetSizeConstraintsType(Me.INDgcCheckbook, DevExpress.XtraLayout.SizeConstraintsType.Custom)
+        Me.INDgcCheckbook.TabIndex = 22
+        Me.INDgcCheckbook.ViewCollection.AddRange(New DevExpress.XtraGrid.Views.Base.BaseView() {Me.INDgdvCheckbook})
+        '
+        'INDgdvCheckbook
+        '
+        Me.INDgdvCheckbook.Appearance.FocusedRow.BorderColor = System.Drawing.Color.LightGray
+        Me.INDgdvCheckbook.Appearance.FocusedRow.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Bold)
+        Me.INDgdvCheckbook.Appearance.FocusedRow.Options.UseBackColor = True
+        Me.INDgdvCheckbook.Appearance.FocusedRow.Options.UseBorderColor = True
+        Me.INDgdvCheckbook.Appearance.FocusedRow.Options.UseFont = True
+        Me.INDgdvCheckbook.Appearance.GroupRow.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.INDgdvCheckbook.Appearance.GroupRow.Options.UseFont = True
+        Me.INDgdvCheckbook.Appearance.HeaderPanel.Font = New System.Drawing.Font("Segoe UI Semibold", 10.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.INDgdvCheckbook.Appearance.HeaderPanel.Options.UseFont = True
+        Me.INDgdvCheckbook.Appearance.Row.Font = New System.Drawing.Font("Segoe UI Light", 9.75!)
+        Me.INDgdvCheckbook.Appearance.Row.Options.UseFont = True
+        Me.INDgdvCheckbook.Appearance.ViewCaption.Font = New System.Drawing.Font("Segoe UI Light", 13.0!)
+        Me.INDgdvCheckbook.Appearance.ViewCaption.Options.UseFont = True
+        Me.INDgdvCheckbook.Columns.AddRange(New DevExpress.XtraGrid.Columns.GridColumn() {Me.ColChkInitNumber, Me.ColChkEndNumber, Me.ColChkCurrent, Me.ColChkStatus})
+        Me.INDgdvCheckbook.GridControl = Me.INDgcCheckbook
+        Me.INDgdvCheckbook.Name = "INDgdvCheckbook"
+        Me.INDgdvCheckbook.OptionsView.EnableAppearanceEvenRow = True
+        Me.INDgdvCheckbook.OptionsView.EnableAppearanceOddRow = True
+        Me.INDgdvCheckbook.OptionsView.ShowAutoFilterRow = True
+        Me.INDgdvCheckbook.OptionsView.ShowDetailButtons = False
+        Me.INDgdvCheckbook.OptionsView.ShowGroupPanel = False
+        Me.INDgdvCheckbook.Tag = 478
+        Me.IndigoGridView2.SetTemaIndigoMetro(Me.INDgdvCheckbook, False)
+        Me.IndigoGridView1.SetTemaIndigoMetro(Me.INDgdvCheckbook, False)
+        '
+        'ColChkInitNumber
+        '
+        Me.ColChkInitNumber.Caption = "Inicial"
+        Me.ColChkInitNumber.FieldName = "InitialNumber"
+        Me.ColChkInitNumber.MinWidth = 100
+        Me.ColChkInitNumber.Name = "ColChkInitNumber"
+        Me.ColChkInitNumber.OptionsColumn.AllowEdit = False
+        Me.ColChkInitNumber.OptionsColumn.AllowFocus = False
+        Me.ColChkInitNumber.OptionsColumn.AllowMove = False
+        Me.ColChkInitNumber.Visible = True
+        Me.ColChkInitNumber.VisibleIndex = 0
+        Me.ColChkInitNumber.Width = 356
+        '
+        'ColChkEndNumber
+        '
+        Me.ColChkEndNumber.Caption = "Final"
+        Me.ColChkEndNumber.FieldName = "EndNumber"
+        Me.ColChkEndNumber.MinWidth = 100
+        Me.ColChkEndNumber.Name = "ColChkEndNumber"
+        Me.ColChkEndNumber.OptionsColumn.AllowEdit = False
+        Me.ColChkEndNumber.OptionsColumn.AllowFocus = False
+        Me.ColChkEndNumber.OptionsColumn.AllowMove = False
+        Me.ColChkEndNumber.Visible = True
+        Me.ColChkEndNumber.VisibleIndex = 1
+        Me.ColChkEndNumber.Width = 434
+        '
+        'ColChkCurrent
+        '
+        Me.ColChkCurrent.Caption = "Actual"
+        Me.ColChkCurrent.FieldName = "CurrentNumber"
+        Me.ColChkCurrent.MinWidth = 100
+        Me.ColChkCurrent.Name = "ColChkCurrent"
+        Me.ColChkCurrent.OptionsColumn.AllowEdit = False
+        Me.ColChkCurrent.OptionsColumn.AllowFocus = False
+        Me.ColChkCurrent.OptionsColumn.AllowMove = False
+        Me.ColChkCurrent.Visible = True
+        Me.ColChkCurrent.VisibleIndex = 2
+        Me.ColChkCurrent.Width = 410
+        '
+        'ColChkStatus
+        '
+        Me.ColChkStatus.Caption = "Estado"
+        Me.ColChkStatus.ColumnEdit = Me.RepositoryStatusVoucher
+        Me.ColChkStatus.FieldName = "Status"
+        Me.ColChkStatus.MinWidth = 100
+        Me.ColChkStatus.Name = "ColChkStatus"
+        Me.ColChkStatus.OptionsColumn.AllowEdit = False
+        Me.ColChkStatus.OptionsColumn.AllowFocus = False
+        Me.ColChkStatus.OptionsColumn.AllowMove = False
+        Me.ColChkStatus.Visible = True
+        Me.ColChkStatus.VisibleIndex = 3
+        Me.ColChkStatus.Width = 432
+        '
+        'RepositoryStatusVoucher
+        '
+        Me.RepositoryStatusVoucher.AutoHeight = False
+        Me.RepositoryStatusVoucher.Buttons.AddRange(New DevExpress.XtraEditors.Controls.EditorButton() {New DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)})
+        Me.RepositoryStatusVoucher.DisplayMember = "Item2"
+        Me.RepositoryStatusVoucher.Name = "RepositoryStatusVoucher"
+        Me.RepositoryStatusVoucher.PopupView = Me.RepositoryItemGridLookUpEdit1View
+        Me.RepositoryStatusVoucher.ValueMember = "Item1"
+        '
+        'RepositoryItemGridLookUpEdit1View
+        '
+        Me.RepositoryItemGridLookUpEdit1View.Appearance.FocusedRow.BorderColor = System.Drawing.Color.LightGray
+        Me.RepositoryItemGridLookUpEdit1View.Appearance.FocusedRow.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Bold)
+        Me.RepositoryItemGridLookUpEdit1View.Appearance.FocusedRow.Options.UseBorderColor = True
+        Me.RepositoryItemGridLookUpEdit1View.Appearance.FocusedRow.Options.UseFont = True
+        Me.RepositoryItemGridLookUpEdit1View.Appearance.GroupRow.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.RepositoryItemGridLookUpEdit1View.Appearance.GroupRow.Options.UseFont = True
+        Me.RepositoryItemGridLookUpEdit1View.Appearance.HeaderPanel.Font = New System.Drawing.Font("Segoe UI Semibold", 10.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.RepositoryItemGridLookUpEdit1View.Appearance.HeaderPanel.Options.UseFont = True
+        Me.RepositoryItemGridLookUpEdit1View.Appearance.Row.Font = New System.Drawing.Font("Segoe UI Light", 9.75!)
+        Me.RepositoryItemGridLookUpEdit1View.Appearance.Row.Options.UseFont = True
+        Me.RepositoryItemGridLookUpEdit1View.FocusRectStyle = DevExpress.XtraGrid.Views.Grid.DrawFocusRectStyle.RowFocus
+        Me.RepositoryItemGridLookUpEdit1View.Name = "RepositoryItemGridLookUpEdit1View"
+        Me.RepositoryItemGridLookUpEdit1View.OptionsSelection.EnableAppearanceFocusedCell = False
+        Me.RepositoryItemGridLookUpEdit1View.OptionsView.EnableAppearanceEvenRow = True
+        Me.RepositoryItemGridLookUpEdit1View.OptionsView.EnableAppearanceOddRow = True
+        Me.RepositoryItemGridLookUpEdit1View.OptionsView.ShowAutoFilterRow = True
+        Me.RepositoryItemGridLookUpEdit1View.OptionsView.ShowGroupPanel = False
+        Me.IndigoGridView2.SetTemaIndigoMetro(Me.RepositoryItemGridLookUpEdit1View, False)
+        Me.IndigoGridView1.SetTemaIndigoMetro(Me.RepositoryItemGridLookUpEdit1View, False)
+        '
+        'INDbteCode
+        '
+        Me.IndigoTextEdit1.SetApplyStyle(Me.INDbteCode, False)
+        Me.IndigoTextEdit1.SetCampoObligatorio(Me.INDbteCode, True)
+        Me.INDbteCode.Location = New System.Drawing.Point(169, 49)
+        Me.IndigoTextEdit1.SetMascara(Me.INDbteCode, Presentation.Controls.IndigoTextEdit.EMask.Ninguno)
+        Me.INDbteCode.Name = "INDbteCode"
+        Me.INDbteCode.Properties.Appearance.BackColor = System.Drawing.Color.MistyRose
+        Me.INDbteCode.Properties.Appearance.Font = New System.Drawing.Font("Segoe UI Light", 12.0!)
+        Me.INDbteCode.Properties.Appearance.ForeColor = System.Drawing.Color.Black
+        Me.INDbteCode.Properties.Appearance.Options.UseBackColor = True
+        Me.INDbteCode.Properties.Appearance.Options.UseFont = True
+        Me.INDbteCode.Properties.Appearance.Options.UseForeColor = True
+        Me.INDbteCode.Properties.AppearanceFocused.BackColor = System.Drawing.Color.FromArgb(CType(CType(215, Byte), Integer), CType(CType(242, Byte), Integer), CType(CType(255, Byte), Integer))
+        Me.INDbteCode.Properties.AppearanceFocused.BorderColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(148, Byte), Integer), CType(CType(223, Byte), Integer))
+        Me.INDbteCode.Properties.AppearanceFocused.Font = New System.Drawing.Font("Segoe UI Light", 12.0!)
+        Me.INDbteCode.Properties.AppearanceFocused.Options.UseBackColor = True
+        Me.INDbteCode.Properties.AppearanceFocused.Options.UseBorderColor = True
+        Me.INDbteCode.Properties.AppearanceFocused.Options.UseFont = True
+        EditorButtonImageOptions1.Image = CType(resources.GetObject("EditorButtonImageOptions1.Image"), System.Drawing.Image)
+        Me.INDbteCode.Properties.Buttons.AddRange(New DevExpress.XtraEditors.Controls.EditorButton() {New DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Glyph, "", -1, True, True, False, EditorButtonImageOptions1, New DevExpress.Utils.KeyShortcut(System.Windows.Forms.Keys.None), SerializableAppearanceObject1, SerializableAppearanceObject2, SerializableAppearanceObject3, SerializableAppearanceObject4, "", Nothing, Nothing, DevExpress.Utils.ToolTipAnchor.[Default])})
+        Me.INDbteCode.Properties.Mask.EditMask = "[-a-zA-Z0-9|°¬!ñÑ""#$%&/()=?¡'¿\@¨´_.:,; ]+"
+        Me.INDbteCode.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx
+        Me.INDbteCode.Properties.MaxLength = 20
+        Me.INDbteCode.Size = New System.Drawing.Size(239, 28)
+        Me.INDbteCode.StyleController = Me.INDlycRoot
+        Me.INDbteCode.TabIndex = 0
+        Me.IndigoTextEdit1.SetTamañoMinimoString(Me.INDbteCode, 0)
+        Me.INDbteCode.ToolTip = "Este Campo es Necesario"
+        '
+        'INDdteInitDate
+        '
+        Me.IndigoTextEdit1.SetApplyStyle(Me.INDdteInitDate, False)
+        Me.IndigoTextEdit1.SetCampoObligatorio(Me.INDdteInitDate, True)
+        Me.IndigoDate1.SetCampoObligatorio(Me.INDdteInitDate, True)
+        Me.INDdteInitDate.EditValue = Nothing
+        Me.INDdteInitDate.EnterMoveNextControl = True
+        Me.INDdteInitDate.Location = New System.Drawing.Point(169, 409)
+        Me.IndigoTextEdit1.SetMascara(Me.INDdteInitDate, Presentation.Controls.IndigoTextEdit.EMask.Ninguno)
+        Me.IndigoDate1.SetMascaraDate(Me.INDdteInitDate, Presentation.Controls.IndigoDate.EMask.Fecha)
+        Me.INDdteInitDate.Name = "INDdteInitDate"
+        Me.INDdteInitDate.Properties.Appearance.BackColor = System.Drawing.Color.MistyRose
+        Me.INDdteInitDate.Properties.Appearance.Font = New System.Drawing.Font("Segoe UI Light", 12.0!)
+        Me.INDdteInitDate.Properties.Appearance.ForeColor = System.Drawing.Color.Black
+        Me.INDdteInitDate.Properties.Appearance.Options.UseBackColor = True
+        Me.INDdteInitDate.Properties.Appearance.Options.UseFont = True
+        Me.INDdteInitDate.Properties.Appearance.Options.UseForeColor = True
+        Me.INDdteInitDate.Properties.AppearanceFocused.BackColor = System.Drawing.Color.FromArgb(CType(CType(215, Byte), Integer), CType(CType(242, Byte), Integer), CType(CType(255, Byte), Integer))
+        Me.INDdteInitDate.Properties.AppearanceFocused.BorderColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(148, Byte), Integer), CType(CType(223, Byte), Integer))
+        Me.INDdteInitDate.Properties.AppearanceFocused.Font = New System.Drawing.Font("Segoe UI Light", 12.0!)
+        Me.INDdteInitDate.Properties.AppearanceFocused.Options.UseBackColor = True
+        Me.INDdteInitDate.Properties.AppearanceFocused.Options.UseBorderColor = True
+        Me.INDdteInitDate.Properties.AppearanceFocused.Options.UseFont = True
+        Me.INDdteInitDate.Properties.Buttons.AddRange(New DevExpress.XtraEditors.Controls.EditorButton() {New DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)})
+        Me.INDdteInitDate.Properties.CalendarTimeProperties.Buttons.AddRange(New DevExpress.XtraEditors.Controls.EditorButton() {New DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)})
+        Me.INDdteInitDate.Properties.Mask.EditMask = "dd/MM/yyyy"
+        Me.INDdteInitDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret
+        Me.INDdteInitDate.Properties.Mask.UseMaskAsDisplayFormat = True
+        Me.INDdteInitDate.Size = New System.Drawing.Size(239, 28)
+        Me.INDdteInitDate.StyleController = Me.INDlycRoot
+        Me.INDdteInitDate.TabIndex = 10
+        Me.IndigoTextEdit1.SetTamañoMinimoString(Me.INDdteInitDate, 0)
+        Me.INDdteInitDate.ToolTip = "Este Campo es Necesario"
+        '
+        'INDtxtRate
+        '
+        Me.IndigoTextEdit1.SetApplyStyle(Me.INDtxtRate, False)
+        Me.IndigoTextEdit1.SetCampoObligatorio(Me.INDtxtRate, True)
+        Me.INDtxtRate.EditValue = "0"
+        Me.INDtxtRate.EnterMoveNextControl = True
+        Me.INDtxtRate.Location = New System.Drawing.Point(169, 301)
+        Me.IndigoTextEdit1.SetMascara(Me.INDtxtRate, Presentation.Controls.IndigoTextEdit.EMask.Porcentaje)
+        Me.INDtxtRate.Name = "INDtxtRate"
+        Me.INDtxtRate.Properties.Appearance.BackColor = System.Drawing.Color.FromArgb(CType(CType(215, Byte), Integer), CType(CType(242, Byte), Integer), CType(CType(255, Byte), Integer))
+        Me.INDtxtRate.Properties.Appearance.Font = New System.Drawing.Font("Segoe UI Light", 12.0!)
+        Me.INDtxtRate.Properties.Appearance.Options.UseBackColor = True
+        Me.INDtxtRate.Properties.Appearance.Options.UseFont = True
+        Me.INDtxtRate.Properties.Appearance.Options.UseTextOptions = True
+        Me.INDtxtRate.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Far
+        Me.INDtxtRate.Properties.AppearanceFocused.BackColor = System.Drawing.Color.FromArgb(CType(CType(215, Byte), Integer), CType(CType(242, Byte), Integer), CType(CType(255, Byte), Integer))
+        Me.INDtxtRate.Properties.AppearanceFocused.BorderColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(148, Byte), Integer), CType(CType(223, Byte), Integer))
+        Me.INDtxtRate.Properties.AppearanceFocused.Font = New System.Drawing.Font("Segoe UI Light", 12.0!)
+        Me.INDtxtRate.Properties.AppearanceFocused.Options.UseBackColor = True
+        Me.INDtxtRate.Properties.AppearanceFocused.Options.UseBorderColor = True
+        Me.INDtxtRate.Properties.AppearanceFocused.Options.UseFont = True
+        Me.INDtxtRate.Properties.Mask.EditMask = "P"
+        Me.INDtxtRate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.Numeric
+        Me.INDtxtRate.Properties.Mask.UseMaskAsDisplayFormat = True
+        Me.INDtxtRate.Properties.MaxLength = 15
+        Me.INDtxtRate.Size = New System.Drawing.Size(239, 28)
+        Me.INDtxtRate.StyleController = Me.INDlycRoot
+        Me.INDtxtRate.TabIndex = 7
+        Me.IndigoTextEdit1.SetTamañoMinimoString(Me.INDtxtRate, 0)
+        '
+        'INDtxtQuota
+        '
+        Me.IndigoTextEdit1.SetApplyStyle(Me.INDtxtQuota, False)
+        Me.IndigoTextEdit1.SetCampoObligatorio(Me.INDtxtQuota, True)
+        Me.INDtxtQuota.EnterMoveNextControl = True
+        Me.INDtxtQuota.Location = New System.Drawing.Point(169, 373)
+        Me.IndigoTextEdit1.SetMascara(Me.INDtxtQuota, Presentation.Controls.IndigoTextEdit.EMask.MonedaDecimales)
+        Me.INDtxtQuota.Name = "INDtxtQuota"
+        Me.INDtxtQuota.Properties.Appearance.BackColor = System.Drawing.Color.MistyRose
+        Me.INDtxtQuota.Properties.Appearance.Font = New System.Drawing.Font("Segoe UI Light", 12.0!)
+        Me.INDtxtQuota.Properties.Appearance.ForeColor = System.Drawing.Color.Black
+        Me.INDtxtQuota.Properties.Appearance.Options.UseBackColor = True
+        Me.INDtxtQuota.Properties.Appearance.Options.UseFont = True
+        Me.INDtxtQuota.Properties.Appearance.Options.UseForeColor = True
+        Me.INDtxtQuota.Properties.Appearance.Options.UseTextOptions = True
+        Me.INDtxtQuota.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Far
+        Me.INDtxtQuota.Properties.AppearanceFocused.BackColor = System.Drawing.Color.FromArgb(CType(CType(215, Byte), Integer), CType(CType(242, Byte), Integer), CType(CType(255, Byte), Integer))
+        Me.INDtxtQuota.Properties.AppearanceFocused.BorderColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(148, Byte), Integer), CType(CType(223, Byte), Integer))
+        Me.INDtxtQuota.Properties.AppearanceFocused.Font = New System.Drawing.Font("Segoe UI Light", 12.0!)
+        Me.INDtxtQuota.Properties.AppearanceFocused.Options.UseBackColor = True
+        Me.INDtxtQuota.Properties.AppearanceFocused.Options.UseBorderColor = True
+        Me.INDtxtQuota.Properties.AppearanceFocused.Options.UseFont = True
+        Me.INDtxtQuota.Properties.Mask.EditMask = "c2"
+        Me.INDtxtQuota.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.Numeric
+        Me.INDtxtQuota.Properties.Mask.UseMaskAsDisplayFormat = True
+        Me.INDtxtQuota.Properties.MaxLength = 15
+        Me.INDtxtQuota.Size = New System.Drawing.Size(239, 28)
+        Me.INDtxtQuota.StyleController = Me.INDlycRoot
+        Me.INDtxtQuota.TabIndex = 9
+        Me.IndigoTextEdit1.SetTamañoMinimoString(Me.INDtxtQuota, 0)
+        Me.INDtxtQuota.ToolTip = "Este Campo es Necesario"
+        '
+        'INDtxtInitialBalance
+        '
+        Me.IndigoTextEdit1.SetApplyStyle(Me.INDtxtInitialBalance, False)
+        Me.IndigoTextEdit1.SetCampoObligatorio(Me.INDtxtInitialBalance, True)
+        Me.INDtxtInitialBalance.EditValue = ""
+        Me.INDtxtInitialBalance.EnterMoveNextControl = True
+        Me.INDtxtInitialBalance.Location = New System.Drawing.Point(169, 229)
+        Me.IndigoTextEdit1.SetMascara(Me.INDtxtInitialBalance, Presentation.Controls.IndigoTextEdit.EMask.MonedaDecimales)
+        Me.INDtxtInitialBalance.Name = "INDtxtInitialBalance"
+        Me.INDtxtInitialBalance.Properties.Appearance.BackColor = System.Drawing.Color.FromArgb(CType(CType(215, Byte), Integer), CType(CType(242, Byte), Integer), CType(CType(255, Byte), Integer))
+        Me.INDtxtInitialBalance.Properties.Appearance.Font = New System.Drawing.Font("Segoe UI Light", 12.0!)
+        Me.INDtxtInitialBalance.Properties.Appearance.Options.UseBackColor = True
+        Me.INDtxtInitialBalance.Properties.Appearance.Options.UseFont = True
+        Me.INDtxtInitialBalance.Properties.Appearance.Options.UseTextOptions = True
+        Me.INDtxtInitialBalance.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Far
+        Me.INDtxtInitialBalance.Properties.AppearanceFocused.BackColor = System.Drawing.Color.FromArgb(CType(CType(215, Byte), Integer), CType(CType(242, Byte), Integer), CType(CType(255, Byte), Integer))
+        Me.INDtxtInitialBalance.Properties.AppearanceFocused.BorderColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(148, Byte), Integer), CType(CType(223, Byte), Integer))
+        Me.INDtxtInitialBalance.Properties.AppearanceFocused.Font = New System.Drawing.Font("Segoe UI Light", 12.0!)
+        Me.INDtxtInitialBalance.Properties.AppearanceFocused.Options.UseBackColor = True
+        Me.INDtxtInitialBalance.Properties.AppearanceFocused.Options.UseBorderColor = True
+        Me.INDtxtInitialBalance.Properties.AppearanceFocused.Options.UseFont = True
+        Me.INDtxtInitialBalance.Properties.Mask.EditMask = "c2"
+        Me.INDtxtInitialBalance.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.Numeric
+        Me.INDtxtInitialBalance.Properties.Mask.UseMaskAsDisplayFormat = True
+        Me.INDtxtInitialBalance.Properties.MaxLength = 15
+        Me.INDtxtInitialBalance.Size = New System.Drawing.Size(239, 28)
+        Me.INDtxtInitialBalance.StyleController = Me.INDlycRoot
+        Me.INDtxtInitialBalance.TabIndex = 5
+        Me.IndigoTextEdit1.SetTamañoMinimoString(Me.INDtxtInitialBalance, 0)
+        '
+        'INDtxtNumber
+        '
+        Me.IndigoTextEdit1.SetApplyStyle(Me.INDtxtNumber, False)
+        Me.IndigoTextEdit1.SetCampoObligatorio(Me.INDtxtNumber, True)
+        Me.INDtxtNumber.EnterMoveNextControl = True
+        Me.INDtxtNumber.Location = New System.Drawing.Point(169, 337)
+        Me.IndigoTextEdit1.SetMascara(Me.INDtxtNumber, Presentation.Controls.IndigoTextEdit.EMask.Ninguno)
+        Me.INDtxtNumber.Name = "INDtxtNumber"
+        Me.INDtxtNumber.Properties.Appearance.BackColor = System.Drawing.Color.MistyRose
+        Me.INDtxtNumber.Properties.Appearance.Font = New System.Drawing.Font("Segoe UI Light", 12.0!)
+        Me.INDtxtNumber.Properties.Appearance.ForeColor = System.Drawing.Color.Black
+        Me.INDtxtNumber.Properties.Appearance.Options.UseBackColor = True
+        Me.INDtxtNumber.Properties.Appearance.Options.UseFont = True
+        Me.INDtxtNumber.Properties.Appearance.Options.UseForeColor = True
+        Me.INDtxtNumber.Properties.AppearanceFocused.BackColor = System.Drawing.Color.FromArgb(CType(CType(215, Byte), Integer), CType(CType(242, Byte), Integer), CType(CType(255, Byte), Integer))
+        Me.INDtxtNumber.Properties.AppearanceFocused.BorderColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(148, Byte), Integer), CType(CType(223, Byte), Integer))
+        Me.INDtxtNumber.Properties.AppearanceFocused.Font = New System.Drawing.Font("Segoe UI Light", 12.0!)
+        Me.INDtxtNumber.Properties.AppearanceFocused.Options.UseBackColor = True
+        Me.INDtxtNumber.Properties.AppearanceFocused.Options.UseBorderColor = True
+        Me.INDtxtNumber.Properties.AppearanceFocused.Options.UseFont = True
+        Me.INDtxtNumber.Properties.Mask.EditMask = "[a-zA-Z0-9ñÑ]+"
+        Me.INDtxtNumber.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx
+        Me.INDtxtNumber.Properties.MaxLength = 100
+        Me.INDtxtNumber.Size = New System.Drawing.Size(239, 28)
+        Me.INDtxtNumber.StyleController = Me.INDlycRoot
+        Me.INDtxtNumber.TabIndex = 8
+        Me.IndigoTextEdit1.SetTamañoMinimoString(Me.INDtxtNumber, 0)
+        Me.INDtxtNumber.ToolTip = "Este Campo es Necesario"
+        '
+        'INDsleBankEntityAccount
+        '
+        Me.IndigoSearchLookUpControl1.SetAppearanceEmbeddedNavigator(Me.INDsleBankEntityAccount, AppearanceObject19)
+        Me.IndigoSearchLookUpControl1.SetAppearanceTextFindControl(Me.INDsleBankEntityAccount, AppearanceObject20)
+        Me.IndigoSearchLookUpControl1.SetAppendButtonNavigator(Me.INDsleBankEntityAccount, False)
+        Me.IndigoTextEdit1.SetApplyStyle(Me.INDsleBankEntityAccount, False)
+        Me.IndigoSearchLookUpControl1.SetAutomaticOpenForm(Me.INDsleBankEntityAccount, False)
+        Me.IndigoTextEdit1.SetCampoObligatorio(Me.INDsleBankEntityAccount, True)
+        Me.IndigoSearchLookUpControl1.SetCancelEditButtonNavigator(Me.INDsleBankEntityAccount, False)
+        Me.IndigoSearchLookUpControl1.SetEditButtonNavigator(Me.INDsleBankEntityAccount, False)
+        Me.IndigoSearchLookUpControl1.SetEndEditButtonNavigator(Me.INDsleBankEntityAccount, False)
+        Me.INDsleBankEntityAccount.EnterMoveNextControl = True
+        Me.IndigoSearchLookUpControl1.SetExportButton(Me.INDsleBankEntityAccount, False)
+        Me.IndigoSearchLookUpControl1.SetFirstButtonNavigator(Me.INDsleBankEntityAccount, False)
+        Me.IndigoSearchLookUpControl1.SetLastButtonNavigator(Me.INDsleBankEntityAccount, False)
+        Me.INDsleBankEntityAccount.Location = New System.Drawing.Point(169, 85)
+        Me.IndigoTextEdit1.SetMascara(Me.INDsleBankEntityAccount, Presentation.Controls.IndigoTextEdit.EMask.Ninguno)
+        Me.INDsleBankEntityAccount.Name = "INDsleBankEntityAccount"
+        Me.IndigoSearchLookUpControl1.SetNextButtonNavigator(Me.INDsleBankEntityAccount, False)
+        Me.IndigoSearchLookUpControl1.SetNextPageButtonNavigator(Me.INDsleBankEntityAccount, False)
+        Me.IndigoSearchLookUpControl1.SetOpenForm(Me.INDsleBankEntityAccount, True)
+        Me.IndigoSearchLookUpControl1.SetPopupBestFitHeight(Me.INDsleBankEntityAccount, False)
+        Me.IndigoSearchLookUpControl1.SetPopupSizeable(Me.INDsleBankEntityAccount, False)
+        Me.IndigoSearchLookUpControl1.SetPrevButtonNavigator(Me.INDsleBankEntityAccount, False)
+        Me.IndigoSearchLookUpControl1.SetPrevPageButtonNavigator(Me.INDsleBankEntityAccount, False)
+        Me.INDsleBankEntityAccount.Properties.Appearance.BackColor = System.Drawing.Color.MistyRose
+        Me.INDsleBankEntityAccount.Properties.Appearance.Font = New System.Drawing.Font("Segoe UI Light", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.INDsleBankEntityAccount.Properties.Appearance.ForeColor = System.Drawing.Color.FromArgb(CType(CType(40, Byte), Integer), CType(CType(40, Byte), Integer), CType(CType(40, Byte), Integer))
+        Me.INDsleBankEntityAccount.Properties.Appearance.Options.UseBackColor = True
+        Me.INDsleBankEntityAccount.Properties.Appearance.Options.UseFont = True
+        Me.INDsleBankEntityAccount.Properties.Appearance.Options.UseForeColor = True
+        Me.INDsleBankEntityAccount.Properties.AppearanceFocused.BackColor = System.Drawing.Color.FromArgb(CType(CType(215, Byte), Integer), CType(CType(242, Byte), Integer), CType(CType(255, Byte), Integer))
+        Me.INDsleBankEntityAccount.Properties.AppearanceFocused.BorderColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(148, Byte), Integer), CType(CType(223, Byte), Integer))
+        Me.INDsleBankEntityAccount.Properties.AppearanceFocused.Font = New System.Drawing.Font("Segoe UI Light", 12.0!)
+        Me.INDsleBankEntityAccount.Properties.AppearanceFocused.Options.UseBackColor = True
+        Me.INDsleBankEntityAccount.Properties.AppearanceFocused.Options.UseBorderColor = True
+        Me.INDsleBankEntityAccount.Properties.AppearanceFocused.Options.UseFont = True
+        Me.INDsleBankEntityAccount.Properties.Buttons.AddRange(New DevExpress.XtraEditors.Controls.EditorButton() {New DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)})
+        Me.INDsleBankEntityAccount.Properties.DisplayMember = "CodeName"
+        Me.INDsleBankEntityAccount.Properties.NullText = ""
+        Me.INDsleBankEntityAccount.Properties.PopupSizeable = False
+        Me.INDsleBankEntityAccount.Properties.PopupView = Me.SearchLookUpEdit1View
+        Me.INDsleBankEntityAccount.Properties.ShowFooter = False
+        Me.INDsleBankEntityAccount.Properties.ValueMember = "Id"
+        Me.IndigoSearchLookUpControl1.SetRemoveButtonNavigator(Me.INDsleBankEntityAccount, False)
+        Me.IndigoSearchLookUpControl1.SetSaveXmlGrid(Me.INDsleBankEntityAccount, True)
+        Me.IndigoSearchLookUpControl1.SetShowDeleteButton(Me.INDsleBankEntityAccount, True)
+        Me.IndigoSearchLookUpControl1.SetShowFindButton(Me.INDsleBankEntityAccount, True)
+        Me.INDsleBankEntityAccount.Size = New System.Drawing.Size(239, 28)
+        Me.INDsleBankEntityAccount.StyleController = Me.INDlycRoot
+        Me.INDsleBankEntityAccount.TabIndex = 1
+        Me.IndigoSearchLookUpControl1.SetTagForm(Me.INDsleBankEntityAccount, "507")
+        Me.IndigoTextEdit1.SetTamañoMinimoString(Me.INDsleBankEntityAccount, 0)
+        Me.IndigoSearchLookUpControl1.SetTextStringFormat(Me.INDsleBankEntityAccount, "{0} - {1}")
+        Me.INDsleBankEntityAccount.ToolTip = "Este Campo es Necesario"
+        Me.IndigoSearchLookUpControl1.SetTxtFindEnterEnabled(Me.INDsleBankEntityAccount, False)
+        Me.IndigoSearchLookUpControl1.SetUseEmbeddedNavigator(Me.INDsleBankEntityAccount, False)
+        '
+        'SearchLookUpEdit1View
+        '
+        Me.SearchLookUpEdit1View.Appearance.FocusedRow.BorderColor = System.Drawing.Color.LightGray
+        Me.SearchLookUpEdit1View.Appearance.FocusedRow.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Bold)
+        Me.SearchLookUpEdit1View.Appearance.FocusedRow.Options.UseBorderColor = True
+        Me.SearchLookUpEdit1View.Appearance.FocusedRow.Options.UseFont = True
+        Me.SearchLookUpEdit1View.Appearance.GroupRow.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.SearchLookUpEdit1View.Appearance.GroupRow.Options.UseFont = True
+        Me.SearchLookUpEdit1View.Appearance.HeaderPanel.Font = New System.Drawing.Font("Segoe UI Semibold", 10.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.SearchLookUpEdit1View.Appearance.HeaderPanel.Options.UseFont = True
+        Me.SearchLookUpEdit1View.Appearance.Row.Font = New System.Drawing.Font("Segoe UI Light", 9.75!)
+        Me.SearchLookUpEdit1View.Appearance.Row.Options.UseFont = True
+        Me.SearchLookUpEdit1View.Columns.AddRange(New DevExpress.XtraGrid.Columns.GridColumn() {Me.GridColumn5, Me.GridColumn6})
+        Me.SearchLookUpEdit1View.FocusRectStyle = DevExpress.XtraGrid.Views.Grid.DrawFocusRectStyle.RowFocus
+        Me.SearchLookUpEdit1View.Name = "SearchLookUpEdit1View"
+        Me.SearchLookUpEdit1View.OptionsSelection.EnableAppearanceFocusedCell = False
+        Me.SearchLookUpEdit1View.OptionsView.EnableAppearanceEvenRow = True
+        Me.SearchLookUpEdit1View.OptionsView.EnableAppearanceOddRow = True
+        Me.SearchLookUpEdit1View.OptionsView.ShowAutoFilterRow = True
+        Me.SearchLookUpEdit1View.OptionsView.ShowGroupPanel = False
+        Me.IndigoGridView2.SetTemaIndigoMetro(Me.SearchLookUpEdit1View, False)
+        Me.IndigoGridView1.SetTemaIndigoMetro(Me.SearchLookUpEdit1View, False)
+        '
+        'GridColumn5
+        '
+        Me.GridColumn5.Caption = "Código"
+        Me.GridColumn5.FieldName = "Code"
+        Me.GridColumn5.Name = "GridColumn5"
+        Me.GridColumn5.Visible = True
+        Me.GridColumn5.VisibleIndex = 0
+        Me.GridColumn5.Width = 295
+        '
+        'GridColumn6
+        '
+        Me.GridColumn6.Caption = "Nombre"
+        Me.GridColumn6.FieldName = "Name"
+        Me.GridColumn6.Name = "GridColumn6"
+        Me.GridColumn6.Visible = True
+        Me.GridColumn6.VisibleIndex = 1
+        Me.GridColumn6.Width = 1337
+        '
+        'INDsleCity
+        '
+        Me.IndigoSearchLookUpControl1.SetAppearanceEmbeddedNavigator(Me.INDsleCity, AppearanceObject21)
+        Me.IndigoSearchLookUpControl1.SetAppearanceTextFindControl(Me.INDsleCity, AppearanceObject22)
+        Me.IndigoSearchLookUpControl1.SetAppendButtonNavigator(Me.INDsleCity, False)
+        Me.IndigoTextEdit1.SetApplyStyle(Me.INDsleCity, False)
+        Me.IndigoSearchLookUpControl1.SetAutomaticOpenForm(Me.INDsleCity, False)
+        Me.IndigoTextEdit1.SetCampoObligatorio(Me.INDsleCity, True)
+        Me.IndigoSearchLookUpControl1.SetCancelEditButtonNavigator(Me.INDsleCity, False)
+        Me.IndigoSearchLookUpControl1.SetEditButtonNavigator(Me.INDsleCity, False)
+        Me.IndigoSearchLookUpControl1.SetEndEditButtonNavigator(Me.INDsleCity, False)
+        Me.INDsleCity.EnterMoveNextControl = True
+        Me.IndigoSearchLookUpControl1.SetExportButton(Me.INDsleCity, False)
+        Me.IndigoSearchLookUpControl1.SetFirstButtonNavigator(Me.INDsleCity, False)
+        Me.IndigoSearchLookUpControl1.SetLastButtonNavigator(Me.INDsleCity, False)
+        Me.INDsleCity.Location = New System.Drawing.Point(169, 121)
+        Me.IndigoTextEdit1.SetMascara(Me.INDsleCity, Presentation.Controls.IndigoTextEdit.EMask.Ninguno)
+        Me.INDsleCity.Name = "INDsleCity"
+        Me.IndigoSearchLookUpControl1.SetNextButtonNavigator(Me.INDsleCity, False)
+        Me.IndigoSearchLookUpControl1.SetNextPageButtonNavigator(Me.INDsleCity, False)
+        Me.IndigoSearchLookUpControl1.SetOpenForm(Me.INDsleCity, True)
+        Me.IndigoSearchLookUpControl1.SetPopupBestFitHeight(Me.INDsleCity, False)
+        Me.IndigoSearchLookUpControl1.SetPopupSizeable(Me.INDsleCity, False)
+        Me.IndigoSearchLookUpControl1.SetPrevButtonNavigator(Me.INDsleCity, False)
+        Me.IndigoSearchLookUpControl1.SetPrevPageButtonNavigator(Me.INDsleCity, False)
+        Me.INDsleCity.Properties.Appearance.BackColor = System.Drawing.Color.MistyRose
+        Me.INDsleCity.Properties.Appearance.Font = New System.Drawing.Font("Segoe UI Light", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.INDsleCity.Properties.Appearance.ForeColor = System.Drawing.Color.FromArgb(CType(CType(40, Byte), Integer), CType(CType(40, Byte), Integer), CType(CType(40, Byte), Integer))
+        Me.INDsleCity.Properties.Appearance.Options.UseBackColor = True
+        Me.INDsleCity.Properties.Appearance.Options.UseFont = True
+        Me.INDsleCity.Properties.Appearance.Options.UseForeColor = True
+        Me.INDsleCity.Properties.AppearanceFocused.BackColor = System.Drawing.Color.FromArgb(CType(CType(215, Byte), Integer), CType(CType(242, Byte), Integer), CType(CType(255, Byte), Integer))
+        Me.INDsleCity.Properties.AppearanceFocused.BorderColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(148, Byte), Integer), CType(CType(223, Byte), Integer))
+        Me.INDsleCity.Properties.AppearanceFocused.Font = New System.Drawing.Font("Segoe UI Light", 12.0!)
+        Me.INDsleCity.Properties.AppearanceFocused.Options.UseBackColor = True
+        Me.INDsleCity.Properties.AppearanceFocused.Options.UseBorderColor = True
+        Me.INDsleCity.Properties.AppearanceFocused.Options.UseFont = True
+        Me.INDsleCity.Properties.Buttons.AddRange(New DevExpress.XtraEditors.Controls.EditorButton() {New DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)})
+        Me.INDsleCity.Properties.DisplayMember = "CodeName"
+        Me.INDsleCity.Properties.NullText = ""
+        Me.INDsleCity.Properties.PopupFormMinSize = New System.Drawing.Size(800, 0)
+        Me.INDsleCity.Properties.PopupSizeable = False
+        Me.INDsleCity.Properties.PopupView = Me.GridView3
+        Me.INDsleCity.Properties.ShowFooter = False
+        Me.INDsleCity.Properties.ValueMember = "Id"
+        Me.IndigoSearchLookUpControl1.SetRemoveButtonNavigator(Me.INDsleCity, False)
+        Me.IndigoSearchLookUpControl1.SetSaveXmlGrid(Me.INDsleCity, True)
+        Me.IndigoSearchLookUpControl1.SetShowDeleteButton(Me.INDsleCity, True)
+        Me.IndigoSearchLookUpControl1.SetShowFindButton(Me.INDsleCity, True)
+        Me.INDsleCity.Size = New System.Drawing.Size(239, 28)
+        Me.INDsleCity.StyleController = Me.INDlycRoot
+        Me.INDsleCity.TabIndex = 2
+        Me.IndigoSearchLookUpControl1.SetTagForm(Me.INDsleCity, "513")
+        Me.IndigoTextEdit1.SetTamañoMinimoString(Me.INDsleCity, 0)
+        Me.IndigoSearchLookUpControl1.SetTextStringFormat(Me.INDsleCity, "{0} - {1}")
+        Me.INDsleCity.ToolTip = "Este Campo es Necesario"
+        Me.IndigoSearchLookUpControl1.SetTxtFindEnterEnabled(Me.INDsleCity, False)
+        Me.IndigoSearchLookUpControl1.SetUseEmbeddedNavigator(Me.INDsleCity, False)
+        '
+        'GridView3
+        '
+        Me.GridView3.Appearance.FocusedRow.BorderColor = System.Drawing.Color.LightGray
+        Me.GridView3.Appearance.FocusedRow.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Bold)
+        Me.GridView3.Appearance.FocusedRow.Options.UseBorderColor = True
+        Me.GridView3.Appearance.FocusedRow.Options.UseFont = True
+        Me.GridView3.Appearance.GroupRow.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.GridView3.Appearance.GroupRow.Options.UseFont = True
+        Me.GridView3.Appearance.HeaderPanel.Font = New System.Drawing.Font("Segoe UI Semibold", 10.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.GridView3.Appearance.HeaderPanel.Options.UseFont = True
+        Me.GridView3.Appearance.Row.Font = New System.Drawing.Font("Segoe UI Light", 9.75!)
+        Me.GridView3.Appearance.Row.Options.UseFont = True
+        Me.GridView3.Columns.AddRange(New DevExpress.XtraGrid.Columns.GridColumn() {Me.GridColumn7, Me.GridColumn8, Me.GridColumn9, Me.GridColumn10})
+        Me.GridView3.FocusRectStyle = DevExpress.XtraGrid.Views.Grid.DrawFocusRectStyle.RowFocus
+        Me.GridView3.Name = "GridView3"
+        Me.GridView3.OptionsSelection.EnableAppearanceFocusedCell = False
+        Me.GridView3.OptionsView.EnableAppearanceEvenRow = True
+        Me.GridView3.OptionsView.EnableAppearanceOddRow = True
+        Me.GridView3.OptionsView.ShowAutoFilterRow = True
+        Me.GridView3.OptionsView.ShowGroupPanel = False
+        Me.IndigoGridView2.SetTemaIndigoMetro(Me.GridView3, False)
+        Me.IndigoGridView1.SetTemaIndigoMetro(Me.GridView3, False)
+        '
+        'GridColumn7
+        '
+        Me.GridColumn7.Caption = "Código"
+        Me.GridColumn7.FieldName = "Code"
+        Me.GridColumn7.Name = "GridColumn7"
+        Me.GridColumn7.Visible = True
+        Me.GridColumn7.VisibleIndex = 0
+        Me.GridColumn7.Width = 133
+        '
+        'GridColumn8
+        '
+        Me.GridColumn8.Caption = "Nombre"
+        Me.GridColumn8.FieldName = "Name"
+        Me.GridColumn8.Name = "GridColumn8"
+        Me.GridColumn8.Visible = True
+        Me.GridColumn8.VisibleIndex = 1
+        Me.GridColumn8.Width = 261
+        '
+        'GridColumn9
+        '
+        Me.GridColumn9.Caption = "Código Depto"
+        Me.GridColumn9.FieldName = "DepartamentId.Code"
+        Me.GridColumn9.Name = "GridColumn9"
+        Me.GridColumn9.Visible = True
+        Me.GridColumn9.VisibleIndex = 2
+        Me.GridColumn9.Width = 135
+        '
+        'GridColumn10
+        '
+        Me.GridColumn10.Caption = "Nombre Depto"
+        Me.GridColumn10.FieldName = "DepartamentId.Name"
+        Me.GridColumn10.Name = "GridColumn10"
+        Me.GridColumn10.Visible = True
+        Me.GridColumn10.VisibleIndex = 3
+        Me.GridColumn10.Width = 295
+        '
+        'INDsleCostCenter
+        '
+        Me.IndigoSearchLookUpControl1.SetAppearanceEmbeddedNavigator(Me.INDsleCostCenter, AppearanceObject23)
+        Me.IndigoSearchLookUpControl1.SetAppearanceTextFindControl(Me.INDsleCostCenter, AppearanceObject24)
+        Me.IndigoSearchLookUpControl1.SetAppendButtonNavigator(Me.INDsleCostCenter, False)
+        Me.IndigoTextEdit1.SetApplyStyle(Me.INDsleCostCenter, False)
+        Me.IndigoSearchLookUpControl1.SetAutomaticOpenForm(Me.INDsleCostCenter, False)
+        Me.IndigoTextEdit1.SetCampoObligatorio(Me.INDsleCostCenter, True)
+        Me.IndigoSearchLookUpControl1.SetCancelEditButtonNavigator(Me.INDsleCostCenter, False)
+        Me.IndigoSearchLookUpControl1.SetEditButtonNavigator(Me.INDsleCostCenter, False)
+        Me.IndigoSearchLookUpControl1.SetEndEditButtonNavigator(Me.INDsleCostCenter, False)
+        Me.INDsleCostCenter.EnterMoveNextControl = True
+        Me.IndigoSearchLookUpControl1.SetExportButton(Me.INDsleCostCenter, False)
+        Me.IndigoSearchLookUpControl1.SetFirstButtonNavigator(Me.INDsleCostCenter, False)
+        Me.IndigoSearchLookUpControl1.SetLastButtonNavigator(Me.INDsleCostCenter, False)
+        Me.INDsleCostCenter.Location = New System.Drawing.Point(604, 121)
+        Me.IndigoTextEdit1.SetMascara(Me.INDsleCostCenter, Presentation.Controls.IndigoTextEdit.EMask.Ninguno)
+        Me.INDsleCostCenter.Name = "INDsleCostCenter"
+        Me.IndigoSearchLookUpControl1.SetNextButtonNavigator(Me.INDsleCostCenter, False)
+        Me.IndigoSearchLookUpControl1.SetNextPageButtonNavigator(Me.INDsleCostCenter, False)
+        Me.IndigoSearchLookUpControl1.SetOpenForm(Me.INDsleCostCenter, True)
+        Me.IndigoSearchLookUpControl1.SetPopupBestFitHeight(Me.INDsleCostCenter, False)
+        Me.IndigoSearchLookUpControl1.SetPopupSizeable(Me.INDsleCostCenter, False)
+        Me.IndigoSearchLookUpControl1.SetPrevButtonNavigator(Me.INDsleCostCenter, False)
+        Me.IndigoSearchLookUpControl1.SetPrevPageButtonNavigator(Me.INDsleCostCenter, False)
+        Me.INDsleCostCenter.Properties.Appearance.BackColor = System.Drawing.Color.MistyRose
+        Me.INDsleCostCenter.Properties.Appearance.Font = New System.Drawing.Font("Segoe UI Light", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.INDsleCostCenter.Properties.Appearance.ForeColor = System.Drawing.Color.FromArgb(CType(CType(40, Byte), Integer), CType(CType(40, Byte), Integer), CType(CType(40, Byte), Integer))
+        Me.INDsleCostCenter.Properties.Appearance.Options.UseBackColor = True
+        Me.INDsleCostCenter.Properties.Appearance.Options.UseFont = True
+        Me.INDsleCostCenter.Properties.Appearance.Options.UseForeColor = True
+        Me.INDsleCostCenter.Properties.AppearanceFocused.BackColor = System.Drawing.Color.FromArgb(CType(CType(215, Byte), Integer), CType(CType(242, Byte), Integer), CType(CType(255, Byte), Integer))
+        Me.INDsleCostCenter.Properties.AppearanceFocused.BorderColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(148, Byte), Integer), CType(CType(223, Byte), Integer))
+        Me.INDsleCostCenter.Properties.AppearanceFocused.Font = New System.Drawing.Font("Segoe UI Light", 12.0!)
+        Me.INDsleCostCenter.Properties.AppearanceFocused.Options.UseBackColor = True
+        Me.INDsleCostCenter.Properties.AppearanceFocused.Options.UseBorderColor = True
+        Me.INDsleCostCenter.Properties.AppearanceFocused.Options.UseFont = True
+        Me.INDsleCostCenter.Properties.Buttons.AddRange(New DevExpress.XtraEditors.Controls.EditorButton() {New DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)})
+        Me.INDsleCostCenter.Properties.DisplayMember = "CodeName"
+        Me.INDsleCostCenter.Properties.NullText = ""
+        Me.INDsleCostCenter.Properties.PopupSizeable = False
+        Me.INDsleCostCenter.Properties.PopupView = Me.GridView1
+        Me.INDsleCostCenter.Properties.ShowFooter = False
+        Me.INDsleCostCenter.Properties.ValueMember = "Id"
+        Me.IndigoSearchLookUpControl1.SetRemoveButtonNavigator(Me.INDsleCostCenter, False)
+        Me.IndigoSearchLookUpControl1.SetSaveXmlGrid(Me.INDsleCostCenter, True)
+        Me.IndigoSearchLookUpControl1.SetShowDeleteButton(Me.INDsleCostCenter, True)
+        Me.IndigoSearchLookUpControl1.SetShowFindButton(Me.INDsleCostCenter, True)
+        Me.INDsleCostCenter.Size = New System.Drawing.Size(226, 28)
+        Me.INDsleCostCenter.StyleController = Me.INDlycRoot
+        Me.INDsleCostCenter.TabIndex = 13
+        Me.IndigoSearchLookUpControl1.SetTagForm(Me.INDsleCostCenter, "517")
+        Me.IndigoTextEdit1.SetTamañoMinimoString(Me.INDsleCostCenter, 0)
+        Me.IndigoSearchLookUpControl1.SetTextStringFormat(Me.INDsleCostCenter, "{0} - {1}")
+        Me.INDsleCostCenter.ToolTip = "Este Campo es Necesario"
+        Me.IndigoSearchLookUpControl1.SetTxtFindEnterEnabled(Me.INDsleCostCenter, False)
+        Me.IndigoSearchLookUpControl1.SetUseEmbeddedNavigator(Me.INDsleCostCenter, False)
+        '
+        'GridView1
+        '
+        Me.GridView1.Appearance.FocusedRow.BorderColor = System.Drawing.Color.LightGray
+        Me.GridView1.Appearance.FocusedRow.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Bold)
+        Me.GridView1.Appearance.FocusedRow.Options.UseBorderColor = True
+        Me.GridView1.Appearance.FocusedRow.Options.UseFont = True
+        Me.GridView1.Appearance.GroupRow.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.GridView1.Appearance.GroupRow.Options.UseFont = True
+        Me.GridView1.Appearance.HeaderPanel.Font = New System.Drawing.Font("Segoe UI Semibold", 10.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.GridView1.Appearance.HeaderPanel.Options.UseFont = True
+        Me.GridView1.Appearance.Row.Font = New System.Drawing.Font("Segoe UI Light", 9.75!)
+        Me.GridView1.Appearance.Row.Options.UseFont = True
+        Me.GridView1.Columns.AddRange(New DevExpress.XtraGrid.Columns.GridColumn() {Me.GridColumn11, Me.GridColumn12})
+        Me.GridView1.FocusRectStyle = DevExpress.XtraGrid.Views.Grid.DrawFocusRectStyle.RowFocus
+        Me.GridView1.Name = "GridView1"
+        Me.GridView1.OptionsSelection.EnableAppearanceFocusedCell = False
+        Me.GridView1.OptionsView.EnableAppearanceEvenRow = True
+        Me.GridView1.OptionsView.EnableAppearanceOddRow = True
+        Me.GridView1.OptionsView.ShowAutoFilterRow = True
+        Me.GridView1.OptionsView.ShowGroupPanel = False
+        Me.IndigoGridView2.SetTemaIndigoMetro(Me.GridView1, False)
+        Me.IndigoGridView1.SetTemaIndigoMetro(Me.GridView1, False)
+        '
+        'GridColumn11
+        '
+        Me.GridColumn11.Caption = "Código"
+        Me.GridColumn11.FieldName = "Codigo"
+        Me.GridColumn11.Name = "GridColumn11"
+        Me.GridColumn11.Visible = True
+        Me.GridColumn11.VisibleIndex = 0
+        Me.GridColumn11.Width = 248
+        '
+        'GridColumn12
+        '
+        Me.GridColumn12.Caption = "Nombre"
+        Me.GridColumn12.FieldName = "Descripcion"
+        Me.GridColumn12.Name = "GridColumn12"
+        Me.GridColumn12.Visible = True
+        Me.GridColumn12.VisibleIndex = 1
+        Me.GridColumn12.Width = 576
+        '
+        'INDgleType
+        '
+        Me.IndigoGridLookUpControl1.SetAbrirFormularioArchivo(Me.INDgleType, False)
+        Me.IndigoTextEdit1.SetApplyStyle(Me.INDgleType, False)
+        Me.IndigoTextEdit1.SetCampoObligatorio(Me.INDgleType, True)
+        Me.INDgleType.EnterMoveNextControl = True
+        Me.IndigoGridLookUpControl1.SetGuardarXmlGrid(Me.INDgleType, False)
+        Me.INDgleType.Location = New System.Drawing.Point(169, 157)
+        Me.IndigoTextEdit1.SetMascara(Me.INDgleType, Presentation.Controls.IndigoTextEdit.EMask.Ninguno)
+        Me.INDgleType.Name = "INDgleType"
+        Me.INDgleType.Properties.Appearance.BackColor = System.Drawing.Color.MistyRose
+        Me.INDgleType.Properties.Appearance.Font = New System.Drawing.Font("Segoe UI Light", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.INDgleType.Properties.Appearance.ForeColor = System.Drawing.Color.Black
+        Me.INDgleType.Properties.Appearance.Options.UseBackColor = True
+        Me.INDgleType.Properties.Appearance.Options.UseFont = True
+        Me.INDgleType.Properties.Appearance.Options.UseForeColor = True
+        Me.INDgleType.Properties.AppearanceFocused.BackColor = System.Drawing.Color.FromArgb(CType(CType(240, Byte), Integer), CType(CType(240, Byte), Integer), CType(CType(240, Byte), Integer))
+        Me.INDgleType.Properties.AppearanceFocused.BorderColor = System.Drawing.Color.FromArgb(CType(CType(240, Byte), Integer), CType(CType(240, Byte), Integer), CType(CType(240, Byte), Integer))
+        Me.INDgleType.Properties.AppearanceFocused.Font = New System.Drawing.Font("Segoe UI Light", 12.0!)
+        Me.INDgleType.Properties.AppearanceFocused.Options.UseBackColor = True
+        Me.INDgleType.Properties.AppearanceFocused.Options.UseBorderColor = True
+        Me.INDgleType.Properties.AppearanceFocused.Options.UseFont = True
+        Me.INDgleType.Properties.Buttons.AddRange(New DevExpress.XtraEditors.Controls.EditorButton() {New DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)})
+        Me.INDgleType.Properties.DisplayMember = "Item2"
+        Me.INDgleType.Properties.ImmediatePopup = True
+        Me.INDgleType.Properties.NullText = ""
+        Me.INDgleType.Properties.PopupView = Me.GridLookUpEdit1View
+        Me.INDgleType.Properties.ValueMember = "Item1"
+        Me.INDgleType.Size = New System.Drawing.Size(239, 28)
+        Me.INDgleType.StyleController = Me.INDlycRoot
+        Me.INDgleType.TabIndex = 3
+        Me.IndigoGridLookUpControl1.SetTagFormularioAbrir(Me.INDgleType, Nothing)
+        Me.IndigoTextEdit1.SetTamañoMinimoString(Me.INDgleType, 0)
+        Me.INDgleType.ToolTip = "Este Campo es Necesario"
+        '
+        'GridLookUpEdit1View
+        '
+        Me.GridLookUpEdit1View.Appearance.FocusedRow.BorderColor = System.Drawing.Color.LightGray
+        Me.GridLookUpEdit1View.Appearance.FocusedRow.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Bold)
+        Me.GridLookUpEdit1View.Appearance.FocusedRow.Options.UseBorderColor = True
+        Me.GridLookUpEdit1View.Appearance.FocusedRow.Options.UseFont = True
+        Me.GridLookUpEdit1View.Appearance.GroupRow.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.GridLookUpEdit1View.Appearance.GroupRow.Options.UseFont = True
+        Me.GridLookUpEdit1View.Appearance.HeaderPanel.Font = New System.Drawing.Font("Segoe UI Semibold", 10.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.GridLookUpEdit1View.Appearance.HeaderPanel.Options.UseFont = True
+        Me.GridLookUpEdit1View.Appearance.Row.Font = New System.Drawing.Font("Segoe UI Light", 9.75!)
+        Me.GridLookUpEdit1View.Appearance.Row.Options.UseFont = True
+        Me.GridLookUpEdit1View.Columns.AddRange(New DevExpress.XtraGrid.Columns.GridColumn() {Me.GridColumn3, Me.GridColumn4})
+        Me.GridLookUpEdit1View.FocusRectStyle = DevExpress.XtraGrid.Views.Grid.DrawFocusRectStyle.RowFocus
+        Me.GridLookUpEdit1View.Name = "GridLookUpEdit1View"
+        Me.GridLookUpEdit1View.OptionsSelection.EnableAppearanceFocusedCell = False
+        Me.GridLookUpEdit1View.OptionsView.EnableAppearanceEvenRow = True
+        Me.GridLookUpEdit1View.OptionsView.EnableAppearanceOddRow = True
+        Me.GridLookUpEdit1View.OptionsView.ShowAutoFilterRow = True
+        Me.GridLookUpEdit1View.OptionsView.ShowGroupPanel = False
+        Me.IndigoGridView2.SetTemaIndigoMetro(Me.GridLookUpEdit1View, False)
+        Me.IndigoGridView1.SetTemaIndigoMetro(Me.GridLookUpEdit1View, False)
+        '
+        'GridColumn3
+        '
+        Me.GridColumn3.Caption = "valor"
+        Me.GridColumn3.FieldName = "Item1"
+        Me.GridColumn3.Name = "GridColumn3"
+        '
+        'GridColumn4
+        '
+        Me.GridColumn4.Caption = "Tipo de Cuenta"
+        Me.GridColumn4.FieldName = "Item2"
+        Me.GridColumn4.Name = "GridColumn4"
+        Me.GridColumn4.Visible = True
+        Me.GridColumn4.VisibleIndex = 0
+        '
+        'INDSleCurrency
+        '
+        Me.IndigoSearchLookUpControl1.SetAppearanceEmbeddedNavigator(Me.INDSleCurrency, AppearanceObject25)
+        Me.IndigoSearchLookUpControl1.SetAppearanceTextFindControl(Me.INDSleCurrency, AppearanceObject26)
+        Me.IndigoSearchLookUpControl1.SetAppendButtonNavigator(Me.INDSleCurrency, False)
+        Me.IndigoTextEdit1.SetApplyStyle(Me.INDSleCurrency, False)
+        Me.IndigoSearchLookUpControl1.SetAutomaticOpenForm(Me.INDSleCurrency, False)
+        Me.IndigoTextEdit1.SetCampoObligatorio(Me.INDSleCurrency, False)
+        Me.IndigoSearchLookUpControl1.SetCancelEditButtonNavigator(Me.INDSleCurrency, False)
+        Me.IndigoSearchLookUpControl1.SetEditButtonNavigator(Me.INDSleCurrency, False)
+        Me.IndigoSearchLookUpControl1.SetEndEditButtonNavigator(Me.INDSleCurrency, False)
+        Me.IndigoSearchLookUpControl1.SetExportButton(Me.INDSleCurrency, False)
+        Me.IndigoSearchLookUpControl1.SetFirstButtonNavigator(Me.INDSleCurrency, False)
+        Me.IndigoSearchLookUpControl1.SetLastButtonNavigator(Me.INDSleCurrency, False)
+        Me.INDSleCurrency.Location = New System.Drawing.Point(604, 409)
+        Me.INDSleCurrency.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
+        Me.IndigoTextEdit1.SetMascara(Me.INDSleCurrency, Presentation.Controls.IndigoTextEdit.EMask.Ninguno)
+        Me.INDSleCurrency.Name = "INDSleCurrency"
+        Me.IndigoSearchLookUpControl1.SetNextButtonNavigator(Me.INDSleCurrency, False)
+        Me.IndigoSearchLookUpControl1.SetNextPageButtonNavigator(Me.INDSleCurrency, False)
+        Me.IndigoSearchLookUpControl1.SetOpenForm(Me.INDSleCurrency, False)
+        Me.IndigoSearchLookUpControl1.SetPopupBestFitHeight(Me.INDSleCurrency, False)
+        Me.IndigoSearchLookUpControl1.SetPopupSizeable(Me.INDSleCurrency, False)
+        Me.IndigoSearchLookUpControl1.SetPrevButtonNavigator(Me.INDSleCurrency, False)
+        Me.IndigoSearchLookUpControl1.SetPrevPageButtonNavigator(Me.INDSleCurrency, False)
+        Me.INDSleCurrency.Properties.Appearance.Font = New System.Drawing.Font("Segoe UI Light", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.INDSleCurrency.Properties.Appearance.ForeColor = System.Drawing.Color.FromArgb(CType(CType(40, Byte), Integer), CType(CType(40, Byte), Integer), CType(CType(40, Byte), Integer))
+        Me.INDSleCurrency.Properties.Appearance.Options.UseFont = True
+        Me.INDSleCurrency.Properties.Appearance.Options.UseForeColor = True
+        Me.INDSleCurrency.Properties.Buttons.AddRange(New DevExpress.XtraEditors.Controls.EditorButton() {New DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)})
+        Me.INDSleCurrency.Properties.DisplayMember = "Abbreviation"
+        Me.INDSleCurrency.Properties.NullText = ""
+        Me.INDSleCurrency.Properties.PopupSizeable = False
+        Me.INDSleCurrency.Properties.PopupView = Me.GridView12
+        Me.INDSleCurrency.Properties.ShowFooter = False
+        Me.INDSleCurrency.Properties.ValueMember = "Id"
+        Me.IndigoSearchLookUpControl1.SetRemoveButtonNavigator(Me.INDSleCurrency, False)
+        Me.IndigoSearchLookUpControl1.SetSaveXmlGrid(Me.INDSleCurrency, True)
+        Me.IndigoSearchLookUpControl1.SetShowDeleteButton(Me.INDSleCurrency, False)
+        Me.IndigoSearchLookUpControl1.SetShowFindButton(Me.INDSleCurrency, True)
+        Me.INDSleCurrency.Size = New System.Drawing.Size(226, 28)
+        Me.INDSleCurrency.StyleController = Me.INDlycRoot
+        Me.INDSleCurrency.TabIndex = 26
+        Me.IndigoSearchLookUpControl1.SetTagForm(Me.INDSleCurrency, Nothing)
+        Me.IndigoTextEdit1.SetTamañoMinimoString(Me.INDSleCurrency, 0)
+        Me.IndigoSearchLookUpControl1.SetTextStringFormat(Me.INDSleCurrency, "{0} - {1}")
+        Me.IndigoSearchLookUpControl1.SetTxtFindEnterEnabled(Me.INDSleCurrency, False)
+        Me.IndigoSearchLookUpControl1.SetUseEmbeddedNavigator(Me.INDSleCurrency, False)
+        '
+        'GridView12
+        '
+        Me.GridView12.Appearance.FocusedRow.BorderColor = System.Drawing.Color.LightGray
+        Me.GridView12.Appearance.FocusedRow.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Bold)
+        Me.GridView12.Appearance.FocusedRow.Options.UseBorderColor = True
+        Me.GridView12.Appearance.FocusedRow.Options.UseFont = True
+        Me.GridView12.Appearance.GroupRow.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.GridView12.Appearance.GroupRow.Options.UseFont = True
+        Me.GridView12.Appearance.HeaderPanel.Font = New System.Drawing.Font("Segoe UI Semibold", 10.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.GridView12.Appearance.HeaderPanel.Options.UseFont = True
+        Me.GridView12.Appearance.Row.Font = New System.Drawing.Font("Segoe UI Light", 9.75!)
+        Me.GridView12.Appearance.Row.Options.UseFont = True
+        Me.GridView12.Columns.AddRange(New DevExpress.XtraGrid.Columns.GridColumn() {Me.GridColumn565, Me.GridColumn566, Me.GridColumn567})
+        Me.GridView12.DetailHeight = 284
+        Me.GridView12.FocusRectStyle = DevExpress.XtraGrid.Views.Grid.DrawFocusRectStyle.RowFocus
+        Me.GridView12.Name = "GridView12"
+        Me.GridView12.OptionsSelection.EnableAppearanceFocusedCell = False
+        Me.GridView12.OptionsView.EnableAppearanceEvenRow = True
+        Me.GridView12.OptionsView.EnableAppearanceOddRow = True
+        Me.GridView12.OptionsView.ShowAutoFilterRow = True
+        Me.GridView12.OptionsView.ShowGroupPanel = False
+        Me.IndigoGridView2.SetTemaIndigoMetro(Me.GridView12, False)
+        Me.IndigoGridView1.SetTemaIndigoMetro(Me.GridView12, False)
+        '
+        'GridColumn565
+        '
+        Me.GridColumn565.Caption = "Codigo"
+        Me.GridColumn565.FieldName = "Codigo"
+        Me.GridColumn565.MinWidth = 17
+        Me.GridColumn565.Name = "GridColumn565"
+        Me.GridColumn565.Visible = True
+        Me.GridColumn565.VisibleIndex = 0
+        Me.GridColumn565.Width = 64
+        '
+        'GridColumn566
+        '
+        Me.GridColumn566.Caption = "Nombre"
+        Me.GridColumn566.FieldName = "CurrencyName"
+        Me.GridColumn566.MinWidth = 17
+        Me.GridColumn566.Name = "GridColumn566"
+        Me.GridColumn566.Visible = True
+        Me.GridColumn566.VisibleIndex = 1
+        Me.GridColumn566.Width = 64
+        '
+        'GridColumn567
+        '
+        Me.GridColumn567.Caption = "Abreviación"
+        Me.GridColumn567.CustomizationCaption = "Abreviaciòn"
+        Me.GridColumn567.FieldName = "Abbreviation"
+        Me.GridColumn567.MinWidth = 17
+        Me.GridColumn567.Name = "GridColumn567"
+        Me.GridColumn567.Visible = True
+        Me.GridColumn567.VisibleIndex = 2
+        Me.GridColumn567.Width = 64
+        '
+        'INDlycgRoot
+        '
+        Me.INDlycgRoot.AppearanceGroup.Font = New System.Drawing.Font("Segoe UI", 15.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.INDlycgRoot.AppearanceGroup.Options.UseFont = True
+        Me.INDlycgRoot.AppearanceItemCaption.Font = New System.Drawing.Font("Segoe UI Light", 10.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.INDlycgRoot.AppearanceItemCaption.Options.UseFont = True
+        Me.INDlycgRoot.AppearanceTabPage.Header.Font = New System.Drawing.Font("Segoe UI Light", 12.0!)
+        Me.INDlycgRoot.AppearanceTabPage.Header.Options.UseFont = True
+        Me.INDlycgRoot.AppearanceTabPage.HeaderActive.Font = New System.Drawing.Font("Segoe UI", 12.0!)
+        Me.INDlycgRoot.AppearanceTabPage.HeaderActive.Options.UseFont = True
+        Me.INDlycgRoot.AppearanceTabPage.HeaderDisabled.Font = New System.Drawing.Font("Segoe UI Light", 12.0!)
+        Me.INDlycgRoot.AppearanceTabPage.HeaderDisabled.Options.UseFont = True
+        Me.INDlycgRoot.AppearanceTabPage.HeaderHotTracked.Font = New System.Drawing.Font("Segoe UI Light", 12.0!)
+        Me.INDlycgRoot.AppearanceTabPage.HeaderHotTracked.Options.UseFont = True
+        Me.INDlycgRoot.AppearanceTabPage.PageClient.Font = New System.Drawing.Font("Segoe UI Light", 12.0!)
+        Me.INDlycgRoot.AppearanceTabPage.PageClient.Options.UseFont = True
+        Me.IndigoLayoutControlGroup1.SetCampoObligatorio(Me.INDlycgRoot, False)
+        Me.INDlycgRoot.CustomizationFormText = "Cuenta Corriente / Ahorro Entidad"
+        Me.INDlycgRoot.EnableIndentsWithoutBorders = DevExpress.Utils.DefaultBoolean.[True]
+        Me.INDlycgRoot.GroupBordersVisible = False
+        Me.INDlycgRoot.Items.AddRange(New DevExpress.XtraLayout.BaseLayoutItem() {Me.INDlycgGeneralInfo, Me.INDlycgAccountingInfo, Me.INDlycgCheckbook, Me.INDlgrAutorization})
+        Me.INDlycgRoot.Name = "Root"
+        Me.INDlycgRoot.Size = New System.Drawing.Size(1886, 461)
+        Me.INDlycgRoot.TextVisible = False
+        '
+        'INDlycgGeneralInfo
+        '
+        Me.INDlycgGeneralInfo.AppearanceGroup.Font = New System.Drawing.Font("Segoe UI", 15.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.INDlycgGeneralInfo.AppearanceGroup.Options.UseFont = True
+        Me.INDlycgGeneralInfo.AppearanceItemCaption.Font = New System.Drawing.Font("Segoe UI Light", 10.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.INDlycgGeneralInfo.AppearanceItemCaption.Options.UseFont = True
+        Me.INDlycgGeneralInfo.AppearanceTabPage.Header.Font = New System.Drawing.Font("Segoe UI Light", 12.0!)
+        Me.INDlycgGeneralInfo.AppearanceTabPage.Header.Options.UseFont = True
+        Me.INDlycgGeneralInfo.AppearanceTabPage.HeaderActive.Font = New System.Drawing.Font("Segoe UI", 12.0!)
+        Me.INDlycgGeneralInfo.AppearanceTabPage.HeaderActive.Options.UseFont = True
+        Me.INDlycgGeneralInfo.AppearanceTabPage.HeaderDisabled.Font = New System.Drawing.Font("Segoe UI Light", 12.0!)
+        Me.INDlycgGeneralInfo.AppearanceTabPage.HeaderDisabled.Options.UseFont = True
+        Me.INDlycgGeneralInfo.AppearanceTabPage.HeaderHotTracked.Font = New System.Drawing.Font("Segoe UI Light", 12.0!)
+        Me.INDlycgGeneralInfo.AppearanceTabPage.HeaderHotTracked.Options.UseFont = True
+        Me.INDlycgGeneralInfo.AppearanceTabPage.PageClient.Font = New System.Drawing.Font("Segoe UI Light", 12.0!)
+        Me.INDlycgGeneralInfo.AppearanceTabPage.PageClient.Options.UseFont = True
+        Me.IndigoLayoutControlGroup1.SetCampoObligatorio(Me.INDlycgGeneralInfo, False)
+        Me.INDlycgGeneralInfo.CustomizationFormText = "Información General"
+        Me.INDlycgGeneralInfo.Items.AddRange(New DevExpress.XtraLayout.BaseLayoutItem() {Me.INDlyciBank, Me.INDlyciCity, Me.INDlyciType, Me.INDlyciInitBalance, Me.INDlyciRate, Me.INDlyciCode, Me.INDlyciNumber, Me.INDlyciQuotaOverdraft, Me.INDlyciInitDate, Me.INDliCurrentBalance, Me.INDliPrefixBank})
+        Me.INDlycgGeneralInfo.Location = New System.Drawing.Point(0, 0)
+        Me.INDlycgGeneralInfo.Name = "INDlycgGeneralInfo"
+        Me.INDlycgGeneralInfo.Size = New System.Drawing.Size(412, 445)
+        Me.INDlycgGeneralInfo.Text = "Información General"
+        '
+        'INDlyciBank
+        '
+        Me.INDlyciBank.AllowHide = False
+        Me.INDlyciBank.Control = Me.INDsleBankEntityAccount
+        Me.INDlyciBank.CustomizationFormText = "Banco"
+        Me.INDlyciBank.Location = New System.Drawing.Point(0, 36)
+        Me.INDlyciBank.MaxSize = New System.Drawing.Size(390, 36)
+        Me.INDlyciBank.MinSize = New System.Drawing.Size(390, 36)
+        Me.INDlyciBank.Name = "INDlyciBank"
+        Me.INDlyciBank.ShowInCustomizationForm = False
+        Me.INDlyciBank.Size = New System.Drawing.Size(390, 36)
+        Me.INDlyciBank.SizeConstraintsType = DevExpress.XtraLayout.SizeConstraintsType.Custom
+        Me.INDlyciBank.Text = "Banco"
+        Me.INDlyciBank.TextAlignMode = DevExpress.XtraLayout.TextAlignModeItem.CustomSize
+        Me.INDlyciBank.TextSize = New System.Drawing.Size(135, 21)
+        Me.INDlyciBank.TextToControlDistance = 12
+        '
+        'INDlyciCity
+        '
+        Me.INDlyciCity.AllowHide = False
+        Me.INDlyciCity.Control = Me.INDsleCity
+        Me.INDlyciCity.CustomizationFormText = "Ciudad Radicación"
+        Me.INDlyciCity.Location = New System.Drawing.Point(0, 72)
+        Me.INDlyciCity.MaxSize = New System.Drawing.Size(390, 36)
+        Me.INDlyciCity.MinSize = New System.Drawing.Size(390, 36)
+        Me.INDlyciCity.Name = "INDlyciCity"
+        Me.INDlyciCity.ShowInCustomizationForm = False
+        Me.INDlyciCity.Size = New System.Drawing.Size(390, 36)
+        Me.INDlyciCity.SizeConstraintsType = DevExpress.XtraLayout.SizeConstraintsType.Custom
+        Me.INDlyciCity.Text = "Ciudad Radicación"
+        Me.INDlyciCity.TextAlignMode = DevExpress.XtraLayout.TextAlignModeItem.CustomSize
+        Me.INDlyciCity.TextSize = New System.Drawing.Size(135, 21)
+        Me.INDlyciCity.TextToControlDistance = 12
+        '
+        'INDlyciType
+        '
+        Me.INDlyciType.AllowHide = False
+        Me.INDlyciType.Control = Me.INDgleType
+        Me.INDlyciType.CustomizationFormText = "Tipo"
+        Me.INDlyciType.Location = New System.Drawing.Point(0, 108)
+        Me.INDlyciType.MaxSize = New System.Drawing.Size(390, 36)
+        Me.INDlyciType.MinSize = New System.Drawing.Size(390, 36)
+        Me.INDlyciType.Name = "INDlyciType"
+        Me.INDlyciType.ShowInCustomizationForm = False
+        Me.INDlyciType.Size = New System.Drawing.Size(390, 36)
+        Me.INDlyciType.SizeConstraintsType = DevExpress.XtraLayout.SizeConstraintsType.Custom
+        Me.INDlyciType.Text = "Tipo de cuenta"
+        Me.INDlyciType.TextAlignMode = DevExpress.XtraLayout.TextAlignModeItem.CustomSize
+        Me.INDlyciType.TextSize = New System.Drawing.Size(135, 21)
+        Me.INDlyciType.TextToControlDistance = 12
+        '
+        'INDlyciInitBalance
+        '
+        Me.INDlyciInitBalance.AllowHide = False
+        Me.INDlyciInitBalance.Control = Me.INDtxtInitialBalance
+        Me.INDlyciInitBalance.CustomizationFormText = "Saldo Inicial"
+        Me.INDlyciInitBalance.Location = New System.Drawing.Point(0, 180)
+        Me.INDlyciInitBalance.MaxSize = New System.Drawing.Size(390, 36)
+        Me.INDlyciInitBalance.MinSize = New System.Drawing.Size(390, 36)
+        Me.INDlyciInitBalance.Name = "INDlyciInitBalance"
+        Me.INDlyciInitBalance.ShowInCustomizationForm = False
+        Me.INDlyciInitBalance.Size = New System.Drawing.Size(390, 36)
+        Me.INDlyciInitBalance.SizeConstraintsType = DevExpress.XtraLayout.SizeConstraintsType.Custom
+        Me.INDlyciInitBalance.Text = "Saldo Inicial"
+        Me.INDlyciInitBalance.TextAlignMode = DevExpress.XtraLayout.TextAlignModeItem.CustomSize
+        Me.INDlyciInitBalance.TextSize = New System.Drawing.Size(135, 21)
+        Me.INDlyciInitBalance.TextToControlDistance = 12
+        '
+        'INDlyciRate
+        '
+        Me.INDlyciRate.AllowHide = False
+        Me.INDlyciRate.Control = Me.INDtxtRate
+        Me.INDlyciRate.CustomizationFormText = "Tasa x Mil"
+        Me.INDlyciRate.Location = New System.Drawing.Point(0, 252)
+        Me.INDlyciRate.MaxSize = New System.Drawing.Size(390, 36)
+        Me.INDlyciRate.MinSize = New System.Drawing.Size(390, 36)
+        Me.INDlyciRate.Name = "INDlyciRate"
+        Me.INDlyciRate.ShowInCustomizationForm = False
+        Me.INDlyciRate.Size = New System.Drawing.Size(390, 36)
+        Me.INDlyciRate.SizeConstraintsType = DevExpress.XtraLayout.SizeConstraintsType.Custom
+        Me.INDlyciRate.Text = "Tasa x Mil"
+        Me.INDlyciRate.TextAlignMode = DevExpress.XtraLayout.TextAlignModeItem.CustomSize
+        Me.INDlyciRate.TextSize = New System.Drawing.Size(135, 21)
+        Me.INDlyciRate.TextToControlDistance = 12
+        '
+        'INDlyciCode
+        '
+        Me.INDlyciCode.AllowHide = False
+        Me.INDlyciCode.Control = Me.INDbteCode
+        Me.INDlyciCode.CustomizationFormText = "Código"
+        Me.INDlyciCode.Location = New System.Drawing.Point(0, 0)
+        Me.INDlyciCode.MaxSize = New System.Drawing.Size(390, 36)
+        Me.INDlyciCode.MinSize = New System.Drawing.Size(390, 36)
+        Me.INDlyciCode.Name = "INDlyciCode"
+        Me.INDlyciCode.ShowInCustomizationForm = False
+        Me.INDlyciCode.Size = New System.Drawing.Size(390, 36)
+        Me.INDlyciCode.SizeConstraintsType = DevExpress.XtraLayout.SizeConstraintsType.Custom
+        Me.INDlyciCode.Text = "Código"
+        Me.INDlyciCode.TextAlignMode = DevExpress.XtraLayout.TextAlignModeItem.CustomSize
+        Me.INDlyciCode.TextSize = New System.Drawing.Size(135, 21)
+        Me.INDlyciCode.TextToControlDistance = 12
+        '
+        'INDlyciNumber
+        '
+        Me.INDlyciNumber.AllowHide = False
+        Me.INDlyciNumber.Control = Me.INDtxtNumber
+        Me.INDlyciNumber.CustomizationFormText = "Número"
+        Me.INDlyciNumber.Location = New System.Drawing.Point(0, 288)
+        Me.INDlyciNumber.MaxSize = New System.Drawing.Size(390, 36)
+        Me.INDlyciNumber.MinSize = New System.Drawing.Size(390, 36)
+        Me.INDlyciNumber.Name = "INDlyciNumber"
+        Me.INDlyciNumber.ShowInCustomizationForm = False
+        Me.INDlyciNumber.Size = New System.Drawing.Size(390, 36)
+        Me.INDlyciNumber.SizeConstraintsType = DevExpress.XtraLayout.SizeConstraintsType.Custom
+        Me.INDlyciNumber.Text = "Número de cuenta"
+        Me.INDlyciNumber.TextAlignMode = DevExpress.XtraLayout.TextAlignModeItem.CustomSize
+        Me.INDlyciNumber.TextSize = New System.Drawing.Size(135, 21)
+        Me.INDlyciNumber.TextToControlDistance = 12
+        '
+        'INDlyciQuotaOverdraft
+        '
+        Me.INDlyciQuotaOverdraft.AllowHide = False
+        Me.INDlyciQuotaOverdraft.Control = Me.INDtxtQuota
+        Me.INDlyciQuotaOverdraft.CustomizationFormText = "Cupo Sobregiro"
+        Me.INDlyciQuotaOverdraft.Location = New System.Drawing.Point(0, 324)
+        Me.INDlyciQuotaOverdraft.MaxSize = New System.Drawing.Size(390, 36)
+        Me.INDlyciQuotaOverdraft.MinSize = New System.Drawing.Size(390, 36)
+        Me.INDlyciQuotaOverdraft.Name = "INDlyciQuotaOverdraft"
+        Me.INDlyciQuotaOverdraft.ShowInCustomizationForm = False
+        Me.INDlyciQuotaOverdraft.Size = New System.Drawing.Size(390, 36)
+        Me.INDlyciQuotaOverdraft.SizeConstraintsType = DevExpress.XtraLayout.SizeConstraintsType.Custom
+        Me.INDlyciQuotaOverdraft.Text = "Cupo Sobregiro"
+        Me.INDlyciQuotaOverdraft.TextAlignMode = DevExpress.XtraLayout.TextAlignModeItem.CustomSize
+        Me.INDlyciQuotaOverdraft.TextSize = New System.Drawing.Size(135, 21)
+        Me.INDlyciQuotaOverdraft.TextToControlDistance = 12
+        Me.INDlyciQuotaOverdraft.Visibility = DevExpress.XtraLayout.Utils.LayoutVisibility.Never
+        '
+        'INDlyciInitDate
+        '
+        Me.INDlyciInitDate.AllowHide = False
+        Me.INDlyciInitDate.Control = Me.INDdteInitDate
+        Me.INDlyciInitDate.CustomizationFormText = "Fecha Inicial"
+        Me.INDlyciInitDate.Location = New System.Drawing.Point(0, 360)
+        Me.INDlyciInitDate.MaxSize = New System.Drawing.Size(390, 36)
+        Me.INDlyciInitDate.MinSize = New System.Drawing.Size(390, 36)
+        Me.INDlyciInitDate.Name = "INDlyciInitDate"
+        Me.INDlyciInitDate.ShowInCustomizationForm = False
+        Me.INDlyciInitDate.Size = New System.Drawing.Size(390, 36)
+        Me.INDlyciInitDate.SizeConstraintsType = DevExpress.XtraLayout.SizeConstraintsType.Custom
+        Me.INDlyciInitDate.Text = "Fecha Inicial"
+        Me.INDlyciInitDate.TextAlignMode = DevExpress.XtraLayout.TextAlignModeItem.CustomSize
+        Me.INDlyciInitDate.TextSize = New System.Drawing.Size(135, 21)
+        Me.INDlyciInitDate.TextToControlDistance = 12
+        '
+        'INDliCurrentBalance
+        '
+        Me.INDliCurrentBalance.AllowHide = False
+        Me.INDliCurrentBalance.Control = Me.INDtxtCurrentBalance
+        Me.INDliCurrentBalance.CustomizationFormText = "Saldo Disponible"
+        Me.INDliCurrentBalance.Location = New System.Drawing.Point(0, 216)
+        Me.INDliCurrentBalance.MaxSize = New System.Drawing.Size(390, 36)
+        Me.INDliCurrentBalance.MinSize = New System.Drawing.Size(390, 36)
+        Me.INDliCurrentBalance.Name = "INDliCurrentBalance"
+        Me.INDliCurrentBalance.ShowInCustomizationForm = False
+        Me.INDliCurrentBalance.Size = New System.Drawing.Size(390, 36)
+        Me.INDliCurrentBalance.SizeConstraintsType = DevExpress.XtraLayout.SizeConstraintsType.Custom
+        Me.INDliCurrentBalance.Text = "Saldo Disponible"
+        Me.INDliCurrentBalance.TextAlignMode = DevExpress.XtraLayout.TextAlignModeItem.CustomSize
+        Me.INDliCurrentBalance.TextSize = New System.Drawing.Size(135, 20)
+        Me.INDliCurrentBalance.TextToControlDistance = 12
+        '
+        'INDliPrefixBank
+        '
+        Me.INDliPrefixBank.AllowHide = False
+        Me.INDliPrefixBank.Control = Me.INDtePrefix
+        Me.INDliPrefixBank.CustomizationFormText = "LayoutControlItem1"
+        Me.INDliPrefixBank.Location = New System.Drawing.Point(0, 144)
+        Me.INDliPrefixBank.MaxSize = New System.Drawing.Size(390, 36)
+        Me.INDliPrefixBank.MinSize = New System.Drawing.Size(390, 36)
+        Me.INDliPrefixBank.Name = "INDliPrefixBank"
+        Me.INDliPrefixBank.ShowInCustomizationForm = False
+        Me.INDliPrefixBank.Size = New System.Drawing.Size(390, 36)
+        Me.INDliPrefixBank.SizeConstraintsType = DevExpress.XtraLayout.SizeConstraintsType.Custom
+        Me.INDliPrefixBank.Text = "Prefijo"
+        Me.INDliPrefixBank.TextAlignMode = DevExpress.XtraLayout.TextAlignModeItem.CustomSize
+        Me.INDliPrefixBank.TextSize = New System.Drawing.Size(135, 21)
+        Me.INDliPrefixBank.TextToControlDistance = 12
+        '
+        'INDlycgAccountingInfo
+        '
+        Me.INDlycgAccountingInfo.AppearanceGroup.Font = New System.Drawing.Font("Segoe UI", 15.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.INDlycgAccountingInfo.AppearanceGroup.Options.UseFont = True
+        Me.INDlycgAccountingInfo.AppearanceItemCaption.Font = New System.Drawing.Font("Segoe UI Light", 10.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.INDlycgAccountingInfo.AppearanceItemCaption.Options.UseFont = True
+        Me.INDlycgAccountingInfo.AppearanceTabPage.Header.Font = New System.Drawing.Font("Segoe UI Light", 12.0!)
+        Me.INDlycgAccountingInfo.AppearanceTabPage.Header.Options.UseFont = True
+        Me.INDlycgAccountingInfo.AppearanceTabPage.HeaderActive.Font = New System.Drawing.Font("Segoe UI", 12.0!)
+        Me.INDlycgAccountingInfo.AppearanceTabPage.HeaderActive.Options.UseFont = True
+        Me.INDlycgAccountingInfo.AppearanceTabPage.HeaderDisabled.Font = New System.Drawing.Font("Segoe UI Light", 12.0!)
+        Me.INDlycgAccountingInfo.AppearanceTabPage.HeaderDisabled.Options.UseFont = True
+        Me.INDlycgAccountingInfo.AppearanceTabPage.HeaderHotTracked.Font = New System.Drawing.Font("Segoe UI Light", 12.0!)
+        Me.INDlycgAccountingInfo.AppearanceTabPage.HeaderHotTracked.Options.UseFont = True
+        Me.INDlycgAccountingInfo.AppearanceTabPage.PageClient.Font = New System.Drawing.Font("Segoe UI Light", 12.0!)
+        Me.INDlycgAccountingInfo.AppearanceTabPage.PageClient.Options.UseFont = True
+        Me.IndigoLayoutControlGroup1.SetCampoObligatorio(Me.INDlycgAccountingInfo, False)
+        Me.INDlycgAccountingInfo.CustomizationFormText = "Información Contable"
+        Me.INDlycgAccountingInfo.Items.AddRange(New DevExpress.XtraLayout.BaseLayoutItem() {Me.INDlyciCostCenter, Me.INDlyciAccount, Me.INDLiFMGMainAccountExpenses, Me.INDLiFMGMainAccountPayment, Me.INDliThirdParty, Me.INDLciThirdMainAccountCounterpart, Me.INDLciCostCenterMainAccountCounterpart, Me.INDLciThirdMainAccountExpenses, Me.INDLciCostCenterMainAccountExpenses, Me.INDlyItemFinancialSource, Me.INDlciCurrency})
+        Me.INDlycgAccountingInfo.Location = New System.Drawing.Point(412, 0)
+        Me.INDlycgAccountingInfo.Name = "INDlycgAccountingInfo"
+        Me.INDlycgAccountingInfo.Size = New System.Drawing.Size(422, 445)
+        Me.INDlycgAccountingInfo.Text = "Información Contable"
+        '
+        'INDlyciCostCenter
+        '
+        Me.INDlyciCostCenter.Control = Me.INDsleCostCenter
+        Me.INDlyciCostCenter.CustomizationFormText = "Centro de Costo"
+        Me.INDlyciCostCenter.Location = New System.Drawing.Point(0, 72)
+        Me.INDlyciCostCenter.MaxSize = New System.Drawing.Size(400, 36)
+        Me.INDlyciCostCenter.MinSize = New System.Drawing.Size(400, 36)
+        Me.INDlyciCostCenter.Name = "INDlyciCostCenter"
+        Me.INDlyciCostCenter.Size = New System.Drawing.Size(400, 36)
+        Me.INDlyciCostCenter.SizeConstraintsType = DevExpress.XtraLayout.SizeConstraintsType.Custom
+        Me.INDlyciCostCenter.Text = "Centro de Costo"
+        Me.INDlyciCostCenter.TextAlignMode = DevExpress.XtraLayout.TextAlignModeItem.CustomSize
+        Me.INDlyciCostCenter.TextSize = New System.Drawing.Size(165, 21)
+        Me.INDlyciCostCenter.TextToControlDistance = 5
+        Me.INDlyciCostCenter.Visibility = DevExpress.XtraLayout.Utils.LayoutVisibility.Never
+        '
+        'INDlyciAccount
+        '
+        Me.INDlyciAccount.AllowHide = False
+        Me.INDlyciAccount.Control = Me.INDsleAccountAccounting
+        Me.INDlyciAccount.CustomizationFormText = "Cuenta Contable"
+        Me.INDlyciAccount.Location = New System.Drawing.Point(0, 0)
+        Me.INDlyciAccount.MaxSize = New System.Drawing.Size(400, 36)
+        Me.INDlyciAccount.MinSize = New System.Drawing.Size(400, 36)
+        Me.INDlyciAccount.Name = "INDlyciAccount"
+        Me.INDlyciAccount.ShowInCustomizationForm = False
+        Me.INDlyciAccount.Size = New System.Drawing.Size(400, 36)
+        Me.INDlyciAccount.SizeConstraintsType = DevExpress.XtraLayout.SizeConstraintsType.Custom
+        Me.INDlyciAccount.Text = "Cuenta Contable"
+        Me.INDlyciAccount.TextAlignMode = DevExpress.XtraLayout.TextAlignModeItem.CustomSize
+        Me.INDlyciAccount.TextSize = New System.Drawing.Size(165, 21)
+        Me.INDlyciAccount.TextToControlDistance = 5
+        '
+        'INDLiFMGMainAccountExpenses
+        '
+        Me.INDLiFMGMainAccountExpenses.AllowHide = False
+        Me.INDLiFMGMainAccountExpenses.Control = Me.INDsleFMGMainAccountExpenses
+        Me.INDLiFMGMainAccountExpenses.CustomizationFormText = "Cuenta Gastos"
+        Me.INDLiFMGMainAccountExpenses.Location = New System.Drawing.Point(0, 216)
+        Me.INDLiFMGMainAccountExpenses.MaxSize = New System.Drawing.Size(400, 36)
+        Me.INDLiFMGMainAccountExpenses.MinSize = New System.Drawing.Size(400, 36)
+        Me.INDLiFMGMainAccountExpenses.Name = "INDLiFMGMainAccountExpenses"
+        Me.INDLiFMGMainAccountExpenses.ShowInCustomizationForm = False
+        Me.INDLiFMGMainAccountExpenses.Size = New System.Drawing.Size(400, 36)
+        Me.INDLiFMGMainAccountExpenses.SizeConstraintsType = DevExpress.XtraLayout.SizeConstraintsType.Custom
+        Me.INDLiFMGMainAccountExpenses.Text = "Cuenta Gastos"
+        Me.INDLiFMGMainAccountExpenses.TextAlignMode = DevExpress.XtraLayout.TextAlignModeItem.CustomSize
+        Me.INDLiFMGMainAccountExpenses.TextSize = New System.Drawing.Size(165, 21)
+        Me.INDLiFMGMainAccountExpenses.TextToControlDistance = 5
+        '
+        'INDLiFMGMainAccountPayment
+        '
+        Me.INDLiFMGMainAccountPayment.AllowHide = False
+        Me.INDLiFMGMainAccountPayment.Control = Me.INDsleFMGMainAccountCounterpart
+        Me.INDLiFMGMainAccountPayment.CustomizationFormText = "Cuenta Contrapartida"
+        Me.INDLiFMGMainAccountPayment.Location = New System.Drawing.Point(0, 108)
+        Me.INDLiFMGMainAccountPayment.MaxSize = New System.Drawing.Size(400, 36)
+        Me.INDLiFMGMainAccountPayment.MinSize = New System.Drawing.Size(400, 36)
+        Me.INDLiFMGMainAccountPayment.Name = "INDLiFMGMainAccountPayment"
+        Me.INDLiFMGMainAccountPayment.ShowInCustomizationForm = False
+        Me.INDLiFMGMainAccountPayment.Size = New System.Drawing.Size(400, 36)
+        Me.INDLiFMGMainAccountPayment.SizeConstraintsType = DevExpress.XtraLayout.SizeConstraintsType.Custom
+        Me.INDLiFMGMainAccountPayment.Text = "Cuenta Contrapartida"
+        Me.INDLiFMGMainAccountPayment.TextAlignMode = DevExpress.XtraLayout.TextAlignModeItem.CustomSize
+        Me.INDLiFMGMainAccountPayment.TextSize = New System.Drawing.Size(165, 21)
+        Me.INDLiFMGMainAccountPayment.TextToControlDistance = 5
+        '
+        'INDliThirdParty
+        '
+        Me.INDliThirdParty.Control = Me.INDsleThirdParty
+        Me.INDliThirdParty.CustomizationFormText = "Tercero"
+        Me.INDliThirdParty.Location = New System.Drawing.Point(0, 36)
+        Me.INDliThirdParty.MaxSize = New System.Drawing.Size(400, 36)
+        Me.INDliThirdParty.MinSize = New System.Drawing.Size(400, 36)
+        Me.INDliThirdParty.Name = "INDliThirdParty"
+        Me.INDliThirdParty.Size = New System.Drawing.Size(400, 36)
+        Me.INDliThirdParty.SizeConstraintsType = DevExpress.XtraLayout.SizeConstraintsType.Custom
+        Me.INDliThirdParty.Text = "Tercero"
+        Me.INDliThirdParty.TextAlignMode = DevExpress.XtraLayout.TextAlignModeItem.CustomSize
+        Me.INDliThirdParty.TextSize = New System.Drawing.Size(165, 21)
+        Me.INDliThirdParty.TextToControlDistance = 5
+        '
+        'INDLciThirdMainAccountCounterpart
+        '
+        Me.INDLciThirdMainAccountCounterpart.Control = Me.INDSleThirdMainAccountCounterpart
+        Me.INDLciThirdMainAccountCounterpart.CustomizationFormText = "T Cuenta Compartida"
+        Me.INDLciThirdMainAccountCounterpart.Location = New System.Drawing.Point(0, 144)
+        Me.INDLciThirdMainAccountCounterpart.MaxSize = New System.Drawing.Size(0, 36)
+        Me.INDLciThirdMainAccountCounterpart.MinSize = New System.Drawing.Size(390, 36)
+        Me.INDLciThirdMainAccountCounterpart.Name = "INDLciThirdMainAccountCounterpart"
+        Me.INDLciThirdMainAccountCounterpart.Size = New System.Drawing.Size(400, 36)
+        Me.INDLciThirdMainAccountCounterpart.SizeConstraintsType = DevExpress.XtraLayout.SizeConstraintsType.Custom
+        Me.INDLciThirdMainAccountCounterpart.Text = "T. Cuenta Compartida"
+        Me.INDLciThirdMainAccountCounterpart.TextAlignMode = DevExpress.XtraLayout.TextAlignModeItem.CustomSize
+        Me.INDLciThirdMainAccountCounterpart.TextSize = New System.Drawing.Size(165, 21)
+        Me.INDLciThirdMainAccountCounterpart.TextToControlDistance = 5
+        '
+        'INDLciCostCenterMainAccountCounterpart
+        '
+        Me.INDLciCostCenterMainAccountCounterpart.Control = Me.INDSleCostCenterMainAccountCounterpart
+        Me.INDLciCostCenterMainAccountCounterpart.CustomizationFormText = "Centro de Costo Cuenta Compartida"
+        Me.INDLciCostCenterMainAccountCounterpart.Location = New System.Drawing.Point(0, 180)
+        Me.INDLciCostCenterMainAccountCounterpart.MaxSize = New System.Drawing.Size(0, 36)
+        Me.INDLciCostCenterMainAccountCounterpart.MinSize = New System.Drawing.Size(390, 36)
+        Me.INDLciCostCenterMainAccountCounterpart.Name = "INDLciCostCenterMainAccountCounterpart"
+        Me.INDLciCostCenterMainAccountCounterpart.Size = New System.Drawing.Size(400, 36)
+        Me.INDLciCostCenterMainAccountCounterpart.SizeConstraintsType = DevExpress.XtraLayout.SizeConstraintsType.Custom
+        Me.INDLciCostCenterMainAccountCounterpart.Text = "C.C. Cuenta Compartida"
+        Me.INDLciCostCenterMainAccountCounterpart.TextAlignMode = DevExpress.XtraLayout.TextAlignModeItem.CustomSize
+        Me.INDLciCostCenterMainAccountCounterpart.TextSize = New System.Drawing.Size(165, 21)
+        Me.INDLciCostCenterMainAccountCounterpart.TextToControlDistance = 5
+        '
+        'INDLciThirdMainAccountExpenses
+        '
+        Me.INDLciThirdMainAccountExpenses.Control = Me.INDSleThirdMainAccountExpenses
+        Me.INDLciThirdMainAccountExpenses.CustomizationFormText = "Tercero Cuenta Gastos"
+        Me.INDLciThirdMainAccountExpenses.Location = New System.Drawing.Point(0, 252)
+        Me.INDLciThirdMainAccountExpenses.MaxSize = New System.Drawing.Size(0, 36)
+        Me.INDLciThirdMainAccountExpenses.MinSize = New System.Drawing.Size(390, 36)
+        Me.INDLciThirdMainAccountExpenses.Name = "INDLciThirdMainAccountExpenses"
+        Me.INDLciThirdMainAccountExpenses.Size = New System.Drawing.Size(400, 36)
+        Me.INDLciThirdMainAccountExpenses.SizeConstraintsType = DevExpress.XtraLayout.SizeConstraintsType.Custom
+        Me.INDLciThirdMainAccountExpenses.Text = "T. Cuenta Gastos"
+        Me.INDLciThirdMainAccountExpenses.TextAlignMode = DevExpress.XtraLayout.TextAlignModeItem.CustomSize
+        Me.INDLciThirdMainAccountExpenses.TextSize = New System.Drawing.Size(165, 21)
+        Me.INDLciThirdMainAccountExpenses.TextToControlDistance = 5
+        '
+        'INDLciCostCenterMainAccountExpenses
+        '
+        Me.INDLciCostCenterMainAccountExpenses.Control = Me.INDSleCostCenterMainAccountExpenses
+        Me.INDLciCostCenterMainAccountExpenses.CustomizationFormText = "Centro de Costo Cuenta Gastos"
+        Me.INDLciCostCenterMainAccountExpenses.Location = New System.Drawing.Point(0, 288)
+        Me.INDLciCostCenterMainAccountExpenses.MaxSize = New System.Drawing.Size(0, 36)
+        Me.INDLciCostCenterMainAccountExpenses.MinSize = New System.Drawing.Size(390, 36)
+        Me.INDLciCostCenterMainAccountExpenses.Name = "INDLciCostCenterMainAccountExpenses"
+        Me.INDLciCostCenterMainAccountExpenses.Size = New System.Drawing.Size(400, 36)
+        Me.INDLciCostCenterMainAccountExpenses.SizeConstraintsType = DevExpress.XtraLayout.SizeConstraintsType.Custom
+        Me.INDLciCostCenterMainAccountExpenses.Text = "C.C. Cuenta Gastos"
+        Me.INDLciCostCenterMainAccountExpenses.TextAlignMode = DevExpress.XtraLayout.TextAlignModeItem.CustomSize
+        Me.INDLciCostCenterMainAccountExpenses.TextSize = New System.Drawing.Size(165, 21)
+        Me.INDLciCostCenterMainAccountExpenses.TextToControlDistance = 5
+        '
+        'INDlyItemFinancialSource
+        '
+        Me.INDlyItemFinancialSource.Control = Me.INDsleFinancialSource
+        Me.INDlyItemFinancialSource.Location = New System.Drawing.Point(0, 324)
+        Me.INDlyItemFinancialSource.MaxSize = New System.Drawing.Size(0, 36)
+        Me.INDlyItemFinancialSource.MinSize = New System.Drawing.Size(390, 36)
+        Me.INDlyItemFinancialSource.Name = "INDlyItemFinancialSource"
+        Me.INDlyItemFinancialSource.Size = New System.Drawing.Size(400, 36)
+        Me.INDlyItemFinancialSource.SizeConstraintsType = DevExpress.XtraLayout.SizeConstraintsType.Custom
+        Me.INDlyItemFinancialSource.Text = "Fuente Financiación"
+        Me.INDlyItemFinancialSource.TextAlignMode = DevExpress.XtraLayout.TextAlignModeItem.CustomSize
+        Me.INDlyItemFinancialSource.TextSize = New System.Drawing.Size(165, 21)
+        Me.INDlyItemFinancialSource.TextToControlDistance = 5
+        Me.INDlyItemFinancialSource.Visibility = DevExpress.XtraLayout.Utils.LayoutVisibility.Never
+        '
+        'INDlciCurrency
+        '
+        Me.INDlciCurrency.Control = Me.INDSleCurrency
+        Me.INDlciCurrency.Location = New System.Drawing.Point(0, 360)
+        Me.INDlciCurrency.MaxSize = New System.Drawing.Size(0, 36)
+        Me.INDlciCurrency.MinSize = New System.Drawing.Size(390, 36)
+        Me.INDlciCurrency.Name = "INDlciCurrency"
+        Me.INDlciCurrency.ShowInCustomizationForm = False
+        Me.INDlciCurrency.Size = New System.Drawing.Size(400, 36)
+        Me.INDlciCurrency.SizeConstraintsType = DevExpress.XtraLayout.SizeConstraintsType.Custom
+        Me.INDlciCurrency.Text = "Moneda"
+        Me.INDlciCurrency.TextAlignMode = DevExpress.XtraLayout.TextAlignModeItem.CustomSize
+        Me.INDlciCurrency.TextSize = New System.Drawing.Size(165, 21)
+        Me.INDlciCurrency.TextToControlDistance = 5
+        '
+        'INDlycgCheckbook
+        '
+        Me.INDlycgCheckbook.AppearanceGroup.Font = New System.Drawing.Font("Segoe UI", 15.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.INDlycgCheckbook.AppearanceGroup.Options.UseFont = True
+        Me.INDlycgCheckbook.AppearanceItemCaption.Font = New System.Drawing.Font("Segoe UI Light", 10.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.INDlycgCheckbook.AppearanceItemCaption.Options.UseFont = True
+        Me.INDlycgCheckbook.AppearanceTabPage.Header.Font = New System.Drawing.Font("Segoe UI Light", 12.0!)
+        Me.INDlycgCheckbook.AppearanceTabPage.Header.Options.UseFont = True
+        Me.INDlycgCheckbook.AppearanceTabPage.HeaderActive.Font = New System.Drawing.Font("Segoe UI", 12.0!)
+        Me.INDlycgCheckbook.AppearanceTabPage.HeaderActive.Options.UseFont = True
+        Me.INDlycgCheckbook.AppearanceTabPage.HeaderDisabled.Font = New System.Drawing.Font("Segoe UI Light", 12.0!)
+        Me.INDlycgCheckbook.AppearanceTabPage.HeaderDisabled.Options.UseFont = True
+        Me.INDlycgCheckbook.AppearanceTabPage.HeaderHotTracked.Font = New System.Drawing.Font("Segoe UI Light", 12.0!)
+        Me.INDlycgCheckbook.AppearanceTabPage.HeaderHotTracked.Options.UseFont = True
+        Me.INDlycgCheckbook.AppearanceTabPage.PageClient.Font = New System.Drawing.Font("Segoe UI Light", 12.0!)
+        Me.INDlycgCheckbook.AppearanceTabPage.PageClient.Options.UseFont = True
+        Me.IndigoLayoutControlGroup1.SetCampoObligatorio(Me.INDlycgCheckbook, False)
+        Me.INDlycgCheckbook.CustomizationFormText = "Chequeras"
+        Me.INDlycgCheckbook.Items.AddRange(New DevExpress.XtraLayout.BaseLayoutItem() {Me.INDlyciCheckbook, Me.INDliPopVoucher})
+        Me.INDlycgCheckbook.Location = New System.Drawing.Point(834, 0)
+        Me.INDlycgCheckbook.Name = "INDlycgCheckbook"
+        Me.INDlycgCheckbook.Size = New System.Drawing.Size(522, 445)
+        Me.INDlycgCheckbook.Text = "Chequeras"
+        '
+        'INDlyciCheckbook
+        '
+        Me.INDlyciCheckbook.AllowHide = False
+        Me.INDlyciCheckbook.Control = Me.INDgcCheckbook
+        Me.INDlyciCheckbook.CustomizationFormText = "Chequeras"
+        Me.INDlyciCheckbook.Location = New System.Drawing.Point(0, 36)
+        Me.INDlyciCheckbook.MaxSize = New System.Drawing.Size(500, 0)
+        Me.INDlyciCheckbook.MinSize = New System.Drawing.Size(500, 1)
+        Me.INDlyciCheckbook.Name = "INDlyciCheckbook"
+        Me.INDlyciCheckbook.ShowInCustomizationForm = False
+        Me.INDlyciCheckbook.Size = New System.Drawing.Size(500, 360)
+        Me.INDlyciCheckbook.SizeConstraintsType = DevExpress.XtraLayout.SizeConstraintsType.Custom
+        Me.INDlyciCheckbook.Text = "Chequeras"
+        Me.INDlyciCheckbook.TextAlignMode = DevExpress.XtraLayout.TextAlignModeItem.CustomSize
+        Me.INDlyciCheckbook.TextSize = New System.Drawing.Size(0, 0)
+        Me.INDlyciCheckbook.TextToControlDistance = 0
+        Me.INDlyciCheckbook.TextVisible = False
+        '
+        'INDliPopVoucher
+        '
+        Me.INDliPopVoucher.AllowHide = False
+        Me.INDliPopVoucher.Control = Me.INDpopVoucher
+        Me.INDliPopVoucher.CustomizationFormText = "LayoutControlItem1"
+        Me.INDliPopVoucher.Location = New System.Drawing.Point(0, 0)
+        Me.INDliPopVoucher.MaxSize = New System.Drawing.Size(500, 36)
+        Me.INDliPopVoucher.MinSize = New System.Drawing.Size(500, 36)
+        Me.INDliPopVoucher.Name = "INDliPopVoucher"
+        Me.INDliPopVoucher.ShowInCustomizationForm = False
+        Me.INDliPopVoucher.Size = New System.Drawing.Size(500, 36)
+        Me.INDliPopVoucher.SizeConstraintsType = DevExpress.XtraLayout.SizeConstraintsType.Custom
+        Me.INDliPopVoucher.Text = "Agregar Chequera"
+        Me.INDliPopVoucher.TextAlignMode = DevExpress.XtraLayout.TextAlignModeItem.CustomSize
+        Me.INDliPopVoucher.TextSize = New System.Drawing.Size(0, 0)
+        Me.INDliPopVoucher.TextToControlDistance = 0
+        Me.INDliPopVoucher.TextVisible = False
+        '
+        'INDlgrAutorization
+        '
+        Me.INDlgrAutorization.AppearanceGroup.Font = New System.Drawing.Font("Segoe UI", 15.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.INDlgrAutorization.AppearanceGroup.Options.UseFont = True
+        Me.INDlgrAutorization.AppearanceItemCaption.Font = New System.Drawing.Font("Segoe UI Light", 10.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.INDlgrAutorization.AppearanceItemCaption.Options.UseFont = True
+        Me.INDlgrAutorization.AppearanceTabPage.Header.Font = New System.Drawing.Font("Segoe UI Light", 12.0!)
+        Me.INDlgrAutorization.AppearanceTabPage.Header.Options.UseFont = True
+        Me.INDlgrAutorization.AppearanceTabPage.HeaderActive.Font = New System.Drawing.Font("Segoe UI", 12.0!)
+        Me.INDlgrAutorization.AppearanceTabPage.HeaderActive.Options.UseFont = True
+        Me.INDlgrAutorization.AppearanceTabPage.HeaderDisabled.Font = New System.Drawing.Font("Segoe UI Light", 12.0!)
+        Me.INDlgrAutorization.AppearanceTabPage.HeaderDisabled.Options.UseFont = True
+        Me.INDlgrAutorization.AppearanceTabPage.HeaderHotTracked.Font = New System.Drawing.Font("Segoe UI Light", 12.0!)
+        Me.INDlgrAutorization.AppearanceTabPage.HeaderHotTracked.Options.UseFont = True
+        Me.INDlgrAutorization.AppearanceTabPage.PageClient.Font = New System.Drawing.Font("Segoe UI Light", 12.0!)
+        Me.INDlgrAutorization.AppearanceTabPage.PageClient.Options.UseFont = True
+        Me.IndigoLayoutControlGroup1.SetCampoObligatorio(Me.INDlgrAutorization, False)
+        Me.INDlgrAutorization.CustomizationFormText = "Autorización"
+        Me.INDlgrAutorization.Items.AddRange(New DevExpress.XtraLayout.BaseLayoutItem() {Me.INDliAddUser, Me.INDliAutorizationUsers, Me.INDliUser})
+        Me.INDlgrAutorization.Location = New System.Drawing.Point(1356, 0)
+        Me.INDlgrAutorization.Name = "INDlgrAutorization"
+        Me.INDlgrAutorization.Size = New System.Drawing.Size(512, 445)
+        Me.INDlgrAutorization.Text = "Autorización"
+        '
+        'INDliAddUser
+        '
+        Me.INDliAddUser.AllowHide = False
+        Me.INDliAddUser.Control = Me.INDsbAddUser
+        Me.INDliAddUser.CustomizationFormText = "Agregar"
+        Me.INDliAddUser.Location = New System.Drawing.Point(390, 0)
+        Me.INDliAddUser.MaxSize = New System.Drawing.Size(100, 32)
+        Me.INDliAddUser.MinSize = New System.Drawing.Size(100, 32)
+        Me.INDliAddUser.Name = "INDliAddUser"
+        Me.INDliAddUser.Size = New System.Drawing.Size(100, 36)
+        Me.INDliAddUser.SizeConstraintsType = DevExpress.XtraLayout.SizeConstraintsType.Custom
+        Me.INDliAddUser.TextAlignMode = DevExpress.XtraLayout.TextAlignModeItem.CustomSize
+        Me.INDliAddUser.TextSize = New System.Drawing.Size(0, 0)
+        Me.INDliAddUser.TextToControlDistance = 0
+        Me.INDliAddUser.TextVisible = False
+        '
+        'INDliAutorizationUsers
+        '
+        Me.INDliAutorizationUsers.AllowHide = False
+        Me.INDliAutorizationUsers.Control = Me.INDGcUser
+        Me.INDliAutorizationUsers.CustomizationFormText = "Usuarios Autorizados"
+        Me.INDliAutorizationUsers.Location = New System.Drawing.Point(0, 36)
+        Me.INDliAutorizationUsers.MaxSize = New System.Drawing.Size(490, 0)
+        Me.INDliAutorizationUsers.MinSize = New System.Drawing.Size(490, 24)
+        Me.INDliAutorizationUsers.Name = "INDliAutorizationUsers"
+        Me.INDliAutorizationUsers.Size = New System.Drawing.Size(490, 360)
+        Me.INDliAutorizationUsers.SizeConstraintsType = DevExpress.XtraLayout.SizeConstraintsType.Custom
+        Me.INDliAutorizationUsers.TextAlignMode = DevExpress.XtraLayout.TextAlignModeItem.CustomSize
+        Me.INDliAutorizationUsers.TextSize = New System.Drawing.Size(0, 0)
+        Me.INDliAutorizationUsers.TextToControlDistance = 0
+        Me.INDliAutorizationUsers.TextVisible = False
+        '
+        'INDliUser
+        '
+        Me.INDliUser.Control = Me.INDsleUser
+        Me.INDliUser.CustomizationFormText = "Usuarios"
+        Me.INDliUser.Location = New System.Drawing.Point(0, 0)
+        Me.INDliUser.MaxSize = New System.Drawing.Size(390, 36)
+        Me.INDliUser.MinSize = New System.Drawing.Size(390, 36)
+        Me.INDliUser.Name = "INDliUser"
+        Me.INDliUser.Size = New System.Drawing.Size(390, 36)
+        Me.INDliUser.SizeConstraintsType = DevExpress.XtraLayout.SizeConstraintsType.Custom
+        Me.INDliUser.Text = "Usuarios"
+        Me.INDliUser.TextAlignMode = DevExpress.XtraLayout.TextAlignModeItem.CustomSize
+        Me.INDliUser.TextSize = New System.Drawing.Size(135, 21)
+        Me.INDliUser.TextToControlDistance = 12
+        '
+        'GridColumn588
+        '
+        Me.GridColumn588.Caption = "Id"
+        Me.GridColumn588.FieldName = "Id"
+        Me.GridColumn588.Name = "GridColumn588"
+        '
+        'GridColumn589
+        '
+        Me.GridColumn589.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn589.Caption = "Código"
+        Me.GridColumn589.FieldName = "Number"
+        Me.GridColumn589.Name = "GridColumn589"
+        '
+        'GridColumn590
+        '
+        Me.GridColumn590.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn590.Caption = "Nombre"
+        Me.GridColumn590.FieldName = "Name"
+        Me.GridColumn590.Name = "GridColumn590"
+        Me.GridColumn590.Width = 88
+        '
+        'GridColumn591
+        '
+        Me.GridColumn591.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn591.Caption = "Maneja Tercero"
+        Me.GridColumn591.FieldName = "HandlesThirdParty"
+        Me.GridColumn591.Name = "GridColumn591"
+        Me.GridColumn591.Width = 171
+        '
+        'GridColumn592
+        '
+        Me.GridColumn592.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn592.Caption = "Maneja Centro de Costo"
+        Me.GridColumn592.FieldName = "HandlesCostCenter"
+        Me.GridColumn592.Name = "GridColumn592"
+        Me.GridColumn592.Width = 350
+        '
+        'GridColumn583
+        '
+        Me.GridColumn583.Caption = "Id"
+        Me.GridColumn583.FieldName = "Id"
+        Me.GridColumn583.Name = "GridColumn583"
+        '
+        'GridColumn584
+        '
+        Me.GridColumn584.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn584.Caption = "Código"
+        Me.GridColumn584.FieldName = "Number"
+        Me.GridColumn584.Name = "GridColumn584"
+        '
+        'GridColumn585
+        '
+        Me.GridColumn585.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn585.Caption = "Nombre"
+        Me.GridColumn585.FieldName = "Name"
+        Me.GridColumn585.Name = "GridColumn585"
+        Me.GridColumn585.Width = 88
+        '
+        'GridColumn586
+        '
+        Me.GridColumn586.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn586.Caption = "Maneja Tercero"
+        Me.GridColumn586.FieldName = "HandlesThirdParty"
+        Me.GridColumn586.Name = "GridColumn586"
+        Me.GridColumn586.Width = 171
+        '
+        'GridColumn587
+        '
+        Me.GridColumn587.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn587.Caption = "Maneja Centro de Costo"
+        Me.GridColumn587.FieldName = "HandlesCostCenter"
+        Me.GridColumn587.Name = "GridColumn587"
+        Me.GridColumn587.Width = 350
+        '
+        'GridColumn578
+        '
+        Me.GridColumn578.Caption = "Id"
+        Me.GridColumn578.FieldName = "Id"
+        Me.GridColumn578.Name = "GridColumn578"
+        '
+        'GridColumn579
+        '
+        Me.GridColumn579.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn579.Caption = "Código"
+        Me.GridColumn579.FieldName = "Number"
+        Me.GridColumn579.Name = "GridColumn579"
+        '
+        'GridColumn580
+        '
+        Me.GridColumn580.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn580.Caption = "Nombre"
+        Me.GridColumn580.FieldName = "Name"
+        Me.GridColumn580.Name = "GridColumn580"
+        Me.GridColumn580.Width = 88
+        '
+        'GridColumn581
+        '
+        Me.GridColumn581.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn581.Caption = "Maneja Tercero"
+        Me.GridColumn581.FieldName = "HandlesThirdParty"
+        Me.GridColumn581.Name = "GridColumn581"
+        Me.GridColumn581.Width = 171
+        '
+        'GridColumn582
+        '
+        Me.GridColumn582.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn582.Caption = "Maneja Centro de Costo"
+        Me.GridColumn582.FieldName = "HandlesCostCenter"
+        Me.GridColumn582.Name = "GridColumn582"
+        Me.GridColumn582.Width = 350
+        '
+        'GridColumn573
+        '
+        Me.GridColumn573.Caption = "Id"
+        Me.GridColumn573.FieldName = "Id"
+        Me.GridColumn573.Name = "GridColumn573"
+        '
+        'GridColumn574
+        '
+        Me.GridColumn574.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn574.Caption = "Código"
+        Me.GridColumn574.FieldName = "Number"
+        Me.GridColumn574.Name = "GridColumn574"
+        '
+        'GridColumn575
+        '
+        Me.GridColumn575.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn575.Caption = "Nombre"
+        Me.GridColumn575.FieldName = "Name"
+        Me.GridColumn575.Name = "GridColumn575"
+        Me.GridColumn575.Width = 88
+        '
+        'GridColumn576
+        '
+        Me.GridColumn576.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn576.Caption = "Maneja Tercero"
+        Me.GridColumn576.FieldName = "HandlesThirdParty"
+        Me.GridColumn576.Name = "GridColumn576"
+        Me.GridColumn576.Width = 171
+        '
+        'GridColumn577
+        '
+        Me.GridColumn577.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn577.Caption = "Maneja Centro de Costo"
+        Me.GridColumn577.FieldName = "HandlesCostCenter"
+        Me.GridColumn577.Name = "GridColumn577"
+        Me.GridColumn577.Width = 350
+        '
+        'GridColumn568
+        '
+        Me.GridColumn568.Caption = "Id"
+        Me.GridColumn568.FieldName = "Id"
+        Me.GridColumn568.Name = "GridColumn568"
+        '
+        'GridColumn569
+        '
+        Me.GridColumn569.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn569.Caption = "Código"
+        Me.GridColumn569.FieldName = "Number"
+        Me.GridColumn569.Name = "GridColumn569"
+        '
+        'GridColumn570
+        '
+        Me.GridColumn570.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn570.Caption = "Nombre"
+        Me.GridColumn570.FieldName = "Name"
+        Me.GridColumn570.Name = "GridColumn570"
+        Me.GridColumn570.Width = 88
+        '
+        'GridColumn571
+        '
+        Me.GridColumn571.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn571.Caption = "Maneja Tercero"
+        Me.GridColumn571.FieldName = "HandlesThirdParty"
+        Me.GridColumn571.Name = "GridColumn571"
+        Me.GridColumn571.Width = 171
+        '
+        'GridColumn572
+        '
+        Me.GridColumn572.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn572.Caption = "Maneja Centro de Costo"
+        Me.GridColumn572.FieldName = "HandlesCostCenter"
+        Me.GridColumn572.Name = "GridColumn572"
+        Me.GridColumn572.Width = 350
+        '
+        'GridColumn560
+        '
+        Me.GridColumn560.Caption = "Id"
+        Me.GridColumn560.FieldName = "Id"
+        Me.GridColumn560.Name = "GridColumn560"
+        '
+        'GridColumn561
+        '
+        Me.GridColumn561.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn561.Caption = "Código"
+        Me.GridColumn561.FieldName = "Number"
+        Me.GridColumn561.Name = "GridColumn561"
+        '
+        'GridColumn562
+        '
+        Me.GridColumn562.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn562.Caption = "Nombre"
+        Me.GridColumn562.FieldName = "Name"
+        Me.GridColumn562.Name = "GridColumn562"
+        Me.GridColumn562.Width = 88
+        '
+        'GridColumn563
+        '
+        Me.GridColumn563.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn563.Caption = "Maneja Tercero"
+        Me.GridColumn563.FieldName = "HandlesThirdParty"
+        Me.GridColumn563.Name = "GridColumn563"
+        Me.GridColumn563.Width = 171
+        '
+        'GridColumn564
+        '
+        Me.GridColumn564.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn564.Caption = "Maneja Centro de Costo"
+        Me.GridColumn564.FieldName = "HandlesCostCenter"
+        Me.GridColumn564.Name = "GridColumn564"
+        Me.GridColumn564.Width = 350
+        '
+        'GridColumn555
+        '
+        Me.GridColumn555.Caption = "Id"
+        Me.GridColumn555.FieldName = "Id"
+        Me.GridColumn555.Name = "GridColumn555"
+        '
+        'GridColumn556
+        '
+        Me.GridColumn556.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn556.Caption = "Código"
+        Me.GridColumn556.FieldName = "Number"
+        Me.GridColumn556.Name = "GridColumn556"
+        '
+        'GridColumn557
+        '
+        Me.GridColumn557.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn557.Caption = "Nombre"
+        Me.GridColumn557.FieldName = "Name"
+        Me.GridColumn557.Name = "GridColumn557"
+        Me.GridColumn557.Width = 88
+        '
+        'GridColumn558
+        '
+        Me.GridColumn558.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn558.Caption = "Maneja Tercero"
+        Me.GridColumn558.FieldName = "HandlesThirdParty"
+        Me.GridColumn558.Name = "GridColumn558"
+        Me.GridColumn558.Width = 171
+        '
+        'GridColumn559
+        '
+        Me.GridColumn559.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn559.Caption = "Maneja Centro de Costo"
+        Me.GridColumn559.FieldName = "HandlesCostCenter"
+        Me.GridColumn559.Name = "GridColumn559"
+        Me.GridColumn559.Width = 350
+        '
+        'GridColumn550
+        '
+        Me.GridColumn550.Caption = "Id"
+        Me.GridColumn550.FieldName = "Id"
+        Me.GridColumn550.MinWidth = 23
+        Me.GridColumn550.Name = "GridColumn550"
+        Me.GridColumn550.Width = 87
+        '
+        'GridColumn551
+        '
+        Me.GridColumn551.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn551.Caption = "Código"
+        Me.GridColumn551.FieldName = "Number"
+        Me.GridColumn551.MinWidth = 23
+        Me.GridColumn551.Name = "GridColumn551"
+        Me.GridColumn551.Width = 87
+        '
+        'GridColumn552
+        '
+        Me.GridColumn552.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn552.Caption = "Nombre"
+        Me.GridColumn552.FieldName = "Name"
+        Me.GridColumn552.MinWidth = 23
+        Me.GridColumn552.Name = "GridColumn552"
+        Me.GridColumn552.Width = 103
+        '
+        'GridColumn553
+        '
+        Me.GridColumn553.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn553.Caption = "Maneja Tercero"
+        Me.GridColumn553.FieldName = "HandlesThirdParty"
+        Me.GridColumn553.MinWidth = 23
+        Me.GridColumn553.Name = "GridColumn553"
+        Me.GridColumn553.Width = 199
+        '
+        'GridColumn554
+        '
+        Me.GridColumn554.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn554.Caption = "Maneja Centro de Costo"
+        Me.GridColumn554.FieldName = "HandlesCostCenter"
+        Me.GridColumn554.MinWidth = 23
+        Me.GridColumn554.Name = "GridColumn554"
+        Me.GridColumn554.Width = 408
+        '
+        'GridColumn545
+        '
+        Me.GridColumn545.Caption = "Id"
+        Me.GridColumn545.FieldName = "Id"
+        Me.GridColumn545.Name = "GridColumn545"
+        '
+        'GridColumn546
+        '
+        Me.GridColumn546.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn546.Caption = "Código"
+        Me.GridColumn546.FieldName = "Number"
+        Me.GridColumn546.Name = "GridColumn546"
+        Me.GridColumn546.Width = 77
+        '
+        'GridColumn547
+        '
+        Me.GridColumn547.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn547.Caption = "Nombre"
+        Me.GridColumn547.FieldName = "Name"
+        Me.GridColumn547.Name = "GridColumn547"
+        Me.GridColumn547.Width = 89
+        '
+        'GridColumn548
+        '
+        Me.GridColumn548.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn548.Caption = "Maneja Tercero"
+        Me.GridColumn548.FieldName = "HandlesThirdParty"
+        Me.GridColumn548.Name = "GridColumn548"
+        Me.GridColumn548.Width = 173
+        '
+        'GridColumn549
+        '
+        Me.GridColumn549.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn549.Caption = "Maneja Centro de Costo"
+        Me.GridColumn549.FieldName = "HandlesCostCenter"
+        Me.GridColumn549.Name = "GridColumn549"
+        Me.GridColumn549.Width = 350
+        '
+        'GridColumn540
+        '
+        Me.GridColumn540.Caption = "Id"
+        Me.GridColumn540.FieldName = "Id"
+        Me.GridColumn540.Name = "GridColumn540"
+        '
+        'GridColumn541
+        '
+        Me.GridColumn541.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn541.Caption = "Código"
+        Me.GridColumn541.FieldName = "Number"
+        Me.GridColumn541.Name = "GridColumn541"
+        Me.GridColumn541.Width = 77
+        '
+        'GridColumn542
+        '
+        Me.GridColumn542.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn542.Caption = "Nombre"
+        Me.GridColumn542.FieldName = "Name"
+        Me.GridColumn542.Name = "GridColumn542"
+        Me.GridColumn542.Width = 89
+        '
+        'GridColumn543
+        '
+        Me.GridColumn543.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn543.Caption = "Maneja Tercero"
+        Me.GridColumn543.FieldName = "HandlesThirdParty"
+        Me.GridColumn543.Name = "GridColumn543"
+        Me.GridColumn543.Width = 173
+        '
+        'GridColumn544
+        '
+        Me.GridColumn544.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn544.Caption = "Maneja Centro de Costo"
+        Me.GridColumn544.FieldName = "HandlesCostCenter"
+        Me.GridColumn544.Name = "GridColumn544"
+        Me.GridColumn544.Width = 350
+        '
+        'GridColumn535
+        '
+        Me.GridColumn535.Caption = "Id"
+        Me.GridColumn535.FieldName = "Id"
+        Me.GridColumn535.Name = "GridColumn535"
+        '
+        'GridColumn536
+        '
+        Me.GridColumn536.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn536.Caption = "Código"
+        Me.GridColumn536.FieldName = "Number"
+        Me.GridColumn536.Name = "GridColumn536"
+        Me.GridColumn536.Width = 77
+        '
+        'GridColumn537
+        '
+        Me.GridColumn537.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn537.Caption = "Nombre"
+        Me.GridColumn537.FieldName = "Name"
+        Me.GridColumn537.Name = "GridColumn537"
+        Me.GridColumn537.Width = 89
+        '
+        'GridColumn538
+        '
+        Me.GridColumn538.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn538.Caption = "Maneja Tercero"
+        Me.GridColumn538.FieldName = "HandlesThirdParty"
+        Me.GridColumn538.Name = "GridColumn538"
+        Me.GridColumn538.Width = 173
+        '
+        'GridColumn539
+        '
+        Me.GridColumn539.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn539.Caption = "Maneja Centro de Costo"
+        Me.GridColumn539.FieldName = "HandlesCostCenter"
+        Me.GridColumn539.Name = "GridColumn539"
+        Me.GridColumn539.Width = 350
+        '
+        'GridColumn530
+        '
+        Me.GridColumn530.Caption = "Id"
+        Me.GridColumn530.FieldName = "Id"
+        Me.GridColumn530.Name = "GridColumn530"
+        '
+        'GridColumn531
+        '
+        Me.GridColumn531.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn531.Caption = "Código"
+        Me.GridColumn531.FieldName = "Number"
+        Me.GridColumn531.Name = "GridColumn531"
+        Me.GridColumn531.Width = 77
+        '
+        'GridColumn532
+        '
+        Me.GridColumn532.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn532.Caption = "Nombre"
+        Me.GridColumn532.FieldName = "Name"
+        Me.GridColumn532.Name = "GridColumn532"
+        Me.GridColumn532.Width = 89
+        '
+        'GridColumn533
+        '
+        Me.GridColumn533.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn533.Caption = "Maneja Tercero"
+        Me.GridColumn533.FieldName = "HandlesThirdParty"
+        Me.GridColumn533.Name = "GridColumn533"
+        Me.GridColumn533.Width = 173
+        '
+        'GridColumn534
+        '
+        Me.GridColumn534.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn534.Caption = "Maneja Centro de Costo"
+        Me.GridColumn534.FieldName = "HandlesCostCenter"
+        Me.GridColumn534.Name = "GridColumn534"
+        Me.GridColumn534.Width = 350
+        '
+        'GridColumn525
+        '
+        Me.GridColumn525.Caption = "Id"
+        Me.GridColumn525.FieldName = "Id"
+        Me.GridColumn525.Name = "GridColumn525"
+        '
+        'GridColumn526
+        '
+        Me.GridColumn526.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn526.Caption = "Código"
+        Me.GridColumn526.FieldName = "Number"
+        Me.GridColumn526.Name = "GridColumn526"
+        Me.GridColumn526.Width = 77
+        '
+        'GridColumn527
+        '
+        Me.GridColumn527.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn527.Caption = "Nombre"
+        Me.GridColumn527.FieldName = "Name"
+        Me.GridColumn527.Name = "GridColumn527"
+        Me.GridColumn527.Width = 89
+        '
+        'GridColumn528
+        '
+        Me.GridColumn528.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn528.Caption = "Maneja Tercero"
+        Me.GridColumn528.FieldName = "HandlesThirdParty"
+        Me.GridColumn528.Name = "GridColumn528"
+        Me.GridColumn528.Width = 173
+        '
+        'GridColumn529
+        '
+        Me.GridColumn529.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn529.Caption = "Maneja Centro de Costo"
+        Me.GridColumn529.FieldName = "HandlesCostCenter"
+        Me.GridColumn529.Name = "GridColumn529"
+        Me.GridColumn529.Width = 350
+        '
+        'GridColumn520
+        '
+        Me.GridColumn520.Caption = "Id"
+        Me.GridColumn520.FieldName = "Id"
+        Me.GridColumn520.Name = "GridColumn520"
+        '
+        'GridColumn521
+        '
+        Me.GridColumn521.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn521.Caption = "Código"
+        Me.GridColumn521.FieldName = "Number"
+        Me.GridColumn521.Name = "GridColumn521"
+        Me.GridColumn521.Width = 77
+        '
+        'GridColumn522
+        '
+        Me.GridColumn522.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn522.Caption = "Nombre"
+        Me.GridColumn522.FieldName = "Name"
+        Me.GridColumn522.Name = "GridColumn522"
+        Me.GridColumn522.Width = 89
+        '
+        'GridColumn523
+        '
+        Me.GridColumn523.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn523.Caption = "Maneja Tercero"
+        Me.GridColumn523.FieldName = "HandlesThirdParty"
+        Me.GridColumn523.Name = "GridColumn523"
+        Me.GridColumn523.Width = 173
+        '
+        'GridColumn524
+        '
+        Me.GridColumn524.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn524.Caption = "Maneja Centro de Costo"
+        Me.GridColumn524.FieldName = "HandlesCostCenter"
+        Me.GridColumn524.Name = "GridColumn524"
+        Me.GridColumn524.Width = 350
+        '
+        'GridColumn515
+        '
+        Me.GridColumn515.Caption = "Id"
+        Me.GridColumn515.FieldName = "Id"
+        Me.GridColumn515.Name = "GridColumn515"
+        '
+        'GridColumn516
+        '
+        Me.GridColumn516.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn516.Caption = "Código"
+        Me.GridColumn516.FieldName = "Number"
+        Me.GridColumn516.Name = "GridColumn516"
+        Me.GridColumn516.Width = 77
+        '
+        'GridColumn517
+        '
+        Me.GridColumn517.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn517.Caption = "Nombre"
+        Me.GridColumn517.FieldName = "Name"
+        Me.GridColumn517.Name = "GridColumn517"
+        Me.GridColumn517.Width = 89
+        '
+        'GridColumn518
+        '
+        Me.GridColumn518.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn518.Caption = "Maneja Tercero"
+        Me.GridColumn518.FieldName = "HandlesThirdParty"
+        Me.GridColumn518.Name = "GridColumn518"
+        Me.GridColumn518.Width = 173
+        '
+        'GridColumn519
+        '
+        Me.GridColumn519.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn519.Caption = "Maneja Centro de Costo"
+        Me.GridColumn519.FieldName = "HandlesCostCenter"
+        Me.GridColumn519.Name = "GridColumn519"
+        Me.GridColumn519.Width = 350
+        '
+        'GridColumn510
+        '
+        Me.GridColumn510.Caption = "Id"
+        Me.GridColumn510.FieldName = "Id"
+        Me.GridColumn510.Name = "GridColumn510"
+        '
+        'GridColumn511
+        '
+        Me.GridColumn511.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn511.Caption = "Código"
+        Me.GridColumn511.FieldName = "Number"
+        Me.GridColumn511.Name = "GridColumn511"
+        Me.GridColumn511.Width = 80
+        '
+        'GridColumn512
+        '
+        Me.GridColumn512.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn512.Caption = "Nombre"
+        Me.GridColumn512.FieldName = "Name"
+        Me.GridColumn512.Name = "GridColumn512"
+        Me.GridColumn512.Width = 91
+        '
+        'GridColumn513
+        '
+        Me.GridColumn513.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn513.Caption = "Maneja Tercero"
+        Me.GridColumn513.FieldName = "HandlesThirdParty"
+        Me.GridColumn513.Name = "GridColumn513"
+        Me.GridColumn513.Width = 174
+        '
+        'GridColumn514
+        '
+        Me.GridColumn514.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn514.Caption = "Maneja Centro de Costo"
+        Me.GridColumn514.FieldName = "HandlesCostCenter"
+        Me.GridColumn514.Name = "GridColumn514"
+        Me.GridColumn514.Width = 350
+        '
+        'GridColumn505
+        '
+        Me.GridColumn505.Caption = "Id"
+        Me.GridColumn505.FieldName = "Id"
+        Me.GridColumn505.Name = "GridColumn505"
+        '
+        'GridColumn506
+        '
+        Me.GridColumn506.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn506.Caption = "Código"
+        Me.GridColumn506.FieldName = "Number"
+        Me.GridColumn506.Name = "GridColumn506"
+        Me.GridColumn506.Width = 300
+        '
+        'GridColumn507
+        '
+        Me.GridColumn507.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn507.Caption = "Nombre"
+        Me.GridColumn507.FieldName = "Name"
+        Me.GridColumn507.Name = "GridColumn507"
+        Me.GridColumn507.Width = 350
+        '
+        'GridColumn508
+        '
+        Me.GridColumn508.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn508.Caption = "Maneja Tercero"
+        Me.GridColumn508.FieldName = "HandlesThirdParty"
+        Me.GridColumn508.Name = "GridColumn508"
+        Me.GridColumn508.Width = 350
+        '
+        'GridColumn509
+        '
+        Me.GridColumn509.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn509.Caption = "Maneja Centro de Costo"
+        Me.GridColumn509.FieldName = "HandlesCostCenter"
+        Me.GridColumn509.Name = "GridColumn509"
+        Me.GridColumn509.Width = 350
+        '
+        'GridColumn500
+        '
+        Me.GridColumn500.Caption = "Id"
+        Me.GridColumn500.FieldName = "Id"
+        Me.GridColumn500.Name = "GridColumn500"
+        '
+        'GridColumn501
+        '
+        Me.GridColumn501.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn501.Caption = "Código"
+        Me.GridColumn501.FieldName = "Number"
+        Me.GridColumn501.Name = "GridColumn501"
+        Me.GridColumn501.Width = 300
+        '
+        'GridColumn502
+        '
+        Me.GridColumn502.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn502.Caption = "Nombre"
+        Me.GridColumn502.FieldName = "Name"
+        Me.GridColumn502.Name = "GridColumn502"
+        Me.GridColumn502.Width = 350
+        '
+        'GridColumn503
+        '
+        Me.GridColumn503.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn503.Caption = "Maneja Tercero"
+        Me.GridColumn503.FieldName = "HandlesThirdParty"
+        Me.GridColumn503.Name = "GridColumn503"
+        Me.GridColumn503.Width = 350
+        '
+        'GridColumn504
+        '
+        Me.GridColumn504.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn504.Caption = "Maneja Centro de Costo"
+        Me.GridColumn504.FieldName = "HandlesCostCenter"
+        Me.GridColumn504.Name = "GridColumn504"
+        Me.GridColumn504.Width = 350
+        '
+        'GridColumn495
+        '
+        Me.GridColumn495.Caption = "Id"
+        Me.GridColumn495.FieldName = "Id"
+        Me.GridColumn495.Name = "GridColumn495"
+        '
+        'GridColumn496
+        '
+        Me.GridColumn496.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn496.Caption = "Código"
+        Me.GridColumn496.FieldName = "Number"
+        Me.GridColumn496.Name = "GridColumn496"
+        Me.GridColumn496.Width = 300
+        '
+        'GridColumn497
+        '
+        Me.GridColumn497.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn497.Caption = "Nombre"
+        Me.GridColumn497.FieldName = "Name"
+        Me.GridColumn497.Name = "GridColumn497"
+        Me.GridColumn497.Width = 350
+        '
+        'GridColumn498
+        '
+        Me.GridColumn498.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn498.Caption = "Maneja Tercero"
+        Me.GridColumn498.FieldName = "HandlesThirdParty"
+        Me.GridColumn498.Name = "GridColumn498"
+        Me.GridColumn498.Width = 350
+        '
+        'GridColumn499
+        '
+        Me.GridColumn499.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn499.Caption = "Maneja Centro de Costo"
+        Me.GridColumn499.FieldName = "HandlesCostCenter"
+        Me.GridColumn499.Name = "GridColumn499"
+        Me.GridColumn499.Width = 350
+        '
+        'GridColumn487
+        '
+        Me.GridColumn487.Caption = "Id"
+        Me.GridColumn487.FieldName = "Id"
+        Me.GridColumn487.Name = "GridColumn487"
+        '
+        'GridColumn488
+        '
+        Me.GridColumn488.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn488.Caption = "Código"
+        Me.GridColumn488.FieldName = "Number"
+        Me.GridColumn488.Name = "GridColumn488"
+        Me.GridColumn488.Width = 300
+        '
+        'GridColumn489
+        '
+        Me.GridColumn489.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn489.Caption = "Nombre"
+        Me.GridColumn489.FieldName = "Name"
+        Me.GridColumn489.Name = "GridColumn489"
+        Me.GridColumn489.Width = 350
+        '
+        'GridColumn490
+        '
+        Me.GridColumn490.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn490.Caption = "Maneja Tercero"
+        Me.GridColumn490.FieldName = "HandlesThirdParty"
+        Me.GridColumn490.Name = "GridColumn490"
+        Me.GridColumn490.Width = 350
+        '
+        'GridColumn491
+        '
+        Me.GridColumn491.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn491.Caption = "Maneja Centro de Costo"
+        Me.GridColumn491.FieldName = "HandlesCostCenter"
+        Me.GridColumn491.Name = "GridColumn491"
+        Me.GridColumn491.Width = 350
+        '
+        'GridColumn482
+        '
+        Me.GridColumn482.Caption = "Id"
+        Me.GridColumn482.FieldName = "Id"
+        Me.GridColumn482.Name = "GridColumn482"
+        '
+        'GridColumn483
+        '
+        Me.GridColumn483.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn483.Caption = "Código"
+        Me.GridColumn483.FieldName = "Number"
+        Me.GridColumn483.Name = "GridColumn483"
+        Me.GridColumn483.Width = 300
+        '
+        'GridColumn484
+        '
+        Me.GridColumn484.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn484.Caption = "Nombre"
+        Me.GridColumn484.FieldName = "Name"
+        Me.GridColumn484.Name = "GridColumn484"
+        Me.GridColumn484.Width = 350
+        '
+        'GridColumn485
+        '
+        Me.GridColumn485.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn485.Caption = "Maneja Tercero"
+        Me.GridColumn485.FieldName = "HandlesThirdParty"
+        Me.GridColumn485.Name = "GridColumn485"
+        Me.GridColumn485.Width = 350
+        '
+        'GridColumn486
+        '
+        Me.GridColumn486.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn486.Caption = "Maneja Centro de Costo"
+        Me.GridColumn486.FieldName = "HandlesCostCenter"
+        Me.GridColumn486.Name = "GridColumn486"
+        Me.GridColumn486.Width = 350
+        '
+        'GridColumn477
+        '
+        Me.GridColumn477.Caption = "Id"
+        Me.GridColumn477.FieldName = "Id"
+        Me.GridColumn477.Name = "GridColumn477"
+        '
+        'GridColumn478
+        '
+        Me.GridColumn478.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn478.Caption = "Código"
+        Me.GridColumn478.FieldName = "Number"
+        Me.GridColumn478.Name = "GridColumn478"
+        Me.GridColumn478.Width = 300
+        '
+        'GridColumn479
+        '
+        Me.GridColumn479.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn479.Caption = "Nombre"
+        Me.GridColumn479.FieldName = "Name"
+        Me.GridColumn479.Name = "GridColumn479"
+        Me.GridColumn479.Width = 350
+        '
+        'GridColumn480
+        '
+        Me.GridColumn480.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn480.Caption = "Maneja Tercero"
+        Me.GridColumn480.FieldName = "HandlesThirdParty"
+        Me.GridColumn480.Name = "GridColumn480"
+        Me.GridColumn480.Width = 350
+        '
+        'GridColumn481
+        '
+        Me.GridColumn481.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn481.Caption = "Maneja Centro de Costo"
+        Me.GridColumn481.FieldName = "HandlesCostCenter"
+        Me.GridColumn481.Name = "GridColumn481"
+        Me.GridColumn481.Width = 350
+        '
+        'GridColumn472
+        '
+        Me.GridColumn472.Caption = "Id"
+        Me.GridColumn472.FieldName = "Id"
+        Me.GridColumn472.Name = "GridColumn472"
+        '
+        'GridColumn473
+        '
+        Me.GridColumn473.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn473.Caption = "Código"
+        Me.GridColumn473.FieldName = "Number"
+        Me.GridColumn473.Name = "GridColumn473"
+        Me.GridColumn473.Width = 300
+        '
+        'GridColumn474
+        '
+        Me.GridColumn474.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn474.Caption = "Nombre"
+        Me.GridColumn474.FieldName = "Name"
+        Me.GridColumn474.Name = "GridColumn474"
+        Me.GridColumn474.Width = 350
+        '
+        'GridColumn475
+        '
+        Me.GridColumn475.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn475.Caption = "Maneja Tercero"
+        Me.GridColumn475.FieldName = "HandlesThirdParty"
+        Me.GridColumn475.Name = "GridColumn475"
+        Me.GridColumn475.Width = 350
+        '
+        'GridColumn476
+        '
+        Me.GridColumn476.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn476.Caption = "Maneja Centro de Costo"
+        Me.GridColumn476.FieldName = "HandlesCostCenter"
+        Me.GridColumn476.Name = "GridColumn476"
+        Me.GridColumn476.Width = 350
+        '
+        'GridColumn467
+        '
+        Me.GridColumn467.Caption = "Id"
+        Me.GridColumn467.FieldName = "Id"
+        Me.GridColumn467.Name = "GridColumn467"
+        '
+        'GridColumn468
+        '
+        Me.GridColumn468.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn468.Caption = "Código"
+        Me.GridColumn468.FieldName = "Number"
+        Me.GridColumn468.Name = "GridColumn468"
+        Me.GridColumn468.Width = 300
+        '
+        'GridColumn469
+        '
+        Me.GridColumn469.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn469.Caption = "Nombre"
+        Me.GridColumn469.FieldName = "Name"
+        Me.GridColumn469.Name = "GridColumn469"
+        Me.GridColumn469.Width = 350
+        '
+        'GridColumn470
+        '
+        Me.GridColumn470.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn470.Caption = "Maneja Tercero"
+        Me.GridColumn470.FieldName = "HandlesThirdParty"
+        Me.GridColumn470.Name = "GridColumn470"
+        Me.GridColumn470.Width = 350
+        '
+        'GridColumn471
+        '
+        Me.GridColumn471.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn471.Caption = "Maneja Centro de Costo"
+        Me.GridColumn471.FieldName = "HandlesCostCenter"
+        Me.GridColumn471.Name = "GridColumn471"
+        Me.GridColumn471.Width = 350
+        '
+        'GridColumn462
+        '
+        Me.GridColumn462.Caption = "Id"
+        Me.GridColumn462.FieldName = "Id"
+        Me.GridColumn462.Name = "GridColumn462"
+        '
+        'GridColumn463
+        '
+        Me.GridColumn463.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn463.Caption = "Código"
+        Me.GridColumn463.FieldName = "Number"
+        Me.GridColumn463.Name = "GridColumn463"
+        Me.GridColumn463.Width = 300
+        '
+        'GridColumn464
+        '
+        Me.GridColumn464.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn464.Caption = "Nombre"
+        Me.GridColumn464.FieldName = "Name"
+        Me.GridColumn464.Name = "GridColumn464"
+        Me.GridColumn464.Width = 350
+        '
+        'GridColumn465
+        '
+        Me.GridColumn465.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn465.Caption = "Maneja Tercero"
+        Me.GridColumn465.FieldName = "HandlesThirdParty"
+        Me.GridColumn465.Name = "GridColumn465"
+        Me.GridColumn465.Width = 350
+        '
+        'GridColumn466
+        '
+        Me.GridColumn466.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn466.Caption = "Maneja Centro de Costo"
+        Me.GridColumn466.FieldName = "HandlesCostCenter"
+        Me.GridColumn466.Name = "GridColumn466"
+        Me.GridColumn466.Width = 350
+        '
+        'GridColumn457
+        '
+        Me.GridColumn457.Caption = "Id"
+        Me.GridColumn457.FieldName = "Id"
+        Me.GridColumn457.Name = "GridColumn457"
+        '
+        'GridColumn458
+        '
+        Me.GridColumn458.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn458.Caption = "Código"
+        Me.GridColumn458.FieldName = "Number"
+        Me.GridColumn458.Name = "GridColumn458"
+        Me.GridColumn458.Width = 300
+        '
+        'GridColumn459
+        '
+        Me.GridColumn459.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn459.Caption = "Nombre"
+        Me.GridColumn459.FieldName = "Name"
+        Me.GridColumn459.Name = "GridColumn459"
+        Me.GridColumn459.Width = 350
+        '
+        'GridColumn460
+        '
+        Me.GridColumn460.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn460.Caption = "Maneja Tercero"
+        Me.GridColumn460.FieldName = "HandlesThirdParty"
+        Me.GridColumn460.Name = "GridColumn460"
+        Me.GridColumn460.Width = 350
+        '
+        'GridColumn461
+        '
+        Me.GridColumn461.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn461.Caption = "Maneja Centro de Costo"
+        Me.GridColumn461.FieldName = "HandlesCostCenter"
+        Me.GridColumn461.Name = "GridColumn461"
+        Me.GridColumn461.Width = 350
+        '
+        'GridColumn452
+        '
+        Me.GridColumn452.Caption = "Id"
+        Me.GridColumn452.FieldName = "Id"
+        Me.GridColumn452.Name = "GridColumn452"
+        '
+        'GridColumn453
+        '
+        Me.GridColumn453.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn453.Caption = "Código"
+        Me.GridColumn453.FieldName = "Number"
+        Me.GridColumn453.Name = "GridColumn453"
+        Me.GridColumn453.Width = 300
+        '
+        'GridColumn454
+        '
+        Me.GridColumn454.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn454.Caption = "Nombre"
+        Me.GridColumn454.FieldName = "Name"
+        Me.GridColumn454.Name = "GridColumn454"
+        Me.GridColumn454.Width = 350
+        '
+        'GridColumn455
+        '
+        Me.GridColumn455.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn455.Caption = "Maneja Tercero"
+        Me.GridColumn455.FieldName = "HandlesThirdParty"
+        Me.GridColumn455.Name = "GridColumn455"
+        Me.GridColumn455.Width = 350
+        '
+        'GridColumn456
+        '
+        Me.GridColumn456.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn456.Caption = "Maneja Centro de Costo"
+        Me.GridColumn456.FieldName = "HandlesCostCenter"
+        Me.GridColumn456.Name = "GridColumn456"
+        Me.GridColumn456.Width = 350
+        '
+        'GridColumn447
+        '
+        Me.GridColumn447.Caption = "Id"
+        Me.GridColumn447.FieldName = "Id"
+        Me.GridColumn447.Name = "GridColumn447"
+        '
+        'GridColumn448
+        '
+        Me.GridColumn448.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn448.Caption = "Código"
+        Me.GridColumn448.FieldName = "Number"
+        Me.GridColumn448.Name = "GridColumn448"
+        Me.GridColumn448.Width = 300
+        '
+        'GridColumn449
+        '
+        Me.GridColumn449.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn449.Caption = "Nombre"
+        Me.GridColumn449.FieldName = "Name"
+        Me.GridColumn449.Name = "GridColumn449"
+        Me.GridColumn449.Width = 350
+        '
+        'GridColumn450
+        '
+        Me.GridColumn450.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn450.Caption = "Maneja Tercero"
+        Me.GridColumn450.FieldName = "HandlesThirdParty"
+        Me.GridColumn450.Name = "GridColumn450"
+        Me.GridColumn450.Width = 350
+        '
+        'GridColumn451
+        '
+        Me.GridColumn451.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn451.Caption = "Maneja Centro de Costo"
+        Me.GridColumn451.FieldName = "HandlesCostCenter"
+        Me.GridColumn451.Name = "GridColumn451"
+        Me.GridColumn451.Width = 350
+        '
+        'GridColumn442
+        '
+        Me.GridColumn442.Caption = "Id"
+        Me.GridColumn442.FieldName = "Id"
+        Me.GridColumn442.Name = "GridColumn442"
+        '
+        'GridColumn443
+        '
+        Me.GridColumn443.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn443.Caption = "Código"
+        Me.GridColumn443.FieldName = "Number"
+        Me.GridColumn443.Name = "GridColumn443"
+        Me.GridColumn443.Width = 300
+        '
+        'GridColumn444
+        '
+        Me.GridColumn444.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn444.Caption = "Nombre"
+        Me.GridColumn444.FieldName = "Name"
+        Me.GridColumn444.Name = "GridColumn444"
+        Me.GridColumn444.Width = 350
+        '
+        'GridColumn445
+        '
+        Me.GridColumn445.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn445.Caption = "Maneja Tercero"
+        Me.GridColumn445.FieldName = "HandlesThirdParty"
+        Me.GridColumn445.Name = "GridColumn445"
+        Me.GridColumn445.Width = 350
+        '
+        'GridColumn446
+        '
+        Me.GridColumn446.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn446.Caption = "Maneja Centro de Costo"
+        Me.GridColumn446.FieldName = "HandlesCostCenter"
+        Me.GridColumn446.Name = "GridColumn446"
+        Me.GridColumn446.Width = 350
+        '
+        'GridColumn437
+        '
+        Me.GridColumn437.Caption = "Id"
+        Me.GridColumn437.FieldName = "Id"
+        Me.GridColumn437.Name = "GridColumn437"
+        '
+        'GridColumn438
+        '
+        Me.GridColumn438.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn438.Caption = "Código"
+        Me.GridColumn438.FieldName = "Number"
+        Me.GridColumn438.Name = "GridColumn438"
+        Me.GridColumn438.Width = 300
+        '
+        'GridColumn439
+        '
+        Me.GridColumn439.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn439.Caption = "Nombre"
+        Me.GridColumn439.FieldName = "Name"
+        Me.GridColumn439.Name = "GridColumn439"
+        Me.GridColumn439.Width = 350
+        '
+        'GridColumn440
+        '
+        Me.GridColumn440.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn440.Caption = "Maneja Tercero"
+        Me.GridColumn440.FieldName = "HandlesThirdParty"
+        Me.GridColumn440.Name = "GridColumn440"
+        Me.GridColumn440.Width = 350
+        '
+        'GridColumn441
+        '
+        Me.GridColumn441.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn441.Caption = "Maneja Centro de Costo"
+        Me.GridColumn441.FieldName = "HandlesCostCenter"
+        Me.GridColumn441.Name = "GridColumn441"
+        Me.GridColumn441.Width = 350
+        '
+        'GridColumn432
+        '
+        Me.GridColumn432.Caption = "Id"
+        Me.GridColumn432.FieldName = "Id"
+        Me.GridColumn432.Name = "GridColumn432"
+        '
+        'GridColumn433
+        '
+        Me.GridColumn433.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn433.Caption = "Código"
+        Me.GridColumn433.FieldName = "Number"
+        Me.GridColumn433.Name = "GridColumn433"
+        Me.GridColumn433.Width = 300
+        '
+        'GridColumn434
+        '
+        Me.GridColumn434.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn434.Caption = "Nombre"
+        Me.GridColumn434.FieldName = "Name"
+        Me.GridColumn434.Name = "GridColumn434"
+        Me.GridColumn434.Width = 350
+        '
+        'GridColumn435
+        '
+        Me.GridColumn435.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn435.Caption = "Maneja Tercero"
+        Me.GridColumn435.FieldName = "HandlesThirdParty"
+        Me.GridColumn435.Name = "GridColumn435"
+        Me.GridColumn435.Width = 350
+        '
+        'GridColumn436
+        '
+        Me.GridColumn436.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn436.Caption = "Maneja Centro de Costo"
+        Me.GridColumn436.FieldName = "HandlesCostCenter"
+        Me.GridColumn436.Name = "GridColumn436"
+        Me.GridColumn436.Width = 350
+        '
+        'GridColumn427
+        '
+        Me.GridColumn427.Caption = "Id"
+        Me.GridColumn427.FieldName = "Id"
+        Me.GridColumn427.Name = "GridColumn427"
+        '
+        'GridColumn428
+        '
+        Me.GridColumn428.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn428.Caption = "Código"
+        Me.GridColumn428.FieldName = "Number"
+        Me.GridColumn428.Name = "GridColumn428"
+        Me.GridColumn428.Width = 300
+        '
+        'GridColumn429
+        '
+        Me.GridColumn429.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn429.Caption = "Nombre"
+        Me.GridColumn429.FieldName = "Name"
+        Me.GridColumn429.Name = "GridColumn429"
+        Me.GridColumn429.Width = 350
+        '
+        'GridColumn430
+        '
+        Me.GridColumn430.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn430.Caption = "Maneja Tercero"
+        Me.GridColumn430.FieldName = "HandlesThirdParty"
+        Me.GridColumn430.Name = "GridColumn430"
+        Me.GridColumn430.Width = 350
+        '
+        'GridColumn431
+        '
+        Me.GridColumn431.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn431.Caption = "Maneja Centro de Costo"
+        Me.GridColumn431.FieldName = "HandlesCostCenter"
+        Me.GridColumn431.Name = "GridColumn431"
+        Me.GridColumn431.Width = 350
+        '
+        'GridColumn422
+        '
+        Me.GridColumn422.Caption = "Id"
+        Me.GridColumn422.FieldName = "Id"
+        Me.GridColumn422.Name = "GridColumn422"
+        '
+        'GridColumn423
+        '
+        Me.GridColumn423.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn423.Caption = "Código"
+        Me.GridColumn423.FieldName = "Number"
+        Me.GridColumn423.Name = "GridColumn423"
+        Me.GridColumn423.Width = 300
+        '
+        'GridColumn424
+        '
+        Me.GridColumn424.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn424.Caption = "Nombre"
+        Me.GridColumn424.FieldName = "Name"
+        Me.GridColumn424.Name = "GridColumn424"
+        Me.GridColumn424.Width = 350
+        '
+        'GridColumn425
+        '
+        Me.GridColumn425.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn425.Caption = "Maneja Tercero"
+        Me.GridColumn425.FieldName = "HandlesThirdParty"
+        Me.GridColumn425.Name = "GridColumn425"
+        Me.GridColumn425.Width = 350
+        '
+        'GridColumn426
+        '
+        Me.GridColumn426.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn426.Caption = "Maneja Centro de Costo"
+        Me.GridColumn426.FieldName = "HandlesCostCenter"
+        Me.GridColumn426.Name = "GridColumn426"
+        Me.GridColumn426.Width = 350
+        '
+        'GridColumn417
+        '
+        Me.GridColumn417.Caption = "Id"
+        Me.GridColumn417.FieldName = "Id"
+        Me.GridColumn417.Name = "GridColumn417"
+        '
+        'GridColumn418
+        '
+        Me.GridColumn418.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn418.Caption = "Código"
+        Me.GridColumn418.FieldName = "Number"
+        Me.GridColumn418.Name = "GridColumn418"
+        Me.GridColumn418.Width = 300
+        '
+        'GridColumn419
+        '
+        Me.GridColumn419.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn419.Caption = "Nombre"
+        Me.GridColumn419.FieldName = "Name"
+        Me.GridColumn419.Name = "GridColumn419"
+        Me.GridColumn419.Width = 350
+        '
+        'GridColumn420
+        '
+        Me.GridColumn420.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn420.Caption = "Maneja Tercero"
+        Me.GridColumn420.FieldName = "HandlesThirdParty"
+        Me.GridColumn420.Name = "GridColumn420"
+        Me.GridColumn420.Width = 350
+        '
+        'GridColumn421
+        '
+        Me.GridColumn421.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn421.Caption = "Maneja Centro de Costo"
+        Me.GridColumn421.FieldName = "HandlesCostCenter"
+        Me.GridColumn421.Name = "GridColumn421"
+        Me.GridColumn421.Width = 350
+        '
+        'GridColumn412
+        '
+        Me.GridColumn412.Caption = "Id"
+        Me.GridColumn412.FieldName = "Id"
+        Me.GridColumn412.Name = "GridColumn412"
+        '
+        'GridColumn413
+        '
+        Me.GridColumn413.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn413.Caption = "Código"
+        Me.GridColumn413.FieldName = "Number"
+        Me.GridColumn413.Name = "GridColumn413"
+        Me.GridColumn413.Width = 300
+        '
+        'GridColumn414
+        '
+        Me.GridColumn414.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn414.Caption = "Nombre"
+        Me.GridColumn414.FieldName = "Name"
+        Me.GridColumn414.Name = "GridColumn414"
+        Me.GridColumn414.Width = 350
+        '
+        'GridColumn415
+        '
+        Me.GridColumn415.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn415.Caption = "Maneja Tercero"
+        Me.GridColumn415.FieldName = "HandlesThirdParty"
+        Me.GridColumn415.Name = "GridColumn415"
+        Me.GridColumn415.Width = 350
+        '
+        'GridColumn416
+        '
+        Me.GridColumn416.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn416.Caption = "Maneja Centro de Costo"
+        Me.GridColumn416.FieldName = "HandlesCostCenter"
+        Me.GridColumn416.Name = "GridColumn416"
+        Me.GridColumn416.Width = 350
+        '
+        'GridColumn407
+        '
+        Me.GridColumn407.Caption = "Id"
+        Me.GridColumn407.FieldName = "Id"
+        Me.GridColumn407.Name = "GridColumn407"
+        '
+        'GridColumn408
+        '
+        Me.GridColumn408.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn408.Caption = "Código"
+        Me.GridColumn408.FieldName = "Number"
+        Me.GridColumn408.Name = "GridColumn408"
+        Me.GridColumn408.Width = 300
+        '
+        'GridColumn409
+        '
+        Me.GridColumn409.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn409.Caption = "Nombre"
+        Me.GridColumn409.FieldName = "Name"
+        Me.GridColumn409.Name = "GridColumn409"
+        Me.GridColumn409.Width = 350
+        '
+        'GridColumn410
+        '
+        Me.GridColumn410.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn410.Caption = "Maneja Tercero"
+        Me.GridColumn410.FieldName = "HandlesThirdParty"
+        Me.GridColumn410.Name = "GridColumn410"
+        Me.GridColumn410.Width = 350
+        '
+        'GridColumn411
+        '
+        Me.GridColumn411.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn411.Caption = "Maneja Centro de Costo"
+        Me.GridColumn411.FieldName = "HandlesCostCenter"
+        Me.GridColumn411.Name = "GridColumn411"
+        Me.GridColumn411.Width = 350
+        '
+        'GridColumn402
+        '
+        Me.GridColumn402.Caption = "Id"
+        Me.GridColumn402.FieldName = "Id"
+        Me.GridColumn402.Name = "GridColumn402"
+        '
+        'GridColumn403
+        '
+        Me.GridColumn403.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn403.Caption = "Código"
+        Me.GridColumn403.FieldName = "Number"
+        Me.GridColumn403.Name = "GridColumn403"
+        Me.GridColumn403.Width = 300
+        '
+        'GridColumn404
+        '
+        Me.GridColumn404.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn404.Caption = "Nombre"
+        Me.GridColumn404.FieldName = "Name"
+        Me.GridColumn404.Name = "GridColumn404"
+        Me.GridColumn404.Width = 350
+        '
+        'GridColumn405
+        '
+        Me.GridColumn405.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn405.Caption = "Maneja Tercero"
+        Me.GridColumn405.FieldName = "HandlesThirdParty"
+        Me.GridColumn405.Name = "GridColumn405"
+        Me.GridColumn405.Width = 350
+        '
+        'GridColumn406
+        '
+        Me.GridColumn406.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn406.Caption = "Maneja Centro de Costo"
+        Me.GridColumn406.FieldName = "HandlesCostCenter"
+        Me.GridColumn406.Name = "GridColumn406"
+        Me.GridColumn406.Width = 350
+        '
+        'GridColumn397
+        '
+        Me.GridColumn397.Caption = "Id"
+        Me.GridColumn397.FieldName = "Id"
+        Me.GridColumn397.Name = "GridColumn397"
+        '
+        'GridColumn398
+        '
+        Me.GridColumn398.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn398.Caption = "Código"
+        Me.GridColumn398.FieldName = "Number"
+        Me.GridColumn398.Name = "GridColumn398"
+        Me.GridColumn398.Width = 300
+        '
+        'GridColumn399
+        '
+        Me.GridColumn399.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn399.Caption = "Nombre"
+        Me.GridColumn399.FieldName = "Name"
+        Me.GridColumn399.Name = "GridColumn399"
+        Me.GridColumn399.Width = 350
+        '
+        'GridColumn400
+        '
+        Me.GridColumn400.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn400.Caption = "Maneja Tercero"
+        Me.GridColumn400.FieldName = "HandlesThirdParty"
+        Me.GridColumn400.Name = "GridColumn400"
+        Me.GridColumn400.Width = 350
+        '
+        'GridColumn401
+        '
+        Me.GridColumn401.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn401.Caption = "Maneja Centro de Costo"
+        Me.GridColumn401.FieldName = "HandlesCostCenter"
+        Me.GridColumn401.Name = "GridColumn401"
+        Me.GridColumn401.Width = 350
+        '
+        'GridColumn392
+        '
+        Me.GridColumn392.Caption = "Id"
+        Me.GridColumn392.FieldName = "Id"
+        Me.GridColumn392.Name = "GridColumn392"
+        '
+        'GridColumn393
+        '
+        Me.GridColumn393.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn393.Caption = "Código"
+        Me.GridColumn393.FieldName = "Number"
+        Me.GridColumn393.Name = "GridColumn393"
+        Me.GridColumn393.Width = 300
+        '
+        'GridColumn394
+        '
+        Me.GridColumn394.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn394.Caption = "Nombre"
+        Me.GridColumn394.FieldName = "Name"
+        Me.GridColumn394.Name = "GridColumn394"
+        Me.GridColumn394.Width = 350
+        '
+        'GridColumn395
+        '
+        Me.GridColumn395.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn395.Caption = "Maneja Tercero"
+        Me.GridColumn395.FieldName = "HandlesThirdParty"
+        Me.GridColumn395.Name = "GridColumn395"
+        Me.GridColumn395.Width = 350
+        '
+        'GridColumn396
+        '
+        Me.GridColumn396.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn396.Caption = "Maneja Centro de Costo"
+        Me.GridColumn396.FieldName = "HandlesCostCenter"
+        Me.GridColumn396.Name = "GridColumn396"
+        Me.GridColumn396.Width = 350
+        '
+        'GridColumn371
+        '
+        Me.GridColumn371.Caption = "Id"
+        Me.GridColumn371.FieldName = "Id"
+        Me.GridColumn371.Name = "GridColumn371"
+        '
+        'GridColumn372
+        '
+        Me.GridColumn372.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn372.Caption = "Código"
+        Me.GridColumn372.FieldName = "Number"
+        Me.GridColumn372.Name = "GridColumn372"
+        Me.GridColumn372.Width = 300
+        '
+        'GridColumn373
+        '
+        Me.GridColumn373.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn373.Caption = "Nombre"
+        Me.GridColumn373.FieldName = "Name"
+        Me.GridColumn373.Name = "GridColumn373"
+        Me.GridColumn373.Width = 350
+        '
+        'GridColumn374
+        '
+        Me.GridColumn374.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn374.Caption = "Maneja Tercero"
+        Me.GridColumn374.FieldName = "HandlesThirdParty"
+        Me.GridColumn374.Name = "GridColumn374"
+        Me.GridColumn374.Width = 350
+        '
+        'GridColumn375
+        '
+        Me.GridColumn375.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn375.Caption = "Maneja Centro de Costo"
+        Me.GridColumn375.FieldName = "HandlesCostCenter"
+        Me.GridColumn375.Name = "GridColumn375"
+        Me.GridColumn375.Width = 350
+        '
+        'GridColumn366
+        '
+        Me.GridColumn366.Caption = "Id"
+        Me.GridColumn366.FieldName = "Id"
+        Me.GridColumn366.Name = "GridColumn366"
+        '
+        'GridColumn367
+        '
+        Me.GridColumn367.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn367.Caption = "Código"
+        Me.GridColumn367.FieldName = "Number"
+        Me.GridColumn367.Name = "GridColumn367"
+        Me.GridColumn367.Width = 300
+        '
+        'GridColumn368
+        '
+        Me.GridColumn368.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn368.Caption = "Nombre"
+        Me.GridColumn368.FieldName = "Name"
+        Me.GridColumn368.Name = "GridColumn368"
+        Me.GridColumn368.Width = 350
+        '
+        'GridColumn369
+        '
+        Me.GridColumn369.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn369.Caption = "Maneja Tercero"
+        Me.GridColumn369.FieldName = "HandlesThirdParty"
+        Me.GridColumn369.Name = "GridColumn369"
+        Me.GridColumn369.Width = 350
+        '
+        'GridColumn370
+        '
+        Me.GridColumn370.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn370.Caption = "Maneja Centro de Costo"
+        Me.GridColumn370.FieldName = "HandlesCostCenter"
+        Me.GridColumn370.Name = "GridColumn370"
+        Me.GridColumn370.Width = 350
+        '
+        'GridColumn361
+        '
+        Me.GridColumn361.Caption = "Id"
+        Me.GridColumn361.FieldName = "Id"
+        Me.GridColumn361.Name = "GridColumn361"
+        '
+        'GridColumn362
+        '
+        Me.GridColumn362.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn362.Caption = "Código"
+        Me.GridColumn362.FieldName = "Number"
+        Me.GridColumn362.Name = "GridColumn362"
+        Me.GridColumn362.Width = 300
+        '
+        'GridColumn363
+        '
+        Me.GridColumn363.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn363.Caption = "Nombre"
+        Me.GridColumn363.FieldName = "Name"
+        Me.GridColumn363.Name = "GridColumn363"
+        Me.GridColumn363.Width = 350
+        '
+        'GridColumn364
+        '
+        Me.GridColumn364.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn364.Caption = "Maneja Tercero"
+        Me.GridColumn364.FieldName = "HandlesThirdParty"
+        Me.GridColumn364.Name = "GridColumn364"
+        Me.GridColumn364.Width = 350
+        '
+        'GridColumn365
+        '
+        Me.GridColumn365.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn365.Caption = "Maneja Centro de Costo"
+        Me.GridColumn365.FieldName = "HandlesCostCenter"
+        Me.GridColumn365.Name = "GridColumn365"
+        Me.GridColumn365.Width = 350
+        '
+        'GridColumn356
+        '
+        Me.GridColumn356.Caption = "Id"
+        Me.GridColumn356.FieldName = "Id"
+        Me.GridColumn356.Name = "GridColumn356"
+        '
+        'GridColumn357
+        '
+        Me.GridColumn357.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn357.Caption = "Código"
+        Me.GridColumn357.FieldName = "Number"
+        Me.GridColumn357.Name = "GridColumn357"
+        Me.GridColumn357.Width = 300
+        '
+        'GridColumn358
+        '
+        Me.GridColumn358.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn358.Caption = "Nombre"
+        Me.GridColumn358.FieldName = "Name"
+        Me.GridColumn358.Name = "GridColumn358"
+        Me.GridColumn358.Width = 350
+        '
+        'GridColumn359
+        '
+        Me.GridColumn359.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn359.Caption = "Maneja Tercero"
+        Me.GridColumn359.FieldName = "HandlesThirdParty"
+        Me.GridColumn359.Name = "GridColumn359"
+        Me.GridColumn359.Width = 350
+        '
+        'GridColumn360
+        '
+        Me.GridColumn360.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn360.Caption = "Maneja Centro de Costo"
+        Me.GridColumn360.FieldName = "HandlesCostCenter"
+        Me.GridColumn360.Name = "GridColumn360"
+        Me.GridColumn360.Width = 350
+        '
+        'GridColumn351
+        '
+        Me.GridColumn351.Caption = "Id"
+        Me.GridColumn351.FieldName = "Id"
+        Me.GridColumn351.Name = "GridColumn351"
+        '
+        'GridColumn352
+        '
+        Me.GridColumn352.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn352.Caption = "Código"
+        Me.GridColumn352.FieldName = "Number"
+        Me.GridColumn352.Name = "GridColumn352"
+        Me.GridColumn352.Width = 300
+        '
+        'GridColumn353
+        '
+        Me.GridColumn353.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn353.Caption = "Nombre"
+        Me.GridColumn353.FieldName = "Name"
+        Me.GridColumn353.Name = "GridColumn353"
+        Me.GridColumn353.Width = 350
+        '
+        'GridColumn354
+        '
+        Me.GridColumn354.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn354.Caption = "Maneja Tercero"
+        Me.GridColumn354.FieldName = "HandlesThirdParty"
+        Me.GridColumn354.Name = "GridColumn354"
+        Me.GridColumn354.Width = 350
+        '
+        'GridColumn355
+        '
+        Me.GridColumn355.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn355.Caption = "Maneja Centro de Costo"
+        Me.GridColumn355.FieldName = "HandlesCostCenter"
+        Me.GridColumn355.Name = "GridColumn355"
+        Me.GridColumn355.Width = 350
+        '
+        'GridColumn346
+        '
+        Me.GridColumn346.Caption = "Id"
+        Me.GridColumn346.FieldName = "Id"
+        Me.GridColumn346.Name = "GridColumn346"
+        '
+        'GridColumn347
+        '
+        Me.GridColumn347.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn347.Caption = "Código"
+        Me.GridColumn347.FieldName = "Number"
+        Me.GridColumn347.Name = "GridColumn347"
+        Me.GridColumn347.Width = 300
+        '
+        'GridColumn348
+        '
+        Me.GridColumn348.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn348.Caption = "Nombre"
+        Me.GridColumn348.FieldName = "Name"
+        Me.GridColumn348.Name = "GridColumn348"
+        Me.GridColumn348.Width = 350
+        '
+        'GridColumn349
+        '
+        Me.GridColumn349.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn349.Caption = "Maneja Tercero"
+        Me.GridColumn349.FieldName = "HandlesThirdParty"
+        Me.GridColumn349.Name = "GridColumn349"
+        Me.GridColumn349.Width = 350
+        '
+        'GridColumn350
+        '
+        Me.GridColumn350.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn350.Caption = "Maneja Centro de Costo"
+        Me.GridColumn350.FieldName = "HandlesCostCenter"
+        Me.GridColumn350.Name = "GridColumn350"
+        Me.GridColumn350.Width = 350
+        '
+        'GridColumn341
+        '
+        Me.GridColumn341.Caption = "Id"
+        Me.GridColumn341.FieldName = "Id"
+        Me.GridColumn341.Name = "GridColumn341"
+        '
+        'GridColumn342
+        '
+        Me.GridColumn342.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn342.Caption = "Código"
+        Me.GridColumn342.FieldName = "Number"
+        Me.GridColumn342.Name = "GridColumn342"
+        Me.GridColumn342.Width = 300
+        '
+        'GridColumn343
+        '
+        Me.GridColumn343.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn343.Caption = "Nombre"
+        Me.GridColumn343.FieldName = "Name"
+        Me.GridColumn343.Name = "GridColumn343"
+        Me.GridColumn343.Width = 350
+        '
+        'GridColumn344
+        '
+        Me.GridColumn344.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn344.Caption = "Maneja Tercero"
+        Me.GridColumn344.FieldName = "HandlesThirdParty"
+        Me.GridColumn344.Name = "GridColumn344"
+        Me.GridColumn344.Width = 350
+        '
+        'GridColumn345
+        '
+        Me.GridColumn345.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn345.Caption = "Maneja Centro de Costo"
+        Me.GridColumn345.FieldName = "HandlesCostCenter"
+        Me.GridColumn345.Name = "GridColumn345"
+        Me.GridColumn345.Width = 350
+        '
+        'GridColumn336
+        '
+        Me.GridColumn336.Caption = "Id"
+        Me.GridColumn336.FieldName = "Id"
+        Me.GridColumn336.Name = "GridColumn336"
+        '
+        'GridColumn337
+        '
+        Me.GridColumn337.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn337.Caption = "Código"
+        Me.GridColumn337.FieldName = "Number"
+        Me.GridColumn337.Name = "GridColumn337"
+        Me.GridColumn337.Width = 300
+        '
+        'GridColumn338
+        '
+        Me.GridColumn338.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn338.Caption = "Nombre"
+        Me.GridColumn338.FieldName = "Name"
+        Me.GridColumn338.Name = "GridColumn338"
+        Me.GridColumn338.Width = 350
+        '
+        'GridColumn339
+        '
+        Me.GridColumn339.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn339.Caption = "Maneja Tercero"
+        Me.GridColumn339.FieldName = "HandlesThirdParty"
+        Me.GridColumn339.Name = "GridColumn339"
+        Me.GridColumn339.Width = 350
+        '
+        'GridColumn340
+        '
+        Me.GridColumn340.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn340.Caption = "Maneja Centro de Costo"
+        Me.GridColumn340.FieldName = "HandlesCostCenter"
+        Me.GridColumn340.Name = "GridColumn340"
+        Me.GridColumn340.Width = 350
+        '
+        'GridColumn164
+        '
+        Me.GridColumn164.Caption = "Id"
+        Me.GridColumn164.FieldName = "Id"
+        Me.GridColumn164.Name = "GridColumn164"
+        '
+        'GridColumn165
+        '
+        Me.GridColumn165.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn165.Caption = "Código"
+        Me.GridColumn165.FieldName = "Number"
+        Me.GridColumn165.Name = "GridColumn165"
+        Me.GridColumn165.Width = 300
+        '
+        'GridColumn166
+        '
+        Me.GridColumn166.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn166.Caption = "Nombre"
+        Me.GridColumn166.FieldName = "Name"
+        Me.GridColumn166.Name = "GridColumn166"
+        Me.GridColumn166.Width = 350
+        '
+        'GridColumn334
+        '
+        Me.GridColumn334.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn334.Caption = "Maneja Tercero"
+        Me.GridColumn334.FieldName = "HandlesThirdParty"
+        Me.GridColumn334.Name = "GridColumn334"
+        Me.GridColumn334.Width = 350
+        '
+        'GridColumn335
+        '
+        Me.GridColumn335.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn335.Caption = "Maneja Centro de Costo"
+        Me.GridColumn335.FieldName = "HandlesCostCenter"
+        Me.GridColumn335.Name = "GridColumn335"
+        Me.GridColumn335.Width = 350
+        '
+        'GridColumn326
+        '
+        Me.GridColumn326.Caption = "Id"
+        Me.GridColumn326.FieldName = "Id"
+        Me.GridColumn326.Name = "GridColumn326"
+        '
+        'GridColumn327
+        '
+        Me.GridColumn327.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn327.Caption = "Código"
+        Me.GridColumn327.FieldName = "Number"
+        Me.GridColumn327.Name = "GridColumn327"
+        Me.GridColumn327.Width = 300
+        '
+        'GridColumn328
+        '
+        Me.GridColumn328.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn328.Caption = "Nombre"
+        Me.GridColumn328.FieldName = "Name"
+        Me.GridColumn328.Name = "GridColumn328"
+        Me.GridColumn328.Width = 350
+        '
+        'GridColumn329
+        '
+        Me.GridColumn329.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn329.Caption = "Maneja Tercero"
+        Me.GridColumn329.FieldName = "HandlesThirdParty"
+        Me.GridColumn329.Name = "GridColumn329"
+        Me.GridColumn329.Width = 350
+        '
+        'GridColumn330
+        '
+        Me.GridColumn330.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn330.Caption = "Maneja Centro de Costo"
+        Me.GridColumn330.FieldName = "HandlesCostCenter"
+        Me.GridColumn330.Name = "GridColumn330"
+        Me.GridColumn330.Width = 350
+        '
+        'GridColumn321
+        '
+        Me.GridColumn321.Caption = "Id"
+        Me.GridColumn321.FieldName = "Id"
+        Me.GridColumn321.Name = "GridColumn321"
+        '
+        'GridColumn322
+        '
+        Me.GridColumn322.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn322.Caption = "Código"
+        Me.GridColumn322.FieldName = "Number"
+        Me.GridColumn322.Name = "GridColumn322"
+        Me.GridColumn322.Width = 300
+        '
+        'GridColumn323
+        '
+        Me.GridColumn323.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn323.Caption = "Nombre"
+        Me.GridColumn323.FieldName = "Name"
+        Me.GridColumn323.Name = "GridColumn323"
+        Me.GridColumn323.Width = 350
+        '
+        'GridColumn324
+        '
+        Me.GridColumn324.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn324.Caption = "Maneja Tercero"
+        Me.GridColumn324.FieldName = "HandlesThirdParty"
+        Me.GridColumn324.Name = "GridColumn324"
+        Me.GridColumn324.Width = 350
+        '
+        'GridColumn325
+        '
+        Me.GridColumn325.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn325.Caption = "Maneja Centro de Costo"
+        Me.GridColumn325.FieldName = "HandlesCostCenter"
+        Me.GridColumn325.Name = "GridColumn325"
+        Me.GridColumn325.Width = 350
+        '
+        'GridColumn316
+        '
+        Me.GridColumn316.Caption = "Id"
+        Me.GridColumn316.FieldName = "Id"
+        Me.GridColumn316.Name = "GridColumn316"
+        '
+        'GridColumn317
+        '
+        Me.GridColumn317.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn317.Caption = "Código"
+        Me.GridColumn317.FieldName = "Number"
+        Me.GridColumn317.Name = "GridColumn317"
+        Me.GridColumn317.Width = 300
+        '
+        'GridColumn318
+        '
+        Me.GridColumn318.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn318.Caption = "Nombre"
+        Me.GridColumn318.FieldName = "Name"
+        Me.GridColumn318.Name = "GridColumn318"
+        Me.GridColumn318.Width = 350
+        '
+        'GridColumn319
+        '
+        Me.GridColumn319.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn319.Caption = "Maneja Tercero"
+        Me.GridColumn319.FieldName = "HandlesThirdParty"
+        Me.GridColumn319.Name = "GridColumn319"
+        Me.GridColumn319.Width = 350
+        '
+        'GridColumn320
+        '
+        Me.GridColumn320.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn320.Caption = "Maneja Centro de Costo"
+        Me.GridColumn320.FieldName = "HandlesCostCenter"
+        Me.GridColumn320.Name = "GridColumn320"
+        Me.GridColumn320.Width = 350
+        '
+        'GridColumn311
+        '
+        Me.GridColumn311.Caption = "Id"
+        Me.GridColumn311.FieldName = "Id"
+        Me.GridColumn311.Name = "GridColumn311"
+        '
+        'GridColumn312
+        '
+        Me.GridColumn312.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn312.Caption = "Código"
+        Me.GridColumn312.FieldName = "Number"
+        Me.GridColumn312.Name = "GridColumn312"
+        Me.GridColumn312.Width = 300
+        '
+        'GridColumn313
+        '
+        Me.GridColumn313.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn313.Caption = "Nombre"
+        Me.GridColumn313.FieldName = "Name"
+        Me.GridColumn313.Name = "GridColumn313"
+        Me.GridColumn313.Width = 350
+        '
+        'GridColumn314
+        '
+        Me.GridColumn314.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn314.Caption = "Maneja Tercero"
+        Me.GridColumn314.FieldName = "HandlesThirdParty"
+        Me.GridColumn314.Name = "GridColumn314"
+        Me.GridColumn314.Width = 350
+        '
+        'GridColumn315
+        '
+        Me.GridColumn315.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn315.Caption = "Maneja Centro de Costo"
+        Me.GridColumn315.FieldName = "HandlesCostCenter"
+        Me.GridColumn315.Name = "GridColumn315"
+        Me.GridColumn315.Width = 350
+        '
+        'GridColumn306
+        '
+        Me.GridColumn306.Caption = "Id"
+        Me.GridColumn306.FieldName = "Id"
+        Me.GridColumn306.Name = "GridColumn306"
+        '
+        'GridColumn307
+        '
+        Me.GridColumn307.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn307.Caption = "Código"
+        Me.GridColumn307.FieldName = "Number"
+        Me.GridColumn307.Name = "GridColumn307"
+        Me.GridColumn307.Width = 300
+        '
+        'GridColumn308
+        '
+        Me.GridColumn308.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn308.Caption = "Nombre"
+        Me.GridColumn308.FieldName = "Name"
+        Me.GridColumn308.Name = "GridColumn308"
+        Me.GridColumn308.Width = 350
+        '
+        'GridColumn309
+        '
+        Me.GridColumn309.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn309.Caption = "Maneja Tercero"
+        Me.GridColumn309.FieldName = "HandlesThirdParty"
+        Me.GridColumn309.Name = "GridColumn309"
+        Me.GridColumn309.Width = 350
+        '
+        'GridColumn310
+        '
+        Me.GridColumn310.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn310.Caption = "Maneja Centro de Costo"
+        Me.GridColumn310.FieldName = "HandlesCostCenter"
+        Me.GridColumn310.Name = "GridColumn310"
+        Me.GridColumn310.Width = 350
+        '
+        'GridColumn301
+        '
+        Me.GridColumn301.Caption = "Id"
+        Me.GridColumn301.FieldName = "Id"
+        Me.GridColumn301.Name = "GridColumn301"
+        '
+        'GridColumn302
+        '
+        Me.GridColumn302.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn302.Caption = "Código"
+        Me.GridColumn302.FieldName = "Number"
+        Me.GridColumn302.Name = "GridColumn302"
+        Me.GridColumn302.Width = 300
+        '
+        'GridColumn303
+        '
+        Me.GridColumn303.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn303.Caption = "Nombre"
+        Me.GridColumn303.FieldName = "Name"
+        Me.GridColumn303.Name = "GridColumn303"
+        Me.GridColumn303.Width = 350
+        '
+        'GridColumn304
+        '
+        Me.GridColumn304.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn304.Caption = "Maneja Tercero"
+        Me.GridColumn304.FieldName = "HandlesThirdParty"
+        Me.GridColumn304.Name = "GridColumn304"
+        Me.GridColumn304.Width = 350
+        '
+        'GridColumn305
+        '
+        Me.GridColumn305.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn305.Caption = "Maneja Centro de Costo"
+        Me.GridColumn305.FieldName = "HandlesCostCenter"
+        Me.GridColumn305.Name = "GridColumn305"
+        Me.GridColumn305.Width = 350
+        '
+        'GridColumn292
+        '
+        Me.GridColumn292.Caption = "Id"
+        Me.GridColumn292.FieldName = "Id"
+        Me.GridColumn292.Name = "GridColumn292"
+        '
+        'GridColumn293
+        '
+        Me.GridColumn293.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn293.Caption = "Código"
+        Me.GridColumn293.FieldName = "Number"
+        Me.GridColumn293.Name = "GridColumn293"
+        Me.GridColumn293.Width = 300
+        '
+        'GridColumn294
+        '
+        Me.GridColumn294.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn294.Caption = "Nombre"
+        Me.GridColumn294.FieldName = "Name"
+        Me.GridColumn294.Name = "GridColumn294"
+        Me.GridColumn294.Width = 350
+        '
+        'GridColumn295
+        '
+        Me.GridColumn295.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn295.Caption = "Maneja Tercero"
+        Me.GridColumn295.FieldName = "HandlesThirdParty"
+        Me.GridColumn295.Name = "GridColumn295"
+        Me.GridColumn295.Width = 350
+        '
+        'GridColumn296
+        '
+        Me.GridColumn296.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn296.Caption = "Maneja Centro de Costo"
+        Me.GridColumn296.FieldName = "HandlesCostCenter"
+        Me.GridColumn296.Name = "GridColumn296"
+        Me.GridColumn296.Width = 350
+        '
+        'GridColumn287
+        '
+        Me.GridColumn287.Caption = "Id"
+        Me.GridColumn287.FieldName = "Id"
+        Me.GridColumn287.Name = "GridColumn287"
+        '
+        'GridColumn288
+        '
+        Me.GridColumn288.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn288.Caption = "Código"
+        Me.GridColumn288.FieldName = "Number"
+        Me.GridColumn288.Name = "GridColumn288"
+        Me.GridColumn288.Width = 300
+        '
+        'GridColumn289
+        '
+        Me.GridColumn289.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn289.Caption = "Nombre"
+        Me.GridColumn289.FieldName = "Name"
+        Me.GridColumn289.Name = "GridColumn289"
+        Me.GridColumn289.Width = 350
+        '
+        'GridColumn290
+        '
+        Me.GridColumn290.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn290.Caption = "Maneja Tercero"
+        Me.GridColumn290.FieldName = "HandlesThirdParty"
+        Me.GridColumn290.Name = "GridColumn290"
+        Me.GridColumn290.Width = 350
+        '
+        'GridColumn291
+        '
+        Me.GridColumn291.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn291.Caption = "Maneja Centro de Costo"
+        Me.GridColumn291.FieldName = "HandlesCostCenter"
+        Me.GridColumn291.Name = "GridColumn291"
+        Me.GridColumn291.Width = 350
+        '
+        'GridColumn276
+        '
+        Me.GridColumn276.Caption = "Id"
+        Me.GridColumn276.FieldName = "Id"
+        Me.GridColumn276.Name = "GridColumn276"
+        '
+        'GridColumn277
+        '
+        Me.GridColumn277.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn277.Caption = "Código"
+        Me.GridColumn277.FieldName = "Number"
+        Me.GridColumn277.Name = "GridColumn277"
+        Me.GridColumn277.Width = 300
+        '
+        'GridColumn278
+        '
+        Me.GridColumn278.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn278.Caption = "Nombre"
+        Me.GridColumn278.FieldName = "Name"
+        Me.GridColumn278.Name = "GridColumn278"
+        Me.GridColumn278.Width = 350
+        '
+        'GridColumn279
+        '
+        Me.GridColumn279.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn279.Caption = "Maneja Tercero"
+        Me.GridColumn279.FieldName = "HandlesThirdParty"
+        Me.GridColumn279.Name = "GridColumn279"
+        Me.GridColumn279.Width = 350
+        '
+        'GridColumn280
+        '
+        Me.GridColumn280.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn280.Caption = "Maneja Centro de Costo"
+        Me.GridColumn280.FieldName = "HandlesCostCenter"
+        Me.GridColumn280.Name = "GridColumn280"
+        Me.GridColumn280.Width = 350
+        '
+        'GridColumn271
+        '
+        Me.GridColumn271.Caption = "Id"
+        Me.GridColumn271.FieldName = "Id"
+        Me.GridColumn271.Name = "GridColumn271"
+        '
+        'GridColumn272
+        '
+        Me.GridColumn272.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn272.Caption = "Código"
+        Me.GridColumn272.FieldName = "Number"
+        Me.GridColumn272.Name = "GridColumn272"
+        Me.GridColumn272.Width = 300
+        '
+        'GridColumn273
+        '
+        Me.GridColumn273.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn273.Caption = "Nombre"
+        Me.GridColumn273.FieldName = "Name"
+        Me.GridColumn273.Name = "GridColumn273"
+        Me.GridColumn273.Width = 350
+        '
+        'GridColumn274
+        '
+        Me.GridColumn274.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn274.Caption = "Maneja Tercero"
+        Me.GridColumn274.FieldName = "HandlesThirdParty"
+        Me.GridColumn274.Name = "GridColumn274"
+        Me.GridColumn274.Width = 350
+        '
+        'GridColumn275
+        '
+        Me.GridColumn275.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn275.Caption = "Maneja Centro de Costo"
+        Me.GridColumn275.FieldName = "HandlesCostCenter"
+        Me.GridColumn275.Name = "GridColumn275"
+        Me.GridColumn275.Width = 350
+        '
+        'GridColumn266
+        '
+        Me.GridColumn266.Caption = "Id"
+        Me.GridColumn266.FieldName = "Id"
+        Me.GridColumn266.Name = "GridColumn266"
+        '
+        'GridColumn267
+        '
+        Me.GridColumn267.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn267.Caption = "Código"
+        Me.GridColumn267.FieldName = "Number"
+        Me.GridColumn267.Name = "GridColumn267"
+        Me.GridColumn267.Width = 300
+        '
+        'GridColumn268
+        '
+        Me.GridColumn268.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn268.Caption = "Nombre"
+        Me.GridColumn268.FieldName = "Name"
+        Me.GridColumn268.Name = "GridColumn268"
+        Me.GridColumn268.Width = 350
+        '
+        'GridColumn269
+        '
+        Me.GridColumn269.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn269.Caption = "Maneja Tercero"
+        Me.GridColumn269.FieldName = "HandlesThirdParty"
+        Me.GridColumn269.Name = "GridColumn269"
+        Me.GridColumn269.Width = 350
+        '
+        'GridColumn270
+        '
+        Me.GridColumn270.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn270.Caption = "Maneja Centro de Costo"
+        Me.GridColumn270.FieldName = "HandlesCostCenter"
+        Me.GridColumn270.Name = "GridColumn270"
+        Me.GridColumn270.Width = 350
+        '
+        'GridColumn261
+        '
+        Me.GridColumn261.Caption = "Id"
+        Me.GridColumn261.FieldName = "Id"
+        Me.GridColumn261.Name = "GridColumn261"
+        '
+        'GridColumn262
+        '
+        Me.GridColumn262.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn262.Caption = "Código"
+        Me.GridColumn262.FieldName = "Number"
+        Me.GridColumn262.Name = "GridColumn262"
+        Me.GridColumn262.Width = 300
+        '
+        'GridColumn263
+        '
+        Me.GridColumn263.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn263.Caption = "Nombre"
+        Me.GridColumn263.FieldName = "Name"
+        Me.GridColumn263.Name = "GridColumn263"
+        Me.GridColumn263.Width = 350
+        '
+        'GridColumn264
+        '
+        Me.GridColumn264.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn264.Caption = "Maneja Tercero"
+        Me.GridColumn264.FieldName = "HandlesThirdParty"
+        Me.GridColumn264.Name = "GridColumn264"
+        Me.GridColumn264.Width = 350
+        '
+        'GridColumn265
+        '
+        Me.GridColumn265.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn265.Caption = "Maneja Centro de Costo"
+        Me.GridColumn265.FieldName = "HandlesCostCenter"
+        Me.GridColumn265.Name = "GridColumn265"
+        Me.GridColumn265.Width = 350
+        '
+        'GridColumn256
+        '
+        Me.GridColumn256.Caption = "Id"
+        Me.GridColumn256.FieldName = "Id"
+        Me.GridColumn256.Name = "GridColumn256"
+        '
+        'GridColumn257
+        '
+        Me.GridColumn257.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn257.Caption = "Código"
+        Me.GridColumn257.FieldName = "Number"
+        Me.GridColumn257.Name = "GridColumn257"
+        Me.GridColumn257.Width = 300
+        '
+        'GridColumn258
+        '
+        Me.GridColumn258.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn258.Caption = "Nombre"
+        Me.GridColumn258.FieldName = "Name"
+        Me.GridColumn258.Name = "GridColumn258"
+        Me.GridColumn258.Width = 350
+        '
+        'GridColumn259
+        '
+        Me.GridColumn259.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn259.Caption = "Maneja Tercero"
+        Me.GridColumn259.FieldName = "HandlesThirdParty"
+        Me.GridColumn259.Name = "GridColumn259"
+        Me.GridColumn259.Width = 350
+        '
+        'GridColumn260
+        '
+        Me.GridColumn260.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn260.Caption = "Maneja Centro de Costo"
+        Me.GridColumn260.FieldName = "HandlesCostCenter"
+        Me.GridColumn260.Name = "GridColumn260"
+        Me.GridColumn260.Width = 350
+        '
+        'GridColumn251
+        '
+        Me.GridColumn251.Caption = "Id"
+        Me.GridColumn251.FieldName = "Id"
+        Me.GridColumn251.Name = "GridColumn251"
+        '
+        'GridColumn252
+        '
+        Me.GridColumn252.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn252.Caption = "Código"
+        Me.GridColumn252.FieldName = "Number"
+        Me.GridColumn252.Name = "GridColumn252"
+        Me.GridColumn252.Width = 300
+        '
+        'GridColumn253
+        '
+        Me.GridColumn253.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn253.Caption = "Nombre"
+        Me.GridColumn253.FieldName = "Name"
+        Me.GridColumn253.Name = "GridColumn253"
+        Me.GridColumn253.Width = 350
+        '
+        'GridColumn254
+        '
+        Me.GridColumn254.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn254.Caption = "Maneja Tercero"
+        Me.GridColumn254.FieldName = "HandlesThirdParty"
+        Me.GridColumn254.Name = "GridColumn254"
+        Me.GridColumn254.Width = 350
+        '
+        'GridColumn255
+        '
+        Me.GridColumn255.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn255.Caption = "Maneja Centro de Costo"
+        Me.GridColumn255.FieldName = "HandlesCostCenter"
+        Me.GridColumn255.Name = "GridColumn255"
+        Me.GridColumn255.Width = 350
+        '
+        'GridColumn246
+        '
+        Me.GridColumn246.Caption = "Id"
+        Me.GridColumn246.FieldName = "Id"
+        Me.GridColumn246.Name = "GridColumn246"
+        '
+        'GridColumn247
+        '
+        Me.GridColumn247.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn247.Caption = "Código"
+        Me.GridColumn247.FieldName = "Number"
+        Me.GridColumn247.Name = "GridColumn247"
+        Me.GridColumn247.Width = 300
+        '
+        'GridColumn248
+        '
+        Me.GridColumn248.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn248.Caption = "Nombre"
+        Me.GridColumn248.FieldName = "Name"
+        Me.GridColumn248.Name = "GridColumn248"
+        Me.GridColumn248.Width = 350
+        '
+        'GridColumn249
+        '
+        Me.GridColumn249.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn249.Caption = "Maneja Tercero"
+        Me.GridColumn249.FieldName = "HandlesThirdParty"
+        Me.GridColumn249.Name = "GridColumn249"
+        Me.GridColumn249.Width = 350
+        '
+        'GridColumn250
+        '
+        Me.GridColumn250.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn250.Caption = "Maneja Centro de Costo"
+        Me.GridColumn250.FieldName = "HandlesCostCenter"
+        Me.GridColumn250.Name = "GridColumn250"
+        Me.GridColumn250.Width = 350
+        '
+        'GridColumn241
+        '
+        Me.GridColumn241.Caption = "Id"
+        Me.GridColumn241.FieldName = "Id"
+        Me.GridColumn241.Name = "GridColumn241"
+        '
+        'GridColumn242
+        '
+        Me.GridColumn242.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn242.Caption = "Código"
+        Me.GridColumn242.FieldName = "Number"
+        Me.GridColumn242.Name = "GridColumn242"
+        Me.GridColumn242.Width = 300
+        '
+        'GridColumn243
+        '
+        Me.GridColumn243.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn243.Caption = "Nombre"
+        Me.GridColumn243.FieldName = "Name"
+        Me.GridColumn243.Name = "GridColumn243"
+        Me.GridColumn243.Width = 350
+        '
+        'GridColumn244
+        '
+        Me.GridColumn244.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn244.Caption = "Maneja Tercero"
+        Me.GridColumn244.FieldName = "HandlesThirdParty"
+        Me.GridColumn244.Name = "GridColumn244"
+        Me.GridColumn244.Width = 350
+        '
+        'GridColumn245
+        '
+        Me.GridColumn245.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn245.Caption = "Maneja Centro de Costo"
+        Me.GridColumn245.FieldName = "HandlesCostCenter"
+        Me.GridColumn245.Name = "GridColumn245"
+        Me.GridColumn245.Width = 350
+        '
+        'GridColumn236
+        '
+        Me.GridColumn236.Caption = "Id"
+        Me.GridColumn236.FieldName = "Id"
+        Me.GridColumn236.Name = "GridColumn236"
+        '
+        'GridColumn237
+        '
+        Me.GridColumn237.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn237.Caption = "Código"
+        Me.GridColumn237.FieldName = "Number"
+        Me.GridColumn237.Name = "GridColumn237"
+        Me.GridColumn237.Width = 300
+        '
+        'GridColumn238
+        '
+        Me.GridColumn238.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn238.Caption = "Nombre"
+        Me.GridColumn238.FieldName = "Name"
+        Me.GridColumn238.Name = "GridColumn238"
+        Me.GridColumn238.Width = 350
+        '
+        'GridColumn239
+        '
+        Me.GridColumn239.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn239.Caption = "Maneja Tercero"
+        Me.GridColumn239.FieldName = "HandlesThirdParty"
+        Me.GridColumn239.Name = "GridColumn239"
+        Me.GridColumn239.Width = 350
+        '
+        'GridColumn240
+        '
+        Me.GridColumn240.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn240.Caption = "Maneja Centro de Costo"
+        Me.GridColumn240.FieldName = "HandlesCostCenter"
+        Me.GridColumn240.Name = "GridColumn240"
+        Me.GridColumn240.Width = 350
+        '
+        'GridColumn231
+        '
+        Me.GridColumn231.Caption = "Id"
+        Me.GridColumn231.FieldName = "Id"
+        Me.GridColumn231.Name = "GridColumn231"
+        '
+        'GridColumn232
+        '
+        Me.GridColumn232.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn232.Caption = "Código"
+        Me.GridColumn232.FieldName = "Number"
+        Me.GridColumn232.Name = "GridColumn232"
+        Me.GridColumn232.Width = 300
+        '
+        'GridColumn233
+        '
+        Me.GridColumn233.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn233.Caption = "Nombre"
+        Me.GridColumn233.FieldName = "Name"
+        Me.GridColumn233.Name = "GridColumn233"
+        Me.GridColumn233.Width = 350
+        '
+        'GridColumn234
+        '
+        Me.GridColumn234.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn234.Caption = "Maneja Tercero"
+        Me.GridColumn234.FieldName = "HandlesThirdParty"
+        Me.GridColumn234.Name = "GridColumn234"
+        Me.GridColumn234.Width = 350
+        '
+        'GridColumn235
+        '
+        Me.GridColumn235.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn235.Caption = "Maneja Centro de Costo"
+        Me.GridColumn235.FieldName = "HandlesCostCenter"
+        Me.GridColumn235.Name = "GridColumn235"
+        Me.GridColumn235.Width = 350
+        '
+        'GridColumn226
+        '
+        Me.GridColumn226.Caption = "Id"
+        Me.GridColumn226.FieldName = "Id"
+        Me.GridColumn226.Name = "GridColumn226"
+        '
+        'GridColumn227
+        '
+        Me.GridColumn227.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn227.Caption = "Código"
+        Me.GridColumn227.FieldName = "Number"
+        Me.GridColumn227.Name = "GridColumn227"
+        Me.GridColumn227.Width = 300
+        '
+        'GridColumn228
+        '
+        Me.GridColumn228.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn228.Caption = "Nombre"
+        Me.GridColumn228.FieldName = "Name"
+        Me.GridColumn228.Name = "GridColumn228"
+        Me.GridColumn228.Width = 350
+        '
+        'GridColumn229
+        '
+        Me.GridColumn229.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn229.Caption = "Maneja Tercero"
+        Me.GridColumn229.FieldName = "HandlesThirdParty"
+        Me.GridColumn229.Name = "GridColumn229"
+        Me.GridColumn229.Width = 350
+        '
+        'GridColumn230
+        '
+        Me.GridColumn230.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn230.Caption = "Maneja Centro de Costo"
+        Me.GridColumn230.FieldName = "HandlesCostCenter"
+        Me.GridColumn230.Name = "GridColumn230"
+        Me.GridColumn230.Width = 350
+        '
+        'GridColumn221
+        '
+        Me.GridColumn221.Caption = "Id"
+        Me.GridColumn221.FieldName = "Id"
+        Me.GridColumn221.Name = "GridColumn221"
+        '
+        'GridColumn222
+        '
+        Me.GridColumn222.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn222.Caption = "Código"
+        Me.GridColumn222.FieldName = "Number"
+        Me.GridColumn222.Name = "GridColumn222"
+        Me.GridColumn222.Width = 300
+        '
+        'GridColumn223
+        '
+        Me.GridColumn223.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn223.Caption = "Nombre"
+        Me.GridColumn223.FieldName = "Name"
+        Me.GridColumn223.Name = "GridColumn223"
+        Me.GridColumn223.Width = 350
+        '
+        'GridColumn224
+        '
+        Me.GridColumn224.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn224.Caption = "Maneja Tercero"
+        Me.GridColumn224.FieldName = "HandlesThirdParty"
+        Me.GridColumn224.Name = "GridColumn224"
+        Me.GridColumn224.Width = 350
+        '
+        'GridColumn225
+        '
+        Me.GridColumn225.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn225.Caption = "Maneja Centro de Costo"
+        Me.GridColumn225.FieldName = "HandlesCostCenter"
+        Me.GridColumn225.Name = "GridColumn225"
+        Me.GridColumn225.Width = 350
+        '
+        'GridColumn216
+        '
+        Me.GridColumn216.Caption = "Id"
+        Me.GridColumn216.FieldName = "Id"
+        Me.GridColumn216.Name = "GridColumn216"
+        '
+        'GridColumn217
+        '
+        Me.GridColumn217.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn217.Caption = "Código"
+        Me.GridColumn217.FieldName = "Number"
+        Me.GridColumn217.Name = "GridColumn217"
+        Me.GridColumn217.Width = 300
+        '
+        'GridColumn218
+        '
+        Me.GridColumn218.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn218.Caption = "Nombre"
+        Me.GridColumn218.FieldName = "Name"
+        Me.GridColumn218.Name = "GridColumn218"
+        Me.GridColumn218.Width = 350
+        '
+        'GridColumn219
+        '
+        Me.GridColumn219.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn219.Caption = "Maneja Tercero"
+        Me.GridColumn219.FieldName = "HandlesThirdParty"
+        Me.GridColumn219.Name = "GridColumn219"
+        Me.GridColumn219.Width = 350
+        '
+        'GridColumn220
+        '
+        Me.GridColumn220.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn220.Caption = "Maneja Centro de Costo"
+        Me.GridColumn220.FieldName = "HandlesCostCenter"
+        Me.GridColumn220.Name = "GridColumn220"
+        Me.GridColumn220.Width = 350
+        '
+        'GridColumn211
+        '
+        Me.GridColumn211.Caption = "Id"
+        Me.GridColumn211.FieldName = "Id"
+        Me.GridColumn211.Name = "GridColumn211"
+        '
+        'GridColumn212
+        '
+        Me.GridColumn212.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn212.Caption = "Código"
+        Me.GridColumn212.FieldName = "Number"
+        Me.GridColumn212.Name = "GridColumn212"
+        Me.GridColumn212.Width = 300
+        '
+        'GridColumn213
+        '
+        Me.GridColumn213.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn213.Caption = "Nombre"
+        Me.GridColumn213.FieldName = "Name"
+        Me.GridColumn213.Name = "GridColumn213"
+        Me.GridColumn213.Width = 350
+        '
+        'GridColumn214
+        '
+        Me.GridColumn214.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn214.Caption = "Maneja Tercero"
+        Me.GridColumn214.FieldName = "HandlesThirdParty"
+        Me.GridColumn214.Name = "GridColumn214"
+        Me.GridColumn214.Width = 350
+        '
+        'GridColumn215
+        '
+        Me.GridColumn215.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn215.Caption = "Maneja Centro de Costo"
+        Me.GridColumn215.FieldName = "HandlesCostCenter"
+        Me.GridColumn215.Name = "GridColumn215"
+        Me.GridColumn215.Width = 350
+        '
+        'GridColumn206
+        '
+        Me.GridColumn206.Caption = "Id"
+        Me.GridColumn206.FieldName = "Id"
+        Me.GridColumn206.Name = "GridColumn206"
+        '
+        'GridColumn207
+        '
+        Me.GridColumn207.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn207.Caption = "Código"
+        Me.GridColumn207.FieldName = "Number"
+        Me.GridColumn207.Name = "GridColumn207"
+        Me.GridColumn207.Width = 300
+        '
+        'GridColumn208
+        '
+        Me.GridColumn208.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn208.Caption = "Nombre"
+        Me.GridColumn208.FieldName = "Name"
+        Me.GridColumn208.Name = "GridColumn208"
+        Me.GridColumn208.Width = 350
+        '
+        'GridColumn209
+        '
+        Me.GridColumn209.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn209.Caption = "Maneja Tercero"
+        Me.GridColumn209.FieldName = "HandlesThirdParty"
+        Me.GridColumn209.Name = "GridColumn209"
+        Me.GridColumn209.Width = 350
+        '
+        'GridColumn210
+        '
+        Me.GridColumn210.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn210.Caption = "Maneja Centro de Costo"
+        Me.GridColumn210.FieldName = "HandlesCostCenter"
+        Me.GridColumn210.Name = "GridColumn210"
+        Me.GridColumn210.Width = 350
+        '
+        'GridColumn201
+        '
+        Me.GridColumn201.Caption = "Id"
+        Me.GridColumn201.FieldName = "Id"
+        Me.GridColumn201.Name = "GridColumn201"
+        '
+        'GridColumn202
+        '
+        Me.GridColumn202.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn202.Caption = "Código"
+        Me.GridColumn202.FieldName = "Number"
+        Me.GridColumn202.Name = "GridColumn202"
+        Me.GridColumn202.Width = 300
+        '
+        'GridColumn203
+        '
+        Me.GridColumn203.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn203.Caption = "Nombre"
+        Me.GridColumn203.FieldName = "Name"
+        Me.GridColumn203.Name = "GridColumn203"
+        Me.GridColumn203.Width = 350
+        '
+        'GridColumn204
+        '
+        Me.GridColumn204.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn204.Caption = "Maneja Tercero"
+        Me.GridColumn204.FieldName = "HandlesThirdParty"
+        Me.GridColumn204.Name = "GridColumn204"
+        Me.GridColumn204.Width = 350
+        '
+        'GridColumn205
+        '
+        Me.GridColumn205.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn205.Caption = "Maneja Centro de Costo"
+        Me.GridColumn205.FieldName = "HandlesCostCenter"
+        Me.GridColumn205.Name = "GridColumn205"
+        Me.GridColumn205.Width = 350
+        '
+        'GridColumn196
+        '
+        Me.GridColumn196.Caption = "Id"
+        Me.GridColumn196.FieldName = "Id"
+        Me.GridColumn196.Name = "GridColumn196"
+        '
+        'GridColumn197
+        '
+        Me.GridColumn197.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn197.Caption = "Código"
+        Me.GridColumn197.FieldName = "Number"
+        Me.GridColumn197.Name = "GridColumn197"
+        Me.GridColumn197.Width = 300
+        '
+        'GridColumn198
+        '
+        Me.GridColumn198.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn198.Caption = "Nombre"
+        Me.GridColumn198.FieldName = "Name"
+        Me.GridColumn198.Name = "GridColumn198"
+        Me.GridColumn198.Width = 350
+        '
+        'GridColumn199
+        '
+        Me.GridColumn199.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn199.Caption = "Maneja Tercero"
+        Me.GridColumn199.FieldName = "HandlesThirdParty"
+        Me.GridColumn199.Name = "GridColumn199"
+        Me.GridColumn199.Width = 350
+        '
+        'GridColumn200
+        '
+        Me.GridColumn200.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn200.Caption = "Maneja Centro de Costo"
+        Me.GridColumn200.FieldName = "HandlesCostCenter"
+        Me.GridColumn200.Name = "GridColumn200"
+        Me.GridColumn200.Width = 350
+        '
+        'GridColumn191
+        '
+        Me.GridColumn191.Caption = "Id"
+        Me.GridColumn191.FieldName = "Id"
+        Me.GridColumn191.Name = "GridColumn191"
+        '
+        'GridColumn192
+        '
+        Me.GridColumn192.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn192.Caption = "Código"
+        Me.GridColumn192.FieldName = "Number"
+        Me.GridColumn192.Name = "GridColumn192"
+        Me.GridColumn192.Width = 300
+        '
+        'GridColumn193
+        '
+        Me.GridColumn193.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn193.Caption = "Nombre"
+        Me.GridColumn193.FieldName = "Name"
+        Me.GridColumn193.Name = "GridColumn193"
+        Me.GridColumn193.Width = 350
+        '
+        'GridColumn194
+        '
+        Me.GridColumn194.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn194.Caption = "Maneja Tercero"
+        Me.GridColumn194.FieldName = "HandlesThirdParty"
+        Me.GridColumn194.Name = "GridColumn194"
+        Me.GridColumn194.Width = 350
+        '
+        'GridColumn195
+        '
+        Me.GridColumn195.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn195.Caption = "Maneja Centro de Costo"
+        Me.GridColumn195.FieldName = "HandlesCostCenter"
+        Me.GridColumn195.Name = "GridColumn195"
+        Me.GridColumn195.Width = 350
+        '
+        'GridColumn188
+        '
+        Me.GridColumn188.Caption = "Id"
+        Me.GridColumn188.FieldName = "Id"
+        Me.GridColumn188.Name = "GridColumn188"
+        '
+        'GridColumn189
+        '
+        Me.GridColumn189.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn189.Caption = "Código"
+        Me.GridColumn189.FieldName = "Number"
+        Me.GridColumn189.Name = "GridColumn189"
+        Me.GridColumn189.Width = 294
+        '
+        'GridColumn190
+        '
+        Me.GridColumn190.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn190.Caption = "Nombre"
+        Me.GridColumn190.FieldName = "Name"
+        Me.GridColumn190.Name = "GridColumn190"
+        Me.GridColumn190.Width = 1098
+        '
+        'GridColumn185
+        '
+        Me.GridColumn185.Caption = "Id"
+        Me.GridColumn185.FieldName = "Id"
+        Me.GridColumn185.Name = "GridColumn185"
+        '
+        'GridColumn186
+        '
+        Me.GridColumn186.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn186.Caption = "Código"
+        Me.GridColumn186.FieldName = "Number"
+        Me.GridColumn186.Name = "GridColumn186"
+        Me.GridColumn186.Width = 294
+        '
+        'GridColumn187
+        '
+        Me.GridColumn187.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn187.Caption = "Nombre"
+        Me.GridColumn187.FieldName = "Name"
+        Me.GridColumn187.Name = "GridColumn187"
+        Me.GridColumn187.Width = 1098
+        '
+        'GridColumn182
+        '
+        Me.GridColumn182.Caption = "Id"
+        Me.GridColumn182.FieldName = "Id"
+        Me.GridColumn182.Name = "GridColumn182"
+        '
+        'GridColumn183
+        '
+        Me.GridColumn183.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn183.Caption = "Código"
+        Me.GridColumn183.FieldName = "Number"
+        Me.GridColumn183.Name = "GridColumn183"
+        Me.GridColumn183.Width = 294
+        '
+        'GridColumn184
+        '
+        Me.GridColumn184.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn184.Caption = "Nombre"
+        Me.GridColumn184.FieldName = "Name"
+        Me.GridColumn184.Name = "GridColumn184"
+        Me.GridColumn184.Width = 1098
+        '
+        'GridColumn179
+        '
+        Me.GridColumn179.Caption = "Id"
+        Me.GridColumn179.FieldName = "Id"
+        Me.GridColumn179.Name = "GridColumn179"
+        '
+        'GridColumn180
+        '
+        Me.GridColumn180.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn180.Caption = "Código"
+        Me.GridColumn180.FieldName = "Number"
+        Me.GridColumn180.Name = "GridColumn180"
+        Me.GridColumn180.Width = 294
+        '
+        'GridColumn181
+        '
+        Me.GridColumn181.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn181.Caption = "Nombre"
+        Me.GridColumn181.FieldName = "Name"
+        Me.GridColumn181.Name = "GridColumn181"
+        Me.GridColumn181.Width = 1098
+        '
+        'GridColumn176
+        '
+        Me.GridColumn176.Caption = "Id"
+        Me.GridColumn176.FieldName = "Id"
+        Me.GridColumn176.Name = "GridColumn176"
+        '
+        'GridColumn177
+        '
+        Me.GridColumn177.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn177.Caption = "Código"
+        Me.GridColumn177.FieldName = "Number"
+        Me.GridColumn177.Name = "GridColumn177"
+        Me.GridColumn177.Width = 294
+        '
+        'GridColumn178
+        '
+        Me.GridColumn178.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn178.Caption = "Nombre"
+        Me.GridColumn178.FieldName = "Name"
+        Me.GridColumn178.Name = "GridColumn178"
+        Me.GridColumn178.Width = 1098
+        '
+        'GridColumn173
+        '
+        Me.GridColumn173.Caption = "Id"
+        Me.GridColumn173.FieldName = "Id"
+        Me.GridColumn173.Name = "GridColumn173"
+        '
+        'GridColumn174
+        '
+        Me.GridColumn174.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn174.Caption = "Código"
+        Me.GridColumn174.FieldName = "Number"
+        Me.GridColumn174.Name = "GridColumn174"
+        Me.GridColumn174.Width = 294
+        '
+        'GridColumn175
+        '
+        Me.GridColumn175.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn175.Caption = "Nombre"
+        Me.GridColumn175.FieldName = "Name"
+        Me.GridColumn175.Name = "GridColumn175"
+        Me.GridColumn175.Width = 1098
+        '
+        'GridColumn170
+        '
+        Me.GridColumn170.Caption = "Id"
+        Me.GridColumn170.FieldName = "Id"
+        Me.GridColumn170.Name = "GridColumn170"
+        '
+        'GridColumn171
+        '
+        Me.GridColumn171.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn171.Caption = "Código"
+        Me.GridColumn171.FieldName = "Number"
+        Me.GridColumn171.Name = "GridColumn171"
+        Me.GridColumn171.Width = 294
+        '
+        'GridColumn172
+        '
+        Me.GridColumn172.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn172.Caption = "Nombre"
+        Me.GridColumn172.FieldName = "Name"
+        Me.GridColumn172.Name = "GridColumn172"
+        Me.GridColumn172.Width = 1098
+        '
+        'GridColumn167
+        '
+        Me.GridColumn167.Caption = "Id"
+        Me.GridColumn167.FieldName = "Id"
+        Me.GridColumn167.Name = "GridColumn167"
+        '
+        'GridColumn168
+        '
+        Me.GridColumn168.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn168.Caption = "Código"
+        Me.GridColumn168.FieldName = "Number"
+        Me.GridColumn168.Name = "GridColumn168"
+        Me.GridColumn168.Width = 294
+        '
+        'GridColumn169
+        '
+        Me.GridColumn169.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn169.Caption = "Nombre"
+        Me.GridColumn169.FieldName = "Name"
+        Me.GridColumn169.Name = "GridColumn169"
+        Me.GridColumn169.Width = 1098
+        '
+        'GridColumn159
+        '
+        Me.GridColumn159.Caption = "Id"
+        Me.GridColumn159.FieldName = "Id"
+        Me.GridColumn159.Name = "GridColumn159"
+        '
+        'GridColumn160
+        '
+        Me.GridColumn160.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn160.Caption = "Código"
+        Me.GridColumn160.FieldName = "Number"
+        Me.GridColumn160.Name = "GridColumn160"
+        Me.GridColumn160.Width = 294
+        '
+        'GridColumn161
+        '
+        Me.GridColumn161.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn161.Caption = "Nombre"
+        Me.GridColumn161.FieldName = "Name"
+        Me.GridColumn161.Name = "GridColumn161"
+        Me.GridColumn161.Width = 1098
+        '
+        'GridColumn156
+        '
+        Me.GridColumn156.Caption = "Id"
+        Me.GridColumn156.FieldName = "Id"
+        Me.GridColumn156.Name = "GridColumn156"
+        '
+        'GridColumn157
+        '
+        Me.GridColumn157.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn157.Caption = "Código"
+        Me.GridColumn157.FieldName = "Number"
+        Me.GridColumn157.Name = "GridColumn157"
+        Me.GridColumn157.Width = 294
+        '
+        'GridColumn158
+        '
+        Me.GridColumn158.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn158.Caption = "Nombre"
+        Me.GridColumn158.FieldName = "Name"
+        Me.GridColumn158.Name = "GridColumn158"
+        Me.GridColumn158.Width = 1098
+        '
+        'GridColumn153
+        '
+        Me.GridColumn153.Caption = "Id"
+        Me.GridColumn153.FieldName = "Id"
+        Me.GridColumn153.Name = "GridColumn153"
+        '
+        'GridColumn154
+        '
+        Me.GridColumn154.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn154.Caption = "Código"
+        Me.GridColumn154.FieldName = "Number"
+        Me.GridColumn154.Name = "GridColumn154"
+        Me.GridColumn154.Width = 294
+        '
+        'GridColumn155
+        '
+        Me.GridColumn155.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn155.Caption = "Nombre"
+        Me.GridColumn155.FieldName = "Name"
+        Me.GridColumn155.Name = "GridColumn155"
+        Me.GridColumn155.Width = 1098
+        '
+        'GridColumn150
+        '
+        Me.GridColumn150.Caption = "Id"
+        Me.GridColumn150.FieldName = "Id"
+        Me.GridColumn150.Name = "GridColumn150"
+        '
+        'GridColumn151
+        '
+        Me.GridColumn151.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn151.Caption = "Código"
+        Me.GridColumn151.FieldName = "Number"
+        Me.GridColumn151.Name = "GridColumn151"
+        Me.GridColumn151.Width = 294
+        '
+        'GridColumn152
+        '
+        Me.GridColumn152.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn152.Caption = "Nombre"
+        Me.GridColumn152.FieldName = "Name"
+        Me.GridColumn152.Name = "GridColumn152"
+        Me.GridColumn152.Width = 1098
+        '
+        'GridColumn147
+        '
+        Me.GridColumn147.Caption = "Id"
+        Me.GridColumn147.FieldName = "Id"
+        Me.GridColumn147.Name = "GridColumn147"
+        '
+        'GridColumn148
+        '
+        Me.GridColumn148.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn148.Caption = "Código"
+        Me.GridColumn148.FieldName = "Number"
+        Me.GridColumn148.Name = "GridColumn148"
+        Me.GridColumn148.Width = 294
+        '
+        'GridColumn149
+        '
+        Me.GridColumn149.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn149.Caption = "Nombre"
+        Me.GridColumn149.FieldName = "Name"
+        Me.GridColumn149.Name = "GridColumn149"
+        Me.GridColumn149.Width = 1098
+        '
+        'GridColumn144
+        '
+        Me.GridColumn144.Caption = "Id"
+        Me.GridColumn144.FieldName = "Id"
+        Me.GridColumn144.Name = "GridColumn144"
+        '
+        'GridColumn145
+        '
+        Me.GridColumn145.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn145.Caption = "Código"
+        Me.GridColumn145.FieldName = "Number"
+        Me.GridColumn145.Name = "GridColumn145"
+        Me.GridColumn145.Width = 294
+        '
+        'GridColumn146
+        '
+        Me.GridColumn146.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn146.Caption = "Nombre"
+        Me.GridColumn146.FieldName = "Name"
+        Me.GridColumn146.Name = "GridColumn146"
+        Me.GridColumn146.Width = 1098
+        '
+        'GridColumn141
+        '
+        Me.GridColumn141.Caption = "Id"
+        Me.GridColumn141.FieldName = "Id"
+        Me.GridColumn141.Name = "GridColumn141"
+        '
+        'GridColumn142
+        '
+        Me.GridColumn142.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn142.Caption = "Código"
+        Me.GridColumn142.FieldName = "Number"
+        Me.GridColumn142.Name = "GridColumn142"
+        Me.GridColumn142.Width = 294
+        '
+        'GridColumn143
+        '
+        Me.GridColumn143.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn143.Caption = "Nombre"
+        Me.GridColumn143.FieldName = "Name"
+        Me.GridColumn143.Name = "GridColumn143"
+        Me.GridColumn143.Width = 1098
+        '
+        'GridColumn138
+        '
+        Me.GridColumn138.Caption = "Id"
+        Me.GridColumn138.FieldName = "Id"
+        Me.GridColumn138.Name = "GridColumn138"
+        '
+        'GridColumn139
+        '
+        Me.GridColumn139.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn139.Caption = "Código"
+        Me.GridColumn139.FieldName = "Number"
+        Me.GridColumn139.Name = "GridColumn139"
+        Me.GridColumn139.Width = 294
+        '
+        'GridColumn140
+        '
+        Me.GridColumn140.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn140.Caption = "Nombre"
+        Me.GridColumn140.FieldName = "Name"
+        Me.GridColumn140.Name = "GridColumn140"
+        Me.GridColumn140.Width = 1098
+        '
+        'GridColumn135
+        '
+        Me.GridColumn135.Caption = "Id"
+        Me.GridColumn135.FieldName = "Id"
+        Me.GridColumn135.Name = "GridColumn135"
+        '
+        'GridColumn136
+        '
+        Me.GridColumn136.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn136.Caption = "Código"
+        Me.GridColumn136.FieldName = "Number"
+        Me.GridColumn136.Name = "GridColumn136"
+        Me.GridColumn136.Width = 294
+        '
+        'GridColumn137
+        '
+        Me.GridColumn137.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn137.Caption = "Nombre"
+        Me.GridColumn137.FieldName = "Name"
+        Me.GridColumn137.Name = "GridColumn137"
+        Me.GridColumn137.Width = 1098
+        '
+        'GridColumn132
+        '
+        Me.GridColumn132.Caption = "Id"
+        Me.GridColumn132.FieldName = "Id"
+        Me.GridColumn132.Name = "GridColumn132"
+        '
+        'GridColumn133
+        '
+        Me.GridColumn133.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn133.Caption = "Código"
+        Me.GridColumn133.FieldName = "Number"
+        Me.GridColumn133.Name = "GridColumn133"
+        Me.GridColumn133.Width = 294
+        '
+        'GridColumn134
+        '
+        Me.GridColumn134.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn134.Caption = "Nombre"
+        Me.GridColumn134.FieldName = "Name"
+        Me.GridColumn134.Name = "GridColumn134"
+        Me.GridColumn134.Width = 1098
+        '
+        'GridColumn129
+        '
+        Me.GridColumn129.Caption = "Id"
+        Me.GridColumn129.FieldName = "Id"
+        Me.GridColumn129.Name = "GridColumn129"
+        '
+        'GridColumn130
+        '
+        Me.GridColumn130.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn130.Caption = "Código"
+        Me.GridColumn130.FieldName = "Number"
+        Me.GridColumn130.Name = "GridColumn130"
+        Me.GridColumn130.Width = 294
+        '
+        'GridColumn131
+        '
+        Me.GridColumn131.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn131.Caption = "Nombre"
+        Me.GridColumn131.FieldName = "Name"
+        Me.GridColumn131.Name = "GridColumn131"
+        Me.GridColumn131.Width = 1098
+        '
+        'GridColumn126
+        '
+        Me.GridColumn126.Caption = "Id"
+        Me.GridColumn126.FieldName = "Id"
+        Me.GridColumn126.Name = "GridColumn126"
+        '
+        'GridColumn127
+        '
+        Me.GridColumn127.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn127.Caption = "Código"
+        Me.GridColumn127.FieldName = "AccountCode"
+        Me.GridColumn127.Name = "GridColumn127"
+        Me.GridColumn127.Width = 294
+        '
+        'GridColumn128
+        '
+        Me.GridColumn128.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn128.Caption = "Nombre"
+        Me.GridColumn128.FieldName = "AccountName"
+        Me.GridColumn128.Name = "GridColumn128"
+        Me.GridColumn128.Width = 1098
+        '
+        'GridColumn123
+        '
+        Me.GridColumn123.Caption = "Id"
+        Me.GridColumn123.FieldName = "Id"
+        Me.GridColumn123.Name = "GridColumn123"
+        '
+        'GridColumn124
+        '
+        Me.GridColumn124.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn124.Caption = "Código"
+        Me.GridColumn124.FieldName = "AccountCode"
+        Me.GridColumn124.Name = "GridColumn124"
+        Me.GridColumn124.Width = 294
+        '
+        'GridColumn125
+        '
+        Me.GridColumn125.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn125.Caption = "Nombre"
+        Me.GridColumn125.FieldName = "AccountName"
+        Me.GridColumn125.Name = "GridColumn125"
+        Me.GridColumn125.Width = 1098
+        '
+        'GridColumn120
+        '
+        Me.GridColumn120.Caption = "Id"
+        Me.GridColumn120.FieldName = "Id"
+        Me.GridColumn120.Name = "GridColumn120"
+        '
+        'GridColumn121
+        '
+        Me.GridColumn121.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn121.Caption = "Código"
+        Me.GridColumn121.FieldName = "AccountCode"
+        Me.GridColumn121.Name = "GridColumn121"
+        Me.GridColumn121.Width = 294
+        '
+        'GridColumn122
+        '
+        Me.GridColumn122.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn122.Caption = "Nombre"
+        Me.GridColumn122.FieldName = "AccountName"
+        Me.GridColumn122.Name = "GridColumn122"
+        Me.GridColumn122.Width = 1098
+        '
+        'GridColumn117
+        '
+        Me.GridColumn117.Caption = "Id"
+        Me.GridColumn117.FieldName = "Id"
+        Me.GridColumn117.Name = "GridColumn117"
+        '
+        'GridColumn118
+        '
+        Me.GridColumn118.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn118.Caption = "Código"
+        Me.GridColumn118.FieldName = "AccountCode"
+        Me.GridColumn118.Name = "GridColumn118"
+        Me.GridColumn118.Width = 294
+        '
+        'GridColumn119
+        '
+        Me.GridColumn119.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn119.Caption = "Nombre"
+        Me.GridColumn119.FieldName = "AccountName"
+        Me.GridColumn119.Name = "GridColumn119"
+        Me.GridColumn119.Width = 1098
+        '
+        'GridColumn114
+        '
+        Me.GridColumn114.Caption = "Id"
+        Me.GridColumn114.FieldName = "Id"
+        Me.GridColumn114.Name = "GridColumn114"
+        '
+        'GridColumn115
+        '
+        Me.GridColumn115.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn115.Caption = "Código"
+        Me.GridColumn115.FieldName = "AccountCode"
+        Me.GridColumn115.Name = "GridColumn115"
+        Me.GridColumn115.Width = 294
+        '
+        'GridColumn116
+        '
+        Me.GridColumn116.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn116.Caption = "Nombre"
+        Me.GridColumn116.FieldName = "AccountName"
+        Me.GridColumn116.Name = "GridColumn116"
+        Me.GridColumn116.Width = 1098
+        '
+        'GridColumn111
+        '
+        Me.GridColumn111.Caption = "Id"
+        Me.GridColumn111.FieldName = "Id"
+        Me.GridColumn111.Name = "GridColumn111"
+        '
+        'GridColumn112
+        '
+        Me.GridColumn112.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn112.Caption = "Código"
+        Me.GridColumn112.FieldName = "AccountCode"
+        Me.GridColumn112.Name = "GridColumn112"
+        Me.GridColumn112.Width = 294
+        '
+        'GridColumn113
+        '
+        Me.GridColumn113.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn113.Caption = "Nombre"
+        Me.GridColumn113.FieldName = "AccountName"
+        Me.GridColumn113.Name = "GridColumn113"
+        Me.GridColumn113.Width = 1098
+        '
+        'GridColumn108
+        '
+        Me.GridColumn108.Caption = "Id"
+        Me.GridColumn108.FieldName = "Id"
+        Me.GridColumn108.Name = "GridColumn108"
+        '
+        'GridColumn109
+        '
+        Me.GridColumn109.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn109.Caption = "Código"
+        Me.GridColumn109.FieldName = "AccountCode"
+        Me.GridColumn109.Name = "GridColumn109"
+        Me.GridColumn109.Width = 294
+        '
+        'GridColumn110
+        '
+        Me.GridColumn110.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn110.Caption = "Nombre"
+        Me.GridColumn110.FieldName = "AccountName"
+        Me.GridColumn110.Name = "GridColumn110"
+        Me.GridColumn110.Width = 1098
+        '
+        'GridColumn105
+        '
+        Me.GridColumn105.Caption = "Id"
+        Me.GridColumn105.FieldName = "Id"
+        Me.GridColumn105.Name = "GridColumn105"
+        '
+        'GridColumn106
+        '
+        Me.GridColumn106.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn106.Caption = "Código"
+        Me.GridColumn106.FieldName = "AccountCode"
+        Me.GridColumn106.Name = "GridColumn106"
+        Me.GridColumn106.Width = 294
+        '
+        'GridColumn107
+        '
+        Me.GridColumn107.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn107.Caption = "Nombre"
+        Me.GridColumn107.FieldName = "AccountName"
+        Me.GridColumn107.Name = "GridColumn107"
+        Me.GridColumn107.Width = 1098
+        '
+        'GridColumn102
+        '
+        Me.GridColumn102.Caption = "Id"
+        Me.GridColumn102.FieldName = "Id"
+        Me.GridColumn102.Name = "GridColumn102"
+        '
+        'GridColumn103
+        '
+        Me.GridColumn103.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn103.Caption = "Código"
+        Me.GridColumn103.FieldName = "AccountCode"
+        Me.GridColumn103.Name = "GridColumn103"
+        Me.GridColumn103.Width = 294
+        '
+        'GridColumn104
+        '
+        Me.GridColumn104.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn104.Caption = "Nombre"
+        Me.GridColumn104.FieldName = "AccountName"
+        Me.GridColumn104.Name = "GridColumn104"
+        Me.GridColumn104.Width = 1098
+        '
+        'GridColumn99
+        '
+        Me.GridColumn99.Caption = "Id"
+        Me.GridColumn99.FieldName = "Id"
+        Me.GridColumn99.Name = "GridColumn99"
+        '
+        'GridColumn100
+        '
+        Me.GridColumn100.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn100.Caption = "Código"
+        Me.GridColumn100.FieldName = "AccountCode"
+        Me.GridColumn100.Name = "GridColumn100"
+        Me.GridColumn100.Width = 294
+        '
+        'GridColumn101
+        '
+        Me.GridColumn101.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn101.Caption = "Nombre"
+        Me.GridColumn101.FieldName = "AccountName"
+        Me.GridColumn101.Name = "GridColumn101"
+        Me.GridColumn101.Width = 1098
+        '
+        'GridColumn96
+        '
+        Me.GridColumn96.Caption = "Id"
+        Me.GridColumn96.FieldName = "Id"
+        Me.GridColumn96.Name = "GridColumn96"
+        '
+        'GridColumn97
+        '
+        Me.GridColumn97.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn97.Caption = "Código"
+        Me.GridColumn97.FieldName = "AccountCode"
+        Me.GridColumn97.Name = "GridColumn97"
+        Me.GridColumn97.Width = 294
+        '
+        'GridColumn98
+        '
+        Me.GridColumn98.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn98.Caption = "Nombre"
+        Me.GridColumn98.FieldName = "AccountName"
+        Me.GridColumn98.Name = "GridColumn98"
+        Me.GridColumn98.Width = 1098
+        '
+        'GridColumn93
+        '
+        Me.GridColumn93.Caption = "Id"
+        Me.GridColumn93.FieldName = "Id"
+        Me.GridColumn93.Name = "GridColumn93"
+        '
+        'GridColumn94
+        '
+        Me.GridColumn94.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn94.Caption = "Código"
+        Me.GridColumn94.FieldName = "AccountCode"
+        Me.GridColumn94.Name = "GridColumn94"
+        Me.GridColumn94.Width = 294
+        '
+        'GridColumn95
+        '
+        Me.GridColumn95.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn95.Caption = "Nombre"
+        Me.GridColumn95.FieldName = "AccountName"
+        Me.GridColumn95.Name = "GridColumn95"
+        Me.GridColumn95.Width = 1098
+        '
+        'GridColumn90
+        '
+        Me.GridColumn90.Caption = "Id"
+        Me.GridColumn90.FieldName = "Id"
+        Me.GridColumn90.Name = "GridColumn90"
+        '
+        'GridColumn91
+        '
+        Me.GridColumn91.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn91.Caption = "Código"
+        Me.GridColumn91.FieldName = "AccountCode"
+        Me.GridColumn91.Name = "GridColumn91"
+        Me.GridColumn91.Width = 294
+        '
+        'GridColumn92
+        '
+        Me.GridColumn92.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn92.Caption = "Nombre"
+        Me.GridColumn92.FieldName = "AccountName"
+        Me.GridColumn92.Name = "GridColumn92"
+        Me.GridColumn92.Width = 1098
+        '
+        'GridColumn87
+        '
+        Me.GridColumn87.Caption = "Id"
+        Me.GridColumn87.FieldName = "Id"
+        Me.GridColumn87.Name = "GridColumn87"
+        '
+        'GridColumn88
+        '
+        Me.GridColumn88.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn88.Caption = "Código"
+        Me.GridColumn88.FieldName = "AccountCode"
+        Me.GridColumn88.Name = "GridColumn88"
+        Me.GridColumn88.Width = 294
+        '
+        'GridColumn89
+        '
+        Me.GridColumn89.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn89.Caption = "Nombre"
+        Me.GridColumn89.FieldName = "AccountName"
+        Me.GridColumn89.Name = "GridColumn89"
+        Me.GridColumn89.Width = 1098
+        '
+        'GridColumn84
+        '
+        Me.GridColumn84.Caption = "Id"
+        Me.GridColumn84.FieldName = "Id"
+        Me.GridColumn84.Name = "GridColumn84"
+        '
+        'GridColumn85
+        '
+        Me.GridColumn85.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn85.Caption = "Código"
+        Me.GridColumn85.FieldName = "AccountCode"
+        Me.GridColumn85.Name = "GridColumn85"
+        Me.GridColumn85.Width = 294
+        '
+        'GridColumn86
+        '
+        Me.GridColumn86.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn86.Caption = "Nombre"
+        Me.GridColumn86.FieldName = "AccountName"
+        Me.GridColumn86.Name = "GridColumn86"
+        Me.GridColumn86.Width = 1098
+        '
+        'GridColumn81
+        '
+        Me.GridColumn81.Caption = "Id"
+        Me.GridColumn81.FieldName = "Id"
+        Me.GridColumn81.Name = "GridColumn81"
+        '
+        'GridColumn82
+        '
+        Me.GridColumn82.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn82.Caption = "Código"
+        Me.GridColumn82.FieldName = "AccountCode"
+        Me.GridColumn82.Name = "GridColumn82"
+        Me.GridColumn82.Width = 294
+        '
+        'GridColumn83
+        '
+        Me.GridColumn83.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn83.Caption = "Nombre"
+        Me.GridColumn83.FieldName = "AccountName"
+        Me.GridColumn83.Name = "GridColumn83"
+        Me.GridColumn83.Width = 1098
+        '
+        'GridColumn78
+        '
+        Me.GridColumn78.Caption = "Id"
+        Me.GridColumn78.FieldName = "Id"
+        Me.GridColumn78.Name = "GridColumn78"
+        '
+        'GridColumn79
+        '
+        Me.GridColumn79.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn79.Caption = "Código"
+        Me.GridColumn79.FieldName = "AccountCode"
+        Me.GridColumn79.Name = "GridColumn79"
+        Me.GridColumn79.Width = 294
+        '
+        'GridColumn80
+        '
+        Me.GridColumn80.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn80.Caption = "Nombre"
+        Me.GridColumn80.FieldName = "AccountName"
+        Me.GridColumn80.Name = "GridColumn80"
+        Me.GridColumn80.Width = 1098
+        '
+        'GridColumn75
+        '
+        Me.GridColumn75.Caption = "Id"
+        Me.GridColumn75.FieldName = "Id"
+        Me.GridColumn75.Name = "GridColumn75"
+        '
+        'GridColumn76
+        '
+        Me.GridColumn76.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn76.Caption = "Código"
+        Me.GridColumn76.FieldName = "AccountCode"
+        Me.GridColumn76.Name = "GridColumn76"
+        Me.GridColumn76.Width = 294
+        '
+        'GridColumn77
+        '
+        Me.GridColumn77.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn77.Caption = "Nombre"
+        Me.GridColumn77.FieldName = "AccountName"
+        Me.GridColumn77.Name = "GridColumn77"
+        Me.GridColumn77.Width = 1098
+        '
+        'GridColumn72
+        '
+        Me.GridColumn72.Caption = "Id"
+        Me.GridColumn72.FieldName = "Id"
+        Me.GridColumn72.Name = "GridColumn72"
+        '
+        'GridColumn73
+        '
+        Me.GridColumn73.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn73.Caption = "Código"
+        Me.GridColumn73.FieldName = "AccountCode"
+        Me.GridColumn73.Name = "GridColumn73"
+        Me.GridColumn73.Width = 294
+        '
+        'GridColumn74
+        '
+        Me.GridColumn74.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn74.Caption = "Nombre"
+        Me.GridColumn74.FieldName = "AccountName"
+        Me.GridColumn74.Name = "GridColumn74"
+        Me.GridColumn74.Width = 1098
+        '
+        'GridColumn69
+        '
+        Me.GridColumn69.Caption = "Id"
+        Me.GridColumn69.FieldName = "Id"
+        Me.GridColumn69.Name = "GridColumn69"
+        '
+        'GridColumn70
+        '
+        Me.GridColumn70.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn70.Caption = "Código"
+        Me.GridColumn70.FieldName = "AccountCode"
+        Me.GridColumn70.Name = "GridColumn70"
+        Me.GridColumn70.Width = 294
+        '
+        'GridColumn71
+        '
+        Me.GridColumn71.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn71.Caption = "Nombre"
+        Me.GridColumn71.FieldName = "AccountName"
+        Me.GridColumn71.Name = "GridColumn71"
+        Me.GridColumn71.Width = 1098
+        '
+        'GridColumn64
+        '
+        Me.GridColumn64.Caption = "Id"
+        Me.GridColumn64.FieldName = "Id"
+        Me.GridColumn64.Name = "GridColumn64"
+        '
+        'GridColumn65
+        '
+        Me.GridColumn65.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn65.Caption = "Código"
+        Me.GridColumn65.FieldName = "AccountCode"
+        Me.GridColumn65.Name = "GridColumn65"
+        Me.GridColumn65.Width = 294
+        '
+        'GridColumn66
+        '
+        Me.GridColumn66.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn66.Caption = "Nombre"
+        Me.GridColumn66.FieldName = "AccountName"
+        Me.GridColumn66.Name = "GridColumn66"
+        Me.GridColumn66.Width = 1098
+        '
+        'GridColumn61
+        '
+        Me.GridColumn61.Caption = "Id"
+        Me.GridColumn61.FieldName = "Id"
+        Me.GridColumn61.Name = "GridColumn61"
+        '
+        'GridColumn62
+        '
+        Me.GridColumn62.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn62.Caption = "Código"
+        Me.GridColumn62.FieldName = "AccountCode"
+        Me.GridColumn62.Name = "GridColumn62"
+        Me.GridColumn62.Width = 294
+        '
+        'GridColumn63
+        '
+        Me.GridColumn63.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn63.Caption = "Nombre"
+        Me.GridColumn63.FieldName = "AccountName"
+        Me.GridColumn63.Name = "GridColumn63"
+        Me.GridColumn63.Width = 1098
+        '
+        'GridColumn58
+        '
+        Me.GridColumn58.Caption = "Id"
+        Me.GridColumn58.FieldName = "Id"
+        Me.GridColumn58.Name = "GridColumn58"
+        '
+        'GridColumn59
+        '
+        Me.GridColumn59.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn59.Caption = "Código"
+        Me.GridColumn59.FieldName = "AccountCode"
+        Me.GridColumn59.Name = "GridColumn59"
+        Me.GridColumn59.Width = 294
+        '
+        'GridColumn60
+        '
+        Me.GridColumn60.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn60.Caption = "Nombre"
+        Me.GridColumn60.FieldName = "AccountName"
+        Me.GridColumn60.Name = "GridColumn60"
+        Me.GridColumn60.Width = 1098
+        '
+        'GridColumn55
+        '
+        Me.GridColumn55.Caption = "Id"
+        Me.GridColumn55.FieldName = "Id"
+        Me.GridColumn55.Name = "GridColumn55"
+        '
+        'GridColumn56
+        '
+        Me.GridColumn56.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn56.Caption = "Código"
+        Me.GridColumn56.FieldName = "AccountCode"
+        Me.GridColumn56.Name = "GridColumn56"
+        Me.GridColumn56.Width = 294
+        '
+        'GridColumn57
+        '
+        Me.GridColumn57.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn57.Caption = "Nombre"
+        Me.GridColumn57.FieldName = "AccountName"
+        Me.GridColumn57.Name = "GridColumn57"
+        Me.GridColumn57.Width = 1098
+        '
+        'GridColumn52
+        '
+        Me.GridColumn52.Caption = "Id"
+        Me.GridColumn52.FieldName = "Id"
+        Me.GridColumn52.Name = "GridColumn52"
+        '
+        'GridColumn53
+        '
+        Me.GridColumn53.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn53.Caption = "Código"
+        Me.GridColumn53.FieldName = "AccountCode"
+        Me.GridColumn53.Name = "GridColumn53"
+        Me.GridColumn53.Width = 294
+        '
+        'GridColumn54
+        '
+        Me.GridColumn54.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn54.Caption = "Nombre"
+        Me.GridColumn54.FieldName = "AccountName"
+        Me.GridColumn54.Name = "GridColumn54"
+        Me.GridColumn54.Width = 1098
+        '
+        'GridColumn49
+        '
+        Me.GridColumn49.Caption = "Id"
+        Me.GridColumn49.FieldName = "Id"
+        Me.GridColumn49.Name = "GridColumn49"
+        '
+        'GridColumn50
+        '
+        Me.GridColumn50.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn50.Caption = "Código"
+        Me.GridColumn50.FieldName = "AccountCode"
+        Me.GridColumn50.Name = "GridColumn50"
+        Me.GridColumn50.Width = 294
+        '
+        'GridColumn51
+        '
+        Me.GridColumn51.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn51.Caption = "Nombre"
+        Me.GridColumn51.FieldName = "AccountName"
+        Me.GridColumn51.Name = "GridColumn51"
+        Me.GridColumn51.Width = 1098
+        '
+        'GridColumn46
+        '
+        Me.GridColumn46.Caption = "Id"
+        Me.GridColumn46.FieldName = "Id"
+        Me.GridColumn46.Name = "GridColumn46"
+        '
+        'GridColumn47
+        '
+        Me.GridColumn47.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn47.Caption = "Código"
+        Me.GridColumn47.FieldName = "AccountCode"
+        Me.GridColumn47.Name = "GridColumn47"
+        Me.GridColumn47.Width = 294
+        '
+        'GridColumn48
+        '
+        Me.GridColumn48.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn48.Caption = "Nombre"
+        Me.GridColumn48.FieldName = "AccountName"
+        Me.GridColumn48.Name = "GridColumn48"
+        Me.GridColumn48.Width = 1098
+        '
+        'GridColumn43
+        '
+        Me.GridColumn43.Caption = "Id"
+        Me.GridColumn43.FieldName = "Id"
+        Me.GridColumn43.Name = "GridColumn43"
+        '
+        'GridColumn44
+        '
+        Me.GridColumn44.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn44.Caption = "Código"
+        Me.GridColumn44.FieldName = "AccountCode"
+        Me.GridColumn44.Name = "GridColumn44"
+        Me.GridColumn44.Width = 294
+        '
+        'GridColumn45
+        '
+        Me.GridColumn45.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn45.Caption = "Nombre"
+        Me.GridColumn45.FieldName = "AccountName"
+        Me.GridColumn45.Name = "GridColumn45"
+        Me.GridColumn45.Width = 1098
+        '
+        'GridColumn40
+        '
+        Me.GridColumn40.Caption = "Id"
+        Me.GridColumn40.FieldName = "Id"
+        Me.GridColumn40.Name = "GridColumn40"
+        '
+        'GridColumn41
+        '
+        Me.GridColumn41.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn41.Caption = "Código"
+        Me.GridColumn41.FieldName = "AccountCode"
+        Me.GridColumn41.Name = "GridColumn41"
+        Me.GridColumn41.Width = 294
+        '
+        'GridColumn42
+        '
+        Me.GridColumn42.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn42.Caption = "Nombre"
+        Me.GridColumn42.FieldName = "AccountName"
+        Me.GridColumn42.Name = "GridColumn42"
+        Me.GridColumn42.Width = 1098
+        '
+        'GridColumn37
+        '
+        Me.GridColumn37.Caption = "Id"
+        Me.GridColumn37.FieldName = "Id"
+        Me.GridColumn37.Name = "GridColumn37"
+        '
+        'GridColumn38
+        '
+        Me.GridColumn38.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn38.Caption = "Código"
+        Me.GridColumn38.FieldName = "AccountCode"
+        Me.GridColumn38.Name = "GridColumn38"
+        Me.GridColumn38.Width = 294
+        '
+        'GridColumn39
+        '
+        Me.GridColumn39.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn39.Caption = "Nombre"
+        Me.GridColumn39.FieldName = "AccountName"
+        Me.GridColumn39.Name = "GridColumn39"
+        Me.GridColumn39.Width = 1098
+        '
+        'GridColumn34
+        '
+        Me.GridColumn34.Caption = "Id"
+        Me.GridColumn34.FieldName = "Id"
+        Me.GridColumn34.Name = "GridColumn34"
+        '
+        'GridColumn35
+        '
+        Me.GridColumn35.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn35.Caption = "Código"
+        Me.GridColumn35.FieldName = "AccountCode"
+        Me.GridColumn35.Name = "GridColumn35"
+        Me.GridColumn35.Width = 294
+        '
+        'GridColumn36
+        '
+        Me.GridColumn36.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn36.Caption = "Nombre"
+        Me.GridColumn36.FieldName = "AccountName"
+        Me.GridColumn36.Name = "GridColumn36"
+        Me.GridColumn36.Width = 1098
+        '
+        'GridColumn31
+        '
+        Me.GridColumn31.Caption = "Id"
+        Me.GridColumn31.FieldName = "Id"
+        Me.GridColumn31.Name = "GridColumn31"
+        '
+        'GridColumn32
+        '
+        Me.GridColumn32.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn32.Caption = "Código"
+        Me.GridColumn32.FieldName = "AccountCode"
+        Me.GridColumn32.Name = "GridColumn32"
+        Me.GridColumn32.Width = 294
+        '
+        'GridColumn33
+        '
+        Me.GridColumn33.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn33.Caption = "Nombre"
+        Me.GridColumn33.FieldName = "AccountName"
+        Me.GridColumn33.Name = "GridColumn33"
+        Me.GridColumn33.Width = 1098
+        '
+        'GridColumn28
+        '
+        Me.GridColumn28.Caption = "Id"
+        Me.GridColumn28.FieldName = "Id"
+        Me.GridColumn28.Name = "GridColumn28"
+        '
+        'GridColumn29
+        '
+        Me.GridColumn29.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn29.Caption = "Código"
+        Me.GridColumn29.FieldName = "AccountCode"
+        Me.GridColumn29.Name = "GridColumn29"
+        Me.GridColumn29.Width = 294
+        '
+        'GridColumn30
+        '
+        Me.GridColumn30.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn30.Caption = "Nombre"
+        Me.GridColumn30.FieldName = "AccountName"
+        Me.GridColumn30.Name = "GridColumn30"
+        Me.GridColumn30.Width = 1098
+        '
+        'GridColumn25
+        '
+        Me.GridColumn25.Caption = "Id"
+        Me.GridColumn25.FieldName = "Id"
+        Me.GridColumn25.Name = "GridColumn25"
+        '
+        'GridColumn26
+        '
+        Me.GridColumn26.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn26.Caption = "Código"
+        Me.GridColumn26.FieldName = "AccountCode"
+        Me.GridColumn26.Name = "GridColumn26"
+        Me.GridColumn26.Width = 294
+        '
+        'GridColumn27
+        '
+        Me.GridColumn27.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn27.Caption = "Nombre"
+        Me.GridColumn27.FieldName = "AccountName"
+        Me.GridColumn27.Name = "GridColumn27"
+        Me.GridColumn27.Width = 1098
+        '
+        'GridColumn22
+        '
+        Me.GridColumn22.Caption = "Id"
+        Me.GridColumn22.FieldName = "Id"
+        Me.GridColumn22.Name = "GridColumn22"
+        '
+        'GridColumn23
+        '
+        Me.GridColumn23.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn23.Caption = "Código"
+        Me.GridColumn23.FieldName = "AccountCode"
+        Me.GridColumn23.Name = "GridColumn23"
+        Me.GridColumn23.Width = 294
+        '
+        'GridColumn24
+        '
+        Me.GridColumn24.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn24.Caption = "Nombre"
+        Me.GridColumn24.FieldName = "AccountName"
+        Me.GridColumn24.Name = "GridColumn24"
+        Me.GridColumn24.Width = 1098
+        '
+        'GridColumn19
+        '
+        Me.GridColumn19.Caption = "Id"
+        Me.GridColumn19.FieldName = "Id"
+        Me.GridColumn19.Name = "GridColumn19"
+        '
+        'GridColumn20
+        '
+        Me.GridColumn20.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn20.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center
+        Me.GridColumn20.Caption = "Código"
+        Me.GridColumn20.FieldName = "AccountCode"
+        Me.GridColumn20.Name = "GridColumn20"
+        Me.GridColumn20.Width = 305
+        '
+        'GridColumn21
+        '
+        Me.GridColumn21.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn21.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center
+        Me.GridColumn21.Caption = "Nombre"
+        Me.GridColumn21.FieldName = "AccountName"
+        Me.GridColumn21.Name = "GridColumn21"
+        Me.GridColumn21.Width = 1098
+        '
+        'IndigoGridView1
+        '
+        Me.IndigoGridView1.RaiseMenuPopUp = True
+        Me.IndigoGridView1.RepositoryItemPopupContainerEdit = Me.RepositoryItemPopupContainerEdit2
+        '
+        'GridColumn1
+        '
+        Me.GridColumn1.Caption = "Valor"
+        Me.GridColumn1.FieldName = "Item1"
+        Me.GridColumn1.Name = "GridColumn1"
+        '
+        'GridColumn2
+        '
+        Me.GridColumn2.Caption = "Tipo de Cuenta"
+        Me.GridColumn2.FieldName = "Item2"
+        Me.GridColumn2.Name = "GridColumn2"
+        Me.GridColumn2.Visible = True
+        Me.GridColumn2.VisibleIndex = 0
+        '
+        'IndigoGridView2
+        '
+        Me.IndigoGridView2.RaiseMenuPopUp = True
+        Me.IndigoGridView2.RepositoryItemPopupContainerEdit = Me.RepositoryItemPopupContainerEdit1
+        '
+        'CtrNavigationControl1
+        '
+        Me.CtrNavigationControl1.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder
+        Me.CtrNavigationControl1.Dock = System.Windows.Forms.DockStyle.Left
+        Me.CtrNavigationControl1.LayoutControl = Me.INDlycRoot
+        Me.CtrNavigationControl1.Location = New System.Drawing.Point(2, 8)
+        Me.CtrNavigationControl1.Margin = New System.Windows.Forms.Padding(0)
+        Me.CtrNavigationControl1.Name = "CtrNavigationControl1"
+        Me.CtrNavigationControl1.Size = New System.Drawing.Size(200, 478)
+        Me.CtrNavigationControl1.TabIndex = 2
+        Me.CtrNavigationControl1.UseDisabledStatePainter = False
+        '
+        'FrmEntityAccount
+        '
+        Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
+        Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
+        Me.ClientSize = New System.Drawing.Size(1178, 624)
+        Me.Cursor = System.Windows.Forms.Cursors.Default
+        Me.IconOptions.ShowIcon = False
+        Me.Margin = New System.Windows.Forms.Padding(3, 4, 3, 4)
+        Me.Name = "FrmEntityAccount"
+        Me.Opacity = 1.0R
+        Me.Padding = New System.Windows.Forms.Padding(0, 6, 0, 0)
+        Me.Tag = "628"
+        Me.Text = "Cuentas Bancarias Entidades"
+        CType(Me.INDPanelControlBase, System.ComponentModel.ISupportInitialize).EndInit
+        Me.INDPanelControlBase.ResumeLayout(False)
+        CType(Me.ToolBars, System.ComponentModel.ISupportInitialize).EndInit
+        Me.ToolBars.ResumeLayout(False)
+        CType(Me.LayoutControls, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.RepositoryItemPopupContainerEdit2, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.RepositoryItemPopupContainerEdit1, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.INDlycRoot, System.ComponentModel.ISupportInitialize).EndInit
+        Me.INDlycRoot.ResumeLayout(False)
+        CType(Me.INDsleFinancialSource.Properties, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.GridView9, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.PopupContainerControl1, System.ComponentModel.ISupportInitialize).EndInit
+        Me.PopupContainerControl1.ResumeLayout(False)
+        CType(Me.LayoutControl1, System.ComponentModel.ISupportInitialize).EndInit
+        Me.LayoutControl1.ResumeLayout(False)
+        CType(Me.INDtxtPrefix.Properties, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.INDgleStatusVoucher.Properties, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.GridView2, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.INDtxtCurrentNumber.Properties, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.INDtxtEndNumber.Properties, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.INDtxtInitialNumber.Properties, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.LayoutControlGroup1, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.INDliInitialNumber, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.INDliEndNumber, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.INDliCurrentNumber, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.INDliStatusVoucher, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.INDliAdd, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.INDliEdit, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.INDliPrefix, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.INDSleCostCenterMainAccountExpenses.Properties, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.GridView8, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.INDSleThirdMainAccountExpenses.Properties, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.GridView7, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.INDSleCostCenterMainAccountCounterpart.Properties, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.GridView6, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.INDSleThirdMainAccountCounterpart.Properties, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.GridView5, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.INDtePrefix.Properties, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.INDsleUser, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.INDgvUsers, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.INDsleFMGMainAccountCounterpart.Properties, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.GridView10, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.INDsleFMGMainAccountExpenses.Properties, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.GridView11, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.INDsleThirdParty.Properties, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.GridView4, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.INDGcUser, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.INDGvUser, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.INDtxtCurrentBalance.Properties, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.INDpopVoucher.Properties, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.INDsleAccountAccounting.Properties, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.INDsleAccountAccounting, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.INDsleAccountAccountingView, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.INDgcCheckbook, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.INDgdvCheckbook, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.RepositoryStatusVoucher, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.RepositoryItemGridLookUpEdit1View, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.INDbteCode.Properties, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.INDdteInitDate.Properties.CalendarTimeProperties, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.INDdteInitDate.Properties, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.INDtxtRate.Properties, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.INDtxtQuota.Properties, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.INDtxtInitialBalance.Properties, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.INDtxtNumber.Properties, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.INDsleBankEntityAccount.Properties, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.SearchLookUpEdit1View, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.INDsleCity.Properties, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.GridView3, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.INDsleCostCenter.Properties, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.GridView1, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.INDgleType.Properties, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.GridLookUpEdit1View, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.INDSleCurrency.Properties, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.GridView12, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.INDlycgRoot, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.INDlycgGeneralInfo, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.INDlyciBank, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.INDlyciCity, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.INDlyciType, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.INDlyciInitBalance, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.INDlyciRate, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.INDlyciCode, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.INDlyciNumber, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.INDlyciQuotaOverdraft, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.INDlyciInitDate, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.INDliCurrentBalance, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.INDliPrefixBank, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.INDlycgAccountingInfo, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.INDlyciCostCenter, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.INDlyciAccount, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.INDLiFMGMainAccountExpenses, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.INDLiFMGMainAccountPayment, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.INDliThirdParty, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.INDLciThirdMainAccountCounterpart, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.INDLciCostCenterMainAccountCounterpart, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.INDLciThirdMainAccountExpenses, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.INDLciCostCenterMainAccountExpenses, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.INDlyItemFinancialSource, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.INDlciCurrency, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.INDlycgCheckbook, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.INDlyciCheckbook, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.INDliPopVoucher, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.INDlgrAutorization, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.INDliAddUser, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.INDliAutorizationUsers, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.INDliUser, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.IndigoDate1, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.IndigoGroupControl1, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.IndigoLayoutControlGroup1, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.IndigoTextEdit1, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.IndigoGridControl1, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.IndigoGridView1, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.IndigoGridLookUpControl1, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.IndigoSearchLookUpControl1, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.IndigoSimpleButton1, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.IndigoPopUpContainerEdit1, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.IndigoGridView2, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.CtrNavigationControl1, System.ComponentModel.ISupportInitialize).EndInit
+        Me.ResumeLayout(False)
+
+    End Sub
+    Friend WithEvents INDlycRoot As DevExpress.XtraLayout.LayoutControl
+    Friend WithEvents INDlycgRoot As DevExpress.XtraLayout.LayoutControlGroup
+    Friend WithEvents INDtxtRate As DevExpress.XtraEditors.TextEdit
+    Friend WithEvents INDtxtQuota As DevExpress.XtraEditors.TextEdit
+    Friend WithEvents INDtxtInitialBalance As DevExpress.XtraEditors.TextEdit
+    Friend WithEvents INDtxtNumber As DevExpress.XtraEditors.TextEdit
+    Friend WithEvents INDlycgGeneralInfo As DevExpress.XtraLayout.LayoutControlGroup
+    Friend WithEvents INDlyciBank As DevExpress.XtraLayout.LayoutControlItem
+    Friend WithEvents INDlyciCity As DevExpress.XtraLayout.LayoutControlItem
+    Friend WithEvents INDlyciType As DevExpress.XtraLayout.LayoutControlItem
+    Friend WithEvents INDlyciInitBalance As DevExpress.XtraLayout.LayoutControlItem
+    Friend WithEvents INDlyciRate As DevExpress.XtraLayout.LayoutControlItem
+    Friend WithEvents INDlyciQuotaOverdraft As DevExpress.XtraLayout.LayoutControlItem
+    Friend WithEvents INDlyciNumber As DevExpress.XtraLayout.LayoutControlItem
+    Friend WithEvents INDdteInitDate As DevExpress.XtraEditors.DateEdit
+    Friend WithEvents INDlyciInitDate As DevExpress.XtraLayout.LayoutControlItem
+    Friend WithEvents IndigoTextEdit1 As Presentation.Controls.IndigoTextEdit
+    Friend WithEvents IndigoDate1 As Presentation.Controls.IndigoDate
+    Friend WithEvents IndigoGroupControl1 As Presentation.Controls.IndigoGroupControl
+    Friend WithEvents IndigoLayoutControlGroup1 As Presentation.Controls.IndigoLayoutControlGroup
+    Friend WithEvents INDbteCode As DevExpress.XtraEditors.ButtonEdit
+    Friend WithEvents INDlyciCode As DevExpress.XtraLayout.LayoutControlItem
+    Friend WithEvents INDlycgAccountingInfo As DevExpress.XtraLayout.LayoutControlGroup
+    Friend WithEvents INDlyciCostCenter As DevExpress.XtraLayout.LayoutControlItem
+    Friend WithEvents IndigoGridControl1 As Presentation.Controls.IndigoGridControl
+    Friend WithEvents IndigoGridView1 As Presentation.Controls.IndigoGridView
+    Friend WithEvents INDgcCheckbook As DevExpress.XtraGrid.GridControl
+    Friend WithEvents INDgdvCheckbook As DevExpress.XtraGrid.Views.Grid.GridView
+    Friend WithEvents INDlycgCheckbook As DevExpress.XtraLayout.LayoutControlGroup
+    Friend WithEvents INDlyciCheckbook As DevExpress.XtraLayout.LayoutControlItem
+    Friend WithEvents ColChkInitNumber As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents ColChkEndNumber As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents ColChkCurrent As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents ColChkStatus As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents INDsleBankEntityAccount As DevExpress.XtraEditors.SearchLookUpEdit
+    Friend WithEvents SearchLookUpEdit1View As DevExpress.XtraGrid.Views.Grid.GridView
+    Friend WithEvents INDsleCity As DevExpress.XtraEditors.SearchLookUpEdit
+    Friend WithEvents GridView3 As DevExpress.XtraGrid.Views.Grid.GridView
+    Friend WithEvents INDsleCostCenter As DevExpress.XtraEditors.SearchLookUpEdit
+    Friend WithEvents GridView1 As DevExpress.XtraGrid.Views.Grid.GridView
+    Friend WithEvents IndigoGridLookUpControl1 As Presentation.Controls.IndigoGridLookUpControl
+    Friend WithEvents INDgleType As DevExpress.XtraEditors.GridLookUpEdit
+    Friend WithEvents GridLookUpEdit1View As DevExpress.XtraGrid.Views.Grid.GridView
+    Friend WithEvents GridColumn1 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn2 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn3 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn4 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn5 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn6 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn7 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn8 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn9 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn10 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn11 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn12 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents INDsleAccountAccounting As Presentation.Controls.CtrPUC
+    Friend WithEvents CtrPUC1View As DevExpress.XtraGrid.Views.Grid.GridView
+    Friend WithEvents INDlyciAccount As DevExpress.XtraLayout.LayoutControlItem
+    Friend WithEvents INDsleAccountAccountingView As DevExpress.XtraGrid.Views.Grid.GridView
+    Friend WithEvents GridColumn13 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn14 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn15 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn16 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn17 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn18 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn19 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn20 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn21 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn22 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn23 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn24 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn25 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn26 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn27 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn28 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn29 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn30 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents IndigoSearchLookUpControl1 As Presentation.Controls.IndigoSearchLookUpControl
+    Friend WithEvents GridColumn31 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn32 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn33 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn34 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn35 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn36 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn37 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn38 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn39 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn40 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn41 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn42 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn43 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn44 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn45 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn46 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn47 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn48 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn49 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn50 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn51 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents INDpopVoucher As DevExpress.XtraEditors.PopupContainerEdit
+    Friend WithEvents INDliPopVoucher As DevExpress.XtraLayout.LayoutControlItem
+    Friend WithEvents GridColumn52 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn53 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn54 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn55 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn56 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn57 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn58 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn59 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn60 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents PopupContainerControl1 As DevExpress.XtraEditors.PopupContainerControl
+    Friend WithEvents LayoutControl1 As DevExpress.XtraLayout.LayoutControl
+    Friend WithEvents LayoutControlGroup1 As DevExpress.XtraLayout.LayoutControlGroup
+    Friend WithEvents INDgleStatusVoucher As DevExpress.XtraEditors.GridLookUpEdit
+    Friend WithEvents GridView2 As DevExpress.XtraGrid.Views.Grid.GridView
+    Friend WithEvents INDtxtCurrentNumber As DevExpress.XtraEditors.SpinEdit
+    Friend WithEvents INDtxtEndNumber As DevExpress.XtraEditors.SpinEdit
+    Friend WithEvents INDtxtInitialNumber As DevExpress.XtraEditors.SpinEdit
+    Friend WithEvents INDliInitialNumber As DevExpress.XtraLayout.LayoutControlItem
+    Friend WithEvents INDliEndNumber As DevExpress.XtraLayout.LayoutControlItem
+    Friend WithEvents INDliCurrentNumber As DevExpress.XtraLayout.LayoutControlItem
+    Friend WithEvents INDliStatusVoucher As DevExpress.XtraLayout.LayoutControlItem
+    Friend WithEvents GridColumn61 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn62 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn63 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents INDsbAddVoucher As DevExpress.XtraEditors.SimpleButton
+    Friend WithEvents INDliAdd As DevExpress.XtraLayout.LayoutControlItem
+    Friend WithEvents IndigoSimpleButton1 As Presentation.Controls.IndigoSimpleButton
+    Friend WithEvents GridColumn64 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn65 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn66 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn67 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn68 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn69 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn70 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn71 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn72 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn73 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn74 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn75 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn76 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn77 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents RepositoryStatusVoucher As DevExpress.XtraEditors.Repository.RepositoryItemGridLookUpEdit
+    Friend WithEvents RepositoryItemGridLookUpEdit1View As DevExpress.XtraGrid.Views.Grid.GridView
+    Friend WithEvents GridColumn78 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn79 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn80 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn81 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn82 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn83 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn84 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn85 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn86 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn87 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn88 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn89 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents INDsbEdit As DevExpress.XtraEditors.SimpleButton
+    Friend WithEvents INDliEdit As DevExpress.XtraLayout.LayoutControlItem
+    Friend WithEvents GridColumn90 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn91 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn92 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn93 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn94 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn95 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn96 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn97 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn98 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn99 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn100 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn101 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn102 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn103 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn104 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn105 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn106 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn107 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn108 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn109 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn110 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn111 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn112 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn113 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn114 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn115 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn116 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents IndigoPopUpContainerEdit1 As Presentation.Controls.IndigoPopUpContainerEdit
+    Friend WithEvents GridColumn117 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn118 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn119 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn120 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn121 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn122 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn123 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn124 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn125 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn126 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn127 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn128 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn129 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn130 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn131 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn132 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn133 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn134 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn135 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn136 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn137 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn138 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn139 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn140 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents INDtxtCurrentBalance As DevExpress.XtraEditors.TextEdit
+    Friend WithEvents GridColumn141 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn142 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn143 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents INDliCurrentBalance As DevExpress.XtraLayout.LayoutControlItem
+    Friend WithEvents GridColumn144 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn145 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn146 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn147 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn148 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn149 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn150 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn151 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn152 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents INDlgrAutorization As DevExpress.XtraLayout.LayoutControlGroup
+    Friend WithEvents INDsbAddUser As DevExpress.XtraEditors.SimpleButton
+    Friend WithEvents INDliAddUser As DevExpress.XtraLayout.LayoutControlItem
+    Friend WithEvents GridColumn153 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn154 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn155 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents INDGcUser As DevExpress.XtraGrid.GridControl
+    Friend WithEvents INDGvUser As DevExpress.XtraGrid.Views.Grid.GridView
+    Friend WithEvents INDliAutorizationUsers As DevExpress.XtraLayout.LayoutControlItem
+    Friend WithEvents GridColumn156 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn157 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn158 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn159 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn160 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn161 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn162 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn163 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn167 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn168 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn169 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn170 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn171 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn172 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn173 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn174 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn175 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn176 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn177 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn178 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn179 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn180 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn181 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents IndigoGridView2 As Presentation.Controls.IndigoGridView
+    Friend WithEvents GridColumn182 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn183 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn184 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn185 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn186 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn187 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn188 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn189 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn190 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn191 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn192 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn193 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn194 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn195 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents INDtxtPrefix As DevExpress.XtraEditors.TextEdit
+    Friend WithEvents INDliPrefix As DevExpress.XtraLayout.LayoutControlItem
+    Friend WithEvents GridColumn196 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn197 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn198 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn199 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn200 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn201 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn202 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn203 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn204 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn205 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn206 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn207 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn208 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn209 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn210 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn211 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn212 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn213 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn214 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn215 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn216 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn217 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn218 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn219 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn220 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn221 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn222 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn223 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn224 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn225 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn226 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn227 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn228 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn229 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn230 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents CtrNavigationControl1 As Presentation.Controls.CtrNavigationControlPanel
+    Friend WithEvents GridColumn231 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn232 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn233 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn234 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn235 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn236 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn237 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn238 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn239 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn240 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn241 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn242 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn243 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn244 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn245 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn246 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn247 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn248 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn249 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn250 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn251 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn252 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn253 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn254 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn255 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn256 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn257 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn258 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn259 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn260 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn261 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn262 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn263 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn264 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn265 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents INDsleThirdParty As DevExpress.XtraEditors.SearchLookUpEdit
+    Friend WithEvents GridView4 As DevExpress.XtraGrid.Views.Grid.GridView
+    Friend WithEvents INDliThirdParty As DevExpress.XtraLayout.LayoutControlItem
+    Friend WithEvents GridColumn266 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn267 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn268 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn269 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn270 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn271 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn272 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn273 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn274 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn275 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn281 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn282 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn283 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn284 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn285 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn286 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn276 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn277 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn278 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn279 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn280 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn287 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn288 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn289 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn290 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn291 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents INDsleFMGMainAccountCounterpart As DevExpress.XtraEditors.SearchLookUpEdit
+    Friend WithEvents GridView10 As DevExpress.XtraGrid.Views.Grid.GridView
+    Friend WithEvents GridColumn297 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn298 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents INDsleFMGMainAccountExpenses As DevExpress.XtraEditors.SearchLookUpEdit
+    Friend WithEvents GridView11 As DevExpress.XtraGrid.Views.Grid.GridView
+    Friend WithEvents GridColumn299 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn300 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn292 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn293 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn294 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn295 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn296 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents INDLiFMGMainAccountExpenses As DevExpress.XtraLayout.LayoutControlItem
+    Friend WithEvents INDLiFMGMainAccountPayment As DevExpress.XtraLayout.LayoutControlItem
+    Friend WithEvents GridColumn301 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn302 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn303 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn304 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn305 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn306 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn307 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn308 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn309 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn310 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn311 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn312 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn313 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn314 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn315 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn316 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn317 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn318 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn319 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn320 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn321 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn322 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn323 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn324 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn325 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents INDsleUser As Presentation.Controls.SearchLookUpEditEx
+    Friend WithEvents INDgvUsers As DevExpress.XtraGrid.Views.Grid.GridView
+    Friend WithEvents GridColumn326 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn327 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn328 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn329 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn330 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents INDliUser As DevExpress.XtraLayout.LayoutControlItem
+    Friend WithEvents GridColumn331 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn332 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn333 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn164 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn165 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn166 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn334 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn335 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn336 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn337 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn338 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn339 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn340 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn341 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn342 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn343 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn344 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn345 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn346 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn347 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn348 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn349 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn350 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn351 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn352 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn353 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn354 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn355 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn356 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn357 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn358 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn359 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn360 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents INDtePrefix As DevExpress.XtraEditors.TextEdit
+    Friend WithEvents INDliPrefixBank As DevExpress.XtraLayout.LayoutControlItem
+    Friend WithEvents GridColumn361 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn362 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn363 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn364 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn365 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn366 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn367 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn368 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn369 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn370 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn371 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn372 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn373 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn374 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn375 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents INDSleCostCenterMainAccountExpenses As DevExpress.XtraEditors.SearchLookUpEdit
+    Friend WithEvents GridView8 As DevExpress.XtraGrid.Views.Grid.GridView
+    Friend WithEvents GridColumn390 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn391 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents INDSleThirdMainAccountExpenses As DevExpress.XtraEditors.SearchLookUpEdit
+    Friend WithEvents GridView7 As DevExpress.XtraGrid.Views.Grid.GridView
+    Friend WithEvents GridColumn384 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn385 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn386 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn387 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn388 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn389 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents INDSleCostCenterMainAccountCounterpart As DevExpress.XtraEditors.SearchLookUpEdit
+    Friend WithEvents GridView6 As DevExpress.XtraGrid.Views.Grid.GridView
+    Friend WithEvents GridColumn382 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn383 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents INDSleThirdMainAccountCounterpart As DevExpress.XtraEditors.SearchLookUpEdit
+    Friend WithEvents GridView5 As DevExpress.XtraGrid.Views.Grid.GridView
+    Friend WithEvents GridColumn376 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn377 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn378 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn379 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn380 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn381 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents INDLciThirdMainAccountCounterpart As DevExpress.XtraLayout.LayoutControlItem
+    Friend WithEvents INDLciCostCenterMainAccountCounterpart As DevExpress.XtraLayout.LayoutControlItem
+    Friend WithEvents INDLciThirdMainAccountExpenses As DevExpress.XtraLayout.LayoutControlItem
+    Friend WithEvents INDLciCostCenterMainAccountExpenses As DevExpress.XtraLayout.LayoutControlItem
+    Friend WithEvents GridColumn392 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn393 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn394 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn395 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn396 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn397 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn398 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn399 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn400 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn401 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn402 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn403 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn404 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn405 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn406 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn407 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn408 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn409 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn410 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn411 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn412 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn413 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn414 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn415 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn416 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn417 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn418 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn419 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn420 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn421 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn422 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn423 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn424 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn425 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn426 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn427 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn428 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn429 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn430 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn431 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn432 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn433 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn434 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn435 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn436 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn437 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn438 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn439 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn440 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn441 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn442 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn443 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn444 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn445 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn446 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn447 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn448 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn449 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn450 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn451 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn452 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn453 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn454 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn455 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn456 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn457 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn458 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn459 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn460 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn461 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn462 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn463 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn464 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn465 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn466 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents INDsleFinancialSource As DevExpress.XtraEditors.SearchLookUpEdit
+    Friend WithEvents GridView9 As DevExpress.XtraGrid.Views.Grid.GridView
+    Friend WithEvents GridColumn467 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn468 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn469 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn470 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn471 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents INDlyItemFinancialSource As DevExpress.XtraLayout.LayoutControlItem
+    Friend WithEvents GridColumn472 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn473 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn474 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn475 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn476 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn477 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn478 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn479 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn480 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn481 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn482 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn483 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn484 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn485 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn486 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn487 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn488 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn489 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn490 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn491 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn492 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn493 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn494 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn495 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn496 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn497 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn498 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn499 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn500 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn501 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn502 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn503 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn504 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn505 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn506 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn507 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn508 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn509 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn510 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn511 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn512 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn513 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn514 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn515 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn516 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn517 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn518 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn519 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn520 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn521 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn522 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn523 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn524 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents RepositoryItemPopupContainerEdit1 As DevExpress.XtraEditors.Repository.RepositoryItemPopupContainerEdit
+    Friend WithEvents RepositoryItemPopupContainerEdit2 As DevExpress.XtraEditors.Repository.RepositoryItemPopupContainerEdit
+    Friend WithEvents GridColumn525 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn526 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn527 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn528 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn529 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn530 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn531 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn532 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn533 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn534 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn535 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn536 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn537 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn538 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn539 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn540 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn541 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn542 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn543 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn544 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn545 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn546 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn547 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn548 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn549 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn550 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn551 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn552 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn553 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn554 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn555 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn556 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn557 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn558 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn559 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents INDSleCurrency As DevExpress.XtraEditors.SearchLookUpEdit
+    Friend WithEvents GridView12 As DevExpress.XtraGrid.Views.Grid.GridView
+    Friend WithEvents INDlciCurrency As DevExpress.XtraLayout.LayoutControlItem
+    Friend WithEvents GridColumn560 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn561 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn562 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn563 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn564 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn565 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn566 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn567 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn568 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn569 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn570 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn571 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn572 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn573 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn574 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn575 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn576 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn577 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn578 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn579 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn580 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn581 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn582 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn583 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn584 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn585 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn586 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn587 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn588 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn589 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn590 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn591 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn592 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn593 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn594 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn595 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn596 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn597 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn598 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn599 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn600 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn601 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn602 As DevExpress.XtraGrid.Columns.GridColumn
+End Class

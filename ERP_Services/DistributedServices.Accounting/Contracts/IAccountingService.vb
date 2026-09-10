@@ -1,0 +1,8 @@
+﻿<ServiceModel.ServiceContract()>
+Public Interface IAccountingService
+    Inherits IAccountingDocumentType, IAccountingRetentionConcept, IAccountingAccountClass, IAccountingAccountLevel, IAccountingStatementFolio
+    Inherits IAccountingPatrimonialPart, IAccountingBlockRecordAccounting, IAccountingSequense, IAccountingPUC, IAccountingSettingAccount, IAccountingDocumentAccounting, IAccountingCloseMonth
+    Inherits IAccountingCompanySettings, IAccountingGeneralLedgerIVA, IAccountingBook, IAccountingHomologationAccount, IAccountingVieBot, IAccountingMassiveConfirm, IAccountingSettingsExogenousInformation
+    Inherits IAccountingMassiveReplication, IAccountingJournalVoucherDetail, IAccountingReports, IAccountingExogenousFormat, IAccountingHealthSuperParameters, IAccountingMainAccountLevels
+
+End Interface

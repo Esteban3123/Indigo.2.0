@@ -1,0 +1,244 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{A4CA5A36-4641-4226-A044-0499C1551EA3}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>Application.AccountManagement</RootNamespace>
+    <AssemblyName>Application.AccountManagement</AssemblyName>
+    <FileAlignment>512</FileAlignment>
+    <MyType>Windows</MyType>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DocumentationFile>Application.AccountManagement.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DocumentationFile>Application.AccountManagement.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionExplicit>On</OptionExplicit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionCompare>Binary</OptionCompare>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionStrict>Off</OptionStrict>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionInfer>On</OptionInfer>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework">
+      <HintPath>..\DLL\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer">
+      <HintPath>..\DLL\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="Infrastructure.CrossCutting.Exceptions">
+      <HintPath>..\DLL\Infrastructure.CrossCutting.Exceptions.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=13.0.1.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\DLL\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Transactions" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+  </ItemGroup>
+  <ItemGroup>
+    <Import Include="Microsoft.VisualBasic" />
+    <Import Include="System" />
+    <Import Include="System.Collections" />
+    <Import Include="System.Collections.Generic" />
+    <Import Include="System.Data" />
+    <Import Include="System.Diagnostics" />
+    <Import Include="System.Linq" />
+    <Import Include="System.Xml.Linq" />
+    <Import Include="System.Threading.Tasks" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AccountManagementParameters\AccountManagementParametersAdminService.vb" />
+    <Compile Include="AccountManagementParameters\IAccountManagementParametersAdminService.vb" />
+    <Compile Include="BlockRecord\BlockRecordAccountManagementAdminService.vb" />
+    <Compile Include="BlockRecord\IBlockRecordAccountManagementAdminService.vb" />
+    <Compile Include="DashboardAccountAssignment\DashboardAccountAssignmentAdminService.vb" />
+    <Compile Include="DashboardAccountAssignment\IDashboardAccountAssignmentAdminService.vb" />
+    <Compile Include="FolioTransfer\FolioTransferAdminService.vb" />
+    <Compile Include="FolioTransfer\IFolioTransferAdminService.vb" />
+    <Compile Include="ManagementAreas\IManagementAreasAdminService.vb" />
+    <Compile Include="ManagementAreas\ManagementAreasAdminService.vb" />
+    <Compile Include="My Project\AssemblyInfo.vb" />
+    <Compile Include="My Project\Application.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Application.myapp</DependentUpon>
+    </Compile>
+    <Compile Include="My Project\Resources.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="My Project\Settings.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="RejectionReason\IRejectionReasonAdminService.vb" />
+    <Compile Include="RejectionReason\RejectionReasonAdminService.vb" />
+    <Compile Include="Sequence\AccountManagementSequenceAdminService.vb" />
+    <Compile Include="Sequence\IAccountManagementSequenceAdminService.vb" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="My Project\Resources.resx">
+      <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.vb</LastGenOutput>
+      <CustomToolNamespace>My.Resources</CustomToolNamespace>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="My Project\Application.myapp">
+      <Generator>MyApplicationCodeGenerator</Generator>
+      <LastGenOutput>Application.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="My Project\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <CustomToolNamespace>My</CustomToolNamespace>
+      <LastGenOutput>Settings.Designer.vb</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Application.Accounting\Application.Accounting.vbproj">
+      <Project>{3eca7b1f-d62b-4223-9f17-53a1c5b3a0c9}</Project>
+      <Name>Application.Accounting</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Application.Base\Application.Base.vbproj">
+      <Project>{0e700653-1525-4d34-aa89-bfb243f6515c}</Project>
+      <Name>Application.Base</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Application.Common\Application.Common.vbproj">
+      <Project>{0509e89e-92df-4b99-a74b-3043c7e6b1d2}</Project>
+      <Name>Application.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Application.Contract\Application.Contract.vbproj">
+      <Project>{1573e13c-2daa-459f-b74b-02e221c72c06}</Project>
+      <Name>Application.Contract</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Application.ElectronicDocuments\Application.ElectronicDocuments.vbproj">
+      <Project>{e64b8616-9a49-44cf-9d90-49e59d35bc95}</Project>
+      <Name>Application.ElectronicDocuments</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Application.EventHandlers\Application.EventHandlers.csproj">
+      <Project>{bc7db3be-4b97-49d3-92b1-dbac5aa3021b}</Project>
+      <Name>Application.EventHandlers</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Application.Inventory\Application.Inventory.csproj">
+      <Project>{355f1dee-04d6-492c-8bbf-22b00e19ac79}</Project>
+      <Name>Application.Inventory</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Application.Receivable\Application.Portfolio.vbproj">
+      <Project>{0e3ce6cd-428b-4c23-96f8-5080650f898a}</Project>
+      <Name>Application.Portfolio</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Application.Security\Application.Security.vbproj">
+      <Project>{57355c0b-d732-4ab2-88a4-4ab855376599}</Project>
+      <Name>Application.Security</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Application.Treasury\Application.Treasury.vbproj">
+      <Project>{b7a6adb9-46bd-4791-bafb-626b69358166}</Project>
+      <Name>Application.Treasury</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Domain.AccountManagement\Domain.AccountManagement.csproj">
+      <Project>{7b551ebd-428a-4e51-80c2-25a2bfcf7e8e}</Project>
+      <Name>Domain.AccountManagement</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Domain.Base.Entities\Domain.Base.Entities.vbproj">
+      <Project>{78734d29-0073-4d48-9d0b-2362d0243e36}</Project>
+      <Name>Domain.Base.Entities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Domain.Base\Domain.Base.vbproj">
+      <Project>{8157f242-6a69-44c1-a9ac-19f0ee5cb8a2}</Project>
+      <Name>Domain.Base</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Domain.Billing\Domain.Billing.csproj">
+      <Project>{62ee8dea-13ff-406e-b8d2-43ce96499c40}</Project>
+      <Name>Domain.Billing</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Domain.Crystal.Entities\Domain.Crystal.Entities.vbproj">
+      <Project>{aef25407-1a53-4f3b-93cb-5258a6b80951}</Project>
+      <Name>Domain.Crystal.Entities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Domain.Crystal.Service\Domain.Crystal.Service.vbproj">
+      <Project>{4f4c69f9-2cfc-4f40-ae1c-ab4b67208de4}</Project>
+      <Name>Domain.Crystal.Service</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Domain.Crystal\Domain.Crystal.vbproj">
+      <Project>{fb110e4f-2309-46ef-8a11-d979517e315b}</Project>
+      <Name>Domain.Crystal</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Domain.Entities.Service\Domain.Entities.Service.vbproj">
+      <Project>{99e9ab54-bb1b-4279-99e7-b4b8e7068ce7}</Project>
+      <Name>Domain.Entities.Service</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Domain.Entities\Domain.Entities.vbproj">
+      <Project>{0551aef4-ed84-4745-b00b-7475f26015cc}</Project>
+      <Name>Domain.Entities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Domain.Payroll.Entities\Domain.Payroll.Entities.vbproj">
+      <Project>{f0fe946f-2bd9-4bb8-8741-51ea3d862237}</Project>
+      <Name>Domain.Payroll.Entities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Domain.Payroll\Domain.Payroll.vbproj">
+      <Project>{0b26cafa-8df4-49ab-8943-41a91d67694e}</Project>
+      <Name>Domain.Payroll</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Domain.Security.Entities\Domain.Security.Entities.vbproj">
+      <Project>{99f1c077-1e8f-432f-b5d0-e801bf6d6a39}</Project>
+      <Name>Domain.Security.Entities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Domain.Security\Domain.Security.vbproj">
+      <Project>{435b789a-be74-4f5a-932f-0a4900825d61}</Project>
+      <Name>Domain.Security</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastructure.CrossCutting.Audit\Infrastructure.CrossCutting.Audit.vbproj">
+      <Project>{d2b2306d-6404-46cd-8a22-f827f3e1b75c}</Project>
+      <Name>Infrastructure.CrossCutting.Audit</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastructure.CrossCutting.Base\Infrastructure.CrossCutting.Base.vbproj">
+      <Project>{2773d9f7-93bd-4520-9726-bce0d8875696}</Project>
+      <Name>Infrastructure.CrossCutting.Base</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastructure.CrossCutting.Queue\Infrastructure.CrossCutting.Queue.vbproj">
+      <Project>{4ECC4501-B252-4AFF-A829-DC46BCCA069B}</Project>
+      <Name>Infrastructure.CrossCutting.Queue</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastructure.CrossCutting.Resources\Infrastructure.CrossCutting.Resources.vbproj">
+      <Project>{134f5b02-eba4-4414-bb62-bf5d55e2b906}</Project>
+      <Name>Infrastructure.CrossCutting.Resources</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
+</Project>

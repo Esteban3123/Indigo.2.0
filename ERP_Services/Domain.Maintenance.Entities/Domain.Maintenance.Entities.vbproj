@@ -1,0 +1,362 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{446B9431-03A5-4EC3-91BA-98B48630C400}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>Domain.Maintenance.Entities</RootNamespace>
+    <AssemblyName>Domain.Maintenance.Entities</AssemblyName>
+    <FileAlignment>512</FileAlignment>
+    <MyType>Windows</MyType>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DocumentationFile>Domain.Maintenance.Entities.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DocumentationFile>Domain.Maintenance.Entities.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionExplicit>On</OptionExplicit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionCompare>Binary</OptionCompare>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionStrict>On</OptionStrict>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionInfer>On</OptionInfer>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debugcito|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\Debugcito\</OutputPath>
+    <DocumentationFile>Domain.Maintenance.Entities.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DocumentationFile>Domain.Maintenance.Entities.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DocumentationFile>Domain.Maintenance.Entities.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debugcito|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x64\Debugcito\</OutputPath>
+    <DocumentationFile>Domain.Maintenance.Entities.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Import Include="System" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AccesoryDetail.vb">
+      <DependentUpon>ModelMaintenance.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Accessory.vb">
+      <DependentUpon>ModelMaintenance.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Address.vb">
+      <DependentUpon>ModelMaintenance.tt</DependentUpon>
+    </Compile>
+    <Compile Include="AddressMaintenance.vb">
+      <DependentUpon>ModelMaintenance.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Branch.vb">
+      <DependentUpon>ModelMaintenance.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Brand.vb">
+      <DependentUpon>ModelMaintenance.tt</DependentUpon>
+    </Compile>
+    <Compile Include="City.vb">
+      <DependentUpon>ModelMaintenance.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CommonSequence.vb">
+      <DependentUpon>ModelMaintenance.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CommonSequenceDetail.vb">
+      <DependentUpon>ModelMaintenance.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Consumable.vb">
+      <DependentUpon>ModelMaintenance.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ConsumableDetail.vb">
+      <DependentUpon>ModelMaintenance.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CostCenter.vb">
+      <DependentUpon>ModelMaintenance.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Country.vb">
+      <DependentUpon>ModelMaintenance.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Department.vb">
+      <DependentUpon>ModelMaintenance.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DetailEquipment.vb" />
+    <Compile Include="DrawingsDetail.vb">
+      <DependentUpon>ModelMaintenance.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Email.vb">
+      <DependentUpon>ModelMaintenance.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EmailMaintenance.vb">
+      <DependentUpon>ModelMaintenance.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Equipment.vb">
+      <DependentUpon>ModelMaintenance.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EquipmentFunction.vb">
+      <DependentUpon>ModelMaintenance.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EquipmentHistory.vb">
+      <DependentUpon>ModelMaintenance.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EquipmentReceptionAccesory.vb">
+      <DependentUpon>ModelMaintenance.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EquipmentReceptionConsumable.vb">
+      <DependentUpon>ModelMaintenance.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EquipmentReceptionParte.vb">
+      <DependentUpon>ModelMaintenance.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EquipmentReceptionPartsAccesoriesConsumables.vb">
+      <DependentUpon>ModelMaintenance.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EquipmentRegistration.vb">
+      <DependentUpon>ModelMaintenance.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EquipmentRequirement.vb">
+      <DependentUpon>ModelMaintenance.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EquipmentType.vb">
+      <DependentUpon>ModelMaintenance.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EquipmentTypeDetail.vb">
+      <DependentUpon>ModelMaintenance.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EquipmentTypeFeatureDetail.vb">
+      <DependentUpon>ModelMaintenance.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EquipmentTypeMeasurementUnitDetail.vb">
+      <DependentUpon>ModelMaintenance.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EquipmentTypePartsAccesoriesConsumibles.vb">
+      <DependentUpon>ModelMaintenance.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EquipmentTypeTechnicalLog.vb">
+      <DependentUpon>ModelMaintenance.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Extends\SupplierBankAccount\SupplierBankAccount.vb" />
+    <Compile Include="Insurance.vb">
+      <DependentUpon>ModelMaintenance.tt</DependentUpon>
+    </Compile>
+    <Compile Include="InventoryType.vb">
+      <DependentUpon>ModelMaintenance.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Location.vb">
+      <DependentUpon>ModelMaintenance.tt</DependentUpon>
+    </Compile>
+    <Compile Include="LocationExtend.vb" />
+    <Compile Include="LocationType.vb">
+      <DependentUpon>ModelMaintenance.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MaintenanceActivity.vb">
+      <DependentUpon>ModelMaintenance.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MaintenanceParameter.vb">
+      <DependentUpon>ModelMaintenance.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MaintenancePlan.vb">
+      <DependentUpon>ModelMaintenance.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MaintenancePlanDetail.vb">
+      <DependentUpon>ModelMaintenance.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ManualDetail.vb">
+      <DependentUpon>ModelMaintenance.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MeasurementUnit.vb">
+      <DependentUpon>ModelMaintenance.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ModelMaintenance.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ModelMaintenance.tt</DependentUpon>
+    </Compile>
+    <Compile Include="My Project\AssemblyInfo.vb" />
+    <Compile Include="My Project\Application.Designer.vb">
+	<AutoGen>True</AutoGen>
+	<DependentUpon>Application.myapp</DependentUpon>
+	<DesignTime>True</DesignTime>
+	</Compile>
+    <Compile Include="My Project\Resources.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="My Project\Settings.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="OperatingUnit.vb">
+      <DependentUpon>ModelMaintenance.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Part.vb">
+      <DependentUpon>ModelMaintenance.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PartDetail.vb">
+      <DependentUpon>ModelMaintenance.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PartsAccesoriesConsumables.vb">
+      <DependentUpon>ModelMaintenance.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Person.vb">
+      <DependentUpon>ModelMaintenance.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Phone.vb">
+      <DependentUpon>ModelMaintenance.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PhoneMaintenance.vb">
+      <DependentUpon>ModelMaintenance.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PhysicalRisk.vb">
+      <DependentUpon>ModelMaintenance.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Poliza.vb">
+      <DependentUpon>ModelMaintenance.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PolizaType.vb">
+      <DependentUpon>ModelMaintenance.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Responsible.vb">
+      <DependentUpon>ModelMaintenance.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Sequense.vb">
+      <DependentUpon>ModelMaintenance.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Supplier.vb">
+      <DependentUpon>ModelMaintenance.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SupplierBankAccount.vb">
+      <DependentUpon>ModelMaintenance.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SupplierMaintenance.vb">
+      <DependentUpon>ModelMaintenance.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TechnicalEquipmentSheet.vb">
+      <DependentUpon>ModelMaintenance.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TechnicalLog.vb">
+      <DependentUpon>ModelMaintenance.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TechnicalLogDetail.vb">
+      <DependentUpon>ModelMaintenance.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TechnicalLogMeasurementUnitDetail.vb">
+      <DependentUpon>ModelMaintenance.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TemplateEquipmentType.vb">
+      <DependentUpon>ModelMaintenance.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ThirdParty.vb">
+      <DependentUpon>ModelMaintenance.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Trademark.vb">
+      <DependentUpon>ModelMaintenance.tt</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="My Project\Resources.resx">
+      <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.vb</LastGenOutput>
+      <CustomToolNamespace>My.Resources</CustomToolNamespace>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ModelMaintenance.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>ModelMaintenance.vb</LastGenOutput>
+    </None>
+    <None Include="My Project\Application.myapp">
+      <Generator>MyApplicationCodeGenerator</Generator>
+      <LastGenOutput>Application.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="My Project\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <CustomToolNamespace>My</CustomToolNamespace>
+      <LastGenOutput>Settings.Designer.vb</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Domain.Base.Entities\Domain.Base.Entities.vbproj">
+      <Project>{78734D29-0073-4D48-9D0B-2362D0243E36}</Project>
+      <Name>Domain.Base.Entities</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Runtime.Serialization" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Maintenance\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

@@ -1,0 +1,299 @@
+﻿#Region "Librerias Importadas"
+Imports Infrastructure.CrossCutting.Base
+Imports Infrastructure.Data.Xpo.TreasuryRepository
+Imports Infrastructure.Data.Xpo
+Imports DevExpress.XtraReports.UI
+#End Region
+
+Public Class rptReportCashBook
+    Implements IReport, IReportAsync
+
+    ''' <summary>
+    ''' Variable para inicializar los valores de sesion
+    ''' </summary>
+    Dim IndigoSessionValues As SessionValues = SessionValues.Instance
+
+    Private EndBalanceGroup As Double = 0
+    Private EndBalanceReport As Double = 0
+    Private EndBalanceReportNoConsignment As Double = 0
+    Private EndBalanceGroupDate As Double = 0
+
+    Public Sub CargarDataSource() Implements IReport.CargarDataSource
+
+        Me.DataSource = XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).TreasuryService.GetCollectionReportCashBook(ParametrosReporte(0), ParametrosReporte(1), ParametrosReporte(8), ParametrosReporte(4), ParametrosReporte(2), ParametrosReporte(3), ParametrosReporte(6), ParametrosReporte(7))
+
+    End Sub
+
+    Public Async Function AsyncLoadDatasourceAsync() As Task Implements IReportAsync.CargarDataSourceAsync
+        Await Task.Factory.StartNew(Sub()
+                                        CargarDataSource()
+                                    End Sub)
+        Return
+    End Function
+
+    Public Sub CargarImagenes() Implements IReport.CargarImagenes
+
+    End Sub
+
+    Public ReadOnly Property NameReport As String Implements IReport.NameReport
+        Get
+            Return ""
+        End Get
+    End Property
+
+    Public Property ParametrosReporte As Object() Implements IReport.ParametrosReporte
+
+    ''' <summary>
+    ''' resetear el valor del resultado para sacar el saldo final por grupos de cajas
+    ''' </summary>
+    ''' <param name="sender"></param>
+    ''' <param name="e"></param>
+    ''' <remarks></remarks>
+    Private Sub XrTableCell32_SummaryReset(sender As Object, e As EventArgs) Handles XrTableCell32.SummaryReset
+        EndBalanceGroup = 0
+        EndBalanceGroupDate = 0
+    End Sub
+
+    ''' <summary>
+    ''' calcular el valor de debitos - creditos para sacar el saldo final por grupos de cajas
+    ''' </summary>
+    ''' <param name="sender"></param>
+    ''' <param name="e"></param>
+    ''' <remarks></remarks>
+    Private Sub XrTableCell32_SummaryRowChanged(sender As Object, e As EventArgs) Handles XrTableCell32.SummaryRowChanged
+        EndBalanceGroup += Convert.ToDouble(GetCurrentColumnValue("SaldoAnterior")) + Convert.ToDouble(GetCurrentColumnValue("INDCfValueDebitCredit"))
+    End Sub
+
+    ''' <summary>
+    ''' sumarle el saldo anterior a la sumatoria de debitos - creditos para sacar el saldo final por grupos de cajas
+    ''' </summary>
+    ''' <param name="sender"></param>
+    ''' <param name="e"></param>
+    ''' <remarks></remarks>
+    Private Sub XrTableCell32_SummaryGetResult(sender As Object, e As DevExpress.XtraReports.UI.SummaryGetResultEventArgs) Handles XrTableCell32.SummaryGetResult
+        e.Result = EndBalanceGroup
+        e.Handled = True
+    End Sub
+
+    ''' <summary>
+    ''' sumarle el saldo anterior a la sumatoria de debitos - creditos para sacar el saldo final sin consignaciones por reporte
+    ''' </summary>
+    ''' <param name="sender"></param>
+    ''' <param name="e"></param>
+    ''' <remarks></remarks>
+    Private Sub INDLblPreviousBalanceNotConsignment_SummaryGetResult(sender As Object, e As DevExpress.XtraReports.UI.SummaryGetResultEventArgs) Handles INDLblPreviousBalanceNotConsignment.SummaryGetResult
+        e.Result = EndBalanceReportNoConsignment
+        e.Handled = True
+    End Sub
+
+    ''' <summary>
+    ''' calcular el valor de debitos - creditos para sacar el saldo final sin consignaciones por reporte
+    ''' </summary>
+    ''' <param name="sender"></param>
+    ''' <param name="e"></param>
+    ''' <remarks></remarks>
+    Private Sub INDLblPreviousBalanceNotConsignment_SummaryRowChanged(sender As Object, e As EventArgs) Handles INDLblPreviousBalanceNotConsignment.SummaryRowChanged
+        EndBalanceReportNoConsignment += Convert.ToDouble(GetCurrentColumnValue("SaldoAnterior")) + Convert.ToDouble(GetCurrentColumnValue("INDCfValuePreviousBalanceNotConsignment"))
+    End Sub
+
+    ''' <summary>
+    ''' alcular el valor de debitos - creditos para sacar el saldo final por reporte
+    ''' </summary>
+    ''' <param name="sender"></param>
+    ''' <param name="e"></param>
+    ''' <remarks></remarks>
+    Private Sub INDLblPreviousBalanceTotal_SummaryRowChanged(sender As Object, e As EventArgs) Handles INDLblPreviousBalanceTotal.SummaryRowChanged
+        EndBalanceReport += Convert.ToDouble(GetCurrentColumnValue("SaldoAnterior")) + Convert.ToDouble(GetCurrentColumnValue("INDCfValueDebitCredit"))
+    End Sub
+
+    ''' <summary>
+    ''' sumarle el saldo anterior a la sumatoria de debitos - creditos para sacar el saldo final por reporte
+    ''' </summary>
+    ''' <param name="sender"></param>
+    ''' <param name="e"></param>
+    ''' <remarks></remarks>
+    Private Sub INDLblPreviousBalanceTotal_SummaryGetResult(sender As Object, e As DevExpress.XtraReports.UI.SummaryGetResultEventArgs) Handles INDLblPreviousBalanceTotal.SummaryGetResult
+        e.Result = EndBalanceReport
+        e.Handled = True
+    End Sub
+
+    ''' <summary>
+    ''' resetear el valor del resultado para sacar el saldo final por grupos de fechas
+    ''' </summary>
+    ''' <param name="sender"></param>
+    ''' <param name="e"></param>
+    ''' <remarks></remarks>
+    Private Sub INDLblBalanceGroupDate_SummaryReset(sender As Object, e As EventArgs) Handles INDLblBalanceGroupDate.SummaryReset
+
+    End Sub
+
+    ''' <summary>
+    ''' calcular el valor de debitos - creditos para sacar el saldo final por grupos de fecha
+    ''' </summary>
+    ''' <param name="sender"></param>
+    ''' <param name="e"></param>
+    ''' <remarks></remarks>
+    Private Sub INDLblBalanceGroupDate_SummaryRowChanged(sender As Object, e As EventArgs) Handles INDLblBalanceGroupDate.SummaryRowChanged
+        EndBalanceGroupDate += Convert.ToDouble(GetCurrentColumnValue("SaldoAnterior")) + Convert.ToDouble(GetCurrentColumnValue("INDCfValueDebitCredit"))
+    End Sub
+
+    ''' <summary>
+    ''' sumarle el saldo anterior a la sumatoria de debitos - creditos para sacar el saldo final por grupos de fecha
+    ''' </summary>
+    ''' <param name="sender"></param>
+    ''' <param name="e"></param>
+    ''' <remarks></remarks>
+    Private Sub INDLblBalanceGroupDate_SummaryGetResult(sender As Object, e As DevExpress.XtraReports.UI.SummaryGetResultEventArgs)
+        e.Result = EndBalanceGroupDate
+        e.Handled = True
+    End Sub
+
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="sender"></param>
+    ''' <param name="e"></param>
+    Private Sub rptReportCashBook_BeforePrint(sender As Object, e As Printing.PrintEventArgs) Handles MyBase.BeforePrint
+        INDLblCompany.Text = IndigoSessionValues.IndigoCompanyName
+        INDLblNitCompany.Text = "Nit:" & IndigoSessionValues.IndigoCompanyNit
+        INDLblUserPrint.Text = "Usuario Impresión : " & IndigoSessionValues.UserIndigo & " - " & IndigoSessionValues.UserIndigoName
+        Me.INDPrmTypeReport.Value = ParametrosReporte(5)
+        INDLblDate.Text = "Informe comprendido entre " & CDate(Me.ParametrosReporte(0)).ToString("dd De MMMM Del yyyy HH:mm:ss") & " " & CDate(Me.ParametrosReporte(1)).ToString("A dd De MMMM Del yyyy HH:mm:ss")
+    End Sub
+
+    ''' <summary>
+    ''' funcion que devuelve la abreviacion 
+    ''' </summary>
+    ''' <param name="currencyAbbreviation"></param>
+    ''' <returns></returns>
+    Private Function GetCurrency(currencyAbbreviation As String) As String
+        Return If(String.IsNullOrEmpty(currencyAbbreviation),
+                                                IndigoSessionValues.CurrencyISO4217,
+                                                currencyAbbreviation)
+    End Function
+
+    ''' <summary>
+    ''' se establece la sumatoria para la cabecera
+    ''' </summary>
+    ''' <param name="sender"></param>
+    ''' <param name="e"></param>
+    Private Sub XrTableCell52_SummaryGetResult(sender As Object, e As DevExpress.XtraReports.UI.SummaryGetResultEventArgs) Handles XrTableCell53.SummaryGetResult, XrTableCell52.SummaryGetResult, INDLblBalanceGroupDate.SummaryGetResult
+        Dim currentRow = TryCast(Me.GetCurrentRow, TreasuryVReportCashBookXpo)
+        If currentRow Is Nothing Then
+            Exit Sub
+        End If
+        e.Result = Utils.GetMoneyWithISO4217(e.CalculatedValues?.ToEntityList(Of Decimal).Sum(), GetCurrency(currentRow?.CurrencyAbbreviation))
+    End Sub
+
+    ''' <summary>
+    ''' se establece el detalle con su respectiva moneda
+    ''' </summary>
+    ''' <param name="sender"></param>
+    ''' <param name="e"></param>
+    Private Sub XrTableRow3_BeforePrint(sender As Object, e As Printing.PrintEventArgs) Handles XrTableRow3.BeforePrint
+        Dim currentRow = TryCast(Me.GetCurrentRow, TreasuryVReportCashBookXpo)
+        If currentRow Is Nothing Then
+            Exit Sub
+        End If
+        INDXrTValueDebit.Text = Utils.GetMoneyWithISO4217(currentRow.ValueDebit, GetCurrency(currentRow?.CurrencyAbbreviation))
+        INDXrTCreditValue.Text = Utils.GetMoneyWithISO4217(currentRow.ValueCredit, GetCurrency(currentRow?.CurrencyAbbreviation))
+        INDXrTNewBalance.Text = Utils.GetMoneyWithISO4217(currentRow.NuevoSaldo, GetCurrency(currentRow?.CurrencyAbbreviation))
+    End Sub
+
+    ''' <summary>
+    ''' se establece el formato moneda de las sumatorias ya calculadas
+    ''' </summary>
+    ''' <param name="sender"></param>
+    ''' <param name="e"></param>
+    Private Sub XrTableCell20_SummaryCalculated_1(sender As Object, e As DevExpress.XtraReports.UI.TextFormatEventArgs) Handles XrTableCell60.SummaryCalculated, XrTableCell59.SummaryCalculated, XrTableCell58.SummaryCalculated, XrTableCell32.SummaryCalculated, XrTableCell30.SummaryCalculated, XrTableCell29.SummaryCalculated, XrTableCell27.SummaryCalculated, XrTableCell26.SummaryCalculated, XrTableCell24.SummaryCalculated, XrTableCell23.SummaryCalculated, XrTableCell21.SummaryCalculated, XrTableCell4.SummaryCalculated, XrTableCell20.SummaryCalculated
+        Dim currentRow = TryCast(Me.GetCurrentRow, TreasuryVReportCashBookXpo)
+        If currentRow Is Nothing Then
+            Exit Sub
+        End If
+
+        e.Text = Utils.GetMoneyWithISO4217(e?.Value, GetCurrency(currentRow?.CurrencyAbbreviation))
+    End Sub
+
+    ''' <summary>
+    ''' se crea reportfooter calculado por moneda
+    ''' </summary>
+    ''' <param name="sender"></param>
+    ''' <param name="e"></param>
+    Private Sub ReportFooter_BeforePrint(sender As Object, e As Printing.PrintEventArgs) Handles ReportFooter.BeforePrint
+        Dim listDatasource = TryCast(Me.DataSource, List(Of TreasuryVReportCashBookXpo))
+        If listDatasource Is Nothing OrElse Not listDatasource?.Any() Then
+            Exit Sub
+        End If
+
+        Dim totalperCurrency = (From item In listDatasource
+                                Group By CurrencyAbbreviation = GetCurrency(item.CurrencyAbbreviation) Into Group
+                                Select CurrencyAbbreviation,
+                                        INDCfValueDebitNotConsignment = Group.Sum(Function(y)
+                                                                                      ' INDCfValueDebitNotConsignment   IIf([PaymentMethod] = 4, 0, IIf([Status] = 2, [ValueDebit], IIf([Status] = 4, [ValueDebit], 0)))
+                                                                                      If (y.Status = 2 OrElse y.Status = 4) AndAlso y.PaymentMethod <> 4 Then
+                                                                                          Return y.ValueDebit
+                                                                                      Else
+                                                                                          Return 0
+                                                                                      End If
+                                                                                  End Function),
+                                        INDCfValueCreditNotConsignment = Group.Sum(Function(y)
+                                                                                       'INDCfValueCreditNotConsignment : IIf([PaymentMethod] = 4, 0, IIf([Status] = 2, [ValueCredit], IIf([Status] = 4, [ValueCredit], 0)))
+                                                                                       If (y.Status = 2 OrElse y.Status = 4) AndAlso y.PaymentMethod <> 4 Then
+                                                                                           Return y.ValueCredit
+                                                                                       Else
+                                                                                           Return 0
+                                                                                       End If
+                                                                                   End Function),
+                                        INDCfValuePreviousBalanceNotConsignment = Group.Sum(Function(y)
+                                                                                                'INDCfValuePreviousBalanceNotConsignment : [INDCfValueDebitNotConsignment] - [INDCfValueCreditNotConsignment]
+                                                                                                If (y.Status = 2 OrElse y.Status = 4) AndAlso y.PaymentMethod <> 4 Then
+                                                                                                    Return (y.ValueDebit - y.ValueCredit)
+                                                                                                Else
+                                                                                                    Return 0
+                                                                                                End If
+                                                                                            End Function),
+                                        ValueDebit = Group.Sum(Function(y) y.ValueDebit),
+                                        ValueCredit = Group.Sum(Function(y) y.ValueCredit),
+                                        BehindBalance = Group.Sum(Function(y) y.SaldoAnterior),
+                                        INDCfValueDebitCredit = Group.Sum(Function(y) y.ValueDebit - y.ValueCredit)
+                                    )?.ToList()
+
+
+        Dim row = 0
+        For Each ObjItem In totalperCurrency
+            If row = 0 Then
+                INDXrTCurrency.Text = ObjItem.CurrencyAbbreviation
+                INDXrTValueDebitNotConsignment.Text = Utils.GetMoneyWithISO4217(ObjItem.INDCfValueDebitNotConsignment, ObjItem.CurrencyAbbreviation)
+                INDXrTValueCreditNotConsignment.Text = Utils.GetMoneyWithISO4217(ObjItem.INDCfValueCreditNotConsignment, ObjItem.CurrencyAbbreviation)
+                INDLblPreviousBalanceNotConsignment.Text = Utils.GetMoneyWithISO4217(ObjItem.BehindBalance + ObjItem.INDCfValuePreviousBalanceNotConsignment, ObjItem.CurrencyAbbreviation)
+                INDXrTValueDebit1.Text = Utils.GetMoneyWithISO4217(ObjItem.ValueDebit, ObjItem.CurrencyAbbreviation)
+                INDXrTValueCredit.Text = Utils.GetMoneyWithISO4217(ObjItem.ValueCredit, ObjItem.CurrencyAbbreviation)
+                INDLblPreviousBalanceTotal.Text = Utils.GetMoneyWithISO4217(ObjItem.BehindBalance + ObjItem.INDCfValueDebitCredit, ObjItem.CurrencyAbbreviation)
+                row += 1
+                Continue For
+            End If
+
+            XrTable7.InsertRowBelow(XrTable7.Rows.LastRow)
+            Dim irow = XrTable7.Rows.LastRow.Index
+            For Each Column As XRTableCell In XrTableRow10
+                Dim cell = XrTable7.Rows(irow).Cells.Item(Column.Index)
+                Select Case Column.Name
+                    Case NameOf(XrTableCell13)
+                        cell.Text = ObjItem.CurrencyAbbreviation
+                    Case NameOf(XrTableCell35)
+                        cell.Text = Utils.GetMoneyWithISO4217(ObjItem.INDCfValueDebitNotConsignment, ObjItem.CurrencyAbbreviation)
+                    Case NameOf(XrTableCell36)
+                        cell.Text = Utils.GetMoneyWithISO4217(ObjItem.INDCfValueCreditNotConsignment, ObjItem.CurrencyAbbreviation)
+                    Case NameOf(XrTableCell37)
+                        cell.Text = Utils.GetMoneyWithISO4217(ObjItem.BehindBalance + ObjItem.INDCfValuePreviousBalanceNotConsignment, ObjItem.CurrencyAbbreviation)
+                    Case NameOf(XrTableCell38)
+                        cell.Text = Utils.GetMoneyWithISO4217(ObjItem.ValueDebit, ObjItem.CurrencyAbbreviation)
+                    Case NameOf(XrTableCell39)
+                        cell.Text = Utils.GetMoneyWithISO4217(ObjItem.ValueCredit, ObjItem.CurrencyAbbreviation)
+                    Case NameOf(XrTableCell40)
+                        cell.Text = Utils.GetMoneyWithISO4217(ObjItem.BehindBalance + ObjItem.INDCfValueDebitCredit, ObjItem.CurrencyAbbreviation)
+                End Select
+            Next
+        Next
+    End Sub
+End Class

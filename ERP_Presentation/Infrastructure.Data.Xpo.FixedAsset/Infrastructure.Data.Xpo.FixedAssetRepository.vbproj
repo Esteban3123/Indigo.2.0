@@ -1,0 +1,517 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{0577946D-AE93-4EE6-991B-91BCC9D8EE34}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>Infrastructure.Data.Xpo.FixedAssetRepository</RootNamespace>
+    <AssemblyName>Infrastructure.Data.Xpo.FixedAssetRepository</AssemblyName>
+    <FileAlignment>512</FileAlignment>
+    <MyType>Windows</MyType>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DocumentationFile>Infrastructure.Data.Xpo.FixedAssetRepository.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DocumentationFile>Infrastructure.Data.Xpo.FixedAssetRepository.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionExplicit>On</OptionExplicit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionCompare>Binary</OptionCompare>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionStrict>Off</OptionStrict>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionInfer>On</OptionInfer>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debugcito|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\Debugcito\</OutputPath>
+    <DocumentationFile>Infrastructure.Data.Xpo.FixedAssetRepository.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DocumentationFile>Infrastructure.Data.Xpo.FixedAssetRepository.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DocumentationFile>Infrastructure.Data.Xpo.FixedAssetRepository.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debugcito|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x64\Debugcito\</OutputPath>
+    <DocumentationFile>Infrastructure.Data.Xpo.FixedAssetRepository.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DocumentationFile>Infrastructure.Data.Xpo.FixedAssetRepository.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DocumentationFile>Infrastructure.Data.Xpo.FixedAssetRepository.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debugcito|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x86\Debugcito\</OutputPath>
+    <DocumentationFile>Infrastructure.Data.Xpo.FixedAssetRepository.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'VieBuild|AnyCPU'">
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\VieBuild\</OutputPath>
+    <DocumentationFile>Infrastructure.Data.Xpo.FixedAssetRepository.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'VieBuild|x64'">
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x64\VieBuild\</OutputPath>
+    <DocumentationFile>Infrastructure.Data.Xpo.FixedAssetRepository.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'VieBuild|x86'">
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x86\VieBuild\</OutputPath>
+    <DocumentationFile>Infrastructure.Data.Xpo.FixedAssetRepository.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="DevExpress.Drawing.v25.1, Version=25.1.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Printing.v25.1.Core, Version=25.1.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Data.v25.1, Version=25.1.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Xpo.v25.1, Version=25.1.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="Infrastructure.CrossCutting.Base, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\DLL\Infrastructure.CrossCutting.Base.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+  </ItemGroup>
+  <ItemGroup>
+    <Import Include="System" />
+    <Import Include="System.Collections.Generic" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ClassificationXpo.vb" />
+    <Compile Include="CommonCurrencyXpo.vb" />
+    <Compile Include="FixedAssetAmortizationDetailCostXpo.vb" />
+    <Compile Include="FixedAssetItemCatalogXpo.vb" />
+    <Compile Include="FixedAssetRetirementTypesXpo.vb" />
+    <Compile Include="FixedAssetPhysicalAssetAccessoryXpo.vb" />
+    <Compile Include="FixedAssetAmortizationDetailXpo.vb" />
+    <Compile Include="FixedAssetCatalogOfPropertyandServicesXpo.vb" />
+    <Compile Include="ISO4217Xpo.vb" />
+    <Compile Include="Relation\CommonSupplierDistributionLineXpo.vb" />
+    <Compile Include="DeteriorationIndicationsXpo.vb" />
+    <Compile Include="DeteriorationIndicationByPhysicalAssetXpo.vb" />
+    <Compile Include="Relation\CommonSupplierXpo.vb" />
+    <Compile Include="Report\FixedAssetPhysicalAssetAccessoryReportXpo.vb" />
+    <Compile Include="Report\FixedAssetReclassificationDetailBookReportXpo.vb" />
+    <Compile Include="Report\FixedAssetReclassificationDetailReportXpo.vb" />
+    <Compile Include="Report\FixedAssetReclassificationReportXpo.vb" />
+    <Compile Include="Report\PaymentsAccountPayableDocumentSupportXpo.vb" />
+    <Compile Include="Report\PaymentsDocumentSupportXpo.vb" />
+    <Compile Include="ViewListFixedAssetReclassifiedXpo.vb" />
+    <Compile Include="ViewListFixedAssetForReclassificationXpo.vb" />
+    <Compile Include="FixedAssetReclassificationXpo.vb" />
+    <Compile Include="Report\FixedAssetViewListAccountsUsedInFixedAssetXpo.vb" />
+    <Compile Include="Report\FixedAssetViewReportHistoricalDepreciationXpo.vb" />
+    <Compile Include="SettingFixedAssetXpo.Designer.vb">
+      <DependentUpon>SettingFixedAssetXpo.vb</DependentUpon>
+    </Compile>
+    <Compile Include="SettingFixedAssetXpo.vb" />
+    <Compile Include="FixedAssetChangePlateXpo.Designer.vb">
+      <DependentUpon>FixedAssetChangePlateXpo.vb</DependentUpon>
+    </Compile>
+    <Compile Include="FixedAssetChangePlateXpo.vb" />
+    <Compile Include="FixedAssetActiveOutputXpo.Designer.vb">
+      <DependentUpon>FixedAssetActiveOutputXpo.vb</DependentUpon>
+    </Compile>
+    <Compile Include="FixedAssetActiveOutputXpo.vb" />
+    <Compile Include="FixedAssetDepreciationDetailCostXpo.Designer.vb">
+      <DependentUpon>FixedAssetDepreciationDetailCostXpo.vb</DependentUpon>
+    </Compile>
+    <Compile Include="FixedAssetDepreciationDetailCostXpo.vb" />
+    <Compile Include="FixedAssetDepreciationDetailXpo.Designer.vb">
+      <DependentUpon>FixedAssetDepreciationDetailXpo.vb</DependentUpon>
+    </Compile>
+    <Compile Include="FixedAssetDepreciationDetailXpo.vb" />
+    <Compile Include="FixedAssetDepreciationXpo.Designer.vb">
+      <DependentUpon>FixedAssetDepreciationXpo.vb</DependentUpon>
+    </Compile>
+    <Compile Include="FixedAssetDepreciationXpo.vb" />
+    <Compile Include="FixedAssetEntryDevolutionDetailXpo.Designer.vb">
+      <DependentUpon>FixedAssetEntryDevolutionDetailXpo.vb</DependentUpon>
+    </Compile>
+    <Compile Include="FixedAssetEntryDevolutionDetailXpo.vb" />
+    <Compile Include="FixedAssetEntryDevolutionXpo.Designer.vb">
+      <DependentUpon>FixedAssetEntryDevolutionXpo.vb</DependentUpon>
+    </Compile>
+    <Compile Include="FixedAssetEntryDevolutionXpo.vb" />
+    <Compile Include="Report\FixedAssetFixedAssetEntryDevolutionDetailReportXpo.vb" />
+    <Compile Include="Report\FixedAssetFixedAssetEntryDevolutionReportXpo.vb" />
+    <Compile Include="Report\FixedAssetVReportDepreciationReportXpo.vb" />
+    <Compile Include="Report\FixedAssetVReportFixedAssetEntryItemDetailPartReportXpo.vb" />
+    <Compile Include="ViewListFixedAssetDepreciationDetailXpo.Designer.vb">
+      <DependentUpon>ViewListFixedAssetDepreciationDetailXpo.vb</DependentUpon>
+    </Compile>
+    <Compile Include="ViewListFixedAssetDepreciationDetailXpo.vb" />
+    <Compile Include="ViewListFixedAssetDepreciationDetailCostXpo.Designer.vb">
+      <DependentUpon>ViewListFixedAssetDepreciationDetailCostXpo.vb</DependentUpon>
+    </Compile>
+    <Compile Include="ViewListFixedAssetDepreciationDetailCostXpo.vb" />
+    <Compile Include="ViewListFixedAssetEntryItemDetailXpo.Designer.vb">
+      <DependentUpon>ViewListFixedAssetEntryItemDetailXpo.vb</DependentUpon>
+    </Compile>
+    <Compile Include="ViewListFixedAssetEntryItemDetailXpo.vb" />
+    <Compile Include="FixedAssetFixedAssetPhysicalAssetDetailBookXpo.vb" />
+    <Compile Include="FixedAssetTransferXpo.Designer.vb">
+      <DependentUpon>FixedAssetTransferXpo.vb</DependentUpon>
+    </Compile>
+    <Compile Include="FixedAssetTransferXpo.vb" />
+    <Compile Include="FixedAssetEntryXpo.Designer.vb">
+      <DependentUpon>FixedAssetEntryXpo.vb</DependentUpon>
+    </Compile>
+    <Compile Include="FixedAssetEntryXpo.vb" />
+    <Compile Include="FixedAssetFixedAssetItemXpo.vb" />
+    <Compile Include="FixedAssetFixedAssetPhysicalAssetXpo.vb" />
+    <Compile Include="FixedAssetItemDetailXpo.Designer.vb">
+      <DependentUpon>FixedAssetItemDetailXpo.vb</DependentUpon>
+    </Compile>
+    <Compile Include="FixedAssetItemDetailXpo.vb" />
+    <Compile Include="FixedAssetInitialBalanceXpo.Designer.vb">
+      <DependentUpon>FixedAssetInitialBalanceXpo.vb</DependentUpon>
+    </Compile>
+    <Compile Include="FixedAssetInitialBalanceXpo.vb" />
+    <Compile Include="FixedAssetPurchaseOrderItemXpo.Designer.vb">
+      <DependentUpon>FixedAssetPurchaseOrderItemXpo.vb</DependentUpon>
+    </Compile>
+    <Compile Include="FixedAssetPurchaseOrderItemXpo.vb" />
+    <Compile Include="FixedAssetPhysicalAssetXpo.Designer.vb">
+      <DependentUpon>FixedAssetPhysicalAssetXpo.vb</DependentUpon>
+    </Compile>
+    <Compile Include="FixedAssetPhysicalAssetXpo.vb" />
+    <Compile Include="FixedAssetRemissionEntranceItemDetailPartBookXpo.Designer.vb">
+      <DependentUpon>FixedAssetRemissionEntranceItemDetailPartBookXpo.vb</DependentUpon>
+    </Compile>
+    <Compile Include="FixedAssetRemissionEntranceItemDetailPartBookXpo.vb" />
+    <Compile Include="FixedAssetRemissionEntranceItemDetailPartXpo.Designer.vb">
+      <DependentUpon>FixedAssetRemissionEntranceItemDetailPartXpo.vb</DependentUpon>
+    </Compile>
+    <Compile Include="FixedAssetRemissionEntranceItemDetailPartXpo.vb" />
+    <Compile Include="FixedAssetRemissionEntranceItemDetailBookXpo.Designer.vb">
+      <DependentUpon>FixedAssetRemissionEntranceItemDetailBookXpo.vb</DependentUpon>
+    </Compile>
+    <Compile Include="FixedAssetRemissionEntranceItemDetailBookXpo.vb" />
+    <Compile Include="FixedAssetRemissionEntranceItemDetailXpo.Designer.vb">
+      <DependentUpon>FixedAssetRemissionEntranceItemDetailXpo.vb</DependentUpon>
+    </Compile>
+    <Compile Include="FixedAssetRemissionEntranceItemDetailXpo.vb" />
+    <Compile Include="FixedAssetRemissionEntranceItemXpo.Designer.vb">
+      <DependentUpon>FixedAssetRemissionEntranceItemXpo.vb</DependentUpon>
+    </Compile>
+    <Compile Include="FixedAssetRemissionEntranceItemXpo.vb" />
+    <Compile Include="FixedAssetStatusAssetXpo.Designer.vb">
+      <DependentUpon>FixedAssetStatusAssetXpo.vb</DependentUpon>
+    </Compile>
+    <Compile Include="FixedAssetStatusAssetXpo.vb" />
+    <Compile Include="FixedAssetFixedAssetLocationTypeXpo.vb" />
+    <Compile Include="FixedAssetFixedAssetLocationXpo.vb" />
+    <Compile Include="FixedAssetPhysicalAssetDetailBookXpo.Designer.vb">
+      <DependentUpon>FixedAssetPhysicalAssetDetailBookXpo.vb</DependentUpon>
+    </Compile>
+    <Compile Include="FixedAssetPhysicalAssetDetailBookXpo.vb" />
+    <Compile Include="FixedAssetPhysicalAssetPartsXpo.Designer.vb">
+      <DependentUpon>FixedAssetPhysicalAssetPartsXpo.vb</DependentUpon>
+    </Compile>
+    <Compile Include="FixedAssetPhysicalAssetPartsXpo.vb" />
+    <Compile Include="FixedAssetTransactionXpo.Designer.vb">
+      <DependentUpon>FixedAssetTransactionXpo.vb</DependentUpon>
+    </Compile>
+    <Compile Include="FixedAssetTransactionXpo.vb" />
+    <Compile Include="FixedAssetPhysicalAssetPartsDetailBookXpo.Designer.vb">
+      <DependentUpon>FixedAssetPhysicalAssetPartsDetailBookXpo.vb</DependentUpon>
+    </Compile>
+    <Compile Include="FixedAssetPhysicalAssetPartsDetailBookXpo.vb" />
+    <Compile Include="PhysicalFixedAssetXpo.Designer.vb">
+      <DependentUpon>PhysicalFixedAssetXpo.vb</DependentUpon>
+    </Compile>
+    <Compile Include="PhysicalFixedAssetXpo.vb" />
+    <Compile Include="FixedAssetServiceXpoEx.vb" />
+    <Compile Include="GeneralLedgerMainAccountsXpo.vb" />
+    <Compile Include="FixedAssetTrademarkXpo.vb" />
+    <Compile Include="FixedAssetPolizaTypeXpo.Designer.vb">
+      <DependentUpon>FixedAssetPolizaTypeXpo.vb</DependentUpon>
+    </Compile>
+    <Compile Include="FixedAssetPolizaTypeXpo.vb" />
+    <Compile Include="FixedAssetPolizaXpo.Designer.vb">
+      <DependentUpon>FixedAssetPolizaXpo.vb</DependentUpon>
+    </Compile>
+    <Compile Include="FixedAssetPolizaXpo.vb" />
+    <Compile Include="FixedAssetEquipmentCatalogXpo.Designer.vb">
+      <DependentUpon>FixedAssetEquipmentCatalogXpo.vb</DependentUpon>
+    </Compile>
+    <Compile Include="FixedAssetEquipmentCatalogXpo.vb" />
+    <Compile Include="FixedAssetInsuranceXpo.Designer.vb">
+      <DependentUpon>FixedAssetInsuranceXpo.vb</DependentUpon>
+    </Compile>
+    <Compile Include="FixedAssetInsuranceXpo.vb" />
+    <Compile Include="FixedAssetInventoryTypeXpo.Designer.vb">
+      <DependentUpon>FixedAssetInventoryTypeXpo.vb</DependentUpon>
+    </Compile>
+    <Compile Include="FixedAssetInventoryTypeXpo.vb" />
+    <Compile Include="FixedAssetEquipmentTypeXpo.Designer.vb">
+      <DependentUpon>FixedAssetEquipmentTypeXpo.vb</DependentUpon>
+    </Compile>
+    <Compile Include="FixedAssetEquipmentTypeXpo.vb" />
+    <Compile Include="FixedAssetResponsibleTypeXpo.Designer.vb">
+      <DependentUpon>FixedAssetResponsibleTypeXpo.vb</DependentUpon>
+    </Compile>
+    <Compile Include="FixedAssetResponsibleTypeXpo.vb" />
+    <Compile Include="FixedAssetVinculationTypeXpo.Designer.vb">
+      <DependentUpon>FixedAssetVinculationTypeXpo.vb</DependentUpon>
+    </Compile>
+    <Compile Include="FixedAssetVinculationTypeXpo.vb" />
+    <Compile Include="FixedAssetResponsibleXpo.Designer.vb">
+      <DependentUpon>FixedAssetResponsibleXpo.vb</DependentUpon>
+    </Compile>
+    <Compile Include="FixedAssetResponsibleXpo.vb" />
+    <Compile Include="FixedAssetEquipmentXpo.Designer.vb">
+      <DependentUpon>FixedAssetEquipmentXpo.vb</DependentUpon>
+    </Compile>
+    <Compile Include="FixedAssetEquipmentXpo.vb" />
+    <Compile Include="FixedAssetRemissionEntranceXpo.Designer.vb">
+      <DependentUpon>FixedAssetRemissionEntranceXpo.vb</DependentUpon>
+    </Compile>
+    <Compile Include="FixedAssetRemissionEntranceXpo.vb" />
+    <Compile Include="FixedAssetPartsAccesoriesConsumablesXpo.Designer.vb">
+      <DependentUpon>FixedAssetPartsAccesoriesConsumablesXpo.vb</DependentUpon>
+    </Compile>
+    <Compile Include="FixedAssetPartsAccesoriesConsumablesXpo.vb" />
+    <Compile Include="FixedAssetIngressXpo.Designer.vb">
+      <DependentUpon>FixedAssetIngressXpo.vb</DependentUpon>
+    </Compile>
+    <Compile Include="FixedAssetIngressXpo.vb" />
+    <Compile Include="FixedAssetPurchaseOrderXpo.Designer.vb">
+      <DependentUpon>FixedAssetPurchaseOrderXpo.vb</DependentUpon>
+    </Compile>
+    <Compile Include="FixedAssetPurchaseOrderXpo.vb" />
+    <Compile Include="FixedAssetPurchaseOrderEquipmentXpo.Designer.vb">
+      <DependentUpon>FixedAssetPurchaseOrderEquipmentXpo.vb</DependentUpon>
+    </Compile>
+    <Compile Include="FixedAssetPurchaseOrderEquipmentXpo.vb" />
+    <Compile Include="FixedAssetPurchaseOrderEquipmentDetailXpo.Designer.vb">
+      <DependentUpon>FixedAssetPurchaseOrderEquipmentDetailXpo.vb</DependentUpon>
+    </Compile>
+    <Compile Include="FixedAssetPurchaseOrderEquipmentDetailXpo.vb" />
+    <Compile Include="FixedAssetPurchaseOrderPartAccesoriesConsumiblesXpo.Designer.vb">
+      <DependentUpon>FixedAssetPurchaseOrderPartAccesoriesConsumiblesXpo.vb</DependentUpon>
+    </Compile>
+    <Compile Include="FixedAssetPurchaseOrderPartAccesoriesConsumiblesXpo.vb" />
+    <Compile Include="Relation\AccountPayableXpo.vb" />
+    <Compile Include="Relation\FixedAssetBookXpo.vb" />
+    <Compile Include="Relation\BookXpo.vb" />
+    <Compile Include="Relation\MaintenanceLocationXpo.Designer.vb">
+      <DependentUpon>MaintenanceLocationXpo.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Relation\MaintenanceLocationXpo.vb" />
+    <Compile Include="PayrollCostCenterXpo.vb" />
+    <Compile Include="ProductXpo.vb" />
+    <Compile Include="ConceptsShuttleXpo.vb" />
+    <Compile Include="DeductionXpo.vb" />
+    <Compile Include="InflationAdjustmentXpo.vb" />
+    <Compile Include="IvaXpo.vb" />
+    <Compile Include="AddressXpo.vb" />
+    <Compile Include="AreaXpo.vb" />
+    <Compile Include="GroupXpo.vb" />
+    <Compile Include="My Project\AssemblyInfo.vb" />
+    <Compile Include="My Project\Application.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Application.myapp</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="My Project\Resources.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="My Project\Settings.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="Relation\CommonThirdPartyXpo.vb" />
+    <Compile Include="Relation\GeneralLedgerIVAXpo.Designer.vb">
+      <DependentUpon>GeneralLedgerIVAXpo.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Relation\GeneralLedgerIVAXpo.vb" />
+    <Compile Include="Relation\Maintenance_Supplier.vb" />
+    <Compile Include="Relation\PayrollFunctionalUnitXpo.Designer.vb">
+      <DependentUpon>PayrollFunctionalUnitXpo.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Relation\PayrollFunctionalUnitXpo.vb" />
+    <Compile Include="Relation\PUCServiceXpo.vb" />
+    <Compile Include="Report\CommonAddressReportXpo.vb" />
+    <Compile Include="Report\CommonCityReportXpo.vb" />
+    <Compile Include="Report\CommonOperartionUnitReportXpo.vb" />
+    <Compile Include="Report\CommonPersonReportXpo.vb" />
+    <Compile Include="Report\CommonPhoneReportXpo.vb" />
+    <Compile Include="Report\CommonSupplierDistributionLinesReporXpo.vb" />
+    <Compile Include="Report\CommonSupplierReportXpo.vb" />
+    <Compile Include="Report\CommonThirdPartyReportXpo.vb" />
+    <Compile Include="Report\FixedAssetFixedAssetActiveOutputDetailReportXpo.vb" />
+    <Compile Include="Report\FixedAssetFixedAssetActiveOutputReportXpo.vb" />
+    <Compile Include="Report\FixedAssetFixedAssetChangePlateDetailReportXpo.vb" />
+    <Compile Include="Report\FixedAssetFixedAssetChangePlateReportXpo.vb" />
+    <Compile Include="Report\FixedAssetFixedAssetEntryItemDetailBookReportXpo.vb" />
+    <Compile Include="Report\FixedAssetFixedAssetEntryItemDetailPartBookReportXpo.vb" />
+    <Compile Include="Report\FixedAssetFixedAssetEntryItemDetailPartReportXpo.vb" />
+    <Compile Include="Report\FixedAssetFixedAssetEntryItemDetailReportXpo.vb" />
+    <Compile Include="Report\FixedAssetFixedAssetEntryItemReportXpo.vb" />
+    <Compile Include="Report\FixedAssetFixedAssetEntryReportXpo.vb" />
+    <Compile Include="Report\FixedAssetFixedAssetPartsAccesoriesConsumablesDetailReportXpo.vb" />
+    <Compile Include="Report\FixedAssetFixedAssetPartsAccesoriesConsumablesReportXpo.vb" />
+    <Compile Include="Report\FixedAssetFixedAssetVPhysicalAssetMainAccountsReportXpo.vb" />
+    <Compile Include="Report\FixedAssetFixedAssetPhysicalAssetPartsReportXpo.vb" />
+    <Compile Include="Report\FixedAssetFixedAssetPurchaseOrderItemReportXpo.vb" />
+    <Compile Include="Report\FixedAssetFixedAssetPurchaseOrderReportXpo.vb" />
+    <Compile Include="Report\FixedAssetFixedAssetRemissionEntranceItemDetailBookReportXpo.vb" />
+    <Compile Include="Report\FixedAssetFixedAssetRemissionEntranceItemDetailPartBookReportXpo.vb" />
+    <Compile Include="Report\fixedAssetFixedAssetRemissionEntranceItemDetailPartReportXpo.vb" />
+    <Compile Include="Report\FixedAssetFixedAssetRemissionEntranceItemDetailReportXpo.vb" />
+    <Compile Include="Report\FixedAssetFixedAssetRemissionEntranceItemReportXpo.vb" />
+    <Compile Include="Report\FixedAssetFixedAssetRemissionEntranceReportXpo.vb" />
+    <Compile Include="Report\FixedAssetItemCatalogReportXpo.vb" />
+    <Compile Include="Report\FixedAssetItemReportXpo.vb" />
+    <Compile Include="Report\FixedAssetItemTypeReportXpo.vb" />
+    <Compile Include="Report\FixedAssetLocationReportXpo.vb" />
+    <Compile Include="Report\FixedAssetLocationTypeReportXpo.vb" />
+    <Compile Include="Report\FixedAssetPhysicalAssetDetailBookReportXpo.vb" />
+    <Compile Include="Report\FixedAssetPhysicalAssetReportXpo.vb" />
+    <Compile Include="Report\FixedAssetResponsibleReportXpo.vb" />
+    <Compile Include="Report\FixedAssetResponsibleTypeReportXpo.vb" />
+    <Compile Include="Report\FixedAssetSettingFixedAssetReportXpo.vb" />
+    <Compile Include="Report\FixedAssetStatusAssetReportXpo.vb" />
+    <Compile Include="Report\FixedAssetTrademarkReportXpo.vb" />
+    <Compile Include="Report\FixedAssetTransferDetailReportXpo.vb" />
+    <Compile Include="Report\FixedAssetTransferReportXpo.vb" />
+    <Compile Include="Report\FixedAssetVReportDetailsFixedAssetsIncomeReportXpo.vb" />
+    <Compile Include="Report\FixedAssetVReportFixedTransactionReportXpo.vb" />
+    <Compile Include="Report\FixedAssetVReportPurchaseOrderXpo.vb" />
+    <Compile Include="Report\FixedAssetVReportSubAccountReportXpo.vb" />
+    <Compile Include="Report\GeneralLedgerLegalBookReportXpo.vb" />
+    <Compile Include="Report\GeneralLedgerMainAccountsReportXpo.vb" />
+    <Compile Include="Report\PaymentsAccountPayableReportXpo.vb" />
+    <Compile Include="Report\PayrollFunctionalUnitReportXpo.vb" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="My Project\Resources.resx">
+      <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.vb</LastGenOutput>
+      <CustomToolNamespace>My.Resources</CustomToolNamespace>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="My Project\Application.myapp">
+      <Generator>MyApplicationCodeGenerator</Generator>
+      <LastGenOutput>Application.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="My Project\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <CustomToolNamespace>My</CustomToolNamespace>
+      <LastGenOutput>Settings.Designer.vb</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Infrastructure.CrossCutting.Xpo.Base\Infrastructure.CrossCutting.Xpo.Base.vbproj">
+      <Project>{06aea7a4-8792-405e-97e6-4b6fb10502b5}</Project>
+      <Name>Infrastructure.CrossCutting.Xpo.Base</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

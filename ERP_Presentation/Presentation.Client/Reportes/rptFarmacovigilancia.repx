@@ -1,0 +1,930 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<XtraReportsLayoutSerializer SerializerVersion="20.1.8.0" Ref="1" Name="rptFarmacovigilancia" ControlType="DevExpress.XtraReports.UI.XtraReport, DevExpress.XtraReports.v20.1, Version=20.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" DataSource="#Ref-0" DataMember="SP_CAL_ListarFichaFarmacovigilancia" Font="Arial, 8pt" Version="20.1" SnapGridSize="4.92126" PageWidth="850" PageHeight="1100" Margins="41, 40, 24, 28">
+  <Bands>
+    <Item1 Ref="2" ControlType="DetailBand" Name="Detail" TextAlignment="TopLeft" Padding="0,0,0,0,100" Expanded="false" HeightF="0" />
+    <Item2 Ref="3" ControlType="PageHeaderBand" Name="PageHeader" TextAlignment="TopLeft" Padding="0,0,0,0,100" HeightF="0" />
+    <Item3 Ref="4" ControlType="PageFooterBand" Name="PageFooter" TextAlignment="TopLeft" Padding="0,0,0,0,100" HeightF="0" Expanded="false" />
+    <Item4 Ref="5" Name="ReportHeader" ControlType="ReportHeaderBand" LockedInUserDesigner="true" Font="Times New Roman, 8pt" HeightF="111.4583">
+      <Controls>
+        <Item1 Ref="6" Name="XrTable1" ControlType="XRTable" SizeF="766.0583,111.4583" LocationFloat="0.7321834, 0" Borders="Left, Top, Right" BorderWidth="2" AnchorVertical="Bottom">
+          <Rows>
+            <Item1 Ref="7" ControlType="XRTableRow" Name="XrTableRow2" Weight="1.1145832824707032">
+              <Cells>
+                <Item1 Ref="8" Name="XrTableCell5" ControlType="XRTableCell" Borders="Left, Top, Right" BorderWidth="1" Text="XrTableCell5" CanGrow="false" Weight="3">
+                  <Controls>
+                    <Item1 Ref="9" Name="XrLabel2" ControlType="XRLabel" SizeF="273.4648,19.80807" LocationFloat="481.4566, 9.000015" Font="Arial, 7pt, style=Bold" Padding="2,2,0,0,100" BorderColor="Black" Borders="Top, Right, Bottom" TextAlignment="MiddleCenter" Multiline="true" Text="VIGILANCIA">
+                      <StylePriority Ref="10" UseFont="false" UseBorderColor="false" UseBorders="false" UseTextAlignment="false" />
+                    </Item1>
+                    <Item2 Ref="11" Name="XrTable9" ControlType="XRTable" SizeF="543.5831,25.00001" LocationFloat="211.3383, 68.12502">
+                      <Rows>
+                        <Item1 Ref="12" ControlType="XRTableRow" Name="XrTableRow10" Weight="1">
+                          <Cells>
+                            <Item1 Ref="13" Name="XrTableCell1" ControlType="XRTableCell" Font="Arial, 6.75pt, charSet=0" Borders="All" BorderWidth="1" Text="Código: IVC-VIG-FM026" TextAlignment="MiddleCenter" Weight="2.282956188462494">
+                              <StylePriority Ref="14" UseFont="false" UseBorders="false" UseBorderWidth="false" UseTextAlignment="false" />
+                            </Item1>
+                            <Item2 Ref="15" Name="XrTableCell3" ControlType="XRTableCell" Font="Arial, 6.75pt" Borders="All" BorderWidth="1" Text="Versión: 01" TextAlignment="MiddleCenter" Weight="1.7170438115375057">
+                              <StylePriority Ref="16" UseFont="false" UseBorders="false" UseBorderWidth="false" UseTextAlignment="false" />
+                            </Item2>
+                            <Item3 Ref="17" Name="XrTableCell11" ControlType="XRTableCell" Font="Arial, 6.75pt" Borders="All" BorderWidth="1" Text="Fecha de Emisión: 05/04/2016" TextAlignment="MiddleCenter" Weight="2.1876714168682652">
+                              <StylePriority Ref="18" UseFont="false" UseBorders="false" UseBorderWidth="false" UseTextAlignment="false" />
+                            </Item3>
+                            <Item4 Ref="19" Name="XrTableCell4" ControlType="XRTableCell" Borders="All" BorderWidth="1" Weight="1.8618855093685822">
+                              <Controls>
+                                <Item1 Ref="20" Name="XrPageInfo1" ControlType="XRPageInfo" SizeF="63.21875,17" Font="Arial, 6.75pt" Padding="2,2,0,0,100" Borders="None" LocationFloat="32.12219, 6.000005" Format="Página {0}/{1}">
+                                  <StylePriority Ref="21" UseFont="false" UseBorders="false" />
+                                </Item1>
+                              </Controls>
+                              <StylePriority Ref="22" UseBorders="false" UseBorderWidth="false" />
+                            </Item4>
+                          </Cells>
+                        </Item1>
+                      </Rows>
+                    </Item2>
+                    <Item3 Ref="23" Name="XrPictureBox3" ControlType="XRPictureBox" SizeF="190,75" LocationFloat="10.00001, 13.12503" Borders="None" Sizing="StretchImage" Image="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">
+                      <StylePriority Ref="24" UseBorders="false" />
+                    </Item3>
+                    <Item4 Ref="25" Name="XrLabel1" ControlType="XRLabel" SizeF="270.1183,19.80807" LocationFloat="211.3383, 9.000008" Font="Arial, 7pt, style=Bold" Padding="2,2,0,0,100" BorderColor="Black" Borders="All" TextAlignment="MiddleCenter" Multiline="true" Text="INSPECCIÓN, VIGILANCIA Y CONTROL ">
+                      <StylePriority Ref="26" UseFont="false" UseBorderColor="false" UseBorders="false" UseTextAlignment="false" />
+                    </Item4>
+                    <Item5 Ref="27" Name="XrLabel7" ControlType="XRLabel" SizeF="543.5831,39.31691" LocationFloat="211.3383, 28.80811" Font="Arial, 9pt, style=Bold" Padding="2,2,0,0,100" Borders="Left, Right" TextAlignment="MiddleCenter" Text="FORMATO REPORTE DE SOSPECHA DE EVENTOS ADVERSOS ADVERSOS A MEDICAMENTOS - FOREAM">
+                      <StylePriority Ref="28" UseFont="false" UseBorders="false" UseTextAlignment="false" />
+                    </Item5>
+                  </Controls>
+                  <StylePriority Ref="29" UseBorders="false" UseBorderWidth="false" />
+                </Item1>
+              </Cells>
+            </Item1>
+          </Rows>
+          <StylePriority Ref="30" UseBorders="false" UseBorderWidth="false" />
+        </Item1>
+      </Controls>
+      <StylePriority Ref="31" UseFont="false" />
+    </Item4>
+    <Item5 Ref="32" ControlType="DetailReportBand" Name="DetailReportPrestador" DataMember="SP_CAL_ListarFichaFarmacovigilanciaDetalle" Level="0">
+      <Bands>
+        <Item1 Ref="33" ControlType="DetailBand" Name="Detail1" HeightF="44.99829">
+          <Controls>
+            <Item1 Ref="34" Name="XrTable12" ControlType="XRTable" SizeF="766.0582,44.99829" LocationFloat="0.7321675, 0" Borders="Left, Right, Bottom" AnchorVertical="Both">
+              <Rows>
+                <Item1 Ref="35" ControlType="XRTableRow" Name="XrTableRow18" Borders="Left, Right, Bottom" Weight="1.2385237218063916">
+                  <Cells>
+                    <Item1 Ref="36" Name="XrTableCell61" ControlType="XRTableCell" BorderWidth="1" Text="XrTableCell10" CanGrow="false" Weight="1.537119490061545">
+                      <Controls>
+                        <Item1 Ref="37" Name="XrTable13" ControlType="XRTable" SizeF="753.8109,37.16666" LocationFloat="7.110341, 0">
+                          <Rows>
+                            <Item1 Ref="38" ControlType="XRTableRow" Name="XrTableRow19" Weight="0.99614169431917166">
+                              <Cells>
+                                <Item1 Ref="39" Name="XrTableCell62" ControlType="XRTableCell" Font="Arial, 8.25pt, charSet=0" BorderColor="Black" Borders="Left, Right, Bottom" BorderWidth="1" TextAlignment="MiddleCenter" Multiline="true" Weight="0.5229373836189154">
+                                  <DataBindings>
+                                    <Item1 Ref="40" PropertyName="Text" DataMember="SP_CAL_ListarFichaFarmacovigilanciaDetalle.SCI" />
+                                  </DataBindings>
+                                  <StylePriority Ref="41" UseFont="false" UseBorderColor="false" UseBorders="false" UseBorderWidth="false" UseTextAlignment="false" />
+                                </Item1>
+                                <Item2 Ref="42" Name="XrTableCell63" ControlType="XRTableCell" BorderColor="Black" Borders="Left, Right, Bottom" BorderWidth="1" TextAlignment="MiddleLeft" Multiline="true" Weight="2.4723678689303861">
+                                  <DataBindings>
+                                    <Item1 Ref="43" PropertyName="Text" DataMember="SP_CAL_ListarFichaFarmacovigilanciaDetalle.CODPRODUC" />
+                                  </DataBindings>
+                                  <StylePriority Ref="44" UseBorderColor="false" UseBorders="false" UseBorderWidth="false" UseTextAlignment="false" />
+                                </Item2>
+                                <Item3 Ref="45" Name="XrTableCell64" ControlType="XRTableCell" BorderColor="Black" Borders="Left, Right, Bottom" BorderWidth="1" TextAlignment="MiddleLeft" Multiline="true" Weight="2.0646953941499686">
+                                  <DataBindings>
+                                    <Item1 Ref="46" PropertyName="Text" DataMember="SP_CAL_ListarFichaFarmacovigilanciaDetalle.INDICACIONES" />
+                                  </DataBindings>
+                                  <StylePriority Ref="47" UseBorderColor="false" UseBorders="false" UseBorderWidth="false" UseTextAlignment="false" />
+                                </Item3>
+                                <Item4 Ref="48" Name="XrTableCell65" ControlType="XRTableCell" BorderColor="Black" Borders="Left, Right, Bottom" BorderWidth="1" TextAlignment="MiddleLeft" Multiline="true" Weight="0.84774313673432478">
+                                  <DataBindings>
+                                    <Item1 Ref="49" PropertyName="Text" DataMember="SP_CAL_ListarFichaFarmacovigilanciaDetalle.DOSIS" />
+                                  </DataBindings>
+                                  <StylePriority Ref="50" UseBorderColor="false" UseBorders="false" UseBorderWidth="false" UseTextAlignment="false" />
+                                </Item4>
+                                <Item5 Ref="51" Name="XrTableCell66" ControlType="XRTableCell" BorderColor="Black" Borders="Left, Right, Bottom" BorderWidth="1" TextAlignment="MiddleLeft" Multiline="true" Weight="0.86453613333944757">
+                                  <DataBindings>
+                                    <Item1 Ref="52" PropertyName="Text" DataMember="SP_CAL_ListarFichaFarmacovigilanciaDetalle.UnidadMedida" />
+                                  </DataBindings>
+                                  <StylePriority Ref="53" UseBorderColor="false" UseBorders="false" UseBorderWidth="false" UseTextAlignment="false" />
+                                </Item5>
+                                <Item6 Ref="54" Name="XrTableCell67" ControlType="XRTableCell" BorderColor="Black" Borders="Left, Right, Bottom" BorderWidth="1" TextAlignment="MiddleLeft" Multiline="true" Weight="1.3493276715413791">
+                                  <DataBindings>
+                                    <Item1 Ref="55" PropertyName="Text" DataMember="SP_CAL_ListarFichaFarmacovigilanciaDetalle.ViaAdministracion" />
+                                  </DataBindings>
+                                  <StylePriority Ref="56" UseBorderColor="false" UseBorders="false" UseBorderWidth="false" UseTextAlignment="false" />
+                                </Item6>
+                                <Item7 Ref="57" Name="XrTableCell68" ControlType="XRTableCell" BorderColor="Black" Borders="Left, Right, Bottom" BorderWidth="1" TextAlignment="MiddleLeft" Multiline="true" Weight="1.1069319480736515">
+                                  <DataBindings>
+                                    <Item1 Ref="58" PropertyName="Text" DataMember="SP_CAL_ListarFichaFarmacovigilanciaDetalle.FRECUENCIA" />
+                                  </DataBindings>
+                                  <StylePriority Ref="59" UseBorderColor="false" UseBorders="false" UseBorderWidth="false" UseTextAlignment="false" />
+                                </Item7>
+                                <Item8 Ref="60" Name="XrTableCell69" ControlType="XRTableCell" BorderColor="Black" Borders="Left, Right, Bottom" BorderWidth="1" TextAlignment="MiddleCenter" Multiline="true" Weight="0.99841924221359224">
+                                  <DataBindings>
+                                    <Item1 Ref="61" PropertyName="Text" DataMember="SP_CAL_ListarFichaFarmacovigilanciaDetalle.FECHAINICIO" />
+                                  </DataBindings>
+                                  <StylePriority Ref="62" UseBorderColor="false" UseBorders="false" UseBorderWidth="false" UseTextAlignment="false" />
+                                </Item8>
+                                <Item9 Ref="63" Name="XrTableCell70" ControlType="XRTableCell" BorderColor="Black" Borders="Left, Right, Bottom" BorderWidth="1" TextAlignment="MiddleCenter" Multiline="true" Weight="0.896433605586019">
+                                  <DataBindings>
+                                    <Item1 Ref="64" PropertyName="Text" DataMember="SP_CAL_ListarFichaFarmacovigilanciaDetalle.FECHAFIN" />
+                                  </DataBindings>
+                                  <StylePriority Ref="65" UseBorderColor="false" UseBorders="false" UseBorderWidth="false" UseTextAlignment="false" />
+                                </Item9>
+                              </Cells>
+                            </Item1>
+                          </Rows>
+                        </Item1>
+                      </Controls>
+                      <StylePriority Ref="66" UseBorderWidth="false" />
+                    </Item1>
+                  </Cells>
+                  <StylePriority Ref="67" UseBorders="false" />
+                </Item1>
+              </Rows>
+              <StylePriority Ref="68" UseBorders="false" />
+            </Item1>
+          </Controls>
+        </Item1>
+        <Item2 Ref="69" ControlType="GroupHeaderBand" Name="GroupHeader3" HeightF="79.57446">
+          <Controls>
+            <Item1 Ref="70" Name="XrTable5" ControlType="XRTable" SizeF="766.0582,79.57446" LocationFloat="0.7321395, 0" Borders="All" AnchorVertical="Both">
+              <Rows>
+                <Item1 Ref="71" ControlType="XRTableRow" Name="XrTableRow5" Borders="Left, Right, Bottom" Weight="0.8346244406306611">
+                  <Cells>
+                    <Item1 Ref="72" Name="XrTableCell12" ControlType="XRTableCell" BorderWidth="1" Text="XrTableCell10" CanGrow="false" Weight="1.537119490061545">
+                      <Controls>
+                        <Item1 Ref="73" Name="XrLabel37" ControlType="XRLabel" SizeF="753.811,23.00649" LocationFloat="7.110358, 19.90793" Font="Arial, 7pt, style=Bold" BackColor="DarkGray" Padding="2,2,0,0,100" Borders="None" BorderWidth="1" TextAlignment="MiddleCenter" Text="Registre todos los medicamentos utilizados y marque con una &quot;S&quot; el (los) sospechoso(s), con una &quot;C&quot; el (los) concomitantes y con una &quot;I&quot; las  nteracciones. ">
+                          <StylePriority Ref="74" UseFont="false" UseBackColor="false" UseBorderColor="false" UseBorders="false" UseBorderWidth="false" UseTextAlignment="false" />
+                        </Item1>
+                        <Item2 Ref="75" Name="XrLabel38" ControlType="XRLabel" SizeF="753.811,18.90801" LocationFloat="7.110358, 1" Font="Arial, 7pt, style=Bold" BackColor="DarkGray" Padding="2,2,0,0,100" Borders="Bottom" BorderWidth="0" TextAlignment="MiddleCenter" Text="3. INFORMACIÓN DE LOS MEDICAMENTOS">
+                          <StylePriority Ref="76" UseFont="false" UseBackColor="false" UseBorderColor="false" UseBorders="false" UseBorderWidth="false" UseTextAlignment="false" />
+                        </Item2>
+                        <Item3 Ref="77" Name="XrTable6" ControlType="XRTable" SizeF="753.811,37.31061" LocationFloat="7.110322, 43.91452">
+                          <Rows>
+                            <Item1 Ref="78" ControlType="XRTableRow" Name="XrTableRow6" Weight="1">
+                              <Cells>
+                                <Item1 Ref="79" Name="XrTableCell13" ControlType="XRTableCell" Font="Arial, 8.25pt, charSet=0" Borders="Left, Top, Right" BorderWidth="1" Text="S/C/I" TextAlignment="MiddleCenter" Weight="0.52758106637096414">
+                                  <StylePriority Ref="80" UseFont="false" UseBorders="false" UseBorderWidth="false" UseTextAlignment="false" />
+                                </Item1>
+                                <Item2 Ref="81" Name="XrTableCell14" ControlType="XRTableCell" Font="Arial, 7pt" Borders="Left, Top, Right" BorderWidth="1" Text="Medicamento (Denominación Común Internacional o Nombre genérico)" TextAlignment="MiddleCenter" Weight="2.4943191772970463">
+                                  <StylePriority Ref="82" UseFont="false" UseBorders="false" UseBorderWidth="false" UseTextAlignment="false" />
+                                </Item2>
+                                <Item3 Ref="83" Name="XrTableCell15" ControlType="XRTableCell" Borders="Left, Top, Right" BorderWidth="1" Text="Indicación" TextAlignment="MiddleCenter" Weight="2.0830273101844834">
+                                  <StylePriority Ref="84" UseBorders="false" UseBorderWidth="false" UseTextAlignment="false" />
+                                </Item3>
+                                <Item4 Ref="85" Name="XrTableCell16" ControlType="XRTableCell" Borders="Left, Top, Right" BorderWidth="1" Text="Dosis" TextAlignment="MiddleCenter" Weight="0.85527076875446384">
+                                  <StylePriority Ref="86" UseBorders="false" UseBorderWidth="false" UseTextAlignment="false" />
+                                </Item4>
+                                <Item5 Ref="87" Name="XrTableCell6" ControlType="XRTableCell" Borders="Left, Top, Right" BorderWidth="1" Text="Unidad de medida" TextAlignment="MiddleCenter" Weight="0.87221084622342437">
+                                  <StylePriority Ref="88" UseBorders="false" UseBorderWidth="false" UseTextAlignment="false" />
+                                </Item5>
+                                <Item6 Ref="89" Name="XrTableCell7" ControlType="XRTableCell" Borders="Left, Top, Right" BorderWidth="1" Text="Vía de administración" TextAlignment="MiddleCenter" Weight="1.3613079791156377">
+                                  <StylePriority Ref="90" UseBorders="false" UseBorderWidth="false" UseTextAlignment="false" />
+                                </Item6>
+                                <Item7 Ref="91" Name="XrTableCell8" ControlType="XRTableCell" Borders="Left, Top, Right" BorderWidth="1" Text="Frecuencia de administración" TextAlignment="MiddleCenter" Weight="1.1167594126695311">
+                                  <StylePriority Ref="92" UseBorders="false" UseBorderWidth="false" UseTextAlignment="false" />
+                                </Item7>
+                                <Item8 Ref="93" Name="XrTableCell17" ControlType="XRTableCell" Borders="Left, Top, Right" BorderWidth="1" Text="Fecha de inicio" TextAlignment="MiddleCenter" Weight="1.0072847161312055">
+                                  <StylePriority Ref="94" UseBorders="false" UseBorderWidth="false" UseTextAlignment="false" />
+                                </Item8>
+                                <Item9 Ref="95" Name="XrTableCell9" ControlType="XRTableCell" Borders="Left, Top, Right" BorderWidth="1" Text="Fecha de finalización" TextAlignment="MiddleCenter" Weight="0.90439286649821027">
+                                  <StylePriority Ref="96" UseBorders="false" UseBorderWidth="false" UseTextAlignment="false" />
+                                </Item9>
+                              </Cells>
+                            </Item1>
+                          </Rows>
+                        </Item3>
+                      </Controls>
+                      <StylePriority Ref="97" UseBorderWidth="false" />
+                    </Item1>
+                  </Cells>
+                  <StylePriority Ref="98" UseBorders="false" />
+                </Item1>
+              </Rows>
+              <StylePriority Ref="99" UseBorders="false" />
+            </Item1>
+          </Controls>
+        </Item2>
+      </Bands>
+    </Item5>
+    <Item6 Ref="100" Name="TopMarginBand1" ControlType="TopMarginBand" HeightF="23.70834" />
+    <Item7 Ref="101" Name="BottomMarginBand1" ControlType="BottomMarginBand" HeightF="28" />
+    <Item8 Ref="102" ControlType="GroupHeaderBand" Name="GroupHeader1" HeightF="104.9365">
+      <Controls>
+        <Item1 Ref="103" Name="XrTable3" ControlType="XRTable" SizeF="766.0583,104.9365" LocationFloat="0.7321395, 0" Borders="All" AnchorVertical="Both">
+          <Rows>
+            <Item1 Ref="104" ControlType="XRTableRow" Name="XrTableRow3" Borders="Left, Right, Bottom" Weight="0.83462444063066121">
+              <Cells>
+                <Item1 Ref="105" Name="XrTableCell2" ControlType="XRTableCell" BorderWidth="1" Text="XrTableCell10" CanGrow="false" Weight="1.537119490061545">
+                  <Controls>
+                    <Item1 Ref="106" Name="XrLabel102" ControlType="XRLabel" SizeF="100.1979,15.74802" LocationFloat="648.7233, 21.25006" Font="Arial, 7pt, style=Bold" Padding="2,2,0,0,100" Borders="All" TextAlignment="MiddleLeft" Text="Identificación">
+                      <StylePriority Ref="107" UseFont="false" UseBorders="false" UseTextAlignment="false" />
+                    </Item1>
+                    <Item2 Ref="108" Name="XrLabel103" ControlType="XRLabel" SizeF="100.198,15.74803" LocationFloat="648.7233, 38.01765" Font="Arial, 7pt" Padding="2,2,0,0,100" Borders="All" Multiline="true">
+                      <DataBindings>
+                        <Item1 Ref="109" PropertyName="Text" DataMember="SP_CAL_ListarFichaFarmacovigilancia.IdentificacionPaciente" />
+                      </DataBindings>
+                      <StylePriority Ref="110" UseFont="false" UseBorders="false" UseBorderWidth="false" />
+                    </Item2>
+                    <Item3 Ref="111" Name="XrLabel79" ControlType="XRLabel" SizeF="92.84453,15.74802" LocationFloat="10.07884, 62.44036" Font="Arial, 7pt, style=Bold" Padding="2,2,0,0,100" Borders="All" TextAlignment="MiddleLeft" Text="Iniciales del paciente">
+                      <StylePriority Ref="112" UseFont="false" UseBorders="false" UseTextAlignment="false" />
+                    </Item3>
+                    <Item4 Ref="113" Name="XrLabel80" ControlType="XRLabel" SizeF="92.84463,15.74803" LocationFloat="10.07884, 79.20798" Font="Arial, 7pt" Padding="2,2,0,0,100" Borders="All" Multiline="true">
+                      <DataBindings>
+                        <Item1 Ref="114" PropertyName="Text" DataMember="SP_CAL_ListarFichaFarmacovigilancia.Iniciales" />
+                      </DataBindings>
+                      <StylePriority Ref="115" UseFont="false" UseBorders="false" UseBorderWidth="false" />
+                    </Item4>
+                    <Item5 Ref="116" Name="XrLabel33" ControlType="XRLabel" SizeF="328.4449,15.74802" LocationFloat="420.4765, 62.46001" Font="Arial, 7pt, style=Bold" Padding="2,2,0,0,100" Borders="All" TextAlignment="MiddleLeft" Text="Diagnóstico principal y otros diagnósticos">
+                      <StylePriority Ref="117" UseFont="false" UseBorders="false" UseTextAlignment="false" />
+                    </Item5>
+                    <Item6 Ref="118" Name="XrLabel34" ControlType="XRLabel" SizeF="328.4448,15.75" LocationFloat="420.4765, 79.20812" Font="Arial, 7pt" Padding="2,2,0,0,100" Borders="All" TextAlignment="MiddleLeft" Multiline="true">
+                      <DataBindings>
+                        <Item1 Ref="119" PropertyName="Text" DataMember="SP_CAL_ListarFichaFarmacovigilancia.Diagnostico" />
+                      </DataBindings>
+                      <StylePriority Ref="120" UseFont="false" UseBorders="false" UseBorderWidth="false" UseTextAlignment="false" />
+                    </Item6>
+                    <Item7 Ref="121" Name="XrLabel31" ControlType="XRLabel" SizeF="63.21,15.75" LocationFloat="337.1878, 62.46204" Font="Arial, 7pt, style=Bold" Padding="2,2,0,0,100" Borders="All" TextAlignment="MiddleLeft" Text="Talla (cm)">
+                      <StylePriority Ref="122" UseFont="false" UseBorders="false" UseTextAlignment="false" />
+                    </Item7>
+                    <Item8 Ref="123" Name="XrLabel32" ControlType="XRLabel" SizeF="63.21017,15.74803" LocationFloat="337.1877, 79.21009" Font="Arial, 7pt" Padding="2,2,0,0,100" Borders="All" Multiline="true">
+                      <DataBindings>
+                        <Item1 Ref="124" PropertyName="Text" DataMember="SP_CAL_ListarFichaFarmacovigilancia.TALLA" />
+                      </DataBindings>
+                      <StylePriority Ref="125" UseFont="false" UseBorders="false" UseBorderWidth="false" />
+                    </Item8>
+                    <Item9 Ref="126" Name="XrLabel29" ControlType="XRLabel" SizeF="63.21442,15.74803" LocationFloat="259.8459, 62.46001" Font="Arial, 7pt, style=Bold" Padding="2,2,0,0,100" Borders="All" TextAlignment="MiddleLeft" Text="Peso (Kg)">
+                      <StylePriority Ref="127" UseFont="false" UseBorders="false" UseTextAlignment="false" />
+                    </Item9>
+                    <Item10 Ref="128" Name="XrLabel30" ControlType="XRLabel" SizeF="63.21442,15.74803" LocationFloat="259.8458, 79.20805" Font="Arial, 7pt" Padding="2,2,0,0,100" Borders="All" Multiline="true">
+                      <DataBindings>
+                        <Item1 Ref="129" PropertyName="Text" DataMember="SP_CAL_ListarFichaFarmacovigilancia.PESO" />
+                      </DataBindings>
+                      <StylePriority Ref="130" UseFont="false" UseBorders="false" UseBorderWidth="false" />
+                    </Item10>
+                    <Item11 Ref="131" Name="XrLabel27" ControlType="XRLabel" SizeF="19.68504,15.74803" LocationFloat="200.1923, 79.20812" Font="Arial, 7pt" Padding="2,2,0,0,100" Borders="All" BorderWidth="1" TextAlignment="MiddleCenter">
+                      <DataBindings>
+                        <Item1 Ref="132" PropertyName="Text" DataMember="SP_CAL_ListarFichaFarmacovigilancia.S/I" />
+                      </DataBindings>
+                      <StylePriority Ref="133" UseFont="false" UseBorders="false" UseBorderWidth="false" UseTextAlignment="false" />
+                    </Item11>
+                    <Item12 Ref="134" Name="XrLabel28" ControlType="XRLabel" SizeF="26.88202,15.74802" LocationFloat="220.2708, 79.20812" Font="Arial, 7pt" Padding="2,2,0,0,100" Borders="None" BorderWidth="2" TextAlignment="MiddleLeft" Multiline="true" Text="S/I">
+                      <StylePriority Ref="135" UseFont="false" UseBorders="false" UseBorderWidth="false" UseTextAlignment="false" />
+                    </Item12>
+                    <Item13 Ref="136" Name="XrLabel23" ControlType="XRLabel" SizeF="19.68504,14.70636" LocationFloat="599.9533, 38.03977" Font="Arial, 7pt" Padding="2,2,0,0,100" Borders="All" BorderWidth="1" TextAlignment="MiddleCenter">
+                      <DataBindings>
+                        <Item1 Ref="137" PropertyName="Text" DataMember="SP_CAL_ListarFichaFarmacovigilancia.Extranjeria" />
+                      </DataBindings>
+                      <StylePriority Ref="138" UseFont="false" UseBorders="false" UseBorderWidth="false" UseTextAlignment="false" />
+                    </Item13>
+                    <Item14 Ref="139" Name="XrLabel24" ControlType="XRLabel" SizeF="16.04895,14.70636" LocationFloat="620.0319, 38.03977" Font="Arial, 7pt" Padding="2,2,0,0,100" Borders="None" BorderWidth="2" TextAlignment="MiddleLeft" Multiline="true" Text="S/I">
+                      <StylePriority Ref="140" UseFont="false" UseBorders="false" UseBorderWidth="false" UseTextAlignment="false" />
+                    </Item14>
+                    <Item15 Ref="141" Name="XrLabel21" ControlType="XRLabel" SizeF="19.68504,14.70636" LocationFloat="556.1361, 38.03977" Font="Arial, 7pt" Padding="2,2,0,0,100" Borders="All" BorderWidth="1" TextAlignment="MiddleCenter">
+                      <DataBindings>
+                        <Item1 Ref="142" PropertyName="Text" DataMember="SP_CAL_ListarFichaReactivos.Extranjeria" />
+                      </DataBindings>
+                      <StylePriority Ref="143" UseFont="false" UseBorders="false" UseBorderWidth="false" UseTextAlignment="false" />
+                    </Item15>
+                    <Item16 Ref="144" Name="XrLabel22" ControlType="XRLabel" SizeF="23.73859,14.70636" LocationFloat="576.2147, 38.03977" Font="Arial, 7pt" Padding="2,2,0,0,100" Borders="None" BorderWidth="2" TextAlignment="MiddleLeft" Multiline="true" Text="Otro">
+                      <StylePriority Ref="145" UseFont="false" UseBorders="false" UseBorderWidth="false" UseTextAlignment="false" />
+                    </Item16>
+                    <Item17 Ref="146" Name="XrLabel19" ControlType="XRLabel" SizeF="19.68504,14.70636" LocationFloat="493.5129, 38.03977" Font="Arial, 7pt" Padding="2,2,0,0,100" Borders="All" BorderWidth="1" TextAlignment="MiddleCenter">
+                      <DataBindings>
+                        <Item1 Ref="147" PropertyName="Text" DataMember="SP_CAL_ListarFichaReactivos.Extranjeria" />
+                      </DataBindings>
+                      <StylePriority Ref="148" UseFont="false" UseBorders="false" UseBorderWidth="false" UseTextAlignment="false" />
+                    </Item17>
+                    <Item18 Ref="149" Name="XrLabel20" ControlType="XRLabel" SizeF="42.54443,14.70636" LocationFloat="513.5917, 38.03977" Font="Arial, 7pt" Padding="2,2,0,0,100" Borders="None" BorderWidth="2" TextAlignment="MiddleLeft" Multiline="true" Text="Cód. Lab">
+                      <StylePriority Ref="150" UseFont="false" UseBorders="false" UseBorderWidth="false" UseTextAlignment="false" />
+                    </Item18>
+                    <Item19 Ref="151" Name="XrLabel17" ControlType="XRLabel" SizeF="92.8446,15.75" LocationFloat="10.07879, 21.24806" Font="Arial, 7pt, style=Bold" Padding="2,2,0,0,100" Borders="All" TextAlignment="MiddleLeft" Text="Fecha nacimiento">
+                      <StylePriority Ref="152" UseFont="false" UseBorders="false" UseTextAlignment="false" />
+                    </Item19>
+                    <Item20 Ref="153" Name="XrLabel18" ControlType="XRLabel" SizeF="92.8446,15.74804" LocationFloat="10.07879, 37.99812" Font="Arial, 7pt" Padding="2,2,0,0,100" Borders="All" Multiline="true">
+                      <DataBindings>
+                        <Item1 Ref="154" PropertyName="Text" DataMember="SP_CAL_ListarFichaFarmacovigilancia.FECHANACIMIENTO" />
+                      </DataBindings>
+                      <StylePriority Ref="155" UseFont="false" UseBorders="false" UseBorderWidth="false" />
+                    </Item20>
+                    <Item21 Ref="156" Name="XrLabel62" ControlType="XRLabel" SizeF="19.68504,15.74803" LocationFloat="116.5939, 79.20799" Font="Arial, 7pt" Padding="2,2,0,0,100" Borders="All" BorderWidth="1" TextAlignment="MiddleCenter">
+                      <DataBindings>
+                        <Item1 Ref="157" PropertyName="Text" DataMember="SP_CAL_ListarFichaFarmacovigilancia.Masculino" />
+                      </DataBindings>
+                      <StylePriority Ref="158" UseFont="false" UseBorders="false" UseBorderWidth="false" UseTextAlignment="false" />
+                    </Item21>
+                    <Item22 Ref="159" Name="XrLabel64" ControlType="XRLabel" SizeF="19.68504,15.74803" LocationFloat="157.0107, 79.20799" Font="Arial, 7pt" Padding="2,2,0,0,100" Borders="All" BorderWidth="1" TextAlignment="MiddleCenter">
+                      <DataBindings>
+                        <Item1 Ref="160" PropertyName="Text" DataMember="SP_CAL_ListarFichaFarmacovigilancia.Femenino" />
+                      </DataBindings>
+                      <StylePriority Ref="161" UseFont="false" UseBorders="false" UseBorderWidth="false" UseTextAlignment="false" />
+                    </Item22>
+                    <Item23 Ref="162" Name="XrLabel68" ControlType="XRLabel" SizeF="22.10295,15.74802" LocationFloat="177.0893, 79.20799" Font="Arial, 7pt" Padding="2,2,0,0,100" Borders="None" BorderWidth="2" TextAlignment="MiddleLeft" Multiline="true" Text="F">
+                      <StylePriority Ref="163" UseFont="false" UseBorders="false" UseBorderWidth="false" UseTextAlignment="false" />
+                    </Item23>
+                    <Item24 Ref="164" Name="XrLabel71" ControlType="XRLabel" SizeF="18.33777,15.74802" LocationFloat="136.673, 79.20799" Font="Arial, 7pt" Padding="2,2,0,0,100" Borders="None" BorderWidth="2" TextAlignment="MiddleLeft" Multiline="true" Text="M">
+                      <StylePriority Ref="165" UseFont="false" UseBorders="false" UseBorderWidth="false" UseTextAlignment="false" />
+                    </Item24>
+                    <Item25 Ref="166" Name="XrLabel72" ControlType="XRLabel" SizeF="130.5588,15.74802" LocationFloat="116.5939, 62.46001" Font="Arial, 7pt, style=Bold" Padding="2,2,0,0,100" Borders="All" TextAlignment="MiddleLeft" Text="Sexo">
+                      <StylePriority Ref="167" UseFont="false" UseBorders="false" UseBorderWidth="false" UseTextAlignment="false" />
+                    </Item25>
+                    <Item26 Ref="168" Name="XrLabel93" ControlType="XRLabel" SizeF="19.68504,14.70636" LocationFloat="443.4764, 37.99807" Font="Arial, 7pt" Padding="2,2,0,0,100" Borders="All" BorderWidth="1" TextAlignment="MiddleCenter">
+                      <DataBindings>
+                        <Item1 Ref="169" PropertyName="Text" DataMember="SP_CAL_ListarFichaReactivos.Extranjeria" />
+                      </DataBindings>
+                      <StylePriority Ref="170" UseFont="false" UseBorders="false" UseBorderWidth="false" UseTextAlignment="false" />
+                    </Item26>
+                    <Item27 Ref="171" Name="XrLabel94" ControlType="XRLabel" SizeF="29.95764,14.70636" LocationFloat="463.5552, 37.99807" Font="Arial, 7pt" Padding="2,2,0,0,100" Borders="None" BorderWidth="2" TextAlignment="MiddleLeft" Multiline="true" Text="NUIP">
+                      <StylePriority Ref="172" UseFont="false" UseBorders="false" UseBorderWidth="false" UseTextAlignment="false" />
+                    </Item27>
+                    <Item28 Ref="173" Name="XrLabel81" ControlType="XRLabel" SizeF="19.68504,14.70636" LocationFloat="317.1616, 37.99806" Font="Arial, 7pt" Padding="2,2,0,0,100" Borders="All" BorderWidth="1" TextAlignment="MiddleCenter">
+                      <DataBindings>
+                        <Item1 Ref="174" PropertyName="Text" DataMember="SP_CAL_ListarFichaFarmacovigilancia.CedulaCiudadania" />
+                      </DataBindings>
+                      <StylePriority Ref="175" UseFont="false" UseBorders="false" UseBorderWidth="false" UseTextAlignment="false" />
+                    </Item28>
+                    <Item29 Ref="176" Name="XrLabel82" ControlType="XRLabel" SizeF="19.68504,14.70636" LocationFloat="360.2403, 37.99806" Font="Arial, 7pt" Padding="2,2,0,0,100" Borders="All" BorderWidth="1" TextAlignment="MiddleCenter">
+                      <DataBindings>
+                        <Item1 Ref="177" PropertyName="Text" DataMember="SP_CAL_ListarFichaFarmacovigilancia.Tarjetaidentidad" />
+                      </DataBindings>
+                      <StylePriority Ref="178" UseFont="false" UseBorders="false" UseBorderWidth="false" UseTextAlignment="false" />
+                    </Item29>
+                    <Item30 Ref="179" Name="XrLabel83" ControlType="XRLabel" SizeF="20.07877,14.70636" LocationFloat="380.3191, 37.99806" Font="Arial, 7pt" Padding="2,2,0,0,100" Borders="None" BorderWidth="2" TextAlignment="MiddleLeft" Multiline="true" Text="T.I.">
+                      <StylePriority Ref="180" UseFont="false" UseBorders="false" UseBorderWidth="false" UseTextAlignment="false" />
+                    </Item30>
+                    <Item31 Ref="181" Name="XrLabel84" ControlType="XRLabel" SizeF="19.68504,14.70636" LocationFloat="400.3978, 37.9981" Font="Arial, 7pt" Padding="2,2,0,0,100" Borders="All" BorderWidth="1" TextAlignment="MiddleCenter">
+                      <DataBindings>
+                        <Item1 Ref="182" PropertyName="Text" DataMember="SP_CAL_ListarFichaFarmacovigilancia.RegistroCivil" />
+                      </DataBindings>
+                      <StylePriority Ref="183" UseFont="false" UseBorders="false" UseBorderWidth="false" UseTextAlignment="false" />
+                    </Item31>
+                    <Item32 Ref="184" Name="XrLabel85" ControlType="XRLabel" SizeF="23,14.70636" LocationFloat="420.4765, 37.9981" Font="Arial, 7pt" Padding="2,2,0,0,100" Borders="None" BorderWidth="2" TextAlignment="MiddleLeft" Multiline="true" Text="R.C.">
+                      <StylePriority Ref="185" UseFont="false" UseBorders="false" UseBorderWidth="false" UseTextAlignment="false" />
+                    </Item32>
+                    <Item33 Ref="186" Name="XrLabel86" ControlType="XRLabel" SizeF="23,14.70636" LocationFloat="337.2403, 37.99806" Font="Arial, 7pt" Padding="2,2,0,0,100" Borders="None" BorderWidth="2" TextAlignment="MiddleLeft" Multiline="true" Text="C.C">
+                      <StylePriority Ref="187" UseFont="false" UseBorders="false" UseBorderWidth="false" UseTextAlignment="false" />
+                    </Item33>
+                    <Item34 Ref="188" Name="XrLabel87" ControlType="XRLabel" SizeF="318.9192,15.75" LocationFloat="317.1616, 21.24808" Font="Arial, 7pt, style=Bold" Padding="2,2,0,0,100" Borders="All" TextAlignment="MiddleLeft" Text="Documento de identificación del paciente ">
+                      <StylePriority Ref="189" UseFont="false" UseBorders="false" UseBorderWidth="false" UseTextAlignment="false" />
+                    </Item34>
+                    <Item35 Ref="190" Name="XrLabel88" ControlType="XRLabel" SizeF="199.9683,15.75" LocationFloat="110.9609, 21.24807" Font="Arial, 7pt, style=Bold" Padding="2,2,0,0,100" Borders="All" TextAlignment="TopCenter" Text="Edad del paciente en el momento del EA ">
+                      <StylePriority Ref="191" UseFont="false" UseBorders="false" UseTextAlignment="false" />
+                    </Item35>
+                    <Item36 Ref="192" Name="XrLabel89" ControlType="XRLabel" SizeF="71.6165,15.74806" LocationFloat="110.9609, 37.99807" Font="Arial, 7pt" Padding="2,2,0,0,100" Borders="All" Multiline="true">
+                      <DataBindings>
+                        <Item1 Ref="193" PropertyName="Text" DataMember="SP_CAL_ListarFichaFarmacovigilancia.Edad" />
+                      </DataBindings>
+                      <StylePriority Ref="194" UseFont="false" UseBorders="false" UseBorderWidth="false" />
+                    </Item36>
+                    <Item37 Ref="195" Name="XrLabel92" ControlType="XRLabel" SizeF="751.9214,17" LocationFloat="9.000006, 0" Font="Arial, 7pt, style=Bold" BackColor="DarkGray" Padding="2,2,0,0,100" Borders="Bottom" BorderWidth="1" TextAlignment="MiddleCenter" Text="2. INFORMACIÓN DEL PACIENTE ">
+                      <StylePriority Ref="196" UseFont="false" UseBackColor="false" UseBorderColor="false" UseBorders="false" UseBorderWidth="false" UseTextAlignment="false" />
+                    </Item37>
+                  </Controls>
+                  <StylePriority Ref="197" UseBorderWidth="false" />
+                </Item1>
+              </Cells>
+              <StylePriority Ref="198" UseBorders="false" />
+            </Item1>
+          </Rows>
+          <StylePriority Ref="199" UseBorders="false" />
+        </Item1>
+      </Controls>
+    </Item8>
+    <Item9 Ref="200" ControlType="GroupHeaderBand" Name="GroupHeader2" Level="1" HeightF="99.32754">
+      <Controls>
+        <Item1 Ref="201" Name="XrTable4" ControlType="XRTable" SizeF="766.0583,99.32754" LocationFloat="0.7321395, 0" Borders="All" AnchorVertical="Both">
+          <Rows>
+            <Item1 Ref="202" ControlType="XRTableRow" Name="XrTableRow4" Borders="Left, Right, Bottom" Weight="1.0039794392400787">
+              <Cells>
+                <Item1 Ref="203" Name="XrTableCell10" ControlType="XRTableCell" BorderWidth="1" Text="XrTableCell10" CanGrow="false" Weight="1.537119490061545">
+                  <Controls>
+                    <Item1 Ref="204" Name="XrLabel15" ControlType="XRLabel" SizeF="229.6035,15.74804" LocationFloat="519.3177, 77.06216" Font="Arial, 7pt" Padding="2,2,0,0,100" Borders="All" Multiline="true">
+                      <DataBindings>
+                        <Item1 Ref="205" PropertyName="Text" DataMember="SP_CAL_ListarFichaFarmacovigilancia.CORREOREPORTANTE" />
+                      </DataBindings>
+                      <StylePriority Ref="206" UseFont="false" UseBorders="false" UseBorderWidth="false" />
+                    </Item1>
+                    <Item2 Ref="207" Name="XrLabel16" ControlType="XRLabel" SizeF="229.6035,15.75" LocationFloat="519.3177, 59.31213" Font="Arial, 7pt, style=Bold" Padding="2,2,0,0,100" Borders="All" TextAlignment="MiddleLeft" Text="Correo  institucional del  reportante primario">
+                      <StylePriority Ref="208" UseFont="false" UseBorders="false" UseTextAlignment="false" />
+                    </Item2>
+                    <Item3 Ref="209" Name="XrLabel13" ControlType="XRLabel" SizeF="238.4189,15.74805" LocationFloat="273.2441, 77.06216" Font="Arial, 7pt" Padding="2,2,0,0,100" Borders="All" Multiline="true">
+                      <DataBindings>
+                        <Item1 Ref="210" PropertyName="Text" DataMember="SP_CAL_ListarFichaFarmacovigilancia.Profesion reportante" />
+                      </DataBindings>
+                      <StylePriority Ref="211" UseFont="false" UseBorders="false" UseBorderWidth="false" />
+                    </Item3>
+                    <Item4 Ref="212" Name="XrLabel14" ControlType="XRLabel" SizeF="238.4189,15.75" LocationFloat="273.2441, 60.31214" Font="Arial, 7pt, style=Bold" Padding="2,2,0,0,100" Borders="All" TextAlignment="MiddleLeft" Text="Profesión del reportante primario">
+                      <StylePriority Ref="213" UseFont="false" UseBorders="false" UseTextAlignment="false" />
+                    </Item4>
+                    <Item5 Ref="214" Name="XrLabel11" ControlType="XRLabel" SizeF="252.9662,15.74804" LocationFloat="10.07877, 77.06216" Font="Arial, 7pt" Padding="2,2,0,0,100" Borders="All" Multiline="true">
+                      <DataBindings>
+                        <Item1 Ref="215" PropertyName="Text" DataMember="SP_CAL_ListarFichaFarmacovigilancia.NOMBREREPORTANTE" />
+                      </DataBindings>
+                      <StylePriority Ref="216" UseFont="false" UseBorders="false" UseBorderWidth="false" />
+                    </Item5>
+                    <Item6 Ref="217" Name="XrLabel12" ControlType="XRLabel" SizeF="252.9662,15.75" LocationFloat="10.07877, 60.31214" Font="Arial, 7pt, style=Bold" Padding="2,2,0,0,100" Borders="All" TextAlignment="MiddleLeft" Text="Nombre del Reportante primario">
+                      <StylePriority Ref="218" UseFont="false" UseBorders="false" UseTextAlignment="false" />
+                    </Item6>
+                    <Item7 Ref="219" Name="XrLabel9" ControlType="XRLabel" SizeF="100.1979,15.74803" LocationFloat="648.7234, 21.72724" Font="Arial, 7pt, style=Bold" Padding="2,2,0,0,100" Borders="All" TextAlignment="MiddleLeft" Text="Código PNF">
+                      <StylePriority Ref="220" UseFont="false" UseBorders="false" UseTextAlignment="false" />
+                    </Item7>
+                    <Item8 Ref="221" Name="XrLabel10" ControlType="XRLabel" SizeF="100.1979,15.74803" LocationFloat="648.7233, 38.47529" Font="Arial, 7pt" Padding="2,2,0,0,100" Borders="All" Multiline="true">
+                      <DataBindings>
+                        <Item1 Ref="222" PropertyName="Text" DataMember="SP_CAL_ListarFichaFarmacovigilancia.CODIGOPNF" />
+                      </DataBindings>
+                      <StylePriority Ref="223" UseFont="false" UseBorders="false" UseBorderWidth="false" />
+                    </Item8>
+                    <Item9 Ref="224" Name="XrLabel6" ControlType="XRLabel" SizeF="235.779,15.74803" LocationFloat="134.7264, 22.72727" Font="Arial, 7pt, style=Bold" Padding="2,2,0,0,100" Borders="All" TextAlignment="MiddleLeft" Text="Departamento – Municipio">
+                      <StylePriority Ref="225" UseFont="false" UseBorders="false" UseTextAlignment="false" />
+                    </Item9>
+                    <Item10 Ref="226" Name="XrLabel8" ControlType="XRLabel" SizeF="235.779,15.74803" LocationFloat="134.7264, 39.47528" Font="Arial, 7pt" Padding="2,2,0,0,100" Borders="All" Multiline="true">
+                      <DataBindings>
+                        <Item1 Ref="227" PropertyName="Text" DataMember="SP_CAL_ListarFichaFarmacovigilancia.Departamento Municipio reportante" />
+                      </DataBindings>
+                      <StylePriority Ref="228" UseFont="false" UseBorders="false" UseBorderWidth="false" />
+                    </Item10>
+                    <Item11 Ref="229" Name="XrLabel4" ControlType="XRLabel" SizeF="114.982,15.74803" LocationFloat="10.07874, 22.72727" Font="Arial, 7pt, style=Bold" Padding="2,2,0,0,100" Borders="All" TextAlignment="MiddleLeft" Text="Fecha de notificación">
+                      <StylePriority Ref="230" UseFont="false" UseBorders="false" UseTextAlignment="false" />
+                    </Item11>
+                    <Item12 Ref="231" Name="XrLabel5" ControlType="XRLabel" SizeF="114.982,15.74803" LocationFloat="10.07874, 39.47528" Font="Arial, 7pt" Padding="2,2,0,0,100" Borders="All" Multiline="true">
+                      <DataBindings>
+                        <Item1 Ref="232" PropertyName="Text" DataMember="SP_CAL_ListarFichaFarmacovigilancia.FECHAINICIOEVENTO" />
+                      </DataBindings>
+                      <StylePriority Ref="233" UseFont="false" UseBorders="false" UseBorderWidth="false" />
+                    </Item12>
+                    <Item13 Ref="234" Name="XrLabel3" ControlType="XRLabel" SizeF="751.9214,17" LocationFloat="9.000006, 0" Font="Arial, 7pt, style=Bold" BackColor="DarkGray" Padding="2,2,0,0,100" Borders="Bottom" BorderWidth="1" TextAlignment="MiddleCenter" Multiline="true" Text="1. INFORMACIÓN DEL REPORTANTE&#xD;">
+                      <StylePriority Ref="235" UseFont="false" UseBackColor="false" UseBorderColor="false" UseBorders="false" UseBorderWidth="false" UseTextAlignment="false" />
+                    </Item13>
+                    <Item14 Ref="236" Name="XrLabel91" ControlType="XRLabel" SizeF="252.4564,15.74802" LocationFloat="381.7326, 39.47419" Font="Arial, 7pt" Padding="2,2,0,0,100" Borders="All" Multiline="true">
+                      <DataBindings>
+                        <Item1 Ref="237" PropertyName="Text" DataMember="SP_CAL_ListarFichaFarmacovigilancia.NOMBREINSTITUCION" />
+                      </DataBindings>
+                      <StylePriority Ref="238" UseFont="false" UseBorders="false" UseBorderWidth="false" />
+                    </Item14>
+                    <Item15 Ref="239" Name="XrLabel90" ControlType="XRLabel" SizeF="252.4564,15.74802" LocationFloat="381.7326, 22.72728" Font="Arial, 7pt, style=Bold" Padding="2,2,0,0,100" Borders="All" TextAlignment="MiddleLeft" Text="Nombre de la Institución donde ocurrió el evento">
+                      <StylePriority Ref="240" UseFont="false" UseBorders="false" UseTextAlignment="false" />
+                    </Item15>
+                  </Controls>
+                  <StylePriority Ref="241" UseBorderWidth="false" />
+                </Item1>
+              </Cells>
+              <StylePriority Ref="242" UseBorders="false" />
+            </Item1>
+          </Rows>
+          <StylePriority Ref="243" UseBorders="false" />
+        </Item1>
+      </Controls>
+    </Item9>
+    <Item10 Ref="244" ControlType="DetailReportBand" Name="DetailReport" Level="1">
+      <Bands>
+        <Item1 Ref="245" ControlType="DetailBand" Name="Detail2" HeightF="59.08813">
+          <Controls>
+            <Item1 Ref="246" Name="XrTable11" ControlType="XRTable" SizeF="766.0583,59.08813" LocationFloat="0.7321395, 0" Borders="Left, Right" AnchorVertical="Both">
+              <Rows>
+                <Item1 Ref="247" ControlType="XRTableRow" Name="XrTableRow17" Borders="Left, Right, Bottom" Weight="1.5332582796408221">
+                  <Cells>
+                    <Item1 Ref="248" Name="XrTableCell60" ControlType="XRTableCell" BorderWidth="1" Text="XrTableCell10" CanGrow="false" Weight="1.537119490061545">
+                      <Controls>
+                        <Item1 Ref="249" Name="XrLabel100" ControlType="XRLabel" SizeF="161.6118,15.74803" LocationFloat="558.4962, 21.99997" Font="Arial, 7pt, style=Bold" Padding="2,2,0,0,100" Borders="All" TextAlignment="MiddleLeft" Text="Lote">
+                          <StylePriority Ref="250" UseFont="false" UseBorders="false" UseTextAlignment="false" />
+                        </Item1>
+                        <Item2 Ref="251" Name="XrLabel101" ControlType="XRLabel" SizeF="161.6118,15.74803" LocationFloat="558.4962, 38.748" Font="Arial, 7pt" Padding="2,2,0,0,100" Borders="All" Multiline="true">
+                          <DataBindings>
+                            <Item1 Ref="252" PropertyName="Text" DataMember="SP_CAL_ListarFichaFarmacovigilancia.LOTE" />
+                          </DataBindings>
+                          <StylePriority Ref="253" UseFont="false" UseBorders="false" UseBorderWidth="false" />
+                        </Item2>
+                        <Item3 Ref="254" Name="XrLabel98" ControlType="XRLabel" SizeF="161.6118,15.74803" LocationFloat="377.3191, 21.99998" Font="Arial, 7pt, style=Bold" Padding="2,2,0,0,100" Borders="All" TextAlignment="MiddleLeft" Text="Registro sanitario">
+                          <StylePriority Ref="255" UseFont="false" UseBorders="false" UseTextAlignment="false" />
+                        </Item3>
+                        <Item4 Ref="256" Name="XrLabel99" ControlType="XRLabel" SizeF="161.6118,15.74803" LocationFloat="377.319, 38.74802" Font="Arial, 7pt" Padding="2,2,0,0,100" Borders="All" Multiline="true">
+                          <DataBindings>
+                            <Item1 Ref="257" PropertyName="Text" DataMember="SP_CAL_ListarFichaFarmacovigilancia.REGISTROSANITARIO" />
+                          </DataBindings>
+                          <StylePriority Ref="258" UseFont="false" UseBorders="false" UseBorderWidth="false" />
+                        </Item4>
+                        <Item5 Ref="259" Name="XrLabel96" ControlType="XRLabel" SizeF="161.6118,15.74803" LocationFloat="193.2485, 21.99998" Font="Arial, 7pt, style=Bold" Padding="2,2,0,0,100" Borders="All" TextAlignment="MiddleLeft" Text="Nombre Comercial ">
+                          <StylePriority Ref="260" UseFont="false" UseBorders="false" UseTextAlignment="false" />
+                        </Item5>
+                        <Item6 Ref="261" Name="XrLabel97" ControlType="XRLabel" SizeF="161.6118,15.74803" LocationFloat="193.2484, 38.74802" Font="Arial, 7pt" Padding="2,2,0,0,100" Borders="All" Multiline="true">
+                          <DataBindings>
+                            <Item1 Ref="262" PropertyName="Text" DataMember="SP_CAL_ListarFichaFarmacovigilancia.NOMBRECOMERCIAL" />
+                          </DataBindings>
+                          <StylePriority Ref="263" UseFont="false" UseBorders="false" UseBorderWidth="false" />
+                        </Item6>
+                        <Item7 Ref="264" Name="XrLabel26" ControlType="XRLabel" SizeF="161.6118,15.74803" LocationFloat="9.271408, 21.99998" Font="Arial, 7pt, style=Bold" Padding="2,2,0,0,100" Borders="All" TextAlignment="MiddleLeft" Text="Titular del Registro sanitario">
+                          <StylePriority Ref="265" UseFont="false" UseBorders="false" UseTextAlignment="false" />
+                        </Item7>
+                        <Item8 Ref="266" Name="XrLabel95" ControlType="XRLabel" SizeF="161.6118,15.74803" LocationFloat="9.271311, 38.74802" Font="Arial, 7pt" Padding="2,2,0,0,100" Borders="All" Multiline="true">
+                          <DataBindings>
+                            <Item1 Ref="267" PropertyName="Text" DataMember="SP_CAL_ListarFichaFarmacovigilancia.TITULARREGISTRO" />
+                          </DataBindings>
+                          <StylePriority Ref="268" UseFont="false" UseBorders="false" UseBorderWidth="false" />
+                        </Item8>
+                        <Item9 Ref="269" Name="XrLabel35" ControlType="XRLabel" SizeF="751.6536,17" LocationFloat="10, 1.999982" Font="Arial, 7pt, style=Bold" BackColor="DarkGray" Padding="2,2,0,0,100" Borders="None" BorderWidth="2" TextAlignment="MiddleCenter" Text="Información comercial del medicamento sospechoso">
+                          <StylePriority Ref="270" UseFont="false" UseBackColor="false" UseBorderColor="false" UseBorders="false" UseBorderWidth="false" UseTextAlignment="false" />
+                        </Item9>
+                      </Controls>
+                      <StylePriority Ref="271" UseBorderWidth="false" />
+                    </Item1>
+                  </Cells>
+                  <StylePriority Ref="272" UseBorders="false" />
+                </Item1>
+              </Rows>
+              <StylePriority Ref="273" UseBorders="false" />
+            </Item1>
+          </Controls>
+        </Item1>
+      </Bands>
+    </Item10>
+    <Item11 Ref="274" ControlType="DetailReportBand" Name="DetailReport1" Level="2">
+      <Bands>
+        <Item1 Ref="275" ControlType="DetailBand" Name="Detail3" HeightF="401.736">
+          <Controls>
+            <Item1 Ref="276" Name="XrTable8" ControlType="XRTable" SizeF="766.0583,401.7359" LocationFloat="0.7321395, 4.709504E-05" Borders="Left, Right, Bottom" AnchorVertical="Both">
+              <Rows>
+                <Item1 Ref="277" ControlType="XRTableRow" Name="XrTableRow9" Borders="Left, Right, Bottom" Weight="1.5771498682089049">
+                  <Cells>
+                    <Item1 Ref="278" Name="XrTableCell35" ControlType="XRTableCell" BorderWidth="1" Text="XrTableCell10" CanGrow="false" Weight="1.537119490061545">
+                      <Controls>
+                        <Item1 Ref="279" Name="XrLabel25" ControlType="XRLabel" SizeF="154.9427,15.74802" LocationFloat="445.0107, 184.72" Font="Arial, 7pt" Padding="2,2,0,0,100" Borders="All" BorderWidth="1" TextAlignment="MiddleCenter">
+                          <DataBindings>
+                            <Item1 Ref="280" PropertyName="Text" DataMember="SP_CAL_ListarFichaFarmacovigilancia.Fecha muerte" />
+                          </DataBindings>
+                          <StylePriority Ref="281" UseFont="false" UseBorders="false" UseBorderWidth="false" UseTextAlignment="false" />
+                        </Item1>
+                        <Item2 Ref="282" Name="XrTable10" ControlType="XRTable" SizeF="745.3759,123.2144" LocationFloat="10.81362, 235.197">
+                          <Rows>
+                            <Item1 Ref="283" ControlType="XRTableRow" Name="XrTableRow11" Weight="1">
+                              <Cells>
+                                <Item1 Ref="284" Name="XrTableCell36" ControlType="XRTableCell" Font="Arial, 8.25pt, charSet=0" Borders="All" BorderWidth="1" Weight="6.285867715889367">
+                                  <StylePriority Ref="285" UseFont="false" UseBorders="false" UseBorderWidth="false" />
+                                </Item1>
+                                <Item2 Ref="286" Name="XrTableCell37" ControlType="XRTableCell" Borders="All" BorderWidth="1" Text="SI" TextAlignment="MiddleCenter" Weight="0.52668596269135382">
+                                  <StylePriority Ref="287" UseBorders="false" UseBorderWidth="false" UseTextAlignment="false" />
+                                </Item2>
+                                <Item3 Ref="288" Name="XrTableCell38" ControlType="XRTableCell" Borders="All" BorderWidth="1" Text="NO" TextAlignment="MiddleCenter" Weight="0.63205009348943175">
+                                  <StylePriority Ref="289" UseBorders="false" UseBorderWidth="false" UseTextAlignment="false" />
+                                </Item3>
+                                <Item4 Ref="290" Name="XrTableCell39" ControlType="XRTableCell" Borders="All" BorderWidth="1" Text="No sabe" TextAlignment="MiddleCenter" Weight="0.60495315416669415">
+                                  <StylePriority Ref="291" UseBorders="false" UseBorderWidth="false" UseTextAlignment="false" />
+                                </Item4>
+                              </Cells>
+                            </Item1>
+                            <Item2 Ref="292" ControlType="XRTableRow" Name="XrTableRow12" BorderWidth="0" Weight="1">
+                              <Cells>
+                                <Item1 Ref="293" Name="XrTableCell40" ControlType="XRTableCell" Font="Arial, 8.25pt, charSet=0" Borders="All" BorderWidth="1" Text="¿El evento se presentó después de administrar el medicamento?" Weight="6.2858660680428411">
+                                  <StylePriority Ref="294" UseFont="false" UseBorders="false" UseBorderWidth="false" />
+                                </Item1>
+                                <Item2 Ref="295" Name="XrTableCell41" ControlType="XRTableCell" Borders="All" BorderWidth="1" Text="XrTableCell32" TextAlignment="MiddleCenter" Weight="0.52668794010718578">
+                                  <Controls>
+                                    <Item1 Ref="296" Name="XrLabel47" ControlType="XRLabel" SizeF="19.68504,15.74803" LocationFloat="14.55088, 1.920959" Font="Arial, 7pt" Padding="2,2,0,0,100" Borders="All" BorderWidth="1" TextAlignment="MiddleCenter">
+                                      <DataBindings>
+                                        <Item1 Ref="297" PropertyName="Text" DataMember="SP_CAL_ListarFichaFarmacovigilancia.Pregunta1_SI" />
+                                      </DataBindings>
+                                      <StylePriority Ref="298" UseFont="false" UseBorders="false" UseBorderWidth="false" UseTextAlignment="false" />
+                                    </Item1>
+                                  </Controls>
+                                  <StylePriority Ref="299" UseBorders="false" UseBorderWidth="false" UseTextAlignment="false" />
+                                </Item2>
+                                <Item3 Ref="300" Name="XrTableCell42" ControlType="XRTableCell" Borders="All" BorderWidth="1" Text="XrTableCell33" Weight="0.63204926956616836">
+                                  <Controls>
+                                    <Item1 Ref="301" Name="XrLabel48" ControlType="XRLabel" SizeF="19.68504,15.74803" LocationFloat="19.91427, 1.92103" Font="Arial, 7pt" Padding="2,2,0,0,100" Borders="All" BorderWidth="1" TextAlignment="MiddleCenter">
+                                      <DataBindings>
+                                        <Item1 Ref="302" PropertyName="Text" DataMember="SP_CAL_ListarFichaFarmacovigilancia.Pregunta1_NO" />
+                                      </DataBindings>
+                                      <StylePriority Ref="303" UseFont="false" UseBorders="false" UseBorderWidth="false" UseTextAlignment="false" />
+                                    </Item1>
+                                  </Controls>
+                                  <StylePriority Ref="304" UseBorders="false" UseBorderWidth="false" />
+                                </Item3>
+                                <Item4 Ref="305" Name="XrTableCell43" ControlType="XRTableCell" Borders="All" BorderWidth="1" Text="XrTableCell34" Weight="0.60495364852065192">
+                                  <Controls>
+                                    <Item1 Ref="306" Name="XrLabel61" ControlType="XRLabel" SizeF="19.68504,15.74803" LocationFloat="20.44275, 1.920994" Font="Arial, 7pt" Padding="2,2,0,0,100" Borders="All" BorderWidth="1" TextAlignment="MiddleCenter">
+                                      <DataBindings>
+                                        <Item1 Ref="307" PropertyName="Text" DataMember="SP_CAL_ListarFichaFarmacovigilancia.Pregunta1_NoSabe" />
+                                      </DataBindings>
+                                      <StylePriority Ref="308" UseFont="false" UseBorders="false" UseBorderWidth="false" UseTextAlignment="false" />
+                                    </Item1>
+                                  </Controls>
+                                  <StylePriority Ref="309" UseBorders="false" UseBorderWidth="false" />
+                                </Item4>
+                              </Cells>
+                              <StylePriority Ref="310" UseBorderWidth="false" />
+                            </Item2>
+                            <Item3 Ref="311" ControlType="XRTableRow" Name="XrTableRow13" Weight="1">
+                              <Cells>
+                                <Item1 Ref="312" Name="XrTableCell44" ControlType="XRTableCell" Font="Arial, 8.25pt, charSet=0" Borders="All" BorderWidth="1" Text="¿Existen otros factores que puedan explicar el evento (medicamento, patologías, etc.)?" Weight="6.2858660680428411">
+                                  <StylePriority Ref="313" UseFont="false" UseBorders="false" UseBorderWidth="false" />
+                                </Item1>
+                                <Item2 Ref="314" Name="XrTableCell45" ControlType="XRTableCell" Borders="All" BorderWidth="1" Text="XrTableCell45" TextAlignment="MiddleCenter" Weight="0.52668794010718578">
+                                  <Controls>
+                                    <Item1 Ref="315" Name="XrLabel63" ControlType="XRLabel" SizeF="19.68504,15.74803" LocationFloat="14.55086, 2.527347" Font="Arial, 7pt" Padding="2,2,0,0,100" Borders="All" BorderWidth="1" TextAlignment="MiddleCenter">
+                                      <DataBindings>
+                                        <Item1 Ref="316" PropertyName="Text" DataMember="SP_CAL_ListarFichaFarmacovigilancia.Pregunta2_SI" />
+                                      </DataBindings>
+                                      <StylePriority Ref="317" UseFont="false" UseBorders="false" UseBorderWidth="false" UseTextAlignment="false" />
+                                    </Item1>
+                                  </Controls>
+                                  <StylePriority Ref="318" UseBorders="false" UseBorderWidth="false" UseTextAlignment="false" />
+                                </Item2>
+                                <Item3 Ref="319" Name="XrTableCell46" ControlType="XRTableCell" Borders="All" BorderWidth="1" Text="XrTableCell46" Weight="0.63204926956616836">
+                                  <Controls>
+                                    <Item1 Ref="320" Name="XrLabel65" ControlType="XRLabel" SizeF="19.68504,15.74803" LocationFloat="19.91426, 2.527347" Font="Arial, 7pt" Padding="2,2,0,0,100" Borders="All" BorderWidth="1" TextAlignment="MiddleCenter">
+                                      <DataBindings>
+                                        <Item1 Ref="321" PropertyName="Text" DataMember="SP_CAL_ListarFichaFarmacovigilancia.Pregunta2_NO" />
+                                      </DataBindings>
+                                      <StylePriority Ref="322" UseFont="false" UseBorders="false" UseBorderWidth="false" UseTextAlignment="false" />
+                                    </Item1>
+                                  </Controls>
+                                  <StylePriority Ref="323" UseBorders="false" UseBorderWidth="false" />
+                                </Item3>
+                                <Item4 Ref="324" Name="XrTableCell47" ControlType="XRTableCell" Borders="All" BorderWidth="1" Text="XrTableCell47" Weight="0.60495364852065192">
+                                  <Controls>
+                                    <Item1 Ref="325" Name="XrLabel66" ControlType="XRLabel" SizeF="19.68504,15.74803" LocationFloat="20.4427, 2.527347" Font="Arial, 7pt" Padding="2,2,0,0,100" Borders="All" BorderWidth="1" TextAlignment="MiddleCenter">
+                                      <DataBindings>
+                                        <Item1 Ref="326" PropertyName="Text" DataMember="SP_CAL_ListarFichaFarmacovigilancia.Pregunta2_NoSabe" />
+                                      </DataBindings>
+                                      <StylePriority Ref="327" UseFont="false" UseBorders="false" UseBorderWidth="false" UseTextAlignment="false" />
+                                    </Item1>
+                                  </Controls>
+                                  <StylePriority Ref="328" UseBorders="false" UseBorderWidth="false" />
+                                </Item4>
+                              </Cells>
+                            </Item3>
+                            <Item4 Ref="329" ControlType="XRTableRow" Name="XrTableRow14" Weight="1">
+                              <Cells>
+                                <Item1 Ref="330" Name="XrTableCell48" ControlType="XRTableCell" Font="Arial, 8.25pt, charSet=0" Borders="All" BorderWidth="1" Text="¿El evento desapareció al disminuir o suspender el medicamento sospechoso?" Weight="6.2858660680428411">
+                                  <StylePriority Ref="331" UseFont="false" UseBorders="false" UseBorderWidth="false" />
+                                </Item1>
+                                <Item2 Ref="332" Name="XrTableCell49" ControlType="XRTableCell" Borders="All" BorderWidth="1" Text="XrTableCell49" TextAlignment="MiddleCenter" Weight="0.52668794010718578">
+                                  <Controls>
+                                    <Item1 Ref="333" Name="XrLabel67" ControlType="XRLabel" SizeF="19.68504,15.74803" LocationFloat="14.55086, 2.13364" Font="Arial, 7pt" Padding="2,2,0,0,100" Borders="All" BorderWidth="1" TextAlignment="MiddleCenter">
+                                      <DataBindings>
+                                        <Item1 Ref="334" PropertyName="Text" DataMember="SP_CAL_ListarFichaFarmacovigilancia.Pregunta3_SI" />
+                                      </DataBindings>
+                                      <StylePriority Ref="335" UseFont="false" UseBorders="false" UseBorderWidth="false" UseTextAlignment="false" />
+                                    </Item1>
+                                  </Controls>
+                                  <StylePriority Ref="336" UseBorders="false" UseBorderWidth="false" UseTextAlignment="false" />
+                                </Item2>
+                                <Item3 Ref="337" Name="XrTableCell50" ControlType="XRTableCell" Borders="All" BorderWidth="1" Text="XrTableCell50" Weight="0.63204926956616836">
+                                  <Controls>
+                                    <Item1 Ref="338" Name="XrLabel69" ControlType="XRLabel" SizeF="19.68504,15.74803" LocationFloat="19.91426, 2.13364" Font="Arial, 7pt" Padding="2,2,0,0,100" Borders="All" BorderWidth="1" TextAlignment="MiddleCenter">
+                                      <DataBindings>
+                                        <Item1 Ref="339" PropertyName="Text" DataMember="SP_CAL_ListarFichaFarmacovigilancia.Pregunta3_NO" />
+                                      </DataBindings>
+                                      <StylePriority Ref="340" UseFont="false" UseBorders="false" UseBorderWidth="false" UseTextAlignment="false" />
+                                    </Item1>
+                                  </Controls>
+                                  <StylePriority Ref="341" UseBorders="false" UseBorderWidth="false" />
+                                </Item3>
+                                <Item4 Ref="342" Name="XrTableCell51" ControlType="XRTableCell" Borders="All" BorderWidth="1" Text="XrTableCell51" Weight="0.60495364852065192">
+                                  <Controls>
+                                    <Item1 Ref="343" Name="XrLabel70" ControlType="XRLabel" SizeF="19.68504,15.74803" LocationFloat="20.4427, 2.13364" Font="Arial, 7pt" Padding="2,2,0,0,100" Borders="All" BorderWidth="1" TextAlignment="MiddleCenter">
+                                      <DataBindings>
+                                        <Item1 Ref="344" PropertyName="Text" DataMember="SP_CAL_ListarFichaFarmacovigilancia.Pregunta3_NoSabe" />
+                                      </DataBindings>
+                                      <StylePriority Ref="345" UseFont="false" UseBorders="false" UseBorderWidth="false" UseTextAlignment="false" />
+                                    </Item1>
+                                  </Controls>
+                                  <StylePriority Ref="346" UseBorders="false" UseBorderWidth="false" />
+                                </Item4>
+                              </Cells>
+                            </Item4>
+                            <Item5 Ref="347" ControlType="XRTableRow" Name="XrTableRow16" Weight="1">
+                              <Cells>
+                                <Item1 Ref="348" Name="XrTableCell56" ControlType="XRTableCell" Font="Arial, 8.25pt, charSet=0" Borders="All" BorderWidth="1" Text="¿El paciente ya había presentado la misma reacción al medicamento sospechoso?" Weight="6.2858660680428411">
+                                  <StylePriority Ref="349" UseFont="false" UseBorders="false" UseBorderWidth="false" />
+                                </Item1>
+                                <Item2 Ref="350" Name="XrTableCell57" ControlType="XRTableCell" Borders="All" BorderWidth="1" Text="XrTableCell57" TextAlignment="MiddleCenter" Weight="0.52668794010718578">
+                                  <Controls>
+                                    <Item1 Ref="351" Name="XrLabel73" ControlType="XRLabel" SizeF="19.68504,15.74803" LocationFloat="14.55086, 1.739902" Font="Arial, 7pt" Padding="2,2,0,0,100" Borders="All" BorderWidth="1" TextAlignment="MiddleCenter">
+                                      <DataBindings>
+                                        <Item1 Ref="352" PropertyName="Text" DataMember="SP_CAL_ListarFichaFarmacovigilancia.Pregunta4_SI" />
+                                      </DataBindings>
+                                      <StylePriority Ref="353" UseFont="false" UseBorders="false" UseBorderWidth="false" UseTextAlignment="false" />
+                                    </Item1>
+                                  </Controls>
+                                  <StylePriority Ref="354" UseBorders="false" UseBorderWidth="false" UseTextAlignment="false" />
+                                </Item2>
+                                <Item3 Ref="355" Name="XrTableCell58" ControlType="XRTableCell" Borders="All" BorderWidth="1" Text="XrTableCell58" Weight="0.63204926956616836">
+                                  <Controls>
+                                    <Item1 Ref="356" Name="XrLabel74" ControlType="XRLabel" SizeF="19.68504,15.74803" LocationFloat="19.91426, 1.739902" Font="Arial, 7pt" Padding="2,2,0,0,100" Borders="All" BorderWidth="1" TextAlignment="MiddleCenter">
+                                      <DataBindings>
+                                        <Item1 Ref="357" PropertyName="Text" DataMember="SP_CAL_ListarFichaFarmacovigilancia.Pregunta4_NO" />
+                                      </DataBindings>
+                                      <StylePriority Ref="358" UseFont="false" UseBorders="false" UseBorderWidth="false" UseTextAlignment="false" />
+                                    </Item1>
+                                  </Controls>
+                                  <StylePriority Ref="359" UseBorders="false" UseBorderWidth="false" />
+                                </Item3>
+                                <Item4 Ref="360" Name="XrTableCell59" ControlType="XRTableCell" Borders="All" BorderWidth="1" Text="XrTableCell59" Weight="0.60495364852065192">
+                                  <Controls>
+                                    <Item1 Ref="361" Name="XrLabel75" ControlType="XRLabel" SizeF="19.68504,15.74803" LocationFloat="20.4427, 1.739902" Font="Arial, 7pt" Padding="2,2,0,0,100" Borders="All" BorderWidth="1" TextAlignment="MiddleCenter">
+                                      <DataBindings>
+                                        <Item1 Ref="362" PropertyName="Text" DataMember="SP_CAL_ListarFichaFarmacovigilancia.Pregunta4_NoSabe" />
+                                      </DataBindings>
+                                      <StylePriority Ref="363" UseFont="false" UseBorders="false" UseBorderWidth="false" UseTextAlignment="false" />
+                                    </Item1>
+                                  </Controls>
+                                  <StylePriority Ref="364" UseBorders="false" UseBorderWidth="false" />
+                                </Item4>
+                              </Cells>
+                            </Item5>
+                            <Item6 Ref="365" ControlType="XRTableRow" Name="XrTableRow15" Weight="1">
+                              <Cells>
+                                <Item1 Ref="366" Name="XrTableCell52" ControlType="XRTableCell" Font="Arial, 8.25pt, charSet=0" Borders="All" BorderWidth="1" Text="¿Se puede ampliar la información del paciente relacionando con el evento?" Weight="6.2858660680428411">
+                                  <StylePriority Ref="367" UseFont="false" UseBorders="false" UseBorderWidth="false" />
+                                </Item1>
+                                <Item2 Ref="368" Name="XrTableCell53" ControlType="XRTableCell" Borders="All" BorderWidth="1" Text="XrTableCell53" TextAlignment="MiddleCenter" Weight="0.52668794010718578">
+                                  <Controls>
+                                    <Item1 Ref="369" Name="XrLabel76" ControlType="XRLabel" SizeF="19.68504,15.74803" LocationFloat="14.55086, 1.346164" Font="Arial, 7pt" Padding="2,2,0,0,100" Borders="All" BorderWidth="1" TextAlignment="MiddleCenter">
+                                      <DataBindings>
+                                        <Item1 Ref="370" PropertyName="Text" DataMember="SP_CAL_ListarFichaFarmacovigilancia.Pregunta5_SI" />
+                                      </DataBindings>
+                                      <StylePriority Ref="371" UseFont="false" UseBorders="false" UseBorderWidth="false" UseTextAlignment="false" />
+                                    </Item1>
+                                  </Controls>
+                                  <StylePriority Ref="372" UseBorders="false" UseBorderWidth="false" UseTextAlignment="false" />
+                                </Item2>
+                                <Item3 Ref="373" Name="XrTableCell54" ControlType="XRTableCell" Borders="All" BorderWidth="1" Text="XrTableCell54" Weight="0.63204926956616836">
+                                  <Controls>
+                                    <Item1 Ref="374" Name="XrLabel77" ControlType="XRLabel" SizeF="19.68504,15.74803" LocationFloat="19.91426, 1.346164" Font="Arial, 7pt" Padding="2,2,0,0,100" Borders="All" BorderWidth="1" TextAlignment="MiddleCenter">
+                                      <DataBindings>
+                                        <Item1 Ref="375" PropertyName="Text" DataMember="SP_CAL_ListarFichaFarmacovigilancia.Pregunta5_NO" />
+                                      </DataBindings>
+                                      <StylePriority Ref="376" UseFont="false" UseBorders="false" UseBorderWidth="false" UseTextAlignment="false" />
+                                    </Item1>
+                                  </Controls>
+                                  <StylePriority Ref="377" UseBorders="false" UseBorderWidth="false" />
+                                </Item3>
+                                <Item4 Ref="378" Name="XrTableCell55" ControlType="XRTableCell" Borders="All" BorderWidth="1" Text="XrTableCell55" Weight="0.60495364852065192">
+                                  <Controls>
+                                    <Item1 Ref="379" Name="XrLabel78" ControlType="XRLabel" SizeF="19.68504,15.74803" LocationFloat="20.4427, 1.346164" Font="Arial, 7pt" Padding="2,2,0,0,100" Borders="All" BorderWidth="1" TextAlignment="MiddleCenter">
+                                      <DataBindings>
+                                        <Item1 Ref="380" PropertyName="Text" DataMember="SP_CAL_ListarFichaFarmacovigilancia.Pregunta5_NoSabe" />
+                                      </DataBindings>
+                                      <StylePriority Ref="381" UseFont="false" UseBorders="false" UseBorderWidth="false" UseTextAlignment="false" />
+                                    </Item1>
+                                  </Controls>
+                                  <StylePriority Ref="382" UseBorders="false" UseBorderWidth="false" />
+                                </Item4>
+                              </Cells>
+                            </Item6>
+                          </Rows>
+                        </Item2>
+                        <Item3 Ref="383" Name="XrLabel60" ControlType="XRLabel" SizeF="72.56705,17.49599" LocationFloat="372.4436, 183.72" Font="Arial, 7pt" Padding="2,2,0,0,100" Borders="None" BorderWidth="2" TextAlignment="MiddleLeft" Multiline="true" Text="Fecha Muerte:">
+                          <StylePriority Ref="384" UseFont="false" UseBorders="false" UseBorderWidth="false" UseTextAlignment="false" />
+                        </Item3>
+                        <Item4 Ref="385" Name="XrLabel49" ControlType="XRLabel" SizeF="19.68503,16.49608" LocationFloat="268.1655, 199.468" Font="Arial, 7pt" Padding="2,2,0,0,100" Borders="Left, Right, Bottom" BorderWidth="1" TextAlignment="MiddleCenter">
+                          <DataBindings>
+                            <Item1 Ref="386" PropertyName="Text" DataMember="SP_CAL_ListarFichaFarmacovigilancia.Serieded_Dsicapacidad" />
+                          </DataBindings>
+                          <StylePriority Ref="387" UseFont="false" UseBorders="false" UseBorderWidth="false" UseTextAlignment="false" />
+                        </Item4>
+                        <Item5 Ref="388" Name="XrLabel50" ControlType="XRLabel" SizeF="311.8315,31.49622" LocationFloat="288.1219, 201.216" Font="Arial, 7pt" Padding="2,2,0,0,100" Borders="None" BorderWidth="2" TextAlignment="MiddleLeft" Multiline="true" Text="Produjo discapacidad o incapacidad permanente / condición médica importante">
+                          <StylePriority Ref="389" UseFont="false" UseBorders="false" UseBorderWidth="false" UseTextAlignment="false" />
+                        </Item5>
+                        <Item6 Ref="390" Name="XrLabel51" ControlType="XRLabel" SizeF="19.68504,15.74803" LocationFloat="268.1655, 183.72" Font="Arial, 7pt" Padding="2,2,0,0,100" Borders="Left, Right, Bottom" BorderWidth="1" TextAlignment="MiddleCenter">
+                          <DataBindings>
+                            <Item1 Ref="391" PropertyName="Text" DataMember="SP_CAL_ListarFichaFarmacovigilancia.Serieded_AmenzaMuerte" />
+                          </DataBindings>
+                          <StylePriority Ref="392" UseFont="false" UseBorders="false" UseBorderWidth="false" UseTextAlignment="false" />
+                        </Item6>
+                        <Item7 Ref="393" Name="XrLabel52" ControlType="XRLabel" SizeF="71.99609,15.74802" LocationFloat="288.2442, 184.7199" Font="Arial, 7pt" Padding="2,2,0,0,100" Borders="None" BorderWidth="2" TextAlignment="MiddleLeft" Multiline="true" Text="Muerte">
+                          <StylePriority Ref="394" UseFont="false" UseBorders="false" UseBorderWidth="false" UseTextAlignment="false" />
+                        </Item7>
+                        <Item8 Ref="395" Name="XrLabel53" ControlType="XRLabel" SizeF="19.68503,16.71056" LocationFloat="268.1655, 167.0096" Font="Arial, 7pt" Padding="2,2,0,0,100" Borders="All" BorderWidth="1" TextAlignment="MiddleCenter">
+                          <DataBindings>
+                            <Item1 Ref="396" PropertyName="Text" DataMember="SP_CAL_ListarFichaFarmacovigilancia.Serieded_Amenazavida" />
+                          </DataBindings>
+                          <StylePriority Ref="397" UseFont="false" UseBorders="false" UseBorderWidth="false" UseTextAlignment="false" />
+                        </Item8>
+                        <Item9 Ref="398" Name="XrLabel54" ControlType="XRLabel" SizeF="311.709,15.74805" LocationFloat="288.2443, 167.9719" Font="Arial, 7pt" Padding="2,2,0,0,100" Borders="None" BorderWidth="2" TextAlignment="MiddleLeft" Multiline="true" Text=" Amenaza de vida">
+                          <StylePriority Ref="399" UseFont="false" UseBorders="false" UseBorderWidth="false" UseTextAlignment="false" />
+                        </Item9>
+                        <Item10 Ref="400" Name="XrLabel55" ControlType="XRLabel" SizeF="19.68504,15.74803" LocationFloat="268.1655, 151.2617" Font="Arial, 7pt" Padding="2,2,0,0,100" Borders="Left, Right" BorderWidth="1" TextAlignment="MiddleCenter">
+                          <DataBindings>
+                            <Item1 Ref="401" PropertyName="Text" DataMember="SP_CAL_ListarFichaFarmacovigilancia.Serieded_Anomalia" />
+                          </DataBindings>
+                          <StylePriority Ref="402" UseFont="false" UseBorders="false" UseBorderWidth="false" UseTextAlignment="false" />
+                        </Item10>
+                        <Item11 Ref="403" Name="XrLabel56" ControlType="XRLabel" SizeF="311.709,15.74803" LocationFloat="288.2443, 151.2617" Font="Arial, 7pt" Padding="2,2,0,0,100" Borders="None" BorderWidth="2" TextAlignment="MiddleLeft" Multiline="true" Text=" Anomalía congénita ">
+                          <StylePriority Ref="404" UseFont="false" UseBorders="false" UseBorderWidth="false" UseTextAlignment="false" />
+                        </Item11>
+                        <Item12 Ref="405" Name="XrLabel57" ControlType="XRLabel" SizeF="19.68504,15.74803" LocationFloat="268.1655, 135.5138" Font="Arial, 7pt" Padding="2,2,0,0,100" Borders="Left, Right, Bottom" BorderWidth="1" TextAlignment="MiddleCenter">
+                          <DataBindings>
+                            <Item1 Ref="406" PropertyName="Text" DataMember="SP_CAL_ListarFichaFarmacovigilancia.Serieded_Produjo" />
+                          </DataBindings>
+                          <StylePriority Ref="407" UseFont="false" UseBorders="false" UseBorderWidth="false" UseTextAlignment="false" />
+                        </Item12>
+                        <Item13 Ref="408" Name="XrLabel58" ControlType="XRLabel" SizeF="311.709,15.74802" LocationFloat="288.2443, 135.5137" Font="Arial, 7pt" Padding="2,2,0,0,100" Borders="None" BorderWidth="2" TextAlignment="MiddleLeft" Multiline="true" Text=" Produjo o prolongó hospitalización">
+                          <StylePriority Ref="409" UseFont="false" UseBorders="false" UseBorderWidth="false" UseTextAlignment="false" />
+                        </Item13>
+                        <Item14 Ref="410" Name="XrLabel59" ControlType="XRLabel" SizeF="332.6015,15.74804" LocationFloat="268.1655, 119.7656" Font="Arial, 7pt, style=Bold" Padding="2,2,0,0,100" Borders="All" TextAlignment="MiddleLeft" Text="Seriedad (Marcar con X) ">
+                          <StylePriority Ref="411" UseFont="false" UseBorders="false" UseTextAlignment="false" />
+                        </Item14>
+                        <Item15 Ref="412" Name="XrLabel45" ControlType="XRLabel" SizeF="19.68503,15.74802" LocationFloat="10.81361, 215.2162" Font="Arial, 7pt" Padding="2,2,0,0,100" Borders="All" BorderWidth="1" TextAlignment="MiddleCenter">
+                          <DataBindings>
+                            <Item1 Ref="413" PropertyName="Text" DataMember="SP_CAL_ListarFichaFarmacovigilancia.DesEnlace_Desconocido" />
+                          </DataBindings>
+                          <StylePriority Ref="414" UseFont="false" UseBorders="false" UseBorderWidth="false" UseTextAlignment="false" />
+                        </Item15>
+                        <Item16 Ref="415" Name="XrLabel46" ControlType="XRLabel" SizeF="216.1961,15.74812" LocationFloat="30.77009, 216.9641" Font="Arial, 7pt" Padding="2,2,0,0,100" Borders="None" BorderWidth="2" TextAlignment="MiddleLeft" Multiline="true" Text="Desconocido">
+                          <StylePriority Ref="416" UseFont="false" UseBorders="false" UseBorderWidth="false" UseTextAlignment="false" />
+                        </Item16>
+                        <Item17 Ref="417" Name="XrLabel244" ControlType="XRLabel" SizeF="19.68503,15.74802" LocationFloat="10.81369, 199.4682" Font="Arial, 7pt" Padding="2,2,0,0,100" Borders="Left, Top, Right" BorderWidth="1" TextAlignment="MiddleCenter">
+                          <DataBindings>
+                            <Item1 Ref="418" PropertyName="Text" DataMember="SP_CAL_ListarFichaFarmacovigilancia.DesEnlace_Fatal" />
+                          </DataBindings>
+                          <StylePriority Ref="419" UseFont="false" UseBorders="false" UseBorderWidth="false" UseTextAlignment="false" />
+                        </Item17>
+                        <Item18 Ref="420" Name="XrLabel245" ControlType="XRLabel" SizeF="216.1961,15.74809" LocationFloat="30.77009, 201.216" Font="Arial, 7pt" Padding="2,2,0,0,100" Borders="None" BorderWidth="2" TextAlignment="MiddleLeft" Multiline="true" Text="Fatal">
+                          <StylePriority Ref="421" UseFont="false" UseBorders="false" UseBorderWidth="false" UseTextAlignment="false" />
+                        </Item18>
+                        <Item19 Ref="422" Name="XrLabel248" ControlType="XRLabel" SizeF="19.68504,15.74803" LocationFloat="10.81369, 183.7202" Font="Arial, 7pt" Padding="2,2,0,0,100" Borders="Left, Right" BorderWidth="1" TextAlignment="MiddleCenter">
+                          <DataBindings>
+                            <Item1 Ref="423" PropertyName="Text" DataMember="SP_CAL_ListarFichaFarmacovigilancia.DesEnlace_NOrecuperado" />
+                          </DataBindings>
+                          <StylePriority Ref="424" UseFont="false" UseBorders="false" UseBorderWidth="false" UseTextAlignment="false" />
+                        </Item19>
+                        <Item20 Ref="425" Name="XrLabel249" ControlType="XRLabel" SizeF="216.2603,15.748" LocationFloat="30.8924, 184.7199" Font="Arial, 7pt" Padding="2,2,0,0,100" Borders="None" BorderWidth="2" TextAlignment="MiddleLeft" Multiline="true" Text=" No recuperado / No resuelto">
+                          <StylePriority Ref="426" UseFont="false" UseBorders="false" UseBorderWidth="false" UseTextAlignment="false" />
+                        </Item20>
+                        <Item21 Ref="427" Name="XrLabel250" ControlType="XRLabel" SizeF="19.68503,16.71056" LocationFloat="10.81369, 167.0096" Font="Arial, 7pt" Padding="2,2,0,0,100" Borders="All" BorderWidth="1" TextAlignment="MiddleCenter">
+                          <DataBindings>
+                            <Item1 Ref="428" PropertyName="Text" DataMember="SP_CAL_ListarFichaFarmacovigilancia.DesEnlace_RecuperadoResolviendo" />
+                          </DataBindings>
+                          <StylePriority Ref="429" UseFont="false" UseBorders="false" UseBorderWidth="false" UseTextAlignment="false" />
+                        </Item21>
+                        <Item22 Ref="430" Name="XrLabel251" ControlType="XRLabel" SizeF="216.2603,15.74805" LocationFloat="30.8924, 167.972" Font="Arial, 7pt" Padding="2,2,0,0,100" Borders="None" BorderWidth="2" TextAlignment="MiddleLeft" Multiline="true" Text=" Recuperando / Resolviendo">
+                          <StylePriority Ref="431" UseFont="false" UseBorders="false" UseBorderWidth="false" UseTextAlignment="false" />
+                        </Item22>
+                        <Item23 Ref="432" Name="XrLabel252" ControlType="XRLabel" SizeF="19.68504,15.74803" LocationFloat="10.81369, 151.2617" Font="Arial, 7pt" Padding="2,2,0,0,100" Borders="Left, Right" BorderWidth="1" TextAlignment="MiddleCenter">
+                          <DataBindings>
+                            <Item1 Ref="433" PropertyName="Text" DataMember="SP_CAL_ListarFichaFarmacovigilancia.DesEnlace_RecuperadoCONsecuelas" />
+                          </DataBindings>
+                          <StylePriority Ref="434" UseFont="false" UseBorders="false" UseBorderWidth="false" UseTextAlignment="false" />
+                        </Item23>
+                        <Item24 Ref="435" Name="XrLabel254" ControlType="XRLabel" SizeF="216.2603,15.74803" LocationFloat="30.8924, 151.2617" Font="Arial, 7pt" Padding="2,2,0,0,100" Borders="None" BorderWidth="2" TextAlignment="MiddleLeft" Multiline="true" Text=" Recuperado / Resuelto con secuelas">
+                          <StylePriority Ref="436" UseFont="false" UseBorders="false" UseBorderWidth="false" UseTextAlignment="false" />
+                        </Item24>
+                        <Item25 Ref="437" Name="XrLabel255" ControlType="XRLabel" SizeF="19.68504,15.74803" LocationFloat="10.81369, 135.5139" Font="Arial, 7pt" Padding="2,2,0,0,100" Borders="Left, Right, Bottom" BorderWidth="1" TextAlignment="MiddleCenter">
+                          <DataBindings>
+                            <Item1 Ref="438" PropertyName="Text" DataMember="SP_CAL_ListarFichaFarmacovigilancia.DesEnlace_RecuperadoSINsecuelas" />
+                          </DataBindings>
+                          <StylePriority Ref="439" UseFont="false" UseBorders="false" UseBorderWidth="false" UseTextAlignment="false" />
+                        </Item25>
+                        <Item26 Ref="440" Name="XrLabel256" ControlType="XRLabel" SizeF="216.2603,15.74803" LocationFloat="30.8924, 135.5137" Font="Arial, 7pt" Padding="2,2,0,0,100" Borders="None" BorderWidth="2" TextAlignment="MiddleLeft" Multiline="true" Text="Recuperado / Resuelto sin secuelas">
+                          <StylePriority Ref="441" UseFont="false" UseBorders="false" UseBorderWidth="false" UseTextAlignment="false" />
+                        </Item26>
+                        <Item27 Ref="442" Name="XrLabel243" ControlType="XRLabel" SizeF="236.1526,15.74803" LocationFloat="10.81358, 119.7656" Font="Arial, 7pt, style=Bold" Padding="2,2,0,0,100" Borders="All" TextAlignment="MiddleLeft" Text="Desenlace del evento (Marcar con una X)">
+                          <StylePriority Ref="443" UseFont="false" UseBorders="false" UseTextAlignment="false" />
+                        </Item27>
+                        <Item28 Ref="444" Name="XrLabel43" ControlType="XRLabel" SizeF="749.9214,15.74803" LocationFloat="11.00008, 60.09661" Font="Arial, 7pt, style=Bold" Padding="2,2,0,0,100" Borders="All" TextAlignment="MiddleLeft" Text="Descripción y análisis del Evento Adverso">
+                          <StylePriority Ref="445" UseFont="false" UseBorders="false" UseTextAlignment="false" />
+                        </Item28>
+                        <Item29 Ref="446" Name="XrLabel44" ControlType="XRLabel" SizeF="749.9213,34.58459" LocationFloat="10.99999, 77.8447" Font="Arial, 7pt" Padding="2,2,0,0,100" Borders="All" Multiline="true">
+                          <DataBindings>
+                            <Item1 Ref="447" PropertyName="Text" DataMember="SP_CAL_ListarFichaFarmacovigilancia.DESCRIPCION" />
+                          </DataBindings>
+                          <StylePriority Ref="448" UseFont="false" UseBorders="false" UseBorderWidth="false" />
+                        </Item29>
+                        <Item30 Ref="449" Name="XrLabel41" ControlType="XRLabel" SizeF="544.6619,15.75" LocationFloat="216.2597, 21.12015" Font="Arial, 7pt, style=Bold" Padding="2,2,0,0,100" Borders="All" TextAlignment="MiddleLeft" Text="Evento adverso">
+                          <StylePriority Ref="450" UseFont="false" UseBorders="false" UseTextAlignment="false" />
+                        </Item30>
+                        <Item31 Ref="451" Name="XrLabel42" ControlType="XRLabel" SizeF="544.6617,15.74999" LocationFloat="216.2596, 38.86819" Font="Arial, 7pt" Padding="2,2,0,0,100" Borders="All" Multiline="true">
+                          <DataBindings>
+                            <Item1 Ref="452" PropertyName="Text" DataMember="SP_CAL_ListarFichaFarmacovigilancia.EventoAdverso" />
+                          </DataBindings>
+                          <StylePriority Ref="453" UseFont="false" UseBorders="false" UseBorderWidth="false" />
+                        </Item31>
+                        <Item32 Ref="454" Name="XrLabel36" ControlType="XRLabel" SizeF="196.0462,15.75" LocationFloat="11.00004, 21.12016" Font="Arial, 7pt, style=Bold" Padding="2,2,0,0,100" Borders="All" TextAlignment="MiddleLeft" Text="Fecha de Inicio del Evento Adverso">
+                          <StylePriority Ref="455" UseFont="false" UseBorders="false" UseTextAlignment="false" />
+                        </Item32>
+                        <Item33 Ref="456" Name="XrLabel40" ControlType="XRLabel" SizeF="196.0462,15.74802" LocationFloat="11.00004, 38.87017" Font="Arial, 7pt" Padding="2,2,0,0,100" Borders="All" Multiline="true">
+                          <DataBindings>
+                            <Item1 Ref="457" PropertyName="Text" DataMember="SP_CAL_ListarFichaFarmacovigilancia.FECHAINICIOEVENTO" />
+                          </DataBindings>
+                          <StylePriority Ref="458" UseFont="false" UseBorders="false" UseBorderWidth="false" />
+                        </Item33>
+                        <Item34 Ref="459" Name="XrLabel39" ControlType="XRLabel" SizeF="749.9214,18.12016" LocationFloat="11.00009, 1.648325E-05" Font="Arial, 7pt, style=Bold" BackColor="DarkGray" Padding="2,2,0,0,100" Borders="Bottom" BorderWidth="0" TextAlignment="MiddleCenter" Text="4. INFORMACIÓN DEL EVENTO ADVERSO">
+                          <StylePriority Ref="460" UseFont="false" UseBackColor="false" UseBorderColor="false" UseBorders="false" UseBorderWidth="false" UseTextAlignment="false" />
+                        </Item34>
+                      </Controls>
+                      <StylePriority Ref="461" UseBorderWidth="false" />
+                    </Item1>
+                  </Cells>
+                  <StylePriority Ref="462" UseBorders="false" />
+                </Item1>
+              </Rows>
+              <StylePriority Ref="463" UseBorders="false" />
+            </Item1>
+          </Controls>
+        </Item1>
+      </Bands>
+    </Item11>
+  </Bands>
+  <ObjectStorage>
+    <Item1 ObjectType="DevExpress.XtraReports.Serialization.ObjectStorageInfo, DevExpress.XtraReports.v15.1" Ref="0" Content="~Xtra#NULL" Type="IndigoReports.DataSetCalidad" />
+  </ObjectStorage>
+</XtraReportsLayoutSerializer>

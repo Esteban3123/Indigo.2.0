@@ -1,0 +1,46 @@
+﻿CREATE TABLE [dbo].[MEDICAMENTOS] (
+    [ID_COMPANY]                     VARCHAR (9)     NULL,
+    [CENTRO ATENCION]                VARCHAR (112)   NULL,
+    [UNIDAD FUNCIONAL SOLICITUD]     VARCHAR (60)    NULL,
+    [FECHA HISTORIA]                 DATETIME        NOT NULL,
+    [FOLIO]                          CHAR (10)       NOT NULL,
+    [TIPO IDENTIFICACION]            VARCHAR (2)     NULL,
+    [IDENTIFICACION]                 VARCHAR (25)    NULL,
+    [TELEFONO FIJO]                  VARCHAR (MAX)   NOT NULL,
+    [TELEFONO MOVIL]                 VARCHAR (MAX)   NOT NULL,
+    [PACIENTE]                       VARCHAR (250)   NULL,
+    [INGRESO]                        CHAR (10)       NOT NULL,
+    [FECHA INGRESO]                  DATETIME        NOT NULL,
+    [PROFESIONAL DE SALUD]           VARCHAR (83)    NULL,
+    [CODIGO MEDICAMENTO]             VARCHAR (20)    NULL,
+    [MEDICAMENTO]                    VARCHAR (255)   NULL,
+    [CONCETRACION]                   CHAR (50)       NULL,
+    [GRUPO FARMACOLOGICO]            CHAR (100)      NULL,
+    [DE CONTROL]                     VARCHAR (2)     NOT NULL,
+    [VIA ADMINISTRACION]             CHAR (30)       NOT NULL,
+    [PRESENTACION]                   CHAR (100)      NOT NULL,
+    [DOSIS SOLICITADA]               NUMERIC (18, 2) NULL,
+    [UNIDAD]                         VARCHAR (100)   NULL,
+    [DURACION]                       CHAR (20)       NOT NULL,
+    [DESCRIPCION ADMINISTRACION]     VARCHAR (MAX)   NULL,
+    [FECHA FINAL DOSIS]              DATETIME        NULL,
+    [CONSECUTIVO]                    NUMERIC (18)    NOT NULL,
+    [DIAGNOSTICO]                    VARCHAR (357)   NULL,
+    [ESTADIO]                        VARCHAR (170)   NOT NULL,
+    [INDICACIONES DE ADMINISTRACION] VARCHAR (MAX)   NULL,
+    [MOTIVO DE SUSPENCION]           CHAR (200)      NULL,
+    [TIPO SOLICITUD]                 VARCHAR (17)    NOT NULL,
+    [CANTIDAD CALCULADA]             INT             NOT NULL,
+    [DOSIS DEL MEDICMAMENTO]         NUMERIC (18, 2) NULL,
+    [UNIDAD DEL MEDICAMENTO]         VARCHAR (100)   NULL,
+    [ESQUEMA]                        VARCHAR (273)   NULL,
+    [CUSTODIA]                       VARCHAR (2)     NOT NULL,
+    [IDHCORDQUIMIO]                  INT             NULL,
+    [ID]                             INT             NOT NULL,
+    [FECHA BUSQUEDA]                 DATE            NULL
+);
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'Tabla de reporte/staging que almacena las prescripciones de medicamentos asociadas a encuentros clínicos, identificando paciente, profesional de salud, centro de atención y unidad funcional solicitante. Registra el detalle farmacológico de cada ítem prescrito: código, concentración, grupo farmacológico, vía de administración, dosis solicitada, duración y cantidad calculada. Incluye indicadores de medicamentos de control, custodia, esquema terapéutico y posible vínculo con órdenes de quimioterapia mediante `IDHCORDQUIMIO`.', @level0type=N'SCHEMA', @level0name=N'dbo', @level1type=N'TABLE', @level1name=N'MEDICAMENTOS';
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_DescriptionSource', @value=N'ai_claude-sonnet-4-6_2026-05-05', @level0type=N'SCHEMA', @level0name=N'dbo', @level1type=N'TABLE', @level1name=N'MEDICAMENTOS';
+GO

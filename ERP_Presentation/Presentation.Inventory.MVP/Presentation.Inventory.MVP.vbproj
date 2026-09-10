@@ -1,0 +1,550 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{7C7E2847-A090-44CC-A515-CC7F08504DBD}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>Presentation.Inventory.MVP</RootNamespace>
+    <AssemblyName>Presentation.Inventory.MVP</AssemblyName>
+    <FileAlignment>512</FileAlignment>
+    <MyType>Windows</MyType>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DocumentationFile>Presentation.Inventory.MVP.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DocumentationFile>Presentation.Inventory.MVP.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionExplicit>On</OptionExplicit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionCompare>Binary</OptionCompare>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionStrict>Off</OptionStrict>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionInfer>On</OptionInfer>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debugcito|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\Debugcito\</OutputPath>
+    <DocumentationFile>Presentation.Inventory.MVP.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DocumentationFile>Presentation.Inventory.MVP.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DocumentationFile>Presentation.Inventory.MVP.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debugcito|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x64\Debugcito\</OutputPath>
+    <DocumentationFile>Presentation.Inventory.MVP.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DocumentationFile>Presentation.Inventory.MVP.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DocumentationFile>Presentation.Inventory.MVP.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debugcito|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x86\Debugcito\</OutputPath>
+    <DocumentationFile>Presentation.Inventory.MVP.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'VieBuild|AnyCPU'">
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\VieBuild\</OutputPath>
+    <DocumentationFile>Presentation.Inventory.MVP.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'VieBuild|x64'">
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x64\VieBuild\</OutputPath>
+    <DocumentationFile>Presentation.Inventory.MVP.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'VieBuild|x86'">
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x86\VieBuild\</OutputPath>
+    <DocumentationFile>Presentation.Inventory.MVP.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="DevExpress.Drawing.v25.1, Version=25.1.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Printing.v25.1.Core, Version=25.1.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Data.v25.1, Version=25.1.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Xpo.v25.1, Version=25.1.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="Domain.Base.Entities, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\DLL\Domain.Base.Entities.dll</HintPath>
+    </Reference>
+    <Reference Include="Domain.Crystal.Entities, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\DLL\Domain.Crystal.Entities.dll</HintPath>
+    </Reference>
+    <Reference Include="Domain.Entities, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\DLL\Domain.Entities.dll</HintPath>
+    </Reference>
+    <Reference Include="Domain.Security.Entities, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\DLL\Domain.Security.Entities.dll</HintPath>
+    </Reference>
+    <Reference Include="Infrastructure.CrossCutting.Base, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\DLL\Infrastructure.CrossCutting.Base.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.13.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Core" />
+  </ItemGroup>
+  <ItemGroup>
+    <Import Include="Microsoft.VisualBasic" />
+    <Import Include="System" />
+    <Import Include="System.Collections" />
+    <Import Include="System.Collections.Generic" />
+    <Import Include="System.Diagnostics" />
+    <Import Include="System.Linq" />
+    <Import Include="System.Xml.Linq" />
+    <Import Include="System.Threading.Tasks" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Interface\IAddRule.vb" />
+    <Compile Include="Interface\IATC.vb" />
+    <Compile Include="Interface\IATCEntity.vb" />
+    <Compile Include="Interface\IAntineoplasicosMedication.vb" />
+    <Compile Include="Interface\IClosedMonthInventory.vb" />
+    <Compile Include="Interface\IConsignmentCostList.vb" />
+    <Compile Include="Interface\IConsignmentTransfer.vb" />
+    <Compile Include="Interface\IContractType.vb" />
+    <Compile Include="Interface\IDashBoardPharmacy.vb" />
+    <Compile Include="Interface\IDashBoardPharmacyDetail.vb" />
+    <Compile Include="Interface\IDispensingManualPatientMedilaser.vb" />
+    <Compile Include="Interface\IDispensingPatientMedilaser.vb" />
+    <Compile Include="Interface\IIntegrationErrorLogs.vb" />
+    <Compile Include="Interface\IInventoryContractAssignment.vb" />
+    <Compile Include="Interface\IInventoryContractModification.vb" />
+    <Compile Include="Interface\IInventoryRequestDevolution.vb" />
+    <Compile Include="Interface\IDispensingPatient.vb" />
+    <Compile Include="Interface\IBacterialResistanceMedication.vb" />
+    <Compile Include="Interface\IInventorySupplie.vb" />
+    <Compile Include="Interface\IDevolutionCause.vb" />
+    <Compile Include="Interface\IMedicationType.vb" />
+    <Compile Include="Interface\IPharmaceuticalDispensingTransfer.vb" />
+    <Compile Include="Interface\IPharmaceuticalFormGrouping.vb" />
+    <Compile Include="Interface\IPopUpOtherPurchaseRequest.vb" />
+    <Compile Include="Interface\IPopUpFixedAssetPurchaseRequest.vb" />
+    <Compile Include="Interface\IProductInTransit.vb" />
+    <Compile Include="Interface\IProductInvoice.vb" />
+    <Compile Include="Interface\IPurchaseOrderDevolution.vb" />
+    <Compile Include="Interface\IConsignmentInventoryRemission.vb" />
+    <Compile Include="Interface\IPurchaseRequest.vb" />
+    <Compile Include="Interface\IRequestParam.vb" />
+    <Compile Include="Interface\IStorageTemperature.vb" />
+    <Compile Include="Interface\IShelfType.vb" />
+    <Compile Include="Interface\ITransferOrderDevolution.vb" />
+    <Compile Include="Interface\IUpdateExpirationDate.vb" />
+    <Compile Include="Interface\IDevolutionMerchandising.vb" />
+    <Compile Include="Interface\IEntranceVoucher.vb" />
+    <Compile Include="Interface\IInventoryAdjustments.vb" />
+    <Compile Include="Interface\IInventoryContract.vb" />
+    <Compile Include="Interface\IInventoryControl.vb" />
+    <Compile Include="Interface\IInventoryRequest.vb" />
+    <Compile Include="Interface\IInventoryRiskLevel.vb" />
+    <Compile Include="Interface\ILendingMerchandising.vb" />
+    <Compile Include="Interface\IPackage.vb" />
+    <Compile Include="Interface\IPackagingUnit.vb" />
+    <Compile Include="Interface\IPharmaceuticalDispensing.vb" />
+    <Compile Include="Interface\IPharmaceuticalDispensingDetail.vb" />
+    <Compile Include="Interface\IPharmacologicalGroup.vb" />
+    <Compile Include="Interface\IAdjustmentConcept.vb" />
+    <Compile Include="Interface\IManufacturer.vb" />
+    <Compile Include="Interface\IOtherWithholdingDeductions.vb" />
+    <Compile Include="Interface\IProduct.vb" />
+    <Compile Include="Interface\IProductCoverage.vb" />
+    <Compile Include="Interface\IProductType.vb" />
+    <Compile Include="Interface\IAttributeProductType.vb" />
+    <Compile Include="Interface\IDCI.vb" />
+    <Compile Include="Interface\IPharmaceuticalForm.vb" />
+    <Compile Include="Interface\IAdministrationRoute.vb" />
+    <Compile Include="Interface\IPurchaseOrder.vb" />
+    <Compile Include="Interface\IReferralEntry.vb" />
+    <Compile Include="Interface\IRefundPurchase.vb" />
+    <Compile Include="Interface\IRemissionDevolution.vb" />
+    <Compile Include="Interface\IRemissionOutput.vb" />
+    <Compile Include="Interface\ISettingInventory.vb" />
+    <Compile Include="Interface\ISupplyDevolution.vb" />
+    <Compile Include="Interface\IUPRUnits.vb" />
+    <Compile Include="Interface\IWarehouse.vb" />
+    <Compile Include="Interface\IMeasureUnit.vb" />
+    <Compile Include="Interface\ISubGroup.vb" />
+    <Compile Include="Interface\IGroup.vb" />
+    <Compile Include="Interface\IWarehouseStock.vb" />
+    <Compile Include="Interface\ITransferOrder.vb" />
+    <Compile Include="Model\MAdmissionProduct.vb" />
+    <Compile Include="Model\MATC.vb" />
+    <Compile Include="Model\MATCEntity.vb" />
+    <Compile Include="Model\MAntineoplasicosMedication.vb" />
+    <Compile Include="Model\MBlockRecordAndSequense.vb" />
+    <Compile Include="Model\MClosedMonthInventory.vb" />
+    <Compile Include="Model\MConsignmentCostList.vb" />
+    <Compile Include="Model\MConsignmentTransfer.vb" />
+    <Compile Include="Model\MCtrBatchSerial.vb" />
+    <Compile Include="Model\MDashBoardPharmacy.vb" />
+    <Compile Include="Model\MDispensingManualByPatientMedilaser.vb" />
+    <Compile Include="Model\MDispensingByPatientMedilaser.vb" />
+    <Compile Include="Model\MInventoryContractAssignment.vb" />
+    <Compile Include="Model\MInventoryContractModification.vb" />
+    <Compile Include="Model\MBacterialResistanceMedication.vb" />
+    <Compile Include="Model\MInventorySupplie.vb" />
+    <Compile Include="Model\MDevolutionCause.vb" />
+    <Compile Include="Model\MMedicationType.vb" />
+    <Compile Include="Model\MPharmaceuticalDispensingTransfer.vb" />
+    <Compile Include="Model\MPharmaceuticalFormGrouping.vb" />
+    <Compile Include="Model\MProductInTransit.vb" />
+    <Compile Include="Model\MPurchaseRequest.vb" />
+    <Compile Include="Model\MInventoryRequestdevolution.vb" />
+    <Compile Include="Model\MDispensingByPatient.vb" />
+    <Compile Include="Model\MProductInvoice.vb" />
+    <Compile Include="Model\MPurchaseOrderDevolution.vb" />
+    <Compile Include="Model\MConsignmentInventoryRemission.vb" />
+    <Compile Include="Model\MReports.vb" />
+    <Compile Include="Model\MRequestDashboard.vb" />
+    <Compile Include="Model\MRequestParam.vb" />
+    <Compile Include="Model\MStorageTemperature.vb" />
+    <Compile Include="Model\MShelfType.vb" />
+    <Compile Include="Model\MTransferOrderDevolution.vb" />
+    <Compile Include="Model\MUpdateExpirationDate.vb" />
+    <Compile Include="Model\MDevolutionMerchandising.vb" />
+    <Compile Include="Model\MEntranceVoucher.vb" />
+    <Compile Include="Model\MInventoryAdjustments.vb" />
+    <Compile Include="Model\MInventoryContract.vb" />
+    <Compile Include="Model\MInventoryContractType.vb" />
+    <Compile Include="Model\MInventoryControl.vb" />
+    <Compile Include="Model\MInventoryRequest.vb" />
+    <Compile Include="Model\MInventoryRiskLevel.vb" />
+    <Compile Include="Model\MLendingMerchandising.vb" />
+    <Compile Include="Model\MPackagingUnit.vb" />
+    <Compile Include="Model\MPharmaceuticalDispensing.vb" />
+    <Compile Include="Model\MPharmacologicalGroup.vb" />
+    <Compile Include="Model\MAdjustmentConcept.vb" />
+    <Compile Include="Model\MManufacturer.vb" />
+    <Compile Include="Model\MOtherWithholdingDeductions.vb" />
+    <Compile Include="Model\MInventoryProduct.vb" />
+    <Compile Include="Model\MProductRate.vb" />
+    <Compile Include="Model\MProductType.vb" />
+    <Compile Include="Model\MAttributeProductType.vb" />
+    <Compile Include="Model\MDCI.vb" />
+    <Compile Include="Model\MPharmaceuticalForm.vb" />
+    <Compile Include="Model\MAdministrationRoute.vb" />
+    <Compile Include="Model\MPurchaseOrder.vb" />
+    <Compile Include="Model\MReferralEntry.vb" />
+    <Compile Include="Model\MRefundPurchase.vb" />
+    <Compile Include="Model\MRemissionDevolution.vb" />
+    <Compile Include="Model\MRemissionOutput.vb" />
+    <Compile Include="Model\MSettingInventory.vb" />
+    <Compile Include="Model\MSupplyDevolution.vb" />
+    <Compile Include="Model\MTransferOrder.vb" />
+    <Compile Include="Model\MUPRUnits.vb" />
+    <Compile Include="Model\MWarehouse.vb" />
+    <Compile Include="Model\MMeasureUnit.vb" />
+    <Compile Include="Model\MSubGroup.vb" />
+    <Compile Include="Model\MGroup.vb" />
+    <Compile Include="Model\MWarehouseStock.vb" />
+    <Compile Include="My Project\AssemblyInfo.vb" />
+    <Compile Include="My Project\Application.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Application.myapp</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="My Project\Resources.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="My Project\Settings.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="Presenter\PIntegrationErrorLogs.vb" />
+    <Compile Include="Presenter\PPMedicationType.vb" />
+    <Compile Include="Presenter\PATC.vb" />
+    <Compile Include="Presenter\PATCEntity.vb" />
+    <Compile Include="Presenter\PBacterialAntineoplasicosMedication.vb" />
+    <Compile Include="Presenter\PConsignmentCostList.vb" />
+    <Compile Include="Presenter\PPharmaceuticalFormGrouping.vb" />
+    <Compile Include="Presenter\PRequestDashboard.vb" />
+    <Compile Include="Presenter\PClosedMonthInventory.vb" />
+    <Compile Include="Presenter\PConsignmentTransfer.vb" />
+    <Compile Include="Presenter\PDashBoardPharmacy.vb" />
+    <Compile Include="Presenter\PDashBoardPharmacyDetail.vb" />
+    <Compile Include="Presenter\PDispensingManualByPatientMedilaser.vb" />
+    <Compile Include="Presenter\PDispensingByPatientMedilaser.vb" />
+    <Compile Include="Presenter\PInventoryContractAssignment.vb" />
+    <Compile Include="Presenter\PInventoryContractModification.vb" />
+    <Compile Include="Presenter\PInventoryPurchaseRequest.vb" />
+    <Compile Include="Presenter\PInventoryRequestDevolution.vb" />
+    <Compile Include="Presenter\PDispensingByPatient.vb" />
+    <Compile Include="Presenter\PBacterialResistanceMedication.vb" />
+    <Compile Include="Presenter\PInventorySupplie.vb" />
+    <Compile Include="Presenter\PDevolutionCause.vb" />
+    <Compile Include="Presenter\PPharmaceuticalDispensingTransfer.vb" />
+    <Compile Include="Presenter\PPopUpOtherPurchaseRequest.vb" />
+    <Compile Include="Presenter\PPopUpFixedAssetPurchaseRequest.vb" />
+    <Compile Include="Presenter\PProductInTransit.vb" />
+    <Compile Include="Presenter\PProductInvoice.vb" />
+    <Compile Include="Presenter\PPurchaseOrderDevolution.vb" />
+    <Compile Include="Presenter\PConsignmentInventoryRemission.vb" />
+    <Compile Include="Presenter\PReportConsumtionAverage.vb" />
+    <Compile Include="Presenter\PRequestParam.vb" />
+    <Compile Include="Presenter\PSettingInventory.vb" />
+    <Compile Include="Presenter\PShelfType.vb" />
+    <Compile Include="Presenter\PTransferOrderDevolution.vb" />
+    <Compile Include="Presenter\PUpdateExpirationDate.vb" />
+    <Compile Include="Presenter\PDevolutionMerchandising.vb" />
+    <Compile Include="Presenter\PEntranceVoucher.vb" />
+    <Compile Include="Presenter\PInventoryAdjustments.vb" />
+    <Compile Include="Presenter\PInventoryContract.vb" />
+    <Compile Include="Presenter\PInventoryContractType.vb" />
+    <Compile Include="Presenter\PInventoryControl.vb" />
+    <Compile Include="Presenter\PInventoryProduct.vb" />
+    <Compile Include="Presenter\PInventoryRequest.vb" />
+    <Compile Include="Presenter\PInventoryRiskLevel.vb" />
+    <Compile Include="Presenter\PLendingMerchandising.vb" />
+    <Compile Include="Presenter\PPackage.vb" />
+    <Compile Include="Presenter\PPackagingUnit.vb" />
+    <Compile Include="Presenter\PPharmaceuticalDispensing.vb" />
+    <Compile Include="Presenter\PPharmaceuticalDispensingDetail.vb" />
+    <Compile Include="Presenter\PPharmacologicalGroup.vb" />
+    <Compile Include="Presenter\PAdjustmentConcept.vb" />
+    <Compile Include="Presenter\PManufacturer.vb" />
+    <Compile Include="Presenter\POtherWithholdingDeductions.vb" />
+    <Compile Include="Presenter\PProductCoverage.vb" />
+    <Compile Include="Presenter\PProductType.vb" />
+    <Compile Include="Presenter\PAttributeProductType.vb" />
+    <Compile Include="Presenter\PDCI.vb" />
+    <Compile Include="Presenter\PPharmaceuticalForm.vb" />
+    <Compile Include="Presenter\PAdministrationRoute.vb" />
+    <Compile Include="Presenter\PPurchaseOrder.vb" />
+    <Compile Include="Presenter\PReferralEntry.vb" />
+    <Compile Include="Presenter\PRefundPurchase.vb" />
+    <Compile Include="Presenter\PRemissionDevolution.vb" />
+    <Compile Include="Presenter\PRemissionOutput.vb" />
+    <Compile Include="Presenter\PStorageTemperature.vb" />
+    <Compile Include="Presenter\PSupplyDevolution.vb" />
+    <Compile Include="Presenter\PTransferOrder.vb" />
+    <Compile Include="Presenter\PUPRUnits.vb" />
+    <Compile Include="Presenter\PWarehouse.vb" />
+    <Compile Include="Presenter\PMeasureUnit.vb" />
+    <Compile Include="Presenter\PSubGroup.vb" />
+    <Compile Include="Presenter\PGroup.vb" />
+    <Compile Include="Presenter\PWarehouseStock.vb" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="My Project\Resources.resx">
+      <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.vb</LastGenOutput>
+      <CustomToolNamespace>My.Resources</CustomToolNamespace>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="My Project\Application.myapp">
+      <Generator>MyApplicationCodeGenerator</Generator>
+      <LastGenOutput>Application.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="My Project\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <CustomToolNamespace>My</CustomToolNamespace>
+      <LastGenOutput>Settings.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\Infrastructure.CrossCutting.Xpo.Base\Infrastructure.CrossCutting.Xpo.Base.vbproj">
+      <Project>{06aea7a4-8792-405e-97e6-4b6fb10502b5}</Project>
+      <Name>Infrastructure.CrossCutting.Xpo.Base</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastructure.Data.Xpo.BillingRepository\Infrastructure.Data.Xpo.BillingRepository.vbproj">
+      <Project>{020C0C10-A6D2-43B0-AE5A-D1EABEA2F16C}</Project>
+      <Name>Infrastructure.Data.Xpo.BillingRepository</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastructure.Data.Xpo.BudgetRepository\Infrastructure.Data.Xpo.BudgetRepository.vbproj">
+      <Project>{43721DF9-E30F-44A6-B512-901CBA41C894}</Project>
+      <Name>Infrastructure.Data.Xpo.BudgetRepository</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastructure.Data.Xpo.CommonRepository\Infrastructure.Data.Xpo.CommonRepository.vbproj">
+      <Project>{C087E009-72B8-4E9E-80F7-BE336BE83794}</Project>
+      <Name>Infrastructure.Data.Xpo.CommonRepository</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastructure.Data.Xpo.ContractRepository\Infrastructure.Data.Xpo.ContractRepository.vbproj">
+      <Project>{994E8EE6-D75B-4730-B50D-77FB360EB863}</Project>
+      <Name>Infrastructure.Data.Xpo.ContractRepository</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastructure.Data.Xpo.FixedAsset\Infrastructure.Data.Xpo.FixedAssetRepository.vbproj">
+      <Project>{0577946D-AE93-4EE6-991B-91BCC9D8EE34}</Project>
+      <Name>Infrastructure.Data.Xpo.FixedAssetRepository</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastructure.Data.Xpo.InventoryRepository\Infrastructure.Data.Xpo.InventoryRepository.csproj">
+      <Project>{e16b7310-400a-46dd-b7ab-c54ea51f197c}</Project>
+      <Name>Infrastructure.Data.Xpo.InventoryRepository</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastructure.Data.Xpo.MaintenanceRepository\Infrastructure.Data.Xpo.MaintenanceRepository.vbproj">
+      <Project>{825AF482-AA7B-4253-AD88-748B665E5598}</Project>
+      <Name>Infrastructure.Data.Xpo.MaintenanceRepository</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastructure.Data.Xpo.PaymentsRepository\Infrastructure.Data.Xpo.PaymentsRepository.vbproj">
+      <Project>{6D87A185-58C7-4CCE-93E0-5FF663152660}</Project>
+      <Name>Infrastructure.Data.Xpo.PaymentsRepository</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastructure.Data.Xpo.PayrollRepository\Infrastructure.Data.Xpo.PayrollRepository.vbproj">
+      <Project>{CE46AB34-7B36-422F-AE89-2D5F759E1960}</Project>
+      <Name>Infrastructure.Data.Xpo.PayrollRepository</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastructure.Data.Xpo.TreasuryRepository\Infrastructure.Data.Xpo.TreasuryRepository.vbproj">
+      <Project>{80EEAC4E-4409-4469-9299-3CB99582AD33}</Project>
+      <Name>Infrastructure.Data.Xpo.TreasuryRepository</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastructure.Data.Xpo\Infrastructure.Data.Xpo.vbproj">
+      <Project>{b5e32668-0270-4d5e-adb7-840edf9d6db8}</Project>
+      <Name>Infrastructure.Data.Xpo</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastucture.Data.Xpo.AccountingRepository\Infrastructure.Data.Xpo.AccountingRepository.vbproj">
+      <Project>{539916D8-97FF-497F-BC89-12D89B47CB70}</Project>
+      <Name>Infrastructure.Data.Xpo.AccountingRepository</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Insfrastructure.Data.Xpo.CrystalRepository\Infrastructure.Data.Xpo.CrystalRepository.vbproj">
+      <Project>{6af0ad3b-b0a2-48a4-9fbd-ca1c11fc74fc}</Project>
+      <Name>Infrastructure.Data.Xpo.CrystalRepository</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Presentacion.AgenteCloud\Presentation.ProxyAgent.vbproj">
+      <Project>{AB3573A9-5ACF-4971-B298-BE3A1ED617E8}</Project>
+      <Name>Presentation.ProxyAgent</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Presentacion.Base\Presentation.Base.vbproj">
+      <Project>{7bc84999-6ea3-47e9-92e9-697ade41bb9a}</Project>
+      <Name>Presentation.Base</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Presentacion.Controles.MVP\Presentation.Controls.MVP.vbproj">
+      <Project>{47d30452-ca41-44a9-b3ad-867793353ede}</Project>
+      <Name>Presentation.Controls.MVP</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Presentacion.Controles\Presentation.Controls.vbproj">
+      <Project>{b031e890-3c50-4dea-ba76-96bc4bb6a05a}</Project>
+      <Name>Presentation.Controls</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Presentation.Accounting.MVP\Presentation.Accounting.MVP.vbproj">
+      <Project>{16AEF376-07F1-4F7F-864B-1CE7B8FEC2B1}</Project>
+      <Name>Presentation.Accounting.MVP</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Presentation.Billing.MVP\Presentation.Billing.MVP.vbproj">
+      <Project>{3dc26ea3-5867-4efc-bc6a-17f27c827cde}</Project>
+      <Name>Presentation.Billing.MVP</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Presentation.Payroll.MVP\Presentation.Payroll.MVP.vbproj">
+      <Project>{10990f41-fe84-4df5-ae08-8d9541eea20a}</Project>
+      <Name>Presentation.Payroll.MVP</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

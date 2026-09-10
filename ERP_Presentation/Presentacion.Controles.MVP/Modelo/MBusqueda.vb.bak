@@ -1,0 +1,1724 @@
+﻿'***********************************************************************
+' Assembly         : Presentation.Controls.MVP.MBusqueda
+' Author           : WalterSierra
+' Created          : 27-03-2011
+'
+' Last Modified By : WalterSierra
+' Last Modified On : 27-03-2011
+'
+' Copyright        : (c) . All rights reserved.
+'***********************************************************************
+
+#Region "Importaciones"
+Imports Infrastructure.Data.Xpo
+Imports Infrastructure.CrossCutting.Base
+Imports Presentation.CloudAgent
+Imports DevExpress.Xpo
+Imports Infrastructure.Data.Xpo.InteropCostRepository
+
+#End Region
+''' <summary>
+''' Clase Modelo del funcional de busquedas
+''' </summary>
+Public Class MBusqueda
+    Implements IDisposable
+
+    ''' <summary>
+    ''' Variable para inicializar los valores de sesion
+    ''' </summary>
+    Dim IndigoSessionValues As SessionValues = SessionValues.Instance
+    ''' <summary>
+    ''' Consultar el servicio de busqueda de entidades en la capa de infraestrucutra XPO
+    ''' </summary>
+    ''' <returns></returns>
+    ''' 
+    Overloads Function ConsultarEntidades(ByVal origen As eDataSource) As Object
+        Try
+            Select Case origen
+                Case eDataSource.ListLogisticsProductionCenterRecord
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).InteropCostService.ListLogisticsProductionCenterRecord()
+                Case eDataSource.ListCostLogisticsProductionCenterRecord
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).CostService.ListCostLogisticsProductionCenterRecord()
+                Case Is = eDataSource.ListSequencePatterns
+                    Return Me.ListSequencePatterns()
+
+                    '********SEGURIDAD********
+                Case Is = eDataSource.UsersCRUD
+                    Return XpoServiceEx.Instance(IndigoSessionValues.SecurityContainer).SecurityService.ListUserByPersonName(String.Empty, String.Empty)
+                Case Is = eDataSource.ListUserContainer
+                    Return XpoServiceEx.Instance(IndigoSessionValues.SecurityContainer).SecurityService.ListUserByContainer(IndigoSessionValues.IndigoContainerId)
+                Case Is = eDataSource.ListUserTenant
+                    Return XpoServiceEx.Instance(IndigoSessionValues.SecurityContainer).SecurityService.ListUserByTenant(IndigoSessionValues.TenantId)
+                Case Is = eDataSource.GroupsCRUD
+                    Return XpoServiceEx.Instance(IndigoSessionValues.SecurityContainer).SecurityService.GetGroups()
+                Case Is = eDataSource.RolesCRUD
+                    Return XpoServiceEx.Instance(IndigoSessionValues.SecurityContainer).SecurityService.GetRoles()
+
+                    '********GLOSAS********
+                Case Is = eDataSource.Customers
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).GlosasService.GetCustomers()
+                Case Is = eDataSource.DetailedConcepts
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).GlosasService.GetDetailedConcepts()
+                Case Is = eDataSource.GeneralConcepts
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).GlosasService.GetGeneralConcepts()
+                Case Is = eDataSource.Responsible
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).GlosasService.GetResponsibles()
+                Case Is = eDataSource.ResponseHierarchy
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).GlosasService.ListResponseHierarchy()
+                Case Is = eDataSource.Company
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).GlosasService.GetCompany()
+                Case Is = eDataSource.SpecificConcepts
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).GlosasService.GetSpecificConcepts()
+                Case Is = eDataSource.Country
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).CommonService.GetCountry()
+                Case Is = eDataSource.Currency
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).CommonService.GetCurrency()
+                Case Is = eDataSource.ObjectionsReceptionC
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).GlosasService.GetObjectionsReception()
+                Case Is = eDataSource.HealthCenter
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).CommonService.GetHealthCenter()
+                Case Is = eDataSource.CostCenter
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).PayrollService.GetCostCenter()
+                Case Is = eDataSource.AuthorizationHealthCenter
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).CommonService.GetUsers()
+                Case Is = eDataSource.ConciliationC
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).GlosasService.GetConciliationCList()
+                Case Is = eDataSource.DevolucionC
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).GlosasService.GetDevolutionCList()
+                Case Is = eDataSource.ObjectionsReceptionD
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).GlosasService.ListObjectionsReceptionD()
+                Case Is = eDataSource.ListInvoiceRadicate
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).GlosasService.ListInvoiceRadicate()
+                Case Is = eDataSource.ListInvoiceRadicateConfirm
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).GlosasService.ListInvoiceRadicateConfirm()
+                Case Is = eDataSource.ListInvoicePartialPayments
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).GlosasService.ListInvoicePartialPayments()
+                Case Is = eDataSource.JustificationTemplate
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).GlosasService.GetTemplateJustification()
+                Case Is = eDataSource.TransferJuridicalDebt
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).GlosasService.GetTransferJuridicalCList()
+                Case Is = eDataSource.ListparametersInterface
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).GlosasService.GetParameterInterface()
+                Case Is = eDataSource.ListImportunityCauses
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).GlosasService.ListImportunityCauses()
+
+                    '***********PAYROLL*********
+                Case Is = eDataSource.ListBranchOffice
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).PayrollService.ListBranchOffice()
+                Case eDataSource.ListEmployeeWithActiveContract
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).PayrollService.ListEmployeeWithActiveContract()
+                Case Is = eDataSource.EducationLevels
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).PayrollService.GetEducationLevels()
+                Case Is = eDataSource.PositionLevel
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).PayrollService.GetPositionLevel()
+                Case Is = eDataSource.Bank
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).PayrollService.GetBank()
+                Case Is = eDataSource.CostCenter
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).PayrollService.GetCostCenter()
+                Case Is = eDataSource.RetirementReason
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).PayrollService.GetRetirementReason()
+                Case Is = eDataSource.BranchOffice
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).PayrollService.GetBranchOffice()
+                Case Is = eDataSource.ListBranchOfficeByCompanyIsNull
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).PayrollService.ListBranchOfficeByCompanyIsNull()
+                Case Is = eDataSource.FunctionalUnit
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).PayrollService.GetFunctionalUnit()
+                Case Is = eDataSource.Language
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).PayrollService.GetLanguage()
+                Case Is = eDataSource.CompanyPayroll
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).PayrollService.GetCompany()
+                Case Is = eDataSource.Kinship
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).PayrollService.GetKinship()
+                Case Is = eDataSource.Funds
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).PayrollService.GetFunds()
+                Case Is = eDataSource.PhoneType
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).CommonService.GetPhoneType()
+                Case Is = eDataSource.HumanTalent
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).PayrollService.GetHumanTalent()
+                Case Is = eDataSource.PensionaryType
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).PayrollService.GetPensionaryType()
+                Case Is = eDataSource.WorkCenter
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).PayrollService.GetWorkCenter()
+                Case Is = eDataSource.AllCity
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).PayrollService.GetCity()
+                Case Is = eDataSource.ProfessionalRisk
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).PayrollService.GetProfessionalRisk()
+                Case Is = eDataSource.ContributorType
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).PayrollService.GetContributorType()
+                Case Is = eDataSource.StudyType
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).PayrollService.GetStudyType()
+                Case Is = eDataSource.ThirdParty
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).CommonService.GetThirdParty()
+                Case Is = eDataSource.ListThird
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).CommonService.ListThird()
+                Case Is = eDataSource.ContractGroup
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).PayrollService.GetContractGroup()
+                Case Is = eDataSource.CenterStudy
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).PayrollService.GetStudyCenter()
+                Case Is = eDataSource.ContractType
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).PayrollService.GetContractType()
+                Case Is = eDataSource.ContractTemplate
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).PayrollService.GetContractTemplate()
+                Case Is = eDataSource.JobBondingType
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).PayrollService.GetJobBondingType()
+                Case Is = eDataSource.Retention
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).PayrollService.GetRetention()
+                Case Is = eDataSource.TimeUnit
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).CommonService.GetTimeUnit()
+                Case Is = eDataSource.Position
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).PayrollService.GetPosition()
+                Case Is = eDataSource.Disability
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).CommonService.GetDisability()
+                Case Is = eDataSource.Person
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).CommonService.GetPerson()
+                Case Is = eDataSource.GroupsPayroll
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).PayrollService.GetGroup()
+                Case Is = eDataSource.Professions
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).PayrollService.GetProfessions()
+                Case Is = eDataSource.Concept
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).PayrollService.GetConcept()
+                Case Is = eDataSource.ScheduleTemplate
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).PayrollService.GetScheduleTemplate()
+                Case Is = eDataSource.Insurance
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).MaintenanceService.GetInsurance()
+                Case Is = eDataSource.Supplier
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).MaintenanceService.GetSupplier()
+                Case Is = eDataSource.SupplierMaintenance
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).MaintenanceService.GetSupplierMaintenance()
+                Case Is = eDataSource.ListMaintenancePlan
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).MaintenanceService.GetListMaintenancePlan()
+                Case Is = eDataSource.Poliza
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).MaintenanceService.GetPoliza()
+                Case Is = eDataSource.PolizaType
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).MaintenanceService.GetPolizaType()
+                Case Is = eDataSource.EquipamentType
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).MaintenanceService.GetEquipmentType()
+                Case Is = eDataSource.InventoryType
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).MaintenanceService.GetInventoryType()
+                Case Is = eDataSource.Employee
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).PayrollService.GetEmployee()
+                Case Is = eDataSource.Accessories
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).MaintenanceService.GetAccesory()
+                Case Is = eDataSource.Consumables
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).MaintenanceService.GetConsumible()
+                Case Is = eDataSource.Tower
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).MaintenanceService.GetTower()
+                Case eDataSource.Floor
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).MaintenanceService.GetFloor()
+                Case Is = eDataSource.Area
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).MaintenanceService.GetArea()
+                Case Is = eDataSource.Room
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).MaintenanceService.GetRoom()
+                Case Is = eDataSource.Responsibles
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).GlosasService.GetResponsibles()
+                Case Is = eDataSource.ResponsibleMaintenance
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).MaintenanceService.GetResponsible()
+                Case Is = eDataSource.Equipment
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).MaintenanceService.GetEquipment()
+                Case Is = eDataSource.Part
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).MaintenanceService.GetPart()
+                Case Is = eDataSource.EquipmentReception
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).MaintenanceService.GetEquipmentReception()
+                Case Is = eDataSource.UnitMeasure
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).MaintenanceService.GetMeasurementUnit()
+                Case Is = eDataSource.TechnicalLog
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).MaintenanceService.GetTechnicalLog()
+                Case Is = eDataSource.TemplateEquipmentType
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).MaintenanceService.GetTemplateEquipmentType()
+                Case Is = eDataSource.Branch
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).MaintenanceService.GetBranch()
+                Case Is = eDataSource.EmployeeType
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).PayrollService.GetEmployeeType()
+                Case Is = eDataSource.ContractModificationReason
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).PayrollService.GetContractModificationReason()
+                Case Is = eDataSource.AllEmployees
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).PayrollService.GetAllEmployees()
+                Case Is = eDataSource.AllEmployeesNoLiquidated
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).PayrollService.GetAllEmployeesNoLiquidated()
+                Case Is = eDataSource.AllEmployeesWithContractToLiquidate
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).PayrollService.GetAllEmployeesWithContratToLiquidate()
+                Case Is = eDataSource.ListKindsAgreements
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).PayrollService.ListKindsAgreements()
+                Case Is = eDataSource.ListAgreements
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).PayrollService.ListAgreements()
+                Case Is = eDataSource.ListForeclousure
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).PayrollService.ListForeclousure()
+                Case Is = eDataSource.ListManualConcepts
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).PayrollService.ListManualConcepts()
+                Case Is = eDataSource.ListEquipmentTypeMaintenance
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).MaintenanceService.GetEquipmentType()
+                Case Is = eDataSource.ListLocationMaintenance
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).MaintenanceService.GetLocation()
+                Case Is = eDataSource.AccountingStructure
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).PayrollService.GetAccountingStructure()
+                Case Is = eDataSource.ListTrademark
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).MaintenanceService.GetTrademark()
+                Case Is = eDataSource.ListCostCenterMaintenance
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).MaintenanceService.GetCostCenter()
+                Case Is = eDataSource.ListTradeUnion
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).PayrollService.ListTradeUnion()
+                Case Is = eDataSource.ListPartsAccesoriesConsumables
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).MaintenanceService.GetListPartsAccesoriesConsumables()
+                Case Is = eDataSource.ListConceptsPayrollAll
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).PayrollService.ListConceptsPayroll()
+                Case Is = eDataSource.ListAllEmployee
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).PayrollService.ListAllEmployee()
+                Case Is = eDataSource.ListSportPractice
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).PayrollService.ListSportPractice()
+                Case Is = eDataSource.FreeTimeUse
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).PayrollService.ListFreeTimeUse()
+                Case Is = eDataSource.DiagnosedDisease
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).PayrollService.ListDiagnosedDisease()
+                Case Is = eDataSource.ListFreeTimeUse
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).PayrollService.ListFreeTimeUse()
+                Case Is = eDataSource.ListReligiousBeliefs
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).PayrollService.ListReligiousBeliefs()
+                Case Is = eDataSource.ReligiousBeliefs
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).PayrollService.ListReligiousBeliefs()
+                Case Is = eDataSource.ListEthnicGroups
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).PayrollService.ListEthnicGroups()
+                Case Is = eDataSource.EthnicGroups
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).PayrollService.ListEthnicGroups()
+                Case Is = eDataSource.ListDiagnosedDisease
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).PayrollService.ListDiagnosedDisease()
+                Case Is = eDataSource.ListBankFiles
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).PayrollService.ListBankFiles()
+
+                    '*********DOCUMENTALSYSTEM*************'
+                Case Is = eDataSource.FileContainerDocumentalSystem
+                    Return XpoServiceEx.Instance(IndigoSessionValues.DocumentalContainer).DocumentalSystem.GetFileContainer()
+
+                    '*********ACCOUNTING*************'
+                Case Is = eDataSource.ListAccountsByLevelHandlesThirdReport
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).AccountingService.ListAccountsByLevelHandlesThirdReport()
+                Case Is = eDataSource.ListAccountsByLevelPatrimonial
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).AccountingService.ListAccountsByLevelPatrimonial()
+                Case Is = eDataSource.ListTypeVoucherRepor
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).AccountingService.ListTypeVoucherRepor()
+                Case Is = eDataSource.ListVoucherReport
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).AccountingService.ListVoucherReport()
+                Case Is = eDataSource.ListAccountsReport
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).AccountingService.ListAccountsReport()
+                Case Is = eDataSource.GetLastClosingDate
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).AccountingService.GetLastClosingDate()
+                Case Is = eDataSource.ListCostcenterReport
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).AccountingService.ListCostcenterReport()
+                Case Is = eDataSource.ListThirdPartyReport
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).AccountingService.ListThirdPartyReport()
+                Case Is = eDataSource.ListAccountsByLevelReport
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).AccountingService.ListAccountsByLevelReport()
+                Case Is = eDataSource.ListDocumentTypes
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).AccountingService.ListDocumentTypes(True)
+                Case Is = eDataSource.ListRetentionConcept
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).AccountingService.ListRetentionConcept()
+                Case Is = eDataSource.ListAccountLevel
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).AccountingService.ListAccountLevel()
+                Case Is = eDataSource.ListAccountClass
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).AccountingService.ListAccountClass()
+                Case Is = eDataSource.ListAllBook
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).AccountingService.ListAllBook()
+                Case Is = eDataSource.ListBook
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).AccountingService.ListBook()
+                Case Is = eDataSource.StatementFolio
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).AccountingService.ListStatementFolio()
+                Case Is = eDataSource.ListPatrimonialPart
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).AccountingService.ListPatrimonialPart()
+                Case Is = eDataSource.ListAccounts
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).AccountingService.ListAccounts(0)
+                Case eDataSource.ListMaintenanceProtocol
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).MaintenanceService.ListMaintenanceProtocol()
+                Case Is = eDataSource.ListExogenousFormat
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).AccountingService.ListExogenousFormat()
+                Case Is = eDataSource.ListHealthSuperParameters
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).AccountingService.ListHealthSuperParameters()
+
+                    '****************PORTFOLIO*************
+                Case Is = eDataSource.ListLawyer
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).PortfolioService.ListLawyer()
+
+                Case Is = eDataSource.ListNoteReportPortfolio
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).PortfolioService.ListNoteReportPortfolio()
+                Case Is = eDataSource.ListThirdPartyReportPortfolio
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).PortfolioService.ListThirdPartyReportPortfolio()
+                Case Is = eDataSource.ListAccountBankReportPortfolio
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).PortfolioService.ListAccountBankReportPortfolio()
+                Case Is = eDataSource.ListCustomerReportPortfolio
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).PortfolioService.ListCustomerReportPortfolio()
+                Case Is = eDataSource.ListSellerReportPortfolio
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).PortfolioService.ListSellerReportPortfolio()
+                Case Is = eDataSource.ListInvoiceReportPortfolio
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).PortfolioService.ListInvoiceReportPortfolio()
+                Case Is = eDataSource.ListPortfolioTransferReport
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).PortfolioService.ListPortfolioTransferReport()
+                Case Is = eDataSource.ListCareGroupReportPortfolio
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).PortfolioService.ListCareGroupReportPortfolio()
+                Case Is = eDataSource.ListMainAccountsReportPortfolio
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).PortfolioService.ListMainAccountsReportPortfolio()
+                Case Is = eDataSource.EconomicIndicator
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).PortfolioService.GetAllEconomicIndicator()
+                Case Is = eDataSource.PortfolioConcept
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).PortfolioService.GetAllPortfolioConcept()
+                Case Is = eDataSource.PortfolioNoteConcept
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).PortfolioService.GetAllPortfolioNoteConcept()
+                Case Is = eDataSource.ListProvisionRanges
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).PortfolioService.GetAllProvisionRanges()
+                Case Is = eDataSource.ListPortfolioNote
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).PortfolioService.ListPortfolioNote()
+                Case Is = eDataSource.ListHardCollection
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).PortfolioService.ListHardCollection()
+                Case Is = eDataSource.GetAllInitialBalance
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).PortfolioService.GetAllInitialBalance()
+                Case Is = eDataSource.ListPortfolioTransfers
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).PortfolioService.ListPortfolioTransfers()
+                Case Is = eDataSource.ListPortfolioReclassification
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).PortfolioService.ListPortfolioReclassification()
+                Case Is = eDataSource.GetAllAccountReceivableDocument
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).PortfolioService.GetAllAccountReceivableDocument()
+                Case Is = eDataSource.ListRadicateInvoiceReport
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).PortfolioService.ListRadicateInvoiceReport()
+                Case Is = eDataSource.ListPortfolioProvision
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).PortfolioService.ListPortfolioProvision()
+                Case Is = eDataSource.ListDemandStatus
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).PortfolioService.ListDemandStatus()
+                Case Is = eDataSource.ListConciliationConcepts
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).PortfolioService.ListConciliationConcepts()
+                Case Is = eDataSource.ListPortfolioConciliation
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).PortfolioService.ListPortfolioConciliation()
+
+                    '****************TREASURY**************
+                Case Is = eDataSource.ListConstitutionCashSmaller
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).TreasuryService.ListConstitutionCashSmaller()
+                Case Is = eDataSource.ListSupplierReportTreasury
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).TreasuryService.ListSupplierReportTreasury()
+                Case Is = eDataSource.ListEntityBankReportTreasury
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).TreasuryService.ListEntityBankReportTreasury()
+                Case Is = eDataSource.ListVoucherTranscationCheckReportTreasury
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).TreasuryService.ListVoucherTranscationCheckReportTreasury()
+                Case Is = eDataSource.ListReceiptConceptsReport
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).TreasuryService.ListReceiptConceptsReport()
+                Case Is = eDataSource.ListExpensesConceptsReport
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).TreasuryService.ListExpensesConceptsReport()
+                Case Is = eDataSource.ListCancellationChecksReportTreasury
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).TreasuryService.ListCancellationChecksReportTreasury()
+                Case Is = eDataSource.ListRefundsReportTreasury
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).TreasuryService.ListRefundsReportTreasury()
+                Case Is = eDataSource.ListVReportConsignmentTransferTreasury
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).TreasuryService.ListVReportConsignmentTransferTreasury()
+                Case Is = eDataSource.ListNoteReportTreasury
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).TreasuryService.ListNoteReportTreasury()
+                Case Is = eDataSource.ListThirdPartyReportTreasury
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).TreasuryService.ListThirdPartyReportTreasury()
+                Case Is = eDataSource.ListVoucherTranscationReportTreasury
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).TreasuryService.ListVoucherTransactionReportTreasury()
+                Case Is = eDataSource.ListCreationUsersReportTreasury
+                    Return XpoServiceEx.Instance(IndigoSessionValues.SecurityContainer).SecurityService.ListUserByContainer(IndigoSessionValues.IndigoContainerId)
+                Case Is = eDataSource.ListCrossingAccountReportTreasury
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).TreasuryService.ListCrossingAccountReportTreasury()
+                    'Case Is = eDataSource.ListCashReceiptReport
+                    '    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).InventoryService.ListCashReceiptReport(IndigoSessionValues.TransactionalContainer)
+                Case Is = eDataSource.ListEntityBankAccountsReport
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).TreasuryService.ListEntityBankAccountsReport()
+                Case Is = eDataSource.ListCashRegistersEntity
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).TreasuryService.ListCashRegistersEntity()
+                Case Is = eDataSource.ListConsignment
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).TreasuryService.ListConsignment()
+                Case Is = eDataSource.ListCard
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).TreasuryService.ListCard(True)
+                Case Is = eDataSource.ListCashReceiptConcept
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).TreasuryService.ListCashReceiptConcept(True)
+                Case Is = eDataSource.ListAllCashReceiptConcept
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).TreasuryService.ListAllCashReceiptConcept()
+                Case Is = eDataSource.ListCashRegister
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).TreasuryService.ListCashRegister(True)
+                Case Is = eDataSource.ListAllCashRegister
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).TreasuryService.ListAllCashRegister()
+                Case Is = eDataSource.ListExpenseConcept
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).TreasuryService.ListExpenseConcept(True)
+                Case Is = eDataSource.ListNoteConcept
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).TreasuryService.ListNoteConcept(True)
+                Case Is = eDataSource.ListAllNoteConcept
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).TreasuryService.ListAllNoteConcept()
+                Case Is = eDataSource.ListThridPartyBankAccount
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).TreasuryService.ListThridPartyBankAccount(True)
+                Case Is = eDataSource.ListAllEntityBankAccount
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).TreasuryService.ListAllEntityBankAccount()
+                Case Is = eDataSource.ListEntityBankAccount
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).TreasuryService.ListEntityBankAccount(True)
+                Case Is = eDataSource.ListAllBank
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).TreasuryService.ListAllBank(True)
+                Case Is = eDataSource.ListAllPaymentConcept
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).TreasuryService.ListAllPaymentConcept(True)
+                Case Is = eDataSource.ListAllCancellationCheck
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).TreasuryService.ListAllCancellationCheck()
+                Case Is = eDataSource.ListExpenseConceptByNotCash
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).TreasuryService.ListExpenseConceptByNotCash()
+                Case Is = eDataSource.ListAllVoucherTransaction
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).TreasuryService.ListAllVoucherTransaction()
+                Case Is = eDataSource.ListAllVoucherTransactionWithVoucherTypeCheck
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).TreasuryService.ListAllVoucherTransactionWithVoucherTypeCheck()
+                Case Is = eDataSource.ListRefund
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).TreasuryService.ListRefund()
+                Case Is = eDataSource.ListSchedulePayment
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).TreasuryService.ListSchedulePayment()
+                Case Is = eDataSource.ListSchedulePaymentConfirm
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).TreasuryService.ListSchedulePaymentConfirm()
+                Case Is = eDataSource.GetSchedulePayment
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).TreasuryService.GetSchedulePayment()
+                Case eDataSource.ListCrossingAccount
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).TreasuryService.ListCrossingAccount()
+                Case eDataSource.ListCheckCashing
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).TreasuryService.ListCheckCashing()
+                Case eDataSource.ListTreasuryNote
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).TreasuryService.ListTreasuryNote()
+                Case eDataSource.ListVoucherTransactionAdvance
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).TreasuryService.ListVoucherTransactionAdvance()
+                Case eDataSource.ListCheckCashingControl
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).TreasuryService.ListCheckCashingControl()
+                Case eDataSource.ListCashFlowConcept
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).TreasuryService.ListCashFlowConcept()
+                Case eDataSource.ListCashFlowReclassification
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).TreasuryService.ListCashFlowReclassification()
+                Case eDataSource.ListBankReconciliation
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).TreasuryService.ListBankReconciliation()
+                Case Is = eDataSource.ListBankConciliationConcepts
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).TreasuryService.ListBankConciliationConcepts()
+                Case Is = eDataSource.ListUploadBankStatements
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).TreasuryService.ListUploadBankStatements()
+                Case eDataSource.ListBankReconciliationAutomatic
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).TreasuryService.ListBankReconciliationAutomatic()
+
+                    '******************INTEROPCOST****************
+                Case Is = eDataSource.ListGeneralExpenseCategory
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).InteropCostService.ListGeneralExpenseCategory()
+                Case eDataSource.ListOrganizationalStructureWithProductionCenter
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).InteropCostService.ListOrganizationalStructureOfCostsWithPCenterReport()
+                Case eDataSource.ListOrganizationalStructure
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).InteropCostService.ListOrganizationalStructure()
+                Case eDataSource.ListOrganizationalStructureData
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).InteropCostService.ListOrganizationalStructureData()
+                Case eDataSource.ListProductionCenter
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).InteropCostService.ListProductionCenter()
+                Case eDataSource.ListServiceArea
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).InteropCostService.ListServiceArea()
+                Case eDataSource.ListCostCenterDinamic
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).InteropCostService.ListCostCenterDinamic()
+                Case eDataSource.ListMainAccountNumber
+                    Return Nothing
+                Case eDataSource.ListMainAccountLabor
+                    Return Nothing
+                Case eDataSource.ListMainAccountErp
+                    Return Nothing
+                Case eDataSource.ListCostGeneralExpenses
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).CostService.ListCostGeneralExpenses()
+                    'Case eDataSource.ListGeneralExpensesWithDirectDistribution
+                    '    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).InteropCostService.ListGeneralExpensesWithDirectDistribution()
+                Case eDataSource.ListGeneralExpenses
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).InteropCostService.ListGeneralExpenses()
+                Case eDataSource.ListGeneralExpensesWithDirectDistribution
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).InteropCostService.ListGeneralExpensesWithDirectDistribution()
+                Case eDataSource.ListCostDistributionDirectCost
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).CostService.ListCostDistributionDirectCost()
+                Case eDataSource.ListDistributionDirectCost
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).InteropCostService.ListDistributionDirectCost()
+                Case eDataSource.ListDistributionManpower
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).InteropCostService.ListDistributionManpower()
+                Case eDataSource.ListFixedAssetInterfaceErp
+                    Return XpoServiceEx.Instance(IndigoSessionValues.InteropCostContainer).InteropCostService.ListFixedAssetInterfaceErp()
+                Case eDataSource.ListDistributionFixedAsset
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).InteropCostService.ListDistributionFixedAsset()
+                Case eDataSource.ListDistributionSecondary
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).InteropCostService.ListDistributionSecondary()
+                Case eDataSource.ListDirectDistributionSecondary
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).InteropCostService.GetAllDirectDistributionSecondary()
+
+                    '----------------------------- COST ---------------------------------------'
+                Case eDataSource.ListCostDistributionSecondary
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).CostService.ListCostDistributionSecondary()
+                Case eDataSource.ListCostDirectDistributionSecondary
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).CostService.ListCostDirectDistributionSecondary()
+                Case Is = eDataSource.ListCostGeneralExpenseCategory
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).CostService.ListCostGeneralExpenseCategory()
+                Case eDataSource.ListCostOrganizationalStructureWithProductionCenter
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).CostService.ListCostOrganizationalStructureOfCostsWithPCenterReport()
+                Case eDataSource.ListCostProductionCenter
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).CostService.ListCostProductionCenter()
+                Case Is = eDataSource.ListCostActivities
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).CostService.ListCostActivities()
+                Case Is = eDataSource.ListCostInventoryGroups
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).CostService.ListCostInventoryGroups()
+                Case Is = eDataSource.ListCostProductionCenterCategory
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).CostService.ListCostProductionCenterCategory()
+
+                    '*********BUDGET*************'
+                Case Is = eDataSource.ListFinancialSource
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).BudgetService.GetFinancialSource("")
+                Case Is = eDataSource.ListBudgetEntitiesXPSCS
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).BudgetService.ListBudgetEntity()
+                Case Is = eDataSource.ListBudgetEntitiesXPIFS
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).BudgetService.GetBudgetEntitiesXPIFS()
+                Case Is = eDataSource.ListEarningsType
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).BudgetService.GetBudgetEarningsType()
+                Case Is = eDataSource.ListExpenseType
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).BudgetService.GetBudgetExpenseType()
+                Case Is = eDataSource.ListBudgetDependency
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).BudgetService.GetBudgetBudgetDependencyType()
+                Case Is = eDataSource.ListBudgetConcept
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).BudgetService.GetBudgetBudgetConceptType()
+                Case Is = eDataSource.ListPrivateBudgetItemsStructure
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).BudgetService.ListPrivateBudgetItemsStructureForOpenSearch()
+                Case Is = eDataSource.ListCCPET
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).BudgetService.ListCCPET()
+                Case Is = eDataSource.ListCPCCatalog
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).BudgetService.ListCPCCatalog()
+
+                    '****************PAYMENTS**************
+                Case Is = eDataSource.ListSupplierReport
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).PaymentsService.ListSupplierReport()
+                Case Is = eDataSource.ListPaymentsAccountPayableReport
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).PaymentsService.ListPaymentsAccountPayableReport()
+                Case Is = eDataSource.ListThirdPartyReportPayments
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).PaymentsService.ListThirdPartyReportPayments()
+                Case Is = eDataSource.ListTransfersReportPayments
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).PaymentsService.ListTransfersReportPayments()
+                Case Is = eDataSource.ListDependencies
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).PaymentsService.ListDepencies()
+                Case Is = eDataSource.ListConceptsAccountsPayable
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).PaymentsService.ListConceptsAccountsPayable()
+                Case Is = eDataSource.ListFilingUnit
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).PaymentsService.ListFilingUnit()
+                Case Is = eDataSource.ListConceptsNotes
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).PaymentsService.ListConceptsNotes()
+                Case Is = eDataSource.ListAccountPayableRejectionReason
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).PaymentsService.ListAccountPayableRejectionReason()
+                Case Is = eDataSource.ListRoute
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).PaymentsService.ListRoutes()
+                Case Is = eDataSource.ListAccountPayable
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).PaymentsService.ListAccountPayable()
+                Case Is = eDataSource.ListDistributionLine
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).CommonService.ListDistributionLine()
+                Case Is = eDataSource.ListSuppliersDistributionLines
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).CommonService.ListSuppliersDistributionLines()
+                Case Is = eDataSource.ListPaymentNotes
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).PaymentsService.ListPaymentNotes()
+                Case Is = eDataSource.ListPaymentsNotesReport
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).PaymentsService.ListPaymentsNotesReport()
+                Case Is = eDataSource.ListInitialBalance
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).PaymentsService.ListInitialBalance()
+                Case Is = eDataSource.ListPaymentTransfer
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).PaymentsService.ListPaymentTransfer()
+                Case Is = eDataSource.ListFilingUnitData
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).PaymentsService.ListFilingUnitData()
+                Case Is = eDataSource.ListSupplierTypeData
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).MaintenanceService.ListSupplierTypeData()
+                Case Is = eDataSource.ListAccountPayableTransfer
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).PaymentsService.ListAccountPayableTransfer()
+                Case Is = eDataSource.ListLoadMassive
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).PaymentsService.ListLoadMassive()
+                Case Is = eDataSource.ListLoadPaymentNotesDebitCredit
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).PaymentsService.ListPaymentNotesDebitCredit()
+                Case Is = eDataSource.ListDocumentSupportAuthorization
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).PaymentsService.ListDocumentSupportAuthorization()
+
+                    '******************** Fixed Assets **********************************
+                Case Is = eDataSource.ListFixedAssetLocation
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).FixedAsset.ListFixedAssetLocation()
+                Case Is = eDataSource.ListFixedAssetLocationData
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).FixedAsset.ListFixedAssetLocationData()
+                Case Is = eDataSource.ListFixedAssetLocationType
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).FixedAsset.ListFixedAssetLocationType()
+                Case Is = eDataSource.ListFixedAssetCostCenter
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).FixedAsset.ListFixedAssetCostCenter()
+                Case Is = eDataSource.ListFixedAssetMainAccount
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).FixedAsset.ListFixedAssetMainAccount()
+                Case Is = eDataSource.ListFixedAssetTrademark
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).FixedAsset.ListTrademark()
+                Case Is = eDataSource.ListFixedAssetPolizaType
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).FixedAsset.ListFixedAssetPolizaType()
+                Case Is = eDataSource.ListFixedAsetPoliza
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).FixedAsset.ListFixedAssetPoliza()
+                Case Is = eDataSource.ListFixedAssetEquipmentCatalog
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).FixedAsset.ListFixedEquipmentCatalog()
+                Case Is = eDataSource.ListFixedAssetInsurance
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).FixedAsset.ListFixedInsurance()
+                Case Is = eDataSource.ListFixedAssetInventoryType
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).FixedAsset.ListFixedAssetInventoryType()
+                Case Is = eDataSource.ListFixedAssetEquipmentType
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).FixedAsset.ListFixedAssetEquipmentType()
+                Case Is = eDataSource.ListFixedAssetPhysicalAsset
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).FixedAsset.ListFixedAssetPhysicalAsset()
+                Case Is = eDataSource.ListFixedAssetVPhysicalAssetMainAccount
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).FixedAsset.ListFixedAssetVPhysicalAssetMainAccount()
+                Case Is = eDataSource.ListFixedAssetStatusAsset
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).FixedAsset.ListFixedAssetStatusAsset()
+                Case Is = eDataSource.ListFixedAssetResponsibleType
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).FixedAsset.ListFixedAssetResponsibleType()
+                Case Is = eDataSource.ListFixedAssetVinculationType
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).FixedAsset.ListFixedAssetVinculationType()
+                Case Is = eDataSource.ListFixedAssetResponsible
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).FixedAsset.ListFixedAssetResponsible()
+                Case Is = eDataSource.ListFixedAssetEquipment
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).FixedAsset.ListFixedAssetEquipment()
+                Case Is = eDataSource.ListFixedAssetInitialBalance
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).FixedAsset.ListFixedAssetInitialBalance()
+                Case Is = eDataSource.ListFixedAssetEntry
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).FixedAsset.ListFixedAssetEntry()
+                Case Is = eDataSource.ListFixedAssetEntryDevolution
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).FixedAsset.ListFixedAssetEntryDevolution()
+                Case Is = eDataSource.ListFixedAssetTransfer
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).FixedAsset.ListFixedAssetTransfer()
+                Case Is = eDataSource.ListFixedAssetActiveOutput
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).FixedAsset.ListFixedAssetActiveOutput()
+                Case Is = eDataSource.ListFixedAssetChangePlate
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).FixedAsset.ListFixedAssetChangePlate()
+                Case Is = eDataSource.ListFixedAssetInputRemission
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).FixedAsset.ListFixedAssetInputRemission()
+                Case Is = eDataSource.ListFixedAssetPartsAccesoriesConsumibles
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).FixedAsset.ListFixedAssetPartsAccesoriesConsumibles()
+                    'Case Is = eDataSource.ListFixedAssetIngress
+                    'Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).FixedAsset.ListFixedAssetIngress()
+                Case Is = eDataSource.ListFixedAssetPurchaseOrder
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).FixedAsset.ListFixedAssetPurchaseOrder()
+                Case Is = eDataSource.Address
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).FixedAsset.GetAllAddress()
+                Case Is = eDataSource.AreaFixedAssets
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).FixedAsset.GetAllArea()
+                Case Is = eDataSource.Deduction
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).FixedAsset.GetAllDeduction()
+                Case Is = eDataSource.Iva
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).FixedAsset.GetAllIva()
+                Case Is = eDataSource.ListConceptsShuttle
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).FixedAsset.ListConceptShuttle()
+                Case Is = eDataSource.ListInflationAdjustment
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).FixedAsset.GetAllInflationAdjustment()
+                Case Is = eDataSource.GroupFixedAsset
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).FixedAsset.GetAllGroup()
+                Case Is = eDataSource.ProductFixedAsset
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).FixedAsset.GetAllProduct()
+                Case Is = eDataSource.GetAllClassification
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).FixedAsset.GetAllClassification()
+                Case Is = eDataSource.ListFixedAssetTransaction
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).FixedAsset.ListFixedAssetTransaction()
+                Case Is = eDataSource.ListFixedAssetReclassification
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).FixedAsset.ListFixedAssetReclassification()
+                Case Is = eDataSource.ListDeteriorationIndications
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).FixedAsset.ListDeteriorationIndications()
+
+                    '******************** Inventory **********************************
+                Case Is = eDataSource.ListAllMedicalFormula
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).InventoryService.ListAllMedicalFormula()
+                Case Is = eDataSource.ListTransferOrderDevolution
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).InventoryService.ListTransferOrderDevolution()
+                Case Is = eDataSource.ListTransferOrder
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).InventoryService.ListTransferOrder()
+                Case Is = eDataSource.ListInventoryRequest
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).InventoryService.ListInventoryRequest()
+                Case Is = eDataSource.ListEntranceVoucherReport
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).InventoryService.ListEntranceVoucherReport()
+                Case Is = eDataSource.ListPurchaseOrderReport
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).InventoryService.ListPurchaseOrderReport()
+                Case Is = eDataSource.ListRemissionEntranceReport
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).InventoryService.ListRemissionEntranceReport()
+                Case Is = eDataSource.ListSupplierInventoryReport
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).InventoryService.ListSupplierInventoryReport()
+                Case Is = eDataSource.ListCustomerInventoryReport
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).InventoryService.ListCustomerInventoryReport()
+                Case Is = eDataSource.ListAllInventoryGeneralLedgerJournalVoucherTypes
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).InventoryService.ListGeneralLedgerJournalVoucherTypes()
+                Case Is = eDataSource.ListProductsReport
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).InventoryService.ListProductsReport()
+                Case Is = eDataSource.ListWarehouseReport
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).InventoryService.ListWarehouseReport()
+                Case Is = eDataSource.ListWarehouseReportXP
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).InventoryService.ListWarehouseReportXPCollection()
+                Case Is = eDataSource.ListBatchSerialReport
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).InventoryService.ListBatchSerialReport()
+                Case Is = eDataSource.ListGroupReport
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).InventoryService.ListGroupReport()
+                Case Is = eDataSource.ListProductRateByIdName
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).InventoryService.ListProductRateByIdName()
+                Case Is = eDataSource.ListSubGroupReport
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).InventoryService.ListSubGroupReport()
+                Case eDataSource.ListPharmaceuticalDispensing
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).InventoryService.ListPharmaceuticalDispensing()
+                Case Is = eDataSource.ListProductGroup
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).InventoryService.ListProductGroup()
+                Case Is = eDataSource.ListProductSubGroup
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).InventoryService.ListProductSubGroup()
+                Case Is = eDataSource.ListMeasureUnit
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).InventoryService.ListMeasureUnit()
+                Case Is = eDataSource.ListWarehouse
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).InventoryService.ListWarehouse()
+                Case Is = eDataSource.ListPharmacologicalGroup
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).InventoryService.ListPharmacologicalGroup()
+                Case Is = eDataSource.ListAdjustmentConcept
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).InventoryService.ListAdjustmentConcept()
+                Case Is = eDataSource.ListManufacturers
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).InventoryService.ListManufacturers()
+                Case Is = eDataSource.ListOtherWitholdingDeductions
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).InventoryService.ListOtherWitholdingDeductions()
+                Case Is = eDataSource.ListProductType
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).InventoryService.ListProductType()
+                Case Is = eDataSource.ListAttributeProductType
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).InventoryService.ListAttributeProductType()
+                Case Is = eDataSource.ListDCI
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).InventoryService.ListDCI()
+                Case Is = eDataSource.ListPharmaceuticalForm
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).InventoryService.ListPharmaceuticalForm()
+                Case Is = eDataSource.ListAdministrationRoute
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).InventoryService.ListAdministrationRoute()
+                Case Is = eDataSource.ListATCEntity
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).InventoryService.ListATCEntity()
+                Case Is = eDataSource.ListInventoryRiskLevel
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).InventoryService.ListRiskLevel()
+                Case Is = eDataSource.ListATC
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).InventoryService.ListATC()
+                Case Is = eDataSource.ListGeneralLedgerIva
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).InventoryService.ListGeneralLedgerIva()
+                Case Is = eDataSource.ListPackagingUnit
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).InventoryService.ListPackagingUnit()
+                Case Is = eDataSource.ListInventoryProduct
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).InventoryService.ListInventoryProduct()
+                Case Is = eDataSource.LostPOSPathologies
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).InventoryService.LostPOSPathologies()
+                Case Is = eDataSource.ListDiagnostic
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).InventoryService.ListDiagnostic()
+                Case Is = eDataSource.ListProductTemplateInventory
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).InventoryService.ListProductTemplate()
+                Case Is = eDataSource.ListDCI
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).InventoryService.ListDCI()
+                Case Is = eDataSource.ListInventoryContractType
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).InventoryService.ListInventoryContractType()
+                Case Is = eDataSource.ListAllInventoryContracts
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).InventoryService.ListAllInventoryContract()
+                Case Is = eDataSource.ListInventoryControl
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).InventoryService.ListInventoryControl()
+                Case Is = eDataSource.ListInventoryAdjustment
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).InventoryService.ListInventoryAdjustment()
+                Case Is = eDataSource.ListEntranceVoucher
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).InventoryService.ListEntranceVoucher()
+                Case Is = eDataSource.ListEntranceVoucherDevolution
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).InventoryService.ListEntranceVoucherDevolution()
+                Case Is = eDataSource.ListAllInventoryPurchaserOrder
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).InventoryService.ListAllInventoryPurchaserOrder()
+                Case Is = eDataSource.ListAllInventoryPurchaserOrderDevolution
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).InventoryService.ListAllInventoryPurchaseOrderDevolution()
+                Case Is = eDataSource.ListAllRemissionDevolution
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).InventoryService.ListAllRemissionDevolution()
+                Case Is = eDataSource.ListAllPharmaceuticalDispensingDevolution
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).InventoryService.ListAllPharmaceuticalDispensingDevolution()
+                Case Is = eDataSource.ListInventoryProductFrmStock
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).InventoryService.ListInventoryProductFrmStock()
+                Case Is = eDataSource.ListDocumentInvoiceProductSales
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).InventoryService.ListDocumentInvoiceProductSales()
+                Case Is = eDataSource.ListRequestDevolution
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).InventoryService.ListRequestDevolution()
+                Case Is = eDataSource.ListInventorySupplie
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).InventoryService.ListInventorySupplie()
+                Case Is = eDataSource.ListInventoryContractAssignment
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).InventoryService.ListInventoryContractAssignment()
+                Case Is = eDataSource.ListInventoryContractModification
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).InventoryService.ListInventoryContractModification()
+                Case Is = eDataSource.ListDevolutionCause
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).InventoryService.ListDevolutionCause()
+                Case Is = eDataSource.ListPharmaceuticalDispensingTransfer
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).InventoryService.ListPharmaceuticalDispensingTransfer()
+
+                    '**************************** Contract ************************************
+                Case Is = eDataSource.ListCupsGroup
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).ContractService.ListCupsGroup()
+                Case Is = eDataSource.ListCupsSubGroup
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).ContractService.ListCupsSubGroup()
+                Case Is = eDataSource.ListCupsEntity
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).ContractService.ListCupsEntity()
+                Case Is = eDataSource.ListMarketingUnit
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).ContractService.ListMarketingUnit()
+                Case Is = eDataSource.ListContractDescriptions
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).ContractService.ListContractDescriptions()
+                Case Is = eDataSource.ListHealthAdministrator
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).ContractService.ListHealthAdministrator()
+                Case Is = eDataSource.ListDefinitionRate
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).ContractService.ListDefinitionRate()
+                Case Is = eDataSource.ListContract
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).ContractService.ListContractOpenSearch
+                Case Is = eDataSource.ListIPSServices
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).ContractService.ListIPSServices()
+                Case Is = eDataSource.ListBillingConcept
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).ContractService.ListBillingConcept()
+                Case Is = eDataSource.ListUVRRange
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).ContractService.ListUVRRange()
+                Case Is = eDataSource.ListProcedureTemplate
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).ContractService.ListProcedureTemplate()
+                Case Is = eDataSource.ListRequirementTemplate
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).ContractService.ListRequirementTemplate()
+                Case Is = eDataSource.ListRateManual
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).ContractService.ListRateManual()
+                Case Is = eDataSource.ListSurgicalGroup
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).ContractService.ListSurgicalGroup()
+                Case Is = eDataSource.ListContractMinimumWage
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).ContractService.ListContractMinimumWage()
+                Case Is = eDataSource.ListContractEntity
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).ContractService.ListContractEntity()
+                Case Is = eDataSource.ListRateManualDetail
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).ContractService.ListRateManualDetail()
+                Case Is = eDataSource.ListProductTemplate
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).ContractService.ListProductTemplate()
+                Case Is = eDataSource.ListCareGroup
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).ContractService.ListCareGroup()
+                Case Is = eDataSource.ListContractAccountingStructure
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).ContractService.ListContractAccountingStructure()
+                Case Is = eDataSource.ListRateManualValidity
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).ContractService.ListRateManualValidity()
+
+                    '**************************** Authorization ************************************
+                Case Is = eDataSource.ListAuthorizationPortfolio
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).AuthorizationService.ListAuthorizationPortfolio()
+                Case Is = eDataSource.ListAuthorizationGroup
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).AuthorizationService.ListAuthorizationGroup()
+                Case Is = eDataSource.ListCancellationReasons
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).AuthorizationService.ListCancellationReasons()
+                Case Is = eDataSource.ListAuthorizationRejection
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).AuthorizationService.ListAuthorizationRejection()
+                Case Is = eDataSource.ListAuthorizationSource
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).AuthorizationService.ListAuthorizationSource()
+                Case Is = eDataSource.ListAuthorizationScheduleTemplate
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).AuthorizationService.ListAuthorizationScheduleTemplate()
+                Case Is = eDataSource.ListAuthorizationOutsourcedServices
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).AuthorizationService.ListAuthorizationOutsourcedServices()
+                Case Is = eDataSource.ListPostponementReasons
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).AuthorizationService.ListPostponementReasons()
+
+                    '**************************** Billing ************************************
+                Case Is = eDataSource.ListQuotation
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).BillingService.ListQuotation()
+                Case Is = eDataSource.ListDocumentInvoiceProductSalesDevolution
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).BillingService.ListDocumentInvoiceProductSalesDevolution()
+                Case Is = eDataSource.ListBillingGroup
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).BillingService.ListBillingGroup()
+                Case Is = eDataSource.ListSlipOut
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).BillingService.ListSlipOut()
+                Case Is = eDataSource.ListSlipOutAndAdmissionNumber
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).BillingService.ListSlipOutAndAdmissionNumber()
+                Case Is = eDataSource.ListBillingAuthotization
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).BillingService.ListBillingAuthotization()
+                Case eDataSource.ListReversalReason
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).BillingService.ListAnnulmentReason()
+                Case eDataSource.ListInvoiceEntityCapitated
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).BillingService.ListInvoiceEntityCapitated()
+                Case eDataSource.ListInvoiceCategories
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).BillingService.ListInvoiceCategories()
+                Case eDataSource.ListInvoice
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).BillingService.ListInvoice()
+                Case eDataSource.ListViewListInvoiceAndPatient
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).BillingService.ListViewListInvoiceAndPatient()
+                Case Is = eDataSource.ListBasicBillings
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).BillingService.ListBasicBillings()
+                Case Is = eDataSource.ListInvoiceEntityCapitatedDistributions
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).BillingService.ListInvoiceEntityCapitatedDistributions()
+                Case Is = eDataSource.Quotation
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).BillingService.ListQuotation()
+                Case Is = eDataSource.ListConceptsCausesStatusFolio
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).BillingService.ListConceptsCausesStatusFolio()
+
+                    '******************************** Maintenance *****************************
+                Case Is = eDataSource.ListSupplierType
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).MaintenanceService.ListSupplierType()
+                Case Is = eDataSource.ListEquipmentFunction
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).MaintenanceService.ListEquipmentFunction()
+                Case Is = eDataSource.ListItemCatalog
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).MaintenanceService.ListMaintenanceResponsible()
+                Case Is = eDataSource.ListMaintenanceFailureRequest
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).MaintenanceService.ListMaintenanceFailureRequest()
+                Case Is = eDataSource.ListMaintenanceContract
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).MaintenanceService.ListMaintenanceContract()
+                Case Is = eDataSource.ListMaintenanceTools
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).MaintenanceService.ListMaintenanceTools()
+                Case Is = eDataSource.ListMaintenanceManufacturers
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).MaintenanceService.ListMaintenanceManufacturers()
+
+                    '********************************* Common *********************************
+                Case Is = eDataSource.ListEconomicActivity
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).CommonService.ListEconomicActivity()
+                Case Is = eDataSource.ListAllThirdParty
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).CommonService.ListAllThirdParty()
+                Case Is = eDataSource.ListOperatingUnit
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).CommonService.ListOperatingUnit()
+                Case Is = eDataSource.ListOperatingUnitTreeList
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).CommonService.ListOperatingUnitTreeList()
+
+                    '********************************* MedicalFees ********************************
+                Case Is = eDataSource.ListMedicalFeesContract
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).MedicalFeesService.ListMedicalFeesContract()
+                Case Is = eDataSource.ListMedicalFeesLiquidation
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).MedicalFeesService.ListMedicalFeesLiquidation()
+                Case Is = eDataSource.ListGlosaMedicalFeesConcepts
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).MedicalFeesService.ListGlosaMedicalFeesConcepts()
+                Case Is = eDataSource.ListGlosaMedicalFees
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).MedicalFeesService.ListGlosaMedicalFees()
+
+                    '********************************* Inventory ********************************
+                Case Is = eDataSource.ListAllLoanMerchandise
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).InventoryService.ListAllLoanMerchandise()
+                Case Is = eDataSource.ListAllLoanMerchandiseDevolutions
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).InventoryService.ListAllLoanMerchandiseDevolutions()
+
+                    '********************************* Crystal ********************************
+                Case Is = eDataSource.ListActiveProfessionals
+                    Return XpoServiceEx.Instance(IndigoSessionValues.HisContainer).CrystalService.ListHealthCareProfessional()
+                Case Is = eDataSource.ListAllProfessionals
+                    Return XpoServiceEx.Instance(IndigoSessionValues.HisContainer).CrystalService.ListHealthCareProfessionalAll()
+                Case Is = eDataSource.ListAllPatients
+                    Return XpoServiceEx.Instance(IndigoSessionValues.HisContainer).CrystalService.ListAllPatients()
+                Case Is = eDataSource.ListAdmissionsToLiquidation
+                    Return XpoServiceEx.Instance(IndigoSessionValues.HisContainer).CrystalService.ListAdmissionsToReport()
+                Case Is = eDataSource.ListAdmissionsToReportSlipOut
+                    Return XpoServiceEx.Instance(IndigoSessionValues.HisContainer).CrystalService.ListAdmissionsToReportSlipOut()
+                Case Is = eDataSource.ListAttentionCenter
+                    Return XpoServiceEx.Instance(IndigoSessionValues.HisContainer).CrystalService.GetAllCareCenter()
+                    'Portfolio
+                Case Is = eDataSource.ListAccountReceivable
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).PortfolioService.ListAccountReceivable()
+
+                    '********************************* Taxes ********************************
+                Case Is = eDataSource.ListLowTaxesLiquidation
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).TaxesService.ListTaxesLowTaxLiquidation()
+                Case Is = eDataSource.ListTaxesPropertyReport
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).TaxesService.ListTaxesPropertyReport()
+                Case Is = eDataSource.ListTaxesProperty
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).TaxesService.ListTaxesProperty()
+                Case Is = eDataSource.ListGroupers
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).ContractService.ListGroupers()
+                Case Is = eDataSource.ListPurchaseRequest
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).InventoryService.ListPurchaseRequest()
+
+                    '********************************* MixingStation ********************************
+                Case Is = eDataSource.ListMedicationStatus
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).MixingStationService.ListMedicationStatus()
+                Case Is = eDataSource.ListProductionLine
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).MixingStationService.ListProductionLine()
+                Case Is = eDataSource.ListMixingCenter
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).MixingStationService.ListMixingCenter()
+                Case Is = eDataSource.ListTurn
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).MixingStationService.ListTurn()
+                Case Is = eDataSource.ListUnitDoseType
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).MixingStationService.ListUnitDoseType()
+                Case Is = eDataSource.ListUnitDoseTypeByStatus
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).MixingStationService.ListUnitDoseTypeByStatus(True)
+                Case Is = eDataSource.ListShelfType
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).MixingStationService.ListShelfType()
+                Case Is = eDataSource.ListPackage
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).MixingStationService.ListPackage()
+                Case Is = eDataSource.ListStabilityTable
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).MixingStationService.ListStabilityTable()
+                Case Is = eDataSource.ListRequestUnitDoseInventory
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).MixingStationService.ListRequestUnitDoseInventory()
+                Case Is = eDataSource.ListRequestUnitDoseExternalCareCenter
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).MixingStationService.ListRequestUnitDoseExternalCareCenter()
+                Case Is = eDataSource.ListCauseReprocessingRejection
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).MixingStationService.ListCauseReprocessingRejection()
+                Case Is = eDataSource.ListPatientExternalCareCenter
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).MixingStationService.ListPatientExternalCareCenter()
+                Case Is = eDataSource.ListProductionBaskets
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).MixingStationService.ListProductionBaskets()
+                Case Is = eDataSource.ListTransportationAssistant
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).MixingStationService.ListTransportationAssistant()
+                Case Is = eDataSource.ListTransportation
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).MixingStationService.ListTransportation()
+                Case Is = eDataSource.ListContractExternalClients
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).MixingStationService.ListContractExternalClients()
+                Case Is = eDataSource.ListExternalCareCenter
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).MixingStationService.ListExternalCareCenter()
+                Case Is = eDataSource.ListEmployeeScheduleC
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).PayrollService.ListEmployeeScheduleC()
+                Case Else
+                    Return Nothing
+            End Select
+        Catch ex As Exception
+            Infrastructure.CrossCutting.Exceptions.IndigoManagementExceptions.HandleExceptionUI(ex, "UIPolicy")
+            Return Nothing
+        End Try
+    End Function
+
+    Overloads Function ConsultarEntidades(ByVal origen As eDataSource, ByVal Filtro As String) As Object
+        Try
+            Select Case origen
+                '**********GLOSAS*********
+                Case Is = eDataSource.ListEvaluationInvoiceByResponsible
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).GlosasService.ListEvaluationInvoiceByResponsible(Filtro)
+                    '********SEGURIDAD********
+
+                    '********COMMON********
+                Case Is = eDataSource.Department
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).CommonService.GetDepartment(Filtro) 'Enviar filtro por parametro
+                Case Is = eDataSource.City
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).CommonService.GetCities(Int32.Parse(Filtro.Trim())) 'Enviar filtro por parametro
+                Case Is = eDataSource.ThirdPartyByPersonId
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).CommonService.GetThirdPartyByPersonId(Int32.Parse(Filtro.Trim()))
+                Case Is = eDataSource.GroupByCompany
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).PayrollService.GetGroupByCompany(Filtro.Trim())
+                Case Is = eDataSource.BranchOfficeByCompany
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).PayrollService.GetBranchOfficeByCompany(Int32.Parse(Filtro.Trim()))
+                Case Is = eDataSource.FunctionalUnitByBranchOffice
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).PayrollService.GetFunctionalUnitByBranchOffice(Int32.Parse(Filtro.Trim()))
+                    '**************PAYROLL**************
+                Case Is = eDataSource.GroupByContractClass
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).PayrollService.GetGroupByContractClass(CType(Filtro, Byte))
+                Case Is = eDataSource.FunctionalUnitByCompany
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).PayrollService.GetFunctionalUnitByCompany(CType(Filtro, Byte))
+                Case Is = eDataSource.ListEmployeeByFunctionalUnitId
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).PayrollService.GetEmployeeByFunctionalUnitIdOrGroupId(functionalUnitId:=CInt(Filtro))
+                Case Is = eDataSource.ListEmployeeByGroupId
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).PayrollService.GetEmployeeByFunctionalUnitIdOrGroupId(groupId:=CInt(Filtro))
+                Case Is = eDataSource.ListPositionByStatus
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).PayrollService.GetPositionByStatus(CType(Filtro, Boolean))
+                Case Is = eDataSource.ListSportPractice
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).PayrollService.ListSportPracticeByState(CType(Filtro, Boolean))
+                    '*********BUDGET*************'
+                Case Is = eDataSource.ListValidityByEntity
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).BudgetService.ListValidityByBudgetEntityId(CInt(Filtro))
+                Case Is = eDataSource.ListFinancialSource
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).BudgetService.GetFinancialSource(Filtro)
+                Case Is = eDataSource.ListCategoryByBudgetaryValidityIdAndItemType
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).BudgetService.ListCategoryByBudgetaryValidityIdAndItemType(Filtro)
+
+                    '**************Fixed Asset ***************
+                Case Is = eDataSource.GetAllGroupByStateFixedAsset
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).FixedAsset.GetAllGroupByState(Boolean.Parse(Filtro.Trim()))
+                Case Is = eDataSource.ListFixedAssetLocationTypeParent
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).FixedAsset.ListFixedAssetLocationTypeParent(Filtro)
+                Case Is = eDataSource.ListFixedAssetEquipmentByStatus
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).FixedAsset.ListFixedAssetEquipmentByStatus(CBool(Filtro))
+                    'retencion
+                Case Is = eDataSource.ListRetentionConceptByStatus
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).AccountingService.ListRetentionConceptByState(CBool(Filtro))
+                Case Is = eDataSource.GetAllClassificationByState
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).FixedAsset.GetAllClassificationByState(CBool(Filtro))
+                    '************Treasury*****************              
+                Case Is = eDataSource.ListVoucherTranscationCheckReportTreasuryByFilter
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).TreasuryService.ListVoucherTranscationCheckReportTreasuryByFilter(Filtro)
+                Case Is = eDataSource.ListRefundsReportTreasuryByFilter
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).TreasuryService.ListRefundsReportTreasuryByFilter(Filtro)
+                Case Is = eDataSource.ListNoteReportTreasuryByFilter
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).TreasuryService.ListNoteReportTreasuryByFilter(Filtro)
+                Case Is = eDataSource.ListVReportConsignmentTransferTreasuryByFilter
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).TreasuryService.ListVReportConsignmentTransferTreasuryByFilter(Filtro)
+                Case Is = eDataSource.ListPaymentsAdvancesReportTreasury
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).TreasuryService.ListPaymentsAdvancesReportTreasury(Filtro)
+                Case Is = eDataSource.ListCrossingAccountReportTreasuryFilter
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).TreasuryService.ListCrossingAccountReportTreasuryFilter(Filtro)
+                Case Is = eDataSource.ListVoucherTranscationReportTreasuryFilter
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).TreasuryService.ListVoucherTranscationReportTreasuryFilter(Filtro)
+                Case Is = eDataSource.ListCashReceiptReport
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).TreasuryService.ListCashReceiptReport(Filtro)
+                Case Is = eDataSource.ListCashRegisterByType
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).TreasuryService.ListCashRegisterByType(CInt(Filtro))
+                Case Is = eDataSource.ListExpenseConceptCashRegisterByCash
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).TreasuryService.ListExpenseConceptCashRegisterByCash(CInt(Filtro))
+                Case Is = eDataSource.ListExpenseConceptCashRegisterByNotCash
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).TreasuryService.ListExpenseConceptCashRegisterByNotCash(CInt(Filtro))
+                Case Is = eDataSource.ListExpenseConceptByCash
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).TreasuryService.ListExpenseConceptByCash(Filtro)
+                Case Is = eDataSource.ListCashReceipts
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).TreasuryService.ListCashReceipts()
+                    'consulta los tipos de documentos por estado
+                Case Is = eDataSource.ListJournalVoucherByState
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).AccountingService.ListJournalVoucherByState(CBool(Filtro))
+                Case Is = eDataSource.GetCostCenterByState
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).PayrollService.GetCostCenterByState(CBool(Filtro))
+                    '************Accounting****************
+                Case Is = eDataSource.ListAllMonth
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).AccountingService.ListMonth(CInt(Filtro))
+                Case Is = eDataSource.ListVoucherReportFilter
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).AccountingService.ListVoucherReportFilter(Filtro)
+                Case Is = eDataSource.GetAllJournalVourchers
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).AccountingService.ListJournalVourchers(CInt(Filtro))
+                    '************Taxes****************
+                Case Is = eDataSource.ListMainAccountsReportByFilter
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).PortfolioService.ListMainAccountsReportByFilter(Filtro)
+                    '************ Payments *************
+                Case Is = eDataSource.ListPaymentsAccountPayableReportByFilter
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).PaymentsService.ListPaymentsAccountPayableReportByFilter(Filtro)
+                Case Is = eDataSource.ListPaymentsNotesReportFilter
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).PaymentsService.ListPaymentsNotesReportFilter(Filtro)
+                Case Is = eDataSource.ListTransfersReportPaymentsFilter
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).PaymentsService.ListTransfersReportPaymentsFilter(Filtro)
+                    '************ Portfolio *************
+                Case Is = eDataSource.ListRadicateInvoice
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).PortfolioService.ListRadicateInvoice(Filtro)
+                Case Is = eDataSource.ListNoteReportPortfolioByFilter
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).PortfolioService.ListNoteReportPortfolioByFilter(Filtro)
+                Case Is = eDataSource.ListAdvanceTransfers
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).PortfolioService.ListAdvanceTransfers(CInt(Filtro))
+                Case Is = eDataSource.ListBillsTransfers
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).PortfolioService.ListBillsTransfers(CInt(Filtro))
+                Case Is = eDataSource.ListInvoiceReportPortfolioFilter
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).PortfolioService.ListInvoiceReportPortfolioFilter(Filtro)
+                Case Is = eDataSource.ListAdvancesReportPortfolioFilter
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).PortfolioService.ListAdvancesReportPortfolioFilter(Filtro)
+                Case Is = eDataSource.ListPortfolioTransferReportFilter
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).PortfolioService.ListPortfolioTransferReportFilter(Filtro)
+                Case Is = eDataSource.ListDemandStatus
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).PortfolioService.ListDemandStatusFilter(Filtro)
+                    '************ Inventario *************
+                Case Is = eDataSource.ListTransferOrderByFilter
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).InventoryService.ListTransferOrderByFilter(Filtro)
+                Case Is = eDataSource.ListRemissionDevolutionByTypeReport
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).InventoryService.ListRemissionDevolutionByTypeReport(Filtro)
+                Case Is = eDataSource.ListPurchaseOrderReportByFilter
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).InventoryService.ListPurchaseOrderReportByFilter(Filtro)
+                Case Is = eDataSource.ListRemissionEntranceReportFilter
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).InventoryService.ListRemissionEntranceReportFilter(Filtro)
+                Case Is = eDataSource.ListEntranceVoucherReportByFilter
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).InventoryService.ListEntranceVoucherReportByFilter(Filtro)
+                Case Is = eDataSource.ListDCI
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).InventoryService.ListDCI(Filtro)
+                Case Is = eDataSource.ListInventoryContractByStatus
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).InventoryService.ListInventoryContractByStatus(CByte(Filtro))
+                Case Is = eDataSource.ListInventoryAdjustmentByStatus
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).InventoryService.ListInventoryAdjustmentByStatus(CByte(Filtro))
+                Case Is = eDataSource.ListInventoryControlByStatus
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).InventoryService.ListInventoryControlByStatus(CByte(Filtro))
+                Case Is = eDataSource.ListEntranceVoucherByStatus
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).InventoryService.ListEntranceVoucherByStatus(CByte(Filtro))
+                Case Is = eDataSource.ListEntranceVoucherDevolutionByStatus
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).InventoryService.ListEntranceVoucherDevolutionByStatus(CByte(Filtro))
+                Case Is = eDataSource.ListInventoryControlByStatus
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).InventoryService.ListEntranceVoucherByStatus(CByte(Filtro))
+                Case Is = eDataSource.ListAllRemissionEntrance
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).InventoryService.ListAllRemissionEntrance()
+                Case Is = eDataSource.ListAllLoanMerchandise
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).InventoryService.ListAllLoanMerchandise()
+                Case Is = eDataSource.ListAllConsignmentInventoryRemission
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).InventoryService.ListAllConsignmentInventoryRemission()
+                Case Is = eDataSource.ListAllRemissionOutput
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).InventoryService.ListAllRemissionOutput()
+                Case Is = eDataSource.ListAllLoanMerchandiseDevolutions
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).InventoryService.ListAllLoanMerchandiseDevolutions()
+                Case Is = eDataSource.ListInventoryProductByProductType
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).InventoryService.ListInventoryProductByProductType(CInt(Filtro))
+                    '********************************* Taxes ********************************
+                Case Is = eDataSource.ListLowTaxesLiquidation
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).TaxesService.ListTaxesLowTaxLiquidation()
+                    '**********billing************************
+                Case Is = eDataSource.ListAllServiceOrder
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).BillingService.ListAllServiceOrder()
+                Case Is = eDataSource.ListGroupers
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).ContractService.ListGroupers()
+                Case Else
+                    Return Nothing
+            End Select
+        Catch ex As Exception
+            Infrastructure.CrossCutting.Exceptions.IndigoManagementExceptions.HandleExceptionUI(ex, "UIPolicy")
+            Return Nothing
+        End Try
+    End Function
+
+    Overloads Function ConsultarEntidades(ByVal origen As eDataSource, ByVal ParamArray filter() As Object) As Object
+        Select Case origen
+            Case Is = eDataSource.ListAccountsByLevel
+                If filter.Length > 2 Then
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).AccountingService.ListAccountsByLevel(CInt(filter.ElementAt(0)), CBool(filter.ElementAt(1)), CInt(filter.ElementAt(2)))
+                ElseIf filter.Length = 1 Then
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).AccountingService.ListAccountsByClass(CInt(filter.ElementAt(0)))
+                Else
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).AccountingService.ListAccountsByLevel(CInt(filter.ElementAt(0)), CBool(filter.ElementAt(1)), 0)
+                End If
+            Case Is = eDataSource.ListAccountsByRetentionAndFreelancerCategory
+                Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).AccountingService.ListAccountsByRetentionAndFreelancerCategory(CInt(filter.ElementAt(0)), CBool(filter.ElementAt(1)), CBool(filter.ElementAt(2)))
+            Case Is = eDataSource.ListAccountsByRetention
+                Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).AccountingService.ListAccountsByRetention(CBool(filter.ElementAt(0)), CBool(filter.ElementAt(1)))
+            Case Is = eDataSource.ListRetentionConceptByTypeRetention
+                Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).AccountingService.ListRetentionConceptByTypeRetention(CInt(filter.ElementAt(0)), CBool(filter.ElementAt(1)))
+
+                'budget
+            Case Is = eDataSource.ListBudgetCategoryByStatusAndBudgetaryValidityIdAndItemType
+                Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).BudgetService.ListBudgetCategoryByStatusAndBudgetaryValidityIdAndItemType(CBool(filter.ElementAt(0)), CInt(filter.ElementAt(1)), CInt(filter.ElementAt(2)))
+            Case Is = eDataSource.ListBudgetCategoryByStatuAndValidityIdAndItemTypeAndFinancialSourceId
+                Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).BudgetService.ListBudgetCategoryByStatuAndValidityIdAndItemTypeAndFinancialSourceId(CBool(filter.ElementAt(0)), CInt(filter.ElementAt(1)), CInt(filter.ElementAt(2)))
+            Case Is = eDataSource.ListRevenueTypeByBudgetValidityIdAndTypeAndStatus
+                Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).BudgetService.ListRevenueTypeByBudgetValidityIdAndTypeAndStatus(CInt(filter.ElementAt(0)), CInt(filter.ElementAt(1)), CBool(filter.ElementAt(2)))
+            Case Is = eDataSource.ListBudgetByBudgetValidityId
+                Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).BudgetService.ListBudgetByBudgetValidityId(CInt(filter.ElementAt(0)), CInt(filter.ElementAt(1)), CInt(filter.ElementAt(2)), CBool(filter.ElementAt(3)))
+            Case Is = eDataSource.ListViewListAnnualizedCashFlow
+                Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).BudgetService.ListViewListAnnualizedCashFlow(CInt(filter.ElementAt(0)), CInt(filter.ElementAt(1)))
+            Case Is = eDataSource.ListAnnualizedCashFlowValidityId
+                Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).BudgetService.ListAnnualizedCashFlowValidityId(CInt(filter.ElementAt(0)), CInt(filter.ElementAt(1)), CByte(filter.ElementAt(2)), CInt(filter.ElementAt(3)))
+            Case Is = eDataSource.ListAnnualizedCashFlowTransferByValidityId
+                Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).BudgetService.ListAnnualizedCashFlowTransferByValidityId(CInt(filter.ElementAt(0)), CByte(filter.ElementAt(1)))
+            Case Is = eDataSource.ListRecognitionByValidityIdAndStatus
+                Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).BudgetService.ListRecognitionByValidityIdAndStatus(CInt(filter.ElementAt(0)), CInt(filter.ElementAt(1)))
+            Case Is = eDataSource.ListAvailabilityByValidityIdAndStatus
+                Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).BudgetService.ListAvailabilityByValidityIdAndStatus(CInt(filter.ElementAt(0)), CInt(filter.ElementAt(1)))
+            Case Is = eDataSource.ListRecognitionModificationByValidityId
+                Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).BudgetService.ListRecognitionModificationByValidityId(CInt(filter.ElementAt(0)))
+            Case Is = eDataSource.ListAvailabilityModificationByValidityId
+                Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).BudgetService.ListAvailabilityModificationByValidityId(CInt(filter.ElementAt(0)))
+            Case Is = eDataSource.ListCommitmentByValidityId
+                Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).BudgetService.ListCommitmentByValidityId(CInt(filter.ElementAt(0)))
+            Case Is = eDataSource.ListAvailabilityDetailByValidityIdAndStatus
+                Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).BudgetService.ListAvailabilityDetailByValidityIdAndStatus(CInt(filter.ElementAt(0)), CInt(filter.ElementAt(1)), CBool(filter.ElementAt(2)))
+            Case Is = eDataSource.ListCommitmentModificationByValidityId
+                Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).BudgetService.ListCommitmentModificationByValidityId(CInt(filter.ElementAt(0)))
+            Case Is = eDataSource.ListCommitmentByValidityIdAndStatus
+                Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).BudgetService.ListCommitmentByValidityIdAndStatus(CInt(filter.ElementAt(0)), CInt(filter.ElementAt(1)))
+            Case Is = eDataSource.ListObligationDetailByValidityIdAndStatus
+                Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).BudgetService.ListObligationDetailByValidityIdAndStatus(CInt(filter.ElementAt(0)), CInt(filter.ElementAt(1)), CInt(filter.ElementAt(2)))
+            Case Is = eDataSource.ListPaymentOrderByValidityId
+                Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).BudgetService.ListPaymentOrderByValidityId(CInt(filter.ElementAt(0)))
+            Case Is = eDataSource.ListPaymentOrderByValidityIdAndStatus
+                Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).BudgetService.ListPaymentOrderByValidityIdAndStatus(CInt(filter.ElementAt(0)), CInt(filter.ElementAt(1)))
+            Case Is = eDataSource.ListReimbursementResourceByValidityId
+                Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).BudgetService.ListReimbursementResourceByValidityId(CInt(filter.ElementAt(0)))
+            Case Is = eDataSource.ListSuspensionByValidityId
+                Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).BudgetService.ListSuspensionByValidityId(CInt(filter.ElementAt(0)))
+            Case Is = eDataSource.ListSuspensionByValidityIdAndStatus
+                Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).BudgetService.ListSuspensionByValidityIdAndStatus(CInt(filter.ElementAt(0)), CInt(filter.ElementAt(1)))
+            Case Is = eDataSource.ListSuspensionCancellationByValidityId
+                Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).BudgetService.ListSuspensionCancellationByValidityId(CInt(filter.ElementAt(0)))
+
+                'Cost
+            Case Is = eDataSource.ListCostDistributionManpower
+                Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).CostService.ViewCostDistributionManpowerByYearMonth(CInt(filter.ElementAt(0)), CInt(filter.ElementAt(1)))
+            Case eDataSource.ListCostDistributionFixedAsset
+                Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).CostService.ViewCostDistributionFixedAssetByYearMonth(CInt(filter(0)), CInt(filter(1)))
+
+                'General Ledger
+            Case Is = eDataSource.ListAccountsForSearch
+                Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).AccountingService.ListAccountsForSearch(CInt(filter.ElementAt(0)))
+            Case Is = eDataSource.ListDocumentTypes
+                Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).AccountingService.ListDocumentTypes(CBool(filter.ElementAt(0)))
+            Case Is = eDataSource.ListMainAccountsHandlesCostCenterAndRetention
+                Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).AccountingService.ListMainAccountsHandlesCostCenterAndRetention(CInt(filter.ElementAt(0)), CInt(filter.ElementAt(1)), CBool(filter.ElementAt(2)), CBool(filter.ElementAt(3)))
+            Case Is = eDataSource.ListBookByStatus
+                Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).AccountingService.ListBookByStatus(CBool(filter.ElementAt(0)))
+            Case Is = eDataSource.ListAllBookByStatusXpCollection
+                Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).AccountingService.ListAllBookByStatusXpCollection(CBool(filter.ElementAt(0)))
+            Case Is = eDataSource.ListBookByStatusXpCollection
+                Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).AccountingService.ListBookByStatusXpCollection(CBool(filter.ElementAt(0)))
+            Case Is = eDataSource.ListMainAccountsByStatusAndBookId
+                Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).AccountingService.ListMainAccountsByStatusAndBookId(CBool(filter.ElementAt(0)), CInt(filter.ElementAt(1)))
+            Case Is = eDataSource.ListMainAccountsLastLevel
+                Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).AccountingService.ListMainAccountsLastLevel(filter)
+            Case Is = eDataSource.ListMainAccountsByStatusAndBookIdHandledThirdParty
+                Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).AccountingService.ListMainAccountsByStatusAndBookIdHandledThirdParty(CBool(filter.ElementAt(0)), CInt(filter.ElementAt(1)), CInt(filter.ElementAt(2)))
+            Case Is = eDataSource.InitializeOrganizationalStructureWithOut
+                Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).InteropCostService.InitializeOrganizationalStructureWithOut(CStr(filter.ElementAt(0)))
+
+                'Treasury
+            Case Is = eDataSource.ListExpenseConceptsByBehavior
+                Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).TreasuryService.ListExpenseConceptsByBehavior(CInt(filter.ElementAt(0)))
+            Case Is = eDataSource.ListExpenseConceptsByBehaviorAndIdMainAccount
+                Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).TreasuryService.ListExpenseConceptsByBehaviorAndIdMainAccount(CInt(filter.ElementAt(0)), CInt(filter.ElementAt(1)))
+            Case Is = eDataSource.ListCashReceiptConceptWithOutCostCenter
+                Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).TreasuryService.ListCashReceiptConceptWithOutCostCenter(CBool(filter.ElementAt(0)), CBool(filter.ElementAt(1)))
+            Case Is = eDataSource.ListCashReceiptConceptsByRetentionType
+                Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).TreasuryService.ListCashReceiptConceptsByRetentionType(CInt(filter.ElementAt(0)), CBool(filter.ElementAt(1)))
+            Case Is = eDataSource.ListAllPaymentConceptByState
+                Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).TreasuryService.ListPaymentConcept()
+            Case Is = eDataSource.ListCard
+                Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).TreasuryService.ListCard(CBool(filter.ElementAt(0)))
+            Case Is = eDataSource.ListCashReceiptConcept
+                Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).TreasuryService.ListCashReceiptConcept(CBool(filter.ElementAt(0)))
+            Case Is = eDataSource.ListCashRegister
+                Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).TreasuryService.ListCashRegister(CBool(filter.ElementAt(0)))
+            Case Is = eDataSource.ListEntityBankAccount
+                Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).TreasuryService.ListEntityBankAccount(CBool(filter.ElementAt(0)))
+            Case Is = eDataSource.ListExpenseConcept
+                Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).TreasuryService.ListExpenseConcept(CBool(filter.ElementAt(0)))
+            Case Is = eDataSource.ListNoteConcept
+                Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).TreasuryService.ListNoteConcept(CBool(filter.ElementAt(0)))
+            Case Is = eDataSource.ListThridPartyBankAccount
+                Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).TreasuryService.ListThridPartyBankAccount(CBool(filter.ElementAt(0)))
+            Case Is = eDataSource.ListAllBank
+                Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).TreasuryService.ListAllBank(CBool(filter.ElementAt(0)))
+            Case eDataSource.ListCashRegisterByUser
+                Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).TreasuryService.ListCashRegisterByUser(CInt(filter(0)), CInt(filter(1)), CBool(filter(2)))
+            Case eDataSource.ListEntityBankAccountByUser
+                Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).TreasuryService.ListEntityBankAccountByUser(CStr(filter(0)), CBool(filter(1)))
+            Case eDataSource.ListExpenseConceptEndorsement
+                Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).TreasuryService.ListExpenseConceptEndorsement(CInt(filter(0)))
+            Case eDataSource.ListDischargeBillByIdVoucherTransactionDXpo
+                Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).TreasuryService.ListDischargeBillByIdVoucherTransactionDXpo(CInt(filter(0)))
+            Case eDataSource.ListAllVoucherTransactionByStatus
+                Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).TreasuryService.ListAllVoucherTransactionByStatus(CByte(filter(0)))
+            Case Is = eDataSource.ListEntityBankAccountByBank
+                Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).TreasuryService.ListEntityBankAccountByBank(CBool(filter.ElementAt(0)), CInt(filter(1)))
+
+                'InteropCost
+            Case eDataSource.ListProductionCenterByStatus
+                Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).InteropCostService.ListProductionCenterByStatus(CBool(filter(0)))
+            Case eDataSource.ListMainAccountErpByClass
+                Return XpoServiceEx.Instance(IndigoSessionValues.InteropCostContainer).InteropCostService.ListMainAccountErpByClasses(CType(filter(0), List(Of Integer)))
+            Case eDataSource.ListMainAccountSupply
+                Dim serviceArea As XPCollection(Of GENARESERXpo) = XpoServiceEx.Instance(IndigoSessionValues.InteropCostContainer).InteropCostService.ListServiceAreaByListId(CType(filter(0), List(Of Integer)))
+                Return XpoServiceEx.Instance(IndigoSessionValues.InteropCostContainer).InteropCostService.ListMainAccountByOIDAccountList(serviceArea.Select(Function(x) x.CTNCUENTA2).Cast(Of Integer).ToList().Distinct().ToList())
+            Case eDataSource.ListMainAccountDeprecation
+                Dim _responsible As XPCollection(Of Infrastructure.Data.Xpo.InteropCostRepository.AFNRESPONXpo) = XpoServiceEx.Instance(IndigoSessionValues.InteropCostContainer).InteropCostService.ListResponsibleByCostCenterId({CInt(filter(0))}.ToList)
+                Dim _listMainAccountsId As List(Of Integer) = (From r In _responsible Select r).Select(Function(x) x.CTNCUENTA).ToList().Distinct().ToList()
+                Return XpoServiceEx.Instance(IndigoSessionValues.InteropCostContainer).InteropCostService.ListMainAccountByOIDAccountList(_listMainAccountsId)
+            Case eDataSource.ListGeneralExpensesWithDirectDistributionByYearMonth
+                Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).InteropCostService.ListGeneralExpensesWithDirectDistributionByYearMonth(CInt(filter(0)), CInt(filter(1)))
+            Case eDataSource.ListDistributionFixedAssetByYearMonth
+                Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).InteropCostService.ListDistributionFixedAssetByYearMonth(CInt(filter(0)), CInt(filter(1)))
+            Case eDataSource.ListDistributionIntermediateByYearMonth
+                Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).InteropCostService.ListDistributionIntermediateByYearMonth(CInt(filter(0)), CInt(filter(1)))
+            Case eDataSource.ListCostDistributionIntermediateByYearMonth
+                Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).CostService.ListCostDistributionIntermediateByYearMonth(CInt(filter(0)), CInt(filter(1)))
+            Case eDataSource.ListDistributionSecondaryByYearMonth
+                Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).InteropCostService.ListDistributionSecondaryByYearMonth(CInt(filter(0)), CInt(filter(1)))
+            Case eDataSource.ListDepreciationByYearMonth
+                Return XpoServiceEx.Instance(IndigoSessionValues.InteropCostContainer).InteropCostService.ListDepreciationByYearMonth(CInt(filter(0)), CInt(filter(1)))
+            Case eDataSource.ListProductionCenterByStatusCenterTypeReport
+                Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).InteropCostService.ListProductionCenterByStatusCenterTypeReport(CBool(filter(0)), CByte(filter(1)))
+
+                'Payroll
+            Case eDataSource.ListLiquidationByYearMont
+                Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).PayrollService.ListLiquidationByYearMont(CInt(filter(0)), CInt(filter(1)))
+            Case Is = eDataSource.ListFunctionalUnit
+                Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).PayrollService.ListFunctionalUnit(CBool(filter(0)))
+            Case Is = eDataSource.ListFunctionalUnitByUser
+                Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).PayrollService.ListFunctionalUnitByUser(CInt(filter(0)))
+            Case Is = eDataSource.ListConceptsPayroll
+                Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).PayrollService.ListConceptsPayroll(CBool(filter(0)), filter(1).ToString())
+            Case Is = eDataSource.ListTradeUnionByStatus
+                Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).PayrollService.ListTradeUnionByStatus(CBool(filter(0)))
+            Case Is = eDataSource.FundsByTypeFunds
+                Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).PayrollService.GetFundsByTypeFund(CInt(filter(0)))
+            Case Is = eDataSource.ListPositionByStatus
+                Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).PayrollService.GetPositionByStatus(CBool(filter(0)))
+            Case Is = eDataSource.GetCostCenterByState
+                Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).PayrollService.GetCostCenterByState(CBool(filter(0)))
+            Case Is = eDataSource.ListSportPractice
+                Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).PayrollService.ListSportPracticeByState(CBool(filter(0)))
+
+                'Payments
+            Case Is = eDataSource.ListAccountPayableSharesByIdThirdIdAccountAndState
+                Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).PaymentsService.ListAccountPayableSharesByIdThirdIdAccountAndState(CInt(filter(0)), CInt(filter(1)), CByte(filter(2)))
+            Case Is = eDataSource.ListAccountPayableByIdSupplierAndState
+                Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).PaymentsService.ListAccountPayableByIdSupplierAndState(CInt(filter(0)), CByte(filter(1)), CByte(filter(2)), CInt(filter(3)))
+            Case Is = eDataSource.ListAccountPayableSharesByIdSupplierAndState
+                Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).PaymentsService.ListAccountPayableSharesByIdSupplierAndState(CInt(filter(0)), CByte(filter(1)))
+            Case Is = eDataSource.ListAccountPayableSharesBySupplierIdAndState
+                Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).PaymentsService.ListAccountPayableSharesBySupplierIdAndState(CInt(filter(0)), CByte(filter(1)))
+            Case Is = eDataSource.ListAdvancePayments
+                Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).PaymentsService.ListAdvancePayments(CInt(filter.ElementAt(0)), CByte(filter.ElementAt(1)), CByte(filter(2)))
+            Case Is = eDataSource.GetAccountPayableXpoById
+                Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).PaymentsService.GetAccountPayableXpoById(CInt(filter.ElementAt(0)))
+            Case Is = eDataSource.ListAccountPayableByBillNumber
+                Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).PaymentsService.ListAccountPayableByBillNumber(CType(filter.ElementAt(0), List(Of String)))
+            Case Is = eDataSource.ListAdvancePaymentsCashReceipt
+                Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).PaymentsService.ListAdvancePaymentsCashReceipt(CInt(filter(0)), CInt(filter(1)), CInt(filter(2)))
+            Case Is = eDataSource.ListSharesWithAccountPayable
+                Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).PaymentsService.ListSharesWithAccountPayable(CInt(filter(0)), CByte(filter(1)), CInt(filter(2)))
+            Case Is = eDataSource.ListConceptsAccountsPayableByStatus
+                Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).PaymentsService.ListConceptsAccountsPayableByStatus(CBool(filter(0)))
+            Case Is = eDataSource.ListConceptsAccountsPayableByStatusAndHandlesRetention
+                Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).PaymentsService.ListConceptsAccountsPayableByStatusAndHandlesRetention(CBool(filter(0)), CBool(filter(1)))
+            Case Is = eDataSource.ListFilingUnitByStatus
+                Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).PaymentsService.ListFilingUnitByStatus(CBool(filter(0)))
+            Case Is = eDataSource.ListFilingUnitByStatusCollection
+                Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).PaymentsService.ListFilingUnitByStatusCollection(CBool(filter(0)))
+            Case Is = eDataSource.ListAccountPayableConceptByHandlesRetention
+                Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).PaymentsService.ListAccountPayableConceptByHandlesRetention(CBool(filter(0)), CBool(filter(1)))
+            Case Is = eDataSource.ListAccountPayableConceptByHandlesRetentionAndConceptType
+                Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).PaymentsService.ListAccountPayableConceptByHandlesRetentionAndConceptType(CBool(filter(0)), CBool(filter(1)), CInt(filter(2)))
+            Case Is = eDataSource.ListAccountPayableConceptByConceptType
+                Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).PaymentsService.ListAccountPayableConceptByConceptType(CBool(filter(0)), CInt(filter(1)))
+            Case Is = eDataSource.ListConceptsNotesByStatus
+                Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).PaymentsService.ListConceptsNotesByStatus(CBool(filter(0)))
+            Case Is = eDataSource.ListConceptsNotesByConcepType
+                Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).PaymentsService.ListConceptsNotesByConcepType(CBool(filter(0)), CInt(filter(1)))
+
+                'Portfolio
+            Case Is = eDataSource.ListPortfolioAccountReceivableByCashReceipt
+                Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).PortfolioService.ListPortfolioAccountReceivableByCashReceipt(CInt(filter.ElementAt(0)), CInt(filter.ElementAt(1)), CInt(filter.ElementAt(2)))
+            Case Is = eDataSource.GetAllPortfolioAdvanceByThirdId
+                Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).PortfolioService.GetAllPortfolioAdvanceByThirdId(CInt(filter.ElementAt(0)))
+            Case Is = eDataSource.ListBillsPortfolioNote
+                Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).PortfolioService.ListBillsPortfolioNote(CInt(filter.ElementAt(0)), CInt(filter.ElementAt(1)), CInt(filter.ElementAt(2)))
+            Case Is = eDataSource.ListBillsPortfolioNoteByThridParty
+                Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).PortfolioService.ListBillsPortfolioNoteByThridParty(CInt(filter.ElementAt(0)), CInt(filter.ElementAt(1)), CInt(filter.ElementAt(2)), CBool(filter.ElementAt(3)))
+            Case Is = eDataSource.ListPortfolioAdvancePortfolioNote
+                Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).PortfolioService.ListPortfolioAdvancePortfolioNote(CInt(filter.ElementAt(0)), CInt(filter.ElementAt(1)))
+            Case Is = eDataSource.GetAllPortfolioNoteConceptByStatus
+                Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).PortfolioService.GetAllPortfolioNoteConceptByStatus(CBool(filter.ElementAt(0)))
+            Case Is = eDataSource.ListAccountRecivableAccountByThirdIdState
+                Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).PortfolioService.ListAccountRecivableAccountByThirdIdState(CInt(filter.ElementAt(0)), CByte(filter.ElementAt(1)))
+            Case Is = eDataSource.ListPortfolioNoteConceptByNoteType
+                Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).PortfolioService.ListPortfolioNoteConceptByNoteType(CInt(filter(0)), CBool(filter(1)))
+            Case Is = eDataSource.ListAccountReceivable
+                Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).PortfolioService.ListAccountReceivable()
+            Case Is = eDataSource.ListAccountReceivableByStatus
+                Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).PortfolioService.ListAccountReceivableByStatus(CInt(filter(0)))
+            Case Is = eDataSource.GetAllAccountReceivableConceptByStatus
+                Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).PortfolioService.GetAllAccountReceivableConceptByStatus(CBool(filter.ElementAt(0)))
+            Case Is = eDataSource.ListDemandStatus
+                Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).PortfolioService.ListDemandStatus()
+
+                'commmon
+            Case Is = eDataSource.ListCustomerByStatus
+                Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).CommonService.ListCustomerByStatus(CBool(filter(0)))
+            Case Is = eDataSource.ListConceptsAccountsPayableByStatusAndHandlesRetentionOfCommon
+                Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).CommonService.ListConceptsAccountsPayableByStatusAndHandlesRetentionOfCommon(CBool(filter(0)), CBool(filter(1)))
+            Case Is = eDataSource.BranchOfficeByThirdPartyId
+                Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).PayrollService.ListBranchOfficeByThirdPartyId(CInt(filter.ElementAt(0)), True)
+
+                'Inventory
+            Case Is = eDataSource.ListRequestDetailByFilterFunctionalUnitWarehouseAndOrderTypeAndDispatchTo
+                Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).InventoryService.ListRequestDetailByFilterFunctionalUnitWarehouseAndOrderTypeAndDispatchTo(CInt(filter.ElementAt(0)), CByte(filter.ElementAt(1)), CByte(filter.ElementAt(2)))
+            Case Is = eDataSource.ListPurchaseOrderDetailBySupplierIdAndSupplierDistributionLineId
+                Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).InventoryService.ListPurchaseOrderDetailBySupplierIdAndSupplierDistributionLineId(CInt(filter.ElementAt(0)), CInt(filter.ElementAt(1)))
+            Case Is = eDataSource.ListInventoryContractDetailBySupplierIdAndSupplierDistributionLineId
+                Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).InventoryService.ListInventoryContractDetailBySupplierIdAndSupplierDistributionLineId(CInt(filter.ElementAt(0)), CInt(filter.ElementAt(1)))
+            Case Is = eDataSource.ListRemissionEntranceDetailBatchSerialBySupplierIdAndSupplierDistributionLineId
+                Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).InventoryService.ListRemissionEntranceDetailBatchSerialBySupplierIdAndSupplierDistributionLineId(CInt(filter.ElementAt(0)), CInt(filter.ElementAt(1)))
+            Case Is = eDataSource.ListRemissionDevolutionByTypeReport
+                Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).InventoryService.ListRemissionDevolutionByTypeReport(filter.ElementAt(0).ToString())
+            Case Is = eDataSource.ListProductTypeByStatus
+                Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).InventoryService.ListProductTypeByStatus(CBool(filter(0)))
+            Case Is = eDataSource.ListAdjustmentConceptByConceptType
+                Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).InventoryService.ListAdjustmentConceptByConceptType(CInt(filter(0)), CInt(filter(1)), CBool(filter(2)))
+            Case Is = eDataSource.ListDCIByStatus
+                Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).InventoryService.ListDCIByStatus(CBool(filter(0)))
+            Case Is = eDataSource.ListPharmaceuticalFormByStatus
+                Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).InventoryService.ListPharmaceuticalFormByStatus(CBool(filter(0)))
+            Case Is = eDataSource.ListPurchaseOrderDetailBySupplierIdAndSupplierDistributionLineIdAndCodeUser
+                Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).InventoryService.ListPurchaseOrderDetailBySupplierIdAndSupplierDistributionLineIdAndCodeUser(CInt(filter(0)), CInt(filter(1)), CStr(filter(2)))
+            Case Is = eDataSource.ListRemissionEntranceDetailBatchSerialBySupplierIdAndSupplierDistributionLineIdAndCodeUser
+                Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).InventoryService.ListRemissionEntranceDetailBatchSerialBySupplierIdAndSupplierDistributionLineIdAndCodeUser(CInt(filter(0)), CInt(filter(1)), CStr(filter(2)))
+            Case Is = eDataSource.ListInventoryProductByProductType
+                Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).InventoryService.ListInventoryProductByProductType(CInt(filter(0)))
+            Case Is = eDataSource.ListMeasureUnitByType
+                Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).InventoryService.ListMeasureUnitByType(CByte(filter(0)))
+            Case Is = eDataSource.ListInventoryProductByNoClassType
+                Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).InventoryService.ListInventoryProductByNoClassType(CInt(filter(0)))
+            Case Is = eDataSource.ListTransferOrderByStatus
+                Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).InventoryService.ListTransferOrderByStatus(CInt(filter.ElementAt(0)))
+            Case Is = eDataSource.ListPhysicalInventoryByWarehouseIdFrmStock
+                Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).InventoryService.ListPhysicalInventoryByWarehouseIdFrmStock(CInt(filter.ElementAt(0)))
+            Case Is = eDataSource.GetSettingInventoryByOperatingUnit
+                Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).InventoryService.GetSettingInventoryByOperatingUnit(CInt(filter.ElementAt(0)))
+            Case Is = eDataSource.ListInventoryRiskLevel
+                Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).InventoryService.ListRiskLevel()
+                'Contract
+            Case Is = eDataSource.ListCupsGroupByStatus
+                Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).ContractService.ListCupsGroupByStatus(CBool(filter(0)))
+            Case Is = eDataSource.ListCupsSubGroupByStatus
+                Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).ContractService.ListCupsSubGroupByStatus(CBool(filter(0)))
+            Case Is = eDataSource.ListCupsEntityByStatus
+                Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).ContractService.ListCupsEntityByStatus(CBool(filter(0)))
+            Case Is = eDataSource.ListHealthAdministratorByStatus
+                Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).ContractService.ListHealthAdministratorByStatus(CBool(filter(0)))
+            Case Is = eDataSource.ListIPSServicesNoSurgical
+                Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).ContractService.ListIPSServicesNoSurgical(CInt(filter(0)))
+            Case Is = eDataSource.ListUVRRangeByStatus
+                Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).ContractService.ListUVRRangeByStatus(CBool(filter(0)))
+            Case Is = eDataSource.ListProcedureTemplateByStatus
+                Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).ContractService.ListProcedureTemplateByStatus(CBool(filter(0)))
+            Case Is = eDataSource.ListRequirementTemplateByStatus
+                Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).ContractService.ListRequirementTemplateByStatus(CBool(filter(0)))
+            Case Is = eDataSource.ListIPSServicesByService
+                Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).ContractService.ListIPSServicesByService(CBool(filter(0)), CInt(filter(1)))
+            Case Is = eDataSource.ListIPSServicesByServiceAndPresentation
+                Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).ContractService.ListIPSServicesByServiceAndPresentation(CBool(filter(0)), CInt(filter(1)), CInt(filter(2)))
+            Case Is = eDataSource.ListRateManualByStatus
+                Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).ContractService.ListRateManualByStatus(CBool(filter(0)))
+            Case Is = eDataSource.ListSurgicalGroupByStatus
+                Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).ContractService.ListSurgicalGroupByStatus(CBool(filter(0)))
+            Case Is = eDataSource.ListContractMinimumWageByStatus
+                Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).ContractService.ListContractMinimumWageByStatus(CBool(filter(0)))
+            Case Is = eDataSource.ListContractEntityByStatus
+                Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).ContractService.ListContractEntityByStatus(CBool(filter(0)))
+            Case Is = eDataSource.ListIPSServicesByStatus
+                Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).ContractService.ListIPSServicesByStatus(CBool(filter(0)))
+            Case Is = eDataSource.ListIPSServicesGroupByStatus
+                Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).ContractService.ListIPSServicesGroupByStatus(CBool(filter(0)))
+            Case Is = eDataSource.ListRateManualDetailByStatus
+                Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).ContractService.ListRateManualDetailByStatus(CBool(filter(0)))
+            Case Is = eDataSource.ListRateManualDetailByRateManualId
+                Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).ContractService.ListRateManualDetailByRateManualId(CInt(filter(0)))
+            Case Is = eDataSource.RateManualById
+                Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).ContractService.RateManualById(CInt(filter(0)))
+            Case Is = eDataSource.ListContractByStatus
+                Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).ContractService.ListContractByStatus(CInt(filter(0)))
+            Case Is = eDataSource.ListProductTemplateByStatus
+                Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).ContractService.ListProductTemplateByStatus(CBool(filter(0)))
+            Case Is = eDataSource.ListVProcedureMarketingUnitCUPS
+                Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).ContractService.ListVProcedureMarketingUnitCUPS(CInt(filter(0)))
+            Case Is = eDataSource.ListIPSServicesByPresentationAndServiceClass
+                Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).ContractService.ListIPSServicesByPresentationAndServiceClass(CBool(filter(0)), CInt(filter(1)), CInt(filter(2)), CInt(filter(3)), CInt(filter(4)))
+            Case Is = eDataSource.ListIPSServicesByServiceManualAndServiceClass
+                Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).ContractService.ListIPSServicesByServiceManualAndServiceClass(CBool(filter(0)), CInt(filter(1)), CInt(filter(2)))
+            Case Is = eDataSource.ListIPSServiceByServiceClassAndServiceManualAndPresentation
+                Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).ContractService.ListIPSServiceByServiceClassAndServiceManualAndPresentation(CBool(filter(0)), CInt(filter(1)), CInt(filter(2)), CInt(filter(3)))
+
+                'Billing
+            Case Is = eDataSource.ListBillingGroupByStatus
+                Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).BillingService.ListBillingGroupByStatus(CBool(filter(0)))
+            Case Is = eDataSource.ListViewNoSurgicalByInvoiceId
+                Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).BillingService.ListViewNoSurgicalByInvoiceId(CInt(filter(0)))
+
+                'Common
+            Case Is = eDataSource.ListEconomicActivityByStatus
+                Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).CommonService.ListEconomicActivityByStatus(CBool(filter(0)))
+            Case Is = eDataSource.ListSuppliersDistributionLinesById
+                Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).CommonService.ListSuppliersDistributionLinesById(CInt(filter(0)))
+            Case Is = eDataSource.ListAllCities
+                Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).CommonService.ListAllCities(CBool(filter(0)))
+
+                'Maintenance
+            Case Is = eDataSource.ListAllSupplierTypeByStatus
+                Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).MaintenanceService.ListAllSupplierTypeByStatus(CBool(filter(0)))
+
+            Case Is = eDataSource.ListSupplierTypeByStatus
+                Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).MaintenanceService.ListSupplierTypeByStatus(CBool(filter(0)))
+
+            Case Is = eDataSource.ListSupplierTypeByStatusTreeList
+                Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).MaintenanceService.ListSupplierTypeByStatusTreeList(CBool(filter(0)))
+            Case Is = eDataSource.ListSupplierTypeByStatusTreeList2
+                Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).MaintenanceService.ListSupplierTypeByStatusTreeList2(CInt(filter(0)))
+            Case Is = eDataSource.ListSupplierByStatus
+                Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).MaintenanceService.ListSupplierByStatus(CBool(filter(0)))
+
+                'MedicalFees
+            Case Is = eDataSource.ListMedicalFeesContractByStatus
+                Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).MedicalFeesService.ListMedicalFeesContractByStatus(CBool(filter(0)))
+            Case Is = eDataSource.ListViewSurgicalAndPackageByInvoiceId
+                Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).BillingService.ListViewSurgicalAndPackageByInvoiceId(CInt(filter(0)))
+            Case Is = eDataSource.ListMedicalFeesCausationByMedicalFeesContractId
+                Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).MedicalFeesService.ListMedicalFeesCausationByMedicalFeesContractId(CInt(filter(0)))
+            Case Is = eDataSource.ListCausationByMedicalFeesContractId
+                Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).MedicalFeesService.ListCausationByMedicalFeesContractId(Nothing, CInt(filter(0)), CDate(filter(1)), CDate(filter(2)), CStr(filter(3)))
+            Case Is = eDataSource.ListCausationByMedicalFeesContractIdForDeductions
+                'Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).InventoryService.ListCausationByMedicalFeesContractIdForDeductions(CInt(filter(0)), IndigoSessionValues.TransactionalContainer, CStr(filter(1)))
+            Case Is = eDataSource.ListCausationByMedicalFeesContractIdForGlosas
+                'Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).InventoryService.ListCausationByMedicalFeesContractIdForGlosas(CInt(filter(0)), IndigoSessionValues.TransactionalContainer, CStr(filter(1)))
+            Case Is = eDataSource.GetMedicalFeesContractById
+                Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).MedicalFeesService.GetMedicalFeesContractById(CInt(filter(0)))
+
+                'Crystal
+            Case Is = eDataSource.ListHealthProfessionalCodeByMedicalFeesContractId
+                Return XpoServiceEx.Instance(IndigoSessionValues.HisContainer).CrystalService.ListHealthProfessionalCodeByMedicalFeesContractId(CInt(filter(0)))
+            Case Is = eDataSource.ListAdmissionsToReportSlipOutById
+                Return XpoServiceEx.Instance(IndigoSessionValues.HisContainer).CrystalService.ListAdmissionsToReportSlipOutById(CStr(filter(0)))
+            Case Is = eDataSource.ListAdmissionsToReportById
+                Return XpoServiceEx.Instance(IndigoSessionValues.HisContainer).CrystalService.ListAdmissionsToReportById(CStr(filter(0)))
+
+                'Budget
+            Case Is = eDataSource.ListFinancialSource
+                Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).BudgetService.ListFinancialSource(CInt(filter.ElementAt(0)), CInt(filter.ElementAt(1)))
+            Case Is = eDataSource.ListEarningsType
+                Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).BudgetService.ListEarningsType(CInt(filter.ElementAt(0)), CInt(filter.ElementAt(1)))
+            Case Is = eDataSource.ListExpenseType
+                Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).BudgetService.ListExpenseType(CInt(filter.ElementAt(0)), CInt(filter.ElementAt(1)))
+            Case Is = eDataSource.ListBudgetModifications
+                Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).BudgetService.GetBudgetModifications(CInt(filter.ElementAt(0)), CInt(filter.ElementAt(1)))
+            Case Is = eDataSource.ListBudgetDependency
+                Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).BudgetService.ListBudgetDependency(CInt(filter.ElementAt(0)), CInt(filter.ElementAt(1)))
+            Case Is = eDataSource.ListBudgetConcept
+                Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).BudgetService.ListBudgetConcept(CInt(filter.ElementAt(0)), CInt(filter.ElementAt(1)))
+            Case Is = eDataSource.ListBudgetTransferByType
+                Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).BudgetService.ListBudgetTransferByType(CInt(filter.ElementAt(0)), CInt(filter.ElementAt(1)))
+            Case Is = eDataSource.ListObligationModificationByValidityId
+                Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).BudgetService.ListObligationModificationByValidityId(CInt(filter.ElementAt(0)))
+            Case Is = eDataSource.ListRecognition
+                Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).BudgetService.ListRecognition(CInt(filter.ElementAt(0)))
+            Case Is = eDataSource.ListPACModification
+                Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).BudgetService.ListPACModification(CInt(filter.ElementAt(0)), CByte(filter.ElementAt(1)))
+            Case Is = eDataSource.ListCollection
+                Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).BudgetService.ListCollection(CInt(filter.ElementAt(0)))
+            Case Is = eDataSource.ListCollectionModification
+                Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).BudgetService.ListCollectionModification(CInt(filter.ElementAt(0)))
+            Case Is = eDataSource.ListAvailability
+                Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).BudgetService.ListAvailability(CInt(filter.ElementAt(0)))
+            Case Is = eDataSource.ListObligation
+                Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).BudgetService.ListObligation(CInt(filter.ElementAt(0)))
+
+                'FixedAsset
+            Case Is = eDataSource.ListPurchaseOrderDetailBySupplierDistributionLineId
+                Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).FixedAsset.ListPurchaseOrderDetailBySupplierDistributionLineId(CInt(filter.ElementAt(0)))
+            Case Is = eDataSource.ListFixedAssetEquipmentByEquipmentType
+                Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).FixedAsset.ListFixedAssetEquipmentByEquipmentType(CInt(filter.ElementAt(0)))
+            Case Is = eDataSource.ListMainAccountsFixedAssetByStatusAndBookId
+                Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).FixedAsset.ListMainAccountsFixedAssetByStatusAndBookId(CBool(filter.ElementAt(0)), CInt(filter.ElementAt(1)))
+            Case Is = eDataSource.ListGroupersByStatus
+                Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).ContractService.ListGroupersByStatus(CBool(filter(0)))
+            Case Is = eDataSource.ListFixedAssetMainAccountsByTypeAndByBook
+                Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).FixedAsset.ListFixedAssetMainAccountsByTypeAndByBook(CBool(filter.ElementAt(0)), CInt(filter.ElementAt(1)))
+
+
+        End Select
+    End Function
+
+
+    Overloads Function ConsultarEntidades(ByVal origen As eDataSource, ByVal ParamArray Filtro() As String) As Object
+        Try
+            Select Case origen
+                Case Is = eDataSource.ContractTypeByContractClass
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).PayrollService.GetContractTypeByContractClass(Filtro)
+                Case Is = eDataSource.ListBudgetItems
+                    'Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).InventoryService.ListBudgetCategoryByStatusAndBudgetaryValidityIdAndItemType(Filtro)
+                Case Else
+                    Return Nothing
+            End Select
+        Catch ex As Exception
+            Infrastructure.CrossCutting.Exceptions.IndigoManagementExceptions.HandleExceptionUI(ex, "UIPolicy")
+            Return Nothing
+        End Try
+    End Function
+
+    Overloads Function ConsultarEntidades(ByVal origen As eDataSource, ByVal Filtro As List(Of String)) As Object
+        Try
+            Select Case origen
+                'Portfolio
+                Case Is = eDataSource.ListPortfolioAccountReceivableValidation
+                    Return XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).PortfolioService.ListPortfolioAccountReceivableValidation(CType(Filtro, List(Of String)))
+                Case Else
+                    Return Nothing
+            End Select
+        Catch ex As Exception
+            Infrastructure.CrossCutting.Exceptions.IndigoManagementExceptions.HandleExceptionUI(ex, "UIPolicy")
+            Return Nothing
+        End Try
+    End Function
+
+
+    ''' <summary>
+    ''' Lista los patrones de secuencia
+    ''' </summary>
+    ''' <returns>Lista de secuencias</returns>
+    Public Function ListSequencePatterns() As List(Of Domain.Entities.Sequense)
+        Return IndigoConecta.Instancia.CurrentCloud.IndigoCommonERP.ListSequences(IndigoSessionValues)
+    End Function
+
+#Region "IDisposable Support"
+    Private disposedValue As Boolean ' To detect redundant calls
+
+    ' IDisposable
+    Protected Overridable Sub Dispose(disposing As Boolean)
+        If Not Me.disposedValue Then
+            If disposing Then
+                ' TODO: dispose managed state (managed objects).
+            End If
+
+            ' TODO: free unmanaged resources (unmanaged objects) and override Finalize() below.
+            ' TODO: set large fields to null.
+        End If
+        Me.disposedValue = True
+    End Sub
+
+    ' TODO: override Finalize() only if Dispose(ByVal disposing As Boolean) above has code to free unmanaged resources.
+    'Protected Overrides Sub Finalize()
+    '    ' Do not change this code.  Put cleanup code in Dispose(ByVal disposing As Boolean) above.
+    '    Dispose(False)
+    '    MyBase.Finalize()
+    'End Sub
+
+    ' This code added by Visual Basic to correctly implement the disposable pattern.
+    Public Sub Dispose() Implements IDisposable.Dispose
+        ' Do not change this code.  Put cleanup code in Dispose(disposing As Boolean) above.
+        Dispose(True)
+        GC.SuppressFinalize(Me)
+    End Sub
+#End Region
+
+End Class

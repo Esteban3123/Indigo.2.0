@@ -1,0 +1,834 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{D951ABF3-0DA8-4738-A871-809523006EAD}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>Presentation.Maintenance</RootNamespace>
+    <AssemblyName>Presentation.Maintenance</AssemblyName>
+    <FileAlignment>512</FileAlignment>
+    <MyType>Windows</MyType>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DocumentationFile>Presentation.Maintenance.xml</DocumentationFile>
+    <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DocumentationFile>Presentation.Maintenance.xml</DocumentationFile>
+    <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionExplicit>On</OptionExplicit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionCompare>Binary</OptionCompare>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionStrict>Off</OptionStrict>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionInfer>On</OptionInfer>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debugcito|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\Debugcito\</OutputPath>
+    <DocumentationFile>Presentation.Maintenance.xml</DocumentationFile>
+    <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DocumentationFile>Presentation.Maintenance.xml</DocumentationFile>
+    <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DocumentationFile>Presentation.Maintenance.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debugcito|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x64\Debugcito\</OutputPath>
+    <DocumentationFile>Presentation.Maintenance.xml</DocumentationFile>
+    <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DocumentationFile>Presentation.Maintenance.xml</DocumentationFile>
+    <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DocumentationFile>Presentation.Maintenance.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debugcito|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x86\Debugcito\</OutputPath>
+    <DocumentationFile>Presentation.Maintenance.xml</DocumentationFile>
+    <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'VieBuild|AnyCPU'">
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\VieBuild\</OutputPath>
+    <DocumentationFile>Presentation.Maintenance.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'VieBuild|x64'">
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x64\VieBuild\</OutputPath>
+    <DocumentationFile>Presentation.Maintenance.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'VieBuild|x86'">
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x86\VieBuild\</OutputPath>
+    <DocumentationFile>Presentation.Maintenance.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Accessibility" />
+    <Reference Include="DevExpress.Charts.v20.1.Core, Version=20.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.CodeParser.v20.1, Version=20.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Dashboard.v20.1.Core, Version=20.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Dashboard.v20.1.Win, Version=20.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Data.v20.1, Version=20.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.DataAccess.v20.1, Version=20.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.DataAccess.v20.1.UI, Version=20.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Docs.v20.1, Version=20.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Images.v20.1, Version=20.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Map.v20.1.Core, Version=20.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Pdf.v20.1.Core, Version=20.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Office.v20.1.Core, Version=20.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Pdf.v20.1.Drawing, Version=20.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.PivotGrid.v20.1.Core, Version=20.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.RichEdit.v20.1.Core, Version=20.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.RichEdit.v20.1.Export, Version=20.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Printing.v20.1.Core, Version=20.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Snap.v20.1.Core, Version=20.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.Sparkline.v20.1.Core, Version=20.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.SpellChecker.v20.1.Core, Version=20.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Spreadsheet.v20.1.Core, Version=20.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.TreeMap.v20.1.Core, Version=20.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Data.Desktop.v20.1, Version=20.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Utils.v20.1, Version=20.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Utils.v20.1.UI, Version=20.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Xpo.v20.1, Version=20.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.XtraBars.v20.1, Version=20.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.XtraCharts.v20.1, Version=20.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.XtraCharts.v20.1.UI, Version=20.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.XtraCharts.v20.1.Wizard, Version=20.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.XtraEditors.v20.1, Version=20.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.XtraGauges.v20.1.Core, Version=20.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.XtraGauges.v20.1.Presets, Version=20.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.XtraGauges.v20.1.Win, Version=20.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.XtraGrid.v20.1, Version=20.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.XtraLayout.v20.1, Version=20.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.XtraMap.v20.1, Version=20.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.XtraNavBar.v20.1, Version=20.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.XtraPivotGrid.v20.1, Version=20.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.XtraPrinting.v20.1, Version=20.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.XtraReports.v20.1, Version=20.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.XtraReports.v20.1.Extensions, Version=20.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.XtraRichEdit.v20.1, Version=20.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.XtraScheduler.v20.1, Version=20.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.XtraScheduler.v20.1.Core, Version=20.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.XtraSpellChecker.v20.1, Version=20.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.XtraTreeList.v20.1, Version=20.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.XtraTreeMap.v20.1, Version=20.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.XtraVerticalGrid.v20.1, Version=20.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="Domain.Base.Entities, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\DLL\Domain.Base.Entities.dll</HintPath>
+    </Reference>
+    <Reference Include="Domain.Common.Entities, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\DLL\Domain.Common.Entities.dll</HintPath>
+    </Reference>
+    <Reference Include="Domain.DocumentalSystem.Entities, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\DLL\Domain.DocumentalSystem.Entities.dll</HintPath>
+    </Reference>
+    <Reference Include="Domain.Entities, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\DLL\Domain.Entities.dll</HintPath>
+    </Reference>
+    <Reference Include="Domain.Maintenance.Entities, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\DLL\Domain.Maintenance.Entities.dll</HintPath>
+    </Reference>
+    <Reference Include="Domain.Payroll.Entities, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\DLL\Domain.Payroll.Entities.dll</HintPath>
+    </Reference>
+    <Reference Include="Domain.Security.Entities, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\DLL\Domain.Security.Entities.dll</HintPath>
+    </Reference>
+    <Reference Include="DynamicDotNetTWAIN, Version=4.1.0.0, Culture=neutral, PublicKeyToken=f94d92ed52fde552, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\DLL\DynamicDotNetTWAIN.dll</HintPath>
+    </Reference>
+    <Reference Include="Infrastructure.CrossCutting.Base, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\DLL\Infrastructure.CrossCutting.Base.dll</HintPath>
+    </Reference>
+    <Reference Include="Infrastructure.CrossCutting.Resources, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\DLL\Infrastructure.CrossCutting.Resources.dll</HintPath>
+    </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="PresentationUI, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" />
+    <Reference Include="ReachFramework" />
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Data.Linq" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Printing" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Runtime.Serialization.Formatters.Soap" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Transactions" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xaml" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="UIAutomationProvider" />
+    <Reference Include="UIAutomationTypes" />
+    <Reference Include="WindowsBase" />
+    <Reference Include="WindowsFormsIntegration" />
+  </ItemGroup>
+  <ItemGroup>
+    <Import Include="Microsoft.VisualBasic" />
+    <Import Include="System" />
+    <Import Include="System.Collections" />
+    <Import Include="System.Collections.Generic" />
+    <Import Include="System.Data" />
+    <Import Include="System.Diagnostics" />
+    <Import Include="System.Linq" />
+    <Import Include="System.Xml.Linq" />
+    <Import Include="System.Threading.Tasks" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Reports\FrmReportMaintenanceList.Designer.vb">
+      <DependentUpon>FrmReportMaintenanceList.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\FrmReportMaintenanceList.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\File\FrmAddLocation.Designer.vb">
+      <DependentUpon>FrmAddLocation.vb</DependentUpon>
+    </Compile>
+    <Compile Include="View\File\FrmAddLocation.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\File\FrmEquipmentFunction.Designer.vb">
+      <DependentUpon>FrmEquipmentFunction.vb</DependentUpon>
+    </Compile>
+    <Compile Include="View\File\FrmEquipmentFunction.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\File\FrmMaintenanceManufacturers.Designer.vb">
+      <DependentUpon>FrmMaintenanceManufacturers.vb</DependentUpon>
+    </Compile>
+    <Compile Include="View\File\FrmMaintenanceManufacturers.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\File\FrmMaintenanceResponsible.Designer.vb">
+      <DependentUpon>FrmMaintenanceResponsible.vb</DependentUpon>
+    </Compile>
+    <Compile Include="View\File\FrmMaintenanceResponsible.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\File\FrmMaintenanceTools.Designer.vb">
+      <DependentUpon>FrmMaintenanceTools.vb</DependentUpon>
+    </Compile>
+    <Compile Include="View\File\FrmMaintenanceTools.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\File\FrmTemplateEquipmetType.Designer.vb">
+      <DependentUpon>FrmTemplateEquipmetType.vb</DependentUpon>
+    </Compile>
+    <Compile Include="View\File\FrmTemplateEquipmetType.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\File\FrmSupplier.Designer.vb">
+      <DependentUpon>FrmSupplier.vb</DependentUpon>
+    </Compile>
+    <Compile Include="View\File\FrmSupplier.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\File\FrmTechnicalLog.Designer.vb">
+      <DependentUpon>FrmTechnicalLog.vb</DependentUpon>
+    </Compile>
+    <Compile Include="View\File\FrmTechnicalLog.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\File\FrmUnitMeasure.Designer.vb">
+      <DependentUpon>FrmUnitMeasure.vb</DependentUpon>
+    </Compile>
+    <Compile Include="View\File\FrmUnitMeasure.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\File\FrmEquipment.Designer.vb">
+      <DependentUpon>FrmEquipment.vb</DependentUpon>
+    </Compile>
+    <Compile Include="View\File\FrmEquipment.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\File\FrmConsumables.Designer.vb">
+      <DependentUpon>FrmConsumables.vb</DependentUpon>
+    </Compile>
+    <Compile Include="View\File\FrmConsumables.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\File\FrmAccessories.Designer.vb">
+      <DependentUpon>FrmAccessories.vb</DependentUpon>
+    </Compile>
+    <Compile Include="View\File\FrmAccessories.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="My Project\AssemblyInfo.vb" />
+    <Compile Include="My Project\Application.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Application.myapp</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="My Project\Resources.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="My Project\Settings.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="View\Process\DashboardMaintenance\FrmAssignResponsible.Designer.vb">
+      <DependentUpon>FrmAssignResponsible.vb</DependentUpon>
+    </Compile>
+    <Compile Include="View\Process\DashboardMaintenance\FrmAssignResponsible.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\Process\DashboardMaintenance\FrmDashboardMaintenance.Designer.vb">
+      <DependentUpon>FrmDashboardMaintenance.vb</DependentUpon>
+    </Compile>
+    <Compile Include="View\Process\DashboardMaintenance\FrmDashboardMaintenance.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\Process\WorkOrder\FrmWorkOrderModal.Designer.vb">
+      <DependentUpon>FrmWorkOrderModal.vb</DependentUpon>
+    </Compile>
+    <Compile Include="View\Process\WorkOrder\FrmWorkOrderModal.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\Utils\FrmMaintenanceParameters.Designer.vb">
+      <DependentUpon>FrmMaintenanceParameters.vb</DependentUpon>
+    </Compile>
+    <Compile Include="View\Utils\FrmMaintenanceParameters.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\Process\FrmEquipmentReceptions.Designer.vb">
+      <DependentUpon>FrmEquipmentReceptions.vb</DependentUpon>
+    </Compile>
+    <Compile Include="View\Process\FrmEquipmentReceptions.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\Process\FrmHighEquipmentTechnique.Designer.vb">
+      <DependentUpon>FrmHighEquipmentTechnique.vb</DependentUpon>
+    </Compile>
+    <Compile Include="View\Process\FrmHighEquipmentTechnique.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\Process\MaintenanceFailureRequest\FrmMaintenanceFailureRequest.Designer.vb">
+      <DependentUpon>FrmMaintenanceFailureRequest.vb</DependentUpon>
+    </Compile>
+    <Compile Include="View\Process\MaintenanceFailureRequest\FrmMaintenanceFailureRequest.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\Process\FrmMaintenanceContract.Designer.vb">
+      <DependentUpon>FrmMaintenanceContract.vb</DependentUpon>
+    </Compile>
+    <Compile Include="View\Process\FrmMaintenanceContract.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\Process\MaintenancePlanDashboard\FrmMaintenancePlanDashboard.Designer.vb">
+      <DependentUpon>FrmMaintenancePlanDashboard.vb</DependentUpon>
+    </Compile>
+    <Compile Include="View\Process\MaintenancePlanDashboard\FrmMaintenancePlanDashboard.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\Process\FrmMaintenanceProtocol.Designer.vb">
+      <DependentUpon>FrmMaintenanceProtocol.vb</DependentUpon>
+    </Compile>
+    <Compile Include="View\Process\FrmMaintenanceProtocol.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\Process\MaintenancePlanDashboard\FrmPrograming.Designer.vb">
+      <DependentUpon>FrmPrograming.vb</DependentUpon>
+    </Compile>
+    <Compile Include="View\Process\MaintenancePlanDashboard\FrmPrograming.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\Process\WorkOrder\FrmWorkOrder.Designer.vb">
+      <DependentUpon>FrmWorkOrder.vb</DependentUpon>
+    </Compile>
+    <Compile Include="View\Process\WorkOrder\FrmWorkOrder.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\Process\MaintenancePlan\FrmMaintenancePlan.Designer.vb">
+      <DependentUpon>FrmMaintenancePlan.vb</DependentUpon>
+    </Compile>
+    <Compile Include="View\Process\MaintenancePlan\FrmMaintenancePlan.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\Process\MaintenancePlan\FrmPopUpAddActivities.Designer.vb">
+      <DependentUpon>FrmPopUpAddActivities.vb</DependentUpon>
+    </Compile>
+    <Compile Include="View\Process\MaintenancePlan\FrmPopUpAddActivities.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\Process\WorkOrder\PopUpAnnulmentReasonWorkOrder.Designer.vb">
+      <DependentUpon>PopUpAnnulmentReasonWorkOrder.vb</DependentUpon>
+    </Compile>
+    <Compile Include="View\Process\WorkOrder\PopUpAnnulmentReasonWorkOrder.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\Process\MaintenancePlanDashboard\ProgrammingOptionsModal.Designer.vb">
+      <DependentUpon>ProgrammingOptionsModal.vb</DependentUpon>
+    </Compile>
+    <Compile Include="View\Process\MaintenancePlanDashboard\ProgrammingOptionsModal.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\Process\MaintenancePlanDashboard\MoveDate.designer.vb">
+      <DependentUpon>MoveDate.vb</DependentUpon>
+    </Compile>
+    <Compile Include="View\Process\MaintenancePlanDashboard\MoveDate.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Reports\FrmReportFixedAssetsMetrology.Designer.vb">
+      <DependentUpon>FrmReportFixedAssetsMetrology.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\FrmReportFixedAssetsMetrology.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Reports\FrmReportInvimaFixedAssets.Designer.vb">
+      <DependentUpon>FrmReportInvimaFixedAssets.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\FrmReportInvimaFixedAssets.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Reports\FrmReportMaintenanceContract.Designer.vb">
+      <DependentUpon>FrmReportMaintenanceContract.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\FrmReportMaintenanceContract.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Reports\FrmReportMaintenanceRepairs.Designer.vb">
+      <DependentUpon>FrmReportMaintenanceRepairs.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\FrmReportMaintenanceRepairs.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Reports\FrmReportMaintenanceStatistics.Designer.vb">
+      <DependentUpon>FrmReportMaintenanceStatistics.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\FrmReportMaintenanceStatistics.vb">
+      <SubType>Form</SubType>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Reports\FrmReportMaintenanceList.resx">
+      <DependentUpon>FrmReportMaintenanceList.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\File\FrmAddLocation.es-CO.resx">
+      <DependentUpon>FrmAddLocation.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\File\FrmAddLocation.resx">
+      <DependentUpon>FrmAddLocation.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\File\FrmEquipmentFunction.resx">
+      <DependentUpon>FrmEquipmentFunction.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\File\FrmMaintenanceManufacturers.resx">
+      <DependentUpon>FrmMaintenanceManufacturers.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\File\FrmMaintenanceResponsible.resx">
+      <DependentUpon>FrmMaintenanceResponsible.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\File\FrmMaintenanceTools.resx">
+      <DependentUpon>FrmMaintenanceTools.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\File\FrmTemplateEquipmetType.es-CO.resx">
+      <DependentUpon>FrmTemplateEquipmetType.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\File\FrmTemplateEquipmetType.resx">
+      <DependentUpon>FrmTemplateEquipmetType.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\File\FrmSupplier.resx">
+      <DependentUpon>FrmSupplier.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\File\FrmTechnicalLog.es-CO.resx">
+      <DependentUpon>FrmTechnicalLog.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\File\FrmTechnicalLog.resx">
+      <DependentUpon>FrmTechnicalLog.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\File\FrmUnitMeasure.es-CO.resx">
+      <DependentUpon>FrmUnitMeasure.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\File\FrmUnitMeasure.resx">
+      <DependentUpon>FrmUnitMeasure.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\File\FrmEquipment.es-CO.resx">
+      <DependentUpon>FrmEquipment.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\File\FrmEquipment.resx">
+      <DependentUpon>FrmEquipment.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\File\FrmConsumables.es-CO.resx">
+      <DependentUpon>FrmConsumables.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\File\FrmConsumables.resx">
+      <DependentUpon>FrmConsumables.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\File\FrmAccessories.es-CO.resx">
+      <DependentUpon>FrmAccessories.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\File\FrmAccessories.resx">
+      <DependentUpon>FrmAccessories.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="My Project\licenses.licx" />
+    <EmbeddedResource Include="My Project\Resources.resx">
+      <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.vb</LastGenOutput>
+      <CustomToolNamespace>My.Resources</CustomToolNamespace>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\Process\DashboardMaintenance\FrmAssignResponsible.resx">
+      <DependentUpon>FrmAssignResponsible.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\Process\DashboardMaintenance\FrmDashboardMaintenance.resx">
+      <DependentUpon>FrmDashboardMaintenance.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\Process\WorkOrder\FrmWorkOrderModal.resx">
+      <DependentUpon>FrmWorkOrderModal.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\Utils\FrmMaintenanceParameters.resx">
+      <DependentUpon>FrmMaintenanceParameters.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\Process\FrmEquipmentReceptions.resx">
+      <DependentUpon>FrmEquipmentReceptions.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\Process\FrmHighEquipmentTechnique.resx">
+      <DependentUpon>FrmHighEquipmentTechnique.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\Process\MaintenanceFailureRequest\FrmMaintenanceFailureRequest.resx">
+      <DependentUpon>FrmMaintenanceFailureRequest.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\Process\FrmMaintenanceContract.resx">
+      <DependentUpon>FrmMaintenanceContract.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\Process\MaintenancePlanDashboard\FrmMaintenancePlanDashboard.resx">
+      <DependentUpon>FrmMaintenancePlanDashboard.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\Process\FrmMaintenanceProtocol.resx">
+      <DependentUpon>FrmMaintenanceProtocol.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\Process\MaintenancePlanDashboard\FrmPrograming.resx">
+      <DependentUpon>FrmPrograming.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\Process\WorkOrder\FrmWorkOrder.resx">
+      <DependentUpon>FrmWorkOrder.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\Process\MaintenancePlan\FrmMaintenancePlan.es-CO.resx">
+      <DependentUpon>FrmMaintenancePlan.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\Process\MaintenancePlan\FrmMaintenancePlan.resx">
+      <DependentUpon>FrmMaintenancePlan.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\Process\MaintenancePlan\FrmPopUpAddActivities.resx">
+      <DependentUpon>FrmPopUpAddActivities.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\Process\WorkOrder\PopUpAnnulmentReasonWorkOrder.resx">
+      <DependentUpon>PopUpAnnulmentReasonWorkOrder.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\Process\MaintenancePlanDashboard\ProgrammingOptionsModal.resx">
+      <DependentUpon>ProgrammingOptionsModal.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\Process\MaintenancePlanDashboard\MoveDate.resx">
+      <DependentUpon>MoveDate.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\FrmReportFixedAssetsMetrology.resx">
+      <DependentUpon>FrmReportFixedAssetsMetrology.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\FrmReportInvimaFixedAssets.resx">
+      <DependentUpon>FrmReportInvimaFixedAssets.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\FrmReportMaintenanceContract.resx">
+      <DependentUpon>FrmReportMaintenanceContract.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\FrmReportMaintenanceRepairs.resx">
+      <DependentUpon>FrmReportMaintenanceRepairs.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\FrmReportMaintenanceStatistics.resx">
+      <DependentUpon>FrmReportMaintenanceStatistics.vb</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="My Project\Application.myapp">
+      <Generator>MyApplicationCodeGenerator</Generator>
+      <LastGenOutput>Application.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="My Project\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <CustomToolNamespace>My</CustomToolNamespace>
+      <LastGenOutput>Settings.Designer.vb</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Infraestructure.Data.Xpo.InteropCostRepository\Infrastructure.Data.Xpo.InteropCostRepository.vbproj">
+      <Project>{9bdf6a3f-e62b-4ccf-b9ec-78092fc8a756}</Project>
+      <Name>Infrastructure.Data.Xpo.InteropCostRepository</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastructure.CrossCutting.Exceptions\Infrastructure.CrossCutting.Exceptions.vbproj">
+      <Project>{4ddb3588-6bc6-4545-85ca-222b8348492f}</Project>
+      <Name>Infrastructure.CrossCutting.Exceptions</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastructure.CrossCutting.Xpo.Base\Infrastructure.CrossCutting.Xpo.Base.vbproj">
+      <Project>{06AEA7A4-8792-405E-97E6-4B6FB10502B5}</Project>
+      <Name>Infrastructure.CrossCutting.Xpo.Base</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastructure.Data.Xpo.AuthorizationRepository\Infrastructure.Data.Xpo.AuthorizationRepository.vbproj">
+      <Project>{6e621f16-588e-4ff2-8098-035c81553fa4}</Project>
+      <Name>Infrastructure.Data.Xpo.AuthorizationRepository</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastructure.Data.Xpo.BillingRepository\Infrastructure.Data.Xpo.BillingRepository.vbproj">
+      <Project>{020c0c10-a6d2-43b0-ae5a-d1eabea2f16c}</Project>
+      <Name>Infrastructure.Data.Xpo.BillingRepository</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastructure.Data.Xpo.BudgetRepository\Infrastructure.Data.Xpo.BudgetRepository.vbproj">
+      <Project>{43721df9-e30f-44a6-b512-901cba41c894}</Project>
+      <Name>Infrastructure.Data.Xpo.BudgetRepository</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastructure.Data.Xpo.CommonRepository\Infrastructure.Data.Xpo.CommonRepository.vbproj">
+      <Project>{c087e009-72b8-4e9e-80f7-be336be83794}</Project>
+      <Name>Infrastructure.Data.Xpo.CommonRepository</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastructure.Data.Xpo.ContractRepository\Infrastructure.Data.Xpo.ContractRepository.vbproj">
+      <Project>{994e8ee6-d75b-4730-b50d-77fb360eb863}</Project>
+      <Name>Infrastructure.Data.Xpo.ContractRepository</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastructure.Data.Xpo.CostRepository\Infrastructure.Data.Xpo.CostRepository.vbproj">
+      <Project>{7d5c41a5-dcef-47a6-9ec4-d1167e62712e}</Project>
+      <Name>Infrastructure.Data.Xpo.CostRepository</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastructure.Data.Xpo.FixedAsset\Infrastructure.Data.Xpo.FixedAssetRepository.vbproj">
+      <Project>{0577946D-AE93-4EE6-991B-91BCC9D8EE34}</Project>
+      <Name>Infrastructure.Data.Xpo.FixedAssetRepository</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastructure.Data.Xpo.GlosasRepository\Infrastructure.Data.Xpo.GlosasRepository.vbproj">
+      <Project>{697869d8-6dad-4170-b120-c3f6cbd6dc4a}</Project>
+      <Name>Infrastructure.Data.Xpo.GlosasRepository</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastructure.Data.Xpo.InventoryRepository\Infrastructure.Data.Xpo.InventoryRepository.csproj">
+      <Project>{E16B7310-400A-46DD-B7AB-C54EA51F197C}</Project>
+      <Name>Infrastructure.Data.Xpo.InventoryRepository</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastructure.Data.Xpo.MaintenanceRepository\Infrastructure.Data.Xpo.MaintenanceRepository.vbproj">
+      <Project>{825AF482-AA7B-4253-AD88-748B665E5598}</Project>
+      <Name>Infrastructure.Data.Xpo.MaintenanceRepository</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastructure.Data.Xpo.MedicalFeesRepository\Infrastructure.Data.Xpo.MedicalFeesRepository.vbproj">
+      <Project>{ef5db56e-52e0-45b2-b8ee-abf00756e1d1}</Project>
+      <Name>Infrastructure.Data.Xpo.MedicalFeesRepository</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastructure.Data.Xpo.PaymentsRepository\Infrastructure.Data.Xpo.PaymentsRepository.vbproj">
+      <Project>{6d87a185-58c7-4cce-93e0-5ff663152660}</Project>
+      <Name>Infrastructure.Data.Xpo.PaymentsRepository</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastructure.Data.Xpo.PayrollRepository\Infrastructure.Data.Xpo.PayrollRepository.vbproj">
+      <Project>{ce46ab34-7b36-422f-ae89-2d5f759e1960}</Project>
+      <Name>Infrastructure.Data.Xpo.PayrollRepository</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastructure.Data.Xpo.PortfolioRepository\Infrastructure.Data.Xpo.PortfolioRepository.vbproj">
+      <Project>{ab90b939-7342-4d1e-8a01-13b863c8f0dc}</Project>
+      <Name>Infrastructure.Data.Xpo.PortfolioRepository</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastructure.Data.Xpo.SecurityRepository\Infrastructure.Data.Xpo.SecurityRepository.vbproj">
+      <Project>{75506435-56f8-4069-9540-c7c37e197458}</Project>
+      <Name>Infrastructure.Data.Xpo.SecurityRepository</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastructure.Data.Xpo.TaxesRepository\Infrastructure.Data.Xpo.TaxesRepository.vbproj">
+      <Project>{038efe6b-2043-4fe7-acf2-93f53e0287ec}</Project>
+      <Name>Infrastructure.Data.Xpo.TaxesRepository</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastructure.Data.Xpo.TreasuryRepository\Infrastructure.Data.Xpo.TreasuryRepository.vbproj">
+      <Project>{80eeac4e-4409-4469-9299-3cb99582ad33}</Project>
+      <Name>Infrastructure.Data.Xpo.TreasuryRepository</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastructure.Data.Xpo\Infrastructure.Data.Xpo.vbproj">
+      <Project>{b5e32668-0270-4d5e-adb7-840edf9d6db8}</Project>
+      <Name>Infrastructure.Data.Xpo</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastucture.Data.Xpo.AccountingRepository\Infrastructure.Data.Xpo.AccountingRepository.vbproj">
+      <Project>{539916d8-97ff-497f-bc89-12d89b47cb70}</Project>
+      <Name>Infrastructure.Data.Xpo.AccountingRepository</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Insfrastructure.Data.Xpo.CrystalRepository\Infrastructure.Data.Xpo.CrystalRepository.vbproj">
+      <Project>{6af0ad3b-b0a2-48a4-9fbd-ca1c11fc74fc}</Project>
+      <Name>Infrastructure.Data.Xpo.CrystalRepository</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Presentacion.AgenteCloud\Presentation.ProxyAgent.vbproj">
+      <Project>{ab3573a9-5acf-4971-b298-be3a1ed617e8}</Project>
+      <Name>Presentation.ProxyAgent</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Presentacion.Base\Presentation.Base.vbproj">
+      <Project>{7bc84999-6ea3-47e9-92e9-697ade41bb9a}</Project>
+      <Name>Presentation.Base</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Presentacion.Controles.MVP\Presentation.Controls.MVP.vbproj">
+      <Project>{47d30452-ca41-44a9-b3ad-867793353ede}</Project>
+      <Name>Presentation.Controls.MVP</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Presentacion.Controles\Presentation.Controls.vbproj">
+      <Project>{b031e890-3c50-4dea-ba76-96bc4bb6a05a}</Project>
+      <Name>Presentation.Controls</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Presentation.Common.MVP\Presentation.Common.MVP.vbproj">
+      <Project>{62fd08cc-4d21-425c-b5c8-65f3d1fa8401}</Project>
+      <Name>Presentation.Common.MVP</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Presentation.Common\Presentation.Common.vbproj">
+      <Project>{d649cfc8-0561-4bc3-b1c8-585ba91f94d2}</Project>
+      <Name>Presentation.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Presentation.FixedAsset.MVP\Presentation.FixedAsset.MVP.vbproj">
+      <Project>{b1e872e2-4ac5-4d08-ab34-df92ca393ba7}</Project>
+      <Name>Presentation.FixedAsset.MVP</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Presentation.Maintenance.MVP\Presentation.Maintenance.MVP.vbproj">
+      <Project>{aeee4f8c-235c-4c22-b373-b93a70300809}</Project>
+      <Name>Presentation.Maintenance.MVP</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Presentation.Payments.MVP\Presentation.Payments.MVP.vbproj">
+      <Project>{6A55F792-8BC6-44F9-B840-9FF3A71ECD18}</Project>
+      <Name>Presentation.Payments.MVP</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Presentation.Reporter\Presentation.Reporter.vbproj">
+      <Project>{4fed3f7c-503d-4257-8b02-e4fa08c328cd}</Project>
+      <Name>Presentation.Reporter</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Presentation.Resources\Presentation.Resources.vbproj">
+      <Project>{56a8b8d1-0a6c-456e-8978-2edf8c3b9034}</Project>
+      <Name>Presentation.Resources</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BuscarMetro.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ImagenEquipos200x200.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Agregar16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Acceptance.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Mmenu_de_acciones.png" />
+    <None Include="Resources\undcheck.png" />
+    <None Include="Resources\Refresh_16x16_blue.png" />
+    <None Include="Resources\Add_16x16_blue.png" />
+    <None Include="Resources\Alerta.gif" />
+    <None Include="Resources\check.png" />
+    <Content Include="Resources\ICONO_EXCEL-02.png" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

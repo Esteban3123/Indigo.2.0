@@ -1,0 +1,270 @@
+﻿Imports System
+Imports DevExpress.Xpo
+Imports DevExpress.Data.Filtering
+Imports System.Collections.Generic
+Imports System.ComponentModel
+
+<Persistent("dbo.HCREGEGRE")> _
+Public Class HcregegreXpo
+    Inherits XPLiteObject
+    Dim fIDETIPHIS As String
+    <Size(9)> _
+    Public Property IDETIPHIS() As String
+        Get
+            Return fIDETIPHIS
+        End Get
+        Set(ByVal value As String)
+            SetPropertyValue(Of String)("IDETIPHIS", fIDETIPHIS, value)
+        End Set
+    End Property
+    Dim fNUMEFOLIO As String
+    <Size(10)> _
+    Public Property NUMEFOLIO() As String
+        Get
+            Return fNUMEFOLIO
+        End Get
+        Set(ByVal value As String)
+            SetPropertyValue(Of String)("NUMEFOLIO", fNUMEFOLIO, value)
+        End Set
+    End Property
+    Dim fIPCODPACI As String
+    <Size(15)> _
+    Public Property IPCODPACI() As String
+        Get
+            Return fIPCODPACI
+        End Get
+        Set(ByVal value As String)
+            SetPropertyValue(Of String)("IPCODPACI", fIPCODPACI, value)
+        End Set
+    End Property
+    Dim fNUMINGRES As String
+    <Key()> _
+    <Size(10)> _
+    Public Property NUMINGRES() As String
+        Get
+            Return fNUMINGRES
+        End Get
+        Set(ByVal value As String)
+            SetPropertyValue(Of String)("NUMINGRES", fNUMINGRES, value)
+        End Set
+    End Property
+    Dim fCODCENATE As String
+    <Size(10)> _
+    Public Property CODCENATE() As String
+        Get
+            Return fCODCENATE
+        End Get
+        Set(ByVal value As String)
+            SetPropertyValue(Of String)("CODCENATE", fCODCENATE, value)
+        End Set
+    End Property
+    Dim fUFUCODIGO As String
+    <Size(10)> _
+    Public Property UFUCODIGO() As String
+        Get
+            Return fUFUCODIGO
+        End Get
+        Set(ByVal value As String)
+            SetPropertyValue(Of String)("UFUCODIGO", fUFUCODIGO, value)
+        End Set
+    End Property
+    Dim fFECALTPAC As DateTime
+    Public Property FECALTPAC() As DateTime
+        Get
+            Return fFECALTPAC
+        End Get
+        Set(ByVal value As DateTime)
+            SetPropertyValue(Of DateTime)("FECALTPAC", fFECALTPAC, value)
+        End Set
+    End Property
+    Dim fESTPACEGR As Integer
+    Public Property ESTPACEGR() As Integer
+        Get
+            Return fESTPACEGR
+        End Get
+        Set(ByVal value As Integer)
+            SetPropertyValue(Of Integer)("ESTPACEGR", fESTPACEGR, value)
+        End Set
+    End Property
+    Dim fFECMUEPAC As DateTime
+    Public Property FECMUEPAC() As DateTime
+        Get
+            Return fFECMUEPAC
+        End Get
+        Set(ByVal value As DateTime)
+            SetPropertyValue(Of DateTime)("FECMUEPAC", fFECMUEPAC, value)
+        End Set
+    End Property
+    Dim fCODCAUMUE As String
+    <Size(3)> _
+    Public Property CODCAUMUE() As String
+        Get
+            Return fCODCAUMUE
+        End Get
+        Set(ByVal value As String)
+            SetPropertyValue(Of String)("CODCAUMUE", fCODCAUMUE, value)
+        End Set
+    End Property
+    Dim fNUMCERDEF As String
+    <Size(40)> _
+    Public Property NUMCERDEF() As String
+        Get
+            Return fNUMCERDEF
+        End Get
+        Set(ByVal value As String)
+            SetPropertyValue(Of String)("NUMCERDEF", fNUMCERDEF, value)
+        End Set
+    End Property
+    Dim fDEPMUNCOD As String
+    <Size(5)> _
+    Public Property DEPMUNCOD() As String
+        Get
+            Return fDEPMUNCOD
+        End Get
+        Set(ByVal value As String)
+            SetPropertyValue(Of String)("DEPMUNCOD", fDEPMUNCOD, value)
+        End Set
+    End Property
+    Dim fAIPSREMIS As String
+    <Size(60)> _
+    Public Property AIPSREMIS() As String
+        Get
+            Return fAIPSREMIS
+        End Get
+        Set(ByVal value As String)
+            SetPropertyValue(Of String)("AIPSREMIS", fAIPSREMIS, value)
+        End Set
+    End Property
+    Dim fREHORASOL As DateTime
+    Public Property REHORASOL() As DateTime
+        Get
+            Return fREHORASOL
+        End Get
+        Set(ByVal value As DateTime)
+            SetPropertyValue(Of DateTime)("REHORASOL", fREHORASOL, value)
+        End Set
+    End Property
+    Dim fREHORCON As DateTime
+    Public Property REHORCON() As DateTime
+        Get
+            Return fREHORCON
+        End Get
+        Set(ByVal value As DateTime)
+            SetPropertyValue(Of DateTime)("REHORCON", fREHORCON, value)
+        End Set
+    End Property
+    Dim fREHORLLE As DateTime
+    Public Property REHORLLE() As DateTime
+        Get
+            Return fREHORLLE
+        End Get
+        Set(ByVal value As DateTime)
+            SetPropertyValue(Of DateTime)("REHORLLE", fREHORLLE, value)
+        End Set
+    End Property
+    Dim fREMINIVEL As Integer
+    Public Property REMINIVEL() As Integer
+        Get
+            Return fREMINIVEL
+        End Get
+        Set(ByVal value As Integer)
+            SetPropertyValue(Of Integer)("REMINIVEL", fREMINIVEL, value)
+        End Set
+    End Property
+    Dim fREESPECIA As String
+    <Size(60)> _
+    Public Property REESPECIA() As String
+        Get
+            Return fREESPECIA
+        End Get
+        Set(ByVal value As String)
+            SetPropertyValue(Of String)("REESPECIA", fREESPECIA, value)
+        End Set
+    End Property
+    Dim fREPERCONF As String
+    <Size(60)> _
+    Public Property REPERCONF() As String
+        Get
+            Return fREPERCONF
+        End Get
+        Set(ByVal value As String)
+            SetPropertyValue(Of String)("REPERCONF", fREPERCONF, value)
+        End Set
+    End Property
+    Dim fRESERVICI As String
+    <Size(60)> _
+    Public Property RESERVICI() As String
+        Get
+            Return fRESERVICI
+        End Get
+        Set(ByVal value As String)
+            SetPropertyValue(Of String)("RESERVICI", fRESERVICI, value)
+        End Set
+    End Property
+    Dim fIOBSERVAC As String
+    <Size(SizeAttribute.Unlimited)> _
+    Public Property IOBSERVAC() As String
+        Get
+            Return fIOBSERVAC
+        End Get
+        Set(ByVal value As String)
+            SetPropertyValue(Of String)("IOBSERVAC", fIOBSERVAC, value)
+        End Set
+    End Property
+    Dim fCODPROSAL As String
+    <Size(20)> _
+    Public Property CODPROSAL() As String
+        Get
+            Return fCODPROSAL
+        End Get
+        Set(ByVal value As String)
+            SetPropertyValue(Of String)("CODPROSAL", fCODPROSAL, value)
+        End Set
+    End Property
+    Dim fCTRSALSEG As Boolean
+    Public Property CTRSALSEG() As Boolean
+        Get
+            Return fCTRSALSEG
+        End Get
+        Set(ByVal value As Boolean)
+            SetPropertyValue(Of Boolean)("CTRSALSEG", fCTRSALSEG, value)
+        End Set
+    End Property
+    Dim fINDAUDFOR As Decimal
+    Public Property INDAUDFOR() As Decimal
+        Get
+            Return fINDAUDFOR
+        End Get
+        Set(ByVal value As Decimal)
+            SetPropertyValue(Of Decimal)("INDAUDFOR", fINDAUDFOR, value)
+        End Set
+    End Property
+    Dim fNOMSOLREM As String
+    <Size(50)> _
+    Public Property NOMSOLREM() As String
+        Get
+            Return fNOMSOLREM
+        End Get
+        Set(ByVal value As String)
+            SetPropertyValue(Of String)("NOMSOLREM", fNOMSOLREM, value)
+        End Set
+    End Property
+    Dim fMOTIVEMI As Char
+    Public Property MOTIVEMI() As Char
+        Get
+            Return fMOTIVEMI
+        End Get
+        Set(ByVal value As Char)
+            SetPropertyValue(Of Char)("MOTIVEMI", fMOTIVEMI, value)
+        End Set
+    End Property
+
+    Public Sub New(ByVal session As Session)
+        MyBase.New(session)
+    End Sub
+    Public Overrides Sub AfterConstruction()
+        MyBase.AfterConstruction()
+    End Sub
+
+End Class
+

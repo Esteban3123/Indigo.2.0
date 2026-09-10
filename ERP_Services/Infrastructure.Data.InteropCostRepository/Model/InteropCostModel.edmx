@@ -1,0 +1,1441 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="INDIGO001Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="AFNACTIVO">
+          <Key>
+            <PropertyRef Name="OID" />
+          </Key>
+          <Property Name="OID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="AACCODACT" Type="nvarchar" MaxLength="10" />
+          <Property Name="AFNRESPON" Type="int" />
+          <Property Name="AFNPRODUC" Type="int" />
+          <Property Name="GENTERCERP" Type="int" />
+          <Property Name="AACVALCOA" Type="money" />
+          <Property Name="AACVALRES" Type="money" />
+          <Property Name="AACESTADO" Type="int" />
+          <Property Name="AACMESDEP" Type="int" />
+          <Property Name="AACRESVID" Type="int" />
+          <Property Name="AACDPMECU" Type="bit" />
+          <Property Name="AACVALHOR" Type="money" />
+          <Property Name="AACNUMPLA" Type="nvarchar" MaxLength="10" />
+          <Property Name="AACFECCOM" Type="datetime" />
+          <Property Name="AACVALADIM" Type="money" />
+          <Property Name="AFNMOSALI" Type="int" />
+          <Property Name="AACVAAJIN" Type="money" />
+          <Property Name="AACVALLIB" Type="money" />
+          <Property Name="AACDEPAJU" Type="money" />
+          <Property Name="AACREGMIG" Type="nvarchar(max)" />
+          <Property Name="AACESTMIG" Type="int" />
+          <Property Name="OptimisticLockField" Type="int" />
+          <Property Name="AACVADEAC" Type="money" />
+          <Property Name="AACNUESAL" Type="money" />
+          <Property Name="AACCALCAJU" Type="bit" />
+          <Property Name="ACNACUAJIN" Type="money" />
+          <Property Name="ACNACUAJINDE" Type="money" />
+          <Property Name="ACNACUVAAJIN" Type="money" />
+          <Property Name="ACNVALIMPCON" Type="money" />
+          <Property Name="AACESTPROD" Type="int" />
+          <Property Name="INNUNIDAD" Type="int" />
+          <Property Name="AACCANTIDAD" Type="int" />
+          <Property Name="AACOBSERVA" Type="nvarchar" MaxLength="1000" />
+          <Property Name="AACMONUHIST" Type="bit" />
+          <Property Name="AACMETDENI" Type="int" />
+          <Property Name="AACVASANI" Type="money" />
+          <Property Name="AACVARANI" Type="money" />
+          <Property Name="AACVALDEPNI" Type="money" />
+          <Property Name="AACVIUTNI" Type="int" />
+          <Property Name="AACPODENI" Type="money" />
+          <Property Name="AACUNDENI" Type="int" />
+          <Property Name="AACFACTPRO" Type="money" />
+          <Property Name="AACESTNIIF" Type="int" />
+          <Property Name="AACRESVIDNI" Type="int" />
+          <Property Name="AACMESDENI" Type="int" />
+          <Property Name="AACINDREVIUT" Type="int" />
+          <Property Name="AACINDVIDUT" Type="int" />
+          <Property Name="AACVALDEDEC" Type="money" />
+          <Property Name="AACUNPROMES" Type="int" />
+          <Property Name="AACLLAVEDEP" Type="nvarchar" MaxLength="10" />
+        </EntityType>
+        <EntityType Name="AFNCALDEP">
+          <Key>
+            <PropertyRef Name="OID" />
+          </Key>
+          <Property Name="OID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="AFNDEPRECI" Type="int" />
+          <Property Name="AFNACTIVO" Type="int" />
+          <Property Name="ACADEPMEN" Type="money" />
+          <Property Name="ACATOTVID" Type="int" />
+          <Property Name="ACAVIDRES" Type="int" />
+          <Property Name="ACAMESDEPR" Type="int" />
+          <Property Name="AACVALCOA" Type="money" />
+          <Property Name="ACAVALADI" Type="money" />
+          <Property Name="AFNRESPON" Type="int" />
+          <Property Name="CTNCENCOS" Type="int" />
+          <Property Name="AACDEPRECIO" Type="bit" />
+          <Property Name="ACAVAACDAN" Type="money" />
+          <Property Name="ACAVASALI" Type="money" />
+          <Property Name="OptimisticLockField" Type="int" />
+          <Property Name="ACAROWIDFOX" Type="nvarchar" MaxLength="100" />
+          <Property Name="ACAAJINFL" Type="money" />
+          <Property Name="ACADEPAJU" Type="money" />
+          <Property Name="ACAAJUMES" Type="money" />
+          <Property Name="ACADEACME" Type="money" />
+          <Property Name="ACAPORAJU" Type="money" />
+          <Property Name="ACADEPAJM" Type="money" />
+          <Property Name="ACAAJACUA" Type="money" />
+          <Property Name="ACADEPHIS" Type="money" />
+          <Property Name="ACAREGMIG" Type="nvarchar(max)" />
+          <Property Name="ACAOIDMIG" Type="int" />
+          <Property Name="ACAVALADIM" Type="money" />
+          <Property Name="ACAVALORI" Type="money" />
+          <Property Name="ACADESVALO" Type="money" />
+          <Property Name="ACAMONUHIST" Type="bit" />
+        </EntityType>
+        <EntityType Name="AFNDEPRECI">
+          <Key>
+            <PropertyRef Name="OID" />
+          </Key>
+          <Property Name="OID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ACAFECELAB" Type="datetime" />
+          <Property Name="ACAFECCHCI" Type="datetime" />
+          <Property Name="ACAESTADO" Type="int" />
+          <Property Name="ACAOBSERVA" Type="nvarchar" MaxLength="100" />
+          <Property Name="OptimisticLockField" Type="int" />
+          <Property Name="ACAMIGRACI" Type="bit" />
+        </EntityType>
+        <EntityType Name="AFNPRODUC">
+          <Key>
+            <PropertyRef Name="OID" />
+          </Key>
+          <Property Name="OID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="APRCODIGO" Type="nvarchar" MaxLength="20" />
+          <Property Name="APRNOMBRE" Type="nvarchar" MaxLength="200" />
+          <Property Name="AFNGRUPOS" Type="int" />
+          <Property Name="AFNCLASIF" Type="int" />
+          <Property Name="APRPORSAL" Type="money" />
+          <Property Name="GENTABIVA" Type="int" />
+          <Property Name="APRCOSPRO" Type="money" />
+          <Property Name="OptimisticLockField" Type="int" />
+          <Property Name="APRIMPCONS" Type="money" />
+          <Property Name="AFNCLANIIF" Type="int" />
+        </EntityType>
+        <EntityType Name="AFNRESPON">
+          <Key>
+            <PropertyRef Name="OID" />
+          </Key>
+          <Property Name="OID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="RESCODIGO" Type="nvarchar" MaxLength="10" />
+          <Property Name="RESNOMBRE" Type="nvarchar" MaxLength="100" />
+          <Property Name="AFNDIRECC" Type="int" />
+          <Property Name="AFNAREAS" Type="int" />
+          <Property Name="AFNDEPART" Type="int" />
+          <Property Name="CTNCENCOS" Type="int" />
+          <Property Name="RESDEPREC" Type="bit" />
+          <Property Name="RESESTADO" Type="int" />
+          <Property Name="RESTIPEMP" Type="int" />
+          <Property Name="RESCEDULA" Type="nvarchar" MaxLength="100" />
+          <Property Name="GENTERCER" Type="int" />
+          <Property Name="CTNCUENTA" Type="int" />
+          <Property Name="RESTIPRES" Type="int" />
+          <Property Name="RESMANTEN" Type="bit" />
+          <Property Name="RESEQUIPO" Type="int" />
+          <Property Name="RESESTLOC" Type="int" />
+          <Property Name="OptimisticLockField" Type="int" />
+          <Property Name="CTNCUENTA2" Type="int" />
+        </EntityType>
+        <EntityType Name="CTNCENCOS">
+          <Key>
+            <PropertyRef Name="OID" />
+          </Key>
+          <Property Name="OID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CCCODIGO" Type="nvarchar" MaxLength="14" />
+          <Property Name="CCNOMBRE" Type="nvarchar" MaxLength="500" />
+          <Property Name="CCACTIVO" Type="bit" />
+          <Property Name="OptimisticLockField" Type="int" />
+        </EntityType>
+        <EntityType Name="CTNCUENTA">
+          <Key>
+            <PropertyRef Name="OID" />
+          </Key>
+          <Property Name="OID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CTNNIVEL" Type="int" />
+          <Property Name="CTNCLASE" Type="int" />
+          <Property Name="CUECODIGO" Type="nvarchar" MaxLength="30" />
+          <Property Name="CUENOMBRE" Type="nvarchar" MaxLength="500" />
+          <Property Name="CTNCUENTA" Type="int" />
+          <Property Name="CUEMANTER" Type="bit" />
+          <Property Name="CUECIETERC" Type="bit" />
+          <Property Name="GENTERCER" Type="int" />
+          <Property Name="CUECONCCUE" Type="bit" />
+          <Property Name="CUEDISPONI" Type="int" />
+          <Property Name="CTNANEXDEC" Type="int" />
+          <Property Name="CUEMANAJUS" Type="bit" />
+          <Property Name="CTNCUENTA1" Type="int" />
+          <Property Name="CTNCUENTA2" Type="int" />
+          <Property Name="CUEMANCEN" Type="bit" />
+          <Property Name="CUETIPRET" Type="int" />
+          <Property Name="CUEFOLOSAL" Type="bit" />
+          <Property Name="CUECONACT" Type="bit" />
+          <Property Name="OptimisticLockField" Type="int" />
+          <Property Name="CUENOCGN05002" Type="bit" />
+          <Property Name="IFNCUENTA" Type="int" />
+        </EntityType>
+        <EntityType Name="CTNTIPCOM">
+          <Key>
+            <PropertyRef Name="OID" />
+          </Key>
+          <Property Name="OID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TCCODIGO" Type="nvarchar" MaxLength="5" />
+          <Property Name="TCNOMBRE" Type="nvarchar" MaxLength="120" />
+          <Property Name="GENCONSEC" Type="int" />
+          <Property Name="OptimisticLockField" Type="int" />
+          <Property Name="TCNPREFITD" Type="nvarchar" MaxLength="2" />
+          <Property Name="IFNTIPCOM" Type="int" />
+        </EntityType>
+        <EntityType Name="GENARESER">
+          <Key>
+            <PropertyRef Name="OID" />
+          </Key>
+          <Property Name="OID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="GASCODIGO" Type="nvarchar" MaxLength="10" />
+          <Property Name="GASNOMBRE" Type="nvarchar" MaxLength="120" />
+          <Property Name="GASAREURG" Type="bit" />
+          <Property Name="GASSERPRE" Type="int" />
+          <Property Name="INNALMACE" Type="int" />
+          <Property Name="CTNCENCOS1" Type="int" />
+          <Property Name="CTNCUENTA1" Type="int" />
+          <Property Name="CTNCUENTA2" Type="int" />
+          <Property Name="CTNCUENTA3" Type="int" />
+          <Property Name="CTNCUENTA4" Type="int" />
+          <Property Name="ADNCENATE1" Type="int" />
+          <Property Name="CTNCUENTA5" Type="int" />
+          <Property Name="GASTERMED" Type="bit" />
+          <Property Name="ADNCENATE2" Type="int" />
+          <Property Name="INNALMACESM" Type="int" />
+          <Property Name="CTNCUENTA6" Type="int" />
+          <Property Name="CTNCUENTA7" Type="int" />
+          <Property Name="CTNCUENTA8" Type="int" />
+          <Property Name="OptimisticLockField" Type="int" />
+          <Property Name="GASORDAUT" Type="bit" />
+          <Property Name="IFNCUENTA1" Type="int" />
+          <Property Name="GECODSIUS" Type="nvarchar" MaxLength="32" />
+        </EntityType>
+        <Association Name="FK_AFNACTIVO_AFNPRODUC">
+          <End Role="AFNPRODUC" Type="Self.AFNPRODUC" Multiplicity="0..1" />
+          <End Role="AFNACTIVO" Type="Self.AFNACTIVO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AFNPRODUC">
+              <PropertyRef Name="OID" />
+            </Principal>
+            <Dependent Role="AFNACTIVO">
+              <PropertyRef Name="AFNPRODUC" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AFNACTIVO_AFNRESPON">
+          <End Role="AFNRESPON" Type="Self.AFNRESPON" Multiplicity="0..1" />
+          <End Role="AFNACTIVO" Type="Self.AFNACTIVO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AFNRESPON">
+              <PropertyRef Name="OID" />
+            </Principal>
+            <Dependent Role="AFNACTIVO">
+              <PropertyRef Name="AFNRESPON" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AFNCALDEP_AFNACTIVO">
+          <End Role="AFNACTIVO" Type="Self.AFNACTIVO" Multiplicity="0..1" />
+          <End Role="AFNCALDEP" Type="Self.AFNCALDEP" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AFNACTIVO">
+              <PropertyRef Name="OID" />
+            </Principal>
+            <Dependent Role="AFNCALDEP">
+              <PropertyRef Name="AFNACTIVO" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AFNCALDEP_AFNDEPRECI">
+          <End Role="AFNDEPRECI" Type="Self.AFNDEPRECI" Multiplicity="0..1" />
+          <End Role="AFNCALDEP" Type="Self.AFNCALDEP" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AFNDEPRECI">
+              <PropertyRef Name="OID" />
+            </Principal>
+            <Dependent Role="AFNCALDEP">
+              <PropertyRef Name="AFNDEPRECI" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AFNCALDEP_AFNRESPON">
+          <End Role="AFNRESPON" Type="Self.AFNRESPON" Multiplicity="0..1" />
+          <End Role="AFNCALDEP" Type="Self.AFNCALDEP" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AFNRESPON">
+              <PropertyRef Name="OID" />
+            </Principal>
+            <Dependent Role="AFNCALDEP">
+              <PropertyRef Name="AFNRESPON" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AFNCALDEP_CTNCENCOS">
+          <End Role="CTNCENCOS" Type="Self.CTNCENCOS" Multiplicity="0..1" />
+          <End Role="AFNCALDEP" Type="Self.AFNCALDEP" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CTNCENCOS">
+              <PropertyRef Name="OID" />
+            </Principal>
+            <Dependent Role="AFNCALDEP">
+              <PropertyRef Name="CTNCENCOS" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AFNRESPON_CTNCENCOS">
+          <End Role="CTNCENCOS" Type="Self.CTNCENCOS" Multiplicity="0..1" />
+          <End Role="AFNRESPON" Type="Self.AFNRESPON" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CTNCENCOS">
+              <PropertyRef Name="OID" />
+            </Principal>
+            <Dependent Role="AFNRESPON">
+              <PropertyRef Name="CTNCENCOS" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AFNRESPON_CTNCUENTA">
+          <End Role="CTNCUENTA" Type="Self.CTNCUENTA" Multiplicity="0..1" />
+          <End Role="AFNRESPON" Type="Self.AFNRESPON" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CTNCUENTA">
+              <PropertyRef Name="OID" />
+            </Principal>
+            <Dependent Role="AFNRESPON">
+              <PropertyRef Name="CTNCUENTA" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CTNCUENTA_CTNCUENTA">
+          <End Role="CTNCUENTA" Type="Self.CTNCUENTA" Multiplicity="0..1" />
+          <End Role="CTNCUENTA1" Type="Self.CTNCUENTA" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CTNCUENTA">
+              <PropertyRef Name="OID" />
+            </Principal>
+            <Dependent Role="CTNCUENTA1">
+              <PropertyRef Name="CTNCUENTA" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CTNCUENTA_CTNCUENTA1">
+          <End Role="CTNCUENTA" Type="Self.CTNCUENTA" Multiplicity="0..1" />
+          <End Role="CTNCUENTA1" Type="Self.CTNCUENTA" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CTNCUENTA">
+              <PropertyRef Name="OID" />
+            </Principal>
+            <Dependent Role="CTNCUENTA1">
+              <PropertyRef Name="CTNCUENTA1" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CTNCUENTA_CTNCUENTA2">
+          <End Role="CTNCUENTA" Type="Self.CTNCUENTA" Multiplicity="0..1" />
+          <End Role="CTNCUENTA1" Type="Self.CTNCUENTA" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CTNCUENTA">
+              <PropertyRef Name="OID" />
+            </Principal>
+            <Dependent Role="CTNCUENTA1">
+              <PropertyRef Name="CTNCUENTA2" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_GENARESER_CTNCENCOS1">
+          <End Role="CTNCENCOS" Type="Self.CTNCENCOS" Multiplicity="0..1" />
+          <End Role="GENARESER" Type="Self.GENARESER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CTNCENCOS">
+              <PropertyRef Name="OID" />
+            </Principal>
+            <Dependent Role="GENARESER">
+              <PropertyRef Name="CTNCENCOS1" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_GENARESER_CTNCUENTA1">
+          <End Role="CTNCUENTA" Type="Self.CTNCUENTA" Multiplicity="0..1" />
+          <End Role="GENARESER" Type="Self.GENARESER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CTNCUENTA">
+              <PropertyRef Name="OID" />
+            </Principal>
+            <Dependent Role="GENARESER">
+              <PropertyRef Name="CTNCUENTA1" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_GENARESER_CTNCUENTA2">
+          <End Role="CTNCUENTA" Type="Self.CTNCUENTA" Multiplicity="0..1" />
+          <End Role="GENARESER" Type="Self.GENARESER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CTNCUENTA">
+              <PropertyRef Name="OID" />
+            </Principal>
+            <Dependent Role="GENARESER">
+              <PropertyRef Name="CTNCUENTA2" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_GENARESER_CTNCUENTA3">
+          <End Role="CTNCUENTA" Type="Self.CTNCUENTA" Multiplicity="0..1" />
+          <End Role="GENARESER" Type="Self.GENARESER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CTNCUENTA">
+              <PropertyRef Name="OID" />
+            </Principal>
+            <Dependent Role="GENARESER">
+              <PropertyRef Name="CTNCUENTA3" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_GENARESER_CTNCUENTA4">
+          <End Role="CTNCUENTA" Type="Self.CTNCUENTA" Multiplicity="0..1" />
+          <End Role="GENARESER" Type="Self.GENARESER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CTNCUENTA">
+              <PropertyRef Name="OID" />
+            </Principal>
+            <Dependent Role="GENARESER">
+              <PropertyRef Name="CTNCUENTA4" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_GENARESER_CTNCUENTA5">
+          <End Role="CTNCUENTA" Type="Self.CTNCUENTA" Multiplicity="0..1" />
+          <End Role="GENARESER" Type="Self.GENARESER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CTNCUENTA">
+              <PropertyRef Name="OID" />
+            </Principal>
+            <Dependent Role="GENARESER">
+              <PropertyRef Name="CTNCUENTA5" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_GENARESER_CTNCUENTA6">
+          <End Role="CTNCUENTA" Type="Self.CTNCUENTA" Multiplicity="0..1" />
+          <End Role="GENARESER" Type="Self.GENARESER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CTNCUENTA">
+              <PropertyRef Name="OID" />
+            </Principal>
+            <Dependent Role="GENARESER">
+              <PropertyRef Name="CTNCUENTA6" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_GENARESER_CTNCUENTA7">
+          <End Role="CTNCUENTA" Type="Self.CTNCUENTA" Multiplicity="0..1" />
+          <End Role="GENARESER" Type="Self.GENARESER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CTNCUENTA">
+              <PropertyRef Name="OID" />
+            </Principal>
+            <Dependent Role="GENARESER">
+              <PropertyRef Name="CTNCUENTA7" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_GENARESER_CTNCUENTA8">
+          <End Role="CTNCUENTA" Type="Self.CTNCUENTA" Multiplicity="0..1" />
+          <End Role="GENARESER" Type="Self.GENARESER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CTNCUENTA">
+              <PropertyRef Name="OID" />
+            </Principal>
+            <Dependent Role="GENARESER">
+              <PropertyRef Name="CTNCUENTA8" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="INDIGO001ModelStoreContainer">
+          <EntitySet Name="AFNACTIVO" EntityType="Self.AFNACTIVO" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AFNCALDEP" EntityType="Self.AFNCALDEP" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AFNDEPRECI" EntityType="Self.AFNDEPRECI" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AFNPRODUC" EntityType="Self.AFNPRODUC" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AFNRESPON" EntityType="Self.AFNRESPON" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CTNCENCOS" EntityType="Self.CTNCENCOS" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CTNCUENTA" EntityType="Self.CTNCUENTA" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CTNTIPCOM" EntityType="Self.CTNTIPCOM" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="GENARESER" EntityType="Self.GENARESER" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_AFNACTIVO_AFNPRODUC" Association="Self.FK_AFNACTIVO_AFNPRODUC">
+            <End Role="AFNPRODUC" EntitySet="AFNPRODUC" />
+            <End Role="AFNACTIVO" EntitySet="AFNACTIVO" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AFNACTIVO_AFNRESPON" Association="Self.FK_AFNACTIVO_AFNRESPON">
+            <End Role="AFNRESPON" EntitySet="AFNRESPON" />
+            <End Role="AFNACTIVO" EntitySet="AFNACTIVO" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AFNCALDEP_AFNACTIVO" Association="Self.FK_AFNCALDEP_AFNACTIVO">
+            <End Role="AFNACTIVO" EntitySet="AFNACTIVO" />
+            <End Role="AFNCALDEP" EntitySet="AFNCALDEP" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AFNCALDEP_AFNDEPRECI" Association="Self.FK_AFNCALDEP_AFNDEPRECI">
+            <End Role="AFNDEPRECI" EntitySet="AFNDEPRECI" />
+            <End Role="AFNCALDEP" EntitySet="AFNCALDEP" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AFNCALDEP_AFNRESPON" Association="Self.FK_AFNCALDEP_AFNRESPON">
+            <End Role="AFNRESPON" EntitySet="AFNRESPON" />
+            <End Role="AFNCALDEP" EntitySet="AFNCALDEP" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AFNCALDEP_CTNCENCOS" Association="Self.FK_AFNCALDEP_CTNCENCOS">
+            <End Role="CTNCENCOS" EntitySet="CTNCENCOS" />
+            <End Role="AFNCALDEP" EntitySet="AFNCALDEP" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AFNRESPON_CTNCENCOS" Association="Self.FK_AFNRESPON_CTNCENCOS">
+            <End Role="CTNCENCOS" EntitySet="CTNCENCOS" />
+            <End Role="AFNRESPON" EntitySet="AFNRESPON" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AFNRESPON_CTNCUENTA" Association="Self.FK_AFNRESPON_CTNCUENTA">
+            <End Role="CTNCUENTA" EntitySet="CTNCUENTA" />
+            <End Role="AFNRESPON" EntitySet="AFNRESPON" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CTNCUENTA_CTNCUENTA" Association="Self.FK_CTNCUENTA_CTNCUENTA">
+            <End Role="CTNCUENTA" EntitySet="CTNCUENTA" />
+            <End Role="CTNCUENTA1" EntitySet="CTNCUENTA" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CTNCUENTA_CTNCUENTA1" Association="Self.FK_CTNCUENTA_CTNCUENTA1">
+            <End Role="CTNCUENTA" EntitySet="CTNCUENTA" />
+            <End Role="CTNCUENTA1" EntitySet="CTNCUENTA" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CTNCUENTA_CTNCUENTA2" Association="Self.FK_CTNCUENTA_CTNCUENTA2">
+            <End Role="CTNCUENTA" EntitySet="CTNCUENTA" />
+            <End Role="CTNCUENTA1" EntitySet="CTNCUENTA" />
+          </AssociationSet>
+          <AssociationSet Name="FK_GENARESER_CTNCENCOS1" Association="Self.FK_GENARESER_CTNCENCOS1">
+            <End Role="CTNCENCOS" EntitySet="CTNCENCOS" />
+            <End Role="GENARESER" EntitySet="GENARESER" />
+          </AssociationSet>
+          <AssociationSet Name="FK_GENARESER_CTNCUENTA1" Association="Self.FK_GENARESER_CTNCUENTA1">
+            <End Role="CTNCUENTA" EntitySet="CTNCUENTA" />
+            <End Role="GENARESER" EntitySet="GENARESER" />
+          </AssociationSet>
+          <AssociationSet Name="FK_GENARESER_CTNCUENTA2" Association="Self.FK_GENARESER_CTNCUENTA2">
+            <End Role="CTNCUENTA" EntitySet="CTNCUENTA" />
+            <End Role="GENARESER" EntitySet="GENARESER" />
+          </AssociationSet>
+          <AssociationSet Name="FK_GENARESER_CTNCUENTA3" Association="Self.FK_GENARESER_CTNCUENTA3">
+            <End Role="CTNCUENTA" EntitySet="CTNCUENTA" />
+            <End Role="GENARESER" EntitySet="GENARESER" />
+          </AssociationSet>
+          <AssociationSet Name="FK_GENARESER_CTNCUENTA4" Association="Self.FK_GENARESER_CTNCUENTA4">
+            <End Role="CTNCUENTA" EntitySet="CTNCUENTA" />
+            <End Role="GENARESER" EntitySet="GENARESER" />
+          </AssociationSet>
+          <AssociationSet Name="FK_GENARESER_CTNCUENTA5" Association="Self.FK_GENARESER_CTNCUENTA5">
+            <End Role="CTNCUENTA" EntitySet="CTNCUENTA" />
+            <End Role="GENARESER" EntitySet="GENARESER" />
+          </AssociationSet>
+          <AssociationSet Name="FK_GENARESER_CTNCUENTA6" Association="Self.FK_GENARESER_CTNCUENTA6">
+            <End Role="CTNCUENTA" EntitySet="CTNCUENTA" />
+            <End Role="GENARESER" EntitySet="GENARESER" />
+          </AssociationSet>
+          <AssociationSet Name="FK_GENARESER_CTNCUENTA7" Association="Self.FK_GENARESER_CTNCUENTA7">
+            <End Role="CTNCUENTA" EntitySet="CTNCUENTA" />
+            <End Role="GENARESER" EntitySet="GENARESER" />
+          </AssociationSet>
+          <AssociationSet Name="FK_GENARESER_CTNCUENTA8" Association="Self.FK_GENARESER_CTNCUENTA8">
+            <End Role="CTNCUENTA" EntitySet="CTNCUENTA" />
+            <End Role="GENARESER" EntitySet="GENARESER" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="INDIGO001Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="INDIGO001Entities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="AFNACTIVO" EntityType="INDIGO001Model.AFNACTIVO" />
+          <EntitySet Name="AFNPRODUC" EntityType="INDIGO001Model.AFNPRODUC" />
+          <EntitySet Name="AFNRESPON" EntityType="INDIGO001Model.AFNRESPON" />
+          <EntitySet Name="CTNCENCOS" EntityType="INDIGO001Model.CTNCENCOS" />
+          <EntitySet Name="CTNCUENTA" EntityType="INDIGO001Model.CTNCUENTA" />
+          <EntitySet Name="GENARESER" EntityType="INDIGO001Model.GENARESER" />
+          <AssociationSet Name="FK_AFNACTIVO_AFNPRODUC" Association="INDIGO001Model.FK_AFNACTIVO_AFNPRODUC">
+            <End Role="AFNPRODUC" EntitySet="AFNPRODUC" />
+            <End Role="AFNACTIVO" EntitySet="AFNACTIVO" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AFNACTIVO_AFNRESPON" Association="INDIGO001Model.FK_AFNACTIVO_AFNRESPON">
+            <End Role="AFNRESPON" EntitySet="AFNRESPON" />
+            <End Role="AFNACTIVO" EntitySet="AFNACTIVO" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AFNRESPON_CTNCENCOS" Association="INDIGO001Model.FK_AFNRESPON_CTNCENCOS">
+            <End Role="CTNCENCOS" EntitySet="CTNCENCOS" />
+            <End Role="AFNRESPON" EntitySet="AFNRESPON" />
+          </AssociationSet>
+          <AssociationSet Name="FK_GENARESER_CTNCENCOS1" Association="INDIGO001Model.FK_GENARESER_CTNCENCOS1">
+            <End Role="CTNCENCOS" EntitySet="CTNCENCOS" />
+            <End Role="GENARESER" EntitySet="GENARESER" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CTNCUENTA_CTNCUENTA" Association="INDIGO001Model.FK_CTNCUENTA_CTNCUENTA">
+            <End Role="CTNCUENTA" EntitySet="CTNCUENTA" />
+            <End Role="CTNCUENTA1" EntitySet="CTNCUENTA" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CTNCUENTA_CTNCUENTA1" Association="INDIGO001Model.FK_CTNCUENTA_CTNCUENTA1">
+            <End Role="CTNCUENTA" EntitySet="CTNCUENTA" />
+            <End Role="CTNCUENTA1" EntitySet="CTNCUENTA" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CTNCUENTA_CTNCUENTA2" Association="INDIGO001Model.FK_CTNCUENTA_CTNCUENTA2">
+            <End Role="CTNCUENTA" EntitySet="CTNCUENTA" />
+            <End Role="CTNCUENTA1" EntitySet="CTNCUENTA" />
+          </AssociationSet>
+          <AssociationSet Name="FK_GENARESER_CTNCUENTA1" Association="INDIGO001Model.FK_GENARESER_CTNCUENTA1">
+            <End Role="CTNCUENTA" EntitySet="CTNCUENTA" />
+            <End Role="GENARESER" EntitySet="GENARESER" />
+          </AssociationSet>
+          <AssociationSet Name="FK_GENARESER_CTNCUENTA2" Association="INDIGO001Model.FK_GENARESER_CTNCUENTA2">
+            <End Role="CTNCUENTA" EntitySet="CTNCUENTA" />
+            <End Role="GENARESER" EntitySet="GENARESER" />
+          </AssociationSet>
+          <AssociationSet Name="FK_GENARESER_CTNCUENTA3" Association="INDIGO001Model.FK_GENARESER_CTNCUENTA3">
+            <End Role="CTNCUENTA" EntitySet="CTNCUENTA" />
+            <End Role="GENARESER" EntitySet="GENARESER" />
+          </AssociationSet>
+          <AssociationSet Name="FK_GENARESER_CTNCUENTA4" Association="INDIGO001Model.FK_GENARESER_CTNCUENTA4">
+            <End Role="CTNCUENTA" EntitySet="CTNCUENTA" />
+            <End Role="GENARESER" EntitySet="GENARESER" />
+          </AssociationSet>
+          <AssociationSet Name="FK_GENARESER_CTNCUENTA5" Association="INDIGO001Model.FK_GENARESER_CTNCUENTA5">
+            <End Role="CTNCUENTA" EntitySet="CTNCUENTA" />
+            <End Role="GENARESER" EntitySet="GENARESER" />
+          </AssociationSet>
+          <AssociationSet Name="FK_GENARESER_CTNCUENTA6" Association="INDIGO001Model.FK_GENARESER_CTNCUENTA6">
+            <End Role="CTNCUENTA" EntitySet="CTNCUENTA" />
+            <End Role="GENARESER" EntitySet="GENARESER" />
+          </AssociationSet>
+          <AssociationSet Name="FK_GENARESER_CTNCUENTA7" Association="INDIGO001Model.FK_GENARESER_CTNCUENTA7">
+            <End Role="CTNCUENTA" EntitySet="CTNCUENTA" />
+            <End Role="GENARESER" EntitySet="GENARESER" />
+          </AssociationSet>
+          <AssociationSet Name="FK_GENARESER_CTNCUENTA8" Association="INDIGO001Model.FK_GENARESER_CTNCUENTA8">
+            <End Role="CTNCUENTA" EntitySet="CTNCUENTA" />
+            <End Role="GENARESER" EntitySet="GENARESER" />
+          </AssociationSet>
+          <EntitySet Name="AFNCALDEP" EntityType="INDIGO001Model.AFNCALDEP" />
+          <EntitySet Name="AFNDEPRECI" EntityType="INDIGO001Model.AFNDEPRECI" />
+          <AssociationSet Name="FK_AFNCALDEP_AFNACTIVO" Association="INDIGO001Model.FK_AFNCALDEP_AFNACTIVO">
+            <End Role="AFNACTIVO" EntitySet="AFNACTIVO" />
+            <End Role="AFNCALDEP" EntitySet="AFNCALDEP" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AFNCALDEP_AFNDEPRECI" Association="INDIGO001Model.FK_AFNCALDEP_AFNDEPRECI">
+            <End Role="AFNDEPRECI" EntitySet="AFNDEPRECI" />
+            <End Role="AFNCALDEP" EntitySet="AFNCALDEP" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AFNCALDEP_AFNRESPON" Association="INDIGO001Model.FK_AFNCALDEP_AFNRESPON">
+            <End Role="AFNRESPON" EntitySet="AFNRESPON" />
+            <End Role="AFNCALDEP" EntitySet="AFNCALDEP" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AFNCALDEP_CTNCENCOS" Association="INDIGO001Model.FK_AFNCALDEP_CTNCENCOS">
+            <End Role="CTNCENCOS" EntitySet="CTNCENCOS" />
+            <End Role="AFNCALDEP" EntitySet="AFNCALDEP" />
+          </AssociationSet>
+          <EntitySet Name="CTNTIPCOM" EntityType="INDIGO001Model.CTNTIPCOM" />
+          <AssociationSet Name="FK_AFNRESPON_CTNCUENTA" Association="INDIGO001Model.FK_AFNRESPON_CTNCUENTA">
+            <End Role="CTNCUENTA" EntitySet="CTNCUENTA" />
+            <End Role="AFNRESPON" EntitySet="AFNRESPON" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="AFNACTIVO">
+          <Key>
+            <PropertyRef Name="OID" />
+          </Key>
+          <Property Name="OID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="AACCODACT" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="AFNRESPON" Type="Int32" />
+          <Property Name="AFNPRODUC" Type="Int32" />
+          <Property Name="GENTERCERP" Type="Int32" />
+          <Property Name="AACVALCOA" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="AACVALRES" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="AACESTADO" Type="Int32" />
+          <Property Name="AACMESDEP" Type="Int32" />
+          <Property Name="AACRESVID" Type="Int32" />
+          <Property Name="AACDPMECU" Type="Boolean" />
+          <Property Name="AACVALHOR" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="AACNUMPLA" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="AACFECCOM" Type="DateTime" Precision="3" />
+          <Property Name="AACVALADIM" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="AFNMOSALI" Type="Int32" />
+          <Property Name="AACVAAJIN" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="AACVALLIB" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="AACDEPAJU" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="AACREGMIG" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="AACESTMIG" Type="Int32" />
+          <Property Name="OptimisticLockField" Type="Int32" />
+          <Property Name="AACVADEAC" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="AACNUESAL" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="AACCALCAJU" Type="Boolean" />
+          <Property Name="ACNACUAJIN" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="ACNACUAJINDE" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="ACNACUVAAJIN" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="ACNVALIMPCON" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="AACESTPROD" Type="Int32" />
+          <Property Name="INNUNIDAD" Type="Int32" />
+          <Property Name="AACCANTIDAD" Type="Int32" />
+          <Property Name="AACOBSERVA" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="AACMONUHIST" Type="Boolean" />
+          <Property Name="AACMETDENI" Type="Int32" />
+          <Property Name="AACVASANI" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="AACVARANI" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="AACVALDEPNI" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="AACVIUTNI" Type="Int32" />
+          <Property Name="AACPODENI" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="AACUNDENI" Type="Int32" />
+          <Property Name="AACFACTPRO" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="AACESTNIIF" Type="Int32" />
+          <Property Name="AACRESVIDNI" Type="Int32" />
+          <Property Name="AACMESDENI" Type="Int32" />
+          <Property Name="AACINDREVIUT" Type="Int32" />
+          <Property Name="AACINDVIDUT" Type="Int32" />
+          <Property Name="AACVALDEDEC" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="AACUNPROMES" Type="Int32" />
+          <Property Name="AACLLAVEDEP" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="AFNPRODUC1" Relationship="INDIGO001Model.FK_AFNACTIVO_AFNPRODUC" FromRole="AFNACTIVO" ToRole="AFNPRODUC" />
+          <NavigationProperty Name="AFNRESPON1" Relationship="INDIGO001Model.FK_AFNACTIVO_AFNRESPON" FromRole="AFNACTIVO" ToRole="AFNRESPON" />
+          <NavigationProperty Name="AFNCALDEP" Relationship="INDIGO001Model.FK_AFNCALDEP_AFNACTIVO" FromRole="AFNACTIVO" ToRole="AFNCALDEP" />
+        </EntityType>
+        <EntityType Name="AFNPRODUC">
+          <Key>
+            <PropertyRef Name="OID" />
+          </Key>
+          <Property Name="OID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="APRCODIGO" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="APRNOMBRE" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="AFNGRUPOS" Type="Int32" />
+          <Property Name="AFNCLASIF" Type="Int32" />
+          <Property Name="APRPORSAL" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="GENTABIVA" Type="Int32" />
+          <Property Name="APRCOSPRO" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="OptimisticLockField" Type="Int32" />
+          <Property Name="APRIMPCONS" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="AFNCLANIIF" Type="Int32" />
+          <NavigationProperty Name="AFNACTIVO" Relationship="INDIGO001Model.FK_AFNACTIVO_AFNPRODUC" FromRole="AFNPRODUC" ToRole="AFNACTIVO" />
+        </EntityType>
+        <EntityType Name="AFNRESPON">
+          <Key>
+            <PropertyRef Name="OID" />
+          </Key>
+          <Property Name="OID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RESCODIGO" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="RESNOMBRE" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="AFNDIRECC" Type="Int32" />
+          <Property Name="AFNAREAS" Type="Int32" />
+          <Property Name="AFNDEPART" Type="Int32" />
+          <Property Name="CTNCENCOS" Type="Int32" />
+          <Property Name="RESDEPREC" Type="Boolean" />
+          <Property Name="RESESTADO" Type="Int32" />
+          <Property Name="RESTIPEMP" Type="Int32" />
+          <Property Name="RESCEDULA" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="GENTERCER" Type="Int32" />
+          <Property Name="CTNCUENTA" Type="Int32" />
+          <Property Name="RESTIPRES" Type="Int32" />
+          <Property Name="RESMANTEN" Type="Boolean" />
+          <Property Name="RESEQUIPO" Type="Int32" />
+          <Property Name="RESESTLOC" Type="Int32" />
+          <Property Name="OptimisticLockField" Type="Int32" />
+          <Property Name="CTNCUENTA2" Type="Int32" />
+          <NavigationProperty Name="AFNACTIVO" Relationship="INDIGO001Model.FK_AFNACTIVO_AFNRESPON" FromRole="AFNRESPON" ToRole="AFNACTIVO" />
+          <NavigationProperty Name="CTNCENCOS1" Relationship="INDIGO001Model.FK_AFNRESPON_CTNCENCOS" FromRole="AFNRESPON" ToRole="CTNCENCOS" />
+          <NavigationProperty Name="AFNCALDEP" Relationship="INDIGO001Model.FK_AFNCALDEP_AFNRESPON" FromRole="AFNRESPON" ToRole="AFNCALDEP" />
+          <NavigationProperty Name="CTNCUENTA1" Relationship="INDIGO001Model.FK_AFNRESPON_CTNCUENTA" FromRole="AFNRESPON" ToRole="CTNCUENTA" />
+        </EntityType>
+        <EntityType Name="CTNCENCOS">
+          <Key>
+            <PropertyRef Name="OID" />
+          </Key>
+          <Property Name="OID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CCCODIGO" Type="String" MaxLength="14" FixedLength="false" Unicode="true" />
+          <Property Name="CCNOMBRE" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="CCACTIVO" Type="Boolean" />
+          <Property Name="OptimisticLockField" Type="Int32" />
+          <NavigationProperty Name="AFNRESPON" Relationship="INDIGO001Model.FK_AFNRESPON_CTNCENCOS" FromRole="CTNCENCOS" ToRole="AFNRESPON" />
+          <NavigationProperty Name="GENARESER" Relationship="INDIGO001Model.FK_GENARESER_CTNCENCOS1" FromRole="CTNCENCOS" ToRole="GENARESER" />
+          <NavigationProperty Name="AFNCALDEP" Relationship="INDIGO001Model.FK_AFNCALDEP_CTNCENCOS" FromRole="CTNCENCOS" ToRole="AFNCALDEP" />
+        </EntityType>
+        <EntityType Name="CTNCUENTA">
+          <Key>
+            <PropertyRef Name="OID" />
+          </Key>
+          <Property Name="OID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CTNNIVEL" Type="Int32" />
+          <Property Name="CTNCLASE" Type="Int32" />
+          <Property Name="CUECODIGO" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="CUENOMBRE" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="CTNCUENTA1" Type="Int32" />
+          <Property Name="CUEMANTER" Type="Boolean" />
+          <Property Name="CUECIETERC" Type="Boolean" />
+          <Property Name="GENTERCER" Type="Int32" />
+          <Property Name="CUECONCCUE" Type="Boolean" />
+          <Property Name="CUEDISPONI" Type="Int32" />
+          <Property Name="CTNANEXDEC" Type="Int32" />
+          <Property Name="CUEMANAJUS" Type="Boolean" />
+          <Property Name="CTNCUENTA11" Type="Int32" />
+          <Property Name="CTNCUENTA2" Type="Int32" />
+          <Property Name="CUEMANCEN" Type="Boolean" />
+          <Property Name="CUETIPRET" Type="Int32" />
+          <Property Name="CUEFOLOSAL" Type="Boolean" />
+          <Property Name="CUECONACT" Type="Boolean" />
+          <Property Name="OptimisticLockField" Type="Int32" />
+          <Property Name="CUENOCGN05002" Type="Boolean" />
+          <Property Name="IFNCUENTA" Type="Int32" />
+          <NavigationProperty Name="CTNCUENTA12" Relationship="INDIGO001Model.FK_CTNCUENTA_CTNCUENTA" FromRole="CTNCUENTA" ToRole="CTNCUENTA1" />
+          <NavigationProperty Name="CTNCUENTA3" Relationship="INDIGO001Model.FK_CTNCUENTA_CTNCUENTA" FromRole="CTNCUENTA1" ToRole="CTNCUENTA" />
+          <NavigationProperty Name="CTNCUENTA13" Relationship="INDIGO001Model.FK_CTNCUENTA_CTNCUENTA1" FromRole="CTNCUENTA" ToRole="CTNCUENTA1" />
+          <NavigationProperty Name="CTNCUENTA4" Relationship="INDIGO001Model.FK_CTNCUENTA_CTNCUENTA1" FromRole="CTNCUENTA1" ToRole="CTNCUENTA" />
+          <NavigationProperty Name="CTNCUENTA14" Relationship="INDIGO001Model.FK_CTNCUENTA_CTNCUENTA2" FromRole="CTNCUENTA" ToRole="CTNCUENTA1" />
+          <NavigationProperty Name="CTNCUENTA5" Relationship="INDIGO001Model.FK_CTNCUENTA_CTNCUENTA2" FromRole="CTNCUENTA1" ToRole="CTNCUENTA" />
+          <NavigationProperty Name="GENARESER" Relationship="INDIGO001Model.FK_GENARESER_CTNCUENTA1" FromRole="CTNCUENTA" ToRole="GENARESER" />
+          <NavigationProperty Name="GENARESER1" Relationship="INDIGO001Model.FK_GENARESER_CTNCUENTA2" FromRole="CTNCUENTA" ToRole="GENARESER" />
+          <NavigationProperty Name="GENARESER2" Relationship="INDIGO001Model.FK_GENARESER_CTNCUENTA3" FromRole="CTNCUENTA" ToRole="GENARESER" />
+          <NavigationProperty Name="GENARESER3" Relationship="INDIGO001Model.FK_GENARESER_CTNCUENTA4" FromRole="CTNCUENTA" ToRole="GENARESER" />
+          <NavigationProperty Name="GENARESER4" Relationship="INDIGO001Model.FK_GENARESER_CTNCUENTA5" FromRole="CTNCUENTA" ToRole="GENARESER" />
+          <NavigationProperty Name="GENARESER5" Relationship="INDIGO001Model.FK_GENARESER_CTNCUENTA6" FromRole="CTNCUENTA" ToRole="GENARESER" />
+          <NavigationProperty Name="GENARESER6" Relationship="INDIGO001Model.FK_GENARESER_CTNCUENTA7" FromRole="CTNCUENTA" ToRole="GENARESER" />
+          <NavigationProperty Name="GENARESER7" Relationship="INDIGO001Model.FK_GENARESER_CTNCUENTA8" FromRole="CTNCUENTA" ToRole="GENARESER" />
+          <NavigationProperty Name="AFNRESPON" Relationship="INDIGO001Model.FK_AFNRESPON_CTNCUENTA" FromRole="CTNCUENTA" ToRole="AFNRESPON" />
+        </EntityType>
+        <EntityType Name="GENARESER">
+          <Key>
+            <PropertyRef Name="OID" />
+          </Key>
+          <Property Name="OID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="GASCODIGO" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="GASNOMBRE" Type="String" MaxLength="120" FixedLength="false" Unicode="true" />
+          <Property Name="GASAREURG" Type="Boolean" />
+          <Property Name="GASSERPRE" Type="Int32" />
+          <Property Name="INNALMACE" Type="Int32" />
+          <Property Name="CTNCENCOS1" Type="Int32" />
+          <Property Name="CTNCUENTA1" Type="Int32" />
+          <Property Name="CTNCUENTA2" Type="Int32" />
+          <Property Name="CTNCUENTA3" Type="Int32" />
+          <Property Name="CTNCUENTA4" Type="Int32" />
+          <Property Name="ADNCENATE1" Type="Int32" />
+          <Property Name="CTNCUENTA5" Type="Int32" />
+          <Property Name="GASTERMED" Type="Boolean" />
+          <Property Name="ADNCENATE2" Type="Int32" />
+          <Property Name="INNALMACESM" Type="Int32" />
+          <Property Name="CTNCUENTA6" Type="Int32" />
+          <Property Name="CTNCUENTA7" Type="Int32" />
+          <Property Name="CTNCUENTA8" Type="Int32" />
+          <Property Name="OptimisticLockField" Type="Int32" />
+          <Property Name="GASORDAUT" Type="Boolean" />
+          <Property Name="IFNCUENTA1" Type="Int32" />
+          <Property Name="GECODSIUS" Type="String" MaxLength="32" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="CTNCENCOS" Relationship="INDIGO001Model.FK_GENARESER_CTNCENCOS1" FromRole="GENARESER" ToRole="CTNCENCOS" />
+          <NavigationProperty Name="CTNCUENTA" Relationship="INDIGO001Model.FK_GENARESER_CTNCUENTA1" FromRole="GENARESER" ToRole="CTNCUENTA" />
+          <NavigationProperty Name="CTNCUENTA9" Relationship="INDIGO001Model.FK_GENARESER_CTNCUENTA2" FromRole="GENARESER" ToRole="CTNCUENTA" />
+          <NavigationProperty Name="CTNCUENTA10" Relationship="INDIGO001Model.FK_GENARESER_CTNCUENTA3" FromRole="GENARESER" ToRole="CTNCUENTA" />
+          <NavigationProperty Name="CTNCUENTA11" Relationship="INDIGO001Model.FK_GENARESER_CTNCUENTA4" FromRole="GENARESER" ToRole="CTNCUENTA" />
+          <NavigationProperty Name="CTNCUENTA12" Relationship="INDIGO001Model.FK_GENARESER_CTNCUENTA5" FromRole="GENARESER" ToRole="CTNCUENTA" />
+          <NavigationProperty Name="CTNCUENTA13" Relationship="INDIGO001Model.FK_GENARESER_CTNCUENTA6" FromRole="GENARESER" ToRole="CTNCUENTA" />
+          <NavigationProperty Name="CTNCUENTA14" Relationship="INDIGO001Model.FK_GENARESER_CTNCUENTA7" FromRole="GENARESER" ToRole="CTNCUENTA" />
+          <NavigationProperty Name="CTNCUENTA15" Relationship="INDIGO001Model.FK_GENARESER_CTNCUENTA8" FromRole="GENARESER" ToRole="CTNCUENTA" />
+        </EntityType>
+        <Association Name="FK_AFNACTIVO_AFNPRODUC">
+          <End Type="INDIGO001Model.AFNPRODUC" Role="AFNPRODUC" Multiplicity="0..1" />
+          <End Type="INDIGO001Model.AFNACTIVO" Role="AFNACTIVO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AFNPRODUC">
+              <PropertyRef Name="OID" />
+            </Principal>
+            <Dependent Role="AFNACTIVO">
+              <PropertyRef Name="AFNPRODUC" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AFNACTIVO_AFNRESPON">
+          <End Type="INDIGO001Model.AFNRESPON" Role="AFNRESPON" Multiplicity="0..1" />
+          <End Type="INDIGO001Model.AFNACTIVO" Role="AFNACTIVO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AFNRESPON">
+              <PropertyRef Name="OID" />
+            </Principal>
+            <Dependent Role="AFNACTIVO">
+              <PropertyRef Name="AFNRESPON" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AFNRESPON_CTNCENCOS">
+          <End Type="INDIGO001Model.CTNCENCOS" Role="CTNCENCOS" Multiplicity="0..1" />
+          <End Type="INDIGO001Model.AFNRESPON" Role="AFNRESPON" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CTNCENCOS">
+              <PropertyRef Name="OID" />
+            </Principal>
+            <Dependent Role="AFNRESPON">
+              <PropertyRef Name="CTNCENCOS" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_GENARESER_CTNCENCOS1">
+          <End Type="INDIGO001Model.CTNCENCOS" Role="CTNCENCOS" Multiplicity="0..1" />
+          <End Type="INDIGO001Model.GENARESER" Role="GENARESER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CTNCENCOS">
+              <PropertyRef Name="OID" />
+            </Principal>
+            <Dependent Role="GENARESER">
+              <PropertyRef Name="CTNCENCOS1" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CTNCUENTA_CTNCUENTA">
+          <End Type="INDIGO001Model.CTNCUENTA" Role="CTNCUENTA" Multiplicity="0..1" />
+          <End Type="INDIGO001Model.CTNCUENTA" Role="CTNCUENTA1" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CTNCUENTA">
+              <PropertyRef Name="OID" />
+            </Principal>
+            <Dependent Role="CTNCUENTA1">
+              <PropertyRef Name="CTNCUENTA1" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CTNCUENTA_CTNCUENTA1">
+          <End Type="INDIGO001Model.CTNCUENTA" Role="CTNCUENTA" Multiplicity="0..1" />
+          <End Type="INDIGO001Model.CTNCUENTA" Role="CTNCUENTA1" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CTNCUENTA">
+              <PropertyRef Name="OID" />
+            </Principal>
+            <Dependent Role="CTNCUENTA1">
+              <PropertyRef Name="CTNCUENTA11" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CTNCUENTA_CTNCUENTA2">
+          <End Type="INDIGO001Model.CTNCUENTA" Role="CTNCUENTA" Multiplicity="0..1" />
+          <End Type="INDIGO001Model.CTNCUENTA" Role="CTNCUENTA1" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CTNCUENTA">
+              <PropertyRef Name="OID" />
+            </Principal>
+            <Dependent Role="CTNCUENTA1">
+              <PropertyRef Name="CTNCUENTA2" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_GENARESER_CTNCUENTA1">
+          <End Type="INDIGO001Model.CTNCUENTA" Role="CTNCUENTA" Multiplicity="0..1" />
+          <End Type="INDIGO001Model.GENARESER" Role="GENARESER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CTNCUENTA">
+              <PropertyRef Name="OID" />
+            </Principal>
+            <Dependent Role="GENARESER">
+              <PropertyRef Name="CTNCUENTA1" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_GENARESER_CTNCUENTA2">
+          <End Type="INDIGO001Model.CTNCUENTA" Role="CTNCUENTA" Multiplicity="0..1" />
+          <End Type="INDIGO001Model.GENARESER" Role="GENARESER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CTNCUENTA">
+              <PropertyRef Name="OID" />
+            </Principal>
+            <Dependent Role="GENARESER">
+              <PropertyRef Name="CTNCUENTA2" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_GENARESER_CTNCUENTA3">
+          <End Type="INDIGO001Model.CTNCUENTA" Role="CTNCUENTA" Multiplicity="0..1" />
+          <End Type="INDIGO001Model.GENARESER" Role="GENARESER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CTNCUENTA">
+              <PropertyRef Name="OID" />
+            </Principal>
+            <Dependent Role="GENARESER">
+              <PropertyRef Name="CTNCUENTA3" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_GENARESER_CTNCUENTA4">
+          <End Type="INDIGO001Model.CTNCUENTA" Role="CTNCUENTA" Multiplicity="0..1" />
+          <End Type="INDIGO001Model.GENARESER" Role="GENARESER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CTNCUENTA">
+              <PropertyRef Name="OID" />
+            </Principal>
+            <Dependent Role="GENARESER">
+              <PropertyRef Name="CTNCUENTA4" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_GENARESER_CTNCUENTA5">
+          <End Type="INDIGO001Model.CTNCUENTA" Role="CTNCUENTA" Multiplicity="0..1" />
+          <End Type="INDIGO001Model.GENARESER" Role="GENARESER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CTNCUENTA">
+              <PropertyRef Name="OID" />
+            </Principal>
+            <Dependent Role="GENARESER">
+              <PropertyRef Name="CTNCUENTA5" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_GENARESER_CTNCUENTA6">
+          <End Type="INDIGO001Model.CTNCUENTA" Role="CTNCUENTA" Multiplicity="0..1" />
+          <End Type="INDIGO001Model.GENARESER" Role="GENARESER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CTNCUENTA">
+              <PropertyRef Name="OID" />
+            </Principal>
+            <Dependent Role="GENARESER">
+              <PropertyRef Name="CTNCUENTA6" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_GENARESER_CTNCUENTA7">
+          <End Type="INDIGO001Model.CTNCUENTA" Role="CTNCUENTA" Multiplicity="0..1" />
+          <End Type="INDIGO001Model.GENARESER" Role="GENARESER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CTNCUENTA">
+              <PropertyRef Name="OID" />
+            </Principal>
+            <Dependent Role="GENARESER">
+              <PropertyRef Name="CTNCUENTA7" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_GENARESER_CTNCUENTA8">
+          <End Type="INDIGO001Model.CTNCUENTA" Role="CTNCUENTA" Multiplicity="0..1" />
+          <End Type="INDIGO001Model.GENARESER" Role="GENARESER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CTNCUENTA">
+              <PropertyRef Name="OID" />
+            </Principal>
+            <Dependent Role="GENARESER">
+              <PropertyRef Name="CTNCUENTA8" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="AFNCALDEP">
+          <Key>
+            <PropertyRef Name="OID" />
+          </Key>
+          <Property Name="OID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="AFNDEPRECI" Type="Int32" />
+          <Property Name="AFNACTIVO" Type="Int32" />
+          <Property Name="ACADEPMEN" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="ACATOTVID" Type="Int32" />
+          <Property Name="ACAVIDRES" Type="Int32" />
+          <Property Name="ACAMESDEPR" Type="Int32" />
+          <Property Name="AACVALCOA" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="ACAVALADI" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="AFNRESPON" Type="Int32" />
+          <Property Name="CTNCENCOS" Type="Int32" />
+          <Property Name="AACDEPRECIO" Type="Boolean" />
+          <Property Name="ACAVAACDAN" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="ACAVASALI" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="OptimisticLockField" Type="Int32" />
+          <Property Name="ACAROWIDFOX" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="ACAAJINFL" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="ACADEPAJU" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="ACAAJUMES" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="ACADEACME" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="ACAPORAJU" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="ACADEPAJM" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="ACAAJACUA" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="ACADEPHIS" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="ACAREGMIG" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ACAOIDMIG" Type="Int32" />
+          <Property Name="ACAVALADIM" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="ACAVALORI" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="ACADESVALO" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="ACAMONUHIST" Type="Boolean" />
+          <NavigationProperty Name="AFNACTIVO1" Relationship="INDIGO001Model.FK_AFNCALDEP_AFNACTIVO" FromRole="AFNCALDEP" ToRole="AFNACTIVO" />
+          <NavigationProperty Name="AFNDEPRECI1" Relationship="INDIGO001Model.FK_AFNCALDEP_AFNDEPRECI" FromRole="AFNCALDEP" ToRole="AFNDEPRECI" />
+          <NavigationProperty Name="AFNRESPON1" Relationship="INDIGO001Model.FK_AFNCALDEP_AFNRESPON" FromRole="AFNCALDEP" ToRole="AFNRESPON" />
+          <NavigationProperty Name="CTNCENCOS1" Relationship="INDIGO001Model.FK_AFNCALDEP_CTNCENCOS" FromRole="AFNCALDEP" ToRole="CTNCENCOS" />
+        </EntityType>
+        <EntityType Name="AFNDEPRECI">
+          <Key>
+            <PropertyRef Name="OID" />
+          </Key>
+          <Property Name="OID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ACAFECELAB" Type="DateTime" Precision="3" />
+          <Property Name="ACAFECCHCI" Type="DateTime" Precision="3" />
+          <Property Name="ACAESTADO" Type="Int32" />
+          <Property Name="ACAOBSERVA" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="OptimisticLockField" Type="Int32" />
+          <Property Name="ACAMIGRACI" Type="Boolean" />
+          <NavigationProperty Name="AFNCALDEP" Relationship="INDIGO001Model.FK_AFNCALDEP_AFNDEPRECI" FromRole="AFNDEPRECI" ToRole="AFNCALDEP" />
+        </EntityType>
+        <Association Name="FK_AFNCALDEP_AFNACTIVO">
+          <End Type="INDIGO001Model.AFNACTIVO" Role="AFNACTIVO" Multiplicity="0..1" />
+          <End Type="INDIGO001Model.AFNCALDEP" Role="AFNCALDEP" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AFNACTIVO">
+              <PropertyRef Name="OID" />
+            </Principal>
+            <Dependent Role="AFNCALDEP">
+              <PropertyRef Name="AFNACTIVO" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AFNCALDEP_AFNDEPRECI">
+          <End Type="INDIGO001Model.AFNDEPRECI" Role="AFNDEPRECI" Multiplicity="0..1" />
+          <End Type="INDIGO001Model.AFNCALDEP" Role="AFNCALDEP" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AFNDEPRECI">
+              <PropertyRef Name="OID" />
+            </Principal>
+            <Dependent Role="AFNCALDEP">
+              <PropertyRef Name="AFNDEPRECI" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AFNCALDEP_AFNRESPON">
+          <End Type="INDIGO001Model.AFNRESPON" Role="AFNRESPON" Multiplicity="0..1" />
+          <End Type="INDIGO001Model.AFNCALDEP" Role="AFNCALDEP" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AFNRESPON">
+              <PropertyRef Name="OID" />
+            </Principal>
+            <Dependent Role="AFNCALDEP">
+              <PropertyRef Name="AFNRESPON" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AFNCALDEP_CTNCENCOS">
+          <End Type="INDIGO001Model.CTNCENCOS" Role="CTNCENCOS" Multiplicity="0..1" />
+          <End Type="INDIGO001Model.AFNCALDEP" Role="AFNCALDEP" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CTNCENCOS">
+              <PropertyRef Name="OID" />
+            </Principal>
+            <Dependent Role="AFNCALDEP">
+              <PropertyRef Name="CTNCENCOS" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="CTNTIPCOM">
+          <Key>
+            <PropertyRef Name="OID" />
+          </Key>
+          <Property Name="OID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TCCODIGO" Type="String" MaxLength="5" FixedLength="false" Unicode="true" />
+          <Property Name="TCNOMBRE" Type="String" MaxLength="120" FixedLength="false" Unicode="true" />
+          <Property Name="GENCONSEC" Type="Int32" />
+          <Property Name="OptimisticLockField" Type="Int32" />
+          <Property Name="TCNPREFITD" Type="String" MaxLength="2" FixedLength="false" Unicode="true" />
+          <Property Name="IFNTIPCOM" Type="Int32" />
+        </EntityType>
+        <Association Name="FK_AFNRESPON_CTNCUENTA">
+          <End Type="INDIGO001Model.CTNCUENTA" Role="CTNCUENTA" Multiplicity="0..1" />
+          <End Type="INDIGO001Model.AFNRESPON" Role="AFNRESPON" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CTNCUENTA">
+              <PropertyRef Name="OID" />
+            </Principal>
+            <Dependent Role="AFNRESPON">
+              <PropertyRef Name="CTNCUENTA" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="INDIGO001ModelStoreContainer" CdmEntityContainer="INDIGO001Entities">
+          <EntitySetMapping Name="AFNACTIVO">
+            <EntityTypeMapping TypeName="INDIGO001Model.AFNACTIVO">
+              <MappingFragment StoreEntitySet="AFNACTIVO">
+                <ScalarProperty Name="AACLLAVEDEP" ColumnName="AACLLAVEDEP" />
+                <ScalarProperty Name="AACUNPROMES" ColumnName="AACUNPROMES" />
+                <ScalarProperty Name="AACVALDEDEC" ColumnName="AACVALDEDEC" />
+                <ScalarProperty Name="AACINDVIDUT" ColumnName="AACINDVIDUT" />
+                <ScalarProperty Name="AACINDREVIUT" ColumnName="AACINDREVIUT" />
+                <ScalarProperty Name="AACMESDENI" ColumnName="AACMESDENI" />
+                <ScalarProperty Name="AACRESVIDNI" ColumnName="AACRESVIDNI" />
+                <ScalarProperty Name="AACESTNIIF" ColumnName="AACESTNIIF" />
+                <ScalarProperty Name="AACFACTPRO" ColumnName="AACFACTPRO" />
+                <ScalarProperty Name="AACUNDENI" ColumnName="AACUNDENI" />
+                <ScalarProperty Name="AACPODENI" ColumnName="AACPODENI" />
+                <ScalarProperty Name="AACVIUTNI" ColumnName="AACVIUTNI" />
+                <ScalarProperty Name="AACVALDEPNI" ColumnName="AACVALDEPNI" />
+                <ScalarProperty Name="AACVARANI" ColumnName="AACVARANI" />
+                <ScalarProperty Name="AACVASANI" ColumnName="AACVASANI" />
+                <ScalarProperty Name="AACMETDENI" ColumnName="AACMETDENI" />
+                <ScalarProperty Name="AACMONUHIST" ColumnName="AACMONUHIST" />
+                <ScalarProperty Name="AACOBSERVA" ColumnName="AACOBSERVA" />
+                <ScalarProperty Name="AACCANTIDAD" ColumnName="AACCANTIDAD" />
+                <ScalarProperty Name="INNUNIDAD" ColumnName="INNUNIDAD" />
+                <ScalarProperty Name="AACESTPROD" ColumnName="AACESTPROD" />
+                <ScalarProperty Name="ACNVALIMPCON" ColumnName="ACNVALIMPCON" />
+                <ScalarProperty Name="ACNACUVAAJIN" ColumnName="ACNACUVAAJIN" />
+                <ScalarProperty Name="ACNACUAJINDE" ColumnName="ACNACUAJINDE" />
+                <ScalarProperty Name="ACNACUAJIN" ColumnName="ACNACUAJIN" />
+                <ScalarProperty Name="AACCALCAJU" ColumnName="AACCALCAJU" />
+                <ScalarProperty Name="AACNUESAL" ColumnName="AACNUESAL" />
+                <ScalarProperty Name="AACVADEAC" ColumnName="AACVADEAC" />
+                <ScalarProperty Name="OptimisticLockField" ColumnName="OptimisticLockField" />
+                <ScalarProperty Name="AACESTMIG" ColumnName="AACESTMIG" />
+                <ScalarProperty Name="AACREGMIG" ColumnName="AACREGMIG" />
+                <ScalarProperty Name="AACDEPAJU" ColumnName="AACDEPAJU" />
+                <ScalarProperty Name="AACVALLIB" ColumnName="AACVALLIB" />
+                <ScalarProperty Name="AACVAAJIN" ColumnName="AACVAAJIN" />
+                <ScalarProperty Name="AFNMOSALI" ColumnName="AFNMOSALI" />
+                <ScalarProperty Name="AACVALADIM" ColumnName="AACVALADIM" />
+                <ScalarProperty Name="AACFECCOM" ColumnName="AACFECCOM" />
+                <ScalarProperty Name="AACNUMPLA" ColumnName="AACNUMPLA" />
+                <ScalarProperty Name="AACVALHOR" ColumnName="AACVALHOR" />
+                <ScalarProperty Name="AACDPMECU" ColumnName="AACDPMECU" />
+                <ScalarProperty Name="AACRESVID" ColumnName="AACRESVID" />
+                <ScalarProperty Name="AACMESDEP" ColumnName="AACMESDEP" />
+                <ScalarProperty Name="AACESTADO" ColumnName="AACESTADO" />
+                <ScalarProperty Name="AACVALRES" ColumnName="AACVALRES" />
+                <ScalarProperty Name="AACVALCOA" ColumnName="AACVALCOA" />
+                <ScalarProperty Name="GENTERCERP" ColumnName="GENTERCERP" />
+                <ScalarProperty Name="AFNPRODUC" ColumnName="AFNPRODUC" />
+                <ScalarProperty Name="AFNRESPON" ColumnName="AFNRESPON" />
+                <ScalarProperty Name="AACCODACT" ColumnName="AACCODACT" />
+                <ScalarProperty Name="OID" ColumnName="OID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AFNPRODUC">
+            <EntityTypeMapping TypeName="INDIGO001Model.AFNPRODUC">
+              <MappingFragment StoreEntitySet="AFNPRODUC">
+                <ScalarProperty Name="AFNCLANIIF" ColumnName="AFNCLANIIF" />
+                <ScalarProperty Name="APRIMPCONS" ColumnName="APRIMPCONS" />
+                <ScalarProperty Name="OptimisticLockField" ColumnName="OptimisticLockField" />
+                <ScalarProperty Name="APRCOSPRO" ColumnName="APRCOSPRO" />
+                <ScalarProperty Name="GENTABIVA" ColumnName="GENTABIVA" />
+                <ScalarProperty Name="APRPORSAL" ColumnName="APRPORSAL" />
+                <ScalarProperty Name="AFNCLASIF" ColumnName="AFNCLASIF" />
+                <ScalarProperty Name="AFNGRUPOS" ColumnName="AFNGRUPOS" />
+                <ScalarProperty Name="APRNOMBRE" ColumnName="APRNOMBRE" />
+                <ScalarProperty Name="APRCODIGO" ColumnName="APRCODIGO" />
+                <ScalarProperty Name="OID" ColumnName="OID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AFNRESPON">
+            <EntityTypeMapping TypeName="INDIGO001Model.AFNRESPON">
+              <MappingFragment StoreEntitySet="AFNRESPON">
+                <ScalarProperty Name="CTNCUENTA2" ColumnName="CTNCUENTA2" />
+                <ScalarProperty Name="OptimisticLockField" ColumnName="OptimisticLockField" />
+                <ScalarProperty Name="RESESTLOC" ColumnName="RESESTLOC" />
+                <ScalarProperty Name="RESEQUIPO" ColumnName="RESEQUIPO" />
+                <ScalarProperty Name="RESMANTEN" ColumnName="RESMANTEN" />
+                <ScalarProperty Name="RESTIPRES" ColumnName="RESTIPRES" />
+                <ScalarProperty Name="CTNCUENTA" ColumnName="CTNCUENTA" />
+                <ScalarProperty Name="GENTERCER" ColumnName="GENTERCER" />
+                <ScalarProperty Name="RESCEDULA" ColumnName="RESCEDULA" />
+                <ScalarProperty Name="RESTIPEMP" ColumnName="RESTIPEMP" />
+                <ScalarProperty Name="RESESTADO" ColumnName="RESESTADO" />
+                <ScalarProperty Name="RESDEPREC" ColumnName="RESDEPREC" />
+                <ScalarProperty Name="CTNCENCOS" ColumnName="CTNCENCOS" />
+                <ScalarProperty Name="AFNDEPART" ColumnName="AFNDEPART" />
+                <ScalarProperty Name="AFNAREAS" ColumnName="AFNAREAS" />
+                <ScalarProperty Name="AFNDIRECC" ColumnName="AFNDIRECC" />
+                <ScalarProperty Name="RESNOMBRE" ColumnName="RESNOMBRE" />
+                <ScalarProperty Name="RESCODIGO" ColumnName="RESCODIGO" />
+                <ScalarProperty Name="OID" ColumnName="OID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CTNCENCOS">
+            <EntityTypeMapping TypeName="INDIGO001Model.CTNCENCOS">
+              <MappingFragment StoreEntitySet="CTNCENCOS">
+                <ScalarProperty Name="OptimisticLockField" ColumnName="OptimisticLockField" />
+                <ScalarProperty Name="CCACTIVO" ColumnName="CCACTIVO" />
+                <ScalarProperty Name="CCNOMBRE" ColumnName="CCNOMBRE" />
+                <ScalarProperty Name="CCCODIGO" ColumnName="CCCODIGO" />
+                <ScalarProperty Name="OID" ColumnName="OID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CTNCUENTA">
+            <EntityTypeMapping TypeName="INDIGO001Model.CTNCUENTA">
+              <MappingFragment StoreEntitySet="CTNCUENTA">
+                <ScalarProperty Name="IFNCUENTA" ColumnName="IFNCUENTA" />
+                <ScalarProperty Name="CUENOCGN05002" ColumnName="CUENOCGN05002" />
+                <ScalarProperty Name="OptimisticLockField" ColumnName="OptimisticLockField" />
+                <ScalarProperty Name="CUECONACT" ColumnName="CUECONACT" />
+                <ScalarProperty Name="CUEFOLOSAL" ColumnName="CUEFOLOSAL" />
+                <ScalarProperty Name="CUETIPRET" ColumnName="CUETIPRET" />
+                <ScalarProperty Name="CUEMANCEN" ColumnName="CUEMANCEN" />
+                <ScalarProperty Name="CTNCUENTA2" ColumnName="CTNCUENTA2" />
+                <ScalarProperty Name="CTNCUENTA11" ColumnName="CTNCUENTA1" />
+                <ScalarProperty Name="CUEMANAJUS" ColumnName="CUEMANAJUS" />
+                <ScalarProperty Name="CTNANEXDEC" ColumnName="CTNANEXDEC" />
+                <ScalarProperty Name="CUEDISPONI" ColumnName="CUEDISPONI" />
+                <ScalarProperty Name="CUECONCCUE" ColumnName="CUECONCCUE" />
+                <ScalarProperty Name="GENTERCER" ColumnName="GENTERCER" />
+                <ScalarProperty Name="CUECIETERC" ColumnName="CUECIETERC" />
+                <ScalarProperty Name="CUEMANTER" ColumnName="CUEMANTER" />
+                <ScalarProperty Name="CTNCUENTA1" ColumnName="CTNCUENTA" />
+                <ScalarProperty Name="CUENOMBRE" ColumnName="CUENOMBRE" />
+                <ScalarProperty Name="CUECODIGO" ColumnName="CUECODIGO" />
+                <ScalarProperty Name="CTNCLASE" ColumnName="CTNCLASE" />
+                <ScalarProperty Name="CTNNIVEL" ColumnName="CTNNIVEL" />
+                <ScalarProperty Name="OID" ColumnName="OID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="GENARESER">
+            <EntityTypeMapping TypeName="INDIGO001Model.GENARESER">
+              <MappingFragment StoreEntitySet="GENARESER">
+                <ScalarProperty Name="GECODSIUS" ColumnName="GECODSIUS" />
+                <ScalarProperty Name="IFNCUENTA1" ColumnName="IFNCUENTA1" />
+                <ScalarProperty Name="GASORDAUT" ColumnName="GASORDAUT" />
+                <ScalarProperty Name="OptimisticLockField" ColumnName="OptimisticLockField" />
+                <ScalarProperty Name="CTNCUENTA8" ColumnName="CTNCUENTA8" />
+                <ScalarProperty Name="CTNCUENTA7" ColumnName="CTNCUENTA7" />
+                <ScalarProperty Name="CTNCUENTA6" ColumnName="CTNCUENTA6" />
+                <ScalarProperty Name="INNALMACESM" ColumnName="INNALMACESM" />
+                <ScalarProperty Name="ADNCENATE2" ColumnName="ADNCENATE2" />
+                <ScalarProperty Name="GASTERMED" ColumnName="GASTERMED" />
+                <ScalarProperty Name="CTNCUENTA5" ColumnName="CTNCUENTA5" />
+                <ScalarProperty Name="ADNCENATE1" ColumnName="ADNCENATE1" />
+                <ScalarProperty Name="CTNCUENTA4" ColumnName="CTNCUENTA4" />
+                <ScalarProperty Name="CTNCUENTA3" ColumnName="CTNCUENTA3" />
+                <ScalarProperty Name="CTNCUENTA2" ColumnName="CTNCUENTA2" />
+                <ScalarProperty Name="CTNCUENTA1" ColumnName="CTNCUENTA1" />
+                <ScalarProperty Name="CTNCENCOS1" ColumnName="CTNCENCOS1" />
+                <ScalarProperty Name="INNALMACE" ColumnName="INNALMACE" />
+                <ScalarProperty Name="GASSERPRE" ColumnName="GASSERPRE" />
+                <ScalarProperty Name="GASAREURG" ColumnName="GASAREURG" />
+                <ScalarProperty Name="GASNOMBRE" ColumnName="GASNOMBRE" />
+                <ScalarProperty Name="GASCODIGO" ColumnName="GASCODIGO" />
+                <ScalarProperty Name="OID" ColumnName="OID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AFNCALDEP">
+            <EntityTypeMapping TypeName="INDIGO001Model.AFNCALDEP">
+              <MappingFragment StoreEntitySet="AFNCALDEP">
+                <ScalarProperty Name="ACAMONUHIST" ColumnName="ACAMONUHIST" />
+                <ScalarProperty Name="ACADESVALO" ColumnName="ACADESVALO" />
+                <ScalarProperty Name="ACAVALORI" ColumnName="ACAVALORI" />
+                <ScalarProperty Name="ACAVALADIM" ColumnName="ACAVALADIM" />
+                <ScalarProperty Name="ACAOIDMIG" ColumnName="ACAOIDMIG" />
+                <ScalarProperty Name="ACAREGMIG" ColumnName="ACAREGMIG" />
+                <ScalarProperty Name="ACADEPHIS" ColumnName="ACADEPHIS" />
+                <ScalarProperty Name="ACAAJACUA" ColumnName="ACAAJACUA" />
+                <ScalarProperty Name="ACADEPAJM" ColumnName="ACADEPAJM" />
+                <ScalarProperty Name="ACAPORAJU" ColumnName="ACAPORAJU" />
+                <ScalarProperty Name="ACADEACME" ColumnName="ACADEACME" />
+                <ScalarProperty Name="ACAAJUMES" ColumnName="ACAAJUMES" />
+                <ScalarProperty Name="ACADEPAJU" ColumnName="ACADEPAJU" />
+                <ScalarProperty Name="ACAAJINFL" ColumnName="ACAAJINFL" />
+                <ScalarProperty Name="ACAROWIDFOX" ColumnName="ACAROWIDFOX" />
+                <ScalarProperty Name="OptimisticLockField" ColumnName="OptimisticLockField" />
+                <ScalarProperty Name="ACAVASALI" ColumnName="ACAVASALI" />
+                <ScalarProperty Name="ACAVAACDAN" ColumnName="ACAVAACDAN" />
+                <ScalarProperty Name="AACDEPRECIO" ColumnName="AACDEPRECIO" />
+                <ScalarProperty Name="CTNCENCOS" ColumnName="CTNCENCOS" />
+                <ScalarProperty Name="AFNRESPON" ColumnName="AFNRESPON" />
+                <ScalarProperty Name="ACAVALADI" ColumnName="ACAVALADI" />
+                <ScalarProperty Name="AACVALCOA" ColumnName="AACVALCOA" />
+                <ScalarProperty Name="ACAMESDEPR" ColumnName="ACAMESDEPR" />
+                <ScalarProperty Name="ACAVIDRES" ColumnName="ACAVIDRES" />
+                <ScalarProperty Name="ACATOTVID" ColumnName="ACATOTVID" />
+                <ScalarProperty Name="ACADEPMEN" ColumnName="ACADEPMEN" />
+                <ScalarProperty Name="AFNACTIVO" ColumnName="AFNACTIVO" />
+                <ScalarProperty Name="AFNDEPRECI" ColumnName="AFNDEPRECI" />
+                <ScalarProperty Name="OID" ColumnName="OID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AFNDEPRECI">
+            <EntityTypeMapping TypeName="INDIGO001Model.AFNDEPRECI">
+              <MappingFragment StoreEntitySet="AFNDEPRECI">
+                <ScalarProperty Name="ACAMIGRACI" ColumnName="ACAMIGRACI" />
+                <ScalarProperty Name="OptimisticLockField" ColumnName="OptimisticLockField" />
+                <ScalarProperty Name="ACAOBSERVA" ColumnName="ACAOBSERVA" />
+                <ScalarProperty Name="ACAESTADO" ColumnName="ACAESTADO" />
+                <ScalarProperty Name="ACAFECCHCI" ColumnName="ACAFECCHCI" />
+                <ScalarProperty Name="ACAFECELAB" ColumnName="ACAFECELAB" />
+                <ScalarProperty Name="OID" ColumnName="OID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CTNTIPCOM">
+            <EntityTypeMapping TypeName="INDIGO001Model.CTNTIPCOM">
+              <MappingFragment StoreEntitySet="CTNTIPCOM">
+                <ScalarProperty Name="IFNTIPCOM" ColumnName="IFNTIPCOM" />
+                <ScalarProperty Name="TCNPREFITD" ColumnName="TCNPREFITD" />
+                <ScalarProperty Name="OptimisticLockField" ColumnName="OptimisticLockField" />
+                <ScalarProperty Name="GENCONSEC" ColumnName="GENCONSEC" />
+                <ScalarProperty Name="TCNOMBRE" ColumnName="TCNOMBRE" />
+                <ScalarProperty Name="TCCODIGO" ColumnName="TCCODIGO" />
+                <ScalarProperty Name="OID" ColumnName="OID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="False" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams>
+      <Diagram DiagramId="85c32fe4ba9c4aa8b7e9fb046996a258" Name="Diagram1" ZoomLevel="86">
+        <EntityTypeShape EntityType="INDIGO001Model.AFNACTIVO" Width="1.5" PointX="5.25" PointY="6.625" />
+        <EntityTypeShape EntityType="INDIGO001Model.AFNPRODUC" Width="1.5" PointX="3" PointY="15.5" />
+        <EntityTypeShape EntityType="INDIGO001Model.AFNRESPON" Width="1.5" PointX="3" PointY="9.625" />
+        <EntityTypeShape EntityType="INDIGO001Model.CTNCENCOS" Width="1.5" PointX="0.75" PointY="11" />
+        <EntityTypeShape EntityType="INDIGO001Model.CTNCUENTA" Width="1.5" PointX="0.75" PointY="1.25" />
+        <EntityTypeShape EntityType="INDIGO001Model.GENARESER" Width="1.5" PointX="3" PointY="1.625" />
+        <AssociationConnector Association="INDIGO001Model.FK_AFNACTIVO_AFNPRODUC" />
+        <AssociationConnector Association="INDIGO001Model.FK_AFNACTIVO_AFNRESPON" />
+        <AssociationConnector Association="INDIGO001Model.FK_AFNRESPON_CTNCENCOS" />
+        <AssociationConnector Association="INDIGO001Model.FK_GENARESER_CTNCENCOS1" />
+        <AssociationConnector Association="INDIGO001Model.FK_CTNCUENTA_CTNCUENTA" />
+        <AssociationConnector Association="INDIGO001Model.FK_CTNCUENTA_CTNCUENTA1" />
+        <AssociationConnector Association="INDIGO001Model.FK_CTNCUENTA_CTNCUENTA2" />
+        <AssociationConnector Association="INDIGO001Model.FK_GENARESER_CTNCUENTA1" />
+        <AssociationConnector Association="INDIGO001Model.FK_GENARESER_CTNCUENTA2" />
+        <AssociationConnector Association="INDIGO001Model.FK_GENARESER_CTNCUENTA3" />
+        <AssociationConnector Association="INDIGO001Model.FK_GENARESER_CTNCUENTA4" />
+        <AssociationConnector Association="INDIGO001Model.FK_GENARESER_CTNCUENTA5" />
+        <AssociationConnector Association="INDIGO001Model.FK_GENARESER_CTNCUENTA6" />
+        <AssociationConnector Association="INDIGO001Model.FK_GENARESER_CTNCUENTA7" />
+        <AssociationConnector Association="INDIGO001Model.FK_GENARESER_CTNCUENTA8" />
+        <EntityTypeShape EntityType="INDIGO001Model.AFNCALDEP" Width="1.5" PointX="7.5" PointY="8.5" />
+        <EntityTypeShape EntityType="INDIGO001Model.AFNDEPRECI" Width="1.5" PointX="5.25" PointY="3" />
+        <AssociationConnector Association="INDIGO001Model.FK_AFNCALDEP_AFNACTIVO" />
+        <AssociationConnector Association="INDIGO001Model.FK_AFNCALDEP_AFNDEPRECI" />
+        <AssociationConnector Association="INDIGO001Model.FK_AFNCALDEP_AFNRESPON" />
+        <AssociationConnector Association="INDIGO001Model.FK_AFNCALDEP_CTNCENCOS" />
+        <EntityTypeShape EntityType="INDIGO001Model.CTNTIPCOM" Width="1.5" PointX="7.625" PointY="0.75" />
+        <AssociationConnector Association="INDIGO001Model.FK_AFNRESPON_CTNCUENTA" />
+      </Diagram>
+    </Diagrams>
+  </Designer>
+</edmx:Edmx>

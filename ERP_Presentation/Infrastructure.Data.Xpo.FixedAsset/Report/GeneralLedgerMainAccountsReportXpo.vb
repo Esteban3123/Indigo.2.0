@@ -1,0 +1,292 @@
+﻿Imports System
+Imports DevExpress.Xpo
+Imports DevExpress.Data.Filtering
+Imports System.Collections.Generic
+Imports System.ComponentModel
+
+<Persistent("GeneralLedger.MainAccounts")> _
+Public Class GeneralLedgerMainAccountsReportXpo
+    Inherits XPLiteObject
+    Dim fId As Integer
+    <Key(True)> _
+    Public Property Id() As Integer
+        Get
+            Return fId
+        End Get
+        Set(ByVal value As Integer)
+            SetPropertyValue(Of Integer)("Id", fId, value)
+        End Set
+    End Property
+    Dim fLegalBookId As Integer
+    Public Property LegalBookId() As Integer
+        Get
+            Return fLegalBookId
+        End Get
+        Set(ByVal value As Integer)
+            SetPropertyValue(Of Integer)("LegalBookId", fLegalBookId, value)
+        End Set
+    End Property
+    Dim fIdAccountLevel As Integer
+    Public Property IdAccountLevel() As Integer
+        Get
+            Return fIdAccountLevel
+        End Get
+        Set(ByVal value As Integer)
+            SetPropertyValue(Of Integer)("IdAccountLevel", fIdAccountLevel, value)
+        End Set
+    End Property
+    Dim fIdAccountClass As Integer
+    Public Property IdAccountClass() As Integer
+        Get
+            Return fIdAccountClass
+        End Get
+        Set(ByVal value As Integer)
+            SetPropertyValue(Of Integer)("IdAccountClass", fIdAccountClass, value)
+        End Set
+    End Property
+    Dim fNumber As String
+    <Size(50)> _
+    Public Property Number() As String
+        Get
+            Return fNumber
+        End Get
+        Set(ByVal value As String)
+            SetPropertyValue(Of String)("Number", fNumber, value)
+        End Set
+    End Property
+    Dim fNature As Byte
+    Public Property Nature() As Byte
+        Get
+            Return fNature
+        End Get
+        Set(ByVal value As Byte)
+            SetPropertyValue(Of Byte)("Nature", fNature, value)
+        End Set
+    End Property
+    Dim fName As String
+    Public Property Name() As String
+        Get
+            Return fName
+        End Get
+        Set(ByVal value As String)
+            SetPropertyValue(Of String)("Name", fName, value)
+        End Set
+    End Property
+    Dim fIdParent As GeneralLedgerMainAccountsReportXpo
+    <Association("GeneralLedger_MainAccountsReferencesGeneralLedger_MainAccounts")> _
+    Public Property IdParent() As GeneralLedgerMainAccountsReportXpo
+        Get
+            Return fIdParent
+        End Get
+        Set(ByVal value As GeneralLedgerMainAccountsReportXpo)
+            SetPropertyValue(Of GeneralLedgerMainAccountsReportXpo)("IdParent", fIdParent, value)
+        End Set
+    End Property
+    Dim fHandlesThirdParty As Boolean
+    Public Property HandlesThirdParty() As Boolean
+        Get
+            Return fHandlesThirdParty
+        End Get
+        Set(ByVal value As Boolean)
+            SetPropertyValue(Of Boolean)("HandlesThirdParty", fHandlesThirdParty, value)
+        End Set
+    End Property
+    Dim fCloseThirdParty As Boolean
+    Public Property CloseThirdParty() As Boolean
+        Get
+            Return fCloseThirdParty
+        End Get
+        Set(ByVal value As Boolean)
+            SetPropertyValue(Of Boolean)("CloseThirdParty", fCloseThirdParty, value)
+        End Set
+    End Property
+    Dim fIdThirdParty As CommonThirdPartyReportXpo
+    <Association("GeneralLedger_MainAccountsReferencesCommon_ThirdParty")> _
+    Public Property IdThirdParty() As CommonThirdPartyReportXpo
+        Get
+            Return fIdThirdParty
+        End Get
+        Set(ByVal value As CommonThirdPartyReportXpo)
+            SetPropertyValue(Of CommonThirdPartyReportXpo)("IdThirdParty", fIdThirdParty, value)
+        End Set
+    End Property
+    Dim fReconcileAccount As Boolean
+    Public Property ReconcileAccount() As Boolean
+        Get
+            Return fReconcileAccount
+        End Get
+        Set(ByVal value As Boolean)
+            SetPropertyValue(Of Boolean)("ReconcileAccount", fReconcileAccount, value)
+        End Set
+    End Property
+    Dim fAvailability As Byte
+    Public Property Availability() As Byte
+        Get
+            Return fAvailability
+        End Get
+        Set(ByVal value As Byte)
+            SetPropertyValue(Of Byte)("Availability", fAvailability, value)
+        End Set
+    End Property
+    Dim fHandlesCostCenter As Boolean
+    Public Property HandlesCostCenter() As Boolean
+        Get
+            Return fHandlesCostCenter
+        End Get
+        Set(ByVal value As Boolean)
+            SetPropertyValue(Of Boolean)("HandlesCostCenter", fHandlesCostCenter, value)
+        End Set
+    End Property
+    Dim fRetencionType As Byte
+    Public Property RetencionType() As Byte
+        Get
+            Return fRetencionType
+        End Get
+        Set(ByVal value As Byte)
+            SetPropertyValue(Of Byte)("RetencionType", fRetencionType, value)
+        End Set
+    End Property
+    Dim fFreelancerCategory As Boolean
+    Public Property FreelancerCategory() As Boolean
+        Get
+            Return fFreelancerCategory
+        End Get
+        Set(ByVal value As Boolean)
+            SetPropertyValue(Of Boolean)("FreelancerCategory", fFreelancerCategory, value)
+        End Set
+    End Property
+    Dim fAllowsMovement As Boolean
+    Public Property AllowsMovement() As Boolean
+        Get
+            Return fAllowsMovement
+        End Get
+        Set(ByVal value As Boolean)
+            SetPropertyValue(Of Boolean)("AllowsMovement", fAllowsMovement, value)
+        End Set
+    End Property
+    Dim fStatus As Boolean
+    Public Property Status() As Boolean
+        Get
+            Return fStatus
+        End Get
+        Set(ByVal value As Boolean)
+            SetPropertyValue(Of Boolean)("Status", fStatus, value)
+        End Set
+    End Property
+    Dim fCreationUser As String
+    <Size(20)> _
+    Public Property CreationUser() As String
+        Get
+            Return fCreationUser
+        End Get
+        Set(ByVal value As String)
+            SetPropertyValue(Of String)("CreationUser", fCreationUser, value)
+        End Set
+    End Property
+    Dim fCreationDate As DateTime
+    Public Property CreationDate() As DateTime
+        Get
+            Return fCreationDate
+        End Get
+        Set(ByVal value As DateTime)
+            SetPropertyValue(Of DateTime)("CreationDate", fCreationDate, value)
+        End Set
+    End Property
+    Dim fModificationUser As String
+    <Size(20)> _
+    Public Property ModificationUser() As String
+        Get
+            Return fModificationUser
+        End Get
+        Set(ByVal value As String)
+            SetPropertyValue(Of String)("ModificationUser", fModificationUser, value)
+        End Set
+    End Property
+    Dim fModificationDate As DateTime
+    Public Property ModificationDate() As DateTime
+        Get
+            Return fModificationDate
+        End Get
+        Set(ByVal value As DateTime)
+            SetPropertyValue(Of DateTime)("ModificationDate", fModificationDate, value)
+        End Set
+    End Property
+    <Association("FixedAsset_FixedAssetItemCatalogReferencesGeneralLedger_MainAccounts", GetType(FixedAssetItemCatalogReportXpo))> _
+    Public ReadOnly Property FixedAssetItemCatalogReportXpo() As XPCollection(Of FixedAssetItemCatalogReportXpo)
+        Get
+            Return GetCollection(Of FixedAssetItemCatalogReportXpo)("FixedAssetItemCatalogReportXpo")
+        End Get
+    End Property
+    <Association("FixedAsset_FixedAssetItemCatalogReferencesGeneralLedger_MainAccounts1", GetType(FixedAssetItemCatalogReportXpo))> _
+    Public ReadOnly Property FixedAsset_FixedAssetItemCatalogs1() As XPCollection(Of FixedAssetItemCatalogReportXpo)
+        Get
+            Return GetCollection(Of FixedAssetItemCatalogReportXpo)("FixedAsset_FixedAssetItemCatalogs1")
+        End Get
+    End Property
+    <Association("FixedAsset_FixedAssetItemCatalogReferencesGeneralLedger_MainAccounts2", GetType(FixedAssetItemCatalogReportXpo))> _
+    Public ReadOnly Property FixedAsset_FixedAssetItemCatalogs2() As XPCollection(Of FixedAssetItemCatalogReportXpo)
+        Get
+            Return GetCollection(Of FixedAssetItemCatalogReportXpo)("FixedAsset_FixedAssetItemCatalogs2")
+        End Get
+    End Property
+    <Association("FixedAsset_FixedAssetItemCatalogReferencesGeneralLedger_MainAccounts3", GetType(FixedAssetItemCatalogReportXpo))> _
+    Public ReadOnly Property FixedAsset_FixedAssetItemCatalogs3() As XPCollection(Of FixedAssetItemCatalogReportXpo)
+        Get
+            Return GetCollection(Of FixedAssetItemCatalogReportXpo)("FixedAsset_FixedAssetItemCatalogs3")
+        End Get
+    End Property
+    <Association("FixedAsset_FixedAssetItemCatalogReferencesGeneralLedger_MainAccounts4", GetType(FixedAssetItemCatalogReportXpo))> _
+    Public ReadOnly Property FixedAsset_FixedAssetItemCatalogs4() As XPCollection(Of FixedAssetItemCatalogReportXpo)
+        Get
+            Return GetCollection(Of FixedAssetItemCatalogReportXpo)("FixedAsset_FixedAssetItemCatalogs4")
+        End Get
+    End Property
+    <Association("FixedAsset_FixedAssetItemCatalogReferencesGeneralLedger_MainAccounts5", GetType(FixedAssetItemCatalogReportXpo))> _
+    Public ReadOnly Property FixedAsset_FixedAssetItemCatalogs5() As XPCollection(Of FixedAssetItemCatalogReportXpo)
+        Get
+            Return GetCollection(Of FixedAssetItemCatalogReportXpo)("FixedAsset_FixedAssetItemCatalogs5")
+        End Get
+    End Property
+    <Association("FixedAsset_FixedAssetItemCatalogReferencesGeneralLedger_MainAccounts6", GetType(FixedAssetItemCatalogReportXpo))> _
+    Public ReadOnly Property FixedAsset_FixedAssetItemCatalogs6() As XPCollection(Of FixedAssetItemCatalogReportXpo)
+        Get
+            Return GetCollection(Of FixedAssetItemCatalogReportXpo)("FixedAsset_FixedAssetItemCatalogs6")
+        End Get
+    End Property
+    <Association("FixedAsset_FixedAssetItemCatalogReferencesGeneralLedger_MainAccounts7", GetType(FixedAssetItemCatalogReportXpo))> _
+    Public ReadOnly Property FixedAsset_FixedAssetItemCatalogs7() As XPCollection(Of FixedAssetItemCatalogReportXpo)
+        Get
+            Return GetCollection(Of FixedAssetItemCatalogReportXpo)("FixedAsset_FixedAssetItemCatalogs7")
+        End Get
+    End Property
+    <Association("FixedAsset_FixedAssetItemCatalogReferencesGeneralLedger_MainAccounts8", GetType(FixedAssetItemCatalogReportXpo))> _
+    Public ReadOnly Property FixedAsset_FixedAssetItemCatalogs8() As XPCollection(Of FixedAssetItemCatalogReportXpo)
+        Get
+            Return GetCollection(Of FixedAssetItemCatalogReportXpo)("FixedAsset_FixedAssetItemCatalogs8")
+        End Get
+    End Property
+    <Association("GeneralLedger_MainAccountsReferencesGeneralLedger_MainAccounts", GetType(GeneralLedgerMainAccountsReportXpo))> _
+    Public ReadOnly Property GeneralLedger_MainAccountsCollection() As XPCollection(Of GeneralLedgerMainAccountsReportXpo)
+        Get
+            Return GetCollection(Of GeneralLedgerMainAccountsReportXpo)("GeneralLedger_MainAccountsCollection")
+        End Get
+    End Property
+    <Association("FixedAsset_FixedAssetPhysicalAssetReferencesGeneralLedger_MainAccounts", GetType(FixedAssetPhysicalAssetReportXpo))> _
+    Public ReadOnly Property FixedAssetPhysicalAssetReportXpo() As XPCollection(Of FixedAssetPhysicalAssetReportXpo)
+        Get
+            Return GetCollection(Of FixedAssetPhysicalAssetReportXpo)("FixedAssetPhysicalAssetReportXpo")
+        End Get
+    End Property
+    <Association("FixedAsset_FixedAssetActiveOutputDetailReferencesGeneralLedger_MainAccounts", GetType(FixedAssetFixedAssetActiveOutputDetailReportXpo))> _
+    Public ReadOnly Property FixedAssetFixedAssetActiveOutputDetailReportXpo() As XPCollection(Of FixedAssetFixedAssetActiveOutputDetailReportXpo)
+        Get
+            Return GetCollection(Of FixedAssetFixedAssetActiveOutputDetailReportXpo)("FixedAssetFixedAssetActiveOutputDetailReportXpo")
+        End Get
+    End Property
+    Public Sub New(ByVal session As Session)
+        MyBase.New(session)
+    End Sub
+    Public Overrides Sub AfterConstruction()
+        MyBase.AfterConstruction()
+    End Sub
+End Class

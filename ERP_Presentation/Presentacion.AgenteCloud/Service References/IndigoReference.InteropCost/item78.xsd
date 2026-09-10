@@ -1,0 +1,321 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://schemas.datacontract.org/2004/07/Domain.InteropCost.Entities" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/Domain.InteropCost.Entities" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import schemaLocation="http://localhost:9000/ServiceEntity/InteropCost.svc/ServiceEntity/?xsd=xsd3" namespace="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" />
+  <xs:complexType name="AFNDEPRECI">
+    <xs:complexContent mixed="false">
+      <xs:extension xmlns:q1="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" base="q1:EntityOfAFNDEPRECIcV0Z9yXY">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="ACAESTADO" nillable="true" type="xs:int" />
+          <xs:element minOccurs="0" name="ACAFECCHCI" nillable="true" type="xs:dateTime" />
+          <xs:element minOccurs="0" name="ACAFECELAB" nillable="true" type="xs:dateTime" />
+          <xs:element minOccurs="0" name="ACAMIGRACI" nillable="true" type="xs:boolean" />
+          <xs:element minOccurs="0" name="ACAOBSERVA" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="AFNCALDEP" nillable="true" type="tns:ArrayOfAFNCALDEP" />
+          <xs:element minOccurs="0" name="ChangeTracker" nillable="true" type="q1:ObjectChangeTracker" />
+          <xs:element minOccurs="0" name="OID" type="xs:int" />
+          <xs:element minOccurs="0" name="OptimisticLockField" nillable="true" type="xs:int" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="AFNDEPRECI" nillable="true" type="tns:AFNDEPRECI" />
+  <xs:complexType name="ArrayOfAFNCALDEP">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="AFNCALDEP" nillable="true" type="tns:AFNCALDEP" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfAFNCALDEP" nillable="true" type="tns:ArrayOfAFNCALDEP" />
+  <xs:complexType name="AFNCALDEP">
+    <xs:complexContent mixed="false">
+      <xs:extension xmlns:q2="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" base="q2:EntityOfAFNCALDEPcV0Z9yXY">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="AACDEPRECIO" nillable="true" type="xs:boolean" />
+          <xs:element minOccurs="0" name="AACVALCOA" nillable="true" type="xs:decimal" />
+          <xs:element minOccurs="0" name="ACAAJACUA" nillable="true" type="xs:decimal" />
+          <xs:element minOccurs="0" name="ACAAJINFL" nillable="true" type="xs:decimal" />
+          <xs:element minOccurs="0" name="ACAAJUMES" nillable="true" type="xs:decimal" />
+          <xs:element minOccurs="0" name="ACADEACME" nillable="true" type="xs:decimal" />
+          <xs:element minOccurs="0" name="ACADEPAJM" nillable="true" type="xs:decimal" />
+          <xs:element minOccurs="0" name="ACADEPAJU" nillable="true" type="xs:decimal" />
+          <xs:element minOccurs="0" name="ACADEPHIS" nillable="true" type="xs:decimal" />
+          <xs:element minOccurs="0" name="ACADEPMEN" nillable="true" type="xs:decimal" />
+          <xs:element minOccurs="0" name="ACADESVALO" nillable="true" type="xs:decimal" />
+          <xs:element minOccurs="0" name="ACAMESDEPR" nillable="true" type="xs:int" />
+          <xs:element minOccurs="0" name="ACAMONUHIST" nillable="true" type="xs:boolean" />
+          <xs:element minOccurs="0" name="ACAOIDMIG" nillable="true" type="xs:int" />
+          <xs:element minOccurs="0" name="ACAPORAJU" nillable="true" type="xs:decimal" />
+          <xs:element minOccurs="0" name="ACAREGMIG" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="ACAROWIDFOX" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="ACATOTVID" nillable="true" type="xs:int" />
+          <xs:element minOccurs="0" name="ACAVAACDAN" nillable="true" type="xs:decimal" />
+          <xs:element minOccurs="0" name="ACAVALADI" nillable="true" type="xs:decimal" />
+          <xs:element minOccurs="0" name="ACAVALADIM" nillable="true" type="xs:decimal" />
+          <xs:element minOccurs="0" name="ACAVALORI" nillable="true" type="xs:decimal" />
+          <xs:element minOccurs="0" name="ACAVASALI" nillable="true" type="xs:decimal" />
+          <xs:element minOccurs="0" name="ACAVIDRES" nillable="true" type="xs:int" />
+          <xs:element minOccurs="0" name="AFNACTIVO" nillable="true" type="xs:int" />
+          <xs:element minOccurs="0" name="AFNACTIVO1" nillable="true" type="tns:AFNACTIVO" />
+          <xs:element minOccurs="0" name="AFNDEPRECI" nillable="true" type="xs:int" />
+          <xs:element minOccurs="0" name="AFNDEPRECI1" nillable="true" type="tns:AFNDEPRECI" />
+          <xs:element minOccurs="0" name="AFNRESPON" nillable="true" type="xs:int" />
+          <xs:element minOccurs="0" name="AFNRESPON1" nillable="true" type="tns:AFNRESPON" />
+          <xs:element minOccurs="0" name="CTNCENCOS" nillable="true" type="xs:int" />
+          <xs:element minOccurs="0" name="CTNCENCOS1" nillable="true" type="tns:CTNCENCOS" />
+          <xs:element minOccurs="0" name="ChangeTracker" nillable="true" type="q2:ObjectChangeTracker" />
+          <xs:element minOccurs="0" name="OID" type="xs:int" />
+          <xs:element minOccurs="0" name="OptimisticLockField" nillable="true" type="xs:int" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="AFNCALDEP" nillable="true" type="tns:AFNCALDEP" />
+  <xs:complexType name="AFNACTIVO">
+    <xs:complexContent mixed="false">
+      <xs:extension xmlns:q3="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" base="q3:EntityOfAFNACTIVOcV0Z9yXY">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="AACCALCAJU" nillable="true" type="xs:boolean" />
+          <xs:element minOccurs="0" name="AACCANTIDAD" nillable="true" type="xs:int" />
+          <xs:element minOccurs="0" name="AACCODACT" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="AACDEPAJU" nillable="true" type="xs:decimal" />
+          <xs:element minOccurs="0" name="AACDPMECU" nillable="true" type="xs:boolean" />
+          <xs:element minOccurs="0" name="AACESTADO" nillable="true" type="xs:int" />
+          <xs:element minOccurs="0" name="AACESTMIG" nillable="true" type="xs:int" />
+          <xs:element minOccurs="0" name="AACESTNIIF" nillable="true" type="xs:int" />
+          <xs:element minOccurs="0" name="AACESTPROD" nillable="true" type="xs:int" />
+          <xs:element minOccurs="0" name="AACFACTPRO" nillable="true" type="xs:decimal" />
+          <xs:element minOccurs="0" name="AACFECCOM" nillable="true" type="xs:dateTime" />
+          <xs:element minOccurs="0" name="AACINDREVIUT" nillable="true" type="xs:int" />
+          <xs:element minOccurs="0" name="AACINDVIDUT" nillable="true" type="xs:int" />
+          <xs:element minOccurs="0" name="AACLLAVEDEP" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="AACMESDENI" nillable="true" type="xs:int" />
+          <xs:element minOccurs="0" name="AACMESDEP" nillable="true" type="xs:int" />
+          <xs:element minOccurs="0" name="AACMETDENI" nillable="true" type="xs:int" />
+          <xs:element minOccurs="0" name="AACMONUHIST" nillable="true" type="xs:boolean" />
+          <xs:element minOccurs="0" name="AACNUESAL" nillable="true" type="xs:decimal" />
+          <xs:element minOccurs="0" name="AACNUMPLA" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="AACOBSERVA" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="AACPODENI" nillable="true" type="xs:decimal" />
+          <xs:element minOccurs="0" name="AACREGMIG" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="AACRESVID" nillable="true" type="xs:int" />
+          <xs:element minOccurs="0" name="AACRESVIDNI" nillable="true" type="xs:int" />
+          <xs:element minOccurs="0" name="AACUNDENI" nillable="true" type="xs:int" />
+          <xs:element minOccurs="0" name="AACUNPROMES" nillable="true" type="xs:int" />
+          <xs:element minOccurs="0" name="AACVAAJIN" nillable="true" type="xs:decimal" />
+          <xs:element minOccurs="0" name="AACVADEAC" nillable="true" type="xs:decimal" />
+          <xs:element minOccurs="0" name="AACVALADIM" nillable="true" type="xs:decimal" />
+          <xs:element minOccurs="0" name="AACVALCOA" nillable="true" type="xs:decimal" />
+          <xs:element minOccurs="0" name="AACVALDEDEC" nillable="true" type="xs:decimal" />
+          <xs:element minOccurs="0" name="AACVALDEPNI" nillable="true" type="xs:decimal" />
+          <xs:element minOccurs="0" name="AACVALHOR" nillable="true" type="xs:decimal" />
+          <xs:element minOccurs="0" name="AACVALLIB" nillable="true" type="xs:decimal" />
+          <xs:element minOccurs="0" name="AACVALRES" nillable="true" type="xs:decimal" />
+          <xs:element minOccurs="0" name="AACVARANI" nillable="true" type="xs:decimal" />
+          <xs:element minOccurs="0" name="AACVASANI" nillable="true" type="xs:decimal" />
+          <xs:element minOccurs="0" name="AACVIUTNI" nillable="true" type="xs:int" />
+          <xs:element minOccurs="0" name="ACNACUAJIN" nillable="true" type="xs:decimal" />
+          <xs:element minOccurs="0" name="ACNACUAJINDE" nillable="true" type="xs:decimal" />
+          <xs:element minOccurs="0" name="ACNACUVAAJIN" nillable="true" type="xs:decimal" />
+          <xs:element minOccurs="0" name="ACNVALIMPCON" nillable="true" type="xs:decimal" />
+          <xs:element minOccurs="0" name="AFNCALDEP" nillable="true" type="tns:ArrayOfAFNCALDEP" />
+          <xs:element minOccurs="0" name="AFNMOSALI" nillable="true" type="xs:int" />
+          <xs:element minOccurs="0" name="AFNPRODUC" nillable="true" type="xs:int" />
+          <xs:element minOccurs="0" name="AFNPRODUC1" nillable="true" type="tns:AFNPRODUC" />
+          <xs:element minOccurs="0" name="AFNRESPON" nillable="true" type="xs:int" />
+          <xs:element minOccurs="0" name="AFNRESPON1" nillable="true" type="tns:AFNRESPON" />
+          <xs:element minOccurs="0" name="ChangeTracker" nillable="true" type="q3:ObjectChangeTracker" />
+          <xs:element minOccurs="0" name="GENTERCERP" nillable="true" type="xs:int" />
+          <xs:element minOccurs="0" name="INNUNIDAD" nillable="true" type="xs:int" />
+          <xs:element minOccurs="0" name="OID" type="xs:int" />
+          <xs:element minOccurs="0" name="OptimisticLockField" nillable="true" type="xs:int" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="AFNACTIVO" nillable="true" type="tns:AFNACTIVO" />
+  <xs:complexType name="AFNPRODUC">
+    <xs:complexContent mixed="false">
+      <xs:extension xmlns:q4="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" base="q4:EntityOfAFNPRODUCcV0Z9yXY">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="AFNACTIVO" nillable="true" type="tns:ArrayOfAFNACTIVO" />
+          <xs:element minOccurs="0" name="AFNCLANIIF" nillable="true" type="xs:int" />
+          <xs:element minOccurs="0" name="AFNCLASIF" nillable="true" type="xs:int" />
+          <xs:element minOccurs="0" name="AFNGRUPOS" nillable="true" type="xs:int" />
+          <xs:element minOccurs="0" name="APRCODIGO" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="APRCOSPRO" nillable="true" type="xs:decimal" />
+          <xs:element minOccurs="0" name="APRIMPCONS" nillable="true" type="xs:decimal" />
+          <xs:element minOccurs="0" name="APRNOMBRE" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="APRPORSAL" nillable="true" type="xs:decimal" />
+          <xs:element minOccurs="0" name="ChangeTracker" nillable="true" type="q4:ObjectChangeTracker" />
+          <xs:element minOccurs="0" name="GENTABIVA" nillable="true" type="xs:int" />
+          <xs:element minOccurs="0" name="OID" type="xs:int" />
+          <xs:element minOccurs="0" name="OptimisticLockField" nillable="true" type="xs:int" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="AFNPRODUC" nillable="true" type="tns:AFNPRODUC" />
+  <xs:complexType name="ArrayOfAFNACTIVO">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="AFNACTIVO" nillable="true" type="tns:AFNACTIVO" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfAFNACTIVO" nillable="true" type="tns:ArrayOfAFNACTIVO" />
+  <xs:complexType name="AFNRESPON">
+    <xs:complexContent mixed="false">
+      <xs:extension xmlns:q5="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" base="q5:EntityOfAFNRESPONcV0Z9yXY">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="AFNACTIVO" nillable="true" type="tns:ArrayOfAFNACTIVO" />
+          <xs:element minOccurs="0" name="AFNAREAS" nillable="true" type="xs:int" />
+          <xs:element minOccurs="0" name="AFNCALDEP" nillable="true" type="tns:ArrayOfAFNCALDEP" />
+          <xs:element minOccurs="0" name="AFNDEPART" nillable="true" type="xs:int" />
+          <xs:element minOccurs="0" name="AFNDIRECC" nillable="true" type="xs:int" />
+          <xs:element minOccurs="0" name="CTNCENCOS" nillable="true" type="xs:int" />
+          <xs:element minOccurs="0" name="CTNCENCOS1" nillable="true" type="tns:CTNCENCOS" />
+          <xs:element minOccurs="0" name="CTNCUENTA" nillable="true" type="xs:int" />
+          <xs:element minOccurs="0" name="CTNCUENTA1" nillable="true" type="tns:CTNCUENTA" />
+          <xs:element minOccurs="0" name="CTNCUENTA2" nillable="true" type="xs:int" />
+          <xs:element minOccurs="0" name="ChangeTracker" nillable="true" type="q5:ObjectChangeTracker" />
+          <xs:element minOccurs="0" name="GENTERCER" nillable="true" type="xs:int" />
+          <xs:element minOccurs="0" name="OID" type="xs:int" />
+          <xs:element minOccurs="0" name="OptimisticLockField" nillable="true" type="xs:int" />
+          <xs:element minOccurs="0" name="RESCEDULA" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="RESCODIGO" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="RESDEPREC" nillable="true" type="xs:boolean" />
+          <xs:element minOccurs="0" name="RESEQUIPO" nillable="true" type="xs:int" />
+          <xs:element minOccurs="0" name="RESESTADO" nillable="true" type="xs:int" />
+          <xs:element minOccurs="0" name="RESESTLOC" nillable="true" type="xs:int" />
+          <xs:element minOccurs="0" name="RESMANTEN" nillable="true" type="xs:boolean" />
+          <xs:element minOccurs="0" name="RESNOMBRE" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="RESTIPEMP" nillable="true" type="xs:int" />
+          <xs:element minOccurs="0" name="RESTIPRES" nillable="true" type="xs:int" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="AFNRESPON" nillable="true" type="tns:AFNRESPON" />
+  <xs:complexType name="CTNCENCOS">
+    <xs:complexContent mixed="false">
+      <xs:extension xmlns:q6="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" base="q6:EntityOfCTNCENCOScV0Z9yXY">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="AFNCALDEP" nillable="true" type="tns:ArrayOfAFNCALDEP" />
+          <xs:element minOccurs="0" name="AFNRESPON" nillable="true" type="tns:ArrayOfAFNRESPON" />
+          <xs:element minOccurs="0" name="CCACTIVO" nillable="true" type="xs:boolean" />
+          <xs:element minOccurs="0" name="CCCODIGO" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="CCNOMBRE" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="ChangeTracker" nillable="true" type="q6:ObjectChangeTracker" />
+          <xs:element minOccurs="0" name="GENARESER" nillable="true" type="tns:ArrayOfGENARESER" />
+          <xs:element minOccurs="0" name="OID" type="xs:int" />
+          <xs:element minOccurs="0" name="OptimisticLockField" nillable="true" type="xs:int" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="CTNCENCOS" nillable="true" type="tns:CTNCENCOS" />
+  <xs:complexType name="ArrayOfAFNRESPON">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="AFNRESPON" nillable="true" type="tns:AFNRESPON" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfAFNRESPON" nillable="true" type="tns:ArrayOfAFNRESPON" />
+  <xs:complexType name="ArrayOfGENARESER">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="GENARESER" nillable="true" type="tns:GENARESER" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfGENARESER" nillable="true" type="tns:ArrayOfGENARESER" />
+  <xs:complexType name="GENARESER">
+    <xs:complexContent mixed="false">
+      <xs:extension xmlns:q7="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" base="q7:EntityOfGENARESERcV0Z9yXY">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="ADNCENATE1" nillable="true" type="xs:int" />
+          <xs:element minOccurs="0" name="ADNCENATE2" nillable="true" type="xs:int" />
+          <xs:element minOccurs="0" name="CTNCENCOS" nillable="true" type="tns:CTNCENCOS" />
+          <xs:element minOccurs="0" name="CTNCENCOS1" nillable="true" type="xs:int" />
+          <xs:element minOccurs="0" name="CTNCUENTA" nillable="true" type="tns:CTNCUENTA" />
+          <xs:element minOccurs="0" name="CTNCUENTA1" nillable="true" type="xs:int" />
+          <xs:element minOccurs="0" name="CTNCUENTA10" nillable="true" type="tns:CTNCUENTA" />
+          <xs:element minOccurs="0" name="CTNCUENTA11" nillable="true" type="tns:CTNCUENTA" />
+          <xs:element minOccurs="0" name="CTNCUENTA12" nillable="true" type="tns:CTNCUENTA" />
+          <xs:element minOccurs="0" name="CTNCUENTA13" nillable="true" type="tns:CTNCUENTA" />
+          <xs:element minOccurs="0" name="CTNCUENTA14" nillable="true" type="tns:CTNCUENTA" />
+          <xs:element minOccurs="0" name="CTNCUENTA15" nillable="true" type="tns:CTNCUENTA" />
+          <xs:element minOccurs="0" name="CTNCUENTA2" nillable="true" type="xs:int" />
+          <xs:element minOccurs="0" name="CTNCUENTA3" nillable="true" type="xs:int" />
+          <xs:element minOccurs="0" name="CTNCUENTA4" nillable="true" type="xs:int" />
+          <xs:element minOccurs="0" name="CTNCUENTA5" nillable="true" type="xs:int" />
+          <xs:element minOccurs="0" name="CTNCUENTA6" nillable="true" type="xs:int" />
+          <xs:element minOccurs="0" name="CTNCUENTA7" nillable="true" type="xs:int" />
+          <xs:element minOccurs="0" name="CTNCUENTA8" nillable="true" type="xs:int" />
+          <xs:element minOccurs="0" name="CTNCUENTA9" nillable="true" type="tns:CTNCUENTA" />
+          <xs:element minOccurs="0" name="ChangeTracker" nillable="true" type="q7:ObjectChangeTracker" />
+          <xs:element minOccurs="0" name="GASAREURG" nillable="true" type="xs:boolean" />
+          <xs:element minOccurs="0" name="GASCODIGO" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="GASNOMBRE" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="GASORDAUT" nillable="true" type="xs:boolean" />
+          <xs:element minOccurs="0" name="GASSERPRE" nillable="true" type="xs:int" />
+          <xs:element minOccurs="0" name="GASTERMED" nillable="true" type="xs:boolean" />
+          <xs:element minOccurs="0" name="GECODSIUS" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="IFNCUENTA1" nillable="true" type="xs:int" />
+          <xs:element minOccurs="0" name="INNALMACE" nillable="true" type="xs:int" />
+          <xs:element minOccurs="0" name="INNALMACESM" nillable="true" type="xs:int" />
+          <xs:element minOccurs="0" name="OID" type="xs:int" />
+          <xs:element minOccurs="0" name="OptimisticLockField" nillable="true" type="xs:int" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="GENARESER" nillable="true" type="tns:GENARESER" />
+  <xs:complexType name="CTNCUENTA">
+    <xs:complexContent mixed="false">
+      <xs:extension xmlns:q8="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" base="q8:EntityOfCTNCUENTAcV0Z9yXY">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="AFNRESPON" nillable="true" type="tns:ArrayOfAFNRESPON" />
+          <xs:element minOccurs="0" name="CTNANEXDEC" nillable="true" type="xs:int" />
+          <xs:element minOccurs="0" name="CTNCLASE" nillable="true" type="xs:int" />
+          <xs:element minOccurs="0" name="CTNCUENTA1" nillable="true" type="xs:int" />
+          <xs:element minOccurs="0" name="CTNCUENTA11" nillable="true" type="xs:int" />
+          <xs:element minOccurs="0" name="CTNCUENTA12" nillable="true" type="tns:ArrayOfCTNCUENTA" />
+          <xs:element minOccurs="0" name="CTNCUENTA13" nillable="true" type="tns:ArrayOfCTNCUENTA" />
+          <xs:element minOccurs="0" name="CTNCUENTA14" nillable="true" type="tns:ArrayOfCTNCUENTA" />
+          <xs:element minOccurs="0" name="CTNCUENTA2" nillable="true" type="xs:int" />
+          <xs:element minOccurs="0" name="CTNCUENTA3" nillable="true" type="tns:CTNCUENTA" />
+          <xs:element minOccurs="0" name="CTNCUENTA4" nillable="true" type="tns:CTNCUENTA" />
+          <xs:element minOccurs="0" name="CTNCUENTA5" nillable="true" type="tns:CTNCUENTA" />
+          <xs:element minOccurs="0" name="CTNNIVEL" nillable="true" type="xs:int" />
+          <xs:element minOccurs="0" name="CUECIETERC" nillable="true" type="xs:boolean" />
+          <xs:element minOccurs="0" name="CUECODIGO" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="CUECONACT" nillable="true" type="xs:boolean" />
+          <xs:element minOccurs="0" name="CUECONCCUE" nillable="true" type="xs:boolean" />
+          <xs:element minOccurs="0" name="CUEDISPONI" nillable="true" type="xs:int" />
+          <xs:element minOccurs="0" name="CUEFOLOSAL" nillable="true" type="xs:boolean" />
+          <xs:element minOccurs="0" name="CUEMANAJUS" nillable="true" type="xs:boolean" />
+          <xs:element minOccurs="0" name="CUEMANCEN" nillable="true" type="xs:boolean" />
+          <xs:element minOccurs="0" name="CUEMANTER" nillable="true" type="xs:boolean" />
+          <xs:element minOccurs="0" name="CUENOCGN05002" nillable="true" type="xs:boolean" />
+          <xs:element minOccurs="0" name="CUENOMBRE" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="CUETIPRET" nillable="true" type="xs:int" />
+          <xs:element minOccurs="0" name="ChangeTracker" nillable="true" type="q8:ObjectChangeTracker" />
+          <xs:element minOccurs="0" name="GENARESER" nillable="true" type="tns:ArrayOfGENARESER" />
+          <xs:element minOccurs="0" name="GENARESER1" nillable="true" type="tns:ArrayOfGENARESER" />
+          <xs:element minOccurs="0" name="GENARESER2" nillable="true" type="tns:ArrayOfGENARESER" />
+          <xs:element minOccurs="0" name="GENARESER3" nillable="true" type="tns:ArrayOfGENARESER" />
+          <xs:element minOccurs="0" name="GENARESER4" nillable="true" type="tns:ArrayOfGENARESER" />
+          <xs:element minOccurs="0" name="GENARESER5" nillable="true" type="tns:ArrayOfGENARESER" />
+          <xs:element minOccurs="0" name="GENARESER6" nillable="true" type="tns:ArrayOfGENARESER" />
+          <xs:element minOccurs="0" name="GENARESER7" nillable="true" type="tns:ArrayOfGENARESER" />
+          <xs:element minOccurs="0" name="GENTERCER" nillable="true" type="xs:int" />
+          <xs:element minOccurs="0" name="IFNCUENTA" nillable="true" type="xs:int" />
+          <xs:element minOccurs="0" name="OID" type="xs:int" />
+          <xs:element minOccurs="0" name="OptimisticLockField" nillable="true" type="xs:int" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="CTNCUENTA" nillable="true" type="tns:CTNCUENTA" />
+  <xs:complexType name="ArrayOfCTNCUENTA">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="CTNCUENTA" nillable="true" type="tns:CTNCUENTA" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfCTNCUENTA" nillable="true" type="tns:ArrayOfCTNCUENTA" />
+</xs:schema>

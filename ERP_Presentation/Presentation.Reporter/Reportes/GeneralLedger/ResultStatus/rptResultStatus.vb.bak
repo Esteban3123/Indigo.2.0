@@ -1,0 +1,207 @@
+﻿#Region "Imports"
+
+Imports DevExpress.XtraReports.UI
+Imports Infrastructure.CrossCutting.Base
+Imports Presentation.Base
+Imports Presentation.CloudAgent
+Imports System.Globalization
+#End Region
+
+Public Class rptResultStatus
+    Implements IReport
+
+#Region "Properties"
+
+    ''' <summary>
+    ''' Variable para inicializar los valores de sesion
+    ''' </summary>
+    Dim IndigoSessionValues As SessionValues = SessionValues.Instance
+
+    Dim criterias As Dictionary(Of String, String)
+
+    ''' <summary>
+    ''' Variable par obtener la tabla de Trazabilidad
+    ''' </summary>
+    Dim dtReportResulStatus As DataTable
+
+    Public Property ParametrosReporte As Object() Implements IReport.ParametrosReporte
+
+    Public ReadOnly Property NameReport As String Implements IReport.NameReport
+        Get
+            Return ""
+        End Get
+    End Property
+
+    ''' <summary>
+    ''' Variable par obtener el nombre de la moneda del libro
+    ''' </summary>
+    Dim currencyName As String
+
+    ''' <summary>
+    ''' Variable par obtener la abreviacion de la moneda del libro
+    ''' </summary>
+    Dim currencyAbbreviation As String
+
+#End Region
+
+#Region "Load Data"
+
+    Public Sub CargarDataSource() Implements IReport.CargarDataSource
+
+    End Sub
+
+    ''' <summary>
+    ''' se ejecuta para cargar los datasource de los subreport
+    ''' </summary>
+    ''' <param name="Natures">1 = debito, 2 = credito</param>
+    ''' <returns></returns>
+    ''' <remarks></remarks>
+    Public Async Function FillListResultStatus(ByVal Natures As String) As Task(Of DataTable)
+        Try
+            criterias = ParametrosReporte(0)
+            criterias.Remove("Natures")
+            criterias.Add("Natures", Natures)
+
+            Dim ds As DataSet = Await IndigoConecta.Instancia.CurrentCloud.IndigoAccounting.GetReportResulStatusAsync(criterias, Me.IndigoSessionValues)
+            If ds IsNot Nothing Then
+                dtReportResulStatus = ds.Tables("ReportResulStatus")
+                currencyName = dtReportResulStatus.Rows(0).Field(Of String)("LegalBookCurrency")
+                currencyAbbreviation = dtReportResulStatus.Rows(0).Field(Of String)("LegalBookCurrencyAbbreviation")
+            Else
+                dtReportResulStatus = Nothing
+            End If
+            Return dtReportResulStatus
+        Catch ex As Exception
+            MessageIndigo.Show(GetExceptionDetails(ex), MessageType.Errores, Me.Text, Botones.Aceptar, "")
+            Return dtReportResulStatus
+        End Try
+    End Function
+
+#End Region
+
+#Region "Methods"
+
+    Public Sub CargarImagenes() Implements IReport.CargarImagenes
+
+    End Sub
+
+    Public Function GetExceptionDetails(exception As Exception) As String
+        Dim properties = exception.[GetType]().GetProperties()
+        Dim fields = properties.[Select](Function([property]) New With {
+            Key .Name = [property].Name,
+            Key .Value = [property].GetValue(exception, Nothing)
+        }).[Select](Function(x) [String].Format("{0} : {1}", x.Name, If(x.Value IsNot Nothing, x.Value.ToString(), [String].Empty)))
+        Return [String].Join(vbLf, fields)
+    End Function
+
+#End Region
+
+#Region "Events"
+
+    Private Sub rptResultStatus_BeforePrint(sender As Object, e As Printing.PrintEventArgs) Handles MyBase.BeforePrint
+        Dim initialRangefechaIni As Date = New Date(Me.criterias("InitialRangeYear"), Me.criterias("InitialRangeMonthStart"), 1)
+        Dim initialRangefechafin As Date = New Date(Me.criterias("InitialRangeYear"), Me.criterias("FinalRangeMonthStart"), 1)
+
+        'Cargar los valores del titulo
+        Me.INDLblCompany.Text = IndigoSessionValues.IndigoCompanyName
+        Me.INDLblNitCompany.Text = "Nit : " & IndigoSessionValues.IndigoCompanyNit
+        Me.INDLblUserPrint.Text = "Usuario Impresión : " & IndigoSessionValues.UserIndigo & " - " & IndigoSessionValues.UserIndigoName
+        INDLblDate.Text = "Informe comprendido entre " & initialRangefechaIni.ToString("MMMM \del yyyy") & " a " & initialRangefechafin.ToString("MMMM \del yyyy")
+        INDLblTitle.Text = Me.criterias("Title")
+        INDLblBook.Text = Me.criterias("LegalBookName")
+
+        'visualizacion de informe por presentación bancaria o estandar
+        If Me.criterias("Visualization") = 1 Then
+            INDSbrStandar.Visible = True
+
+            'Group Header Band Del Subreport 3
+            Dim INDGroupSubAuxiliar As GroupHeaderBand = INDSbrStandar.ReportSource.FindControl("INDGhSubAuxiliar", True)
+            Dim INDGroupThirdParty As GroupHeaderBand = INDSbrStandar.ReportSource.FindControl("INDGhThirdParty", True)
+
+            'tablas del subreport 3
+            Dim TableDescription As XRTable = INDSbrStandar.ReportSource.FindControl("INDTblDescription", True)
+            Dim TableSubAuxiliar As XRTable = INDSbrStandar.ReportSource.FindControl("INDTblSubAuxiliar", True)
+
+            'no detallar tercero
+            If Me.criterias("DetailingThird") = False Then
+                INDGroupThirdParty.Visible = False
+
+                'eliminar las celdas tercero cuando no se detalla por tercero en la tabla de descipción
+                Dim RowDescription As XRTableRow = TableDescription.Rows(0)
+                If RowDescription.Cells("INDCllThirdPartyDescription") IsNot Nothing Then
+                    RowDescription.Cells.Remove(INDSbrStandar.ReportSource.FindControl("INDCllThirdPartyDescription", True))
+                    INDSbrStandar.ReportSource.FindControl("XrTableCell1", True).WidthF = 90
+                    INDSbrStandar.ReportSource.FindControl("XrTableCell2", True).WidthF = 315
+                    INDSbrStandar.ReportSource.FindControl("XrTableCell4", True).WidthF = 96
+                    INDSbrStandar.ReportSource.FindControl("XrTableCell5", True).WidthF = 96
+                    INDSbrStandar.ReportSource.FindControl("XrTableCell6", True).WidthF = 96
+                    INDSbrStandar.ReportSource.FindControl("XrTableCell7", True).WidthF = 105
+                End If
+
+                'eliminar las celdas tercero cuando no se detalla por tercero en la tabla de Auxiliar
+                Dim RowSubAuxiliar As XRTableRow = TableSubAuxiliar.Rows(0)
+                If RowSubAuxiliar.Cells("XrTableCell39") IsNot Nothing Then
+                    RowSubAuxiliar.Cells.Remove(INDSbrStandar.ReportSource.FindControl("XrTableCell39", True))
+                    INDSbrStandar.ReportSource.FindControl("XrTableCell33", True).WidthF = 90
+                    INDSbrStandar.ReportSource.FindControl("XrTableCell38", True).WidthF = 315
+                    INDSbrStandar.ReportSource.FindControl("XrTableCell40", True).WidthF = 96
+                    INDSbrStandar.ReportSource.FindControl("XrTableCell41", True).WidthF = 96
+                    INDSbrStandar.ReportSource.FindControl("XrTableCell42", True).WidthF = 96
+                    INDSbrStandar.ReportSource.FindControl("XrTableCell43", True).WidthF = 105
+                End If
+            End If
+        ElseIf Me.criterias("Visualization") = 2 Then
+            INDSbrTrimester.Visible = True
+
+            'Group Header Band Del Subreport 3
+            Dim INDGroupSubAuxiliar As GroupHeaderBand = INDSbrTrimester.ReportSource.FindControl("INDGhSubAuxiliar", True)
+
+            Dim INDDateCurrent As Date = DateSerial(Year(initialRangefechafin), Month(initialRangefechafin) + 1, 0)
+            INDSbrTrimester.ReportSource.FindControl("INDCllPeriodCurrent", True).Text = "PERIODO ACTUAL A " & INDDateCurrent.ToString("dd/MM/yyyy")
+            INDSbrTrimester.ReportSource.FindControl("INDCllPeriodPrevious", True).Text = "PERIODO ANTERIOR A " & initialRangefechaIni.ToString("dd/MM/yyyy")
+        ElseIf Me.criterias("Visualization") = 3 Then
+            INDSbrIncome.Visible = True
+            INDSbrCosts.Visible = True
+
+            'Group Header Band Del Subreport 1
+            Dim INDGroupSubAuxiliarIncome As GroupHeaderBand = INDSbrIncome.ReportSource.FindControl("INDGhSubAuxiliar", True)
+
+            'Group Header Band Del Subreport 2
+            Dim INDGroupSubAuxiliarCosts As GroupHeaderBand = INDSbrCosts.ReportSource.FindControl("INDGhSubAuxiliar", True)
+
+            Me.INDLblDescriptionExercise.Visible = True
+            Me.INDLblTotalExercise.Visible = True
+            Me.INDLblDescriptionIncome.Visible = True
+            Me.INDLblTotalIncoime.Visible = True
+            Me.INDLblDescriptionExpensesCosts.Visible = True
+            Me.INDLblTotalExpensesCosts.Visible = True
+        End If
+
+        If currencyAbbreviation IsNot Nothing Then
+            Dim _culture As CultureInfo = CultureInfo.CurrentCulture.Clone()
+            _culture.NumberFormat = currencyAbbreviation.GetNumberFormat
+            ApplyLocalization(_culture)
+        End If
+        Me.CurrencyLabel.Text = "Moneda: " + currencyName
+    End Sub
+
+    Private Sub INDLblTotalIncoime_BeforePrint(sender As Object, e As Printing.PrintEventArgs) Handles INDLblTotalIncoime.BeforePrint
+        If Me.criterias("Visualization") = 3 Then
+            'imprimir total Ingresos, total Gastos + costos y total ejercicio 
+            Dim ValueExercise = CDec(rptResultStatusIncome.ValueIncome) - CDec(rptResultStatusExpensesCosts.ValueExpensesCosts)
+
+            If ValueExercise < 0 Then
+                Me.INDLblDescriptionExercise.Text = "DEFICIT DEL EJERCICIO"
+            Else
+                Me.INDLblDescriptionExercise.Text = "SUPERAVIT DEL EJERCICIO"
+            End If
+
+            Me.INDLblTotalExercise.Text = Format(ValueExercise, "c2")
+            Me.INDLblTotalExpensesCosts.Text = Format(CDec(rptResultStatusExpensesCosts.ValueExpensesCosts), "c2")
+            Me.INDLblTotalIncoime.Text = Format(CDec(rptResultStatusIncome.ValueIncome), "c2")
+        End If
+    End Sub
+
+#End Region
+
+End Class

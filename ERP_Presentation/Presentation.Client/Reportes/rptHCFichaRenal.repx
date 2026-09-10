@@ -1,0 +1,653 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<XtraReportsLayoutSerializer SerializerVersion="20.1.8.0" Ref="0" Name="rptHCFichaRenal" ControlType="DevExpress.XtraReports.UI.XtraReport, DevExpress.XtraReports.v20.1, Version=20.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" Version="20.1" SnapGridSize="5.5" PageWidth="850" PageHeight="1100" ScriptLanguage="VisualBasic" Margins="50, 19, 35, 31">
+  <Bands>
+    <Item1 Ref="1" ControlType="DetailBand" Name="Detail" TextAlignment="TopLeft" Padding="0,0,0,0,100" Expanded="false" HeightF="0" />
+    <Item2 Ref="2" Name="TopMargin" ControlType="TopMarginBand" TextAlignment="TopLeft" Padding="0,0,0,0,100" HeightF="35" />
+    <Item3 Ref="3" Name="BottomMargin" ControlType="BottomMarginBand" TextAlignment="TopLeft" Padding="0,0,0,0,100" HeightF="31" />
+    <Item4 Ref="4" Name="CabeceraReporte" ControlType="ReportHeaderBand" HeightF="74.29164">
+      <Controls>
+        <Item1 Ref="5" Name="INDLblNombreEmpresaCliente" ControlType="XRLabel" SizeF="749.9999,25" LocationFloat="15.50006, 0" Font="Times New Roman, 14.25pt, style=Bold, charSet=0" Padding="2,2,0,0,100" TextAlignment="MiddleCenter" AnchorVertical="Top" LockedInUserDesigner="true" Text="INDIGO TECHNOLOGIES">
+          <StylePriority Ref="6" UseFont="false" UseTextAlignment="false" />
+        </Item1>
+        <Item2 Ref="7" Name="INDLblNitCliente" ControlType="XRLabel" SizeF="749.9999,17" LocationFloat="15.50006, 25" Font="Arial, 9.75pt, charSet=0" Padding="2,2,0,0,100" TextAlignment="MiddleCenter" LockedInUserDesigner="true" Text="800000100-0">
+          <StylePriority Ref="8" UseFont="false" UseTextAlignment="false" />
+        </Item2>
+        <Item3 Ref="9" Name="INDlblNombreReporte" ControlType="XRLabel" SizeF="749.9166,25" LocationFloat="15.50006, 41.99998" Font="Arial, 11.25pt, style=Bold, charSet=0" Padding="2,2,0,0,100" TextAlignment="MiddleCenter" LockedInUserDesigner="true" Text="REPORTE FICHA RENAL">
+          <StylePriority Ref="10" UseFont="false" UseTextAlignment="false" />
+        </Item3>
+      </Controls>
+    </Item4>
+    <Item5 Ref="11" ControlType="PageHeaderBand" Name="PageHeader" HeightF="78.125">
+      <Controls>
+        <Item1 Ref="12" Name="XrLabel104" ControlType="XRLabel" SizeF="222.9999,17" LocationFloat="370.6666, 17.00004" Font="Arial, 8.25pt, charSet=0" Padding="2,2,0,0,100" Text="INDlblFechaHistoria">
+          <DataBindings>
+            <Item1 Ref="13" PropertyName="Text" DataMember="Ingresos.CAUSA DEL INGRESO" />
+          </DataBindings>
+          <StylePriority Ref="14" UseFont="false" />
+        </Item1>
+        <Item2 Ref="15" Name="XrLabel83" ControlType="XRLabel" SizeF="108,17" LocationFloat="262.6666, 17.00004" Font="Arial, 8.25pt, style=Bold, charSet=0" Padding="2,2,0,0,100" Text="Causa del ‌Ingreso:">
+          <StylePriority Ref="16" UseFont="false" />
+        </Item2>
+        <Item3 Ref="17" Name="INDlblFechaIngreso" ControlType="XRLabel" Bookmark="Fecha Ingreso" SizeF="142,17" LocationFloat="95.6666, 17.00004" Font="Arial, 8.25pt, charSet=0" Padding="2,2,0,0,100" Text="INDlblFechaHistoria">
+          <DataBindings>
+            <Item1 Ref="18" PropertyName="Text" DataMember="Ingresos.FECHA DEL INGRESO" />
+          </DataBindings>
+          <StylePriority Ref="19" UseFont="false" />
+        </Item3>
+        <Item4 Ref="20" Name="XrLabel4" ControlType="XRLabel" SizeF="92,17" LocationFloat="3.666608, 17.00004" Font="Arial, 8.25pt, style=Bold, charSet=0" Padding="2,2,0,0,100" Text="Fecha Ingreso:">
+          <StylePriority Ref="21" UseFont="false" />
+        </Item4>
+        <Item5 Ref="22" Name="XrPageInfo1" ControlType="XRPageInfo" SizeF="83,17" Font="Times New Roman, 9.75pt, style=Bold, Underline, charSet=0" Padding="2,2,0,0,100" LocationFloat="670.5832, 0" Format="Página {0}/{1}">
+          <StylePriority Ref="23" UseFont="false" />
+        </Item5>
+        <Item6 Ref="24" Name="XrLabel97" ControlType="XRLabel" SizeF="101,16.99999" LocationFloat="2.666609, 51.00002" Font="Arial, 8.25pt, style=Bold, charSet=0" Padding="2,2,0,0,100" Text="Número de Folio:">
+          <StylePriority Ref="25" UseFont="false" />
+        </Item6>
+        <Item7 Ref="26" Name="INDlblNumeroFolio" ControlType="XRLabel" Bookmark="Folio" SizeF="91.99998,16.99999" LocationFloat="103.6666, 51.00002" Font="Arial, 8.25pt, style=Bold, charSet=0" Padding="2,2,0,0,100" Text="INDlblNumeroFolio">
+          <DataBindings>
+            <Item1 Ref="27" PropertyName="Text" DataMember="Historia.NUMERO FOLIO" />
+          </DataBindings>
+          <StylePriority Ref="28" UseFont="false" />
+        </Item7>
+        <Item8 Ref="29" Name="XrLabel101" ControlType="XRLabel" SizeF="67,17" LocationFloat="195.6666, 51.00002" Font="Arial, 8.25pt, style=Bold, charSet=0" Padding="2,2,0,0,100" Text="Ubicación:">
+          <StylePriority Ref="30" UseFont="false" />
+        </Item8>
+        <Item9 Ref="31" Name="INDlblUbicacion" ControlType="XRLabel" SizeF="466,16.99999" LocationFloat="262.6666, 51.00002" Font="Arial, 8.25pt, charSet=0" Padding="2,2,0,0,100" Text="INDlblUbicacion">
+          <DataBindings>
+            <Item1 Ref="32" PropertyName="Text" DataMember="Historia.UBICACION" />
+          </DataBindings>
+          <StylePriority Ref="33" UseFont="false" />
+        </Item9>
+        <Item10 Ref="34" Name="XrLine2" ControlType="XRLine" SizeF="752.4998,2" LocationFloat="1.166606, 70" />
+        <Item11 Ref="35" Name="XrLabel95" ControlType="XRLabel" SizeF="50,17" LocationFloat="3.666536, 3.178914E-05" Font="Arial, 8.25pt, style=Bold, charSet=0" Padding="2,2,0,0,100" Text="Ingreso:">
+          <StylePriority Ref="36" UseFont="false" />
+        </Item11>
+        <Item12 Ref="37" Name="INDlblIngreso" ControlType="XRLabel" Bookmark="Ingreso" SizeF="125,17" LocationFloat="53.66662, 0" Font="Arial, 8.25pt, style=Bold" Padding="2,2,0,0,100" Text="INDlblIngreso">
+          <DataBindings>
+            <Item1 Ref="38" PropertyName="Text" DataMember="Historia.INGRESO" />
+          </DataBindings>
+          <StylePriority Ref="39" UseFont="false" />
+        </Item12>
+        <Item13 Ref="40" Name="XrLabel99" ControlType="XRLabel" SizeF="92,17" LocationFloat="187.6666, 0" Font="Arial, 8.25pt, style=Bold, charSet=0" Padding="2,2,0,0,100" Text="Fecha Historia:">
+          <StylePriority Ref="41" UseFont="false" />
+        </Item13>
+        <Item14 Ref="42" Name="INDlblFechaHistoria" ControlType="XRLabel" Bookmark="Fecha Historia" SizeF="163.4167,17" LocationFloat="279.6666, 0" Font="Arial, 8.25pt, charSet=0" Padding="2,2,0,0,100" Text="INDlblFechaHistoria">
+          <DataBindings>
+            <Item1 Ref="43" PropertyName="Text" DataMember="Historia.FECHA DE ATENCION INICIAL" />
+          </DataBindings>
+          <StylePriority Ref="44" UseFont="false" />
+        </Item14>
+        <Item15 Ref="45" Name="XrLabel61" ControlType="XRLabel" SizeF="92,17" LocationFloat="443.0832, 0" Font="Arial, 8.25pt, style=Bold, charSet=0" Padding="2,2,0,0,100" Text="# Autorización:">
+          <StylePriority Ref="46" UseFont="false" />
+        </Item15>
+        <Item16 Ref="47" Name="INDlblAutorizacion" ControlType="XRLabel" WordWrap="false" Bookmark="# de Autorización" SizeF="133,17" LocationFloat="535.0831, 0" Font="Arial, 8.25pt, charSet=0" Padding="2,2,0,0,100" CanGrow="false" Text="INDlblAutorizacion">
+          <DataBindings>
+            <Item1 Ref="48" PropertyName="Text" DataMember="Ingresos.NUMERO DE AUTORIZACION E INGRESO" />
+          </DataBindings>
+          <StylePriority Ref="49" UseFont="false" />
+        </Item16>
+        <Item17 Ref="50" Name="XrLabel1" ControlType="XRLabel" SizeF="83,17" LocationFloat="3.666608, 34.00005" Font="Arial, 8.25pt, style=Bold, charSet=0" Padding="2,2,0,0,100" Text="Identificación:">
+          <StylePriority Ref="51" UseFont="false" />
+        </Item17>
+        <Item18 Ref="52" Name="XrLabel18" ControlType="XRLabel" SizeF="67,17" LocationFloat="195.6666, 34.00005" Font="Arial, 8.25pt, style=Bold, charSet=0" Padding="2,2,0,0,100" Text="Nombres:">
+          <StylePriority Ref="53" UseFont="false" />
+        </Item18>
+        <Item19 Ref="54" Name="XrLabel24" ControlType="XRLabel" SizeF="193.5,17" LocationFloat="262.6666, 34.00005" Font="Arial, 8.25pt, charSet=0" Padding="2,2,0,0,100" Text="INDlblNombres">
+          <DataBindings>
+            <Item1 Ref="55" PropertyName="Text" DataMember="Cabecera Reporte.NOMBRES" />
+          </DataBindings>
+          <StylePriority Ref="56" UseFont="false" />
+        </Item19>
+        <Item20 Ref="57" Name="XrLabel56" ControlType="XRLabel" SizeF="66.99997,17" LocationFloat="456.1666, 34.00005" Font="Arial, 8.25pt, style=Bold, charSet=0" Padding="2,2,0,0,100" Text="Apellidos:">
+          <StylePriority Ref="58" UseFont="false" />
+        </Item20>
+        <Item21 Ref="59" Name="XrLabel58" ControlType="XRLabel" SizeF="252.5001,17" LocationFloat="523.1666, 34.00005" Font="Arial, 8.25pt, charSet=0" Padding="2,2,0,0,100" Text="INDlblApellidos">
+          <DataBindings>
+            <Item1 Ref="60" PropertyName="Text" DataMember="Cabecera Reporte.APELLIDOS" />
+          </DataBindings>
+          <StylePriority Ref="61" UseFont="false" />
+        </Item21>
+        <Item22 Ref="62" Name="INDlblNumeroDoc" ControlType="XRLabel" Bookmark="# de Documento" SizeF="99.99997,17" LocationFloat="95.6666, 34.00005" Font="Arial, 8.25pt, style=Bold, charSet=0" Padding="2,2,0,0,100" Text="INDlblNumeroDoc">
+          <DataBindings>
+            <Item1 Ref="63" PropertyName="Text" DataMember="Cabecera Reporte.CODIGO PACIENTE" />
+          </DataBindings>
+          <StylePriority Ref="64" UseFont="false" />
+        </Item22>
+      </Controls>
+    </Item5>
+    <Item6 Ref="65" ControlType="GroupHeaderBand" Name="GroupDatosBasicos" Expanded="false" Level="3" HeightF="169.7917">
+      <Controls>
+        <Item1 Ref="66" Name="XrLabel103" ControlType="XRLabel" SizeF="93.5,17.00001" LocationFloat="420.6666, 128" Font="Arial, 8.25pt, style=Bold, charSet=0" Padding="2,2,0,0,100" Text="Grupo Étnico:">
+          <StylePriority Ref="67" UseFont="false" />
+        </Item1>
+        <Item2 Ref="68" Name="XrLabel102" ControlType="XRLabel" SizeF="231.5,17.00002" LocationFloat="514.1666, 128" Font="Arial, 8.25pt, charSet=0" Padding="2,2,0,0,100" Text="INDlblGrupoEtnico">
+          <DataBindings>
+            <Item1 Ref="69" PropertyName="Text" DataMember="Cabecera Reporte.GRUPO ETNICO" />
+          </DataBindings>
+          <StylePriority Ref="70" UseFont="false" />
+        </Item2>
+        <Item3 Ref="71" Name="XrLabel384" ControlType="XRLabel" SizeF="74.75,17.00001" LocationFloat="3.66656, 128" Font="Arial, 8.25pt, style=Bold, charSet=0" Padding="2,2,0,0,100" Text="Estado Civil:">
+          <StylePriority Ref="72" UseFont="false" />
+        </Item3>
+        <Item4 Ref="73" Name="XrLabel392" ControlType="XRLabel" SizeF="74.99999,17" LocationFloat="3.66656, 145" Font="Arial, 8.25pt, style=Bold, charSet=0" Padding="2,2,0,0,100" Text="Profesión:">
+          <StylePriority Ref="74" UseFont="false" />
+        </Item4>
+        <Item5 Ref="75" Name="INDlblEstadoCivil" ControlType="XRLabel" SizeF="334,17.00001" LocationFloat="78.66656, 128" Font="Arial, 8.25pt, charSet=0" Padding="2,2,0,0,100" Text="INDlblTipoAfiliado">
+          <DataBindings>
+            <Item1 Ref="76" PropertyName="Text" DataMember="Cabecera Reporte.ESTADO CIVIL" />
+          </DataBindings>
+          <StylePriority Ref="77" UseFont="false" />
+        </Item5>
+        <Item6 Ref="78" Name="INDlblProfesion" ControlType="XRLabel" SizeF="334,17" LocationFloat="78.66656, 145" Font="Arial, 8.25pt, charSet=0" Padding="2,2,0,0,100" Text="INDlblTipoAfiliado">
+          <DataBindings>
+            <Item1 Ref="79" PropertyName="Text" DataMember="Cabecera Reporte.PROFESION" />
+          </DataBindings>
+          <StylePriority Ref="80" UseFont="false" />
+        </Item6>
+        <Item7 Ref="81" Name="INDlblRH" ControlType="XRLabel" SizeF="73.08328,17" LocationFloat="585.2499, 76.00002" Font="Arial, 8.25pt, charSet=0" Padding="2,2,0,0,100" Text="INDlblSexo">
+          <DataBindings>
+            <Item1 Ref="82" PropertyName="Text" DataMember="Cabecera Reporte.RH SANGRE" />
+          </DataBindings>
+          <StylePriority Ref="83" UseFont="false" />
+        </Item7>
+        <Item8 Ref="84" Name="XrLabel63" ControlType="XRLabel" SizeF="42,17" LocationFloat="543.2499, 76.00002" Font="Arial, 8.25pt, style=Bold, charSet=0" Padding="2,2,0,0,100" Text="RH:">
+          <StylePriority Ref="85" UseFont="false" />
+        </Item8>
+        <Item9 Ref="86" Name="INDlblGrupo" ControlType="XRLabel" SizeF="73.08328,17" LocationFloat="470.1667, 76.00002" Font="Arial, 8.25pt, charSet=0" Padding="2,2,0,0,100" Text="INDlblSexo">
+          <DataBindings>
+            <Item1 Ref="87" PropertyName="Text" DataMember="Cabecera Reporte.GRUPO SANGUINEO" />
+          </DataBindings>
+          <StylePriority Ref="88" UseFont="false" />
+        </Item9>
+        <Item10 Ref="89" Name="XrLabel59" ControlType="XRLabel" SizeF="49.50003,17" LocationFloat="420.6666, 76.00002" Font="Arial, 8.25pt, style=Bold, charSet=0" Padding="2,2,0,0,100" Text="Grupo:">
+          <StylePriority Ref="90" UseFont="false" />
+        </Item10>
+        <Item11 Ref="91" Name="INDlblTipoAfiliado" ControlType="XRLabel" SizeF="232.9999,16.00001" LocationFloat="512.6666, 111" Font="Arial, 8.25pt, charSet=0" Padding="2,2,0,0,100" Text="INDlblTipoAfiliado">
+          <DataBindings>
+            <Item1 Ref="92" PropertyName="Text" DataMember="Cabecera Reporte.TIPO AFILIADO" />
+          </DataBindings>
+          <StylePriority Ref="93" UseFont="false" />
+        </Item11>
+        <Item12 Ref="94" Name="XrLabel15" ControlType="XRLabel" SizeF="92,17" LocationFloat="420.6664, 111" Font="Arial, 8.25pt, style=Bold, charSet=0" Padding="2,2,0,0,100" Text="Tipo Afiliado:">
+          <StylePriority Ref="95" UseFont="false" />
+        </Item12>
+        <Item13 Ref="96" Name="INDlblTipoPaciente" ControlType="XRLabel" SizeF="232.9999,17.00001" LocationFloat="512.6666, 94.00002" Font="Arial, 8.25pt, charSet=0" Padding="2,2,0,0,100" Text="INDlblTipoPaciente">
+          <DataBindings>
+            <Item1 Ref="97" PropertyName="Text" DataMember="Cabecera Reporte.TIPO PACIENTE" />
+          </DataBindings>
+          <StylePriority Ref="98" UseFont="false" />
+        </Item13>
+        <Item14 Ref="99" Name="XrLabel14" ControlType="XRLabel" SizeF="92,17" LocationFloat="420.6664, 94.00002" Font="Arial, 8.25pt, style=Bold, charSet=0" Padding="2,2,0,0,100" Text="Tipo Paciente:">
+          <StylePriority Ref="100" UseFont="false" />
+        </Item14>
+        <Item15 Ref="101" Name="INDlblEntidad" ControlType="XRLabel" SizeF="282.2916,17.00001" LocationFloat="130.9583, 94.00002" Font="Arial, 8.25pt, charSet=0" Padding="2,2,0,0,100" Text="INDlblEntidad">
+          <DataBindings>
+            <Item1 Ref="102" PropertyName="Text" DataMember="Cabecera Reporte.NOMBRE ENTIDAD" />
+          </DataBindings>
+          <StylePriority Ref="103" UseFont="false" />
+        </Item15>
+        <Item16 Ref="104" Name="XrLabel13" ControlType="XRLabel" SizeF="127.2917,17.00001" LocationFloat="3.66656, 94.00002" Font="Arial, 8.25pt, style=Bold, charSet=0" Padding="2,2,0,0,100" Text="Entidad Responsable:">
+          <StylePriority Ref="105" UseFont="false" />
+        </Item16>
+        <Item17 Ref="106" Name="INDlblTelefono" ControlType="XRLabel" SizeF="334.5833,17" LocationFloat="78.6666, 76.00002" Font="Arial, 8.25pt, charSet=0" Padding="2,2,0,0,100" Text="INDlblTelefono">
+          <DataBindings>
+            <Item1 Ref="107" PropertyName="Text" DataMember="Cabecera Reporte.TELEFONO" />
+          </DataBindings>
+          <StylePriority Ref="108" UseFont="false" />
+        </Item17>
+        <Item18 Ref="109" Name="XrLabel12" ControlType="XRLabel" SizeF="74,17" LocationFloat="3.666608, 76.00002" Font="Arial, 8.25pt, style=Bold, charSet=0" Padding="2,2,0,0,100" Text="Teléfono:">
+          <StylePriority Ref="110" UseFont="false" />
+        </Item18>
+        <Item19 Ref="111" Name="INDlblDireccion" ControlType="XRLabel" SizeF="334.5833,17" LocationFloat="78.6666, 59.00002" Font="Arial, 8.25pt, charSet=0" Padding="2,2,0,0,100" Text="INDlblDireccion">
+          <DataBindings>
+            <Item1 Ref="112" PropertyName="Text" DataMember="Cabecera Reporte.DIRECCION" />
+          </DataBindings>
+          <StylePriority Ref="113" UseFont="false" />
+        </Item19>
+        <Item20 Ref="114" Name="XrLabel10" ControlType="XRLabel" SizeF="74,17" LocationFloat="3.666608, 59.00002" Font="Arial, 8.25pt, style=Bold, charSet=0" Padding="2,2,0,0,100" Text="Dirección:">
+          <StylePriority Ref="115" UseFont="false" />
+        </Item20>
+        <Item21 Ref="116" Name="INDlblNumeroDocumento" ControlType="XRLabel" SizeF="135.4998,17" LocationFloat="610.1667, 25" Font="Arial, 8.25pt, style=Bold, charSet=0" Padding="2,2,0,0,100" Text="INDlblNumeroDoc">
+          <DataBindings>
+            <Item1 Ref="117" PropertyName="Text" DataMember="Cabecera Reporte.CODIGO PACIENTE" />
+          </DataBindings>
+          <StylePriority Ref="118" UseFont="false" />
+        </Item21>
+        <Item22 Ref="119" Name="XrLabel11" ControlType="XRLabel" SizeF="55.50006,17" LocationFloat="554.6666, 25" Font="Arial, 8.25pt, style=Bold, charSet=0" Padding="2,2,0,0,100" Text="Numero:">
+          <StylePriority Ref="120" UseFont="false" />
+        </Item22>
+        <Item23 Ref="121" Name="INDlblTipoDocumento" ControlType="XRLabel" WordWrap="false" SizeF="33,17" LocationFloat="520.6666, 25" Font="Arial, 8.25pt, charSet=0" Padding="2,2,0,0,100" CanGrow="false" Text="INDlblTipoDoc">
+          <DataBindings>
+            <Item1 Ref="122" PropertyName="Text" DataMember="Cabecera Reporte.TIPO DOCUMENTO" />
+          </DataBindings>
+          <StylePriority Ref="123" UseFont="false" />
+        </Item23>
+        <Item24 Ref="124" Name="XrLabel9" ControlType="XRLabel" SizeF="100,17" LocationFloat="420.6664, 25" Font="Arial, 8.25pt, style=Bold, charSet=0" Padding="2,2,0,0,100" Text="Tipo Documento:">
+          <StylePriority Ref="125" UseFont="false" />
+        </Item24>
+        <Item25 Ref="126" Name="INDlblSexo" ControlType="XRLabel" SizeF="282.9999,17" LocationFloat="462.6667, 59.00002" Font="Arial, 8.25pt, charSet=0" Padding="2,2,0,0,100" Text="INDlblSexo">
+          <DataBindings>
+            <Item1 Ref="127" PropertyName="Text" DataMember="Cabecera Reporte.SEXO" />
+          </DataBindings>
+          <StylePriority Ref="128" UseFont="false" />
+        </Item25>
+        <Item26 Ref="129" Name="XrLabel8" ControlType="XRLabel" SizeF="42,17" LocationFloat="420.6666, 59.00002" Font="Arial, 8.25pt, style=Bold, charSet=0" Padding="2,2,0,0,100" Text="Sexo:">
+          <StylePriority Ref="130" UseFont="false" />
+        </Item26>
+        <Item27 Ref="131" Name="INDlblEdad" ControlType="XRLabel" SizeF="282.9999,17" LocationFloat="462.6667, 42.00001" Font="Arial, 8.25pt, charSet=0" Padding="2,2,0,0,100" Text="INDlblEdad">
+          <DataBindings>
+            <Item1 Ref="132" PropertyName="Text" DataMember="Cabecera Reporte.FECHA DE NACIMIENTO" />
+          </DataBindings>
+          <StylePriority Ref="133" UseFont="false" />
+        </Item27>
+        <Item28 Ref="134" Name="XrLabel7" ControlType="XRLabel" SizeF="42,17" LocationFloat="420.6666, 42.00001" Font="Arial, 8.25pt, style=Bold, charSet=0" Padding="2,2,0,0,100" Text="Edad:">
+          <StylePriority Ref="135" UseFont="false" />
+        </Item28>
+        <Item29 Ref="136" Name="INDlblNombres" ControlType="XRLabel" SizeF="334.5833,17" LocationFloat="78.6666, 42.00001" Font="Arial, 8.25pt, charSet=0" Padding="2,2,0,0,100" Text="INDlblNombres">
+          <DataBindings>
+            <Item1 Ref="137" PropertyName="Text" DataMember="Cabecera Reporte.NOMBRES" />
+          </DataBindings>
+          <StylePriority Ref="138" UseFont="false" />
+        </Item29>
+        <Item30 Ref="139" Name="XrLabel6" ControlType="XRLabel" SizeF="74,17" LocationFloat="3.666608, 42.00001" Font="Arial, 8.25pt, style=Bold, charSet=0" Padding="2,2,0,0,100" Text="Nombres:">
+          <StylePriority Ref="140" UseFont="false" />
+        </Item30>
+        <Item31 Ref="141" Name="INDlblApellidos" ControlType="XRLabel" SizeF="334.5833,17" LocationFloat="78.6666, 25" Font="Arial, 8.25pt, charSet=0" Padding="2,2,0,0,100" Text="INDlblApellidos">
+          <DataBindings>
+            <Item1 Ref="142" PropertyName="Text" DataMember="Cabecera Reporte.APELLIDOS" />
+          </DataBindings>
+          <StylePriority Ref="143" UseFont="false" />
+        </Item31>
+        <Item32 Ref="144" Name="XrLabel2" ControlType="XRLabel" SizeF="74,17" LocationFloat="3.666608, 25" Font="Arial, 8.25pt, style=Bold, charSet=0" Padding="2,2,0,0,100" Text="Apellidos:">
+          <StylePriority Ref="145" UseFont="false" />
+        </Item32>
+        <Item33 Ref="146" Name="XrLabel5" ControlType="XRLabel" Bookmark="Identificación" SizeF="772.0001,17" LocationFloat="3.666608, 0" Font="Arial, 9pt, style=Bold, Underline, charSet=0" BackColor="Gainsboro" Padding="2,2,0,0,100" ProcessDuplicatesMode="Suppress" Text="IDENTIFICACIÓN">
+          <StylePriority Ref="147" UseFont="false" UseBackColor="false" />
+        </Item33>
+        <Item34 Ref="148" Name="XrLabel466" ControlType="XRLabel" SizeF="301.9999,17.00001" LocationFloat="112.7497, 111" Font="Arial, 8.25pt" Padding="2,2,0,0,100" Text="INDlblEntidad">
+          <DataBindings>
+            <Item1 Ref="149" PropertyName="Text" DataMember="Cabecera Reporte.NOMBRE ENTIDAD PACIENTE" />
+          </DataBindings>
+          <StylePriority Ref="150" UseFont="false" />
+        </Item34>
+        <Item35 Ref="151" Name="XrLabel219" ControlType="XRLabel" SizeF="106.5001,17.00001" LocationFloat="2.58344, 111" Font="Arial, 8.25pt, style=Bold" Padding="2,2,0,0,100" Text="Seguridad Social:">
+          <StylePriority Ref="152" UseFont="false" />
+        </Item35>
+      </Controls>
+    </Item6>
+    <Item7 Ref="153" ControlType="DetailReportBand" Name="DetailDiagnosticos" Level="0">
+      <Bands>
+        <Item1 Ref="154" ControlType="DetailBand" Name="Detail1" HeightF="17">
+          <Controls>
+            <Item1 Ref="155" Name="INDlblCodigoCIE10" ControlType="XRLabel" SizeF="42,17" LocationFloat="2.6666, 0" Font="Arial, 8.25pt, charSet=0" Padding="2,2,0,0,100" Text="INDlblCodigoCIE10">
+              <DataBindings>
+                <Item1 Ref="156" PropertyName="Text" DataMember="Diagnosticos Paciente.CODIGO DEL DIAGNOSTICO" />
+              </DataBindings>
+              <StylePriority Ref="157" UseFont="false" />
+            </Item1>
+            <Item2 Ref="159" Name="INDlblDiagnostico" ControlType="XRLabel" BookmarkParent="#Ref-158" SizeF="500,17" LocationFloat="52.6666, 0" Font="Arial, 8.25pt, charSet=0" Padding="2,2,0,0,100" Text="INDlblDiagnostico">
+              <DataBindings>
+                <Item1 Ref="160" PropertyName="Text" DataMember="Diagnosticos Paciente.NOMBRE DEL DIAGNOSTICO" />
+                <Item2 Ref="161" PropertyName="Bookmark" DataMember="Diagnosticos Paciente.NOMBRE DEL DIAGNOSTICO" />
+              </DataBindings>
+              <StylePriority Ref="162" UseFont="false" />
+            </Item2>
+            <Item3 Ref="163" Name="INDchkPrincipal" ControlType="XRCheckBox" SizeF="17,17" LocationFloat="702.6666, 0">
+              <DataBindings>
+                <Item1 Ref="164" PropertyName="Checked" DataMember="Diagnosticos Paciente.CODIGO DEL DIAGNOSTICO PRINCIPAL" />
+              </DataBindings>
+            </Item3>
+            <Item4 Ref="165" Name="INDlblObservacionesDiagnostico" ControlType="XRLabel" SizeF="125,17" LocationFloat="553.6666, 0" Font="Arial, 8.25pt, charSet=0" Padding="2,2,0,0,100" Text="INDlblObservacionesDiagnostico">
+              <DataBindings>
+                <Item1 Ref="166" PropertyName="Text" DataMember="Diagnosticos Paciente.OBSERVACIONES DEL DIAGNOSTICO" />
+              </DataBindings>
+              <StylePriority Ref="167" UseFont="false" />
+            </Item4>
+          </Controls>
+        </Item1>
+        <Item2 Ref="168" ControlType="GroupHeaderBand" Name="GroupDiagnosticos" HeightF="49.99999">
+          <Controls>
+            <Item1 Ref="158" Name="XrLabel45" ControlType="XRLabel" Bookmark="Impresión Diagnostica" SizeF="773,17" LocationFloat="2.666609, 0" Font="Arial, 9pt, style=Bold, Underline, charSet=0" BackColor="Gainsboro" Padding="2,2,0,0,100" Text="IMPRESIÓN DIAGNOSTICA">
+              <StylePriority Ref="169" UseFont="false" UseBackColor="false" />
+            </Item1>
+            <Item2 Ref="170" Name="XrLabel47" ControlType="XRLabel" SizeF="42,17" LocationFloat="2.666609, 32.99999" Font="Arial, 8.25pt, style=Bold, charSet=0" Padding="2,2,0,0,100" Text="CIE10">
+              <StylePriority Ref="171" UseFont="false" />
+            </Item2>
+            <Item3 Ref="172" Name="XrLabel49" ControlType="XRLabel" SizeF="425,17" LocationFloat="52.66661, 32.99999" Font="Arial, 8.25pt, style=Bold, charSet=0" Padding="2,2,0,0,100" Text="Diagnostico">
+              <StylePriority Ref="173" UseFont="false" />
+            </Item3>
+            <Item4 Ref="174" Name="XrLabel65" ControlType="XRLabel" SizeF="58,17" LocationFloat="678.6666, 32.99999" Font="Arial, 8.25pt, style=Bold, charSet=0" Padding="2,2,0,0,100" Text="Principal">
+              <StylePriority Ref="175" UseFont="false" />
+            </Item4>
+            <Item5 Ref="176" Name="XrLabel31" ControlType="XRLabel" SizeF="125,17" LocationFloat="553.6666, 32.99999" Font="Arial, 8.25pt, style=Bold, charSet=0" Padding="2,2,0,0,100" Text="Observaciones">
+              <StylePriority Ref="177" UseFont="false" />
+            </Item5>
+          </Controls>
+        </Item2>
+      </Bands>
+    </Item7>
+    <Item8 Ref="178" ControlType="GroupHeaderBand" Name="GroupHeaderEnfOtras" HeightF="131.25">
+      <Controls>
+        <Item1 Ref="179" Name="XrLabel88" ControlType="XRLabel" SizeF="155.3334,17" LocationFloat="610.1668, 93.00003" Font="Arial, 8.25pt, charSet=0" Padding="2,2,0,0,100" Text="INDlblApellidos">
+          <DataBindings>
+            <Item1 Ref="180" PropertyName="Text" DataMember="FichaRenal.FECDIAGHC" />
+          </DataBindings>
+          <StylePriority Ref="181" UseFont="false" />
+        </Item1>
+        <Item2 Ref="182" Name="XrLabel87" ControlType="XRLabel" SizeF="155.3334,17" LocationFloat="610.1667, 76.00002" Font="Arial, 8.25pt, charSet=0" Padding="2,2,0,0,100" Text="INDlblApellidos">
+          <DataBindings>
+            <Item1 Ref="183" PropertyName="Text" DataMember="FichaRenal.FECDIAGHB" />
+          </DataBindings>
+          <StylePriority Ref="184" UseFont="false" />
+        </Item2>
+        <Item3 Ref="185" Name="XrLabel86" ControlType="XRLabel" SizeF="193.5833,17" LocationFloat="571.8333, 59.00002" Font="Arial, 8.25pt, charSet=0" Padding="2,2,0,0,100" Text="INDlblApellidos">
+          <DataBindings>
+            <Item1 Ref="186" PropertyName="Text" DataMember="FichaRenal.FECDIAGDM" />
+          </DataBindings>
+          <StylePriority Ref="187" UseFont="false" />
+        </Item3>
+        <Item4 Ref="188" Name="XrLabel85" ControlType="XRLabel" SizeF="269.5006,17" LocationFloat="495.9997, 42.00001" Font="Arial, 8.25pt, charSet=0" Padding="2,2,0,0,100" Text="INDlblApellidos">
+          <DataBindings>
+            <Item1 Ref="189" PropertyName="Text" DataMember="FichaRenal.RECIBEARA" />
+          </DataBindings>
+          <StylePriority Ref="190" UseFont="false" />
+        </Item4>
+        <Item5 Ref="191" Name="XrLabel84" ControlType="XRLabel" SizeF="193.5833,17" LocationFloat="571.8333, 25" Font="Arial, 8.25pt, charSet=0" Padding="2,2,0,0,100" Text="INDlblApellidos">
+          <DataBindings>
+            <Item1 Ref="192" PropertyName="Text" DataMember="FichaRenal.FECDIAGHTA" />
+          </DataBindings>
+          <StylePriority Ref="193" UseFont="false" />
+        </Item5>
+        <Item6 Ref="194" Name="XrLabel82" ControlType="XRLabel" SizeF="264.6251,17" LocationFloat="130.9583, 110" Font="Arial, 8.25pt, charSet=0" Padding="2,2,0,0,100" Text="INDlblApellidos">
+          <DataBindings>
+            <Item1 Ref="195" PropertyName="Text" DataMember="FichaRenal.VACUHEPA" />
+          </DataBindings>
+          <StylePriority Ref="196" UseFont="false" />
+        </Item6>
+        <Item7 Ref="197" Name="XrLabel81" ControlType="XRLabel" SizeF="308.9167,17" LocationFloat="86.6666, 93.00003" Font="Arial, 8.25pt, charSet=0" Padding="2,2,0,0,100" Text="INDlblApellidos">
+          <DataBindings>
+            <Item1 Ref="198" PropertyName="Text" DataMember="FichaRenal.HEPATIC" />
+          </DataBindings>
+          <StylePriority Ref="199" UseFont="false" />
+        </Item7>
+        <Item8 Ref="200" Name="XrLabel80" ControlType="XRLabel" SizeF="308.9167,17" LocationFloat="86.6666, 76.00002" Font="Arial, 8.25pt, charSet=0" Padding="2,2,0,0,100" Text="INDlblApellidos">
+          <DataBindings>
+            <Item1 Ref="201" PropertyName="Text" DataMember="FichaRenal.HEPATIB" />
+          </DataBindings>
+          <StylePriority Ref="202" UseFont="false" />
+        </Item8>
+        <Item9 Ref="203" Name="XrLabel79" ControlType="XRLabel" SizeF="350.9167,17" LocationFloat="44.66659, 59.00002" Font="Arial, 8.25pt, charSet=0" Padding="2,2,0,0,100" Text="INDlblApellidos">
+          <DataBindings>
+            <Item1 Ref="204" PropertyName="Text" DataMember="FichaRenal.DM" />
+          </DataBindings>
+          <StylePriority Ref="205" UseFont="false" />
+        </Item9>
+        <Item10 Ref="206" Name="XrLabel78" ControlType="XRLabel" SizeF="308.9168,17" LocationFloat="86.6666, 42.00001" Font="Arial, 8.25pt, charSet=0" Padding="2,2,0,0,100" Text="INDlblApellidos">
+          <DataBindings>
+            <Item1 Ref="207" PropertyName="Text" DataMember="FichaRenal.RECIBEIECA" />
+          </DataBindings>
+          <StylePriority Ref="208" UseFont="false" />
+        </Item10>
+        <Item11 Ref="209" Name="XrLabel77" ControlType="XRLabel" SizeF="350.9167,17" LocationFloat="44.66663, 25" Font="Arial, 8.25pt, charSet=0" Padding="2,2,0,0,100" Text="INDlblApellidos">
+          <DataBindings>
+            <Item1 Ref="210" PropertyName="Text" DataMember="FichaRenal.HTA" />
+          </DataBindings>
+          <StylePriority Ref="211" UseFont="false" />
+        </Item11>
+        <Item12 Ref="212" Name="XrLabel53" ControlType="XRLabel" SizeF="125.1249,17.00002" LocationFloat="5.833324, 110" Font="Arial, 8.25pt, style=Bold, charSet=0" Padding="2,2,0,0,100" Text="Vacuna hepatitis B:">
+          <StylePriority Ref="213" UseFont="false" />
+        </Item12>
+        <Item13 Ref="214" Name="XrLabel52" ControlType="XRLabel" SizeF="189.5,17" LocationFloat="420.6667, 93.00003" Font="Arial, 8.25pt, style=Bold, charSet=0" Padding="2,2,0,0,100" Text="Fecha de diagnóstico hepatitis C:">
+          <StylePriority Ref="215" UseFont="false" />
+        </Item13>
+        <Item14 Ref="216" Name="XrLabel51" ControlType="XRLabel" SizeF="80.83327,17" LocationFloat="5.83334, 93.00003" Font="Arial, 8.25pt, style=Bold, charSet=0" Padding="2,2,0,0,100" Text="Hepatitis C:">
+          <StylePriority Ref="217" UseFont="false" />
+        </Item14>
+        <Item15 Ref="218" Name="XrLabel50" ControlType="XRLabel" SizeF="189.5,17" LocationFloat="420.6667, 76.00002" Font="Arial, 8.25pt, style=Bold, charSet=0" Padding="2,2,0,0,100" Text="Fecha de diagnóstico hepatitis B:">
+          <StylePriority Ref="219" UseFont="false" />
+        </Item15>
+        <Item16 Ref="220" Name="XrLabel48" ControlType="XRLabel" SizeF="80.8333,17" LocationFloat="5.833324, 76.00002" Font="Arial, 8.25pt, style=Bold, charSet=0" Padding="2,2,0,0,100" Text="Hepatitis B:">
+          <StylePriority Ref="221" UseFont="false" />
+        </Item16>
+        <Item17 Ref="222" Name="XrLabel46" ControlType="XRLabel" SizeF="151.1666,17" LocationFloat="420.6666, 59.00002" Font="Arial, 8.25pt, style=Bold, charSet=0" Padding="2,2,0,0,100" Text="Fecha de diagnóstico DM:">
+          <StylePriority Ref="223" UseFont="false" />
+        </Item17>
+        <Item18 Ref="224" Name="XrLabel44" ControlType="XRLabel" SizeF="38.83327,17" LocationFloat="5.833324, 59.00002" Font="Arial, 8.25pt, style=Bold, charSet=0" Padding="2,2,0,0,100" Text="DM:">
+          <StylePriority Ref="225" UseFont="false" />
+        </Item18>
+        <Item19 Ref="226" Name="XrLabel43" ControlType="XRLabel" SizeF="75.33307,17" LocationFloat="420.6666, 42.00001" Font="Arial, 8.25pt, style=Bold, charSet=0" Padding="2,2,0,0,100" Text="Recibe ARA:">
+          <StylePriority Ref="227" UseFont="false" />
+        </Item19>
+        <Item20 Ref="228" Name="XrLabel42" ControlType="XRLabel" SizeF="80.83328,17" LocationFloat="5.833324, 42.00001" Font="Arial, 8.25pt, style=Bold, charSet=0" Padding="2,2,0,0,100" Text="Recibe IECA:">
+          <StylePriority Ref="229" UseFont="false" />
+        </Item20>
+        <Item21 Ref="230" Name="XrLabel41" ControlType="XRLabel" SizeF="151.1666,17" LocationFloat="420.6667, 25" Font="Arial, 8.25pt, style=Bold, charSet=0" Padding="2,2,0,0,100" Text="Fecha de diagnóstico HTA:">
+          <StylePriority Ref="231" UseFont="false" />
+        </Item21>
+        <Item22 Ref="232" Name="XrLabel40" ControlType="XRLabel" SizeF="38.83328,17" LocationFloat="5.83334, 25" Font="Arial, 8.25pt, style=Bold, charSet=0" Padding="2,2,0,0,100" Text="HTA:">
+          <StylePriority Ref="233" UseFont="false" />
+        </Item22>
+        <Item23 Ref="234" Name="XrLabel22" ControlType="XRLabel" Bookmark="Identificación" SizeF="772,17" LocationFloat="3.666639, 0" Font="Arial, 9pt, style=Bold, Underline, charSet=0" BackColor="Gainsboro" Padding="2,2,0,0,100" ProcessDuplicatesMode="Suppress" Text="ENFERMEDAD PRECURSORAS Y OTRAS">
+          <StylePriority Ref="235" UseFont="false" UseBackColor="false" />
+        </Item23>
+      </Controls>
+    </Item8>
+    <Item9 Ref="236" ControlType="GroupHeaderBand" Name="GroupHeaderTrasplante" Level="1" HeightF="98.95834">
+      <Controls>
+        <Item1 Ref="237" Name="XrLabel76" ControlType="XRLabel" SizeF="634.4585,17" LocationFloat="130.9583, 59.00002" Font="Arial, 8.25pt, charSet=0" Padding="2,2,0,0,100" Text="INDlblApellidos">
+          <DataBindings>
+            <Item1 Ref="238" PropertyName="Text" DataMember="FichaRenal.IPSLISESPE" />
+          </DataBindings>
+          <StylePriority Ref="239" UseFont="false" />
+        </Item1>
+        <Item2 Ref="240" Name="XrLabel75" ControlType="XRLabel" SizeF="634.4583,17" LocationFloat="130.9583, 42.00001" Font="Arial, 8.25pt, charSet=0" Padding="2,2,0,0,100" Text="INDlblApellidos">
+          <DataBindings>
+            <Item1 Ref="241" PropertyName="Text" DataMember="FichaRenal.IPSREATRA" />
+          </DataBindings>
+          <StylePriority Ref="242" UseFont="false" />
+        </Item2>
+        <Item3 Ref="243" Name="XrLabel74" ControlType="XRLabel" SizeF="164.8339,17" LocationFloat="600.6663, 25" Font="Arial, 8.25pt, charSet=0" Padding="2,2,0,0,100" Text="INDlblApellidos">
+          <DataBindings>
+            <Item1 Ref="244" PropertyName="Text" DataMember="FichaRenal.FECINGLIES" />
+          </DataBindings>
+          <StylePriority Ref="245" UseFont="false" />
+        </Item3>
+        <Item4 Ref="246" Name="XrLabel73" ControlType="XRLabel" SizeF="621.8335,17" LocationFloat="143.6667, 76.00002" Font="Arial, 8.25pt, charSet=0" Padding="2,2,0,0,100" Multiline="true" Text="INDlblApellidos">
+          <DataBindings>
+            <Item1 Ref="247" PropertyName="Text" DataMember="FichaRenal.INDITRANS" />
+          </DataBindings>
+          <StylePriority Ref="248" UseFont="false" />
+        </Item4>
+        <Item5 Ref="249" Name="XrLabel72" ControlType="XRLabel" SizeF="251.9166,17" LocationFloat="143.6667, 25" Font="Arial, 8.25pt, charSet=0" Padding="2,2,0,0,100" Text="INDlblApellidos">
+          <DataBindings>
+            <Item1 Ref="250" PropertyName="Text" DataMember="FichaRenal.RECTRAREN" />
+          </DataBindings>
+          <StylePriority Ref="251" UseFont="false" />
+        </Item5>
+        <Item6 Ref="252" Name="XrLabel39" ControlType="XRLabel" SizeF="127.2916,17" LocationFloat="3.666687, 59.00002" Font="Arial, 8.25pt, style=Bold, charSet=0" Padding="2,2,0,0,100" Text="IPS lista de espera:">
+          <StylePriority Ref="253" UseFont="false" />
+        </Item6>
+        <Item7 Ref="254" Name="XrLabel38" ControlType="XRLabel" SizeF="180,17" LocationFloat="420.6664, 25" Font="Arial, 8.25pt, style=Bold, charSet=0" Padding="2,2,0,0,100" Text="Fecha ingreso a lista de espera:">
+          <StylePriority Ref="255" UseFont="false" />
+        </Item7>
+        <Item8 Ref="256" Name="XrLabel37" ControlType="XRLabel" SizeF="140,17" LocationFloat="3.666639, 76.00002" Font="Arial, 8.25pt, style=Bold, charSet=0" Padding="2,2,0,0,100" Text="Indicación de trasplante:">
+          <StylePriority Ref="257" UseFont="false" />
+        </Item8>
+        <Item9 Ref="258" Name="XrLabel36" ControlType="XRLabel" SizeF="127.2916,17" LocationFloat="3.666687, 42.00001" Font="Arial, 8.25pt, style=Bold, charSet=0" Padding="2,2,0,0,100" Text="IPS realizó trasplante:">
+          <StylePriority Ref="259" UseFont="false" />
+        </Item9>
+        <Item10 Ref="260" Name="XrLabel35" ControlType="XRLabel" SizeF="140,17" LocationFloat="3.666647, 25" Font="Arial, 8.25pt, style=Bold, charSet=0" Padding="2,2,0,0,100" Text="Recibió trasplante renal:">
+          <StylePriority Ref="261" UseFont="false" />
+        </Item10>
+        <Item11 Ref="262" Name="XrLabel21" ControlType="XRLabel" Bookmark="Identificación" SizeF="772.0001,17" LocationFloat="3.666639, 0" Font="Arial, 9pt, style=Bold, Underline, charSet=0" BackColor="Gainsboro" Padding="2,2,0,0,100" ProcessDuplicatesMode="Suppress" Text="TRASPLANTE">
+          <StylePriority Ref="263" UseFont="false" UseBackColor="false" />
+        </Item11>
+      </Controls>
+    </Item9>
+    <Item10 Ref="264" ControlType="GroupHeaderBand" Name="GroupHeaderERC" Level="2" HeightF="151.0417">
+      <Controls>
+        <Item1 Ref="265" Name="XrLabel71" ControlType="XRLabel" SizeF="207.0005,17.00002" LocationFloat="558.4996, 127" Font="Arial, 8.25pt, charSet=0" Padding="2,2,0,0,100" Text="INDlblApellidos">
+          <DataBindings>
+            <Item1 Ref="266" PropertyName="Text" DataMember="FichaRenal.TFGINITRR" />
+          </DataBindings>
+          <StylePriority Ref="267" UseFont="false" />
+        </Item1>
+        <Item2 Ref="268" Name="XrLabel70" ControlType="XRLabel" SizeF="195.4586,17" LocationFloat="569.958, 110" Font="Arial, 8.25pt, charSet=0" Padding="2,2,0,0,100" Text="INDlblApellidos">
+          <DataBindings>
+            <Item1 Ref="269" PropertyName="Text" DataMember="FichaRenal.MODINITRR" />
+          </DataBindings>
+          <StylePriority Ref="270" UseFont="false" />
+        </Item2>
+        <Item3 Ref="271" Name="XrLabel69" ControlType="XRLabel" SizeF="217.5417,17" LocationFloat="547.9584, 93.00003" Font="Arial, 8.25pt, charSet=0" Padding="2,2,0,0,100" Text="INDlblApellidos">
+          <DataBindings>
+            <Item1 Ref="272" PropertyName="Text" DataMember="FichaRenal.FECHAINSERC" />
+          </DataBindings>
+          <StylePriority Ref="273" UseFont="false" />
+        </Item3>
+        <Item4 Ref="274" Name="XrLabel68" ControlType="XRLabel" SizeF="259.2499,17" LocationFloat="506.1667, 76.00002" Font="Arial, 8.25pt, charSet=0" Padding="2,2,0,0,100" Text="INDlblApellidos">
+          <DataBindings>
+            <Item1 Ref="275" PropertyName="Text" DataMember="FichaRenal.MOTIVOTRR" />
+          </DataBindings>
+          <StylePriority Ref="276" UseFont="false" />
+        </Item4>
+        <Item5 Ref="277" Name="XrLabel67" ControlType="XRLabel" SizeF="217.5417,17" LocationFloat="547.9583, 59.00002" Font="Arial, 8.25pt, charSet=0" Padding="2,2,0,0,100" Text="INDlblApellidos">
+          <DataBindings>
+            <Item1 Ref="278" PropertyName="Text" DataMember="FichaRenal.FECDIAGNO" />
+          </DataBindings>
+          <StylePriority Ref="279" UseFont="false" />
+        </Item5>
+        <Item6 Ref="280" Name="XrLabel66" ControlType="XRLabel" SizeF="294.7502,17" LocationFloat="470.6666, 42.00001" Font="Arial, 8.25pt, charSet=0" Padding="2,2,0,0,100" Text="INDlblApellidos">
+          <DataBindings>
+            <Item1 Ref="281" PropertyName="Text" DataMember="FichaRenal.ETILOGIA" />
+          </DataBindings>
+          <StylePriority Ref="282" UseFont="false" />
+        </Item6>
+        <Item7 Ref="283" Name="XrLabel64" ControlType="XRLabel" SizeF="264.6251,17" LocationFloat="130.9582, 127" Font="Arial, 8.25pt, charSet=0" Padding="2,2,0,0,100" Text="INDlblApellidos">
+          <DataBindings>
+            <Item1 Ref="284" PropertyName="Text" DataMember="FichaRenal.FECHINITRR" />
+          </DataBindings>
+          <StylePriority Ref="285" UseFont="false" />
+        </Item7>
+        <Item8 Ref="286" Name="XrLabel62" ControlType="XRLabel" SizeF="264.6251,17" LocationFloat="130.9582, 110" Font="Arial, 8.25pt, charSet=0" Padding="2,2,0,0,100" Text="INDlblApellidos">
+          <DataBindings>
+            <Item1 Ref="287" PropertyName="Text" DataMember="FichaRenal.PERITOINFE" />
+          </DataBindings>
+          <StylePriority Ref="288" UseFont="false" />
+        </Item8>
+        <Item9 Ref="289" Name="XrLabel60" ControlType="XRLabel" SizeF="286.4998,17" LocationFloat="109.0835, 93.00003" Font="Arial, 8.25pt, charSet=0" Padding="2,2,0,0,100" Text="INDlblApellidos">
+          <DataBindings>
+            <Item1 Ref="290" PropertyName="Text" DataMember="FichaRenal.TRRHEMODIA" />
+          </DataBindings>
+          <StylePriority Ref="291" UseFont="false" />
+        </Item9>
+        <Item10 Ref="292" Name="XrLabel57" ControlType="XRLabel" SizeF="316.9167,17" LocationFloat="78.6666, 76.00002" Font="Arial, 8.25pt, charSet=0" Padding="2,2,0,0,100" Text="INDlblApellidos">
+          <DataBindings>
+            <Item1 Ref="293" PropertyName="Text" DataMember="FichaRenal.RECIBETRR" />
+          </DataBindings>
+          <StylePriority Ref="294" UseFont="false" />
+        </Item10>
+        <Item11 Ref="295" Name="XrLabel55" ControlType="XRLabel" SizeF="232.2084,17" LocationFloat="163.3749, 59.00002" Font="Arial, 8.25pt, charSet=0" Padding="2,2,0,0,100" Text="INDlblApellidos">
+          <DataBindings>
+            <Item1 Ref="296" PropertyName="Text" DataMember="FichaRenal.PROGATERC" />
+          </DataBindings>
+          <StylePriority Ref="297" UseFont="false" />
+        </Item11>
+        <Item12 Ref="298" Name="XrLabel54" ControlType="XRLabel" SizeF="341.9169,17" LocationFloat="53.66645, 42.00001" Font="Arial, 8.25pt, charSet=0" Padding="2,2,0,0,100" Text="INDlblApellidos">
+          <DataBindings>
+            <Item1 Ref="299" PropertyName="Text" DataMember="FichaRenal.ESTADIO" />
+          </DataBindings>
+          <StylePriority Ref="300" UseFont="false" />
+        </Item12>
+        <Item13 Ref="301" Name="XrLabel34" ControlType="XRLabel" SizeF="137.8333,17.00002" LocationFloat="420.6664, 127" Font="Arial, 8.25pt, style=Bold, charSet=0" Padding="2,2,0,0,100" Text="TFG al inicio de la TRR:">
+          <StylePriority Ref="302" UseFont="false" />
+        </Item13>
+        <Item14 Ref="303" Name="XrLabel33" ControlType="XRLabel" SizeF="127.2916,17" LocationFloat="3.666639, 127" Font="Arial, 8.25pt, style=Bold, charSet=0" Padding="2,2,0,0,100" Text="Fecha inicio TRR:">
+          <StylePriority Ref="304" UseFont="false" />
+        </Item14>
+        <Item15 Ref="305" Name="XrLabel32" ControlType="XRLabel" SizeF="149.2916,17" LocationFloat="420.6664, 110" Font="Arial, 8.25pt, style=Bold, charSet=0" Padding="2,2,0,0,100" Text="Modo inicio primera TRR:">
+          <StylePriority Ref="306" UseFont="false" />
+        </Item15>
+        <Item16 Ref="307" Name="XrLabel30" ControlType="XRLabel" SizeF="127.2916,17" LocationFloat="3.666536, 110" Font="Arial, 8.25pt, style=Bold, charSet=0" Padding="2,2,0,0,100" Text="Peritonitis infecciosa:">
+          <StylePriority Ref="308" UseFont="false" />
+        </Item16>
+        <Item17 Ref="309" Name="XrLabel29" ControlType="XRLabel" SizeF="127.2916,17" LocationFloat="420.6666, 93.00003" Font="Arial, 8.25pt, style=Bold, charSet=0" Padding="2,2,0,0,100" Text="Fecha de inserción:">
+          <StylePriority Ref="310" UseFont="false" />
+        </Item17>
+        <Item18 Ref="311" Name="XrLabel28" ControlType="XRLabel" SizeF="105.4169,17.00002" LocationFloat="3.666631, 93.00003" Font="Arial, 8.25pt, style=Bold, charSet=0" Padding="2,2,0,0,100" Text="Acceso vascular:">
+          <StylePriority Ref="312" UseFont="false" />
+        </Item18>
+        <Item19 Ref="313" Name="XrLabel27" ControlType="XRLabel" SizeF="85.5,17" LocationFloat="420.6667, 76.00002" Font="Arial, 8.25pt, style=Bold, charSet=0" Padding="2,2,0,0,100" Text="Motivo TRR:">
+          <StylePriority Ref="314" UseFont="false" />
+        </Item19>
+        <Item20 Ref="315" Name="XrLabel26" ControlType="XRLabel" SizeF="74.99992,17" LocationFloat="3.666647, 76.00002" Font="Arial, 8.25pt, style=Bold, charSet=0" Padding="2,2,0,0,100" Text="Recibe TRR:">
+          <StylePriority Ref="316" UseFont="false" />
+        </Item20>
+        <Item21 Ref="317" Name="XrLabel25" ControlType="XRLabel" SizeF="159.7082,17" LocationFloat="3.666647, 59.00002" Font="Arial, 8.25pt, style=Bold, charSet=0" Padding="2,2,0,0,100" Text="Programa atención de ERC:">
+          <StylePriority Ref="318" UseFont="false" />
+        </Item21>
+        <Item22 Ref="319" Name="XrLabel23" ControlType="XRLabel" SizeF="127.2916,17" LocationFloat="420.6667, 59.00002" Font="Arial, 8.25pt, style=Bold, charSet=0" Padding="2,2,0,0,100" Text="Fecha de diagnóstico:">
+          <StylePriority Ref="320" UseFont="false" />
+        </Item22>
+        <Item23 Ref="321" Name="XrLabel19" ControlType="XRLabel" SizeF="49.99991,17" LocationFloat="3.666536, 42.00001" Font="Arial, 8.25pt, style=Bold, charSet=0" Padding="2,2,0,0,100" Text="Estadio:">
+          <StylePriority Ref="322" UseFont="false" />
+        </Item23>
+        <Item24 Ref="323" Name="XrLabel17" ControlType="XRLabel" SizeF="49.99991,17" LocationFloat="420.6667, 42.00001" Font="Arial, 8.25pt, style=Bold, charSet=0" Padding="2,2,0,0,100" Text="Etilogía:">
+          <StylePriority Ref="324" UseFont="false" />
+        </Item24>
+        <Item25 Ref="325" Name="XrLabel3" ControlType="XRLabel" SizeF="32.33333,17" LocationFloat="3.666639, 25" Font="Arial, 8.25pt, style=Bold, charSet=0" Padding="2,2,0,0,100" Text="ERC:">
+          <StylePriority Ref="326" UseFont="false" />
+        </Item25>
+        <Item26 Ref="327" Name="XrLabel16" ControlType="XRLabel" SizeF="359.5833,17" LocationFloat="35.99997, 25" Font="Arial, 8.25pt, charSet=0" Padding="2,2,0,0,100" Text="INDlblApellidos">
+          <DataBindings>
+            <Item1 Ref="328" PropertyName="Text" DataMember="FichaRenal.ERC" />
+          </DataBindings>
+          <StylePriority Ref="329" UseFont="false" />
+        </Item26>
+        <Item27 Ref="330" Name="XrLabel20" ControlType="XRLabel" Bookmark="Identificación" SizeF="772.0001,17" LocationFloat="3.666639, 0" Font="Arial, 9pt, style=Bold, Underline, charSet=0" BackColor="Gainsboro" Padding="2,2,0,0,100" ProcessDuplicatesMode="Suppress" Text="ERC Y TRR">
+          <StylePriority Ref="331" UseFont="false" UseBackColor="false" />
+        </Item27>
+      </Controls>
+    </Item10>
+    <Item11 Ref="332" ControlType="GroupFooterBand" Name="GroupFooter1" HeightF="127.0832">
+      <Controls>
+        <Item1 Ref="333" Name="XrPanel1" ControlType="XRPanel" SizeF="351.5,107.2916" LocationFloat="424.1666, 13">
+          <Controls>
+            <Item1 Ref="334" Name="XrLabel89" ControlType="XRLabel" WordWrap="false" SizeF="131.2917,17" LocationFloat="126.9587, 83.99995" Font="Arial, 8.25pt, charSet=0" Padding="2,2,0,0,100" CanGrow="false">
+              <DataBindings>
+                <Item1 Ref="335" PropertyName="Text" DataMember="Historia.TARJETA PROFESIONAL" />
+              </DataBindings>
+              <StylePriority Ref="336" UseFont="false" />
+            </Item1>
+            <Item2 Ref="337" Name="XrLabel90" ControlType="XRLabel" SizeF="81.91666,17.00001" LocationFloat="5.083718, 67.00001" Font="Arial, 8.25pt, style=Bold, charSet=0" Padding="2,2,0,0,100" Text="Especialidad:">
+              <StylePriority Ref="338" UseFont="false" />
+            </Item2>
+            <Item3 Ref="339" Name="XrLabel91" ControlType="XRLabel" SizeF="121.875,17.00001" LocationFloat="5.08371, 83.99995" Font="Arial, 8.25pt, style=Bold, charSet=0" Padding="2,2,0,0,100" Text="Tarjeta Profesional #">
+              <StylePriority Ref="340" UseFont="false" />
+            </Item3>
+            <Item4 Ref="341" Name="XrLabel92" ControlType="XRLabel" SizeF="260.0001,17" LocationFloat="87.00027, 67.00001" Font="Arial, 8.25pt, charSet=0" Padding="2,2,0,0,100">
+              <DataBindings>
+                <Item1 Ref="342" PropertyName="Text" DataMember="Historia.DESCRIPCION DE LA ESPECIALIDAD" />
+              </DataBindings>
+              <StylePriority Ref="343" UseFont="false" />
+            </Item4>
+            <Item5 Ref="344" Name="XrLabel93" ControlType="XRLabel" SizeF="81.50016,17" LocationFloat="5.500126, 50.00016" Font="Arial, 8.25pt, style=Bold, charSet=0" Padding="2,2,0,0,100" Text="Profesional:">
+              <StylePriority Ref="345" UseFont="false" />
+            </Item5>
+            <Item6 Ref="346" Name="XrLabel94" ControlType="XRLabel" SizeF="260.0001,17" LocationFloat="88.00008, 50.00001" Font="Arial, 8.25pt, charSet=0" Padding="2,2,0,0,100">
+              <DataBindings>
+                <Item1 Ref="347" PropertyName="Text" DataMember="Historia.NOMBRE MEDICO" />
+              </DataBindings>
+              <StylePriority Ref="348" UseFont="false" />
+            </Item6>
+            <Item7 Ref="349" Name="XrPictureBox2" ControlType="XRPictureBox" SizeF="165.0001,50.00015" LocationFloat="88.00008, 0" Sizing="StretchImage">
+              <DataBindings>
+                <Item1 Ref="350" PropertyName="Image" DataMember="Historia.FIRMA PROFESIONAL" />
+              </DataBindings>
+            </Item7>
+          </Controls>
+        </Item1>
+      </Controls>
+    </Item11>
+    <Item12 Ref="351" ControlType="ReportFooterBand" Name="ReportFooter" HeightF="100" />
+  </Bands>
+</XtraReportsLayoutSerializer>

@@ -1,0 +1,283 @@
+﻿'***********************************************************************
+' Assembly         : Presentation.Controls.MVP.MBusqueda
+' Author           : WalterSierra
+' Created          : 27-03-2011
+'
+' Last Modified By : WalterSierra
+' Last Modified On : 27-03-2011
+'
+' Copyright        : (c) . All rights reserved.
+'***********************************************************************
+
+#Region "Importaciones"
+
+Imports System.ServiceModel
+Imports System.Threading.Tasks
+Imports DevExpress.Xpo
+Imports Domain.Base.Entities
+Imports Infrastructure.CrossCutting.Base
+Imports Infrastructure.Data.Xpo
+Imports Infrastructure.Data.Xpo.AccountingRepository
+Imports Infrastructure.Data.Xpo.GlosasRepository
+Imports Infrastructure.Data.Xpo.InventoryRepository
+Imports Infrastructure.Data.Xpo.PaymentsRepository
+Imports Infrastructure.Data.Xpo.PortfolioRepository
+Imports Infrastructure.Data.Xpo.TreasuryRepository
+Imports Presentation.CloudAgent
+
+#End Region
+
+Public Class MMassiveConfirm
+    Implements IDisposable
+
+#Region "Fields"
+
+    ''' <summary>
+    ''' Referencia a los valores de session
+    ''' </summary>
+    Private _indigoSessionValues As SessionValues
+
+    ''' <summary>
+    ''' Id del frontal
+    ''' </summary>
+    Private _tagForm As String
+
+#End Region
+
+#Region "Builders"
+
+    ''' <summary>
+    ''' Inicializa una nueva instancia de la clase
+    ''' </summary>
+    Public Sub New(ByVal tag As String)
+        Me._tagForm = tag
+        Me._indigoSessionValues = SessionValues.Instance
+    End Sub
+
+#End Region
+
+    ''' <summary>
+    ''' Lista los Ids de los formularios a los que el usuario tiene permiso de visibilidad
+    ''' </summary>
+    ''' <param name="userCode">Código del usuario</param>
+    ''' <returns>Lista de Ids</returns>
+    Public Function ListPermissionFormsUser() As List(Of String)
+        Return IndigoConecta.Instancia.CurrentCloud.IndigoSeguridad.ListPermissionFormsUser(_indigoSessionValues.UserIndigo, "7")
+    End Function
+
+    ''' <summary>
+    ''' lista los documentos de radicacion de cuentas
+    ''' </summary>
+    ''' <returns></returns>
+    ''' <remarks></remarks>
+    Public Function ListRadicateInvoiceCNotConfirm() As XPCollection(Of Glosas_RadicateInvoiceCXpo)
+        Return XpoServiceEx.Instance(_indigoSessionValues.TransactionalContainer).GlosasService.ListRadicateInvoiceCNotConfirm()
+    End Function
+
+    Public Function listGlosasObjectionCNotConfirm() As XPCollection(Of GlosasObjectionCXpo)
+        Return XpoServiceEx.Instance(_indigoSessionValues.TransactionalContainer).GlosasService.listGlosasObjectionCNotConfirm()
+    End Function
+
+    Public Function ListGlosasConciliationCNotConfirm() As XPCollection(Of Glosas_ConciliationCXpo)
+        Return XpoServiceEx.Instance(_indigoSessionValues.TransactionalContainer).GlosasService.ListGlosasConciliationCNotConfirm()
+    End Function
+
+    Public Function ListTransferJuridicalDebtCollectionCNotConfirm() As XPCollection(Of Glosas_TransferJuridicalDebtCollectionC)
+        Return XpoServiceEx.Instance(_indigoSessionValues.TransactionalContainer).GlosasService.ListTransferJuridicalDebtCollectionCNotConfirm()
+    End Function
+
+    ''' <summary>
+    ''' lista los documentos de control por tipo de documento
+    ''' </summary>
+    ''' <param name="documentType"></param>
+    ''' <returns></returns>
+    ''' <remarks></remarks>
+    Public Function ListJournalVourcherMassiveConfirm() As XPCollection(Of JournalVouchersMassiveConfirmXpo)
+        Return XpoServiceEx.Instance(_indigoSessionValues.TransactionalContainer).AccountingService.ListJournalVourcherMassiveConfirm()
+    End Function
+
+    ''' <summary>
+    ''' lista los documentos de control por tipo de documento
+    ''' </summary>
+    ''' <param name="documentType"></param>
+    ''' <returns></returns>
+    ''' <remarks></remarks>
+    Public Function ListInventoryControlDocumentByDocumentType(documentType As Integer) As XPCollection(Of InventoryControlDocumentXpo)
+        Return XpoServiceEx.Instance(_indigoSessionValues.TransactionalContainer).InventoryService.ListInventoryControlDocumentByDocumentType(documentType)
+    End Function
+
+    ''' <summary>
+    ''' lista los documentos de control por tipo de documento
+    ''' </summary>
+    ''' <param name="documentType"></param>
+    ''' <returns></returns>
+    ''' <remarks></remarks>
+    Public Function ListTreasuryControlByDocumentType(documentType As Integer) As XPCollection(Of TreasuryControlXpo)
+        Return XpoServiceEx.Instance(_indigoSessionValues.TransactionalContainer).TreasuryService.ListTreasuryControlByDocumentType(documentType)
+    End Function
+
+    ''' <summary>
+    ''' lista los documentos de control por tipo de documento
+    ''' </summary>
+    ''' <param name="documentType"></param>
+    ''' <returns></returns>
+    ''' <remarks></remarks>
+    Public Function ListPaymentsControlByDocumentType(documentType As Integer) As XPCollection(Of PaymentsControlXpo)
+        Return XpoServiceEx.Instance(_indigoSessionValues.TransactionalContainer).PaymentsService.ListPaymentsControlByDocumentType(documentType)
+    End Function
+
+    ''' <summary>
+    ''' lista los documentos de control por tipo de documento
+    ''' </summary>
+    ''' <param name="documentType"></param>
+    ''' <returns></returns>
+    ''' <remarks></remarks>
+    Public Function ListPortfolioControlByDocumentType(documentType As Integer) As XPCollection(Of PortfolioControlXpo)
+        Return XpoServiceEx.Instance(_indigoSessionValues.TransactionalContainer).PortfolioService.ListPortfolioControlByDocumentType(documentType)
+    End Function
+
+#Region "Confirm"
+
+#Region "Individual"
+
+    Public Async Function ConfirmGlosaDocument(processId As Integer, code As String, Optional operativeUnitId As Integer = 0) As Task(Of ActionResult(Of Tuple(Of String, Integer)))
+        Me._indigoSessionValues.AuditMessageWcf.Functional = "1754"
+        Return Await IndigoConecta.Instancia.CurrentCloud.IndigoGlosas.ConfirmGlosaDocumentAsync(processId, code, Me._indigoSessionValues, operativeUnitId)
+    End Function
+
+    Public Async Function ConfirmAccountingDocument(code As String) As Task(Of ActionResult(Of Tuple(Of String, Integer)))
+        Me._indigoSessionValues.AuditMessageWcf.Functional = "1695"
+        Return Await IndigoConecta.Instancia.CurrentCloud.IndigoAccounting.ConfirmAccountingDocumentAsync(code)
+    End Function
+
+    Public Async Function ConfirmPaymentDocument(processId As Integer, code As String) As Task(Of ActionResult(Of Tuple(Of String, Integer)))
+        Return Await IndigoConecta.Instancia.CurrentCloud.IndigoPayments.ConfirmPaymentDocumentAsync(processId, code, Me._indigoSessionValues.AuditMessageWcf)
+    End Function
+
+    Public Async Function ConfirmPortfolioDocument(processId As Integer, code As String) As Task(Of ActionResult(Of Tuple(Of String, Integer)))
+        Return Await IndigoConecta.Instancia.CurrentCloud.IndigoPortfolio.ConfirmPortfolioDocumentAsync(processId, code, Me._indigoSessionValues)
+    End Function
+
+    Public Async Function ConfirmInventoryDocument(processId As Integer, code As String) As Task(Of ActionResult(Of Tuple(Of String, Integer)))
+        Return Await IndigoConecta.Instancia.CurrentCloud.IndigoInventory.ConfirmInventoryDocumentAsync(processId, code, Me._indigoSessionValues.AuditMessageWcf)
+    End Function
+
+    Public Async Function ConfirmTreasuryDocument(processId As Integer, code As String) As Task(Of ActionResult(Of Tuple(Of String, Integer)))
+        Return Await IndigoConecta.Instancia.CurrentCloud.IndigoTreasury.ConfirmTreasuryDocumentAsync(processId, code, _indigoSessionValues, Me._indigoSessionValues.AuditMessageWcf)
+    End Function
+
+#End Region
+
+#Region "List"
+
+    ''' <summary>
+    ''' confirmar los documentos de glosas
+    ''' </summary>
+    ''' <param name="processId"></param>
+    ''' <param name="listDocuments"></param>
+    ''' <returns></returns>
+    ''' <remarks></remarks>
+    Public Function ConfirmDocumentsGlosas(processId As Integer, listDocuments As List(Of String), Optional operativeUnitId As Integer = 0) As ActionResult(Of List(Of Tuple(Of String, Integer)))
+        Me._indigoSessionValues.AuditMessageWcf.Functional = "1754"
+        Return IndigoConecta.Instancia.CurrentCloud.IndigoGlosas.ConfirmGlosasDocuments(processId, listDocuments, Me._indigoSessionValues, operativeUnitId)
+    End Function
+
+    ''' <summary>
+    ''' confirmar documnetos de contabilidad
+    ''' </summary>
+    ''' <param name="processId"></param>
+    ''' <param name="listDocuments"></param>
+    ''' <returns></returns>
+    ''' <remarks></remarks>
+    Public Function ConfirmDocumentsAccounting(listDocuments As List(Of String)) As ActionResult(Of List(Of Tuple(Of String, Integer)))
+        Using scope As New OperationContextScope(IndigoConecta.Instancia.CurrentCloud.IndigoAccounting.InnerChannel)
+            Me._indigoSessionValues.AuditMessageWcf.Functional = "1695"
+            Dim mess As New MessageHeader(Of AuditMessage)(Me._indigoSessionValues.AuditMessageWcf)
+            Dim header As System.ServiceModel.Channels.MessageHeader = mess.GetUntypedHeader(ConfigurationFile.SESS_AUDITMESSAGE, ConfigurationFile.SESS_NAME_SPACE)
+            OperationContext.Current.OutgoingMessageHeaders.Add(header)
+            Return IndigoConecta.Instancia.CurrentCloud.IndigoAccounting.ConfirmAccountingDocuments(listDocuments)
+        End Using
+    End Function
+
+    ''' <summary>
+    ''' confirmar documnetos de cuentas por pagar
+    ''' </summary>
+    ''' <param name="processId"></param>
+    ''' <param name="listDocuments"></param>
+    ''' <returns></returns>
+    ''' <remarks></remarks>
+    Public Function ConfirmDocumentsPayments(processId As Integer, listDocuments As List(Of String)) As ActionResult(Of List(Of Tuple(Of String, Integer)))
+        Return IndigoConecta.Instancia.CurrentCloud.IndigoPayments.ConfirmPaymentsDocuments(processId, listDocuments, Me._indigoSessionValues.AuditMessageWcf)
+    End Function
+
+    ''' <summary>
+    ''' confirmar documnetos de cuentas por cobrar
+    ''' </summary>
+    ''' <param name="processId"></param>
+    ''' <param name="listDocuments"></param>
+    ''' <returns></returns>
+    ''' <remarks></remarks>
+    Public Function ConfirmDocumentsPortfolio(processId As Integer, listDocuments As List(Of String)) As ActionResult(Of List(Of Tuple(Of String, Integer)))
+        Return IndigoConecta.Instancia.CurrentCloud.IndigoPortfolio.ConfirmPortfolioDocuments(processId, listDocuments, Me._indigoSessionValues)
+    End Function
+
+    ''' <summary>
+    ''' confirmar documnetos de inventario
+    ''' </summary>
+    ''' <param name="processId"></param>
+    ''' <param name="listDocuments"></param>
+    ''' <returns></returns>
+    ''' <remarks></remarks>
+    Public Function ConfirmDocumentsInventory(processId As Integer, listDocuments As List(Of String)) As ActionResult(Of List(Of Tuple(Of String, Integer)))
+        Return IndigoConecta.Instancia.CurrentCloud.IndigoInventory.ConfirmInventoryDocuments(processId, listDocuments, Me._indigoSessionValues.AuditMessageWcf)
+    End Function
+
+    ''' <summary>
+    ''' confirmar documnetos de tesoreria
+    ''' </summary>
+    ''' <param name="processId"></param>
+    ''' <param name="listDocuments"></param>
+    ''' <returns></returns>
+    ''' <remarks></remarks>
+    Public Function ConfirmDocumentsTreasury(processId As Integer, listDocuments As List(Of String)) As ActionResult(Of List(Of Tuple(Of String, Integer)))
+        Return IndigoConecta.Instancia.CurrentCloud.IndigoTreasury.ConfirmTreasuryDocuments(processId, listDocuments, _indigoSessionValues, Me._indigoSessionValues.AuditMessageWcf)
+    End Function
+
+#End Region
+
+#End Region
+
+#Region "IDisposable Support"
+
+    Private disposedValue As Boolean ' Para detectar llamadas redundantes
+
+    ' IDisposable
+    Protected Overridable Sub Dispose(disposing As Boolean)
+        If Not Me.disposedValue Then
+            If disposing Then
+                ' TODO: desechar estado administrado (objetos administrados).
+            End If
+
+            ' TODO: liberar recursos no administrados (objetos no administrados) e invalidar Finalize() below.
+            ' TODO: Establecer campos grandes como Null.
+        End If
+        Me.disposedValue = True
+    End Sub
+
+    ' TODO: invalidar Finalize() sólo si la instrucción Dispose(ByVal disposing As Boolean) anterior tiene código para liberar recursos no administrados.
+    'Protected Overrides Sub Finalize()
+    '    ' No cambie este código. Ponga el código de limpieza en la instrucción Dispose(ByVal disposing As Boolean) anterior.
+    '    Dispose(False)
+    '    MyBase.Finalize()
+    'End Sub
+
+    ' Visual Basic agregó este código para implementar correctamente el patrón descartable.
+    Public Sub Dispose() Implements IDisposable.Dispose
+        ' No cambie este código. Coloque el código de limpieza en Dispose(disposing As Boolean).
+        Dispose(True)
+        GC.SuppressFinalize(Me)
+    End Sub
+
+#End Region
+
+End Class

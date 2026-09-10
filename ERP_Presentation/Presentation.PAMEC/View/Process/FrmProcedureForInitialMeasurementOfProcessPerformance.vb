@@ -1,0 +1,3 @@
+﻿Public Class FrmProcedureForInitialMeasurementOfProcessPerformance
+
+End Class

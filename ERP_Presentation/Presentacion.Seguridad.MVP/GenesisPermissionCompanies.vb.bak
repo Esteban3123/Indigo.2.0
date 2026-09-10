@@ -1,0 +1,88 @@
+﻿'***********************************************************************
+' Assembly         : Presentacion.Seguridad.MVP
+' Author           : Jorge Leonardo Vernaza 
+' Created          : 16-07-2013
+'
+' Last Modified By :
+' Last Modified On :
+' Description      :
+'
+' Copyright        : (c) . All rights reserved.
+'***********************************************************************
+
+''' <summary>
+''' Clase con la estructura de los permisos de las compañias
+''' </summary>
+''' <remarks></remarks>
+Public Class GenesisPermissionCompanies
+
+#Region "Propiedades"
+
+    ''' <summary>
+    ''' Propiedad que obtiene o establece el id de la compañia
+    ''' </summary>
+    ''' <value></value>
+    ''' <returns></returns>
+    ''' <remarks></remarks>
+    Public Property CompanyId As Integer
+
+    ''' <summary>
+    ''' Propiedad que obtiene o establece el codigo de la compañia
+    ''' </summary>
+    ''' <value></value>
+    ''' <returns></returns>
+    ''' <remarks></remarks>
+    Public Property CompanyCode As String
+
+    ''' <summary>
+    ''' Propiedad para saber el contehnedor de transacciones
+    ''' </summary>
+    ''' <value></value>
+    ''' <returns></returns>
+    ''' <remarks></remarks>
+    Public Property CompanyTransactionalContainer As String
+    ''' <summary>
+    ''' Propiedad que obtiene o establece el nombre de la compañia
+    ''' </summary>
+    ''' <value></value>
+    ''' <returns></returns>
+    ''' <remarks></remarks>
+    Public Property CompanyName As String
+    ''' <summary>
+    ''' Propiedad que obtiene o establece la compañia de produccion
+    ''' </summary>
+    ''' <value></value>
+    ''' <returns></returns>
+    ''' <remarks></remarks>
+    Public Property CompanyProduction As Boolean
+    ''' <summary>
+    ''' Propiedad que obtiene o establece el permiso de la compañia
+    ''' </summary>
+    ''' <value></value>
+    ''' <returns></returns>
+    ''' <remarks></remarks>
+    Public Property CompanyPermission As Boolean
+
+    ''' <summary>
+    ''' Propiedad para representar la lista de unidades operativas
+    ''' </summary>
+    ''' <value></value>
+    ''' <returns></returns>
+    ''' <remarks></remarks>
+    Public Property CompanyListOperatingUnit As List(Of GenesisOperatingUnit)
+
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <returns></returns>
+    Public Property TenantId As Short
+
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <returns></returns>
+    Public Property TenantName As String
+
+#End Region
+
+End Class

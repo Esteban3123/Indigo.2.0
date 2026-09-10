@@ -1,0 +1,298 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\EntityFramework.6.4.4\build\EntityFramework.props" Condition="Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.props')" />
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{8778B018-79CA-4FBA-8295-5497618F3AC1}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>Infrastructure.Data.MaintenanceRepository</RootNamespace>
+    <AssemblyName>Infrastructure.Data.MaintenanceRepository</AssemblyName>
+    <FileAlignment>512</FileAlignment>
+    <MyType>Windows</MyType>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+    <TargetFrameworkProfile />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DocumentationFile>Infrastructure.Data.MaintenanceRepository.xml</DocumentationFile>
+    <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DocumentationFile>Infrastructure.Data.MaintenanceRepository.xml</DocumentationFile>
+    <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionExplicit>On</OptionExplicit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionCompare>Binary</OptionCompare>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionStrict>Off</OptionStrict>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionInfer>On</OptionInfer>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debugcito|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\Debugcito\</OutputPath>
+    <DocumentationFile>Infrastructure.Data.MaintenanceRepository.xml</DocumentationFile>
+    <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DocumentationFile>Infrastructure.Data.MaintenanceRepository.xml</DocumentationFile>
+    <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DocumentationFile>Infrastructure.Data.MaintenanceRepository.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debugcito|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x64\Debugcito\</OutputPath>
+    <DocumentationFile>Infrastructure.Data.MaintenanceRepository.xml</DocumentationFile>
+    <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Import Include="System" />
+    <Import Include="System.Collections.Generic" />
+    <Import Include="System.Linq" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Context\IMaintenanceModelUnitOfWork.Context.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>IMaintenanceModelUnitOfWork.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Context\MaintenanceModelUnitOfWork.Context.Extensions.vb">
+      <DependentUpon>MaintenanceModelUnitOfWork.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Context\MaintenanceModelUnitOfWork.Context1.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>MaintenanceModelUnitOfWork.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\MaintenanceModel.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>MaintenanceModel.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="My Project\AssemblyInfo.vb" />
+    <Compile Include="My Project\Application.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Application.myapp</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="My Project\Resources.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="My Project\Settings.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="Repositories\AccesoryDetailRepository.vb" />
+    <Compile Include="Repositories\AccesoryRepository.vb" />
+    <Compile Include="Repositories\AddressMaintenanceRepository.vb" />
+    <Compile Include="Repositories\BlockRecordMaintenanceRepository.vb" />
+    <Compile Include="Repositories\BranchRepository.vb" />
+    <Compile Include="Repositories\BrandRepository.vb" />
+    <Compile Include="Repositories\ConsumableRepository.vb" />
+    <Compile Include="Repositories\CostCenterMaintenanceRepository.vb" />
+    <Compile Include="Repositories\DrawingsDetailRepository.vb" />
+    <Compile Include="Repositories\EmailMaintenanceRepository.vb" />
+    <Compile Include="Repositories\EquipmentAllRepository.vb" />
+    <Compile Include="Repositories\EquipmentFunctionRepostory.vb" />
+    <Compile Include="Repositories\EquipmentHistoryRepository.vb" />
+    <Compile Include="Repositories\EquipmentReceptionConsumableRepository.vb" />
+    <Compile Include="Repositories\EquipmentReceptionParteRepository.vb" />
+    <Compile Include="Repositories\EquipmentReceptionPACRepository.vb" />
+    <Compile Include="Repositories\EquipmentReceptionsAccesoryRepository.vb" />
+    <Compile Include="Repositories\EquipmentRegistrationRepository.vb" />
+    <Compile Include="Repositories\EquipmentRequirementRepository.vb" />
+    <Compile Include="Repositories\EquipmentTypePartsAccesoriesConsumiblesRepository.vb" />
+    <Compile Include="Repositories\EquipmentTypeRepository.vb" />
+    <Compile Include="Repositories\EquipmentTypeTechnicalLogRepository.vb" />
+    <Compile Include="Repositories\InsuranceRepository.vb" />
+    <Compile Include="Repositories\InventoryTypeRepository.vb" />
+    <Compile Include="Repositories\LocationRepository.vb" />
+    <Compile Include="Repositories\LocationTypeRepository.vb" />
+    <Compile Include="Repositories\MaintenanceActivityRepository.vb" />
+    <Compile Include="Repositories\MaintenanceParametersRepository.vb" />
+    <Compile Include="Repositories\MaintenancePlanDetailRepository.vb" />
+    <Compile Include="Repositories\MaintenancePlanRepository.vb" />
+    <Compile Include="Repositories\ManualDetailRepository.vb" />
+    <Compile Include="Repositories\PartsAccesoriesConsumablesRepository.vb" />
+    <Compile Include="Repositories\PersonMaintenanceRepository.vb" />
+    <Compile Include="Repositories\PhoneMaintenanceRepository.vb" />
+    <Compile Include="Repositories\PhysicalRiskRepository.vb" />
+    <Compile Include="Repositories\SequenseMaintenanceCRepository.vb" />
+    <Compile Include="Repositories\SequenseMaintenanceDRepository.vb" />
+    <Compile Include="Repositories\SupplierMaintenanceRepository.vb" />
+    <Compile Include="Repositories\SupplierRepository.vb" />
+    <Compile Include="Repositories\MeasurementUnitRepository.vb" />
+    <Compile Include="Repositories\PartRepository.vb" />
+    <Compile Include="Repositories\PolizaRepository.vb" />
+    <Compile Include="Repositories\PolizaTypeRepository.vb" />
+    <Compile Include="Repositories\ResponsibleRepository.vb" />
+    <Compile Include="Repositories\TechnicalEquipmentSheetRepository.vb" />
+    <Compile Include="Repositories\TechnicalLogDetailRepository.vb" />
+    <Compile Include="Repositories\TechnicalLogRepository.vb" />
+    <Compile Include="Repositories\TemplateEquipmentTypeRepository.vb" />
+    <Compile Include="Repositories\TrademarkRepository.vb" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="My Project\Resources.resx">
+      <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.vb</LastGenOutput>
+      <CustomToolNamespace>My.Resources</CustomToolNamespace>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EntityDeploy Include="Model\MaintenanceModel.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>MaintenanceModel.Designer.vb</LastGenOutput>
+    </EntityDeploy>
+    <None Include="App.Config" />
+    <None Include="Context\IMaintenanceModelUnitOfWork.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>IMaintenanceModelUnitOfWork.Context.vb</LastGenOutput>
+    </None>
+    <None Include="Context\MaintenanceModelUnitOfWork.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>MaintenanceModelUnitOfWork.Context1.vb</LastGenOutput>
+    </None>
+    <None Include="Model\FixEFConcurrencyModes.exe.config" />
+    <None Include="Model\RunFixEFConcurrencyModesOnModel.bat" />
+    <None Include="My Project\Application.myapp">
+      <Generator>MyApplicationCodeGenerator</Generator>
+      <LastGenOutput>Application.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="My Project\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <CustomToolNamespace>My</CustomToolNamespace>
+      <LastGenOutput>Settings.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.4.4\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.4.4\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Data" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Domain.Base.Entities\Domain.Base.Entities.vbproj">
+      <Project>{78734D29-0073-4D48-9D0B-2362D0243E36}</Project>
+      <Name>Domain.Base.Entities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Domain.Base\Domain.Base.vbproj">
+      <Project>{8157F242-6A69-44C1-A9AC-19F0EE5CB8A2}</Project>
+      <Name>Domain.Base</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Domain.Entities\Domain.Entities.vbproj">
+      <Project>{0551aef4-ed84-4745-b00b-7475f26015cc}</Project>
+      <Name>Domain.Entities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Domain.Maintenance.Entities\Domain.Maintenance.Entities.vbproj">
+      <Project>{446b9431-03a5-4ec3-91ba-98b48630c400}</Project>
+      <Name>Domain.Maintenance.Entities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Domain.Maintenance\Domain.Maintenance.vbproj">
+      <Project>{21e7389b-f4ee-454a-9559-10b919970e89}</Project>
+      <Name>Domain.Maintenance</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastructure.CrossCutting.Base\Infrastructure.CrossCutting.Base.vbproj">
+      <Project>{2773D9F7-93BD-4520-9726-BCE0D8875696}</Project>
+      <Name>Infrastructure.CrossCutting.Base</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastructure.Data.Base\Infrastructure.Data.Base.vbproj">
+      <Project>{69C4FE61-549B-42E8-ADAC-18D1CFC83FED}</Project>
+      <Name>Infrastructure.Data.Base</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastructure.Data.ModelRepository\Infrastructure.Data.ModelRepository.vbproj">
+      <Project>{a029ee5d-d97c-45a3-a213-43e17d1dbe0d}</Project>
+      <Name>Infrastructure.Data.ModelRepository</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Model\CommandLine.dll" />
+    <Content Include="Model\CommandLine.xml" />
+    <Content Include="Model\EFConcurrencyModeTest.dll" />
+    <Content Include="Model\FixEFConcurrencyModes.exe" />
+    <Content Include="Model\FixEFConcurrencyModes.XML" />
+    <Content Include="Model\FSharp.Core.dll" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
+  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>Este proyecto hace referencia a los paquetes NuGet que faltan en este equipo. Use la restauración de paquetes NuGet para descargarlos. Para obtener más información, consulte http://go.microsoft.com/fwlink/?LinkID=322105. El archivo que falta es {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\EntityFramework.6.4.4\build\EntityFramework.props'))" />
+    <Error Condition="!Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\EntityFramework.6.4.4\build\EntityFramework.targets'))" />
+  </Target>
+  <Import Project="..\packages\EntityFramework.6.4.4\build\EntityFramework.targets" Condition="Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.targets')" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

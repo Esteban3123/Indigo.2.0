@@ -1,0 +1,245 @@
+﻿'***********************************************************************
+' Assembly         : Application.Security
+' Author           : WalterSierra
+' Created          : 11-03-2011
+'
+' Last Modified By : Juan F. Tamayo
+' Last Modified On : 2013-03-04
+'
+' Copyright        : (c) . All rights reserved.
+'***********************************************************************
+
+#Region "Imports"
+Imports Domain.Security.Entities
+Imports System.Transactions
+Imports Domain.Security
+Imports Domain.Base
+Imports Domain.Base.Entities
+Imports Infrastructure.CrossCutting.Base
+Imports Infrastructure.CrossCutting.Exceptions
+Imports System
+Imports System.Collections.Generic
+Imports System.Data
+Imports System.Data.SqlClient
+Imports System.Configuration
+Imports System.Linq
+#End Region
+
+''' <summary>
+''' 	
+''' </summary>
+Public Class GroupAdminService
+    Implements IGroupAdminService
+
+    Private _groupRepository As IGroupRepository
+
+    ''' <summary>
+    ''' Initializa una nueva instancia de la clase <see cref="GroupAdminService" />.
+    ''' </summary>
+    ''' <param name="groupRepository">el repositorio para el manejo de los usuarios.</param>
+    Public Sub New(ByVal groupRepository As IGroupRepository)
+        If groupRepository Is Nothing Then
+            Throw New ArgumentNullException("groupRepository Vacio")
+        End If
+        _groupRepository = groupRepository
+    End Sub
+
+    ''' <summary>
+    ''' Deletes the group.	
+    ''' </summary>
+    ''' <param name="group">The group.</param>
+    ''' <param name="audit">The audit.</param>
+    ''' <returns></returns>
+    ''' <remarks></remarks>
+    Public Function DeleteGroup(group As Group, audit As AuditMessage) As Boolean Implements IGroupAdminService.DeleteGroup
+        If group Is Nothing Then
+            Throw New ArgumentNullException("group Vacio")
+        End If
+        Dim unitOfWork As IUnitWork = _groupRepository.UnitWork
+        Try
+            EjecutarComando($"DELETE FROM Common.BalancedScorecardByGroup WHERE UserGroup = {group.Id}", audit.Company)
+            'elimino el grupo
+            group.State = True
+            _groupRepository.DeleteVirtual(group)
+            unitOfWork.Commit()
+            Return True
+        Catch ex As Exception
+            unitOfWork.RollbackChanges()
+            IndigoManagementExceptions.HandleException(ex, "UIPolicy")
+            Return False
+        End Try
+    End Function
+
+    ''' <summary>
+    ''' Gets the group.	
+    ''' </summary>
+    ''' <param name="codeGroup">The code group.</param>
+    ''' <returns></returns>
+    ''' <remarks></remarks>
+    Public Function GetGroup(codeGroup As String) As Group Implements IGroupAdminService.GetGroup
+        If String.IsNullOrEmpty(codeGroup) = True Then
+            Throw New ArgumentNullException("codeGroup Vacio")
+        End If
+        Try
+            Return _groupRepository.GetGroup(codeGroup)
+        Catch ex As Exception
+            IndigoManagementExceptions.HandleException(ex, "UIPolicy")
+            Return Nothing
+        End Try
+    End Function
+
+    ''' <summary>
+    ''' Lists the groups.	
+    ''' </summary>
+    ''' <returns></returns>
+    ''' <remarks></remarks>
+    Public Function ListGroups() As IEnumerable(Of Group) Implements IGroupAdminService.ListGroups
+        Try
+            Return _groupRepository.GetAll()
+        Catch ex As Exception
+            IndigoManagementExceptions.HandleException(ex, "UIPolicy")
+            Return Nothing
+        End Try
+    End Function
+
+    Public Function EjecutarComando(ByVal Comando As String, ByVal container As String) As Boolean
+        Dim conx As String = String.Format(ConfigurationManager.ConnectionStrings(Infrastructure.CrossCutting.Base.ConfigurationFile.CONX_GENESIS).ConnectionString, "" _
+                , container)
+        Dim sqlWebConexion As New SqlConnection(conx)
+        If sqlWebConexion.State = ConnectionState.Closed Then
+            sqlWebConexion.Open()
+        End If
+        Dim SQL As New SqlCommand(Comando, sqlWebConexion)
+        'aumento el tiempo
+        SQL.CommandTimeout = 90
+        'tipo de comando
+        SQL.CommandType = CommandType.Text
+        Try
+            'Ejecutar
+            SQL.ExecuteNonQuery()
+            Return True
+        Catch ex As Exception
+            Throw ex
+        Finally
+            sqlWebConexion.Close()
+        End Try
+    End Function
+
+    ''' <summary>
+    ''' Saves the group.	
+    ''' </summary>
+    ''' <param name="group">The group.</param>
+    ''' <param name="audit">The audit.</param>
+    ''' <returns></returns>
+    ''' <remarks></remarks>
+    Public Function SaveGroup(ByVal group As Group, dtDetails As DataTable, eliminados As List(Of Integer), ByVal session As SessionValues) As Boolean Implements IGroupAdminService.SaveGroup
+        If group Is Nothing Then
+            Throw New ArgumentNullException("group Vacio")
+        End If
+        Dim unitOfWork As IUnitWork = _groupRepository.UnitWork
+        Try
+            If group.Id > 0 Then
+                group.MarkAsModified()
+            Else
+                group.MarkAsAdded()
+            End If
+            'determino si el registro en nuevo o modificado
+            If group.ChangeTracker.State = ObjectState.Modified Then
+                group.Synchronized = "1"
+                _groupRepository.UpdateEntity(group)
+            Else
+                group.Synchronized = "2"
+                'grabo
+                _groupRepository.AddEntity(group)
+            End If
+            'confirmo la unidad de trabajo
+            unitOfWork.CommitAndRefreshChanges()
+
+
+            Dim conx As String = String.Format(ConfigurationManager.ConnectionStrings(Infrastructure.CrossCutting.Base.ConfigurationFile.CONX_GENESIS).ConnectionString, "" _
+                , session.TransactionalContainer)
+            Dim sqlWebConexion As New SqlConnection(conx)
+            If sqlWebConexion.State = ConnectionState.Closed Then
+                sqlWebConexion.Open()
+            End If
+
+            'IndigoTransacion = sqlWebConexion.BeginTransaction(IsolationLevel.Serializable, "EsquemasOncologicos")
+            Dim IdCabecera As Integer = group.Id
+            'Eliminamos detalles de dias
+            If eliminados IsNot Nothing AndAlso eliminados.Any() Then
+                EjecutarComando($"DELETE FROM Common.BalancedScorecardByGroup WHERE Id In ({String.Join(",", eliminados)})", session.TransactionalContainer)
+            End If
+
+            For Each rowDetail As DataRow In dtDetails.Rows
+                If rowDetail.RowState <> DataRowState.Deleted Then
+                    Dim IdDetalle As Integer = 0
+                    If rowDetail("Id") IsNot DBNull.Value AndAlso rowDetail("Id").ToString.Trim IsNot String.Empty Then
+                        IdDetalle = CInt(rowDetail("Id"))
+                    End If
+                    Dim daDetalleScore As New SqlDataAdapter($"SELECT * FROM [Common].[BalancedScorecardByGroup] WHERE Id={IdDetalle}", sqlWebConexion)
+                    Dim dtDetalleScore As New DataTable()
+                    Dim cbDetalleEsquemas As New SqlCommandBuilder(daDetalleScore)
+                    daDetalleScore.SelectCommand.CommandTimeout = 90
+                    daDetalleScore.Fill(dtDetalleScore)
+                    cbDetalleEsquemas.GetUpdateCommand.CommandTimeout = 90
+                    cbDetalleEsquemas.GetInsertCommand.CommandTimeout = 90
+                    cbDetalleEsquemas.GetDeleteCommand.CommandTimeout = 90
+                    If dtDetalleScore.Rows.Count = 0 Then
+                        Dim newRow As DataRow = dtDetalleScore.NewRow
+                        newRow("Id") = DBNull.Value
+                        newRow("UserGroup") = IdCabecera
+                        newRow("BalancedScorecardId") = rowDetail("BalancedScorecardId")
+                        dtDetalleScore.Rows.Add(newRow)
+                    Else
+                        dtDetalleScore.Rows(0).Item("BalancedScorecardId") = rowDetail("BalancedScorecardId")
+                    End If
+                    daDetalleScore.Update(dtDetalleScore)
+                    dtDetalleScore.AcceptChanges()
+                End If
+            Next
+
+            sqlWebConexion.Close()
+            Return True
+        Catch ex As Exception
+            unitOfWork.RollbackChanges()
+            IndigoManagementExceptions.HandleException(ex, "UIPolicy")
+            Return False
+        End Try
+    End Function
+
+    ''' <summary>
+    ''' Lists the groups all.
+    ''' </summary>
+    ''' <returns></returns>
+    Public Function ListGroupsAll() As List(Of GroupAll) Implements IGroupAdminService.ListGroupsAll
+        Try
+            Return _groupRepository.ListGroupsAll
+        Catch ex As Exception
+            IndigoManagementExceptions.HandleException(ex, "UIPolicy")
+            Return Nothing
+        End Try
+    End Function
+
+#Region "IDisposable Support"
+    Private disposedValue As Boolean ' Para detectar llamadas redundantes
+
+    ' IDisposable
+    Protected Overridable Sub Dispose(disposing As Boolean)
+        If Not disposedValue Then
+            If disposing Then
+
+            End If
+            _groupRepository = Nothing
+            IndigoGC.Execute()
+        End If
+        disposedValue = True
+    End Sub
+
+    ' Visual Basic agrega este código para implementar correctamente el patrón descartable.
+    Public Sub Dispose() Implements IDisposable.Dispose
+        Dispose(True)
+        GC.SuppressFinalize(Me)
+    End Sub
+#End Region
+
+End Class

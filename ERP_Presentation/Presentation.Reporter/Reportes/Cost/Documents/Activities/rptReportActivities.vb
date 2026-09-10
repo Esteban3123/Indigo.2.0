@@ -1,0 +1,112 @@
+﻿#Region "Librerias Improtadas"
+
+Imports System.Globalization
+Imports Infrastructure.CrossCutting.Base
+Imports Infrastructure.Data.Xpo
+Imports Infrastructure.Data.Xpo.AccountingRepository
+Imports Infrastructure.Data.Xpo.CostRepository
+Imports Presentation.Base
+
+#End Region
+
+Public Class rptReportActivities
+    Implements IReport
+    Implements IReportAsync
+
+#Region "Properties"
+
+    ''' <summary>
+    ''' Variable para inicializar los valores de sesion
+    ''' </summary>
+    Dim IndigoSessionValues As SessionValues = SessionValues.Instance
+
+    Dim filters As Dictionary(Of String, String)
+
+    Public Property ParametrosReporte As Object() Implements IReport.ParametrosReporte
+
+    Public ReadOnly Property NameReport As String Implements IReport.NameReport
+        Get
+            Return ""
+        End Get
+    End Property
+
+#End Region
+
+#Region "Load Data"
+
+    ''' <summary>
+    ''' Cargar datos del reporte
+    ''' </summary>
+    Public Sub CargarDataSource() Implements IReport.CargarDataSource
+        Try
+            filters = ParametrosReporte(0)
+            Dim filtroConsulta As String = String.Empty
+
+            'filtro por actividad
+            If Me.filters("ActivityStart") IsNot Nothing And Me.filters("ActivityEnd") IsNot Nothing Then
+                filtroConsulta &= "Code >= '" & Me.filters("ActivityStart") & "' AND Code <= '" & Me.filters("ActivityEnd") & "'"
+            End If
+            ' si filtra por servicio
+            If Me.filters("CUPSEntityStart") IsNot Nothing And Me.filters("CUPSEntityEnd") IsNot Nothing Then
+                filtroConsulta &= If(String.IsNullOrEmpty(filtroConsulta), String.Empty, " AND ") & "CUPSEntityId.Code >= '" & Me.filters("CUPSEntityStart") & "' AND CUPSEntityId.Code <= '" & Me.filters("CUPSEntityEnd") & "'"
+            End If
+
+            Me.DataSource = XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).CostService.GetCollection(Of CostActivityReportXpo)(Nothing, filtroConsulta)
+        Catch ex As Exception
+            MessageIndigo.Show(GetExceptionDetails(ex), MessageType.Errores, Me.Text, Botones.Aceptar, "")
+        End Try
+
+    End Sub
+
+    ''' <summary>
+    ''' Carga Asincrono para no bloquear la interfaz de usuario
+    ''' </summary>
+    Public Function CargarDataSourceAsync() As Task Implements IReportAsync.CargarDataSourceAsync
+        Return Task.Factory.StartNew(AddressOf CargarDataSource)
+    End Function
+
+#End Region
+
+#Region "Methods"
+
+    Public Sub CargarImagenes() Implements IReport.CargarImagenes
+
+    End Sub
+
+    Public Function GetExceptionDetails(exception As Exception) As String
+        Dim properties = exception.[GetType]().GetProperties()
+        Dim fields = properties.[Select](Function([property]) New With {
+            Key .Name = [property].Name,
+            Key .Value = [property].GetValue(exception, Nothing)
+        }).[Select](Function(x) [String].Format("{0} : {1}", x.Name, If(x.Value IsNot Nothing, x.Value.ToString(), [String].Empty)))
+        Return [String].Join(vbLf, fields)
+    End Function
+
+    ''' <summary>
+    ''' Inicializa la cultura del reporte
+    ''' </summary>
+    Private Sub InitializeReportLocalization()
+        Dim companySettings As GeneralLedgerCompanySettingsXpo =
+        XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).
+        AccountingService.GetXPOObject(Of GeneralLedgerCompanySettingsXpo)(Nothing)
+        If companySettings IsNot Nothing Then
+            Dim culture As CultureInfo = CultureInfo.CurrentCulture.Clone()
+            culture.NumberFormat = companySettings.OfficialCurrency.Abbreviation.GetNumberFormat()
+            ApplyLocalization(culture)
+        End If
+    End Sub
+
+#End Region
+
+#Region "Events"
+
+    Private Sub rptReportActivities_BeforePrint(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles MyBase.BeforePrint
+        InitializeReportLocalization()
+        Me.INDLblCompany.Text = IndigoSessionValues.IndigoCompanyName
+        Me.INDLblNitCompany.Text = "Nit : " & IndigoSessionValues.IndigoCompanyNit
+        INDLblUserPrint.Text = "Usuario Impresión : " & IndigoSessionValues.UserIndigo & " - " & IndigoSessionValues.UserIndigoName
+    End Sub
+
+#End Region
+
+End Class

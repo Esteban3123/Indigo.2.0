@@ -1,0 +1,1030 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\EntityFramework.6.4.4\build\EntityFramework.props" Condition="Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.props')" />
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{A029EE5D-D97C-45A3-A213-43E17D1DBE0D}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>Infrastructure.Data.ModelRepository</RootNamespace>
+    <AssemblyName>Infrastructure.Data.ModelRepository</AssemblyName>
+    <FileAlignment>512</FileAlignment>
+    <MyType>Windows</MyType>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+    <TargetFrameworkProfile />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DocumentationFile>Infrastructure.Data.ModelRepository.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DocumentationFile>Infrastructure.Data.ModelRepository.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionExplicit>On</OptionExplicit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionCompare>Binary</OptionCompare>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionStrict>Off</OptionStrict>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionInfer>On</OptionInfer>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debugcito|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\Debugcito\</OutputPath>
+    <DocumentationFile>Infrastructure.Data.ModelRepository.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Roldan|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\Roldan\</OutputPath>
+    <DocumentationFile>Infrastructure.Data.ModelRepository.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DocumentationFile>Infrastructure.Data.ModelRepository.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DocumentationFile>Infrastructure.Data.ModelRepository.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debugcito|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x64\Debugcito\</OutputPath>
+    <DocumentationFile>Infrastructure.Data.ModelRepository.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Roldan|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x64\Roldan\</OutputPath>
+    <DocumentationFile>Infrastructure.Data.ModelRepository.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.4.4\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.4.4\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="Infrastructure.CrossCutting.Exceptions, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\DLL\Infrastructure.CrossCutting.Exceptions.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Linq.Dynamic.Core, Version=1.2.8.0, Culture=neutral, PublicKeyToken=0f07ec44de6ac832, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Linq.Dynamic.Core.1.2.8\lib\net46\System.Linq.Dynamic.Core.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Import Include="Microsoft.VisualBasic" />
+    <Import Include="System" />
+    <Import Include="System.Collections" />
+    <Import Include="System.Collections.Generic" />
+    <Import Include="System.Data" />
+    <Import Include="System.Linq" />
+    <Import Include="System.Threading.Tasks" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Context\GlobalModelUnitOfWork.Context.Extensions.vb">
+      <DependentUpon>GlobalModelUnitOfWork.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Context\GlobalModelUnitOfWork.Context.vb">
+      <DependentUpon>GlobalModelUnitOfWork.Context.tt</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
+    <Compile Include="Context\IGlobalModelUnitOfWork.vb">
+      <DependentUpon>IGlobalModelUnitOfWork.tt</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
+    <Compile Include="Model\GlobalModel.Designer.vb">
+      <DependentUpon>GlobalModel.edmx</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
+    <Compile Include="Model\GlobalModel1.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>GlobalModel.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="My Project\AssemblyInfo.vb" />
+    <Compile Include="My Project\Application.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Application.myapp</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="My Project\Resources.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="My Project\Settings.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="Repositories\Accounting\HealthSuperParametersRepository.vb" />
+    <Compile Include="Repositories\AccountManagement\AccountManagementParametersRepository.vb" />
+    <Compile Include="Repositories\AccountManagement\BlockRecordAccountManagementRepository.vb" />
+    <Compile Include="Repositories\AccountManagement\DashboardAccountAssignmentRepository.vb" />
+    <Compile Include="Repositories\AccountManagement\FolioAlertRepository.vb" />
+    <Compile Include="Repositories\AccountManagement\FolioTransferRepository.vb" />
+    <Compile Include="Repositories\AccountManagement\ManagementAreasRepository.vb" />
+    <Compile Include="Repositories\AccountManagement\RejectionReasonRepository.vb" />
+    <Compile Include="Repositories\AccountManagement\SequenceAccountManagementCRepository.vb" />
+    <Compile Include="Repositories\AccountManagement\SequenceAccountManagementDRepositoryvb.vb" />
+    <Compile Include="Repositories\AccountManagement\UserNoveltiesRepository.vb" />
+    <Compile Include="Repositories\AccountManagement\UsersAssignmentRepository.vb" />
+    <Compile Include="Repositories\Admissions\AdmissionsSequenceRepository.vb" />
+    <Compile Include="Repositories\Admissions\AdmissionsSequenceDetailRepository.vb" />
+    <Compile Include="Repositories\Authorization\AuthorizationGroupRepository.vb" />
+    <Compile Include="Repositories\Authorization\AuthorizationOutsourcedServicesRepository.vb" />
+    <Compile Include="Repositories\Authorization\AuthorizationPortfolioRepository.vb" />
+    <Compile Include="Repositories\Authorization\AuthorizationRejectionRepository.vb" />
+    <Compile Include="Repositories\Authorization\AuthorizationScheduleRepository.vb" />
+    <Compile Include="Repositories\Authorization\AuthorizationScheduleTemplateRepository.vb" />
+    <Compile Include="Repositories\Authorization\AuthorizationSourceRepository.vb" />
+    <Compile Include="Repositories\Authorization\BlockRecordAuthorizationRepository.vb" />
+    <Compile Include="Repositories\Authorization\PostponementReasonsRepository.vb" />
+    <Compile Include="Repositories\Authorization\CancellationReasonsRepository.vb" />
+    <Compile Include="Repositories\Authorization\ConfigurationServicesAmbulatoryRepository.vb" />
+    <Compile Include="Repositories\Authorization\DashboardContractCoverageRepository.vb" />
+    <Compile Include="Repositories\Authorization\SequenceAuthorizationCRepository.vb" />
+    <Compile Include="Repositories\Authorization\SequenceAuthorizationDRepository.vb" />
+    <Compile Include="Repositories\Authorization\ManagementMedicalOrderRepository.vb" />
+    <Compile Include="Repositories\Authorization\SettingsAuthorizationRepository.vb" />
+    <Compile Include="Repositories\Authorization\TraceabilityPaperworkRepository.vb" />
+    <Compile Include="Repositories\Billing\AccountControlStayRepository.vb" />
+    <Compile Include="Repositories\Billing\AuditDataRepository.vb" />
+    <Compile Include="Repositories\Billing\ConditionsSaleRepository.vb" />
+    <Compile Include="Repositories\Billing\ElectronicsRIPSRepository.vb" />
+    <Compile Include="Repositories\Billing\FeeNotCollectedRepository.vb" />
+    <Compile Include="Repositories\Billing\ElectronicsPropertiesRepository.vb" />
+    <Compile Include="Repositories\Billing\CustomTRMRepository.vb" />
+    <Compile Include="Repositories\Billing\InvoiceCopayRepository.vb" />
+    <Compile Include="Repositories\Billing\ProductAndServiceFeeRepository.vb" />
+    <Compile Include="Repositories\Billing\RIPSSupportRecordRepository.vb" />
+    <Compile Include="Repositories\Billing\SalesExecutiveRepository.vb" />
+    <Compile Include="Repositories\Billing\LiquidationDataDetailRepository.vb" />
+    <Compile Include="Repositories\Billing\LiquidationDataRepository.vb" />
+    <Compile Include="Repositories\Billing\BillingJustificationContolRepository.vb" />
+    <Compile Include="Repositories\Billing\ElectronicSupportDocumentAdjustmentNoteDetailRepository.vb" />
+    <Compile Include="Repositories\Billing\ElectronicSupportDocumentAdjustmentNoteRepository.vb" />
+    <Compile Include="Repositories\Billing\ElectronicSupportDocumentDetailRepository.vb" />
+    <Compile Include="Repositories\Billing\NumberingAuthorizationRepository.vb" />
+    <Compile Include="Repositories\Billing\ElectronicSupportDocumentRepository.vb" />
+    <Compile Include="Repositories\Billing\AccountControlJustificationRepository.vb" />
+    <Compile Include="Repositories\Billing\ViewListDiagnosticImagingAmbulatoryRepository.vb" />
+    <Compile Include="Repositories\Billing\ViewListDiagnosticImagingRepository.vb" />
+    <Compile Include="Repositories\Billing\ViewListNoSurgicalRepository.vb" />
+    <Compile Include="Repositories\Billing\DashboardQuotedRepository.vb" />
+    <Compile Include="Repositories\Billing\ElectronicDocumentNotificationRepository.vb" />
+    <Compile Include="Repositories\Billing\MipresCodeRepository.vb" />
+    <Compile Include="Repositories\Billing\QuotationRepository.vb" />
+    <Compile Include="Repositories\Billing\ConceptsCausesStatusFolioRepository.vb" />
+    <Compile Include="Repositories\Billing\ProductServiceDetailRepository.vb" />
+    <Compile Include="Repositories\Billing\ViewListSurgicalAndPackageRepository.vb" />
+    <Compile Include="Repositories\Budget\CPCCatalogRepository.vb" />
+    <Compile Include="Repositories\Budget\CCPETRepository.vb" />
+    <Compile Include="Repositories\Budget\PublicPolicyRepository.vb" />
+    <Compile Include="Repositories\Admissions\AdacompanRepository.vb" />
+    <Compile Include="Repositories\Common\AttachmentRepository.vb" />
+    <Compile Include="Repositories\Accounting\MainAccountLevelsRepository.vb" />
+    <Compile Include="Repositories\Common\CommonHealthProfessionalRepository.vb" />
+    <Compile Include="Repositories\Common\TaxExemptionsRepository.vb" />
+    <Compile Include="Repositories\Common\ExemptIncomeRepository.vb" />
+    <Compile Include="Repositories\Common\SupplierBankAccountRepository.vb" />
+    <Compile Include="Repositories\Contract\BillingItemsRestrictionDetailRepository.vb" />
+    <Compile Include="Repositories\Contract\ContractPackageProductRepository.vb" />
+    <Compile Include="Repositories\Contract\ContractPackageRepository.vb" />
+    <Compile Include="Repositories\Contract\ContractPackageServiceRepository.vb" />
+    <Compile Include="Repositories\Contract\CUPSEntityContractDescriptionsRepository.vb" />
+    <Compile Include="Repositories\Contract\CompanyTypeRepository.vb" />
+    <Compile Include="Repositories\Contract\BillingItemsRestrictionRepository.vb" />
+    <Compile Include="Repositories\Contract\DiscountTypesRepository.vb" />
+    <Compile Include="Repositories\Contract\RateManualValidityDetailRepository.vb" />
+    <Compile Include="Repositories\Contract\RateManualValidityRepository.vb" />
+    <Compile Include="Repositories\Contract\RIPSServiceGroupsRepository.vb" />
+    <Compile Include="Repositories\Contract\RIPSServicesRepository.vb" />
+    <Compile Include="Repositories\Contract\SettingsContractRepository.vb" />
+    <Compile Include="Repositories\Contract\TechnicalNoteDetailRepository.vb" />
+    <Compile Include="Repositories\Contract\TechnicalNoteRepository.vb" />
+    <Compile Include="Repositories\Cost\AverageStandardCostDetailsRepository.vb" />
+    <Compile Include="Repositories\Cost\AverageStandardCostRepository.vb" />
+    <Compile Include="Repositories\Cost\CostDistributionDirectCostDetailIvaRepository.vb" />
+    <Compile Include="Repositories\Cost\CostIntermediateDistributionRepository.vb" />
+    <Compile Include="Repositories\FixedAsset\FixedAssetPurchaseOrderItemRepository.vb" />
+    <Compile Include="Repositories\FixedAsset\FixedAssetEntryItemRepository.vb" />
+    <Compile Include="Repositories\FixedAsset\FixedAssetCatalogOfPropertyandServicesRepository.vb" />
+    <Compile Include="Repositories\FixedAsset\FixedAssetRetirementTypesRepository.vb" />
+    <Compile Include="Repositories\Glosas\ConceptGlosaRepository.vb" />
+    <Compile Include="Repositories\Glosas\GlosaMovementGlosaConciliationRepository.vb" />
+    <Compile Include="Repositories\Integrations\OutBoxRepository.vb" />
+    <Compile Include="Repositories\Inventory\ClosedMonthHeaderRepository.vb" />
+    <Compile Include="Repositories\Inventory\ClosedMonthInventoryRepository.vb" />
+    <Compile Include="Repositories\Inventory\ConsignmentCostListDetailRecordRepository.vb" />
+    <Compile Include="Repositories\Inventory\DecreaseMaximumLimitRespository.vb" />
+    <Compile Include="Repositories\Inventory\DrugInteractionRepository.vb" />
+    <Compile Include="Repositories\Inventory\ConsignmentCostListRepository.vb" />
+    <Compile Include="Repositories\Inventory\HighRiskDrugsRepository.vb" />
+    <Compile Include="Repositories\Inventory\InventoryConsignmentTransferRepository.vb" />
+    <Compile Include="Repositories\Inventory\StorageTemperatureRepository.vb" />
+    <Compile Include="Repositories\Inventory\InventoryRequestDetailOtherRepository.vb" />
+    <Compile Include="Repositories\Inventory\MedicationTypeRepository.vb" />
+    <Compile Include="Repositories\Inventory\PharmaceuticalFormGroupingRepository.vb" />
+    <Compile Include="Repositories\Inventory\ProductInTransitDetailRepository.vb" />
+    <Compile Include="Repositories\Inventory\ProductInTransitRepository.vb" />
+    <Compile Include="Repositories\Inventory\RequestParamAuthUserRepository.vb" />
+    <Compile Include="Repositories\Inventory\RequestParamDetailPeriodicityRepository.vb" />
+    <Compile Include="Repositories\Inventory\RequestParamFunctionalUnitRepository.vb" />
+    <Compile Include="Repositories\Inventory\RequestParamRepository.vb" />
+    <Compile Include="Repositories\Inventory\RequestParamWarehouseRepository.vb" />
+    <Compile Include="Repositories\Inventory\UPRUnitsRepository.vb" />
+    <Compile Include="Repositories\Maintenance\MaintenanceFailureRequestDetailNotificationRepository.vb" />
+    <Compile Include="Repositories\Maintenance\MaintenanceLogRepository.vb" />
+    <Compile Include="Repositories\Maintenance\WorkOrderNotificationRepository.vb" />
+    <Compile Include="Repositories\MedicalFees\CausationPendingRepository.vb" />
+    <Compile Include="Repositories\MedicalFees\GlosaMedicalFeesConceptsRepository.vb" />
+    <Compile Include="Repositories\Glosas\GlosaSequenceDetailRepository.vb" />
+    <Compile Include="Repositories\Glosas\GlosaSequenceRepository.vb" />
+    <Compile Include="Repositories\Glosas\ImportunityCausesRepository.vb" />
+    <Compile Include="Repositories\Inventory\AntineoplasicoMedicationRepository.vb" />
+    <Compile Include="Repositories\Inventory\BacterialResistanceMedicationRepository.vb" />
+    <Compile Include="Repositories\Inventory\InventoryContractAssignmentRepository.vb" />
+    <Compile Include="Repositories\Inventory\InventoryContractModificationRepository.vb" />
+    <Compile Include="Repositories\Inventory\DevolutionCauseRepository.vb" />
+    <Compile Include="Repositories\Inventory\PharmaceuticalDispensingTransferRepository.vb" />
+    <Compile Include="Repositories\Maintenance\MaintenanceManufacturersRepository.vb" />
+    <Compile Include="Repositories\Maintenance\MaintenanceFailureRequestRepository.vb" />
+    <Compile Include="Repositories\Maintenance\MaintenanceContractRepository.vb" />
+    <Compile Include="Repositories\Maintenance\MaintenanceToolsRepository.vb" />
+    <Compile Include="Repositories\Maintenance\MaintenanceResponsibleRepository.vb" />
+    <Compile Include="Repositories\MedicalFees\GlosaMedicalFeesRepository.vb" />
+    <Compile Include="Repositories\MedicalHistory\DetailPhysicalCUMRepository.vb" />
+    <Compile Include="Repositories\MedicalHistory\PharmaDoseRepository.vb" />
+    <Compile Include="Repositories\MedicalHistory\ProductSusceptibleMixingStationRepository.vb" />
+    <Compile Include="Repositories\MixingStation\ExternalPatientPreparationRepository.vb" />
+    <Compile Include="Repositories\MixingStation\ConfirmationUnitDoseValidationsRepository.vb" />
+    <Compile Include="Repositories\MixingStation\LineClearanceCriteriaRepository.vb" />
+    <Compile Include="Repositories\MixingStation\ReasonscancellationNPTRepository.vb" />
+    <Compile Include="Repositories\MixingStation\CategoryDefectsRepository.vb" />
+    <Compile Include="Repositories\MixingStation\DefectClassificationItemRepository.vb" />
+    <Compile Include="Repositories\MixingStation\DilutionFactorsRepository.vb" />
+    <Compile Include="Repositories\MixingStation\DefectsUnitRepository.vb" />
+    <Compile Include="Repositories\MixingStation\CampaignDetailWitnessFileRepository.vb" />
+    <Compile Include="Repositories\MixingStation\ReadjustmentLogRepository.vb" />
+    <Compile Include="Repositories\MixingStation\ReadjustmentsRepository.vb" />
+    <Compile Include="Repositories\MixingStation\CampaignDetailBasketDetailRepository.vb" />
+    <Compile Include="Repositories\MixingStation\CampaignReportsRepository.vb" />
+    <Compile Include="Repositories\MixingStation\CMConfigurationUserRepository.vb" />
+    <Compile Include="Repositories\MixingStation\CMExternalCareCenterRepository.vb" />
+    <Compile Include="Repositories\MixingStation\ContractExternalClientsDetailRepository.vb" />
+    <Compile Include="Repositories\MixingStation\HarnessedRepository.vb" />
+    <Compile Include="Repositories\MixingStation\MixingStationConsecutiveRepository.vb" />
+    <Compile Include="Repositories\MixingStation\BatchSerialSequenceRepository.vb" />
+    <Compile Include="Repositories\MixingStation\MixingStationSettingAttentionCenterRepository.vb" />
+    <Compile Include="Repositories\MixingStation\BatchSerialSettingRepository.vb" />
+    <Compile Include="Repositories\MixingStation\QuantityRemainingRepository.vb" />
+    <Compile Include="Repositories\MixingStation\CampaignDetailValidationRepository.vb" />
+    <Compile Include="Repositories\MixingStation\CampaignDetailPickingRepository.vb" />
+    <Compile Include="Repositories\MixingStation\CampaignDetailRepository.vb" />
+    <Compile Include="Repositories\MixingStation\CampaignRawMaterialRepository.vb" />
+    <Compile Include="Repositories\MixingStation\CampaignKardexRepository.vb" />
+    <Compile Include="Repositories\MixingStation\CampaignRepository.vb" />
+    <Compile Include="Repositories\MixingStation\CauseReprocessingRejectionRepository.vb" />
+    <Compile Include="Repositories\MixingStation\CMWarehouseRepository.vb" />
+    <Compile Include="Repositories\MixingStation\ConfirmationUnitDoseRepository.vb" />
+    <Compile Include="Repositories\MixingStation\ContractExternalClientsRepository.vb" />
+    <Compile Include="Repositories\MixingStation\ExternalCareCenterRepository.vb" />
+    <Compile Include="Repositories\MixingStation\MedicinesProductionRepository.vb" />
+    <Compile Include="Repositories\MixingStation\PackagePersonalizedDetail.vb" />
+    <Compile Include="Repositories\MixingStation\MixingStationSettingRepository.vb" />
+    <Compile Include="Repositories\MixingStation\PackagePersonalizedRepository.vb" />
+    <Compile Include="Repositories\MixingStation\PatientExternalCareCenterRepository.vb" />
+    <Compile Include="Repositories\MixingStation\CampaignItemsRepository.vb" />
+    <Compile Include="Repositories\MixingStation\ProductionBasketsRepository.vb" />
+    <Compile Include="Repositories\MixingStation\CampaignDetailUsersRepository.vb" />
+    <Compile Include="Repositories\MixingStation\ProductionScheduleRepository.vb" />
+    <Compile Include="Repositories\MixingStation\PickingRepository.vb" />
+    <Compile Include="Repositories\MixingStation\RawMaterialDevolutionDetailRepository.vb" />
+    <Compile Include="Repositories\MixingStation\RawMaterialDevolutionRepository.vb" />
+    <Compile Include="Repositories\MixingStation\RawMaterialRepository.vb" />
+    <Compile Include="Repositories\MixingStation\ReleaseLineRepository.vb" />
+    <Compile Include="Repositories\MixingStation\RequestPackageDetailStatus.vb" />
+    <Compile Include="Repositories\MixingStation\RequestMixingStationDetailRepository.vb" />
+    <Compile Include="Repositories\MixingStation\RequestMixingStationRepository.vb" />
+    <Compile Include="Repositories\MixingStation\RequestPackageDetailStatusDefectClassificationDetailRepository.vb" />
+    <Compile Include="Repositories\MixingStation\RequestPackageDetailStatusDefectClassificationRepository.vb" />
+    <Compile Include="Repositories\MixingStation\RequestUnitDoseExternalCareCenterRepository.vb" />
+    <Compile Include="Repositories\MixingStation\RequestUnitDoseInventoryRepository.vb" />
+    <Compile Include="Repositories\MixingStation\StabilityTableRepository.vb" />
+    <Compile Include="Repositories\MixingStation\TransportationAssistantRepository.vb" />
+    <Compile Include="Repositories\MixingStation\TransportationRepository.vb" />
+    <Compile Include="Repositories\MixingStation\NPTConfigurationRepository.vb" />
+    <Compile Include="Repositories\Payments\DocumentSupportRepository.vb" />
+    <Compile Include="Repositories\Payments\PaymentsRevaluationRepository.vb" />
+    <Compile Include="Repositories\Payroll\MinimumSalaryRepository.vb" />
+    <Compile Include="Repositories\Portfolio\PortfolioDeteriorationClassificationRepository.vb" />
+    <Compile Include="Repositories\Portfolio\PortfolioConciliationRepository.vb" />
+    <Compile Include="Repositories\Portfolio\PortfolioConciliationConceptsRepository.vb" />
+    <Compile Include="Repositories\Portfolio\PortfolioRevaluationRepository.vb" />
+    <Compile Include="Repositories\Common\ThirdPartyAccumulatedExemptIncomeRepository.vb" />
+    <Compile Include="Repositories\Treasury\AgreementsRedemptionPointsRepository.vb" />
+    <Compile Include="Repositories\Treasury\BankReconciliationAutomaticAssociationRepository.vb" />
+    <Compile Include="Repositories\Treasury\BankReconciliationAutomaticRepository.vb" />
+    <Compile Include="Repositories\Treasury\BankReconciliationRepository.vb" />
+    <Compile Include="Repositories\Accounting\ExogenousFormatRepository.vb" />
+    <Compile Include="Repositories\Accounting\JournalVoucherDetailRepository.vb" />
+    <Compile Include="Repositories\Accounting\MassiveReplicationRepository.vb" />
+    <Compile Include="Repositories\Accounting\SettingsExogenousInformationRepository.vb" />
+    <Compile Include="Repositories\Accounting\VieBotRepository.vb" />
+    <Compile Include="Repositories\Accounting\HomologationAccountRepository.vb" />
+    <Compile Include="Repositories\Accounting\BookRepository.vb" />
+    <Compile Include="Repositories\Accounting\AccountClassRepository.vb" />
+    <Compile Include="Repositories\Accounting\AccountingBalanceRepository.vb" />
+    <Compile Include="Repositories\Accounting\AccountLevelRepository.vb" />
+    <Compile Include="Repositories\Accounting\BlockRecordAccountingRepository.vb" />
+    <Compile Include="Repositories\Accounting\CompanySettingsRepository.vb" />
+    <Compile Include="Repositories\Accounting\DocumentAccountingRepository.vb" />
+    <Compile Include="Repositories\Accounting\DocumentTypeRepository.vb" />
+    <Compile Include="Repositories\Accounting\GeneralLedgerIVARepository.vb" />
+    <Compile Include="Repositories\Accounting\PatrimonialPartRepository.vb" />
+    <Compile Include="Repositories\Accounting\PUCRepository.vb" />
+    <Compile Include="Repositories\Accounting\RetentionConceptRepository.vb" />
+    <Compile Include="Repositories\Accounting\SequenseAccountingDRepository.vb" />
+    <Compile Include="Repositories\Accounting\SequenseAccountingCRepository.vb" />
+    <Compile Include="Repositories\Accounting\SettingAccountRepository.vb" />
+    <Compile Include="Repositories\Accounting\StatementFolioRepository.vb" />
+    <Compile Include="Repositories\Billing\DocumentInvoiceProductSalesDevolutionRepository.vb" />
+    <Compile Include="Repositories\Billing\BillingNoteDetailRepository.vb" />
+    <Compile Include="Repositories\Billing\BasicBillingRepository.vb" />
+    <Compile Include="Repositories\Billing\ElectronicDocumentDetailRepository.vb" />
+    <Compile Include="Repositories\Billing\BillingNoteRepository.vb" />
+    <Compile Include="Repositories\Billing\ElectronicDocumentRepository.vb" />
+    <Compile Include="Repositories\Billing\BillingConceptRepository.vb" />
+    <Compile Include="Repositories\Billing\BillingControlRepository.vb" />
+    <Compile Include="Repositories\Billing\BillingGroupRepository.vb" />
+    <Compile Include="Repositories\Billing\BillingInvoiceCategories.vb" />
+    <Compile Include="Repositories\Billing\BillingReversalReasonRepository.vb" />
+    <Compile Include="Repositories\Billing\BillingInvoiceDetailRepository.vb" />
+    <Compile Include="Repositories\Billing\InvoiceEntityCapitatedDistributionDetailRepository.vb" />
+    <Compile Include="Repositories\Billing\InvoiceEntityCapitatedDistributionRepository.vb" />
+    <Compile Include="Repositories\Billing\InvoiceEntityCapitedRepository.vb" />
+    <Compile Include="Repositories\Billing\InvoicePortfolioAdvanceRepository.vb" />
+    <Compile Include="Repositories\Billing\InvoiceRepository.vb" />
+    <Compile Include="Repositories\Billing\RevenueControlDetailRepository.vb" />
+    <Compile Include="Repositories\Billing\RevenueControlRepository.vb" />
+    <Compile Include="Repositories\Billing\BillingAuthorizationRepository.vb" />
+    <Compile Include="Repositories\Billing\BlockRecordBillingRepository.vb" />
+    <Compile Include="Repositories\Billing\RevenueRecognitionDetailRepository.vb" />
+    <Compile Include="Repositories\Billing\RevenueRecognitionRepository.vb" />
+    <Compile Include="Repositories\Billing\SequenceBillingCRepository.vb" />
+    <Compile Include="Repositories\Billing\SequenceBillingDRepository.vb" />
+    <Compile Include="Repositories\Billing\ServiceOrderDetailDistributionRepository.vb" />
+    <Compile Include="Repositories\Billing\ServiceOrderDetailRepository.vb" />
+    <Compile Include="Repositories\Billing\ServiceOrderDetailSurgicalRepository.vb" />
+    <Compile Include="Repositories\Billing\ServiceOrderRepository.vb" />
+    <Compile Include="Repositories\Billing\SettingsBillingRepository.vb" />
+    <Compile Include="Repositories\Billing\SlipOutRepository.vb" />
+    <Compile Include="Repositories\Budget\AnnualizedCashFlowModificationDetailRepository.vb" />
+    <Compile Include="Repositories\Budget\AnnualizedCashFlowModificationRepository.vb" />
+    <Compile Include="Repositories\Budget\AnnualizedCashFlowRepository.vb" />
+    <Compile Include="Repositories\Budget\AnnualizedCashFlowTransferRepository.vb" />
+    <Compile Include="Repositories\Budget\AvailabilityDetailRepository.vb" />
+    <Compile Include="Repositories\Budget\AvailabilityExtensionRepository.vb" />
+    <Compile Include="Repositories\Budget\AvailabilityModificationRepository.vb" />
+    <Compile Include="Repositories\Budget\AvailabilityRepository.vb" />
+    <Compile Include="Repositories\Budget\BlockRecordBudgetRepository.vb" />
+    <Compile Include="Repositories\Budget\BudgetConceptRepository.vb" />
+    <Compile Include="Repositories\Budget\BudgetControlRepository.vb" />
+    <Compile Include="Repositories\Budget\BudgetDependencyRepository.vb" />
+    <Compile Include="Repositories\Budget\BudgetHeaderRepository.vb" />
+    <Compile Include="Repositories\Budget\BudgetEntryRepository.vb" />
+    <Compile Include="Repositories\Budget\BudgetInstitutionsRepository.vb" />
+    <Compile Include="Repositories\Budget\BudgetRepository.vb" />
+    <Compile Include="Repositories\Budget\CollectionDetailRepository.vb" />
+    <Compile Include="Repositories\Budget\CollectionModificationDetailRepository.vb" />
+    <Compile Include="Repositories\Budget\CollectionModificationRepository.vb" />
+    <Compile Include="Repositories\Budget\CollectionRepository.vb" />
+    <Compile Include="Repositories\Budget\CommitmentDetailRepository.vb" />
+    <Compile Include="Repositories\Budget\CommitmentModificationRepository.vb" />
+    <Compile Include="Repositories\Budget\CommitmentRepository.vb" />
+    <Compile Include="Repositories\Budget\ObligationModificationDetailRepository.vb" />
+    <Compile Include="Repositories\Budget\ObligationModificationRepository.vb" />
+    <Compile Include="Repositories\Budget\ObligationDetailRepository.vb" />
+    <Compile Include="Repositories\Budget\ObligationRepository.vb" />
+    <Compile Include="Repositories\Budget\PaymentOrderDetailRepository.vb" />
+    <Compile Include="Repositories\Budget\PaymentOrderRepository.vb" />
+    <Compile Include="Repositories\Budget\PrivateBudgetItemsStructureRepository.vb" />
+    <Compile Include="Repositories\Budget\PrivateBudgetRepository.vb" />
+    <Compile Include="Repositories\Budget\RecognitionDetailRepository.vb" />
+    <Compile Include="Repositories\Budget\RecognitionModificationRepository.vb" />
+    <Compile Include="Repositories\Budget\RecognitionRepository.vb" />
+    <Compile Include="Repositories\Budget\BudgetTransferDetailRepository.vb" />
+    <Compile Include="Repositories\Budget\BudgetTransferRepository.vb" />
+    <Compile Include="Repositories\Budget\BudgetItemRepository.vb" />
+    <Compile Include="Repositories\Budget\BudgetModificationRepository.vb" />
+    <Compile Include="Repositories\Budget\ConsecutiveBudgetRepository.vb" />
+    <Compile Include="Repositories\Budget\LevelCategoryRepository.vb" />
+    <Compile Include="Repositories\Budget\EarningsTypeRepository.vb" />
+    <Compile Include="Repositories\Budget\ExpenseTypeRepository.vb" />
+    <Compile Include="Repositories\Budget\FinancialSourceRepository.vb" />
+    <Compile Include="Repositories\Budget\ReimbursementResourceRepository.vb" />
+    <Compile Include="Repositories\Budget\SequenseBudgetCRepository.vb" />
+    <Compile Include="Repositories\Budget\SequenseBudgetDRepository.vb" />
+    <Compile Include="Repositories\Budget\SettingBudgetRepository.vb" />
+    <Compile Include="Repositories\Budget\SuspensionCancellationRepository.vb" />
+    <Compile Include="Repositories\Budget\SuspensionDetailRepository.vb" />
+    <Compile Include="Repositories\Budget\SuspensionRepository.vb" />
+    <Compile Include="Repositories\Budget\ValidityRepository.vb" />
+    <Compile Include="Repositories\Accounting\CloseMonthRepository.vb" />
+    <Compile Include="Repositories\Common\BasicAuditRepository.vb" />
+    <Compile Include="Repositories\Common\BlockRecordRepository.vb" />
+    <Compile Include="Repositories\Common\CityRepository.vb" />
+    <Compile Include="Repositories\Common\ConceptGlosasRepositoryvb.vb" />
+    <Compile Include="Repositories\Common\ConsecutiveRepository.vb" />
+    <Compile Include="Repositories\Common\CountryRepository.vb" />
+    <Compile Include="Repositories\Common\CurrencyRepository.vb" />
+    <Compile Include="Repositories\Common\DepartmentRepository.vb" />
+    <Compile Include="Repositories\Common\DisabilityRepository.vb" />
+    <Compile Include="Repositories\Common\EconomicActivityRepository.vb" />
+    <Compile Include="Repositories\Common\DistributionLinesRepository.vb" />
+    <Compile Include="Repositories\Common\HolidayRepository.vb" />
+    <Compile Include="Repositories\Common\OperatingUnitRepository.vb" />
+    <Compile Include="Repositories\Common\PersonRepository.vb" />
+    <Compile Include="Repositories\Common\PhoneTypeRepository.vb" />
+    <Compile Include="Repositories\Common\SequenseReporitory.vb" />
+    <Compile Include="Repositories\Common\SuppliersDetailTypeRepository.vb" />
+    <Compile Include="Repositories\Common\SuppliersDistributionLinesRepository.vb" />
+    <Compile Include="Repositories\Common\SequenseCommonCRepository.vb" />
+    <Compile Include="Repositories\Common\SequenseCommonDRepository.vb" />
+    <Compile Include="Repositories\Common\ThirdPartyRepository.vb" />
+    <Compile Include="Repositories\Common\TimeUnitRepository.vb" />
+    <Compile Include="Repositories\Contract\CareGroupDefinitionRateRepository.vb" />
+    <Compile Include="Repositories\Contract\ContractAccountingStructureRepository.vb" />
+    <Compile Include="Repositories\Contract\ContractDescriptionsRepository.vb" />
+    <Compile Include="Repositories\Contract\ContractMinimumWageRepository.vb" />
+    <Compile Include="Repositories\Contract\CupsEntityRepository.vb" />
+    <Compile Include="Repositories\Contract\ContractRepository.vb" />
+    <Compile Include="Repositories\Contract\ContractEntityRepository.vb" />
+    <Compile Include="Repositories\Contract\CareGroupRepository.vb" />
+    <Compile Include="Repositories\Contract\DefinitionRateDetailConditionRepository.vb" />
+    <Compile Include="Repositories\Contract\DefinitionRateDetailRepository.vb" />
+    <Compile Include="Repositories\Contract\GroupersRepository.vb" />
+    <Compile Include="Repositories\Contract\ProcedureCupsRepository.vb" />
+    <Compile Include="Repositories\Contract\IPSServiceGroupRepository.vb" />
+    <Compile Include="Repositories\Contract\RateManualDetailRepository.vb" />
+    <Compile Include="Repositories\Contract\RateManualDetailSurgicalRepository.vb" />
+    <Compile Include="Repositories\Contract\SurgeriesPercentageManualRepository.vb" />
+    <Compile Include="Repositories\Contract\DefinitionRateRepository.vb" />
+    <Compile Include="Repositories\Contract\SurgicalGroupRepository.vb" />
+    <Compile Include="Repositories\Contract\ProcedureTemplateRepository.vb" />
+    <Compile Include="Repositories\Contract\RateManualRepository.vb" />
+    <Compile Include="Repositories\Contract\RequirementTemplateRepository.vb" />
+    <Compile Include="Repositories\Contract\UVRRangeRepository.vb" />
+    <Compile Include="Repositories\Contract\CupsHomologationRepository.vb" />
+    <Compile Include="Repositories\Contract\IPSServicesRepository.vb" />
+    <Compile Include="Repositories\Contract\HealthAdministratorRepository.vb" />
+    <Compile Include="Repositories\Contract\CupsSubGroupRepository.vb" />
+    <Compile Include="Repositories\Contract\MarketingUnitRepository.vb" />
+    <Compile Include="Repositories\Contract\SurgicalProcedureServiceRepository.vb" />
+    <Compile Include="Repositories\Cost\BlockRecordCostRepository.vb" />
+    <Compile Include="Repositories\Cost\CostInventoryGroupRepository.vb" />
+    <Compile Include="Repositories\Cost\CostDirectDistributionSecondaryRepository.vb" />
+    <Compile Include="Repositories\Cost\CostDistributionFixedAssetRepository.vb" />
+    <Compile Include="Repositories\Cost\CostDistributionDirectCostRepository.vb" />
+    <Compile Include="Repositories\Cost\CostDistributionIntermediateRepository.vb" />
+    <Compile Include="Repositories\Cost\CostDistributionManpowerRepository.vb" />
+    <Compile Include="Repositories\Cost\CostDistributionSecondaryRepository.vb" />
+    <Compile Include="Repositories\Cost\CostGeneralExpensesRepository.vb" />
+    <Compile Include="Repositories\Cost\CostGeneralExpenseCategoryRepository.vb" />
+    <Compile Include="Repositories\Cost\CostLogisticsProductionCenterRecordRepository.vb" />
+    <Compile Include="Repositories\Cost\CostOrganizationalStructureRepository.vb" />
+    <Compile Include="Repositories\Cost\CostProductionCenterRepository.vb" />
+    <Compile Include="Repositories\Cost\CostSequenceDetailRepository.vb" />
+    <Compile Include="Repositories\Cost\CostSequenceRepository.vb" />
+    <Compile Include="Repositories\Cost\CostSettingRepository.vb" />
+    <Compile Include="Repositories\Cost\EstimateCostNativeRepository.vb" />
+    <Compile Include="Repositories\Cost\CostActivityRepository.vb" />
+    <Compile Include="Repositories\Cost\CostProductionCenterCategoryRepository.vb" />
+    <Compile Include="Repositories\FixedAsset\FixedAssetPhysicalAssetPartRepository.vb" />
+    <Compile Include="Repositories\FixedAsset\FixedAssetReclassificationRepository.vb" />
+    <Compile Include="Repositories\FixedAsset\FixedAssetEntryDevolutionRepository.vb" />
+    <Compile Include="Repositories\FixedAsset\FixedAssetDepreciationRepository.vb" />
+    <Compile Include="Repositories\FixedAsset\FixedAssetChangePlateRepository.vb" />
+    <Compile Include="Repositories\FixedAsset\FixedAssetActiveOutputRepository.vb" />
+    <Compile Include="Repositories\FixedAsset\FixedAssetDeteriorationIndicationRepository.vb" />
+    <Compile Include="Repositories\FixedAsset\FixedAssetStatusRepository.vb" />
+    <Compile Include="Repositories\FixedAsset\FixedAssetTransferRepository.vb" />
+    <Compile Include="Repositories\FixedAsset\FixedAssetInitialBalanceRepository.vb" />
+    <Compile Include="Repositories\FixedAsset\FixedAssetEquipmentAllRepository.vb" />
+    <Compile Include="Repositories\FixedAsset\FixedAssetEquipmentTypePartsAccesoriesConsumiblesRepository.vb" />
+    <Compile Include="Repositories\FixedAsset\FixedAssetEquipmentTypeRepository.vb" />
+    <Compile Include="Repositories\FixedAsset\FixedAssetEntryRepository.vb" />
+    <Compile Include="Repositories\FixedAsset\FixedAssetPhysicalAssetRepository.vb" />
+    <Compile Include="Repositories\FixedAsset\FixedAssetInputRemissionRepository.vb" />
+    <Compile Include="Repositories\FixedAsset\FixedAssetValorizationRepository.vb" />
+    <Compile Include="Repositories\FixedAsset\FixedAssetPurchaseOrderRepository.vb" />
+    <Compile Include="Repositories\FixedAsset\FixedAssetResponsibleRepository.vb" />
+    <Compile Include="Repositories\FixedAsset\FixedAssetVinculationTypeRepository.vb" />
+    <Compile Include="Repositories\FixedAsset\FixedAssetResponsibleTypeRepository.vb" />
+    <Compile Include="Repositories\FixedAsset\FixedAssetEquipmentCatalogDetailRepository.vb" />
+    <Compile Include="Repositories\FixedAsset\FixedAssetEquipmentCatalogRepository.vb" />
+    <Compile Include="Repositories\FixedAsset\FixedAssetLocationRepository.vb" />
+    <Compile Include="Repositories\FixedAsset\FixedAssetLocationTypeRepository.vb" />
+    <Compile Include="Repositories\FixedAsset\FixedAssetParametersRepository.vb" />
+    <Compile Include="Repositories\FixedAsset\FixedAssetTrademarkRepository.vb" />
+    <Compile Include="Repositories\FixedAsset\FixedAssetPolizaTypeRepository.vb" />
+    <Compile Include="Repositories\FixedAsset\FixedAssetPolizaRepository.vb" />
+    <Compile Include="Repositories\FixedAsset\FixedAssetInsuranceRepository.vb" />
+    <Compile Include="Repositories\FixedAsset\FixedAssetPartsAccesoriesConsumablesRepository.vb" />
+    <Compile Include="Repositories\FixedAsset\FixedAssetInventoryTypeRepository.vb" />
+    <Compile Include="Repositories\Glosas\ConciliationCRepository.vb" />
+    <Compile Include="Repositories\Glosas\ConciliationDRepository.vb" />
+    <Compile Include="Repositories\Glosas\ConciliationParticipantsRepository.vb" />
+    <Compile Include="Repositories\Glosas\CustomerRepository.vb" />
+    <Compile Include="Repositories\Glosas\DevolutionsReceptionCRepository.vb" />
+    <Compile Include="Repositories\Glosas\DevolutionsReceptionDRepository.vb" />
+    <Compile Include="Repositories\Glosas\InterfacesParametersRepository.vb" />
+    <Compile Include="Repositories\Glosas\InvoiceDetailQXRepository.vb" />
+    <Compile Include="Repositories\Glosas\InvoiceDetailRepository.vb" />
+    <Compile Include="Repositories\Glosas\JustificationTemplateRepository.vb" />
+    <Compile Include="Repositories\Glosas\MovementDevolutionsRepository.vb" />
+    <Compile Include="Repositories\Glosas\MovementGlosaRepository.vb" />
+    <Compile Include="Repositories\Glosas\ObjectionsReceptionCRepository.vb" />
+    <Compile Include="Repositories\Glosas\ObjectionsReceptionDRepository.vb" />
+    <Compile Include="Repositories\Glosas\PartialPaymentsCRepository.vb" />
+    <Compile Include="Repositories\Glosas\PartialPaymentsDRepository.vb" />
+    <Compile Include="Repositories\Glosas\PartialPaymentsMovementRepository.vb" />
+    <Compile Include="Repositories\Glosas\PortfolioGlosadaRepository.vb" />
+    <Compile Include="Repositories\Glosas\RadicateInvoiceCRepository.vb" />
+    <Compile Include="Repositories\Glosas\RadicateInvoiceDRepository.vb" />
+    <Compile Include="Repositories\Glosas\ResponseHierarchyRepository.vb" />
+    <Compile Include="Repositories\Glosas\ResponsibleRepository.vb" />
+    <Compile Include="Repositories\Glosas\TimeParametersRepository.vb" />
+    <Compile Include="Repositories\Glosas\TransferJuridicalDebtCRepository.vb" />
+    <Compile Include="Repositories\Glosas\TransferJuridicalDebtDRepository.vb" />
+    <Compile Include="Repositories\InteropCost\CostEstimationRepository.vb" />
+    <Compile Include="Repositories\InteropCost\DirectDistributionSecondaryRepository.vb" />
+    <Compile Include="Repositories\InteropCost\DistributionDirectCostRepository.vb" />
+    <Compile Include="Repositories\InteropCost\DistributionFixedAssetRepository.vb" />
+    <Compile Include="Repositories\InteropCost\DistributionIntermediateRepository.vb" />
+    <Compile Include="Repositories\InteropCost\DistributionManpowerRepository.vb" />
+    <Compile Include="Repositories\InteropCost\DistributionSecondaryRepository.vb" />
+    <Compile Include="Repositories\InteropCost\EstimateCostRepository.vb" />
+    <Compile Include="Repositories\InteropCost\GeneralExpenseCategoryRepository.vb" />
+    <Compile Include="Repositories\InteropCost\GeneralExpensesRepository.vb" />
+    <Compile Include="Repositories\InteropCost\InteropCostSettingRepository.vb" />
+    <Compile Include="Repositories\InteropCost\LogisticsProductionCenterRecordRepository.vb" />
+    <Compile Include="Repositories\InteropCost\OrganizationalStructureRepository.vb" />
+    <Compile Include="Repositories\InteropCost\ProductionCenterRepository.vb" />
+    <Compile Include="Repositories\InteropCost\ProductionCenterServiceAreaRepository.vb" />
+    <Compile Include="Repositories\Inventory\ATCEntityRepository.vb" />
+    <Compile Include="Repositories\Inventory\ATCRepository.vb" />
+    <Compile Include="Repositories\Inventory\BatchSerialRepository.vb" />
+    <Compile Include="Repositories\InteropCost\BlockRecordInteropCostRepository.vb" />
+    <Compile Include="Repositories\Inventory\ConsignmentInventoryRemissionDetailControlRepository.vb" />
+    <Compile Include="Repositories\Inventory\ConsumeServiceRepository.vb" />
+    <Compile Include="Repositories\Inventory\DCIRepository.vb" />
+    <Compile Include="Repositories\Inventory\DocumentInvoiceProductSalesDetailRepository.vb" />
+    <Compile Include="Repositories\Inventory\DocumentInvoiceProductSalesRepository.vb" />
+    <Compile Include="Repositories\Inventory\EntranceVoucherDevoltionRepository.vb" />
+    <Compile Include="Repositories\Inventory\EntranceVoucherRepository.vb" />
+    <Compile Include="Repositories\InteropCost\InteropCostSequenceDetailRepository.vb" />
+    <Compile Include="Repositories\InteropCost\InteropCostSequenceRepository.vb" />
+    <Compile Include="Repositories\Inventory\InventoryAdjustmentRepository.vb" />
+    <Compile Include="Repositories\Inventory\InventoryContractDetailRepository.vb" />
+    <Compile Include="Repositories\Inventory\InventoryContractRepository.vb" />
+    <Compile Include="Repositories\Inventory\InventoryContractTypeRepository.vb" />
+    <Compile Include="Repositories\Inventory\InventoryControlRepository.vb" />
+    <Compile Include="Repositories\Inventory\InventoryControlServiceRepository.vb" />
+    <Compile Include="Repositories\Inventory\InventoryProductRepository.vb" />
+    <Compile Include="Repositories\Inventory\InventorySupplieRepository.vb" />
+    <Compile Include="Repositories\Inventory\PurchaseRequestDetailRepository.vb" />
+    <Compile Include="Repositories\Inventory\InventoryRequestDetailRepository.vb" />
+    <Compile Include="Repositories\Inventory\PurchaseRequestRepository.vb" />
+    <Compile Include="Repositories\Inventory\InventoryRequestRepository.vb" />
+    <Compile Include="Repositories\Inventory\InventoryRiskLevelRepository.vb" />
+    <Compile Include="Repositories\Inventory\KardexRepository.vb" />
+    <Compile Include="Repositories\Inventory\LoanMerchandiseDevolutionDetailRepository.vb" />
+    <Compile Include="Repositories\Inventory\LoanMerchandiseDetailRepository.vb" />
+    <Compile Include="Repositories\Inventory\LoanMerchandiseDevolutionRepository.vb" />
+    <Compile Include="Repositories\Inventory\POSPathologiesRepository.vb" />
+    <Compile Include="Repositories\Inventory\PurchaseOrderDevolutionRepository.vb" />
+    <Compile Include="Repositories\Inventory\InventoryRequestDevolutionRespository.vb" />
+    <Compile Include="Repositories\Inventory\ConsignmentInventoryRemissionDetailBatchSerialRepository.vb" />
+    <Compile Include="Repositories\Inventory\ConsignmentInventoryRemissionDetailRepository.vb" />
+    <Compile Include="Repositories\Inventory\ConsignmentInventoryRemissionRepository.vb" />
+    <Compile Include="Repositories\Inventory\TransferOrderDetailBatchSerialRepository.vb" />
+    <Compile Include="Repositories\Inventory\TransferOrderDevolutionRepository.vb" />
+    <Compile Include="Repositories\Inventory\ShelfTypeRepository.vb" />
+    <Compile Include="Repositories\Inventory\UpdateExpirationDateRepository.vb" />
+    <Compile Include="Repositories\Inventory\LoanMerchandiseRepository.vb" />
+    <Compile Include="Repositories\Inventory\MeasureUnitRepository.vb" />
+    <Compile Include="Repositories\Inventory\PackagingUnitRepository.vb" />
+    <Compile Include="Repositories\Inventory\PharmaceuticalDispensingDetailBatchSerialRepository.vb" />
+    <Compile Include="Repositories\Inventory\PharmaceuticalDispensingDetailRepository.vb" />
+    <Compile Include="Repositories\Inventory\PharmaceuticalDispensingDevolutionDetailRepository.vb" />
+    <Compile Include="Repositories\Inventory\PharmaceuticalDispensingDevolutionRepository.vb" />
+    <Compile Include="Repositories\Inventory\PharmaceuticalDispensingRepository.vb" />
+    <Compile Include="Repositories\Inventory\PharmacologicalGroupRepository.vb" />
+    <Compile Include="Repositories\Inventory\AdjustmentConceptRepository.vb" />
+    <Compile Include="Repositories\Inventory\ManufacturesRepository.vb" />
+    <Compile Include="Repositories\Inventory\OtherWithholdingDeductionRepository.vb" />
+    <Compile Include="Repositories\Inventory\AttributeProductTypeRepository.vb" />
+    <Compile Include="Repositories\Inventory\PharmaceuticalFormRepository.vb" />
+    <Compile Include="Repositories\Inventory\AdministrationRouteRepository.vb" />
+    <Compile Include="Repositories\Contract\CupsGroupRepository.vb" />
+    <Compile Include="Repositories\Inventory\PhysicalInventoryRepository.vb" />
+    <Compile Include="Repositories\Inventory\InventoryControlDocumentRepository.vb" />
+    <Compile Include="Repositories\Inventory\ProductHierarchyRepository.vb" />
+    <Compile Include="Repositories\Inventory\ProductRateDetailRepository.vb" />
+    <Compile Include="Repositories\Inventory\ProductTemplateRepository.vb" />
+    <Compile Include="Repositories\Inventory\ProductTypeRepository.vb" />
+    <Compile Include="Repositories\Inventory\PurchaseOrderDetailRepository.vb" />
+    <Compile Include="Repositories\Inventory\PurchaseOrderRepository.vb" />
+    <Compile Include="Repositories\Inventory\RemissionDevolutionRepository.vb" />
+    <Compile Include="Repositories\Inventory\RemissionEntranceDetailBatchSerialRepository.vb" />
+    <Compile Include="Repositories\Inventory\RemissionEntranceDetailRepository.vb" />
+    <Compile Include="Repositories\Inventory\RemissionEntranceRepository.vb" />
+    <Compile Include="Repositories\Inventory\RemissionOutputDetailPhysicalRepository.vb" />
+    <Compile Include="Repositories\Inventory\RemissionOutputDetailRepository.vb" />
+    <Compile Include="Repositories\Inventory\RemissionOutputRepository.vb" />
+    <Compile Include="Repositories\Inventory\SettingInventoryRepository.vb" />
+    <Compile Include="Repositories\Inventory\TransferOrderDetailRepository.vb" />
+    <Compile Include="Repositories\Inventory\TransferOrderRepository.vb" />
+    <Compile Include="Repositories\Inventory\WarehouseRepository.vb" />
+    <Compile Include="Repositories\Inventory\ProductSubGroupsRepository.vb" />
+    <Compile Include="Repositories\Inventory\ProductGroupsRepository.vb" />
+    <Compile Include="Repositories\Inventory\WarehouseStockRepository.vb" />
+    <Compile Include="Repositories\Maintenance\AccesoryDetailRepository.vb" />
+    <Compile Include="Repositories\Maintenance\AccesoryRepository.vb" />
+    <Compile Include="Repositories\Maintenance\BlockRecordMaintenanceRepository.vb" />
+    <Compile Include="Repositories\Maintenance\BrandRepository.vb" />
+    <Compile Include="Repositories\Maintenance\ConsumableRepository.vb" />
+    <Compile Include="Repositories\Maintenance\DrawingsDetailRepository.vb" />
+    <Compile Include="Repositories\Maintenance\EquipmentAllRepository.vb" />
+    <Compile Include="Repositories\Maintenance\EquipmentFunctionRepostory.vb" />
+    <Compile Include="Repositories\Maintenance\EquipmentHistoryRepository.vb" />
+    <Compile Include="Repositories\Maintenance\EquipmentReceptionConsumableRepository.vb" />
+    <Compile Include="Repositories\Maintenance\EquipmentReceptionsAccesoryRepository.vb" />
+    <Compile Include="Repositories\Maintenance\EquipmentRegistrationRepository.vb" />
+    <Compile Include="Repositories\Maintenance\EquipmentRequirementRepository.vb" />
+    <Compile Include="Repositories\Maintenance\MaintenancePlanProgramatedRepository.vb" />
+    <Compile Include="Repositories\Maintenance\MaintenanceActivityRepository.vb" />
+    <Compile Include="Repositories\Maintenance\MaintenanceParametersRepository.vb" />
+    <Compile Include="Repositories\Maintenance\MaintenancePlanAndMetrologyRepository.vb" />
+    <Compile Include="Repositories\Maintenance\MaintenancePlanDetailRepository.vb" />
+    <Compile Include="Repositories\Maintenance\MaintenancePlanRepository.vb" />
+    <Compile Include="Repositories\Maintenance\MaintenanceProtocolRepository.vb" />
+    <Compile Include="Repositories\Maintenance\ManualDetailRepository.vb" />
+    <Compile Include="Repositories\Maintenance\MeasurementUnitRepository.vb" />
+    <Compile Include="Repositories\Maintenance\PhysicalRiskRepository.vb" />
+    <Compile Include="Repositories\Maintenance\SupplierRepository.vb" />
+    <Compile Include="Repositories\FixedAsset\BlockRecordFixedAssetRepository.vb" />
+    <Compile Include="Repositories\FixedAsset\SequenseFixedAssetCRepository.vb" />
+    <Compile Include="Repositories\FixedAsset\SequenseFixedAssetDRepository.vb" />
+    <Compile Include="Repositories\Maintenance\SequenseMaintenanceCRepository.vb" />
+    <Compile Include="Repositories\Maintenance\SequenseMaintenanceDRepository.vb" />
+    <Compile Include="Repositories\Maintenance\TechnicalEquipmentSheetRepository.vb" />
+    <Compile Include="Repositories\Maintenance\TechnicalLogDetailRepository.vb" />
+    <Compile Include="Repositories\Maintenance\TechnicalLogRepository.vb" />
+    <Compile Include="Repositories\Maintenance\TemplateEquipmentTypeRepository.vb" />
+    <Compile Include="Repositories\Maintenance\WorkOrderRepository.vb" />
+    <Compile Include="Repositories\MedicalFees\BlockRecordMedicalFeesRepository.vb" />
+    <Compile Include="Repositories\MedicalFees\HealthProfessionalContractRepository.vb" />
+    <Compile Include="Repositories\MedicalFees\MedicalFeesLiquidationDetailRepository.vb" />
+    <Compile Include="Repositories\MedicalFees\MedicalFeesNoteRepository.vb" />
+    <Compile Include="Repositories\MedicalFees\MedicalFeesCausationRepository.vb" />
+    <Compile Include="Repositories\MedicalFees\MedicalFeesLiquidationRepository.vb" />
+    <Compile Include="Repositories\MedicalFees\MedicalFeesSettingsRepository.vb" />
+    <Compile Include="Repositories\MedicalFees\MedicalFeesContractRepository.vb" />
+    <Compile Include="Repositories\MedicalFees\MedicalFeesSecuenceDetailRepository.vb" />
+    <Compile Include="Repositories\MedicalFees\MedicalFeesSecuenceRepository.vb" />
+    <Compile Include="Repositories\MixingStation\BlockRecordMixingStationRepository.vb" />
+    <Compile Include="Repositories\MixingStation\CMCenterAttentionRepository.vb" />
+    <Compile Include="Repositories\MixingStation\MixingStationSequenceDetailRepository.vb" />
+    <Compile Include="Repositories\MixingStation\MixingStationSequenceRepository.vb" />
+    <Compile Include="Repositories\MixingStation\CMConfigRepository.vb" />
+    <Compile Include="Repositories\MixingStation\PackageDetailRepository.vb" />
+    <Compile Include="Repositories\MixingStation\PackageRepository.vb" />
+    <Compile Include="Repositories\MixingStation\CMMixingProducitonLineRepository .vb" />
+    <Compile Include="Repositories\MixingStation\ProductionLineRepository.vb" />
+    <Compile Include="Repositories\MixingStation\ProductionLineUnitRepository.vb" />
+    <Compile Include="Repositories\MixingStation\UnitDoseTypeRepository.vb" />
+    <Compile Include="Repositories\MixingStation\TurnRepository.vb" />
+    <Compile Include="Repositories\Payments\AccountPayableDetailConceptRepository.vb" />
+    <Compile Include="Repositories\Payments\AccountPayableTransferDetailRepository.vb" />
+    <Compile Include="Repositories\Payments\AgesPaymentsRepository.vb" />
+    <Compile Include="Repositories\Inventory\BlockRecordInventoryRepository.vb" />
+    <Compile Include="Repositories\Contract\BlockRecordContractRepository.vb" />
+    <Compile Include="Repositories\Payments\BlockRecordPaymentsRepository.vb" />
+    <Compile Include="Repositories\Payments\AccountPayableRepository.vb" />
+    <Compile Include="Repositories\Payments\DeferredCausationShareRepository.vb" />
+    <Compile Include="Repositories\Payments\AccountPayableRejectionReasonRepository.vb" />
+    <Compile Include="Repositories\Payments\AccountPayableTransferRepository.vb" />
+    <Compile Include="Repositories\Payments\LoadMassiveRepository.vb" />
+    <Compile Include="Repositories\Payments\SupplierTypeRepository.vb" />
+    <Compile Include="Repositories\Payments\MovementAccountPayableRepository.vb" />
+    <Compile Include="Repositories\Payments\MonthlyAmortizationRepository.vb" />
+    <Compile Include="Repositories\Inventory\InventorySequenceRepository.vb" />
+    <Compile Include="Repositories\Inventory\InventorySequenceDetailRepository.vb" />
+    <Compile Include="Repositories\Contract\SequenseContractCRepository.vb" />
+    <Compile Include="Repositories\Contract\SequenseContractDRepository.vb" />
+    <Compile Include="Repositories\Payments\FilingUnitRepository.vb" />
+    <Compile Include="Repositories\Payments\TransfersRepository.vb" />
+    <Compile Include="Repositories\Payments\NotesDebitCreditRepository.vb" />
+    <Compile Include="Repositories\Payments\MoneyAdvanceRepository.vb" />
+    <Compile Include="Repositories\Payments\OpeningBalanceRepository.vb" />
+    <Compile Include="Repositories\Payments\DeferredCausationRepository.vb" />
+    <Compile Include="Repositories\Payments\PaymentNotesAccountPayableAdvanceRepository.vb" />
+    <Compile Include="Repositories\Payments\SettingPaymentsRepository.vb" />
+    <Compile Include="Repositories\Payments\PaymentsConceptRepository.vb" />
+    <Compile Include="Repositories\Payments\PaymentsNoteConceptRepository.vb" />
+    <Compile Include="Repositories\Payments\SequensePaymentsCRepository.vb" />
+    <Compile Include="Repositories\Payments\SequensePaymentsDRepository.vb" />
+    <Compile Include="Repositories\Payroll\AgreementsMassiveRepository.vb" />
+    <Compile Include="Repositories\Payroll\InitialBalancePayrollRepository.vb" />
+    <Compile Include="Repositories\Payroll\BankRepository.vb" />
+    <Compile Include="Repositories\Payroll\BlockRecordPayrollRepository.vb" />
+    <Compile Include="Repositories\Payroll\PayrollSequenceDetailRepository.vb" />
+    <Compile Include="Repositories\Payroll\PayrollSequenceRepository.vb" />
+    <Compile Include="Repositories\Portfolio\AccountReceivableAccountingRepository.vb" />
+    <Compile Include="Repositories\Portfolio\DemandTransferJuridicalRepository.vb" />
+    <Compile Include="Repositories\Portfolio\LawyerRepository.vb" />
+    <Compile Include="Repositories\Portfolio\AccountReceivableDocumentRepository.vb" />
+    <Compile Include="Repositories\Portfolio\PortfolioDemandStatusRepository.vb" />
+    <Compile Include="Repositories\Portfolio\PortfolioProvisionRepository.vb" />
+    <Compile Include="Repositories\Portfolio\AccountReceivableRepository.vb" />
+    <Compile Include="Repositories\Portfolio\AccountReceivableShareRepository.vb" />
+    <Compile Include="Repositories\Portfolio\AgePortfolioRepository.vb" />
+    <Compile Include="Repositories\Portfolio\BlockRecordPortfolioRepository.vb" />
+    <Compile Include="Repositories\Portfolio\CircularZeroThirtyRepository.vb" />
+    <Compile Include="Repositories\Portfolio\EconomicIndicatorRepository.vb" />
+    <Compile Include="Repositories\Portfolio\HardCollectionRepository.vb" />
+    <Compile Include="Repositories\Portfolio\PortfolioAdvanceRepository.vb" />
+    <Compile Include="Repositories\Portfolio\AccountReceivableConceptRepository.vb" />
+    <Compile Include="Repositories\Portfolio\PortfolioInitialBalanceAccountReceivableRepository.vb" />
+    <Compile Include="Repositories\Portfolio\PortfolioInitialBalanceRepository.vb" />
+    <Compile Include="Repositories\Portfolio\PortfolioNoteConceptRepository.vb" />
+    <Compile Include="Repositories\Portfolio\PortfolioNoteDistributionRepository.vb" />
+    <Compile Include="Repositories\Portfolio\PortfolioNoteRepository.vb" />
+    <Compile Include="Repositories\Portfolio\PortfolioTransferRepository.vb" />
+    <Compile Include="Repositories\Portfolio\PotfolioControlRepository.vb" />
+    <Compile Include="Repositories\Portfolio\ProvisionRangesRepository.vb" />
+    <Compile Include="Repositories\Portfolio\ReclassificationRepository.vb" />
+    <Compile Include="Repositories\Portfolio\SequensePortfolioCRepository.vb" />
+    <Compile Include="Repositories\Portfolio\SequensePortfolioDRepository.vb" />
+    <Compile Include="Repositories\Portfolio\SettingPortfolioRepository.vb" />
+    <Compile Include="Repositories\Taxes\LowTaxLiquidationRepository.vb" />
+    <Compile Include="Repositories\Taxes\FiscalizationRepository.vb" />
+    <Compile Include="Repositories\Taxes\TaxesLiquidationRepository.vb" />
+    <Compile Include="Repositories\Taxes\TaxesPropertyRepository.vb" />
+    <Compile Include="Repositories\Treasury\BlockRecordTreasuryRepository.vb" />
+    <Compile Include="Repositories\Treasury\CancellationCheckRepository.vb" />
+    <Compile Include="Repositories\Treasury\CardCollectionsRepository.vb" />
+    <Compile Include="Repositories\Treasury\CardRepository.vb" />
+    <Compile Include="Repositories\Treasury\CashFlowReclassificationRepository.vb" />
+    <Compile Include="Repositories\Treasury\CheckCashingControlRepository.vb" />
+    <Compile Include="Repositories\Treasury\ConstitutionCashSmallerRepository.vb" />
+    <Compile Include="Repositories\Treasury\CashingRepository.vb" />
+    <Compile Include="Repositories\Treasury\CashReceiptConceptRepository.vb" />
+    <Compile Include="Repositories\Treasury\CashReceiptsRepository.vb" />
+    <Compile Include="Repositories\Treasury\CashRegisterRepository.vb" />
+    <Compile Include="Repositories\Treasury\CashRegisterUserRepository.vb" />
+    <Compile Include="Repositories\Treasury\CheckBlockRepository.vb" />
+    <Compile Include="Repositories\Treasury\CheckRepository.vb" />
+    <Compile Include="Repositories\Treasury\ConsignmentTransferRepository.vb" />
+    <Compile Include="Repositories\Treasury\CrossingAccountDetailCxCRepository.vb" />
+    <Compile Include="Repositories\Treasury\CrossingAccountDetailCxPRepository.vb" />
+    <Compile Include="Repositories\Treasury\CrossingAccountDetailOtherConceptsRepository.vb" />
+    <Compile Include="Repositories\Treasury\CrossingAccountRepository.vb" />
+    <Compile Include="Repositories\Treasury\DischargeBillRepository.vb" />
+    <Compile Include="Repositories\Treasury\EntityBankAccountRepository.vb" />
+    <Compile Include="Repositories\Treasury\ExpenseConceptRepository.vb" />
+    <Compile Include="Repositories\Treasury\CashFlowConceptRepository.vb" />
+    <Compile Include="Repositories\Treasury\BankConciliationConceptsRepository.vb" />
+    <Compile Include="Repositories\Treasury\NoteConceptRepository.vb" />
+    <Compile Include="Repositories\Treasury\OutstandingChecksRepository.vb" />
+    <Compile Include="Repositories\Treasury\PaymentConceptRepository.vb" />
+    <Compile Include="Repositories\Treasury\SchedulePaymentBankAccountRepository.vb" />
+    <Compile Include="Repositories\Treasury\TreasuryRevaluationRepository.vb" />
+    <Compile Include="Repositories\Treasury\RefundRepository.vb" />
+    <Compile Include="Repositories\Treasury\SchedulePaymentDetailRepository.vb" />
+    <Compile Include="Repositories\Treasury\SchedulePaymentRepository.vb" />
+    <Compile Include="Repositories\Treasury\SequenseTreasuryCRepository.vb" />
+    <Compile Include="Repositories\Treasury\SequenseTreasuryDRepository.vb" />
+    <Compile Include="Repositories\Treasury\SettingsTreasuryRepository.vb" />
+    <Compile Include="Repositories\Treasury\TreasuryAdvanceRepository.vb" />
+    <Compile Include="Repositories\Payments\PaymentControlRepository.vb" />
+    <Compile Include="Repositories\Treasury\TreasuryControlRepository.vb" />
+    <Compile Include="Repositories\Treasury\TreasuryNoteRepository.vb" />
+    <Compile Include="Repositories\Treasury\UploadBankStatementsRepository.vb" />
+    <Compile Include="Repositories\Treasury\VoucherTransactionDetailRepository.vb" />
+    <Compile Include="Repositories\Treasury\VoucherTransactionRepository.vb" />
+    <Compile Include="Repositories\Treasury\VReportConsignmentTransferRepository.vb" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="My Project\Resources.resx">
+      <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.vb</LastGenOutput>
+      <CustomToolNamespace>My.Resources</CustomToolNamespace>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.Config">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Context\GlobalModelUnitOfWork.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>GlobalModelUnitOfWork.Context.vb</LastGenOutput>
+    </None>
+    <None Include="Context\IGlobalModelUnitOfWork.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>IGlobalModelUnitOfWork.vb</LastGenOutput>
+    </None>
+    <None Include="Model\FixEFConcurrencyModes.exe.config" />
+    <None Include="Model\GlobalModel.edmx.bak" />
+    <None Include="Model\GlobalModel.edmx.diagram">
+      <DependentUpon>GlobalModel.edmx</DependentUpon>
+    </None>
+    <None Include="Model\RunFixEFConcurrencyModesOnModel.bat" />
+    <None Include="My Project\Application.myapp">
+      <Generator>MyApplicationCodeGenerator</Generator>
+      <LastGenOutput>Application.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="My Project\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <CustomToolNamespace>My</CustomToolNamespace>
+      <LastGenOutput>Settings.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Domain.AccountManagement\Domain.AccountManagement.csproj">
+      <Project>{7b551ebd-428a-4e51-80c2-25a2bfcf7e8e}</Project>
+      <Name>Domain.AccountManagement</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Domain.Base.Entities\Domain.Base.Entities.vbproj">
+      <Project>{78734d29-0073-4d48-9d0b-2362d0243e36}</Project>
+      <Name>Domain.Base.Entities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Domain.Base\Domain.Base.vbproj">
+      <Project>{8157f242-6a69-44c1-a9ac-19f0ee5cb8a2}</Project>
+      <Name>Domain.Base</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Domain.Common.Entities\Domain.Common.Entities.vbproj">
+      <Project>{3D09A7E6-8638-45AD-B6C9-5496AE263EF0}</Project>
+      <Name>Domain.Common.Entities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Domain.Crystal.Entities\Domain.Crystal.Entities.vbproj">
+      <Project>{AEF25407-1A53-4F3B-93CB-5258A6B80951}</Project>
+      <Name>Domain.Crystal.Entities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Domain.Crystal\Domain.Crystal.vbproj">
+      <Project>{FB110E4F-2309-46EF-8A11-D979517E315B}</Project>
+      <Name>Domain.Crystal</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Domain.Entities\Domain.Entities.vbproj">
+      <Project>{0551aef4-ed84-4745-b00b-7475f26015cc}</Project>
+      <Name>Domain.Entities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Domain.Payroll.Entities\Domain.Payroll.Entities.vbproj">
+      <Project>{F0FE946F-2BD9-4BB8-8741-51EA3D862237}</Project>
+      <Name>Domain.Payroll.Entities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Domain.Payroll\Domain.Payroll.vbproj">
+      <Project>{0B26CAFA-8DF4-49AB-8943-41A91D67694E}</Project>
+      <Name>Domain.Payroll</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Domain.Portfolio\Domain.Portfolio.csproj">
+      <Project>{1B7118EF-69BD-44F2-8546-4FC318F7098A}</Project>
+      <Name>Domain.Portfolio</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Domain.Security.Entities\Domain.Security.Entities.vbproj">
+      <Project>{99f1c077-1e8f-432f-b5d0-e801bf6d6a39}</Project>
+      <Name>Domain.Security.Entities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastructure.CrossCutting.Base\Infrastructure.CrossCutting.Base.vbproj">
+      <Project>{2773d9f7-93bd-4520-9726-bce0d8875696}</Project>
+      <Name>Infrastructure.CrossCutting.Base</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastructure.CrossCutting.Resources\Infrastructure.CrossCutting.Resources.vbproj">
+      <Project>{134f5b02-eba4-4414-bb62-bf5d55e2b906}</Project>
+      <Name>Infrastructure.CrossCutting.Resources</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastructure.Data.Base\Infrastructure.Data.Base.vbproj">
+      <Project>{69c4fe61-549b-42e8-adac-18d1cfc83fed}</Project>
+      <Name>Infrastructure.Data.Base</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastructure.Data.CrystalRepository\Infrastructure.Data.CrystalRepository.vbproj">
+      <Project>{99BD064D-FB14-49BC-A2E5-A8B26B6A0F95}</Project>
+      <Name>Infrastructure.Data.CrystalRepository</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastructure.Data.SecurityRepository\Infrastructure.Data.SecurityRepository.vbproj">
+      <Project>{C1457F9B-B14F-4DCF-9F8E-B317C9A9EF8F}</Project>
+      <Name>Infrastructure.Data.SecurityRepository</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Model\CommandLine.dll" />
+    <Content Include="Model\CommandLine.xml" />
+    <Content Include="Model\EFConcurrencyModeTest.dll" />
+    <Content Include="Model\FixEFConcurrencyModes.exe" />
+    <Content Include="Model\FixEFConcurrencyModes.XML" />
+    <Content Include="Model\FSharp.Core.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <EntityDeploy Include="Model\GlobalModel.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>GlobalModel1.Designer.vb</LastGenOutput>
+    </EntityDeploy>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
+  <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>Este proyecto hace referencia a los paquetes NuGet que faltan en este equipo. Use la restauración de paquetes NuGet para descargarlos. Para obtener más información, consulte http://go.microsoft.com/fwlink/?LinkID=322105. El archivo que falta es {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\EntityFramework.6.4.4\build\EntityFramework.props'))" />
+    <Error Condition="!Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\EntityFramework.6.4.4\build\EntityFramework.targets'))" />
+  </Target>
+  <Import Project="..\packages\EntityFramework.6.4.4\build\EntityFramework.targets" Condition="Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.targets')" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

@@ -1,0 +1,69 @@
+﻿#Region "Librerias Importadas"
+Imports Infrastructure.CrossCutting.Base
+Imports Infrastructure.Data.Xpo
+Imports Infrastructure.Data.Xpo.PayrollRepository
+Imports Domain.Entities
+Imports Presentation.CloudAgent
+Imports Presentation.Base
+Imports Infrastructure.CrossCutting.Exceptions
+#End Region
+
+
+Public Class rptInventoryContract
+    Implements IReport
+
+    ''' <summary>
+    ''' Variable para inicializar los valores de sesion
+    ''' </summary>
+    Dim IndigoSessionValues As SessionValues = SessionValues.Instance
+
+    Const CNameReport = "Inventory.FrmContractLiquidation"
+
+    Public Property ParametrosReporte As Object() Implements IReport.ParametrosReporte
+
+    Public Async Sub CargarDataSource() Implements IReport.CargarDataSource
+        Try
+            Dim dt As DataTable = Await IndigoConecta.Instancia.CurrentCloud.IndigoCommonERP.GetDataTableAsync("[Inventory].[SP_InventoryContractReport]", {{"InventoryReportCode", ParametrosReporte(0).ToString()}.ToList()}.ToList(), Me.IndigoSessionValues)
+            If dt.Rows.Count > 0 Then
+                Me.DataSource = dt
+                Me.DataMember = dt.TableName
+            Else
+                Me.DataSource = Nothing
+            End If
+            Application.DoEvents()
+        Catch ex As Exception
+            MessageIndigo.Show(IndigoManagementExceptions.GetExceptionDetails(ex), MessageType.Errores, Me.Text, Botones.Aceptar, "")
+        End Try
+    End Sub
+
+    Public Sub CargarImagenes() Implements IReport.CargarImagenes
+
+    End Sub
+
+    Public ReadOnly Property NameReport As String Implements IReport.NameReport
+        Get
+            Return rptInventoryContract.CNameReport
+        End Get
+    End Property
+
+    Private Sub rptContractLiquidation_AfterPrint(sender As Object, e As EventArgs) Handles MyBase.AfterPrint
+        '   INDlblTotalPagar.Text = acumulado.ToString()
+    End Sub
+
+    Private Sub INDlblTotalPagar_BeforePrint(sender As Object, e As Printing.PrintEventArgs)
+
+    End Sub
+
+    Private Sub rptContractLiquidation_BeforePrint(sender As Object, e As Printing.PrintEventArgs) Handles MyBase.BeforePrint
+        INDLblNombreEmpresaCliente.Text = IndigoSessionValues.IndigoCompanyName
+        INDLblNitCliente.Text = "Nit:" & IndigoSessionValues.IndigoCompanyNit
+    End Sub
+
+    Dim acumulado As Decimal = 0
+    'Private Sub rptContractLiquidation_DataSourceRowChanged(sender As Object, e As DevExpress.XtraReports.UI.DataSourceRowEventArgs) Handles MyBase.DataSourceRowChanged
+
+    '    acumulado += GetCurrentColumnValue("Accrued")
+
+    'End Sub
+
+End Class

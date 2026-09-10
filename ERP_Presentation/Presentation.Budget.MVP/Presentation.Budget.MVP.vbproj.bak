@@ -1,0 +1,420 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{6EC8DC5D-44A1-425F-978E-571CBB442AAC}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>Presentation.Budget.MVP</RootNamespace>
+    <AssemblyName>Presentation.Budget.MVP</AssemblyName>
+    <FileAlignment>512</FileAlignment>
+    <MyType>Windows</MyType>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DocumentationFile>Presentation.Budget.MVP.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DocumentationFile>Presentation.Budget.MVP.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionExplicit>On</OptionExplicit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionCompare>Binary</OptionCompare>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionStrict>Off</OptionStrict>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionInfer>On</OptionInfer>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debugcito|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\Debugcito\</OutputPath>
+    <DocumentationFile>Presentation.Budget.MVP.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DocumentationFile>Presentation.Budget.MVP.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DocumentationFile>Presentation.Budget.MVP.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debugcito|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x64\Debugcito\</OutputPath>
+    <DocumentationFile>Presentation.Budget.MVP.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DocumentationFile>Presentation.Budget.MVP.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DocumentationFile>Presentation.Budget.MVP.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debugcito|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x86\Debugcito\</OutputPath>
+    <DocumentationFile>Presentation.Budget.MVP.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'VieBuild|AnyCPU'">
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\VieBuild\</OutputPath>
+    <DocumentationFile>Presentation.Budget.MVP.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'VieBuild|x64'">
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x64\VieBuild\</OutputPath>
+    <DocumentationFile>Presentation.Budget.MVP.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'VieBuild|x86'">
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x86\VieBuild\</OutputPath>
+    <DocumentationFile>Presentation.Budget.MVP.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="DevExpress.Data.v20.1, Version=20.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Data.Desktop.v20.1, Version=20.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Utils.v20.1, Version=20.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Xpo.v20.1, Version=20.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="Domain.Base.Entities, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\DLL\Domain.Base.Entities.dll</HintPath>
+    </Reference>
+    <Reference Include="Domain.Entities, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\DLL\Domain.Entities.dll</HintPath>
+    </Reference>
+    <Reference Include="Infrastructure.CrossCutting.Base, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\DLL\Infrastructure.CrossCutting.Base.dll</HintPath>
+    </Reference>
+    <Reference Include="Infrastructure.CrossCutting.Resources, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\DLL\Infrastructure.CrossCutting.Resources.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Core" />
+  </ItemGroup>
+  <ItemGroup>
+    <Import Include="Microsoft.VisualBasic" />
+    <Import Include="System" />
+    <Import Include="System.Collections" />
+    <Import Include="System.Collections.Generic" />
+    <Import Include="System.Diagnostics" />
+    <Import Include="System.Linq" />
+    <Import Include="System.Xml.Linq" />
+    <Import Include="System.Threading.Tasks" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Helper\BudgetHelper.vb" />
+    <Compile Include="Interface\File\IBudgetCCPET.vb" />
+    <Compile Include="Interface\File\IBudgetCPCCatalog.vb" />
+    <Compile Include="Interface\File\IPublicPolicy.vb" />
+    <Compile Include="Interface\File\IPrincipalEarningsType.vb" />
+    <Compile Include="Interface\File\ILevelCategory.vb" />
+    <Compile Include="Interface\File\IBudgetConcept.vb" />
+    <Compile Include="Interface\File\IBudgetDependency.vb" />
+    <Compile Include="Interface\File\IExpenseType.vb" />
+    <Compile Include="Interface\File\IEarningsType.vb" />
+    <Compile Include="Interface\File\IBudgetEntities.vb" />
+    <Compile Include="Interface\File\IFinancialSource.vb" />
+    <Compile Include="Interface\File\IShowDialogCCPET.vb" />
+    <Compile Include="Interface\File\IShowDialogCPCCatalog.vb" />
+    <Compile Include="Interface\Process\IAnnualizedCashFlowModification.vb" />
+    <Compile Include="Interface\Process\IAnnualizedCashFlowTransfer.vb" />
+    <Compile Include="Interface\Process\IAnnuallyClosingIncome.vb" />
+    <Compile Include="Interface\Process\IAvailability.vb" />
+    <Compile Include="Interface\Process\IAvailabilityExtension.vb" />
+    <Compile Include="Interface\Process\IAvailabilityModification.vb" />
+    <Compile Include="Interface\Process\IBudgetAmendments.vb" />
+    <Compile Include="Interface\Process\IAddCategory.vb" />
+    <Compile Include="Interface\File\IPrivateBudgetItemsStructure.vb" />
+    <Compile Include="Interface\Process\IBudgetTransfers.vb" />
+    <Compile Include="Interface\Process\IAnnualizedCashFlow.vb" />
+    <Compile Include="Interface\Process\ICloseMonthIncome.vb" />
+    <Compile Include="Interface\Process\ICollection.vb" />
+    <Compile Include="Interface\Process\ICollectionModification.vb" />
+    <Compile Include="Interface\Process\ICommitment.vb" />
+    <Compile Include="Interface\Process\ICommitmentModification.vb" />
+    <Compile Include="Interface\Process\IConfirmationDocuments.vb" />
+    <Compile Include="Interface\Process\IConfirmationDocumentsExpenses.vb" />
+    <Compile Include="Interface\Process\IExpenseAnnuallyClosing.vb" />
+    <Compile Include="Interface\Process\IExpenseMonthlyClosing.vb" />
+    <Compile Include="Interface\Process\IExpenseRecalculateBalances.vb" />
+    <Compile Include="Interface\Process\IModificationObligations.vb" />
+    <Compile Include="Interface\Process\IObligation.vb" />
+    <Compile Include="Interface\Process\IPaymentOrder.vb" />
+    <Compile Include="Interface\Process\IRecognition.vb" />
+    <Compile Include="Interface\Process\IRecognitionModification.vb" />
+    <Compile Include="Interface\Process\IReimbursementResource.vb" />
+    <Compile Include="Interface\Process\IShowDialogItems.vb" />
+    <Compile Include="Interface\Process\IBudgetItem.vb" />
+    <Compile Include="Interface\Process\IInitialBudgetEntry.vb" />
+    <Compile Include="Interface\Process\ISuspension.vb" />
+    <Compile Include="Interface\Process\ISuspensionCancellation.vb" />
+    <Compile Include="Interface\Utilities\ICopyBase.vb" />
+    <Compile Include="Interface\Utilities\ISettingBudget.vb" />
+    <Compile Include="Model\File\MBudgetCCPET.vb" />
+    <Compile Include="Model\File\MBudgetCPCCatalog.vb" />
+    <Compile Include="Model\File\MPublicPolicy.vb" />
+    <Compile Include="Model\File\MPrivateBudgetItemsStructure.vb" />
+    <Compile Include="Model\File\MLevelCategory.vb" />
+    <Compile Include="Model\File\MBudgetConcept.vb" />
+    <Compile Include="Model\File\MBudgetDependency.vb" />
+    <Compile Include="Model\File\MExpenseType.vb" />
+    <Compile Include="Model\File\MEarningsType.vb" />
+    <Compile Include="Model\File\MBudgetEntities.vb" />
+    <Compile Include="Model\File\MFinancialSource.vb" />
+    <Compile Include="Model\ModelBaseBudget.vb" />
+    <Compile Include="Model\MReports.vb" />
+    <Compile Include="Model\Process\MAnnualizedCashFlow.vb" />
+    <Compile Include="Model\Process\MAnnualizedCashFlowModification.vb" />
+    <Compile Include="Model\Process\MAnnualizedCashFlowTransfer.vb" />
+    <Compile Include="Model\Process\MAnnuallyClosingIncome.vb" />
+    <Compile Include="Model\Process\MAvailability.vb" />
+    <Compile Include="Model\Process\MAvailabilityExtension.vb" />
+    <Compile Include="Model\Process\MAvailabilityModification.vb" />
+    <Compile Include="Model\Process\MBudgetItem.vb" />
+    <Compile Include="Model\Process\MBudgetModification.vb" />
+    <Compile Include="Model\Process\MBudgetTransfer.vb" />
+    <Compile Include="Model\Process\MCloseMonthIncome.vb" />
+    <Compile Include="Model\Process\MCollection.vb" />
+    <Compile Include="Model\Process\MCollectionModification.vb" />
+    <Compile Include="Model\Process\MCommitment.vb" />
+    <Compile Include="Model\Process\MCommitmentModification.vb" />
+    <Compile Include="Model\Process\MConfirmationDocuments.vb" />
+    <Compile Include="Model\Process\MConfirmationDocumentsExpenses.vb" />
+    <Compile Include="Model\Process\MExpenseAnnuallyClosing.vb" />
+    <Compile Include="Model\Process\MExpenseMonthlyClosing.vb" />
+    <Compile Include="Model\Process\MExpenseRecalculateBalances.vb" />
+    <Compile Include="Model\Process\MInitialBudgetEntry.vb" />
+    <Compile Include="Model\Process\MModificationObligation.vb" />
+    <Compile Include="Model\Process\MObligation.vb" />
+    <Compile Include="Model\Process\MPaymentOrder.vb" />
+    <Compile Include="Model\Process\MPrivateBudget.vb" />
+    <Compile Include="Model\Process\MRecognition.vb" />
+    <Compile Include="Model\Process\MRecognitionModification.vb" />
+    <Compile Include="Model\Process\MReimbursementResource.vb" />
+    <Compile Include="Model\Process\MSuspension.vb" />
+    <Compile Include="Model\Process\MSuspensionCancellation.vb" />
+    <Compile Include="Model\Utilities\MCopyBase.vb" />
+    <Compile Include="Model\Utilities\MSettingBudget.vb" />
+    <Compile Include="My Project\AssemblyInfo.vb" />
+    <Compile Include="My Project\Application.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Application.myapp</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="My Project\Resources.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="My Project\Settings.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="Presenter\File\PBudgetCCPET.vb" />
+    <Compile Include="Presenter\File\PBudgetCPCCatalog.vb" />
+    <Compile Include="Presenter\File\PPublicPolicy.vb" />
+    <Compile Include="Presenter\File\PLevelCategory.vb" />
+    <Compile Include="Presenter\File\PBudgetConcept.vb" />
+    <Compile Include="Presenter\File\PBudgetDependency.vb" />
+    <Compile Include="Presenter\File\PExpenseType.vb" />
+    <Compile Include="Presenter\File\PEarningsType.vb" />
+    <Compile Include="Presenter\File\PBudgetEntities.vb" />
+    <Compile Include="Presenter\File\PFinancialSource.vb" />
+    <Compile Include="Presenter\File\PShowDialogCCPET.vb" />
+    <Compile Include="Presenter\File\PShowDialogCPCCatalog.vb" />
+    <Compile Include="Presenter\Process\PAnnualizedCashFlowModification.vb" />
+    <Compile Include="Presenter\Process\PAnnualizedCashFlowTransfer.vb" />
+    <Compile Include="Presenter\Process\PAnnuallyClosingIncome.vb" />
+    <Compile Include="Presenter\Process\PAvailability.vb" />
+    <Compile Include="Presenter\Process\PAvailabilityExtension.vb" />
+    <Compile Include="Presenter\Process\PAvailabilityModification.vb" />
+    <Compile Include="Presenter\Process\PBudgetAmendments.vb" />
+    <Compile Include="Presenter\Process\PAddCategory.vb" />
+    <Compile Include="Presenter\Process\PBudgetTransfer.vb" />
+    <Compile Include="Presenter\Process\PAnnualizedCashFlow.vb" />
+    <Compile Include="Presenter\Process\PCloseMonthIncome.vb" />
+    <Compile Include="Presenter\Process\PCollection.vb" />
+    <Compile Include="Presenter\Process\PCollectionModification.vb" />
+    <Compile Include="Presenter\Process\PCommitment.vb" />
+    <Compile Include="Presenter\Process\PCommitmentModification.vb" />
+    <Compile Include="Presenter\Process\PConfirmationDocuments.vb" />
+    <Compile Include="Presenter\Process\PConfirmationDocumentsExpenses.vb" />
+    <Compile Include="Presenter\Process\PExpenseAnnuallyClosing.vb" />
+    <Compile Include="Presenter\Process\PExpenseMonthlyClosing.vb" />
+    <Compile Include="Presenter\Process\PExpenseRecalculateBalances.vb" />
+    <Compile Include="Presenter\Process\PModificationObligations.vb" />
+    <Compile Include="Presenter\File\PPrivateBudgetItemsStructure.vb" />
+    <Compile Include="Presenter\Process\PObligation.vb" />
+    <Compile Include="Presenter\Process\PPaymentOrder.vb" />
+    <Compile Include="Presenter\Process\PPrincipalEarningsType.vb" />
+    <Compile Include="Presenter\Process\PRecognition.vb" />
+    <Compile Include="Presenter\Process\PRecognitionModification.vb" />
+    <Compile Include="Presenter\Process\PReimbursementResource.vb" />
+    <Compile Include="Presenter\Process\PShowDialogItem.vb" />
+    <Compile Include="Presenter\Process\PBudgetItem.vb" />
+    <Compile Include="Presenter\Process\PInitialBudgetEntry.vb" />
+    <Compile Include="Presenter\Process\PSuspension.vb" />
+    <Compile Include="Presenter\Process\PSuspensionCancellation.vb" />
+    <Compile Include="Presenter\Utilities\PCopyBase.vb" />
+    <Compile Include="Presenter\Utilities\PSettingBudget.vb" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="My Project\Resources.resx">
+      <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.vb</LastGenOutput>
+      <CustomToolNamespace>My.Resources</CustomToolNamespace>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="My Project\Application.myapp">
+      <Generator>MyApplicationCodeGenerator</Generator>
+      <LastGenOutput>Application.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="My Project\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <CustomToolNamespace>My</CustomToolNamespace>
+      <LastGenOutput>Settings.Designer.vb</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\Infrastructure.CrossCutting.Xpo.Base\Infrastructure.CrossCutting.Xpo.Base.vbproj">
+      <Project>{06aea7a4-8792-405e-97e6-4b6fb10502b5}</Project>
+      <Name>Infrastructure.CrossCutting.Xpo.Base</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastructure.Data.Xpo.BudgetRepository\Infrastructure.Data.Xpo.BudgetRepository.vbproj">
+      <Project>{43721DF9-E30F-44A6-B512-901CBA41C894}</Project>
+      <Name>Infrastructure.Data.Xpo.BudgetRepository</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastructure.Data.Xpo.CommonRepository\Infrastructure.Data.Xpo.CommonRepository.vbproj">
+      <Project>{c087e009-72b8-4e9e-80f7-be336be83794}</Project>
+      <Name>Infrastructure.Data.Xpo.CommonRepository</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastructure.Data.Xpo.PayrollRepository\Infrastructure.Data.Xpo.PayrollRepository.vbproj">
+      <Project>{CE46AB34-7B36-422F-AE89-2D5F759E1960}</Project>
+      <Name>Infrastructure.Data.Xpo.PayrollRepository</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastructure.Data.Xpo\Infrastructure.Data.Xpo.vbproj">
+      <Project>{B5E32668-0270-4D5E-ADB7-840EDF9D6DB8}</Project>
+      <Name>Infrastructure.Data.Xpo</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastucture.Data.Xpo.AccountingRepository\Infrastructure.Data.Xpo.AccountingRepository.vbproj">
+      <Project>{539916D8-97FF-497F-BC89-12D89B47CB70}</Project>
+      <Name>Infrastructure.Data.Xpo.AccountingRepository</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Presentacion.AgenteCloud\Presentation.ProxyAgent.vbproj">
+      <Project>{ab3573a9-5acf-4971-b298-be3a1ed617e8}</Project>
+      <Name>Presentation.ProxyAgent</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Presentacion.Base\Presentation.Base.vbproj">
+      <Project>{7bc84999-6ea3-47e9-92e9-697ade41bb9a}</Project>
+      <Name>Presentation.Base</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Presentacion.Controles.MVP\Presentation.Controls.MVP.vbproj">
+      <Project>{47d30452-ca41-44a9-b3ad-867793353ede}</Project>
+      <Name>Presentation.Controls.MVP</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Presentacion.Controles\Presentation.Controls.vbproj">
+      <Project>{b031e890-3c50-4dea-ba76-96bc4bb6a05a}</Project>
+      <Name>Presentation.Controls</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

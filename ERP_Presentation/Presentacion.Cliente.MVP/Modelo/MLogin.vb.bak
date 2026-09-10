@@ -1,0 +1,205 @@
+﻿'***********************************************************************
+' Assembly         : Presentacion.Login.MVP
+' Author           : Cristhian Salazar
+' Created          : 03-09-2015
+'
+' Last Modified By : Jose Paez Rojas
+' Last Modified On : 03-10-2015
+' Description      : 
+'
+' Copyright        : (c) . All rights reserved.
+'***********************************************************************
+
+
+#Region "Librerias Importadas"
+
+Imports System.Threading.Tasks
+Imports Domain.Base.Entities
+Imports Domain.Security.Entities
+Imports Infrastructure.CrossCutting.Base
+Imports Presentation.CloudAgent
+
+#End Region
+
+
+''' <summary>
+''' Clase del Modelo del Login
+''' </summary>
+Public Class MLogin
+    Implements IDisposable
+
+#Region "Variables"
+    Dim Indigo As SessionValues = SessionValues.Instance
+    Dim _SecurityDefault As Boolean
+#End Region
+
+#Region "Constructor"
+    Public Sub New()
+
+    End Sub
+#End Region
+
+#Region "Funciones"
+
+    ''' <summary>
+    ''' Realiza la autenticación del usuario en el sistema asistencial
+    ''' </summary>
+    ''' <param name="userCode">Código del usuario</param>
+    ''' <param name="companyCodeHis">Código de la empresa</param>
+    ''' <param name="containerCompanyVie">Nombre del contenedor Vie</param>
+    ''' <returns>Valores de sesión del usuario</returns>
+    Public Function AutenticateUserHis(ByVal userCode As String, ByVal companyCodeHis As String, ByVal containerCompanyVie As String) As HisSessionValues
+        Return Utils.AutenticateUserHis(userCode, companyCodeHis, containerCompanyVie)
+    End Function
+
+    ''' <summary>
+    ''' Funcion para obtener todas las compañias o containers
+    ''' </summary>
+    ''' <returns></returns>
+    ''' <remarks></remarks>
+    Public Function ListCompanies() As List(Of Company)
+        Dim res = IndigoConecta.Instancia.CurrentCloud.IndigoSeguridad.ListCompanies
+        If res.StateResult Then
+            Return res.ObjectEmbbeded
+        Else
+            Infrastructure.CrossCutting.Exceptions.IndigoManagementExceptions.HandleExceptionUI(New Exception(res.Message), "UIPolicy")
+            Return New List(Of Company)()
+        End If
+    End Function
+
+    ''' <summary>
+    ''' Lista las compañias que tiene permiso el usuario
+    ''' </summary>
+    ''' <param name="idUser"></param>
+    ''' <returns></returns>
+    Public Function getCompaniesByUser(ByVal idUser As Integer) As List(Of Company)
+        Dim res As ActionResult(Of List(Of Company))
+        res = IndigoConecta.Instancia.CurrentCloud.IndigoSeguridad.getCompaniesByUser(idUser)
+        If res.StateResult Then
+            Return res.ObjectEmbbeded
+        Else
+            Infrastructure.CrossCutting.Exceptions.IndigoManagementExceptions.HandleExceptionUI(New Exception(res.Message), "UIPolicy")
+            Return New List(Of Company)()
+        End If
+    End Function
+
+    ''' <summary>
+    ''' Lista las compañias que tiene permiso el usuario
+    ''' </summary>
+    ''' <param name="idUser"></param>
+    ''' <param name="securityDefault"></param>
+    ''' <returns></returns>
+    Public Function getCompaniesByUser(ByVal idUser As Integer, ByVal securityDefault As Boolean) As List(Of Company)
+        Dim res As ActionResult(Of List(Of Company))
+        _SecurityDefault = securityDefault
+        res = IndigoConecta.InstanciaDefault.CurrentCloud.IndigoSeguridadDefault.getCompaniesByUser(idUser)
+        If res.StateResult Then
+            Return res.ObjectEmbbeded
+        Else
+            Infrastructure.CrossCutting.Exceptions.IndigoManagementExceptions.HandleExceptionUI(New Exception(res.Message), "UIPolicy")
+            Return New List(Of Company)()
+        End If
+    End Function
+
+    ''' <summary>
+    ''' funcion para autenticar el usuario en el contenedor de seguridad
+    ''' </summary>
+    ''' <param name="UserCode"></param>
+    ''' <param name="UserPass"></param>
+    ''' <param name="CompanyCode"></param>
+    ''' <returns></returns>
+    ''' <remarks></remarks>
+    Public Async Function LoginUserCompany(ByVal UserCode As String, ByVal UserPass As String, ByVal CompanyCode As String, ByVal appVersion As Version) As Task(Of ActionResult(Of UserLogin))
+        'appVersion = New Version("17.0919.26.01")
+        Return Await IndigoConecta.Instancia.CurrentCloud.IndigoSeguridad.LoginUserCompanyAsync(UserCode, UserPass, CompanyCode, appVersion)
+    End Function
+
+    ''' <summary>
+    ''' Lista los Ids de los formularios a los que el usuario tiene permiso de visibilidad
+    ''' </summary>
+    ''' <param name="userCode">Código del usuario</param>
+    ''' <returns>Lista de Ids</returns>
+    Public Function ListPermissionFormsUser(ByVal userCode As String) As Task(Of List(Of String))
+        Return IndigoConecta.Instancia.CurrentCloud.IndigoSeguridad.ListPermissionFormsUserAsync(userCode, "41")
+    End Function
+
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <returns></returns>
+    Public Function GetGeneralConfiguration() As GeneralConfiguration
+        _SecurityDefault = True
+        Return IndigoConecta.InstanciaDefault.CurrentCloud.IndigoSeguridadDefault.GetGeneralConfiguration()
+    End Function
+
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="containerId"></param>
+    ''' <returns></returns>
+    Public Async Function GetApplicationSettingsByContainerId(containerId As Integer) As Task(Of ApplicationSettings)
+        Return Await IndigoConecta.Instancia.CurrentCloud.IndigoSeguridad.GetApplicationSettingsByContainerIdAsync(containerId)
+    End Function
+
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="userId"></param>
+    ''' <returns></returns>
+    Public Async Function GetUserConfigurationByUserId(ByVal userId As Integer) As Task(Of UserConfiguration)
+        Return Await IndigoConecta.Instancia.CurrentCloud.IndigoSeguridad.GetUserConfigurationByUserIdAsync(userId)
+    End Function
+
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="_userConfiguration"></param>
+    ''' <returns></returns>
+    Public Async Function SaveUserConfiguration(ByVal _userConfiguration As UserConfiguration) As Task(Of ActionResult(Of UserConfiguration))
+        Return Await IndigoConecta.Instancia.CurrentCloud.IndigoSeguridad.SaveUserConfigurationAsync(_userConfiguration, Indigo.AuditMessageWcf)
+    End Function
+
+#End Region
+
+#Region "Procesos"
+    Public Sub IndigoConectaReset()
+        IndigoConecta.Reset()
+    End Sub
+#End Region
+
+#Region "IDisposable Support"
+    Private disposedValue As Boolean ' Para detectar llamadas redundantes
+
+    ' IDisposable
+    Protected Overridable Sub Dispose(disposing As Boolean)
+        If Not Me.disposedValue Then
+            If disposing Then
+                ' TODO: eliminar estado administrado (objetos administrados).
+            End If
+            If _SecurityDefault Then
+                IndigoConecta.Reset()
+            End If
+            ' TODO: liberar recursos no administrados (objetos no administrados) e invalidar Finalize() below.
+            ' TODO: Establecer campos grandes como Null.
+        End If
+        Me.disposedValue = True
+    End Sub
+
+    ' TODO: invalidar Finalize() sólo si la instrucción Dispose(ByVal disposing As Boolean) anterior tiene código para liberar recursos no administrados.
+    'Protected Overrides Sub Finalize()
+    '    ' No cambie este código. Ponga el código de limpieza en la instrucción Dispose(ByVal disposing As Boolean) anterior.
+    '    Dispose(False)
+    '    MyBase.Finalize()
+    'End Sub
+
+    ' Visual Basic agregó este código para implementar correctamente el modelo descartable.
+    Public Sub Dispose() Implements IDisposable.Dispose
+        ' No cambie este código. Coloque el código de limpieza en Dispose(disposing As Boolean).
+
+        Dispose(True)
+
+        GC.SuppressFinalize(Me)
+    End Sub
+#End Region
+
+End Class

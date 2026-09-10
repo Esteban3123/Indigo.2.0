@@ -1,0 +1,83 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{62EE8DEA-13FF-406E-B8D2-43CE96499C40}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Domain.Billing</RootNamespace>
+    <AssemblyName>Domain.Billing</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.13.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="POCO\AgeValidationResult.cs" />
+    <Compile Include="POCO\AnnullateFolio.cs" />
+    <Compile Include="POCO\CollectionValues.cs" />
+    <Compile Include="POCO\E-RIPS\ConsultaModel.cs" />
+    <Compile Include="POCO\E-RIPS\DocumentsAssociatedRIPS.cs" />
+    <Compile Include="POCO\E-RIPS\ElectronicRIPSModel.cs" />
+    <Compile Include="POCO\E-RIPS\HospitalizacionModel.cs" />
+    <Compile Include="POCO\E-RIPS\LoadRIPSResultModel.cs" />
+    <Compile Include="POCO\E-RIPS\MedicamentosModel.cs" />
+    <Compile Include="POCO\E-RIPS\OtrosServiciosModel.cs" />
+    <Compile Include="POCO\E-RIPS\ProcedimientoModel.cs" />
+    <Compile Include="POCO\E-RIPS\QueryCUVResultModel.cs" />
+    <Compile Include="POCO\E-RIPS\RecienNacidosModel.cs" />
+    <Compile Include="POCO\E-RIPS\RIPSCosmosDbModel.cs" />
+    <Compile Include="POCO\E-RIPS\ServicioModel.cs" />
+    <Compile Include="POCO\E-RIPS\UrgenciaModel.cs" />
+    <Compile Include="POCO\E-RIPS\UsuarioModel.cs" />
+    <Compile Include="POCO\Fomag\IntegrationInfo.cs" />
+    <Compile Include="POCO\InvoicePartialDetailMasterAccount.cs" />
+    <Compile Include="POCO\E-RIPS\RIPSModel.cs" />
+    <Compile Include="POCO\Fomag\PatientInfo.cs" />
+    <Compile Include="POCO\ResendTakeRequest.cs" />
+    <Compile Include="POCO\TaxDevolution.cs" />
+    <Compile Include="POCO\InvoicePartialMasterAccount.cs" />
+    <Compile Include="POCO\Folio.cs" />
+    <Compile Include="POCO\FolioDetail.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repositories\IFolioRepository.cs" />
+    <Compile Include="Repositories\IFomagRepository.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

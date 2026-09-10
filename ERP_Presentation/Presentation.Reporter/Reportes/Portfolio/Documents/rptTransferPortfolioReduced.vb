@@ -1,0 +1,86 @@
+﻿#Region "Imports"
+Imports Infrastructure.CrossCutting.Base
+Imports Infrastructure.Data.Xpo
+Imports Infrastructure.Data.Xpo.PortfolioRepository
+Imports DevExpress.XtraReports.UI
+Imports System.Globalization
+
+#End Region
+
+Public Class rptTransferPortfolioReduced
+    Implements IReport
+
+    ''' <summary>
+    ''' Variable para inicializar los valores de sesion
+    ''' </summary>
+    Dim IndigoSessionValues As SessionValues = SessionValues.Instance
+    Private INDUser As Object
+
+    Public Sub CargarDataSource() Implements IReport.CargarDataSource
+        Dim filtroConsulta As String = "Id = " & ParametrosReporte(0)
+        Dim IndList = XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).PortfolioService.GetCollection(Of PortfolioTransferReportXpo)(Nothing, filtroConsulta)
+
+        '---Se establece el numbert fortmat al reporte dependiendo de la moneda
+        Dim _culture As CultureInfo = CultureInfo.CurrentCulture.Clone()
+        Dim CurrencyAbbreviation As String = TryCast(IndList?(0), PortfolioTransferReportXpo)?.PortfolioAdvanceId.Abbreviation
+        _culture.NumberFormat = New CultureInfo(CurrencyAbbreviation.GetCultureId).NumberFormat
+        ApplyLocalization(_culture)
+
+        Dim INDCodeUser = CType(IndList(0), PortfolioTransferReportXpo).CreationUser.Trim()
+        Dim INDId = CType(IndList(0), PortfolioTransferReportXpo).Id
+        INDUser = XpoServiceEx.Instance(IndigoSessionValues.SecurityContainer).TreasuryService.GetCollection(Of Infrastructure.Data.Xpo.SecurityRepository.UserXpo)(Nothing, "UserCode = '" & INDCodeUser & "'")
+
+        'Ocultar Facturas conceptos si llega vacia
+        Dim table10 As XRTable = CType(XrTable8, XRTable)
+
+        'ocultar los Totales
+        Dim table13 As XRTable = CType(XrTable12, XRTable)
+
+        Dim filtroConsultaTransferDetail As String = "PortfolioTrasferId = " & INDId
+        Dim IndListTransfDetail = XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).PortfolioService.GetCollection(Of PortfolioTransferDetailReportXpo)(Nothing, filtroConsultaTransferDetail)
+        If IndListTransfDetail.Count > 0 Then
+        Else
+            table10.Rows.Remove(XrTableRow8)
+            table13.Rows.Remove(XrTableRow15)
+        End If
+
+
+        'Ocultar Otros conceptos si llega vacia
+        Dim table2 As XRTable = CType(XrTable7, XRTable)
+
+        'ocultar los Totales
+        Dim table3 As XRTable = CType(XrTable10, XRTable)
+        Dim table4 As XRTable = CType(XrTable11, XRTable)
+
+        Dim filtroConsulta2 As String = "PortfolioTransferId = " & INDId
+        Dim IndListt = XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).PortfolioService.GetCollection(Of PortfolioTransferOtherConceptReportXpo)(Nothing, filtroConsulta2)
+        If IndListt.Count > 0 Then
+        Else
+            table2.Rows.Remove(XrTableRow7)
+            table3.Rows.Remove(XrTableRow13)
+        End If
+
+        Me.DataSource = IndList
+    End Sub
+
+    Public Sub CargarImagenes() Implements IReport.CargarImagenes
+
+    End Sub
+
+    Public ReadOnly Property NameReport As String Implements IReport.NameReport
+        Get
+            Return ""
+        End Get
+    End Property
+
+    Public Property ParametrosReporte As Object() Implements IReport.ParametrosReporte
+
+    Private Sub GroupHeader1_BeforePrint(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles GroupHeader1.BeforePrint
+        Me.INDLblUserPrint.Text = "Usuario Impresión : " & IndigoSessionValues.UserIndigo & " - " & IndigoSessionValues.UserIndigoName
+        Me.INDLblCompany.Text = IndigoSessionValues.IndigoCompanyName
+        Me.INDLblNitCompany.Text = "Nit : " & IndigoSessionValues.IndigoCompanyNit
+        If INDUser.count() > 0 Then
+            INDUserCreate.Text = INDUser(0).CodeName
+        End If
+    End Sub
+End Class

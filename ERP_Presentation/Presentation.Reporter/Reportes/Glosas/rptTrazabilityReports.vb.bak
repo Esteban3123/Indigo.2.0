@@ -1,0 +1,168 @@
+﻿Imports Infrastructure.CrossCutting.Base
+Imports Infrastructure.Data.Xpo
+Imports Infrastructure.Data.Xpo.GlosasRepository
+Imports Domain.Entities
+Imports DevExpress.XtraReports.UI
+Imports DevExpress.XtraRichEdit.Model
+Imports System.Configuration
+Imports DevExpress.DataAccess
+Imports DevExpress.DataAccess.ConnectionParameters
+Imports System.Data.SqlClient
+Imports Presentation.CloudAgent
+
+Public Class rptTrazabilityReports
+    Implements IReport
+
+#Region "Variables"
+    ''' <summary>
+    ''' Variable para inicializar los valores de sesion
+    ''' </summary>
+    Dim IndigoSessionValues As SessionValues = SessionValues.Instance
+    ''' <summary>
+    ''' Unidad operativa
+    ''' </summary>
+    Dim _operatingUnit As OperatingUnit
+    ''' <summary>
+    ''' Variable par obtener la tabla de Trazabilidad
+    ''' </summary>
+    Dim dtTrazability As DataTable
+    ''' <summary>
+    ''' Variable par obtener la tabla de Radicación
+    ''' </summary>
+    Dim dtInvoiceTraceabilityRadication As DataTable
+    ''' <summary>
+    ''' Variable par obtener la tabla de Devolución
+    ''' </summary> 
+    Dim dtInvoiceTraceabilityDevolution As DataTable
+    ''' <summary>
+    ''' Variable par obtener la tabla de Conciliación
+    ''' </summary>
+    Dim dtInvoiceTraceabilityConciliation As DataTable
+    ''' <summary>
+    ''' Variable par obtener la tabla de Responsables
+    ''' </summary>
+    Dim dtInvoiceTraceabilityResponsibles As DataTable
+#End Region
+
+#Region "IReport"
+    Public Sub CargarDataSource() Implements IReport.CargarDataSource
+        _operatingUnit = Me.ParametrosReporte(2)
+        Dim ds As DataSet = IndigoConecta.Instancia.CurrentCloud.IndigoGlosas.dtsTrazabilityReports(ParametrosReporte(0), Me.ParametrosReporte(1), Me.IndigoSessionValues)
+
+        dtTrazability = ds.Tables("InvoiceTraceability")
+        dtInvoiceTraceabilityRadication = ds.Tables("InvoiceTraceabilityRadication")
+        dtInvoiceTraceabilityDevolution = ds.Tables("InvoiceTraceabilityDevolution")
+        dtInvoiceTraceabilityConciliation = ds.Tables("InvoiceTraceabilityConciliation")
+        dtInvoiceTraceabilityResponsibles = ds.Tables("InvoiceTraceabilityResponsibles")
+
+        If dtTrazability.Rows.Count > 0 Then
+            DetailReport.DataSource = dtInvoiceTraceabilityRadication
+            DetailReport.DataMember = "InvoiceTraceabilityRadication"
+            DetailReport1.DataSource = dtInvoiceTraceabilityResponsibles
+            DetailReport1.DataMember = "InvoiceTraceabilityResponsibles"
+            DetailReport2.DataSource = dtInvoiceTraceabilityResponsibles
+            DetailReport2.DataMember = "InvoiceTraceabilityResponsibles"
+            DetailReport3.DataSource = dtInvoiceTraceabilityDevolution
+            DetailReport3.DataMember = "InvoiceTraceabilityDevolution"
+            DetailReport4.DataSource = dtInvoiceTraceabilityConciliation
+            DetailReport4.DataMember = "InvoiceTraceabilityConciliation"
+
+            Me.DataSource = ds
+        End If
+    End Sub
+
+    Public Sub CargarImagenes() Implements IReport.CargarImagenes
+
+    End Sub
+
+    Public ReadOnly Property NameReport As String Implements IReport.NameReport
+        Get
+            Return ""
+        End Get
+    End Property
+
+    Public Property ParametrosReporte As Object() Implements IReport.ParametrosReporte
+#End Region
+
+    Private Sub rptTrazabilityReports_BeforePrint(sender As Object, e As Printing.PrintEventArgs) Handles MyBase.BeforePrint
+        INDLblCompany.Text = IndigoSessionValues.IndigoCompanyName
+        INDLblNitCompany.Text = "Nit:" & IndigoSessionValues.IndigoCompanyNit
+        XrLblTitle.Text = "TRAZABILIDAD DE FACTURA N° " + ParametrosReporte(1)
+
+        If dtInvoiceTraceabilityRadication.Rows.Count = 0 Then
+            DetailReport.Visible = False
+        End If
+
+        If dtTrazability.Rows.Count > 0 Then
+            Dim INDGlosa = dtTrazability.Rows(0).Item("ObjectionCode")
+            If INDGlosa = 0 Then
+                Dim table As XRTable = CType(XrTable8, XRTable)
+                Dim row As XRTableRow = table.Rows(0)
+                Dim row2 As XRTableRow = table.Rows(1)
+                Dim row3 As XRTableRow = table.Rows(2)
+                table.Rows.Remove(row)
+                table.Rows.Remove(row2)
+                table.Rows.Remove(row3)
+            End If
+
+            Dim INDReiteration = dtTrazability.Rows(0).Item("ReiterationCode")
+            If INDReiteration = 0 Then
+                Dim table As XRTable = CType(XrTable10, XRTable)
+                Dim row As XRTableRow = table.Rows(0)
+                Dim row2 As XRTableRow = table.Rows(1)
+                Dim row3 As XRTableRow = table.Rows(2)
+                table.Rows.Remove(row)
+                table.Rows.Remove(row2)
+                table.Rows.Remove(row3)
+            End If
+        End If
+
+        If dtInvoiceTraceabilityDevolution.Rows.Count = 0 Then
+            DetailReport3.Visible = False
+        End If
+
+        If dtInvoiceTraceabilityConciliation.Rows.Count = 0 Then
+            DetailReport4.Visible = False
+        End If
+
+        If dtInvoiceTraceabilityResponsibles.Rows.Count > 0 Then
+            Dim INDResponsibleGlosa = dtInvoiceTraceabilityResponsibles.Rows(0).Item("ResponsibleGlosa").ToString
+            Dim INDResponsibleOfficeGlosa = dtInvoiceTraceabilityResponsibles.Rows(0).Item("ResponsibleConfirmOfficeGlosa").ToString
+            Dim INDResponsibleInvoiceGlosa = dtInvoiceTraceabilityResponsibles.Rows(0).Item("ResponsibleEvalutionInvoiceGlosa").ToString
+            If INDResponsibleGlosa = "" Then
+                DetailReport1.Visible = False
+            End If
+            If INDResponsibleOfficeGlosa = "" Then
+                XrTableCell111.Text = "No se ha confirmado"
+            Else
+                XrTableCell111.Text = INDResponsibleOfficeGlosa
+            End If
+            If INDResponsibleInvoiceGlosa = "" Then
+                XrTableCell105.Text = "No se ha confirmado"
+            Else
+                XrTableCell105.Text = INDResponsibleInvoiceGlosa
+            End If
+
+            Dim INDResponsibleReiteration = dtInvoiceTraceabilityResponsibles.Rows(0).Item("ResponsibleReiteration").ToString()
+            Dim INDResponsibleOfficeReiteration = dtInvoiceTraceabilityResponsibles.Rows(0).Item("ResponsibleConfirmOfficeReiteration").ToString
+            Dim INDResponsibleInvoiceReiteration = dtInvoiceTraceabilityResponsibles.Rows(0).Item("ResponsibleEvalutionInvoiceReiteration").ToString
+            If INDResponsibleReiteration = "" Then
+                DetailReport2.Visible = False
+            End If
+            If INDResponsibleOfficeReiteration = "" Then
+                XrTableCell82.Text = "No se ha confirmado"
+            Else
+                XrTableCell82.Text = INDResponsibleOfficeReiteration
+            End If
+            If INDResponsibleInvoiceReiteration = "" Then
+                XrTableCell84.Text = "No se ha confirmado"
+            Else
+                XrTableCell84.Text = INDResponsibleInvoiceReiteration
+            End If
+        Else
+            DetailReport1.Visible = False
+            DetailReport2.Visible = False
+        End If
+
+    End Sub
+End Class

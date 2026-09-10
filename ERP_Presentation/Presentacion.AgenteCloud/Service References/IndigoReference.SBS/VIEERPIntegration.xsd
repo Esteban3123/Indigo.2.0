@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:ser="http://schemas.microsoft.com/2003/10/Serialization/" xmlns:tns="http://schemas.datacontract.org/2004/07/Indigo.Sinapsis.Core.Domain.Company" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/Indigo.Sinapsis.Core.Domain.Company" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import schemaLocation="http://appserver-sbs.azurewebsites.net/VIEERPIntegration.svc?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+  <xs:import schemaLocation="http://appserver-sbs.azurewebsites.net/VIEERPIntegration.svc?xsd=xsd4" namespace="http://schemas.datacontract.org/2004/07/Indigo.Sinapsis.Core.Domain.IFF" />
+  <xs:complexType name="CompanyOfguid">
+    <xs:annotation>
+      <xs:appinfo>
+        <GenericType Name="CompanyOf{0}{#}" Namespace="http://schemas.datacontract.org/2004/07/Indigo.Sinapsis.Core.Domain.Company" xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
+          <GenericParameter Name="guid" Namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+        </GenericType>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element minOccurs="0" name="CompanyAddress" nillable="true" type="tns:ArrayOfCompanyAddressOfguid" />
+      <xs:element minOccurs="0" name="CompanyContact" nillable="true" type="tns:ArrayOfCompanyContactOfguid" />
+      <xs:element minOccurs="0" name="CompanyContractEndDate" nillable="true" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="CompanyContractInitialDate" nillable="true" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="CompanyID" type="ser:guid" />
+      <xs:element minOccurs="0" name="CompanyName" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="CompanyNumberLicensedUsers" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="CompanyQuantityEmployees" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="CompanyTINNumber" nillable="true" type="xs:string" />
+      <xs:element xmlns:q1="http://schemas.datacontract.org/2004/07/Indigo.Sinapsis.Core.Domain.IFF" minOccurs="0" name="CompanyType" nillable="true" type="q1:CompanyTypeOfguid" />
+      <xs:element xmlns:q2="http://schemas.datacontract.org/2004/07/Indigo.Sinapsis.Core.Domain.IFF" minOccurs="0" name="CompanyTypeLicense" nillable="true" type="q2:CompanyTypeLicenseOfguid" />
+      <xs:element minOccurs="0" name="CompanyViePlatformIntegration" type="xs:boolean" />
+      <xs:element minOccurs="0" name="CompanyViePlatformIntegrationURI" nillable="true" type="xs:string" />
+      <xs:element xmlns:q3="http://schemas.datacontract.org/2004/07/Indigo.Sinapsis.Core.Domain.IFF" minOccurs="0" name="CorporateSector" nillable="true" type="q3:CorporateSectorOfguid" />
+      <xs:element minOccurs="0" name="Identifier" type="ser:guid" />
+      <xs:element minOccurs="0" name="IsActive" type="xs:boolean" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="CompanyOfguid" nillable="true" type="tns:CompanyOfguid" />
+  <xs:complexType name="ArrayOfCompanyAddressOfguid">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="CompanyAddressOfguid" nillable="true" type="tns:CompanyAddressOfguid" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfCompanyAddressOfguid" nillable="true" type="tns:ArrayOfCompanyAddressOfguid" />
+  <xs:complexType name="CompanyAddressOfguid">
+    <xs:annotation>
+      <xs:appinfo>
+        <GenericType Name="CompanyAddressOf{0}{#}" Namespace="http://schemas.datacontract.org/2004/07/Indigo.Sinapsis.Core.Domain.Company" xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
+          <GenericParameter Name="guid" Namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+        </GenericType>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element minOccurs="0" name="AddressNumber" nillable="true" type="xs:string" />
+      <xs:element xmlns:q4="http://schemas.datacontract.org/2004/07/Indigo.Sinapsis.Core.Domain.IFF" minOccurs="0" name="City" nillable="true" type="q4:CityOfguid" />
+      <xs:element minOccurs="0" name="CompanyAddressDescription" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="CompanyAddressID" type="ser:guid" />
+      <xs:element minOccurs="0" name="CompanyAddressPrincipal" type="xs:boolean" />
+      <xs:element minOccurs="0" name="CompanyID" type="ser:guid" />
+      <xs:element minOccurs="0" name="Identifier" type="ser:guid" />
+      <xs:element minOccurs="0" name="IsActive" type="xs:boolean" />
+      <xs:element minOccurs="0" name="PostalCode" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="PrincipalForContry" type="xs:boolean" />
+      <xs:element xmlns:q5="http://schemas.datacontract.org/2004/07/Indigo.Sinapsis.Core.Domain.IFF" minOccurs="0" name="Purpose" nillable="true" type="q5:AdressPurposeOfguid" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="CompanyAddressOfguid" nillable="true" type="tns:CompanyAddressOfguid" />
+  <xs:complexType name="ArrayOfCompanyContactOfguid">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="CompanyContactOfguid" nillable="true" type="tns:CompanyContactOfguid" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfCompanyContactOfguid" nillable="true" type="tns:ArrayOfCompanyContactOfguid" />
+  <xs:complexType name="CompanyContactOfguid">
+    <xs:annotation>
+      <xs:appinfo>
+        <GenericType Name="CompanyContactOf{0}{#}" Namespace="http://schemas.datacontract.org/2004/07/Indigo.Sinapsis.Core.Domain.Company" xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
+          <GenericParameter Name="guid" Namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+        </GenericType>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element minOccurs="0" name="CompanyContactAdress" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="CompanyContactDecripcion" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="CompanyContactID" type="ser:guid" />
+      <xs:element minOccurs="0" name="CompanyContactNumber" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="CompanyContactPrincipal" type="xs:boolean" />
+      <xs:element minOccurs="0" name="CompanyID" type="ser:guid" />
+      <xs:element xmlns:q6="http://schemas.datacontract.org/2004/07/Indigo.Sinapsis.Core.Domain.IFF" minOccurs="0" name="ContactType" nillable="true" type="q6:ContactTypeOfguid" />
+      <xs:element minOccurs="0" name="Identifier" type="ser:guid" />
+      <xs:element minOccurs="0" name="IsActive" type="xs:boolean" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="CompanyContactOfguid" nillable="true" type="tns:CompanyContactOfguid" />
+</xs:schema>

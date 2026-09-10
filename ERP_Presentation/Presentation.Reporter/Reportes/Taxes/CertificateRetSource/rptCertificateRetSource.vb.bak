@@ -1,0 +1,102 @@
+﻿#Region "Librerias Importadas"
+Imports Infrastructure.CrossCutting.Base
+Imports Infrastructure.Data.Xpo.TaxesRepository
+Imports Infrastructure.Data.Xpo
+Imports DevExpress.XtraReports.UI
+Imports Presentation.Base
+Imports Presentation.CloudAgent
+
+#End Region
+
+Public Class rptCertificateRetSource
+    Implements IReport
+
+    ''' <summary>
+    ''' Variable para inicializar los valores de sesion
+    ''' </summary>
+    Dim IndigoSessionValues As SessionValues = SessionValues.Instance
+
+    ''' <summary>
+    ''' Variable para obtener la tabla de Trazabilidad
+    ''' </summary>
+    Dim dtReport As DataTable
+
+    ''' <summary>
+    ''' Variable para obtener la tabla de la cabecera
+    ''' </summary>
+    Dim listReport2 As List(Of CommonOperatingUnitXpo)
+
+    Public Sub CargarDataSource() Implements IReport.CargarDataSource
+
+    End Sub
+
+    ''' <summary>
+    ''' Carga el datasource para generar el reporte
+    ''' </summary>
+    ''' <returns></returns>
+    Public Async Function CargarDataSource1() As Task
+        Try
+            Dim ds As DataSet = Await IndigoConecta.Instancia.CurrentCloud.IndigoAccounting.GetListReportCertificateRetSourceAsync(ParametrosReporte(5), ParametrosReporte(0), ParametrosReporte(1), ParametrosReporte(2), ParametrosReporte(3), ParametrosReporte(4), ParametrosReporte(6), ParametrosReporte(7), Me.IndigoSessionValues)
+
+            If ds.Tables(0).Rows.Count > 0 Then
+                dtReport = ds.Tables("ReportCertificateRetSource")
+                Me.DataSource = dtReport
+                Me.DataMember = "ReportCertificateRetSource"
+            Else
+                Me.DataSource = Nothing
+            End If
+        Catch ex As Exception
+            MessageIndigo.Show(GetExceptionDetails(ex), MessageType.Errores, Me.Text, Botones.Aceptar, "")
+        End Try
+    End Function
+
+    Public Sub CargarImagenes() Implements IReport.CargarImagenes
+
+    End Sub
+
+    Public ReadOnly Property NameReport As String Implements IReport.NameReport
+        Get
+            Return ""
+        End Get
+    End Property
+
+    Public Property ParametrosReporte As Object() Implements IReport.ParametrosReporte
+
+    Private Sub rptCertificateRetSource_BeforePrint(sender As Object, e As Printing.PrintEventArgs) Handles MyBase.BeforePrint
+
+        INDLblCompany.Text = IndigoSessionValues.IndigoCompanyName
+        INDLblNitCompany.Text = "Nit:" & IndigoSessionValues.IndigoCompanyNit
+        INDLblUserPrint.Text = "Usuario Impresión : " & IndigoSessionValues.UserIndigo & " - " & IndigoSessionValues.UserIndigoName
+
+        Me.XrTableCell19.Text = IndigoSessionValues.IndigoCompanyName
+        Me.XrTableCell4.Text = IndigoSessionValues.IndigoCompanyNit
+        'Me.XrTableCell8.Text = IndigoSessionValues.IndigoCompanyAddress
+        Me.LblSubtitle.Text = "Periodo comprendido entre  " & MonthName(Month(ParametrosReporte(6))) & " y " & MonthName(Month(ParametrosReporte(7))) & " de " & Year(ParametrosReporte(6))
+
+        Dim filtroConsulta2 = "Id = " & IndigoSessionValues.IndigoOperatingUnitId
+        listReport2 = XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).PaymentsService.GetCollection(Of CommonOperatingUnitXpo)(Nothing, filtroConsulta2)
+
+        Me.XrTableCell12.Text = CType(listReport2(0), CommonOperatingUnitXpo).IdCity.Name.ToString
+        Me.XrTableCell8.Text = If(CType(listReport2(0), CommonOperatingUnitXpo).Address IsNot Nothing, CType(listReport2(0), CommonOperatingUnitXpo).Address.ToString, "")
+    End Sub
+
+    Public Function GetExceptionDetails(exception As Exception) As String
+        Dim properties = exception.[GetType]().GetProperties()
+        Dim fields = properties.[Select](Function([property]) New With {
+            Key .Name = [property].Name,
+            Key .Value = [property].GetValue(exception, Nothing)
+        }).[Select](Function(x) [String].Format("{0} : {1}", x.Name, If(x.Value IsNot Nothing, x.Value.ToString(), [String].Empty)))
+        Return [String].Join(vbLf, fields)
+    End Function
+
+    Dim RetentionValue As Double = 0
+    Private Sub XrTableCell25_SummaryRowChanged(sender As Object, e As EventArgs) Handles XrTableCell25.SummaryRowChanged
+        RetentionValue += Convert.ToDouble(GetCurrentColumnValue("RetentionValue"))
+    End Sub
+
+    Private Sub XrTableCell45_BeforePrint(sender As Object, e As Printing.PrintEventArgs) Handles XrTableCell45.BeforePrint
+        sender.Text = Utils.Num2Text(Math.Abs(RetentionValue)).ToString & " PESOS M/Cte."
+        RetentionValue = 0
+    End Sub
+
+End Class

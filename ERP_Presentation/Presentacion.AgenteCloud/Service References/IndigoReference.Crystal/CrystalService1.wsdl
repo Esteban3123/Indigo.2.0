@@ -1,0 +1,1460 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:wsap="http://schemas.xmlsoap.org/ws/2004/08/addressing/policy" xmlns:wsa10="http://www.w3.org/2005/08/addressing" xmlns:tns="http://tempuri.org/" xmlns:msc="http://schemas.microsoft.com/ws/2005/12/wsdl/contract" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:wsx="http://schemas.xmlsoap.org/ws/2004/09/mex" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="CrystalService" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsp:Policy wsu:Id="basicHttps_Endpoint_Crystal_policy">
+    <wsp:ExactlyOne>
+      <wsp:All>
+        <sp:TransportBinding xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <wsp:Policy>
+            <sp:TransportToken>
+              <wsp:Policy>
+                <sp:HttpsToken RequireClientCertificate="false" />
+              </wsp:Policy>
+            </sp:TransportToken>
+            <sp:AlgorithmSuite>
+              <wsp:Policy>
+                <sp:Basic256 />
+              </wsp:Policy>
+            </sp:AlgorithmSuite>
+            <sp:Layout>
+              <wsp:Policy>
+                <sp:Strict />
+              </wsp:Policy>
+            </sp:Layout>
+          </wsp:Policy>
+        </sp:TransportBinding>
+      </wsp:All>
+    </wsp:ExactlyOne>
+  </wsp:Policy>
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://tempuri.org/Imports">
+      <xsd:import schemaLocation="https://localhost:9001/ServiceEntity/Crystal.svc?xsd=xsd0" namespace="http://tempuri.org/" />
+      <xsd:import schemaLocation="https://localhost:9001/ServiceEntity/Crystal.svc?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+      <xsd:import schemaLocation="https://localhost:9001/ServiceEntity/Crystal.svc?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" />
+      <xsd:import schemaLocation="https://localhost:9001/ServiceEntity/Crystal.svc?xsd=xsd3" namespace="http://schemas.datacontract.org/2004/07/Domain.Crystal.Entities" />
+      <xsd:import schemaLocation="https://localhost:9001/ServiceEntity/Crystal.svc?xsd=xsd4" />
+      <xsd:import schemaLocation="https://localhost:9001/ServiceEntity/Crystal.svc?xsd=xsd5" namespace="http://schemas.datacontract.org/2004/07/System" />
+      <xsd:import schemaLocation="https://localhost:9001/ServiceEntity/Crystal.svc?xsd=xsd6" namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
+      <xsd:import schemaLocation="https://localhost:9001/ServiceEntity/Crystal.svc?xsd=xsd7" namespace="http://schemas.datacontract.org/2004/07/Domain.Entities" />
+      <xsd:import schemaLocation="https://localhost:9001/ServiceEntity/Crystal.svc?xsd=xsd8" namespace="http://schemas.datacontract.org/2004/07/Domain.Common.Entities" />
+      <xsd:import schemaLocation="https://localhost:9001/ServiceEntity/Crystal.svc?xsd=xsd9" namespace="http://schemas.datacontract.org/2004/07/Infrastructure.CrossCutting.Base" />
+      <xsd:import schemaLocation="https://localhost:9001/ServiceEntity/Crystal.svc?xsd=xsd10" namespace="http://schemas.datacontract.org/2004/07/System.ComponentModel" />
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="ICrystalService_GetProfessionalByCode_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetProfessionalByCode" />
+  </wsdl:message>
+  <wsdl:message name="ICrystalService_GetProfessionalByCode_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetProfessionalByCodeResponse" />
+  </wsdl:message>
+  <wsdl:message name="ICrystalService_GetSpecialityByCode_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetSpecialityByCode" />
+  </wsdl:message>
+  <wsdl:message name="ICrystalService_GetSpecialityByCode_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetSpecialityByCodeResponse" />
+  </wsdl:message>
+  <wsdl:message name="ICrystalService_SaveProfessional_InputMessage">
+    <wsdl:part name="parameters" element="tns:SaveProfessional" />
+  </wsdl:message>
+  <wsdl:message name="ICrystalService_SaveProfessional_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SaveProfessionalResponse" />
+  </wsdl:message>
+  <wsdl:message name="ICrystalService_DeleteProfessional_InputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteProfessional" />
+  </wsdl:message>
+  <wsdl:message name="ICrystalService_DeleteProfessional_OutputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteProfessionalResponse" />
+  </wsdl:message>
+  <wsdl:message name="ICrystalService_UpdateStatusProfessional_InputMessage">
+    <wsdl:part name="parameters" element="tns:UpdateStatusProfessional" />
+  </wsdl:message>
+  <wsdl:message name="ICrystalService_UpdateStatusProfessional_OutputMessage">
+    <wsdl:part name="parameters" element="tns:UpdateStatusProfessionalResponse" />
+  </wsdl:message>
+  <wsdl:message name="ICrystalService_GetListHealthProfessionalContractByHealthProfessionalCode_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetListHealthProfessionalContractByHealthProfessionalCode" />
+  </wsdl:message>
+  <wsdl:message name="ICrystalService_GetListHealthProfessionalContractByHealthProfessionalCode_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetListHealthProfessionalContractByHealthProfessionalCodeResponse" />
+  </wsdl:message>
+  <wsdl:message name="ICrystalService_GetUserHIS_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetUserHIS" />
+  </wsdl:message>
+  <wsdl:message name="ICrystalService_GetUserHIS_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetUserHISResponse" />
+  </wsdl:message>
+  <wsdl:message name="ICrystalService_GetHealthProfessionalByCode_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetHealthProfessionalByCode" />
+  </wsdl:message>
+  <wsdl:message name="ICrystalService_GetHealthProfessionalByCode_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetHealthProfessionalByCodeResponse" />
+  </wsdl:message>
+  <wsdl:message name="ICrystalService_SaveHealthProfessional_InputMessage">
+    <wsdl:part name="parameters" element="tns:SaveHealthProfessional" />
+  </wsdl:message>
+  <wsdl:message name="ICrystalService_SaveHealthProfessional_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SaveHealthProfessionalResponse" />
+  </wsdl:message>
+  <wsdl:message name="ICrystalService_UpdateStatusProfessionalHealth_InputMessage">
+    <wsdl:part name="parameters" element="tns:UpdateStatusProfessionalHealth" />
+  </wsdl:message>
+  <wsdl:message name="ICrystalService_UpdateStatusProfessionalHealth_OutputMessage">
+    <wsdl:part name="parameters" element="tns:UpdateStatusProfessionalHealthResponse" />
+  </wsdl:message>
+  <wsdl:message name="ICrystalService_GetAdmissionByCode_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetAdmissionByCode" />
+  </wsdl:message>
+  <wsdl:message name="ICrystalService_GetAdmissionByCode_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetAdmissionByCodeResponse" />
+  </wsdl:message>
+  <wsdl:message name="ICrystalService_ListarHemocomponentesPorIngreso_InputMessage">
+    <wsdl:part name="parameters" element="tns:ListarHemocomponentesPorIngreso" />
+  </wsdl:message>
+  <wsdl:message name="ICrystalService_ListarHemocomponentesPorIngreso_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ListarHemocomponentesPorIngresoResponse" />
+  </wsdl:message>
+  <wsdl:message name="ICrystalService_GetAdmissionsByPatient_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetAdmissionsByPatient" />
+  </wsdl:message>
+  <wsdl:message name="ICrystalService_GetAdmissionsByPatient_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetAdmissionsByPatientResponse" />
+  </wsdl:message>
+  <wsdl:message name="ICrystalService_SaveAdmission_InputMessage">
+    <wsdl:part name="parameters" element="tns:SaveAdmission" />
+  </wsdl:message>
+  <wsdl:message name="ICrystalService_SaveAdmission_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SaveAdmissionResponse" />
+  </wsdl:message>
+  <wsdl:message name="ICrystalService_DeleteAdmission_InputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteAdmission" />
+  </wsdl:message>
+  <wsdl:message name="ICrystalService_DeleteAdmission_OutputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteAdmissionResponse" />
+  </wsdl:message>
+  <wsdl:message name="ICrystalService_UpdateStatusAdmission_InputMessage">
+    <wsdl:part name="parameters" element="tns:UpdateStatusAdmission" />
+  </wsdl:message>
+  <wsdl:message name="ICrystalService_UpdateStatusAdmission_OutputMessage">
+    <wsdl:part name="parameters" element="tns:UpdateStatusAdmissionResponse" />
+  </wsdl:message>
+  <wsdl:message name="ICrystalService_GetCentersParameters_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetCentersParameters" />
+  </wsdl:message>
+  <wsdl:message name="ICrystalService_GetCentersParameters_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetCentersParametersResponse" />
+  </wsdl:message>
+  <wsdl:message name="ICrystalService_GetTriageDate_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetTriageDate" />
+  </wsdl:message>
+  <wsdl:message name="ICrystalService_GetTriageDate_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetTriageDateResponse" />
+  </wsdl:message>
+  <wsdl:message name="ICrystalService_GetusuarioCrystal_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetusuarioCrystal" />
+  </wsdl:message>
+  <wsdl:message name="ICrystalService_GetusuarioCrystal_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetusuarioCrystalResponse" />
+  </wsdl:message>
+  <wsdl:message name="ICrystalService_GetAdmissionStatusByNumIngres_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetAdmissionStatusByNumIngres" />
+  </wsdl:message>
+  <wsdl:message name="ICrystalService_GetAdmissionStatusByNumIngres_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetAdmissionStatusByNumIngresResponse" />
+  </wsdl:message>
+  <wsdl:message name="ICrystalService_ModifyAuthorizationAdmission_InputMessage">
+    <wsdl:part name="parameters" element="tns:ModifyAuthorizationAdmission" />
+  </wsdl:message>
+  <wsdl:message name="ICrystalService_ModifyAuthorizationAdmission_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ModifyAuthorizationAdmissionResponse" />
+  </wsdl:message>
+  <wsdl:message name="ICrystalService_GetINDIAGNOPByAdmissionNumber_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetINDIAGNOPByAdmissionNumber" />
+  </wsdl:message>
+  <wsdl:message name="ICrystalService_GetINDIAGNOPByAdmissionNumber_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetINDIAGNOPByAdmissionNumberResponse" />
+  </wsdl:message>
+  <wsdl:message name="ICrystalService_AdmisionValidations_InputMessage">
+    <wsdl:part name="parameters" element="tns:AdmisionValidations" />
+  </wsdl:message>
+  <wsdl:message name="ICrystalService_AdmisionValidations_OutputMessage">
+    <wsdl:part name="parameters" element="tns:AdmisionValidationsResponse" />
+  </wsdl:message>
+  <wsdl:message name="ICrystalService_ListDashboardPharmacyDetail_InputMessage">
+    <wsdl:part name="parameters" element="tns:ListDashboardPharmacyDetail" />
+  </wsdl:message>
+  <wsdl:message name="ICrystalService_ListDashboardPharmacyDetail_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ListDashboardPharmacyDetailResponse" />
+  </wsdl:message>
+  <wsdl:message name="ICrystalService_GetStayType_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetStayType" />
+  </wsdl:message>
+  <wsdl:message name="ICrystalService_GetStayType_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetStayTypeResponse" />
+  </wsdl:message>
+  <wsdl:message name="ICrystalService_ListDashboardPharmacyDetailSurgicalPackage_InputMessage">
+    <wsdl:part name="parameters" element="tns:ListDashboardPharmacyDetailSurgicalPackage" />
+  </wsdl:message>
+  <wsdl:message name="ICrystalService_ListDashboardPharmacyDetailSurgicalPackage_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ListDashboardPharmacyDetailSurgicalPackageResponse" />
+  </wsdl:message>
+  <wsdl:message name="ICrystalService_SP_RIAS_ValidacionCUPSRIAS_InputMessage">
+    <wsdl:part name="parameters" element="tns:SP_RIAS_ValidacionCUPSRIAS" />
+  </wsdl:message>
+  <wsdl:message name="ICrystalService_SP_RIAS_ValidacionCUPSRIAS_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SP_RIAS_ValidacionCUPSRIASResponse" />
+  </wsdl:message>
+  <wsdl:message name="ICrystalService_RouteToPharmacy_InputMessage">
+    <wsdl:part name="parameters" element="tns:RouteToPharmacy" />
+  </wsdl:message>
+  <wsdl:message name="ICrystalService_RouteToPharmacy_OutputMessage">
+    <wsdl:part name="parameters" element="tns:RouteToPharmacyResponse" />
+  </wsdl:message>
+  <wsdl:message name="ICrystalService_DashboardPharmacyDetail_InputMessage">
+    <wsdl:part name="parameters" element="tns:DashboardPharmacyDetail" />
+  </wsdl:message>
+  <wsdl:message name="ICrystalService_DashboardPharmacyDetail_OutputMessage">
+    <wsdl:part name="parameters" element="tns:DashboardPharmacyDetailResponse" />
+  </wsdl:message>
+  <wsdl:message name="ICrystalService_DashboardPharmacyDetailSurgicalPackage_InputMessage">
+    <wsdl:part name="parameters" element="tns:DashboardPharmacyDetailSurgicalPackage" />
+  </wsdl:message>
+  <wsdl:message name="ICrystalService_DashboardPharmacyDetailSurgicalPackage_OutputMessage">
+    <wsdl:part name="parameters" element="tns:DashboardPharmacyDetailSurgicalPackageResponse" />
+  </wsdl:message>
+  <wsdl:message name="ICrystalService_ListDashboardPharmacyDetailDevolution_InputMessage">
+    <wsdl:part name="parameters" element="tns:ListDashboardPharmacyDetailDevolution" />
+  </wsdl:message>
+  <wsdl:message name="ICrystalService_ListDashboardPharmacyDetailDevolution_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ListDashboardPharmacyDetailDevolutionResponse" />
+  </wsdl:message>
+  <wsdl:message name="ICrystalService_GetBedRatebyBedCode_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetBedRatebyBedCode" />
+  </wsdl:message>
+  <wsdl:message name="ICrystalService_GetBedRatebyBedCode_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetBedRatebyBedCodeResponse" />
+  </wsdl:message>
+  <wsdl:message name="ICrystalService_SaveBedRate_InputMessage">
+    <wsdl:part name="parameters" element="tns:SaveBedRate" />
+  </wsdl:message>
+  <wsdl:message name="ICrystalService_SaveBedRate_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SaveBedRateResponse" />
+  </wsdl:message>
+  <wsdl:message name="ICrystalService_DeleteBedRate_InputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteBedRate" />
+  </wsdl:message>
+  <wsdl:message name="ICrystalService_DeleteBedRate_OutputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteBedRateResponse" />
+  </wsdl:message>
+  <wsdl:message name="ICrystalService_GetBedRatebyCode_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetBedRatebyCode" />
+  </wsdl:message>
+  <wsdl:message name="ICrystalService_GetBedRatebyCode_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetBedRatebyCodeResponse" />
+  </wsdl:message>
+  <wsdl:message name="ICrystalService_ListarCitasMedicas_InputMessage">
+    <wsdl:part name="parameters" element="tns:ListarCitasMedicas" />
+  </wsdl:message>
+  <wsdl:message name="ICrystalService_ListarCitasMedicas_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ListarCitasMedicasResponse" />
+  </wsdl:message>
+  <wsdl:message name="ICrystalService_GetHCUNITHISByUFUCODIGO_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetHCUNITHISByUFUCODIGO" />
+  </wsdl:message>
+  <wsdl:message name="ICrystalService_GetHCUNITHISByUFUCODIGO_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetHCUNITHISByUFUCODIGOResponse" />
+  </wsdl:message>
+  <wsdl:message name="ICrystalService_GetHCUNITHISByUFUCODIGOWithFACMECONINS_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetHCUNITHISByUFUCODIGOWithFACMECONINS" />
+  </wsdl:message>
+  <wsdl:message name="ICrystalService_GetHCUNITHISByUFUCODIGOWithFACMECONINS_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetHCUNITHISByUFUCODIGOWithFACMECONINSResponse" />
+  </wsdl:message>
+  <wsdl:message name="ICrystalService_ListStaysByAdmissionCodeAndStatus_InputMessage">
+    <wsdl:part name="parameters" element="tns:ListStaysByAdmissionCodeAndStatus" />
+  </wsdl:message>
+  <wsdl:message name="ICrystalService_ListStaysByAdmissionCodeAndStatus_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ListStaysByAdmissionCodeAndStatusResponse" />
+  </wsdl:message>
+  <wsdl:message name="ICrystalService_ListLiquidatedStaysByAdmissionCode_InputMessage">
+    <wsdl:part name="parameters" element="tns:ListLiquidatedStaysByAdmissionCode" />
+  </wsdl:message>
+  <wsdl:message name="ICrystalService_ListLiquidatedStaysByAdmissionCode_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ListLiquidatedStaysByAdmissionCodeResponse" />
+  </wsdl:message>
+  <wsdl:message name="ICrystalService_ListDontLiquidatedStaysByAdmissionCode_InputMessage">
+    <wsdl:part name="parameters" element="tns:ListDontLiquidatedStaysByAdmissionCode" />
+  </wsdl:message>
+  <wsdl:message name="ICrystalService_ListDontLiquidatedStaysByAdmissionCode_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ListDontLiquidatedStaysByAdmissionCodeResponse" />
+  </wsdl:message>
+  <wsdl:message name="ICrystalService_GetPatientByIdentification_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetPatientByIdentification" />
+  </wsdl:message>
+  <wsdl:message name="ICrystalService_GetPatientByIdentification_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetPatientByIdentificationResponse" />
+  </wsdl:message>
+  <wsdl:message name="ICrystalService_DeletePatient_InputMessage">
+    <wsdl:part name="parameters" element="tns:DeletePatient" />
+  </wsdl:message>
+  <wsdl:message name="ICrystalService_DeletePatient_OutputMessage">
+    <wsdl:part name="parameters" element="tns:DeletePatientResponse" />
+  </wsdl:message>
+  <wsdl:message name="ICrystalService_SavePatient_InputMessage">
+    <wsdl:part name="parameters" element="tns:SavePatient" />
+  </wsdl:message>
+  <wsdl:message name="ICrystalService_SavePatient_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SavePatientResponse" />
+  </wsdl:message>
+  <wsdl:message name="ICrystalService_LiquidateStays_InputMessage">
+    <wsdl:part name="parameters" element="tns:LiquidateStays" />
+  </wsdl:message>
+  <wsdl:message name="ICrystalService_LiquidateStays_OutputMessage">
+    <wsdl:part name="parameters" element="tns:LiquidateStaysResponse" />
+  </wsdl:message>
+  <wsdl:message name="ICrystalService_GetLevelByCode_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetLevelByCode" />
+  </wsdl:message>
+  <wsdl:message name="ICrystalService_GetLevelByCode_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetLevelByCodeResponse" />
+  </wsdl:message>
+  <wsdl:message name="ICrystalService_SaveWeightPatient_InputMessage">
+    <wsdl:part name="parameters" element="tns:SaveWeightPatient" />
+  </wsdl:message>
+  <wsdl:message name="ICrystalService_SaveWeightPatient_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SaveWeightPatientResponse" />
+  </wsdl:message>
+  <wsdl:message name="ICrystalService_ListOfStaysByAdmission_InputMessage">
+    <wsdl:part name="parameters" element="tns:ListOfStaysByAdmission" />
+  </wsdl:message>
+  <wsdl:message name="ICrystalService_ListOfStaysByAdmission_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ListOfStaysByAdmissionResponse" />
+  </wsdl:message>
+  <wsdl:message name="ICrystalService_ListOfStaysByAdmissionToModel_InputMessage">
+    <wsdl:part name="parameters" element="tns:ListOfStaysByAdmissionToModel" />
+  </wsdl:message>
+  <wsdl:message name="ICrystalService_ListOfStaysByAdmissionToModel_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ListOfStaysByAdmissionToModelResponse" />
+  </wsdl:message>
+  <wsdl:message name="ICrystalService_CalculateUnitStayForRange_InputMessage">
+    <wsdl:part name="parameters" element="tns:CalculateUnitStayForRange" />
+  </wsdl:message>
+  <wsdl:message name="ICrystalService_CalculateUnitStayForRange_OutputMessage">
+    <wsdl:part name="parameters" element="tns:CalculateUnitStayForRangeResponse" />
+  </wsdl:message>
+  <wsdl:portType name="ICrystalService">
+    <wsdl:operation name="GetProfessionalByCode">
+      <wsdl:input wsaw:Action="http://tempuri.org/ICrystalServiceHealthCareProfessional/GetProfessionalByCode" message="tns:ICrystalService_GetProfessionalByCode_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ICrystalServiceHealthCareProfessional/GetProfessionalByCodeResponse" message="tns:ICrystalService_GetProfessionalByCode_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetSpecialityByCode">
+      <wsdl:input wsaw:Action="http://tempuri.org/ICrystalServiceHealthCareProfessional/GetSpecialityByCode" message="tns:ICrystalService_GetSpecialityByCode_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ICrystalServiceHealthCareProfessional/GetSpecialityByCodeResponse" message="tns:ICrystalService_GetSpecialityByCode_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SaveProfessional">
+      <wsdl:input wsaw:Action="http://tempuri.org/ICrystalServiceHealthCareProfessional/SaveProfessional" message="tns:ICrystalService_SaveProfessional_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ICrystalServiceHealthCareProfessional/SaveProfessionalResponse" message="tns:ICrystalService_SaveProfessional_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="DeleteProfessional">
+      <wsdl:input wsaw:Action="http://tempuri.org/ICrystalServiceHealthCareProfessional/DeleteProfessional" message="tns:ICrystalService_DeleteProfessional_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ICrystalServiceHealthCareProfessional/DeleteProfessionalResponse" message="tns:ICrystalService_DeleteProfessional_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="UpdateStatusProfessional">
+      <wsdl:input wsaw:Action="http://tempuri.org/ICrystalServiceHealthCareProfessional/UpdateStatusProfessional" message="tns:ICrystalService_UpdateStatusProfessional_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ICrystalServiceHealthCareProfessional/UpdateStatusProfessionalResponse" message="tns:ICrystalService_UpdateStatusProfessional_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetListHealthProfessionalContractByHealthProfessionalCode">
+      <wsdl:input wsaw:Action="http://tempuri.org/ICrystalServiceHealthCareProfessional/GetListHealthProfessionalContractByHealthProfessionalCode" message="tns:ICrystalService_GetListHealthProfessionalContractByHealthProfessionalCode_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ICrystalServiceHealthCareProfessional/GetListHealthProfessionalContractByHealthProfessionalCodeResponse" message="tns:ICrystalService_GetListHealthProfessionalContractByHealthProfessionalCode_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetUserHIS">
+      <wsdl:input wsaw:Action="http://tempuri.org/ICrystalServiceHealthCareProfessional/GetUserHIS" message="tns:ICrystalService_GetUserHIS_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ICrystalServiceHealthCareProfessional/GetUserHISResponse" message="tns:ICrystalService_GetUserHIS_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetHealthProfessionalByCode">
+      <wsdl:input wsaw:Action="http://tempuri.org/ICrystalServiceHealthCareProfessional/GetHealthProfessionalByCode" message="tns:ICrystalService_GetHealthProfessionalByCode_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ICrystalServiceHealthCareProfessional/GetHealthProfessionalByCodeResponse" message="tns:ICrystalService_GetHealthProfessionalByCode_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SaveHealthProfessional">
+      <wsdl:input wsaw:Action="http://tempuri.org/ICrystalServiceHealthCareProfessional/SaveHealthProfessional" message="tns:ICrystalService_SaveHealthProfessional_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ICrystalServiceHealthCareProfessional/SaveHealthProfessionalResponse" message="tns:ICrystalService_SaveHealthProfessional_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="UpdateStatusProfessionalHealth">
+      <wsdl:input wsaw:Action="http://tempuri.org/ICrystalServiceHealthCareProfessional/UpdateStatusProfessionalHealth" message="tns:ICrystalService_UpdateStatusProfessionalHealth_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ICrystalServiceHealthCareProfessional/UpdateStatusProfessionalHealthResponse" message="tns:ICrystalService_UpdateStatusProfessionalHealth_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAdmissionByCode">
+      <wsdl:input wsaw:Action="http://tempuri.org/ICrystalServiceAdmissions/GetAdmissionByCode" message="tns:ICrystalService_GetAdmissionByCode_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ICrystalServiceAdmissions/GetAdmissionByCodeResponse" message="tns:ICrystalService_GetAdmissionByCode_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ListarHemocomponentesPorIngreso">
+      <wsdl:input wsaw:Action="http://tempuri.org/ICrystalServiceAdmissions/ListarHemocomponentesPorIngreso" message="tns:ICrystalService_ListarHemocomponentesPorIngreso_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ICrystalServiceAdmissions/ListarHemocomponentesPorIngresoResponse" message="tns:ICrystalService_ListarHemocomponentesPorIngreso_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAdmissionsByPatient">
+      <wsdl:input wsaw:Action="http://tempuri.org/ICrystalServiceAdmissions/GetAdmissionsByPatient" message="tns:ICrystalService_GetAdmissionsByPatient_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ICrystalServiceAdmissions/GetAdmissionsByPatientResponse" message="tns:ICrystalService_GetAdmissionsByPatient_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SaveAdmission">
+      <wsdl:input wsaw:Action="http://tempuri.org/ICrystalServiceAdmissions/SaveAdmission" message="tns:ICrystalService_SaveAdmission_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ICrystalServiceAdmissions/SaveAdmissionResponse" message="tns:ICrystalService_SaveAdmission_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="DeleteAdmission">
+      <wsdl:input wsaw:Action="http://tempuri.org/ICrystalServiceAdmissions/DeleteAdmission" message="tns:ICrystalService_DeleteAdmission_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ICrystalServiceAdmissions/DeleteAdmissionResponse" message="tns:ICrystalService_DeleteAdmission_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="UpdateStatusAdmission">
+      <wsdl:input wsaw:Action="http://tempuri.org/ICrystalServiceAdmissions/UpdateStatusAdmission" message="tns:ICrystalService_UpdateStatusAdmission_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ICrystalServiceAdmissions/UpdateStatusAdmissionResponse" message="tns:ICrystalService_UpdateStatusAdmission_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetCentersParameters">
+      <wsdl:input wsaw:Action="http://tempuri.org/ICrystalServiceAdmissions/GetCentersParameters" message="tns:ICrystalService_GetCentersParameters_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ICrystalServiceAdmissions/GetCentersParametersResponse" message="tns:ICrystalService_GetCentersParameters_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetTriageDate">
+      <wsdl:input wsaw:Action="http://tempuri.org/ICrystalServiceAdmissions/GetTriageDate" message="tns:ICrystalService_GetTriageDate_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ICrystalServiceAdmissions/GetTriageDateResponse" message="tns:ICrystalService_GetTriageDate_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetusuarioCrystal">
+      <wsdl:input wsaw:Action="http://tempuri.org/ICrystalServiceAdmissions/GetusuarioCrystal" message="tns:ICrystalService_GetusuarioCrystal_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ICrystalServiceAdmissions/GetusuarioCrystalResponse" message="tns:ICrystalService_GetusuarioCrystal_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAdmissionStatusByNumIngres">
+      <wsdl:input wsaw:Action="http://tempuri.org/ICrystalServiceAdmissions/GetAdmissionStatusByNumIngres" message="tns:ICrystalService_GetAdmissionStatusByNumIngres_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ICrystalServiceAdmissions/GetAdmissionStatusByNumIngresResponse" message="tns:ICrystalService_GetAdmissionStatusByNumIngres_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ModifyAuthorizationAdmission">
+      <wsdl:input wsaw:Action="http://tempuri.org/ICrystalServiceAdmissions/ModifyAuthorizationAdmission" message="tns:ICrystalService_ModifyAuthorizationAdmission_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ICrystalServiceAdmissions/ModifyAuthorizationAdmissionResponse" message="tns:ICrystalService_ModifyAuthorizationAdmission_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetINDIAGNOPByAdmissionNumber">
+      <wsdl:input wsaw:Action="http://tempuri.org/ICrystalServiceAdmissions/GetINDIAGNOPByAdmissionNumber" message="tns:ICrystalService_GetINDIAGNOPByAdmissionNumber_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ICrystalServiceAdmissions/GetINDIAGNOPByAdmissionNumberResponse" message="tns:ICrystalService_GetINDIAGNOPByAdmissionNumber_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="AdmisionValidations">
+      <wsdl:input wsaw:Action="http://tempuri.org/ICrystalServiceAdmissions/AdmisionValidations" message="tns:ICrystalService_AdmisionValidations_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ICrystalServiceAdmissions/AdmisionValidationsResponse" message="tns:ICrystalService_AdmisionValidations_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ListDashboardPharmacyDetail">
+      <wsdl:input wsaw:Action="http://tempuri.org/ICrystalServiceDashboardPharmacyDetail/ListDashboardPharmacyDetail" message="tns:ICrystalService_ListDashboardPharmacyDetail_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ICrystalServiceDashboardPharmacyDetail/ListDashboardPharmacyDetailResponse" message="tns:ICrystalService_ListDashboardPharmacyDetail_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetStayType">
+      <wsdl:input wsaw:Action="http://tempuri.org/ICrystalServiceDashboardPharmacyDetail/GetStayType" message="tns:ICrystalService_GetStayType_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ICrystalServiceDashboardPharmacyDetail/GetStayTypeResponse" message="tns:ICrystalService_GetStayType_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ListDashboardPharmacyDetailSurgicalPackage">
+      <wsdl:input wsaw:Action="http://tempuri.org/ICrystalServiceDashboardPharmacyDetail/ListDashboardPharmacyDetailSurgicalPackage" message="tns:ICrystalService_ListDashboardPharmacyDetailSurgicalPackage_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ICrystalServiceDashboardPharmacyDetail/ListDashboardPharmacyDetailSurgicalPackageResponse" message="tns:ICrystalService_ListDashboardPharmacyDetailSurgicalPackage_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SP_RIAS_ValidacionCUPSRIAS">
+      <wsdl:input wsaw:Action="http://tempuri.org/ICrystalServiceDashboardPharmacyDetail/SP_RIAS_ValidacionCUPSRIAS" message="tns:ICrystalService_SP_RIAS_ValidacionCUPSRIAS_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ICrystalServiceDashboardPharmacyDetail/SP_RIAS_ValidacionCUPSRIASResponse" message="tns:ICrystalService_SP_RIAS_ValidacionCUPSRIAS_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="RouteToPharmacy">
+      <wsdl:input wsaw:Action="http://tempuri.org/ICrystalServiceDashboardPharmacyDetail/RouteToPharmacy" message="tns:ICrystalService_RouteToPharmacy_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ICrystalServiceDashboardPharmacyDetail/RouteToPharmacyResponse" message="tns:ICrystalService_RouteToPharmacy_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="DashboardPharmacyDetail">
+      <wsdl:input wsaw:Action="http://tempuri.org/ICrystalServiceDashboardPharmacyDetail/DashboardPharmacyDetail" message="tns:ICrystalService_DashboardPharmacyDetail_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ICrystalServiceDashboardPharmacyDetail/DashboardPharmacyDetailResponse" message="tns:ICrystalService_DashboardPharmacyDetail_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="DashboardPharmacyDetailSurgicalPackage">
+      <wsdl:input wsaw:Action="http://tempuri.org/ICrystalServiceDashboardPharmacyDetail/DashboardPharmacyDetailSurgicalPackage" message="tns:ICrystalService_DashboardPharmacyDetailSurgicalPackage_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ICrystalServiceDashboardPharmacyDetail/DashboardPharmacyDetailSurgicalPackageResponse" message="tns:ICrystalService_DashboardPharmacyDetailSurgicalPackage_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ListDashboardPharmacyDetailDevolution">
+      <wsdl:input wsaw:Action="http://tempuri.org/ICrystalServiceDashboardPharmacyDetailDevolution/ListDashboardPharmacyDetailDevolution" message="tns:ICrystalService_ListDashboardPharmacyDetailDevolution_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ICrystalServiceDashboardPharmacyDetailDevolution/ListDashboardPharmacyDetailDevolutionResponse" message="tns:ICrystalService_ListDashboardPharmacyDetailDevolution_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetBedRatebyBedCode">
+      <wsdl:input wsaw:Action="http://tempuri.org/ICrystalServiceBedRate/GetBedRatebyBedCode" message="tns:ICrystalService_GetBedRatebyBedCode_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ICrystalServiceBedRate/GetBedRatebyBedCodeResponse" message="tns:ICrystalService_GetBedRatebyBedCode_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SaveBedRate">
+      <wsdl:input wsaw:Action="http://tempuri.org/ICrystalServiceBedRate/SaveBedRate" message="tns:ICrystalService_SaveBedRate_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ICrystalServiceBedRate/SaveBedRateResponse" message="tns:ICrystalService_SaveBedRate_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="DeleteBedRate">
+      <wsdl:input wsaw:Action="http://tempuri.org/ICrystalServiceBedRate/DeleteBedRate" message="tns:ICrystalService_DeleteBedRate_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ICrystalServiceBedRate/DeleteBedRateResponse" message="tns:ICrystalService_DeleteBedRate_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetBedRatebyCode">
+      <wsdl:input wsaw:Action="http://tempuri.org/ICrystalServiceBedRate/GetBedRatebyCode" message="tns:ICrystalService_GetBedRatebyCode_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ICrystalServiceBedRate/GetBedRatebyCodeResponse" message="tns:ICrystalService_GetBedRatebyCode_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ListarCitasMedicas">
+      <wsdl:input wsaw:Action="http://tempuri.org/ICrystalServiceExternalConsultation/ListarCitasMedicas" message="tns:ICrystalService_ListarCitasMedicas_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ICrystalServiceExternalConsultation/ListarCitasMedicasResponse" message="tns:ICrystalService_ListarCitasMedicas_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetHCUNITHISByUFUCODIGO">
+      <wsdl:input wsaw:Action="http://tempuri.org/ICrystalServiceHCUNITHIS/GetHCUNITHISByUFUCODIGO" message="tns:ICrystalService_GetHCUNITHISByUFUCODIGO_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ICrystalServiceHCUNITHIS/GetHCUNITHISByUFUCODIGOResponse" message="tns:ICrystalService_GetHCUNITHISByUFUCODIGO_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetHCUNITHISByUFUCODIGOWithFACMECONINS">
+      <wsdl:input wsaw:Action="http://tempuri.org/ICrystalServiceHCUNITHIS/GetHCUNITHISByUFUCODIGOWithFACMECONINS" message="tns:ICrystalService_GetHCUNITHISByUFUCODIGOWithFACMECONINS_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ICrystalServiceHCUNITHIS/GetHCUNITHISByUFUCODIGOWithFACMECONINSResponse" message="tns:ICrystalService_GetHCUNITHISByUFUCODIGOWithFACMECONINS_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ListStaysByAdmissionCodeAndStatus">
+      <wsdl:input wsaw:Action="http://tempuri.org/ICrystalService/ListStaysByAdmissionCodeAndStatus" message="tns:ICrystalService_ListStaysByAdmissionCodeAndStatus_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ICrystalService/ListStaysByAdmissionCodeAndStatusResponse" message="tns:ICrystalService_ListStaysByAdmissionCodeAndStatus_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ListLiquidatedStaysByAdmissionCode">
+      <wsdl:input wsaw:Action="http://tempuri.org/ICrystalService/ListLiquidatedStaysByAdmissionCode" message="tns:ICrystalService_ListLiquidatedStaysByAdmissionCode_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ICrystalService/ListLiquidatedStaysByAdmissionCodeResponse" message="tns:ICrystalService_ListLiquidatedStaysByAdmissionCode_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ListDontLiquidatedStaysByAdmissionCode">
+      <wsdl:input wsaw:Action="http://tempuri.org/ICrystalService/ListDontLiquidatedStaysByAdmissionCode" message="tns:ICrystalService_ListDontLiquidatedStaysByAdmissionCode_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ICrystalService/ListDontLiquidatedStaysByAdmissionCodeResponse" message="tns:ICrystalService_ListDontLiquidatedStaysByAdmissionCode_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetPatientByIdentification">
+      <wsdl:input wsaw:Action="http://tempuri.org/ICrystalService/GetPatientByIdentification" message="tns:ICrystalService_GetPatientByIdentification_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ICrystalService/GetPatientByIdentificationResponse" message="tns:ICrystalService_GetPatientByIdentification_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="DeletePatient">
+      <wsdl:input wsaw:Action="http://tempuri.org/ICrystalService/DeletePatient" message="tns:ICrystalService_DeletePatient_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ICrystalService/DeletePatientResponse" message="tns:ICrystalService_DeletePatient_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SavePatient">
+      <wsdl:input wsaw:Action="http://tempuri.org/ICrystalService/SavePatient" message="tns:ICrystalService_SavePatient_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ICrystalService/SavePatientResponse" message="tns:ICrystalService_SavePatient_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="LiquidateStays">
+      <wsdl:input wsaw:Action="http://tempuri.org/ICrystalService/LiquidateStays" message="tns:ICrystalService_LiquidateStays_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ICrystalService/LiquidateStaysResponse" message="tns:ICrystalService_LiquidateStays_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetLevelByCode">
+      <wsdl:input wsaw:Action="http://tempuri.org/ICrystalService/GetLevelByCode" message="tns:ICrystalService_GetLevelByCode_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ICrystalService/GetLevelByCodeResponse" message="tns:ICrystalService_GetLevelByCode_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SaveWeightPatient">
+      <wsdl:input wsaw:Action="http://tempuri.org/ICrystalService/SaveWeightPatient" message="tns:ICrystalService_SaveWeightPatient_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ICrystalService/SaveWeightPatientResponse" message="tns:ICrystalService_SaveWeightPatient_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ListOfStaysByAdmission">
+      <wsdl:input wsaw:Action="http://tempuri.org/ICrystalService/ListOfStaysByAdmission" message="tns:ICrystalService_ListOfStaysByAdmission_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ICrystalService/ListOfStaysByAdmissionResponse" message="tns:ICrystalService_ListOfStaysByAdmission_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ListOfStaysByAdmissionToModel">
+      <wsdl:input wsaw:Action="http://tempuri.org/ICrystalService/ListOfStaysByAdmissionToModel" message="tns:ICrystalService_ListOfStaysByAdmissionToModel_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ICrystalService/ListOfStaysByAdmissionToModelResponse" message="tns:ICrystalService_ListOfStaysByAdmissionToModel_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="CalculateUnitStayForRange">
+      <wsdl:input wsaw:Action="http://tempuri.org/ICrystalService/CalculateUnitStayForRange" message="tns:ICrystalService_CalculateUnitStayForRange_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ICrystalService/CalculateUnitStayForRangeResponse" message="tns:ICrystalService_CalculateUnitStayForRange_OutputMessage" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="basicHttp_Endpoint_Crystal" type="tns:ICrystalService">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="GetProfessionalByCode">
+      <soap:operation soapAction="http://tempuri.org/ICrystalServiceHealthCareProfessional/GetProfessionalByCode" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetSpecialityByCode">
+      <soap:operation soapAction="http://tempuri.org/ICrystalServiceHealthCareProfessional/GetSpecialityByCode" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveProfessional">
+      <soap:operation soapAction="http://tempuri.org/ICrystalServiceHealthCareProfessional/SaveProfessional" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteProfessional">
+      <soap:operation soapAction="http://tempuri.org/ICrystalServiceHealthCareProfessional/DeleteProfessional" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateStatusProfessional">
+      <soap:operation soapAction="http://tempuri.org/ICrystalServiceHealthCareProfessional/UpdateStatusProfessional" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetListHealthProfessionalContractByHealthProfessionalCode">
+      <soap:operation soapAction="http://tempuri.org/ICrystalServiceHealthCareProfessional/GetListHealthProfessionalContractByHealthProfessionalCode" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetUserHIS">
+      <soap:operation soapAction="http://tempuri.org/ICrystalServiceHealthCareProfessional/GetUserHIS" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetHealthProfessionalByCode">
+      <soap:operation soapAction="http://tempuri.org/ICrystalServiceHealthCareProfessional/GetHealthProfessionalByCode" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveHealthProfessional">
+      <soap:operation soapAction="http://tempuri.org/ICrystalServiceHealthCareProfessional/SaveHealthProfessional" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateStatusProfessionalHealth">
+      <soap:operation soapAction="http://tempuri.org/ICrystalServiceHealthCareProfessional/UpdateStatusProfessionalHealth" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAdmissionByCode">
+      <soap:operation soapAction="http://tempuri.org/ICrystalServiceAdmissions/GetAdmissionByCode" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ListarHemocomponentesPorIngreso">
+      <soap:operation soapAction="http://tempuri.org/ICrystalServiceAdmissions/ListarHemocomponentesPorIngreso" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAdmissionsByPatient">
+      <soap:operation soapAction="http://tempuri.org/ICrystalServiceAdmissions/GetAdmissionsByPatient" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveAdmission">
+      <soap:operation soapAction="http://tempuri.org/ICrystalServiceAdmissions/SaveAdmission" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteAdmission">
+      <soap:operation soapAction="http://tempuri.org/ICrystalServiceAdmissions/DeleteAdmission" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateStatusAdmission">
+      <soap:operation soapAction="http://tempuri.org/ICrystalServiceAdmissions/UpdateStatusAdmission" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCentersParameters">
+      <soap:operation soapAction="http://tempuri.org/ICrystalServiceAdmissions/GetCentersParameters" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetTriageDate">
+      <soap:operation soapAction="http://tempuri.org/ICrystalServiceAdmissions/GetTriageDate" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetusuarioCrystal">
+      <soap:operation soapAction="http://tempuri.org/ICrystalServiceAdmissions/GetusuarioCrystal" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAdmissionStatusByNumIngres">
+      <soap:operation soapAction="http://tempuri.org/ICrystalServiceAdmissions/GetAdmissionStatusByNumIngres" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ModifyAuthorizationAdmission">
+      <soap:operation soapAction="http://tempuri.org/ICrystalServiceAdmissions/ModifyAuthorizationAdmission" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetINDIAGNOPByAdmissionNumber">
+      <soap:operation soapAction="http://tempuri.org/ICrystalServiceAdmissions/GetINDIAGNOPByAdmissionNumber" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AdmisionValidations">
+      <soap:operation soapAction="http://tempuri.org/ICrystalServiceAdmissions/AdmisionValidations" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ListDashboardPharmacyDetail">
+      <soap:operation soapAction="http://tempuri.org/ICrystalServiceDashboardPharmacyDetail/ListDashboardPharmacyDetail" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetStayType">
+      <soap:operation soapAction="http://tempuri.org/ICrystalServiceDashboardPharmacyDetail/GetStayType" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ListDashboardPharmacyDetailSurgicalPackage">
+      <soap:operation soapAction="http://tempuri.org/ICrystalServiceDashboardPharmacyDetail/ListDashboardPharmacyDetailSurgicalPackage" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SP_RIAS_ValidacionCUPSRIAS">
+      <soap:operation soapAction="http://tempuri.org/ICrystalServiceDashboardPharmacyDetail/SP_RIAS_ValidacionCUPSRIAS" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RouteToPharmacy">
+      <soap:operation soapAction="http://tempuri.org/ICrystalServiceDashboardPharmacyDetail/RouteToPharmacy" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DashboardPharmacyDetail">
+      <soap:operation soapAction="http://tempuri.org/ICrystalServiceDashboardPharmacyDetail/DashboardPharmacyDetail" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DashboardPharmacyDetailSurgicalPackage">
+      <soap:operation soapAction="http://tempuri.org/ICrystalServiceDashboardPharmacyDetail/DashboardPharmacyDetailSurgicalPackage" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ListDashboardPharmacyDetailDevolution">
+      <soap:operation soapAction="http://tempuri.org/ICrystalServiceDashboardPharmacyDetailDevolution/ListDashboardPharmacyDetailDevolution" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetBedRatebyBedCode">
+      <soap:operation soapAction="http://tempuri.org/ICrystalServiceBedRate/GetBedRatebyBedCode" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveBedRate">
+      <soap:operation soapAction="http://tempuri.org/ICrystalServiceBedRate/SaveBedRate" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteBedRate">
+      <soap:operation soapAction="http://tempuri.org/ICrystalServiceBedRate/DeleteBedRate" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetBedRatebyCode">
+      <soap:operation soapAction="http://tempuri.org/ICrystalServiceBedRate/GetBedRatebyCode" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ListarCitasMedicas">
+      <soap:operation soapAction="http://tempuri.org/ICrystalServiceExternalConsultation/ListarCitasMedicas" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetHCUNITHISByUFUCODIGO">
+      <soap:operation soapAction="http://tempuri.org/ICrystalServiceHCUNITHIS/GetHCUNITHISByUFUCODIGO" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetHCUNITHISByUFUCODIGOWithFACMECONINS">
+      <soap:operation soapAction="http://tempuri.org/ICrystalServiceHCUNITHIS/GetHCUNITHISByUFUCODIGOWithFACMECONINS" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ListStaysByAdmissionCodeAndStatus">
+      <soap:operation soapAction="http://tempuri.org/ICrystalService/ListStaysByAdmissionCodeAndStatus" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ListLiquidatedStaysByAdmissionCode">
+      <soap:operation soapAction="http://tempuri.org/ICrystalService/ListLiquidatedStaysByAdmissionCode" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ListDontLiquidatedStaysByAdmissionCode">
+      <soap:operation soapAction="http://tempuri.org/ICrystalService/ListDontLiquidatedStaysByAdmissionCode" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetPatientByIdentification">
+      <soap:operation soapAction="http://tempuri.org/ICrystalService/GetPatientByIdentification" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeletePatient">
+      <soap:operation soapAction="http://tempuri.org/ICrystalService/DeletePatient" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SavePatient">
+      <soap:operation soapAction="http://tempuri.org/ICrystalService/SavePatient" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="LiquidateStays">
+      <soap:operation soapAction="http://tempuri.org/ICrystalService/LiquidateStays" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetLevelByCode">
+      <soap:operation soapAction="http://tempuri.org/ICrystalService/GetLevelByCode" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveWeightPatient">
+      <soap:operation soapAction="http://tempuri.org/ICrystalService/SaveWeightPatient" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ListOfStaysByAdmission">
+      <soap:operation soapAction="http://tempuri.org/ICrystalService/ListOfStaysByAdmission" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ListOfStaysByAdmissionToModel">
+      <soap:operation soapAction="http://tempuri.org/ICrystalService/ListOfStaysByAdmissionToModel" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CalculateUnitStayForRange">
+      <soap:operation soapAction="http://tempuri.org/ICrystalService/CalculateUnitStayForRange" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="basicHttps_Endpoint_Crystal" type="tns:ICrystalService">
+    <wsp:PolicyReference URI="#basicHttps_Endpoint_Crystal_policy" />
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="GetProfessionalByCode">
+      <soap:operation soapAction="http://tempuri.org/ICrystalServiceHealthCareProfessional/GetProfessionalByCode" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetSpecialityByCode">
+      <soap:operation soapAction="http://tempuri.org/ICrystalServiceHealthCareProfessional/GetSpecialityByCode" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveProfessional">
+      <soap:operation soapAction="http://tempuri.org/ICrystalServiceHealthCareProfessional/SaveProfessional" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteProfessional">
+      <soap:operation soapAction="http://tempuri.org/ICrystalServiceHealthCareProfessional/DeleteProfessional" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateStatusProfessional">
+      <soap:operation soapAction="http://tempuri.org/ICrystalServiceHealthCareProfessional/UpdateStatusProfessional" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetListHealthProfessionalContractByHealthProfessionalCode">
+      <soap:operation soapAction="http://tempuri.org/ICrystalServiceHealthCareProfessional/GetListHealthProfessionalContractByHealthProfessionalCode" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetUserHIS">
+      <soap:operation soapAction="http://tempuri.org/ICrystalServiceHealthCareProfessional/GetUserHIS" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetHealthProfessionalByCode">
+      <soap:operation soapAction="http://tempuri.org/ICrystalServiceHealthCareProfessional/GetHealthProfessionalByCode" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveHealthProfessional">
+      <soap:operation soapAction="http://tempuri.org/ICrystalServiceHealthCareProfessional/SaveHealthProfessional" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateStatusProfessionalHealth">
+      <soap:operation soapAction="http://tempuri.org/ICrystalServiceHealthCareProfessional/UpdateStatusProfessionalHealth" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAdmissionByCode">
+      <soap:operation soapAction="http://tempuri.org/ICrystalServiceAdmissions/GetAdmissionByCode" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ListarHemocomponentesPorIngreso">
+      <soap:operation soapAction="http://tempuri.org/ICrystalServiceAdmissions/ListarHemocomponentesPorIngreso" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAdmissionsByPatient">
+      <soap:operation soapAction="http://tempuri.org/ICrystalServiceAdmissions/GetAdmissionsByPatient" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveAdmission">
+      <soap:operation soapAction="http://tempuri.org/ICrystalServiceAdmissions/SaveAdmission" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteAdmission">
+      <soap:operation soapAction="http://tempuri.org/ICrystalServiceAdmissions/DeleteAdmission" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateStatusAdmission">
+      <soap:operation soapAction="http://tempuri.org/ICrystalServiceAdmissions/UpdateStatusAdmission" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCentersParameters">
+      <soap:operation soapAction="http://tempuri.org/ICrystalServiceAdmissions/GetCentersParameters" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetTriageDate">
+      <soap:operation soapAction="http://tempuri.org/ICrystalServiceAdmissions/GetTriageDate" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetusuarioCrystal">
+      <soap:operation soapAction="http://tempuri.org/ICrystalServiceAdmissions/GetusuarioCrystal" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAdmissionStatusByNumIngres">
+      <soap:operation soapAction="http://tempuri.org/ICrystalServiceAdmissions/GetAdmissionStatusByNumIngres" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ModifyAuthorizationAdmission">
+      <soap:operation soapAction="http://tempuri.org/ICrystalServiceAdmissions/ModifyAuthorizationAdmission" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetINDIAGNOPByAdmissionNumber">
+      <soap:operation soapAction="http://tempuri.org/ICrystalServiceAdmissions/GetINDIAGNOPByAdmissionNumber" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AdmisionValidations">
+      <soap:operation soapAction="http://tempuri.org/ICrystalServiceAdmissions/AdmisionValidations" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ListDashboardPharmacyDetail">
+      <soap:operation soapAction="http://tempuri.org/ICrystalServiceDashboardPharmacyDetail/ListDashboardPharmacyDetail" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetStayType">
+      <soap:operation soapAction="http://tempuri.org/ICrystalServiceDashboardPharmacyDetail/GetStayType" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ListDashboardPharmacyDetailSurgicalPackage">
+      <soap:operation soapAction="http://tempuri.org/ICrystalServiceDashboardPharmacyDetail/ListDashboardPharmacyDetailSurgicalPackage" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SP_RIAS_ValidacionCUPSRIAS">
+      <soap:operation soapAction="http://tempuri.org/ICrystalServiceDashboardPharmacyDetail/SP_RIAS_ValidacionCUPSRIAS" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RouteToPharmacy">
+      <soap:operation soapAction="http://tempuri.org/ICrystalServiceDashboardPharmacyDetail/RouteToPharmacy" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DashboardPharmacyDetail">
+      <soap:operation soapAction="http://tempuri.org/ICrystalServiceDashboardPharmacyDetail/DashboardPharmacyDetail" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DashboardPharmacyDetailSurgicalPackage">
+      <soap:operation soapAction="http://tempuri.org/ICrystalServiceDashboardPharmacyDetail/DashboardPharmacyDetailSurgicalPackage" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ListDashboardPharmacyDetailDevolution">
+      <soap:operation soapAction="http://tempuri.org/ICrystalServiceDashboardPharmacyDetailDevolution/ListDashboardPharmacyDetailDevolution" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetBedRatebyBedCode">
+      <soap:operation soapAction="http://tempuri.org/ICrystalServiceBedRate/GetBedRatebyBedCode" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveBedRate">
+      <soap:operation soapAction="http://tempuri.org/ICrystalServiceBedRate/SaveBedRate" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteBedRate">
+      <soap:operation soapAction="http://tempuri.org/ICrystalServiceBedRate/DeleteBedRate" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetBedRatebyCode">
+      <soap:operation soapAction="http://tempuri.org/ICrystalServiceBedRate/GetBedRatebyCode" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ListarCitasMedicas">
+      <soap:operation soapAction="http://tempuri.org/ICrystalServiceExternalConsultation/ListarCitasMedicas" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetHCUNITHISByUFUCODIGO">
+      <soap:operation soapAction="http://tempuri.org/ICrystalServiceHCUNITHIS/GetHCUNITHISByUFUCODIGO" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetHCUNITHISByUFUCODIGOWithFACMECONINS">
+      <soap:operation soapAction="http://tempuri.org/ICrystalServiceHCUNITHIS/GetHCUNITHISByUFUCODIGOWithFACMECONINS" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ListStaysByAdmissionCodeAndStatus">
+      <soap:operation soapAction="http://tempuri.org/ICrystalService/ListStaysByAdmissionCodeAndStatus" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ListLiquidatedStaysByAdmissionCode">
+      <soap:operation soapAction="http://tempuri.org/ICrystalService/ListLiquidatedStaysByAdmissionCode" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ListDontLiquidatedStaysByAdmissionCode">
+      <soap:operation soapAction="http://tempuri.org/ICrystalService/ListDontLiquidatedStaysByAdmissionCode" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetPatientByIdentification">
+      <soap:operation soapAction="http://tempuri.org/ICrystalService/GetPatientByIdentification" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeletePatient">
+      <soap:operation soapAction="http://tempuri.org/ICrystalService/DeletePatient" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SavePatient">
+      <soap:operation soapAction="http://tempuri.org/ICrystalService/SavePatient" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="LiquidateStays">
+      <soap:operation soapAction="http://tempuri.org/ICrystalService/LiquidateStays" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetLevelByCode">
+      <soap:operation soapAction="http://tempuri.org/ICrystalService/GetLevelByCode" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveWeightPatient">
+      <soap:operation soapAction="http://tempuri.org/ICrystalService/SaveWeightPatient" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ListOfStaysByAdmission">
+      <soap:operation soapAction="http://tempuri.org/ICrystalService/ListOfStaysByAdmission" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ListOfStaysByAdmissionToModel">
+      <soap:operation soapAction="http://tempuri.org/ICrystalService/ListOfStaysByAdmissionToModel" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CalculateUnitStayForRange">
+      <soap:operation soapAction="http://tempuri.org/ICrystalService/CalculateUnitStayForRange" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="CrystalService">
+    <wsdl:port name="basicHttp_Endpoint_Crystal" binding="tns:basicHttp_Endpoint_Crystal">
+      <soap:address location="http://c-10010:9000/ServiceEntity/Crystal.svc/basicHttpCrystal" />
+    </wsdl:port>
+    <wsdl:port name="basicHttps_Endpoint_Crystal" binding="tns:basicHttps_Endpoint_Crystal">
+      <soap:address location="https://localhost:9001/ServiceEntity/Crystal.svc/basicHttpsCrystal" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

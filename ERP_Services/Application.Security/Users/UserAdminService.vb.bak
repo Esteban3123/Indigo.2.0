@@ -1,0 +1,867 @@
+﻿'***********************************************************************
+' Assembly         : Application.Security
+' Author           : WalterSierra
+' Created          : 11-03-2011
+'
+' Last Modified By : Juan F. Tamayo
+' Last Modified On : 2013-03-04
+'
+' Copyright        : (c) . All rights reserved.
+'***********************************************************************
+
+#Region "Imports"
+
+Imports System.Configuration
+Imports System.Transactions
+Imports Domain.Base
+Imports Domain.Base.Entities
+Imports Domain.Crystal
+Imports Domain.Crystal.Entities
+Imports Domain.Security
+Imports Domain.Security.Entities
+Imports Infrastructure.CrossCutting.Base
+Imports Infrastructure.CrossCutting.Exceptions
+Imports Infrastructure.CrossCutting.Interface
+Imports Infrastructure.CrossCutting.Security
+
+#End Region
+
+''' <summary>
+''' Clase con todos los metodos tanto tecnicos como de negocio
+''' para tratar la entidad usuarios
+''' </summary>
+Public Class UserAdminService
+    Implements IUserAdminService
+
+    Dim _userRepository As IUserRepository
+    Dim _FileUserRepository As IFileUserRepository
+    Dim _userMembershipRepository As IUserMembershipRepository
+    Dim _permissionCompanyRepository As IPermissionCompanyRepository
+    Dim _sEGusuaruRepository As ISEGusuaruRepository
+    Dim _ADCENATENRepository As IADCENATENRepository
+    Dim _INUNIFUNCRepository As IINUNIFUNCRepository
+    Dim _INCUPSSUBRepository As IINCUPSSUBRepository
+
+    ''' <summary>
+    ''' Initializa una nueva instancia de la clase <see cref="UserAdminService" />.
+    ''' </summary>
+    ''' <param name="userRepository">el repositorio para el manejo de los usuarios.</param>
+    ''' <param name="userMembershipRepository">el repositorio para el manejo de usuario por medio de membership.</param>
+    Public Sub New(ByVal userRepository As IUserRepository, ByVal userMembershipRepository As IUserMembershipRepository, ByVal FileUserRepository As IFileUserRepository,
+                    permissionCompanyRepository As IPermissionCompanyRepository, sEGusuaruRepository As ISEGusuaruRepository, ADCENATENRepository As IADCENATENRepository,
+                    INUNIFUNCRepository As IINUNIFUNCRepository, INCUPSSUBRepository As IINCUPSSUBRepository)
+        If userRepository Is Nothing Then
+            Throw New ArgumentNullException("userRepository Vacio")
+        End If
+        If userMembershipRepository Is Nothing Then
+            Throw New ArgumentNullException("userMembershipRepository Vacio")
+        End If
+        If FileUserRepository Is Nothing Then
+            Throw New ArgumentNullException("FileuserRepository Vacio")
+        End If
+
+        _userRepository = userRepository
+        _userMembershipRepository = userMembershipRepository
+        _FileUserRepository = FileUserRepository
+        _permissionCompanyRepository = permissionCompanyRepository
+        _sEGusuaruRepository = sEGusuaruRepository
+        _ADCENATENRepository = ADCENATENRepository
+        _INUNIFUNCRepository = INUNIFUNCRepository
+        _INCUPSSUBRepository = INCUPSSUBRepository
+    End Sub
+
+
+    ''' <summary>
+    ''' Changes the password.	
+    ''' </summary>
+    ''' <param name="codeUser">se envia id de usario.</param>
+    ''' <param name="lastPasswd">The last passwd.</param>
+    ''' <param name="newPasswd">The new passwd.</param>
+    ''' <returns></returns>
+    ''' <remarks></remarks>
+    Public Function ChangePassword(codeUser As String, lastPasswd As String, newPasswd As String) As Boolean Implements IUserAdminService.ChangePassword
+        If String.IsNullOrEmpty(codeUser) = True Then
+            Throw New ArgumentNullException("codeUser Vacio")
+        End If
+        If String.IsNullOrEmpty(lastPasswd) = True Then
+            Throw New ArgumentNullException("lastPasswd Vacio")
+        End If
+        If String.IsNullOrEmpty(newPasswd) = True Then
+            Throw New ArgumentNullException("newPasswd Vacio")
+        End If
+        'creo la unidad de trabajo
+        Dim unitWorkUser As IUnitWork = TryCast(_userRepository.UnitWork, IUnitWork)
+        Try
+            'configuro la transaccion
+            Dim txSettings As New TransactionOptions()
+            txSettings.Timeout = TransactionManager.DefaultTimeout
+            txSettings.IsolationLevel = IsolationLevel.ReadCommitted
+            Dim usuario = _userRepository.GetUserById(codeUser)
+            'inicio la transaccion
+            Using scope As New TransactionScope(TransactionScopeOption.Required, txSettings)
+                'cambio la contraseña de usuarios ERP
+                _userRepository.ChangePassword(codeUser, IndigoRijndael.Encrypt(newPasswd))
+                'acepto los cambios
+                unitWorkUser.CommitAndRefreshChanges()
+
+                'cambio la contraseña de usuarios EHR
+                _sEGusuaruRepository.ChangePassword(usuario.UserCode, IndigoEncriptar.EncriptarPassword(newPasswd))
+                'acepto los cambios
+                _sEGusuaruRepository.UnitWork.Commit()
+
+                'confirmo la transaccion
+                scope.Complete()
+            End Using
+            Return True
+        Catch ex As Exception
+            'devuelvo cambios usuario
+            unitWorkUser.RollbackChanges()
+            IndigoManagementExceptions.HandleException(ex, "ApplicationPolicy")
+            Return False
+        End Try
+    End Function
+
+    ''' <summary>
+    ''' Finds the name of the user by.	
+    ''' </summary>
+    ''' <param name="name">The name.</param>
+    ''' <returns></returns>
+    ''' <remarks></remarks>
+    Public Function FindUserByName(name As String) As List(Of User) Implements IUserAdminService.FindUserByName
+        If String.IsNullOrEmpty(name) = True Then
+            Throw New ArgumentNullException("name Vacio")
+        End If
+        Try
+            Return _userRepository.FindUserByName(name)
+        Catch ex As Exception
+            IndigoManagementExceptions.HandleException(ex, "ApplicationPolicy")
+            Return Nothing
+        End Try
+    End Function
+
+    ''' <summary>
+    ''' Gets the email user.	
+    ''' </summary>
+    ''' <param name="codeUser">The code user.</param>
+    ''' <returns></returns>
+    ''' <remarks></remarks>
+    Public Function GetEmailUser(codeUser As String) As String Implements IUserAdminService.GetEmailUser
+        If String.IsNullOrEmpty(codeUser) = True Then
+            Throw New ArgumentNullException("codeUser Vacio")
+        End If
+        Try
+            Return _userMembershipRepository.GetEmailUser(codeUser)
+        Catch ex As Exception
+            IndigoManagementExceptions.HandleException(ex, "ApplicationPolicy")
+            Return Nothing
+        End Try
+    End Function
+
+    ''' <summary>
+    ''' Gets the password user.	
+    ''' </summary>
+    ''' <param name="codeUser">se envia id de usario.</param>
+    ''' <returns></returns>
+    ''' <remarks></remarks>
+    Public Function GetPasswordUser(codeUser As String) As String Implements IUserAdminService.GetPasswordUser
+        If String.IsNullOrEmpty(codeUser) = True Then
+            Throw New ArgumentNullException("codeUser Vacio")
+        End If
+        Try
+            'Return _userMembershipRepository.GetPasswordUser(codeUser)
+            'Dim User = _userRepository.GetUser(codeUser)
+            Dim User = _userRepository.GetUserById(CInt(codeUser))
+            If User IsNot Nothing Then
+                Return User.Password
+            Else
+                Return String.Empty
+            End If
+        Catch ex As Exception
+            IndigoManagementExceptions.HandleException(ex, "ApplicationPolicy")
+            Return Nothing
+        End Try
+    End Function
+
+    ''' <summary>
+    ''' Gets the person.	
+    ''' </summary>
+    ''' <param name="identification">The identification.</param>
+    ''' <returns></returns>
+    ''' <remarks></remarks>
+    Public Function GetPerson(identification As String) As Person Implements IUserAdminService.GetPerson
+        Try
+            Return _userRepository.GetPerson(identification)
+        Catch ex As Exception
+            IndigoManagementExceptions.HandleException(ex, "ApplicationPolicy")
+            Return Nothing
+        End Try
+    End Function
+
+    ''' <summary>
+    ''' Gets the user.	
+    ''' </summary>
+    ''' <param name="identification">The identification.</param>
+    ''' <returns></returns>
+    ''' <remarks></remarks>
+    Public Function GetUser(identification As Integer) As User Implements IUserAdminService.GetUser
+        Try
+            Return _userRepository.GetUser(identification)
+        Catch ex As Exception
+            IndigoManagementExceptions.HandleException(ex, "ApplicationPolicy")
+            Return Nothing
+        End Try
+    End Function
+
+    Public Function ListUsersByCodes(ByVal listCodes As List(Of String)) As List(Of User) Implements IUserAdminService.ListUsersByCodes
+        Try
+            Return _userRepository.ListUsersByCodes(listCodes)
+        Catch ex As Exception
+            IndigoManagementExceptions.HandleException(ex, "ApplicationPolicy")
+            Return Nothing
+        End Try
+    End Function
+
+    Public Function ListUsersByIds(listIds As List(Of Integer)) As List(Of User) Implements IUserAdminService.ListUsersByIds
+        Try
+            Return _userRepository.ListUsersByIds(listIds)
+        Catch ex As Exception
+            IndigoManagementExceptions.HandleException(ex, "ApplicationPolicy")
+            Return Nothing
+        End Try
+    End Function
+
+    ''' <summary>
+    ''' Gets the user.	
+    ''' </summary>
+    ''' <param name="codeUser">The code user.</param>
+    ''' <returns></returns>
+    ''' <remarks></remarks>
+    Public Function GetUser(codeUser As String, ByVal CompanyCode As String) As User Implements IUserAdminService.GetUser
+        If String.IsNullOrEmpty(codeUser) = True Then
+            Throw New ArgumentNullException("codeUser Vacio")
+        End If
+        Try
+            Return _userRepository.GetUser(codeUser)
+        Catch ex As Exception
+            IndigoManagementExceptions.HandleException(ex, "ApplicationPolicy")
+            Return Nothing
+        End Try
+    End Function
+
+    ''' <summary>
+    ''' Gets the user.	
+    ''' </summary>
+    ''' <param name="codeUser">The code user.</param>
+    ''' <param name="containerId">id de container.</param>
+    ''' <returns></returns>
+    ''' <remarks></remarks>
+    Public Function GetUser(codeUser As String, ByVal containerId As Integer) As User Implements IUserAdminService.GetUser
+        If String.IsNullOrEmpty(codeUser) = True Then
+            Throw New ArgumentNullException("codeUser Vacio")
+        End If
+        If containerId = 0 Then
+            Throw New ArgumentNullException("containerId Vacio")
+        End If
+        Try
+            Return _userRepository.GetUser(codeUser, containerId)
+        Catch ex As Exception
+            IndigoManagementExceptions.HandleException(ex, "ApplicationPolicy")
+            Return Nothing
+        End Try
+    End Function
+
+    ''' <summary>
+    ''' Consulta usuario por codigo y id de tenant
+    ''' </summary>
+    ''' <param name="codeUser">codigo de usuario.</param>
+    ''' <param name="tenantId">id de tenant.</param>
+    ''' <returns></returns>
+    ''' <remarks></remarks>
+    Public Function GetUserByCodeTenantId(codeUser As String, ByVal tenantId As Short) As User Implements IUserAdminService.GetUserByCodeTenantId
+        If String.IsNullOrEmpty(codeUser) = True Then
+            Throw New ArgumentNullException("codeUser Vacio")
+        End If
+        'If tenantId = 0 Then
+        '    Throw New ArgumentNullException("tenantId Vacio")
+        'End If
+        Try
+            Return _userRepository.GetUserByCodeTenantId(codeUser, tenantId)
+        Catch ex As Exception
+            IndigoManagementExceptions.HandleException(ex, "ApplicationPolicy")
+            Return Nothing
+        End Try
+    End Function
+
+    ''' <summary>
+    ''' Gets the user.	
+    ''' </summary>
+    ''' <param name="codeUser">The code user.</param>
+    ''' <returns></returns>
+    ''' <remarks></remarks>
+    Public Function GetUserObjectOnly(codeUser As String) As User Implements IUserAdminService.GetUserObjectOnly
+        If String.IsNullOrEmpty(codeUser) = True Then
+            Throw New ArgumentNullException("codeUser Vacio")
+        End If
+        Try
+            Return _userRepository.GetUserObjectOnly(codeUser)
+        Catch ex As Exception
+            IndigoManagementExceptions.HandleException(ex, "ApplicationPolicy")
+            Return Nothing
+        End Try
+    End Function
+
+    ''' <summary>
+    ''' Lists all online user.	
+    ''' </summary>
+    ''' <returns></returns>
+    ''' <remarks></remarks>
+    Public Function ListAllOnlineUser() As Integer Implements IUserAdminService.ListAllOnlineUser
+        Try
+            Return _userMembershipRepository.GetTotalUsersOnline()
+        Catch ex As Exception
+            IndigoManagementExceptions.HandleException(ex, "ApplicationPolicy")
+            Return Nothing
+        End Try
+    End Function
+
+    ''' <summary>
+    ''' Lists all users.	
+    ''' </summary>
+    ''' <returns></returns>
+    ''' <remarks></remarks>
+    Public Function ListAllUsers() As IEnumerable(Of User) Implements IUserAdminService.ListAllUsers
+        Try
+            Return _userRepository.GetByFilter(Function(e) e.State = False)
+        Catch ex As Exception
+            IndigoManagementExceptions.HandleException(ex, "ApplicationPolicy")
+            Return Nothing
+        End Try
+    End Function
+
+    ''' <summary>
+    ''' Lists the permissions all users.	
+    ''' </summary>
+    ''' <param name="codeUser">The code user.</param>
+    ''' <param name="codeMenu">The code menu.</param>
+    ''' <returns></returns>
+    ''' <remarks></remarks>
+    Public Function ListPermissionsAllUsers(codeUser As String, codeMenu As String, codeCompany As String) As List(Of PermissionUser) Implements IUserAdminService.ListPermissionsUser
+        If String.IsNullOrEmpty(codeUser) = True Then
+            Throw New ArgumentNullException("codeUser Vacio")
+        End If
+        Try
+            Return _userRepository.ListPermissionsUser(codeUser)
+        Catch ex As Exception
+            IndigoManagementExceptions.HandleException(ex, "ApplicationPolicy")
+            Return Nothing
+        End Try
+    End Function
+
+    ''' <summary>
+    ''' Lists the permissions user.	
+    ''' </summary>
+    ''' <param name="codeUser">The code user.</param>
+    ''' <returns></returns>
+    ''' <remarks></remarks>
+    Public Function ListPermissionsUser(codeUser As String, codeCompany As String) As List(Of PermissionUser) Implements IUserAdminService.ListPermissionsUser
+        If String.IsNullOrEmpty(codeUser) = True Then
+            Throw New ArgumentNullException("codeUser Vacio")
+        End If
+        Try
+            Return _userRepository.ListPermissionsUser(codeUser, codeCompany)
+        Catch ex As Exception
+            IndigoManagementExceptions.HandleException(ex, "ApplicationPolicy")
+            Return Nothing
+        End Try
+    End Function
+
+    ''' <summary>
+    ''' Lists the permissions user.	
+    ''' </summary>
+    ''' <param name="codeUser">The code user.</param>
+    ''' <param name="codeMenu">The code menu.</param>
+    ''' <param name="authorized">The authorized.</param>
+    ''' <returns></returns>
+    ''' <remarks></remarks>
+    Public Function ListPermissionsUser(codeUser As String, codeMenu As String, authorized As Boolean, codeCompany As String) As List(Of PermissionUser) Implements IUserAdminService.ListPermissionsUser
+        If String.IsNullOrEmpty(codeUser) = True Then
+            Throw New ArgumentNullException("codeUser Vacio")
+        End If
+        If String.IsNullOrEmpty(codeMenu) = True Then
+            Throw New ArgumentNullException("codeMenu Vacio")
+        End If
+        Try
+            Return _userRepository.ListPermissionsUser(codeUser, codeMenu, authorized)
+        Catch ex As Exception
+            IndigoManagementExceptions.HandleException(ex, "ApplicationPolicy")
+            Return Nothing
+        End Try
+    End Function
+
+    ''' <summary>
+    ''' Desbloquea un usuario
+    ''' </summary>
+    ''' <param name="codeUser">The code user.</param>
+    ''' <returns></returns>
+    ''' <remarks></remarks>
+    Public Function UnlockUser(codeUser As String) As Boolean Implements IUserAdminService.UnlockUser
+        If String.IsNullOrEmpty(codeUser) = True Then
+            Throw New ArgumentNullException("codeUser Vacio")
+        End If
+        Try
+            'Desbloqueo el usuario en membership
+            Dim user = _userRepository.GetUserObjectOnly(codeUser)
+            user.IsLockedOut = False
+            user.FailedPasswordCount = 0
+            _userRepository.SaveEntity(user)
+            _userRepository.UnitWork.Commit()
+            Return True
+            'desbloqueo todos los registros
+        Catch ex As Exception
+            IndigoManagementExceptions.HandleException(ex, "ApplicationPolicy")
+            Return Nothing
+        End Try
+    End Function
+
+    ''' <summary>
+    ''' Updates the user.	
+    ''' </summary>
+    ''' <param name="user">The user.</param>
+    ''' <param name="audit">The audit.</param>
+    ''' <returns></returns>
+    ''' <remarks></remarks>
+    Public Function UpdateUser(user As User, audit As AuditMessage) As Boolean Implements IUserAdminService.UpdateUser
+        If user Is Nothing Then
+            Throw New ArgumentNullException("user Vacio")
+        End If
+        'creo la unidad de trabajo
+        Dim unitOfWork As IUnitWork = TryCast(_userRepository.UnitWork, IUnitWork)
+        Try
+            'configuro la transaccion
+            Dim txSettings As New TransactionOptions()
+            txSettings.Timeout = TransactionManager.DefaultTimeout
+            txSettings.IsolationLevel = IsolationLevel.ReadCommitted
+            'inicio la transaccion
+            Using scope As New TransactionScope(TransactionScopeOption.Required, txSettings)
+                'modifico el usuario
+                _userRepository.UpdateEntity(user)
+                'acepto los cambios
+                unitOfWork.CommitAndRefreshChanges()
+                'confirmo la transaccion
+                scope.Complete()
+            End Using
+            Return True
+        Catch ex As Exception
+            unitOfWork.RollbackChanges()
+            IndigoManagementExceptions.HandleException(ex, "ApplicationPolicy")
+            Return False
+        End Try
+    End Function
+
+
+    ''' <summary>
+    ''' Validates the user.	
+    ''' </summary>
+    ''' <param name="codeUser">The code user.</param>
+    ''' <param name="passwd">The passwd.</param>
+    ''' <returns></returns>
+    ''' <remarks></remarks>
+    Public Function ValidateUser(codeUser As String, password As String) As Boolean Implements IUserAdminService.ValidateUser
+        If String.IsNullOrEmpty(codeUser) = True Then
+            Throw New ArgumentNullException("codeUser Vacio")
+        End If
+        If String.IsNullOrEmpty(password) = True Then
+            Throw New ArgumentNullException("passwd Vacio")
+        End If
+        Try
+            Return _userRepository.ValidateUser(codeUser, IndigoRijndael.Encrypt(password))
+        Catch ex As Exception
+            IndigoManagementExceptions.HandleException(ex, "ApplicationPolicy")
+            Return Nothing
+        End Try
+    End Function
+
+    ''' <summary>
+    ''' Funcion para restaurar la contraseña de un usuario
+    ''' </summary>
+    ''' <param name="UserCode"></param>
+    ''' <returns></returns>
+    ''' <remarks></remarks>
+    Public Function ResetPassword(UserCode As String) As String Implements IUserAdminService.ResetPassword
+        If String.IsNullOrEmpty(UserCode) = True Then
+            Throw New ArgumentNullException("UserCode Vacio")
+        End If
+        Try
+            Return _userMembershipRepository.ResetPassword(UserCode)
+        Catch ex As Exception
+            IndigoManagementExceptions.HandleException(ex, "ApplicationPolicy")
+            Return Nothing
+        End Try
+    End Function
+
+    ''' <summary>
+    ''' consulta los campos NULL para customizacion
+    ''' </summary>
+    ''' <returns></returns>
+    Public Function ConsultarCamposNULL() As DataSet Implements IUserAdminService.ConsultarCamposNULL
+        'creo la unidad de trabajo
+        Dim unitOfWork As IUnitWork = TryCast(_userRepository.UnitWork, IUnitWork)
+
+        Return unitOfWork.ExecuteQueryDataSet(String.Empty, "SEGusuaru")
+    End Function
+
+    ''' <summary>
+    ''' Lists the permissions user form.
+    ''' </summary>
+    ''' <param name="CodeUser">The code user.</param>
+    ''' <param name="CodeMenu">The code menu.</param>
+    ''' <param name="CodeOpcion">The code opcion.</param>
+    ''' <returns></returns>
+    Public Function ListPermissionsUserForm(CodeUser As String, CodeMenu As String, CodeOpcion As String, codeCompany As String) As Boolean Implements IUserAdminService.ListPermissionsUserForm
+        If String.IsNullOrEmpty(CodeUser) = True Then
+            Throw New ArgumentNullException("codeUser Vacio")
+        End If
+        If String.IsNullOrEmpty(CodeMenu) = True Then
+            Throw New ArgumentNullException("CodeMenu Vacio")
+        End If
+
+        If String.IsNullOrEmpty(CodeOpcion) = True Then
+            Throw New ArgumentNullException("CodeOpcion Vacio")
+        End If
+        Try
+            Return _userRepository.ListPermissionsUserForm(CodeUser, CodeMenu, CodeOpcion)
+        Catch ex As Exception
+            IndigoManagementExceptions.HandleException(ex, "ApplicationPolicy")
+            Return Nothing
+        End Try
+    End Function
+
+    ''' <summary>
+    ''' Funcion para guardar archivo de usaurio
+    ''' </summary>
+    ''' <param name="_ArchivosProfesionales"></param>
+    ''' <param name="audit"></param>
+    Public Function SaveFileUserRepository(_ArchivosProfesionales As FilePerson, audit As AuditMessage) As Boolean Implements IUserAdminService.SaveFileUserRepository
+        If _ArchivosProfesionales Is Nothing Then
+            Throw New ArgumentNullException("Archivo Vacio")
+        End If
+        'creo la unidad de trabajo
+        Dim unitOfWork As IUnitWork = TryCast(_FileUserRepository.UnitWork, IUnitWork)
+        Try
+            'configuro la transaccion
+            Dim txSettings As New TransactionOptions()
+            txSettings.Timeout = TransactionManager.DefaultTimeout
+            txSettings.IsolationLevel = IsolationLevel.ReadCommitted
+            'inicio la transaccion
+            Using scope As New TransactionScope(TransactionScopeOption.Required, txSettings)
+                'determino si el registro en nuevo o modificado
+
+                'valido que ela persona no tenga ya archivo
+                Dim _tmpArchivo As FilePerson
+                _tmpArchivo = _FileUserRepository.getFileUser(_ArchivosProfesionales.IdPerson)
+                If _tmpArchivo.IdPerson > 0 Then
+                    _tmpArchivo.Photo = _ArchivosProfesionales.Photo
+                    _FileUserRepository.UpdateEntity(_tmpArchivo)
+                Else
+                    'grabo
+                    _FileUserRepository.AddEntity(_ArchivosProfesionales)
+                End If
+
+                'acepto los cambios
+                unitOfWork.CommitAndRefreshChanges()
+                'confirmo la transaccion
+                scope.Complete()
+            End Using
+            Return True
+        Catch ex As Exception
+            unitOfWork.RollbackChanges()
+            IndigoManagementExceptions.HandleException(ex, "ApplicationPolicy")
+            Return False
+        End Try
+    End Function
+
+    ''' <summary>
+    ''' Funcion para cambiar el modo de visuzalizacion de los frontales
+    ''' True=Busqueda
+    ''' False=Edicion
+    ''' </summary>
+    ''' <param name="ViewMode"></param>
+    ''' <returns></returns>
+    ''' <remarks></remarks>
+    Public Function ChangeUserViewMode(UserCode As String, ViewMode As Boolean) As Boolean Implements IUserAdminService.ChangeUserViewMode
+        If String.IsNullOrEmpty(UserCode) = True Then
+            Throw New ArgumentNullException("User Code Empty")
+        End If
+        If String.IsNullOrEmpty(ViewMode) = True Then
+            Throw New ArgumentNullException("View Mode Empty")
+        End If
+        'creo la unidad de trabajo
+        Dim unitOfWork As IUnitWork = TryCast(_userRepository.UnitWork, IUnitWork)
+        Try
+            Dim User As User = _userRepository.GetUserObjectOnly(UserCode)
+            User.ViewForm = ViewMode
+            'modifico el usuario
+            _userRepository.SaveEntity(User)
+            'acepto los cambios
+            unitOfWork.CommitAndRefreshChanges()
+            Return True
+        Catch ex As Exception
+            IndigoManagementExceptions.HandleException(ex, "ApplicationPolicy")
+            Return False
+        End Try
+    End Function
+
+    ''' <summary>
+    ''' Obtiene un usuario por su id
+    ''' </summary>
+    ''' <param name="Id"></param>
+    ''' <param name="audit"></param>
+    ''' <returns></returns>
+    ''' <remarks></remarks>
+    Public Function GetUserById(Id As String, audit As AuditMessage) As User Implements IUserAdminService.GetUserById
+        Try
+            Return _userRepository.GetUserById(Id)
+        Catch ex As Exception
+            IndigoManagementExceptions.HandleException(ex, "ApplicationPolicy")
+            Return Nothing
+        End Try
+    End Function
+
+    Public Function ListPermissionOperatingUnit(codeUser As String, idContainer As Integer) As List(Of UserOperatingUnit) Implements IUserAdminService.ListPermissionOperatingUnit
+        Try
+            Return _userRepository.ListPermissionsOperatingUnit(codeUser, idContainer)
+        Catch ex As Exception
+            IndigoManagementExceptions.HandleException(ex, "ApplicationPolicy")
+            Return Nothing
+        End Try
+    End Function
+
+    ''' <summary>
+    ''' Guarda una permiso de usuario
+    ''' </summary>
+    ''' <param name="permissionUser"></param>
+    ''' <returns></returns>
+    ''' <remarks></remarks>
+    Public Function SavePermissionUser(permissionCompany As Company, session As SessionValues) As Boolean Implements IUserAdminService.SavePermissionUser
+        Try
+            Dim conx As New ConectionSQL(ConfigurationManager.AppSettings(Infrastructure.CrossCutting.Base.ConfigurationFile.SECURITY_CONTAINER_PARAMETER_NAME))
+            conx.ExecuteCommand("update Security.PermissionCompany set IdOperatingUnitDefault = " & permissionCompany.IdOperatingUnitDefault & " where IdContainer in (select Id from Security.Containers where Code = '" & permissionCompany.Code & "' ) and IdUser = " & session.UserIndigoId)
+            Return True
+        Catch ex As Exception
+            IndigoManagementExceptions.HandleException(ex, "ApplicationPolicy")
+            Return False
+        End Try
+    End Function
+
+    ''' <summary>
+    ''' Lista todos los ids de los formularios con permiso de visibilidad,
+    ''' asignados al usuario y al rol que tiene el usuario
+    ''' </summary>
+    ''' <param name="codeUser">Código del usuario</param>
+    ''' <returns>Lista de ids de formularios</returns>
+    Public Function ListPermissionFormsUser(codeUser As String, action As String) As List(Of String) Implements IUserAdminService.ListPermissionFormsUser
+        If String.IsNullOrEmpty(codeUser) = True Then
+            Throw New ArgumentNullException("codeUser Vacio")
+        End If
+        Try
+            Return _userRepository.ListPermissionFormsUser(codeUser, action)
+        Catch ex As Exception
+            IndigoManagementExceptions.HandleException(ex, "ApplicationPolicy")
+            Return New List(Of String)()
+        End Try
+    End Function
+
+    Public Function UpdateStatusUser(Code As String, Status As Boolean) As Boolean Implements IUserAdminService.UpdateStatusUser
+        Try
+            Dim user = GetUser(Code, "")
+            user.State = If(Status = True, True, False)
+            Return UpdateUser(user, Nothing)
+
+        Catch ex As Exception
+            IndigoManagementExceptions.HandleException(ex, "ApplicationPolicy")
+            Return False
+        End Try
+    End Function
+
+    ''' <summary>
+    ''' Lista los tipos de telefono
+    ''' </summary>
+    ''' <returns></returns>
+    Public Function ListAllPhoneType() As List(Of PhoneType) Implements IUserAdminService.ListAllPhoneType
+        Try
+            Return _userRepository.ListAllPhoneType()
+        Catch ex As Exception
+            IndigoManagementExceptions.HandleException(ex, "ApplicationPolicy")
+            Return Nothing
+        End Try
+    End Function
+
+    Public Function GetPhoneByPersonId(personId As Integer) As List(Of Phone) Implements IUserAdminService.GetPhoneByPersonId
+        Try
+            Return _userRepository.GetPhoneByPersonId(personId)
+        Catch ex As Exception
+            IndigoManagementExceptions.HandleException(ex, "ApplicationPolicy")
+            Return Nothing
+        End Try
+    End Function
+
+    Public Function GetMailsByPersonId(personId As Integer) As List(Of Email) Implements IUserAdminService.GetMailsByPersonId
+        Try
+            Return _userRepository.GetMailsByPersonId(personId)
+        Catch ex As Exception
+            IndigoManagementExceptions.HandleException(ex, "ApplicationPolicy")
+            Return Nothing
+        End Try
+    End Function
+
+    Public Function GetAddressByPersonId(personId As Integer) As List(Of Address) Implements IUserAdminService.GetAddressByPersonId
+        Try
+            Return _userRepository.GetAddressByPersonId(personId)
+        Catch ex As Exception
+            IndigoManagementExceptions.HandleException(ex, "ApplicationPolicy")
+            Return Nothing
+        End Try
+    End Function
+
+    Public Function GetRollById(Id As Integer) As Roll Implements IUserAdminService.GetRollById
+        Try
+            Return _userRepository.GetRollById(Id)
+        Catch ex As Exception
+            IndigoManagementExceptions.HandleException(ex, "ApplicationPolicy")
+            Return Nothing
+        End Try
+    End Function
+
+    Public Function GetPermissionUserByUserId(userId As Integer) As List(Of PermissionUser) Implements IUserAdminService.GetPermissionUserByUserId
+        Try
+            Return _userRepository.GetPermissionUserByUserId(userId)
+        Catch ex As Exception
+            IndigoManagementExceptions.HandleException(ex, "ApplicationPolicy")
+            Return Nothing
+        End Try
+    End Function
+
+    ''' <summary>
+    ''' Consulta el usuario por el correo electronico
+    ''' </summary>
+    ''' <param name="email"></param>
+    ''' <returns></returns>
+    Public Function GetUserByEmail(email As String) As User Implements IUserAdminService.GetUserByEmail
+        Try
+            Return _userRepository.GetUserByEmail(email)
+        Catch ex As Exception
+            IndigoManagementExceptions.HandleException(ex, "ApplicationPolicy")
+            Return Nothing
+        End Try
+    End Function
+
+#Region "EHR"
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="usuario"></param>
+    ''' <returns></returns>
+    Public Function GetPerfilUbicacion(usuario As String) As ActionResult(Of SP_SEG_AutenticarUsuario_Result) Implements IUserAdminService.GetPerfilUbicacion
+        Try
+            Return _sEGusuaruRepository.GetPerfilUbicacion(usuario)
+        Catch ex As Exception
+            IndigoManagementExceptions.HandleException(ex, "ApplicationPolicy")
+            Return New ActionResult(Of SP_SEG_AutenticarUsuario_Result) With {.StateResult = False, .ObjectEmbbeded = Nothing, .Message = ex.Message}
+        End Try
+    End Function
+
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="usuario"></param>
+    ''' <returns></returns>
+    Public Function GetProfesional(usuario As String) As ActionResult(Of SP_SEG_AutenticarDatosProfesional_Result) Implements IUserAdminService.GetProfesional
+        Try
+            Return _sEGusuaruRepository.GetProfesional(usuario)
+        Catch ex As Exception
+            IndigoManagementExceptions.HandleException(ex, "ApplicationPolicy")
+            Return New ActionResult(Of SP_SEG_AutenticarDatosProfesional_Result) With {.StateResult = False, .ObjectEmbbeded = Nothing, .Message = ex.Message}
+        End Try
+    End Function
+
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="usuario"></param>
+    ''' <param name="grupo"></param>
+    ''' <param name="centroAtencion"></param>
+    ''' <returns></returns>
+    Public Function GetUnidadFuncionalAutorizado(usuario As String, grupo As String, centroAtencion As String) As ActionResult(Of List(Of SP_SEG_UnidadFuncional_Autorizado_Result)) Implements IUserAdminService.GetUnidadFuncionalAutorizado
+        Try
+            Return _INUNIFUNCRepository.GetUnidadFuncionalAutorizado(usuario, grupo, centroAtencion)
+        Catch ex As Exception
+            IndigoManagementExceptions.HandleException(ex, "ApplicationPolicy")
+            Return New ActionResult(Of List(Of SP_SEG_UnidadFuncional_Autorizado_Result)) With {.StateResult = False, .ObjectEmbbeded = Nothing, .Message = ex.Message}
+        End Try
+    End Function
+
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="usuario"></param>
+    ''' <param name="grupo"></param>
+    ''' <returns></returns>
+    Public Function GetCentroAtencionAutorizado(usuario As String, grupo As String) As ActionResult(Of List(Of SP_SEG_CentroAtencion_Autorizado_Result)) Implements IUserAdminService.GetCentroAtencionAutorizado
+        Try
+            Return _ADCENATENRepository.GetCentroAtencionAutorizado(usuario, grupo)
+        Catch ex As Exception
+            IndigoManagementExceptions.HandleException(ex, "ApplicationPolicy")
+            Return New ActionResult(Of List(Of SP_SEG_CentroAtencion_Autorizado_Result)) With {.StateResult = False, .ObjectEmbbeded = Nothing, .Message = ex.Message}
+        End Try
+    End Function
+
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <returns></returns>
+    Public Function GetSubCupsImaging() As ActionResult(Of List(Of INCUPSSUB)) Implements IUserAdminService.GetSubCupsImaging
+        Try
+            Return _INCUPSSUBRepository.GetSubCupsImaging()
+        Catch ex As Exception
+            IndigoManagementExceptions.HandleException(ex, "ApplicationPolicy")
+            Return New ActionResult(Of List(Of INCUPSSUB)) With {.StateResult = False, .ObjectEmbbeded = Nothing, .Message = ex.Message}
+        End Try
+    End Function
+
+#End Region
+
+#Region "IDisposable Support"
+    Private disposedValue As Boolean ' Para detectar llamadas redundantes
+
+    ' IDisposable
+    Protected Overridable Sub Dispose(disposing As Boolean)
+        If Not disposedValue Then
+            If disposing Then
+                ' TODO: elimine el estado administrado (objetos administrados).
+            End If
+            _userRepository = Nothing
+            _userMembershipRepository = Nothing
+            _FileUserRepository = Nothing
+            _permissionCompanyRepository = Nothing
+            IndigoGC.Execute()
+        End If
+        disposedValue = True
+    End Sub
+
+    ' TODO: reemplace Finalize() solo si el anterior Dispose(disposing As Boolean) tiene código para liberar recursos no administrados.
+    'Protected Overrides Sub Finalize()
+    '    ' No cambie este código. Coloque el código de limpieza en el anterior Dispose(disposing As Boolean).
+    '    Dispose(False)
+    '    MyBase.Finalize()
+    'End Sub
+
+    ' Visual Basic agrega este código para implementar correctamente el patrón descartable.
+    Public Sub Dispose() Implements IDisposable.Dispose
+        ' No cambie este código. Coloque el código de limpieza en el anterior Dispose(disposing As Boolean).
+        Dispose(True)
+        ' TODO: quite la marca de comentario de la siguiente línea si Finalize() se ha reemplazado antes.
+        GC.SuppressFinalize(Me)
+    End Sub
+#End Region
+
+End Class

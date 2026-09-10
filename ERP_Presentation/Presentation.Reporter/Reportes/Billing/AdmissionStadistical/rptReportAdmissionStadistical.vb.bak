@@ -1,0 +1,93 @@
+﻿#Region "Librerias Importadas"
+Imports DevExpress.XtraEditors
+Imports Infrastructure.CrossCutting.Base
+Imports Infrastructure.Data.Xpo.CrystalRepository
+Imports Infrastructure.Data.Xpo
+Imports Presentation.CloudAgent
+Imports Presentation.Reporter
+#End Region
+
+Public Class rptReportAdmissionStadistical
+    Implements IReport
+    ''' <summary>
+    ''' Variable para inicializar los valores de sesion
+    ''' </summary>
+    Dim IndigoSessionValues As SessionValues = SessionValues.Instance
+
+    Public ReadOnly Property NameReport As String Implements IReport.NameReport
+    Public Property ParametrosReporte As Object() Implements IReport.ParametrosReporte
+    Public Sub CargarImagenes() Implements IReport.CargarImagenes
+    End Sub
+    Private Sub IReport_CargarDataSource() Implements IReport.CargarDataSource
+    End Sub
+
+    Public Async Function CargarDataSource() As Task
+        Dim ParametrosString As List(Of String) = New List(Of String)
+        Dim ParametrosDate As List(Of DateTime) = New List(Of DateTime)
+
+        'Criterios
+        ParametrosString.Add(ParametrosReporte(2)) 'Parametro de agruapacion. 0
+        ParametrosString.Add(ParametrosReporte(3)) 'Parametro de tipo reporte. 1 
+        ParametrosString.Add(ParametrosReporte(4)) 'Parametro de Estado del ingreso. 2
+
+        'Fechas
+        ParametrosDate.Add(ParametrosReporte(0)) 'Fecha inicial
+        ParametrosDate.Add(ParametrosReporte(1)) ' Fecha final
+
+        'Filtros Sle
+        ParametrosString.Add(ParametrosReporte(5)) 'Terceros 3
+        ParametrosString.Add(ParametrosReporte(6)) 'Entidad 4 
+        ParametrosString.Add(ParametrosReporte(7)) 'Grupo de atención 5
+        ParametrosString.Add(ParametrosReporte(8)) 'Usuario 6 
+        ParametrosString.Add(ParametrosReporte(9)) 'Centro de atención 7
+        ParametrosString.Add(ParametrosReporte(10)) 'Unidad funcional 8
+
+        Dim Resultado As DataTable = Await IndigoConecta.Instancia.CurrentCloud.IndigoBilling.SPCH_ReportAdmissionStatisticsAsync(ParametrosString, ParametrosDate, Me.IndigoSessionValues)
+        If Resultado IsNot Nothing AndAlso Resultado.Rows.Count > 0 Then
+            Me.DataSource = Resultado
+        End If
+    End Function
+
+
+
+    Private Sub rptReporteAuditoriaHC_BeforePrint(sender As Object, e As Printing.PrintEventArgs) Handles MyBase.BeforePrint
+        'Logica para mostrar reporte resumido.
+        If ParametrosReporte(3) = "Resumido" Then
+            HeaderResumido.Visible = True
+            SubBandResumido.Visible = True
+            HeaderDetallado.Visible = False
+            SubBandDetallado.Visible = False
+            Dim LabelAgrupador As String = "Agrupador"
+            Select Case ParametrosReporte(2)
+                Case 0
+                    LabelAgrupador = "Entidad"
+                Case 1L
+                    LabelAgrupador = "Grupo de atención"
+                Case 2
+                    LabelAgrupador = "Usuario"
+                Case 3
+                    LabelAgrupador = "Centro de atención"
+                Case 4
+                    LabelAgrupador = "Centro de atención"
+                Case 5
+                    LabelAgrupador = "Unidad funcional"
+                Case 6
+                    LabelAgrupador = "Estado del ingreso"
+            End Select
+            AgrupadorLabel.Text = LabelAgrupador
+        ElseIf ParametrosReporte(3) = "Detallado" Then
+            HeaderResumido.Visible = False
+            SubBandResumido.Visible = False
+            HeaderDetallado.Visible = True
+            SubBandDetallado.Visible = True
+        Else
+            'Controlar el error.
+        End If
+
+        'Cargar los valores del titulo.
+        Me.INDLblCompany.Text = IndigoSessionValues.IndigoCompanyName
+        Me.INDLblNitCompany.Text = "Nit : " & IndigoSessionValues.IndigoCompanyNit
+        Me.INDUserImp.Text = "Usuario Impresión : " & IndigoSessionValues.UserIndigo & " - " & IndigoSessionValues.UserIndigoName
+    End Sub
+
+End Class

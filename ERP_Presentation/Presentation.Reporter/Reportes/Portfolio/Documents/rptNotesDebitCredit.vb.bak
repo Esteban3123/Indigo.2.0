@@ -1,0 +1,114 @@
+﻿#Region "Imports"
+
+Imports System.Globalization
+Imports DevExpress.XtraReports.Parameters
+Imports DevExpress.XtraReports.UI
+Imports Infrastructure.CrossCutting.Base
+Imports Infrastructure.Data.Xpo
+Imports Infrastructure.Data.Xpo.PortfolioRepository
+
+#End Region
+
+Public Class rptNotesDebitCredit
+    Implements IReport
+
+    ''' <summary>
+    ''' Variable para inicializar los valores de sesion
+    ''' </summary>
+    Dim IndigoSessionValues As SessionValues = SessionValues.Instance
+
+    Private ValueTotal As Double
+    Private ValueTotalDistribution As Double
+    Dim IndList
+    Private INDUser As Object
+
+    Public Sub CargarDataSource() Implements IReport.CargarDataSource
+        Dim filtroConsulta As String = "Id = " & ParametrosReporte(0)
+        IndList = XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).TreasuryService.GetCollection(Of PortfolioNoteReportXpo)(Nothing, filtroConsulta)
+        Dim INDCodeUser = CType(IndList(0), PortfolioNoteReportXpo).CreationUser.Trim()
+        INDUser = XpoServiceEx.Instance(IndigoSessionValues.SecurityContainer).TreasuryService.GetCollection(Of Infrastructure.Data.Xpo.SecurityRepository.UserXpo)(Nothing, "UserCode = '" & INDCodeUser & "'")
+        Me.DataSource = IndList
+
+        If CType(IndList(0), PortfolioNoteReportXpo).NoteType = 4 Then
+            ValueTotalDistribution = 0
+            Dim filtroConsulta3 As String = "PortfolioNoteId.Id = " & ParametrosReporte(0)
+            Dim List2 As List(Of PortfolioNoteDistributionXpo) = XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).PaymentsService.GetCollection(Of PortfolioNoteDistributionXpo)(Nothing, filtroConsulta3)
+            For Each item2 In List2
+                ValueTotalDistribution += item2.Value
+            Next
+        ElseIf CType(IndList(0), PortfolioNoteReportXpo).NoteType = 5 Then
+            ValueTotal = CType(IndList(0), PortfolioNoteReportXpo).PortfolioTransferId.Value
+        Else
+            ValueTotal = 0
+            Dim filtroConsulta2 As String = "PortfolioNoteId.Id = " & ParametrosReporte(0)
+            Dim List As List(Of PortfolioNoteDetailReportXpo) = XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).PaymentsService.GetCollection(Of PortfolioNoteDetailReportXpo)(Nothing, filtroConsulta2)
+            If List.Any() Then
+                ValueTotal = Math.Abs(List.FindAll(Function(m) m.Nature = 1).Sum(Function(m) m.Value) - List.FindAll(Function(m) m.Nature = 2).Sum(Function(m) m.Value))
+            Else
+                Dim ListDetail As List(Of PortfolioNoteAccountReceivableAdvanceXpo) = XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).PaymentsService.GetCollection(Of PortfolioNoteAccountReceivableAdvanceXpo)(Nothing, filtroConsulta2)
+                ValueTotal = ListDetail.Item(0).AdjusmentValue
+            End If
+        End If
+
+    End Sub
+
+    Public Sub CargarImagenes() Implements IReport.CargarImagenes
+
+    End Sub
+
+    Public ReadOnly Property NameReport As String Implements IReport.NameReport
+        Get
+            Return ""
+        End Get
+    End Property
+
+    Public Property ParametrosReporte As Object() Implements IReport.ParametrosReporte
+
+    Private Sub rptNotesDebitCredit_BeforePrint(sender As Object, e As Printing.PrintEventArgs) Handles MyBase.BeforePrint
+        If Me.Parameters.Count > 0 And Me.Parameters(0).Value > 0 Then
+            Dim ParametrosFilter As ParameterCollection = Me.Parameters
+            ParametrosReporte = New Object() {ParametrosFilter.GetByName("INDSubIdNotesDebitCredit").Value}
+            CargarDataSource()
+        End If
+
+        If IndList IsNot Nothing AndAlso Not String.IsNullOrEmpty(IndList?(0).CurrencyAbbreviation) Then
+            Dim currencyAbbreviation As String = IndList?(0).CurrencyAbbreviation
+            Dim currencyName As String = IndList?(0).CurrencyName
+            Dim _culture As CultureInfo
+            If String.IsNullOrEmpty(currencyAbbreviation) Then
+                currencyAbbreviation = SessionValues.Instance.CurrencyISO4217
+                currencyName = currencyAbbreviation
+            End If
+            _culture = CultureInfo.CurrentCulture.Clone()
+            _culture.NumberFormat = New CultureInfo(currencyAbbreviation.GetCultureId).NumberFormat
+            ApplyLocalization(_culture)
+
+            INDLblCompany.Text = IndigoSessionValues.IndigoCompanyName
+            INDLblNitCompany.Text = "Nit:" & IndigoSessionValues.IndigoCompanyNit
+            Me.INDUserImp.Text = "Usuario Impresión : " & IndigoSessionValues.UserIndigo & " - " & IndigoSessionValues.UserIndigoName
+            If INDUser.count() > 0 Then
+                INDUserCreate.Text = INDUser(0).CodeName
+            End If
+            If CType(IndList(0), PortfolioNoteReportXpo).NoteType = 4 Then
+                Dim table As XRTable = CType(XrTable2, XRTable)
+                Me.XrTableCell23.Text = String.Format(_culture, "{0:c2}", ValueTotalDistribution)
+                Dim _integerPart As Long = Int(Convert.ToDecimal(ValueTotalDistribution))
+                Dim _decimalPart As Long = Strings.Right(Format(Convert.ToDecimal(ValueTotalDistribution) - _integerPart, "0.00"), 2)
+                Me.XrTableCell14.Text = String.Format("{0}  {1}{2}", Utils.Num2Text(_integerPart).ToString,
+                                                 currencyName.ToUpper,
+                                                 If(_decimalPart > 0, $", CON {Utils.Num2Text(_decimalPart).ToString} CENTAVOS", ""))
+                table.Rows.Remove(XrTableRow7)
+                table.Rows.Remove(XrTableRow8)
+            Else
+                Dim table2 As XRTable = CType(XrTable1, XRTable)
+                Me.XrTableCell23.Text = String.Format(_culture, "{0:c2}", ValueTotal)
+                Dim _integerPart As Long = Int(Convert.ToDecimal(ValueTotal))
+                Dim _decimalPart As Long = Strings.Right(Format(Convert.ToDecimal(ValueTotal) - _integerPart, "0.00"), 2)
+                Me.XrTableCell14.Text = String.Format("{0}  {1}{2}", Utils.Num2Text(_integerPart).ToString,
+                                                 currencyName.ToUpper,
+                                                 If(_decimalPart > 0, $", CON {Utils.Num2Text(_decimalPart).ToString} CENTAVOS", ""))
+                table2.Rows.Remove(XrTableRow17)
+            End If
+        End If
+    End Sub
+End Class

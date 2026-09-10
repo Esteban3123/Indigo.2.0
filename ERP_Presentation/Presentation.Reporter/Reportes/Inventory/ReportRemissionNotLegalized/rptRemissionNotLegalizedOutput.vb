@@ -1,0 +1,51 @@
+﻿#Region "Librerias Importadas"
+Imports Infrastructure.CrossCutting.Base
+Imports Infrastructure.Data.Xpo.InventoryRepository
+Imports Infrastructure.Data.Xpo
+#End Region
+
+Public Class rptRemissionNotLegalizedOutput
+    Implements IReport
+
+    ''' <summary>
+    ''' Variable para inicializar los valores de sesion
+    ''' </summary>
+    Dim IndigoSessionValues As SessionValues = SessionValues.Instance
+
+    Public Sub CargarDataSource() Implements IReport.CargarDataSource
+
+        Dim Filter As String = "GetDate(RemissionOutputDetailId.RemissionOutputId.RemissionDate) >= #" & Format(ParametrosReporte(0), "yyyy-MM-dd") & "# AND GetDate(RemissionOutputDetailId.RemissionOutputId.RemissionDate) <= #" & Format(ParametrosReporte(1), "yyyy-MM-dd") & "# AND OutstandingQuantity > 0"
+
+        ' si filtra por productos
+        If Not String.IsNullOrEmpty(ParametrosReporte(2)) Then
+            Filter &= If(String.IsNullOrEmpty(Filter), "", " AND ") & String.Format("RemissionOutputDetailId.ProductId.Id IN ({0})", ParametrosReporte(2))
+        End If
+
+        'si filtra por Cliente
+        If Not String.IsNullOrEmpty(ParametrosReporte(3)) Then
+            Filter &= If(String.IsNullOrEmpty(Filter), "", " AND ") & String.Format("RemissionOutputDetailId.RemissionOutputId.CustomerId.Id IN ({0})", ParametrosReporte(3))
+        End If
+
+        Me.DataSource = XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).TreasuryService.GetCollection(Of InventoryRemissionOutputDetailPhysicalReportXpo)(Nothing, Filter)
+
+    End Sub
+
+    Public Sub CargarImagenes() Implements IReport.CargarImagenes
+
+    End Sub
+
+    Public ReadOnly Property NameReport As String Implements IReport.NameReport
+        Get
+            Return ""
+        End Get
+    End Property
+
+    Public Property ParametrosReporte As Object() Implements IReport.ParametrosReporte
+
+    Private Sub rptRemissionNotLegalizedOutput_BeforePrint(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles MyBase.BeforePrint
+        Me.INDLblNameCompany.Text = IndigoSessionValues.IndigoCompanyName
+        Me.INDLblNitCompany.Text = "Nit : " & IndigoSessionValues.IndigoCompanyNit
+        Me.INDUserImp.Text = "Usuario Impresión : " & IndigoSessionValues.UserIndigo & " - " & IndigoSessionValues.UserIndigoName
+        INDLblSubTitle.Text = "Remisiones de Entrada entre las Fechas " & CDate(ParametrosReporte(0)).ToString("dd De MMMM Del yyyy") & " " & CDate(ParametrosReporte(1)).ToString("A dd De MMMM Del yyyy")
+    End Sub
+End Class

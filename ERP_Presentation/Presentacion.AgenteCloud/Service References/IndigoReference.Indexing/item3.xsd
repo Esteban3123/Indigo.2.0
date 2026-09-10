@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:ser="http://schemas.microsoft.com/2003/10/Serialization/" xmlns:tns="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import schemaLocation="http://localhost:9002/Indexing.svc/ServiceIndexing/?xsd=xsd3" namespace="http://schemas.datacontract.org/2004/07/MongoDB.Bson" />
+  <xs:import schemaLocation="http://localhost:9002/Indexing.svc/ServiceIndexing/?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+  <xs:import schemaLocation="http://localhost:9002/Indexing.svc/ServiceIndexing/?xsd=xsd4" namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
+  <xs:complexType name="IndexedDocument2">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Content" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="CreationDate" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="CreationUser" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="DocumentType" type="xs:int" />
+      <xs:element minOccurs="0" name="Extension" nillable="true" type="xs:string" />
+      <xs:element xmlns:q1="http://schemas.datacontract.org/2004/07/MongoDB.Bson" minOccurs="0" name="Id" type="q1:ObjectId" />
+      <xs:element minOccurs="0" name="IdEntity" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="IdForm" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="IndexingDate" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="Title" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Update" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="UpdateUser" nillable="true" type="xs:string" />
+    </xs:sequence>
+    <xs:attribute ref="ser:Id" />
+    <xs:attribute ref="ser:Ref" />
+  </xs:complexType>
+  <xs:element name="IndexedDocument2" nillable="true" type="tns:IndexedDocument2" />
+  <xs:simpleType name="IndexedDocumentType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="File">
+        <xs:annotation>
+          <xs:appinfo>
+            <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1</EnumerationValue>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Process">
+        <xs:annotation>
+          <xs:appinfo>
+            <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">2</EnumerationValue>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="ScannedDocument">
+        <xs:annotation>
+          <xs:appinfo>
+            <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">3</EnumerationValue>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:enumeration>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:element name="IndexedDocumentType" nillable="true" type="tns:IndexedDocumentType" />
+  <xs:complexType name="ActionResult">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Message" nillable="true" type="xs:string" />
+      <xs:element xmlns:q2="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="MessageResult" nillable="true" type="q2:ArrayOfstring" />
+      <xs:element minOccurs="0" name="StateResult" type="xs:boolean" />
+      <xs:element minOccurs="0" name="StatusCode" type="tns:eStatusResult" />
+    </xs:sequence>
+    <xs:attribute ref="ser:Id" />
+    <xs:attribute ref="ser:Ref" />
+  </xs:complexType>
+  <xs:element name="ActionResult" nillable="true" type="tns:ActionResult" />
+  <xs:simpleType name="eStatusResult">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="SUCCESS" />
+      <xs:enumeration value="WARNING" />
+      <xs:enumeration value="EXCEPTION" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:element name="eStatusResult" nillable="true" type="tns:eStatusResult" />
+  <xs:complexType name="IndexedDocumentResultSet2">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="ElapsedTime" type="ser:duration" />
+      <xs:element minOccurs="0" name="RawCount" type="xs:long" />
+      <xs:element minOccurs="0" name="Results" nillable="true" type="tns:ArrayOfIndexedDocument2" />
+    </xs:sequence>
+    <xs:attribute ref="ser:Id" />
+    <xs:attribute ref="ser:Ref" />
+  </xs:complexType>
+  <xs:element name="IndexedDocumentResultSet2" nillable="true" type="tns:IndexedDocumentResultSet2" />
+  <xs:complexType name="ArrayOfIndexedDocument2">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="IndexedDocument2" nillable="true" type="tns:IndexedDocument2" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfIndexedDocument2" nillable="true" type="tns:ArrayOfIndexedDocument2" />
+</xs:schema>

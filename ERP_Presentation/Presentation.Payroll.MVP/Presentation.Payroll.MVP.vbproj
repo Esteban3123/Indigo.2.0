@@ -1,0 +1,547 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{10990F41-FE84-4DF5-AE08-8D9541EEA20A}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>Presentation.Payroll.MVP</RootNamespace>
+    <AssemblyName>Presentation.Payroll.MVP</AssemblyName>
+    <FileAlignment>512</FileAlignment>
+    <MyType>Windows</MyType>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DocumentationFile>Presentation.Payroll.MVP.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DocumentationFile>Presentation.Payroll.MVP.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionExplicit>On</OptionExplicit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionCompare>Binary</OptionCompare>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionStrict>Off</OptionStrict>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionInfer>On</OptionInfer>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debugcito|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\Debugcito\</OutputPath>
+    <DocumentationFile>Presentation.Payroll.MVP.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DocumentationFile>Presentation.Payroll.MVP.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DocumentationFile>Presentation.Payroll.MVP.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debugcito|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x64\Debugcito\</OutputPath>
+    <DocumentationFile>Presentation.Payroll.MVP.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DocumentationFile>Presentation.Payroll.MVP.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DocumentationFile>Presentation.Payroll.MVP.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debugcito|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x86\Debugcito\</OutputPath>
+    <DocumentationFile>Presentation.Payroll.MVP.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'VieBuild|AnyCPU'">
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\VieBuild\</OutputPath>
+    <DocumentationFile>Presentation.Payroll.MVP.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'VieBuild|x64'">
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x64\VieBuild\</OutputPath>
+    <DocumentationFile>Presentation.Payroll.MVP.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'VieBuild|x86'">
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x86\VieBuild\</OutputPath>
+    <DocumentationFile>Presentation.Payroll.MVP.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="DevExpress.Drawing.v25.1, Version=25.1.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Printing.v25.1.Core, Version=25.1.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Data.v25.1, Version=25.1.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Data.Desktop.v25.1, Version=25.1.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Utils.v25.1, Version=25.1.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Xpo.v25.1, Version=25.1.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.XtraEditors.v25.1, Version=25.1.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.XtraGrid.v25.1, Version=25.1.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.XtraLayout.v25.1, Version=25.1.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="Domain.Base.Entities, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\DLL\Domain.Base.Entities.dll</HintPath>
+    </Reference>
+    <Reference Include="Domain.Common.Entities, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\DLL\Domain.Common.Entities.dll</HintPath>
+    </Reference>
+    <Reference Include="Domain.Entities, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\DLL\Domain.Entities.dll</HintPath>
+    </Reference>
+    <Reference Include="Domain.Glosas.Entities, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\DLL\Domain.Glosas.Entities.dll</HintPath>
+    </Reference>
+    <Reference Include="Domain.Payroll.Entities, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\DLL\Domain.Payroll.Entities.dll</HintPath>
+    </Reference>
+    <Reference Include="Domain.Security.Entities, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" />
+    <Reference Include="Infrastructure.CrossCutting.Base, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\DLL\Infrastructure.CrossCutting.Base.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Core" />
+  </ItemGroup>
+  <ItemGroup>
+    <Import Include="Microsoft.VisualBasic" />
+    <Import Include="System" />
+    <Import Include="System.Collections" />
+    <Import Include="System.Collections.Generic" />
+    <Import Include="System.Data" />
+    <Import Include="System.Diagnostics" />
+    <Import Include="System.Linq" />
+    <Import Include="System.Xml.Linq" />
+    <Import Include="System.Threading.Tasks" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Helper\EmployeeHelper.vb" />
+    <Compile Include="Interface\IReportVacationSummary.vb" />
+    <Compile Include="Interface\IReportHumanTalent.vb" />
+    <Compile Include="Interface\IAccountingStructure.vb" />
+    <Compile Include="Interface\IContributorSubtype.vb" />
+    <Compile Include="Interface\IElectronicPayrollConcepts.vb" />
+    <Compile Include="Interface\IElectronicPayrollTraceability.vb" />
+    <Compile Include="Interface\IForeclousure.vb" />
+    <Compile Include="Interface\IBlockSchedule.vb" />
+    <Compile Include="Interface\IDiagnosedDisease.vb" />
+    <Compile Include="Interface\IEthnicGroups.vb" />
+    <Compile Include="Interface\IHumanTalentParameterization.vb" />
+    <Compile Include="Interface\ILicensingConcepts.vb" />
+    <Compile Include="Interface\IMaritalStatus.vb" />
+    <Compile Include="Interface\IMimumSalaray.vb" />
+    <Compile Include="Interface\IUserPermissionsSchedule.vb" />
+    <Compile Include="Interface\IReligiousBeliefs.vb" />
+    <Compile Include="Interface\IPopupResumptionHoliday.vb" />
+    <Compile Include="Interface\IResumptionHoliday.vb" />
+    <Compile Include="Interface\ICostDistribution.vb" />
+    <Compile Include="Interface\IManualConcept.vb" />
+    <Compile Include="Interface\IAgreements.vb" />
+    <Compile Include="Interface\IAutoliquidation.vb" />
+    <Compile Include="Interface\IBankFile.vb" />
+    <Compile Include="Interface\IIncentivePayment.vb" />
+    <Compile Include="Interface\IKindsAgreements.vb" />
+    <Compile Include="Interface\IContractLiquidation.vb" />
+    <Compile Include="Interface\INationalSavingsFund.vb" />
+    <Compile Include="Interface\IPayrollOpeningBalances.vb" />
+    <Compile Include="Interface\IPayrollSettings.vb" />
+    <Compile Include="Interface\ISalaryIncrease.vb" />
+    <Compile Include="Interface\IFreeTimeUse.vb" />
+    <Compile Include="Interface\ISportPractice.vb" />
+    <Compile Include="Interface\ISyndicate.vb" />
+    <Compile Include="Interface\IUnemployedLiquidation.vb" />
+    <Compile Include="Interface\IBranchOfficeMain.vb" />
+    <Compile Include="Interface\IEventApproval.vb" />
+    <Compile Include="Interface\IAuthorizationConcept.vb" />
+    <Compile Include="Interface\IContractEdit.vb" />
+    <Compile Include="Interface\IContractModificationReason.vb" />
+    <Compile Include="Interface\ICtrContractModify.vb" />
+    <Compile Include="Interface\ICtrContractViewer.vb" />
+    <Compile Include="Interface\IEmployeeType.vb" />
+    <Compile Include="Interface\IInability.vb" />
+    <Compile Include="Interface\IPayrollLiquidation.vb" />
+    <Compile Include="Interface\ISchedule.vb" />
+    <Compile Include="Interface\IConcept.vb" />
+    <Compile Include="Interface\IContract.vb" />
+    <Compile Include="Interface\IJobBondingType.vb" />
+    <Compile Include="Interface\IRetention.vb" />
+    <Compile Include="Interface\IContractTemplate.vb" />
+    <Compile Include="Interface\IContractType.vb" />
+    <Compile Include="Interface\IPosition.vb" />
+    <Compile Include="Interface\IScheduleTemplate.vb" />
+    <Compile Include="Interface\IStudyCenter.vb" />
+    <Compile Include="Interface\IContractGroup.vb" />
+    <Compile Include="Interface\IStudyType.vb" />
+    <Compile Include="Interface\IBranchOffice.vb" />
+    <Compile Include="Interface\ICompany.vb" />
+    <Compile Include="Interface\IContributorType.vb" />
+    <Compile Include="Interface\IEducationLevels.vb" />
+    <Compile Include="Interface\IFunctionalUnit.vb" />
+    <Compile Include="Interface\IFunds.vb" />
+    <Compile Include="Interface\IGroups.vb" />
+    <Compile Include="Interface\IEmployee.vb" />
+    <Compile Include="Interface\IKindship.vb" />
+    <Compile Include="Interface\ILanguage.vb" />
+    <Compile Include="Interface\IPensionaryType.vb" />
+    <Compile Include="Interface\IPositionLevel.vb" />
+    <Compile Include="Interface\IProfessionalRisk.vb" />
+    <Compile Include="Interface\IProfessions.vb" />
+    <Compile Include="Interface\IRetirementReason.vb" />
+    <Compile Include="Interface\IVacation.vb" />
+    <Compile Include="Interface\IVerificateAutoliquidation.vb" />
+    <Compile Include="Interface\IWorkCenter.vb" />
+    <Compile Include="Model\MReportVacationSummary.vb" />
+    <Compile Include="Model\MAccountingStructure.vb" />
+    <Compile Include="Model\MContributorSubtype.vb" />
+    <Compile Include="Model\MElectronicPayrollConcepts.vb" />
+    <Compile Include="Model\MElectronicPayrollTraceability.vb" />
+    <Compile Include="Model\MEmployeeSchedule.vb" />
+    <Compile Include="Model\MForeclousure.vb" />
+    <Compile Include="Model\MAgreementsMassive.vb" />
+    <Compile Include="Model\MBlockSchedule.vb" />
+    <Compile Include="Model\MDiagnosedDisease.vb" />
+    <Compile Include="Model\MEthnicGroups.vb" />
+    <Compile Include="Model\MHumanTalentParameterization.vb" />
+    <Compile Include="Model\MInitialBalancePayroll.vb" />
+    <Compile Include="Model\MFileForeclousure.vb" />
+    <Compile Include="Model\MLicensingConcepts.vb" />
+    <Compile Include="Model\MMaritalStatus.vb" />
+    <Compile Include="Model\MMassiveContract.vb" />
+    <Compile Include="Model\MMassiveManualConcepts.vb" />
+    <Compile Include="Model\MMinimumSalary.vb" />
+    <Compile Include="Model\MReligiousBeliefs.vb" />
+    <Compile Include="Model\MResumptionHoliday.vb" />
+    <Compile Include="Model\MBlockRecordAndSequensePayroll.vb" />
+    <Compile Include="Model\MCostDistribution.vb" />
+    <Compile Include="Model\MManualConcept.vb" />
+    <Compile Include="Model\MAgreements.vb" />
+    <Compile Include="Model\MAutoliquidation.vb" />
+    <Compile Include="Model\MBankFile.vb" />
+    <Compile Include="Model\MIncentivePayment.vb" />
+    <Compile Include="Model\MContractLiquidation.vb" />
+    <Compile Include="Model\MKindsAgreements.vb" />
+    <Compile Include="Model\MNationalSavingsFund.vb" />
+    <Compile Include="Model\MPayrollOpeningBalances.vb" />
+    <Compile Include="Model\MPayrollSettings.vb" />
+    <Compile Include="Model\MSalaryIncrease.vb" />
+    <Compile Include="Model\MFreeTimeUse.vb" />
+    <Compile Include="Model\MSportPractice.vb" />
+    <Compile Include="Model\MSyndicate.vb" />
+    <Compile Include="Model\MUnemployedLiquidation.vb" />
+    <Compile Include="Model\MAuthorizationConcept.vb" />
+    <Compile Include="Model\MBranchOfficeMain.vb" />
+    <Compile Include="Model\MContractModificationReason.vb" />
+    <Compile Include="Model\MEmployeeType.vb" />
+    <Compile Include="Model\MNovelty.vb" />
+    <Compile Include="Model\MPayrollLiquidation.vb" />
+    <Compile Include="Model\MPayrollParameter.vb" />
+    <Compile Include="Model\MSchedule.vb" />
+    <Compile Include="Model\MConcept.vb" />
+    <Compile Include="Model\MContract.vb" />
+    <Compile Include="Model\MJobBondingType.vb" />
+    <Compile Include="Model\MRetention.vb" />
+    <Compile Include="Model\MContractTemplate.vb" />
+    <Compile Include="Model\MContractType.vb" />
+    <Compile Include="Model\MPosition.vb" />
+    <Compile Include="Model\MScheduleControl.vb" />
+    <Compile Include="Model\MStudyCenter.vb" />
+    <Compile Include="Model\MBranchOffice.vb" />
+    <Compile Include="Model\MCompany.vb" />
+    <Compile Include="Model\MContractGroup.vb" />
+    <Compile Include="Model\MContributorType.vb" />
+    <Compile Include="Model\MEducationLevels.vb" />
+    <Compile Include="Model\MFunctionalUnit.vb" />
+    <Compile Include="Model\MFunds.vb" />
+    <Compile Include="Model\MGroups.vb" />
+    <Compile Include="Model\MEmployee.vb" />
+    <Compile Include="Model\MKinship.vb" />
+    <Compile Include="Model\MLanguage.vb" />
+    <Compile Include="Model\MPensionaryType.vb" />
+    <Compile Include="Model\MPositionLevel.vb" />
+    <Compile Include="Model\MProfessionalRisk.vb" />
+    <Compile Include="Model\MProfessions.vb" />
+    <Compile Include="Model\MRetirementReason.vb" />
+    <Compile Include="Model\MStudyType.vb" />
+    <Compile Include="Model\MUserPermissionSchedule.vb" />
+    <Compile Include="Model\MVacation.vb" />
+    <Compile Include="Model\MVerificationAutoliquidation.vb" />
+    <Compile Include="Model\MWorkCenter.vb" />
+    <Compile Include="My Project\AssemblyInfo.vb" />
+    <Compile Include="My Project\Application.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Application.myapp</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="My Project\Resources.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="My Project\Settings.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="Presenter\PReportVacationSummary.vb" />
+    <Compile Include="Presenter\PAccountingStructure.vb" />
+    <Compile Include="Presenter\PContributorSubtype.vb" />
+    <Compile Include="Presenter\PCRCashReport.vb" />
+    <Compile Include="Presenter\PElectronicPayrollConcepts.vb" />
+    <Compile Include="Presenter\PElectronicPayrollTraceability.vb" />
+    <Compile Include="Presenter\PForeclousure.vb" />
+    <Compile Include="Presenter\PBlockSchedule.vb" />
+    <Compile Include="Presenter\PDiagnosedDisease.vb" />
+    <Compile Include="Presenter\PEthnicGroups.vb" />
+    <Compile Include="Presenter\PFreeTimeUse.vb" />
+    <Compile Include="Presenter\PHumanTalentParameterization.vb" />
+    <Compile Include="Presenter\PLicensingConcepts.vb" />
+    <Compile Include="Presenter\PListAutoliquidation.vb" />
+    <Compile Include="Presenter\PMaritalStatus.vb" />
+    <Compile Include="Presenter\PMinimumSalary.vb" />
+    <Compile Include="Presenter\PPayrollSettings.vb" />
+    <Compile Include="Presenter\PReligiousBeliefs.vb" />
+    <Compile Include="Presenter\PSportPractice.vb" />
+    <Compile Include="Presenter\PResumptionHoliday.vb" />
+    <Compile Include="Presenter\PCostDistribution.vb" />
+    <Compile Include="Presenter\PManualConcept.vb" />
+    <Compile Include="Presenter\PAgreements.vb" />
+    <Compile Include="Presenter\PAutoliquidation.vb" />
+    <Compile Include="Presenter\PBankFile.vb" />
+    <Compile Include="Presenter\PIncentivePayment.vb" />
+    <Compile Include="Presenter\PKindsAgreements.vb" />
+    <Compile Include="Presenter\PContractLiquidation.vb" />
+    <Compile Include="Presenter\PNationalSavingsFund.vb" />
+    <Compile Include="Presenter\PPayrollOpeningBalances.vb" />
+    <Compile Include="Presenter\PSalaryIncrease.vb" />
+    <Compile Include="Presenter\PSyndicate.vb" />
+    <Compile Include="Presenter\PUnemployedLiquidation.vb" />
+    <Compile Include="Presenter\PBranchOfficeMain.vb" />
+    <Compile Include="Presenter\PEventApproval.vb" />
+    <Compile Include="Presenter\PAuthorizationConcept.vb" />
+    <Compile Include="Presenter\PConcept.vb" />
+    <Compile Include="Presenter\PContract.vb" />
+    <Compile Include="Presenter\PContractModificationReason.vb" />
+    <Compile Include="Presenter\PCtrContractViewer.vb" />
+    <Compile Include="Presenter\PEmployeeType.vb" />
+    <Compile Include="Presenter\PInability.vb" />
+    <Compile Include="Presenter\PJobBondingType.vb" />
+    <Compile Include="Presenter\PPayrollLiquidation.vb" />
+    <Compile Include="Presenter\PRetention.vb" />
+    <Compile Include="Presenter\PContractTemplate.vb" />
+    <Compile Include="Presenter\PContractType.vb" />
+    <Compile Include="Presenter\PPosition.vb" />
+    <Compile Include="Presenter\PSchedule.vb" />
+    <Compile Include="Presenter\PScheduleTemplate.vb" />
+    <Compile Include="Presenter\PStudyCenter.vb" />
+    <Compile Include="Presenter\PBranchOffice.vb" />
+    <Compile Include="Presenter\PCompany.vb" />
+    <Compile Include="Presenter\PContractGroup.vb" />
+    <Compile Include="Presenter\PContributorType.vb" />
+    <Compile Include="Presenter\PEducationLevels.vb" />
+    <Compile Include="Presenter\PFunctionalUnit.vb" />
+    <Compile Include="Presenter\PFunds.vb" />
+    <Compile Include="Presenter\PGroups.vb" />
+    <Compile Include="Presenter\PEmployee.vb" />
+    <Compile Include="Presenter\PKinship.vb" />
+    <Compile Include="Presenter\PLanguage.vb" />
+    <Compile Include="Presenter\PPensionaryType.vb" />
+    <Compile Include="Presenter\PPositionLevel.vb" />
+    <Compile Include="Presenter\PProfessionalRisk.vb" />
+    <Compile Include="Presenter\PProfessions.vb" />
+    <Compile Include="Presenter\PRetirementReason.vb" />
+    <Compile Include="Presenter\PStudyType.vb" />
+    <Compile Include="Presenter\PUserPermissionSchedule.vb" />
+    <Compile Include="Presenter\PVacation.vb" />
+    <Compile Include="Presenter\PWorkCenter.vb" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="My Project\Resources.resx">
+      <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.vb</LastGenOutput>
+      <CustomToolNamespace>My.Resources</CustomToolNamespace>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="My Project\Application.myapp">
+      <Generator>MyApplicationCodeGenerator</Generator>
+      <LastGenOutput>Application.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="My Project\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <CustomToolNamespace>My</CustomToolNamespace>
+      <LastGenOutput>Settings.Designer.vb</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Infraestructure.Data.Xpo.InteropCostRepository\Infrastructure.Data.Xpo.InteropCostRepository.vbproj">
+      <Project>{9BDF6A3F-E62B-4CCF-B9EC-78092FC8A756}</Project>
+      <Name>Infrastructure.Data.Xpo.InteropCostRepository</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastructure.CrossCutting.Xpo.Base\Infrastructure.CrossCutting.Xpo.Base.vbproj">
+      <Project>{06AEA7A4-8792-405E-97E6-4B6FB10502B5}</Project>
+      <Name>Infrastructure.CrossCutting.Xpo.Base</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastructure.Data.Xpo.CommonRepository\Infrastructure.Data.Xpo.CommonRepository.vbproj">
+      <Project>{C087E009-72B8-4E9E-80F7-BE336BE83794}</Project>
+      <Name>Infrastructure.Data.Xpo.CommonRepository</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastructure.Data.Xpo.CostRepository\Infrastructure.Data.Xpo.CostRepository.vbproj">
+      <Project>{7D5C41A5-DCEF-47A6-9EC4-D1167E62712E}</Project>
+      <Name>Infrastructure.Data.Xpo.CostRepository</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastructure.Data.Xpo.PayrollRepository\Infrastructure.Data.Xpo.PayrollRepository.vbproj">
+      <Project>{CE46AB34-7B36-422F-AE89-2D5F759E1960}</Project>
+      <Name>Infrastructure.Data.Xpo.PayrollRepository</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastructure.Data.Xpo.PortfolioRepository\Infrastructure.Data.Xpo.PortfolioRepository.vbproj">
+      <Project>{AB90B939-7342-4D1E-8A01-13B863C8F0DC}</Project>
+      <Name>Infrastructure.Data.Xpo.PortfolioRepository</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastructure.Data.Xpo.SecurityRepository\Infrastructure.Data.Xpo.SecurityRepository.vbproj">
+      <Project>{75506435-56F8-4069-9540-C7C37E197458}</Project>
+      <Name>Infrastructure.Data.Xpo.SecurityRepository</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastructure.Data.Xpo.TreasuryRepository\Infrastructure.Data.Xpo.TreasuryRepository.vbproj">
+      <Project>{80eeac4e-4409-4469-9299-3cb99582ad33}</Project>
+      <Name>Infrastructure.Data.Xpo.TreasuryRepository</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastructure.Data.Xpo\Infrastructure.Data.Xpo.vbproj">
+      <Project>{b5e32668-0270-4d5e-adb7-840edf9d6db8}</Project>
+      <Name>Infrastructure.Data.Xpo</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastucture.Data.Xpo.AccountingRepository\Infrastructure.Data.Xpo.AccountingRepository.vbproj">
+      <Project>{539916D8-97FF-497F-BC89-12D89B47CB70}</Project>
+      <Name>Infrastructure.Data.Xpo.AccountingRepository</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Insfrastructure.Data.Xpo.CrystalRepository\Infrastructure.Data.Xpo.CrystalRepository.vbproj">
+      <Project>{6AF0AD3B-B0A2-48A4-9FBD-CA1C11FC74FC}</Project>
+      <Name>Infrastructure.Data.Xpo.CrystalRepository</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Presentacion.AgenteCloud\Presentation.ProxyAgent.vbproj">
+      <Project>{ab3573a9-5acf-4971-b298-be3a1ed617e8}</Project>
+      <Name>Presentation.ProxyAgent</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Presentacion.Base\Presentation.Base.vbproj">
+      <Project>{7bc84999-6ea3-47e9-92e9-697ade41bb9a}</Project>
+      <Name>Presentation.Base</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Presentacion.Controles.MVP\Presentation.Controls.MVP.vbproj">
+      <Project>{47d30452-ca41-44a9-b3ad-867793353ede}</Project>
+      <Name>Presentation.Controls.MVP</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Presentacion.Controles\Presentation.Controls.vbproj">
+      <Project>{b031e890-3c50-4dea-ba76-96bc4bb6a05a}</Project>
+      <Name>Presentation.Controls</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Presentation.Accounting.MVP\Presentation.Accounting.MVP.vbproj">
+      <Project>{16aef376-07f1-4f7f-864b-1ce7b8fec2b1}</Project>
+      <Name>Presentation.Accounting.MVP</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Presentation.Common.MVP\Presentation.Common.MVP.vbproj">
+      <Project>{62fd08cc-4d21-425c-b5c8-65f3d1fa8401}</Project>
+      <Name>Presentation.Common.MVP</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

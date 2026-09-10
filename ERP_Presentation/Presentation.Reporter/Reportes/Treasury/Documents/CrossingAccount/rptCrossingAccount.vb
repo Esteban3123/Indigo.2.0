@@ -1,0 +1,91 @@
+#Region "Imports"
+Imports Infrastructure.CrossCutting.Base
+Imports Infrastructure.Data.Xpo
+Imports Infrastructure.Data.Xpo.TreasuryRepository
+Imports DevExpress.Xpo
+Imports DevExpress.XtraReports.UI
+Imports DevExpress.XtraReports.Parameters
+Imports System.Globalization
+
+#End Region
+
+Public Class rptCrossingAccount
+    Implements IReport
+
+    ''' <summary>
+    ''' Variable para inicializar los valores de sesion
+    ''' </summary>
+    Dim IndigoSessionValues As SessionValues = SessionValues.Instance
+
+
+    Private Value As Decimal
+
+    Private INDUser As Object
+
+    Public Sub CargarDataSource() Implements IReport.CargarDataSource
+        Dim filtroConsulta As String = "Id = " & ParametrosReporte(0)
+        Dim list = XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).TreasuryService.GetCollection(Of TreasuryCrossingAccountXpo)(Nothing, filtroConsulta)
+
+        If list.Count > 0 Then
+
+
+            Dim INDCodeUser = CType(list(0), TreasuryCrossingAccountXpo).CreationUser.Trim()
+            INDUser = XpoServiceEx.Instance(IndigoSessionValues.SecurityContainer).TreasuryService.GetCollection(Of Infrastructure.Data.Xpo.SecurityRepository.UserXpo)(Nothing, "UserCode = '" & INDCodeUser & "'")
+            Me.DataSource = list
+            If INDUser.count() > 0 Then
+                INDLblCreationUser.Text = INDUser(0).CodeName
+            End If
+            Value = If(list.FirstOrDefault.TreasuryCrossingAccountDetailCxPXpo.Sum(Function(x) x.CrossingValue) > 0, list.FirstOrDefault.TreasuryCrossingAccountDetailCxPXpo.Sum(Function(x) x.CrossingValue), list.FirstOrDefault.TreasuryCrossingAccountDetailCxCXpo.Sum(Function(x) x.CrossingValue))
+
+        End If
+    End Sub
+
+    Public Sub CargarImagenes() Implements IReport.CargarImagenes
+
+    End Sub
+
+    Public ReadOnly Property NameReport As String Implements IReport.NameReport
+        Get
+            Return ""
+        End Get
+    End Property
+
+    Public Property ParametrosReporte As Object() Implements IReport.ParametrosReporte
+
+    Private Sub rptCrossingAccount_BeforePrint(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles MyBase.BeforePrint
+        If Me.Parameters.Count > 0 And Me.Parameters(0).Value > 0 Then
+            Dim ParametrosFilter As ParameterCollection = Me.Parameters
+            ParametrosReporte = New Object() {ParametrosFilter("INDSubIdCrossing").Value}
+            CargarDataSource()
+        End If
+        Dim currencyAbbreviation As String = TryCast(Me.DataSource, List(Of TreasuryCrossingAccountXpo))?.FirstOrDefault?.CurrencyAbbreviation
+
+        Dim _culture As CultureInfo
+        Dim currencyName As String = TryCast(Me.DataSource, List(Of TreasuryCrossingAccountXpo))?.FirstOrDefault?.CurrencyNameISO
+        Dim CurrencyDecimal = TryCast(Me.DataSource, List(Of TreasuryCrossingAccountXpo))?.FirstOrDefault?.CommonCurrency?.ISO4217Xpo?.CodeAbbreviation
+        If String.IsNullOrEmpty(currencyAbbreviation) Then
+            currencyAbbreviation = SessionValues.Instance.CurrencyISO4217
+            currencyName = currencyAbbreviation
+        End If
+
+        _culture = CultureInfo.CurrentCulture.Clone()
+        _culture.NumberFormat = currencyAbbreviation.GetNumberFormat
+        ApplyLocalization(_culture)
+
+        Dim _integerPart As Int64 = Convert.ToInt64(Value)
+        Dim _decimalPart As Integer = Strings.Right(Format(Convert.ToDecimal(Value) - _integerPart, "0.00"), 2)
+        Me.INDLblNumLetters.Text = String.Format("{0}  {1}{2}",
+                                                 Utils.Num2Text(_integerPart).ToString,
+                                                 currencyName.ToUpper,
+                                                 If(_decimalPart > 0, $", CON {Utils.Num2Text(_decimalPart).ToString}  {Utils.ListDecimalCurrency(CurrencyDecimal)}", ""))
+
+
+        Me.INDLblUserPrint.Text = "Usuario Impresión : " & IndigoSessionValues.UserIndigo & " - " & IndigoSessionValues.UserIndigoName
+        Me.INDLblCompany.Text = IndigoSessionValues.IndigoCompanyName
+        Me.INDLblNitCompany.Text = "Nit : " & IndigoSessionValues.IndigoCompanyNit
+        Me.PamINDReportType.Value = ParametrosReporte(1)
+        Me.INDLblValue.Text = Utils.GetMoneyWithISO4217(CDec(Value), currencyAbbreviation)
+        XrTableCell24.Text = Utils.GetMoneyWithISO4217(0.00, currencyAbbreviation)
+        XrTableCell19.Text = Utils.GetMoneyWithISO4217(0.00, currencyAbbreviation)
+    End Sub
+End Class

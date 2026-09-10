@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:ser="http://schemas.microsoft.com/2003/10/Serialization/" xmlns:tns="http://schemas.datacontract.org/2004/07/Indigo.Sinapsis.Core.Domain.PurchaseOrder" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/Indigo.Sinapsis.Core.Domain.PurchaseOrder" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import schemaLocation="http://appserver-sbs.azurewebsites.net/VIEERPIntegration.svc?xsd=xsd3" namespace="http://schemas.datacontract.org/2004/07/Indigo.Sinapsis.Core.Domain.Company" />
+  <xs:import schemaLocation="http://appserver-sbs.azurewebsites.net/VIEERPIntegration.svc?xsd=xsd5" namespace="http://schemas.datacontract.org/2004/07/Indigo.Sinapsis.Core.Domain.Contract" />
+  <xs:import schemaLocation="http://appserver-sbs.azurewebsites.net/VIEERPIntegration.svc?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+  <xs:import schemaLocation="http://appserver-sbs.azurewebsites.net/VIEERPIntegration.svc?xsd=xsd7" namespace="http://schemas.datacontract.org/2004/07/Indigo.Sinapsis.Core.Domain.Product" />
+  <xs:import schemaLocation="http://appserver-sbs.azurewebsites.net/VIEERPIntegration.svc?xsd=xsd10" namespace="http://schemas.datacontract.org/2004/07/Indigo.Sinapsis.Core.Domain.Customer" />
+  <xs:import schemaLocation="http://appserver-sbs.azurewebsites.net/VIEERPIntegration.svc?xsd=xsd4" namespace="http://schemas.datacontract.org/2004/07/Indigo.Sinapsis.Core.Domain.IFF" />
+  <xs:import schemaLocation="http://appserver-sbs.azurewebsites.net/VIEERPIntegration.svc?xsd=xsd9" namespace="http://schemas.datacontract.org/2004/07/Indigo.Sinapsis.Core.Domain.Supplier" />
+  <xs:import schemaLocation="http://appserver-sbs.azurewebsites.net/VIEERPIntegration.svc?xsd=xsd6" namespace="http://schemas.datacontract.org/2004/07/Indigo.Sinapsis.Core.Domain.Bidding" />
+  <xs:complexType name="ArrayOfPurchaseOrderProductOfguid">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="PurchaseOrderProductOfguid" nillable="true" type="tns:PurchaseOrderProductOfguid" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfPurchaseOrderProductOfguid" nillable="true" type="tns:ArrayOfPurchaseOrderProductOfguid" />
+  <xs:complexType name="PurchaseOrderProductOfguid">
+    <xs:annotation>
+      <xs:appinfo>
+        <GenericType Name="PurchaseOrderProductOf{0}{#}" Namespace="http://schemas.datacontract.org/2004/07/Indigo.Sinapsis.Core.Domain.PurchaseOrder" xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
+          <GenericParameter Name="guid" Namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+        </GenericType>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element xmlns:q1="http://schemas.datacontract.org/2004/07/Indigo.Sinapsis.Core.Domain.Company" minOccurs="0" name="Company" nillable="true" type="q1:CompanyOfguid" />
+      <xs:element xmlns:q2="http://schemas.datacontract.org/2004/07/Indigo.Sinapsis.Core.Domain.Contract" minOccurs="0" name="ContractProduct" nillable="true" type="q2:ContractProductOfguid" />
+      <xs:element minOccurs="0" name="Identifier" type="ser:guid" />
+      <xs:element minOccurs="0" name="IsActive" type="xs:boolean" />
+      <xs:element xmlns:q3="http://schemas.datacontract.org/2004/07/Indigo.Sinapsis.Core.Domain.Product" minOccurs="0" name="Product" nillable="true" type="q3:ProductOfguid" />
+      <xs:element minOccurs="0" name="PurchaseOrder" nillable="true" type="tns:PurchaseOrderOfguid" />
+      <xs:element minOccurs="0" name="PurchaseOrderProductComment" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="PurchaseOrderProductID" type="ser:guid" />
+      <xs:element minOccurs="0" name="PurchaseOrderProductQuantity" type="xs:int" />
+      <xs:element minOccurs="0" name="PurchaseOrderProductQuantityAvailable" type="xs:int" />
+      <xs:element minOccurs="0" name="PurchaseOrderProductQuantityPurpose" type="xs:int" />
+      <xs:element minOccurs="0" name="TotalPrice" type="xs:decimal" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="PurchaseOrderProductOfguid" nillable="true" type="tns:PurchaseOrderProductOfguid" />
+  <xs:complexType name="PurchaseOrderOfguid">
+    <xs:annotation>
+      <xs:appinfo>
+        <GenericType Name="PurchaseOrderOf{0}{#}" Namespace="http://schemas.datacontract.org/2004/07/Indigo.Sinapsis.Core.Domain.PurchaseOrder" xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
+          <GenericParameter Name="guid" Namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+        </GenericType>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element xmlns:q4="http://schemas.datacontract.org/2004/07/Indigo.Sinapsis.Core.Domain.Company" minOccurs="0" name="Company" nillable="true" type="q4:CompanyOfguid" />
+      <xs:element minOccurs="0" name="Condición" nillable="true" type="xs:string" />
+      <xs:element xmlns:q5="http://schemas.datacontract.org/2004/07/Indigo.Sinapsis.Core.Domain.Contract" minOccurs="0" name="Contract" nillable="true" type="q5:ContractOfguid" />
+      <xs:element xmlns:q6="http://schemas.datacontract.org/2004/07/Indigo.Sinapsis.Core.Domain.Customer" minOccurs="0" name="CustomerAddress" nillable="true" type="q6:CustomerAddressOfguid" />
+      <xs:element minOccurs="0" name="Estado" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Identifier" type="ser:guid" />
+      <xs:element minOccurs="0" name="IsActive" type="xs:boolean" />
+      <xs:element minOccurs="0" name="IsAward" type="xs:boolean" />
+      <xs:element minOccurs="0" name="ListPurchaseOrderProduct" nillable="true" type="tns:ArrayOfPurchaseOrderProductOfguid" />
+      <xs:element minOccurs="0" name="ListPurchaseOrderProductDetail" nillable="true" type="tns:ArrayOfPurchaseOrderProductDetailOfguid" />
+      <xs:element minOccurs="0" name="PurchaseOrderCode" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="PurchaseOrderDate" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="PurchaseOrderID" type="ser:guid" />
+      <xs:element minOccurs="0" name="PurchaseOrderName" nillable="true" type="xs:string" />
+      <xs:element xmlns:q7="http://schemas.datacontract.org/2004/07/Indigo.Sinapsis.Core.Domain.IFF" minOccurs="0" name="PurchaseOrderReason" nillable="true" type="q7:PurchaseOrderReasonOfguid" />
+      <xs:element minOccurs="0" name="PurchaseOrderReasonComment" nillable="true" type="xs:string" />
+      <xs:element xmlns:q8="http://schemas.datacontract.org/2004/07/Indigo.Sinapsis.Core.Domain.IFF" minOccurs="0" name="PurchaseOrderStatus" nillable="true" type="q8:PurchaseOrderStatusOfguid" />
+      <xs:element minOccurs="0" name="PurchaseOrderStatusReason" nillable="true" type="xs:string" />
+      <xs:element xmlns:q9="http://schemas.datacontract.org/2004/07/Indigo.Sinapsis.Core.Domain.Supplier" minOccurs="0" name="Supplier" nillable="true" type="q9:SupplierOfguid" />
+      <xs:element minOccurs="0" name="URI" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="UserID" type="ser:guid" />
+      <xs:element minOccurs="0" name="Values" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="isexcel" type="xs:boolean" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="PurchaseOrderOfguid" nillable="true" type="tns:PurchaseOrderOfguid" />
+  <xs:complexType name="ArrayOfPurchaseOrderProductDetailOfguid">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="PurchaseOrderProductDetailOfguid" nillable="true" type="tns:PurchaseOrderProductDetailOfguid" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfPurchaseOrderProductDetailOfguid" nillable="true" type="tns:ArrayOfPurchaseOrderProductDetailOfguid" />
+  <xs:complexType name="PurchaseOrderProductDetailOfguid">
+    <xs:annotation>
+      <xs:appinfo>
+        <GenericType Name="PurchaseOrderProductDetailOf{0}{#}" Namespace="http://schemas.datacontract.org/2004/07/Indigo.Sinapsis.Core.Domain.PurchaseOrder" xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
+          <GenericParameter Name="guid" Namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+        </GenericType>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element xmlns:q10="http://schemas.datacontract.org/2004/07/Indigo.Sinapsis.Core.Domain.Bidding" minOccurs="0" name="BiddingOfferSupplier" nillable="true" type="q10:BiddinOfferSupplierOfguid" />
+      <xs:element xmlns:q11="http://schemas.datacontract.org/2004/07/Indigo.Sinapsis.Core.Domain.Company" minOccurs="0" name="Company" nillable="true" type="q11:CompanyOfguid" />
+      <xs:element minOccurs="0" name="Identifier" type="ser:guid" />
+      <xs:element minOccurs="0" name="IsActive" type="xs:boolean" />
+      <xs:element minOccurs="0" name="IsReceived" type="xs:boolean" />
+      <xs:element minOccurs="0" name="ListPurchaseOrderProductDetail" nillable="true" type="tns:ArrayOfPurchaseOrderProductDetailOfguid" />
+      <xs:element xmlns:q12="http://schemas.datacontract.org/2004/07/Indigo.Sinapsis.Core.Domain.IFF" minOccurs="0" name="LogisticCompany" nillable="true" type="q12:LogisticCompanyOfguid" />
+      <xs:element minOccurs="0" name="PurchaseOrderProduct" nillable="true" type="tns:PurchaseOrderProductOfguid" />
+      <xs:element minOccurs="0" name="PurchaseOrderProductDeliveryComment" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="PurchaseOrderProductDeliveryDate" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="PurchaseOrderProductDeliveryGuide" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="PurchaseOrderProductDeliveryQuantity" type="xs:int" />
+      <xs:element minOccurs="0" name="PurchaseOrderProductDetailID" type="ser:guid" />
+      <xs:element minOccurs="0" name="PurchaseOrderProductQuantityAvaliable" type="xs:int" />
+      <xs:element minOccurs="0" name="PurchaseOrderProductReceivedComment" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="PurchaseOrderProductReceivedCommentString" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="PurchaseOrderProductReceivedDate" nillable="true" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="PurchaseOrderProductReceivedDateString" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="PurchaseOrderProductReceivedQuantity" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="PurchaseOrderProductReceivedQuantityString" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Recibidas" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="PurchaseOrderProductDetailOfguid" nillable="true" type="tns:PurchaseOrderProductDetailOfguid" />
+</xs:schema>

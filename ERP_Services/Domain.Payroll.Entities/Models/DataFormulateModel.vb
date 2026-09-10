@@ -1,0 +1,35 @@
+﻿Public Class DataFormulateModel
+    Public Property FormulaConcept As String
+    Public Property LegalMinumunSalary As Decimal
+    Public Property TransportHealthValue As Decimal
+    Public Property BasicSalary As Decimal
+    Public Property WorkedDays As Integer
+    Public Property IncentivePaymentDays As Integer
+    Public Property SanctionDaysServiceIncentivePayment As Integer
+    Public Property UnpaidLicensesDaysServiceIncentivePayment As Integer
+    Public Property VariableSalaryServiceIncentive As Integer
+    Public Property IncentiveDecemberDays As Integer
+    Public Property SanctionDaysDecemberIncentivePayment As Integer
+    Public Property UnpaidLicensesDaysDecemberIncentivePayment As Integer
+    Public Property VariableSalaryDecemberIncentive As Decimal
+    Public Property UnemploymentDays As Integer
+    Public Property SanctionDaysUnemployment As Integer
+    Public Property UnpaidLicensesDaysUnemployment As Integer
+    Public Property VariableSalaryUnemployment As Decimal
+    Public Property VacationDays As Integer
+    Public Property VacationDaysRetirement As Integer
+    Public Property SanctionDaysVacation As Integer
+    Public Property UnpaidLicensesDaysVacation As Integer
+    Public Property VariableSalaryVacation As Decimal
+    Public Property IBCHealth As Decimal
+    Public Property IBCPension As Decimal
+    Public Property EmployeePensionPercentage As Decimal
+    Public Property EmployeeHealthPercentage As Decimal
+    Public Property IndemnizationValue As Decimal
+    Public Property SalaryServiceIncentiveAguinaldo As Decimal
+    Public Property BaseAverageValueCIMA As Decimal
+    Public Property RetirementDate As Date
+    Public Property IngressDate As Date
+    Public Property AccumulatedValueAguinaldoBase As Decimal
+    Public Property JobBondingDate As Date
+End Class

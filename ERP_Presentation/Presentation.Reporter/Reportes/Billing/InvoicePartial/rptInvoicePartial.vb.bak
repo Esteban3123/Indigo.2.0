@@ -1,0 +1,114 @@
+﻿#Region "Imports"
+
+Imports System.Drawing.Printing
+Imports System.Globalization
+Imports DevExpress.XtraReports.Parameters
+Imports DevExpress.XtraReports.UI
+Imports Infrastructure.CrossCutting.Base
+Imports Infrastructure.Data.Xpo
+Imports Infrastructure.Data.Xpo.BillingRepository
+Imports Presentation.Base
+
+#End Region
+
+Public Class rptInvoicePartial
+    Implements IReport
+
+#Region "Properties"
+
+    Dim IndigoSessionValues As SessionValues = SessionValues.Instance
+
+    Public Property ParametrosReporte As Object() Implements IReport.ParametrosReporte
+
+    Const CNameReport = "Facturacion.CtrFolio"
+    Public ReadOnly Property NameReport As String Implements IReport.NameReport
+        Get
+            Return rptInvoicePartial.CNameReport
+        End Get
+    End Property
+
+    Public WriteOnly Property SetValueCodingServices As Integer
+        Set(value As Integer)
+            If Me.Parameters.Count > 0 Then
+                Me.Parameters("INDprCodingServices").Value = value
+            End If
+        End Set
+    End Property
+
+#End Region
+
+#Region "Load Data"
+
+    Public Sub CargarDataSource() Implements IReport.CargarDataSource
+        Try
+            Dim filtroConsulta As String = "Id = " & ParametrosReporte(0)
+            Me.DataSource = XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).BillingService.GetCollection(Of BillingVReportInvoicePartial)(Nothing, filtroConsulta)
+            Dim dataa = TryCast(Me.DataSource, List(Of BillingVReportInvoicePartial)).FirstOrDefault()
+            Dim detail = TryCast(dataa.BillingVReportInvoicePartialDetail.ToList(), List(Of BillingVReportInvoicePartialDetail)).Any(Function(x) x.IvaPercentage IsNot Nothing)
+
+            'If detail Then
+            '    'XrSubreport1.Visible = True
+            '    Dim totalIva = TryCast(dataa.BillingVReportInvoicePartialDetail.ToList(), List(Of BillingVReportInvoicePartialDetail)).Where(Function(x) x.IvaTotalValue > 0).Sum(Function(x) x.IvaTotalValue)
+            '    'IvaTotalAllCell.Text = IndigoSessionValues.Culture.NumberFormat.CurrencySymbol & totalIva
+            'End If
+        Catch ex As Exception
+            MessageIndigo.Show(GetExceptionDetails(ex), MessageType.Errores, Me.Text, Botones.Aceptar, "")
+        End Try
+    End Sub
+
+#End Region
+
+#Region "Methods"
+
+    Public Sub CargarImagenes() Implements IReport.CargarImagenes
+
+    End Sub
+
+    Public Function GetExceptionDetails(exception As Exception) As String
+        Dim properties = exception.[GetType]().GetProperties()
+        Dim fields = properties.[Select](Function([property]) New With {
+            Key .Name = [property].Name,
+            Key .Value = [property].GetValue(exception, Nothing)
+        }).[Select](Function(x) [String].Format("{0} : {1}", x.Name, If(x.Value IsNot Nothing, x.Value.ToString(), [String].Empty)))
+        Return [String].Join(vbLf, fields)
+    End Function
+
+#End Region
+
+#Region "Events"
+
+    Private Sub rptInvoicePartial_BeforePrint(sender As Object, e As PrintEventArgs) Handles MyBase.BeforePrint
+        If Me.Parameters.Count > 0 And Me.Parameters(0).Value > 0 Then
+            Dim ParametrosFilter As ParameterCollection = Me.Parameters
+            ParametrosReporte = New Object() {ParametrosFilter.GetByName("INDRevenueControlDetailId").Value}
+            CargarDataSource()
+        End If
+
+        If INDPrTypeReport.Value = 2 Then
+            INDXTHeader.Visible = False
+            INDGHDetail.Visible = False
+            Detail1.Visible = False
+        Else
+            INDXTHeader.Visible = True
+            INDGHDetail.Visible = True
+            Detail1.Visible = True
+        End If
+
+        INDLblCompany.Text = IndigoSessionValues.IndigoCompanyName
+        INDLblNitCompany.Text = "Nit:" & IndigoSessionValues.IndigoCompanyNit
+        InvoiceIvaReportId.Value = 0
+        INDtcValueInLetters.Text = Utils.Num2Text(Convert.ToDecimal(GetCurrentColumnValue("ThirdPartySalesValue"))).ToString & " " & IndigoSessionValues.CurrencyISO4217
+        INDUserImp.Text = "Usuario Impresión : " & IndigoSessionValues.UserIndigo & " - " & IndigoSessionValues.UserIndigoName
+    End Sub
+
+    Private Sub XrTable7_BeforePrint(sender As Object, e As PrintEventArgs) Handles XrTable7.BeforePrint
+        Dim table As XRTable = (CType(sender, XRTable))
+        If DetailReport.GetCurrentColumnValue("SurgicalId") Is Nothing Then
+            e.Cancel = True
+            Exit Sub
+        End If
+    End Sub
+
+#End Region
+
+End Class

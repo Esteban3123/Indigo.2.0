@@ -1,0 +1,2153 @@
+﻿#Region "Imports"
+
+Imports DevExpress.XtraEditors
+Imports Presentation.Controls
+Imports DevExpress.XtraBars.Alerter
+Imports Infrastructure.CrossCutting.Base
+Imports Presentation.Client.MVP
+Imports Presentation.Base
+Imports Presentation.Base.BaseClass
+Imports Domain.Security.Entities
+Imports DevExpress.XtraBars.Ribbon
+Imports Presentation.Security
+Imports DevExpress.XtraLayout.Utils
+Imports DevExpress.XtraBars.Helpers
+Imports Presentation.Common
+Imports Presentation.Inventory
+Imports Presentation.MixingStation
+Imports Presentation.MixingStation.MVP
+Imports DevExpress.LookAndFeel
+Imports DevExpress.Skins
+Imports System.IO
+Imports System.Reflection
+Imports Infrastructure.CrossCutting.Exceptions
+Imports System.Text
+Imports Presentation.Resources
+Imports DevExpress.XtraSplashScreen
+Imports System.Windows.Automation
+Imports CefSharp.WinForms
+Imports System.Linq
+Imports System.Configuration
+Imports Presentation.Security.MVP
+Imports DevExpress.XtraBars.ToastNotifications
+
+#End Region
+
+Public Class FormMdi
+    Implements IObservador, IOpenForm
+
+#Region "Fields"
+    Private myFavorites As List(Of VieForm)
+    Private taskFormPermission As Task
+    ''' <summary>
+    ''' Tarea la cual se encarga de consumir un metodo que autentica al usuario del lado del HIS
+    ''' </summary>
+    ''' <remarks></remarks>
+    Private taskAutenticationHis As Task
+    Private taskMyFavorites As Task
+    Private taskListOperatingUnit As Task
+    Private listCompanyPermission As List(Of Company)
+    Friend WithEvents CtrNotificationCenter As Presentation.Controls.CtrNotificationCenter
+    Friend WithEvents CtrSearching As Presentation.Controls.CtrSearching
+    ''' <summary>
+    ''' Bandera para controlar el cambio de tema
+    ''' </summary>
+    Public flagThemeChanged As Boolean
+    ''' <summary>
+    ''' variable que se utiliza para instanciar los valores de session
+    ''' </summary>
+    Dim indigo As Infrastructure.CrossCutting.Base.SessionValues
+
+    Dim FolderAccesible As Boolean = True
+    Friend _tokenId As String
+    Dim indigoApplicationSetting As Infrastructure.CrossCutting.Base.ApplicationSetting
+    Private IndigoContainerId As Integer
+
+    Private HisContainer As String
+
+    Private IndigoCompany As String
+
+    Private TransactionalContainer As String
+
+    Private ServiceConfigurationId As Byte
+
+    Private SecurityContainer As String
+
+    Private Cargando As Boolean
+
+    Private Login As Boolean
+
+    Private validatedSuscription As Boolean
+
+#End Region
+
+#Region "Builders"
+
+    ''' <summary>
+    ''' Inicializa una nueva instancia de la clase
+    ''' </summary>
+    Public Sub New()
+        ' This call is required by the designer.
+        InitializeComponent()
+        Me.indigo = SessionValues.Instance
+        Using modelo As New PmdiPrincipal
+            If ConfigurationFile.ConfigurationFileExists() Then
+                'modelo.LoadGeneralConfiguration() 'NO SE REQUIERE
+                ApplicationSetting.Instance.SetGeneralConfiguration(Nothing)
+            Else
+                'utiliza el servicio de seguridad default
+                modelo.LoadGeneralConfiguration()
+            End If
+
+        End Using
+        Me.indigoApplicationSetting = ApplicationSetting.Instance
+
+        'Dim loginAzure As String = ConfigurationManager.AppSettings("LoginAzure")
+        'If String.IsNullOrEmpty(loginAzure) OrElse loginAzure = "0" Then
+        If ConfigurationFile.ConfigurationFileExists() Then
+            OpenLoginFrm()
+        Else
+            Me.LoadNotificationCenter()
+            Using Mensaje As New Mensajes
+                Mensaje.Registrar(Me)
+            End Using
+            OpenLoginFrmPass(False)
+        End If
+    End Sub
+
+
+    Public Sub InitionMDIValues()
+        If ApplicationSetting.Instance.LoginAzure Then
+            INDLciTenant.Visibility = LayoutVisibility.Always
+            INDLciCompany.Visibility = LayoutVisibility.Always
+            INDTeTenant.Text = UnifiedConfiguration.Instance.CompanySelected.TenantName
+            INDTeCompany.Text = UnifiedConfiguration.Instance.CompanySelected.Name
+            LayoutControlItem24.Visibility = LayoutVisibility.Never
+            INDPceChangePerfil.Visible = True
+        Else
+            INDLciTenant.Visibility = LayoutVisibility.Never
+            INDLciCompany.Visibility = LayoutVisibility.Never
+            LayoutControlItem24.Visibility = LayoutVisibility.Always
+            INDPceChangePerfil.Visible = False
+        End If
+
+        If Me.indigo.IndigoCompanyType = 3 Then
+            BaseClass.ListFormHide = New List(Of Integer)({322, 344, 342, 341, 303, 340, 343, 838, 842, 855, 1516, 1680, 1740, 1762, 1764})
+        End If
+        LblUserName.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.HideTextEditor
+        LblUserName.Properties.ShowPopupCloseButton = False
+        LblUserName.Properties.PopupSizeable = False
+        LblUserName.Properties.AutoHeight = False
+        LblUserName.Properties.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder
+        LblUserName.Properties.Buttons.Clear()
+        Using SerializableAppearance As DevExpress.Utils.SerializableAppearanceObject = New DevExpress.Utils.SerializableAppearanceObject()
+            SerializableAppearance.Font = New System.Drawing.Font("Segoe UI Light", 10.0!)
+            LblUserName.Properties.Buttons.AddRange(New DevExpress.XtraEditors.Controls.EditorButton() {New DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Glyph, Me.indigo.UserIndigoName, -1, True, True, False, DevExpress.XtraEditors.ImageLocation.MiddleCenter, Nothing, New DevExpress.Utils.KeyShortcut(System.Windows.Forms.Keys.None), SerializableAppearance, Me.indigo.UserIndigoName, Nothing, Nothing, True)})
+        End Using
+        LblUserName.MaximumSize = New Size(Me.indigo.UserIndigoName.Length * 9, LblUserName.Size.Height)
+        LblUserName.MinimumSize = New Size(Me.indigo.UserIndigoName.Length * 9, LblUserName.Size.Height)
+        Me.INDrbgViewForm.EditValue = indigo.UserViewMode
+        BackstageViewCostIntegrated.Visible = Not String.IsNullOrEmpty(indigo.InteropCostContainer)
+        BackstageViewCostNative.Visible = String.IsNullOrEmpty(indigo.InteropCostContainer)
+        INDsbDashboard.Visible = (indigo.UserType <> UserType.StandardUser)
+        INDbtnCrearReportes.Visible = (indigo.UserType <> UserType.StandardUser)
+        SkinHelper.InitSkinGallery(Me.PpgThemeSkins)
+        BackstageVCPrincipal.SelectedTab = Nothing
+        'Carga de objetos iniciales
+        'taskAutenticationHis = AutenticateHISAsync(indigo.UserIndigo)
+        taskMyFavorites = Me.LoadMyFavoritesAsync()
+        taskFormPermission = LoadListMenuAsync()
+        VersionAplicacion = Utils.GetAppVersion().ToString()
+        INDlblUserWin.Text = Environment.UserName
+        INDlblWorkStation.Text = Environment.UserDomainName
+        '----------Empresa----------
+        INDgleCompanies.EditValue = indigo.IndigoCompany
+        '----------Version----------
+        INDlblServices.Text = indigo.UriWebServices
+        INDlblEntities.Text = indigo.UriWebServicesXpo
+        If indigo.ExcecutionType = ExcecutionSessionType.Local Then
+            INDlblSessionType.Text = obtenerRecurso(Eresources.ComunesSesionLocal, Eform.Comunes)
+        Else
+            INDlblSessionType.Text = obtenerRecurso(Eresources.ComunesSesionRemota, Eform.Comunes)
+        End If
+        '----------Fecha----------
+        INDlblFormatDate.Text = Globalization.DateTimeFormatInfo.CurrentInfo.ShortDatePattern
+        INDlblLanguage.Text = System.Threading.Thread.CurrentThread.CurrentUICulture.NativeName
+        'Aqui validamos el tipo de empresa seleccionado
+        If SessionValues.Instance.IndigoCompanyType = 3 Then 'Alcaldias
+            Me.BvtAdministracionImpuestos.Visible = True
+            Me.BvtVerticalSaludAdministrativo.Visible = False
+            Me.BvtVerticalSaludAsistencial.Visible = False
+            Me.BvtCalidad.Visible = False
+        Else 'IPS
+            Me.BvtAdministracionImpuestos.Visible = False
+            Me.BvtVerticalSaludAdministrativo.Visible = True
+            Me.BvtVerticalSaludAsistencial.Visible = True
+            Me.BvtCalidad.Visible = True
+        End If
+        If ConfigurationFile.Instance.TypeAlertControl = eTypeAlertControl.ToastNotification Then
+            PceMessages.Visible = False
+            If ToastNotificationsManager1 Is Nothing Then
+                ToastNotificationsManager1 = New ToastNotificationsManager(Me.components) With {
+                .ApplicationId = "fa2f0c5e-99b9-40a1-a96d-a58e3960b44d"}
+                If ToastNotificationsManager1.Notifications.Count = 0 Then
+                    ToastNotificationsManager1.Notifications.AddRange(New DevExpress.XtraBars.ToastNotifications.IToastNotificationProperties() {New DevExpress.XtraBars.ToastNotifications.ToastNotification("ce0a6258-78a4-418b-a000-dbcad30dbde8", Nothing, Nothing, Global.Presentation.Client.My.Resources.Resources.formapplicationbutton1, Nothing, Nothing, Nothing, "Vie Cloud Platform - by IndiGO", "", "", "Vie Cloud Platform", DevExpress.XtraBars.ToastNotifications.ToastNotificationSound.[Default], DevExpress.XtraBars.ToastNotifications.ToastNotificationDuration.[Default], Nothing, DevExpress.XtraBars.ToastNotifications.AppLogoCrop.[Default], DevExpress.XtraBars.ToastNotifications.ToastNotificationTemplate.Generic)})
+                End If
+                RemoveHandler ToastNotificationsManager1.Activated, AddressOf ToastNotificationsManager1_Activated
+                AddHandler ToastNotificationsManager1.Activated, AddressOf ToastNotificationsManager1_Activated
+                RemoveHandler ToastNotificationsManager1.Failed, AddressOf ToastNotificationsManager1_Failed
+                AddHandler ToastNotificationsManager1.Failed, AddressOf ToastNotificationsManager1_Failed
+            End If
+        Else
+            DisableToastNotifications()
+        End If
+
+    End Sub
+
+    Private Sub DisableToastNotifications()
+        PceMessages.Visible = True
+        RemoveHandler ToastNotificationsManager1.Activated, AddressOf ToastNotificationsManager1_Activated
+        RemoveHandler ToastNotificationsManager1.Failed, AddressOf ToastNotificationsManager1_Failed
+        ToastNotificationsManager1.Notifications.Clear()
+        ToastNotificationsManager1 = Nothing
+    End Sub
+
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="sender"></param>
+    ''' <param name="args"></param>
+    Private Sub MostrarDashboard(sender As Object, args As EventArgs)
+        If Login Then
+
+            If ApplicationSetting.Instance.LoginAzure AndAlso ConfigurationFile.Instance.Dashboard.HasValue AndAlso Not String.IsNullOrEmpty(ConfigurationFile.Instance.CenterAttention) Then
+                Dim idForm As Integer = 0
+                Select Case ConfigurationFile.Instance.Dashboard.GetValueOrDefault
+                    Case IndigoSingleton.IndigoValoresSesion.EIndigoTipoDashboardDefault.DashBoard_Medico '"Especialistas
+                        Select Case ConfigurationFile.Instance.SideFace.GetValueOrDefault
+                            Case 0
+                                idForm = 1534 'Medicos
+                                Exit Select
+                            Case 1 '"Especialistas
+                                idForm = 1572
+                                Exit Select
+                            Case 10
+                                idForm = 1568 'Internos
+                                Exit Select
+                        End Select
+                        Exit Select
+                    Case IndigoSingleton.IndigoValoresSesion.EIndigoTipoDashboardDefault.DashBoard_Enfermeria '"frmHCDashBoardEnfermeria"
+                        idForm = 1571
+                        Exit Select
+                    Case IndigoSingleton.IndigoValoresSesion.EIndigoTipoDashboardDefault.DashBoard_Terapias '"frmHCDashboardTerapias"
+                        idForm = 1580
+                        Exit Select
+                    Case IndigoSingleton.IndigoValoresSesion.EIndigoTipoDashboardDefault.DashBoard_Laboratorio '"frmLISDashBoardLaboratorio"
+                        idForm = 1576
+                        Select Case ConfigurationFile.Instance.SideFace.GetValueOrDefault
+                            Case 0
+                                idForm = 1576 'laboratorio
+                                Exit Select
+                            Case 1 '"HemoComponentes
+                                idForm = 1898
+                                Exit Select
+                        End Select
+                        Exit Select
+                    Case IndigoSingleton.IndigoValoresSesion.EIndigoTipoDashboardDefault.DashBoard_Imagenologia '"frmRISDashBoardImagenologia"
+                        idForm = 1574
+                        Exit Select
+                    Case IndigoSingleton.IndigoValoresSesion.EIndigoTipoDashboardDefault.DashBoard_Patologias '"frmPATDashBoardPatologias"
+                        idForm = 1993
+                        Exit Select
+                    Case IndigoSingleton.IndigoValoresSesion.EIndigoTipoDashboardDefault.DashBoard_ServiciosApoyo '"frmHCDashboardServiciosApoyo"
+                        idForm = 1579
+                        Exit Select
+                    Case IndigoSingleton.IndigoValoresSesion.EIndigoTipoDashboardDefault.DashBoard_MedicoInternos '"frmHCDashBoardInternos"
+                        idForm = 1568
+                        Exit Select
+                End Select
+                If idForm > 0 Then
+                    OpenForm(idForm, Nothing, False, False)
+                End If
+            End If
+
+            Login = False
+        End If
+    End Sub
+
+#End Region
+
+#Region "Metodos"
+
+    ''' <summary>
+    ''' Agrega un formulario a mis favoritos
+    ''' </summary>
+    ''' <param name="form">Formulario a agregar</param>
+    Public Async Sub AddToMyFavorites(ByVal grid As DevExpress.XtraGrid.GridControl, ByVal form As VieForm)
+        If Not Me.myFavorites.Any(Function(f) f.Id = form.Id) Then
+            Me.myFavorites.Add(form)
+            grid.RefreshDataSource()
+            Me.SafeInvoke(Sub(m) m.INDBsvtiFavorites.Visible = True)
+            Me.SafeInvoke(Sub(m) m.INDBsvisFavorites.Visible = True)
+            Await Me.SaveMyFavoritesAsync()
+        End If
+    End Sub
+
+    ''' <summary>
+    ''' Elimina un formulario de mis favoritos
+    ''' </summary>
+    ''' <param name="form">Formulario a eliminar</param>
+    Public Async Sub DeleteFromMyFavorites(ByVal grid As DevExpress.XtraGrid.GridControl, ByVal form As VieForm)
+        If Me.myFavorites.Any(Function(f) f.Id = form.Id) Then
+            Me.myFavorites.Remove(Me.myFavorites.Find(Function(f) f.Id = form.Id))
+            grid.RefreshDataSource()
+            If Not Me.myFavorites.Any() Then
+                Me.SafeInvoke(Sub(m) m.INDBsvtiFavorites.Visible = False)
+                Me.SafeInvoke(Sub(m) m.INDBsvisFavorites.Visible = False)
+            End If
+            Await Me.SaveMyFavoritesAsync()
+        End If
+    End Sub
+
+    ''' <summary>
+    ''' Carga el menú favoritos del usuario de forma asíncrona
+    ''' </summary>
+    Private Function LoadMyFavoritesAsync() As Task
+        Return Task.Factory.StartNew(AddressOf LoadMyFavorites)
+    End Function
+
+    ''' <summary>
+    ''' Carga el menú favoritos del usuario
+    ''' </summary>
+    Private Sub LoadMyFavorites()
+        Me.myFavorites = New List(Of VieForm)()
+        Dim body As String = Window.Utils.GetMyFavorites(indigo.UserIndigo)
+        If body IsNot Nothing AndAlso Not body.Trim().Equals(String.Empty) Then
+            Try
+                Using ms As MemoryStream = New MemoryStream(Encoding.UTF8.GetBytes(body))
+                    Dim xs = New System.Xml.Serialization.XmlSerializer(GetType(List(Of VieForm)))
+                    Me.myFavorites = CType(xs.Deserialize(ms), List(Of VieForm))
+                    If Me.myFavorites.Count > 0 Then
+                        Me.SafeInvoke(Sub(m) m.INDBsvtiFavorites.Visible = True)
+                        Me.SafeInvoke(Sub(m) m.INDBsvisFavorites.Visible = True)
+                    Else
+                        Me.SafeInvoke(Sub(m) m.INDBsvtiFavorites.Visible = False)
+                    End If
+                End Using
+            Catch
+                Me.SafeInvoke(Sub(m) m.MostrarMensajeSlide("Ocurrió un error y no se ha podido cargar el menú favoritos del usuario.", MessageType.Warning))
+            End Try
+        Else
+            Me.SafeInvoke(Sub(m) m.INDBsvtiFavorites.Visible = False)
+        End If
+    End Sub
+
+    ''' <summary>
+    ''' Salva el menú favoritos del usuario de forma asíncrona
+    ''' </summary>
+    Private Function SaveMyFavoritesAsync() As Task
+        Return Task.Factory.StartNew(AddressOf SaveMyFavorites)
+    End Function
+
+    ''' <summary>
+    ''' Salva el menú favoritos del usuario
+    ''' </summary>
+    Private Sub SaveMyFavorites()
+        Using ms As New MemoryStream()
+            Dim xs = New System.Xml.Serialization.XmlSerializer(GetType(List(Of VieForm)))
+            xs.Serialize(ms, Me.myFavorites)
+            Utils.SetMyFavorites(indigo.UserIndigo, Encoding.UTF8.GetString(ms.ToArray()))
+        End Using
+    End Sub
+
+    ''' <summary>
+    ''' Metodo para abrir un formulario
+    ''' </summary>
+    ''' <param name="form"></param>
+    ''' <remarks></remarks>
+    Private Sub ClickOpenForm(form As VieForm)
+        OpenForm(form.Id)
+    End Sub
+
+    ''' <summary>
+    ''' Ejecuta en una tarea el metodo de autenticar usuario en el HIS
+    ''' </summary>
+    ''' <param name="userCode"></param>
+    ''' <remarks></remarks>
+    Public Sub AutenticateHIS(ByVal userCode As String)
+#If Not DEBUG Then
+        'Realizamos login en en el sistema asistencial
+        Using model As New Presentation.Client.MVP.MLogin
+            If SessionValues.Instance.IntergrationHisStatus = IntegrationStatus.InProgress OrElse SessionValues.Instance.IntergrationHisStatus = IntegrationStatus.Disconnected Then
+                If SessionValues.Instance.HisContainer IsNot Nothing AndAlso Not SessionValues.Instance.HisContainer.Trim().Equals(String.Empty) Then
+                    Dim resultSessionHis As HisSessionValues = model.AutenticateUserHis(userCode, SessionValues.Instance.HisContainer.Trim().Replace("INDIGO", ""), SessionValues.Instance.TransactionalContainer)
+                    SessionValues.Instance.SessionHis = resultSessionHis
+                    If resultSessionHis.IsError Then
+                        IndigoManagementExceptions.HandleExceptionUI(New Exception(resultSessionHis.ResponseMessage), "UIPolicy")
+                    End If
+                End If
+            Else
+                SessionValues.Instance.IntergrationHisStatus = IntegrationStatus.NonIntegrated
+            End If
+        End Using
+#End If
+    End Sub
+
+    ''' <summary>
+    ''' Abre un formulario por su identificación
+    ''' </summary>
+    ''' <param name="idForm">Identificación del formulario</param>
+    ''' <param name="idEntity">Id de la entidad que se va a consultar en el formulario luego de abrirlo</param>
+    ''' <param name="isModal">Valor que indica si el formulario se va a abrir como modal</param>
+    Public Sub OpenForm(idForm As String, Optional idEntity As String = Nothing, Optional isModal As Boolean = False, Optional validateVisible As Boolean = True) Implements IOpenForm.OpenForm
+        'If SplashScreenManager.Default Is Nothing Then
+        '    SplashScreenManager.ShowForm(Me, GetType(wfMain), False, True)
+        'End If
+        'RibbonControl.HideApplicationButtonContentControl()
+
+#If Not DEBUG Then
+        If FolderAccesible = True Then
+            If CompareVersion() = False Then
+                MessageIndigo.Show("Su cliente está desactualizado. Por favor cierre Indigo Vie Cloud Platform y lo reinicia", MessageType.Warning, "Error")
+            End If
+        End If
+#End If
+
+        If Not Login Then
+            ValidateLoadOperatingUnit()
+        End If
+        Me.Cursor = Presentation.Base.BaseClass.ChangeCursorIndigo
+        Dim form As VieForm
+        If validateVisible Then
+            form = (From e In indigo.ListFormPermission Where e.Id = idForm Select e).SingleOrDefault()
+        Else
+            form = BaseClass.GetXmlWithAggregates(Of VieForm)(eDataXml.XMLForms).Where(Function(x) x.Id = idForm).SingleOrDefault()
+        End If
+        If form IsNot Nothing Then
+            Dim listChildenMdi = Me.MdiChildren.Where(Function(frm) frm IsNot Nothing AndAlso frm.GetType().Name.Equals(form.ClassName)).ToList()
+            If listChildenMdi.Count > 0 AndAlso Not isModal Then 'Si ya esta en el MDI entonces lo abro
+                listChildenMdi(0).Activate()
+                'Valido que si es un formBase
+                If TypeOf listChildenMdi(0) Is FormBase Then
+                    Dim formBaseOpen = CType(listChildenMdi(0), FormBase)
+                    'Valir si envian un idEntity entonces le asignos los valores para que cargue el registro
+                    If idEntity IsNot Nothing AndAlso Not idEntity.Trim().Equals(String.Empty) Then
+                        formBaseOpen.BarraBotones.ActualizarPermisosBarra(idForm)
+                        formBaseOpen.IdEntity = idEntity.Trim()
+                        formBaseOpen.OnIdEntityLoaded()
+                    End If
+                    'Agregamos manejador al evento cuando se eliminen las preferencias
+                    AddHandler Me.CustomizationDeleted, AddressOf formBaseOpen.DeleteCustomizationControls
+                End If
+                'HideLoading(listChildenMdi(0))
+            Else ' Si no entonces genero una nueva instancia y la abro
+                'Se valida que se haya definido el proyecto y la clase relacionada
+                If form.AssemblyName IsNot Nothing AndAlso form.ClassName IsNot Nothing Then
+                    If form.IsNativeForm Then
+                        Dim objHandle = Activator.CreateInstance(form.AssemblyName, form.AssemblyName & "." & form.ClassName)
+                        Dim formOpen = CType(objHandle.Unwrap(), Form)
+                        If TypeOf formOpen Is FormBase Then
+                            'Agregamos el Id del módulo al que pertenece el formulario en el Xml
+                            CType(formOpen, FormBase).IdModuleSource = form.IdModuleSource
+                        End If
+                        formOpen.Text = form.Name
+                        'AddHandler formOpen.Shown, Sub()
+                        '                               HideLoading(formOpen)
+                        '                           End Sub
+                        If isModal Then
+                            formOpen.StartPosition = FormStartPosition.CenterParent
+                            Dim size As System.Drawing.Size
+                            size.Width = 1090
+                            size.Height = 768
+                            formOpen.Size = size
+                            formOpen.Owner = Me
+                            If idEntity Is Nothing Then
+                                formOpen.Tag = idForm
+                            Else
+                                formOpen.Tag = idForm & "__" & idEntity
+                            End If
+                            AddHandler formOpen.Shown, AddressOf OnLoadFinishIdEntity
+                            Using tras As New FrmTransparent(formOpen, False)
+                                tras.ShowDialog(Me)
+                            End Using
+                        Else
+                            formOpen.MdiParent = Me
+                            'If ApplicationSetting.Instance.LoginAzure Then
+                            formOpen.Tag = idForm
+                            'End If
+                            formOpen.Show()
+                            'Valido que si es un formBase
+                            If TypeOf formOpen Is FormBase Then
+                                Dim formBaseOpen = CType(formOpen, FormBase)
+                                'Valir si envian un idEntity entonces le asignos los valores para que cargue el registro
+                                If idEntity IsNot Nothing AndAlso Not idEntity.Trim().Equals(String.Empty) Then
+                                    formBaseOpen.BarraBotones.ActualizarPermisosBarra(idForm)
+                                    formBaseOpen.IdEntity = idEntity.Trim()
+                                    formBaseOpen.OnIdEntityLoaded()
+                                End If
+                                'AddHandler formOpen.Shown, Sub()
+                                '                               HideLoading(formBaseOpen)
+                                '                           End Sub
+                                'Agregamos manejador al evento cuando se eliminen las preferencias
+                                AddHandler Me.CustomizationDeleted, AddressOf formBaseOpen.DeleteCustomizationControls
+                            End If
+                        End If
+                    Else 'Si son integrados con el _HIS
+                        'Await taskAutenticationHis
+                        Dim objForm = GetInstanceHisSystem(form.AssemblyName, form.ClassName)
+                        If objForm IsNot Nothing Then
+                            Dim formOpen = CType(objForm, Form)
+                            'If ApplicationSetting.Instance.LoginAzure Then
+                            formOpen.Tag = idForm
+                            'End If
+                            Dim entro As Boolean
+                            Select Case form.ClassName
+                                Case "frmHCDashboardEspecialistas"
+                                    ValidarAbrirDashBoard(formOpen, IndigoSingleton.IndigoValoresSesion.EIndigoTipoDashboardDefault.DashBoard_Medico, CByte(1), entro)
+                                    Exit Select
+                                Case "frmHCDashBoardMedicos"
+                                    ValidarAbrirDashBoard(formOpen, IndigoSingleton.IndigoValoresSesion.EIndigoTipoDashboardDefault.DashBoard_Medico, CByte(0), entro)
+
+                                    Exit Select
+                                Case "frmHCDashBoardEnfermeria"
+                                    ValidarAbrirDashBoard(formOpen, IndigoSingleton.IndigoValoresSesion.EIndigoTipoDashboardDefault.DashBoard_Enfermeria, CByte(0), entro)
+                                    Exit Select
+                                Case "frmHCDashboardTerapias"
+                                    ValidarAbrirDashBoard(formOpen, IndigoSingleton.IndigoValoresSesion.EIndigoTipoDashboardDefault.DashBoard_Terapias, CByte(0), entro)
+                                    Exit Select
+                                Case "frmLISDashBoardLaboratorio"
+                                    ValidarAbrirDashBoard(formOpen, IndigoSingleton.IndigoValoresSesion.EIndigoTipoDashboardDefault.DashBoard_Laboratorio, CByte(0), entro)
+                                    Exit Select
+                                Case "frmHCDashboardHemoComponentes"
+                                    ValidarAbrirDashBoard(formOpen, IndigoSingleton.IndigoValoresSesion.EIndigoTipoDashboardDefault.DashBoard_Laboratorio, CByte(1), entro)
+                                    Exit Select
+                                Case "frmRISDashBoardImagenologia"
+                                    ValidarAbrirDashBoard(formOpen, IndigoSingleton.IndigoValoresSesion.EIndigoTipoDashboardDefault.DashBoard_Imagenologia, CByte(0), entro)
+                                    Exit Select
+                                Case "frmPATDashBoardPatologias"
+                                    ValidarAbrirDashBoard(formOpen, IndigoSingleton.IndigoValoresSesion.EIndigoTipoDashboardDefault.DashBoard_Patologias, CByte(0), entro)
+                                    Exit Select
+                                Case "frmHCDashboardServiciosApoyo"
+                                    ValidarAbrirDashBoard(formOpen, IndigoSingleton.IndigoValoresSesion.EIndigoTipoDashboardDefault.DashBoard_ServiciosApoyo, CByte(0), entro)
+                                    Exit Select
+                                Case "frmHCDashBoardInternos"
+                                    ValidarAbrirDashBoard(formOpen, IndigoSingleton.IndigoValoresSesion.EIndigoTipoDashboardDefault.DashBoard_MedicoInternos, CByte(10), entro)
+                                    If Not entro Then
+                                        ValidarAbrirDashBoard(formOpen, IndigoSingleton.IndigoValoresSesion.EIndigoTipoDashboardDefault.DashBoard_Medico, CByte(10), entro)
+                                    End If
+                                    Exit Select
+                                Case "frmINVDashboardMaterialAsteosintesiss"
+                                    AddHandler CType(formOpen, IndigoInventarios.frmINVDashboardMaterialAsteosintesiss).EventoGenerarOrden, AddressOf EventoGenerarOrdenMaterialOsteosintesis
+                                    Exit Select
+                            End Select
+                            If entro Then
+                                formOpen.WindowState = FormWindowState.Maximized
+                            End If
+
+                            formOpen.Text = form.Name
+                            If isModal Then
+                                formOpen.StartPosition = FormStartPosition.CenterParent
+                                Dim size As System.Drawing.Size
+                                If idForm = 1563 Then 'Archivo de Configuracion de crystal
+                                    size.Width = 796
+                                    size.Height = 360
+                                Else
+                                    size.Width = 1090
+                                    size.Height = 768
+                                End If
+                                formOpen.Size = size
+                                formOpen.Owner = Me
+                                Using tras As New FrmTransparent(formOpen, False)
+                                    tras.ShowDialog(Me)
+                                End Using
+                            Else
+                                formOpen.MdiParent = Me
+                                formOpen.Show()
+                            End If
+                        End If
+                    End If
+                End If
+            End If
+        Else
+            'HideLoading(Nothing)
+        End If
+        Me.Cursor = Cursors.Default
+        RibbonControl.HideApplicationButtonContentControl()
+    End Sub
+
+    Private Sub ValidarAbrirDashBoard(ByRef obj As Form, ByVal dashboard As IndigoSingleton.IndigoValoresSesion.EIndigoTipoDashboardDefault, ByVal perfil As Byte, ByRef entro As Boolean)
+        Dim cf As ConfigurationFile = ConfigurationFile.Instance
+        If (If(String.IsNullOrEmpty(cf.CenterAttention), False, cf.Dashboard.HasValue)) Then
+            If (If(cf.Dashboard.GetValueOrDefault() <> CByte(dashboard), False, perfil = cf.SideFace.GetValueOrDefault())) Then
+                entro = True
+                Dim value As Byte = cf.Dashboard.Value
+                Dim valueOrDefault As Byte = cf.SideFace.GetValueOrDefault()
+                Dim centerAttention As String = cf.CenterAttention
+                Dim nameCareCenter As String = cf.NameCareCenter
+                Dim functionalUnit As String = cf.FunctionalUnit
+                Dim functionalUnitName As String = cf.FunctionalUnitName
+                Dim typeFunctionalUnit As Nullable(Of Integer) = cf.TypeFunctionalUnit
+                Dim _form As Form = Me.AbrirDashBoard(CType(value, IndigoSingleton.IndigoValoresSesion.EIndigoTipoDashboardDefault), CInt(valueOrDefault), centerAttention, nameCareCenter, functionalUnit, functionalUnitName, typeFunctionalUnit.GetValueOrDefault(), cf.GroupCode, cf.RoleCode)
+                If (_form IsNot Nothing) Then
+                    obj = _form
+                End If
+            End If
+        End If
+    End Sub
+
+    ''' <summary>
+    ''' Metodo para Abrir los diferentes Dashboard's
+    ''' </summary>     
+    Private Function AbrirDashBoard(ByVal DashboardDefault As IndigoSingleton.IndigoValoresSesion.EIndigoTipoDashboardDefault, ByVal Perfil As Integer, ByVal CentroAtencion As String, ByVal CentroAtencionNombre As String, ByVal UnidadFuncional As String, ByVal UnidadFuncionalNombre As String, ByVal TipoUnidadFuncional As Integer, ByVal Grupo As String, ByVal Rol As String) As System.Windows.Forms.Form
+        Dim form As System.Windows.Forms.Form = Nothing
+        Select Case DashboardDefault
+            Case IndigoSingleton.IndigoValoresSesion.EIndigoTipoDashboardDefault.DashBoard_Medico
+                If (Perfil = 1) Then
+                    Dim frmHCDashboardEspecialista As IndigoeHistorias.frmHCDashboardEspecialistas = New IndigoeHistorias.frmHCDashboardEspecialistas(IndigoSingleton.IndigoValoresSesion.Instancia.UriWebServices,
+                        SessionValues.Instance.HisContainer.Trim.Replace("INDIGO", ""), SessionValues.Instance.UserIndigo, Grupo, Rol,
+                        CentroAtencion, UnidadFuncional, IndigoSingleton.IndigoValoresSesion.Instancia.EmpresaDGH, IndigoSingleton.IndigoValoresSesion.Instancia.UsuarioDGH) With
+                        {
+                            .INDorigen = IndigoeHistorias.clsFuncionesHC.eOrigen.OrigenLogin
+                        }
+                    frmHCDashboardEspecialista.AbrirDashBoard()
+                    form = frmHCDashboardEspecialista
+                    Exit Select
+                ElseIf (Perfil <> 0) Then
+                    Dim frmHCDashBoardInterno As IndigoeHistorias.frmHCDashBoardInternos = New IndigoeHistorias.frmHCDashBoardInternos() With
+                        {
+                            .INDCentroAtencion = CentroAtencion,
+                            .INDCentroAtencionDescripcion = CentroAtencionNombre,
+                            .INDUnidadFuncional = UnidadFuncional,
+                            .INDTipoUnidadFuncional = TipoUnidadFuncional,
+                            .INDorigen = IndigoeHistorias.clsFuncionesHC.eOrigen.OrigenLogin
+                        }
+                    frmHCDashBoardInterno.AbrirDashBoardAsincrono()
+                    frmHCDashBoardInterno.Text = "DashBoard Academicos"
+                    form = frmHCDashBoardInterno
+                    Exit Select
+                Else
+                    Dim frmHCDashBoardMedico As IndigoeHistorias.frmHCDashBoardMedicos = New IndigoeHistorias.frmHCDashBoardMedicos() With
+                        {
+                            .INDorigen = IndigoeHistorias.clsFuncionesHC.eOrigen.OrigenLogin,
+                            .INDCentroAtencion = CentroAtencion,
+                            .INDUnidadFuncional = UnidadFuncional,
+                            .INDCentroAtencionDescripcion = CentroAtencionNombre,
+                            .INDUnidadFuncionalDescripcion = UnidadFuncionalNombre,
+                            .INDTipoUnidadFuncional = TipoUnidadFuncional
+                        }
+                    frmHCDashBoardMedico.AbrirDashBoardAsincrono()
+                    form = frmHCDashBoardMedico
+                    Exit Select
+                End If
+
+            Case IndigoSingleton.IndigoValoresSesion.EIndigoTipoDashboardDefault.DashBoard_Enfermeria
+                Dim frmHCDashBoardEnfermerium As IndigoeHistorias.frmHCDashBoardEnfermeria = New IndigoeHistorias.frmHCDashBoardEnfermeria() With
+                    {
+                        .INDorigen = IndigoeHistorias.clsFuncionesHC.eOrigen.OrigenLogin,
+                        .INDCentroAtencion = CentroAtencion,
+                        .INDUnidadFuncional = UnidadFuncional,
+                        .INDCentroAtencionDescripcion = CentroAtencionNombre,
+                        .INDUnidadFuncionalDescripcion = UnidadFuncionalNombre,
+                        .INDTipoUnidadFuncional = TipoUnidadFuncional
+                    }
+                form = frmHCDashBoardEnfermerium
+                Exit Select
+            Case IndigoSingleton.IndigoValoresSesion.EIndigoTipoDashboardDefault.DashBoard_Interconsultas
+                form = Nothing
+                Exit Select
+
+            Case IndigoSingleton.IndigoValoresSesion.EIndigoTipoDashboardDefault.DashBoard_Terapias
+                Dim frmHCDashboardTerapia As IndigoeHistorias.frmHCDashboardTerapias = New IndigoeHistorias.frmHCDashboardTerapias(IndigoSingleton.IndigoValoresSesion.Instancia.UriWebServices,
+                    SessionValues.Instance.HisContainer.Trim.Replace("INDIGO", ""), SessionValues.Instance.UserIndigo, Grupo, Rol, CentroAtencion,
+                    UnidadFuncional, IndigoSingleton.IndigoValoresSesion.Instancia.EmpresaDGH, IndigoSingleton.IndigoValoresSesion.Instancia.UsuarioDGH) With
+                    {
+                        .INDorigen = IndigoeHistorias.clsFuncionesHC.eOrigen.OrigenLogin,
+                        .Text = "DashBoard Terapia"
+                    }
+                frmHCDashboardTerapia.AbrirDashBoard()
+                form = frmHCDashboardTerapia
+                Exit Select
+
+            Case IndigoSingleton.IndigoValoresSesion.EIndigoTipoDashboardDefault.DashBoard_Laboratorio
+                If (Perfil <> 1) Then
+                    Dim _frmLISDashBoardLaboratorio As IndigoLaboratorio.frmLISDashBoardLaboratorio = New IndigoLaboratorio.frmLISDashBoardLaboratorio() With
+                        {
+                            .INDCentroAtencion = CentroAtencion,
+                            .INDCentroAtencionDescripcion = CentroAtencionNombre
+                        }
+                    _frmLISDashBoardLaboratorio.AbrirDashBoardAsincrono()
+                    _frmLISDashBoardLaboratorio.Text = "DashBoard Laboratorio"
+                    form = _frmLISDashBoardLaboratorio
+                    Exit Select
+                Else
+                    Dim frmHCDashboardHemoComponente As IndigoeHistorias.frmHCDashboardHemoComponentes = New IndigoeHistorias.frmHCDashboardHemoComponentes()
+                    frmHCDashboardHemoComponente.ConsultaCentros()
+                    frmHCDashboardHemoComponente.INDglCentroAtencion.EditValue = CentroAtencion
+                    frmHCDashboardHemoComponente.CargarDashboard()
+                    frmHCDashboardHemoComponente.Text = "DashBoard Hemocomponentes"
+                    form = frmHCDashboardHemoComponente
+                    Exit Select
+                End If
+
+            Case IndigoSingleton.IndigoValoresSesion.EIndigoTipoDashboardDefault.DashBoard_Imagenologia
+                Dim frmRISDashBoardImagenologium As IndigoRIS.frmRISDashBoardImagenologia = New IndigoRIS.frmRISDashBoardImagenologia() With
+                    {
+                        .INDCentroAtencion = CentroAtencion,
+                        .INDCentroAtencionDescripcion = CentroAtencionNombre,
+                        .GrupoDescripcion = UnidadFuncionalNombre,
+                        .INDSubgrupo = UnidadFuncional,
+                        .Origen = IndigoRIS.frmRISDashBoardImagenologia.eOrigen.Intrahospitalario
+                    }
+                frmRISDashBoardImagenologium.AbrirDashBoardAsincrono()
+                frmRISDashBoardImagenologium.Text = "DashBoard Imagenologia Tecnologo"
+                form = frmRISDashBoardImagenologium
+                Exit Select
+
+            Case IndigoSingleton.IndigoValoresSesion.EIndigoTipoDashboardDefault.DashBoard_Patologias
+                Dim frmPATDashBoardPatologia As IndigoPatologias.frmPATDashBoardPatologias = New IndigoPatologias.frmPATDashBoardPatologias() With
+                    {
+                        .INDCentroAtencion = CentroAtencion,
+                        .INDCentroAtencionDescripcion = CentroAtencionNombre
+                    }
+                frmPATDashBoardPatologia.Intrahospitalario()
+                frmPATDashBoardPatologia.Text = "DashBoard Patologias"
+                form = frmPATDashBoardPatologia
+                Exit Select
+
+            Case IndigoSingleton.IndigoValoresSesion.EIndigoTipoDashboardDefault.DashBoard_ServiciosApoyo
+                Dim _frmHCDashboardServiciosApoyo As IndigoeHistorias.frmHCDashboardServiciosApoyo = New IndigoeHistorias.frmHCDashboardServiciosApoyo() With
+                    {
+                        ._INDCentroAtencion = CentroAtencion,
+                        ._INDCentroAtencionDescripcion = CentroAtencionNombre,
+                        ._INDUnidadFuncional = UnidadFuncional,
+                        .TipoUnidadFuncional = TipoUnidadFuncional.ToString(),
+                        .INDorigen = IndigoeHistorias.clsFuncionesHC.eOrigen.OrigenLogin,
+                        .Text = "DashBoard Servicios de Apoyo"
+                    }
+                _frmHCDashboardServiciosApoyo.AbrirDashBoard()
+                form = _frmHCDashboardServiciosApoyo
+                Exit Select
+            Case IndigoSingleton.IndigoValoresSesion.EIndigoTipoDashboardDefault.DashBoard_MedicoInternos
+                Dim Dashboard As IndigoeHistorias.frmHCDashBoardInternos = New IndigoeHistorias.frmHCDashBoardInternos() With
+                    {
+                        .INDCentroAtencion = CentroAtencion,
+                        .INDCentroAtencionDescripcion = CentroAtencionNombre,
+                        .INDUnidadFuncional = UnidadFuncional,
+                        .INDTipoUnidadFuncional = TipoUnidadFuncional,
+                        .INDorigen = IndigoeHistorias.clsFuncionesHC.eOrigen.OrigenLogin
+                    }
+                Dashboard.AbrirDashBoardAsincrono()
+                Dashboard.Text = "DashBoard Academicos"
+                form = Dashboard
+                Exit Select
+            Case Else
+        End Select
+        Return form
+    End Function
+
+    Private Sub HideLoading(frm As Form)
+        If SplashScreenManager.Default IsNot Nothing Then
+            If frm IsNot Nothing Then
+                If SplashScreenManager.FormInPendingState Then
+                    SplashScreenManager.CloseForm()
+                Else
+                    SplashScreenManager.CloseForm(False, 100, frm)
+                End If
+            Else
+                SplashScreenManager.CloseForm()
+            End If
+        End If
+    End Sub
+
+    Private Sub OnLoadFinishIdEntity(sender As Object, e As EventArgs)
+        Dim formOpen As Form = CType(sender, Form)
+        Dim formData = formOpen.Tag.ToString().Split("__")
+        Dim idForm As String
+        Dim idEntity As String = ""
+        If formData.Count > 1 Then
+            idForm = formData(0)
+            idEntity = formData(2)
+        Else
+            idForm = formData(0)
+        End If
+
+        formOpen.Tag = idForm
+        'Valido que si es un formBase
+        If TypeOf formOpen Is FormBase Then
+            Dim formBaseOpen = CType(formOpen, FormBase)
+            'Valir si envian un idEntity entonces le asignos los valores para que cargue el registro
+            If idEntity IsNot Nothing AndAlso Not idEntity.Trim().Equals(String.Empty) Then
+                formBaseOpen.BarraBotones.ActualizarPermisosBarra(idForm)
+                formBaseOpen.IdEntity = idEntity.Trim()
+                formBaseOpen.OnIdEntityLoaded()
+            End If
+            'Agregamos manejador al evento cuando se eliminen las preferencias
+            AddHandler Me.CustomizationDeleted, AddressOf formBaseOpen.DeleteCustomizationControls
+        End If
+    End Sub
+
+    ''' <summary>
+    ''' Ocurre cuando el usuario actual elimina sus preferencias
+    ''' </summary>
+    Protected Sub OnCustomizationDeleted()
+        RaiseEvent CustomizationDeleted()
+    End Sub
+
+    ''' <summary>
+    ''' Obtiene una instancia de un tipo en el sistema asistencial
+    ''' </summary>
+    ''' <param name="assemblyName">Nombre del ensamblado donde se encuentra el tipo</param>
+    ''' <param name="typeName">Nombre del tipo</param>
+    ''' <returns>Instancia del tipo</returns>
+    Public Shared Function GetInstanceHisSystem(ByVal assemblyName As String, ByVal typeName As String) As Object
+        Try
+            'If File.Exists(assemblyName) Then
+            'Dim asm As Assembly = Assembly.LoadFrom(assemblyName)
+            Dim archivo As String = String.Concat(Utils.GetApplicationPath(), assemblyName)
+            If File.Exists(archivo) Then
+                Dim asm As Assembly = Assembly.LoadFrom(archivo)
+                Dim t As Type = asm.GetTypes().Where(Function(f) f.Name.Equals(typeName)).FirstOrDefault()
+                If t IsNot Nothing Then
+                    Return Activator.CreateInstance(t)
+                End If
+            End If
+            Return Nothing
+        Catch ex As Exception
+            Return Nothing
+        End Try
+    End Function
+
+    ''' <summary>
+    ''' Metodo que valida que las unidades operativas ya esten cargadas osea que se haya ejecutado la tarea
+    ''' </summary>
+    ''' <remarks></remarks>
+    Private Sub ValidateLoadOperatingUnit()
+        If indigo.ListOperatingUnitPermission Is Nothing OrElse indigo.ListOperatingUnitPermission.Count = 0 Then
+            'Await taskListOperatingUnit 
+            Dim companyPermission = TryCast(INDgleCompanies.GetSelectedDataRow, Company)
+            CargarUnidadesOperativas(companyPermission)
+        End If
+    End Sub
+
+    ''' <summary>
+    ''' Funcion para asignar las empresas a las cuales tiene permiso
+    ''' </summary>
+    ''' <param name="listCompanies">Lista de compañias</param>
+    ''' <param name="listCodeCompanyPermission">Lista de codigos de compañias a las cuales el usuario tiene permiso</param>
+    ''' <remarks></remarks>
+    Public Sub AssingCompanies(listCompanies As List(Of Company), listCodeCompanyPermission As List(Of CompanyPermission))
+        Dim _CompanyPermission As CompanyPermission = Nothing
+        Cargando = True
+        listCompanyPermission = listCompanies.Where(Function(x) listCodeCompanyPermission.Any(Function(y) y.CompanyCode.Equals(x.Code))).ToList
+        For Each company In listCompanyPermission
+            _CompanyPermission = listCodeCompanyPermission.Where(Function(x) x.CompanyCode = company.Code).SingleOrDefault
+            If company.IdOperatingUnitDefault = 0 Then
+                company.IdOperatingUnitDefault = _CompanyPermission.IdOperatingUnitDefault
+            End If
+            If Not ApplicationSetting.Instance.LoginAzure Then
+                company.Administrator = _CompanyPermission.Administrator
+            End If
+        Next
+        UnifiedConfiguration.Instance.ListCompanies = listCompanyPermission
+        If indigo.UserType = UserType.GlobalAdmin Then
+            INDgleCompanies.Properties.DataSource = Me.listCompanyPermission
+        Else 'si no se filtra por tenant se debe ajustar el cambio de empresa para cargar y asignar el rol, el grupo, los permisos del usuario en el tenant de la compañia si es de otro tenant
+            INDgleCompanies.Properties.DataSource = Me.listCompanyPermission.Where(Function(_Company) _Company.TenantId = indigo.TenantId).ToList
+        End If
+
+        INDgleCompanies.EditValue = indigo.IndigoCompany
+        taskListOperatingUnit = LoadOperatingUnitAsync(False) 'lo llama el evento INDgleCompanies.EditValueChanged
+        Cargando = False
+    End Sub
+
+    ''' <summary>
+    ''' Realiza la carga de las unidades operativas
+    ''' a las cuales tiene permiso el usuario en la empresa seleccionada, de forma asíncrona
+    ''' </summary>
+    Private Function LoadOperatingUnitAsync(_setSession As Boolean) As Task
+        Return Task.Factory.StartNew(Sub()
+                                         LoadOperatingUnit(_setSession)
+                                     End Sub)
+    End Function
+
+    ''' <summary>
+    ''' Realiza la carga de las unidades operativas
+    ''' a las cuales tiene permiso el usuario en la empresa seleccionada
+    ''' </summary>
+    Private Sub LoadOperatingUnit(_setSession As Boolean)
+        If INDgleCompanies.GetSelectedDataRow IsNot Nothing Then
+
+            Dim companyPermission = TryCast(INDgleCompanies.GetSelectedDataRow, Company)
+            If _setSession Then
+                SetSessionValues(companyPermission)
+            End If
+
+            CargarUnidadesOperativas(companyPermission)
+            If Not ApplicationSetting.Instance.LoginAzure Then
+                AutenticateHIS(indigo.UserIndigo) 'Cuando se cambiaba de empresa no se actualizaba el contenedor en crystal
+
+            End If
+        End If
+    End Sub
+
+    Private Sub SetSessionValues(ByVal companyPermission As Company)
+        Me.indigo.IndigoContainerId = companyPermission.Id
+        Me.indigo.IndigoCompany = companyPermission.Code
+        Me.indigo.IndigoCompanyName = companyPermission.Name
+        Me.indigo.IndigoCompanyNit = companyPermission.CompanyNit
+        Me.indigo.IndigoVerificationDigitNit = companyPermission.VerificationDigitNit
+        Me.indigo.IndigoCompanyType = companyPermission.CompanyType
+        Me.indigo.IndigoContainer = companyPermission.Code
+        Me.indigo.IndigoGlossesIntegration = companyPermission.GlossesIntegration
+        Me.indigo.IndigoPayrollIntegration = companyPermission.PayrollIntegration
+        Me.indigo.IndigoConnectionString = companyPermission.IndigoConnectionString
+        Me.indigo.IndigoCompanyPhoneNumber = companyPermission.Telephone
+        Me.indigo.IndigoCompanyAddress = companyPermission.Address
+        Me.indigo.DocumentalContainer = companyPermission.DocumentalContainer
+        Me.indigo.HisContainer = companyPermission.HISContainer
+        Me.indigo.IntergrationHisStatus = CType(companyPermission.HISIntegration, IntegrationStatus)
+        Me.indigo.InteropCostContainer = companyPermission.InteropCostContainer
+        Me.indigo.SecurityContainer = companyPermission.SecurityContainer
+        Me.indigo.TransactionalContainer = companyPermission.TransactionalContainer
+        Me.indigo.FoundationalContainer = companyPermission.FoundationalContainer
+        Me.indigo.VituelContainer = companyPermission.VituelContainer
+        Me.indigo.IndigoHumanTalentIntegration = companyPermission.HumanTalentIntegration
+        Me.indigo.IndigoDispensingIntegration = companyPermission.DispensingIntegration
+        Me.indigo.TenantId = companyPermission.TenantId
+        Me.indigo.ServiceConfigurationId = companyPermission.ServiceConfigurationId
+        Me.indigo.IndigoOperatingUnitId = companyPermission.IdOperatingUnitDefault
+    End Sub
+
+    Private Sub CargarUnidadesOperativas(ByVal companyPermission As Company)
+        Dim operatingUnitByContainerPermission As List(Of Domain.Entities.OperatingUnit)
+        Using modelPrincipal As MmdiPrincipal = New MmdiPrincipal()
+            operatingUnitByContainerPermission = modelPrincipal.GetOperatingUnitByContainerPermission(companyPermission.Id)
+        End Using
+        Me.indigo.ListOperatingUnitPermission = operatingUnitByContainerPermission
+        If companyPermission.IdOperatingUnitDefault = 0 AndAlso operatingUnitByContainerPermission IsNot Nothing AndAlso operatingUnitByContainerPermission.Count > 0 Then
+            companyPermission.IdOperatingUnitDefault = operatingUnitByContainerPermission.FirstOrDefault().Id
+        End If
+        Me.INDglePermissionOperating.SafeInvoke(Sub(gle As GridLookUpEdit) gle.Properties.DataSource = operatingUnitByContainerPermission)
+        Me.INDglePermissionOperating.SafeInvoke(Sub(gle As GridLookUpEdit) gle.EditValue = companyPermission.IdOperatingUnitDefault)
+    End Sub
+
+    ''' <summary>
+    ''' Funcion que se utiliza para consultar los modulos y pintarlos en el MDI de forma asíncrona
+    ''' </summary>
+    ''' <returns></returns>
+    Public Function LoadListMenuAsync() As Task
+        Return Task.Factory.StartNew(AddressOf LoadListMenu)
+    End Function
+
+    ''' <summary>
+    ''' Funcion que se utiliza para consultar los modulos y pintarlos en el MDI
+    ''' </summary>
+    Public Sub LoadListMenu()
+        Dim forms = BaseClass.GetXmlWithAggregates(Of VieForm)(eDataXml.XMLForms)
+        Dim res = forms.Where(Function(f) f.HasForm AndAlso SessionValues.Instance.IdsFormVisible.Contains(f.Id.ToString())).ToList()
+
+#If DEBUG Then
+        indigo.ListFormPermission = res
+#Else
+        If indigo.IndigoCompanyNit = "900433437" OrElse indigo.IndigoCompanyNit = "900622551" Then 'Si el nit de la compañía es igual al de FarmaQx o Jersalud, se muestran todos los forms
+            indigo.ListFormPermission = res
+        Else 'Si no es igual, no se muestran los forms de dispensación por paciente
+            indigo.ListFormPermission = (From x In res Where x.Id <> 1984 And x.Id <> 2032 And x.Id <> 2033 Select x).ToList()
+        End If
+#End If
+        If ApplicationSetting.Instance.LoginAzure Then
+            'Se valida si el usuario tiene permiso para el botón de Autorización - EHR
+            INDbtnAuthorizationEHR.SafeInvoke(Sub()
+                                                  INDlygSecurityEHR.Visibility = LayoutVisibility.Never
+                                                  INDlyItemRolesEHR.Visibility = LayoutVisibility.Never
+                                                  INDlyItemGroupEHR.Visibility = LayoutVisibility.Never
+                                                  INDlyItemUsersEHR.Visibility = LayoutVisibility.Never
+                                                  INDlyItemAuthorizationEHR.Visibility = LayoutVisibility.Never
+
+                                                  If indigo.ListFormPermission.Where(Function(x) x.Id = 2055).Count() > 0 Then
+                                                      INDlygSecurityEHR.Visibility = LayoutVisibility.Always
+                                                      INDlyItemAuthorizationEHR.Visibility = LayoutVisibility.Always
+                                                  End If
+                                              End Sub)
+        Else
+            'Se valida si el usuario tiene permiso para el botón de Autorización - EHR
+            INDbtnAuthorizationEHR.SafeInvoke(Sub()
+                                                  INDlygSecurityEHR.Visibility = LayoutVisibility.Never
+                                                  INDlyItemRolesEHR.Visibility = LayoutVisibility.Never
+                                                  INDlyItemGroupEHR.Visibility = LayoutVisibility.Never
+                                                  INDlyItemUsersEHR.Visibility = LayoutVisibility.Never
+                                                  INDlyItemAuthorizationEHR.Visibility = LayoutVisibility.Never
+
+                                                  If indigo.ListFormPermission.Where(Function(x) x.Id = 2188).Count() > 0 Then
+                                                      INDlygSecurityEHR.Visibility = LayoutVisibility.Always
+                                                      INDlyItemRolesEHR.Visibility = LayoutVisibility.Always
+                                                  End If
+
+                                                  If indigo.ListFormPermission.Where(Function(x) x.Id = 2189).Count() > 0 Then
+                                                      INDlygSecurityEHR.Visibility = LayoutVisibility.Always
+                                                      INDlyItemGroupEHR.Visibility = LayoutVisibility.Always
+                                                  End If
+
+                                                  If indigo.ListFormPermission.Where(Function(x) x.Id = 2190).Count() > 0 Then
+                                                      INDlygSecurityEHR.Visibility = LayoutVisibility.Always
+                                                      INDlyItemUsersEHR.Visibility = LayoutVisibility.Always
+                                                  End If
+
+                                                  If indigo.ListFormPermission.Where(Function(x) x.Id = 2055).Count() > 0 Then
+                                                      INDlygSecurityEHR.Visibility = LayoutVisibility.Always
+                                                      INDlyItemAuthorizationEHR.Visibility = LayoutVisibility.Always
+                                                  End If
+                                              End Sub)
+        End If
+
+
+        'Se valida si el usuario tiene permiso para el botón de Auditoria Historia Clinica
+        INDbtnAuditoriaHC.SafeInvoke(Sub()
+                                         INDlyItemAuditoriaHC.Visibility = LayoutVisibility.Never
+                                         If indigo.ListFormPermission.Where(Function(x) x.Id = 2066).Count() > 0 Then
+                                             INDlyItemAuditoriaHC.Visibility = LayoutVisibility.Always
+                                         End If
+                                     End Sub)
+    End Sub
+
+    ''' <summary>
+    ''' Mostrar mensaje slide este evento se dispara cuando se envia un mensaje desde cualquier parte de la aplicacion haciendo uso del patron observador suscriptor
+    ''' </summary>
+    ''' <param name="Mensaje">The mensaje.</param>
+    ''' <param name="Tipo">The tipo.</param>
+    Public Sub MostrarMensajeSlide(ByVal Mensaje As String, ByVal Tipo As MessageType, Optional form As Form = Nothing) Implements IObservador.MostrarMensajeSlide
+        Dim colorMsg As Color
+        Dim img As Image = Nothing
+        Dim caption As String = ""
+        If form IsNot Nothing Then
+            caption = form.Text
+        End If
+        Select Case Tipo
+            Case MessageType.Errores
+                img = ThemeResourceManager.GetIconMessageIndigo("Sharp Plus", Tipo, False)
+                colorMsg = System.Drawing.Color.FromArgb(CType(CType(196, Byte), Integer), CType(CType(70, Byte), Integer), CType(CType(46, Byte), Integer))
+            Case MessageType.Information
+                img = INDicIconosMensaje.Images(0)
+                colorMsg = System.Drawing.Color.FromArgb(CType(CType(87, Byte), Integer), CType(CType(172, Byte), Integer), CType(CType(214, Byte), Integer))
+            Case MessageType.Messages
+                img = ThemeResourceManager.GetIconMessageIndigo("Sharp Plus", Tipo, False)
+                colorMsg = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(202, Byte), Integer), CType(CType(0, Byte), Integer))
+            Case MessageType.MessagesLync
+                img = ThemeResourceManager.GetIconMessageIndigo("Sharp Plus", Tipo, False)
+                colorMsg = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(202, Byte), Integer), CType(CType(0, Byte), Integer))
+            Case MessageType.Question
+                img = ThemeResourceManager.GetIconMessageIndigo("Sharp Plus", Tipo, False)
+                colorMsg = System.Drawing.Color.FromArgb(CType(CType(170, Byte), Integer), CType(CType(194, Byte), Integer), CType(CType(77, Byte), Integer))
+            Case MessageType.Warning
+                img = INDicIconosMensaje.Images(1)
+                colorMsg = System.Drawing.Color.FromArgb(CType(CType(214, Byte), Integer), CType(CType(138, Byte), Integer), CType(CType(48, Byte), Integer))
+
+        End Select
+
+        ShowMessageAlert(Me, caption, Mensaje, "", img, "", colorMsg, Tipo)
+    End Sub
+
+    Private Sub ShowMessageAlert(form As Form, caption As String, text As String, hotTracked As String, image As Image, tag As Object, color As Color)
+        If ConfigurationFile.Instance.TypeAlertControl = eTypeAlertControl.ToastNotification Then
+            Dim _toastNotification = ToastNotificationsManager1.Notifications(0)
+            Dim _toastNotificationNew = New ToastNotification()
+            _toastNotificationNew.Assign(_toastNotification)
+            _toastNotificationNew.Header = caption
+            _toastNotificationNew.Body = text
+            '_toastNotificationNew.Image = image
+            _toastNotificationNew.ID = Guid.NewGuid
+            ToastNotificationsManager1.Notifications.Add(_toastNotificationNew)
+            ToastNotificationsManager1.ShowNotification(_toastNotificationNew)
+        Else
+            Me.SafeInvoke(Sub()
+              Dim _color As Color
+              Select Case DevExpress.LookAndFeel.UserLookAndFeel.Default.ActiveSkinName
+                  Case "The Bezier", "Office 2019 Dark Gray", "Black", "Office 2007 Black", "Pumpkin", "Office 2019 Colorful"
+                      _color = color.White
+                  Case Else
+                      _color = DevExpress.LookAndFeel.UserLookAndFeel.Default.SkinMaskColor
+              End Select
+                Using INDAlertControl As New CustomAlertControl()
+                                  AddHandler INDAlertControl.BeforeFormShow, AddressOf INDAlertControl_BeforeFormShow
+                                  AddHandler INDAlertControl.AlertClick, AddressOf INDAlertControl_AlertClick
+                                  INDAlertControl.TypeMessage = typeMessage
+                                  INDAlertControl.AppearanceText.Font = New System.Drawing.Font("Segoe UI Light", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+                                  INDAlertControl.AppearanceText.ForeColor = _color 'Color.White
+                                  INDAlertControl.FormLocation = AlertFormLocation.BottomRight
+                                  INDAlertControl.AutoFormDelay = 5000
+                                  INDAlertControl.AppearanceHotTrackedText.Font = New System.Drawing.Font("Segoe UI Light", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+                                  'INDAlertControl.AppearanceHotTrackedText.ForeColor = _color ' Color.White
+                                  INDAlertControl.FormShowingEffect = AlertFormShowingEffect.SlideHorizontal
+                                  INDAlertControl.Show(form, caption, text, hotTracked, image, tag, color)
+                              End Using
+                          End Sub)
+        End If
+    End Sub
+
+    ''' <summary>
+    ''' Metodo para informarle al centro de notificaciones
+    ''' </summary>
+    ''' <param name="Title"></param>
+    ''' <param name="Message"></param>
+    ''' <param name="TypeMessage"></param>
+    ''' <param name="MessageDate"></param>
+    ''' <param name="AditionalMessage"></param>
+    ''' <remarks></remarks>
+    Public Sub NotificationCenter(Title As String, Message As String, TypeMessage As MessageType, MessageDate As Date, AditionalMessage As String) Implements IObservador.NotificationCenter
+        If LblNewMessage.InvokeRequired = True Then
+            LblNewMessage.BeginInvoke(Sub()
+                                          LblNewMessage.Visible = True
+                                          Dim MessageNotification As New CtrNotificationItem(Title, Message, TypeMessage, MessageDate, AditionalMessage)
+                                          MessageNotification.Dock = DockStyle.Top
+                                          CtrNotificationCenter.INDxcMessages.Controls.Add(MessageNotification)
+                                      End Sub)
+        Else
+            LblNewMessage.Visible = True
+            Dim MessageNotification As New CtrNotificationItem(Title, Message, TypeMessage, MessageDate, AditionalMessage)
+            MessageNotification.Dock = DockStyle.Top
+            CtrNotificationCenter.INDxcMessages.Controls.Add(MessageNotification)
+        End If
+    End Sub
+
+    ''' <summary>
+    ''' Metodo para caragr el control de busquedas
+    ''' </summary>
+    ''' <remarks></remarks>
+    Private Sub LoadCtrSearching()
+        Me.CtrSearching = New Presentation.Controls.CtrSearching()
+        Me.PccV12.Size = New Size(My.Computer.Screen.Bounds.Width, My.Computer.Screen.Bounds.Height - 45)
+        Me.PccV12.Controls.Add(Me.CtrSearching)
+        Me.CtrSearching.Appearance.BackColor = System.Drawing.Color.White
+        Me.CtrSearching.Appearance.Options.UseBackColor = True
+        Me.CtrSearching.Location = New System.Drawing.Point(2, 2)
+        Me.CtrSearching.Margin = New System.Windows.Forms.Padding(0)
+        Me.CtrSearching.MinimumSize = New System.Drawing.Size(1000, 700)
+        Me.CtrSearching.Name = "CtrSearching"
+        Me.CtrSearching.Size = New System.Drawing.Size(1000, 700)
+        Me.CtrSearching.TabIndex = 4
+        Me.CtrSearching.Dock = DockStyle.Fill
+    End Sub
+
+    ''' <summary>
+    ''' Carga el centro de mensajes
+    ''' </summary>
+    Private Sub LoadNotificationCenter()
+        Me.CtrNotificationCenter = New Presentation.Controls.CtrNotificationCenter()
+        Me.PccNotificationCenter.Controls.Add(Me.CtrNotificationCenter)
+        CtrNotificationCenter.Dock = DockStyle.Fill
+        Me.CtrNotificationCenter.Appearance.Options.UseBackColor = True
+        Me.CtrNotificationCenter.Name = "CtrNotificationCenter"
+    End Sub
+
+    ''' <summary>
+    ''' Asigna el tema del usuario
+    ''' </summary>
+    Public Sub SetThemeSkinDefault()
+        If Utils.ShowThemeSkinSelector() Then
+            AddHandler DevExpress.LookAndFeel.UserLookAndFeel.Default.StyleChanged, AddressOf PpgThemeSkins_StyleChanged
+            DevExpress.LookAndFeel.UserLookAndFeel.Default.SetSkinStyle( Window.Utils.GetThemeSkinName(indigo.UserIndigo))
+        Else
+            DevExpress.LookAndFeel.UserLookAndFeel.Default.SetSkinStyle(Utils.DEFAULT_SKIN_NAME)
+        End If
+    End Sub
+
+    ''' <summary>
+    ''' Abrir formulario cambiar contraseña.
+    ''' </summary>
+    Private Sub AbrirFormCambiarContraseña(ByVal ChangePasswordAllUsers As Boolean)
+        Me.Cursor = Presentation.Base.BaseClass.ChangeCursorIndigo
+        For Each f As Form In Me.MdiChildren
+            If f.Name = "FrmCambiarContrasena" Then
+                f.Activate()
+                Me.Cursor = Cursors.Default
+                Exit Sub
+            End If
+        Next
+        Dim cambiarContraseña As New FrmCambiarContrasena
+        cambiarContraseña.ChangePasswordAllUsers = ChangePasswordAllUsers
+        cambiarContraseña.MdiParent = Me
+        cambiarContraseña.Show()
+        Me.Cursor = Cursors.Default
+    End Sub
+
+    ''' <summary>
+    ''' Abrir Formulario de configurar Conexion 
+    ''' </summary>
+    Private Sub AbrirFormConfigurarConexion()
+        Me.Cursor = Presentation.Base.BaseClass.ChangeCursorIndigo
+        Dim formularioConfigurar As New FrmConfigurarConexion
+        Using frmTransparent As New FrmTransparent(formularioConfigurar, False)
+            Me.Cursor = Cursors.Default
+            frmTransparent.ShowDialog(Me)
+        End Using
+        'If ConfigurationFile.Instance.TimeOutApp = -1 Then
+        '    INDTimerCloseSession.Stop()
+        'Else
+        '    INDTimerCloseSession.Start()
+        'End If
+    End Sub
+
+    ''' <summary>
+    ''' Abrir Formularios para desbloquear Usuarios
+    ''' </summary>
+    Private Sub AbrirFormDesbloquearUsuarios()
+        Me.Cursor = Presentation.Base.BaseClass.ChangeCursorIndigo
+        For Each f As Form In Me.MdiChildren
+            If f.Name = "FrmDesbloquearUsuarios" Then
+                f.Activate()
+                Me.Cursor = Cursors.Default
+                Exit Sub
+            End If
+        Next
+        Dim formularioDesbloquear As New FrmDesbloquearUsuarios
+        formularioDesbloquear.MdiParent = Me
+        formularioDesbloquear.Show()
+        Me.Cursor = Cursors.Default
+    End Sub
+
+    ''' <summary>
+    ''' Metodo que se ejecuta cuando el formulario de cristal llamado gestion de material de osteosintesis trata de crear una orden de servicio
+    ''' </summary>
+    ''' <param name="IdCabecera"></param>
+    ''' <param name="idProveedorLinea"></param>
+    ''' <param name="codeWareHouse"></param>
+    ''' <param name="listaCodigoProductos"></param>
+    ''' <remarks></remarks>
+    Private Sub EventoGenerarOrdenMaterialOsteosintesis(IdCabecera As Integer, idProveedorLinea As Integer, codeWareHouse As String, listaCodigoProductos As List(Of Tuple(Of String, Integer)))
+        Dim frmOrdenServicio As New FrmPurchaseOrder(IdCabecera, idProveedorLinea, codeWareHouse, listaCodigoProductos)
+        frmOrdenServicio.StartPosition = FormStartPosition.CenterParent
+        Dim size As System.Drawing.Size
+        size.Width = 1090
+        size.Height = 768
+        frmOrdenServicio.Size = size
+        frmOrdenServicio.Owner = Me
+        Using tras As New FrmTransparent(frmOrdenServicio, False)
+            tras.ShowDialog(Me)
+        End Using
+    End Sub
+
+    ''' <summary>
+    ''' Obtiene o establece la version de la aplicacion.
+    ''' </summary>
+    ''' <value>Version</value>
+    Public Property VersionAplicacion As String
+        Get
+            Return INDlygVersion.Text.Substring(8)
+        End Get
+        Set(ByVal value As String)
+            INDlygVersion.Text = "Version " & value
+        End Set
+    End Property
+
+    '''' <summary>
+    '''' 
+    '''' </summary>
+    '''' <returns></returns>
+    'Public Function GetIcon() As Icon
+    '    Return My.Resources.indigo1 'Me.Icon
+    'End Function
+
+
+
+
+
+    Private Sub LoadSettingsHIS()
+        Dim ValoresSesion As IndigoSingleton.IndigoValoresSesion = IndigoSingleton.IndigoValoresSesion.Instancia
+        Dim ConfigFile As Infrastructure.CrossCutting.Base.ConfigurationFile = Infrastructure.CrossCutting.Base.ConfigurationFile.Instance
+        Dim ApplicationSetting As Infrastructure.CrossCutting.Base.ApplicationSetting = Infrastructure.CrossCutting.Base.ApplicationSetting.Instance
+        ValoresSesion.ProtocoloWebServices = CType(ConfigFile.EHRWebServiceProtocol.GetHashCode, IndigoSingleton.IndigoValoresSesion.eProtocolos)
+        ValoresSesion.UriWebServices = ConfigFile.EHRWebServiceURL
+        ValoresSesion.UrlWebServicesNoti = ConfigFile.UrlNotificationWebServer
+        ValoresSesion.ProtocoloWebServicesXPO = CType(ConfigFile.EHREntityServiceProtocol.GetHashCode, IndigoSingleton.IndigoValoresSesion.eProtocolos)
+        ValoresSesion.UriWebServicesXPO = ConfigFile.EHREntityServiceURL
+        'ValoresSesion.TimeBloqueoSesion
+        'se usar para validar si actualiza o no la aplicación
+        ValoresSesion.TipoEjecucionSesion = IndigoSingleton.IndigoValoresSesion.EIndigoTipoEjecucionSesion.Local
+        'ValoresSesion.RutaActualizacion
+        ValoresSesion.RutadeReportes = ConfigFile.ReportsPath
+        ValoresSesion.CacheLocal = If(String.IsNullOrEmpty(ApplicationSetting.CacheServerName), False, True)
+        ValoresSesion.RutaArchivosComunes = String.Concat(Infrastructure.CrossCutting.Base.Window.Utils.LocalFolder(), "\HealtTech\Indigo Vie EHR")
+        ValoresSesion.RutaArchivosPorUsuario = String.Concat(Infrastructure.CrossCutting.Base.Utils.UserFolder(), "\HealtTech\Indigo Vie EHR")
+        ValoresSesion.EmpresaAplicacionCalidad = String.Empty
+        ValoresSesion.VersionDGH = IndigoSingleton.IndigoValoresSesion.eVersionDGH.Nativo
+        ValoresSesion.VersionIndigoCrystal = "1.0.0.0" 'Application.ProductVersion.ToString()
+        ValoresSesion.EmpresaIndigoFundamentales = SessionValues.Instance.FoundationalContainer.Trim().Replace("INDIGO", "")
+        ValoresSesion.EmpresaIndigo = SessionValues.Instance.HisContainer.Trim().Replace("INDIGO", "")
+        ValoresSesion.EmpresaDGH = SessionValues.Instance.TransactionalContainer 'Obsoleto, si lo utiliza el his
+        ValoresSesion.NuevoManejoMensaje = If(ApplicationSetting.ChangeMessageBox = "1", True, False)
+        ValoresSesion.ReporteadorActivo = ApplicationSetting.ReporteadorActivo
+    End Sub
+
+    Private Sub SetValuesUsuarioEHR()
+        Dim ValoresSesion As IndigoSingleton.IndigoValoresSesion = IndigoSingleton.IndigoValoresSesion.Instancia
+        If ValoresSesion.UsuarioTipo = IndigoSingleton.IndigoValoresSesion.EIndigoTipoUsuario.Asistencial Or
+            ValoresSesion.UsuarioAdministrador Then
+            ValoresSesion.ProfesionalCentroAtencion = ConfigurationFile.Instance.CenterAttention.Trim
+            ValoresSesion.ProfesionalUnidadFuncional = ConfigurationFile.Instance.FunctionalUnit.Trim
+        End If
+    End Sub
+
+    Private Sub SetValuesProfesional(profesional As Domain.Crystal.Entities.SP_SEG_AutenticarDatosProfesional_Result)
+        Dim ValoresSesion As IndigoSingleton.IndigoValoresSesion = IndigoSingleton.IndigoValoresSesion.Instancia
+        If profesional Is Nothing Then
+            ValoresSesion.Profesional = Nothing
+            ValoresSesion.ProfesionalNombre = Nothing
+            ValoresSesion.ProfesionalTipo = IndigoSingleton.IndigoValoresSesion.eIndigoTipoProfesional.Otros
+            ValoresSesion.ProfesionalTarjetaProfesional = Nothing
+            ValoresSesion.ProfesionalPerfilCirugia = IndigoSingleton.IndigoValoresSesion.EIndigoTipoPerfilCirugia.Ayudantes
+            ValoresSesion.EspecialidadMedico1 = Nothing
+            ValoresSesion.EspecialidadMedico2 = Nothing
+            ValoresSesion.EspecialidadMedico3 = Nothing
+            ValoresSesion.ProfesionalDashboardDefault = IndigoSingleton.IndigoValoresSesion.EIndigoTipoDashboardDefault.DashBoard_ServiciosApoyo
+        Else
+            ValoresSesion.Profesional = profesional.CODIGO.Trim
+            ValoresSesion.ProfesionalNombre = profesional.NOMBREPROFESIONAL.Trim
+            ValoresSesion.ProfesionalTipo = CType(profesional.TIPOPROFESIONAL, IndigoSingleton.IndigoValoresSesion.eIndigoTipoProfesional)
+            ValoresSesion.ProfesionalTarjetaProfesional = profesional.TARJETAPROFESIONAL.Trim
+            If Not String.IsNullOrEmpty(profesional.PERFILCIRUGIA) Then
+                ValoresSesion.ProfesionalPerfilCirugia = CType(profesional.PERFILCIRUGIA, IndigoSingleton.IndigoValoresSesion.EIndigoTipoPerfilCirugia)
+            End If
+            ValoresSesion.EspecialidadMedico1 = profesional.ESPECIALIDAD1.Trim
+            ValoresSesion.EspecialidadMedico2 = profesional.ESPECIALIDAD2.Trim
+            ValoresSesion.EspecialidadMedico3 = profesional.ESPECIALIDAD3.Trim
+            If ConfigurationFile.Instance.Dashboard.HasValue Then
+                ValoresSesion.ProfesionalDashboardDefault = CType(ConfigurationFile.Instance.Dashboard.GetValueOrDefault(),
+                    IndigoSingleton.IndigoValoresSesion.EIndigoTipoDashboardDefault)
+            End If
+        End If
+    End Sub
+
+    ''' <summary>
+    ''' Inicializa los Valores de sesion (Singleton ERP)
+    ''' </summary>
+    Public Sub InitSesionValues()
+        Dim Indigo As SessionValues = SessionValues.Instance
+        Dim MensajeAuditoria As AuditMessage = New AuditMessage() With
+        {
+            .Company = Indigo.IndigoCompany,
+            .CodeUser = Indigo.UserIndigo,
+            .ComputerName = Utils.GetHostname(),
+            .WindowsUser = Utils.GetOSUsername(),
+            .IdUser = Indigo.UserIndigoId,
+            .NameUser = Indigo.UserIndigoName,
+            .CompanyType = Indigo.IndigoCompanyType,
+            .DispensingIntegration = CByte(Indigo.IndigoDispensingIntegration)
+        }
+        Indigo.AuditMessageWcf = MensajeAuditoria
+    End Sub
+#End Region
+
+#Region "Eventos"
+
+    ''' <summary>
+    ''' Ocurre cuando el usuario actual elimina sus preferencias
+    ''' </summary>
+    Protected Event CustomizationDeleted()
+
+#End Region
+
+#Region "Manejadores"
+
+    ''' <summary>
+    ''' Aqui se modifica el modo de visualización en los formularios
+    ''' </summary>
+    Private Async Sub PceConfig_CloseUp(sender As Object, e As DevExpress.XtraEditors.Controls.CloseUpEventArgs) Handles PceConfig.CloseUp
+        If indigo.UserViewMode <> CBool(INDrbgViewForm.EditValue) Then
+            Using Model As New MmdiPrincipal
+                Dim Result As Boolean
+                Result = Await Model.ChangeViewModeAsync(indigo.UserIndigo, CBool(INDrbgViewForm.EditValue))
+                If Result = True Then
+                    MessageIndigo.Show(obtenerRecurso(Eresources.ComunesActualizado), MessageType.Information, obtenerRecurso(Eresources.ComunesIndigoCrystal))
+                    indigo.UserViewMode = CBool(INDrbgViewForm.EditValue)
+                Else
+                    INDrbgViewForm.EditValue = INDrbgViewForm.OldEditValue
+                    MessageIndigo.Show(obtenerRecurso(Eresources.ComunesError), MessageType.Information, obtenerRecurso(Eresources.ComunesIndigoCrystal))
+                End If
+            End Using
+        End If
+    End Sub
+
+    ''' <summary>
+    ''' Aqui se muestra el menú de favoritos
+    ''' </summary>
+    Private Sub INDBsvtiFavorites_ItemPressed(sender As Object, e As BackstageViewItemEventArgs) Handles INDBsvtiFavorites.ItemPressed
+        Me.RibbonControl_ApplicationButtonClick(sender, New EventArgs())
+    End Sub
+    Private Async Sub RibbonControl_ApplicationButtonClick(sender As Object, e As EventArgs) Handles RibbonControl.ApplicationButtonClick
+        If Me.INDBsvtiFavorites.Visible Then
+            If BackstageVCPrincipal.SelectedTabIndex = -1 Then
+                Me.BackstageVCPrincipal.SelectedTab = Me.INDBsvtiFavorites
+            End If
+            If indigo.ListFormPermission Is Nothing OrElse indigo.ListFormPermission.Count = 0 Then
+                Await taskFormPermission
+            End If
+            If Not taskMyFavorites.IsCompleted Then
+                Await taskMyFavorites
+            End If
+            Dim ctrMenuForm As CtrMenuForm
+            If INDBsvtiFavorites.ContentControl.Controls.Count = 0 Then
+                ctrMenuForm = New CtrMenuForm()
+                ctrMenuForm.IsMyFavorites = True
+                ctrMenuForm.Dock = DockStyle.Fill
+                AddHandler ctrMenuForm.ItemFormSelected, AddressOf ClickOpenForm
+                AddHandler ctrMenuForm.ItemFormDeletedFromMyFavorites, AddressOf DeleteFromMyFavorites
+                AddHandler ctrMenuForm.ItemFormAddToMyFavorites, AddressOf AddToMyFavorites
+                INDBsvtiFavorites.ContentControl.Controls.Add(ctrMenuForm)
+            Else
+                ctrMenuForm = INDBsvtiFavorites.ContentControl.Controls(0)
+            End If
+            'Eliminamos los formularios a los que ya no tenemos permiso
+            Dim idxOnDelete As New List(Of Integer)()
+            For f As Integer = 0 To Me.myFavorites.Count - 1
+                Dim idx As Integer = f
+                If Not indigo.ListFormPermission.Any(Function(p) p.Id = Me.myFavorites(idx).Id) Then
+                    idxOnDelete.Add(idx)
+                End If
+            Next
+            For Each r As Integer In idxOnDelete
+                Me.myFavorites.RemoveAt(r)
+            Next
+            If idxOnDelete.Count > 0 Then
+                Await Me.SaveMyFavoritesAsync()
+            End If
+
+            ctrMenuForm.GridControl1.DataSource = Me.myFavorites.Where(Function(f) Not BaseClass.ListFormHide.Contains(f.Id)).OrderBy(Function(o) o.Name).ToList()
+
+            ctrMenuForm.GridControl1.RefreshDataSource()
+        End If
+        If Not validatedSuscription Then
+            ValidateSuscriptions()
+        End If
+    End Sub
+
+    ''' <summary>
+    ''' Aqui se valida y se realiza el cambio de empresa
+    ''' </summary>
+    Private Sub INDgleCompanies_EditValueChanging(sender As Object, e As DevExpress.XtraEditors.Controls.ChangingEventArgs) Handles INDgleCompanies.EditValueChanging
+        If Me.MdiChildren.Length > 0 Then
+            e.Cancel = True
+            MessageIndigo.Show("Para cambiar de empresa primero termine lo que está haciendo y cierre todos los formularios", MessageType.Warning, "Vie ERP")
+        Else
+            Dim companyPermission = TryCast(INDgleCompanies.Properties.View.GetFocusedRow(), Company)
+            If companyPermission IsNot Nothing Then
+                Try
+                    Dim vDbSchema As Version = New Version(companyPermission.Version)
+                    If Not vDbSchema.Equals(BaseClass.GetAppVersion()) Then
+                        e.Cancel = True
+                        Dim frm As New Presentation.Controls.FrmNotificationItemDetail
+                        frm.TxtMessage.Text = "La versión del esquema en la empresa " & companyPermission.Code & " - " & companyPermission.Name & ", NO corresponde a la versión de éste cliente (" & BaseClass.GetAppVersion().ToString() & ")." & vbCrLf & "Porfavor actualice la versión del cliente e intente de nuevo."
+                        Using transparent As New FrmTransparent(frm, False)
+                            transparent.ShowDialog(Me)
+                        End Using
+                    End If
+                Catch ex As Exception
+                    e.Cancel = True
+                    Dim frm As New Presentation.Controls.FrmNotificationItemDetail
+                    frm.TxtMessage.Text = "La versión del esquema en la empresa " & companyPermission.Code & " - " & companyPermission.Name & ", NO corresponde a la versión de éste cliente (" & BaseClass.GetAppVersion().ToString() & ")." & vbCrLf & "Porfavor actualice la versión del cliente e intente de nuevo."
+                    Using transparent As New FrmTransparent(frm, False)
+                        transparent.ShowDialog(Me)
+                    End Using
+                End Try
+            End If
+        End If
+    End Sub
+    Private Async Sub INDgleCompanies_EditValueChanged(sender As Object, e As EventArgs) Handles INDgleCompanies.EditValueChanged
+        If Not Cargando Then
+            Await LoadOperatingUnitAsync(True)
+            If INDgleCompanies.GetSelectedDataRow IsNot Nothing Then
+                validatedSuscription = False
+                FilterFormBySuscription()
+            End If
+        End If
+    End Sub
+
+    ''' <summary>
+    ''' Aqui se modifica el tamaño del dashboard
+    ''' </summary>
+    Private Sub LblUserName_QueryPopUp(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles LblUserName.QueryPopUp
+        Me.INDPopupContainerDashBoard.Size = New Size(My.Computer.Screen.Bounds.Width, My.Computer.Screen.Bounds.Height - 45)
+    End Sub
+
+    ''' <summary>
+    ''' Aqui se redimensiona el tamaño del PopUp
+    ''' </summary>
+    Private Sub PceV12_QueryPopUp(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles PceV12.QueryPopUp
+        Me.PccV12.Size = New Size(My.Computer.Screen.Bounds.Width, My.Computer.Screen.Bounds.Height - 45)
+        Me.CtrSearching.SetFocusOnTextSearch()
+    End Sub
+
+    ''' <summary>
+    ''' Aqui se ejecuta la apertura de los formularios
+    ''' </summary>
+    Private Sub CtrSearching_QueryOpenForm(sender As Object, e As QueryOpenFormEventArgs) Handles CtrSearching.QueryOpenForm
+        Me.OpenForm(e.IdForm, e.IdEntity)
+        Me.PceV12.ClosePopup()
+    End Sub
+
+    ''' <summary>
+    ''' Se oculta la imagen que indica mensaje nuevo
+    ''' </summary>
+    Private Sub PceMessages_Popup(sender As Object, e As EventArgs) Handles PceMessages.Popup
+        LblNewMessage.Visible = False
+    End Sub
+
+    ''' <summary>
+    ''' Aqui se controla el cambio de tema
+    ''' </summary>
+    Private Sub PpgThemeSkins_StyleChanged(sender As Object, e As EventArgs)
+        If Me.flagThemeChanged Then
+            Me.flagThemeChanged = False
+            'Cambiamos el icono del boton inicio
+            'Dim skin = RibbonSkins.GetSkin(UserLookAndFeel.Default.ActiveLookAndFeel)
+            'Dim element = skin(RibbonSkins.SkinFormApplicationButton)
+            Me.RibbonControl.ApplicationIcon = My.Resources.Logo_Transparente
+
+            'element.Image.Image = Presentation.Resources.ThemeResourceManager.GetLogoImageByTheme(DevExpress.LookAndFeel.UserLookAndFeel.Default.ActiveSkinName)
+            'Me.RibbonControl.ApplicationButtonImageOptions.SvgImage = Presentation.Resources.ThemeResourceManager.GetLogoImageByTheme(DevExpress.LookAndFeel.UserLookAndFeel.Default.ActiveSkinName)
+            Me.RibbonControl.ApplicationButtonImageOptions.Image = Presentation.Resources.ThemeResourceManager.GetLogoImageByThemePng(DevExpress.LookAndFeel.UserLookAndFeel.Default.ActiveSkinName)
+            'Me.Icon = My.Resources.indigo1
+
+            'Cambiamos los iconos de los botones de configuración
+            Me.PceV12.Properties.Buttons(0).Image = ThemeResourceManager.GetVituelImageByTheme(DevExpress.LookAndFeel.UserLookAndFeel.Default.ActiveSkinName)
+            Me.PceConfig.Properties.Buttons(0).Image = ThemeResourceManager.GetConfigButtonImageByTheme(DevExpress.LookAndFeel.UserLookAndFeel.Default.ActiveSkinName)
+            Me.PceMessages.Properties.Buttons(0).Image = ThemeResourceManager.GetNotificationButtonImageByTheme(DevExpress.LookAndFeel.UserLookAndFeel.Default.ActiveSkinName)
+            Me.INDPceChangePerfil.Properties.Buttons(0).Image = ThemeResourceManager.GetImageByThemeChangePerfil(DevExpress.LookAndFeel.UserLookAndFeel.Default.ActiveSkinName)
+            Me.INDBtnBloqueoSession.Image = ThemeResourceManager.GetBlockSessionButtonImageByTheme(DevExpress.LookAndFeel.UserLookAndFeel.Default.ActiveSkinName)
+            Me.INDBtnSegPassword.Image = ThemeResourceManager.GetChangePasswdButtonImageByTheme(DevExpress.LookAndFeel.UserLookAndFeel.Default.ActiveSkinName)
+            Me.INDBtnCerrarSession.Image = ThemeResourceManager.GetCloseSessionButtonImageByTheme(DevExpress.LookAndFeel.UserLookAndFeel.Default.ActiveSkinName)
+            Me.INDBtnSalir.Image = ThemeResourceManager.GetExitButtonImageByTheme(DevExpress.LookAndFeel.UserLookAndFeel.Default.ActiveSkinName)
+            Me.INDBtnConexionesERP.Image = ThemeResourceManager.GetConnectionButtonImageByTheme(DevExpress.LookAndFeel.UserLookAndFeel.Default.ActiveSkinName)
+            Me.INDBtnConexionHIS.Image = ThemeResourceManager.GetConnectionButtonImageByTheme(DevExpress.LookAndFeel.UserLookAndFeel.Default.ActiveSkinName)
+            Me.INDbtnUsers.Image = ThemeResourceManager.GetUsersButtonImageByTheme(DevExpress.LookAndFeel.UserLookAndFeel.Default.ActiveSkinName)
+            Me.INDbtnRoll.Image = ThemeResourceManager.GetRolesButtonImageByTheme(DevExpress.LookAndFeel.UserLookAndFeel.Default.ActiveSkinName)
+            Me.INDbtnGroups.Image = ThemeResourceManager.GetGroupsButtonImageByTheme(DevExpress.LookAndFeel.UserLookAndFeel.Default.ActiveSkinName)
+            Me.INDbtnChangePasswd.Image = ThemeResourceManager.GetChangePasswdButtonImageByTheme(DevExpress.LookAndFeel.UserLookAndFeel.Default.ActiveSkinName)
+            Me.INDBtnDesbloquearUsuario.Image = ThemeResourceManager.GetUnlockUserButtonImageByTheme(DevExpress.LookAndFeel.UserLookAndFeel.Default.ActiveSkinName)
+            Me.BtnClearCache.Image = ThemeResourceManager.GetImageByTheme(DevExpress.LookAndFeel.UserLookAndFeel.Default.ActiveSkinName, 26)
+            Me.INDbtnCleanCustom.Image = ThemeResourceManager.GetImageByTheme(DevExpress.LookAndFeel.UserLookAndFeel.Default.ActiveSkinName, 25)
+            Me.BtnThemeSkins.Image = ThemeResourceManager.GetImageByTheme(DevExpress.LookAndFeel.UserLookAndFeel.Default.ActiveSkinName, 23)
+            Me.INDsbDashboard.Image = ThemeResourceManager.GetImageByTheme(DevExpress.LookAndFeel.UserLookAndFeel.Default.ActiveSkinName, 22)
+            Me.SimpleButton8.Image = ThemeResourceManager.GetImageByTheme(DevExpress.LookAndFeel.UserLookAndFeel.Default.ActiveSkinName, 27) 'numeric secuence
+
+            Me.INDbtnRolesEHR.Image = ThemeResourceManager.GetImageByTheme(DevExpress.LookAndFeel.UserLookAndFeel.Default.ActiveSkinName, 21)
+            Me.INDbtnGroupEHR.Image = ThemeResourceManager.GetImageByTheme(DevExpress.LookAndFeel.UserLookAndFeel.Default.ActiveSkinName, 21)
+            Me.INDbtnUsersEHR.Image = ThemeResourceManager.GetImageByTheme(DevExpress.LookAndFeel.UserLookAndFeel.Default.ActiveSkinName, 21)
+            Me.INDbtnAuthorizationEHR.Image = ThemeResourceManager.GetImageByTheme(DevExpress.LookAndFeel.UserLookAndFeel.Default.ActiveSkinName, 21)
+
+            Me.INDbtnAuditoriaHC.Image = ThemeResourceManager.GetImageByTheme(DevExpress.LookAndFeel.UserLookAndFeel.Default.ActiveSkinName, 20)
+            Me.SimpleButton13.Image = ThemeResourceManager.GetImageByTheme(DevExpress.LookAndFeel.UserLookAndFeel.Default.ActiveSkinName, 24) 'configurar empresa
+
+
+            LookAndFeelHelper.ForceDefaultLookAndFeelChanged()
+            Utils.SetThemeSkinName(indigo.UserIndigo, DevExpress.LookAndFeel.UserLookAndFeel.Default.ActiveSkinName)
+            Me.SetThemeSkinDefault()
+
+            DefaultLookAndFeel1.LookAndFeel.UpdateStyleSettings()
+            Select Case DevExpress.LookAndFeel.UserLookAndFeel.Default.ActiveSkinName
+                Case "The Bezier", "Office 2019 Dark Gray", "Black", "Office 2007 Black", "Pumpkin", "Office 2019 Colorful"
+                    LblUserName.Properties.Buttons(0).Appearance.ForeColor = Color.White
+                    'INDTeTenant.Properties.Appearance.ForeColor = Color.White
+                    'INDTeCompany.Properties.Appearance.ForeColor = Color.White
+                    INDTeTenant.Properties.Appearance.ForeColor = DevExpress.LookAndFeel.UserLookAndFeel.Default.SkinMaskColor
+                    INDTeCompany.Properties.Appearance.ForeColor = DevExpress.LookAndFeel.UserLookAndFeel.Default.SkinMaskColor
+                Case Else
+                    LblUserName.Properties.Buttons(0).Appearance.ForeColor = DevExpress.LookAndFeel.UserLookAndFeel.Default.SkinMaskColor
+                    INDTeTenant.Properties.Appearance.ForeColor = DevExpress.LookAndFeel.UserLookAndFeel.Default.SkinMaskColor
+                    INDTeCompany.Properties.Appearance.ForeColor = DevExpress.LookAndFeel.UserLookAndFeel.Default.SkinMaskColor
+            End Select
+        End If
+    End Sub
+
+    Private Sub PpgThemeSkins_Gallery_ItemClick(sender As Object, e As GalleryItemClickEventArgs) Handles PpgThemeSkins.Gallery.ItemClick
+        Me.flagThemeChanged = True
+    End Sub
+
+    Public Sub INDAlertControl_BeforeFormShow(sender As Object, e As AlertFormEventArgs)
+        e.AlertForm.Width = 320
+    End Sub
+
+    Public Sub INDAlertControl_AlertClick(sender As Object, e As AlertClickEventArgs)
+        Dim Formulario = New FrmTransparent(New FrmFlyoutIndigo(e.Info.Text, Botones.Cancelar, CType(sender, CustomAlertControl).TypeMessage, Nothing)).ShowDialog(SessionValues.Instance.InstanceMDI)
+    End Sub
+
+    Private Sub ToastNotificationsManager1_Activated(sender As Object, e As DevExpress.XtraBars.ToastNotifications.ToastNotificationEventArgs) Handles ToastNotificationsManager1.Activated
+        Dim _toastNotification As IToastNotificationProperties = ToastNotificationsManager1.GetNotificationByID(e.NotificationID)
+        If _toastNotification IsNot Nothing Then
+            Dim Formulario = New FrmTransparent(New FrmFlyoutIndigo(_toastNotification.Body, Botones.Cancelar, MessageType.Information, _toastNotification.Image)).ShowDialog(SessionValues.Instance.InstanceMDI)
+        End If
+    End Sub
+
+    Private Sub ToastNotificationsManager1_Failed(ByVal sender As Object, ByVal e As ToastNotificationFailedEventArgs) Handles ToastNotificationsManager1.Failed
+        If ToastNotificationsManager1 IsNot Nothing Then
+            Dim _toastNotification As IToastNotificationProperties = ToastNotificationsManager1.GetNotificationByID(e.NotificationID)
+            If _toastNotification IsNot Nothing Then
+                ConfigurationFile.Instance.TypeAlertControl = eTypeAlertControl.AlertWindows
+                MostrarMensajeSlide(_toastNotification.Body, MessageType.Information, New Form() With {.Text = _toastNotification.Header})
+                NotificationCenter(_toastNotification.Header, _toastNotification.Body, MessageType.Information, Date.Now, "")
+                DisableToastNotifications()
+            End If
+        End If
+    End Sub
+
+    Private Async Sub BackstageVItem_ItemPressed(sender As Object, e As DevExpress.XtraBars.Ribbon.BackstageViewItemEventArgs) Handles BackstageVItemContabilidad.ItemPressed, BvtAdministracionImpuestos.ItemPressed, BackstageViewTabItem4.ItemPressed, BackstageViewTabItem3.ItemPressed, BackstageViewTabItem1.ItemPressed, BackstageViewTabItem9.ItemPressed, BackstageViewTabItem8.ItemPressed, BackstageViewTabItem7.ItemPressed, BackstageViewTabItem6.ItemPressed, BackstageViewTabItem2.ItemPressed, BackstageViewCostIntegrated.ItemPressed, BackstageViewTabItem12.ItemPressed, BackstageViewTabItem11.ItemPressed, BackstageViewTabItem10.ItemPressed, BackstageViewTabItem14.ItemPressed, BackstageViewTabItem19.ItemPressed, BackstageViewTabItem18.ItemPressed, BackstageViewTabItem20.ItemPressed, BackstageViewTabItem21.ItemPressed, BackstageViewTabItem22.ItemPressed, BackstageViewTabItem23.ItemPressed, BackstageViewTabItem24.ItemPressed, BackstageViewCostNative.ItemPressed, BackstageViewTabItem34.ItemPressed, BackstageViewTabItem5.ItemPressed, BackstageViewTabItem33.ItemPressed, BackstageViewTabItem13.ItemPressed, BvtCentralMezclas.ItemPressed,
+            BackstageViewTabItem36.ItemPressed, BackstageViewTabItem37.ItemPressed, BackstageViewTabItem38.ItemPressed, BackstageViewTabItem39.ItemPressed, BackstageViewTabItem40.ItemPressed,
+            BackstageViewTabItem41.ItemPressed, BackstageViewTabItem42.ItemPressed, BackstageViewTabItem43.ItemPressed, BackstageViewTabItem44.ItemPressed, BackstageViewTabItem45.ItemPressed,
+            BackstageViewTabItem46.ItemPressed, BackstageViewTabItem47.ItemPressed, BackstageViewTabItem48.ItemPressed, BackstageViewTabItem49.ItemPressed, BackstageViewTabItem50.ItemPressed,
+            BackstageViewTabItem51.ItemPressed, BackstageViewTabItem52.ItemPressed, BackstageViewTabItem53.ItemPressed, BackstageViewTabItem54.ItemPressed, BackstageViewTabItem55.ItemPressed,
+            BackstageViewTabItem56.ItemPressed, BackstageViewTabItem57.ItemPressed, BackstageViewTabItem58.ItemPressed, BackstageViewTabItem59.ItemPressed, BackstageViewTabItem60.ItemPressed,
+            BackstageViewTabItem61.ItemPressed, BackstageViewTabItem62.ItemPressed, BackstageViewTabItem63.ItemPressed, BackstageViewTabItem64.ItemPressed, BackstageViewTabItem65.ItemPressed,
+            BackstageViewTabItem67.ItemPressed, BackstageViewTabItem68.ItemPressed, BackstageViewTabItem75.ItemPressed, BackstageViewTabItem76.ItemPressed,
+            BackstageViewTabItem77.ItemPressed, BackstageViewTabItem78.ItemPressed, BackstageViewTabItem79.ItemPressed, BackstageViewTabItem80.ItemPressed, BackstageViewTabItem81.ItemPressed,
+            BackstageViewTabItem82.ItemPressed, BackstageViewTabItem83.ItemPressed, BackstageViewTabItem84.ItemPressed, BackstageViewTabItem85.ItemPressed, BackstageViewTabItem86.ItemPressed,
+            BackstageViewTabItem87.ItemPressed, BackstageViewTabItem88.ItemPressed, BackstageViewTabItem89.ItemPressed, BackstageViewTabItem90.ItemPressed, BackstageViewTabItem91.ItemPressed,
+            BackstageViewTabItem92.ItemPressed, BackstageViewTabItem93.ItemPressed, BackstageViewTabItem94.ItemPressed, BackstageViewTabItem95.ItemPressed, BackstageViewTabItem96.ItemPressed,
+            BackstageViewTabItem97.ItemPressed, BackstageViewTabItem98.ItemPressed, BackstageViewTabItem99.ItemPressed, BackstageViewTabItem100.ItemPressed, BackstageViewTabItem101.ItemPressed,
+            BackstageViewTabItem102.ItemPressed, BackstageViewTabItem103.ItemPressed, BackstageViewTabItem104.ItemPressed, BackstageViewTabItem105.ItemPressed, BackstageViewTabItem106.ItemPressed,
+            BackstageViewTabItem107.ItemPressed, BackstageViewTabItem108.ItemPressed, BackstageViewTabItem110.ItemPressed, BackstageViewTabItem111.ItemPressed, BackstageViewTabItem112.ItemPressed,
+            BackstageViewTabItem113.ItemPressed, BackstageViewTabItem114.ItemPressed, BackstageViewTabItem115.ItemPressed, BackstageViewTabItem116.ItemPressed, BackstageViewTabItem117.ItemPressed,
+            BackstageViewTabItem118.ItemPressed, BackstageViewTabItem119.ItemPressed
+
+
+
+        Dim item As BackstageViewTabItem = CType(sender, BackstageViewTabItem)
+        If indigo.ListFormPermission Is Nothing OrElse indigo.ListFormPermission.Count = 0 Then
+            Await taskFormPermission
+        End If
+        Dim ctrMenuForm As CtrMenuForm
+        If item.ContentControl.Controls.Count = 0 Then
+            ctrMenuForm = New CtrMenuForm()
+            ctrMenuForm.Dock = DockStyle.Fill
+            AddHandler ctrMenuForm.ItemFormSelected, AddressOf ClickOpenForm
+            AddHandler ctrMenuForm.ItemFormDeletedFromMyFavorites, AddressOf DeleteFromMyFavorites
+            AddHandler ctrMenuForm.ItemFormAddToMyFavorites, AddressOf AddToMyFavorites
+            item.ContentControl.Controls.Add(ctrMenuForm)
+        Else
+            ctrMenuForm = item.ContentControl.Controls(0)
+        End If
+        'If ApplicationSetting.Instance.LoginAzure Then
+        Dim _listForms = indigo.ListFormPermission.Where(Function(x) x.Module IsNot Nothing AndAlso x.Module.Id = item.Tag).ToList()
+        ctrMenuForm.GridControl1.DataSource = Nothing
+        ctrMenuForm.GridControl1.DataSource = _listForms.Where(Function(x) Not BaseClass.ListFormHide.Contains(x.Id)).OrderBy(Function(o) o.Name).ToList()
+        'Else
+        '    If indigo.ListFormPermission.Where(Function(x) x.Modules.Any(Function(m) m.Id = item.Tag)).ToList().Find(Function(o) o.Type = 5) IsNot Nothing Then
+        '        indigo.ListFormPermission.Where(Function(x) x.Modules.Any(Function(m) m.Id = item.Tag)).ToList().ForEach(Sub(x)
+        '                                                                                                                     Select Case x.Type
+        '                                                                                                                         Case 2
+        '                                                                                                                             x.Type = 7
+        '                                                                                                                     End Select
+        '                                                                                                                 End Sub)
+        '    End If
+        '    ctrMenuForm.GridControl1.DataSource = indigo.ListFormPermission.
+        'Where(Function(x) Not BaseClass.ListFormHide.Contains(x.Id) AndAlso x.Modules.Any(Function(m) m.Id = item.Tag)).OrderBy(Function(o) o.Name).ToList()
+        'End If
+    End Sub
+
+    Private Async Sub BackstageViewTabItem15_ItemPressed(sender As Object, e As BackstageViewItemEventArgs) Handles BackstageViewTabItem15.ItemPressed
+        Dim item As BackstageViewTabItem = CType(sender, BackstageViewTabItem)
+        If indigo.ListFormPermission Is Nothing OrElse indigo.ListFormPermission.Count = 0 Then
+            Await taskFormPermission
+        End If
+        Dim ctrMenuForm As CtrMenuForm
+        If item.ContentControl.Controls.Count = 0 Then
+            ctrMenuForm = New CtrMenuForm()
+            ctrMenuForm.Dock = DockStyle.Fill
+            AddHandler ctrMenuForm.ItemFormSelected, AddressOf ClickOpenForm
+            AddHandler ctrMenuForm.ItemFormDeletedFromMyFavorites, AddressOf DeleteFromMyFavorites
+            AddHandler ctrMenuForm.ItemFormAddToMyFavorites, AddressOf AddToMyFavorites
+            item.ContentControl.Controls.Add(ctrMenuForm)
+        Else
+            ctrMenuForm = item.ContentControl.Controls(0)
+        End If
+        'If ApplicationSetting.Instance.LoginAzure Then
+        Dim _listForms = indigo.ListFormPermission.Where(Function(x) x.Module IsNot Nothing AndAlso x.Module.Id = item.Tag).ToList()
+        ctrMenuForm.GridControl1.DataSource = Nothing
+        ctrMenuForm.GridControl1.DataSource = _listForms.Where(Function(x) Not BaseClass.ListFormHide.Contains(x.Id)).OrderBy(Function(o) o.Name).ToList()
+        'Else
+        '    If indigo.ListFormPermission.Where(Function(x) x.Modules.Any(Function(m) m.Id = item.Tag)).ToList().Find(Function(o) o.Type = 5) IsNot Nothing Then
+        '        indigo.ListFormPermission.Where(Function(x) x.Modules.Any(Function(m) m.Id = item.Tag)).ToList().ForEach(Sub(x)
+        '                                                                                                                     Select Case x.Type
+        '                                                                                                                         Case 2
+        '                                                                                                                             x.Type = 7
+        '                                                                                                                     End Select
+        '                                                                                                                 End Sub)
+        '    End If
+        '    ctrMenuForm.GridControl1.DataSource = indigo.ListFormPermission.
+        '    Where(Function(x) Not BaseClass.ListFormHide.Contains(x.Id) AndAlso x.Modules.Any(Function(m) m.Id = item.Tag)).OrderBy(Function(o) o.Name).ToList()
+        'End If
+    End Sub
+
+    ''' <summary>
+    ''' Evento click del boton de salir
+    ''' </summary>
+    ''' <param name="sender"></param>
+    ''' <param name="e"></param>
+    ''' <remarks></remarks>
+    Private Sub INDBtnSalir_Click(sender As Object, e As EventArgs) Handles INDBtnSalir.Click
+        If MessageIndigo.Show(obtenerRecurso(Eresources.ComunesSeguroCerrarSesion, Eform.Comunes), MessageType.Question, Me.Text, Botones.SiNo) = System.Windows.Forms.DialogResult.Yes Then
+            Me.Close()
+        End If
+    End Sub
+
+    Private Sub OpenLoginFrm()
+        Me.Hide()
+        Using frmLogin As New FrmWpfLogin()
+            'AddHandler frmLogin.AutenticateHIS, AddressOf AutenticateHIS 'se llama en el evento INDgleCompanies.EditValueChanged
+            AddHandler frmLogin.AssingCompanies, AddressOf AssingCompanies
+            frmLogin.DialogResult = System.Windows.Forms.DialogResult.None
+            Dim res = frmLogin.ShowDialog()
+            If res = System.Windows.Forms.DialogResult.OK Then
+                Presentation.Base.BaseClass.FreeMemory()
+                InitionMDIValues()
+                ValidateSuscriptions()
+                FilterFormBySuscription()
+                Me.Show()
+            Else
+                Me.Close()
+            End If
+        End Using
+    End Sub
+
+
+
+
+    Private Async Sub ValidateSuscriptions()
+        If ApplicationSetting.Instance.LoginAzure AndAlso Not validatedSuscription Then
+            validatedSuscription = True
+            Dim _BackstageViewTabItem As BackstageViewTabItem = Nothing
+            Dim _SubBackstageViewTabItem As BackstageViewTabItem = Nothing
+            Dim _BackstageViewControl As BackstageViewControl = Nothing
+            Dim _SubItemVisible As Boolean = False
+            'UnifiedConfiguration.Instance.PServiceConfiguration = New ServiceConfiguration
+            'UnifiedConfiguration.Instance.PServiceConfiguration.AppFunctionURL = "https://loginb2cappfunc.azurewebsites.net"
+            'UnifiedConfiguration.Instance.PServiceConfiguration.FunctionKey6 = "GZFCoanQ/m4G0hCKGIvC67si/F82HB5qjegJFMPEZe0TZWoV4oHkUA=="
+            Using modelo = New PAutenticacionUsuario(New MAutenticacionUsuario.ParametrosAzureFunctions() With {.AppFunctionURL = UnifiedConfiguration.Instance.PServiceConfiguration.AppFunctionURL,
+                                                 .GetSuscriptionsKey = UnifiedConfiguration.Instance.PServiceConfiguration.FunctionKey6})
+                Dim _Respuesta = Await modelo.GetSuscriptions()
+
+                'If _Respuesta IsNot Nothing Then
+                If _Respuesta.Result IsNot Nothing AndAlso Not _Respuesta.Fallo Then
+
+
+                    Dim _Suscriptions As List(Of MAutenticacionUsuario.Suscriptions) = _Respuesta.Result
+                    If _Suscriptions IsNot Nothing AndAlso _Suscriptions.Count > 0 Then
+                        Dim _ProductCatalogIds = _Suscriptions.Select(Function(_suscription) _suscription.ProductCatalogId).ToList
+                        Dim _modules = BaseClass.GetXmlWithAggregates(Of VieModule)(eDataXml.XMLModules).Where(Function(m) _ProductCatalogIds.Contains(m.ProductCatalogId)).Select(Function(m) m.Id).ToList
+                        Dim _ctrlSeparator = Nothing
+                        BackstageVCPrincipal.Items.ToList.ForEach(Sub(item)
+                                                                      If TypeOf item Is BackstageViewTabItem Then
+                                                                          _BackstageViewTabItem = CType(item, BackstageViewTabItem)
+                                                                          If _BackstageViewTabItem.Tag IsNot Nothing Then
+                                                                              If _ProductCatalogIds.Contains(_BackstageViewTabItem.Tag) Then
+                                                                                  _BackstageViewTabItem.Visible = True
+                                                                              Else
+                                                                                  _BackstageViewTabItem.Visible = False
+
+
+                                                                              End If
+                                                                          Else
+                                                                              _SubItemVisible = False
+                                                                              For Each _control In _BackstageViewTabItem.ContentControl.Controls
+                                                                                  If TypeOf _control Is BackstageViewControl Then
+                                                                                      _BackstageViewControl = CType(_control, BackstageViewControl)
+                                                                                      For Each subitem In _BackstageViewControl.Items
+                                                                                          If TypeOf subitem Is BackstageViewTabItem Then
+                                                                                              _SubBackstageViewTabItem = CType(subitem, BackstageViewTabItem)
+                                                                                              If _modules.Contains(_SubBackstageViewTabItem.Tag) Then
+                                                                                                  _SubBackstageViewTabItem.Visible = True
+                                                                                                  _SubItemVisible = True
+                                                                                              Else
+                                                                                                  _SubBackstageViewTabItem.Visible = False
+                                                                                              End If
+                                                                                          End If
+                                                                                      Next
+
+                                                                                  End If
+                                                                              Next
+                                                                              If _SubItemVisible Then
+                                                                                  _BackstageViewTabItem.Visible = True
+                                                                              Else
+                                                                                  _BackstageViewTabItem.Visible = False
+                                                                              End If
+                                                                          End If
+                                                                          If Not _BackstageViewTabItem.Visible Then
+                                                                              _ctrlSeparator = Me.BackstageVCPrincipal.Items.Where(Function(ctrl) ctrl.Name = _BackstageViewTabItem.Name.Replace("svti", "svis")).FirstOrDefault()
+                                                                              If _ctrlSeparator IsNot Nothing AndAlso TypeOf _ctrlSeparator Is BackstageViewItemSeparator Then
+                                                                                  CType(_ctrlSeparator, BackstageViewItemSeparator).Visible = False
+                                                                              End If
+                                                                          End If
+                                                                      End If
+                                                                  End Sub)
+                    Else
+                        BackstageVCPrincipal.Items.ToList.ForEach(Sub(item) item.Visible = False)
+                    End If
+                Else
+                    BackstageVCPrincipal.Items.ToList.ForEach(Sub(item) item.Visible = False)
+                End If
+
+                'End If
+
+            End Using
+        End If
+
+    End Sub
+
+    Private Async Sub FilterFormBySuscription()
+        If ApplicationSetting.Instance.LoginAzure Then
+            Await Task.Factory.StartNew(Async Function()
+                                            Using modelo = New PAutenticacionUsuario(New MAutenticacionUsuario.ParametrosAzureFunctions() With {.AppFunctionURL = UnifiedConfiguration.Instance.PServiceConfiguration.AppFunctionURL,
+                                                .GetSuscriptionsKey = UnifiedConfiguration.Instance.PServiceConfiguration.FunctionKey6})
+                                                Dim _Respuesta = Await modelo.GetSuscriptions()
+
+                                                'If _Respuesta IsNot Nothing Then
+                                                If _Respuesta.Result IsNot Nothing AndAlso Not _Respuesta.Fallo Then
+                                                    Dim _Suscriptions As List(Of MAutenticacionUsuario.Suscriptions) = _Respuesta.Result
+                                                    If _Suscriptions IsNot Nothing AndAlso _Suscriptions.Count > 0 Then
+                                                        Dim _ProductCatalogIds = _Suscriptions.Select(Function(_suscription) _suscription.ProductCatalogId).ToList
+                                                        Dim _modules = BaseClass.GetXmlWithAggregates(Of VieModule)(eDataXml.XMLModules).Where(Function(m) _ProductCatalogIds.Contains(m.ProductCatalogId)).Select(Function(m) m.Id).ToList
+                                                        BaseClass._listXmlFormsNuevo = BaseClass.GetXmlWithAggregates(Of VieForm)(eDataXml.XMLForms).Where(Function(f) f.Module IsNot Nothing AndAlso (_modules.Contains(f.Module.Id) OrElse f.Module.Id = 99)).ToList
+                                                    Else
+                                                        BaseClass._listXmlFormsNuevo = New List(Of VieForm)
+                                                    End If
+                                                Else
+                                                    BaseClass._listXmlFormsNuevo = New List(Of VieForm)
+                                                End If
+                                                Await taskFormPermission
+                                            End Using
+                                        End Function)
+
+        Else
+            Await Task.Factory.StartNew(Async Function()
+                                            'BaseClass._listXmlForms
+                                            BaseClass._listXmlFormsNuevo = BaseClass.GetXmlWithAggregates(Of VieForm)(eDataXml.XMLForms).Where(Function(f) f.Module IsNot Nothing AndAlso ((f.Module.Id > 0 AndAlso f.Module.Id < 67) OrElse f.Module.Id = 99)).ToList
+                                            Await taskFormPermission
+                                        End Function)
+        End If
+    End Sub
+
+    Private Sub OpenLoginFrmPass(ByVal cerrarSesion As Boolean)
+        Me.Hide()
+        Login = True
+        Using browser As New FrmLoginAzure(Me, cerrarSesion, _tokenId)
+            browser.SendToBack()
+            browser.DialogResult = System.Windows.Forms.DialogResult.None
+            AddHandler Me.Activated, AddressOf MostrarDashboard
+            Dim res = browser.ShowDialog()
+            If res = System.Windows.Forms.DialogResult.OK Then
+                Presentation.Base.BaseClass.FreeMemory()
+                InitionMDIValues()
+                ValidateSuscriptions()
+                FilterFormBySuscription()
+                Me.Show()
+            Else
+                Me.Close()
+            End If
+        End Using
+    End Sub
+
+    ''' <summary>
+    ''' Evento click del boton de cerrar session
+    ''' </summary>
+    ''' <param name="sender"></param>
+    ''' <param name="e"></param>
+    ''' <remarks></remarks>
+    Private Sub INDBtnCerrarSession_Click(sender As Object, e As EventArgs) Handles INDBtnCerrarSession.Click
+        PceConfig.ClosePopup()
+        If MessageIndigo.Show(obtenerRecurso(Eresources.ComunesSeguroCerrarSesion, Eform.Comunes), MessageType.Question, Me.Text, Botones.SiNo) = System.Windows.Forms.DialogResult.Yes Then
+<<<<<<< HEAD
+            validatedSuscription = False
+=======
+
+>>>>>>> 21db6ca4 ( Se corrigen conflicos)
+            For Each f As Form In Me.MdiChildren
+                f.Close()
+                f.Dispose()
+            Next
+            Infrastructure.Data.Xpo.XpoServiceEx.DisposeInstance()
+            FolderAccesible = True
+            'Dim loginAzure As String = ConfigurationManager.AppSettings("LoginAzure")
+            'If String.IsNullOrEmpty(loginAzure) OrElse loginAzure = "0" Then
+            If ConfigurationFile.ConfigurationFileExists() Then
+                OpenLoginFrm()
+            Else
+                OpenLoginFrmPass(True)
+            End If
+            'Me.DialogResult = System.Windows.Forms.DialogResult.Retry
+        End If
+    End Sub
+
+    ''' <summary>
+    ''' Evento click del boton de cambiar contraseña
+    ''' </summary>
+    ''' <param name="sender"></param>
+    ''' <param name="e"></param>
+    ''' <remarks></remarks>
+    Private Sub INDBtnSegPassword_Click(sender As Object, e As EventArgs) Handles INDBtnSegPassword.Click
+        PceConfig.ClosePopup()
+        AbrirFormCambiarContraseña(False)
+    End Sub
+
+    ''' <summary>
+    ''' Evento Clic en el boton bloquear session del mdi
+    ''' </summary>
+    Private Sub INDBtnBloqueoSession_Click(sender As Object, e As EventArgs) Handles INDBtnBloqueoSession.Click
+        PceConfig.ClosePopup()
+    End Sub
+
+    ''' <summary>
+    ''' Evento click del boton de eliminar personalizacion
+    ''' </summary>
+    ''' <param name="sender"></param>
+    ''' <param name="e"></param>
+    ''' <remarks></remarks>
+    Private Sub INDbtnCleanCustom_Click(sender As Object, e As EventArgs) Handles INDbtnCleanCustom.Click
+        Try
+            If MessageIndigo.Show("Está seguro que desea eliminar las preferencias de usuario?", MessageType.Question, "Eliminar Preferencias", Botones.SiNo) = System.Windows.Forms.DialogResult.Yes Then
+                Utils.DeleteThemeSkinName(indigo.UserIndigo)
+                Me.flagThemeChanged = True
+                Me.SetThemeSkinDefault()
+                Utils.DeletePrintProfiles(indigo.UserIndigo)
+                Utils.DeleteCustomization(indigo.UserIndigo)
+                'Lanzamos el evento para restaurar todos los formularios
+                OnCustomizationDeleted()
+                MessageIndigo.Show(obtenerRecurso(Eresources.ComunesEliminado), MessageType.Information, obtenerRecurso(Eresources.ComunesIndigoCrystal))
+            End If
+        Catch ex As Exception
+            MessageIndigo.Show(obtenerRecurso(Eresources.ComunesError), MessageType.Errores, obtenerRecurso(Eresources.ComunesIndigoCrystal))
+        End Try
+    End Sub
+
+    ''' <summary>
+    ''' Aqui se muestran los temas disponibles
+    ''' </summary>
+    Private Sub BtnThemeSkins_CheckedChanged(sender As Object, e As EventArgs) Handles BtnThemeSkins.CheckedChanged
+        If Me.BtnThemeSkins.Checked Then
+            Me.LyciPpgThemeSkins.Visibility = LayoutVisibility.Always
+        Else
+            Me.LyciPpgThemeSkins.Visibility = LayoutVisibility.Never
+        End If
+    End Sub
+
+    Private Sub INDBtnConexionesERP_Click(sender As Object, e As EventArgs) Handles INDBtnConexionesERP.Click
+        AbrirFormConfigurarConexion()
+    End Sub
+
+    Private Sub FormMdi_Closing(sender As Object, e As FormClosingEventArgs) Handles MyBase.Closing
+        If e.Cancel Then
+
+        End If
+    End Sub
+
+    Private Sub INDbtnOpenForm_Click(sender As Object, e As EventArgs) Handles INDbtnUsers.Click, INDbtnRoll.Click, INDbtnChangePasswd.Click, SimpleButton8.Click, INDbtnGroups.Click, INDBtnConexionHIS.Click, SimpleButton13.Click
+        Dim btnSender = CType(sender, SimpleButton)
+        If btnSender.Tag = 1563 Then
+            OpenForm(btnSender.Tag, Nothing, True, False)
+        Else
+            OpenForm(btnSender.Tag, Nothing, False, False)
+        End If
+    End Sub
+
+    Private Sub INDBtnDesbloquearUsuario_Click(sender As Object, e As EventArgs) Handles INDBtnDesbloquearUsuario.Click
+        AbrirFormDesbloquearUsuarios()
+    End Sub
+
+    ''' <summary>
+    ''' Metodo onshow del formulario del mdi
+    ''' </summary>
+    ''' <param name="e"></param>
+    ''' <remarks></remarks>
+    Protected Overrides Sub OnShown(e As EventArgs)
+        Me.flagThemeChanged = True
+        Me.SetThemeSkinDefault()
+        If ApplicationSetting.Instance.LoginAzure OrElse Utils.DEFAULT_SKIN_NAME = DevExpress.LookAndFeel.UserLookAndFeel.Default.ActiveSkinName Then
+            PpgThemeSkins_StyleChanged(Nothing, Nothing)
+        End If
+        Using Mensaje As New Mensajes
+            Mensaje.Registrar(Me)
+        End Using
+        If Not ApplicationSetting.Instance.LoginAzure Then
+            Me.LoadNotificationCenter()
+        End If
+
+        Me.LoadCtrSearching()
+        INDPopupContainerConfiguration.Height = My.Computer.Screen.Bounds.Height - 70
+        Me.INDPopupContainerDashBoard.Size = New Size(My.Computer.Screen.Bounds.Width, My.Computer.Screen.Bounds.Height - 45)
+        Using Mensaje As New Mensajes
+            Mensaje.Registrar(Me)
+        End Using
+        Presentation.Base.BaseClass.FreeMemory()
+    End Sub
+
+    ''' <summary>
+    ''' Evento que se ejecuta al cambiar la unidad operativa
+    ''' </summary>
+    ''' <param name="sender"></param>
+    ''' <param name="e"></param>
+    ''' <remarks></remarks>
+    Private Async Sub INDglePermissionOperating_EditValueChanged(sender As Object, e As EventArgs) Handles INDglePermissionOperating.EditValueChanged
+        If INDgleCompanies.GetSelectedDataRow IsNot Nothing Then
+            Dim companyPermission = TryCast(INDgleCompanies.GetSelectedDataRow, Company)
+            companyPermission.IdOperatingUnitDefault = CType(INDglePermissionOperating.EditValue, Integer)
+            SessionValues.Instance.IndigoOperatingUnitId = companyPermission.IdOperatingUnitDefault
+            Select Case SessionValues.Instance.UserType
+                Case UserType.CompanyAdmin, UserType.StandardUser
+                    Using modelPermission As New MmdiPrincipal()
+                        Await modelPermission.SavePermissionUserAsync(companyPermission)
+                    End Using
+            End Select
+        End If
+    End Sub
+
+    ''' <summary>
+    ''' Evento que se ejecuta al abrir el popup de configuracion que se muestra en el MDI
+    ''' </summary>
+    ''' <param name="sender"></param>
+    ''' <param name="e"></param>
+    ''' <remarks></remarks>
+    Private Sub PceConfig_Popup(sender As Object, e As EventArgs) Handles PceConfig.Popup
+        ValidateLoadOperatingUnit()
+    End Sub
+
+    ''' <summary>
+    ''' Abre el formulario de diseño
+    ''' </summary>
+    ''' <param name="sender">The source of the event.</param>
+    ''' <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
+    Private Sub INDsbDashboard_Click(sender As Object, e As EventArgs) Handles INDsbDashboard.Click
+        Me.Cursor = Presentation.Base.BaseClass.ChangeCursorIndigo
+        For Each f As Form In Me.MdiChildren
+            If f.Name = "FrmDashboardDesigner" Then
+                f.Activate()
+                Me.Cursor = Cursors.Default
+                Exit Sub
+            End If
+        Next
+        Dim frmDashboard As New FrmDashboardDesigner()
+        frmDashboard.MdiParent = Me
+        frmDashboard.Show()
+        Me.Cursor = Cursors.Default
+    End Sub
+
+    Private Sub PceConfig_QueryPopUp(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles PceConfig.QueryPopUp
+        INDPopupContainerConfiguration.Height = Screen.PrimaryScreen.WorkingArea.Size.Height
+    End Sub
+
+    Private Sub BtnClearCache_Click(sender As Object, e As EventArgs) Handles BtnClearCache.Click
+        Infrastructure.CrossCutting.Xpo.Base.XPODataLayerManager.ClearAllCache()
+        MessageIndigo.Show("Operación ejecutada con éxito", MessageType.Information, obtenerRecurso(Eresources.ComunesIndigoCrystal))
+    End Sub
+
+    Private Sub INDbtnRolesEHR_Click(sender As Object, e As EventArgs) Handles INDbtnRolesEHR.Click
+        OpenForm("2188", Nothing, False, False)
+    End Sub
+
+    Private Sub INDbtnGroupEHR_Click(sender As Object, e As EventArgs) Handles INDbtnGroupEHR.Click
+        OpenForm("2189", Nothing, False, False)
+    End Sub
+
+    Private Sub INDbtnUsersEHR_Click(sender As Object, e As EventArgs) Handles INDbtnUsersEHR.Click
+        OpenForm("2190", Nothing, False, False)
+    End Sub
+
+    Private Sub INDbtnAuthorizationEHR_Click(sender As Object, e As EventArgs) Handles INDbtnAuthorizationEHR.Click
+        OpenForm("2055", Nothing, False, False)
+    End Sub
+
+    Private Sub INDbtnAuditoriaHC_Click_1(sender As Object, e As EventArgs) Handles INDbtnAuditoriaHC.Click
+        OpenForm("2066", Nothing, False, False)
+    End Sub
+
+    Private Sub BvtVerticalSaludAsistencial_ItemPressed(sender As Object, e As BackstageViewItemEventArgs) Handles BvtVerticalSaludAsistencial.ItemPressed
+        'Using Model As New MmdiPrincipal()
+        '	For Each cmObj As Domain.Entities.CMConfiguration In Model.ListAllCMConfig()
+        '		If cmObj IsNot Nothing Then
+        '			With cmObj
+        '				If (.ManageMS = 0) Then
+        '					BvtCentralMezclas.Visible = False
+        '				Else
+        '					BvtCentralMezclas.Visible = True
+        '				End If
+        '			End With
+        '		End If
+        '	Next cmObj
+        'End Using
+    End Sub
+
+    Private Sub INDbtnCrearReportes_Click(sender As Object, e As EventArgs) Handles INDbtnCrearReportes.Click
+        OpenForm("1688", Nothing, False, False)
+    End Sub
+
+    Private Sub INDbtnReportesUsuario_Click(sender As Object, e As EventArgs) Handles INDbtnReportesUsuario.Click
+        OpenForm("1687", Nothing, False, False)
+    End Sub
+
+    Private Sub INDPceChangePerfil_Click(ByVal sender As Object, ByVal e As EventArgs) Handles INDPceChangePerfil.Click
+        If (CInt(MyBase.MdiChildren.Length) <= 0) Then
+            Using WorkspaceUserForm As New WorkspaceUser("FormMdi")
+
+                WorkspaceUserForm.Usuario = New MAutenticacionUsuario.Usuario() With
+                    {.Id = SessionValues.Instance.UserIndigoId,
+                        .UserCode = SessionValues.Instance.UserIndigo,
+                        .Email = SessionValues.Instance.UserEmail,
+                        .ProfileType = SessionValues.Instance.ProfileType.GetHashCode.ToString,
+                        .UserType = SessionValues.Instance.UserType.GetHashCode.ToString
+                    }
+                WorkspaceUserForm.UserConfig = UnifiedConfiguration.Instance.UserConfig
+                WorkspaceUserForm.UsuarioEHR = UnifiedConfiguration.Instance.UsuarioEHR
+                WorkspaceUserForm.Profesional = UnifiedConfiguration.Instance.Profesional
+                If indigo.UserType = UserType.GlobalAdmin Then
+                    WorkspaceUserForm.CompanyList = Me.listCompanyPermission
+                Else 'si no se filtra por tenant se debe ajustar el aceptar del formulario WorkspaceUserForm para ajustar el rol, el grupo del usuario y consultar los permisos de la compañia si es de otro tenant
+                    WorkspaceUserForm.CompanyList = Me.listCompanyPermission.Where(Function(_Company) _Company.TenantId = indigo.TenantId).ToList
+                End If
+
+                WorkspaceUserForm.CargarEspacioTrabajoActual()
+                If WorkspaceUserForm.ShowDialog(Me) = System.Windows.Forms.DialogResult.OK Then
+                    validatedSuscription = False
+                    INDTeTenant.Text = UnifiedConfiguration.Instance.CompanySelected.TenantName
+                    INDTeCompany.Text = UnifiedConfiguration.Instance.CompanySelected.Name
+                    Me.CargarUnidadesOperativas(WorkspaceUserForm.CompanySelected)
+                    FilterFormBySuscription()
+                End If
+            End Using
+        Else
+            MessageIndigo.Show("Para cambiar de empresa primero termine lo que está haciendo y cierre todos los formularios", MessageType.Warning, "Vie ERP")
+        End If
+    End Sub
+
+    Private Function CompareVersion() As Boolean
+
+        Try
+            Dim pathUpdate As String = ConfigurationFile.Instance.PathUpdates
+
+            If String.IsNullOrEmpty(pathUpdate) Then
+                Return True
+            End If
+
+            Dim ValidateFolder = New DirectoryInfo(pathUpdate)
+
+            If ValidateFolder.Exists = False Then
+                'Si no existe la ruta o es innaccesible, inactivo la bandera de ruta accesible para que no vuelva a ingresar a esta función, y retorno un true para evitar que el usuario tenga bloqueos
+                FolderAccesible = False
+                Return True
+            End If
+
+            Dim validateClient = pathUpdate & "\" & My.Application.Info.Version.ToString & ".erp"
+
+            If File.Exists(validateClient) Then
+                Return True
+            Else
+                Return False
+            End If
+
+            Return True
+        Catch ex As UnauthorizedAccessException
+            Return True
+        End Try
+
+    End Function
+
+
+
+#End Region
+
+End Class

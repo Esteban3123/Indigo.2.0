@@ -1,0 +1,69 @@
+﻿#Region "Librerias Importadas"
+Imports Infrastructure.CrossCutting.Base
+Imports Infrastructure.Data.Xpo.TreasuryRepository
+Imports Infrastructure.Data.Xpo
+#End Region
+
+Public Class rptReportConsignmentTransfer
+    Implements IReport
+
+    ''' <summary>
+    ''' Variable para inicializar los valores de sesion
+    ''' </summary>
+    Dim IndigoSessionValues As SessionValues = SessionValues.Instance
+
+    Public Sub CargarDataSource() Implements IReport.CargarDataSource
+
+        Dim filtroConsulta As String = "GetDate(DocumentDate) >= #" & Format(ParametrosReporte(0), "yyyy-MM-dd") & "# AND GetDate(DocumentDate) <= #" & Format(ParametrosReporte(1), "yyyy-MM-dd") & "#"
+
+        'si filtra por documentos
+        If ParametrosReporte(2) IsNot Nothing And ParametrosReporte(3) IsNot Nothing Then
+            filtroConsulta &= "AND Code >= '" & ParametrosReporte(2) & "' AND Code <= '" & ParametrosReporte(3) & "'"
+        End If
+
+        If ParametrosReporte(6) <> "Todos" Then
+            filtroConsulta &= " AND Type = '" & ParametrosReporte(6) & "'"
+        End If
+
+        If ParametrosReporte(5) <> 5 Then
+            filtroConsulta &= " AND Status = " & ParametrosReporte(5) & " "
+        End If
+        'filtro para agrupamiento (Banco), retira los campos en blanco
+        If ParametrosReporte(4) = 4 Then
+            filtroConsulta &= "AND CodeBank != ''"
+        End If
+
+        'filtro por Cuenta
+        If ParametrosReporte(7) IsNot Nothing And ParametrosReporte(8) IsNot Nothing Then
+            filtroConsulta &= "AND CodeBank >= '" & ParametrosReporte(7) & "' AND CodeBank <= '" & ParametrosReporte(8) & "'"
+        End If
+
+        'filtro por Caja
+        If ParametrosReporte(9) IsNot Nothing And ParametrosReporte(10) IsNot Nothing Then
+            filtroConsulta &= "AND CodeCash != '' AND CodeCash >= '" & ParametrosReporte(9) & "' AND CodeCash <= '" & ParametrosReporte(10) & "'"
+        End If
+
+        Me.DataSource = XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).TreasuryService.GetCollection(Of TreasuryVReportConsignmentTransfer)(Nothing, filtroConsulta)
+
+    End Sub
+
+    Public Sub CargarImagenes() Implements IReport.CargarImagenes
+
+    End Sub
+
+    Public ReadOnly Property NameReport As String Implements IReport.NameReport
+        Get
+            Return ""
+        End Get
+    End Property
+
+    Public Property ParametrosReporte As Object() Implements IReport.ParametrosReporte
+
+    Private Sub rptReportConsignmentTransfer_BeforePrint(sender As Object, e As Printing.PrintEventArgs) Handles MyBase.BeforePrint
+        INDLblCompany.Text = IndigoSessionValues.IndigoCompanyName
+        INDLblNitCompany.Text = "Nit:" & IndigoSessionValues.IndigoCompanyNit
+        INDLblUserPrint.Text = "Usuario Impresión : " & IndigoSessionValues.UserIndigo & " - " & IndigoSessionValues.UserIndigoName
+        Me.ParameterGroupBy.Value = ParametrosReporte(4)
+        INDLblDate.Text = "Informe comprendido entre " & CDate(Me.ParametrosReporte(0)).ToString("dd De MMMM Del yyyy") & " " & CDate(Me.ParametrosReporte(1)).ToString("A dd De MMMM Del yyyy")
+    End Sub
+End Class

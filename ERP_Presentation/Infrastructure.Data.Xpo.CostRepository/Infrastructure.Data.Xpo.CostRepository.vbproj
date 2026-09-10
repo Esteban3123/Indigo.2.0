@@ -1,0 +1,283 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{7D5C41A5-DCEF-47A6-9EC4-D1167E62712E}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>Infrastructure.Data.Xpo.CostRepository</RootNamespace>
+    <AssemblyName>Infrastructure.Data.Xpo.CostRepository</AssemblyName>
+    <FileAlignment>512</FileAlignment>
+    <MyType>Windows</MyType>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DocumentationFile>Infrastructure.Data.Xpo.CostRepository.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DocumentationFile>Infrastructure.Data.Xpo.CostRepository.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionExplicit>On</OptionExplicit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionCompare>Binary</OptionCompare>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionStrict>Off</OptionStrict>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionInfer>On</OptionInfer>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DocumentationFile>Infrastructure.Data.Xpo.CostRepository.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DocumentationFile>Infrastructure.Data.Xpo.CostRepository.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DocumentationFile>Infrastructure.Data.Xpo.CostRepository.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DocumentationFile>Infrastructure.Data.Xpo.CostRepository.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'VieBuild|AnyCPU'">
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\VieBuild\</OutputPath>
+    <DocumentationFile>Infrastructure.Data.Xpo.CostRepository.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'VieBuild|x64'">
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x64\VieBuild\</OutputPath>
+    <DocumentationFile>Infrastructure.Data.Xpo.CostRepository.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'VieBuild|x86'">
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x86\VieBuild\</OutputPath>
+    <DocumentationFile>Infrastructure.Data.Xpo.CostRepository.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="DevExpress.Drawing.v25.1, Version=25.1.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.Printing.v25.1.Core, Version=25.1.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.Data.v25.1, Version=25.1.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.Xpo.v25.1, Version=25.1.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="Infrastructure.CrossCutting.Base">
+      <HintPath>..\DLL\Infrastructure.CrossCutting.Base.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+  </ItemGroup>
+  <ItemGroup>
+    <Import Include="Microsoft.VisualBasic" />
+    <Import Include="System" />
+    <Import Include="System.Collections" />
+    <Import Include="System.Collections.Generic" />
+    <Import Include="System.Data" />
+    <Import Include="System.Diagnostics" />
+    <Import Include="System.Linq" />
+    <Import Include="System.Xml.Linq" />
+    <Import Include="System.Threading.Tasks" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AverageStandardCostXpo.vb" />
+    <Compile Include="BlockRecordCostXpo.vb" />
+    <Compile Include="CostIntermediateDistributionXpo.vb" />
+    <Compile Include="CostInventoryGroupXpo.vb" />
+    <Compile Include="CostApprovalAccountXpo.vb" />
+    <Compile Include="CostAttentionCenterXpo.vb" />
+    <Compile Include="CostDirectDistributionSecondaryDetailXpo.vb" />
+    <Compile Include="CostDistributionBaseMeasurementUnitXpo.vb" />
+    <Compile Include="CostDirectDistributionSecondaryXpo.vb" />
+    <Compile Include="CostEstimationNativeXpo.vb" />
+    <Compile Include="CostActivityXpo.vb" />
+    <Compile Include="CostProductionCenterCategoryXpo.vb" />
+    <Compile Include="CostSettingXpo.vb" />
+    <Compile Include="CostViewOrganizationalStructureOfCostsWithPCenterReportXpo.vb" />
+    <Compile Include="CostViewSecondaryMeasureUnitByProductionCenter.vb" />
+    <Compile Include="References\AccountPayableCostXpo.vb" />
+    <Compile Include="References\CommonThirdPartyXpo.vb" />
+    <Compile Include="References\ConceptsAccountPayableXpo.vb" />
+    <Compile Include="References\CUPSEntityXpo.vb" />
+    <Compile Include="Reports\Activity\CostActivityReportXpo.vb" />
+    <Compile Include="Reports\Activity\CostActivityStepAddictionalCostReportXpo.vb" />
+    <Compile Include="Reports\Activity\CostActivityStepFixedAssetReportXpo.vb" />
+    <Compile Include="Reports\Activity\CostActivityStepInventoryReportXpo.vb" />
+    <Compile Include="Reports\Activity\CostActivityStepPayrollReportXpo.vb" />
+    <Compile Include="Reports\Activity\CostActivityStepReportXpo.vb" />
+    <Compile Include="Reports\Activity\CostInventoryGroupReportXpo.vb" />
+    <Compile Include="Reports\Activity\CostProductionCenterReportXpo.vb" />
+    <Compile Include="Reports\Activity\FixedAssetItemReportXpo.vb" />
+    <Compile Include="Reports\Activity\PayrollPositionReportXpo.vb" />
+    <Compile Include="Reports\CostViewCostInventoryMeasurementUnitCCLogistic.vb" />
+    <Compile Include="Reports\CostViewCostReportGeneralProfitabilityTotalCost.vb" />
+    <Compile Include="Reports\Activity\CostActivityProductionCenterReportXpo.vb" />
+    <Compile Include="Reports\Activity\CUPSEntityReportXpo.vb" />
+    <Compile Include="Reports\CostViewMainAccountsWithoutParameterization.vb" />
+    <Compile Include="StandardCostDetailsXpo.vb" />
+    <Compile Include="ViewCostDistributionFixedAsset.vb" />
+    <Compile Include="ViewCostDistributionManpower.vb" />
+    <Compile Include="Views\ViewCostReportDistributionDirectCostDetailXpo.vb" />
+    <Compile Include="Views\ViewListProvisionDocumentXpo.vb" />
+    <Compile Include="Views\ViewCostReportDistributionDirectCostXpo.vb" />
+    <Compile Include="ViewMeasurementUnitByCostSecondaryDistributionXpo.vb" />
+    <Compile Include="ViewCostProductionCenterByCostSecondaryDistributionXpo.vb" />
+    <Compile Include="CostDistributionBaseXpo.vb" />
+    <Compile Include="CostDistributionBaseDetailXpo.vb" />
+    <Compile Include="CostDistributionDirectCostXpo.vb" />
+    <Compile Include="CostDistributionDirectCostDetailXpo.vb" />
+    <Compile Include="CostDistributionFixedAssetXpo.vb" />
+    <Compile Include="CostDistributionFixedAssetDetailXpo.vb" />
+    <Compile Include="CostDistributionIntermediateXpo.vb" />
+    <Compile Include="CostDistributionIntermediateDetailXpo.vb" />
+    <Compile Include="CostDistributionManpowerXpo.vb" />
+    <Compile Include="CostDistributionManpowerDetailXpo.vb" />
+    <Compile Include="CostDistributionSecondaryXpo.vb" />
+    <Compile Include="CostDistributionSecondaryBaseXpo.vb" />
+    <Compile Include="CostDistributionSecondaryBaseDetailXpo.vb" />
+    <Compile Include="CostLogisticsProductionCenterRecordDetailXpo.vb" />
+    <Compile Include="CostLogisticsProductionCenterRecordXpo.vb" />
+    <Compile Include="CostFunctionalAreaXpo.vb" />
+    <Compile Include="CostGeneralExpenseXpo.vb" />
+    <Compile Include="CostGeneralExpenseCategoryXpo.vb" />
+    <Compile Include="CostOrganizationalStructureOfCostsXpo.vb" />
+    <Compile Include="CostProductionCenterCostCenterXpo.vb" />
+    <Compile Include="CostProductionCenterXpo.vb" />
+    <Compile Include="CostProductionCenterHomologationXpo.vb" />
+    <Compile Include="CostProductionCenterServiceAreaXpo.vb" />
+    <Compile Include="CostServiceXpoEx.vb" />
+    <Compile Include="References\FixedAssetEquipmentCatalogDetailXpo.vb" />
+    <Compile Include="References\AdjustmentConceptXpo.vb" />
+    <Compile Include="References\InventoryInventoryMeasurementUnitReportXpo.vb" />
+    <Compile Include="References\SettingInventoryFunctionalUnitXpo.vb" />
+    <Compile Include="References\FunctionalUnitXpo.vb" />
+    <Compile Include="References\MainAccountsXpo.vb" />
+    <Compile Include="References\CostCenterXpo.vb" />
+    <Compile Include="My Project\AssemblyInfo.vb" />
+    <Compile Include="My Project\Application.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Application.myapp</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="My Project\Resources.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="My Project\Settings.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="My Project\Resources.resx">
+      <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.vb</LastGenOutput>
+      <CustomToolNamespace>My.Resources</CustomToolNamespace>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ModelCost.xpo" />
+    <None Include="ModelCost.xpo.diagram">
+      <DependentUpon>ModelCost.xpo</DependentUpon>
+    </None>
+    <None Include="My Project\Application.myapp">
+      <Generator>MyApplicationCodeGenerator</Generator>
+      <LastGenOutput>Application.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="My Project\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <CustomToolNamespace>My</CustomToolNamespace>
+      <LastGenOutput>Settings.Designer.vb</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Infrastructure.CrossCutting.Xpo.Base\Infrastructure.CrossCutting.Xpo.Base.vbproj">
+      <Project>{06AEA7A4-8792-405E-97E6-4B6FB10502B5}</Project>
+      <Name>Infrastructure.CrossCutting.Xpo.Base</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastructure.Data.Xpo.CommonRepository\Infrastructure.Data.Xpo.CommonRepository.vbproj">
+      <Project>{C087E009-72B8-4E9E-80F7-BE336BE83794}</Project>
+      <Name>Infrastructure.Data.Xpo.CommonRepository</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastructure.Data.Xpo.PayrollRepository\Infrastructure.Data.Xpo.PayrollRepository.vbproj">
+      <Project>{CE46AB34-7B36-422F-AE89-2D5F759E1960}</Project>
+      <Name>Infrastructure.Data.Xpo.PayrollRepository</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="ModelCostCode\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

@@ -1,0 +1,305 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\EntityFramework.6.4.4\build\EntityFramework.props" Condition="Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.props')" />
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{BE79F580-DA9A-4B94-9A6C-A6CC64125E3D}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>Application.FixedAsset</RootNamespace>
+    <AssemblyName>Application.FixedAsset</AssemblyName>
+    <FileAlignment>512</FileAlignment>
+    <MyType>Windows</MyType>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+    <TargetFrameworkProfile />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DocumentationFile>Application.FixedAsset.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DocumentationFile>Application.FixedAsset.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionExplicit>On</OptionExplicit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionCompare>Binary</OptionCompare>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionStrict>Off</OptionStrict>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionInfer>On</OptionInfer>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debugcito|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\Debugcito\</OutputPath>
+    <DocumentationFile>Application.FixedAsset.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DocumentationFile>Application.FixedAsset.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DocumentationFile>Application.FixedAsset.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debugcito|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x64\Debugcito\</OutputPath>
+    <DocumentationFile>Application.FixedAsset.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.4.4\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.4.4\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="Infrastructure.CrossCutting.Exceptions, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\DLL\Infrastructure.CrossCutting.Exceptions.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Transactions" />
+    <Reference Include="System.Core" />
+  </ItemGroup>
+  <ItemGroup>
+    <Import Include="Microsoft.VisualBasic" />
+    <Import Include="System" />
+    <Import Include="System.Collections" />
+    <Import Include="System.Collections.Generic" />
+    <Import Include="System.Data" />
+    <Import Include="System.Diagnostics" />
+    <Import Include="System.Linq" />
+    <Import Include="System.Xml.Linq" />
+    <Import Include="System.Threading.Tasks" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="BlockRecordFixedAsset\BlockRecordFixedAssetAdminService.vb" />
+    <Compile Include="BlockRecordFixedAsset\IBlockRecordFixedAssetAdminService.vb" />
+    <Compile Include="EquipmentCatalog\EquipmentCatalogAdminService.vb" />
+    <Compile Include="EquipmentCatalog\IEquipmentCatalogAdminService.vb" />
+    <Compile Include="EquipmentTypePartsAccesoriesConsumibles\FixedAssetEquipmentTypePartsAccesoriesConsumablesAdminService.vb" />
+    <Compile Include="EquipmentTypePartsAccesoriesConsumibles\IFixedAssetEquipmentTypePartsAccesoriesConsumablesAdminService.vb" />
+    <Compile Include="EquipmentType\FixedAssetEquipmentTypeAdminService.vb" />
+    <Compile Include="EquipmentType\IFixedAssetEquipmentTypeAdminService.vb" />
+    <Compile Include="FixedAssetActiveOutput\FixedAssetActiveOutputAdminService.vb" />
+    <Compile Include="FixedAssetActiveOutput\IFixedAssetActiveOutputAdminService.vb" />
+    <Compile Include="FixedAssetCatalogOfPropertyandServices\FixedAssetCatalogOfPropertyandServicesAdminService.vb" />
+    <Compile Include="FixedAssetCatalogOfPropertyandServices\IFixedAssetCatalogOfPropertyandServicesAdminService.vb" />
+    <Compile Include="FixedAssetPhysicalAssetPart\FixedAssetPhysicalAssetPartAdminService.vb" />
+    <Compile Include="FixedAssetPhysicalAssetPart\IFixedAssetPhysicalAssetPartAdminService.vb" />
+    <Compile Include="FixedAssetReclassification\FixedAssetReclassificationAdminService.vb" />
+    <Compile Include="FixedAssetReclassification\IFixedAssetReclassificationAdminService.vb" />
+    <Compile Include="FixedAssetChangePlate\FixedAssetChangePlateAdminService.vb" />
+    <Compile Include="FixedAssetChangePlate\IFixedAssetChangePlateAdminService.vb" />
+    <Compile Include="FixedAssetDepreciation\FixedAssetDepreciationAdminService.vb" />
+    <Compile Include="FixedAssetDepreciation\IFixedAssetDepreciationAdminService.vb" />
+    <Compile Include="FixedAssetEntryDevolution\FixedAssetEntryDevolutionAdminService.vb" />
+    <Compile Include="FixedAssetEntryDevolution\IFixedAssetEntryDevolutionAdminService.vb" />
+    <Compile Include="FixedAssetEquipment\FixedAssetEquipmentAdminService.vb" />
+    <Compile Include="FixedAssetEquipment\IFixedAssetEquipmentAdminService.vb" />
+    <Compile Include="FixedAssetEntry\FixedAssetEntryAdminService.vb" />
+    <Compile Include="FixedAssetEntry\IFixedAssetEntryAdminService.vb" />
+    <Compile Include="FixedAssetInitialBalance\FixedAssetInitialBalanceAdminService.vb" />
+    <Compile Include="FixedAssetInitialBalance\IFixedAssetInitialBalanceAdminService.vb" />
+    <Compile Include="FixedAssetLocationType\IFixedAssetLocationTypeAdminService.vb" />
+    <Compile Include="FixedAssetLocationType\FixedAssetLocationTypeAdminService.vb" />
+    <Compile Include="FixedAssetLocation\FixedAssetLocationAdminService.vb" />
+    <Compile Include="FixedAssetLocation\IFixedAssetLocationAdminService.vb" />
+    <Compile Include="FixedAssetParameters\FixedAssetParametersAdminService.vb" />
+    <Compile Include="FixedAssetParameters\IFixedAssetParametersAdminService.vb" />
+    <Compile Include="FixedAssetPhysicalAsset\FixedAssetPhysicalAssetAdminService.vb" />
+    <Compile Include="FixedAssetPhysicalAsset\IFixedAssetPhysicalAssetAdminService.vb" />
+    <Compile Include="FixedAssetPurchaseOrder\FixedAssetPurchaseOrderAdminService.vb" />
+    <Compile Include="FixedAssetPurchaseOrder\IFixedAssetPurchaseOrderAdminService.vb" />
+    <Compile Include="DeteriorationIndication\DeteriorationIndicationAdminService.vb" />
+    <Compile Include="DeteriorationIndication\IDeteriorationIndicationAdminService.vb" />
+    <Compile Include="FixedAssetRetirementTypes\FixedAssetRetirementTypesAdminService.vb" />
+    <Compile Include="FixedAssetRetirementTypes\IFixedAssetRetirementTypesAdminService.vb" />
+    <Compile Include="FixedAssetStatus\FixedAssetStatusAdminService.vb" />
+    <Compile Include="FixedAssetStatus\IFixedAssetStatusAdminService.vb" />
+    <Compile Include="FixedAssetTransfer\FixedAssetTransferAdminService.vb" />
+    <Compile Include="FixedAssetTransfer\IFixedAssetTransferAdminService.vb" />
+    <Compile Include="InputRemission\IInputRemissionAdminService.vb" />
+    <Compile Include="InputRemission\InputRemissionAdminService.vb" />
+    <Compile Include="Insurance\IFixedAssetInsuranceAdminService.vb" />
+    <Compile Include="Insurance\FixedAssetInsuranceAdminsService.vb" />
+    <Compile Include="InventoryType\FixedAssetInventoryTypeAdminService.vb" />
+    <Compile Include="InventoryType\IFixedAssetInventoryTypeAdminService.vb" />
+    <Compile Include="My Project\AssemblyInfo.vb" />
+    <Compile Include="My Project\Application.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Application.myapp</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="My Project\Resources.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="My Project\Settings.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="PartsAccesoriesConsumables\IFixedAssetPartsAccesoriesConsumablesAdminService.vb" />
+    <Compile Include="PartsAccesoriesConsumables\FixedAssetPartsAccesoriesConsumablesAdminService.vb" />
+    <Compile Include="Poliza\IFixedAssetPolizaAdminService.vb" />
+    <Compile Include="Poliza\FixedAssetPolizaAdminService.vb" />
+    <Compile Include="PolizeType\IFixedAssetPolizaTypeAdminService.vb" />
+    <Compile Include="PolizeType\FixedAssetPolizaTypeAdminService.vb" />
+    <Compile Include="Reports\IReportAdminService.vb" />
+    <Compile Include="Reports\ReportAdminService.vb" />
+    <Compile Include="ResponsibleType\FixedAssetResponsibleTypeAdminService.vb" />
+    <Compile Include="ResponsibleType\IFixedAssetResponsibleTypeAdminService.vb" />
+    <Compile Include="Responsible\FixedAssetResponsibleAdminService.vb" />
+    <Compile Include="Responsible\IFixedAssetResponsibleAdminService.vb" />
+    <Compile Include="Sequense\FixedAssetSequenseAdminService.vb" />
+    <Compile Include="Sequense\IFixedAssetSequenseAdminService.vb" />
+    <Compile Include="Trademark\IFixedAssetTrademarkAdminService.vb" />
+    <Compile Include="Trademark\FixedAssetTrademarkAdminService.vb" />
+    <Compile Include="ValorizationDevaluation\FixedAssetValorizationAdminService.vb" />
+    <Compile Include="ValorizationDevaluation\IFixedAssetValorizationAdminService.vb" />
+    <Compile Include="VinculationType\FixedAssetVinculationTypeAdminService.vb" />
+    <Compile Include="VinculationType\IFixedAssetVinculationTypeAdminService.vb" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="My Project\Resources.resx">
+      <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.vb</LastGenOutput>
+      <CustomToolNamespace>My.Resources</CustomToolNamespace>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="My Project\Application.myapp">
+      <Generator>MyApplicationCodeGenerator</Generator>
+      <LastGenOutput>Application.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="My Project\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <CustomToolNamespace>My</CustomToolNamespace>
+      <LastGenOutput>Settings.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Application.Accounting\Application.Accounting.vbproj">
+      <Project>{3eca7b1f-d62b-4223-9f17-53a1c5b3a0c9}</Project>
+      <Name>Application.Accounting</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Application.Base\Application.Base.vbproj">
+      <Project>{0e700653-1525-4d34-aa89-bfb243f6515c}</Project>
+      <Name>Application.Base</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Application.Common\Application.Common.vbproj">
+      <Project>{0509E89E-92DF-4B99-A74B-3043C7E6B1D2}</Project>
+      <Name>Application.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Application.Payments\Application.Payments.vbproj">
+      <Project>{6d5a593d-d08d-4c4e-8cac-0a7cf615522e}</Project>
+      <Name>Application.Payments</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Application.Receivable\Application.Portfolio.vbproj">
+      <Project>{0e3ce6cd-428b-4c23-96f8-5080650f898a}</Project>
+      <Name>Application.Portfolio</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Domain.Base.Entities\Domain.Base.Entities.vbproj">
+      <Project>{78734d29-0073-4d48-9d0b-2362d0243e36}</Project>
+      <Name>Domain.Base.Entities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Domain.Base\Domain.Base.vbproj">
+      <Project>{8157f242-6a69-44c1-a9ac-19f0ee5cb8a2}</Project>
+      <Name>Domain.Base</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Domain.Entities.Service\Domain.Entities.Service.vbproj">
+      <Project>{99e9ab54-bb1b-4279-99e7-b4b8e7068ce7}</Project>
+      <Name>Domain.Entities.Service</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Domain.Entities\Domain.Entities.vbproj">
+      <Project>{0551aef4-ed84-4745-b00b-7475f26015cc}</Project>
+      <Name>Domain.Entities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastructure.CrossCutting.Audit\Infrastructure.CrossCutting.Audit.vbproj">
+      <Project>{D2B2306D-6404-46CD-8A22-F827F3E1B75C}</Project>
+      <Name>Infrastructure.CrossCutting.Audit</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastructure.CrossCutting.Base\Infrastructure.CrossCutting.Base.vbproj">
+      <Project>{2773d9f7-93bd-4520-9726-bce0d8875696}</Project>
+      <Name>Infrastructure.CrossCutting.Base</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastructure.CrossCutting.Resources\Infrastructure.CrossCutting.Resources.vbproj">
+      <Project>{134f5b02-eba4-4414-bb62-bf5d55e2b906}</Project>
+      <Name>Infrastructure.CrossCutting.Resources</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
+  <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>Este proyecto hace referencia a los paquetes NuGet que faltan en este equipo. Use la restauración de paquetes NuGet para descargarlos. Para obtener más información, consulte http://go.microsoft.com/fwlink/?LinkID=322105. El archivo que falta es {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\EntityFramework.6.4.4\build\EntityFramework.props'))" />
+    <Error Condition="!Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\EntityFramework.6.4.4\build\EntityFramework.targets'))" />
+  </Target>
+  <Import Project="..\packages\EntityFramework.6.4.4\build\EntityFramework.targets" Condition="Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.targets')" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

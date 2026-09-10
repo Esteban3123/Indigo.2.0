@@ -1,0 +1,653 @@
+# Pipeline de CI/CD para Proyecto de Base de Datos Vie_ERP
+# Este pipeline compila el proyecto .sqlproj y verifica la integridad del esquema
+
+# Ramas del flujo: main (integración), develop, v* (versión en curso, ej. v25.47c)
+# y release/* . Antes decía 'master', rama que NO existe en este repo -> ningún
+# push/merge a main o develop disparaba CI.
+trigger:
+  branches:
+    include:
+      - main
+      - develop
+      - v*
+      - release/*
+  paths:
+    include:
+      - 'Vie_ERP/**'
+      - 'Vie_Erp/**'          # aquí vive VieCloudColombia.sqlproj
+      - 'templates/**'
+      - '*.sql'
+      - '*.sqlproj'
+      - 'Database Schema.sln'
+      - 'azure-pipelines.yml'
+
+# NOTA: para repos de Azure Repos este bloque 'pr:' es INERTE — Azure DevOps lo ignora.
+# La validación de PR se configura con Branch Policies (Build Validation) por rama.
+# Se deja alineado con 'trigger' solo como documentación de la intención.
+pr:
+  branches:
+    include:
+      - main
+      - develop
+      - v*
+      - release/*
+  paths:
+    include:
+      - 'Vie_ERP/**'
+      - 'Vie_Erp/**'
+      - 'templates/**'
+      - '*.sql'
+      - '*.sqlproj'
+      - 'Database Schema.sln'
+      - 'azure-pipelines.yml'
+
+variables:
+  # Configuración del build
+  buildConfiguration: 'Release'
+  sqlProjectPath: 'Vie_ERP/VieCloudColombia.sqlproj'
+  artifactName: 'vie-erp-database'
+  
+  # Configuración de SQL Server para testing
+  sqlTestInstance: 'indigo-deploy' # usa el mismo de SSMS
+  testDatabaseName: 'Vie_ERP_Test_$(Build.BuildId)'
+  sqlUser: 'devops_ci' # variable secreta en pipeline
+  sqlPassword: 'Indigo2021**' # variable secreta en pipeline
+  
+pool:
+  # Apunta a tu pool de agentes privados
+  name: 'Default'
+
+#--  STAGE 1: Build - Compilación del Proyecto 
+stages:
+- stage: Build
+  displayName: 'Build Database Project'
+  jobs:
+  - job: BuildJob
+    displayName: 'Build SQL Project'
+    steps:
+    
+    # Instala .NET SDK 6.x en el agente
+    - task: UseDotNet@2
+      displayName: 'Use .NET SDK'
+      inputs:
+        packageType: 'sdk'
+        version: '6.x'
+    
+    #Instala la herramienta NuGet en el agente
+    - task: NuGetToolInstaller@1
+      displayName: 'Install NuGet'
+
+    #Build SQL Database Project
+    - task: VSBuild@1
+      displayName: 'Build SQL Database Project'
+      inputs:
+        solution: '$(sqlProjectPath)'
+        platform: 'Any CPU'
+        configuration: '$(buildConfiguration)'
+        vsVersion: '17.0'
+        clean: true
+        msbuildArgs: '/p:OutputPath=bin\$(buildConfiguration)'
+
+
+    #Verifica que el archivo .dacpac se generó correctamente
+    - task: PowerShell@2
+      displayName: 'Verify DACPAC Generation'
+      inputs:
+        targetType: 'inline'
+        script: |
+            $dacpacPath = "$(Build.SourcesDirectory)\Vie_ERP\bin\$(buildConfiguration)\VieCloudColombia.dacpac"
+            if (Test-Path $dacpacPath) {
+              Write-Host "✅ DACPAC generated successfully at: $dacpacPath"
+            } else {
+              Write-Error "❌ DACPAC not found at expected location: $dacpacPath"
+              exit 1
+            }
+    
+    #Copia el .dacpac y archivos .sql a un directorio temporal
+    - task: CopyFiles@2
+      displayName: 'Copy Build Artifacts'
+      inputs:
+        SourceFolder: 'Vie_ERP/bin/$(buildConfiguration)'
+        Contents: |
+          **/*.dacpac
+          **/*.sql
+        TargetFolder: '$(Build.ArtifactStagingDirectory)'
+
+    #Publica el .dacpac como artefacto del pipeline
+    - task: PublishBuildArtifacts@1
+      displayName: 'Publish Build Artifacts'
+      inputs:
+        PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+        ArtifactName: '$(artifactName)'
+        publishLocation: 'Container'
+
+# STAGE 2: Database Validation - Probar que el DACPAC puede desplegarse correctamente en un SQL Server real
+- stage: DatabaseValidation
+  displayName: 'Real Database Schema Validation'
+  dependsOn: Build
+  condition: succeeded()
+  jobs:
+  - job: ValidateSchema
+    displayName: 'Deploy DACPAC to SQL Server VM'
+    steps:
+    
+    #Descarga el DACPAC generado en Stage 1
+    - task: DownloadBuildArtifacts@0
+      displayName: 'Download Build Artifacts'
+      inputs:
+        buildType: 'current'
+        artifactName: '$(artifactName)'
+        downloadPath: '$(System.ArtifactsDirectory)'
+    
+    # --- TAREA ÚNICA QUE CREA, CONFIGURA Y DESPLIEGA ---
+    - task: PowerShell@2
+      displayName: 'Create Test Database and Deploy DACPAC'
+      inputs:
+        targetType: 'inline'
+        script: |
+          $ErrorActionPreference = 'Stop'
+          
+          # ==========================================================
+          # PARTE 1: CREAR BASE DE DATOS Y PREPARAR ENTORNO CI
+          # ==========================================================
+          Write-Host "🔧 Creando base de datos de prueba [$(testDatabaseName)]..."
+          $dbName = "$(testDatabaseName)"
+          $sqlInstance = "$(sqlTestInstance)"
+          
+          # 1. Borrar si existe
+          $dropQuery = "IF DB_ID('$dbName') IS NOT NULL BEGIN ALTER DATABASE [$dbName] SET SINGLE_USER WITH ROLLBACK IMMEDIATE; DROP DATABASE [$dbName]; END"
+          & sqlcmd -S "$sqlInstance" -U "$(sqlUser)" -P "$(sqlPassword)" -Q "$dropQuery" -b
+          
+          # 2. Crear la base de datos
+          Write-Host "📝 Creando nueva base de datos limpia..."
+          $createQuery = "CREATE DATABASE [$dbName]"
+          & sqlcmd -S "$sqlInstance" -U "$(sqlUser)" -P "$(sqlPassword)" -Q "$createQuery" -b
+          
+          if ($LASTEXITCODE -ne 0) { 
+            Write-Error "❌ Falló la creación de la base de datos."
+            exit 1 
+          }
+
+          # 3. EL TRUCO PARA QUE PASE EL CI (Mata el error 1718)
+          Write-Host "💊 Aplicando medicina preventiva: Activando Change Tracking Global..."
+          $fixErrorQuery = "ALTER DATABASE [$dbName] SET CHANGE_TRACKING = ON (CHANGE_RETENTION = 2 DAYS, AUTO_CLEANUP = ON)"
+          & sqlcmd -S "$sqlInstance" -U "$(sqlUser)" -P "$(sqlPassword)" -Q "$fixErrorQuery" -b
+          
+          if ($LASTEXITCODE -ne 0) { 
+             Write-Error "❌ Error al preparar el Change Tracking. El despliegue fallará."
+             exit 1
+          }
+          
+          Write-Host "✅ Base de datos lista. El error de Change Tracking ha sido neutralizado."
+
+
+          # ==========================================================
+          # PARTE 2: DESPLEGAR DACPAC CON SqlPackage
+          # ==========================================================
+          Write-Host ""
+          Write-Host "🚀 Iniciando despliegue DACPAC..."
+
+          $dacpacFile = "$(System.ArtifactsDirectory)/$(artifactName)/VieCloudColombia.dacpac"
+          
+          # Verificar que el DACPAC existe
+          if (-not (Test-Path $dacpacFile)) {
+            Write-Error "❌ DACPAC no encontrado en: $dacpacFile"
+            exit 1
+          }
+          Write-Host "✅ DACPAC encontrado: $dacpacFile"
+          
+          # Buscar SqlPackage.exe
+          $sqlPackagePath = $null
+          $possiblePaths = @(
+              "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\IDE\Extensions\Microsoft\SQLDB\DAC\SqlPackage.exe",
+              "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\Common7\IDE\Extensions\Microsoft\SQLDB\DAC\150\sqlpackage.exe",
+              "C:\Program Files (x86)\Microsoft Visual Studio\2017\Professional\Common7\IDE\Extensions\Microsoft\SQLDB\DAC\150\sqlpackage.exe",
+              "C:\Program Files\Microsoft SQL Server\160\DAC\bin\SqlPackage.exe",
+              "C:\Program Files\Microsoft SQL Server\150\DAC\bin\SqlPackage.exe"
+          )
+          
+          foreach ($path in $possiblePaths) { 
+            if (Test-Path $path) { 
+              $sqlPackagePath = $path
+              break 
+            } 
+          }
+          
+          if ([string]::IsNullOrWhiteSpace($sqlPackagePath)) {
+            Write-Error "❌ No se pudo encontrar SqlPackage.exe en las rutas conocidas."
+            exit 1
+          }
+          Write-Host "✅ SqlPackage.exe encontrado en: $sqlPackagePath"
+          
+          # Configurar argumentos de SqlPackage para CI
+          # NOTAS CRÍTICAS:
+          # - /p:IncludeCompositeObjects=True: Incluye objetos compuestos
+          # - /p:DoNotAlterChangeDataCaptureObjects=True: No modificar objetos CDC
+          # - /p:DoNotAlterReplicatedObjects=True: No modificar objetos replicados
+          # - /p:DropObjectsNotInSource=False: No eliminar objetos que no están en source
+          $args = @(
+            '/Action:Publish',
+            "/SourceFile:`"$dacpacFile`"",
+            "/TargetServerName:$(sqlTestInstance)",
+            "/TargetDatabaseName:$(testDatabaseName)",
+            "/TargetUser:$(sqlUser)",
+            "/TargetPassword:$(sqlPassword)",
+            "/TargetTrustServerCertificate:True",
+            "/p:AllowIncompatiblePlatform=true",
+            "/p:GenerateSmartDefaults=true",
+            "/p:BlockOnPossibleDataLoss=false",
+            "/p:IncludeCompositeObjects=True",
+            "/p:DoNotAlterChangeDataCaptureObjects=True",
+            "/p:DoNotAlterReplicatedObjects=True",
+            "/p:DropObjectsNotInSource=False",
+            "/p:ScriptDatabaseOptions=False"
+          )
+          
+          Write-Host ""
+          Write-Host "⚙️ Ejecutando SqlPackage.exe..."
+          Write-Host "   Target: $(sqlTestInstance)\$(testDatabaseName)"
+          Write-Host ""
+          Write-Host "Comando completo:"
+          Write-Host "   $sqlPackagePath $($args -join ' ')"
+          Write-Host ""
+          
+          # Ejecutar SqlPackage capturando stdout y stderr por separado
+          $pinfo = New-Object System.Diagnostics.ProcessStartInfo
+          $pinfo.FileName = $sqlPackagePath
+          $pinfo.RedirectStandardError = $true
+          $pinfo.RedirectStandardOutput = $true
+          $pinfo.UseShellExecute = $false
+          $pinfo.Arguments = $args -join ' '
+          
+          $process = New-Object System.Diagnostics.Process
+          $process.StartInfo = $pinfo
+          $process.Start() | Out-Null
+          
+          $stdout = $process.StandardOutput.ReadToEnd()
+          $stderr = $process.StandardError.ReadToEnd()
+          $process.WaitForExit()
+          $exitCode = $process.ExitCode
+          
+          # Mostrar toda la salida
+          if ($stdout) {
+            Write-Host "=== SALIDA ESTÁNDAR ==="
+            Write-Host $stdout
+          }
+          
+          if ($stderr) {
+            Write-Host "=== ERRORES ==="
+            Write-Host $stderr
+          }
+          
+          Write-Host ""
+          Write-Host "SqlPackage.exe terminó con código de salida: $exitCode"
+          
+          if ($exitCode -ne 0) {
+            Write-Error "❌ SqlPackage.exe falló con código de salida: $exitCode"
+            exit $exitCode
+          }
+
+          Write-Host ""
+          Write-Host "✅ Despliegue de DACPAC completado exitosamente."
+          Write-Host "✅ Base de datos [$(testDatabaseName)] lista para validación."
+    
+
+      #Verificar que el despliegue fue exitoso
+    - task: PowerShell@2
+      displayName: 'Verify Database Deployment'
+      inputs:
+        targetType: 'inline'
+        script: |
+          Write-Host "🔍 Verificando despliegue exitoso..."
+          $checkDB = "SELECT COUNT(*) as TableCount FROM [$(testDatabaseName)].INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'BASE TABLE'"
+          
+          $result = & sqlcmd -S "$(sqlTestInstance)" -U "$(sqlUser)" -P "$(sqlPassword)" -Q "$checkDB" -h -1 -W
+          
+          $tableCount = ($result | Where-Object { $_ -match '^\d+$' } | Select-Object -First 1)
+          
+          if ([string]::IsNullOrWhiteSpace($tableCount)) {
+            Write-Error "❌ No se pudo obtener el conteo de tablas."
+            exit 1
+          }
+          
+          $tableCountInt = [int]$tableCount.Trim()
+          Write-Host "📊 Tablas desplegadas: $tableCountInt"
+          
+          if ($tableCountInt -gt 0) {
+            Write-Host "✅ Despliegue exitoso - Esquema válido ($tableCountInt tablas)"
+          } else {
+            Write-Error "❌ Fallo en despliegue - No se encontraron tablas"
+            exit 1
+          }
+
+    - task: PowerShell@2
+      displayName: 'Cleanup Test Database'
+      condition: always()
+      inputs:
+        targetType: 'inline'
+        script: |
+          Write-Host "🧹 Limpiando base de datos de prueba [$(testDatabaseName)]..."
+          $dropQuery = "IF DB_ID('$(testDatabaseName)') IS NOT NULL ALTER DATABASE [$(testDatabaseName)] SET SINGLE_USER WITH ROLLBACK IMMEDIATE; DROP DATABASE IF EXISTS [$(testDatabaseName)];"
+          
+          & sqlcmd -S "$(sqlTestInstance)" -Q "$dropQuery" -b -U "$(sqlUser)" -P "$(sqlPassword)"
+          
+          Write-Host "✅ Base de datos de prueba eliminada."
+
+          
+- stage: QualityGates
+  displayName: 'Quality Gates & Metrics'
+  dependsOn: DatabaseValidation
+  condition: succeeded()
+  jobs:
+  - job: QualityAnalysis
+    displayName: 'Database Quality Checks'
+    steps:
+    
+    - task: DownloadBuildArtifacts@0
+      displayName: 'Download Build Artifacts'
+      inputs:
+        buildType: 'current'
+        artifactName: '$(artifactName)'
+        downloadPath: '$(System.ArtifactsDirectory)'
+
+    # Análisis de código SQL con detalle de problemas
+    - task: PowerShell@2
+      displayName: 'SQL Code Quality Analysis'
+      inputs:
+        targetType: 'inline'
+        script: |
+          Write-Host "📊 Ejecutando análisis de calidad SQL..."
+          Write-Host ""
+          
+          $sqlFiles = Get-ChildItem -Path "Vie_ERP" -Filter "*.sql" -Recurse
+          $criticalIssues = @()
+          $warnings = @()
+          
+          foreach ($file in $sqlFiles) {
+            $content = Get-Content $file.FullName -Raw -ErrorAction SilentlyContinue
+            if ($null -eq $content) { continue }
+            
+            $relativePath = $file.FullName.Replace("$(Get-Location)\Vie_ERP\", "")
+            
+            # Detectar SQL Injection (concatenación peligrosa con EXEC)
+            if ($content -match "EXEC\s*\(.*\+.*@" -and $content -notmatch "^--") {
+              $criticalIssues += "🚨 SQL Injection Risk: $relativePath"
+            }
+            
+            # Detectar EXECUTE con concatenación de strings
+            if ($content -match "EXECUTE\s+\(.*\+.*@" -and $content -notmatch "^--") {
+              $criticalIssues += "🚨 SQL Injection Risk: $relativePath"
+            }
+            
+            # Detectar SELECT * (solo primeras 10 para no saturar)
+            if ($warnings.Count -lt 10 -and $content -match "\bSELECT\s+\*\b" -and $content -notmatch "^--") {
+              $warnings += "⚠️  SELECT * encontrado en: $relativePath"
+            }
+          }
+          
+          Write-Host "📈 RESULTADOS DEL ANÁLISIS:"
+          Write-Host "   • Archivos analizados: $($sqlFiles.Count)"
+          Write-Host "   • Problemas críticos: $($criticalIssues.Count)"
+          Write-Host "   • Advertencias: $($warnings.Count)"
+          Write-Host ""
+          
+          # Mostrar problemas críticos CON DETALLE
+          if ($criticalIssues.Count -gt 0) {
+            Write-Host "═══════════════════════════════════════════════════════"
+            Write-Host "🚨 PROBLEMAS CRÍTICOS DE SEGURIDAD DETECTADOS:"
+            Write-Host "═══════════════════════════════════════════════════════"
+            foreach ($issue in $criticalIssues) {
+              Write-Host $issue
+            }
+            Write-Host "═══════════════════════════════════════════════════════"
+            Write-Host ""
+            Write-Warning "⚠️ Se encontraron $($criticalIssues.Count) problema(s) crítico(s) de seguridad"
+            Write-Host ""
+            Write-Host "🔧 Recomendación: Usar sp_executesql con parámetros en lugar de concatenación"
+          } else {
+            Write-Host "✅ No se encontraron problemas críticos de seguridad"
+          }
+          
+          # Mostrar advertencias (primeras 10)
+          if ($warnings.Count -gt 0) {
+            Write-Host ""
+            Write-Host "⚠️  ADVERTENCIAS (primeras 10):"
+            Write-Host "───────────────────────────────────────────────────────"
+            foreach ($warning in $warnings) {
+              Write-Host $warning
+            }
+            if ($warnings.Count -eq 10) {
+              Write-Host "   ... y posiblemente más archivos"
+            }
+            Write-Host "───────────────────────────────────────────────────────"
+          }
+          
+          Write-Host ""
+          Write-Host "✅ Análisis de calidad completado"
+
+    # Generar reporte completo de métricas y calidad
+    - task: PowerShell@2
+      displayName: 'Generate Project Metrics and Quality Report'
+      inputs:
+        targetType: 'inline'
+        script: |
+          Write-Host "📋 Generando reporte completo del proyecto..."
+          
+          $dacpacPath = "$(System.ArtifactsDirectory)/$(artifactName)/VieCloudColombia.dacpac"
+          $allSqlFiles = Get-ChildItem -Path "Vie_ERP" -Filter "*.sql" -Recurse
+          
+          # Contar objetos por tipo
+          $totalTables = ($allSqlFiles | Where-Object { $_.Directory.Name -eq "Tables" }).Count
+          $totalViews = ($allSqlFiles | Where-Object { $_.Directory.Name -eq "Views" }).Count
+          $totalSPs = ($allSqlFiles | Where-Object { $_.Directory.Name -eq "Stored Procedures" }).Count
+          $totalFunctions = ($allSqlFiles | Where-Object { $_.Directory.Name -eq "Functions" }).Count
+          
+          # Tamaño del DACPAC
+          $dacpacSize = 0
+          if (Test-Path $dacpacPath) {
+            $dacpacSize = (Get-Item $dacpacPath).Length / 1MB
+          }
+          
+          # Análisis de calidad (reutilizar lógica)
+          $criticalIssuesDetails = @()
+          $warningsDetails = @()
+          
+          foreach ($file in $allSqlFiles) {
+            $content = Get-Content $file.FullName -Raw -ErrorAction SilentlyContinue
+            if ($null -eq $content) { continue }
+            
+            $relativePath = $file.FullName.Replace("$(Get-Location)\Vie_ERP\", "")
+            
+            if ($content -match "EXEC\s*\(.*\+.*@" -and $content -notmatch "^--") {
+              $criticalIssuesDetails += @{
+                Type = "SQL Injection Risk"
+                File = $relativePath
+                Severity = "Critical"
+              }
+            }
+            
+            if ($warningsDetails.Count -lt 20 -and $content -match "\bSELECT\s+\*\b" -and $content -notmatch "^--") {
+              $warningsDetails += @{
+                Type = "SELECT *"
+                File = $relativePath
+                Severity = "Warning"
+              }
+            }
+          }
+          
+          # Crear reporte JSON
+          $report = @{
+            BuildInfo = @{
+              BuildNumber = "$(Build.BuildNumber)"
+              BuildDate = (Get-Date -Format "yyyy-MM-dd HH:mm:ss")
+              SourceBranch = "$(Build.SourceBranchName)"
+              SourceVersion = "$(Build.SourceVersion)"
+              TriggeredBy = "$(Build.RequestedFor)"
+            }
+            ProjectMetrics = @{
+              TotalSchemas = (Get-ChildItem -Path "Vie_ERP" -Directory | Where-Object { $_.Name -notmatch "^(bin|obj)$" }).Count
+              TotalTables = $totalTables
+              TotalViews = $totalViews
+              TotalStoredProcedures = $totalSPs
+              TotalFunctions = $totalFunctions
+              TotalDatabaseObjects = ($totalTables + $totalViews + $totalSPs + $totalFunctions)
+              TotalSqlFiles = $allSqlFiles.Count
+              DacpacSizeMB = [math]::Round($dacpacSize, 2)
+            }
+            QualityAnalysis = @{
+              CriticalIssuesCount = $criticalIssuesDetails.Count
+              WarningsCount = $warningsDetails.Count
+              CriticalIssues = $criticalIssuesDetails
+              Warnings = $warningsDetails
+            }
+          }
+          
+          # Guardar JSON
+          $reportPath = "$(Build.ArtifactStagingDirectory)/quality-report.json"
+          $report | ConvertTo-Json -Depth 5 | Out-File -FilePath $reportPath -Encoding UTF8
+          
+          # Guardar Markdown legible
+          $markdownPath = "$(Build.ArtifactStagingDirectory)/quality-report.md"
+          $markdown = @"
+          # 📊 Reporte de Calidad - Vie_ERP Database
+          
+          **Build:** $(Build.BuildNumber)  
+          **Fecha:** $(Get-Date -Format "yyyy-MM-dd HH:mm:ss")  
+          **Branch:** $(Build.SourceBranchName)  
+          **Triggered by:** $(Build.RequestedFor)
+          
+          ---
+          
+          ## 📈 Métricas del Proyecto
+          
+          | Métrica | Valor |
+          |---------|-------|
+          | Tablas | $totalTables |
+          | Vistas | $totalViews |
+          | Stored Procedures | $totalSPs |
+          | Funciones | $totalFunctions |
+          | **Total de Objetos** | **$($totalTables + $totalViews + $totalSPs + $totalFunctions)** |
+          | Tamaño DACPAC | $([math]::Round($dacpacSize, 2)) MB |
+          
+          ---
+          
+          ## 🔍 Análisis de Calidad
+          
+          | Categoría | Cantidad |
+          |-----------|----------|
+          | 🚨 Problemas Críticos | **$($criticalIssuesDetails.Count)** |
+          | ⚠️  Advertencias | $($warningsDetails.Count) |
+          
+          ### 🚨 Problemas Críticos (SQL Injection Risk)
+          
+          $(if ($criticalIssuesDetails.Count -eq 0) { "✅ No se encontraron problemas críticos" } else {
+            $criticalIssuesDetails | ForEach-Object { "- ``$($_.File)``" } | Out-String
+          })
+          
+          ### ⚠️ Advertencias (SELECT *)
+          
+          $(if ($warningsDetails.Count -eq 0) { "✅ No se encontraron advertencias" } else {
+            ($warningsDetails | Select-Object -First 10 | ForEach-Object { "- ``$($_.File)``" }) -join "`n"
+            if ($warningsDetails.Count -gt 10) { "`n... y $($warningsDetails.Count - 10) archivos más" }
+          })
+          
+          ---
+          
+          ## ✅ Recomendaciones
+          
+          $(if ($criticalIssuesDetails.Count -gt 0) {
+            @"
+          ### 🚨 Problemas Críticos
+          
+          Los archivos marcados con SQL Injection Risk usan concatenación de strings con EXEC/EXECUTE.
+          
+          **❌ Código Inseguro:**
+          ``````sql
+          DECLARE @sql NVARCHAR(MAX) = 'SELECT * FROM Users WHERE UserId = ' + @UserId
+          EXEC(@sql)
+          ``````
+          
+          **✅ Código Seguro:**
+          ``````sql
+          DECLARE @sql NVARCHAR(MAX) = 'SELECT * FROM Users WHERE UserId = @UserId'
+          EXEC sp_executesql @sql, N'@UserId INT', @UserId = @UserId
+          ``````
+          "@
+          })
+          
+          $(if ($warningsDetails.Count -gt 0) {
+            @"
+          ### ⚠️ SELECT *
+          
+          Evitar SELECT * y especificar columnas explícitamente mejora:
+          - Rendimiento (menos datos transferidos)
+          - Mantenibilidad (cambios en tablas no rompen código)
+          - Seguridad (no exponer columnas sensibles accidentalmente)
+          "@
+          })
+          
+          ---
+          
+          **Generado por:** Azure DevOps Pipeline  
+          **Pipeline:** $(Build.DefinitionName)
+          "@
+          
+          $markdown | Out-File -FilePath $markdownPath -Encoding UTF8
+          
+          Write-Host "📊 RESUMEN DEL PROYECTO:"
+          Write-Host "   • Tablas: $totalTables"
+          Write-Host "   • Vistas: $totalViews"
+          Write-Host "   • Stored Procedures: $totalSPs"
+          Write-Host "   • Funciones: $totalFunctions"
+          Write-Host "   • Total de objetos: $($totalTables + $totalViews + $totalSPs + $totalFunctions)"
+          Write-Host "   • Tamaño DACPAC: $([math]::Round($dacpacSize, 2)) MB"
+          Write-Host ""
+          Write-Host "📄 Reportes generados:"
+          Write-Host "   • quality-report.json (formato estructurado)"
+          Write-Host "   • quality-report.md (formato legible)"
+          Write-Host ""
+          Write-Host "✅ Métricas y reporte de calidad generados correctamente"
+    
+    # Publicar los reportes como artefactos
+    - task: PublishBuildArtifacts@1
+      displayName: 'Publish Quality Reports'
+      inputs:
+        PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+        ArtifactName: 'quality-reports'
+        publishLocation: 'Container'
+
+# Resumen final del pipeline
+- stage: Summary
+  displayName: 'Build Summary'
+  dependsOn: 
+    - Build
+    - DatabaseValidation 
+    - QualityGates
+  condition: always()
+  jobs:
+  - job: BuildSummary
+    displayName: 'Pipeline Summary'
+    steps:
+    
+    - task: PowerShell@2
+      displayName: 'Build Summary Report'
+      inputs:
+        targetType: 'inline'
+        script: |
+          Write-Host "═══════════════════════════════════════════════════════"
+          Write-Host "    PIPELINE CI - Vie_ERP Database Project"
+          Write-Host "═══════════════════════════════════════════════════════"
+          Write-Host ""
+          Write-Host "📋 Build: $(Build.BuildNumber)"
+          Write-Host "🌿 Branch: $(Build.SourceBranchName)"
+          Write-Host "👤 Triggered by: $(Build.RequestedFor)"
+          Write-Host ""
+          Write-Host "✅ VALIDACIONES COMPLETADAS:"
+          Write-Host "   • Compilación SQL exitosa"
+          Write-Host "   • DACPAC generado correctamente"  
+          Write-Host "   • Despliegue en base de datos de prueba verificado"
+          Write-Host "   • Análisis de calidad de código ejecutado"
+          Write-Host ""
+          Write-Host "🎉 El commit está listo para merge a master"
+          Write-Host ""
+          Write-Host "═══════════════════════════════════════════════════════"

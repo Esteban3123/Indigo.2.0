@@ -1,0 +1,2083 @@
+Imports Presentation.Controls
+
+<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>
+Partial Class FrmAuthorizationPortfolio
+    Inherits FormBase
+
+    'Form reemplaza a Dispose para limpiar la lista de componentes.
+    <System.Diagnostics.DebuggerNonUserCode()>
+    Protected Overrides Sub Dispose(ByVal disposing As Boolean)
+        Try
+            If disposing AndAlso components IsNot Nothing Then
+                components.Dispose()
+            End If
+        Finally
+            MyBase.Dispose(disposing)
+        End Try
+    End Sub
+
+    'Requerido por el Diseñador de Windows Forms
+    Private components As System.ComponentModel.IContainer
+
+    'NOTA: el Diseñador de Windows Forms necesita el siguiente procedimiento
+    'Se puede modificar usando el Diseñador de Windows Forms.  
+    'No lo modifique con el editor de código.
+    <System.Diagnostics.DebuggerStepThrough()>
+    Private Sub InitializeComponent()
+        Me.components = New System.ComponentModel.Container()
+        Dim AppearanceObject1 As DevExpress.Utils.AppearanceObject = New DevExpress.Utils.AppearanceObject()
+        Dim AppearanceObject2 As DevExpress.Utils.AppearanceObject = New DevExpress.Utils.AppearanceObject()
+        Dim AppearanceObject3 As DevExpress.Utils.AppearanceObject = New DevExpress.Utils.AppearanceObject()
+        Dim AppearanceObject4 As DevExpress.Utils.AppearanceObject = New DevExpress.Utils.AppearanceObject()
+        Dim AppearanceObject5 As DevExpress.Utils.AppearanceObject = New DevExpress.Utils.AppearanceObject()
+        Dim AppearanceObject6 As DevExpress.Utils.AppearanceObject = New DevExpress.Utils.AppearanceObject()
+        Dim EditorButtonImageOptions1 As DevExpress.XtraEditors.Controls.EditorButtonImageOptions = New DevExpress.XtraEditors.Controls.EditorButtonImageOptions()
+        Dim SerializableAppearanceObject1 As DevExpress.Utils.SerializableAppearanceObject = New DevExpress.Utils.SerializableAppearanceObject()
+        Dim SerializableAppearanceObject2 As DevExpress.Utils.SerializableAppearanceObject = New DevExpress.Utils.SerializableAppearanceObject()
+        Dim SerializableAppearanceObject3 As DevExpress.Utils.SerializableAppearanceObject = New DevExpress.Utils.SerializableAppearanceObject()
+        Dim SerializableAppearanceObject4 As DevExpress.Utils.SerializableAppearanceObject = New DevExpress.Utils.SerializableAppearanceObject()
+        Dim EditorButtonImageOptions2 As DevExpress.XtraEditors.Controls.EditorButtonImageOptions = New DevExpress.XtraEditors.Controls.EditorButtonImageOptions()
+        Dim SerializableAppearanceObject5 As DevExpress.Utils.SerializableAppearanceObject = New DevExpress.Utils.SerializableAppearanceObject()
+        Dim SerializableAppearanceObject6 As DevExpress.Utils.SerializableAppearanceObject = New DevExpress.Utils.SerializableAppearanceObject()
+        Dim SerializableAppearanceObject7 As DevExpress.Utils.SerializableAppearanceObject = New DevExpress.Utils.SerializableAppearanceObject()
+        Dim SerializableAppearanceObject8 As DevExpress.Utils.SerializableAppearanceObject = New DevExpress.Utils.SerializableAppearanceObject()
+        Dim EditorButtonImageOptions3 As DevExpress.XtraEditors.Controls.EditorButtonImageOptions = New DevExpress.XtraEditors.Controls.EditorButtonImageOptions()
+        Dim SerializableAppearanceObject9 As DevExpress.Utils.SerializableAppearanceObject = New DevExpress.Utils.SerializableAppearanceObject()
+        Dim SerializableAppearanceObject10 As DevExpress.Utils.SerializableAppearanceObject = New DevExpress.Utils.SerializableAppearanceObject()
+        Dim SerializableAppearanceObject11 As DevExpress.Utils.SerializableAppearanceObject = New DevExpress.Utils.SerializableAppearanceObject()
+        Dim SerializableAppearanceObject12 As DevExpress.Utils.SerializableAppearanceObject = New DevExpress.Utils.SerializableAppearanceObject()
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(FrmAuthorizationPortfolio))
+        Me.CtrNavigationControl1 = New Presentation.Controls.CtrNavigationControlPanel()
+        Me.INDlyRoot = New DevExpress.XtraLayout.LayoutControl()
+        Me.INDbtnAddCareCenter = New DevExpress.XtraEditors.SimpleButton()
+        Me.INDsleCareCenter = New DevExpress.XtraEditors.SearchLookUpEdit()
+        Me.BarManager = New DevExpress.XtraBars.BarManager(Me.components)
+        Me.barDockControlTop = New DevExpress.XtraBars.BarDockControl()
+        Me.barDockControlBottom = New DevExpress.XtraBars.BarDockControl()
+        Me.barDockControlLeft = New DevExpress.XtraBars.BarDockControl()
+        Me.barDockControlRight = New DevExpress.XtraBars.BarDockControl()
+        Me.INDbarButtonSelectAll = New DevExpress.XtraBars.BarButtonItem()
+        Me.INDbarButtonUnSelectAll = New DevExpress.XtraBars.BarButtonItem()
+        Me.GridView2 = New DevExpress.XtraGrid.Views.Grid.GridView()
+        Me.GridColumn15 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn17 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.INDpopupProducts = New DevExpress.XtraEditors.PopupContainerControl()
+        Me.INDlyPopupProducts = New DevExpress.XtraLayout.LayoutControl()
+        Me.INDgcPopupProducts = New DevExpress.XtraGrid.GridControl()
+        Me.viewGridProducts = New DevExpress.XtraGrid.Views.Grid.GridView()
+        Me.GridColumn19 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.INDrptCheckOptionProducts = New DevExpress.XtraEditors.Repository.RepositoryItemCheckEdit()
+        Me.GridColumn20 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn21 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.LayoutControlGroup3 = New DevExpress.XtraLayout.LayoutControlGroup()
+        Me.INDlyItemGridPopupProducts = New DevExpress.XtraLayout.LayoutControlItem()
+        Me.INDpopupAddProducts = New DevExpress.XtraEditors.PopupContainerControl()
+        Me.INDlyProducts = New DevExpress.XtraLayout.LayoutControl()
+        Me.INDsleAuthorizationGroupProducts = New DevExpress.XtraEditors.SearchLookUpEdit()
+        Me.GridView1 = New DevExpress.XtraGrid.Views.Grid.GridView()
+        Me.GridColumn6 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn16 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.INDsleProducts = New DevExpress.XtraEditors.PopupContainerEdit()
+        Me.LayoutControlGroup2 = New DevExpress.XtraLayout.LayoutControlGroup()
+        Me.INDlyItemProducts = New DevExpress.XtraLayout.LayoutControlItem()
+        Me.INDlyItemAuthorizationGroupProducts = New DevExpress.XtraLayout.LayoutControlItem()
+        Me.PanelControl2 = New DevExpress.XtraEditors.PanelControl()
+        Me.INDbtnAddProducts = New DevExpress.XtraEditors.SimpleButton()
+        Me.INDgcCareCenter = New DevExpress.XtraGrid.GridControl()
+        Me.INDviewCareCenter = New DevExpress.XtraGrid.Views.Grid.GridView()
+        Me.GridColumn7 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.INDpopupCupsEntity = New DevExpress.XtraEditors.PopupContainerControl()
+        Me.INDlyPopupCupsEntity = New DevExpress.XtraLayout.LayoutControl()
+        Me.INDgcCupsEntity = New DevExpress.XtraGrid.GridControl()
+        Me.viewGridCupsEntity = New DevExpress.XtraGrid.Views.Grid.GridView()
+        Me.GridColumn4 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn8 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn55 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.INDrepCheckSelectOption = New DevExpress.XtraEditors.Repository.RepositoryItemCheckEdit()
+        Me.GridColumn9 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn54 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.LayoutControlGroup4 = New DevExpress.XtraLayout.LayoutControlGroup()
+        Me.INDlyItemGridCupsEntity = New DevExpress.XtraLayout.LayoutControlItem()
+        Me.INDpopupAddCups = New DevExpress.XtraEditors.PopupContainerControl()
+        Me.INDlyAddCups = New DevExpress.XtraLayout.LayoutControl()
+        Me.INDsleAuthorizationGroup = New DevExpress.XtraEditors.SearchLookUpEdit()
+        Me.SearchLookUpEdit1View = New DevExpress.XtraGrid.Views.Grid.GridView()
+        Me.GridColumn2 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn3 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.INDSleCups = New DevExpress.XtraEditors.PopupContainerEdit()
+        Me.Root = New DevExpress.XtraLayout.LayoutControlGroup()
+        Me.INDlyItemCupsEntity = New DevExpress.XtraLayout.LayoutControlItem()
+        Me.INDlyItemAuthorizationGroup = New DevExpress.XtraLayout.LayoutControlItem()
+        Me.PanelControl1 = New DevExpress.XtraEditors.PanelControl()
+        Me.INDBtnAddCups = New DevExpress.XtraEditors.SimpleButton()
+        Me.INDEsbExportProducts = New Presentation.Controls.ExportStructureButton()
+        Me.INDpceAddProducts = New DevExpress.XtraEditors.PopupContainerEdit()
+        Me.INDgcProducts = New DevExpress.XtraGrid.GridControl()
+        Me.INDviewProducts = New DevExpress.XtraGrid.Views.Grid.GridView()
+        Me.GridColumn14 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn12 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn13 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.INDEsbExportCUPS = New Presentation.Controls.ExportStructureButton()
+        Me.INDpceAddCups = New DevExpress.XtraEditors.PopupContainerEdit()
+        Me.INDgcCUPS = New DevExpress.XtraGrid.GridControl()
+        Me.INDviewCUPS = New DevExpress.XtraGrid.Views.Grid.GridView()
+        Me.GridColumn5 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn1 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn11 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumn10 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.INDtxtName = New DevExpress.XtraEditors.TextEdit()
+        Me.INDbtnCode = New DevExpress.XtraEditors.ButtonEdit()
+        Me.LayoutControlGroup1 = New DevExpress.XtraLayout.LayoutControlGroup()
+        Me.INDlygPrincipalData = New DevExpress.XtraLayout.LayoutControlGroup()
+        Me.INDlyItemCode = New DevExpress.XtraLayout.LayoutControlItem()
+        Me.INDlyItemName = New DevExpress.XtraLayout.LayoutControlItem()
+        Me.INDlygCUPS = New DevExpress.XtraLayout.LayoutControlGroup()
+        Me.LayoutControlItem2 = New DevExpress.XtraLayout.LayoutControlItem()
+        Me.INDlyItemAddCups = New DevExpress.XtraLayout.LayoutControlItem()
+        Me.LayoutControlItem1 = New DevExpress.XtraLayout.LayoutControlItem()
+        Me.INDlygProducts = New DevExpress.XtraLayout.LayoutControlGroup()
+        Me.INDlyItemGridProducts = New DevExpress.XtraLayout.LayoutControlItem()
+        Me.INDlyItemAddProducts = New DevExpress.XtraLayout.LayoutControlItem()
+        Me.LayoutControlItem3 = New DevExpress.XtraLayout.LayoutControlItem()
+        Me.INDlygCareCenter = New DevExpress.XtraLayout.LayoutControlGroup()
+        Me.INDlyItemGridCareCenter = New DevExpress.XtraLayout.LayoutControlItem()
+        Me.INDlyItemCareCenter = New DevExpress.XtraLayout.LayoutControlItem()
+        Me.INDlyItemAddCareCenter = New DevExpress.XtraLayout.LayoutControlItem()
+        Me.IndigoLabelControl1 = New Presentation.Controls.IndigoLabelControl(Me.components)
+        Me.IndigoGroupControl1 = New Presentation.Controls.IndigoGroupControl(Me.components)
+        Me.IndigoLayoutControlGroup1 = New Presentation.Controls.IndigoLayoutControlGroup(Me.components)
+        Me.IndigoTextEdit1 = New Presentation.Controls.IndigoTextEdit(Me.components)
+        Me.IndigoGridView1 = New Presentation.Controls.IndigoGridView(Me.components)
+        Me.IndigoGridControl1 = New Presentation.Controls.IndigoGridControl(Me.components)
+        Me.IndigoSearchLookUpControl1 = New Presentation.Controls.IndigoSearchLookUpControl(Me.components)
+        Me.PopupMenuActions = New DevExpress.XtraBars.PopupMenu(Me.components)
+        Me.IndigoPopUpContainerEdit1 = New Presentation.Controls.IndigoPopUpContainerEdit(Me.components)
+        Me.IndigoSimpleButton1 = New Presentation.Controls.IndigoSimpleButton(Me.components)
+        Me.IndigoGridView2 = New Presentation.Controls.IndigoGridView(Me.components)
+        Me.IndigoGridView3 = New Presentation.Controls.IndigoGridView(Me.components)
+        Me.IndigoGridView4 = New Presentation.Controls.IndigoGridView(Me.components)
+        Me.IndigoGridControl2 = New Presentation.Controls.IndigoGridControl(Me.components)
+        Me.IndigoGridControl3 = New Presentation.Controls.IndigoGridControl(Me.components)
+        CType(Me.INDPanelControlBase, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.INDPanelControlBase.SuspendLayout()
+        CType(Me.ToolBars, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.ToolBars.SuspendLayout()
+        CType(Me.LayoutControls, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.CtrNavigationControl1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.INDlyRoot, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.INDlyRoot.SuspendLayout()
+        CType(Me.INDsleCareCenter.Properties, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.BarManager, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.GridView2, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.INDpopupProducts, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.INDpopupProducts.SuspendLayout()
+        CType(Me.INDlyPopupProducts, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.INDlyPopupProducts.SuspendLayout()
+        CType(Me.INDgcPopupProducts, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.viewGridProducts, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.INDrptCheckOptionProducts, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.LayoutControlGroup3, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.INDlyItemGridPopupProducts, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.INDpopupAddProducts, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.INDpopupAddProducts.SuspendLayout()
+        CType(Me.INDlyProducts, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.INDlyProducts.SuspendLayout()
+        CType(Me.INDsleAuthorizationGroupProducts.Properties, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.GridView1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.INDsleProducts.Properties, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.LayoutControlGroup2, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.INDlyItemProducts, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.INDlyItemAuthorizationGroupProducts, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.PanelControl2, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.PanelControl2.SuspendLayout()
+        CType(Me.INDgcCareCenter, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.INDviewCareCenter, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.INDpopupCupsEntity, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.INDpopupCupsEntity.SuspendLayout()
+        CType(Me.INDlyPopupCupsEntity, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.INDlyPopupCupsEntity.SuspendLayout()
+        CType(Me.INDgcCupsEntity, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.viewGridCupsEntity, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.INDrepCheckSelectOption, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.LayoutControlGroup4, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.INDlyItemGridCupsEntity, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.INDpopupAddCups, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.INDpopupAddCups.SuspendLayout()
+        CType(Me.INDlyAddCups, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.INDlyAddCups.SuspendLayout()
+        CType(Me.INDsleAuthorizationGroup.Properties, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.SearchLookUpEdit1View, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.INDSleCups.Properties, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.Root, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.INDlyItemCupsEntity, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.INDlyItemAuthorizationGroup, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.PanelControl1, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.PanelControl1.SuspendLayout()
+        CType(Me.INDpceAddProducts.Properties, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.INDgcProducts, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.INDviewProducts, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.INDpceAddCups.Properties, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.INDgcCUPS, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.INDviewCUPS, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.INDtxtName.Properties, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.INDbtnCode.Properties, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.LayoutControlGroup1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.INDlygPrincipalData, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.INDlyItemCode, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.INDlyItemName, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.INDlygCUPS, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.LayoutControlItem2, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.INDlyItemAddCups, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.LayoutControlItem1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.INDlygProducts, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.INDlyItemGridProducts, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.INDlyItemAddProducts, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.LayoutControlItem3, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.INDlygCareCenter, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.INDlyItemGridCareCenter, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.INDlyItemCareCenter, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.INDlyItemAddCareCenter, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.IndigoLabelControl1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.IndigoGroupControl1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.IndigoLayoutControlGroup1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.IndigoTextEdit1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.IndigoGridView1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.IndigoGridControl1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.IndigoSearchLookUpControl1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.PopupMenuActions, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.IndigoPopUpContainerEdit1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.IndigoSimpleButton1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.IndigoGridView2, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.IndigoGridView3, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.IndigoGridView4, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.IndigoGridControl2, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.IndigoGridControl3, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.SuspendLayout()
+        '
+        'INDPanelControlBase
+        '
+        Me.INDPanelControlBase.Controls.Add(Me.INDlyRoot)
+        Me.INDPanelControlBase.Controls.Add(Me.CtrNavigationControl1)
+        Me.INDPanelControlBase.Location = New System.Drawing.Point(0, 135)
+        Me.INDPanelControlBase.Size = New System.Drawing.Size(1508, 625)
+        '
+        'ToolBars
+        '
+        Me.ToolBars.Appearance.BackColor = System.Drawing.Color.Transparent
+        Me.ToolBars.Appearance.Options.UseBackColor = True
+        Me.ToolBars.Size = New System.Drawing.Size(1508, 130)
+        '
+        'BarraBotones
+        '
+        Me.BarraBotones.Size = New System.Drawing.Size(1508, 130)
+        '
+        'CtrNavigationControl1
+        '
+        Me.CtrNavigationControl1.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder
+        Me.CtrNavigationControl1.Dock = System.Windows.Forms.DockStyle.Left
+        Me.CtrNavigationControl1.LayoutControl = Me.INDlyRoot
+        Me.CtrNavigationControl1.Location = New System.Drawing.Point(2, 7)
+        Me.CtrNavigationControl1.Margin = New System.Windows.Forms.Padding(0)
+        Me.CtrNavigationControl1.Name = "CtrNavigationControl1"
+        Me.CtrNavigationControl1.Size = New System.Drawing.Size(200, 616)
+        Me.CtrNavigationControl1.TabIndex = 0
+        Me.CtrNavigationControl1.UseDisabledStatePainter = False
+        '
+        'INDlyRoot
+        '
+        Me.INDlyRoot.Controls.Add(Me.INDbtnAddCareCenter)
+        Me.INDlyRoot.Controls.Add(Me.INDsleCareCenter)
+        Me.INDlyRoot.Controls.Add(Me.INDpopupProducts)
+        Me.INDlyRoot.Controls.Add(Me.INDpopupAddProducts)
+        Me.INDlyRoot.Controls.Add(Me.INDgcCareCenter)
+        Me.INDlyRoot.Controls.Add(Me.INDpopupCupsEntity)
+        Me.INDlyRoot.Controls.Add(Me.INDpopupAddCups)
+        Me.INDlyRoot.Controls.Add(Me.INDEsbExportProducts)
+        Me.INDlyRoot.Controls.Add(Me.INDpceAddProducts)
+        Me.INDlyRoot.Controls.Add(Me.INDgcProducts)
+        Me.INDlyRoot.Controls.Add(Me.INDEsbExportCUPS)
+        Me.INDlyRoot.Controls.Add(Me.INDpceAddCups)
+        Me.INDlyRoot.Controls.Add(Me.INDgcCUPS)
+        Me.INDlyRoot.Controls.Add(Me.INDtxtName)
+        Me.INDlyRoot.Controls.Add(Me.INDbtnCode)
+        Me.INDlyRoot.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.INDlyRoot.Location = New System.Drawing.Point(202, 7)
+        Me.INDlyRoot.Name = "INDlyRoot"
+        Me.INDlyRoot.OptionsCustomizationForm.DesignTimeCustomizationFormPositionAndSize = New System.Drawing.Rectangle(668, 391, 250, 461)
+        Me.INDlyRoot.Root = Me.LayoutControlGroup1
+        Me.INDlyRoot.Size = New System.Drawing.Size(1304, 616)
+        Me.INDlyRoot.TabIndex = 1
+        Me.INDlyRoot.Text = "LayoutControl1"
+        '
+        'INDbtnAddCareCenter
+        '
+        Me.INDbtnAddCareCenter.Appearance.Font = New System.Drawing.Font("Segoe UI Light", 12.0!)
+        Me.INDbtnAddCareCenter.Appearance.Options.UseFont = True
+        Me.INDbtnAddCareCenter.Location = New System.Drawing.Point(2542, 53)
+        Me.IndigoSimpleButton1.SetModernUiIndigo(Me.INDbtnAddCareCenter, True)
+        Me.INDbtnAddCareCenter.Name = "INDbtnAddCareCenter"
+        Me.INDbtnAddCareCenter.Size = New System.Drawing.Size(96, 28)
+        Me.INDbtnAddCareCenter.StyleController = Me.INDlyRoot
+        Me.INDbtnAddCareCenter.TabIndex = 28
+        Me.INDbtnAddCareCenter.Text = "Agregar"
+        '
+        'INDsleCareCenter
+        '
+        Me.IndigoSearchLookUpControl1.SetAppearanceEmbeddedNavigator(Me.INDsleCareCenter, AppearanceObject1)
+        Me.IndigoSearchLookUpControl1.SetAppearanceTextFindControl(Me.INDsleCareCenter, AppearanceObject2)
+        Me.IndigoSearchLookUpControl1.SetAppendButtonNavigator(Me.INDsleCareCenter, False)
+        Me.IndigoTextEdit1.SetApplyStyle(Me.INDsleCareCenter, False)
+        Me.IndigoTextEdit1.SetCampoObligatorio(Me.INDsleCareCenter, False)
+        Me.IndigoSearchLookUpControl1.SetCancelEditButtonNavigator(Me.INDsleCareCenter, False)
+        Me.IndigoSearchLookUpControl1.SetEditButtonNavigator(Me.INDsleCareCenter, False)
+        Me.IndigoSearchLookUpControl1.SetEndEditButtonNavigator(Me.INDsleCareCenter, False)
+        Me.INDsleCareCenter.EnterMoveNextControl = True
+        Me.IndigoSearchLookUpControl1.SetExportButton(Me.INDsleCareCenter, False)
+        Me.IndigoSearchLookUpControl1.SetFirstButtonNavigator(Me.INDsleCareCenter, False)
+        Me.IndigoSearchLookUpControl1.SetLastButtonNavigator(Me.INDsleCareCenter, False)
+        Me.INDsleCareCenter.Location = New System.Drawing.Point(2197, 53)
+        Me.IndigoTextEdit1.SetMascara(Me.INDsleCareCenter, Presentation.Controls.IndigoTextEdit.EMask.Ninguno)
+        Me.INDsleCareCenter.MenuManager = Me.BarManager
+        Me.INDsleCareCenter.Name = "INDsleCareCenter"
+        Me.IndigoSearchLookUpControl1.SetNextButtonNavigator(Me.INDsleCareCenter, False)
+        Me.IndigoSearchLookUpControl1.SetNextPageButtonNavigator(Me.INDsleCareCenter, False)
+        Me.IndigoSearchLookUpControl1.SetOpenForm(Me.INDsleCareCenter, False)
+        Me.IndigoSearchLookUpControl1.SetPopupSizeable(Me.INDsleCareCenter, False)
+        Me.IndigoSearchLookUpControl1.SetPrevButtonNavigator(Me.INDsleCareCenter, False)
+        Me.IndigoSearchLookUpControl1.SetPrevPageButtonNavigator(Me.INDsleCareCenter, False)
+        Me.INDsleCareCenter.Properties.Appearance.BackColor = System.Drawing.Color.Transparent
+        Me.INDsleCareCenter.Properties.Appearance.Font = New System.Drawing.Font("Segoe UI Light", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.INDsleCareCenter.Properties.Appearance.ForeColor = System.Drawing.Color.FromArgb(CType(CType(40, Byte), Integer), CType(CType(40, Byte), Integer), CType(CType(40, Byte), Integer))
+        Me.INDsleCareCenter.Properties.Appearance.Options.UseBackColor = True
+        Me.INDsleCareCenter.Properties.Appearance.Options.UseFont = True
+        Me.INDsleCareCenter.Properties.Appearance.Options.UseForeColor = True
+        Me.INDsleCareCenter.Properties.Buttons.AddRange(New DevExpress.XtraEditors.Controls.EditorButton() {New DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)})
+        Me.INDsleCareCenter.Properties.DisplayMember = "CodeName"
+        Me.INDsleCareCenter.Properties.NullText = ""
+        Me.INDsleCareCenter.Properties.PopupSizeable = False
+        Me.INDsleCareCenter.Properties.PopupView = Me.GridView2
+        Me.INDsleCareCenter.Properties.ShowFooter = False
+        Me.INDsleCareCenter.Properties.ValueMember = "CODCENATE"
+        Me.IndigoSearchLookUpControl1.SetRemoveButtonNavigator(Me.INDsleCareCenter, False)
+        Me.IndigoSearchLookUpControl1.SetSaveXmlGrid(Me.INDsleCareCenter, True)
+        Me.IndigoSearchLookUpControl1.SetShowDeleteButton(Me.INDsleCareCenter, False)
+        Me.IndigoSearchLookUpControl1.SetShowFindButton(Me.INDsleCareCenter, True)
+        Me.INDsleCareCenter.Size = New System.Drawing.Size(341, 28)
+        Me.INDsleCareCenter.StyleController = Me.INDlyRoot
+        Me.INDsleCareCenter.TabIndex = 27
+        Me.IndigoSearchLookUpControl1.SetTagForm(Me.INDsleCareCenter, Nothing)
+        Me.IndigoTextEdit1.SetTamañoMinimoString(Me.INDsleCareCenter, 0)
+        Me.IndigoSearchLookUpControl1.SetTextStringFormat(Me.INDsleCareCenter, "{0} - {1}")
+        Me.IndigoSearchLookUpControl1.SetTxtFindEnterEnabled(Me.INDsleCareCenter, False)
+        Me.IndigoSearchLookUpControl1.SetUseEmbeddedNavigator(Me.INDsleCareCenter, False)
+        '
+        'BarManager
+        '
+        Me.BarManager.DockControls.Add(Me.barDockControlTop)
+        Me.BarManager.DockControls.Add(Me.barDockControlBottom)
+        Me.BarManager.DockControls.Add(Me.barDockControlLeft)
+        Me.BarManager.DockControls.Add(Me.barDockControlRight)
+        Me.BarManager.Form = Me
+        Me.BarManager.Items.AddRange(New DevExpress.XtraBars.BarItem() {Me.INDbarButtonSelectAll, Me.INDbarButtonUnSelectAll})
+        Me.BarManager.MaxItemId = 7
+        '
+        'barDockControlTop
+        '
+        Me.barDockControlTop.CausesValidation = False
+        Me.barDockControlTop.Dock = System.Windows.Forms.DockStyle.Top
+        Me.barDockControlTop.Location = New System.Drawing.Point(0, 5)
+        Me.barDockControlTop.Manager = Me.BarManager
+        Me.barDockControlTop.Size = New System.Drawing.Size(1508, 0)
+        '
+        'barDockControlBottom
+        '
+        Me.barDockControlBottom.CausesValidation = False
+        Me.barDockControlBottom.Dock = System.Windows.Forms.DockStyle.Bottom
+        Me.barDockControlBottom.Location = New System.Drawing.Point(0, 760)
+        Me.barDockControlBottom.Manager = Me.BarManager
+        Me.barDockControlBottom.Size = New System.Drawing.Size(1508, 0)
+        '
+        'barDockControlLeft
+        '
+        Me.barDockControlLeft.CausesValidation = False
+        Me.barDockControlLeft.Dock = System.Windows.Forms.DockStyle.Left
+        Me.barDockControlLeft.Location = New System.Drawing.Point(0, 5)
+        Me.barDockControlLeft.Manager = Me.BarManager
+        Me.barDockControlLeft.Size = New System.Drawing.Size(0, 755)
+        '
+        'barDockControlRight
+        '
+        Me.barDockControlRight.CausesValidation = False
+        Me.barDockControlRight.Dock = System.Windows.Forms.DockStyle.Right
+        Me.barDockControlRight.Location = New System.Drawing.Point(1508, 5)
+        Me.barDockControlRight.Manager = Me.BarManager
+        Me.barDockControlRight.Size = New System.Drawing.Size(0, 755)
+        '
+        'INDbarButtonSelectAll
+        '
+        Me.INDbarButtonSelectAll.Caption = "Seleccionar"
+        Me.INDbarButtonSelectAll.Id = 0
+        Me.INDbarButtonSelectAll.ImageOptions.Image = Global.Presentation.Authorization.My.Resources.Resources.Add_16x16_blue
+        Me.INDbarButtonSelectAll.ItemAppearance.Disabled.Font = New System.Drawing.Font("Segoe UI Light", 11.25!)
+        Me.INDbarButtonSelectAll.ItemAppearance.Disabled.Options.UseFont = True
+        Me.INDbarButtonSelectAll.ItemAppearance.Hovered.Font = New System.Drawing.Font("Segoe UI Light", 11.25!)
+        Me.INDbarButtonSelectAll.ItemAppearance.Hovered.Options.UseFont = True
+        Me.INDbarButtonSelectAll.ItemAppearance.Normal.Font = New System.Drawing.Font("Segoe UI Light", 11.25!)
+        Me.INDbarButtonSelectAll.ItemAppearance.Normal.Options.UseFont = True
+        Me.INDbarButtonSelectAll.ItemAppearance.Pressed.Font = New System.Drawing.Font("Segoe UI Light", 11.25!)
+        Me.INDbarButtonSelectAll.ItemAppearance.Pressed.Options.UseFont = True
+        Me.INDbarButtonSelectAll.ItemInMenuAppearance.Disabled.Font = New System.Drawing.Font("Segoe UI Light", 11.25!)
+        Me.INDbarButtonSelectAll.ItemInMenuAppearance.Disabled.Options.UseFont = True
+        Me.INDbarButtonSelectAll.ItemInMenuAppearance.Hovered.Font = New System.Drawing.Font("Segoe UI Light", 11.25!)
+        Me.INDbarButtonSelectAll.ItemInMenuAppearance.Hovered.Options.UseFont = True
+        Me.INDbarButtonSelectAll.ItemInMenuAppearance.Normal.Font = New System.Drawing.Font("Segoe UI Light", 11.25!)
+        Me.INDbarButtonSelectAll.ItemInMenuAppearance.Normal.Options.UseFont = True
+        Me.INDbarButtonSelectAll.ItemInMenuAppearance.Pressed.Font = New System.Drawing.Font("Segoe UI Light", 11.25!)
+        Me.INDbarButtonSelectAll.ItemInMenuAppearance.Pressed.Options.UseFont = True
+        Me.INDbarButtonSelectAll.Name = "INDbarButtonSelectAll"
+        '
+        'INDbarButtonUnSelectAll
+        '
+        Me.INDbarButtonUnSelectAll.Caption = "Deseleccionar"
+        Me.INDbarButtonUnSelectAll.Id = 1
+        Me.INDbarButtonUnSelectAll.ImageOptions.Image = Global.Presentation.Authorization.My.Resources.Resources.Add_16x16_blue
+        Me.INDbarButtonUnSelectAll.ItemAppearance.Disabled.Font = New System.Drawing.Font("Segoe UI Light", 11.25!)
+        Me.INDbarButtonUnSelectAll.ItemAppearance.Disabled.Options.UseFont = True
+        Me.INDbarButtonUnSelectAll.ItemAppearance.Hovered.Font = New System.Drawing.Font("Segoe UI Light", 11.25!)
+        Me.INDbarButtonUnSelectAll.ItemAppearance.Hovered.Options.UseFont = True
+        Me.INDbarButtonUnSelectAll.ItemAppearance.Normal.Font = New System.Drawing.Font("Segoe UI Light", 11.25!)
+        Me.INDbarButtonUnSelectAll.ItemAppearance.Normal.Options.UseFont = True
+        Me.INDbarButtonUnSelectAll.ItemAppearance.Pressed.Font = New System.Drawing.Font("Segoe UI Light", 11.25!)
+        Me.INDbarButtonUnSelectAll.ItemAppearance.Pressed.Options.UseFont = True
+        Me.INDbarButtonUnSelectAll.ItemInMenuAppearance.Disabled.Font = New System.Drawing.Font("Segoe UI Light", 11.25!)
+        Me.INDbarButtonUnSelectAll.ItemInMenuAppearance.Disabled.Options.UseFont = True
+        Me.INDbarButtonUnSelectAll.ItemInMenuAppearance.Hovered.Font = New System.Drawing.Font("Segoe UI Light", 11.25!)
+        Me.INDbarButtonUnSelectAll.ItemInMenuAppearance.Hovered.Options.UseFont = True
+        Me.INDbarButtonUnSelectAll.ItemInMenuAppearance.Normal.Font = New System.Drawing.Font("Segoe UI Light", 11.25!)
+        Me.INDbarButtonUnSelectAll.ItemInMenuAppearance.Normal.Options.UseFont = True
+        Me.INDbarButtonUnSelectAll.ItemInMenuAppearance.Pressed.Font = New System.Drawing.Font("Segoe UI Light", 11.25!)
+        Me.INDbarButtonUnSelectAll.ItemInMenuAppearance.Pressed.Options.UseFont = True
+        Me.INDbarButtonUnSelectAll.Name = "INDbarButtonUnSelectAll"
+        '
+        'GridView2
+        '
+        Me.GridView2.Appearance.FocusedRow.BorderColor = System.Drawing.Color.LightGray
+        Me.GridView2.Appearance.FocusedRow.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Bold)
+        Me.GridView2.Appearance.FocusedRow.Options.UseBorderColor = True
+        Me.GridView2.Appearance.FocusedRow.Options.UseFont = True
+        Me.GridView2.Appearance.GroupRow.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.GridView2.Appearance.GroupRow.Options.UseFont = True
+        Me.GridView2.Appearance.HeaderPanel.Font = New System.Drawing.Font("Segoe UI Semibold", 10.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.GridView2.Appearance.HeaderPanel.Options.UseFont = True
+        Me.GridView2.Appearance.Row.Font = New System.Drawing.Font("Segoe UI Light", 9.75!)
+        Me.GridView2.Appearance.Row.Options.UseFont = True
+        Me.GridView2.Columns.AddRange(New DevExpress.XtraGrid.Columns.GridColumn() {Me.GridColumn15, Me.GridColumn17})
+        Me.GridView2.FocusRectStyle = DevExpress.XtraGrid.Views.Grid.DrawFocusRectStyle.RowFocus
+        Me.GridView2.Name = "GridView2"
+        Me.GridView2.OptionsSelection.EnableAppearanceFocusedCell = False
+        Me.GridView2.OptionsView.EnableAppearanceEvenRow = True
+        Me.GridView2.OptionsView.EnableAppearanceOddRow = True
+        Me.GridView2.OptionsView.ShowAutoFilterRow = True
+        Me.GridView2.OptionsView.ShowGroupPanel = False
+        Me.IndigoGridView4.SetTemaIndigoMetro(Me.GridView2, False)
+        Me.IndigoGridView2.SetTemaIndigoMetro(Me.GridView2, False)
+        Me.IndigoGridView1.SetTemaIndigoMetro(Me.GridView2, False)
+        Me.IndigoGridView3.SetTemaIndigoMetro(Me.GridView2, False)
+        '
+        'GridColumn15
+        '
+        Me.GridColumn15.Caption = "Código"
+        Me.GridColumn15.FieldName = "CODCENATE"
+        Me.GridColumn15.Name = "GridColumn15"
+        Me.GridColumn15.Visible = True
+        Me.GridColumn15.VisibleIndex = 0
+        Me.GridColumn15.Width = 215
+        '
+        'GridColumn17
+        '
+        Me.GridColumn17.Caption = "Nombre"
+        Me.GridColumn17.FieldName = "NOMCENATE"
+        Me.GridColumn17.Name = "GridColumn17"
+        Me.GridColumn17.Visible = True
+        Me.GridColumn17.VisibleIndex = 1
+        Me.GridColumn17.Width = 847
+        '
+        'INDpopupProducts
+        '
+        Me.INDpopupProducts.Controls.Add(Me.INDlyPopupProducts)
+        Me.INDpopupProducts.Location = New System.Drawing.Point(611, 510)
+        Me.INDpopupProducts.Name = "INDpopupProducts"
+        Me.INDpopupProducts.Size = New System.Drawing.Size(633, 301)
+        Me.INDpopupProducts.TabIndex = 25
+        '
+        'INDlyPopupProducts
+        '
+        Me.INDlyPopupProducts.Controls.Add(Me.INDgcPopupProducts)
+        Me.INDlyPopupProducts.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.INDlyPopupProducts.Location = New System.Drawing.Point(0, 0)
+        Me.INDlyPopupProducts.Name = "INDlyPopupProducts"
+        Me.INDlyPopupProducts.Root = Me.LayoutControlGroup3
+        Me.INDlyPopupProducts.Size = New System.Drawing.Size(633, 301)
+        Me.INDlyPopupProducts.TabIndex = 0
+        Me.INDlyPopupProducts.Text = "LayoutControl1"
+        '
+        'INDgcPopupProducts
+        '
+        Me.INDgcPopupProducts.Location = New System.Drawing.Point(12, 12)
+        Me.INDgcPopupProducts.MainView = Me.viewGridProducts
+        Me.INDgcPopupProducts.Name = "INDgcPopupProducts"
+        Me.INDgcPopupProducts.RepositoryItems.AddRange(New DevExpress.XtraEditors.Repository.RepositoryItem() {Me.INDrptCheckOptionProducts})
+        Me.INDgcPopupProducts.Size = New System.Drawing.Size(609, 277)
+        Me.INDgcPopupProducts.TabIndex = 4
+        Me.INDgcPopupProducts.ViewCollection.AddRange(New DevExpress.XtraGrid.Views.Base.BaseView() {Me.viewGridProducts})
+        '
+        'viewGridProducts
+        '
+        Me.viewGridProducts.Appearance.FocusedRow.BorderColor = System.Drawing.Color.LightGray
+        Me.viewGridProducts.Appearance.FocusedRow.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Bold)
+        Me.viewGridProducts.Appearance.FocusedRow.Options.UseBackColor = True
+        Me.viewGridProducts.Appearance.FocusedRow.Options.UseBorderColor = True
+        Me.viewGridProducts.Appearance.FocusedRow.Options.UseFont = True
+        Me.viewGridProducts.Appearance.GroupRow.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.viewGridProducts.Appearance.GroupRow.Options.UseFont = True
+        Me.viewGridProducts.Appearance.HeaderPanel.Font = New System.Drawing.Font("Segoe UI Semibold", 10.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.viewGridProducts.Appearance.HeaderPanel.Options.UseFont = True
+        Me.viewGridProducts.Appearance.Row.Font = New System.Drawing.Font("Segoe UI Light", 9.75!)
+        Me.viewGridProducts.Appearance.Row.Options.UseFont = True
+        Me.viewGridProducts.Appearance.ViewCaption.Font = New System.Drawing.Font("Segoe UI Light", 13.0!)
+        Me.viewGridProducts.Appearance.ViewCaption.Options.UseFont = True
+        Me.viewGridProducts.Columns.AddRange(New DevExpress.XtraGrid.Columns.GridColumn() {Me.GridColumn19, Me.GridColumn20, Me.GridColumn21})
+        Me.viewGridProducts.GridControl = Me.INDgcPopupProducts
+        Me.viewGridProducts.Name = "viewGridProducts"
+        Me.viewGridProducts.OptionsSelection.MultiSelect = True
+        Me.viewGridProducts.OptionsView.EnableAppearanceEvenRow = True
+        Me.viewGridProducts.OptionsView.EnableAppearanceOddRow = True
+        Me.viewGridProducts.OptionsView.ShowAutoFilterRow = True
+        Me.viewGridProducts.OptionsView.ShowDetailButtons = False
+        Me.viewGridProducts.OptionsView.ShowGroupPanel = False
+        Me.IndigoGridView4.SetTemaIndigoMetro(Me.viewGridProducts, False)
+        Me.IndigoGridView2.SetTemaIndigoMetro(Me.viewGridProducts, False)
+        Me.IndigoGridView1.SetTemaIndigoMetro(Me.viewGridProducts, False)
+        Me.IndigoGridView3.SetTemaIndigoMetro(Me.viewGridProducts, False)
+        '
+        'GridColumn19
+        '
+        Me.GridColumn19.Caption = "Sel."
+        Me.GridColumn19.ColumnEdit = Me.INDrptCheckOptionProducts
+        Me.GridColumn19.FieldName = "SelectOption"
+        Me.GridColumn19.Name = "GridColumn19"
+        Me.GridColumn19.Visible = True
+        Me.GridColumn19.VisibleIndex = 0
+        Me.GridColumn19.Width = 41
+        '
+        'INDrptCheckOptionProducts
+        '
+        Me.INDrptCheckOptionProducts.AutoHeight = False
+        Me.INDrptCheckOptionProducts.Name = "INDrptCheckOptionProducts"
+        '
+        'GridColumn20
+        '
+        Me.GridColumn20.Caption = "Código"
+        Me.GridColumn20.FieldName = "Code"
+        Me.GridColumn20.Name = "GridColumn20"
+        Me.GridColumn20.OptionsColumn.AllowEdit = False
+        Me.GridColumn20.OptionsColumn.AllowFocus = False
+        Me.GridColumn20.Visible = True
+        Me.GridColumn20.VisibleIndex = 1
+        Me.GridColumn20.Width = 110
+        '
+        'GridColumn21
+        '
+        Me.GridColumn21.Caption = "Nombre"
+        Me.GridColumn21.FieldName = "Name"
+        Me.GridColumn21.Name = "GridColumn21"
+        Me.GridColumn21.OptionsColumn.AllowEdit = False
+        Me.GridColumn21.OptionsColumn.AllowFocus = False
+        Me.GridColumn21.Visible = True
+        Me.GridColumn21.VisibleIndex = 2
+        Me.GridColumn21.Width = 440
+        '
+        'LayoutControlGroup3
+        '
+        Me.LayoutControlGroup3.AppearanceGroup.Font = New System.Drawing.Font("Segoe UI", 15.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.LayoutControlGroup3.AppearanceGroup.Options.UseFont = True
+        Me.LayoutControlGroup3.AppearanceItemCaption.Font = New System.Drawing.Font("Segoe UI Light", 10.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.LayoutControlGroup3.AppearanceItemCaption.Options.UseFont = True
+        Me.LayoutControlGroup3.AppearanceTabPage.Header.Font = New System.Drawing.Font("Segoe UI Light", 12.0!)
+        Me.LayoutControlGroup3.AppearanceTabPage.Header.Options.UseFont = True
+        Me.LayoutControlGroup3.AppearanceTabPage.HeaderActive.Font = New System.Drawing.Font("Segoe UI", 12.0!)
+        Me.LayoutControlGroup3.AppearanceTabPage.HeaderActive.Options.UseFont = True
+        Me.LayoutControlGroup3.AppearanceTabPage.HeaderDisabled.Font = New System.Drawing.Font("Segoe UI Light", 12.0!)
+        Me.LayoutControlGroup3.AppearanceTabPage.HeaderDisabled.Options.UseFont = True
+        Me.LayoutControlGroup3.AppearanceTabPage.HeaderHotTracked.Font = New System.Drawing.Font("Segoe UI Light", 12.0!)
+        Me.LayoutControlGroup3.AppearanceTabPage.HeaderHotTracked.Options.UseFont = True
+        Me.LayoutControlGroup3.AppearanceTabPage.PageClient.Font = New System.Drawing.Font("Segoe UI Light", 12.0!)
+        Me.LayoutControlGroup3.AppearanceTabPage.PageClient.Options.UseFont = True
+        Me.IndigoLayoutControlGroup1.SetCampoObligatorio(Me.LayoutControlGroup3, False)
+        Me.LayoutControlGroup3.CustomizationFormText = "LayoutControlGroup3"
+        Me.LayoutControlGroup3.EnableIndentsWithoutBorders = DevExpress.Utils.DefaultBoolean.[True]
+        Me.LayoutControlGroup3.GroupBordersVisible = False
+        Me.LayoutControlGroup3.Items.AddRange(New DevExpress.XtraLayout.BaseLayoutItem() {Me.INDlyItemGridPopupProducts})
+        Me.LayoutControlGroup3.Name = "LayoutControlGroup3"
+        Me.LayoutControlGroup3.Size = New System.Drawing.Size(633, 301)
+        Me.LayoutControlGroup3.TextVisible = False
+        '
+        'INDlyItemGridPopupProducts
+        '
+        Me.INDlyItemGridPopupProducts.Control = Me.INDgcPopupProducts
+        Me.INDlyItemGridPopupProducts.CustomizationFormText = "INDlyItemGridCupsEntity"
+        Me.INDlyItemGridPopupProducts.Location = New System.Drawing.Point(0, 0)
+        Me.INDlyItemGridPopupProducts.Name = "INDlyItemGridPopupProducts"
+        Me.INDlyItemGridPopupProducts.Size = New System.Drawing.Size(613, 281)
+        Me.INDlyItemGridPopupProducts.TextSize = New System.Drawing.Size(0, 0)
+        Me.INDlyItemGridPopupProducts.TextVisible = False
+        '
+        'INDpopupAddProducts
+        '
+        Me.INDpopupAddProducts.Controls.Add(Me.INDlyProducts)
+        Me.INDpopupAddProducts.Controls.Add(Me.PanelControl2)
+        Me.INDpopupAddProducts.Location = New System.Drawing.Point(678, 254)
+        Me.INDpopupAddProducts.Name = "INDpopupAddProducts"
+        Me.INDpopupAddProducts.Size = New System.Drawing.Size(425, 202)
+        Me.INDpopupAddProducts.TabIndex = 24
+        '
+        'INDlyProducts
+        '
+        Me.INDlyProducts.Controls.Add(Me.INDsleAuthorizationGroupProducts)
+        Me.INDlyProducts.Controls.Add(Me.INDsleProducts)
+        Me.INDlyProducts.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.INDlyProducts.Location = New System.Drawing.Point(0, 0)
+        Me.INDlyProducts.Name = "INDlyProducts"
+        Me.INDlyProducts.Root = Me.LayoutControlGroup2
+        Me.INDlyProducts.Size = New System.Drawing.Size(425, 166)
+        Me.INDlyProducts.TabIndex = 0
+        Me.INDlyProducts.Text = "LayoutControl1"
+        '
+        'INDsleAuthorizationGroupProducts
+        '
+        Me.IndigoSearchLookUpControl1.SetAppearanceEmbeddedNavigator(Me.INDsleAuthorizationGroupProducts, AppearanceObject3)
+        Me.IndigoSearchLookUpControl1.SetAppearanceTextFindControl(Me.INDsleAuthorizationGroupProducts, AppearanceObject4)
+        Me.IndigoSearchLookUpControl1.SetAppendButtonNavigator(Me.INDsleAuthorizationGroupProducts, False)
+        Me.IndigoTextEdit1.SetApplyStyle(Me.INDsleAuthorizationGroupProducts, False)
+        Me.IndigoTextEdit1.SetCampoObligatorio(Me.INDsleAuthorizationGroupProducts, False)
+        Me.IndigoSearchLookUpControl1.SetCancelEditButtonNavigator(Me.INDsleAuthorizationGroupProducts, False)
+        Me.IndigoSearchLookUpControl1.SetEditButtonNavigator(Me.INDsleAuthorizationGroupProducts, False)
+        Me.IndigoSearchLookUpControl1.SetEndEditButtonNavigator(Me.INDsleAuthorizationGroupProducts, False)
+        Me.INDsleAuthorizationGroupProducts.EnterMoveNextControl = True
+        Me.IndigoSearchLookUpControl1.SetExportButton(Me.INDsleAuthorizationGroupProducts, False)
+        Me.IndigoSearchLookUpControl1.SetFirstButtonNavigator(Me.INDsleAuthorizationGroupProducts, False)
+        Me.IndigoSearchLookUpControl1.SetLastButtonNavigator(Me.INDsleAuthorizationGroupProducts, False)
+        Me.INDsleAuthorizationGroupProducts.Location = New System.Drawing.Point(12, 98)
+        Me.IndigoTextEdit1.SetMascara(Me.INDsleAuthorizationGroupProducts, Presentation.Controls.IndigoTextEdit.EMask.Ninguno)
+        Me.INDsleAuthorizationGroupProducts.MenuManager = Me.BarManager
+        Me.INDsleAuthorizationGroupProducts.Name = "INDsleAuthorizationGroupProducts"
+        Me.IndigoSearchLookUpControl1.SetNextButtonNavigator(Me.INDsleAuthorizationGroupProducts, False)
+        Me.IndigoSearchLookUpControl1.SetNextPageButtonNavigator(Me.INDsleAuthorizationGroupProducts, False)
+        Me.IndigoSearchLookUpControl1.SetOpenForm(Me.INDsleAuthorizationGroupProducts, True)
+        Me.IndigoSearchLookUpControl1.SetPopupSizeable(Me.INDsleAuthorizationGroupProducts, False)
+        Me.IndigoSearchLookUpControl1.SetPrevButtonNavigator(Me.INDsleAuthorizationGroupProducts, False)
+        Me.IndigoSearchLookUpControl1.SetPrevPageButtonNavigator(Me.INDsleAuthorizationGroupProducts, False)
+        Me.INDsleAuthorizationGroupProducts.Properties.Appearance.BackColor = System.Drawing.Color.Transparent
+        Me.INDsleAuthorizationGroupProducts.Properties.Appearance.Font = New System.Drawing.Font("Segoe UI Light", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.INDsleAuthorizationGroupProducts.Properties.Appearance.ForeColor = System.Drawing.Color.FromArgb(CType(CType(40, Byte), Integer), CType(CType(40, Byte), Integer), CType(CType(40, Byte), Integer))
+        Me.INDsleAuthorizationGroupProducts.Properties.Appearance.Options.UseBackColor = True
+        Me.INDsleAuthorizationGroupProducts.Properties.Appearance.Options.UseFont = True
+        Me.INDsleAuthorizationGroupProducts.Properties.Appearance.Options.UseForeColor = True
+        Me.INDsleAuthorizationGroupProducts.Properties.Buttons.AddRange(New DevExpress.XtraEditors.Controls.EditorButton() {New DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)})
+        Me.INDsleAuthorizationGroupProducts.Properties.DisplayMember = "CodeName"
+        Me.INDsleAuthorizationGroupProducts.Properties.NullText = ""
+        Me.INDsleAuthorizationGroupProducts.Properties.PopupSizeable = False
+        Me.INDsleAuthorizationGroupProducts.Properties.PopupView = Me.GridView1
+        Me.INDsleAuthorizationGroupProducts.Properties.ShowFooter = False
+        Me.INDsleAuthorizationGroupProducts.Properties.ValueMember = "Id"
+        Me.IndigoSearchLookUpControl1.SetRemoveButtonNavigator(Me.INDsleAuthorizationGroupProducts, False)
+        Me.IndigoSearchLookUpControl1.SetSaveXmlGrid(Me.INDsleAuthorizationGroupProducts, True)
+        Me.IndigoSearchLookUpControl1.SetShowDeleteButton(Me.INDsleAuthorizationGroupProducts, True)
+        Me.IndigoSearchLookUpControl1.SetShowFindButton(Me.INDsleAuthorizationGroupProducts, True)
+        Me.INDsleAuthorizationGroupProducts.Size = New System.Drawing.Size(386, 28)
+        Me.INDsleAuthorizationGroupProducts.StyleController = Me.INDlyProducts
+        Me.INDsleAuthorizationGroupProducts.TabIndex = 4
+        Me.IndigoSearchLookUpControl1.SetTagForm(Me.INDsleAuthorizationGroupProducts, "2129")
+        Me.IndigoTextEdit1.SetTamañoMinimoString(Me.INDsleAuthorizationGroupProducts, 0)
+        Me.IndigoSearchLookUpControl1.SetTextStringFormat(Me.INDsleAuthorizationGroupProducts, "{0} - {1}")
+        Me.IndigoSearchLookUpControl1.SetTxtFindEnterEnabled(Me.INDsleAuthorizationGroupProducts, False)
+        Me.IndigoSearchLookUpControl1.SetUseEmbeddedNavigator(Me.INDsleAuthorizationGroupProducts, False)
+        '
+        'GridView1
+        '
+        Me.GridView1.Appearance.FocusedRow.BorderColor = System.Drawing.Color.LightGray
+        Me.GridView1.Appearance.FocusedRow.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Bold)
+        Me.GridView1.Appearance.FocusedRow.Options.UseBorderColor = True
+        Me.GridView1.Appearance.FocusedRow.Options.UseFont = True
+        Me.GridView1.Appearance.GroupRow.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.GridView1.Appearance.GroupRow.Options.UseFont = True
+        Me.GridView1.Appearance.HeaderPanel.Font = New System.Drawing.Font("Segoe UI Semibold", 10.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.GridView1.Appearance.HeaderPanel.Options.UseFont = True
+        Me.GridView1.Appearance.Row.Font = New System.Drawing.Font("Segoe UI Light", 9.75!)
+        Me.GridView1.Appearance.Row.Options.UseFont = True
+        Me.GridView1.Columns.AddRange(New DevExpress.XtraGrid.Columns.GridColumn() {Me.GridColumn6, Me.GridColumn16})
+        Me.GridView1.FocusRectStyle = DevExpress.XtraGrid.Views.Grid.DrawFocusRectStyle.RowFocus
+        Me.GridView1.Name = "GridView1"
+        Me.GridView1.OptionsSelection.EnableAppearanceFocusedCell = False
+        Me.GridView1.OptionsView.EnableAppearanceEvenRow = True
+        Me.GridView1.OptionsView.EnableAppearanceOddRow = True
+        Me.GridView1.OptionsView.ShowAutoFilterRow = True
+        Me.GridView1.OptionsView.ShowGroupPanel = False
+        Me.IndigoGridView4.SetTemaIndigoMetro(Me.GridView1, False)
+        Me.IndigoGridView2.SetTemaIndigoMetro(Me.GridView1, False)
+        Me.IndigoGridView1.SetTemaIndigoMetro(Me.GridView1, False)
+        Me.IndigoGridView3.SetTemaIndigoMetro(Me.GridView1, False)
+        '
+        'GridColumn6
+        '
+        Me.GridColumn6.Caption = "Código"
+        Me.GridColumn6.FieldName = "Code"
+        Me.GridColumn6.Name = "GridColumn6"
+        Me.GridColumn6.Visible = True
+        Me.GridColumn6.VisibleIndex = 0
+        Me.GridColumn6.Width = 244
+        '
+        'GridColumn16
+        '
+        Me.GridColumn16.Caption = "Nombre"
+        Me.GridColumn16.FieldName = "Name"
+        Me.GridColumn16.Name = "GridColumn16"
+        Me.GridColumn16.Visible = True
+        Me.GridColumn16.VisibleIndex = 1
+        Me.GridColumn16.Width = 818
+        '
+        'INDsleProducts
+        '
+        Me.IndigoPopUpContainerEdit1.SetButtonMoreOptions(Me.INDsleProducts, False)
+        Me.INDsleProducts.EditValue = "0 item seleccionado"
+        Me.INDsleProducts.EnterMoveNextControl = True
+        Me.IndigoPopUpContainerEdit1.SetHostControl(Me.INDsleProducts, Nothing)
+        Me.INDsleProducts.Location = New System.Drawing.Point(12, 38)
+        Me.INDsleProducts.MinimumSize = New System.Drawing.Size(386, 32)
+        Me.INDsleProducts.Name = "INDsleProducts"
+        Me.IndigoPopUpContainerEdit1.SetOpenForm(Me.INDsleProducts, False)
+        Me.IndigoPopUpContainerEdit1.SetPopUpAnimation(Me.INDsleProducts, False)
+        Me.INDsleProducts.Properties.Appearance.Font = New System.Drawing.Font("Segoe UI Light", 12.0!)
+        Me.INDsleProducts.Properties.Appearance.Options.UseFont = True
+        Me.INDsleProducts.Properties.Buttons.AddRange(New DevExpress.XtraEditors.Controls.EditorButton() {New DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)})
+        Me.INDsleProducts.Properties.NullText = "0 item seleccionado"
+        Me.INDsleProducts.Properties.PopupControl = Me.INDpopupProducts
+        Me.INDsleProducts.Properties.PopupSizeable = False
+        Me.INDsleProducts.Size = New System.Drawing.Size(386, 32)
+        Me.INDsleProducts.StyleController = Me.INDlyProducts
+        Me.INDsleProducts.TabIndex = 0
+        Me.IndigoPopUpContainerEdit1.SetTagForm(Me.INDsleProducts, Nothing)
+        Me.IndigoPopUpContainerEdit1.SetWpfControl(Me.INDsleProducts, Nothing)
+        '
+        'LayoutControlGroup2
+        '
+        Me.LayoutControlGroup2.AppearanceGroup.Font = New System.Drawing.Font("Segoe UI", 15.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.LayoutControlGroup2.AppearanceGroup.Options.UseFont = True
+        Me.LayoutControlGroup2.AppearanceItemCaption.Font = New System.Drawing.Font("Segoe UI Light", 10.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.LayoutControlGroup2.AppearanceItemCaption.Options.UseFont = True
+        Me.LayoutControlGroup2.AppearanceTabPage.Header.Font = New System.Drawing.Font("Segoe UI Light", 12.0!)
+        Me.LayoutControlGroup2.AppearanceTabPage.Header.Options.UseFont = True
+        Me.LayoutControlGroup2.AppearanceTabPage.HeaderActive.Font = New System.Drawing.Font("Segoe UI", 12.0!)
+        Me.LayoutControlGroup2.AppearanceTabPage.HeaderActive.Options.UseFont = True
+        Me.LayoutControlGroup2.AppearanceTabPage.HeaderDisabled.Font = New System.Drawing.Font("Segoe UI Light", 12.0!)
+        Me.LayoutControlGroup2.AppearanceTabPage.HeaderDisabled.Options.UseFont = True
+        Me.LayoutControlGroup2.AppearanceTabPage.HeaderHotTracked.Font = New System.Drawing.Font("Segoe UI Light", 12.0!)
+        Me.LayoutControlGroup2.AppearanceTabPage.HeaderHotTracked.Options.UseFont = True
+        Me.LayoutControlGroup2.AppearanceTabPage.PageClient.Font = New System.Drawing.Font("Segoe UI Light", 12.0!)
+        Me.LayoutControlGroup2.AppearanceTabPage.PageClient.Options.UseFont = True
+        Me.IndigoLayoutControlGroup1.SetCampoObligatorio(Me.LayoutControlGroup2, False)
+        Me.LayoutControlGroup2.EnableIndentsWithoutBorders = DevExpress.Utils.DefaultBoolean.[True]
+        Me.LayoutControlGroup2.GroupBordersVisible = False
+        Me.LayoutControlGroup2.Items.AddRange(New DevExpress.XtraLayout.BaseLayoutItem() {Me.INDlyItemProducts, Me.INDlyItemAuthorizationGroupProducts})
+        Me.LayoutControlGroup2.Name = "Root"
+        Me.LayoutControlGroup2.Size = New System.Drawing.Size(425, 166)
+        Me.LayoutControlGroup2.TextVisible = False
+        '
+        'INDlyItemProducts
+        '
+        Me.INDlyItemProducts.Control = Me.INDsleProducts
+        Me.INDlyItemProducts.Location = New System.Drawing.Point(0, 0)
+        Me.INDlyItemProducts.MaxSize = New System.Drawing.Size(390, 60)
+        Me.INDlyItemProducts.MinSize = New System.Drawing.Size(390, 60)
+        Me.INDlyItemProducts.Name = "INDlyItemProducts"
+        Me.INDlyItemProducts.Size = New System.Drawing.Size(405, 60)
+        Me.INDlyItemProducts.SizeConstraintsType = DevExpress.XtraLayout.SizeConstraintsType.Custom
+        Me.INDlyItemProducts.Text = "Productos"
+        Me.INDlyItemProducts.TextAlignMode = DevExpress.XtraLayout.TextAlignModeItem.CustomSize
+        Me.INDlyItemProducts.TextLocation = DevExpress.Utils.Locations.Top
+        Me.INDlyItemProducts.TextSize = New System.Drawing.Size(135, 21)
+        Me.INDlyItemProducts.TextToControlDistance = 5
+        '
+        'INDlyItemAuthorizationGroupProducts
+        '
+        Me.INDlyItemAuthorizationGroupProducts.Control = Me.INDsleAuthorizationGroupProducts
+        Me.INDlyItemAuthorizationGroupProducts.Location = New System.Drawing.Point(0, 60)
+        Me.INDlyItemAuthorizationGroupProducts.MaxSize = New System.Drawing.Size(390, 60)
+        Me.INDlyItemAuthorizationGroupProducts.MinSize = New System.Drawing.Size(390, 60)
+        Me.INDlyItemAuthorizationGroupProducts.Name = "INDlyItemAuthorizationGroupProducts"
+        Me.INDlyItemAuthorizationGroupProducts.Size = New System.Drawing.Size(405, 86)
+        Me.INDlyItemAuthorizationGroupProducts.SizeConstraintsType = DevExpress.XtraLayout.SizeConstraintsType.Custom
+        Me.INDlyItemAuthorizationGroupProducts.Text = "Grupo Autorización"
+        Me.INDlyItemAuthorizationGroupProducts.TextAlignMode = DevExpress.XtraLayout.TextAlignModeItem.CustomSize
+        Me.INDlyItemAuthorizationGroupProducts.TextLocation = DevExpress.Utils.Locations.Top
+        Me.INDlyItemAuthorizationGroupProducts.TextSize = New System.Drawing.Size(135, 21)
+        Me.INDlyItemAuthorizationGroupProducts.TextToControlDistance = 5
+        '
+        'PanelControl2
+        '
+        Me.PanelControl2.Controls.Add(Me.INDbtnAddProducts)
+        Me.PanelControl2.Dock = System.Windows.Forms.DockStyle.Bottom
+        Me.PanelControl2.Location = New System.Drawing.Point(0, 166)
+        Me.PanelControl2.MaximumSize = New System.Drawing.Size(0, 36)
+        Me.PanelControl2.MinimumSize = New System.Drawing.Size(0, 36)
+        Me.PanelControl2.Name = "PanelControl2"
+        Me.PanelControl2.Size = New System.Drawing.Size(425, 36)
+        Me.PanelControl2.TabIndex = 1
+        '
+        'INDbtnAddProducts
+        '
+        Me.INDbtnAddProducts.Appearance.Font = New System.Drawing.Font("Segoe UI Light", 12.0!)
+        Me.INDbtnAddProducts.Appearance.Options.UseFont = True
+        Me.INDbtnAddProducts.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.INDbtnAddProducts.Location = New System.Drawing.Point(2, 2)
+        Me.IndigoSimpleButton1.SetModernUiIndigo(Me.INDbtnAddProducts, True)
+        Me.INDbtnAddProducts.Name = "INDbtnAddProducts"
+        Me.INDbtnAddProducts.Size = New System.Drawing.Size(421, 32)
+        Me.INDbtnAddProducts.TabIndex = 0
+        Me.INDbtnAddProducts.Text = "Agregar"
+        '
+        'INDgcCareCenter
+        '
+        Me.INDgcCareCenter.Location = New System.Drawing.Point(2142, 85)
+        Me.INDgcCareCenter.MainView = Me.INDviewCareCenter
+        Me.INDgcCareCenter.MenuManager = Me.BarManager
+        Me.INDgcCareCenter.Name = "INDgcCareCenter"
+        Me.INDgcCareCenter.Size = New System.Drawing.Size(496, 490)
+        Me.INDgcCareCenter.TabIndex = 26
+        Me.INDgcCareCenter.ViewCollection.AddRange(New DevExpress.XtraGrid.Views.Base.BaseView() {Me.INDviewCareCenter})
+        '
+        'INDviewCareCenter
+        '
+        Me.INDviewCareCenter.Appearance.FocusedRow.BorderColor = System.Drawing.Color.LightGray
+        Me.INDviewCareCenter.Appearance.FocusedRow.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Bold)
+        Me.INDviewCareCenter.Appearance.FocusedRow.Options.UseBorderColor = True
+        Me.INDviewCareCenter.Appearance.FocusedRow.Options.UseFont = True
+        Me.INDviewCareCenter.Appearance.GroupRow.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.INDviewCareCenter.Appearance.GroupRow.Options.UseFont = True
+        Me.INDviewCareCenter.Appearance.HeaderPanel.Font = New System.Drawing.Font("Segoe UI Semibold", 10.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.INDviewCareCenter.Appearance.HeaderPanel.Options.UseFont = True
+        Me.INDviewCareCenter.Appearance.Row.Font = New System.Drawing.Font("Segoe UI Light", 9.75!)
+        Me.INDviewCareCenter.Appearance.Row.Options.UseFont = True
+        Me.INDviewCareCenter.Appearance.ViewCaption.Font = New System.Drawing.Font("Segoe UI Light", 13.0!)
+        Me.INDviewCareCenter.Appearance.ViewCaption.Options.UseFont = True
+        Me.INDviewCareCenter.Columns.AddRange(New DevExpress.XtraGrid.Columns.GridColumn() {Me.GridColumn7})
+        Me.INDviewCareCenter.GridControl = Me.INDgcCareCenter
+        Me.INDviewCareCenter.Name = "INDviewCareCenter"
+        Me.INDviewCareCenter.OptionsSelection.MultiSelect = True
+        Me.INDviewCareCenter.OptionsView.EnableAppearanceEvenRow = True
+        Me.INDviewCareCenter.OptionsView.EnableAppearanceOddRow = True
+        Me.INDviewCareCenter.OptionsView.ShowAutoFilterRow = True
+        Me.INDviewCareCenter.OptionsView.ShowDetailButtons = False
+        Me.INDviewCareCenter.OptionsView.ShowFooter = True
+        Me.INDviewCareCenter.OptionsView.ShowGroupPanel = False
+        Me.IndigoGridView4.SetTemaIndigoMetro(Me.INDviewCareCenter, False)
+        Me.IndigoGridView2.SetTemaIndigoMetro(Me.INDviewCareCenter, False)
+        Me.IndigoGridView1.SetTemaIndigoMetro(Me.INDviewCareCenter, False)
+        Me.IndigoGridView3.SetTemaIndigoMetro(Me.INDviewCareCenter, False)
+        '
+        'GridColumn7
+        '
+        Me.GridColumn7.Caption = "Sede"
+        Me.GridColumn7.FieldName = "CareCenterDescription"
+        Me.GridColumn7.Name = "GridColumn7"
+        Me.GridColumn7.OptionsColumn.AllowEdit = False
+        Me.GridColumn7.OptionsColumn.AllowFocus = False
+        Me.GridColumn7.Visible = True
+        Me.GridColumn7.VisibleIndex = 0
+        '
+        'INDpopupCupsEntity
+        '
+        Me.INDpopupCupsEntity.Controls.Add(Me.INDlyPopupCupsEntity)
+        Me.INDpopupCupsEntity.Location = New System.Drawing.Point(-92, 532)
+        Me.INDpopupCupsEntity.Name = "INDpopupCupsEntity"
+        Me.INDpopupCupsEntity.Size = New System.Drawing.Size(633, 301)
+        Me.INDpopupCupsEntity.TabIndex = 17
+        '
+        'INDlyPopupCupsEntity
+        '
+        Me.INDlyPopupCupsEntity.Controls.Add(Me.INDgcCupsEntity)
+        Me.INDlyPopupCupsEntity.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.INDlyPopupCupsEntity.Location = New System.Drawing.Point(0, 0)
+        Me.INDlyPopupCupsEntity.Name = "INDlyPopupCupsEntity"
+        Me.INDlyPopupCupsEntity.Root = Me.LayoutControlGroup4
+        Me.INDlyPopupCupsEntity.Size = New System.Drawing.Size(633, 301)
+        Me.INDlyPopupCupsEntity.TabIndex = 0
+        Me.INDlyPopupCupsEntity.Text = "LayoutControl1"
+        '
+        'INDgcCupsEntity
+        '
+        Me.INDgcCupsEntity.Location = New System.Drawing.Point(12, 12)
+        Me.INDgcCupsEntity.MainView = Me.viewGridCupsEntity
+        Me.INDgcCupsEntity.Name = "INDgcCupsEntity"
+        Me.INDgcCupsEntity.RepositoryItems.AddRange(New DevExpress.XtraEditors.Repository.RepositoryItem() {Me.INDrepCheckSelectOption})
+        Me.INDgcCupsEntity.Size = New System.Drawing.Size(609, 277)
+        Me.INDgcCupsEntity.TabIndex = 4
+        Me.INDgcCupsEntity.ViewCollection.AddRange(New DevExpress.XtraGrid.Views.Base.BaseView() {Me.viewGridCupsEntity})
+        '
+        'viewGridCupsEntity
+        '
+        Me.viewGridCupsEntity.Appearance.FocusedRow.BorderColor = System.Drawing.Color.LightGray
+        Me.viewGridCupsEntity.Appearance.FocusedRow.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Bold)
+        Me.viewGridCupsEntity.Appearance.FocusedRow.Options.UseBackColor = True
+        Me.viewGridCupsEntity.Appearance.FocusedRow.Options.UseBorderColor = True
+        Me.viewGridCupsEntity.Appearance.FocusedRow.Options.UseFont = True
+        Me.viewGridCupsEntity.Appearance.GroupRow.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.viewGridCupsEntity.Appearance.GroupRow.Options.UseFont = True
+        Me.viewGridCupsEntity.Appearance.HeaderPanel.Font = New System.Drawing.Font("Segoe UI Semibold", 10.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.viewGridCupsEntity.Appearance.HeaderPanel.Options.UseFont = True
+        Me.viewGridCupsEntity.Appearance.Row.Font = New System.Drawing.Font("Segoe UI Light", 9.75!)
+        Me.viewGridCupsEntity.Appearance.Row.Options.UseFont = True
+        Me.viewGridCupsEntity.Appearance.ViewCaption.Font = New System.Drawing.Font("Segoe UI Light", 13.0!)
+        Me.viewGridCupsEntity.Appearance.ViewCaption.Options.UseFont = True
+        Me.viewGridCupsEntity.Columns.AddRange(New DevExpress.XtraGrid.Columns.GridColumn() {Me.GridColumn4, Me.GridColumn8, Me.GridColumn55, Me.GridColumn9, Me.GridColumn54})
+        Me.viewGridCupsEntity.GridControl = Me.INDgcCupsEntity
+        Me.viewGridCupsEntity.GroupCount = 2
+        Me.viewGridCupsEntity.Name = "viewGridCupsEntity"
+        Me.viewGridCupsEntity.OptionsSelection.MultiSelect = True
+        Me.viewGridCupsEntity.OptionsView.EnableAppearanceEvenRow = True
+        Me.viewGridCupsEntity.OptionsView.EnableAppearanceOddRow = True
+        Me.viewGridCupsEntity.OptionsView.ShowAutoFilterRow = True
+        Me.viewGridCupsEntity.OptionsView.ShowDetailButtons = False
+        Me.viewGridCupsEntity.OptionsView.ShowGroupPanel = False
+        Me.viewGridCupsEntity.SortInfo.AddRange(New DevExpress.XtraGrid.Columns.GridColumnSortInfo() {New DevExpress.XtraGrid.Columns.GridColumnSortInfo(Me.GridColumn4, DevExpress.Data.ColumnSortOrder.Ascending), New DevExpress.XtraGrid.Columns.GridColumnSortInfo(Me.GridColumn8, DevExpress.Data.ColumnSortOrder.Ascending)})
+        Me.IndigoGridView4.SetTemaIndigoMetro(Me.viewGridCupsEntity, False)
+        Me.IndigoGridView2.SetTemaIndigoMetro(Me.viewGridCupsEntity, False)
+        Me.IndigoGridView1.SetTemaIndigoMetro(Me.viewGridCupsEntity, False)
+        Me.IndigoGridView3.SetTemaIndigoMetro(Me.viewGridCupsEntity, False)
+        '
+        'GridColumn4
+        '
+        Me.GridColumn4.Caption = "Grupo"
+        Me.GridColumn4.FieldName = "CUPSSubGroupId.CupsGroupId.CodeName"
+        Me.GridColumn4.Name = "GridColumn4"
+        Me.GridColumn4.OptionsColumn.AllowEdit = False
+        Me.GridColumn4.OptionsColumn.AllowFocus = False
+        Me.GridColumn4.Visible = True
+        Me.GridColumn4.VisibleIndex = 0
+        '
+        'GridColumn8
+        '
+        Me.GridColumn8.Caption = "SubGrupo"
+        Me.GridColumn8.FieldName = "CUPSSubGroupId.CodeName"
+        Me.GridColumn8.Name = "GridColumn8"
+        Me.GridColumn8.OptionsColumn.AllowEdit = False
+        Me.GridColumn8.OptionsColumn.AllowFocus = False
+        Me.GridColumn8.Visible = True
+        Me.GridColumn8.VisibleIndex = 1
+        '
+        'GridColumn55
+        '
+        Me.GridColumn55.Caption = "Sel."
+        Me.GridColumn55.ColumnEdit = Me.INDrepCheckSelectOption
+        Me.GridColumn55.FieldName = "SelectOption"
+        Me.GridColumn55.Name = "GridColumn55"
+        Me.GridColumn55.Visible = True
+        Me.GridColumn55.VisibleIndex = 0
+        Me.GridColumn55.Width = 62
+        '
+        'INDrepCheckSelectOption
+        '
+        Me.INDrepCheckSelectOption.AutoHeight = False
+        Me.INDrepCheckSelectOption.Name = "INDrepCheckSelectOption"
+        '
+        'GridColumn9
+        '
+        Me.GridColumn9.Caption = "Código"
+        Me.GridColumn9.FieldName = "Code"
+        Me.GridColumn9.Name = "GridColumn9"
+        Me.GridColumn9.OptionsColumn.AllowEdit = False
+        Me.GridColumn9.OptionsColumn.AllowFocus = False
+        Me.GridColumn9.Visible = True
+        Me.GridColumn9.VisibleIndex = 1
+        Me.GridColumn9.Width = 270
+        '
+        'GridColumn54
+        '
+        Me.GridColumn54.Caption = "Nombre"
+        Me.GridColumn54.FieldName = "Description"
+        Me.GridColumn54.Name = "GridColumn54"
+        Me.GridColumn54.OptionsColumn.AllowEdit = False
+        Me.GridColumn54.OptionsColumn.AllowFocus = False
+        Me.GridColumn54.Visible = True
+        Me.GridColumn54.VisibleIndex = 2
+        Me.GridColumn54.Width = 1060
+        '
+        'LayoutControlGroup4
+        '
+        Me.LayoutControlGroup4.AppearanceGroup.Font = New System.Drawing.Font("Segoe UI", 15.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.LayoutControlGroup4.AppearanceGroup.Options.UseFont = True
+        Me.LayoutControlGroup4.AppearanceItemCaption.Font = New System.Drawing.Font("Segoe UI Light", 10.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.LayoutControlGroup4.AppearanceItemCaption.Options.UseFont = True
+        Me.LayoutControlGroup4.AppearanceTabPage.Header.Font = New System.Drawing.Font("Segoe UI Light", 12.0!)
+        Me.LayoutControlGroup4.AppearanceTabPage.Header.Options.UseFont = True
+        Me.LayoutControlGroup4.AppearanceTabPage.HeaderActive.Font = New System.Drawing.Font("Segoe UI", 12.0!)
+        Me.LayoutControlGroup4.AppearanceTabPage.HeaderActive.Options.UseFont = True
+        Me.LayoutControlGroup4.AppearanceTabPage.HeaderDisabled.Font = New System.Drawing.Font("Segoe UI Light", 12.0!)
+        Me.LayoutControlGroup4.AppearanceTabPage.HeaderDisabled.Options.UseFont = True
+        Me.LayoutControlGroup4.AppearanceTabPage.HeaderHotTracked.Font = New System.Drawing.Font("Segoe UI Light", 12.0!)
+        Me.LayoutControlGroup4.AppearanceTabPage.HeaderHotTracked.Options.UseFont = True
+        Me.LayoutControlGroup4.AppearanceTabPage.PageClient.Font = New System.Drawing.Font("Segoe UI Light", 12.0!)
+        Me.LayoutControlGroup4.AppearanceTabPage.PageClient.Options.UseFont = True
+        Me.IndigoLayoutControlGroup1.SetCampoObligatorio(Me.LayoutControlGroup4, False)
+        Me.LayoutControlGroup4.CustomizationFormText = "LayoutControlGroup3"
+        Me.LayoutControlGroup4.EnableIndentsWithoutBorders = DevExpress.Utils.DefaultBoolean.[True]
+        Me.LayoutControlGroup4.GroupBordersVisible = False
+        Me.LayoutControlGroup4.Items.AddRange(New DevExpress.XtraLayout.BaseLayoutItem() {Me.INDlyItemGridCupsEntity})
+        Me.LayoutControlGroup4.Name = "LayoutControlGroup3"
+        Me.LayoutControlGroup4.Size = New System.Drawing.Size(633, 301)
+        Me.LayoutControlGroup4.TextVisible = False
+        '
+        'INDlyItemGridCupsEntity
+        '
+        Me.INDlyItemGridCupsEntity.Control = Me.INDgcCupsEntity
+        Me.INDlyItemGridCupsEntity.CustomizationFormText = "INDlyItemGridCupsEntity"
+        Me.INDlyItemGridCupsEntity.Location = New System.Drawing.Point(0, 0)
+        Me.INDlyItemGridCupsEntity.Name = "INDlyItemGridCupsEntity"
+        Me.INDlyItemGridCupsEntity.Size = New System.Drawing.Size(613, 281)
+        Me.INDlyItemGridCupsEntity.TextSize = New System.Drawing.Size(0, 0)
+        Me.INDlyItemGridCupsEntity.TextVisible = False
+        '
+        'INDpopupAddCups
+        '
+        Me.INDpopupAddCups.Controls.Add(Me.INDlyAddCups)
+        Me.INDpopupAddCups.Controls.Add(Me.PanelControl1)
+        Me.INDpopupAddCups.Location = New System.Drawing.Point(152, 277)
+        Me.INDpopupAddCups.Name = "INDpopupAddCups"
+        Me.INDpopupAddCups.Size = New System.Drawing.Size(425, 202)
+        Me.INDpopupAddCups.TabIndex = 19
+        '
+        'INDlyAddCups
+        '
+        Me.INDlyAddCups.Controls.Add(Me.INDsleAuthorizationGroup)
+        Me.INDlyAddCups.Controls.Add(Me.INDSleCups)
+        Me.INDlyAddCups.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.INDlyAddCups.Location = New System.Drawing.Point(0, 0)
+        Me.INDlyAddCups.Name = "INDlyAddCups"
+        Me.INDlyAddCups.Root = Me.Root
+        Me.INDlyAddCups.Size = New System.Drawing.Size(425, 166)
+        Me.INDlyAddCups.TabIndex = 0
+        Me.INDlyAddCups.Text = "LayoutControl1"
+        '
+        'INDsleAuthorizationGroup
+        '
+        Me.IndigoSearchLookUpControl1.SetAppearanceEmbeddedNavigator(Me.INDsleAuthorizationGroup, AppearanceObject5)
+        Me.IndigoSearchLookUpControl1.SetAppearanceTextFindControl(Me.INDsleAuthorizationGroup, AppearanceObject6)
+        Me.IndigoSearchLookUpControl1.SetAppendButtonNavigator(Me.INDsleAuthorizationGroup, False)
+        Me.IndigoTextEdit1.SetApplyStyle(Me.INDsleAuthorizationGroup, False)
+        Me.IndigoTextEdit1.SetCampoObligatorio(Me.INDsleAuthorizationGroup, False)
+        Me.IndigoSearchLookUpControl1.SetCancelEditButtonNavigator(Me.INDsleAuthorizationGroup, False)
+        Me.IndigoSearchLookUpControl1.SetEditButtonNavigator(Me.INDsleAuthorizationGroup, False)
+        Me.IndigoSearchLookUpControl1.SetEndEditButtonNavigator(Me.INDsleAuthorizationGroup, False)
+        Me.INDsleAuthorizationGroup.EnterMoveNextControl = True
+        Me.IndigoSearchLookUpControl1.SetExportButton(Me.INDsleAuthorizationGroup, False)
+        Me.IndigoSearchLookUpControl1.SetFirstButtonNavigator(Me.INDsleAuthorizationGroup, False)
+        Me.IndigoSearchLookUpControl1.SetLastButtonNavigator(Me.INDsleAuthorizationGroup, False)
+        Me.INDsleAuthorizationGroup.Location = New System.Drawing.Point(12, 98)
+        Me.IndigoTextEdit1.SetMascara(Me.INDsleAuthorizationGroup, Presentation.Controls.IndigoTextEdit.EMask.Ninguno)
+        Me.INDsleAuthorizationGroup.MenuManager = Me.BarManager
+        Me.INDsleAuthorizationGroup.Name = "INDsleAuthorizationGroup"
+        Me.IndigoSearchLookUpControl1.SetNextButtonNavigator(Me.INDsleAuthorizationGroup, False)
+        Me.IndigoSearchLookUpControl1.SetNextPageButtonNavigator(Me.INDsleAuthorizationGroup, False)
+        Me.IndigoSearchLookUpControl1.SetOpenForm(Me.INDsleAuthorizationGroup, True)
+        Me.IndigoSearchLookUpControl1.SetPopupSizeable(Me.INDsleAuthorizationGroup, False)
+        Me.IndigoSearchLookUpControl1.SetPrevButtonNavigator(Me.INDsleAuthorizationGroup, False)
+        Me.IndigoSearchLookUpControl1.SetPrevPageButtonNavigator(Me.INDsleAuthorizationGroup, False)
+        Me.INDsleAuthorizationGroup.Properties.Appearance.BackColor = System.Drawing.Color.Transparent
+        Me.INDsleAuthorizationGroup.Properties.Appearance.Font = New System.Drawing.Font("Segoe UI Light", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.INDsleAuthorizationGroup.Properties.Appearance.ForeColor = System.Drawing.Color.FromArgb(CType(CType(40, Byte), Integer), CType(CType(40, Byte), Integer), CType(CType(40, Byte), Integer))
+        Me.INDsleAuthorizationGroup.Properties.Appearance.Options.UseBackColor = True
+        Me.INDsleAuthorizationGroup.Properties.Appearance.Options.UseFont = True
+        Me.INDsleAuthorizationGroup.Properties.Appearance.Options.UseForeColor = True
+        Me.INDsleAuthorizationGroup.Properties.Buttons.AddRange(New DevExpress.XtraEditors.Controls.EditorButton() {New DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)})
+        Me.INDsleAuthorizationGroup.Properties.DisplayMember = "CodeName"
+        Me.INDsleAuthorizationGroup.Properties.NullText = ""
+        Me.INDsleAuthorizationGroup.Properties.PopupSizeable = False
+        Me.INDsleAuthorizationGroup.Properties.PopupView = Me.SearchLookUpEdit1View
+        Me.INDsleAuthorizationGroup.Properties.ShowFooter = False
+        Me.INDsleAuthorizationGroup.Properties.ValueMember = "Id"
+        Me.IndigoSearchLookUpControl1.SetRemoveButtonNavigator(Me.INDsleAuthorizationGroup, False)
+        Me.IndigoSearchLookUpControl1.SetSaveXmlGrid(Me.INDsleAuthorizationGroup, True)
+        Me.IndigoSearchLookUpControl1.SetShowDeleteButton(Me.INDsleAuthorizationGroup, True)
+        Me.IndigoSearchLookUpControl1.SetShowFindButton(Me.INDsleAuthorizationGroup, True)
+        Me.INDsleAuthorizationGroup.Size = New System.Drawing.Size(386, 28)
+        Me.INDsleAuthorizationGroup.StyleController = Me.INDlyAddCups
+        Me.INDsleAuthorizationGroup.TabIndex = 4
+        Me.IndigoSearchLookUpControl1.SetTagForm(Me.INDsleAuthorizationGroup, "2129")
+        Me.IndigoTextEdit1.SetTamañoMinimoString(Me.INDsleAuthorizationGroup, 0)
+        Me.IndigoSearchLookUpControl1.SetTextStringFormat(Me.INDsleAuthorizationGroup, "{0} - {1}")
+        Me.IndigoSearchLookUpControl1.SetTxtFindEnterEnabled(Me.INDsleAuthorizationGroup, False)
+        Me.IndigoSearchLookUpControl1.SetUseEmbeddedNavigator(Me.INDsleAuthorizationGroup, False)
+        '
+        'SearchLookUpEdit1View
+        '
+        Me.SearchLookUpEdit1View.Appearance.FocusedRow.BorderColor = System.Drawing.Color.LightGray
+        Me.SearchLookUpEdit1View.Appearance.FocusedRow.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Bold)
+        Me.SearchLookUpEdit1View.Appearance.FocusedRow.Options.UseBorderColor = True
+        Me.SearchLookUpEdit1View.Appearance.FocusedRow.Options.UseFont = True
+        Me.SearchLookUpEdit1View.Appearance.GroupRow.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.SearchLookUpEdit1View.Appearance.GroupRow.Options.UseFont = True
+        Me.SearchLookUpEdit1View.Appearance.HeaderPanel.Font = New System.Drawing.Font("Segoe UI Semibold", 10.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.SearchLookUpEdit1View.Appearance.HeaderPanel.Options.UseFont = True
+        Me.SearchLookUpEdit1View.Appearance.Row.Font = New System.Drawing.Font("Segoe UI Light", 9.75!)
+        Me.SearchLookUpEdit1View.Appearance.Row.Options.UseFont = True
+        Me.SearchLookUpEdit1View.Columns.AddRange(New DevExpress.XtraGrid.Columns.GridColumn() {Me.GridColumn2, Me.GridColumn3})
+        Me.SearchLookUpEdit1View.FocusRectStyle = DevExpress.XtraGrid.Views.Grid.DrawFocusRectStyle.RowFocus
+        Me.SearchLookUpEdit1View.Name = "SearchLookUpEdit1View"
+        Me.SearchLookUpEdit1View.OptionsSelection.EnableAppearanceFocusedCell = False
+        Me.SearchLookUpEdit1View.OptionsView.EnableAppearanceEvenRow = True
+        Me.SearchLookUpEdit1View.OptionsView.EnableAppearanceOddRow = True
+        Me.SearchLookUpEdit1View.OptionsView.ShowAutoFilterRow = True
+        Me.SearchLookUpEdit1View.OptionsView.ShowGroupPanel = False
+        Me.IndigoGridView4.SetTemaIndigoMetro(Me.SearchLookUpEdit1View, False)
+        Me.IndigoGridView2.SetTemaIndigoMetro(Me.SearchLookUpEdit1View, False)
+        Me.IndigoGridView1.SetTemaIndigoMetro(Me.SearchLookUpEdit1View, False)
+        Me.IndigoGridView3.SetTemaIndigoMetro(Me.SearchLookUpEdit1View, False)
+        '
+        'GridColumn2
+        '
+        Me.GridColumn2.Caption = "Código"
+        Me.GridColumn2.FieldName = "Code"
+        Me.GridColumn2.Name = "GridColumn2"
+        Me.GridColumn2.Visible = True
+        Me.GridColumn2.VisibleIndex = 0
+        Me.GridColumn2.Width = 244
+        '
+        'GridColumn3
+        '
+        Me.GridColumn3.Caption = "Nombre"
+        Me.GridColumn3.FieldName = "Name"
+        Me.GridColumn3.Name = "GridColumn3"
+        Me.GridColumn3.Visible = True
+        Me.GridColumn3.VisibleIndex = 1
+        Me.GridColumn3.Width = 818
+        '
+        'INDSleCups
+        '
+        Me.IndigoPopUpContainerEdit1.SetButtonMoreOptions(Me.INDSleCups, False)
+        Me.INDSleCups.EditValue = "0 item seleccionado"
+        Me.INDSleCups.EnterMoveNextControl = True
+        Me.IndigoPopUpContainerEdit1.SetHostControl(Me.INDSleCups, Nothing)
+        Me.INDSleCups.Location = New System.Drawing.Point(12, 38)
+        Me.INDSleCups.MinimumSize = New System.Drawing.Size(386, 32)
+        Me.INDSleCups.Name = "INDSleCups"
+        Me.IndigoPopUpContainerEdit1.SetOpenForm(Me.INDSleCups, False)
+        Me.IndigoPopUpContainerEdit1.SetPopUpAnimation(Me.INDSleCups, False)
+        Me.INDSleCups.Properties.Appearance.Font = New System.Drawing.Font("Segoe UI Light", 12.0!)
+        Me.INDSleCups.Properties.Appearance.Options.UseFont = True
+        Me.INDSleCups.Properties.Buttons.AddRange(New DevExpress.XtraEditors.Controls.EditorButton() {New DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)})
+        Me.INDSleCups.Properties.NullText = "0 item seleccionado"
+        Me.INDSleCups.Properties.PopupControl = Me.INDpopupCupsEntity
+        Me.INDSleCups.Properties.PopupSizeable = False
+        Me.INDSleCups.Size = New System.Drawing.Size(386, 32)
+        Me.INDSleCups.StyleController = Me.INDlyAddCups
+        Me.INDSleCups.TabIndex = 0
+        Me.IndigoPopUpContainerEdit1.SetTagForm(Me.INDSleCups, Nothing)
+        Me.IndigoPopUpContainerEdit1.SetWpfControl(Me.INDSleCups, Nothing)
+        '
+        'Root
+        '
+        Me.Root.AppearanceGroup.Font = New System.Drawing.Font("Segoe UI", 15.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Root.AppearanceGroup.Options.UseFont = True
+        Me.Root.AppearanceItemCaption.Font = New System.Drawing.Font("Segoe UI Light", 10.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Root.AppearanceItemCaption.Options.UseFont = True
+        Me.Root.AppearanceTabPage.Header.Font = New System.Drawing.Font("Segoe UI Light", 12.0!)
+        Me.Root.AppearanceTabPage.Header.Options.UseFont = True
+        Me.Root.AppearanceTabPage.HeaderActive.Font = New System.Drawing.Font("Segoe UI", 12.0!)
+        Me.Root.AppearanceTabPage.HeaderActive.Options.UseFont = True
+        Me.Root.AppearanceTabPage.HeaderDisabled.Font = New System.Drawing.Font("Segoe UI Light", 12.0!)
+        Me.Root.AppearanceTabPage.HeaderDisabled.Options.UseFont = True
+        Me.Root.AppearanceTabPage.HeaderHotTracked.Font = New System.Drawing.Font("Segoe UI Light", 12.0!)
+        Me.Root.AppearanceTabPage.HeaderHotTracked.Options.UseFont = True
+        Me.Root.AppearanceTabPage.PageClient.Font = New System.Drawing.Font("Segoe UI Light", 12.0!)
+        Me.Root.AppearanceTabPage.PageClient.Options.UseFont = True
+        Me.IndigoLayoutControlGroup1.SetCampoObligatorio(Me.Root, False)
+        Me.Root.EnableIndentsWithoutBorders = DevExpress.Utils.DefaultBoolean.[True]
+        Me.Root.GroupBordersVisible = False
+        Me.Root.Items.AddRange(New DevExpress.XtraLayout.BaseLayoutItem() {Me.INDlyItemCupsEntity, Me.INDlyItemAuthorizationGroup})
+        Me.Root.Name = "Root"
+        Me.Root.Size = New System.Drawing.Size(425, 166)
+        Me.Root.TextVisible = False
+        '
+        'INDlyItemCupsEntity
+        '
+        Me.INDlyItemCupsEntity.Control = Me.INDSleCups
+        Me.INDlyItemCupsEntity.Location = New System.Drawing.Point(0, 0)
+        Me.INDlyItemCupsEntity.MaxSize = New System.Drawing.Size(390, 60)
+        Me.INDlyItemCupsEntity.MinSize = New System.Drawing.Size(390, 60)
+        Me.INDlyItemCupsEntity.Name = "INDlyItemCupsEntity"
+        Me.INDlyItemCupsEntity.Size = New System.Drawing.Size(405, 60)
+        Me.INDlyItemCupsEntity.SizeConstraintsType = DevExpress.XtraLayout.SizeConstraintsType.Custom
+        Me.INDlyItemCupsEntity.Text = "Entidad CUPS"
+        Me.INDlyItemCupsEntity.TextAlignMode = DevExpress.XtraLayout.TextAlignModeItem.CustomSize
+        Me.INDlyItemCupsEntity.TextLocation = DevExpress.Utils.Locations.Top
+        Me.INDlyItemCupsEntity.TextSize = New System.Drawing.Size(135, 21)
+        Me.INDlyItemCupsEntity.TextToControlDistance = 5
+        '
+        'INDlyItemAuthorizationGroup
+        '
+        Me.INDlyItemAuthorizationGroup.Control = Me.INDsleAuthorizationGroup
+        Me.INDlyItemAuthorizationGroup.Location = New System.Drawing.Point(0, 60)
+        Me.INDlyItemAuthorizationGroup.MaxSize = New System.Drawing.Size(390, 60)
+        Me.INDlyItemAuthorizationGroup.MinSize = New System.Drawing.Size(390, 60)
+        Me.INDlyItemAuthorizationGroup.Name = "INDlyItemAuthorizationGroup"
+        Me.INDlyItemAuthorizationGroup.Size = New System.Drawing.Size(405, 86)
+        Me.INDlyItemAuthorizationGroup.SizeConstraintsType = DevExpress.XtraLayout.SizeConstraintsType.Custom
+        Me.INDlyItemAuthorizationGroup.Text = "Grupo Autorización"
+        Me.INDlyItemAuthorizationGroup.TextAlignMode = DevExpress.XtraLayout.TextAlignModeItem.CustomSize
+        Me.INDlyItemAuthorizationGroup.TextLocation = DevExpress.Utils.Locations.Top
+        Me.INDlyItemAuthorizationGroup.TextSize = New System.Drawing.Size(135, 21)
+        Me.INDlyItemAuthorizationGroup.TextToControlDistance = 5
+        '
+        'PanelControl1
+        '
+        Me.PanelControl1.Controls.Add(Me.INDBtnAddCups)
+        Me.PanelControl1.Dock = System.Windows.Forms.DockStyle.Bottom
+        Me.PanelControl1.Location = New System.Drawing.Point(0, 166)
+        Me.PanelControl1.MaximumSize = New System.Drawing.Size(0, 36)
+        Me.PanelControl1.MinimumSize = New System.Drawing.Size(0, 36)
+        Me.PanelControl1.Name = "PanelControl1"
+        Me.PanelControl1.Size = New System.Drawing.Size(425, 36)
+        Me.PanelControl1.TabIndex = 1
+        '
+        'INDBtnAddCups
+        '
+        Me.INDBtnAddCups.Appearance.Font = New System.Drawing.Font("Segoe UI Light", 12.0!)
+        Me.INDBtnAddCups.Appearance.Options.UseFont = True
+        Me.INDBtnAddCups.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.INDBtnAddCups.Location = New System.Drawing.Point(2, 2)
+        Me.IndigoSimpleButton1.SetModernUiIndigo(Me.INDBtnAddCups, True)
+        Me.INDBtnAddCups.Name = "INDBtnAddCups"
+        Me.INDBtnAddCups.Size = New System.Drawing.Size(421, 32)
+        Me.INDBtnAddCups.TabIndex = 0
+        Me.INDBtnAddCups.Text = "Agregar"
+        '
+        'INDEsbExportProducts
+        '
+        Me.INDEsbExportProducts.ImageOptions.Image = CType(resources.GetObject("INDEsbExportProducts.ImageOptions.Image"), System.Drawing.Image)
+        Me.INDEsbExportProducts.ImageOptions.Location = DevExpress.XtraEditors.ImageLocation.MiddleCenter
+        Me.INDEsbExportProducts.Location = New System.Drawing.Point(2074, 53)
+        Me.IndigoSimpleButton1.SetModernUiIndigo(Me.INDEsbExportProducts, False)
+        Me.INDEsbExportProducts.Name = "INDEsbExportProducts"
+        Me.INDEsbExportProducts.Size = New System.Drawing.Size(40, 32)
+        Me.INDEsbExportProducts.StyleController = Me.INDlyRoot
+        Me.INDEsbExportProducts.TabIndex = 23
+        '
+        'INDpceAddProducts
+        '
+        Me.IndigoPopUpContainerEdit1.SetButtonMoreOptions(Me.INDpceAddProducts, True)
+        Me.IndigoPopUpContainerEdit1.SetHostControl(Me.INDpceAddProducts, Nothing)
+        Me.INDpceAddProducts.Location = New System.Drawing.Point(1290, 53)
+        Me.INDpceAddProducts.MenuManager = Me.BarManager
+        Me.INDpceAddProducts.MinimumSize = New System.Drawing.Size(780, 32)
+        Me.INDpceAddProducts.Name = "INDpceAddProducts"
+        Me.IndigoPopUpContainerEdit1.SetOpenForm(Me.INDpceAddProducts, False)
+        Me.IndigoPopUpContainerEdit1.SetPopUpAnimation(Me.INDpceAddProducts, False)
+        Me.INDpceAddProducts.Properties.Appearance.Font = New System.Drawing.Font("Segoe UI Light", 12.0!)
+        Me.INDpceAddProducts.Properties.Appearance.Options.UseFont = True
+        Me.INDpceAddProducts.Properties.AutoHeight = False
+        Me.INDpceAddProducts.Properties.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder
+        EditorButtonImageOptions1.Image = CType(resources.GetObject("EditorButtonImageOptions1.Image"), System.Drawing.Image)
+        Me.INDpceAddProducts.Properties.Buttons.AddRange(New DevExpress.XtraEditors.Controls.EditorButton() {New DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Glyph, "", -1, True, True, False, EditorButtonImageOptions1, New DevExpress.Utils.KeyShortcut(System.Windows.Forms.Keys.None), SerializableAppearanceObject1, SerializableAppearanceObject2, SerializableAppearanceObject3, SerializableAppearanceObject4, "", Nothing, Nothing, DevExpress.Utils.ToolTipAnchor.[Default])})
+        Me.INDpceAddProducts.Properties.CloseUpKey = New DevExpress.Utils.KeyShortcut(System.Windows.Forms.Keys.None)
+        Me.INDpceAddProducts.Properties.PopupControl = Me.INDpopupAddProducts
+        Me.INDpceAddProducts.Properties.PopupSizeable = False
+        Me.INDpceAddProducts.Properties.ShowPopupCloseButton = False
+        Me.INDpceAddProducts.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.HideTextEditor
+        Me.INDpceAddProducts.Size = New System.Drawing.Size(780, 32)
+        Me.INDpceAddProducts.StyleController = Me.INDlyRoot
+        Me.INDpceAddProducts.TabIndex = 22
+        Me.IndigoPopUpContainerEdit1.SetTagForm(Me.INDpceAddProducts, Nothing)
+        Me.IndigoPopUpContainerEdit1.SetWpfControl(Me.INDpceAddProducts, Nothing)
+        '
+        'INDgcProducts
+        '
+        Me.INDgcProducts.Location = New System.Drawing.Point(1290, 89)
+        Me.INDgcProducts.MainView = Me.INDviewProducts
+        Me.INDgcProducts.MenuManager = Me.BarManager
+        Me.INDgcProducts.Name = "INDgcProducts"
+        Me.INDgcProducts.Size = New System.Drawing.Size(824, 486)
+        Me.INDgcProducts.TabIndex = 21
+        Me.INDgcProducts.ViewCollection.AddRange(New DevExpress.XtraGrid.Views.Base.BaseView() {Me.INDviewProducts})
+        '
+        'INDviewProducts
+        '
+        Me.INDviewProducts.Appearance.FocusedRow.BorderColor = System.Drawing.Color.LightGray
+        Me.INDviewProducts.Appearance.FocusedRow.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Bold)
+        Me.INDviewProducts.Appearance.FocusedRow.Options.UseBorderColor = True
+        Me.INDviewProducts.Appearance.FocusedRow.Options.UseFont = True
+        Me.INDviewProducts.Appearance.GroupRow.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.INDviewProducts.Appearance.GroupRow.Options.UseFont = True
+        Me.INDviewProducts.Appearance.HeaderPanel.Font = New System.Drawing.Font("Segoe UI Semibold", 10.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.INDviewProducts.Appearance.HeaderPanel.Options.UseFont = True
+        Me.INDviewProducts.Appearance.Row.Font = New System.Drawing.Font("Segoe UI Light", 9.75!)
+        Me.INDviewProducts.Appearance.Row.Options.UseFont = True
+        Me.INDviewProducts.Appearance.ViewCaption.Font = New System.Drawing.Font("Segoe UI Light", 13.0!)
+        Me.INDviewProducts.Appearance.ViewCaption.Options.UseFont = True
+        Me.INDviewProducts.Columns.AddRange(New DevExpress.XtraGrid.Columns.GridColumn() {Me.GridColumn14, Me.GridColumn12, Me.GridColumn13})
+        Me.INDviewProducts.GridControl = Me.INDgcProducts
+        Me.INDviewProducts.GroupCount = 1
+        Me.INDviewProducts.Name = "INDviewProducts"
+        Me.INDviewProducts.OptionsSelection.MultiSelect = True
+        Me.INDviewProducts.OptionsView.EnableAppearanceEvenRow = True
+        Me.INDviewProducts.OptionsView.EnableAppearanceOddRow = True
+        Me.INDviewProducts.OptionsView.ShowAutoFilterRow = True
+        Me.INDviewProducts.OptionsView.ShowDetailButtons = False
+        Me.INDviewProducts.OptionsView.ShowFooter = True
+        Me.INDviewProducts.OptionsView.ShowGroupPanel = False
+        Me.INDviewProducts.SortInfo.AddRange(New DevExpress.XtraGrid.Columns.GridColumnSortInfo() {New DevExpress.XtraGrid.Columns.GridColumnSortInfo(Me.GridColumn14, DevExpress.Data.ColumnSortOrder.Ascending)})
+        Me.IndigoGridView4.SetTemaIndigoMetro(Me.INDviewProducts, False)
+        Me.IndigoGridView2.SetTemaIndigoMetro(Me.INDviewProducts, False)
+        Me.IndigoGridView1.SetTemaIndigoMetro(Me.INDviewProducts, False)
+        Me.IndigoGridView3.SetTemaIndigoMetro(Me.INDviewProducts, False)
+        '
+        'GridColumn14
+        '
+        Me.GridColumn14.Caption = "Grupo"
+        Me.GridColumn14.FieldName = "AuthorizationGroupDescription"
+        Me.GridColumn14.Name = "GridColumn14"
+        Me.GridColumn14.OptionsColumn.AllowEdit = False
+        Me.GridColumn14.OptionsColumn.AllowFocus = False
+        Me.GridColumn14.Visible = True
+        Me.GridColumn14.VisibleIndex = 0
+        Me.GridColumn14.Width = 329
+        '
+        'GridColumn12
+        '
+        Me.GridColumn12.Caption = "Código Producto"
+        Me.GridColumn12.FieldName = "ProductCode"
+        Me.GridColumn12.Name = "GridColumn12"
+        Me.GridColumn12.OptionsColumn.AllowEdit = False
+        Me.GridColumn12.OptionsColumn.AllowFocus = False
+        Me.GridColumn12.Visible = True
+        Me.GridColumn12.VisibleIndex = 0
+        Me.GridColumn12.Width = 193
+        '
+        'GridColumn13
+        '
+        Me.GridColumn13.Caption = "Nombre Producto"
+        Me.GridColumn13.FieldName = "ProductName"
+        Me.GridColumn13.Name = "GridColumn13"
+        Me.GridColumn13.OptionsColumn.AllowEdit = False
+        Me.GridColumn13.OptionsColumn.AllowFocus = False
+        Me.GridColumn13.Visible = True
+        Me.GridColumn13.VisibleIndex = 1
+        Me.GridColumn13.Width = 444
+        '
+        'INDEsbExportCUPS
+        '
+        Me.INDEsbExportCUPS.ImageOptions.Image = CType(resources.GetObject("INDEsbExportCUPS.ImageOptions.Image"), System.Drawing.Image)
+        Me.INDEsbExportCUPS.ImageOptions.Location = DevExpress.XtraEditors.ImageLocation.MiddleCenter
+        Me.INDEsbExportCUPS.Location = New System.Drawing.Point(1222, 53)
+        Me.IndigoSimpleButton1.SetModernUiIndigo(Me.INDEsbExportCUPS, False)
+        Me.INDEsbExportCUPS.Name = "INDEsbExportCUPS"
+        Me.INDEsbExportCUPS.Size = New System.Drawing.Size(40, 32)
+        Me.INDEsbExportCUPS.StyleController = Me.INDlyRoot
+        Me.INDEsbExportCUPS.TabIndex = 20
+        '
+        'INDpceAddCups
+        '
+        Me.IndigoPopUpContainerEdit1.SetButtonMoreOptions(Me.INDpceAddCups, True)
+        Me.IndigoPopUpContainerEdit1.SetHostControl(Me.INDpceAddCups, Nothing)
+        Me.INDpceAddCups.Location = New System.Drawing.Point(438, 53)
+        Me.INDpceAddCups.MenuManager = Me.BarManager
+        Me.INDpceAddCups.MinimumSize = New System.Drawing.Size(780, 32)
+        Me.INDpceAddCups.Name = "INDpceAddCups"
+        Me.IndigoPopUpContainerEdit1.SetOpenForm(Me.INDpceAddCups, False)
+        Me.IndigoPopUpContainerEdit1.SetPopUpAnimation(Me.INDpceAddCups, False)
+        Me.INDpceAddCups.Properties.Appearance.Font = New System.Drawing.Font("Segoe UI Light", 12.0!)
+        Me.INDpceAddCups.Properties.Appearance.Options.UseFont = True
+        Me.INDpceAddCups.Properties.AutoHeight = False
+        Me.INDpceAddCups.Properties.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder
+        EditorButtonImageOptions2.Image = CType(resources.GetObject("EditorButtonImageOptions2.Image"), System.Drawing.Image)
+        Me.INDpceAddCups.Properties.Buttons.AddRange(New DevExpress.XtraEditors.Controls.EditorButton() {New DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Glyph, "", -1, True, True, False, EditorButtonImageOptions2, New DevExpress.Utils.KeyShortcut(System.Windows.Forms.Keys.None), SerializableAppearanceObject5, SerializableAppearanceObject6, SerializableAppearanceObject7, SerializableAppearanceObject8, "", Nothing, Nothing, DevExpress.Utils.ToolTipAnchor.[Default])})
+        Me.INDpceAddCups.Properties.CloseUpKey = New DevExpress.Utils.KeyShortcut(System.Windows.Forms.Keys.None)
+        Me.INDpceAddCups.Properties.PopupControl = Me.INDpopupAddCups
+        Me.INDpceAddCups.Properties.PopupSizeable = False
+        Me.INDpceAddCups.Properties.ShowPopupCloseButton = False
+        Me.INDpceAddCups.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.HideTextEditor
+        Me.INDpceAddCups.Size = New System.Drawing.Size(780, 32)
+        Me.INDpceAddCups.StyleController = Me.INDlyRoot
+        Me.INDpceAddCups.TabIndex = 2
+        Me.IndigoPopUpContainerEdit1.SetTagForm(Me.INDpceAddCups, Nothing)
+        Me.IndigoPopUpContainerEdit1.SetWpfControl(Me.INDpceAddCups, Nothing)
+        '
+        'INDgcCUPS
+        '
+        Me.INDgcCUPS.Location = New System.Drawing.Point(438, 89)
+        Me.INDgcCUPS.MainView = Me.INDviewCUPS
+        Me.INDgcCUPS.Name = "INDgcCUPS"
+        Me.INDgcCUPS.Size = New System.Drawing.Size(824, 486)
+        Me.INDgcCUPS.TabIndex = 3
+        Me.INDgcCUPS.ViewCollection.AddRange(New DevExpress.XtraGrid.Views.Base.BaseView() {Me.INDviewCUPS})
+        '
+        'INDviewCUPS
+        '
+        Me.INDviewCUPS.Appearance.FocusedRow.BorderColor = System.Drawing.Color.LightGray
+        Me.INDviewCUPS.Appearance.FocusedRow.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Bold)
+        Me.INDviewCUPS.Appearance.FocusedRow.Options.UseBackColor = True
+        Me.INDviewCUPS.Appearance.FocusedRow.Options.UseBorderColor = True
+        Me.INDviewCUPS.Appearance.FocusedRow.Options.UseFont = True
+        Me.INDviewCUPS.Appearance.GroupRow.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.INDviewCUPS.Appearance.GroupRow.Options.UseFont = True
+        Me.INDviewCUPS.Appearance.HeaderPanel.Font = New System.Drawing.Font("Segoe UI Semibold", 10.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.INDviewCUPS.Appearance.HeaderPanel.Options.UseFont = True
+        Me.INDviewCUPS.Appearance.Row.Font = New System.Drawing.Font("Segoe UI Light", 9.75!)
+        Me.INDviewCUPS.Appearance.Row.Options.UseFont = True
+        Me.INDviewCUPS.Appearance.ViewCaption.Font = New System.Drawing.Font("Segoe UI Light", 13.0!)
+        Me.INDviewCUPS.Appearance.ViewCaption.Options.UseFont = True
+        Me.INDviewCUPS.Columns.AddRange(New DevExpress.XtraGrid.Columns.GridColumn() {Me.GridColumn5, Me.GridColumn1, Me.GridColumn11, Me.GridColumn10})
+        Me.INDviewCUPS.GridControl = Me.INDgcCUPS
+        Me.INDviewCUPS.GroupCount = 1
+        Me.INDviewCUPS.Name = "INDviewCUPS"
+        Me.INDviewCUPS.OptionsSelection.MultiSelect = True
+        Me.INDviewCUPS.OptionsView.EnableAppearanceEvenRow = True
+        Me.INDviewCUPS.OptionsView.EnableAppearanceOddRow = True
+        Me.INDviewCUPS.OptionsView.ShowAutoFilterRow = True
+        Me.INDviewCUPS.OptionsView.ShowFooter = True
+        Me.INDviewCUPS.OptionsView.ShowGroupPanel = False
+        Me.INDviewCUPS.SortInfo.AddRange(New DevExpress.XtraGrid.Columns.GridColumnSortInfo() {New DevExpress.XtraGrid.Columns.GridColumnSortInfo(Me.GridColumn5, DevExpress.Data.ColumnSortOrder.Ascending)})
+        Me.IndigoGridView4.SetTemaIndigoMetro(Me.INDviewCUPS, False)
+        Me.IndigoGridView2.SetTemaIndigoMetro(Me.INDviewCUPS, False)
+        Me.IndigoGridView1.SetTemaIndigoMetro(Me.INDviewCUPS, False)
+        Me.IndigoGridView3.SetTemaIndigoMetro(Me.INDviewCUPS, False)
+        '
+        'GridColumn5
+        '
+        Me.GridColumn5.Caption = "Grupo"
+        Me.GridColumn5.FieldName = "AuthorizationGroupDescription"
+        Me.GridColumn5.Name = "GridColumn5"
+        Me.GridColumn5.OptionsColumn.AllowEdit = False
+        Me.GridColumn5.OptionsColumn.AllowFocus = False
+        Me.GridColumn5.Visible = True
+        Me.GridColumn5.VisibleIndex = 0
+        Me.GridColumn5.Width = 250
+        '
+        'GridColumn1
+        '
+        Me.GridColumn1.Caption = "Código CUPS"
+        Me.GridColumn1.FieldName = "CUPSEntityCode"
+        Me.GridColumn1.Name = "GridColumn1"
+        Me.GridColumn1.OptionsColumn.AllowEdit = False
+        Me.GridColumn1.OptionsColumn.AllowFocus = False
+        Me.GridColumn1.Visible = True
+        Me.GridColumn1.VisibleIndex = 0
+        Me.GridColumn1.Width = 169
+        '
+        'GridColumn11
+        '
+        Me.GridColumn11.Caption = "Nombre CUPS"
+        Me.GridColumn11.FieldName = "CUPSEntityName"
+        Me.GridColumn11.Name = "GridColumn11"
+        Me.GridColumn11.OptionsColumn.AllowEdit = False
+        Me.GridColumn11.OptionsColumn.AllowFocus = False
+        Me.GridColumn11.Visible = True
+        Me.GridColumn11.VisibleIndex = 1
+        Me.GridColumn11.Width = 321
+        '
+        'GridColumn10
+        '
+        Me.GridColumn10.Caption = "Descripción Relacionada"
+        Me.GridColumn10.FieldName = "ContractDescriptionDescription"
+        Me.GridColumn10.Name = "GridColumn10"
+        Me.GridColumn10.OptionsColumn.AllowEdit = False
+        Me.GridColumn10.OptionsColumn.AllowFocus = False
+        Me.GridColumn10.Visible = True
+        Me.GridColumn10.VisibleIndex = 2
+        Me.GridColumn10.Width = 219
+        '
+        'INDtxtName
+        '
+        Me.IndigoTextEdit1.SetApplyStyle(Me.INDtxtName, True)
+        Me.IndigoTextEdit1.SetCampoObligatorio(Me.INDtxtName, True)
+        Me.INDtxtName.EnterMoveNextControl = True
+        Me.INDtxtName.Location = New System.Drawing.Point(24, 139)
+        Me.IndigoTextEdit1.SetMascara(Me.INDtxtName, Presentation.Controls.IndigoTextEdit.EMask.Ninguno)
+        Me.INDtxtName.Name = "INDtxtName"
+        Me.INDtxtName.Properties.Appearance.BackColor = System.Drawing.Color.MistyRose
+        Me.INDtxtName.Properties.Appearance.Font = New System.Drawing.Font("Segoe UI Light", 12.0!)
+        Me.INDtxtName.Properties.Appearance.ForeColor = System.Drawing.Color.Black
+        Me.INDtxtName.Properties.Appearance.Options.UseBackColor = True
+        Me.INDtxtName.Properties.Appearance.Options.UseFont = True
+        Me.INDtxtName.Properties.Appearance.Options.UseForeColor = True
+        Me.INDtxtName.Properties.AppearanceFocused.BackColor = System.Drawing.Color.FromArgb(CType(CType(215, Byte), Integer), CType(CType(242, Byte), Integer), CType(CType(255, Byte), Integer))
+        Me.INDtxtName.Properties.AppearanceFocused.BorderColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(148, Byte), Integer), CType(CType(223, Byte), Integer))
+        Me.INDtxtName.Properties.AppearanceFocused.Font = New System.Drawing.Font("Segoe UI Light", 12.0!)
+        Me.INDtxtName.Properties.AppearanceFocused.Options.UseBackColor = True
+        Me.INDtxtName.Properties.AppearanceFocused.Options.UseBorderColor = True
+        Me.INDtxtName.Properties.AppearanceFocused.Options.UseFont = True
+        Me.INDtxtName.Properties.MaxLength = 100
+        Me.INDtxtName.Size = New System.Drawing.Size(386, 28)
+        Me.INDtxtName.StyleController = Me.INDlyRoot
+        Me.INDtxtName.TabIndex = 1
+        Me.IndigoTextEdit1.SetTamañoMinimoString(Me.INDtxtName, 0)
+        Me.INDtxtName.ToolTip = "Este Campo es Necesario"
+        '
+        'INDbtnCode
+        '
+        Me.IndigoTextEdit1.SetApplyStyle(Me.INDbtnCode, True)
+        Me.IndigoTextEdit1.SetCampoObligatorio(Me.INDbtnCode, True)
+        Me.INDbtnCode.Location = New System.Drawing.Point(24, 79)
+        Me.IndigoTextEdit1.SetMascara(Me.INDbtnCode, Presentation.Controls.IndigoTextEdit.EMask.Ninguno)
+        Me.INDbtnCode.Name = "INDbtnCode"
+        Me.INDbtnCode.Properties.Appearance.BackColor = System.Drawing.Color.MistyRose
+        Me.INDbtnCode.Properties.Appearance.Font = New System.Drawing.Font("Segoe UI Light", 12.0!)
+        Me.INDbtnCode.Properties.Appearance.ForeColor = System.Drawing.Color.Black
+        Me.INDbtnCode.Properties.Appearance.Options.UseBackColor = True
+        Me.INDbtnCode.Properties.Appearance.Options.UseFont = True
+        Me.INDbtnCode.Properties.Appearance.Options.UseForeColor = True
+        Me.INDbtnCode.Properties.AppearanceFocused.BackColor = System.Drawing.Color.FromArgb(CType(CType(215, Byte), Integer), CType(CType(242, Byte), Integer), CType(CType(255, Byte), Integer))
+        Me.INDbtnCode.Properties.AppearanceFocused.BorderColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(148, Byte), Integer), CType(CType(223, Byte), Integer))
+        Me.INDbtnCode.Properties.AppearanceFocused.Font = New System.Drawing.Font("Segoe UI Light", 12.0!)
+        Me.INDbtnCode.Properties.AppearanceFocused.Options.UseBackColor = True
+        Me.INDbtnCode.Properties.AppearanceFocused.Options.UseBorderColor = True
+        Me.INDbtnCode.Properties.AppearanceFocused.Options.UseFont = True
+        EditorButtonImageOptions3.Image = Global.Presentation.Authorization.My.Resources.Resources.BuscarMetro
+        Me.INDbtnCode.Properties.Buttons.AddRange(New DevExpress.XtraEditors.Controls.EditorButton() {New DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Glyph, "", -1, True, True, False, EditorButtonImageOptions3, New DevExpress.Utils.KeyShortcut(System.Windows.Forms.Keys.None), SerializableAppearanceObject9, SerializableAppearanceObject10, SerializableAppearanceObject11, SerializableAppearanceObject12, "", Nothing, Nothing, DevExpress.Utils.ToolTipAnchor.[Default])})
+        Me.INDbtnCode.Properties.MaxLength = 20
+        Me.INDbtnCode.Size = New System.Drawing.Size(386, 28)
+        Me.INDbtnCode.StyleController = Me.INDlyRoot
+        Me.INDbtnCode.TabIndex = 0
+        Me.IndigoTextEdit1.SetTamañoMinimoString(Me.INDbtnCode, 0)
+        Me.INDbtnCode.ToolTip = "Este Campo es Necesario"
+        '
+        'LayoutControlGroup1
+        '
+        Me.LayoutControlGroup1.AppearanceGroup.Font = New System.Drawing.Font("Segoe UI", 15.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.LayoutControlGroup1.AppearanceGroup.Options.UseFont = True
+        Me.LayoutControlGroup1.AppearanceItemCaption.Font = New System.Drawing.Font("Segoe UI Light", 10.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.LayoutControlGroup1.AppearanceItemCaption.Options.UseFont = True
+        Me.LayoutControlGroup1.AppearanceTabPage.Header.Font = New System.Drawing.Font("Segoe UI Light", 12.0!)
+        Me.LayoutControlGroup1.AppearanceTabPage.Header.Options.UseFont = True
+        Me.LayoutControlGroup1.AppearanceTabPage.HeaderActive.Font = New System.Drawing.Font("Segoe UI", 12.0!)
+        Me.LayoutControlGroup1.AppearanceTabPage.HeaderActive.Options.UseFont = True
+        Me.LayoutControlGroup1.AppearanceTabPage.HeaderDisabled.Font = New System.Drawing.Font("Segoe UI Light", 12.0!)
+        Me.LayoutControlGroup1.AppearanceTabPage.HeaderDisabled.Options.UseFont = True
+        Me.LayoutControlGroup1.AppearanceTabPage.HeaderHotTracked.Font = New System.Drawing.Font("Segoe UI Light", 12.0!)
+        Me.LayoutControlGroup1.AppearanceTabPage.HeaderHotTracked.Options.UseFont = True
+        Me.LayoutControlGroup1.AppearanceTabPage.PageClient.Font = New System.Drawing.Font("Segoe UI Light", 12.0!)
+        Me.LayoutControlGroup1.AppearanceTabPage.PageClient.Options.UseFont = True
+        Me.IndigoLayoutControlGroup1.SetCampoObligatorio(Me.LayoutControlGroup1, False)
+        Me.LayoutControlGroup1.CustomizationFormText = "Plantilla de Procedimientos"
+        Me.LayoutControlGroup1.EnableIndentsWithoutBorders = DevExpress.Utils.DefaultBoolean.[True]
+        Me.LayoutControlGroup1.GroupBordersVisible = False
+        Me.LayoutControlGroup1.Items.AddRange(New DevExpress.XtraLayout.BaseLayoutItem() {Me.INDlygPrincipalData, Me.INDlygCUPS, Me.INDlygProducts, Me.INDlygCareCenter})
+        Me.LayoutControlGroup1.Name = "Root"
+        Me.LayoutControlGroup1.Size = New System.Drawing.Size(2662, 599)
+        Me.LayoutControlGroup1.TextVisible = False
+        '
+        'INDlygPrincipalData
+        '
+        Me.INDlygPrincipalData.AppearanceGroup.Font = New System.Drawing.Font("Segoe UI", 15.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.INDlygPrincipalData.AppearanceGroup.Options.UseFont = True
+        Me.INDlygPrincipalData.AppearanceItemCaption.Font = New System.Drawing.Font("Segoe UI Light", 10.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.INDlygPrincipalData.AppearanceItemCaption.Options.UseFont = True
+        Me.INDlygPrincipalData.AppearanceTabPage.Header.Font = New System.Drawing.Font("Segoe UI Light", 12.0!)
+        Me.INDlygPrincipalData.AppearanceTabPage.Header.Options.UseFont = True
+        Me.INDlygPrincipalData.AppearanceTabPage.HeaderActive.Font = New System.Drawing.Font("Segoe UI", 12.0!)
+        Me.INDlygPrincipalData.AppearanceTabPage.HeaderActive.Options.UseFont = True
+        Me.INDlygPrincipalData.AppearanceTabPage.HeaderDisabled.Font = New System.Drawing.Font("Segoe UI Light", 12.0!)
+        Me.INDlygPrincipalData.AppearanceTabPage.HeaderDisabled.Options.UseFont = True
+        Me.INDlygPrincipalData.AppearanceTabPage.HeaderHotTracked.Font = New System.Drawing.Font("Segoe UI Light", 12.0!)
+        Me.INDlygPrincipalData.AppearanceTabPage.HeaderHotTracked.Options.UseFont = True
+        Me.INDlygPrincipalData.AppearanceTabPage.PageClient.Font = New System.Drawing.Font("Segoe UI Light", 12.0!)
+        Me.INDlygPrincipalData.AppearanceTabPage.PageClient.Options.UseFont = True
+        Me.IndigoLayoutControlGroup1.SetCampoObligatorio(Me.INDlygPrincipalData, False)
+        Me.INDlygPrincipalData.CustomizationFormText = "Datos Principales"
+        Me.INDlygPrincipalData.Items.AddRange(New DevExpress.XtraLayout.BaseLayoutItem() {Me.INDlyItemCode, Me.INDlyItemName})
+        Me.INDlygPrincipalData.Location = New System.Drawing.Point(0, 0)
+        Me.INDlygPrincipalData.Name = "INDlygPrincipalData"
+        Me.INDlygPrincipalData.Size = New System.Drawing.Size(414, 579)
+        Me.INDlygPrincipalData.Text = "Datos Principales"
+        '
+        'INDlyItemCode
+        '
+        Me.INDlyItemCode.AllowHide = False
+        Me.INDlyItemCode.Control = Me.INDbtnCode
+        Me.INDlyItemCode.CustomizationFormText = "Código"
+        Me.INDlyItemCode.Location = New System.Drawing.Point(0, 0)
+        Me.INDlyItemCode.MaxSize = New System.Drawing.Size(390, 60)
+        Me.INDlyItemCode.MinSize = New System.Drawing.Size(390, 60)
+        Me.INDlyItemCode.Name = "INDlyItemCode"
+        Me.INDlyItemCode.ShowInCustomizationForm = False
+        Me.INDlyItemCode.Size = New System.Drawing.Size(390, 60)
+        Me.INDlyItemCode.SizeConstraintsType = DevExpress.XtraLayout.SizeConstraintsType.Custom
+        Me.INDlyItemCode.Text = "Código"
+        Me.INDlyItemCode.TextAlignMode = DevExpress.XtraLayout.TextAlignModeItem.CustomSize
+        Me.INDlyItemCode.TextLocation = DevExpress.Utils.Locations.Top
+        Me.INDlyItemCode.TextSize = New System.Drawing.Size(135, 21)
+        Me.INDlyItemCode.TextToControlDistance = 5
+        '
+        'INDlyItemName
+        '
+        Me.INDlyItemName.AllowHide = False
+        Me.INDlyItemName.Control = Me.INDtxtName
+        Me.INDlyItemName.CustomizationFormText = "Nombre"
+        Me.INDlyItemName.Location = New System.Drawing.Point(0, 60)
+        Me.INDlyItemName.MaxSize = New System.Drawing.Size(390, 60)
+        Me.INDlyItemName.MinSize = New System.Drawing.Size(390, 60)
+        Me.INDlyItemName.Name = "INDlyItemName"
+        Me.INDlyItemName.ShowInCustomizationForm = False
+        Me.INDlyItemName.Size = New System.Drawing.Size(390, 466)
+        Me.INDlyItemName.SizeConstraintsType = DevExpress.XtraLayout.SizeConstraintsType.Custom
+        Me.INDlyItemName.Text = "Nombre"
+        Me.INDlyItemName.TextAlignMode = DevExpress.XtraLayout.TextAlignModeItem.CustomSize
+        Me.INDlyItemName.TextLocation = DevExpress.Utils.Locations.Top
+        Me.INDlyItemName.TextSize = New System.Drawing.Size(135, 21)
+        Me.INDlyItemName.TextToControlDistance = 5
+        '
+        'INDlygCUPS
+        '
+        Me.INDlygCUPS.AppearanceGroup.Font = New System.Drawing.Font("Segoe UI", 15.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.INDlygCUPS.AppearanceGroup.Options.UseFont = True
+        Me.INDlygCUPS.AppearanceItemCaption.Font = New System.Drawing.Font("Segoe UI Light", 10.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.INDlygCUPS.AppearanceItemCaption.Options.UseFont = True
+        Me.INDlygCUPS.AppearanceTabPage.Header.Font = New System.Drawing.Font("Segoe UI Light", 12.0!)
+        Me.INDlygCUPS.AppearanceTabPage.Header.Options.UseFont = True
+        Me.INDlygCUPS.AppearanceTabPage.HeaderActive.Font = New System.Drawing.Font("Segoe UI", 12.0!)
+        Me.INDlygCUPS.AppearanceTabPage.HeaderActive.Options.UseFont = True
+        Me.INDlygCUPS.AppearanceTabPage.HeaderDisabled.Font = New System.Drawing.Font("Segoe UI Light", 12.0!)
+        Me.INDlygCUPS.AppearanceTabPage.HeaderDisabled.Options.UseFont = True
+        Me.INDlygCUPS.AppearanceTabPage.HeaderHotTracked.Font = New System.Drawing.Font("Segoe UI Light", 12.0!)
+        Me.INDlygCUPS.AppearanceTabPage.HeaderHotTracked.Options.UseFont = True
+        Me.INDlygCUPS.AppearanceTabPage.PageClient.Font = New System.Drawing.Font("Segoe UI Light", 12.0!)
+        Me.INDlygCUPS.AppearanceTabPage.PageClient.Options.UseFont = True
+        Me.IndigoLayoutControlGroup1.SetCampoObligatorio(Me.INDlygCUPS, False)
+        Me.INDlygCUPS.CustomizationFormText = "Cubrimientos de Servicios"
+        Me.INDlygCUPS.Items.AddRange(New DevExpress.XtraLayout.BaseLayoutItem() {Me.LayoutControlItem2, Me.INDlyItemAddCups, Me.LayoutControlItem1})
+        Me.INDlygCUPS.Location = New System.Drawing.Point(414, 0)
+        Me.INDlygCUPS.Name = "INDlygCUPS"
+        Me.INDlygCUPS.Size = New System.Drawing.Size(852, 579)
+        Me.INDlygCUPS.Text = "CUPS"
+        '
+        'LayoutControlItem2
+        '
+        Me.LayoutControlItem2.AllowHide = False
+        Me.LayoutControlItem2.Control = Me.INDgcCUPS
+        Me.LayoutControlItem2.CustomizationFormText = "Servicios CUPS"
+        Me.LayoutControlItem2.Location = New System.Drawing.Point(0, 36)
+        Me.LayoutControlItem2.MaxSize = New System.Drawing.Size(828, 0)
+        Me.LayoutControlItem2.MinSize = New System.Drawing.Size(828, 1)
+        Me.LayoutControlItem2.Name = "LayoutControlItem2"
+        Me.LayoutControlItem2.Size = New System.Drawing.Size(828, 490)
+        Me.LayoutControlItem2.SizeConstraintsType = DevExpress.XtraLayout.SizeConstraintsType.Custom
+        Me.LayoutControlItem2.TextAlignMode = DevExpress.XtraLayout.TextAlignModeItem.CustomSize
+        Me.LayoutControlItem2.TextSize = New System.Drawing.Size(0, 0)
+        Me.LayoutControlItem2.TextToControlDistance = 0
+        Me.LayoutControlItem2.TextVisible = False
+        '
+        'INDlyItemAddCups
+        '
+        Me.INDlyItemAddCups.Control = Me.INDpceAddCups
+        Me.INDlyItemAddCups.Location = New System.Drawing.Point(0, 0)
+        Me.INDlyItemAddCups.MaxSize = New System.Drawing.Size(784, 36)
+        Me.INDlyItemAddCups.MinSize = New System.Drawing.Size(784, 36)
+        Me.INDlyItemAddCups.Name = "INDlyItemAddCups"
+        Me.INDlyItemAddCups.Size = New System.Drawing.Size(784, 36)
+        Me.INDlyItemAddCups.SizeConstraintsType = DevExpress.XtraLayout.SizeConstraintsType.Custom
+        Me.INDlyItemAddCups.TextSize = New System.Drawing.Size(0, 0)
+        Me.INDlyItemAddCups.TextVisible = False
+        '
+        'LayoutControlItem1
+        '
+        Me.LayoutControlItem1.Control = Me.INDEsbExportCUPS
+        Me.LayoutControlItem1.Location = New System.Drawing.Point(784, 0)
+        Me.LayoutControlItem1.MaxSize = New System.Drawing.Size(44, 36)
+        Me.LayoutControlItem1.MinSize = New System.Drawing.Size(44, 36)
+        Me.LayoutControlItem1.Name = "LayoutControlItem1"
+        Me.LayoutControlItem1.Size = New System.Drawing.Size(44, 36)
+        Me.LayoutControlItem1.SizeConstraintsType = DevExpress.XtraLayout.SizeConstraintsType.Custom
+        Me.LayoutControlItem1.TextSize = New System.Drawing.Size(0, 0)
+        Me.LayoutControlItem1.TextVisible = False
+        '
+        'INDlygProducts
+        '
+        Me.INDlygProducts.AppearanceGroup.Font = New System.Drawing.Font("Segoe UI", 15.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.INDlygProducts.AppearanceGroup.Options.UseFont = True
+        Me.INDlygProducts.AppearanceItemCaption.Font = New System.Drawing.Font("Segoe UI Light", 10.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.INDlygProducts.AppearanceItemCaption.Options.UseFont = True
+        Me.INDlygProducts.AppearanceTabPage.Header.Font = New System.Drawing.Font("Segoe UI Light", 12.0!)
+        Me.INDlygProducts.AppearanceTabPage.Header.Options.UseFont = True
+        Me.INDlygProducts.AppearanceTabPage.HeaderActive.Font = New System.Drawing.Font("Segoe UI", 12.0!)
+        Me.INDlygProducts.AppearanceTabPage.HeaderActive.Options.UseFont = True
+        Me.INDlygProducts.AppearanceTabPage.HeaderDisabled.Font = New System.Drawing.Font("Segoe UI Light", 12.0!)
+        Me.INDlygProducts.AppearanceTabPage.HeaderDisabled.Options.UseFont = True
+        Me.INDlygProducts.AppearanceTabPage.HeaderHotTracked.Font = New System.Drawing.Font("Segoe UI Light", 12.0!)
+        Me.INDlygProducts.AppearanceTabPage.HeaderHotTracked.Options.UseFont = True
+        Me.INDlygProducts.AppearanceTabPage.PageClient.Font = New System.Drawing.Font("Segoe UI Light", 12.0!)
+        Me.INDlygProducts.AppearanceTabPage.PageClient.Options.UseFont = True
+        Me.IndigoLayoutControlGroup1.SetCampoObligatorio(Me.INDlygProducts, False)
+        Me.INDlygProducts.Items.AddRange(New DevExpress.XtraLayout.BaseLayoutItem() {Me.INDlyItemGridProducts, Me.INDlyItemAddProducts, Me.LayoutControlItem3})
+        Me.INDlygProducts.Location = New System.Drawing.Point(1266, 0)
+        Me.INDlygProducts.Name = "INDlygProducts"
+        Me.INDlygProducts.Size = New System.Drawing.Size(852, 579)
+        Me.INDlygProducts.Text = "Productos"
+        '
+        'INDlyItemGridProducts
+        '
+        Me.INDlyItemGridProducts.Control = Me.INDgcProducts
+        Me.INDlyItemGridProducts.Location = New System.Drawing.Point(0, 36)
+        Me.INDlyItemGridProducts.MaxSize = New System.Drawing.Size(828, 0)
+        Me.INDlyItemGridProducts.MinSize = New System.Drawing.Size(828, 1)
+        Me.INDlyItemGridProducts.Name = "INDlyItemGridProducts"
+        Me.INDlyItemGridProducts.Size = New System.Drawing.Size(828, 490)
+        Me.INDlyItemGridProducts.SizeConstraintsType = DevExpress.XtraLayout.SizeConstraintsType.Custom
+        Me.INDlyItemGridProducts.TextSize = New System.Drawing.Size(0, 0)
+        Me.INDlyItemGridProducts.TextVisible = False
+        '
+        'INDlyItemAddProducts
+        '
+        Me.INDlyItemAddProducts.Control = Me.INDpceAddProducts
+        Me.INDlyItemAddProducts.Location = New System.Drawing.Point(0, 0)
+        Me.INDlyItemAddProducts.MaxSize = New System.Drawing.Size(784, 36)
+        Me.INDlyItemAddProducts.MinSize = New System.Drawing.Size(784, 36)
+        Me.INDlyItemAddProducts.Name = "INDlyItemAddProducts"
+        Me.INDlyItemAddProducts.Size = New System.Drawing.Size(784, 36)
+        Me.INDlyItemAddProducts.SizeConstraintsType = DevExpress.XtraLayout.SizeConstraintsType.Custom
+        Me.INDlyItemAddProducts.TextSize = New System.Drawing.Size(0, 0)
+        Me.INDlyItemAddProducts.TextVisible = False
+        '
+        'LayoutControlItem3
+        '
+        Me.LayoutControlItem3.Control = Me.INDEsbExportProducts
+        Me.LayoutControlItem3.Location = New System.Drawing.Point(784, 0)
+        Me.LayoutControlItem3.MaxSize = New System.Drawing.Size(44, 36)
+        Me.LayoutControlItem3.MinSize = New System.Drawing.Size(44, 36)
+        Me.LayoutControlItem3.Name = "LayoutControlItem3"
+        Me.LayoutControlItem3.Size = New System.Drawing.Size(44, 36)
+        Me.LayoutControlItem3.SizeConstraintsType = DevExpress.XtraLayout.SizeConstraintsType.Custom
+        Me.LayoutControlItem3.TextSize = New System.Drawing.Size(0, 0)
+        Me.LayoutControlItem3.TextVisible = False
+        '
+        'INDlygCareCenter
+        '
+        Me.INDlygCareCenter.AppearanceGroup.Font = New System.Drawing.Font("Segoe UI", 15.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.INDlygCareCenter.AppearanceGroup.Options.UseFont = True
+        Me.INDlygCareCenter.AppearanceItemCaption.Font = New System.Drawing.Font("Segoe UI Light", 10.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.INDlygCareCenter.AppearanceItemCaption.Options.UseFont = True
+        Me.INDlygCareCenter.AppearanceTabPage.Header.Font = New System.Drawing.Font("Segoe UI Light", 12.0!)
+        Me.INDlygCareCenter.AppearanceTabPage.Header.Options.UseFont = True
+        Me.INDlygCareCenter.AppearanceTabPage.HeaderActive.Font = New System.Drawing.Font("Segoe UI", 12.0!)
+        Me.INDlygCareCenter.AppearanceTabPage.HeaderActive.Options.UseFont = True
+        Me.INDlygCareCenter.AppearanceTabPage.HeaderDisabled.Font = New System.Drawing.Font("Segoe UI Light", 12.0!)
+        Me.INDlygCareCenter.AppearanceTabPage.HeaderDisabled.Options.UseFont = True
+        Me.INDlygCareCenter.AppearanceTabPage.HeaderHotTracked.Font = New System.Drawing.Font("Segoe UI Light", 12.0!)
+        Me.INDlygCareCenter.AppearanceTabPage.HeaderHotTracked.Options.UseFont = True
+        Me.INDlygCareCenter.AppearanceTabPage.PageClient.Font = New System.Drawing.Font("Segoe UI Light", 12.0!)
+        Me.INDlygCareCenter.AppearanceTabPage.PageClient.Options.UseFont = True
+        Me.IndigoLayoutControlGroup1.SetCampoObligatorio(Me.INDlygCareCenter, False)
+        Me.INDlygCareCenter.Items.AddRange(New DevExpress.XtraLayout.BaseLayoutItem() {Me.INDlyItemGridCareCenter, Me.INDlyItemCareCenter, Me.INDlyItemAddCareCenter})
+        Me.INDlygCareCenter.Location = New System.Drawing.Point(2118, 0)
+        Me.INDlygCareCenter.Name = "INDlygCareCenter"
+        Me.INDlygCareCenter.Size = New System.Drawing.Size(524, 579)
+        Me.INDlygCareCenter.Text = "Centros Atención"
+        '
+        'INDlyItemGridCareCenter
+        '
+        Me.INDlyItemGridCareCenter.Control = Me.INDgcCareCenter
+        Me.INDlyItemGridCareCenter.Location = New System.Drawing.Point(0, 32)
+        Me.INDlyItemGridCareCenter.MaxSize = New System.Drawing.Size(500, 0)
+        Me.INDlyItemGridCareCenter.MinSize = New System.Drawing.Size(500, 1)
+        Me.INDlyItemGridCareCenter.Name = "INDlyItemGridCareCenter"
+        Me.INDlyItemGridCareCenter.Size = New System.Drawing.Size(500, 494)
+        Me.INDlyItemGridCareCenter.SizeConstraintsType = DevExpress.XtraLayout.SizeConstraintsType.Custom
+        Me.INDlyItemGridCareCenter.TextSize = New System.Drawing.Size(0, 0)
+        Me.INDlyItemGridCareCenter.TextVisible = False
+        '
+        'INDlyItemCareCenter
+        '
+        Me.INDlyItemCareCenter.Control = Me.INDsleCareCenter
+        Me.INDlyItemCareCenter.Location = New System.Drawing.Point(0, 0)
+        Me.INDlyItemCareCenter.Name = "INDlyItemCareCenter"
+        Me.INDlyItemCareCenter.Size = New System.Drawing.Size(400, 32)
+        Me.INDlyItemCareCenter.Text = "Sede"
+        Me.INDlyItemCareCenter.TextAlignMode = DevExpress.XtraLayout.TextAlignModeItem.CustomSize
+        Me.INDlyItemCareCenter.TextSize = New System.Drawing.Size(50, 20)
+        Me.INDlyItemCareCenter.TextToControlDistance = 5
+        '
+        'INDlyItemAddCareCenter
+        '
+        Me.INDlyItemAddCareCenter.Control = Me.INDbtnAddCareCenter
+        Me.INDlyItemAddCareCenter.Location = New System.Drawing.Point(400, 0)
+        Me.INDlyItemAddCareCenter.MaxSize = New System.Drawing.Size(100, 32)
+        Me.INDlyItemAddCareCenter.MinSize = New System.Drawing.Size(100, 32)
+        Me.INDlyItemAddCareCenter.Name = "INDlyItemAddCareCenter"
+        Me.INDlyItemAddCareCenter.Size = New System.Drawing.Size(100, 32)
+        Me.INDlyItemAddCareCenter.SizeConstraintsType = DevExpress.XtraLayout.SizeConstraintsType.Custom
+        Me.INDlyItemAddCareCenter.TextSize = New System.Drawing.Size(0, 0)
+        Me.INDlyItemAddCareCenter.TextVisible = False
+        '
+        'IndigoGridView1
+        '
+        Me.IndigoGridView1.RaiseMenuPopUp = True
+        '
+        'IndigoGridControl1
+        '
+        '
+        'PopupMenuActions
+        '
+        Me.PopupMenuActions.LinksPersistInfo.AddRange(New DevExpress.XtraBars.LinkPersistInfo() {New DevExpress.XtraBars.LinkPersistInfo(Me.INDbarButtonSelectAll), New DevExpress.XtraBars.LinkPersistInfo(Me.INDbarButtonUnSelectAll)})
+        Me.PopupMenuActions.Manager = Me.BarManager
+        Me.PopupMenuActions.Name = "PopupMenuActions"
+        '
+        'IndigoGridView2
+        '
+        Me.IndigoGridView2.RaiseMenuPopUp = True
+        '
+        'IndigoGridView3
+        '
+        Me.IndigoGridView3.RaiseMenuPopUp = True
+        '
+        'IndigoGridView4
+        '
+        Me.IndigoGridView4.RaiseMenuPopUp = True
+        '
+        'IndigoGridControl2
+        '
+        '
+        'IndigoGridControl3
+        '
+        '
+        'FrmAuthorizationPortfolio
+        '
+        Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
+        Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
+        Me.ClientSize = New System.Drawing.Size(1508, 760)
+        Me.Controls.Add(Me.barDockControlLeft)
+        Me.Controls.Add(Me.barDockControlRight)
+        Me.Controls.Add(Me.barDockControlBottom)
+        Me.Controls.Add(Me.barDockControlTop)
+        Me.IconOptions.Icon = CType(resources.GetObject("FrmAuthorizationPortfolio.IconOptions.Icon"), System.Drawing.Icon)
+        Me.IconOptions.ShowIcon = False
+        Me.MaximizeBox = False
+        Me.MinimizeBox = False
+        Me.Name = "FrmAuthorizationPortfolio"
+        Me.Opacity = 1.0R
+        Me.Tag = "2168"
+        Me.Text = "Portafolio de Autorizaciones"
+        Me.Controls.SetChildIndex(Me.barDockControlTop, 0)
+        Me.Controls.SetChildIndex(Me.barDockControlBottom, 0)
+        Me.Controls.SetChildIndex(Me.barDockControlRight, 0)
+        Me.Controls.SetChildIndex(Me.barDockControlLeft, 0)
+        Me.Controls.SetChildIndex(Me.ToolBars, 0)
+        Me.Controls.SetChildIndex(Me.INDPanelControlBase, 0)
+        CType(Me.INDPanelControlBase, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.INDPanelControlBase.ResumeLayout(False)
+        CType(Me.ToolBars, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.ToolBars.ResumeLayout(False)
+        CType(Me.LayoutControls, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.CtrNavigationControl1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.INDlyRoot, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.INDlyRoot.ResumeLayout(False)
+        CType(Me.INDsleCareCenter.Properties, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.BarManager, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.GridView2, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.INDpopupProducts, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.INDpopupProducts.ResumeLayout(False)
+        CType(Me.INDlyPopupProducts, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.INDlyPopupProducts.ResumeLayout(False)
+        CType(Me.INDgcPopupProducts, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.viewGridProducts, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.INDrptCheckOptionProducts, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.LayoutControlGroup3, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.INDlyItemGridPopupProducts, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.INDpopupAddProducts, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.INDpopupAddProducts.ResumeLayout(False)
+        CType(Me.INDlyProducts, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.INDlyProducts.ResumeLayout(False)
+        CType(Me.INDsleAuthorizationGroupProducts.Properties, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.GridView1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.INDsleProducts.Properties, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.LayoutControlGroup2, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.INDlyItemProducts, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.INDlyItemAuthorizationGroupProducts, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.PanelControl2, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.PanelControl2.ResumeLayout(False)
+        CType(Me.INDgcCareCenter, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.INDviewCareCenter, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.INDpopupCupsEntity, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.INDpopupCupsEntity.ResumeLayout(False)
+        CType(Me.INDlyPopupCupsEntity, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.INDlyPopupCupsEntity.ResumeLayout(False)
+        CType(Me.INDgcCupsEntity, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.viewGridCupsEntity, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.INDrepCheckSelectOption, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.LayoutControlGroup4, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.INDlyItemGridCupsEntity, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.INDpopupAddCups, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.INDpopupAddCups.ResumeLayout(False)
+        CType(Me.INDlyAddCups, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.INDlyAddCups.ResumeLayout(False)
+        CType(Me.INDsleAuthorizationGroup.Properties, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.SearchLookUpEdit1View, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.INDSleCups.Properties, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.Root, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.INDlyItemCupsEntity, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.INDlyItemAuthorizationGroup, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.PanelControl1, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.PanelControl1.ResumeLayout(False)
+        CType(Me.INDpceAddProducts.Properties, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.INDgcProducts, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.INDviewProducts, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.INDpceAddCups.Properties, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.INDgcCUPS, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.INDviewCUPS, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.INDtxtName.Properties, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.INDbtnCode.Properties, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.LayoutControlGroup1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.INDlygPrincipalData, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.INDlyItemCode, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.INDlyItemName, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.INDlygCUPS, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.LayoutControlItem2, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.INDlyItemAddCups, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.LayoutControlItem1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.INDlygProducts, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.INDlyItemGridProducts, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.INDlyItemAddProducts, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.LayoutControlItem3, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.INDlygCareCenter, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.INDlyItemGridCareCenter, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.INDlyItemCareCenter, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.INDlyItemAddCareCenter, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.IndigoLabelControl1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.IndigoGroupControl1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.IndigoLayoutControlGroup1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.IndigoTextEdit1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.IndigoGridView1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.IndigoGridControl1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.IndigoSearchLookUpControl1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.PopupMenuActions, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.IndigoPopUpContainerEdit1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.IndigoSimpleButton1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.IndigoGridView2, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.IndigoGridView3, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.IndigoGridView4, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.IndigoGridControl2, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.IndigoGridControl3, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.ResumeLayout(False)
+        Me.PerformLayout()
+
+    End Sub
+    Friend WithEvents INDlyRoot As DevExpress.XtraLayout.LayoutControl
+    Friend WithEvents INDtxtName As DevExpress.XtraEditors.TextEdit
+    Friend WithEvents INDbtnCode As DevExpress.XtraEditors.ButtonEdit
+    Friend WithEvents LayoutControlGroup1 As DevExpress.XtraLayout.LayoutControlGroup
+    Friend WithEvents INDlygPrincipalData As DevExpress.XtraLayout.LayoutControlGroup
+    Friend WithEvents INDlyItemCode As DevExpress.XtraLayout.LayoutControlItem
+    Friend WithEvents INDlyItemName As DevExpress.XtraLayout.LayoutControlItem
+    Friend WithEvents CtrNavigationControl1 As Presentation.Controls.CtrNavigationControlPanel
+    Friend WithEvents IndigoTextEdit1 As Presentation.Controls.IndigoTextEdit
+    Friend WithEvents IndigoLabelControl1 As Presentation.Controls.IndigoLabelControl
+    Friend WithEvents IndigoGroupControl1 As Presentation.Controls.IndigoGroupControl
+    'Friend WithEvents IndigoLayoutControl1 As Presentation.Controls.IndigoLayoutControl
+    Friend WithEvents IndigoLayoutControlGroup1 As Presentation.Controls.IndigoLayoutControlGroup
+    Friend WithEvents INDgcCUPS As DevExpress.XtraGrid.GridControl
+    Friend WithEvents IndigoGridControl1 As Presentation.Controls.IndigoGridControl
+    Friend WithEvents INDviewCUPS As DevExpress.XtraGrid.Views.Grid.GridView
+    Friend WithEvents IndigoGridView1 As Presentation.Controls.IndigoGridView
+    Friend WithEvents IndigoSearchLookUpControl1 As Presentation.Controls.IndigoSearchLookUpControl
+    Friend WithEvents INDlygCUPS As DevExpress.XtraLayout.LayoutControlGroup
+    Friend WithEvents LayoutControlItem2 As DevExpress.XtraLayout.LayoutControlItem
+    Friend WithEvents INDBtnAddCups As DevExpress.XtraEditors.SimpleButton
+    Friend WithEvents GridColumn1 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents INDpopupCupsEntity As DevExpress.XtraEditors.PopupContainerControl
+    Friend WithEvents INDlyPopupCupsEntity As DevExpress.XtraLayout.LayoutControl
+    Friend WithEvents INDgcCupsEntity As DevExpress.XtraGrid.GridControl
+    Friend WithEvents viewGridCupsEntity As DevExpress.XtraGrid.Views.Grid.GridView
+    Friend WithEvents GridColumn4 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn8 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn55 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents INDrepCheckSelectOption As DevExpress.XtraEditors.Repository.RepositoryItemCheckEdit
+    Friend WithEvents GridColumn9 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn54 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents LayoutControlGroup4 As DevExpress.XtraLayout.LayoutControlGroup
+    Friend WithEvents INDlyItemGridCupsEntity As DevExpress.XtraLayout.LayoutControlItem
+    Friend WithEvents INDSleCups As DevExpress.XtraEditors.PopupContainerEdit
+    Friend WithEvents BarManager As DevExpress.XtraBars.BarManager
+    Friend WithEvents barDockControlTop As DevExpress.XtraBars.BarDockControl
+    Friend WithEvents barDockControlBottom As DevExpress.XtraBars.BarDockControl
+    Friend WithEvents barDockControlLeft As DevExpress.XtraBars.BarDockControl
+    Friend WithEvents barDockControlRight As DevExpress.XtraBars.BarDockControl
+    Friend WithEvents INDbarButtonSelectAll As DevExpress.XtraBars.BarButtonItem
+    Friend WithEvents INDbarButtonUnSelectAll As DevExpress.XtraBars.BarButtonItem
+    Friend WithEvents PopupMenuActions As DevExpress.XtraBars.PopupMenu
+    Friend WithEvents INDpceAddCups As DevExpress.XtraEditors.PopupContainerEdit
+    Friend WithEvents IndigoPopUpContainerEdit1 As IndigoPopUpContainerEdit
+    Friend WithEvents INDlyItemAddCups As DevExpress.XtraLayout.LayoutControlItem
+    Friend WithEvents INDpopupAddCups As DevExpress.XtraEditors.PopupContainerControl
+    Friend WithEvents INDlyAddCups As DevExpress.XtraLayout.LayoutControl
+    Friend WithEvents Root As DevExpress.XtraLayout.LayoutControlGroup
+    Friend WithEvents INDlyItemCupsEntity As DevExpress.XtraLayout.LayoutControlItem
+    Friend WithEvents PanelControl1 As DevExpress.XtraEditors.PanelControl
+    Friend WithEvents IndigoSimpleButton1 As IndigoSimpleButton
+    Friend WithEvents GridColumn10 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents INDEsbExportCUPS As ExportStructureButton
+    Friend WithEvents LayoutControlItem1 As DevExpress.XtraLayout.LayoutControlItem
+    Friend WithEvents GridColumn11 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents INDsleAuthorizationGroup As DevExpress.XtraEditors.SearchLookUpEdit
+    Friend WithEvents SearchLookUpEdit1View As DevExpress.XtraGrid.Views.Grid.GridView
+    Friend WithEvents INDlyItemAuthorizationGroup As DevExpress.XtraLayout.LayoutControlItem
+    Friend WithEvents GridColumn2 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn3 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn5 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents INDgcProducts As DevExpress.XtraGrid.GridControl
+    Friend WithEvents INDviewProducts As DevExpress.XtraGrid.Views.Grid.GridView
+    Friend WithEvents GridColumn12 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn13 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn14 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents INDlygProducts As DevExpress.XtraLayout.LayoutControlGroup
+    Friend WithEvents INDlyItemGridProducts As DevExpress.XtraLayout.LayoutControlItem
+    Friend WithEvents INDpceAddProducts As DevExpress.XtraEditors.PopupContainerEdit
+    Friend WithEvents INDlyItemAddProducts As DevExpress.XtraLayout.LayoutControlItem
+    Friend WithEvents INDEsbExportProducts As ExportStructureButton
+    Friend WithEvents LayoutControlItem3 As DevExpress.XtraLayout.LayoutControlItem
+    Friend WithEvents INDpopupAddProducts As DevExpress.XtraEditors.PopupContainerControl
+    Friend WithEvents INDlyProducts As DevExpress.XtraLayout.LayoutControl
+    Friend WithEvents INDsleAuthorizationGroupProducts As DevExpress.XtraEditors.SearchLookUpEdit
+    Friend WithEvents GridView1 As DevExpress.XtraGrid.Views.Grid.GridView
+    Friend WithEvents GridColumn6 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn16 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents INDsleProducts As DevExpress.XtraEditors.PopupContainerEdit
+    Friend WithEvents LayoutControlGroup2 As DevExpress.XtraLayout.LayoutControlGroup
+    Friend WithEvents INDlyItemProducts As DevExpress.XtraLayout.LayoutControlItem
+    Friend WithEvents INDlyItemAuthorizationGroupProducts As DevExpress.XtraLayout.LayoutControlItem
+    Friend WithEvents PanelControl2 As DevExpress.XtraEditors.PanelControl
+    Friend WithEvents INDbtnAddProducts As DevExpress.XtraEditors.SimpleButton
+    Friend WithEvents INDpopupProducts As DevExpress.XtraEditors.PopupContainerControl
+    Friend WithEvents INDlyPopupProducts As DevExpress.XtraLayout.LayoutControl
+    Friend WithEvents INDgcPopupProducts As DevExpress.XtraGrid.GridControl
+    Friend WithEvents viewGridProducts As DevExpress.XtraGrid.Views.Grid.GridView
+    Friend WithEvents GridColumn19 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents INDrptCheckOptionProducts As DevExpress.XtraEditors.Repository.RepositoryItemCheckEdit
+    Friend WithEvents GridColumn20 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn21 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents LayoutControlGroup3 As DevExpress.XtraLayout.LayoutControlGroup
+    Friend WithEvents INDlyItemGridPopupProducts As DevExpress.XtraLayout.LayoutControlItem
+    Friend WithEvents IndigoGridView2 As IndigoGridView
+    Friend WithEvents IndigoGridView3 As IndigoGridView
+    Friend WithEvents INDgcCareCenter As DevExpress.XtraGrid.GridControl
+    Friend WithEvents INDviewCareCenter As DevExpress.XtraGrid.Views.Grid.GridView
+    Friend WithEvents INDlygCareCenter As DevExpress.XtraLayout.LayoutControlGroup
+    Friend WithEvents INDlyItemGridCareCenter As DevExpress.XtraLayout.LayoutControlItem
+    Friend WithEvents GridColumn7 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents INDsleCareCenter As DevExpress.XtraEditors.SearchLookUpEdit
+    Friend WithEvents GridView2 As DevExpress.XtraGrid.Views.Grid.GridView
+    Friend WithEvents INDlyItemCareCenter As DevExpress.XtraLayout.LayoutControlItem
+    Friend WithEvents INDbtnAddCareCenter As DevExpress.XtraEditors.SimpleButton
+    Friend WithEvents INDlyItemAddCareCenter As DevExpress.XtraLayout.LayoutControlItem
+    Friend WithEvents GridColumn15 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumn17 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents IndigoGridView4 As IndigoGridView
+    Friend WithEvents IndigoGridControl3 As IndigoGridControl
+    Friend WithEvents IndigoGridControl2 As IndigoGridControl
+End Class

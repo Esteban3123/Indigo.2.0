@@ -1,0 +1,88 @@
+﻿#Region "Librerias Improtadas"
+Imports Infrastructure.CrossCutting.Base
+Imports Infrastructure.Data.Xpo
+Imports Infrastructure.Data.Xpo.PayrollRepository
+Imports Domain.Entities
+Imports Presentation.Base
+
+#End Region
+
+Public Class rptIncomeTax
+    Implements IReport
+
+    ''' <summary>
+    ''' Variable para inicializar los valores de sesion
+    ''' </summary>
+    Dim IndigoSessionValues As SessionValues = SessionValues.Instance
+
+    Dim dictionaryEmployee As New Dictionary(Of String, String)
+
+    Public Sub CargarDataSource() Implements IReport.CargarDataSource
+        Try
+            Dim filtroConsulta As String = "PayrollDateLiquidated >= '" & Format(ParametrosReporte(0), "yyyy-MM-dd") & "' AND PayrollDateLiquidated <= '" & Format(ParametrosReporte(1), "yyyy-MM-dd") & "'"
+
+            Dim list As List(Of PayrollViewReportIncomeTaxXpo) = XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).PayrollService.GetCollection(Of PayrollViewReportIncomeTaxXpo)(Nothing, filtroConsulta)
+
+            ''Aqui vamos a agrupar, ya que la info de muestra en un solo registro por empleado
+            Dim groupList = list.GroupBy(Function(x) x.IdentificationNumber).
+                                Select(Function(g)
+                                           Dim group = g.First()
+                                           Return New PayrollViewReportIncomeTaxXpo With {
+                                               .Id = group.Id,
+                                               .IdentificationNumber = group.IdentificationNumber,
+                                               .EmployeeName = group.EmployeeName,
+                                               .TotalBaseRetention = g.Sum(Function(x) x.TotalBaseRetention),
+                                               .ConceptRentPaid = g.Sum(Function(x) x.ConceptRentPaid),
+                                               .ConceptWithholding = g.Sum(Function(x) x.ConceptWithholding),
+                                               .SupplementaryPension = g.Sum(Function(x) x.SupplementaryPension),
+                                               .TaxCredits = g.Sum(Function(x) x.TaxCredits),
+                                               .Code = "SL"
+                                           }
+                                       End Function).ToList()
+
+            Me.DataSource = groupList
+        Catch ex As Exception
+            MessageIndigo.Show(GetExceptionDetails(ex), MessageType.Errores, Me.Text, Botones.Aceptar, "")
+        End Try
+    End Sub
+
+    ''' <summary>
+    ''' Función auxiliar en caso de errores
+    ''' </summary>
+    ''' <param name="exception"></param>
+    ''' <returns></returns>
+    Public Function GetExceptionDetails(exception As Exception) As String
+        Dim properties = exception.[GetType]().GetProperties()
+        Dim fields = properties.[Select](Function([property]) New With {
+            Key .Name = [property].Name,
+            Key .Value = [property].GetValue(exception, Nothing)
+        }).[Select](Function(x) [String].Format("{0} : {1}", x.Name, If(x.Value IsNot Nothing, x.Value.ToString(), [String].Empty)))
+        Return [String].Join(vbLf, fields)
+    End Function
+
+    Public Sub CargarImagenes() Implements IReport.CargarImagenes
+
+    End Sub
+
+    Public ReadOnly Property NameReport As String Implements IReport.NameReport
+        Get
+            Return ""
+        End Get
+    End Property
+
+    Public Property ParametrosReporte As Object() Implements IReport.ParametrosReporte
+
+    ''' <summary>
+    ''' Metodo before print del reporte para cargar datos generales.
+    ''' </summary>
+    ''' <param name="sender"></param>
+    ''' <param name="e"></param>
+    Private Sub rptPayrollLiquidationdetailGrupoPorConcepto_BeforePrint(sender As Object, e As Printing.PrintEventArgs) Handles MyBase.BeforePrint
+        INDlblFechaFin.Text = Me.ParametrosReporte(1)
+        INDlblFechaInicio.Text = Me.ParametrosReporte(0)
+        INDLblCompany.Text = IndigoSessionValues.IndigoCompanyName
+        INDLblNitCompany.Text = "Nit:" & IndigoSessionValues.IndigoCompanyNit
+        INDUserImp.Text = "Usuario Impresión : " & IndigoSessionValues.UserIndigo & " - " & IndigoSessionValues.UserIndigoName
+        INDLblLocation.Text = IndigoSessionValues.City
+    End Sub
+End Class

@@ -1,0 +1,83 @@
+﻿'***********************************************************************
+' Assembly         : DistributedService.Security
+' Author           : WalterSierra
+' Created          : 11-03-2011
+'
+' Last Modified By : Juan F. Tamayo
+' Last Modified On : 2013-03-05
+'
+' Copyright        : (c) . All rights reserved.
+'***********************************************************************
+
+#Region "Imports"
+Imports Domain.Security.Entities
+Imports Domain.Security
+Imports Infrastructure.CrossCutting.IOC
+Imports Application.Security
+Imports Infrastructure.CrossCutting.Base
+#End Region
+
+Partial Public Class SecurityService
+
+
+    ''' <summary>
+    ''' Lists the groups.	
+    ''' </summary>
+    ''' <returns></returns>
+    ''' <remarks></remarks>
+    Public Function ListGroupsAll(session As SessionValues) As List(Of GroupAll) Implements ISecurityService.ListGroupsAll
+        Using groupAdmin As IGroupAdminService = IocFactory.Instance().CurrentContainer.Resolve(Of IGroupAdminService)()
+            Return groupAdmin.ListGroupsAll
+        End Using
+    End Function
+
+    ''' <summary>
+    ''' Lists the groups.	
+    ''' </summary>
+    ''' <returns></returns>
+    ''' <remarks></remarks>
+    Public Function ListGroups(session As SessionValues) As IEnumerable(Of Group) Implements ISecurityService.ListGroups
+        Using groupAdmin As IGroupAdminService = IocFactory.Instance().CurrentContainer.Resolve(Of IGroupAdminService)()
+            Return groupAdmin.ListGroups()
+        End Using
+    End Function
+
+    ''' <summary>
+    ''' Deletes the group.	
+    ''' </summary>
+    ''' <param name="group">The group.</param>
+    ''' <param name="session">The session.</param>  
+    ''' <returns></returns>
+    ''' <remarks></remarks>
+    Public Function DeleteGroup(group As Group, session As SessionValues) As Boolean Implements ISecurityService.DeleteGroup
+        Using groupAdmin As IGroupAdminService = IocFactory.Instance().CurrentContainer.Resolve(Of IGroupAdminService)()
+            Return groupAdmin.DeleteGroup(group, session)
+        End Using
+    End Function
+
+    ''' <summary>
+    ''' Gets the group.	
+    ''' </summary>
+    ''' <param name="codeGroup">The code group.</param>
+    ''' <returns></returns>
+    ''' <remarks></remarks>
+    Public Function GetGroup(codeGroup As String, session As SessionValues) As Group Implements ISecurityService.GetGroup
+        Using groupAdmin As IGroupAdminService = IocFactory.Instance().CurrentContainer.Resolve(Of IGroupAdminService)()
+            Return groupAdmin.GetGroup(codeGroup)
+        End Using
+    End Function
+
+    ''' <summary>
+    ''' Saves the group.	
+    ''' </summary>
+    ''' <param name="group">The group.</param>
+    ''' <param name="session">The session.</param>
+    ''' <returns></returns>
+    ''' <remarks></remarks>
+    Public Function SaveGroup(ByVal group As Group, dtDetails As DataTable, eliminados As List(Of Integer), ByVal session As SessionValues) As Boolean Implements ISecurityService.SaveGroup
+        Using groupAdmin As IGroupAdminService = IocFactory.Instance().CurrentContainer.Resolve(Of IGroupAdminService)()
+            Return groupAdmin.SaveGroup(group, dtDetails, eliminados, session)
+        End Using
+    End Function
+
+End Class

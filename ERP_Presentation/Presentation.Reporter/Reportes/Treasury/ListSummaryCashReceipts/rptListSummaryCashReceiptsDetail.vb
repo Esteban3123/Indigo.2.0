@@ -1,0 +1,261 @@
+﻿#Region "Librerias Importadas"
+Imports Infrastructure.CrossCutting.Base
+Imports Infrastructure.Data.Xpo.TreasuryRepository
+Imports Infrastructure.Data.Xpo
+Imports DevExpress.XtraReports.UI
+
+#End Region
+
+Public Class rptListSummaryCashReceiptsDetail
+    Implements IReport
+
+    ''' <summary>
+    ''' Variable para inicializar los valores de sesion
+    ''' </summary>
+    Dim IndigoSessionValues As SessionValues = SessionValues.Instance
+
+    Public Sub CargarDataSource() Implements IReport.CargarDataSource
+
+        Dim filtroConsulta As String = "IdCashReceipt.DocumentDate >= #" & Format(ParametrosReporte(0), "yyyy-MM-dd HH:mm:ss") & "# AND IdCashReceipt.DocumentDate <= #" & Format(ParametrosReporte(1), "yyyy-MM-dd HH:mm:ss") & "#"
+
+        'Se filtra por Usuarios
+        If ParametrosReporte(4) IsNot Nothing And ParametrosReporte(5) IsNot Nothing Then
+            filtroConsulta &= " AND IdCashReceipt.CreationUser >= '" & ParametrosReporte(4) & "' AND IdCashReceipt.CreationUser <= '" & ParametrosReporte(5) & "'"
+        End If
+
+        If ParametrosReporte(2) IsNot Nothing Then
+            filtroConsulta &= "AND IdCashReceipt.Status in (" & ParametrosReporte(2).ToString & ")"
+        End If
+
+        If ParametrosReporte(3) <> 5 Then
+            filtroConsulta &= "AND PaymentMethodTypes = " & ParametrosReporte(3)
+        End If
+
+        If ParametrosReporte(9) <> String.Empty And ParametrosReporte(10) <> String.Empty Then
+            filtroConsulta &= " AND IdCashReceipt.IdCashRegister.Code >= '" & ParametrosReporte(9) & "' AND IdCashReceipt.IdCashRegister.Code <= '" & ParametrosReporte(10) & "'"
+        End If
+
+        Dim listReport As List(Of TreasuryPaymentMethodsXpo) = XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).TreasuryService.GetCollection(Of TreasuryPaymentMethodsXpo)(Nothing, filtroConsulta)
+
+        Dim dictionaryCashReceipt As Dictionary(Of Integer, String) = New Dictionary(Of Integer, String)
+        For Each item In listReport
+            If dictionaryCashReceipt.ContainsKey(item.IdCashReceipt.Id) Then
+                item.IdCashReceipt.CodeNameUser = dictionaryCashReceipt(item.IdCashReceipt.Id) & " - " & item.CurrencyAbbreviation
+                item.GroupByCashAndCurrency = item.IdCashReceipt.Id & " - " & item.CurrencyAbbreviation
+            Else
+                Dim INDUser = XpoServiceEx.Instance(IndigoSessionValues.SecurityContainer).TreasuryService.GetCollection(Of Infrastructure.Data.Xpo.SecurityRepository.UserXpo)(Nothing, "UserCode = '" & item.IdCashReceipt.CreationUser & "'")
+                If INDUser.Count() > 0 Then
+                    item.IdCashReceipt.CodeNameUser = INDUser(0).CodeName & " - " & item.CurrencyAbbreviation
+                    item.GroupByCashAndCurrency = INDUser(0).CodeName & " - " & item.CurrencyAbbreviation
+                    dictionaryCashReceipt.Add(item.IdCashReceipt.Id, INDUser(0).CodeName & " - " & item.CurrencyAbbreviation)
+                End If
+            End If
+        Next
+
+        Me.DataSource = listReport
+
+    End Sub
+
+    Public Sub CargarImagenes() Implements IReport.CargarImagenes
+
+    End Sub
+
+    Public ReadOnly Property NameReport As String Implements IReport.NameReport
+        Get
+            Return ""
+        End Get
+    End Property
+
+    Public Property ParametrosReporte As Object() Implements IReport.ParametrosReporte
+
+    Private Sub rptListSummaryCashReceiptsGeneral_BeforePrint(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles MyBase.BeforePrint
+        INDLblCompany.Text = IndigoSessionValues.IndigoCompanyName
+        INDLblNitCompany.Text = "Nit:" & IndigoSessionValues.IndigoCompanyNit
+        INDLblUserPrint.Text = "Usuario Impresión : " & IndigoSessionValues.UserIndigo & " - " & IndigoSessionValues.UserIndigoName
+        INDLBlSubtitle.Text = "Informe comprendido entre " & CDate(ParametrosReporte(0)).ToString("dd De MMMM Del yyyy") & " " & CDate(ParametrosReporte(1)).ToString("A dd De MMMM Del yyyy")
+
+        If ParametrosReporte(9) <> String.Empty AndAlso ParametrosReporte(10) <> String.Empty Then
+            INDLBlSubtitle2.Text = "Informe comprendido entre las Cajas " & ParametrosReporte(9) & " Hasta " & ParametrosReporte(10)
+        End If
+
+        Me.GroupingParameter.Value = ParametrosReporte(6)
+        Me.PrintParameter.Value = ParametrosReporte(7)
+
+        If (PrintParameter.Value = False) Then
+            Dim table As XRTable = CType(XrTable3, XRTable)
+            table.Rows.Remove(XrTableRow10)
+        End If
+
+        If ParametrosReporte(8) = True Then
+            GroupHeader1.PageBreak = DevExpress.XtraReports.UI.PageBreak.BeforeBand
+        Else
+            GroupHeader1.PageBreak = DevExpress.XtraReports.UI.PageBreak.None
+        End If
+
+        Dim y As List(Of TreasuryPaymentMethodsXpo) = Me.DataSource
+        Dim groupData = From i In y
+                        Group By i.CurrencyAbbreviation Into g = Group
+                        Select CurrencyAbbreviation, GeneralTotalGroup = g.Sum(Function(t) If(t.PaymentMethodTypes = 1, If(t.IdCashReceipt.Status = "Confirmado", t.Value, 0), 0)),
+                            CheckValueGroup = g.Sum(Function(t) If(t.PaymentMethodTypes = 2, t.Value, 0)),
+                            CardValueGroup = g.Sum(Function(t) If(t.PaymentMethodTypes = 3, t.Value, 0)),
+                            ConsigmentValueGroup = g.Sum(Function(t) If(t.PaymentMethodTypes = 4, t.Value, 0)),
+                            ConfirmedValueGroup = g.Sum(Function(t) If(t.IdCashReceipt.Status = "Confirmado", t.Value, 0)),
+                            RegistersValueGroup = g.Sum(Function(t) If(t.IdCashReceipt.Status = "Registrado", t.Value, 0)),
+                            ConfirmedStatusValueGroup = g.Sum(Function(t) If(t.IdCashReceipt.Status = "Confirmado", t.Value, 0)),
+                            CancelStatusValueGroup = g.Sum(Function(t) If(t.IdCashReceipt.Status = "Anulado", t.Value, 0)),
+                            ReversedStatusValueGroup = g.Sum(Function(t) If(t.IdCashReceipt.Status = "Reversado", t.Value, 0)),
+                            TotalStatusValueGroup = g.Sum(Function(t) (If(t.IdCashReceipt.Status = "Registrado", t.Value, 0) + If(t.IdCashReceipt.Status = "Confirmado", t.Value, 0)))
+
+        Dim count = 1
+        Dim index = groupData.Count
+        For Each item In groupData
+
+            XrTable10.InsertRowBelow(XrTable10.Rows.LastRow)
+            Dim irow = XrTable8.Rows.LastRow.Index
+            For Each Column As XRTableCell In XrTableRow8
+                Dim cell = XrTable8.Rows(irow).Cells.Item(Column.Index)
+                Select Case Column.Name
+                    Case NameOf(XrTableCell61)
+                        cell.Text = "TOTAL GENERAL(" + item.CurrencyAbbreviation + "):"
+                        cell.Font = New Font("Arial", 7, FontStyle.Bold)
+                        If count = 1 Then
+                            cell.Borders = CType((DevExpress.XtraPrinting.BorderSide.Left Or DevExpress.XtraPrinting.BorderSide.Top), DevExpress.XtraPrinting.BorderSide)
+                        Else
+                            cell.Borders = DevExpress.XtraPrinting.BorderSide.Left
+                        End If
+                    Case NameOf(XrTableCell63)
+                        cell.Text = Utils.GetMoneyWithISO4217(CDec(item.GeneralTotalGroup), If(String.IsNullOrEmpty(item.CurrencyAbbreviation),
+                                             IndigoSessionValues.CurrencyISO4217, item.CurrencyAbbreviation))
+                        If count = 1 Then
+                            cell.Borders = DevExpress.XtraPrinting.BorderSide.Top
+                        Else
+                            cell.Borders = DevExpress.XtraPrinting.BorderSide.None
+                        End If
+                    Case NameOf(XrTableCell66)
+                        cell.Text = Utils.GetMoneyWithISO4217(CDec(item.CheckValueGroup), If(String.IsNullOrEmpty(item.CurrencyAbbreviation),
+                                            IndigoSessionValues.CurrencyISO4217, item.CurrencyAbbreviation))
+                        If count = 1 Then
+                            cell.Borders = DevExpress.XtraPrinting.BorderSide.Top
+                        Else
+                            cell.Borders = DevExpress.XtraPrinting.BorderSide.None
+                        End If
+                    Case NameOf(XrTableCell67)
+                        cell.Text = Utils.GetMoneyWithISO4217(CDec(item.CardValueGroup), If(String.IsNullOrEmpty(item.CurrencyAbbreviation),
+                                            IndigoSessionValues.CurrencyISO4217, item.CurrencyAbbreviation))
+                        If count = 1 Then
+                            cell.Borders = DevExpress.XtraPrinting.BorderSide.Top
+                        Else
+                            cell.Borders = DevExpress.XtraPrinting.BorderSide.None
+                        End If
+                    Case NameOf(XrTableCell68)
+                        cell.Text = Utils.GetMoneyWithISO4217(CDec(item.ConsigmentValueGroup), If(String.IsNullOrEmpty(item.CurrencyAbbreviation),
+                                            IndigoSessionValues.CurrencyISO4217, item.CurrencyAbbreviation))
+                        If count = 1 Then
+                            cell.Borders = DevExpress.XtraPrinting.BorderSide.Top
+                        Else
+                            cell.Borders = DevExpress.XtraPrinting.BorderSide.None
+                        End If
+                    Case NameOf(XrTableCell69)
+                        If count = 1 Then
+                            cell.Borders = DevExpress.XtraPrinting.BorderSide.Top
+                        Else
+                            cell.Borders = DevExpress.XtraPrinting.BorderSide.None
+                        End If
+                    Case NameOf(XrTableCell70)
+                        cell.Text = Utils.GetMoneyWithISO4217(CDec(item.ConfirmedValueGroup), If(String.IsNullOrEmpty(item.CurrencyAbbreviation),
+                                            IndigoSessionValues.CurrencyISO4217, item.CurrencyAbbreviation))
+                        If count = 1 Then
+                            cell.Borders = CType((DevExpress.XtraPrinting.BorderSide.Right Or DevExpress.XtraPrinting.BorderSide.Top), DevExpress.XtraPrinting.BorderSide)
+                        Else
+                            cell.Borders = DevExpress.XtraPrinting.BorderSide.Right
+                        End If
+                End Select
+            Next
+
+
+            XrTable8.InsertRowBelow(XrTable8.Rows.LastRow)
+            Dim irow2 = XrTable10.Rows.LastRow.Index
+            For Each Column2 As XRTableCell In XrTableRow9
+                Dim cell2 = XrTable10.Rows(irow2).Cells.Item(Column2.Index)
+                Select Case Column2.Name
+                    Case NameOf(XrTableCell71)
+                        cell2.Text = "T. Registrados:"
+                        cell2.Font = New Font("Arial", 7, FontStyle.Bold)
+                        If count = index Then
+                            cell2.Borders = CType((DevExpress.XtraPrinting.BorderSide.Left Or DevExpress.XtraPrinting.BorderSide.Bottom), DevExpress.XtraPrinting.BorderSide)
+                        Else
+                            cell2.Borders = DevExpress.XtraPrinting.BorderSide.Left
+                        End If
+                    Case NameOf(XrTableCell72)
+                        cell2.Text = Utils.GetMoneyWithISO4217(CDec(item.RegistersValueGroup), If(String.IsNullOrEmpty(item.CurrencyAbbreviation),
+                                         IndigoSessionValues.CurrencyISO4217, item.CurrencyAbbreviation))
+                        If count = index Then
+                            cell2.Borders = DevExpress.XtraPrinting.BorderSide.Bottom
+                        End If
+                    Case NameOf(XrTableCell73)
+                        cell2.Text = "T. Confirmados:"
+                        cell2.Font = New Font("Arial", 7, FontStyle.Bold)
+                        If count = index Then
+                            cell2.Borders = DevExpress.XtraPrinting.BorderSide.Bottom
+                        End If
+                    Case NameOf(XrTableCell74)
+                        cell2.Text = Utils.GetMoneyWithISO4217(CDec(item.ConfirmedStatusValueGroup), If(String.IsNullOrEmpty(item.CurrencyAbbreviation),
+                                        IndigoSessionValues.CurrencyISO4217, item.CurrencyAbbreviation))
+                        If count = index Then
+                            cell2.Borders = DevExpress.XtraPrinting.BorderSide.Bottom
+                        End If
+                    Case NameOf(XrTableCell75)
+                        cell2.Text = "T. Anulados:"
+                        cell2.Font = New Font("Arial", 7, FontStyle.Bold)
+                        If count = index Then
+                            cell2.Borders = DevExpress.XtraPrinting.BorderSide.Bottom
+                        End If
+                    Case NameOf(XrTableCell76)
+                        cell2.Text = Utils.GetMoneyWithISO4217(CDec(item.CancelStatusValueGroup), If(String.IsNullOrEmpty(item.CurrencyAbbreviation),
+                                        IndigoSessionValues.CurrencyISO4217, item.CurrencyAbbreviation))
+                        If count = index Then
+                            cell2.Borders = DevExpress.XtraPrinting.BorderSide.Bottom
+                        End If
+                    Case NameOf(XrTableCell77)
+                        cell2.Text = "T. Reversados:"
+                        cell2.Font = New Font("Arial", 7, FontStyle.Bold)
+                        If count = index Then
+                            cell2.Borders = DevExpress.XtraPrinting.BorderSide.Bottom
+                        End If
+                    Case NameOf(XrTableCell78)
+                        cell2.Text = Utils.GetMoneyWithISO4217(CDec(item.ReversedStatusValueGroup), If(String.IsNullOrEmpty(item.CurrencyAbbreviation),
+                                        IndigoSessionValues.CurrencyISO4217, item.CurrencyAbbreviation))
+                        If count = index Then
+                            cell2.Borders = DevExpress.XtraPrinting.BorderSide.Bottom
+                        End If
+                    Case NameOf(XrTableCell79)
+                        cell2.Text = "T. Sin Anulados:"
+                        cell2.Font = New Font("Arial", 7, FontStyle.Bold)
+                        If count = index Then
+                            cell2.Borders = DevExpress.XtraPrinting.BorderSide.Bottom
+                        End If
+                    Case NameOf(XrTableCell80)
+                        cell2.Text = Utils.GetMoneyWithISO4217(CDec(item.TotalStatusValueGroup), If(String.IsNullOrEmpty(item.CurrencyAbbreviation),
+                                        IndigoSessionValues.CurrencyISO4217, item.CurrencyAbbreviation))
+                        If count = index Then
+                            cell2.Borders = CType((DevExpress.XtraPrinting.BorderSide.Right Or DevExpress.XtraPrinting.BorderSide.Bottom), DevExpress.XtraPrinting.BorderSide)
+                        Else
+                            cell2.Borders = DevExpress.XtraPrinting.BorderSide.Right
+                        End If
+                End Select
+            Next
+            count += 1
+        Next
+    End Sub
+
+    Private Sub XrTableCell11_SummaryGetResult(sender As Object, e As SummaryGetResultEventArgs) Handles XrTableCell11.SummaryGetResult, XrTableCell12.SummaryGetResult, XrTableCell13.SummaryGetResult,
+                                                                                                         XrTableCell14.SummaryGetResult, XrTableCell16.SummaryGetResult, XrTableCell51.SummaryGetResult,
+                                                                                                         XrTableCell18.SummaryGetResult, XrTableCell20.SummaryGetResult, XrTableCell21.SummaryGetResult,
+                                                                                                         XrTableCell23.SummaryGetResult, XrTableCell52.SummaryGetResult, XrTableCell62.SummaryGetResult,
+                                                                                                         XrTableCell64.SummaryGetResult, XrTableCell45.SummaryGetResult, XrTableCell65.SummaryGetResult
+        Dim row = GetCurrentRow()
+        e.Result = Utils.GetMoneyWithISO4217(e.CalculatedValues.ToEntityList(Of Decimal).Sum(), If(String.IsNullOrEmpty(row?.CurrencyAbbreviation),
+                                             IndigoSessionValues.CurrencyISO4217, row?.CurrencyAbbreviation))
+        e.Handled = True
+    End Sub
+End Class

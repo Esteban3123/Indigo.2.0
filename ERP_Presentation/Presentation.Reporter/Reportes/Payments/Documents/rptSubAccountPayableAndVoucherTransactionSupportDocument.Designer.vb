@@ -1,0 +1,115 @@
+<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>
+Partial Public Class rptSubAccountPayableAndVoucherTransactionSupportDocument
+    Inherits DevExpress.XtraReports.UI.XtraReport
+
+    'XtraReport overrides dispose to clean up the component list.
+    <System.Diagnostics.DebuggerNonUserCode()>
+    Protected Overrides Sub Dispose(ByVal disposing As Boolean)
+        If disposing AndAlso components IsNot Nothing Then
+            components.Dispose()
+        End If
+        MyBase.Dispose(disposing)
+    End Sub
+
+    'Required by the Designer
+    Private components As System.ComponentModel.IContainer
+
+    'NOTE: The following procedure is required by the Designer
+    'It can be modified using the Designer.  
+    'Do not modify it using the code editor.
+    <System.Diagnostics.DebuggerStepThrough()>
+    Private Sub InitializeComponent()
+        Me.components = New System.ComponentModel.Container()
+        Me.Detail = New DevExpress.XtraReports.UI.DetailBand()
+        Me.XrSubreport1 = New DevExpress.XtraReports.UI.XRSubreport()
+        Me.XrSubreport2 = New DevExpress.XtraReports.UI.XRSubreport()
+        Me.TopMargin = New DevExpress.XtraReports.UI.TopMarginBand()
+        Me.BottomMargin = New DevExpress.XtraReports.UI.BottomMarginBand()
+        Me.INDCfInvoiceNumber = New DevExpress.XtraReports.UI.CalculatedField()
+        Me.INDFlag = New DevExpress.XtraReports.UI.CalculatedField()
+        Me.BindingSource1 = New System.Windows.Forms.BindingSource(Me.components)
+        CType(Me.BindingSource1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
+        '
+        'Detail
+        '
+        Me.Detail.Controls.AddRange(New DevExpress.XtraReports.UI.XRControl() {Me.XrSubreport1, Me.XrSubreport2})
+        Me.Detail.HeightF = 500.0!
+        Me.Detail.Name = "Detail"
+        Me.Detail.Padding = New DevExpress.XtraPrinting.PaddingInfo(0, 0, 0, 0, 100.0!)
+        Me.Detail.PageBreak = DevExpress.XtraReports.UI.PageBreak.BeforeBand
+        Me.Detail.SortFields.AddRange(New DevExpress.XtraReports.UI.GroupField() {New DevExpress.XtraReports.UI.GroupField("INDCfInvoiceNumber", DevExpress.XtraReports.UI.XRColumnSortOrder.Ascending)})
+        Me.Detail.TextAlignment = DevExpress.XtraPrinting.TextAlignment.TopLeft
+        '
+        'XrSubreport1
+        '
+        Me.XrSubreport1.ExpressionBindings.AddRange(New DevExpress.XtraReports.UI.ExpressionBinding() {New DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Visible", "Iif(([DocumentType] = 1 Or [DocumentType] = 2 Or [DocumentType] = 3 Or [DocumentT" &
+                    "ype] = 5) And Not ?LiquidateMasterAccount, True, ?)")})
+        Me.XrSubreport1.GenerateOwnPages = True
+        Me.XrSubreport1.LocationFloat = New DevExpress.Utils.PointFloat(0!, 0!)
+        Me.XrSubreport1.Name = "XrSubreport1"
+        Me.XrSubreport1.ParameterBindings.Add(New DevExpress.XtraReports.UI.ParameterBinding("AccountPayableId", Nothing, "IdParentDocument"))
+        Me.XrSubreport1.ReportSource = New Presentation.Reporter.rptAccountPayableSupportDocument()
+        Me.XrSubreport1.SizeF = New System.Drawing.SizeF(826.0!, 100.0!)
+        '
+        'XrSubreport2
+        '
+        Me.XrSubreport2.ExpressionBindings.AddRange(New DevExpress.XtraReports.UI.ExpressionBinding() {New DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Visible", "Iif([DocumentType] = 4, True, ?)")})
+        Me.XrSubreport2.GenerateOwnPages = True
+        Me.XrSubreport2.LocationFloat = New DevExpress.Utils.PointFloat(0!, 100.0!)
+        Me.XrSubreport2.Name = "XrSubreport2"
+        Me.XrSubreport2.ParameterBindings.Add(New DevExpress.XtraReports.UI.ParameterBinding("AccountPayableId", Nothing, "IdParentDocument"))
+        Me.XrSubreport2.ReportSource = New Presentation.Reporter.rptVoucherTransactionSupportDocument()
+        Me.XrSubreport2.SizeF = New System.Drawing.SizeF(826.0!, 100.0!)
+        '
+        'TopMargin
+        '
+        Me.TopMargin.HeightF = 27.0!
+        Me.TopMargin.Name = "TopMargin"
+        Me.TopMargin.Padding = New DevExpress.XtraPrinting.PaddingInfo(0, 0, 0, 0, 100.0!)
+        Me.TopMargin.TextAlignment = DevExpress.XtraPrinting.TextAlignment.TopLeft
+        '
+        'BottomMargin
+        '
+        Me.BottomMargin.HeightF = 29.0!
+        Me.BottomMargin.Name = "BottomMargin"
+        Me.BottomMargin.Padding = New DevExpress.XtraPrinting.PaddingInfo(0, 0, 0, 0, 100.0!)
+        Me.BottomMargin.TextAlignment = DevExpress.XtraPrinting.TextAlignment.TopLeft
+        '
+        'INDCfInvoiceNumber
+        '
+        Me.INDCfInvoiceNumber.Expression = "[InvoiceNumber]"
+        Me.INDCfInvoiceNumber.Name = "INDCfInvoiceNumber"
+        '
+        'INDFlag
+        '
+        Me.INDFlag.Expression = "TRUE"
+        Me.INDFlag.Name = "INDFlag"
+        '
+        'BindingSource1
+        '
+        Me.BindingSource1.DataSource = GetType(Infrastructure.Data.Xpo.PaymentsRepository.ViewElectronicDocumentSupportRptXpo)
+        '
+        'rptSubAccountPayableAndVoucherTransactionSupportDocument
+        '
+        Me.Bands.AddRange(New DevExpress.XtraReports.UI.Band() {Me.Detail, Me.TopMargin, Me.BottomMargin})
+        Me.CalculatedFields.AddRange(New DevExpress.XtraReports.UI.CalculatedField() {Me.INDCfInvoiceNumber, Me.INDFlag})
+        Me.ComponentStorage.AddRange(New System.ComponentModel.IComponent() {Me.BindingSource1})
+        Me.DataSource = Me.BindingSource1
+        Me.Margins = New DevExpress.Drawing.DXMargins(10, 14, 27, 29)
+        Me.RequestParameters = False
+        Me.ScriptLanguage = DevExpress.XtraReports.ScriptLanguage.VisualBasic
+        Me.Version = "20.1"
+        CType(Me.BindingSource1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
+
+    End Sub
+    Friend WithEvents Detail As DevExpress.XtraReports.UI.DetailBand
+    Friend WithEvents TopMargin As DevExpress.XtraReports.UI.TopMarginBand
+    Friend WithEvents BottomMargin As DevExpress.XtraReports.UI.BottomMarginBand
+    Friend WithEvents XrSubreport1 As DevExpress.XtraReports.UI.XRSubreport
+    Friend WithEvents BindingSource1 As System.Windows.Forms.BindingSource
+    Friend WithEvents INDCfInvoiceNumber As DevExpress.XtraReports.UI.CalculatedField
+    Friend WithEvents INDFlag As DevExpress.XtraReports.UI.CalculatedField
+    Friend WithEvents XrSubreport2 As DevExpress.XtraReports.UI.XRSubreport
+End Class

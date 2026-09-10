@@ -1,0 +1,1008 @@
+﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
+Partial Public Class rptGLCashFlowStatus
+    Inherits DevExpress.XtraReports.UI.XtraReport
+
+    'XtraReport overrides dispose to clean up the component list.
+    <System.Diagnostics.DebuggerNonUserCode()> _
+    Protected Overrides Sub Dispose(ByVal disposing As Boolean)
+        If disposing AndAlso components IsNot Nothing Then
+            components.Dispose()
+        End If
+        MyBase.Dispose(disposing)
+    End Sub
+
+    'Required by the Designer
+    Private components As System.ComponentModel.IContainer
+
+    'NOTE: The following procedure is required by the Designer
+    'It can be modified using the Designer.  
+    'Do not modify it using the code editor.
+    <System.Diagnostics.DebuggerStepThrough()> _
+    Private Sub InitializeComponent()
+        Me.components = New System.ComponentModel.Container()
+        Dim StoredProcQuery1 As DevExpress.DataAccess.Sql.StoredProcQuery = New DevExpress.DataAccess.Sql.StoredProcQuery()
+        Dim QueryParameter1 As DevExpress.DataAccess.Sql.QueryParameter = New DevExpress.DataAccess.Sql.QueryParameter()
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(rptGLCashFlowStatus))
+        Dim XrSummary2 As DevExpress.XtraReports.UI.XRSummary = New DevExpress.XtraReports.UI.XRSummary()
+        Dim XrSummary3 As DevExpress.XtraReports.UI.XRSummary = New DevExpress.XtraReports.UI.XRSummary()
+        Dim XrSummary4 As DevExpress.XtraReports.UI.XRSummary = New DevExpress.XtraReports.UI.XRSummary()
+        Dim XrSummary5 As DevExpress.XtraReports.UI.XRSummary = New DevExpress.XtraReports.UI.XRSummary()
+        Dim XrSummary6 As DevExpress.XtraReports.UI.XRSummary = New DevExpress.XtraReports.UI.XRSummary()
+        Dim XrSummary7 As DevExpress.XtraReports.UI.XRSummary = New DevExpress.XtraReports.UI.XRSummary()
+        Dim XrSummary8 As DevExpress.XtraReports.UI.XRSummary = New DevExpress.XtraReports.UI.XRSummary()
+        Dim XrSummary1 As DevExpress.XtraReports.UI.XRSummary = New DevExpress.XtraReports.UI.XRSummary()
+        Me.SqlDataSource1 = New DevExpress.DataAccess.Sql.SqlDataSource(Me.components)
+        Me.Title = New DevExpress.XtraReports.UI.XRControlStyle()
+        Me.GroupCaption1 = New DevExpress.XtraReports.UI.XRControlStyle()
+        Me.GroupData1 = New DevExpress.XtraReports.UI.XRControlStyle()
+        Me.DetailCaption1 = New DevExpress.XtraReports.UI.XRControlStyle()
+        Me.DetailData1 = New DevExpress.XtraReports.UI.XRControlStyle()
+        Me.GroupFooterBackground3 = New DevExpress.XtraReports.UI.XRControlStyle()
+        Me.DetailData3_Odd = New DevExpress.XtraReports.UI.XRControlStyle()
+        Me.TotalCaption1 = New DevExpress.XtraReports.UI.XRControlStyle()
+        Me.TotalData1 = New DevExpress.XtraReports.UI.XRControlStyle()
+        Me.TotalBackground1 = New DevExpress.XtraReports.UI.XRControlStyle()
+        Me.GrandTotalCaption1 = New DevExpress.XtraReports.UI.XRControlStyle()
+        Me.GrandTotalData1 = New DevExpress.XtraReports.UI.XRControlStyle()
+        Me.GrandTotalBackground1 = New DevExpress.XtraReports.UI.XRControlStyle()
+        Me.PageInfo = New DevExpress.XtraReports.UI.XRControlStyle()
+        Me.TopMargin = New DevExpress.XtraReports.UI.TopMarginBand()
+        Me.BottomMargin = New DevExpress.XtraReports.UI.BottomMarginBand()
+        Me.GroupHeader1 = New DevExpress.XtraReports.UI.GroupHeaderBand()
+        Me.table1 = New DevExpress.XtraReports.UI.XRTable()
+        Me.tableRow1 = New DevExpress.XtraReports.UI.XRTableRow()
+        Me.tableCell2 = New DevExpress.XtraReports.UI.XRTableCell()
+        Me.GroupHeader2 = New DevExpress.XtraReports.UI.GroupHeaderBand()
+        Me.table2 = New DevExpress.XtraReports.UI.XRTable()
+        Me.tableRow2 = New DevExpress.XtraReports.UI.XRTableRow()
+        Me.INDHPeriodo = New DevExpress.XtraReports.UI.XRTableCell()
+        Me.INDHComparativo = New DevExpress.XtraReports.UI.XRTableCell()
+        Me.Detail = New DevExpress.XtraReports.UI.DetailBand()
+        Me.table3 = New DevExpress.XtraReports.UI.XRTable()
+        Me.tableRow3 = New DevExpress.XtraReports.UI.XRTableRow()
+        Me.tableCell7 = New DevExpress.XtraReports.UI.XRTableCell()
+        Me.tableCell8 = New DevExpress.XtraReports.UI.XRTableCell()
+        Me.tableCell9 = New DevExpress.XtraReports.UI.XRTableCell()
+        Me.INDValorComparativo = New DevExpress.XtraReports.UI.XRTableCell()
+        Me.GroupFooter1 = New DevExpress.XtraReports.UI.GroupFooterBand()
+        Me.GroupFooter2 = New DevExpress.XtraReports.UI.GroupFooterBand()
+        Me.panel1 = New DevExpress.XtraReports.UI.XRPanel()
+        Me.INDValorActividadComparativo = New DevExpress.XtraReports.UI.XRLabel()
+        Me.label7 = New DevExpress.XtraReports.UI.XRLabel()
+        Me.ReportFooter = New DevExpress.XtraReports.UI.ReportFooterBand()
+        Me.panel2 = New DevExpress.XtraReports.UI.XRPanel()
+        Me.XrLabel9 = New DevExpress.XtraReports.UI.XRLabel()
+        Me.XrLabel8 = New DevExpress.XtraReports.UI.XRLabel()
+        Me.XrLabel7 = New DevExpress.XtraReports.UI.XRLabel()
+        Me.XrLabel6 = New DevExpress.XtraReports.UI.XRLabel()
+        Me.XrTable2 = New DevExpress.XtraReports.UI.XRTable()
+        Me.XrTableRow2 = New DevExpress.XtraReports.UI.XRTableRow()
+        Me.XrTableCell1 = New DevExpress.XtraReports.UI.XRTableCell()
+        Me.INDNetoComparativo = New DevExpress.XtraReports.UI.XRTableCell()
+        Me.XrLabel3 = New DevExpress.XtraReports.UI.XRLabel()
+        Me.XrLabel2 = New DevExpress.XtraReports.UI.XRLabel()
+        Me.XrTable1 = New DevExpress.XtraReports.UI.XRTable()
+        Me.XrTableRow1 = New DevExpress.XtraReports.UI.XRTableRow()
+        Me.INDSaldoInicialPeriodo = New DevExpress.XtraReports.UI.XRTableCell()
+        Me.INDSaldoInicialComparativo = New DevExpress.XtraReports.UI.XRTableCell()
+        Me.XrLabel1 = New DevExpress.XtraReports.UI.XRLabel()
+        Me.INDTotalPeriodo = New DevExpress.XtraReports.UI.XRLabel()
+        Me.INDTotalComparativo = New DevExpress.XtraReports.UI.XRLabel()
+        Me.Simbolo = New DevExpress.XtraReports.UI.CalculatedField()
+        Me.PageHeader = New DevExpress.XtraReports.UI.PageHeaderBand()
+        Me.XrLabel5 = New DevExpress.XtraReports.UI.XRLabel()
+        Me.XrLabel4 = New DevExpress.XtraReports.UI.XRLabel()
+        Me.INDLblRangeDate = New DevExpress.XtraReports.UI.XRLabel()
+        Me.XrPictureBox1 = New DevExpress.XtraReports.UI.XRPictureBox()
+        Me.XrPictureBox2 = New DevExpress.XtraReports.UI.XRPictureBox()
+        Me.XrPageInfo3 = New DevExpress.XtraReports.UI.XRPageInfo()
+        Me.XrLabel13 = New DevExpress.XtraReports.UI.XRLabel()
+        Me.XrPageInfo1 = New DevExpress.XtraReports.UI.XRPageInfo()
+        Me.INDLblCompany = New DevExpress.XtraReports.UI.XRLabel()
+        Me.INDLblNitCompany = New DevExpress.XtraReports.UI.XRLabel()
+        Me.PageFooter = New DevExpress.XtraReports.UI.PageFooterBand()
+        Me.INDTblUser = New DevExpress.XtraReports.UI.XRTable()
+        Me.XrTableRow24 = New DevExpress.XtraReports.UI.XRTableRow()
+        Me.INDLblUserPrint = New DevExpress.XtraReports.UI.XRTableCell()
+        Me.label4 = New DevExpress.XtraReports.UI.XRLabel()
+        CType(Me.table1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.table2, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.table3, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.XrTable2, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.XrTable1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.INDTblUser, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
+        '
+        'SqlDataSource1
+        '
+        Me.SqlDataSource1.ConnectionName = "Presentation.Reporter.My.MySettings.VIE08ConnectionString"
+        Me.SqlDataSource1.Name = "SqlDataSource1"
+        StoredProcQuery1.Name = "Treasury_SP_CashFlowStatus"
+        QueryParameter1.Name = "@Parameters"
+        QueryParameter1.Type = GetType(String)
+        StoredProcQuery1.Parameters.Add(QueryParameter1)
+        StoredProcQuery1.StoredProcName = "Treasury.SP_CashFlowStatus"
+        Me.SqlDataSource1.Queries.AddRange(New DevExpress.DataAccess.Sql.SqlQuery() {StoredProcQuery1})
+        Me.SqlDataSource1.ResultSchemaSerializable = resources.GetString("SqlDataSource1.ResultSchemaSerializable")
+        '
+        'Title
+        '
+        Me.Title.BackColor = System.Drawing.Color.Transparent
+        Me.Title.BorderColor = System.Drawing.Color.Black
+        Me.Title.Borders = DevExpress.XtraPrinting.BorderSide.None
+        Me.Title.BorderWidth = 1.0!
+        Me.Title.Font = New DevExpress.Drawing.DXFont("Arial", 14.25!)
+        Me.Title.ForeColor = System.Drawing.Color.FromArgb(CType(CType(64, Byte), Integer), CType(CType(70, Byte), Integer), CType(CType(80, Byte), Integer))
+        Me.Title.Name = "Title"
+        '
+        'GroupCaption1
+        '
+        Me.GroupCaption1.BackColor = System.Drawing.Color.FromArgb(CType(CType(93, Byte), Integer), CType(CType(98, Byte), Integer), CType(CType(110, Byte), Integer))
+        Me.GroupCaption1.BorderColor = System.Drawing.Color.White
+        Me.GroupCaption1.Borders = DevExpress.XtraPrinting.BorderSide.Bottom
+        Me.GroupCaption1.BorderWidth = 2.0!
+        Me.GroupCaption1.Font = New DevExpress.Drawing.DXFont("Arial", 8.25!, DevExpress.Drawing.DXFontStyle.Bold)
+        Me.GroupCaption1.ForeColor = System.Drawing.Color.FromArgb(CType(CType(228, Byte), Integer), CType(CType(228, Byte), Integer), CType(CType(228, Byte), Integer))
+        Me.GroupCaption1.Name = "GroupCaption1"
+        Me.GroupCaption1.Padding = New DevExpress.XtraPrinting.PaddingInfo(6, 2, 0, 0, 100.0!)
+        Me.GroupCaption1.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleLeft
+        '
+        'GroupData1
+        '
+        Me.GroupData1.BackColor = System.Drawing.Color.FromArgb(CType(CType(93, Byte), Integer), CType(CType(98, Byte), Integer), CType(CType(110, Byte), Integer))
+        Me.GroupData1.BorderColor = System.Drawing.Color.White
+        Me.GroupData1.Borders = DevExpress.XtraPrinting.BorderSide.Bottom
+        Me.GroupData1.BorderWidth = 2.0!
+        Me.GroupData1.Font = New DevExpress.Drawing.DXFont("Arial", 8.25!, DevExpress.Drawing.DXFontStyle.Bold)
+        Me.GroupData1.ForeColor = System.Drawing.Color.White
+        Me.GroupData1.Name = "GroupData1"
+        Me.GroupData1.Padding = New DevExpress.XtraPrinting.PaddingInfo(6, 2, 0, 0, 100.0!)
+        Me.GroupData1.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleLeft
+        '
+        'DetailCaption1
+        '
+        Me.DetailCaption1.BackColor = System.Drawing.Color.FromArgb(CType(CType(93, Byte), Integer), CType(CType(98, Byte), Integer), CType(CType(110, Byte), Integer))
+        Me.DetailCaption1.BorderColor = System.Drawing.Color.White
+        Me.DetailCaption1.Borders = DevExpress.XtraPrinting.BorderSide.Left
+        Me.DetailCaption1.BorderWidth = 2.0!
+        Me.DetailCaption1.Font = New DevExpress.Drawing.DXFont("Arial", 8.25!, DevExpress.Drawing.DXFontStyle.Bold)
+        Me.DetailCaption1.ForeColor = System.Drawing.Color.White
+        Me.DetailCaption1.Name = "DetailCaption1"
+        Me.DetailCaption1.Padding = New DevExpress.XtraPrinting.PaddingInfo(6, 6, 0, 0, 100.0!)
+        Me.DetailCaption1.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleLeft
+        '
+        'DetailData1
+        '
+        Me.DetailData1.BorderColor = System.Drawing.Color.Transparent
+        Me.DetailData1.Borders = DevExpress.XtraPrinting.BorderSide.Left
+        Me.DetailData1.BorderWidth = 2.0!
+        Me.DetailData1.Font = New DevExpress.Drawing.DXFont("Arial", 8.25!)
+        Me.DetailData1.ForeColor = System.Drawing.Color.Black
+        Me.DetailData1.Name = "DetailData1"
+        Me.DetailData1.Padding = New DevExpress.XtraPrinting.PaddingInfo(6, 6, 0, 0, 100.0!)
+        Me.DetailData1.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleLeft
+        '
+        'GroupFooterBackground3
+        '
+        Me.GroupFooterBackground3.BackColor = System.Drawing.Color.FromArgb(CType(CType(109, Byte), Integer), CType(CType(117, Byte), Integer), CType(CType(129, Byte), Integer))
+        Me.GroupFooterBackground3.BorderColor = System.Drawing.Color.White
+        Me.GroupFooterBackground3.Borders = DevExpress.XtraPrinting.BorderSide.Bottom
+        Me.GroupFooterBackground3.BorderWidth = 2.0!
+        Me.GroupFooterBackground3.Font = New DevExpress.Drawing.DXFont("Arial", 8.25!, DevExpress.Drawing.DXFontStyle.Bold)
+        Me.GroupFooterBackground3.ForeColor = System.Drawing.Color.FromArgb(CType(CType(228, Byte), Integer), CType(CType(228, Byte), Integer), CType(CType(228, Byte), Integer))
+        Me.GroupFooterBackground3.Name = "GroupFooterBackground3"
+        Me.GroupFooterBackground3.Padding = New DevExpress.XtraPrinting.PaddingInfo(6, 2, 0, 0, 100.0!)
+        Me.GroupFooterBackground3.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleLeft
+        '
+        'DetailData3_Odd
+        '
+        Me.DetailData3_Odd.BackColor = System.Drawing.Color.FromArgb(CType(CType(243, Byte), Integer), CType(CType(245, Byte), Integer), CType(CType(248, Byte), Integer))
+        Me.DetailData3_Odd.BorderColor = System.Drawing.Color.Transparent
+        Me.DetailData3_Odd.Borders = DevExpress.XtraPrinting.BorderSide.None
+        Me.DetailData3_Odd.BorderWidth = 1.0!
+        Me.DetailData3_Odd.Font = New DevExpress.Drawing.DXFont("Arial", 8.25!)
+        Me.DetailData3_Odd.ForeColor = System.Drawing.Color.Black
+        Me.DetailData3_Odd.Name = "DetailData3_Odd"
+        Me.DetailData3_Odd.Padding = New DevExpress.XtraPrinting.PaddingInfo(6, 6, 0, 0, 100.0!)
+        Me.DetailData3_Odd.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleLeft
+        '
+        'TotalCaption1
+        '
+        Me.TotalCaption1.Borders = DevExpress.XtraPrinting.BorderSide.None
+        Me.TotalCaption1.Font = New DevExpress.Drawing.DXFont("Arial", 8.25!, DevExpress.Drawing.DXFontStyle.Bold)
+        Me.TotalCaption1.ForeColor = System.Drawing.Color.FromArgb(CType(CType(182, Byte), Integer), CType(CType(186, Byte), Integer), CType(CType(192, Byte), Integer))
+        Me.TotalCaption1.Name = "TotalCaption1"
+        Me.TotalCaption1.Padding = New DevExpress.XtraPrinting.PaddingInfo(6, 2, 0, 0, 100.0!)
+        Me.TotalCaption1.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleLeft
+        '
+        'TotalData1
+        '
+        Me.TotalData1.Borders = DevExpress.XtraPrinting.BorderSide.None
+        Me.TotalData1.Font = New DevExpress.Drawing.DXFont("Arial", 8.25!, DevExpress.Drawing.DXFontStyle.Bold)
+        Me.TotalData1.ForeColor = System.Drawing.Color.FromArgb(CType(CType(75, Byte), Integer), CType(CType(75, Byte), Integer), CType(CType(75, Byte), Integer))
+        Me.TotalData1.Name = "TotalData1"
+        Me.TotalData1.Padding = New DevExpress.XtraPrinting.PaddingInfo(2, 6, 0, 0, 100.0!)
+        Me.TotalData1.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleLeft
+        '
+        'TotalBackground1
+        '
+        Me.TotalBackground1.BackColor = System.Drawing.Color.FromArgb(CType(CType(243, Byte), Integer), CType(CType(245, Byte), Integer), CType(CType(248, Byte), Integer))
+        Me.TotalBackground1.BorderColor = System.Drawing.Color.White
+        Me.TotalBackground1.Borders = DevExpress.XtraPrinting.BorderSide.Bottom
+        Me.TotalBackground1.BorderWidth = 2.0!
+        Me.TotalBackground1.Name = "TotalBackground1"
+        '
+        'GrandTotalCaption1
+        '
+        Me.GrandTotalCaption1.Borders = DevExpress.XtraPrinting.BorderSide.None
+        Me.GrandTotalCaption1.Font = New DevExpress.Drawing.DXFont("Arial", 8.25!, DevExpress.Drawing.DXFontStyle.Bold)
+        Me.GrandTotalCaption1.ForeColor = System.Drawing.Color.FromArgb(CType(CType(147, Byte), Integer), CType(CType(147, Byte), Integer), CType(CType(147, Byte), Integer))
+        Me.GrandTotalCaption1.Name = "GrandTotalCaption1"
+        Me.GrandTotalCaption1.Padding = New DevExpress.XtraPrinting.PaddingInfo(6, 2, 0, 0, 100.0!)
+        Me.GrandTotalCaption1.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleLeft
+        '
+        'GrandTotalData1
+        '
+        Me.GrandTotalData1.Borders = DevExpress.XtraPrinting.BorderSide.None
+        Me.GrandTotalData1.Font = New DevExpress.Drawing.DXFont("Arial", 8.25!, DevExpress.Drawing.DXFontStyle.Bold)
+        Me.GrandTotalData1.ForeColor = System.Drawing.Color.FromArgb(CType(CType(75, Byte), Integer), CType(CType(75, Byte), Integer), CType(CType(75, Byte), Integer))
+        Me.GrandTotalData1.Name = "GrandTotalData1"
+        Me.GrandTotalData1.Padding = New DevExpress.XtraPrinting.PaddingInfo(2, 6, 0, 0, 100.0!)
+        Me.GrandTotalData1.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleLeft
+        '
+        'GrandTotalBackground1
+        '
+        Me.GrandTotalBackground1.BackColor = System.Drawing.Color.White
+        Me.GrandTotalBackground1.BorderColor = System.Drawing.Color.FromArgb(CType(CType(75, Byte), Integer), CType(CType(75, Byte), Integer), CType(CType(75, Byte), Integer))
+        Me.GrandTotalBackground1.Borders = DevExpress.XtraPrinting.BorderSide.Bottom
+        Me.GrandTotalBackground1.BorderWidth = 2.0!
+        Me.GrandTotalBackground1.Name = "GrandTotalBackground1"
+        '
+        'PageInfo
+        '
+        Me.PageInfo.Font = New DevExpress.Drawing.DXFont("Arial", 8.25!, DevExpress.Drawing.DXFontStyle.Bold)
+        Me.PageInfo.ForeColor = System.Drawing.Color.FromArgb(CType(CType(64, Byte), Integer), CType(CType(70, Byte), Integer), CType(CType(80, Byte), Integer))
+        Me.PageInfo.Name = "PageInfo"
+        Me.PageInfo.Padding = New DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100.0!)
+        '
+        'TopMargin
+        '
+        Me.TopMargin.HeightF = 39.0!
+        Me.TopMargin.Name = "TopMargin"
+        '
+        'BottomMargin
+        '
+        Me.BottomMargin.HeightF = 39.0!
+        Me.BottomMargin.Name = "BottomMargin"
+        '
+        'GroupHeader1
+        '
+        Me.GroupHeader1.Controls.AddRange(New DevExpress.XtraReports.UI.XRControl() {Me.table1})
+        Me.GroupHeader1.GroupFields.AddRange(New DevExpress.XtraReports.UI.GroupField() {New DevExpress.XtraReports.UI.GroupField("Actividad", DevExpress.XtraReports.UI.XRColumnSortOrder.Ascending)})
+        Me.GroupHeader1.GroupUnion = DevExpress.XtraReports.UI.GroupUnion.WithFirstDetail
+        Me.GroupHeader1.HeightF = 23.70831!
+        Me.GroupHeader1.Level = 1
+        Me.GroupHeader1.Name = "GroupHeader1"
+        '
+        'table1
+        '
+        Me.table1.LocationFloat = New DevExpress.Utils.PointFloat(0.0002543131!, 0!)
+        Me.table1.Name = "table1"
+        Me.table1.Rows.AddRange(New DevExpress.XtraReports.UI.XRTableRow() {Me.tableRow1})
+        Me.table1.SizeF = New System.Drawing.SizeF(772.0001!, 23.33333!)
+        '
+        'tableRow1
+        '
+        Me.tableRow1.Cells.AddRange(New DevExpress.XtraReports.UI.XRTableCell() {Me.tableCell2})
+        Me.tableRow1.Name = "tableRow1"
+        Me.tableRow1.Weight = 1.0R
+        '
+        'tableCell2
+        '
+        Me.tableCell2.BackColor = System.Drawing.Color.White
+        Me.tableCell2.BorderColor = System.Drawing.Color.Transparent
+        Me.tableCell2.ForeColor = System.Drawing.Color.Black
+        Me.tableCell2.Name = "tableCell2"
+        Me.tableCell2.StyleName = "GroupData1"
+        Me.tableCell2.StylePriority.UseBackColor = False
+        Me.tableCell2.StylePriority.UseBorderColor = False
+        Me.tableCell2.StylePriority.UseForeColor = False
+        Me.tableCell2.Text = "ACTIVIDADES DE [Actividad]"
+        Me.tableCell2.Weight = 0.84811166100458868R
+        '
+        'GroupHeader2
+        '
+        Me.GroupHeader2.Controls.AddRange(New DevExpress.XtraReports.UI.XRControl() {Me.table2})
+        Me.GroupHeader2.GroupUnion = DevExpress.XtraReports.UI.GroupUnion.WithFirstDetail
+        Me.GroupHeader2.HeightF = 28.0!
+        Me.GroupHeader2.Level = 2
+        Me.GroupHeader2.Name = "GroupHeader2"
+        '
+        'table2
+        '
+        Me.table2.LocationFloat = New DevExpress.Utils.PointFloat(411.2285!, 0!)
+        Me.table2.Name = "table2"
+        Me.table2.Rows.AddRange(New DevExpress.XtraReports.UI.XRTableRow() {Me.tableRow2})
+        Me.table2.SizeF = New System.Drawing.SizeF(360.7715!, 28.0!)
+        '
+        'tableRow2
+        '
+        Me.tableRow2.Cells.AddRange(New DevExpress.XtraReports.UI.XRTableCell() {Me.INDHPeriodo, Me.INDHComparativo})
+        Me.tableRow2.Name = "tableRow2"
+        Me.tableRow2.Weight = 1.0R
+        '
+        'INDHPeriodo
+        '
+        Me.INDHPeriodo.BackColor = System.Drawing.Color.White
+        Me.INDHPeriodo.BorderColor = System.Drawing.Color.Transparent
+        Me.INDHPeriodo.Font = New DevExpress.Drawing.DXFont("Arial", 8.0!, DevExpress.Drawing.DXFontStyle.Bold)
+        Me.INDHPeriodo.ForeColor = System.Drawing.Color.Black
+        Me.INDHPeriodo.Name = "INDHPeriodo"
+        Me.INDHPeriodo.StyleName = "DetailCaption1"
+        Me.INDHPeriodo.StylePriority.UseBackColor = False
+        Me.INDHPeriodo.StylePriority.UseBorderColor = False
+        Me.INDHPeriodo.StylePriority.UseFont = False
+        Me.INDHPeriodo.StylePriority.UseForeColor = False
+        Me.INDHPeriodo.StylePriority.UseTextAlignment = False
+        Me.INDHPeriodo.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleLeft
+        Me.INDHPeriodo.Weight = 0.20238062013616215R
+        '
+        'INDHComparativo
+        '
+        Me.INDHComparativo.BackColor = System.Drawing.Color.White
+        Me.INDHComparativo.BorderColor = System.Drawing.Color.Transparent
+        Me.INDHComparativo.Font = New DevExpress.Drawing.DXFont("Arial", 8.0!, DevExpress.Drawing.DXFontStyle.Bold)
+        Me.INDHComparativo.ForeColor = System.Drawing.Color.Black
+        Me.INDHComparativo.Name = "INDHComparativo"
+        Me.INDHComparativo.StyleName = "DetailCaption1"
+        Me.INDHComparativo.StylePriority.UseBackColor = False
+        Me.INDHComparativo.StylePriority.UseBorderColor = False
+        Me.INDHComparativo.StylePriority.UseFont = False
+        Me.INDHComparativo.StylePriority.UseForeColor = False
+        Me.INDHComparativo.StylePriority.UseTextAlignment = False
+        Me.INDHComparativo.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleLeft
+        Me.INDHComparativo.Weight = 0.26494003454020604R
+        '
+        'Detail
+        '
+        Me.Detail.Controls.AddRange(New DevExpress.XtraReports.UI.XRControl() {Me.table3})
+        Me.Detail.HeightF = 25.0!
+        Me.Detail.Name = "Detail"
+        '
+        'table3
+        '
+        Me.table3.LocationFloat = New DevExpress.Utils.PointFloat(0!, 0!)
+        Me.table3.Name = "table3"
+        Me.table3.OddStyleName = "DetailData3_Odd"
+        Me.table3.Rows.AddRange(New DevExpress.XtraReports.UI.XRTableRow() {Me.tableRow3})
+        Me.table3.SizeF = New System.Drawing.SizeF(772.0!, 25.0!)
+        '
+        'tableRow3
+        '
+        Me.tableRow3.Cells.AddRange(New DevExpress.XtraReports.UI.XRTableCell() {Me.tableCell7, Me.tableCell8, Me.tableCell9, Me.INDValorComparativo})
+        Me.tableRow3.Name = "tableRow3"
+        Me.tableRow3.Weight = 11.5R
+        '
+        'tableCell7
+        '
+        Me.tableCell7.Borders = DevExpress.XtraPrinting.BorderSide.None
+        Me.tableCell7.ExpressionBindings.AddRange(New DevExpress.XtraReports.UI.ExpressionBinding() {New DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[Simbolo]")})
+        Me.tableCell7.Name = "tableCell7"
+        Me.tableCell7.StyleName = "DetailData1"
+        Me.tableCell7.StylePriority.UseBorders = False
+        Me.tableCell7.StylePriority.UseTextAlignment = False
+        Me.tableCell7.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleRight
+        Me.tableCell7.Weight = 0.064604823453438723R
+        '
+        'tableCell8
+        '
+        Me.tableCell8.ExpressionBindings.AddRange(New DevExpress.XtraReports.UI.ExpressionBinding() {New DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[ConceptoFlujoEfectivo]")})
+        Me.tableCell8.Name = "tableCell8"
+        Me.tableCell8.StyleName = "DetailData1"
+        Me.tableCell8.Weight = 0.46807454163546391R
+        '
+        'tableCell9
+        '
+        Me.tableCell9.ExpressionBindings.AddRange(New DevExpress.XtraReports.UI.ExpressionBinding() {New DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[PeriodoValor]")})
+        Me.tableCell9.Name = "tableCell9"
+        Me.tableCell9.StyleName = "DetailData1"
+        Me.tableCell9.StylePriority.UseTextAlignment = False
+        Me.tableCell9.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleRight
+        Me.tableCell9.TextFormatString = "{0:C}"
+        Me.tableCell9.Weight = 0.20238062013616215R
+        '
+        'INDValorComparativo
+        '
+        Me.INDValorComparativo.ExpressionBindings.AddRange(New DevExpress.XtraReports.UI.ExpressionBinding() {New DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[ComparativoValor]")})
+        Me.INDValorComparativo.Name = "INDValorComparativo"
+        Me.INDValorComparativo.StyleName = "DetailData1"
+        Me.INDValorComparativo.StylePriority.UseTextAlignment = False
+        Me.INDValorComparativo.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleRight
+        Me.INDValorComparativo.TextFormatString = "{0:C}"
+        Me.INDValorComparativo.Weight = 0.26494001477493523R
+        '
+        'GroupFooter1
+        '
+        Me.GroupFooter1.GroupUnion = DevExpress.XtraReports.UI.GroupFooterUnion.WithLastDetail
+        Me.GroupFooter1.HeightF = 0!
+        Me.GroupFooter1.Name = "GroupFooter1"
+        '
+        'GroupFooter2
+        '
+        Me.GroupFooter2.Controls.AddRange(New DevExpress.XtraReports.UI.XRControl() {Me.panel1})
+        Me.GroupFooter2.HeightF = 38.87717!
+        Me.GroupFooter2.Level = 1
+        Me.GroupFooter2.Name = "GroupFooter2"
+        '
+        'panel1
+        '
+        Me.panel1.Controls.AddRange(New DevExpress.XtraReports.UI.XRControl() {Me.label4, Me.INDValorActividadComparativo, Me.label7})
+        Me.panel1.LocationFloat = New DevExpress.Utils.PointFloat(0!, 0!)
+        Me.panel1.Name = "panel1"
+        Me.panel1.SizeF = New System.Drawing.SizeF(772.0!, 21.79387!)
+        Me.panel1.StyleName = "TotalBackground1"
+        '
+        'INDValorActividadComparativo
+        '
+        Me.INDValorActividadComparativo.CanGrow = False
+        Me.INDValorActividadComparativo.ExpressionBindings.AddRange(New DevExpress.XtraReports.UI.ExpressionBinding() {New DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "sumSum([ComparativoValor])")})
+        Me.INDValorActividadComparativo.Font = New DevExpress.Drawing.DXFont("Arial", 8.25!, DevExpress.Drawing.DXFontStyle.Bold)
+        Me.INDValorActividadComparativo.ForeColor = System.Drawing.Color.Black
+        Me.INDValorActividadComparativo.LocationFloat = New DevExpress.Utils.PointFloat(567.4665!, 3.400008!)
+        Me.INDValorActividadComparativo.Name = "INDValorActividadComparativo"
+        Me.INDValorActividadComparativo.SizeF = New System.Drawing.SizeF(204.5336!, 14.88444!)
+        Me.INDValorActividadComparativo.StyleName = "TotalData1"
+        Me.INDValorActividadComparativo.StylePriority.UseFont = False
+        Me.INDValorActividadComparativo.StylePriority.UseForeColor = False
+        Me.INDValorActividadComparativo.StylePriority.UseTextAlignment = False
+        XrSummary2.Running = DevExpress.XtraReports.UI.SummaryRunning.Group
+        Me.INDValorActividadComparativo.Summary = XrSummary2
+        Me.INDValorActividadComparativo.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleRight
+        Me.INDValorActividadComparativo.TextFormatString = "{0:C}"
+        Me.INDValorActividadComparativo.WordWrap = False
+        '
+        'label7
+        '
+        Me.label7.Font = New DevExpress.Drawing.DXFont("Arial", 8.25!, DevExpress.Drawing.DXFontStyle.Bold)
+        Me.label7.ForeColor = System.Drawing.Color.Black
+        Me.label7.LocationFloat = New DevExpress.Utils.PointFloat(6.00001!, 3.400008!)
+        Me.label7.Name = "label7"
+        Me.label7.SizeF = New System.Drawing.SizeF(405.2284!, 14.88444!)
+        Me.label7.StyleName = "TotalCaption1"
+        Me.label7.StylePriority.UseFont = False
+        Me.label7.StylePriority.UseForeColor = False
+        Me.label7.StylePriority.UseTextAlignment = False
+        Me.label7.Text = "FLUJO DE EFECTIVO NETO EN ACTIVIDADES DE [Actividad]"
+        Me.label7.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleLeft
+        '
+        'ReportFooter
+        '
+        Me.ReportFooter.Controls.AddRange(New DevExpress.XtraReports.UI.XRControl() {Me.panel2})
+        Me.ReportFooter.HeightF = 332.7177!
+        Me.ReportFooter.Name = "ReportFooter"
+        '
+        'panel2
+        '
+        Me.panel2.Borders = DevExpress.XtraPrinting.BorderSide.None
+        Me.panel2.Controls.AddRange(New DevExpress.XtraReports.UI.XRControl() {Me.XrLabel9, Me.XrLabel8, Me.XrLabel7, Me.XrLabel6, Me.XrTable2, Me.XrLabel3, Me.XrLabel2, Me.XrTable1, Me.XrLabel1, Me.INDTotalPeriodo, Me.INDTotalComparativo})
+        Me.panel2.LocationFloat = New DevExpress.Utils.PointFloat(0!, 0!)
+        Me.panel2.Name = "panel2"
+        Me.panel2.SizeF = New System.Drawing.SizeF(772.0!, 332.7177!)
+        Me.panel2.StyleName = "GrandTotalBackground1"
+        Me.panel2.StylePriority.UseBorders = False
+        '
+        'XrLabel9
+        '
+        Me.XrLabel9.Borders = DevExpress.XtraPrinting.BorderSide.None
+        Me.XrLabel9.Font = New DevExpress.Drawing.DXFont("Arial", 8.25!, DevExpress.Drawing.DXFontStyle.Bold)
+        Me.XrLabel9.LocationFloat = New DevExpress.Utils.PointFloat(392.0001!, 278.75!)
+        Me.XrLabel9.Multiline = True
+        Me.XrLabel9.Name = "XrLabel9"
+        Me.XrLabel9.SizeF = New System.Drawing.SizeF(380.0001!, 33.33334!)
+        Me.XrLabel9.StylePriority.UseBorders = False
+        Me.XrLabel9.StylePriority.UseFont = False
+        Me.XrLabel9.Text = "REVISOR FISCAL" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "T.P. "
+        '
+        'XrLabel8
+        '
+        Me.XrLabel8.Borders = DevExpress.XtraPrinting.BorderSide.None
+        Me.XrLabel8.Font = New DevExpress.Drawing.DXFont("Arial", 8.25!, DevExpress.Drawing.DXFontStyle.Bold)
+        Me.XrLabel8.LocationFloat = New DevExpress.Utils.PointFloat(9.999974!, 278.75!)
+        Me.XrLabel8.Multiline = True
+        Me.XrLabel8.Name = "XrLabel8"
+        Me.XrLabel8.SizeF = New System.Drawing.SizeF(370.0001!, 33.33334!)
+        Me.XrLabel8.StylePriority.UseBorders = False
+        Me.XrLabel8.StylePriority.UseFont = False
+        Me.XrLabel8.Text = "CONTADOR" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "T.P. "
+        '
+        'XrLabel7
+        '
+        Me.XrLabel7.Borders = DevExpress.XtraPrinting.BorderSide.None
+        Me.XrLabel7.Font = New DevExpress.Drawing.DXFont("Arial", 8.25!, DevExpress.Drawing.DXFontStyle.Bold)
+        Me.XrLabel7.LocationFloat = New DevExpress.Utils.PointFloat(392.0001!, 179.1667!)
+        Me.XrLabel7.Name = "XrLabel7"
+        Me.XrLabel7.SizeF = New System.Drawing.SizeF(200.0!, 16.66666!)
+        Me.XrLabel7.StylePriority.UseBorders = False
+        Me.XrLabel7.StylePriority.UseFont = False
+        Me.XrLabel7.Text = "SUBGERENTE FINANCIERA"
+        '
+        'XrLabel6
+        '
+        Me.XrLabel6.Borders = DevExpress.XtraPrinting.BorderSide.None
+        Me.XrLabel6.Font = New DevExpress.Drawing.DXFont("Arial", 8.25!, DevExpress.Drawing.DXFontStyle.Bold)
+        Me.XrLabel6.LocationFloat = New DevExpress.Utils.PointFloat(9.999974!, 179.1667!)
+        Me.XrLabel6.Name = "XrLabel6"
+        Me.XrLabel6.SizeF = New System.Drawing.SizeF(200.0!, 16.66666!)
+        Me.XrLabel6.StylePriority.UseBorders = False
+        Me.XrLabel6.StylePriority.UseFont = False
+        Me.XrLabel6.Text = "REPRESENTANTE LEGAL"
+        '
+        'XrTable2
+        '
+        Me.XrTable2.LocationFloat = New DevExpress.Utils.PointFloat(411.2287!, 69.4561!)
+        Me.XrTable2.Name = "XrTable2"
+        Me.XrTable2.OddStyleName = "DetailData3_Odd"
+        Me.XrTable2.Rows.AddRange(New DevExpress.XtraReports.UI.XRTableRow() {Me.XrTableRow2})
+        Me.XrTable2.SizeF = New System.Drawing.SizeF(360.7715!, 14.88444!)
+        '
+        'XrTableRow2
+        '
+        Me.XrTableRow2.Cells.AddRange(New DevExpress.XtraReports.UI.XRTableCell() {Me.XrTableCell1, Me.INDNetoComparativo})
+        Me.XrTableRow2.Name = "XrTableRow2"
+        Me.XrTableRow2.Weight = 11.5R
+        '
+        'XrTableCell1
+        '
+        Me.XrTableCell1.BackColor = System.Drawing.Color.FromArgb(CType(CType(243, Byte), Integer), CType(CType(245, Byte), Integer), CType(CType(248, Byte), Integer))
+        Me.XrTableCell1.BorderColor = System.Drawing.Color.White
+        Me.XrTableCell1.ExpressionBindings.AddRange(New DevExpress.XtraReports.UI.ExpressionBinding() {New DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "sumSum([PeriodoValor])")})
+        Me.XrTableCell1.Font = New DevExpress.Drawing.DXFont("Arial", 8.25!, DevExpress.Drawing.DXFontStyle.Bold)
+        Me.XrTableCell1.ForeColor = System.Drawing.Color.Black
+        Me.XrTableCell1.Name = "XrTableCell1"
+        Me.XrTableCell1.StyleName = "DetailData1"
+        Me.XrTableCell1.StylePriority.UseBackColor = False
+        Me.XrTableCell1.StylePriority.UseBorderColor = False
+        Me.XrTableCell1.StylePriority.UseFont = False
+        Me.XrTableCell1.StylePriority.UseForeColor = False
+        Me.XrTableCell1.StylePriority.UseTextAlignment = False
+        XrSummary3.Running = DevExpress.XtraReports.UI.SummaryRunning.Report
+        Me.XrTableCell1.Summary = XrSummary3
+        Me.XrTableCell1.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleRight
+        Me.XrTableCell1.TextFormatString = "{0:C}"
+        Me.XrTableCell1.Weight = 0.20238062013616215R
+        '
+        'INDNetoComparativo
+        '
+        Me.INDNetoComparativo.BackColor = System.Drawing.Color.FromArgb(CType(CType(243, Byte), Integer), CType(CType(245, Byte), Integer), CType(CType(248, Byte), Integer))
+        Me.INDNetoComparativo.BorderColor = System.Drawing.Color.White
+        Me.INDNetoComparativo.ExpressionBindings.AddRange(New DevExpress.XtraReports.UI.ExpressionBinding() {New DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "sumSum([ComparativoValor])")})
+        Me.INDNetoComparativo.Font = New DevExpress.Drawing.DXFont("Arial", 8.25!, DevExpress.Drawing.DXFontStyle.Bold)
+        Me.INDNetoComparativo.ForeColor = System.Drawing.Color.Black
+        Me.INDNetoComparativo.Name = "INDNetoComparativo"
+        Me.INDNetoComparativo.StyleName = "DetailData1"
+        Me.INDNetoComparativo.StylePriority.UseBackColor = False
+        Me.INDNetoComparativo.StylePriority.UseBorderColor = False
+        Me.INDNetoComparativo.StylePriority.UseFont = False
+        Me.INDNetoComparativo.StylePriority.UseForeColor = False
+        Me.INDNetoComparativo.StylePriority.UseTextAlignment = False
+        XrSummary4.Running = DevExpress.XtraReports.UI.SummaryRunning.Report
+        Me.INDNetoComparativo.Summary = XrSummary4
+        Me.INDNetoComparativo.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleRight
+        Me.INDNetoComparativo.TextFormatString = "{0:C}"
+        Me.INDNetoComparativo.Weight = 0.26494001477493523R
+        '
+        'XrLabel3
+        '
+        Me.XrLabel3.BackColor = System.Drawing.Color.FromArgb(CType(CType(243, Byte), Integer), CType(CType(245, Byte), Integer), CType(CType(248, Byte), Integer))
+        Me.XrLabel3.BorderColor = System.Drawing.Color.White
+        Me.XrLabel3.Font = New DevExpress.Drawing.DXFont("Arial", 8.25!, DevExpress.Drawing.DXFontStyle.Bold)
+        Me.XrLabel3.ForeColor = System.Drawing.Color.Black
+        Me.XrLabel3.LocationFloat = New DevExpress.Utils.PointFloat(6.00001!, 69.4561!)
+        Me.XrLabel3.Name = "XrLabel3"
+        Me.XrLabel3.SizeF = New System.Drawing.SizeF(405.2284!, 14.88444!)
+        Me.XrLabel3.StyleName = "TotalCaption1"
+        Me.XrLabel3.StylePriority.UseBackColor = False
+        Me.XrLabel3.StylePriority.UseBorderColor = False
+        Me.XrLabel3.StylePriority.UseFont = False
+        Me.XrLabel3.StylePriority.UseForeColor = False
+        Me.XrLabel3.StylePriority.UseTextAlignment = False
+        Me.XrLabel3.Text = "SALDO FINAL DEL EFECTIVO Y EQUIVALENTES AL EFECTIVO"
+        Me.XrLabel3.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleLeft
+        '
+        'XrLabel2
+        '
+        Me.XrLabel2.Font = New DevExpress.Drawing.DXFont("Arial", 8.25!)
+        Me.XrLabel2.ForeColor = System.Drawing.Color.Black
+        Me.XrLabel2.LocationFloat = New DevExpress.Utils.PointFloat(6.00001!, 41.74779!)
+        Me.XrLabel2.Name = "XrLabel2"
+        Me.XrLabel2.SizeF = New System.Drawing.SizeF(405.2284!, 14.88444!)
+        Me.XrLabel2.StyleName = "TotalCaption1"
+        Me.XrLabel2.StylePriority.UseFont = False
+        Me.XrLabel2.StylePriority.UseForeColor = False
+        Me.XrLabel2.StylePriority.UseTextAlignment = False
+        Me.XrLabel2.Text = "SALDO INICIAL DEL EFECTIVO Y EQUIVALENTES AL EFECTIVO"
+        Me.XrLabel2.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleLeft
+        '
+        'XrTable1
+        '
+        Me.XrTable1.LocationFloat = New DevExpress.Utils.PointFloat(411.2287!, 41.74779!)
+        Me.XrTable1.Name = "XrTable1"
+        Me.XrTable1.OddStyleName = "DetailData3_Odd"
+        Me.XrTable1.Rows.AddRange(New DevExpress.XtraReports.UI.XRTableRow() {Me.XrTableRow1})
+        Me.XrTable1.SizeF = New System.Drawing.SizeF(360.7715!, 14.88444!)
+        '
+        'XrTableRow1
+        '
+        Me.XrTableRow1.Cells.AddRange(New DevExpress.XtraReports.UI.XRTableCell() {Me.INDSaldoInicialPeriodo, Me.INDSaldoInicialComparativo})
+        Me.XrTableRow1.Name = "XrTableRow1"
+        Me.XrTableRow1.Weight = 11.5R
+        '
+        'INDSaldoInicialPeriodo
+        '
+        Me.INDSaldoInicialPeriodo.BorderColor = System.Drawing.Color.Transparent
+        Me.INDSaldoInicialPeriodo.ExpressionBindings.AddRange(New DevExpress.XtraReports.UI.ExpressionBinding() {New DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "sumSum(Iif([TipoRegistro] = 1, 0, [PeriodoValor]))")})
+        Me.INDSaldoInicialPeriodo.Font = New DevExpress.Drawing.DXFont("Arial", 8.25!, DevExpress.Drawing.DXFontStyle.Bold)
+        Me.INDSaldoInicialPeriodo.ForeColor = System.Drawing.Color.Black
+        Me.INDSaldoInicialPeriodo.Name = "INDSaldoInicialPeriodo"
+        Me.INDSaldoInicialPeriodo.StyleName = "DetailData1"
+        Me.INDSaldoInicialPeriodo.StylePriority.UseBorderColor = False
+        Me.INDSaldoInicialPeriodo.StylePriority.UseFont = False
+        Me.INDSaldoInicialPeriodo.StylePriority.UseForeColor = False
+        Me.INDSaldoInicialPeriodo.StylePriority.UseTextAlignment = False
+        XrSummary5.Running = DevExpress.XtraReports.UI.SummaryRunning.Report
+        Me.INDSaldoInicialPeriodo.Summary = XrSummary5
+        Me.INDSaldoInicialPeriodo.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleRight
+        Me.INDSaldoInicialPeriodo.TextFormatString = "{0:C}"
+        Me.INDSaldoInicialPeriodo.Weight = 0.20238062013616215R
+        '
+        'INDSaldoInicialComparativo
+        '
+        Me.INDSaldoInicialComparativo.BorderColor = System.Drawing.Color.Transparent
+        Me.INDSaldoInicialComparativo.ExpressionBindings.AddRange(New DevExpress.XtraReports.UI.ExpressionBinding() {New DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "sumSum(Iif([TipoRegistro] = 1, 0, [ComparativoValor]))")})
+        Me.INDSaldoInicialComparativo.Font = New DevExpress.Drawing.DXFont("Arial", 8.25!, DevExpress.Drawing.DXFontStyle.Bold)
+        Me.INDSaldoInicialComparativo.ForeColor = System.Drawing.Color.Black
+        Me.INDSaldoInicialComparativo.Name = "INDSaldoInicialComparativo"
+        Me.INDSaldoInicialComparativo.StyleName = "DetailData1"
+        Me.INDSaldoInicialComparativo.StylePriority.UseBorderColor = False
+        Me.INDSaldoInicialComparativo.StylePriority.UseFont = False
+        Me.INDSaldoInicialComparativo.StylePriority.UseForeColor = False
+        Me.INDSaldoInicialComparativo.StylePriority.UseTextAlignment = False
+        XrSummary6.Running = DevExpress.XtraReports.UI.SummaryRunning.Report
+        Me.INDSaldoInicialComparativo.Summary = XrSummary6
+        Me.INDSaldoInicialComparativo.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleRight
+        Me.INDSaldoInicialComparativo.TextFormatString = "{0:C}"
+        Me.INDSaldoInicialComparativo.Weight = 0.26494001477493523R
+        '
+        'XrLabel1
+        '
+        Me.XrLabel1.Font = New DevExpress.Drawing.DXFont("Arial", 8.25!)
+        Me.XrLabel1.ForeColor = System.Drawing.Color.Black
+        Me.XrLabel1.LocationFloat = New DevExpress.Utils.PointFloat(6.00001!, 11.49998!)
+        Me.XrLabel1.Name = "XrLabel1"
+        Me.XrLabel1.SizeF = New System.Drawing.SizeF(405.2284!, 14.88444!)
+        Me.XrLabel1.StyleName = "TotalCaption1"
+        Me.XrLabel1.StylePriority.UseFont = False
+        Me.XrLabel1.StylePriority.UseForeColor = False
+        Me.XrLabel1.StylePriority.UseTextAlignment = False
+        Me.XrLabel1.Text = "FLUJO DE EFECTIVO DEL PERIODO"
+        Me.XrLabel1.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleLeft
+        '
+        'INDTotalPeriodo
+        '
+        Me.INDTotalPeriodo.BorderColor = System.Drawing.Color.Transparent
+        Me.INDTotalPeriodo.CanGrow = False
+        Me.INDTotalPeriodo.ExpressionBindings.AddRange(New DevExpress.XtraReports.UI.ExpressionBinding() {New DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "sumSum(iif([TipoRegistro]= 0,0,[PeriodoValor]))")})
+        Me.INDTotalPeriodo.Font = New DevExpress.Drawing.DXFont("Arial", 8.25!, DevExpress.Drawing.DXFontStyle.Bold)
+        Me.INDTotalPeriodo.ForeColor = System.Drawing.Color.Black
+        Me.INDTotalPeriodo.LocationFloat = New DevExpress.Utils.PointFloat(411.2287!, 11.50004!)
+        Me.INDTotalPeriodo.Name = "INDTotalPeriodo"
+        Me.INDTotalPeriodo.SizeF = New System.Drawing.SizeF(156.2378!, 14.88444!)
+        Me.INDTotalPeriodo.StyleName = "GrandTotalData1"
+        Me.INDTotalPeriodo.StylePriority.UseBorderColor = False
+        Me.INDTotalPeriodo.StylePriority.UseFont = False
+        Me.INDTotalPeriodo.StylePriority.UseForeColor = False
+        Me.INDTotalPeriodo.StylePriority.UseTextAlignment = False
+        XrSummary7.Running = DevExpress.XtraReports.UI.SummaryRunning.Report
+        Me.INDTotalPeriodo.Summary = XrSummary7
+        Me.INDTotalPeriodo.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleRight
+        Me.INDTotalPeriodo.TextFormatString = "{0:C}"
+        Me.INDTotalPeriodo.WordWrap = False
+        '
+        'INDTotalComparativo
+        '
+        Me.INDTotalComparativo.BorderColor = System.Drawing.Color.Transparent
+        Me.INDTotalComparativo.CanGrow = False
+        Me.INDTotalComparativo.ExpressionBindings.AddRange(New DevExpress.XtraReports.UI.ExpressionBinding() {New DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "sumSum(iif([TipoRegistro]=0,0,[ComparativoValor]))")})
+        Me.INDTotalComparativo.Font = New DevExpress.Drawing.DXFont("Arial", 8.25!, DevExpress.Drawing.DXFontStyle.Bold)
+        Me.INDTotalComparativo.ForeColor = System.Drawing.Color.Black
+        Me.INDTotalComparativo.LocationFloat = New DevExpress.Utils.PointFloat(567.4665!, 11.50004!)
+        Me.INDTotalComparativo.Name = "INDTotalComparativo"
+        Me.INDTotalComparativo.SizeF = New System.Drawing.SizeF(204.5336!, 14.88444!)
+        Me.INDTotalComparativo.StyleName = "GrandTotalData1"
+        Me.INDTotalComparativo.StylePriority.UseBorderColor = False
+        Me.INDTotalComparativo.StylePriority.UseFont = False
+        Me.INDTotalComparativo.StylePriority.UseForeColor = False
+        Me.INDTotalComparativo.StylePriority.UseTextAlignment = False
+        XrSummary8.Running = DevExpress.XtraReports.UI.SummaryRunning.Report
+        Me.INDTotalComparativo.Summary = XrSummary8
+        Me.INDTotalComparativo.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleRight
+        Me.INDTotalComparativo.TextFormatString = "{0:C}"
+        Me.INDTotalComparativo.WordWrap = False
+        '
+        'Simbolo
+        '
+        Me.Simbolo.DataMember = "Treasury_SP_CashFlowStatus"
+        Me.Simbolo.Expression = "Iif([PeriodoValor]<0,'(-)','(+)')"
+        Me.Simbolo.Name = "Simbolo"
+        '
+        'PageHeader
+        '
+        Me.PageHeader.Controls.AddRange(New DevExpress.XtraReports.UI.XRControl() {Me.XrLabel5, Me.XrLabel4, Me.INDLblRangeDate, Me.XrPictureBox1, Me.XrPictureBox2, Me.XrPageInfo3, Me.XrLabel13, Me.XrPageInfo1, Me.INDLblCompany, Me.INDLblNitCompany})
+        Me.PageHeader.HeightF = 174.9167!
+        Me.PageHeader.Name = "PageHeader"
+        '
+        'XrLabel5
+        '
+        Me.XrLabel5.Font = New DevExpress.Drawing.DXFont("Arial", 8.0!, DevExpress.Drawing.DXFontStyle.Bold)
+        Me.XrLabel5.ForeColor = System.Drawing.Color.Black
+        Me.XrLabel5.LocationFloat = New DevExpress.Utils.PointFloat(0!, 136.4132!)
+        Me.XrLabel5.Name = "XrLabel5"
+        Me.XrLabel5.Padding = New DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100.0!)
+        Me.XrLabel5.SizeF = New System.Drawing.SizeF(772.0001!, 20.31548!)
+        Me.XrLabel5.StyleName = "Title"
+        Me.XrLabel5.StylePriority.UseFont = False
+        Me.XrLabel5.StylePriority.UseForeColor = False
+        Me.XrLabel5.StylePriority.UseTextAlignment = False
+        Me.XrLabel5.Text = "(CIFRAS EN PESOS COLOMBIANOS)"
+        Me.XrLabel5.TextAlignment = DevExpress.XtraPrinting.TextAlignment.TopCenter
+        '
+        'XrLabel4
+        '
+        Me.XrLabel4.ForeColor = System.Drawing.Color.Black
+        Me.XrLabel4.LocationFloat = New DevExpress.Utils.PointFloat(100.0!, 83.52089!)
+        Me.XrLabel4.Name = "XrLabel4"
+        Me.XrLabel4.SizeF = New System.Drawing.SizeF(563.4168!, 24.19436!)
+        Me.XrLabel4.StyleName = "Title"
+        Me.XrLabel4.StylePriority.UseForeColor = False
+        Me.XrLabel4.StylePriority.UseTextAlignment = False
+        Me.XrLabel4.Text = "ESTADO FLUJO DE EFECTIVO"
+        Me.XrLabel4.TextAlignment = DevExpress.XtraPrinting.TextAlignment.TopCenter
+        '
+        'INDLblRangeDate
+        '
+        Me.INDLblRangeDate.Font = New DevExpress.Drawing.DXFont("Arial", 8.0!, DevExpress.Drawing.DXFontStyle.Bold)
+        Me.INDLblRangeDate.ForeColor = System.Drawing.Color.Black
+        Me.INDLblRangeDate.LocationFloat = New DevExpress.Utils.PointFloat(0!, 116.0977!)
+        Me.INDLblRangeDate.Name = "INDLblRangeDate"
+        Me.INDLblRangeDate.Padding = New DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100.0!)
+        Me.INDLblRangeDate.SizeF = New System.Drawing.SizeF(772.0001!, 20.31548!)
+        Me.INDLblRangeDate.StyleName = "Title"
+        Me.INDLblRangeDate.StylePriority.UseFont = False
+        Me.INDLblRangeDate.StylePriority.UseForeColor = False
+        Me.INDLblRangeDate.StylePriority.UseTextAlignment = False
+        Me.INDLblRangeDate.TextAlignment = DevExpress.XtraPrinting.TextAlignment.TopCenter
+        '
+        'XrPictureBox1
+        '
+        Me.XrPictureBox1.ImageAlignment = DevExpress.XtraPrinting.ImageAlignment.MiddleCenter
+        Me.XrPictureBox1.ImageUrl = "Resources\LogoIzquierda.png"
+        Me.XrPictureBox1.LocationFloat = New DevExpress.Utils.PointFloat(0!, 33.52089!)
+        Me.XrPictureBox1.Name = "XrPictureBox1"
+        Me.XrPictureBox1.SizeF = New System.Drawing.SizeF(100.0!, 75.0!)
+        '
+        'XrPictureBox2
+        '
+        Me.XrPictureBox2.ImageUrl = "Resources\LogoDerecha.png"
+        Me.XrPictureBox2.LocationFloat = New DevExpress.Utils.PointFloat(663.4168!, 33.52089!)
+        Me.XrPictureBox2.Name = "XrPictureBox2"
+        Me.XrPictureBox2.SizeF = New System.Drawing.SizeF(99.99976!, 75.0!)
+        '
+        'XrPageInfo3
+        '
+        Me.XrPageInfo3.Font = New DevExpress.Drawing.DXFont("Arial", 7.5!)
+        Me.XrPageInfo3.LocationFloat = New DevExpress.Utils.PointFloat(85.45837!, 0!)
+        Me.XrPageInfo3.Name = "XrPageInfo3"
+        Me.XrPageInfo3.Padding = New DevExpress.XtraPrinting.PaddingInfo(0, 2, 0, 0, 100.0!)
+        Me.XrPageInfo3.PageInfo = DevExpress.XtraPrinting.PageInfo.DateTime
+        Me.XrPageInfo3.SizeF = New System.Drawing.SizeF(156.0!, 20.0!)
+        Me.XrPageInfo3.StylePriority.UseFont = False
+        Me.XrPageInfo3.StylePriority.UsePadding = False
+        Me.XrPageInfo3.StylePriority.UseTextAlignment = False
+        Me.XrPageInfo3.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleRight
+        Me.XrPageInfo3.TextFormatString = "{0:dddd, dd' de 'MMMM' de 'yyyy HH:mm}"
+        '
+        'XrLabel13
+        '
+        Me.XrLabel13.Font = New DevExpress.Drawing.DXFont("Arial", 7.5!)
+        Me.XrLabel13.LocationFloat = New DevExpress.Utils.PointFloat(0!, 0!)
+        Me.XrLabel13.Name = "XrLabel13"
+        Me.XrLabel13.Padding = New DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100.0!)
+        Me.XrLabel13.SizeF = New System.Drawing.SizeF(85.45837!, 20.0!)
+        Me.XrLabel13.StylePriority.UseFont = False
+        Me.XrLabel13.StylePriority.UseTextAlignment = False
+        Me.XrLabel13.Text = "Fecha Impresión:"
+        Me.XrLabel13.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleLeft
+        '
+        'XrPageInfo1
+        '
+        Me.XrPageInfo1.Font = New DevExpress.Drawing.DXFont("Arial", 7.5!)
+        Me.XrPageInfo1.LocationFloat = New DevExpress.Utils.PointFloat(663.4168!, 0!)
+        Me.XrPageInfo1.Name = "XrPageInfo1"
+        Me.XrPageInfo1.Padding = New DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100.0!)
+        Me.XrPageInfo1.SizeF = New System.Drawing.SizeF(99.99976!, 20.0!)
+        Me.XrPageInfo1.StylePriority.UseFont = False
+        Me.XrPageInfo1.StylePriority.UseTextAlignment = False
+        Me.XrPageInfo1.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleRight
+        Me.XrPageInfo1.TextFormatString = "Página {0}/{1}"
+        '
+        'INDLblCompany
+        '
+        Me.INDLblCompany.Font = New DevExpress.Drawing.DXFont("Arial", 10.0!, DevExpress.Drawing.DXFontStyle.Bold)
+        Me.INDLblCompany.LocationFloat = New DevExpress.Utils.PointFloat(100.0!, 33.52089!)
+        Me.INDLblCompany.Name = "INDLblCompany"
+        Me.INDLblCompany.Padding = New DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100.0!)
+        Me.INDLblCompany.SizeF = New System.Drawing.SizeF(563.4167!, 25.0!)
+        Me.INDLblCompany.StylePriority.UseFont = False
+        Me.INDLblCompany.StylePriority.UseTextAlignment = False
+        Me.INDLblCompany.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleCenter
+        '
+        'INDLblNitCompany
+        '
+        Me.INDLblNitCompany.Font = New DevExpress.Drawing.DXFont("Arial", 8.0!)
+        Me.INDLblNitCompany.LocationFloat = New DevExpress.Utils.PointFloat(100.0!, 58.52089!)
+        Me.INDLblNitCompany.Name = "INDLblNitCompany"
+        Me.INDLblNitCompany.Padding = New DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100.0!)
+        Me.INDLblNitCompany.SizeF = New System.Drawing.SizeF(563.4167!, 25.0!)
+        Me.INDLblNitCompany.StylePriority.UseFont = False
+        Me.INDLblNitCompany.StylePriority.UseTextAlignment = False
+        Me.INDLblNitCompany.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleCenter
+        '
+        'PageFooter
+        '
+        Me.PageFooter.Controls.AddRange(New DevExpress.XtraReports.UI.XRControl() {Me.INDTblUser})
+        Me.PageFooter.HeightF = 50.78011!
+        Me.PageFooter.Name = "PageFooter"
+        '
+        'INDTblUser
+        '
+        Me.INDTblUser.LocationFloat = New DevExpress.Utils.PointFloat(382.6243!, 29.78675!)
+        Me.INDTblUser.Name = "INDTblUser"
+        Me.INDTblUser.Padding = New DevExpress.XtraPrinting.PaddingInfo(5, 0, 0, 0, 100.0!)
+        Me.INDTblUser.Rows.AddRange(New DevExpress.XtraReports.UI.XRTableRow() {Me.XrTableRow24})
+        Me.INDTblUser.SizeF = New System.Drawing.SizeF(389.376!, 20.0!)
+        Me.INDTblUser.StylePriority.UsePadding = False
+        Me.INDTblUser.StylePriority.UseTextAlignment = False
+        Me.INDTblUser.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleLeft
+        '
+        'XrTableRow24
+        '
+        Me.XrTableRow24.Cells.AddRange(New DevExpress.XtraReports.UI.XRTableCell() {Me.INDLblUserPrint})
+        Me.XrTableRow24.Name = "XrTableRow24"
+        Me.XrTableRow24.Weight = 1.0R
+        '
+        'INDLblUserPrint
+        '
+        Me.INDLblUserPrint.Font = New DevExpress.Drawing.DXFont("Arial", 8.0!)
+        Me.INDLblUserPrint.Name = "INDLblUserPrint"
+        Me.INDLblUserPrint.Padding = New DevExpress.XtraPrinting.PaddingInfo(0, 5, 0, 0, 100.0!)
+        Me.INDLblUserPrint.StylePriority.UseFont = False
+        Me.INDLblUserPrint.StylePriority.UsePadding = False
+        Me.INDLblUserPrint.StylePriority.UseTextAlignment = False
+        Me.INDLblUserPrint.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleRight
+        Me.INDLblUserPrint.Weight = 1.0559997656068969R
+        '
+        'label4
+        '
+        Me.label4.CanGrow = False
+        Me.label4.ExpressionBindings.AddRange(New DevExpress.XtraReports.UI.ExpressionBinding() {New DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "sumSum([PeriodoValor])")})
+        Me.label4.Font = New DevExpress.Drawing.DXFont("Arial", 8.25!, DevExpress.Drawing.DXFontStyle.Bold)
+        Me.label4.ForeColor = System.Drawing.Color.Black
+        Me.label4.LocationFloat = New DevExpress.Utils.PointFloat(411.2287!, 3.400008!)
+        Me.label4.Name = "label4"
+        Me.label4.SizeF = New System.Drawing.SizeF(156.2378!, 14.88444!)
+        Me.label4.StyleName = "TotalData1"
+        Me.label4.StylePriority.UseFont = False
+        Me.label4.StylePriority.UseForeColor = False
+        Me.label4.StylePriority.UseTextAlignment = False
+        XrSummary1.Running = DevExpress.XtraReports.UI.SummaryRunning.Group
+        Me.label4.Summary = XrSummary1
+        Me.label4.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleRight
+        Me.label4.TextFormatString = "{0:C}"
+        Me.label4.WordWrap = False
+        '
+        'rptGLCashFlowStatus
+        '
+        Me.Bands.AddRange(New DevExpress.XtraReports.UI.Band() {Me.TopMargin, Me.BottomMargin, Me.GroupHeader1, Me.GroupHeader2, Me.Detail, Me.GroupFooter1, Me.GroupFooter2, Me.ReportFooter, Me.PageHeader, Me.PageFooter})
+        Me.CalculatedFields.AddRange(New DevExpress.XtraReports.UI.CalculatedField() {Me.Simbolo})
+        Me.ComponentStorage.AddRange(New System.ComponentModel.IComponent() {Me.SqlDataSource1})
+        Me.DataMember = "Treasury_SP_CashFlowStatus"
+        Me.DataSource = Me.SqlDataSource1
+        Me.Font = New DevExpress.Drawing.DXFont("Arial", 9.75!)
+        Me.Margins = New DevExpress.Drawing.DXMargins(39, 39, 39, 39)
+        Me.StyleSheet.AddRange(New DevExpress.XtraReports.UI.XRControlStyle() {Me.Title, Me.GroupCaption1, Me.GroupData1, Me.DetailCaption1, Me.DetailData1, Me.GroupFooterBackground3, Me.DetailData3_Odd, Me.TotalCaption1, Me.TotalData1, Me.TotalBackground1, Me.GrandTotalCaption1, Me.GrandTotalData1, Me.GrandTotalBackground1, Me.PageInfo})
+        Me.Version = "19.1"
+        CType(Me.table1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.table2, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.table3, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.XrTable2, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.XrTable1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.INDTblUser, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
+
+    End Sub
+
+    Friend WithEvents SqlDataSource1 As DevExpress.DataAccess.Sql.SqlDataSource
+    Friend WithEvents Title As DevExpress.XtraReports.UI.XRControlStyle
+    Friend WithEvents GroupCaption1 As DevExpress.XtraReports.UI.XRControlStyle
+    Friend WithEvents GroupData1 As DevExpress.XtraReports.UI.XRControlStyle
+    Friend WithEvents DetailCaption1 As DevExpress.XtraReports.UI.XRControlStyle
+    Friend WithEvents DetailData1 As DevExpress.XtraReports.UI.XRControlStyle
+    Friend WithEvents GroupFooterBackground3 As DevExpress.XtraReports.UI.XRControlStyle
+    Friend WithEvents DetailData3_Odd As DevExpress.XtraReports.UI.XRControlStyle
+    Friend WithEvents TotalCaption1 As DevExpress.XtraReports.UI.XRControlStyle
+    Friend WithEvents TotalData1 As DevExpress.XtraReports.UI.XRControlStyle
+    Friend WithEvents TotalBackground1 As DevExpress.XtraReports.UI.XRControlStyle
+    Friend WithEvents GrandTotalCaption1 As DevExpress.XtraReports.UI.XRControlStyle
+    Friend WithEvents GrandTotalData1 As DevExpress.XtraReports.UI.XRControlStyle
+    Friend WithEvents GrandTotalBackground1 As DevExpress.XtraReports.UI.XRControlStyle
+    Friend WithEvents PageInfo As DevExpress.XtraReports.UI.XRControlStyle
+    Friend WithEvents TopMargin As DevExpress.XtraReports.UI.TopMarginBand
+    Friend WithEvents BottomMargin As DevExpress.XtraReports.UI.BottomMarginBand
+    Friend WithEvents GroupHeader1 As DevExpress.XtraReports.UI.GroupHeaderBand
+    Friend WithEvents table1 As DevExpress.XtraReports.UI.XRTable
+    Friend WithEvents tableRow1 As DevExpress.XtraReports.UI.XRTableRow
+    Friend WithEvents tableCell2 As DevExpress.XtraReports.UI.XRTableCell
+    Friend WithEvents GroupHeader2 As DevExpress.XtraReports.UI.GroupHeaderBand
+    Friend WithEvents table2 As DevExpress.XtraReports.UI.XRTable
+    Friend WithEvents tableRow2 As DevExpress.XtraReports.UI.XRTableRow
+    Friend WithEvents INDHPeriodo As DevExpress.XtraReports.UI.XRTableCell
+    Friend WithEvents INDHComparativo As DevExpress.XtraReports.UI.XRTableCell
+    Friend WithEvents Detail As DevExpress.XtraReports.UI.DetailBand
+    Friend WithEvents table3 As DevExpress.XtraReports.UI.XRTable
+    Friend WithEvents tableRow3 As DevExpress.XtraReports.UI.XRTableRow
+    Friend WithEvents tableCell7 As DevExpress.XtraReports.UI.XRTableCell
+    Friend WithEvents tableCell8 As DevExpress.XtraReports.UI.XRTableCell
+    Friend WithEvents tableCell9 As DevExpress.XtraReports.UI.XRTableCell
+    Friend WithEvents INDValorComparativo As DevExpress.XtraReports.UI.XRTableCell
+    Friend WithEvents GroupFooter1 As DevExpress.XtraReports.UI.GroupFooterBand
+    Friend WithEvents GroupFooter2 As DevExpress.XtraReports.UI.GroupFooterBand
+    Friend WithEvents panel1 As DevExpress.XtraReports.UI.XRPanel
+    Friend WithEvents INDValorActividadComparativo As DevExpress.XtraReports.UI.XRLabel
+    Friend WithEvents label7 As DevExpress.XtraReports.UI.XRLabel
+    Friend WithEvents ReportFooter As DevExpress.XtraReports.UI.ReportFooterBand
+    Friend WithEvents panel2 As DevExpress.XtraReports.UI.XRPanel
+    Friend WithEvents XrLabel1 As DevExpress.XtraReports.UI.XRLabel
+    Friend WithEvents INDTotalPeriodo As DevExpress.XtraReports.UI.XRLabel
+    Friend WithEvents INDTotalComparativo As DevExpress.XtraReports.UI.XRLabel
+    Friend WithEvents Simbolo As DevExpress.XtraReports.UI.CalculatedField
+    Friend WithEvents XrLabel2 As DevExpress.XtraReports.UI.XRLabel
+    Friend WithEvents XrTable1 As DevExpress.XtraReports.UI.XRTable
+    Friend WithEvents XrTableRow1 As DevExpress.XtraReports.UI.XRTableRow
+    Friend WithEvents INDSaldoInicialPeriodo As DevExpress.XtraReports.UI.XRTableCell
+    Friend WithEvents INDSaldoInicialComparativo As DevExpress.XtraReports.UI.XRTableCell
+    Friend WithEvents XrTable2 As DevExpress.XtraReports.UI.XRTable
+    Friend WithEvents XrTableRow2 As DevExpress.XtraReports.UI.XRTableRow
+    Friend WithEvents XrTableCell1 As DevExpress.XtraReports.UI.XRTableCell
+    Friend WithEvents INDNetoComparativo As DevExpress.XtraReports.UI.XRTableCell
+    Friend WithEvents XrLabel3 As DevExpress.XtraReports.UI.XRLabel
+    Friend WithEvents PageHeader As DevExpress.XtraReports.UI.PageHeaderBand
+    Friend WithEvents XrPictureBox1 As DevExpress.XtraReports.UI.XRPictureBox
+    Friend WithEvents XrPictureBox2 As DevExpress.XtraReports.UI.XRPictureBox
+    Friend WithEvents XrPageInfo3 As DevExpress.XtraReports.UI.XRPageInfo
+    Friend WithEvents XrLabel13 As DevExpress.XtraReports.UI.XRLabel
+    Friend WithEvents XrPageInfo1 As DevExpress.XtraReports.UI.XRPageInfo
+    Friend WithEvents INDLblCompany As DevExpress.XtraReports.UI.XRLabel
+    Friend WithEvents INDLblNitCompany As DevExpress.XtraReports.UI.XRLabel
+    Friend WithEvents XrLabel5 As DevExpress.XtraReports.UI.XRLabel
+    Friend WithEvents XrLabel4 As DevExpress.XtraReports.UI.XRLabel
+    Friend WithEvents INDLblRangeDate As DevExpress.XtraReports.UI.XRLabel
+    Friend WithEvents XrLabel9 As DevExpress.XtraReports.UI.XRLabel
+    Friend WithEvents XrLabel8 As DevExpress.XtraReports.UI.XRLabel
+    Friend WithEvents XrLabel7 As DevExpress.XtraReports.UI.XRLabel
+    Friend WithEvents XrLabel6 As DevExpress.XtraReports.UI.XRLabel
+    Friend WithEvents PageFooter As DevExpress.XtraReports.UI.PageFooterBand
+    Friend WithEvents INDTblUser As DevExpress.XtraReports.UI.XRTable
+    Friend WithEvents XrTableRow24 As DevExpress.XtraReports.UI.XRTableRow
+    Friend WithEvents INDLblUserPrint As DevExpress.XtraReports.UI.XRTableCell
+    Friend WithEvents label4 As DevExpress.XtraReports.UI.XRLabel
+End Class

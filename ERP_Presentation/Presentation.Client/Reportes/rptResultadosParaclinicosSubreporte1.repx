@@ -1,0 +1,241 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<XtraReportsLayoutSerializer SerializerVersion="12.1.7.0" Ref="0" ControlType="DevExpress.XtraReports.UI.XtraReport, DevExpress.XtraReports.v12.1, Version=12.1.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" Name="rptResultadosParaclinicosSubreporte" Version="12.1" Bookmark="Notas de Evolución" SnapGridSize="5.5" DisplayName="rptResultadosParaclinicosSubreporte" PageWidth="850" Margins="50, 19, 0, 31" ScriptLanguage="VisualBasic" PageHeight="1100">
+  <FormattingRuleSheet>
+    <Item1 Ref="1" Name="FormattingRule1">
+      <Formatting Ref="2" StringFormat="Near;Near;0;None;Character;Default" BorderStyle="Inset" />
+    </Item1>
+  </FormattingRuleSheet>
+  <Bands>
+    <Item1 Ref="3" ControlType="DetailBand" Name="Detail" TextAlignment="TopLeft" Padding="0,0,0,0,100" HeightF="0" />
+    <Item2 Ref="4" Name="TopMarginBand1" ControlType="TopMarginBand" HeightF="0" />
+    <Item3 Ref="5" Name="BottomMarginBand1" ControlType="BottomMarginBand" HeightF="31" />
+    <Item4 Ref="6" ControlType="DetailReportBand" Name="DetailParaclinicos" Level="0" PageBreak="AfterBand">
+      <Bands>
+        <Item1 Ref="7" ControlType="DetailBand" Name="Detail18" HeightF="20.00002">
+          <Controls>
+            <Item1 Ref="8" Name="INDlblClasificacion" ControlType="XRLabel" SizeF="277.2085,17.00001" LocationFloat="479.5831, 3.000005" Font="Arial, 8.25pt" Padding="2,2,0,0,100" Multiline="true" Text="INDlblFechaServicio">
+              <DataBindings>
+                <Item1 Ref="9" PropertyName="Text" DataMember="Paraclinicos.CLASIFICACION" />
+              </DataBindings>
+              <StylePriority Ref="10" UseFont="false" />
+            </Item1>
+            <Item2 Ref="11" Name="INDlblServicioInterpreta" ControlType="XRLabel" SizeF="374.5001,17.00001" LocationFloat="99.99997, 3.000005" Font="Arial, 8.25pt" Padding="2,2,0,0,100" Multiline="true" Text="INDlblServicioInterpreta">
+              <DataBindings>
+                <Item1 Ref="12" PropertyName="Text" DataMember="Paraclinicos.DESCRIPCION DEL SERVICIO" />
+              </DataBindings>
+              <StylePriority Ref="13" UseFont="false" />
+            </Item2>
+            <Item3 Ref="14" Name="INDlblFolioInterpreta" ControlType="XRLabel" SizeF="52.04192,17.00001" LocationFloat="29.95806, 3.000005" Font="Arial, 8.25pt" Padding="2,2,0,0,100" TextAlignment="TopCenter" CanGrow="false" Text="INDlblFolioInterpreta">
+              <DataBindings>
+                <Item1 Ref="15" PropertyName="Text" DataMember="Paraclinicos.NUMERO DEL FOLIO" />
+              </DataBindings>
+              <StylePriority Ref="16" UseFont="false" UseTextAlignment="false" />
+            </Item3>
+            <Item4 Ref="17" Name="XrShape1" ControlType="XRShape" FillColor="Black" SizeF="5.5,6.16668" LocationFloat="23.2914, 6.833331" />
+          </Controls>
+        </Item1>
+        <Item2 Ref="18" ControlType="GroupHeaderBand" Name="GroupParaclinicos" Level="1" HeightF="32.375">
+          <Controls>
+            <Item1 Ref="19" Name="INDlblNumeroMuestra" ControlType="XRLabel" SizeF="71.54163,17.00001" LocationFloat="688.8749, 3.999996" Font="Arial, 8.25pt" Padding="2,2,0,0,100" Multiline="true" Text="INDlblNumeroMuestra">
+              <DataBindings>
+                <Item1 Ref="20" PropertyName="Text" DataMember="Paraclinicos.PrescripcionesInterpretadas-LaboratoriosInterpretados.MUESTRA" />
+              </DataBindings>
+              <StylePriority Ref="21" UseFont="false" />
+            </Item1>
+            <Item2 Ref="22" Name="XrLabel1" ControlType="XRLabel" SizeF="75.37524,17.00001" LocationFloat="612.458, 3.999996" Font="Arial, 8.25pt, style=Bold" Padding="2,2,0,0,100" Text="Muestra N° :">
+              <StylePriority Ref="23" UseFont="false" />
+            </Item2>
+            <Item3 Ref="24" Name="XrLabel32" ControlType="XRLabel" Bookmark="Interpretacion de Paraclinicos" SizeF="753.4166,17" LocationFloat="7.000001, 4" Font="Arial, 9pt, style=Bold, Underline" BackColor="Gainsboro" Padding="2,2,0,0,100" Text="INTERPRETACION DE PARACLINICOS">
+              <StylePriority Ref="25" UseFont="false" UseBackColor="false" />
+            </Item3>
+          </Controls>
+        </Item2>
+        <Item3 Ref="26" ControlType="DetailReportBand" Name="DetailReport" Level="0" DataMember="Paraclinicos.PrescripcionesInterpretadas-LaboratoriosInterpretados">
+          <Bands>
+            <Item1 Ref="27" ControlType="DetailBand" Name="Detail5" HeightF="16.03839">
+              <Controls>
+                <Item1 Ref="28" Name="Maximo" ControlType="XRLabel" SizeF="73.54175,12.82997" LocationFloat="511.875, 3.208415" Font="Arial, 6pt" Padding="2,2,0,0,100" Multiline="true" Text="INDlblInterpretacionParaclinico">
+                  <DataBindings>
+                    <Item1 Ref="29" PropertyName="Text" DataMember="Paraclinicos.PrescripcionesInterpretadas-LaboratoriosInterpretados.VALORMAXIMO" />
+                  </DataBindings>
+                  <StylePriority Ref="30" UseFont="false" />
+                </Item1>
+                <Item2 Ref="31" Name="INDlblLaboratoriosInterpretados" ControlType="XRLabel" SizeF="305.7083,12.83003" LocationFloat="40.29166, 3.208351" Font="Arial, 6pt" Padding="2,2,0,0,100" Multiline="true" Text="INDlblInterpretacionParaclinico">
+                  <DataBindings>
+                    <Item1 Ref="32" PropertyName="Text" DataMember="Paraclinicos.PrescripcionesInterpretadas-LaboratoriosInterpretados.ANALITO" />
+                  </DataBindings>
+                  <StylePriority Ref="33" UseFont="false" />
+                </Item2>
+                <Item3 Ref="34" Name="XrLabel323" ControlType="XRLabel" SizeF="174.9999,12.82997" LocationFloat="585.4167, 3.208351" Font="Arial, 6pt" Padding="2,2,0,0,100" Multiline="true" Text="INDlblInterpretacionParaclinico">
+                  <DataBindings>
+                    <Item1 Ref="35" PropertyName="Text" DataMember="Paraclinicos.PrescripcionesInterpretadas-LaboratoriosInterpretados.OBSERVACION" />
+                  </DataBindings>
+                  <StylePriority Ref="36" UseFont="false" />
+                </Item3>
+                <Item4 Ref="37" Name="XrLabel322" ControlType="XRLabel" SizeF="92.33319,12.82997" LocationFloat="346, 3.208351" Font="Arial, 6pt" Padding="2,2,0,0,100" Multiline="true" Text="INDlblInterpretacionParaclinico">
+                  <DataBindings>
+                    <Item1 Ref="38" PropertyName="Text" DataMember="Paraclinicos.PrescripcionesInterpretadas-LaboratoriosInterpretados.VALOR" />
+                  </DataBindings>
+                  <StylePriority Ref="39" UseFont="false" />
+                </Item4>
+                <Item5 Ref="40" Name="Minimo" ControlType="XRLabel" SizeF="73.54175,12.82997" LocationFloat="438.3332, 3.208415" Font="Arial, 6pt" Padding="2,2,0,0,100" Multiline="true" Text="INDlblInterpretacionParaclinico">
+                  <DataBindings>
+                    <Item1 Ref="41" PropertyName="Text" DataMember="Paraclinicos.PrescripcionesInterpretadas-LaboratoriosInterpretados.VALORMINIMO" />
+                  </DataBindings>
+                  <StylePriority Ref="42" UseFont="false" />
+                </Item5>
+              </Controls>
+            </Item1>
+            <Item2 Ref="43" ControlType="GroupHeaderBand" Name="GroupHeader13" HeightF="38.16668">
+              <Controls>
+                <Item1 Ref="44" Name="XrLabel21" ControlType="XRLabel" SizeF="73.54169,17.00001" LocationFloat="511.875, 21.16667" Font="Arial, 8.25pt, style=Bold" Padding="2,2,0,0,100" Text="Maximo">
+                  <StylePriority Ref="45" UseFont="false" />
+                </Item1>
+                <Item2 Ref="46" Name="XrLabel20" ControlType="XRLabel" SizeF="73.54175,17.00001" LocationFloat="438.3333, 21.16667" Font="Arial, 8.25pt, style=Bold" Padding="2,2,0,0,100" Text="Minimo">
+                  <StylePriority Ref="47" UseFont="false" />
+                </Item2>
+                <Item3 Ref="48" Name="XrLabel320" ControlType="XRLabel" SizeF="92.33322,17.00001" LocationFloat="346, 21.16667" Font="Arial, 8.25pt, style=Bold" Padding="2,2,0,0,100" Text="Valor">
+                  <StylePriority Ref="49" UseFont="false" />
+                </Item3>
+                <Item4 Ref="50" Name="XrLabel321" ControlType="XRLabel" SizeF="91.99999,17.00001" LocationFloat="585.4167, 21.16667" Font="Arial, 8.25pt, style=Bold" Padding="2,2,0,0,100" Text="Observación">
+                  <StylePriority Ref="51" UseFont="false" />
+                </Item4>
+                <Item5 Ref="52" Name="XrLabel317" ControlType="XRLabel" SizeF="720.1248,17.00001" LocationFloat="40.29166, 0" Font="Arial, 8.75pt, style=Bold" BackColor="Gainsboro" Padding="2,2,0,0,100" Text="Resultados">
+                  <StylePriority Ref="53" UseFont="false" UseBackColor="false" />
+                </Item5>
+                <Item6 Ref="54" Name="XrLabel307" ControlType="XRLabel" SizeF="91.99999,17.00001" LocationFloat="40.29166, 21.16667" Font="Arial, 8.25pt, style=Bold" Padding="2,2,0,0,100" Text="Analitos">
+                  <StylePriority Ref="55" UseFont="false" />
+                </Item6>
+                <Item7 Ref="56" Name="Microorganismo" ControlType="XRLabel" SizeF="101.375,17.00001" LocationFloat="586.4583, 21.16667" Visible="false" Font="Arial, 8.25pt, style=Bold" Padding="2,2,0,0,100" Text="Microorganismo">
+                  <StylePriority Ref="57" UseFont="false" />
+                </Item7>
+              </Controls>
+            </Item2>
+            <Item3 Ref="58" ControlType="GroupFooterBand" Name="GroupFooter2" HeightF="0" Expanded="false" />
+          </Bands>
+          <ReportPrintOptions Ref="59" PrintOnEmptyDataSource="false" />
+        </Item3>
+        <Item4 Ref="60" ControlType="GroupHeaderBand" Name="GroupHeader3" HeightF="19.54168">
+          <Controls>
+            <Item1 Ref="61" Name="XrLabel33" ControlType="XRLabel" SizeF="58.70856,17.00001" LocationFloat="23.29143, 1.666673" Font="Arial, 8.25pt, style=Bold" Padding="2,2,0,0,100" Text="Folio Sol.">
+              <StylePriority Ref="62" UseFont="false" />
+            </Item1>
+            <Item2 Ref="63" Name="XrLabel34" ControlType="XRLabel" SizeF="374.5,17.00001" LocationFloat="100, 1.666705" Font="Arial, 8.25pt, style=Bold" Padding="2,2,0,0,100" Text="Servicio">
+              <StylePriority Ref="64" UseFont="false" />
+            </Item2>
+            <Item3 Ref="65" Name="XrLabel35" ControlType="XRLabel" SizeF="152.1252,17.00001" LocationFloat="479.5831, 1.666705" Font="Arial, 8.25pt, style=Bold" Padding="2,2,0,0,100" Text="Clasificación">
+              <StylePriority Ref="66" UseFont="false" />
+            </Item3>
+          </Controls>
+        </Item4>
+        <Item5 Ref="67" ControlType="DetailReportBand" Name="DetailReport1" Level="2" DataMember="Paraclinicos.PrescripcionesInterpretadas-ImagenesLaboratoriosInterpretados">
+          <Bands>
+            <Item1 Ref="68" ControlType="DetailBand" Name="Detail1" HeightF="85">
+              <Controls>
+                <Item1 Ref="69" Name="XrLabel2" ControlType="XRLabel" SizeF="20.7502,84.99998" LocationFloat="61.2498, 0" Font="Arial, 8.25pt" Padding="2,2,0,0,100" TextAlignment="MiddleCenter" Angle="90" Multiline="true" Text="INDlblInterpretacionParaclinico">
+                  <DataBindings>
+                    <Item1 Ref="70" PropertyName="Text" DataMember="Paraclinicos.PrescripcionesInterpretadas-ImagenesLaboratoriosInterpretados.LEYENDA IMAGEN" />
+                  </DataBindings>
+                  <StylePriority Ref="71" UseFont="false" UseTextAlignment="false" />
+                </Item1>
+                <Item2 Ref="72" Name="XrPictureBox2" ControlType="XRPictureBox" SizeF="133,85" LocationFloat="82.99999, 0" Sizing="AutoSize">
+                  <DataBindings>
+                    <Item1 Ref="73" PropertyName="Image" DataMember="Paraclinicos.PrescripcionesInterpretadas-ImagenesLaboratoriosInterpretados.IMAGENLAB" />
+                  </DataBindings>
+                </Item2>
+              </Controls>
+              <MultiColumn Ref="74" ColumnWidth="170" ColumnSpacing="40" Layout="AcrossThenDown" Mode="UseColumnWidth" />
+            </Item1>
+          </Bands>
+          <ReportPrintOptions Ref="75" PrintOnEmptyDataSource="false" />
+        </Item5>
+        <Item6 Ref="76" ControlType="GroupFooterBand" Name="GroupFooter3" HeightF="51.00005" Level="1">
+          <Controls>
+            <Item1 Ref="77" Name="XrPictureBox1" ControlType="XRPictureBox" SizeF="210,51.00002" LocationFloat="196.3748, 0" Sizing="StretchImage">
+              <DataBindings>
+                <Item1 Ref="78" PropertyName="Image" DataMember="Paraclinicos.FIRMA PROFESIONAL" />
+              </DataBindings>
+            </Item1>
+            <Item2 Ref="79" Name="XrLabel456" ControlType="XRLabel" SizeF="260.0001,17" LocationFloat="496.7915, 0" Font="Arial, 8.25pt" Padding="2,2,0,0,100">
+              <DataBindings>
+                <Item1 Ref="80" PropertyName="Text" DataMember="Paraclinicos.NOMBRE MEDICO" />
+              </DataBindings>
+              <StylePriority Ref="81" UseFont="false" />
+            </Item2>
+            <Item3 Ref="82" Name="XrLabel455" ControlType="XRLabel" SizeF="81.50016,17" LocationFloat="414.2913, 0" Font="Arial, 8.25pt, style=Bold" Padding="2,2,0,0,100" Text="Profesional:">
+              <StylePriority Ref="83" UseFont="false" />
+            </Item3>
+            <Item4 Ref="84" Name="XrLabel454" ControlType="XRLabel" SizeF="260.0001,17" LocationFloat="496.7915, 16.99988" Font="Arial, 8.25pt" Padding="2,2,0,0,100">
+              <DataBindings>
+                <Item1 Ref="85" PropertyName="Text" DataMember="Paraclinicos.DESCRIPCION DE LA ESPECIALIDAD" />
+              </DataBindings>
+              <StylePriority Ref="86" UseFont="false" />
+            </Item4>
+            <Item5 Ref="87" Name="XrLabel453" ControlType="XRLabel" SizeF="82.37514,17.00003" LocationFloat="413.4164, 34.00002" Font="Arial, 8.25pt, style=Bold" Padding="2,2,0,0,100" Text="Tarjeta Prof. #">
+              <StylePriority Ref="88" UseFont="false" />
+            </Item5>
+            <Item6 Ref="89" Name="XrLabel452" ControlType="XRLabel" SizeF="81.91666,17.00001" LocationFloat="414.2913, 17.00007" Font="Arial, 8.25pt, style=Bold" Padding="2,2,0,0,100" Text="Especialidad:">
+              <StylePriority Ref="90" UseFont="false" />
+            </Item6>
+            <Item7 Ref="91" Name="XrLabel451" ControlType="XRLabel" SizeF="131.2917,17" LocationFloat="496.7915, 34.00002" WordWrap="false" Font="Arial, 8.25pt" Padding="2,2,0,0,100" CanGrow="false">
+              <DataBindings>
+                <Item1 Ref="92" PropertyName="Text" DataMember="Paraclinicos.TARJETA PROFESIONAL" />
+              </DataBindings>
+              <StylePriority Ref="93" UseFont="false" />
+            </Item7>
+          </Controls>
+        </Item6>
+        <Item7 Ref="94" ControlType="DetailReportBand" Name="DetailReportAntibiograma" Visible="false" Level="1" DataMember="Paraclinicos.PrescripcionesInterpretadas-Antibiogramas">
+          <Bands>
+            <Item1 Ref="95" ControlType="GroupHeaderBand" Name="GroupHeader1" HeightF="34.00001">
+              <Controls>
+                <Item1 Ref="96" Name="INDlblMicroorganismos" ControlType="XRLabel" SizeF="170.3333,12.83003" LocationFloat="586.4583, 2.458318" Font="Arial, 6pt" Padding="2,2,0,0,100" Multiline="true" Text="INDlblMicroorganismos">
+                  <StylePriority Ref="97" UseFont="false" />
+                </Item1>
+                <Item2 Ref="98" Name="XrLabel4" ControlType="XRLabel" SizeF="91.99999,17.00001" LocationFloat="40.1248, 17" Font="Arial, 8.25pt, style=Bold" Padding="2,2,0,0,100" Text="Antibiotico">
+                  <StylePriority Ref="99" UseFont="false" />
+                </Item2>
+                <Item3 Ref="100" Name="INDlblValorAntibiograma" ControlType="XRLabel" SizeF="239.4168,12.83003" LocationFloat="346, 2.458318" Font="Arial, 6pt" Padding="2,2,0,0,100" Multiline="true" Text="INDlblValorAntibiograma">
+                  <StylePriority Ref="101" UseFont="false" />
+                </Item3>
+                <Item4 Ref="102" Name="INDlblNombreAntibiograma" ControlType="XRLabel" SizeF="304.6666,12.83003" LocationFloat="41.33334, 2.458318" Font="Arial, 6pt" Padding="2,2,0,0,100" Multiline="true" Text="INDlblNombreAntibiograma">
+                  <StylePriority Ref="103" UseFont="false" />
+                </Item4>
+                <Item5 Ref="104" Name="XrLabel6" ControlType="XRLabel" SizeF="92,17.00001" LocationFloat="586.4583, 17" Font="Arial, 8.25pt, style=Bold" Padding="2,2,0,0,100" Text="Resultado">
+                  <StylePriority Ref="105" UseFont="false" />
+                </Item5>
+                <Item6 Ref="106" Name="XrLabel5" ControlType="XRLabel" SizeF="73.54172,17.00001" LocationFloat="346, 17" Font="Arial, 8.25pt, style=Bold" Padding="2,2,0,0,100" Text="CMI">
+                  <StylePriority Ref="107" UseFont="false" />
+                </Item6>
+              </Controls>
+            </Item1>
+            <Item2 Ref="108" ControlType="DetailBand" Name="Detail2" HeightF="16.83003">
+              <Controls>
+                <Item1 Ref="109" Name="INDlblResultado" ControlType="XRLabel" SizeF="171.375,12.83003" LocationFloat="585.4167, 4" Font="Arial, 6pt" Padding="2,2,0,0,100" Multiline="true" Text="INDlblResultado">
+                  <DataBindings>
+                    <Item1 Ref="110" PropertyName="Text" DataMember="Paraclinicos.PrescripcionesInterpretadas-Antibiogramas.RESULTADO" />
+                  </DataBindings>
+                  <StylePriority Ref="111" UseFont="false" />
+                </Item1>
+                <Item2 Ref="112" Name="INDlblCMI" ControlType="XRLabel" SizeF="147.0833,12.83003" LocationFloat="346, 4" Font="Arial, 6pt" Padding="2,2,0,0,100" Multiline="true" Text="INDlblCMI">
+                  <DataBindings>
+                    <Item1 Ref="113" PropertyName="Text" DataMember="Paraclinicos.PrescripcionesInterpretadas-Antibiogramas.CMI" />
+                  </DataBindings>
+                  <StylePriority Ref="114" UseFont="false" />
+                </Item2>
+                <Item3 Ref="115" Name="INDlblAntibiotico" ControlType="XRLabel" SizeF="211.7501,12.83003" LocationFloat="41.33334, 4" Font="Arial, 6pt" Padding="2,2,0,0,100" Multiline="true" Text="INDlblAntibiotico">
+                  <DataBindings>
+                    <Item1 Ref="116" PropertyName="Text" DataMember="Paraclinicos.PrescripcionesInterpretadas-Antibiogramas.ANTIBIOTICO" />
+                  </DataBindings>
+                  <StylePriority Ref="117" UseFont="false" />
+                </Item3>
+              </Controls>
+            </Item2>
+          </Bands>
+          <ReportPrintOptions Ref="118" PrintOnEmptyDataSource="false" />
+        </Item7>
+      </Bands>
+      <ReportPrintOptions Ref="119" PrintOnEmptyDataSource="false" />
+    </Item4>
+  </Bands>
+</XtraReportsLayoutSerializer>

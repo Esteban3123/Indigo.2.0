@@ -1,0 +1,86 @@
+﻿#Region "Librerias Importadas"
+Imports Infrastructure.CrossCutting.Base
+Imports Infrastructure.Data.Xpo.TreasuryRepository
+Imports Infrastructure.Data.Xpo
+Imports Domain.Entities
+Imports System.Globalization
+#End Region
+
+Public Class rptReportNotes
+    Implements IReport
+
+    ''' <summary>
+    ''' Variable para inicializar los valores de sesion
+    ''' </summary>
+    Dim IndigoSessionValues As SessionValues = SessionValues.Instance
+
+    ''' <summary>
+    ''' obtiene la informacion de la moneda seleccionada
+    ''' </summary>
+    ''' <returns></returns>
+    Public Property Currency As Currency
+
+    ''' <summary>
+    ''' abreviacion de la moneda 
+    ''' </summary>
+    Dim CurrencyAbbreviation As String
+
+    Public Sub CargarDataSource() Implements IReport.CargarDataSource
+
+        Dim filtroConsulta As String = "NoteDate >= #" & Format(ParametrosReporte(0), "yyyy-MM-dd") & "# AND NoteDate <= #" & Format(ParametrosReporte(1), "yyyy-MM-dd") & "#"
+
+        'si filtra por documentos
+        If ParametrosReporte(2) IsNot Nothing And ParametrosReporte(3) IsNot Nothing Then
+            filtroConsulta &= "AND Code >= '" & ParametrosReporte(2) & "' AND Code <= '" & ParametrosReporte(3) & "'"
+        End If
+
+        If ParametrosReporte(4) <> 4 Then
+            filtroConsulta &= "AND Status = " & ParametrosReporte(4)
+        End If
+
+        If Currency.Id > 0 Then
+            filtroConsulta &= "AND CurrencyId = " & Currency.Id
+        End If
+
+        Dim listReport As List(Of TreasuryNotesXpo) = XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).TreasuryService.GetCollection(Of TreasuryNotesXpo)(Nothing, filtroConsulta)
+        For Each item In listReport
+            If item.CashRegisterId IsNot Nothing Then
+                item.GroupByCashEntityBank = item.CashRegisterId.CodeName
+            ElseIf item.EntityBankAccountId IsNot Nothing Then
+                item.GroupByCashEntityBank = item.EntityBankAccountId.Number & " - " & item.EntityBankAccountId.IdBank.Name
+            Else
+                item.GroupByCashEntityBank = Nothing
+            End If
+        Next
+
+        Me.DataSource = listReport
+
+    End Sub
+
+    Public Sub CargarImagenes() Implements IReport.CargarImagenes
+
+    End Sub
+
+    Public ReadOnly Property NameReport As String Implements IReport.NameReport
+        Get
+            Return ""
+        End Get
+    End Property
+
+    Public Property ParametrosReporte As Object() Implements IReport.ParametrosReporte
+
+    Private Sub rptReportNotes_BeforePrint(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles MyBase.BeforePrint
+        INDLblCompany.Text = IndigoSessionValues.IndigoCompanyName
+        INDLblNitCompany.Text = "Nit:" & IndigoSessionValues.IndigoCompanyNit
+        INDLblUserPrint.Text = "Usuario Impresión : " & IndigoSessionValues.UserIndigo & " - " & IndigoSessionValues.UserIndigoName
+        Me.ParameterGroupBy.Value = ParametrosReporte(5)
+        INDLblDate.Text = "Informe comprendido entre " & CDate(ParametrosReporte(0)).ToString("dd De MMMM Del yyyy") & " " & CDate(ParametrosReporte(1)).ToString("A dd De MMMM Del yyyy")
+
+        '---Se establece el number format al reporte dependiendo de la moneda
+        Dim _culture As CultureInfo = CultureInfo.CurrentCulture.Clone()
+
+        CurrencyAbbreviation = Currency?.Abbreviation
+        _culture.NumberFormat = CurrencyAbbreviation.GetNumberFormat
+        ApplyLocalization(_culture)
+    End Sub
+End Class

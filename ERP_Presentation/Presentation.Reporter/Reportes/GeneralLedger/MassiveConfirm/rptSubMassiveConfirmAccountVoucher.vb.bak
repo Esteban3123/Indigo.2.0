@@ -1,0 +1,41 @@
+﻿#Region "Librerias Improtadas"
+Imports Infrastructure.CrossCutting.Base
+Imports Infrastructure.Data.Xpo
+Imports Infrastructure.Data.Xpo.AccountingRepository
+Imports Domain.Entities
+Imports DevExpress.XtraReports.UI
+Imports System.Drawing.Printing
+Imports Infrastructure.CrossCutting.Resources
+Imports DevExpress.XtraReports.Parameters
+Imports DevExpress.Xpo
+#End Region
+
+Public Class rptSubMassiveConfirmAccountVoucher
+    Implements IReport
+
+    ''' <summary>
+    ''' Variable para inicializar los valores de sesion
+    ''' </summary>
+    Dim IndigoSessionValues As SessionValues = SessionValues.Instance
+
+    Public Sub CargarDataSource() Implements IReport.CargarDataSource
+        Me.DataSource = XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).PaymentsService.GetCollection(Of JournalVoucherXpo)(Nothing, "Id In ('" & String.Join("','", CType(ParametrosReporte(0), List(Of String))) & "')")
+    End Sub
+
+    Public Sub CargarImagenes() Implements IReport.CargarImagenes
+
+    End Sub
+
+    Public ReadOnly Property NameReport As String Implements IReport.NameReport
+        Get
+            Return ""
+        End Get
+    End Property
+
+    Public Property ParametrosReporte As Object() Implements IReport.ParametrosReporte
+
+    Private Sub rptSubMassiveConfirmAccountVoucher_BeforePrint(sender As Object, e As PrintEventArgs) Handles MyBase.BeforePrint
+        'Se asigana el valor para el pie de pagina del documento
+        Me.INDFooter.Value = ParametrosReporte(1)
+    End Sub
+End Class

@@ -1,0 +1,1290 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:wsap="http://schemas.xmlsoap.org/ws/2004/08/addressing/policy" xmlns:wsa10="http://www.w3.org/2005/08/addressing" xmlns:tns="http://tempuri.org/" xmlns:msc="http://schemas.microsoft.com/ws/2005/12/wsdl/contract" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:wsx="http://schemas.xmlsoap.org/ws/2004/09/mex" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="MedicalFeesService" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsp:Policy wsu:Id="basicHttps_Endpoint_MedicalFees_policy">
+    <wsp:ExactlyOne>
+      <wsp:All>
+        <sp:TransportBinding xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <wsp:Policy>
+            <sp:TransportToken>
+              <wsp:Policy>
+                <sp:HttpsToken RequireClientCertificate="false" />
+              </wsp:Policy>
+            </sp:TransportToken>
+            <sp:AlgorithmSuite>
+              <wsp:Policy>
+                <sp:Basic256 />
+              </wsp:Policy>
+            </sp:AlgorithmSuite>
+            <sp:Layout>
+              <wsp:Policy>
+                <sp:Strict />
+              </wsp:Policy>
+            </sp:Layout>
+          </wsp:Policy>
+        </sp:TransportBinding>
+      </wsp:All>
+    </wsp:ExactlyOne>
+  </wsp:Policy>
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://tempuri.org/Imports">
+      <xsd:import schemaLocation="https://localhost:9001/ServiceEntity/MedicalFees.svc?xsd=xsd0" namespace="http://tempuri.org/" />
+      <xsd:import schemaLocation="https://localhost:9001/ServiceEntity/MedicalFees.svc?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+      <xsd:import schemaLocation="https://localhost:9001/ServiceEntity/MedicalFees.svc?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/Domain.Entities" />
+      <xsd:import schemaLocation="https://localhost:9001/ServiceEntity/MedicalFees.svc?xsd=xsd3" namespace="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" />
+      <xsd:import schemaLocation="https://localhost:9001/ServiceEntity/MedicalFees.svc?xsd=xsd4" />
+      <xsd:import schemaLocation="https://localhost:9001/ServiceEntity/MedicalFees.svc?xsd=xsd5" namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
+      <xsd:import schemaLocation="https://localhost:9001/ServiceEntity/MedicalFees.svc?xsd=xsd6" namespace="http://schemas.datacontract.org/2004/07/Domain.Common.Entities" />
+      <xsd:import schemaLocation="https://localhost:9001/ServiceEntity/MedicalFees.svc?xsd=xsd7" namespace="http://schemas.datacontract.org/2004/07/Infrastructure.CrossCutting.Base" />
+      <xsd:import schemaLocation="https://localhost:9001/ServiceEntity/MedicalFees.svc?xsd=xsd8" namespace="http://schemas.datacontract.org/2004/07/System" />
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="IMedicalFeesService_GetBlockRecordMedicalFeesByIdformAndIdRecord_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetBlockRecordMedicalFeesByIdformAndIdRecord" />
+  </wsdl:message>
+  <wsdl:message name="IMedicalFeesService_GetBlockRecordMedicalFeesByIdformAndIdRecord_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetBlockRecordMedicalFeesByIdformAndIdRecordResponse" />
+  </wsdl:message>
+  <wsdl:message name="IMedicalFeesService_SaveBlockRecordMedicalFees_InputMessage">
+    <wsdl:part name="parameters" element="tns:SaveBlockRecordMedicalFees" />
+  </wsdl:message>
+  <wsdl:message name="IMedicalFeesService_SaveBlockRecordMedicalFees_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SaveBlockRecordMedicalFeesResponse" />
+  </wsdl:message>
+  <wsdl:message name="IMedicalFeesService_DeleteBlockRecordMedicalFees_InputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteBlockRecordMedicalFees" />
+  </wsdl:message>
+  <wsdl:message name="IMedicalFeesService_DeleteBlockRecordMedicalFees_OutputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteBlockRecordMedicalFeesResponse" />
+  </wsdl:message>
+  <wsdl:message name="IMedicalFeesService_GetSequenseByIdForm_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetSequenseByIdForm" />
+  </wsdl:message>
+  <wsdl:message name="IMedicalFeesService_GetSequenseByIdForm_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetSequenseByIdFormResponse" />
+  </wsdl:message>
+  <wsdl:message name="IMedicalFeesService_GetNumericSequenseGroupById_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetNumericSequenseGroupById" />
+  </wsdl:message>
+  <wsdl:message name="IMedicalFeesService_GetNumericSequenseGroupById_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetNumericSequenseGroupByIdResponse" />
+  </wsdl:message>
+  <wsdl:message name="IMedicalFeesService_SaveSequence_InputMessage">
+    <wsdl:part name="parameters" element="tns:SaveSequence" />
+  </wsdl:message>
+  <wsdl:message name="IMedicalFeesService_SaveSequence_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SaveSequenceResponse" />
+  </wsdl:message>
+  <wsdl:message name="IMedicalFeesService_SaveMedicalFeesContract_InputMessage">
+    <wsdl:part name="parameters" element="tns:SaveMedicalFeesContract" />
+  </wsdl:message>
+  <wsdl:message name="IMedicalFeesService_SaveMedicalFeesContract_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SaveMedicalFeesContractResponse" />
+  </wsdl:message>
+  <wsdl:message name="IMedicalFeesService_DeleteMedicalFeesContract_InputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteMedicalFeesContract" />
+  </wsdl:message>
+  <wsdl:message name="IMedicalFeesService_DeleteMedicalFeesContract_OutputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteMedicalFeesContractResponse" />
+  </wsdl:message>
+  <wsdl:message name="IMedicalFeesService_GetMedicalFeesContract_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetMedicalFeesContract" />
+  </wsdl:message>
+  <wsdl:message name="IMedicalFeesService_GetMedicalFeesContract_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetMedicalFeesContractResponse" />
+  </wsdl:message>
+  <wsdl:message name="IMedicalFeesService_GetMedicalFeesContractById_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetMedicalFeesContractById" />
+  </wsdl:message>
+  <wsdl:message name="IMedicalFeesService_GetMedicalFeesContractById_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetMedicalFeesContractByIdResponse" />
+  </wsdl:message>
+  <wsdl:message name="IMedicalFeesService_ChangeStateMedicalFeesContract_InputMessage">
+    <wsdl:part name="parameters" element="tns:ChangeStateMedicalFeesContract" />
+  </wsdl:message>
+  <wsdl:message name="IMedicalFeesService_ChangeStateMedicalFeesContract_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ChangeStateMedicalFeesContractResponse" />
+  </wsdl:message>
+  <wsdl:message name="IMedicalFeesService_SaveMedicalFeesCausation_InputMessage">
+    <wsdl:part name="parameters" element="tns:SaveMedicalFeesCausation" />
+  </wsdl:message>
+  <wsdl:message name="IMedicalFeesService_SaveMedicalFeesCausation_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SaveMedicalFeesCausationResponse" />
+  </wsdl:message>
+  <wsdl:message name="IMedicalFeesService_DeleteMedicalFeesCausation_InputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteMedicalFeesCausation" />
+  </wsdl:message>
+  <wsdl:message name="IMedicalFeesService_DeleteMedicalFeesCausation_OutputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteMedicalFeesCausationResponse" />
+  </wsdl:message>
+  <wsdl:message name="IMedicalFeesService_DeleteMedicalFeesCausationFromRemoveFees_InputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteMedicalFeesCausationFromRemoveFees" />
+  </wsdl:message>
+  <wsdl:message name="IMedicalFeesService_DeleteMedicalFeesCausationFromRemoveFees_OutputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteMedicalFeesCausationFromRemoveFeesResponse" />
+  </wsdl:message>
+  <wsdl:message name="IMedicalFeesService_GetMedicalFeesCausationById_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetMedicalFeesCausationById" />
+  </wsdl:message>
+  <wsdl:message name="IMedicalFeesService_GetMedicalFeesCausationById_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetMedicalFeesCausationByIdResponse" />
+  </wsdl:message>
+  <wsdl:message name="IMedicalFeesService_CausedValue_InputMessage">
+    <wsdl:part name="parameters" element="tns:CausedValue" />
+  </wsdl:message>
+  <wsdl:message name="IMedicalFeesService_CausedValue_OutputMessage">
+    <wsdl:part name="parameters" element="tns:CausedValueResponse" />
+  </wsdl:message>
+  <wsdl:message name="IMedicalFeesService_CauseMassively_InputMessage">
+    <wsdl:part name="parameters" element="tns:CauseMassively" />
+  </wsdl:message>
+  <wsdl:message name="IMedicalFeesService_CauseMassively_OutputMessage">
+    <wsdl:part name="parameters" element="tns:CauseMassivelyResponse" />
+  </wsdl:message>
+  <wsdl:message name="IMedicalFeesService_CauseInvoice_InputMessage">
+    <wsdl:part name="parameters" element="tns:CauseInvoice" />
+  </wsdl:message>
+  <wsdl:message name="IMedicalFeesService_CauseInvoice_OutputMessage">
+    <wsdl:part name="parameters" element="tns:CauseInvoiceResponse" />
+  </wsdl:message>
+  <wsdl:message name="IMedicalFeesService_CauseInvoiceQx_InputMessage">
+    <wsdl:part name="parameters" element="tns:CauseInvoiceQx" />
+  </wsdl:message>
+  <wsdl:message name="IMedicalFeesService_CauseInvoiceQx_OutputMessage">
+    <wsdl:part name="parameters" element="tns:CauseInvoiceQxResponse" />
+  </wsdl:message>
+  <wsdl:message name="IMedicalFeesService_SaveMedicalFeesSettings_InputMessage">
+    <wsdl:part name="parameters" element="tns:SaveMedicalFeesSettings" />
+  </wsdl:message>
+  <wsdl:message name="IMedicalFeesService_SaveMedicalFeesSettings_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SaveMedicalFeesSettingsResponse" />
+  </wsdl:message>
+  <wsdl:message name="IMedicalFeesService_GetMedicalFeesSettings_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetMedicalFeesSettings" />
+  </wsdl:message>
+  <wsdl:message name="IMedicalFeesService_GetMedicalFeesSettings_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetMedicalFeesSettingsResponse" />
+  </wsdl:message>
+  <wsdl:message name="IMedicalFeesService_SaveMedicalFeesLiquidation_InputMessage">
+    <wsdl:part name="parameters" element="tns:SaveMedicalFeesLiquidation" />
+  </wsdl:message>
+  <wsdl:message name="IMedicalFeesService_SaveMedicalFeesLiquidation_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SaveMedicalFeesLiquidationResponse" />
+  </wsdl:message>
+  <wsdl:message name="IMedicalFeesService_DeleteMedicalFeesLiquidation_InputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteMedicalFeesLiquidation" />
+  </wsdl:message>
+  <wsdl:message name="IMedicalFeesService_DeleteMedicalFeesLiquidation_OutputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteMedicalFeesLiquidationResponse" />
+  </wsdl:message>
+  <wsdl:message name="IMedicalFeesService_GetMedicalFeesLiquidation_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetMedicalFeesLiquidation" />
+  </wsdl:message>
+  <wsdl:message name="IMedicalFeesService_GetMedicalFeesLiquidation_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetMedicalFeesLiquidationResponse" />
+  </wsdl:message>
+  <wsdl:message name="IMedicalFeesService_GetMedicalFeesLiquidationByMedicalFeesContractId_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetMedicalFeesLiquidationByMedicalFeesContractId" />
+  </wsdl:message>
+  <wsdl:message name="IMedicalFeesService_GetMedicalFeesLiquidationByMedicalFeesContractId_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetMedicalFeesLiquidationByMedicalFeesContractIdResponse" />
+  </wsdl:message>
+  <wsdl:message name="IMedicalFeesService_GetMedicalFeesLiquidationById_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetMedicalFeesLiquidationById" />
+  </wsdl:message>
+  <wsdl:message name="IMedicalFeesService_GetMedicalFeesLiquidationById_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetMedicalFeesLiquidationByIdResponse" />
+  </wsdl:message>
+  <wsdl:message name="IMedicalFeesService_AnnularMedicalFeesLiquidation_InputMessage">
+    <wsdl:part name="parameters" element="tns:AnnularMedicalFeesLiquidation" />
+  </wsdl:message>
+  <wsdl:message name="IMedicalFeesService_AnnularMedicalFeesLiquidation_OutputMessage">
+    <wsdl:part name="parameters" element="tns:AnnularMedicalFeesLiquidationResponse" />
+  </wsdl:message>
+  <wsdl:message name="IMedicalFeesService_SaveAndConfirmMedicalFeesLiquidation_InputMessage">
+    <wsdl:part name="parameters" element="tns:SaveAndConfirmMedicalFeesLiquidation" />
+  </wsdl:message>
+  <wsdl:message name="IMedicalFeesService_SaveAndConfirmMedicalFeesLiquidation_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SaveAndConfirmMedicalFeesLiquidationResponse" />
+  </wsdl:message>
+  <wsdl:message name="IMedicalFeesService_ValidateCostCenterBySupplierDistributionLineId_InputMessage">
+    <wsdl:part name="parameters" element="tns:ValidateCostCenterBySupplierDistributionLineId" />
+  </wsdl:message>
+  <wsdl:message name="IMedicalFeesService_ValidateCostCenterBySupplierDistributionLineId_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ValidateCostCenterBySupplierDistributionLineIdResponse" />
+  </wsdl:message>
+  <wsdl:message name="IMedicalFeesService_GetMedicalFeesNotesByAdmissionNumberAndInvoiceId_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetMedicalFeesNotesByAdmissionNumberAndInvoiceId" />
+  </wsdl:message>
+  <wsdl:message name="IMedicalFeesService_GetMedicalFeesNotesByAdmissionNumberAndInvoiceId_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetMedicalFeesNotesByAdmissionNumberAndInvoiceIdResponse" />
+  </wsdl:message>
+  <wsdl:message name="IMedicalFeesService_GetListHealthProfessionalContractByHealthProfessionalCode_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetListHealthProfessionalContractByHealthProfessionalCode" />
+  </wsdl:message>
+  <wsdl:message name="IMedicalFeesService_GetListHealthProfessionalContractByHealthProfessionalCode_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetListHealthProfessionalContractByHealthProfessionalCodeResponse" />
+  </wsdl:message>
+  <wsdl:message name="IMedicalFeesService_GetHealthProfessionalContractById_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetHealthProfessionalContractById" />
+  </wsdl:message>
+  <wsdl:message name="IMedicalFeesService_GetHealthProfessionalContractById_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetHealthProfessionalContractByIdResponse" />
+  </wsdl:message>
+  <wsdl:message name="IMedicalFeesService_ListHealthProfessionalContractWithTypeStandard_InputMessage">
+    <wsdl:part name="parameters" element="tns:ListHealthProfessionalContractWithTypeStandard" />
+  </wsdl:message>
+  <wsdl:message name="IMedicalFeesService_ListHealthProfessionalContractWithTypeStandard_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ListHealthProfessionalContractWithTypeStandardResponse" />
+  </wsdl:message>
+  <wsdl:message name="IMedicalFeesService_GetGlosaMedicalFeesConceptsByCode_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetGlosaMedicalFeesConceptsByCode" />
+  </wsdl:message>
+  <wsdl:message name="IMedicalFeesService_GetGlosaMedicalFeesConceptsByCode_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetGlosaMedicalFeesConceptsByCodeResponse" />
+  </wsdl:message>
+  <wsdl:message name="IMedicalFeesService_GetGlosaMedicalFeesConceptsById_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetGlosaMedicalFeesConceptsById" />
+  </wsdl:message>
+  <wsdl:message name="IMedicalFeesService_GetGlosaMedicalFeesConceptsById_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetGlosaMedicalFeesConceptsByIdResponse" />
+  </wsdl:message>
+  <wsdl:message name="IMedicalFeesService_SaveGlosaMedicalFeesConcepts_InputMessage">
+    <wsdl:part name="parameters" element="tns:SaveGlosaMedicalFeesConcepts" />
+  </wsdl:message>
+  <wsdl:message name="IMedicalFeesService_SaveGlosaMedicalFeesConcepts_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SaveGlosaMedicalFeesConceptsResponse" />
+  </wsdl:message>
+  <wsdl:message name="IMedicalFeesService_ChangeStateGlosaMedicalFeesConcepts_InputMessage">
+    <wsdl:part name="parameters" element="tns:ChangeStateGlosaMedicalFeesConcepts" />
+  </wsdl:message>
+  <wsdl:message name="IMedicalFeesService_ChangeStateGlosaMedicalFeesConcepts_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ChangeStateGlosaMedicalFeesConceptsResponse" />
+  </wsdl:message>
+  <wsdl:message name="IMedicalFeesService_DeleteGlosaMedicalFeesConcepts_InputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteGlosaMedicalFeesConcepts" />
+  </wsdl:message>
+  <wsdl:message name="IMedicalFeesService_DeleteGlosaMedicalFeesConcepts_OutputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteGlosaMedicalFeesConceptsResponse" />
+  </wsdl:message>
+  <wsdl:message name="IMedicalFeesService_ListAllGlosaMedicalFees_InputMessage">
+    <wsdl:part name="parameters" element="tns:ListAllGlosaMedicalFees" />
+  </wsdl:message>
+  <wsdl:message name="IMedicalFeesService_ListAllGlosaMedicalFees_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ListAllGlosaMedicalFeesResponse" />
+  </wsdl:message>
+  <wsdl:message name="IMedicalFeesService_GetGlosaMedicalFeesByCode_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetGlosaMedicalFeesByCode" />
+  </wsdl:message>
+  <wsdl:message name="IMedicalFeesService_GetGlosaMedicalFeesByCode_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetGlosaMedicalFeesByCodeResponse" />
+  </wsdl:message>
+  <wsdl:message name="IMedicalFeesService_GetAccountPayableById_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetAccountPayableById" />
+  </wsdl:message>
+  <wsdl:message name="IMedicalFeesService_GetAccountPayableById_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetAccountPayableByIdResponse" />
+  </wsdl:message>
+  <wsdl:message name="IMedicalFeesService_SaveGlosaMedicalFees_InputMessage">
+    <wsdl:part name="parameters" element="tns:SaveGlosaMedicalFees" />
+  </wsdl:message>
+  <wsdl:message name="IMedicalFeesService_SaveGlosaMedicalFees_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SaveGlosaMedicalFeesResponse" />
+  </wsdl:message>
+  <wsdl:message name="IMedicalFeesService_GenerateCausationRecognition_InputMessage">
+    <wsdl:part name="parameters" element="tns:GenerateCausationRecognition" />
+  </wsdl:message>
+  <wsdl:message name="IMedicalFeesService_GenerateCausationRecognition_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GenerateCausationRecognitionResponse" />
+  </wsdl:message>
+  <wsdl:message name="IMedicalFeesService_ReverseCausationRecognition_InputMessage">
+    <wsdl:part name="parameters" element="tns:ReverseCausationRecognition" />
+  </wsdl:message>
+  <wsdl:message name="IMedicalFeesService_ReverseCausationRecognition_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ReverseCausationRecognitionResponse" />
+  </wsdl:message>
+  <wsdl:portType name="IMedicalFeesService">
+    <wsdl:operation name="GetBlockRecordMedicalFeesByIdformAndIdRecord">
+      <wsdl:input wsaw:Action="http://tempuri.org/IMedicalFeesBlockRecordMedicalFees/GetBlockRecordMedicalFeesByIdformAndIdRecord" message="tns:IMedicalFeesService_GetBlockRecordMedicalFeesByIdformAndIdRecord_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IMedicalFeesBlockRecordMedicalFees/GetBlockRecordMedicalFeesByIdformAndIdRecordResponse" message="tns:IMedicalFeesService_GetBlockRecordMedicalFeesByIdformAndIdRecord_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SaveBlockRecordMedicalFees">
+      <wsdl:input wsaw:Action="http://tempuri.org/IMedicalFeesBlockRecordMedicalFees/SaveBlockRecordMedicalFees" message="tns:IMedicalFeesService_SaveBlockRecordMedicalFees_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IMedicalFeesBlockRecordMedicalFees/SaveBlockRecordMedicalFeesResponse" message="tns:IMedicalFeesService_SaveBlockRecordMedicalFees_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="DeleteBlockRecordMedicalFees">
+      <wsdl:input wsaw:Action="http://tempuri.org/IMedicalFeesBlockRecordMedicalFees/DeleteBlockRecordMedicalFees" message="tns:IMedicalFeesService_DeleteBlockRecordMedicalFees_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IMedicalFeesBlockRecordMedicalFees/DeleteBlockRecordMedicalFeesResponse" message="tns:IMedicalFeesService_DeleteBlockRecordMedicalFees_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetSequenseByIdForm">
+      <wsdl:input wsaw:Action="http://tempuri.org/IMedicalFeesSequense/GetSequenseByIdForm" message="tns:IMedicalFeesService_GetSequenseByIdForm_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IMedicalFeesSequense/GetSequenseByIdFormResponse" message="tns:IMedicalFeesService_GetSequenseByIdForm_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetNumericSequenseGroupById">
+      <wsdl:input wsaw:Action="http://tempuri.org/IMedicalFeesSequense/GetNumericSequenseGroupById" message="tns:IMedicalFeesService_GetNumericSequenseGroupById_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IMedicalFeesSequense/GetNumericSequenseGroupByIdResponse" message="tns:IMedicalFeesService_GetNumericSequenseGroupById_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SaveSequence">
+      <wsdl:input wsaw:Action="http://tempuri.org/IMedicalFeesSequense/SaveSequence" message="tns:IMedicalFeesService_SaveSequence_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IMedicalFeesSequense/SaveSequenceResponse" message="tns:IMedicalFeesService_SaveSequence_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SaveMedicalFeesContract">
+      <wsdl:input wsaw:Action="http://tempuri.org/IMedicalFeesMedicalFeesContract/SaveMedicalFeesContract" message="tns:IMedicalFeesService_SaveMedicalFeesContract_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IMedicalFeesMedicalFeesContract/SaveMedicalFeesContractResponse" message="tns:IMedicalFeesService_SaveMedicalFeesContract_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="DeleteMedicalFeesContract">
+      <wsdl:input wsaw:Action="http://tempuri.org/IMedicalFeesMedicalFeesContract/DeleteMedicalFeesContract" message="tns:IMedicalFeesService_DeleteMedicalFeesContract_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IMedicalFeesMedicalFeesContract/DeleteMedicalFeesContractResponse" message="tns:IMedicalFeesService_DeleteMedicalFeesContract_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetMedicalFeesContract">
+      <wsdl:input wsaw:Action="http://tempuri.org/IMedicalFeesMedicalFeesContract/GetMedicalFeesContract" message="tns:IMedicalFeesService_GetMedicalFeesContract_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IMedicalFeesMedicalFeesContract/GetMedicalFeesContractResponse" message="tns:IMedicalFeesService_GetMedicalFeesContract_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetMedicalFeesContractById">
+      <wsdl:input wsaw:Action="http://tempuri.org/IMedicalFeesMedicalFeesContract/GetMedicalFeesContractById" message="tns:IMedicalFeesService_GetMedicalFeesContractById_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IMedicalFeesMedicalFeesContract/GetMedicalFeesContractByIdResponse" message="tns:IMedicalFeesService_GetMedicalFeesContractById_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ChangeStateMedicalFeesContract">
+      <wsdl:input wsaw:Action="http://tempuri.org/IMedicalFeesMedicalFeesContract/ChangeStateMedicalFeesContract" message="tns:IMedicalFeesService_ChangeStateMedicalFeesContract_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IMedicalFeesMedicalFeesContract/ChangeStateMedicalFeesContractResponse" message="tns:IMedicalFeesService_ChangeStateMedicalFeesContract_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SaveMedicalFeesCausation">
+      <wsdl:input wsaw:Action="http://tempuri.org/IMedicalFeesMedicalFeesCausation/SaveMedicalFeesCausation" message="tns:IMedicalFeesService_SaveMedicalFeesCausation_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IMedicalFeesMedicalFeesCausation/SaveMedicalFeesCausationResponse" message="tns:IMedicalFeesService_SaveMedicalFeesCausation_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="DeleteMedicalFeesCausation">
+      <wsdl:input wsaw:Action="http://tempuri.org/IMedicalFeesMedicalFeesCausation/DeleteMedicalFeesCausation" message="tns:IMedicalFeesService_DeleteMedicalFeesCausation_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IMedicalFeesMedicalFeesCausation/DeleteMedicalFeesCausationResponse" message="tns:IMedicalFeesService_DeleteMedicalFeesCausation_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="DeleteMedicalFeesCausationFromRemoveFees">
+      <wsdl:input wsaw:Action="http://tempuri.org/IMedicalFeesMedicalFeesCausation/DeleteMedicalFeesCausationFromRemoveFees" message="tns:IMedicalFeesService_DeleteMedicalFeesCausationFromRemoveFees_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IMedicalFeesMedicalFeesCausation/DeleteMedicalFeesCausationFromRemoveFeesResponse" message="tns:IMedicalFeesService_DeleteMedicalFeesCausationFromRemoveFees_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetMedicalFeesCausationById">
+      <wsdl:input wsaw:Action="http://tempuri.org/IMedicalFeesMedicalFeesCausation/GetMedicalFeesCausationById" message="tns:IMedicalFeesService_GetMedicalFeesCausationById_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IMedicalFeesMedicalFeesCausation/GetMedicalFeesCausationByIdResponse" message="tns:IMedicalFeesService_GetMedicalFeesCausationById_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="CausedValue">
+      <wsdl:input wsaw:Action="http://tempuri.org/IMedicalFeesMedicalFeesCausation/CausedValue" message="tns:IMedicalFeesService_CausedValue_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IMedicalFeesMedicalFeesCausation/CausedValueResponse" message="tns:IMedicalFeesService_CausedValue_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="CauseMassively">
+      <wsdl:input wsaw:Action="http://tempuri.org/IMedicalFeesMedicalFeesCausation/CauseMassively" message="tns:IMedicalFeesService_CauseMassively_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IMedicalFeesMedicalFeesCausation/CauseMassivelyResponse" message="tns:IMedicalFeesService_CauseMassively_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="CauseInvoice">
+      <wsdl:input wsaw:Action="http://tempuri.org/IMedicalFeesMedicalFeesCausation/CauseInvoice" message="tns:IMedicalFeesService_CauseInvoice_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IMedicalFeesMedicalFeesCausation/CauseInvoiceResponse" message="tns:IMedicalFeesService_CauseInvoice_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="CauseInvoiceQx">
+      <wsdl:input wsaw:Action="http://tempuri.org/IMedicalFeesMedicalFeesCausation/CauseInvoiceQx" message="tns:IMedicalFeesService_CauseInvoiceQx_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IMedicalFeesMedicalFeesCausation/CauseInvoiceQxResponse" message="tns:IMedicalFeesService_CauseInvoiceQx_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SaveMedicalFeesSettings">
+      <wsdl:input wsaw:Action="http://tempuri.org/IMedicalFeesMedicalFeesSettings/SaveMedicalFeesSettings" message="tns:IMedicalFeesService_SaveMedicalFeesSettings_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IMedicalFeesMedicalFeesSettings/SaveMedicalFeesSettingsResponse" message="tns:IMedicalFeesService_SaveMedicalFeesSettings_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetMedicalFeesSettings">
+      <wsdl:input wsaw:Action="http://tempuri.org/IMedicalFeesMedicalFeesSettings/GetMedicalFeesSettings" message="tns:IMedicalFeesService_GetMedicalFeesSettings_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IMedicalFeesMedicalFeesSettings/GetMedicalFeesSettingsResponse" message="tns:IMedicalFeesService_GetMedicalFeesSettings_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SaveMedicalFeesLiquidation">
+      <wsdl:input wsaw:Action="http://tempuri.org/IMedicalFeesMedicalFeesLiquidation/SaveMedicalFeesLiquidation" message="tns:IMedicalFeesService_SaveMedicalFeesLiquidation_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IMedicalFeesMedicalFeesLiquidation/SaveMedicalFeesLiquidationResponse" message="tns:IMedicalFeesService_SaveMedicalFeesLiquidation_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="DeleteMedicalFeesLiquidation">
+      <wsdl:input wsaw:Action="http://tempuri.org/IMedicalFeesMedicalFeesLiquidation/DeleteMedicalFeesLiquidation" message="tns:IMedicalFeesService_DeleteMedicalFeesLiquidation_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IMedicalFeesMedicalFeesLiquidation/DeleteMedicalFeesLiquidationResponse" message="tns:IMedicalFeesService_DeleteMedicalFeesLiquidation_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetMedicalFeesLiquidation">
+      <wsdl:input wsaw:Action="http://tempuri.org/IMedicalFeesMedicalFeesLiquidation/GetMedicalFeesLiquidation" message="tns:IMedicalFeesService_GetMedicalFeesLiquidation_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IMedicalFeesMedicalFeesLiquidation/GetMedicalFeesLiquidationResponse" message="tns:IMedicalFeesService_GetMedicalFeesLiquidation_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetMedicalFeesLiquidationByMedicalFeesContractId">
+      <wsdl:input wsaw:Action="http://tempuri.org/IMedicalFeesMedicalFeesLiquidation/GetMedicalFeesLiquidationByMedicalFeesContractId" message="tns:IMedicalFeesService_GetMedicalFeesLiquidationByMedicalFeesContractId_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IMedicalFeesMedicalFeesLiquidation/GetMedicalFeesLiquidationByMedicalFeesContractIdResponse" message="tns:IMedicalFeesService_GetMedicalFeesLiquidationByMedicalFeesContractId_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetMedicalFeesLiquidationById">
+      <wsdl:input wsaw:Action="http://tempuri.org/IMedicalFeesMedicalFeesLiquidation/GetMedicalFeesLiquidationById" message="tns:IMedicalFeesService_GetMedicalFeesLiquidationById_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IMedicalFeesMedicalFeesLiquidation/GetMedicalFeesLiquidationByIdResponse" message="tns:IMedicalFeesService_GetMedicalFeesLiquidationById_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="AnnularMedicalFeesLiquidation">
+      <wsdl:input wsaw:Action="http://tempuri.org/IMedicalFeesMedicalFeesLiquidation/AnnularMedicalFeesLiquidation" message="tns:IMedicalFeesService_AnnularMedicalFeesLiquidation_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IMedicalFeesMedicalFeesLiquidation/AnnularMedicalFeesLiquidationResponse" message="tns:IMedicalFeesService_AnnularMedicalFeesLiquidation_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SaveAndConfirmMedicalFeesLiquidation">
+      <wsdl:input wsaw:Action="http://tempuri.org/IMedicalFeesMedicalFeesLiquidation/SaveAndConfirmMedicalFeesLiquidation" message="tns:IMedicalFeesService_SaveAndConfirmMedicalFeesLiquidation_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IMedicalFeesMedicalFeesLiquidation/SaveAndConfirmMedicalFeesLiquidationResponse" message="tns:IMedicalFeesService_SaveAndConfirmMedicalFeesLiquidation_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ValidateCostCenterBySupplierDistributionLineId">
+      <wsdl:input wsaw:Action="http://tempuri.org/IMedicalFeesMedicalFeesLiquidation/ValidateCostCenterBySupplierDistributionLineId" message="tns:IMedicalFeesService_ValidateCostCenterBySupplierDistributionLineId_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IMedicalFeesMedicalFeesLiquidation/ValidateCostCenterBySupplierDistributionLineIdResponse" message="tns:IMedicalFeesService_ValidateCostCenterBySupplierDistributionLineId_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetMedicalFeesNotesByAdmissionNumberAndInvoiceId">
+      <wsdl:input wsaw:Action="http://tempuri.org/IMedicalFeesMedicalFeesNote/GetMedicalFeesNotesByAdmissionNumberAndInvoiceId" message="tns:IMedicalFeesService_GetMedicalFeesNotesByAdmissionNumberAndInvoiceId_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IMedicalFeesMedicalFeesNote/GetMedicalFeesNotesByAdmissionNumberAndInvoiceIdResponse" message="tns:IMedicalFeesService_GetMedicalFeesNotesByAdmissionNumberAndInvoiceId_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetListHealthProfessionalContractByHealthProfessionalCode">
+      <wsdl:input wsaw:Action="http://tempuri.org/IMedicalFeesHealthProfessionalContract/GetListHealthProfessionalContractByHealthProfessionalCode" message="tns:IMedicalFeesService_GetListHealthProfessionalContractByHealthProfessionalCode_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IMedicalFeesHealthProfessionalContract/GetListHealthProfessionalContractByHealthProfessionalCodeResponse" message="tns:IMedicalFeesService_GetListHealthProfessionalContractByHealthProfessionalCode_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetHealthProfessionalContractById">
+      <wsdl:input wsaw:Action="http://tempuri.org/IMedicalFeesHealthProfessionalContract/GetHealthProfessionalContractById" message="tns:IMedicalFeesService_GetHealthProfessionalContractById_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IMedicalFeesHealthProfessionalContract/GetHealthProfessionalContractByIdResponse" message="tns:IMedicalFeesService_GetHealthProfessionalContractById_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ListHealthProfessionalContractWithTypeStandard">
+      <wsdl:input wsaw:Action="http://tempuri.org/IMedicalFeesHealthProfessionalContract/ListHealthProfessionalContractWithTypeStandard" message="tns:IMedicalFeesService_ListHealthProfessionalContractWithTypeStandard_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IMedicalFeesHealthProfessionalContract/ListHealthProfessionalContractWithTypeStandardResponse" message="tns:IMedicalFeesService_ListHealthProfessionalContractWithTypeStandard_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetGlosaMedicalFeesConceptsByCode">
+      <wsdl:input wsaw:Action="http://tempuri.org/IMedicalGlosaMedicalFeesConcepts/GetGlosaMedicalFeesConceptsByCode" message="tns:IMedicalFeesService_GetGlosaMedicalFeesConceptsByCode_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IMedicalGlosaMedicalFeesConcepts/GetGlosaMedicalFeesConceptsByCodeResponse" message="tns:IMedicalFeesService_GetGlosaMedicalFeesConceptsByCode_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetGlosaMedicalFeesConceptsById">
+      <wsdl:input wsaw:Action="http://tempuri.org/IMedicalGlosaMedicalFeesConcepts/GetGlosaMedicalFeesConceptsById" message="tns:IMedicalFeesService_GetGlosaMedicalFeesConceptsById_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IMedicalGlosaMedicalFeesConcepts/GetGlosaMedicalFeesConceptsByIdResponse" message="tns:IMedicalFeesService_GetGlosaMedicalFeesConceptsById_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SaveGlosaMedicalFeesConcepts">
+      <wsdl:input wsaw:Action="http://tempuri.org/IMedicalGlosaMedicalFeesConcepts/SaveGlosaMedicalFeesConcepts" message="tns:IMedicalFeesService_SaveGlosaMedicalFeesConcepts_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IMedicalGlosaMedicalFeesConcepts/SaveGlosaMedicalFeesConceptsResponse" message="tns:IMedicalFeesService_SaveGlosaMedicalFeesConcepts_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ChangeStateGlosaMedicalFeesConcepts">
+      <wsdl:input wsaw:Action="http://tempuri.org/IMedicalGlosaMedicalFeesConcepts/ChangeStateGlosaMedicalFeesConcepts" message="tns:IMedicalFeesService_ChangeStateGlosaMedicalFeesConcepts_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IMedicalGlosaMedicalFeesConcepts/ChangeStateGlosaMedicalFeesConceptsResponse" message="tns:IMedicalFeesService_ChangeStateGlosaMedicalFeesConcepts_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="DeleteGlosaMedicalFeesConcepts">
+      <wsdl:input wsaw:Action="http://tempuri.org/IMedicalGlosaMedicalFeesConcepts/DeleteGlosaMedicalFeesConcepts" message="tns:IMedicalFeesService_DeleteGlosaMedicalFeesConcepts_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IMedicalGlosaMedicalFeesConcepts/DeleteGlosaMedicalFeesConceptsResponse" message="tns:IMedicalFeesService_DeleteGlosaMedicalFeesConcepts_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ListAllGlosaMedicalFees">
+      <wsdl:input wsaw:Action="http://tempuri.org/IGlosaMedicalFeesService/ListAllGlosaMedicalFees" message="tns:IMedicalFeesService_ListAllGlosaMedicalFees_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IGlosaMedicalFeesService/ListAllGlosaMedicalFeesResponse" message="tns:IMedicalFeesService_ListAllGlosaMedicalFees_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetGlosaMedicalFeesByCode">
+      <wsdl:input wsaw:Action="http://tempuri.org/IGlosaMedicalFeesService/GetGlosaMedicalFeesByCode" message="tns:IMedicalFeesService_GetGlosaMedicalFeesByCode_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IGlosaMedicalFeesService/GetGlosaMedicalFeesByCodeResponse" message="tns:IMedicalFeesService_GetGlosaMedicalFeesByCode_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountPayableById">
+      <wsdl:input wsaw:Action="http://tempuri.org/IGlosaMedicalFeesService/GetAccountPayableById" message="tns:IMedicalFeesService_GetAccountPayableById_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IGlosaMedicalFeesService/GetAccountPayableByIdResponse" message="tns:IMedicalFeesService_GetAccountPayableById_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SaveGlosaMedicalFees">
+      <wsdl:input wsaw:Action="http://tempuri.org/IGlosaMedicalFeesService/SaveGlosaMedicalFees" message="tns:IMedicalFeesService_SaveGlosaMedicalFees_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IGlosaMedicalFeesService/SaveGlosaMedicalFeesResponse" message="tns:IMedicalFeesService_SaveGlosaMedicalFees_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GenerateCausationRecognition">
+      <wsdl:input wsaw:Action="http://tempuri.org/IMedicalFeesCausationRecognition/GenerateCausationRecognition" message="tns:IMedicalFeesService_GenerateCausationRecognition_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IMedicalFeesCausationRecognition/GenerateCausationRecognitionResponse" message="tns:IMedicalFeesService_GenerateCausationRecognition_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ReverseCausationRecognition">
+      <wsdl:input wsaw:Action="http://tempuri.org/IMedicalFeesCausationRecognition/ReverseCausationRecognition" message="tns:IMedicalFeesService_ReverseCausationRecognition_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IMedicalFeesCausationRecognition/ReverseCausationRecognitionResponse" message="tns:IMedicalFeesService_ReverseCausationRecognition_OutputMessage" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="basicHttp_Endpoint_MedicalFees" type="tns:IMedicalFeesService">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="GetBlockRecordMedicalFeesByIdformAndIdRecord">
+      <soap:operation soapAction="http://tempuri.org/IMedicalFeesBlockRecordMedicalFees/GetBlockRecordMedicalFeesByIdformAndIdRecord" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveBlockRecordMedicalFees">
+      <soap:operation soapAction="http://tempuri.org/IMedicalFeesBlockRecordMedicalFees/SaveBlockRecordMedicalFees" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteBlockRecordMedicalFees">
+      <soap:operation soapAction="http://tempuri.org/IMedicalFeesBlockRecordMedicalFees/DeleteBlockRecordMedicalFees" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetSequenseByIdForm">
+      <soap:operation soapAction="http://tempuri.org/IMedicalFeesSequense/GetSequenseByIdForm" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetNumericSequenseGroupById">
+      <soap:operation soapAction="http://tempuri.org/IMedicalFeesSequense/GetNumericSequenseGroupById" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveSequence">
+      <soap:operation soapAction="http://tempuri.org/IMedicalFeesSequense/SaveSequence" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveMedicalFeesContract">
+      <soap:operation soapAction="http://tempuri.org/IMedicalFeesMedicalFeesContract/SaveMedicalFeesContract" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteMedicalFeesContract">
+      <soap:operation soapAction="http://tempuri.org/IMedicalFeesMedicalFeesContract/DeleteMedicalFeesContract" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetMedicalFeesContract">
+      <soap:operation soapAction="http://tempuri.org/IMedicalFeesMedicalFeesContract/GetMedicalFeesContract" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetMedicalFeesContractById">
+      <soap:operation soapAction="http://tempuri.org/IMedicalFeesMedicalFeesContract/GetMedicalFeesContractById" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ChangeStateMedicalFeesContract">
+      <soap:operation soapAction="http://tempuri.org/IMedicalFeesMedicalFeesContract/ChangeStateMedicalFeesContract" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveMedicalFeesCausation">
+      <soap:operation soapAction="http://tempuri.org/IMedicalFeesMedicalFeesCausation/SaveMedicalFeesCausation" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteMedicalFeesCausation">
+      <soap:operation soapAction="http://tempuri.org/IMedicalFeesMedicalFeesCausation/DeleteMedicalFeesCausation" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteMedicalFeesCausationFromRemoveFees">
+      <soap:operation soapAction="http://tempuri.org/IMedicalFeesMedicalFeesCausation/DeleteMedicalFeesCausationFromRemoveFees" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetMedicalFeesCausationById">
+      <soap:operation soapAction="http://tempuri.org/IMedicalFeesMedicalFeesCausation/GetMedicalFeesCausationById" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CausedValue">
+      <soap:operation soapAction="http://tempuri.org/IMedicalFeesMedicalFeesCausation/CausedValue" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CauseMassively">
+      <soap:operation soapAction="http://tempuri.org/IMedicalFeesMedicalFeesCausation/CauseMassively" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CauseInvoice">
+      <soap:operation soapAction="http://tempuri.org/IMedicalFeesMedicalFeesCausation/CauseInvoice" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CauseInvoiceQx">
+      <soap:operation soapAction="http://tempuri.org/IMedicalFeesMedicalFeesCausation/CauseInvoiceQx" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveMedicalFeesSettings">
+      <soap:operation soapAction="http://tempuri.org/IMedicalFeesMedicalFeesSettings/SaveMedicalFeesSettings" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetMedicalFeesSettings">
+      <soap:operation soapAction="http://tempuri.org/IMedicalFeesMedicalFeesSettings/GetMedicalFeesSettings" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveMedicalFeesLiquidation">
+      <soap:operation soapAction="http://tempuri.org/IMedicalFeesMedicalFeesLiquidation/SaveMedicalFeesLiquidation" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteMedicalFeesLiquidation">
+      <soap:operation soapAction="http://tempuri.org/IMedicalFeesMedicalFeesLiquidation/DeleteMedicalFeesLiquidation" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetMedicalFeesLiquidation">
+      <soap:operation soapAction="http://tempuri.org/IMedicalFeesMedicalFeesLiquidation/GetMedicalFeesLiquidation" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetMedicalFeesLiquidationByMedicalFeesContractId">
+      <soap:operation soapAction="http://tempuri.org/IMedicalFeesMedicalFeesLiquidation/GetMedicalFeesLiquidationByMedicalFeesContractId" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetMedicalFeesLiquidationById">
+      <soap:operation soapAction="http://tempuri.org/IMedicalFeesMedicalFeesLiquidation/GetMedicalFeesLiquidationById" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AnnularMedicalFeesLiquidation">
+      <soap:operation soapAction="http://tempuri.org/IMedicalFeesMedicalFeesLiquidation/AnnularMedicalFeesLiquidation" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveAndConfirmMedicalFeesLiquidation">
+      <soap:operation soapAction="http://tempuri.org/IMedicalFeesMedicalFeesLiquidation/SaveAndConfirmMedicalFeesLiquidation" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ValidateCostCenterBySupplierDistributionLineId">
+      <soap:operation soapAction="http://tempuri.org/IMedicalFeesMedicalFeesLiquidation/ValidateCostCenterBySupplierDistributionLineId" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetMedicalFeesNotesByAdmissionNumberAndInvoiceId">
+      <soap:operation soapAction="http://tempuri.org/IMedicalFeesMedicalFeesNote/GetMedicalFeesNotesByAdmissionNumberAndInvoiceId" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetListHealthProfessionalContractByHealthProfessionalCode">
+      <soap:operation soapAction="http://tempuri.org/IMedicalFeesHealthProfessionalContract/GetListHealthProfessionalContractByHealthProfessionalCode" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetHealthProfessionalContractById">
+      <soap:operation soapAction="http://tempuri.org/IMedicalFeesHealthProfessionalContract/GetHealthProfessionalContractById" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ListHealthProfessionalContractWithTypeStandard">
+      <soap:operation soapAction="http://tempuri.org/IMedicalFeesHealthProfessionalContract/ListHealthProfessionalContractWithTypeStandard" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetGlosaMedicalFeesConceptsByCode">
+      <soap:operation soapAction="http://tempuri.org/IMedicalGlosaMedicalFeesConcepts/GetGlosaMedicalFeesConceptsByCode" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetGlosaMedicalFeesConceptsById">
+      <soap:operation soapAction="http://tempuri.org/IMedicalGlosaMedicalFeesConcepts/GetGlosaMedicalFeesConceptsById" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveGlosaMedicalFeesConcepts">
+      <soap:operation soapAction="http://tempuri.org/IMedicalGlosaMedicalFeesConcepts/SaveGlosaMedicalFeesConcepts" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ChangeStateGlosaMedicalFeesConcepts">
+      <soap:operation soapAction="http://tempuri.org/IMedicalGlosaMedicalFeesConcepts/ChangeStateGlosaMedicalFeesConcepts" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteGlosaMedicalFeesConcepts">
+      <soap:operation soapAction="http://tempuri.org/IMedicalGlosaMedicalFeesConcepts/DeleteGlosaMedicalFeesConcepts" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ListAllGlosaMedicalFees">
+      <soap:operation soapAction="http://tempuri.org/IGlosaMedicalFeesService/ListAllGlosaMedicalFees" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetGlosaMedicalFeesByCode">
+      <soap:operation soapAction="http://tempuri.org/IGlosaMedicalFeesService/GetGlosaMedicalFeesByCode" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountPayableById">
+      <soap:operation soapAction="http://tempuri.org/IGlosaMedicalFeesService/GetAccountPayableById" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveGlosaMedicalFees">
+      <soap:operation soapAction="http://tempuri.org/IGlosaMedicalFeesService/SaveGlosaMedicalFees" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GenerateCausationRecognition">
+      <soap:operation soapAction="http://tempuri.org/IMedicalFeesCausationRecognition/GenerateCausationRecognition" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ReverseCausationRecognition">
+      <soap:operation soapAction="http://tempuri.org/IMedicalFeesCausationRecognition/ReverseCausationRecognition" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="basicHttps_Endpoint_MedicalFees" type="tns:IMedicalFeesService">
+    <wsp:PolicyReference URI="#basicHttps_Endpoint_MedicalFees_policy" />
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="GetBlockRecordMedicalFeesByIdformAndIdRecord">
+      <soap:operation soapAction="http://tempuri.org/IMedicalFeesBlockRecordMedicalFees/GetBlockRecordMedicalFeesByIdformAndIdRecord" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveBlockRecordMedicalFees">
+      <soap:operation soapAction="http://tempuri.org/IMedicalFeesBlockRecordMedicalFees/SaveBlockRecordMedicalFees" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteBlockRecordMedicalFees">
+      <soap:operation soapAction="http://tempuri.org/IMedicalFeesBlockRecordMedicalFees/DeleteBlockRecordMedicalFees" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetSequenseByIdForm">
+      <soap:operation soapAction="http://tempuri.org/IMedicalFeesSequense/GetSequenseByIdForm" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetNumericSequenseGroupById">
+      <soap:operation soapAction="http://tempuri.org/IMedicalFeesSequense/GetNumericSequenseGroupById" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveSequence">
+      <soap:operation soapAction="http://tempuri.org/IMedicalFeesSequense/SaveSequence" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveMedicalFeesContract">
+      <soap:operation soapAction="http://tempuri.org/IMedicalFeesMedicalFeesContract/SaveMedicalFeesContract" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteMedicalFeesContract">
+      <soap:operation soapAction="http://tempuri.org/IMedicalFeesMedicalFeesContract/DeleteMedicalFeesContract" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetMedicalFeesContract">
+      <soap:operation soapAction="http://tempuri.org/IMedicalFeesMedicalFeesContract/GetMedicalFeesContract" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetMedicalFeesContractById">
+      <soap:operation soapAction="http://tempuri.org/IMedicalFeesMedicalFeesContract/GetMedicalFeesContractById" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ChangeStateMedicalFeesContract">
+      <soap:operation soapAction="http://tempuri.org/IMedicalFeesMedicalFeesContract/ChangeStateMedicalFeesContract" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveMedicalFeesCausation">
+      <soap:operation soapAction="http://tempuri.org/IMedicalFeesMedicalFeesCausation/SaveMedicalFeesCausation" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteMedicalFeesCausation">
+      <soap:operation soapAction="http://tempuri.org/IMedicalFeesMedicalFeesCausation/DeleteMedicalFeesCausation" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteMedicalFeesCausationFromRemoveFees">
+      <soap:operation soapAction="http://tempuri.org/IMedicalFeesMedicalFeesCausation/DeleteMedicalFeesCausationFromRemoveFees" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetMedicalFeesCausationById">
+      <soap:operation soapAction="http://tempuri.org/IMedicalFeesMedicalFeesCausation/GetMedicalFeesCausationById" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CausedValue">
+      <soap:operation soapAction="http://tempuri.org/IMedicalFeesMedicalFeesCausation/CausedValue" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CauseMassively">
+      <soap:operation soapAction="http://tempuri.org/IMedicalFeesMedicalFeesCausation/CauseMassively" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CauseInvoice">
+      <soap:operation soapAction="http://tempuri.org/IMedicalFeesMedicalFeesCausation/CauseInvoice" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CauseInvoiceQx">
+      <soap:operation soapAction="http://tempuri.org/IMedicalFeesMedicalFeesCausation/CauseInvoiceQx" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveMedicalFeesSettings">
+      <soap:operation soapAction="http://tempuri.org/IMedicalFeesMedicalFeesSettings/SaveMedicalFeesSettings" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetMedicalFeesSettings">
+      <soap:operation soapAction="http://tempuri.org/IMedicalFeesMedicalFeesSettings/GetMedicalFeesSettings" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveMedicalFeesLiquidation">
+      <soap:operation soapAction="http://tempuri.org/IMedicalFeesMedicalFeesLiquidation/SaveMedicalFeesLiquidation" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteMedicalFeesLiquidation">
+      <soap:operation soapAction="http://tempuri.org/IMedicalFeesMedicalFeesLiquidation/DeleteMedicalFeesLiquidation" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetMedicalFeesLiquidation">
+      <soap:operation soapAction="http://tempuri.org/IMedicalFeesMedicalFeesLiquidation/GetMedicalFeesLiquidation" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetMedicalFeesLiquidationByMedicalFeesContractId">
+      <soap:operation soapAction="http://tempuri.org/IMedicalFeesMedicalFeesLiquidation/GetMedicalFeesLiquidationByMedicalFeesContractId" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetMedicalFeesLiquidationById">
+      <soap:operation soapAction="http://tempuri.org/IMedicalFeesMedicalFeesLiquidation/GetMedicalFeesLiquidationById" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AnnularMedicalFeesLiquidation">
+      <soap:operation soapAction="http://tempuri.org/IMedicalFeesMedicalFeesLiquidation/AnnularMedicalFeesLiquidation" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveAndConfirmMedicalFeesLiquidation">
+      <soap:operation soapAction="http://tempuri.org/IMedicalFeesMedicalFeesLiquidation/SaveAndConfirmMedicalFeesLiquidation" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ValidateCostCenterBySupplierDistributionLineId">
+      <soap:operation soapAction="http://tempuri.org/IMedicalFeesMedicalFeesLiquidation/ValidateCostCenterBySupplierDistributionLineId" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetMedicalFeesNotesByAdmissionNumberAndInvoiceId">
+      <soap:operation soapAction="http://tempuri.org/IMedicalFeesMedicalFeesNote/GetMedicalFeesNotesByAdmissionNumberAndInvoiceId" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetListHealthProfessionalContractByHealthProfessionalCode">
+      <soap:operation soapAction="http://tempuri.org/IMedicalFeesHealthProfessionalContract/GetListHealthProfessionalContractByHealthProfessionalCode" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetHealthProfessionalContractById">
+      <soap:operation soapAction="http://tempuri.org/IMedicalFeesHealthProfessionalContract/GetHealthProfessionalContractById" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ListHealthProfessionalContractWithTypeStandard">
+      <soap:operation soapAction="http://tempuri.org/IMedicalFeesHealthProfessionalContract/ListHealthProfessionalContractWithTypeStandard" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetGlosaMedicalFeesConceptsByCode">
+      <soap:operation soapAction="http://tempuri.org/IMedicalGlosaMedicalFeesConcepts/GetGlosaMedicalFeesConceptsByCode" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetGlosaMedicalFeesConceptsById">
+      <soap:operation soapAction="http://tempuri.org/IMedicalGlosaMedicalFeesConcepts/GetGlosaMedicalFeesConceptsById" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveGlosaMedicalFeesConcepts">
+      <soap:operation soapAction="http://tempuri.org/IMedicalGlosaMedicalFeesConcepts/SaveGlosaMedicalFeesConcepts" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ChangeStateGlosaMedicalFeesConcepts">
+      <soap:operation soapAction="http://tempuri.org/IMedicalGlosaMedicalFeesConcepts/ChangeStateGlosaMedicalFeesConcepts" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteGlosaMedicalFeesConcepts">
+      <soap:operation soapAction="http://tempuri.org/IMedicalGlosaMedicalFeesConcepts/DeleteGlosaMedicalFeesConcepts" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ListAllGlosaMedicalFees">
+      <soap:operation soapAction="http://tempuri.org/IGlosaMedicalFeesService/ListAllGlosaMedicalFees" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetGlosaMedicalFeesByCode">
+      <soap:operation soapAction="http://tempuri.org/IGlosaMedicalFeesService/GetGlosaMedicalFeesByCode" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountPayableById">
+      <soap:operation soapAction="http://tempuri.org/IGlosaMedicalFeesService/GetAccountPayableById" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveGlosaMedicalFees">
+      <soap:operation soapAction="http://tempuri.org/IGlosaMedicalFeesService/SaveGlosaMedicalFees" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GenerateCausationRecognition">
+      <soap:operation soapAction="http://tempuri.org/IMedicalFeesCausationRecognition/GenerateCausationRecognition" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ReverseCausationRecognition">
+      <soap:operation soapAction="http://tempuri.org/IMedicalFeesCausationRecognition/ReverseCausationRecognition" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="MedicalFeesService">
+    <wsdl:port name="basicHttp_Endpoint_MedicalFees" binding="tns:basicHttp_Endpoint_MedicalFees">
+      <soap:address location="http://its10008:9000/ServiceEntity/MedicalFees.svc/basicHttpMedicalFees" />
+    </wsdl:port>
+    <wsdl:port name="basicHttps_Endpoint_MedicalFees" binding="tns:basicHttps_Endpoint_MedicalFees">
+      <soap:address location="https://localhost:9001/ServiceEntity/MedicalFees.svc/basicHttpsMedicalFees" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

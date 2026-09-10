@@ -1,0 +1,103 @@
+﻿#Region "Librerias Importadas"
+Imports Infrastructure.CrossCutting.Base
+Imports Infrastructure.Data.Xpo.TaxesRepository
+Imports Infrastructure.Data.Xpo
+Imports DevExpress.XtraReports.UI
+
+#End Region
+
+Public Class rptCertificateRetSourceB
+    Implements IReport
+
+    ''' <summary>
+    ''' Variable para inicializar los valores de sesion
+    ''' </summary>
+    Dim IndigoSessionValues As SessionValues = SessionValues.Instance
+    Dim listReport As List(Of GeneralLedgerJournalVoucherDeatilsXpo)
+    Dim listReport2 As List(Of CommonOperatingUnitXpo)
+
+    Public Sub CargarDataSource() Implements IReport.CargarDataSource
+        Dim filtroConsulta As String = "GetYear(IdAccounting.VoucherDate) = " & ParametrosReporte(0) & " AND IdMainAccount.RetencionType = 1"
+
+        'Se filtra por Cuentas
+        If ParametrosReporte(1) IsNot Nothing And ParametrosReporte(2) IsNot Nothing Then
+            filtroConsulta &= " AND IdMainAccount.Number >= '" & ParametrosReporte(1) & "' AND IdMainAccount.Number <= '" & ParametrosReporte(2) & "'"
+        End If
+
+        'Se filtra por Terceros
+        If ParametrosReporte(3) IsNot Nothing And ParametrosReporte(4) IsNot Nothing Then
+            filtroConsulta &= " AND IdThirdParty.Nit >= '" & ParametrosReporte(3) & "' AND IdThirdParty.Nit <= '" & ParametrosReporte(4) & "'"
+        End If
+
+        'Se filtra por Libro
+        If ParametrosReporte(5) IsNot Nothing Then
+            filtroConsulta &= " AND IdAccounting.LegalBookId = " & ParametrosReporte(5)
+        End If
+
+        filtroConsulta &= " Or IdMainAccount.RetencionType = 4"
+
+        listReport = XpoServiceex.Instance(IndigoSessionValues.TransactionalContainer).PaymentsService.GetCollection(Of GeneralLedgerJournalVoucherDeatilsXpo)(Nothing, filtroConsulta)
+        Me.DataSource = listReport
+
+        'Dim itemResult = (From x In listReport Group x By x.IdThirdParty Into resulValue = Sum(CType(x.BaseValue * (x.RetentionRate / 100), Decimal)) Select New With {.resulValue = resulValue, .IdThirdParty = IdThirdParty.Id}).ToList
+        'For Each item In itemResult
+        '    For Each itemlist In (From x In listReport Where x.IdThirdParty.Id = item.IdThirdParty Select x).ToList
+        '        itemlist.ValueLetters = Utils.Num2Text(Convert.ToDouble(Convert.ToInt64(item.resulValue))).ToString & " PESOS M/Cte."
+        '    Next
+        'Next
+
+        If listReport.Count > 0 Then
+            If (CType(listReport(0), GeneralLedgerJournalVoucherDeatilsXpo)).IdMainAccount.IdAccountClass.Nature = 1 Then
+                'Dim itemResult = (From x In listReport Group x By x.IdThirdParty Into resulValue = Sum(CType(x.BaseValue * (x.RetentionRate / 100), Decimal)) Select New With {.resulValue = resulValue, .IdThirdParty = IdThirdParty.Id}).ToList
+                Dim itemResult = (From x In listReport Group x By x.IdThirdParty Into resulValue = Sum(CType(x.DebitValue - x.CreditValue, Decimal)) Select New With {.resulValue = resulValue, .IdThirdParty = IdThirdParty.Id}).ToList
+                For Each item In itemResult
+                    For Each itemlist In (From x In listReport Where x.IdThirdParty.Id = item.IdThirdParty Select x).ToList
+                        itemlist.ValueLetters = Utils.Num2Text(Convert.ToDouble(Convert.ToInt64(Math.Abs(item.resulValue)))).ToString & " PESOS M/Cte."
+                    Next
+                Next
+            Else
+                Dim itemResult2 = (From x In listReport Group x By x.IdThirdParty Into resulValue = Sum(CType(x.CreditValue - x.DebitValue, Decimal)) Select New With {.resulValue = resulValue, .IdThirdParty = IdThirdParty.Id}).ToList
+                For Each item2 In itemResult2
+                    For Each itemlist In (From x In listReport Where x.IdThirdParty.Id = item2.IdThirdParty Select x).ToList
+                        itemlist.ValueLetters = Utils.Num2Text(Convert.ToDouble(Convert.ToInt64(Math.Abs(item2.resulValue)))).ToString & " PESOS M/Cte."
+                    Next
+                Next
+            End If
+        End If
+
+
+
+    End Sub
+
+    Public Sub CargarImagenes() Implements IReport.CargarImagenes
+
+    End Sub
+
+    Public ReadOnly Property NameReport As String Implements IReport.NameReport
+        Get
+            Return ""
+        End Get
+    End Property
+
+    Public Property ParametrosReporte As Object() Implements IReport.ParametrosReporte
+
+    Private Sub rptCertificateRetSource_BeforePrint(sender As Object, e As Printing.PrintEventArgs) Handles MyBase.BeforePrint
+        INDLblCompany.Text = IndigoSessionValues.IndigoCompanyName
+        INDLblNitCompany.Text = "Nit:" & IndigoSessionValues.IndigoCompanyNit
+        INDLblUserPrint.Text = "Usuario Impresión : " & IndigoSessionValues.UserIndigo & " - " & IndigoSessionValues.UserIndigoName
+
+        Me.XrTableCell19.Text = IndigoSessionValues.IndigoCompanyName
+        Me.XrTableCell4.Text = IndigoSessionValues.IndigoCompanyNit
+        'Me.XrTableCell8.Text = IndigoSessionValues.IndigoCompanyAddress
+        Me.LblSubtitle.Text = "AÑO GRAVABLE " & ParametrosReporte(0)
+
+        Dim filtroConsulta2 = "Id = " & IndigoSessionValues.IndigoOperatingUnitId
+        listReport2 = XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).PaymentsService.GetCollection(Of CommonOperatingUnitXpo)(Nothing, filtroConsulta2)
+        Me.XrTableCell12.Text = CType(listReport2(0), CommonOperatingUnitXpo).IdCity.Name.ToString
+        Me.XrTableCell8.Text = CType(listReport2(0), CommonOperatingUnitXpo).Address.ToString
+    End Sub
+
+    Private Sub GroupFooter1_BeforePrint(sender As Object, e As Printing.PrintEventArgs) Handles GroupFooter1.BeforePrint
+        Me.XrTableCell45.Text = Utils.Num2Text(Convert.ToDouble(GetCurrentColumnValue("INDsumReteValue"))).ToString & " PESOS M/Cte."
+    End Sub
+End Class

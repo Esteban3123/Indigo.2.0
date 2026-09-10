@@ -1,0 +1,70 @@
+﻿
+Imports DevExpress.Xpo
+
+<Persistent("Security.PermissionCompany")>
+Public Class PermissionCompanyXpo
+    Inherits XPLiteObject
+    Dim fId As Integer
+    <Key(True)>
+    Public Property Id() As Integer
+        Get
+            Return fId
+        End Get
+        Set(ByVal value As Integer)
+            SetPropertyValue(Of Integer)("Id", fId, value)
+        End Set
+    End Property
+    Dim fIdUser As Integer
+    <Persistent("IdUser")>
+    Public Property IdUser() As Integer
+        Get
+            Return fIdUser
+        End Get
+        Set(ByVal value As Integer)
+            SetPropertyValue(Of Integer)("IdUser", fIdUser, value)
+        End Set
+    End Property
+    Dim fIdContainer As Integer
+    <Persistent("IdContainer")>
+    Public Property IdContainer() As Integer
+        Get
+            Return fIdContainer
+        End Get
+        Set(ByVal value As Integer)
+            SetPropertyValue(Of Integer)("IdContainer", fIdContainer, value)
+        End Set
+    End Property
+    Dim fIdOperatingUnitDefault As Integer
+    <Persistent("IdOperatingUnitDefault")>
+    Public Property IdOperatingUnitDefault() As Integer
+        Get
+            Return fIdOperatingUnitDefault
+        End Get
+        Set(ByVal value As Integer)
+            SetPropertyValue(Of Integer)("IdOperatingUnitDefault", fIdOperatingUnitDefault, value)
+        End Set
+    End Property
+    Dim fPermission As Boolean
+    <Persistent("Permission")>
+    Public Property Permission() As Boolean
+        Get
+            Return fPermission
+        End Get
+        Set(ByVal value As Boolean)
+            SetPropertyValue(Of Boolean)("Permission", fPermission, value)
+        End Set
+    End Property
+    Dim fAdministrator As Boolean
+    <Persistent("Administrator")>
+    Public Property Administrator() As Boolean
+        Get
+            Return fAdministrator
+        End Get
+        Set(ByVal value As Boolean)
+            SetPropertyValue(Of Boolean)("Administrator", fAdministrator, value)
+        End Set
+    End Property
+    Public Sub New(ByVal session As Session)
+        MyBase.New(session)
+    End Sub
+End Class

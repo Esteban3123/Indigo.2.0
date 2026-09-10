@@ -1,0 +1,78 @@
+#Region "Librerias Importadas"
+Imports System.Drawing.Printing
+Imports DevExpress.XtraPrinting.Drawing
+Imports DevExpress.Drawing
+Imports DevExpress.XtraReports.UI
+Imports Infrastructure.CrossCutting.Base
+Imports Infrastructure.Data.Xpo
+Imports Infrastructure.Data.Xpo.MixingStationRepository
+Imports Presentation.Base
+Imports Presentation.CloudAgent
+#End Region
+
+Public Class rptProductionOrder
+    Implements IReport
+    Implements IReportAsync
+
+    ''' <summary>
+    ''' Variable para inicializar los valores de sesion
+    ''' </summary>
+    Dim IndigoSessionValues As SessionValues = SessionValues.Instance
+
+    Private User As SecurityRepository.UserXpo
+    Private batchQuantities As Integer
+    Private CampaignStatus As Byte
+
+    Public Sub CargarDataSource() Implements IReport.CargarDataSource
+        Dim campaignDetailId As Integer = ParametrosReporte(0)
+        Dim dtLotes As DataTable = IndigoConecta.Instancia.CurrentCloud.IndigoBilling.ExecuteQueryDt($"select sum(quantity) as BatchQuantity from MixingStation.RequestMixingStationDetail where CampaignDetailId = {campaignDetailId}", IndigoSessionValues.TransactionalContainer)
+        batchQuantities = dtLotes.Rows(0)("BatchQuantity")
+
+        Dim dt As DataTable = IndigoConecta.Instancia.CurrentCloud.IndigoBilling.ExecuteQueryDt($"EXEC MixingStation.SP_ProductionScheduleToReport @CampaignDetailId = {campaignDetailId}", IndigoSessionValues.TransactionalContainer)
+        If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+            User = XpoServiceEx.Instance(IndigoSessionValues.SecurityContainer).SecurityService.GetXPOObject(Of SecurityRepository.UserXpo)("UserCode = '" & dt.Rows(0)("UserCode").Trim() & "'")
+            CampaignStatus = Convert.ToByte(dt.Rows(0)("CampaignStatus"))
+            DataSource = dt
+            DataMember = "Datos"
+        Else
+            DataSource = Nothing
+        End If
+    End Sub
+
+    Public Function CargarDataSourceAsync() As Task Implements IReportAsync.CargarDataSourceAsync
+        Return Task.Factory.StartNew(AddressOf CargarDataSource)
+    End Function
+
+    Public Sub CargarImagenes() Implements IReport.CargarImagenes
+
+    End Sub
+
+    Public ReadOnly Property NameReport As String Implements IReport.NameReport
+        Get
+            Return ""
+        End Get
+    End Property
+
+
+    Sub SetTextWatermark()
+        Me.Watermark.Text = "IMRESIÓN PRELIMINAR"
+        Me.Watermark.TextDirection = DirectionMode.ForwardDiagonal
+        Me.Watermark.Font = New DXFont(Me.Watermark.Font.Name, 40)
+        Me.Watermark.ForeColor = Color.DodgerBlue
+        Me.Watermark.TextTransparency = 150
+        Me.Watermark.ShowBehind = False
+    End Sub
+
+    Public Property ParametrosReporte As Object() Implements IReport.ParametrosReporte
+
+    Private Sub rptSlipOut_BeforePrint(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles MyBase.BeforePrint
+        INDLblCompany.Text = IndigoSessionValues.IndigoCompanyName
+        INDUserImp.Text = "Usuario Impresión: " & IndigoSessionValues.UserIndigo & " - " & IndigoSessionValues.UserIndigoName
+        INDLblNitCompany.Text = "Nit:" & IndigoSessionValues.IndigoCompanyNit
+        XrTableCell14.Text = batchQuantities
+
+        If CampaignStatus <> 6 Then
+            SetTextWatermark()
+        End If
+    End Sub
+End Class

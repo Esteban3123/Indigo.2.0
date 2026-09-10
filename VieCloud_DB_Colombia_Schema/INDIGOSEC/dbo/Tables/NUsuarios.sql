@@ -1,0 +1,25 @@
+﻿CREATE TABLE [dbo].[NUsuarios] (
+    [Id]                     NVARCHAR (255) NULL,
+    [IdPerson]               NVARCHAR (255) NULL,
+    [UserCode]               NVARCHAR (255) NULL,
+    [RollCode]               NVARCHAR (255) NULL,
+    [GroupCode]              NVARCHAR (255) NULL,
+    [Position]               NVARCHAR (255) NULL,
+    [UserType]               NVARCHAR (255) NULL,
+    [ChangePassword]         NVARCHAR (255) NULL,
+    [DaysChangePassword]     NVARCHAR (255) NULL,
+    [DateLastChangePassword] NVARCHAR (255) NULL,
+    [DateExpiryAccount]      NVARCHAR (255) NULL,
+    [TimeStamp]              NVARCHAR (255) NULL,
+    [Password]               NVARCHAR (255) NULL,
+    [State]                  NVARCHAR (255) NULL,
+    [UserNameLync]           NVARCHAR (255) NULL,
+    [AddressSingInLync]      NVARCHAR (255) NULL,
+    [PasswordLync]           NVARCHAR (255) NULL,
+    [PersonalNote]           NVARCHAR (255) NULL,
+    [ViewForm]               NVARCHAR (255) NULL,
+    [CodeInterface]          NVARCHAR (255) NULL,
+    [IsLockedOut]            NVARCHAR (255) NULL,
+    [FailedPasswordCount]    NVARCHAR (255) NULL
+);
+

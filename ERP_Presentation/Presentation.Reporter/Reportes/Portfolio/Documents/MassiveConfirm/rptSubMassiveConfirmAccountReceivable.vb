@@ -1,0 +1,36 @@
+﻿#Region "Imports"
+Imports Infrastructure.CrossCutting.Base
+Imports Infrastructure.Data.Xpo
+Imports Infrastructure.Data.Xpo.GlosasRepository
+Imports DevExpress.XtraReports.UI
+#End Region
+
+Public Class rptSubMassiveConfirmAccountReceivable
+    Implements IReport
+
+    ''' <summary>
+    ''' Variable para inicializar los valores de sesion
+    ''' </summary>
+    Dim IndigoSessionValues As SessionValues = SessionValues.Instance
+
+    Public Sub CargarDataSource() Implements IReport.CargarDataSource
+        Me.DataSource = XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).GlosasService.GetCollection(Of Glosas_RadicateInvoiceC)(Nothing, "RadicatedConsecutive In ('" & String.Join("','", CType(ParametrosReporte(0), List(Of String))) & "')")
+    End Sub
+
+    Public Sub CargarImagenes() Implements IReport.CargarImagenes
+
+    End Sub
+
+    Public ReadOnly Property NameReport As String Implements IReport.NameReport
+        Get
+            Return ""
+        End Get
+    End Property
+
+    Public Property ParametrosReporte As Object() Implements IReport.ParametrosReporte
+
+    Private Sub rptSubMassiveConfirmAccountReceivable_BeforePrint(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles MyBase.BeforePrint
+        'Se asigana el valor para el pie de pagina del documento
+        Me.INDFooter.Value = ParametrosReporte(1)
+    End Sub
+End Class

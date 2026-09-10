@@ -1,0 +1,229 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{27E35E79-AB45-4C0E-A594-71A1176F028B}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>DistributedServices.Cost</RootNamespace>
+    <AssemblyName>DistributedServices.Cost</AssemblyName>
+    <FileAlignment>512</FileAlignment>
+    <MyType>Windows</MyType>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DocumentationFile>DistributedServices.Cost.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DocumentationFile>DistributedServices.Cost.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionExplicit>On</OptionExplicit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionCompare>Binary</OptionCompare>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionStrict>Off</OptionStrict>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionInfer>On</OptionInfer>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.Practices.Unity">
+      <HintPath>..\DLL\Microsoft.Practices.Unity.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Core" />
+  </ItemGroup>
+  <ItemGroup>
+    <Import Include="Microsoft.VisualBasic" />
+    <Import Include="System" />
+    <Import Include="System.Collections" />
+    <Import Include="System.Collections.Generic" />
+    <Import Include="System.Data" />
+    <Import Include="System.Diagnostics" />
+    <Import Include="System.Linq" />
+    <Import Include="System.Xml.Linq" />
+    <Import Include="System.Threading.Tasks" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Contracts\ICostServiceAverageStandardCost.vb" />
+    <Compile Include="Contracts\ICostServiceCostIntermediateDistribution.vb" />
+    <Compile Include="Contracts\ICostServiceCostInventoryGroup.vb" />
+    <Compile Include="Contracts\ICostServiceCostActivity.vb" />
+    <Compile Include="Contracts\ICostService.vb" />
+    <Compile Include="Contracts\ICostServiceBlockRecordCost.vb" />
+    <Compile Include="Contracts\ICostServiceCostDirectDistributionSecondary.vb" />
+    <Compile Include="Contracts\ICostServiceCostDistributionFixedAsset.vb" />
+    <Compile Include="Contracts\ICostServiceCostDistributionDirectCost.vb" />
+    <Compile Include="Contracts\ICostServiceCostDistributionIntermediate.vb" />
+    <Compile Include="Contracts\ICostServiceCostDistributionManpower.vb" />
+    <Compile Include="Contracts\ICostServiceCostDistributionSecondary.vb" />
+    <Compile Include="Contracts\ICostServiceCostEstimationNative.vb" />
+    <Compile Include="Contracts\ICostServiceCostGeneralExpense.vb" />
+    <Compile Include="Contracts\ICostServiceCostGeneralExpenseCategory.vb" />
+    <Compile Include="Contracts\ICostServiceCostOrganizationalStructure.vb" />
+    <Compile Include="Contracts\ICostServiceCostProductionCenter.vb" />
+    <Compile Include="Contracts\ICostServiceCostProductionCenterCategory.vb" />
+    <Compile Include="Contracts\ICostServiceCostSequence.vb" />
+    <Compile Include="Contracts\ICostServiceCostSetting.vb" />
+    <Compile Include="Contracts\ICostServiceLogisticsProductionCenterRecord.vb" />
+    <Compile Include="Contracts\ICostServiceReports.vb" />
+    <Compile Include="Services\CostService.CostIntermediateDistribution.vb" />
+    <Compile Include="Services\CostService.CostProductionCenterCategory.vb" />
+    <Compile Include="Services\CostService.Reports.vb" />
+    <Compile Include="My Project\AssemblyInfo.vb" />
+    <Compile Include="My Project\Application.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Application.myapp</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="My Project\Resources.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="My Project\Settings.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="Services\CostService.CostInventoryGroup.vb" />
+    <Compile Include="Services\CostService.CostDirectDistributionSecondary.vb" />
+    <Compile Include="Services\CostService.CostDistributionFixedAsset.vb" />
+    <Compile Include="Services\CostService.CostDistributionDirectCost.vb" />
+    <Compile Include="Services\CostService.CostDistributionIntermediate.vb" />
+    <Compile Include="Services\CostService.CostDistributionManpower.vb" />
+    <Compile Include="Services\CostService.CostDistributionSecondary.vb" />
+    <Compile Include="Services\CostService.CostEstimationNative.vb" />
+    <Compile Include="Services\CostService.CostLogisticsProductionCenterRecord.vb" />
+    <Compile Include="Services\CostService.CostGeneralExpense.vb" />
+    <Compile Include="Services\CostService.CostGeneralExpenseCatgory.vb" />
+    <Compile Include="Services\CostService.CostOrganizationalStructure.vb" />
+    <Compile Include="Services\CostService.CostProductionCenter.vb" />
+    <Compile Include="Services\CostService.CostSequence.vb" />
+    <Compile Include="Services\CostService.CostSetting.vb" />
+    <Compile Include="Services\CostService.vb" />
+    <Compile Include="Services\CostService.BlockRecordCost.vb" />
+    <Compile Include="Services\CostService.CostActivity.vb" />
+    <Compile Include="Services\CostServiceAverageStandardCost.vb" />
+    <Compile Include="Unity\Container.vb" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="My Project\Resources.resx">
+      <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.vb</LastGenOutput>
+      <CustomToolNamespace>My.Resources</CustomToolNamespace>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="My Project\Application.myapp">
+      <Generator>MyApplicationCodeGenerator</Generator>
+      <LastGenOutput>Application.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="My Project\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <CustomToolNamespace>My</CustomToolNamespace>
+      <LastGenOutput>Settings.Designer.vb</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Application.Accounting\Application.Accounting.vbproj">
+      <Project>{3ECA7B1F-D62B-4223-9F17-53A1C5B3A0C9}</Project>
+      <Name>Application.Accounting</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Application.Cost\Application.Cost.vbproj">
+      <Project>{82ad5571-34c5-4624-b449-92f76fe3b51f}</Project>
+      <Name>Application.Cost</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Application.EventHandlers\Application.EventHandlers.csproj">
+      <Project>{bc7db3be-4b97-49d3-92b1-dbac5aa3021b}</Project>
+      <Name>Application.EventHandlers</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Application.Payments\Application.Payments.vbproj">
+      <Project>{6D5A593D-D08D-4C4E-8CAC-0A7CF615522E}</Project>
+      <Name>Application.Payments</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DistributedServices.Authentication\DistributedServices.Authentication.vbproj">
+      <Project>{EBFDECA0-D6B3-470B-99AB-2CEE3C356117}</Project>
+      <Name>DistributedServices.Authentication</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Domain.Base.Entities\Domain.Base.Entities.vbproj">
+      <Project>{78734D29-0073-4D48-9D0B-2362D0243E36}</Project>
+      <Name>Domain.Base.Entities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Domain.Base\Domain.Base.vbproj">
+      <Project>{8157F242-6A69-44C1-A9AC-19F0EE5CB8A2}</Project>
+      <Name>Domain.Base</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Domain.Entities.Service\Domain.Entities.Service.vbproj">
+      <Project>{99e9ab54-bb1b-4279-99e7-b4b8e7068ce7}</Project>
+      <Name>Domain.Entities.Service</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Domain.Entities\Domain.Entities.vbproj">
+      <Project>{0551AEF4-ED84-4745-B00B-7475F26015CC}</Project>
+      <Name>Domain.Entities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Domain.Payroll.Entities\Domain.Payroll.Entities.vbproj">
+      <Project>{F0FE946F-2BD9-4BB8-8741-51EA3D862237}</Project>
+      <Name>Domain.Payroll.Entities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Domain.Payroll\Domain.Payroll.vbproj">
+      <Project>{0B26CAFA-8DF4-49AB-8943-41A91D67694E}</Project>
+      <Name>Domain.Payroll</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastructure.CrossCutting.Base\Infrastructure.CrossCutting.Base.vbproj">
+      <Project>{2773D9F7-93BD-4520-9726-BCE0D8875696}</Project>
+      <Name>Infrastructure.CrossCutting.Base</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastructure.Data.Base\Infrastructure.Data.Base.vbproj">
+      <Project>{69C4FE61-549B-42E8-ADAC-18D1CFC83FED}</Project>
+      <Name>Infrastructure.Data.Base</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastructure.Data.MaintenanceRepository\Infrastructure.Data.MaintenanceRepository.vbproj">
+      <Project>{8778B018-79CA-4FBA-8295-5497618F3AC1}</Project>
+      <Name>Infrastructure.Data.MaintenanceRepository</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastructure.Data.ModelRepository\Infrastructure.Data.ModelRepository.vbproj">
+      <Project>{A029EE5D-D97C-45A3-A213-43E17D1DBE0D}</Project>
+      <Name>Infrastructure.Data.ModelRepository</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastructure.Data.PayrollRepository\Infrastructure.Data.PayrollRepository.vbproj">
+      <Project>{97673314-A589-43C4-A604-54EC33856A76}</Project>
+      <Name>Infrastructure.Data.PayrollRepository</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

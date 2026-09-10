@@ -1,0 +1,69 @@
+﻿#Region "Librerias Importadas"
+Imports Infrastructure.CrossCutting.Base
+Imports Infrastructure.Data.Xpo
+Imports Infrastructure.Data.Xpo.PayrollRepository
+Imports Domain.Entities
+
+#End Region
+
+Public Class rptManualConcepts
+    Implements IReport
+
+    ''' <summary>
+    ''' Variable para inicializar los valores de sesion
+    ''' </summary>
+    Dim IndigoSessionValues As SessionValues = SessionValues.Instance
+
+    Public Sub CargarDataSource() Implements IReport.CargarDataSource
+        Dim filtro As String = ""
+        Dim fechaInicial As New Date(ParametrosReporte(2), ParametrosReporte(1), 1)
+        Dim fechaFinal As New Date(ParametrosReporte(2), ParametrosReporte(1), DateSerial(ParametrosReporte(2), ParametrosReporte(1) + 1, 0).Day)
+
+        filtro = "InitialDate >= #" & Format(fechaInicial, "yyyy-MM-dd") & "# AND InitialDate <= #" & Format(fechaFinal, "yyyy-MM-dd") & "#"
+
+        'filtro empleado
+        If ParametrosReporte(0) IsNot Nothing Then
+            filtro &= "And EmployeeId.Id = " & ParametrosReporte(0)
+        End If
+
+        'filtro concepto
+        If ParametrosReporte(5) IsNot Nothing Then
+            filtro &= " And ConceptId.Id = " & Me.ParametrosReporte(5)
+        End If
+
+        'filtro por Grupo
+        If ParametrosReporte(3) IsNot Nothing And ParametrosReporte(4) IsNot Nothing Then
+            filtro &= " AND GroupId >= '" & ParametrosReporte(3) & "' AND GroupId <= '" & ParametrosReporte(4) & "'"
+        End If
+
+        Dim sucursalIni As String = IIf(ParametrosReporte(6) Is Nothing Or CStr(ParametrosReporte(6)) = String.Empty, "NULL", CStr(ParametrosReporte(6)))
+        Dim sucursalFin As String = IIf(ParametrosReporte(7) Is Nothing Or CStr(ParametrosReporte(7)) = String.Empty, "NULL", CStr(ParametrosReporte(7)))
+        filtro = String.Format("{0} AND ((BranchOfficeId >= {1} AND BranchOfficeId <= {2}) OR ({1} IS NULL AND {2} IS NULL))", filtro, sucursalIni, sucursalFin)
+
+        Dim INDList As List(Of PayrollManualConceptsReportXpo) = XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).TreasuryService.GetCollection(Of PayrollManualConceptsReportXpo)(Nothing, filtro)
+        'Dim INDListHeader As List(Of PayrollManualConceptsReportXpo) = XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).TreasuryService.GetCollection(Of PayrollManualConceptsReportXpo)(Nothing, filtro)
+        Me.DataSource = INDList
+    End Sub
+
+    Public Sub CargarImagenes() Implements IReport.CargarImagenes
+
+    End Sub
+
+    Public ReadOnly Property NameReport As String Implements IReport.NameReport
+        Get
+            Return ""
+        End Get
+    End Property
+
+    Public Property ParametrosReporte As Object() Implements IReport.ParametrosReporte
+
+    Private Sub rptManualConcepts_BeforePrint(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles MyBase.BeforePrint
+        INDLblCompany.Text = IndigoSessionValues.IndigoCompanyName
+        INDLblNitCompany.Text = "Nit:" & IndigoSessionValues.IndigoCompanyNit
+        Dim months() As String = {"Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"}
+        INDLblDateMonth.Text = "Conceptos manuales de " & months(ParametrosReporte(1) - 1) & " de " & ParametrosReporte(2)
+        INDUserImp.Text = "Usuario Impresión : " & IndigoSessionValues.UserIndigo & " - " & IndigoSessionValues.UserIndigoName
+        ' Inicializar la localización del reporte (formato de moneda)
+        UtilitiesReporter.InitializeReportLocalization(Me, IndigoSessionValues, 1)
+    End Sub
+End Class

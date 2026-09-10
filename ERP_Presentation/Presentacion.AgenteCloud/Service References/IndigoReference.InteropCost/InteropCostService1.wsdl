@@ -1,0 +1,2960 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:wsap="http://schemas.xmlsoap.org/ws/2004/08/addressing/policy" xmlns:wsa10="http://www.w3.org/2005/08/addressing" xmlns:tns="http://tempuri.org/" xmlns:msc="http://schemas.microsoft.com/ws/2005/12/wsdl/contract" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:wsx="http://schemas.xmlsoap.org/ws/2004/09/mex" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="InteropCostService" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsp:Policy wsu:Id="netTcp_Endpoint_InteropCost_policy">
+    <wsp:ExactlyOne>
+      <wsp:All>
+        <msb:BinaryEncoding xmlns:msb="http://schemas.microsoft.com/ws/06/2004/mspolicy/netbinary1" />
+        <wsaw:UsingAddressing />
+      </wsp:All>
+    </wsp:ExactlyOne>
+  </wsp:Policy>
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://tempuri.org/Imports">
+      <xsd:import schemaLocation="http://localhost:9000/ServiceEntity/InteropCost.svc/ServiceEntity/?xsd=xsd0" namespace="http://tempuri.org/" />
+      <xsd:import schemaLocation="http://localhost:9000/ServiceEntity/InteropCost.svc/ServiceEntity/?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+      <xsd:import schemaLocation="http://localhost:9000/ServiceEntity/InteropCost.svc/ServiceEntity/?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/Domain.Entities" />
+      <xsd:import schemaLocation="http://localhost:9000/ServiceEntity/InteropCost.svc/ServiceEntity/?xsd=xsd3" namespace="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" />
+      <xsd:import schemaLocation="http://localhost:9000/ServiceEntity/InteropCost.svc/ServiceEntity/?xsd=xsd4" />
+      <xsd:import schemaLocation="http://localhost:9000/ServiceEntity/InteropCost.svc/ServiceEntity/?xsd=xsd5" namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
+      <xsd:import schemaLocation="http://localhost:9000/ServiceEntity/InteropCost.svc/ServiceEntity/?xsd=xsd6" namespace="http://schemas.datacontract.org/2004/07/Infrastructure.CrossCutting.Base" />
+      <xsd:import schemaLocation="http://localhost:9000/ServiceEntity/InteropCost.svc/ServiceEntity/?xsd=xsd7" namespace="http://schemas.datacontract.org/2004/07/System" />
+      <xsd:import schemaLocation="http://localhost:9000/ServiceEntity/InteropCost.svc/ServiceEntity/?xsd=xsd8" namespace="http://schemas.datacontract.org/2004/07/System.ComponentModel" />
+      <xsd:import schemaLocation="http://localhost:9000/ServiceEntity/InteropCost.svc/ServiceEntity/?xsd=xsd9" namespace="http://schemas.datacontract.org/2004/07/Domain.InteropCost.Entities" />
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="IInteropCostService_SaveOrganizationalStructure_InputMessage">
+    <wsdl:part name="parameters" element="tns:SaveOrganizationalStructure" />
+  </wsdl:message>
+  <wsdl:message name="IInteropCostService_SaveOrganizationalStructure_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SaveOrganizationalStructureResponse" />
+  </wsdl:message>
+  <wsdl:message name="IInteropCostService_DeleteOrganizationalStructure_InputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteOrganizationalStructure" />
+  </wsdl:message>
+  <wsdl:message name="IInteropCostService_DeleteOrganizationalStructure_OutputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteOrganizationalStructureResponse" />
+  </wsdl:message>
+  <wsdl:message name="IInteropCostService_UpdateState_InputMessage">
+    <wsdl:part name="parameters" element="tns:UpdateState" />
+  </wsdl:message>
+  <wsdl:message name="IInteropCostService_UpdateState_OutputMessage">
+    <wsdl:part name="parameters" element="tns:UpdateStateResponse" />
+  </wsdl:message>
+  <wsdl:message name="IInteropCostService_GetOrganizationalStructure_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetOrganizationalStructure" />
+  </wsdl:message>
+  <wsdl:message name="IInteropCostService_GetOrganizationalStructure_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetOrganizationalStructureResponse" />
+  </wsdl:message>
+  <wsdl:message name="IInteropCostService_GetOrganizationalStructureById_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetOrganizationalStructureById" />
+  </wsdl:message>
+  <wsdl:message name="IInteropCostService_GetOrganizationalStructureById_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetOrganizationalStructureByIdResponse" />
+  </wsdl:message>
+  <wsdl:message name="IInteropCostService_GetBlockRecordInteropCostByIdformAndIdRecord_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetBlockRecordInteropCostByIdformAndIdRecord" />
+  </wsdl:message>
+  <wsdl:message name="IInteropCostService_GetBlockRecordInteropCostByIdformAndIdRecord_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetBlockRecordInteropCostByIdformAndIdRecordResponse" />
+  </wsdl:message>
+  <wsdl:message name="IInteropCostService_SaveBlockRecordInteropCost_InputMessage">
+    <wsdl:part name="parameters" element="tns:SaveBlockRecordInteropCost" />
+  </wsdl:message>
+  <wsdl:message name="IInteropCostService_SaveBlockRecordInteropCost_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SaveBlockRecordInteropCostResponse" />
+  </wsdl:message>
+  <wsdl:message name="IInteropCostService_DeleteBlockRecordInteropCost_InputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteBlockRecordInteropCost" />
+  </wsdl:message>
+  <wsdl:message name="IInteropCostService_DeleteBlockRecordInteropCost_OutputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteBlockRecordInteropCostResponse" />
+  </wsdl:message>
+  <wsdl:message name="IInteropCostService_GetNumericSequenseGroupById_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetNumericSequenseGroupById" />
+  </wsdl:message>
+  <wsdl:message name="IInteropCostService_GetNumericSequenseGroupById_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetNumericSequenseGroupByIdResponse" />
+  </wsdl:message>
+  <wsdl:message name="IInteropCostService_GetSequenseByIdForm_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetSequenseByIdForm" />
+  </wsdl:message>
+  <wsdl:message name="IInteropCostService_GetSequenseByIdForm_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetSequenseByIdFormResponse" />
+  </wsdl:message>
+  <wsdl:message name="IInteropCostService_SaveSequence_InputMessage">
+    <wsdl:part name="parameters" element="tns:SaveSequence" />
+  </wsdl:message>
+  <wsdl:message name="IInteropCostService_SaveSequence_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SaveSequenceResponse" />
+  </wsdl:message>
+  <wsdl:message name="IInteropCostService_SaveProductionCenter_InputMessage">
+    <wsdl:part name="parameters" element="tns:SaveProductionCenter" />
+  </wsdl:message>
+  <wsdl:message name="IInteropCostService_SaveProductionCenter_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SaveProductionCenterResponse" />
+  </wsdl:message>
+  <wsdl:message name="IInteropCostService_DeleteProductionCenter_InputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteProductionCenter" />
+  </wsdl:message>
+  <wsdl:message name="IInteropCostService_DeleteProductionCenter_OutputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteProductionCenterResponse" />
+  </wsdl:message>
+  <wsdl:message name="IInteropCostService_UpdateStateProductionCenter_InputMessage">
+    <wsdl:part name="parameters" element="tns:UpdateStateProductionCenter" />
+  </wsdl:message>
+  <wsdl:message name="IInteropCostService_UpdateStateProductionCenter_OutputMessage">
+    <wsdl:part name="parameters" element="tns:UpdateStateProductionCenterResponse" />
+  </wsdl:message>
+  <wsdl:message name="IInteropCostService_GetProductionCenter_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetProductionCenter" />
+  </wsdl:message>
+  <wsdl:message name="IInteropCostService_GetProductionCenter_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetProductionCenterResponse" />
+  </wsdl:message>
+  <wsdl:message name="IInteropCostService_GetProductionCenterById_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetProductionCenterById" />
+  </wsdl:message>
+  <wsdl:message name="IInteropCostService_GetProductionCenterById_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetProductionCenterByIdResponse" />
+  </wsdl:message>
+  <wsdl:message name="IInteropCostService_ListProductionCenter_InputMessage">
+    <wsdl:part name="parameters" element="tns:ListProductionCenter" />
+  </wsdl:message>
+  <wsdl:message name="IInteropCostService_ListProductionCenter_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ListProductionCenterResponse" />
+  </wsdl:message>
+  <wsdl:message name="IInteropCostService_GetProductionCenterByCostCenterOid_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetProductionCenterByCostCenterOid" />
+  </wsdl:message>
+  <wsdl:message name="IInteropCostService_GetProductionCenterByCostCenterOid_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetProductionCenterByCostCenterOidResponse" />
+  </wsdl:message>
+  <wsdl:message name="IInteropCostService_ListrptResultProductionCostsExpenses_InputMessage">
+    <wsdl:part name="parameters" element="tns:ListrptResultProductionCostsExpenses" />
+  </wsdl:message>
+  <wsdl:message name="IInteropCostService_ListrptResultProductionCostsExpenses_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ListrptResultProductionCostsExpensesResponse" />
+  </wsdl:message>
+  <wsdl:message name="IInteropCostService_ListrptResultProductionCostsExpensesDetail_InputMessage">
+    <wsdl:part name="parameters" element="tns:ListrptResultProductionCostsExpensesDetail" />
+  </wsdl:message>
+  <wsdl:message name="IInteropCostService_ListrptResultProductionCostsExpensesDetail_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ListrptResultProductionCostsExpensesDetailResponse" />
+  </wsdl:message>
+  <wsdl:message name="IInteropCostService_ListReportOperatingResult_InputMessage">
+    <wsdl:part name="parameters" element="tns:ListReportOperatingResult" />
+  </wsdl:message>
+  <wsdl:message name="IInteropCostService_ListReportOperatingResult_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ListReportOperatingResultResponse" />
+  </wsdl:message>
+  <wsdl:message name="IInteropCostService_ListReportOperatingResultsByOrganizationalStructure_InputMessage">
+    <wsdl:part name="parameters" element="tns:ListReportOperatingResultsByOrganizationalStructure" />
+  </wsdl:message>
+  <wsdl:message name="IInteropCostService_ListReportOperatingResultsByOrganizationalStructure_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ListReportOperatingResultsByOrganizationalStructureResponse" />
+  </wsdl:message>
+  <wsdl:message name="IInteropCostService_ListReportOperatingResultsByOrganizationalStatisticalGraphics_InputMessage">
+    <wsdl:part name="parameters" element="tns:ListReportOperatingResultsByOrganizationalStatisticalGraphics" />
+  </wsdl:message>
+  <wsdl:message name="IInteropCostService_ListReportOperatingResultsByOrganizationalStatisticalGraphics_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ListReportOperatingResultsByOrganizationalStatisticalGraphicsResponse" />
+  </wsdl:message>
+  <wsdl:message name="IInteropCostService_SaveGeneralExpense_InputMessage">
+    <wsdl:part name="parameters" element="tns:SaveGeneralExpense" />
+  </wsdl:message>
+  <wsdl:message name="IInteropCostService_SaveGeneralExpense_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SaveGeneralExpenseResponse" />
+  </wsdl:message>
+  <wsdl:message name="IInteropCostService_ListGeneralExpenseByStatus_InputMessage">
+    <wsdl:part name="parameters" element="tns:ListGeneralExpenseByStatus" />
+  </wsdl:message>
+  <wsdl:message name="IInteropCostService_ListGeneralExpenseByStatus_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ListGeneralExpenseByStatusResponse" />
+  </wsdl:message>
+  <wsdl:message name="IInteropCostService_DeleteGeneralExpense_InputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteGeneralExpense" />
+  </wsdl:message>
+  <wsdl:message name="IInteropCostService_DeleteGeneralExpense_OutputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteGeneralExpenseResponse" />
+  </wsdl:message>
+  <wsdl:message name="IInteropCostService_GetGeneralExpenseByMainAccountId_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetGeneralExpenseByMainAccountId" />
+  </wsdl:message>
+  <wsdl:message name="IInteropCostService_GetGeneralExpenseByMainAccountId_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetGeneralExpenseByMainAccountIdResponse" />
+  </wsdl:message>
+  <wsdl:message name="IInteropCostService_GetGeneralExpense_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetGeneralExpense" />
+  </wsdl:message>
+  <wsdl:message name="IInteropCostService_GetGeneralExpense_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetGeneralExpenseResponse" />
+  </wsdl:message>
+  <wsdl:message name="IInteropCostService_GetGeneralExpenseById_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetGeneralExpenseById" />
+  </wsdl:message>
+  <wsdl:message name="IInteropCostService_GetGeneralExpenseById_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetGeneralExpenseByIdResponse" />
+  </wsdl:message>
+  <wsdl:message name="IInteropCostService_UpdateStateGeneralExpense_InputMessage">
+    <wsdl:part name="parameters" element="tns:UpdateStateGeneralExpense" />
+  </wsdl:message>
+  <wsdl:message name="IInteropCostService_UpdateStateGeneralExpense_OutputMessage">
+    <wsdl:part name="parameters" element="tns:UpdateStateGeneralExpenseResponse" />
+  </wsdl:message>
+  <wsdl:message name="IInteropCostService_ListGeneralExpenseByPeriod_InputMessage">
+    <wsdl:part name="parameters" element="tns:ListGeneralExpenseByPeriod" />
+  </wsdl:message>
+  <wsdl:message name="IInteropCostService_ListGeneralExpenseByPeriod_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ListGeneralExpenseByPeriodResponse" />
+  </wsdl:message>
+  <wsdl:message name="IInteropCostService_ListDistributionDirectCostToReport_InputMessage">
+    <wsdl:part name="parameters" element="tns:ListDistributionDirectCostToReport" />
+  </wsdl:message>
+  <wsdl:message name="IInteropCostService_ListDistributionDirectCostToReport_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ListDistributionDirectCostToReportResponse" />
+  </wsdl:message>
+  <wsdl:message name="IInteropCostService_SaveDistributionDirectCost_InputMessage">
+    <wsdl:part name="parameters" element="tns:SaveDistributionDirectCost" />
+  </wsdl:message>
+  <wsdl:message name="IInteropCostService_SaveDistributionDirectCost_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SaveDistributionDirectCostResponse" />
+  </wsdl:message>
+  <wsdl:message name="IInteropCostService_DeleteDistributionDirectCost_InputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteDistributionDirectCost" />
+  </wsdl:message>
+  <wsdl:message name="IInteropCostService_DeleteDistributionDirectCost_OutputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteDistributionDirectCostResponse" />
+  </wsdl:message>
+  <wsdl:message name="IInteropCostService_UpdateStateDistributionDirectCost_InputMessage">
+    <wsdl:part name="parameters" element="tns:UpdateStateDistributionDirectCost" />
+  </wsdl:message>
+  <wsdl:message name="IInteropCostService_UpdateStateDistributionDirectCost_OutputMessage">
+    <wsdl:part name="parameters" element="tns:UpdateStateDistributionDirectCostResponse" />
+  </wsdl:message>
+  <wsdl:message name="IInteropCostService_GetDistributionDirectCost_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetDistributionDirectCost" />
+  </wsdl:message>
+  <wsdl:message name="IInteropCostService_GetDistributionDirectCost_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetDistributionDirectCostResponse" />
+  </wsdl:message>
+  <wsdl:message name="IInteropCostService_GetDistributionDirectCostById_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetDistributionDirectCostById" />
+  </wsdl:message>
+  <wsdl:message name="IInteropCostService_GetDistributionDirectCostById_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetDistributionDirectCostByIdResponse" />
+  </wsdl:message>
+  <wsdl:message name="IInteropCostService_ListDistributionDirectCostByYearMonth_InputMessage">
+    <wsdl:part name="parameters" element="tns:ListDistributionDirectCostByYearMonth" />
+  </wsdl:message>
+  <wsdl:message name="IInteropCostService_ListDistributionDirectCostByYearMonth_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ListDistributionDirectCostByYearMonthResponse" />
+  </wsdl:message>
+  <wsdl:message name="IInteropCostService_GetMainAccountValueByContainerNumberAccountYearAndMotn_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetMainAccountValueByContainerNumberAccountYearAndMotn" />
+  </wsdl:message>
+  <wsdl:message name="IInteropCostService_GetMainAccountValueByContainerNumberAccountYearAndMotn_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetMainAccountValueByContainerNumberAccountYearAndMotnResponse" />
+  </wsdl:message>
+  <wsdl:message name="IInteropCostService_CalculateDistribution_InputMessage">
+    <wsdl:part name="parameters" element="tns:CalculateDistribution" />
+  </wsdl:message>
+  <wsdl:message name="IInteropCostService_CalculateDistribution_OutputMessage">
+    <wsdl:part name="parameters" element="tns:CalculateDistributionResponse" />
+  </wsdl:message>
+  <wsdl:message name="IInteropCostService_GetPrimaryEstimateOrFinal_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetPrimaryEstimateOrFinal" />
+  </wsdl:message>
+  <wsdl:message name="IInteropCostService_GetPrimaryEstimateOrFinal_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetPrimaryEstimateOrFinalResponse" />
+  </wsdl:message>
+  <wsdl:message name="IInteropCostService_GetPrimaryEstimateOrFinalB_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetPrimaryEstimateOrFinalB" />
+  </wsdl:message>
+  <wsdl:message name="IInteropCostService_GetPrimaryEstimateOrFinalB_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetPrimaryEstimateOrFinalBResponse" />
+  </wsdl:message>
+  <wsdl:message name="IInteropCostService_GetPrimaryEstimateOrFinalC_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetPrimaryEstimateOrFinalC" />
+  </wsdl:message>
+  <wsdl:message name="IInteropCostService_GetPrimaryEstimateOrFinalC_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetPrimaryEstimateOrFinalCResponse" />
+  </wsdl:message>
+  <wsdl:message name="IInteropCostService_SaveInteropCostSetting_InputMessage">
+    <wsdl:part name="parameters" element="tns:SaveInteropCostSetting" />
+  </wsdl:message>
+  <wsdl:message name="IInteropCostService_SaveInteropCostSetting_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SaveInteropCostSettingResponse" />
+  </wsdl:message>
+  <wsdl:message name="IInteropCostService_DeleteInteropCostSetting_InputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteInteropCostSetting" />
+  </wsdl:message>
+  <wsdl:message name="IInteropCostService_DeleteInteropCostSetting_OutputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteInteropCostSettingResponse" />
+  </wsdl:message>
+  <wsdl:message name="IInteropCostService_GetInteropCostSetting_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetInteropCostSetting" />
+  </wsdl:message>
+  <wsdl:message name="IInteropCostService_GetInteropCostSetting_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetInteropCostSettingResponse" />
+  </wsdl:message>
+  <wsdl:message name="IInteropCostService_GetInteropCostSettingById_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetInteropCostSettingById" />
+  </wsdl:message>
+  <wsdl:message name="IInteropCostService_GetInteropCostSettingById_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetInteropCostSettingByIdResponse" />
+  </wsdl:message>
+  <wsdl:message name="IInteropCostService_SaveDistributionManpower_InputMessage">
+    <wsdl:part name="parameters" element="tns:SaveDistributionManpower" />
+  </wsdl:message>
+  <wsdl:message name="IInteropCostService_SaveDistributionManpower_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SaveDistributionManpowerResponse" />
+  </wsdl:message>
+  <wsdl:message name="IInteropCostService_DeleteDistributionManpower_InputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteDistributionManpower" />
+  </wsdl:message>
+  <wsdl:message name="IInteropCostService_DeleteDistributionManpower_OutputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteDistributionManpowerResponse" />
+  </wsdl:message>
+  <wsdl:message name="IInteropCostService_UpdateStateDistributionManpower_InputMessage">
+    <wsdl:part name="parameters" element="tns:UpdateStateDistributionManpower" />
+  </wsdl:message>
+  <wsdl:message name="IInteropCostService_UpdateStateDistributionManpower_OutputMessage">
+    <wsdl:part name="parameters" element="tns:UpdateStateDistributionManpowerResponse" />
+  </wsdl:message>
+  <wsdl:message name="IInteropCostService_GetDistributionManpower_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetDistributionManpower" />
+  </wsdl:message>
+  <wsdl:message name="IInteropCostService_GetDistributionManpower_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetDistributionManpowerResponse" />
+  </wsdl:message>
+  <wsdl:message name="IInteropCostService_GetDistributionManpowerByEmployeeIdAndYearMonth_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetDistributionManpowerByEmployeeIdAndYearMonth" />
+  </wsdl:message>
+  <wsdl:message name="IInteropCostService_GetDistributionManpowerByEmployeeIdAndYearMonth_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetDistributionManpowerByEmployeeIdAndYearMonthResponse" />
+  </wsdl:message>
+  <wsdl:message name="IInteropCostService_ListPeriodWithDataByMaximumPeriod_InputMessage">
+    <wsdl:part name="parameters" element="tns:ListPeriodWithDataByMaximumPeriod" />
+  </wsdl:message>
+  <wsdl:message name="IInteropCostService_ListPeriodWithDataByMaximumPeriod_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ListPeriodWithDataByMaximumPeriodResponse" />
+  </wsdl:message>
+  <wsdl:message name="IInteropCostService_GetDistributionManpowerById_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetDistributionManpowerById" />
+  </wsdl:message>
+  <wsdl:message name="IInteropCostService_GetDistributionManpowerById_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetDistributionManpowerByIdResponse" />
+  </wsdl:message>
+  <wsdl:message name="IInteropCostService_ListDistributionManpowerByYearMonth_InputMessage">
+    <wsdl:part name="parameters" element="tns:ListDistributionManpowerByYearMonth" />
+  </wsdl:message>
+  <wsdl:message name="IInteropCostService_ListDistributionManpowerByYearMonth_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ListDistributionManpowerByYearMonthResponse" />
+  </wsdl:message>
+  <wsdl:message name="IInteropCostService_ConfirmMasiveInteropCost_InputMessage">
+    <wsdl:part name="parameters" element="tns:ConfirmMasiveInteropCost" />
+  </wsdl:message>
+  <wsdl:message name="IInteropCostService_ConfirmMasiveInteropCost_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ConfirmMasiveInteropCostResponse" />
+  </wsdl:message>
+  <wsdl:message name="IInteropCostService_SP_ExportExcelInteropCostDistributionManPower_InputMessage">
+    <wsdl:part name="parameters" element="tns:SP_ExportExcelInteropCostDistributionManPower" />
+  </wsdl:message>
+  <wsdl:message name="IInteropCostService_SP_ExportExcelInteropCostDistributionManPower_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SP_ExportExcelInteropCostDistributionManPowerResponse" />
+  </wsdl:message>
+  <wsdl:message name="IInteropCostService_SaveDistributionFixedAsset_InputMessage">
+    <wsdl:part name="parameters" element="tns:SaveDistributionFixedAsset" />
+  </wsdl:message>
+  <wsdl:message name="IInteropCostService_SaveDistributionFixedAsset_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SaveDistributionFixedAssetResponse" />
+  </wsdl:message>
+  <wsdl:message name="IInteropCostService_DeleteDistributionFixedAsset_InputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteDistributionFixedAsset" />
+  </wsdl:message>
+  <wsdl:message name="IInteropCostService_DeleteDistributionFixedAsset_OutputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteDistributionFixedAssetResponse" />
+  </wsdl:message>
+  <wsdl:message name="IInteropCostService_GetDistributionFixedAssetByActivoAndYearMonth_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetDistributionFixedAssetByActivoAndYearMonth" />
+  </wsdl:message>
+  <wsdl:message name="IInteropCostService_GetDistributionFixedAssetByActivoAndYearMonth_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetDistributionFixedAssetByActivoAndYearMonthResponse" />
+  </wsdl:message>
+  <wsdl:message name="IInteropCostService_UpdateStateDistributionFixedAsset_InputMessage">
+    <wsdl:part name="parameters" element="tns:UpdateStateDistributionFixedAsset" />
+  </wsdl:message>
+  <wsdl:message name="IInteropCostService_UpdateStateDistributionFixedAsset_OutputMessage">
+    <wsdl:part name="parameters" element="tns:UpdateStateDistributionFixedAssetResponse" />
+  </wsdl:message>
+  <wsdl:message name="IInteropCostService_GetDistributionFixedAsset_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetDistributionFixedAsset" />
+  </wsdl:message>
+  <wsdl:message name="IInteropCostService_GetDistributionFixedAsset_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetDistributionFixedAssetResponse" />
+  </wsdl:message>
+  <wsdl:message name="IInteropCostService_GetDistributionFixedAssetById_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetDistributionFixedAssetById" />
+  </wsdl:message>
+  <wsdl:message name="IInteropCostService_GetDistributionFixedAssetById_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetDistributionFixedAssetByIdResponse" />
+  </wsdl:message>
+  <wsdl:message name="IInteropCostService_ListDistributionFixedAssetByYearMonth_InputMessage">
+    <wsdl:part name="parameters" element="tns:ListDistributionFixedAssetByYearMonth" />
+  </wsdl:message>
+  <wsdl:message name="IInteropCostService_ListDistributionFixedAssetByYearMonth_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ListDistributionFixedAssetByYearMonthResponse" />
+  </wsdl:message>
+  <wsdl:message name="IInteropCostService_ListPeriodWithDataByMaximumPeriodFixedAsset_InputMessage">
+    <wsdl:part name="parameters" element="tns:ListPeriodWithDataByMaximumPeriodFixedAsset" />
+  </wsdl:message>
+  <wsdl:message name="IInteropCostService_ListPeriodWithDataByMaximumPeriodFixedAsset_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ListPeriodWithDataByMaximumPeriodFixedAssetResponse" />
+  </wsdl:message>
+  <wsdl:message name="IInteropCostService_GetAFNDEPRECIByOidYearMonth_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetAFNDEPRECIByOidYearMonth" />
+  </wsdl:message>
+  <wsdl:message name="IInteropCostService_GetAFNDEPRECIByOidYearMonth_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetAFNDEPRECIByOidYearMonthResponse" />
+  </wsdl:message>
+  <wsdl:message name="IInteropCostService_GetDeprecationValue_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetDeprecationValue" />
+  </wsdl:message>
+  <wsdl:message name="IInteropCostService_GetDeprecationValue_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetDeprecationValueResponse" />
+  </wsdl:message>
+  <wsdl:message name="IInteropCostService_SP_ConfirmMasiveDistributionFixedAsset_InputMessage">
+    <wsdl:part name="parameters" element="tns:SP_ConfirmMasiveDistributionFixedAsset" />
+  </wsdl:message>
+  <wsdl:message name="IInteropCostService_SP_ConfirmMasiveDistributionFixedAsset_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SP_ConfirmMasiveDistributionFixedAssetResponse" />
+  </wsdl:message>
+  <wsdl:message name="IInteropCostService_SP_ExportExcelDistributionFixedAsset_InputMessage">
+    <wsdl:part name="parameters" element="tns:SP_ExportExcelDistributionFixedAsset" />
+  </wsdl:message>
+  <wsdl:message name="IInteropCostService_SP_ExportExcelDistributionFixedAsset_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SP_ExportExcelDistributionFixedAssetResponse" />
+  </wsdl:message>
+  <wsdl:message name="IInteropCostService_SaveDistributionIntermediate_InputMessage">
+    <wsdl:part name="parameters" element="tns:SaveDistributionIntermediate" />
+  </wsdl:message>
+  <wsdl:message name="IInteropCostService_SaveDistributionIntermediate_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SaveDistributionIntermediateResponse" />
+  </wsdl:message>
+  <wsdl:message name="IInteropCostService_DeleteDistributionIntermediate_InputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteDistributionIntermediate" />
+  </wsdl:message>
+  <wsdl:message name="IInteropCostService_DeleteDistributionIntermediate_OutputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteDistributionIntermediateResponse" />
+  </wsdl:message>
+  <wsdl:message name="IInteropCostService_UpdateStateDistributionIntermediate_InputMessage">
+    <wsdl:part name="parameters" element="tns:UpdateStateDistributionIntermediate" />
+  </wsdl:message>
+  <wsdl:message name="IInteropCostService_UpdateStateDistributionIntermediate_OutputMessage">
+    <wsdl:part name="parameters" element="tns:UpdateStateDistributionIntermediateResponse" />
+  </wsdl:message>
+  <wsdl:message name="IInteropCostService_GetDistributionIntermediate_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetDistributionIntermediate" />
+  </wsdl:message>
+  <wsdl:message name="IInteropCostService_GetDistributionIntermediate_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetDistributionIntermediateResponse" />
+  </wsdl:message>
+  <wsdl:message name="IInteropCostService_GetDistributionIntermediateById_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetDistributionIntermediateById" />
+  </wsdl:message>
+  <wsdl:message name="IInteropCostService_GetDistributionIntermediateById_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetDistributionIntermediateByIdResponse" />
+  </wsdl:message>
+  <wsdl:message name="IInteropCostService_ListPeriodWithDataByMaximumPeriodDistributionIntermediate_InputMessage">
+    <wsdl:part name="parameters" element="tns:ListPeriodWithDataByMaximumPeriodDistributionIntermediate" />
+  </wsdl:message>
+  <wsdl:message name="IInteropCostService_ListPeriodWithDataByMaximumPeriodDistributionIntermediate_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ListPeriodWithDataByMaximumPeriodDistributionIntermediateResponse" />
+  </wsdl:message>
+  <wsdl:message name="IInteropCostService_ListDistributionIntermediateByYearMonth_InputMessage">
+    <wsdl:part name="parameters" element="tns:ListDistributionIntermediateByYearMonth" />
+  </wsdl:message>
+  <wsdl:message name="IInteropCostService_ListDistributionIntermediateByYearMonth_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ListDistributionIntermediateByYearMonthResponse" />
+  </wsdl:message>
+  <wsdl:message name="IInteropCostService_SaveDistributionSecondary_InputMessage">
+    <wsdl:part name="parameters" element="tns:SaveDistributionSecondary" />
+  </wsdl:message>
+  <wsdl:message name="IInteropCostService_SaveDistributionSecondary_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SaveDistributionSecondaryResponse" />
+  </wsdl:message>
+  <wsdl:message name="IInteropCostService_DeleteDistributionSecondary_InputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteDistributionSecondary" />
+  </wsdl:message>
+  <wsdl:message name="IInteropCostService_DeleteDistributionSecondary_OutputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteDistributionSecondaryResponse" />
+  </wsdl:message>
+  <wsdl:message name="IInteropCostService_UpdateStateDistributionSecondary_InputMessage">
+    <wsdl:part name="parameters" element="tns:UpdateStateDistributionSecondary" />
+  </wsdl:message>
+  <wsdl:message name="IInteropCostService_UpdateStateDistributionSecondary_OutputMessage">
+    <wsdl:part name="parameters" element="tns:UpdateStateDistributionSecondaryResponse" />
+  </wsdl:message>
+  <wsdl:message name="IInteropCostService_GetDistributionSecondary_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetDistributionSecondary" />
+  </wsdl:message>
+  <wsdl:message name="IInteropCostService_GetDistributionSecondary_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetDistributionSecondaryResponse" />
+  </wsdl:message>
+  <wsdl:message name="IInteropCostService_GetDistributionSecondaryById_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetDistributionSecondaryById" />
+  </wsdl:message>
+  <wsdl:message name="IInteropCostService_GetDistributionSecondaryById_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetDistributionSecondaryByIdResponse" />
+  </wsdl:message>
+  <wsdl:message name="IInteropCostService_ListPeriodWithDataByMaximumPeriodDistributionSecondary_InputMessage">
+    <wsdl:part name="parameters" element="tns:ListPeriodWithDataByMaximumPeriodDistributionSecondary" />
+  </wsdl:message>
+  <wsdl:message name="IInteropCostService_ListPeriodWithDataByMaximumPeriodDistributionSecondary_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ListPeriodWithDataByMaximumPeriodDistributionSecondaryResponse" />
+  </wsdl:message>
+  <wsdl:message name="IInteropCostService_ListDistributionSecondaryByYearMonth_InputMessage">
+    <wsdl:part name="parameters" element="tns:ListDistributionSecondaryByYearMonth" />
+  </wsdl:message>
+  <wsdl:message name="IInteropCostService_ListDistributionSecondaryByYearMonth_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ListDistributionSecondaryByYearMonthResponse" />
+  </wsdl:message>
+  <wsdl:message name="IInteropCostService_SP_CopyPasteSecondaryDistribution_InputMessage">
+    <wsdl:part name="parameters" element="tns:SP_CopyPasteSecondaryDistribution" />
+  </wsdl:message>
+  <wsdl:message name="IInteropCostService_SP_CopyPasteSecondaryDistribution_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SP_CopyPasteSecondaryDistributionResponse" />
+  </wsdl:message>
+  <wsdl:message name="IInteropCostService_GetCostEstimationByYearMonth_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetCostEstimationByYearMonth" />
+  </wsdl:message>
+  <wsdl:message name="IInteropCostService_GetCostEstimationByYearMonth_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetCostEstimationByYearMonthResponse" />
+  </wsdl:message>
+  <wsdl:message name="IInteropCostService_GetCostEstimationById_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetCostEstimationById" />
+  </wsdl:message>
+  <wsdl:message name="IInteropCostService_GetCostEstimationById_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetCostEstimationByIdResponse" />
+  </wsdl:message>
+  <wsdl:message name="IInteropCostService_GetSpEstimateCost_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetSpEstimateCost" />
+  </wsdl:message>
+  <wsdl:message name="IInteropCostService_GetSpEstimateCost_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetSpEstimateCostResponse" />
+  </wsdl:message>
+  <wsdl:message name="IInteropCostService_HasMonthClosed_InputMessage">
+    <wsdl:part name="parameters" element="tns:HasMonthClosed" />
+  </wsdl:message>
+  <wsdl:message name="IInteropCostService_HasMonthClosed_OutputMessage">
+    <wsdl:part name="parameters" element="tns:HasMonthClosedResponse" />
+  </wsdl:message>
+  <wsdl:message name="IInteropCostService_ListrptEstimatingPrimaryGeneral_InputMessage">
+    <wsdl:part name="parameters" element="tns:ListrptEstimatingPrimaryGeneral" />
+  </wsdl:message>
+  <wsdl:message name="IInteropCostService_ListrptEstimatingPrimaryGeneral_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ListrptEstimatingPrimaryGeneralResponse" />
+  </wsdl:message>
+  <wsdl:message name="IInteropCostService_GetDirectDistributionSecondary_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetDirectDistributionSecondary" />
+  </wsdl:message>
+  <wsdl:message name="IInteropCostService_GetDirectDistributionSecondary_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetDirectDistributionSecondaryResponse" />
+  </wsdl:message>
+  <wsdl:message name="IInteropCostService_GetDirectDistributionSecondaryById_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetDirectDistributionSecondaryById" />
+  </wsdl:message>
+  <wsdl:message name="IInteropCostService_GetDirectDistributionSecondaryById_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetDirectDistributionSecondaryByIdResponse" />
+  </wsdl:message>
+  <wsdl:message name="IInteropCostService_SaveDirectDistributionSecondary_InputMessage">
+    <wsdl:part name="parameters" element="tns:SaveDirectDistributionSecondary" />
+  </wsdl:message>
+  <wsdl:message name="IInteropCostService_SaveDirectDistributionSecondary_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SaveDirectDistributionSecondaryResponse" />
+  </wsdl:message>
+  <wsdl:message name="IInteropCostService_GetDataImportLogisticProductionCenterById_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetDataImportLogisticProductionCenterById" />
+  </wsdl:message>
+  <wsdl:message name="IInteropCostService_GetDataImportLogisticProductionCenterById_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetDataImportLogisticProductionCenterByIdResponse" />
+  </wsdl:message>
+  <wsdl:message name="IInteropCostService_GetLogisticsProductionCenterRecordById_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetLogisticsProductionCenterRecordById" />
+  </wsdl:message>
+  <wsdl:message name="IInteropCostService_GetLogisticsProductionCenterRecordById_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetLogisticsProductionCenterRecordByIdResponse" />
+  </wsdl:message>
+  <wsdl:message name="IInteropCostService_GetLogisticsProductionCenterRecordByCode_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetLogisticsProductionCenterRecordByCode" />
+  </wsdl:message>
+  <wsdl:message name="IInteropCostService_GetLogisticsProductionCenterRecordByCode_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetLogisticsProductionCenterRecordByCodeResponse" />
+  </wsdl:message>
+  <wsdl:message name="IInteropCostService_SaveLogisticsProductionCenterRecord_InputMessage">
+    <wsdl:part name="parameters" element="tns:SaveLogisticsProductionCenterRecord" />
+  </wsdl:message>
+  <wsdl:message name="IInteropCostService_SaveLogisticsProductionCenterRecord_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SaveLogisticsProductionCenterRecordResponse" />
+  </wsdl:message>
+  <wsdl:message name="IInteropCostService_DeleteLogisticsProductionCenterRecord_InputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteLogisticsProductionCenterRecord" />
+  </wsdl:message>
+  <wsdl:message name="IInteropCostService_DeleteLogisticsProductionCenterRecord_OutputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteLogisticsProductionCenterRecordResponse" />
+  </wsdl:message>
+  <wsdl:message name="IInteropCostService_ListReportConsolidatedCCLogistic_InputMessage">
+    <wsdl:part name="parameters" element="tns:ListReportConsolidatedCCLogistic" />
+  </wsdl:message>
+  <wsdl:message name="IInteropCostService_ListReportConsolidatedCCLogistic_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ListReportConsolidatedCCLogisticResponse" />
+  </wsdl:message>
+  <wsdl:message name="IInteropCostService_ListReportConsolidatedCCLogisticB_InputMessage">
+    <wsdl:part name="parameters" element="tns:ListReportConsolidatedCCLogisticB" />
+  </wsdl:message>
+  <wsdl:message name="IInteropCostService_ListReportConsolidatedCCLogisticB_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ListReportConsolidatedCCLogisticBResponse" />
+  </wsdl:message>
+  <wsdl:message name="IInteropCostService_SaveGeneralExpenseCategory_InputMessage">
+    <wsdl:part name="parameters" element="tns:SaveGeneralExpenseCategory" />
+  </wsdl:message>
+  <wsdl:message name="IInteropCostService_SaveGeneralExpenseCategory_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SaveGeneralExpenseCategoryResponse" />
+  </wsdl:message>
+  <wsdl:message name="IInteropCostService_DeleteGeneralExpenseCategory_InputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteGeneralExpenseCategory" />
+  </wsdl:message>
+  <wsdl:message name="IInteropCostService_DeleteGeneralExpenseCategory_OutputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteGeneralExpenseCategoryResponse" />
+  </wsdl:message>
+  <wsdl:message name="IInteropCostService_UpdateStateGeneralExpenseCategory_InputMessage">
+    <wsdl:part name="parameters" element="tns:UpdateStateGeneralExpenseCategory" />
+  </wsdl:message>
+  <wsdl:message name="IInteropCostService_UpdateStateGeneralExpenseCategory_OutputMessage">
+    <wsdl:part name="parameters" element="tns:UpdateStateGeneralExpenseCategoryResponse" />
+  </wsdl:message>
+  <wsdl:message name="IInteropCostService_GetGeneralExpenseCategory_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetGeneralExpenseCategory" />
+  </wsdl:message>
+  <wsdl:message name="IInteropCostService_GetGeneralExpenseCategory_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetGeneralExpenseCategoryResponse" />
+  </wsdl:message>
+  <wsdl:message name="IInteropCostService_GetGeneralExpenseCategoryById_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetGeneralExpenseCategoryById" />
+  </wsdl:message>
+  <wsdl:message name="IInteropCostService_GetGeneralExpenseCategoryById_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetGeneralExpenseCategoryByIdResponse" />
+  </wsdl:message>
+  <wsdl:portType name="IInteropCostService">
+    <wsdl:operation name="SaveOrganizationalStructure">
+      <wsdl:input wsaw:Action="http://tempuri.org/IInteropCostServiceOrganizationalStructure/SaveOrganizationalStructure" message="tns:IInteropCostService_SaveOrganizationalStructure_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IInteropCostServiceOrganizationalStructure/SaveOrganizationalStructureResponse" message="tns:IInteropCostService_SaveOrganizationalStructure_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="DeleteOrganizationalStructure">
+      <wsdl:input wsaw:Action="http://tempuri.org/IInteropCostServiceOrganizationalStructure/DeleteOrganizationalStructure" message="tns:IInteropCostService_DeleteOrganizationalStructure_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IInteropCostServiceOrganizationalStructure/DeleteOrganizationalStructureResponse" message="tns:IInteropCostService_DeleteOrganizationalStructure_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="UpdateState">
+      <wsdl:input wsaw:Action="http://tempuri.org/IInteropCostServiceOrganizationalStructure/UpdateState" message="tns:IInteropCostService_UpdateState_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IInteropCostServiceOrganizationalStructure/UpdateStateResponse" message="tns:IInteropCostService_UpdateState_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetOrganizationalStructure">
+      <wsdl:input wsaw:Action="http://tempuri.org/IInteropCostServiceOrganizationalStructure/GetOrganizationalStructure" message="tns:IInteropCostService_GetOrganizationalStructure_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IInteropCostServiceOrganizationalStructure/GetOrganizationalStructureResponse" message="tns:IInteropCostService_GetOrganizationalStructure_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetOrganizationalStructureById">
+      <wsdl:input wsaw:Action="http://tempuri.org/IInteropCostServiceOrganizationalStructure/GetOrganizationalStructureById" message="tns:IInteropCostService_GetOrganizationalStructureById_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IInteropCostServiceOrganizationalStructure/GetOrganizationalStructureByIdResponse" message="tns:IInteropCostService_GetOrganizationalStructureById_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetBlockRecordInteropCostByIdformAndIdRecord">
+      <wsdl:input wsaw:Action="http://tempuri.org/IInteropCostServiceBlockRecord/GetBlockRecordInteropCostByIdformAndIdRecord" message="tns:IInteropCostService_GetBlockRecordInteropCostByIdformAndIdRecord_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IInteropCostServiceBlockRecord/GetBlockRecordInteropCostByIdformAndIdRecordResponse" message="tns:IInteropCostService_GetBlockRecordInteropCostByIdformAndIdRecord_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SaveBlockRecordInteropCost">
+      <wsdl:input wsaw:Action="http://tempuri.org/IInteropCostServiceBlockRecord/SaveBlockRecordInteropCost" message="tns:IInteropCostService_SaveBlockRecordInteropCost_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IInteropCostServiceBlockRecord/SaveBlockRecordInteropCostResponse" message="tns:IInteropCostService_SaveBlockRecordInteropCost_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="DeleteBlockRecordInteropCost">
+      <wsdl:input wsaw:Action="http://tempuri.org/IInteropCostServiceBlockRecord/DeleteBlockRecordInteropCost" message="tns:IInteropCostService_DeleteBlockRecordInteropCost_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IInteropCostServiceBlockRecord/DeleteBlockRecordInteropCostResponse" message="tns:IInteropCostService_DeleteBlockRecordInteropCost_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetNumericSequenseGroupById">
+      <wsdl:input wsaw:Action="http://tempuri.org/IInteropCostServiceSequence/GetNumericSequenseGroupById" message="tns:IInteropCostService_GetNumericSequenseGroupById_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IInteropCostServiceSequence/GetNumericSequenseGroupByIdResponse" message="tns:IInteropCostService_GetNumericSequenseGroupById_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetSequenseByIdForm">
+      <wsdl:input wsaw:Action="http://tempuri.org/IInteropCostServiceSequence/GetSequenseByIdForm" message="tns:IInteropCostService_GetSequenseByIdForm_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IInteropCostServiceSequence/GetSequenseByIdFormResponse" message="tns:IInteropCostService_GetSequenseByIdForm_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SaveSequence">
+      <wsdl:input wsaw:Action="http://tempuri.org/IInteropCostServiceSequence/SaveSequence" message="tns:IInteropCostService_SaveSequence_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IInteropCostServiceSequence/SaveSequenceResponse" message="tns:IInteropCostService_SaveSequence_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SaveProductionCenter">
+      <wsdl:input wsaw:Action="http://tempuri.org/IInteropCostSeriveProductionCenter/SaveProductionCenter" message="tns:IInteropCostService_SaveProductionCenter_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IInteropCostSeriveProductionCenter/SaveProductionCenterResponse" message="tns:IInteropCostService_SaveProductionCenter_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="DeleteProductionCenter">
+      <wsdl:input wsaw:Action="http://tempuri.org/IInteropCostSeriveProductionCenter/DeleteProductionCenter" message="tns:IInteropCostService_DeleteProductionCenter_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IInteropCostSeriveProductionCenter/DeleteProductionCenterResponse" message="tns:IInteropCostService_DeleteProductionCenter_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="UpdateStateProductionCenter">
+      <wsdl:input wsaw:Action="http://tempuri.org/IInteropCostSeriveProductionCenter/UpdateStateProductionCenter" message="tns:IInteropCostService_UpdateStateProductionCenter_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IInteropCostSeriveProductionCenter/UpdateStateProductionCenterResponse" message="tns:IInteropCostService_UpdateStateProductionCenter_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetProductionCenter">
+      <wsdl:input wsaw:Action="http://tempuri.org/IInteropCostSeriveProductionCenter/GetProductionCenter" message="tns:IInteropCostService_GetProductionCenter_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IInteropCostSeriveProductionCenter/GetProductionCenterResponse" message="tns:IInteropCostService_GetProductionCenter_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetProductionCenterById">
+      <wsdl:input wsaw:Action="http://tempuri.org/IInteropCostSeriveProductionCenter/GetProductionCenterById" message="tns:IInteropCostService_GetProductionCenterById_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IInteropCostSeriveProductionCenter/GetProductionCenterByIdResponse" message="tns:IInteropCostService_GetProductionCenterById_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ListProductionCenter">
+      <wsdl:input wsaw:Action="http://tempuri.org/IInteropCostSeriveProductionCenter/ListProductionCenter" message="tns:IInteropCostService_ListProductionCenter_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IInteropCostSeriveProductionCenter/ListProductionCenterResponse" message="tns:IInteropCostService_ListProductionCenter_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetProductionCenterByCostCenterOid">
+      <wsdl:input wsaw:Action="http://tempuri.org/IInteropCostSeriveProductionCenter/GetProductionCenterByCostCenterOid" message="tns:IInteropCostService_GetProductionCenterByCostCenterOid_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IInteropCostSeriveProductionCenter/GetProductionCenterByCostCenterOidResponse" message="tns:IInteropCostService_GetProductionCenterByCostCenterOid_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ListrptResultProductionCostsExpenses">
+      <wsdl:input wsaw:Action="http://tempuri.org/IInteropCostSeriveProductionCenter/ListrptResultProductionCostsExpenses" message="tns:IInteropCostService_ListrptResultProductionCostsExpenses_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IInteropCostSeriveProductionCenter/ListrptResultProductionCostsExpensesResponse" message="tns:IInteropCostService_ListrptResultProductionCostsExpenses_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ListrptResultProductionCostsExpensesDetail">
+      <wsdl:input wsaw:Action="http://tempuri.org/IInteropCostSeriveProductionCenter/ListrptResultProductionCostsExpensesDetail" message="tns:IInteropCostService_ListrptResultProductionCostsExpensesDetail_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IInteropCostSeriveProductionCenter/ListrptResultProductionCostsExpensesDetailResponse" message="tns:IInteropCostService_ListrptResultProductionCostsExpensesDetail_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ListReportOperatingResult">
+      <wsdl:input wsaw:Action="http://tempuri.org/IInteropCostSeriveProductionCenter/ListReportOperatingResult" message="tns:IInteropCostService_ListReportOperatingResult_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IInteropCostSeriveProductionCenter/ListReportOperatingResultResponse" message="tns:IInteropCostService_ListReportOperatingResult_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ListReportOperatingResultsByOrganizationalStructure">
+      <wsdl:input wsaw:Action="http://tempuri.org/IInteropCostSeriveProductionCenter/ListReportOperatingResultsByOrganizationalStructure" message="tns:IInteropCostService_ListReportOperatingResultsByOrganizationalStructure_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IInteropCostSeriveProductionCenter/ListReportOperatingResultsByOrganizationalStructureResponse" message="tns:IInteropCostService_ListReportOperatingResultsByOrganizationalStructure_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ListReportOperatingResultsByOrganizationalStatisticalGraphics">
+      <wsdl:input wsaw:Action="http://tempuri.org/IInteropCostSeriveProductionCenter/ListReportOperatingResultsByOrganizationalStatisticalGraphics" message="tns:IInteropCostService_ListReportOperatingResultsByOrganizationalStatisticalGraphics_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IInteropCostSeriveProductionCenter/ListReportOperatingResultsByOrganizationalStatisticalGraphicsResponse" message="tns:IInteropCostService_ListReportOperatingResultsByOrganizationalStatisticalGraphics_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SaveGeneralExpense">
+      <wsdl:input wsaw:Action="http://tempuri.org/IInteropCostServiceGeneralExpense/SaveGeneralExpense" message="tns:IInteropCostService_SaveGeneralExpense_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IInteropCostServiceGeneralExpense/SaveGeneralExpenseResponse" message="tns:IInteropCostService_SaveGeneralExpense_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ListGeneralExpenseByStatus">
+      <wsdl:input wsaw:Action="http://tempuri.org/IInteropCostServiceGeneralExpense/ListGeneralExpenseByStatus" message="tns:IInteropCostService_ListGeneralExpenseByStatus_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IInteropCostServiceGeneralExpense/ListGeneralExpenseByStatusResponse" message="tns:IInteropCostService_ListGeneralExpenseByStatus_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="DeleteGeneralExpense">
+      <wsdl:input wsaw:Action="http://tempuri.org/IInteropCostServiceGeneralExpense/DeleteGeneralExpense" message="tns:IInteropCostService_DeleteGeneralExpense_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IInteropCostServiceGeneralExpense/DeleteGeneralExpenseResponse" message="tns:IInteropCostService_DeleteGeneralExpense_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetGeneralExpenseByMainAccountId">
+      <wsdl:input wsaw:Action="http://tempuri.org/IInteropCostServiceGeneralExpense/GetGeneralExpenseByMainAccountId" message="tns:IInteropCostService_GetGeneralExpenseByMainAccountId_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IInteropCostServiceGeneralExpense/GetGeneralExpenseByMainAccountIdResponse" message="tns:IInteropCostService_GetGeneralExpenseByMainAccountId_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetGeneralExpense">
+      <wsdl:input wsaw:Action="http://tempuri.org/IInteropCostServiceGeneralExpense/GetGeneralExpense" message="tns:IInteropCostService_GetGeneralExpense_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IInteropCostServiceGeneralExpense/GetGeneralExpenseResponse" message="tns:IInteropCostService_GetGeneralExpense_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetGeneralExpenseById">
+      <wsdl:input wsaw:Action="http://tempuri.org/IInteropCostServiceGeneralExpense/GetGeneralExpenseById" message="tns:IInteropCostService_GetGeneralExpenseById_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IInteropCostServiceGeneralExpense/GetGeneralExpenseByIdResponse" message="tns:IInteropCostService_GetGeneralExpenseById_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="UpdateStateGeneralExpense">
+      <wsdl:input wsaw:Action="http://tempuri.org/IInteropCostServiceGeneralExpense/UpdateStateGeneralExpense" message="tns:IInteropCostService_UpdateStateGeneralExpense_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IInteropCostServiceGeneralExpense/UpdateStateGeneralExpenseResponse" message="tns:IInteropCostService_UpdateStateGeneralExpense_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ListGeneralExpenseByPeriod">
+      <wsdl:input wsaw:Action="http://tempuri.org/IInteropCostServiceDistributionDirectCost/ListGeneralExpenseByPeriod" message="tns:IInteropCostService_ListGeneralExpenseByPeriod_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IInteropCostServiceDistributionDirectCost/ListGeneralExpenseByPeriodResponse" message="tns:IInteropCostService_ListGeneralExpenseByPeriod_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ListDistributionDirectCostToReport">
+      <wsdl:input wsaw:Action="http://tempuri.org/IInteropCostServiceDistributionDirectCost/ListDistributionDirectCostToReport" message="tns:IInteropCostService_ListDistributionDirectCostToReport_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IInteropCostServiceDistributionDirectCost/ListDistributionDirectCostToReportResponse" message="tns:IInteropCostService_ListDistributionDirectCostToReport_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SaveDistributionDirectCost">
+      <wsdl:input wsaw:Action="http://tempuri.org/IInteropCostServiceDistributionDirectCost/SaveDistributionDirectCost" message="tns:IInteropCostService_SaveDistributionDirectCost_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IInteropCostServiceDistributionDirectCost/SaveDistributionDirectCostResponse" message="tns:IInteropCostService_SaveDistributionDirectCost_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="DeleteDistributionDirectCost">
+      <wsdl:input wsaw:Action="http://tempuri.org/IInteropCostServiceDistributionDirectCost/DeleteDistributionDirectCost" message="tns:IInteropCostService_DeleteDistributionDirectCost_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IInteropCostServiceDistributionDirectCost/DeleteDistributionDirectCostResponse" message="tns:IInteropCostService_DeleteDistributionDirectCost_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="UpdateStateDistributionDirectCost">
+      <wsdl:input wsaw:Action="http://tempuri.org/IInteropCostServiceDistributionDirectCost/UpdateStateDistributionDirectCost" message="tns:IInteropCostService_UpdateStateDistributionDirectCost_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IInteropCostServiceDistributionDirectCost/UpdateStateDistributionDirectCostResponse" message="tns:IInteropCostService_UpdateStateDistributionDirectCost_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetDistributionDirectCost">
+      <wsdl:input wsaw:Action="http://tempuri.org/IInteropCostServiceDistributionDirectCost/GetDistributionDirectCost" message="tns:IInteropCostService_GetDistributionDirectCost_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IInteropCostServiceDistributionDirectCost/GetDistributionDirectCostResponse" message="tns:IInteropCostService_GetDistributionDirectCost_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetDistributionDirectCostById">
+      <wsdl:input wsaw:Action="http://tempuri.org/IInteropCostServiceDistributionDirectCost/GetDistributionDirectCostById" message="tns:IInteropCostService_GetDistributionDirectCostById_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IInteropCostServiceDistributionDirectCost/GetDistributionDirectCostByIdResponse" message="tns:IInteropCostService_GetDistributionDirectCostById_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ListDistributionDirectCostByYearMonth">
+      <wsdl:input wsaw:Action="http://tempuri.org/IInteropCostServiceDistributionDirectCost/ListDistributionDirectCostByYearMonth" message="tns:IInteropCostService_ListDistributionDirectCostByYearMonth_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IInteropCostServiceDistributionDirectCost/ListDistributionDirectCostByYearMonthResponse" message="tns:IInteropCostService_ListDistributionDirectCostByYearMonth_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetMainAccountValueByContainerNumberAccountYearAndMotn">
+      <wsdl:input wsaw:Action="http://tempuri.org/IInteropCostServiceDistributionDirectCost/GetMainAccountValueByContainerNumberAccountYearAndMotn" message="tns:IInteropCostService_GetMainAccountValueByContainerNumberAccountYearAndMotn_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IInteropCostServiceDistributionDirectCost/GetMainAccountValueByContainerNumberAccountYearAndMotnResponse" message="tns:IInteropCostService_GetMainAccountValueByContainerNumberAccountYearAndMotn_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="CalculateDistribution">
+      <wsdl:input wsaw:Action="http://tempuri.org/IInteropCostServiceDistributionDirectCost/CalculateDistribution" message="tns:IInteropCostService_CalculateDistribution_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IInteropCostServiceDistributionDirectCost/CalculateDistributionResponse" message="tns:IInteropCostService_CalculateDistribution_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetPrimaryEstimateOrFinal">
+      <wsdl:input wsaw:Action="http://tempuri.org/IInteropCostServiceDistributionDirectCost/GetPrimaryEstimateOrFinal" message="tns:IInteropCostService_GetPrimaryEstimateOrFinal_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IInteropCostServiceDistributionDirectCost/GetPrimaryEstimateOrFinalResponse" message="tns:IInteropCostService_GetPrimaryEstimateOrFinal_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetPrimaryEstimateOrFinalB">
+      <wsdl:input wsaw:Action="http://tempuri.org/IInteropCostServiceDistributionDirectCost/GetPrimaryEstimateOrFinalB" message="tns:IInteropCostService_GetPrimaryEstimateOrFinalB_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IInteropCostServiceDistributionDirectCost/GetPrimaryEstimateOrFinalBResponse" message="tns:IInteropCostService_GetPrimaryEstimateOrFinalB_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetPrimaryEstimateOrFinalC">
+      <wsdl:input wsaw:Action="http://tempuri.org/IInteropCostServiceDistributionDirectCost/GetPrimaryEstimateOrFinalC" message="tns:IInteropCostService_GetPrimaryEstimateOrFinalC_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IInteropCostServiceDistributionDirectCost/GetPrimaryEstimateOrFinalCResponse" message="tns:IInteropCostService_GetPrimaryEstimateOrFinalC_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SaveInteropCostSetting">
+      <wsdl:input wsaw:Action="http://tempuri.org/IInteropCostServiceInteropCostSetting/SaveInteropCostSetting" message="tns:IInteropCostService_SaveInteropCostSetting_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IInteropCostServiceInteropCostSetting/SaveInteropCostSettingResponse" message="tns:IInteropCostService_SaveInteropCostSetting_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="DeleteInteropCostSetting">
+      <wsdl:input wsaw:Action="http://tempuri.org/IInteropCostServiceInteropCostSetting/DeleteInteropCostSetting" message="tns:IInteropCostService_DeleteInteropCostSetting_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IInteropCostServiceInteropCostSetting/DeleteInteropCostSettingResponse" message="tns:IInteropCostService_DeleteInteropCostSetting_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetInteropCostSetting">
+      <wsdl:input wsaw:Action="http://tempuri.org/IInteropCostServiceInteropCostSetting/GetInteropCostSetting" message="tns:IInteropCostService_GetInteropCostSetting_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IInteropCostServiceInteropCostSetting/GetInteropCostSettingResponse" message="tns:IInteropCostService_GetInteropCostSetting_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetInteropCostSettingById">
+      <wsdl:input wsaw:Action="http://tempuri.org/IInteropCostServiceInteropCostSetting/GetInteropCostSettingById" message="tns:IInteropCostService_GetInteropCostSettingById_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IInteropCostServiceInteropCostSetting/GetInteropCostSettingByIdResponse" message="tns:IInteropCostService_GetInteropCostSettingById_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SaveDistributionManpower">
+      <wsdl:input wsaw:Action="http://tempuri.org/IInteropCostServiceDistributionManpower/SaveDistributionManpower" message="tns:IInteropCostService_SaveDistributionManpower_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IInteropCostServiceDistributionManpower/SaveDistributionManpowerResponse" message="tns:IInteropCostService_SaveDistributionManpower_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="DeleteDistributionManpower">
+      <wsdl:input wsaw:Action="http://tempuri.org/IInteropCostServiceDistributionManpower/DeleteDistributionManpower" message="tns:IInteropCostService_DeleteDistributionManpower_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IInteropCostServiceDistributionManpower/DeleteDistributionManpowerResponse" message="tns:IInteropCostService_DeleteDistributionManpower_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="UpdateStateDistributionManpower">
+      <wsdl:input wsaw:Action="http://tempuri.org/IInteropCostServiceDistributionManpower/UpdateStateDistributionManpower" message="tns:IInteropCostService_UpdateStateDistributionManpower_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IInteropCostServiceDistributionManpower/UpdateStateDistributionManpowerResponse" message="tns:IInteropCostService_UpdateStateDistributionManpower_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetDistributionManpower">
+      <wsdl:input wsaw:Action="http://tempuri.org/IInteropCostServiceDistributionManpower/GetDistributionManpower" message="tns:IInteropCostService_GetDistributionManpower_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IInteropCostServiceDistributionManpower/GetDistributionManpowerResponse" message="tns:IInteropCostService_GetDistributionManpower_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetDistributionManpowerByEmployeeIdAndYearMonth">
+      <wsdl:input wsaw:Action="http://tempuri.org/IInteropCostServiceDistributionManpower/GetDistributionManpowerByEmployeeIdAndYearMonth" message="tns:IInteropCostService_GetDistributionManpowerByEmployeeIdAndYearMonth_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IInteropCostServiceDistributionManpower/GetDistributionManpowerByEmployeeIdAndYearMonthResponse" message="tns:IInteropCostService_GetDistributionManpowerByEmployeeIdAndYearMonth_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ListPeriodWithDataByMaximumPeriod">
+      <wsdl:input wsaw:Action="http://tempuri.org/IInteropCostServiceDistributionManpower/ListPeriodWithDataByMaximumPeriod" message="tns:IInteropCostService_ListPeriodWithDataByMaximumPeriod_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IInteropCostServiceDistributionManpower/ListPeriodWithDataByMaximumPeriodResponse" message="tns:IInteropCostService_ListPeriodWithDataByMaximumPeriod_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetDistributionManpowerById">
+      <wsdl:input wsaw:Action="http://tempuri.org/IInteropCostServiceDistributionManpower/GetDistributionManpowerById" message="tns:IInteropCostService_GetDistributionManpowerById_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IInteropCostServiceDistributionManpower/GetDistributionManpowerByIdResponse" message="tns:IInteropCostService_GetDistributionManpowerById_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ListDistributionManpowerByYearMonth">
+      <wsdl:input wsaw:Action="http://tempuri.org/IInteropCostServiceDistributionManpower/ListDistributionManpowerByYearMonth" message="tns:IInteropCostService_ListDistributionManpowerByYearMonth_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IInteropCostServiceDistributionManpower/ListDistributionManpowerByYearMonthResponse" message="tns:IInteropCostService_ListDistributionManpowerByYearMonth_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ConfirmMasiveInteropCost">
+      <wsdl:input wsaw:Action="http://tempuri.org/IInteropCostServiceDistributionManpower/ConfirmMasiveInteropCost" message="tns:IInteropCostService_ConfirmMasiveInteropCost_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IInteropCostServiceDistributionManpower/ConfirmMasiveInteropCostResponse" message="tns:IInteropCostService_ConfirmMasiveInteropCost_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SP_ExportExcelInteropCostDistributionManPower">
+      <wsdl:input wsaw:Action="http://tempuri.org/IInteropCostServiceDistributionManpower/SP_ExportExcelInteropCostDistributionManPower" message="tns:IInteropCostService_SP_ExportExcelInteropCostDistributionManPower_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IInteropCostServiceDistributionManpower/SP_ExportExcelInteropCostDistributionManPowerResponse" message="tns:IInteropCostService_SP_ExportExcelInteropCostDistributionManPower_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SaveDistributionFixedAsset">
+      <wsdl:input wsaw:Action="http://tempuri.org/IInteropCostServiceDistributionFixedAsset/SaveDistributionFixedAsset" message="tns:IInteropCostService_SaveDistributionFixedAsset_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IInteropCostServiceDistributionFixedAsset/SaveDistributionFixedAssetResponse" message="tns:IInteropCostService_SaveDistributionFixedAsset_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="DeleteDistributionFixedAsset">
+      <wsdl:input wsaw:Action="http://tempuri.org/IInteropCostServiceDistributionFixedAsset/DeleteDistributionFixedAsset" message="tns:IInteropCostService_DeleteDistributionFixedAsset_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IInteropCostServiceDistributionFixedAsset/DeleteDistributionFixedAssetResponse" message="tns:IInteropCostService_DeleteDistributionFixedAsset_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetDistributionFixedAssetByActivoAndYearMonth">
+      <wsdl:input wsaw:Action="http://tempuri.org/IInteropCostServiceDistributionFixedAsset/GetDistributionFixedAssetByActivoAndYearMonth" message="tns:IInteropCostService_GetDistributionFixedAssetByActivoAndYearMonth_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IInteropCostServiceDistributionFixedAsset/GetDistributionFixedAssetByActivoAndYearMonthResponse" message="tns:IInteropCostService_GetDistributionFixedAssetByActivoAndYearMonth_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="UpdateStateDistributionFixedAsset">
+      <wsdl:input wsaw:Action="http://tempuri.org/IInteropCostServiceDistributionFixedAsset/UpdateStateDistributionFixedAsset" message="tns:IInteropCostService_UpdateStateDistributionFixedAsset_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IInteropCostServiceDistributionFixedAsset/UpdateStateDistributionFixedAssetResponse" message="tns:IInteropCostService_UpdateStateDistributionFixedAsset_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetDistributionFixedAsset">
+      <wsdl:input wsaw:Action="http://tempuri.org/IInteropCostServiceDistributionFixedAsset/GetDistributionFixedAsset" message="tns:IInteropCostService_GetDistributionFixedAsset_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IInteropCostServiceDistributionFixedAsset/GetDistributionFixedAssetResponse" message="tns:IInteropCostService_GetDistributionFixedAsset_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetDistributionFixedAssetById">
+      <wsdl:input wsaw:Action="http://tempuri.org/IInteropCostServiceDistributionFixedAsset/GetDistributionFixedAssetById" message="tns:IInteropCostService_GetDistributionFixedAssetById_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IInteropCostServiceDistributionFixedAsset/GetDistributionFixedAssetByIdResponse" message="tns:IInteropCostService_GetDistributionFixedAssetById_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ListDistributionFixedAssetByYearMonth">
+      <wsdl:input wsaw:Action="http://tempuri.org/IInteropCostServiceDistributionFixedAsset/ListDistributionFixedAssetByYearMonth" message="tns:IInteropCostService_ListDistributionFixedAssetByYearMonth_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IInteropCostServiceDistributionFixedAsset/ListDistributionFixedAssetByYearMonthResponse" message="tns:IInteropCostService_ListDistributionFixedAssetByYearMonth_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ListPeriodWithDataByMaximumPeriodFixedAsset">
+      <wsdl:input wsaw:Action="http://tempuri.org/IInteropCostServiceDistributionFixedAsset/ListPeriodWithDataByMaximumPeriodFixedAsset" message="tns:IInteropCostService_ListPeriodWithDataByMaximumPeriodFixedAsset_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IInteropCostServiceDistributionFixedAsset/ListPeriodWithDataByMaximumPeriodFixedAssetResponse" message="tns:IInteropCostService_ListPeriodWithDataByMaximumPeriodFixedAsset_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAFNDEPRECIByOidYearMonth">
+      <wsdl:input wsaw:Action="http://tempuri.org/IInteropCostServiceDistributionFixedAsset/GetAFNDEPRECIByOidYearMonth" message="tns:IInteropCostService_GetAFNDEPRECIByOidYearMonth_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IInteropCostServiceDistributionFixedAsset/GetAFNDEPRECIByOidYearMonthResponse" message="tns:IInteropCostService_GetAFNDEPRECIByOidYearMonth_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetDeprecationValue">
+      <wsdl:input wsaw:Action="http://tempuri.org/IInteropCostServiceDistributionFixedAsset/GetDeprecationValue" message="tns:IInteropCostService_GetDeprecationValue_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IInteropCostServiceDistributionFixedAsset/GetDeprecationValueResponse" message="tns:IInteropCostService_GetDeprecationValue_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SP_ConfirmMasiveDistributionFixedAsset">
+      <wsdl:input wsaw:Action="http://tempuri.org/IInteropCostServiceDistributionFixedAsset/SP_ConfirmMasiveDistributionFixedAsset" message="tns:IInteropCostService_SP_ConfirmMasiveDistributionFixedAsset_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IInteropCostServiceDistributionFixedAsset/SP_ConfirmMasiveDistributionFixedAssetResponse" message="tns:IInteropCostService_SP_ConfirmMasiveDistributionFixedAsset_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SP_ExportExcelDistributionFixedAsset">
+      <wsdl:input wsaw:Action="http://tempuri.org/IInteropCostServiceDistributionFixedAsset/SP_ExportExcelDistributionFixedAsset" message="tns:IInteropCostService_SP_ExportExcelDistributionFixedAsset_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IInteropCostServiceDistributionFixedAsset/SP_ExportExcelDistributionFixedAssetResponse" message="tns:IInteropCostService_SP_ExportExcelDistributionFixedAsset_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SaveDistributionIntermediate">
+      <wsdl:input wsaw:Action="http://tempuri.org/IInteropCostServiceDistributionIntermediate/SaveDistributionIntermediate" message="tns:IInteropCostService_SaveDistributionIntermediate_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IInteropCostServiceDistributionIntermediate/SaveDistributionIntermediateResponse" message="tns:IInteropCostService_SaveDistributionIntermediate_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="DeleteDistributionIntermediate">
+      <wsdl:input wsaw:Action="http://tempuri.org/IInteropCostServiceDistributionIntermediate/DeleteDistributionIntermediate" message="tns:IInteropCostService_DeleteDistributionIntermediate_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IInteropCostServiceDistributionIntermediate/DeleteDistributionIntermediateResponse" message="tns:IInteropCostService_DeleteDistributionIntermediate_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="UpdateStateDistributionIntermediate">
+      <wsdl:input wsaw:Action="http://tempuri.org/IInteropCostServiceDistributionIntermediate/UpdateStateDistributionIntermediate" message="tns:IInteropCostService_UpdateStateDistributionIntermediate_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IInteropCostServiceDistributionIntermediate/UpdateStateDistributionIntermediateResponse" message="tns:IInteropCostService_UpdateStateDistributionIntermediate_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetDistributionIntermediate">
+      <wsdl:input wsaw:Action="http://tempuri.org/IInteropCostServiceDistributionIntermediate/GetDistributionIntermediate" message="tns:IInteropCostService_GetDistributionIntermediate_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IInteropCostServiceDistributionIntermediate/GetDistributionIntermediateResponse" message="tns:IInteropCostService_GetDistributionIntermediate_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetDistributionIntermediateById">
+      <wsdl:input wsaw:Action="http://tempuri.org/IInteropCostServiceDistributionIntermediate/GetDistributionIntermediateById" message="tns:IInteropCostService_GetDistributionIntermediateById_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IInteropCostServiceDistributionIntermediate/GetDistributionIntermediateByIdResponse" message="tns:IInteropCostService_GetDistributionIntermediateById_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ListPeriodWithDataByMaximumPeriodDistributionIntermediate">
+      <wsdl:input wsaw:Action="http://tempuri.org/IInteropCostServiceDistributionIntermediate/ListPeriodWithDataByMaximumPeriodDistributionIntermediate" message="tns:IInteropCostService_ListPeriodWithDataByMaximumPeriodDistributionIntermediate_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IInteropCostServiceDistributionIntermediate/ListPeriodWithDataByMaximumPeriodDistributionIntermediateResponse" message="tns:IInteropCostService_ListPeriodWithDataByMaximumPeriodDistributionIntermediate_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ListDistributionIntermediateByYearMonth">
+      <wsdl:input wsaw:Action="http://tempuri.org/IInteropCostServiceDistributionIntermediate/ListDistributionIntermediateByYearMonth" message="tns:IInteropCostService_ListDistributionIntermediateByYearMonth_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IInteropCostServiceDistributionIntermediate/ListDistributionIntermediateByYearMonthResponse" message="tns:IInteropCostService_ListDistributionIntermediateByYearMonth_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SaveDistributionSecondary">
+      <wsdl:input wsaw:Action="http://tempuri.org/IInteropCostServiceDistributionSecondary/SaveDistributionSecondary" message="tns:IInteropCostService_SaveDistributionSecondary_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IInteropCostServiceDistributionSecondary/SaveDistributionSecondaryResponse" message="tns:IInteropCostService_SaveDistributionSecondary_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="DeleteDistributionSecondary">
+      <wsdl:input wsaw:Action="http://tempuri.org/IInteropCostServiceDistributionSecondary/DeleteDistributionSecondary" message="tns:IInteropCostService_DeleteDistributionSecondary_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IInteropCostServiceDistributionSecondary/DeleteDistributionSecondaryResponse" message="tns:IInteropCostService_DeleteDistributionSecondary_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="UpdateStateDistributionSecondary">
+      <wsdl:input wsaw:Action="http://tempuri.org/IInteropCostServiceDistributionSecondary/UpdateStateDistributionSecondary" message="tns:IInteropCostService_UpdateStateDistributionSecondary_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IInteropCostServiceDistributionSecondary/UpdateStateDistributionSecondaryResponse" message="tns:IInteropCostService_UpdateStateDistributionSecondary_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetDistributionSecondary">
+      <wsdl:input wsaw:Action="http://tempuri.org/IInteropCostServiceDistributionSecondary/GetDistributionSecondary" message="tns:IInteropCostService_GetDistributionSecondary_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IInteropCostServiceDistributionSecondary/GetDistributionSecondaryResponse" message="tns:IInteropCostService_GetDistributionSecondary_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetDistributionSecondaryById">
+      <wsdl:input wsaw:Action="http://tempuri.org/IInteropCostServiceDistributionSecondary/GetDistributionSecondaryById" message="tns:IInteropCostService_GetDistributionSecondaryById_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IInteropCostServiceDistributionSecondary/GetDistributionSecondaryByIdResponse" message="tns:IInteropCostService_GetDistributionSecondaryById_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ListPeriodWithDataByMaximumPeriodDistributionSecondary">
+      <wsdl:input wsaw:Action="http://tempuri.org/IInteropCostServiceDistributionSecondary/ListPeriodWithDataByMaximumPeriodDistributionSecondary" message="tns:IInteropCostService_ListPeriodWithDataByMaximumPeriodDistributionSecondary_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IInteropCostServiceDistributionSecondary/ListPeriodWithDataByMaximumPeriodDistributionSecondaryResponse" message="tns:IInteropCostService_ListPeriodWithDataByMaximumPeriodDistributionSecondary_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ListDistributionSecondaryByYearMonth">
+      <wsdl:input wsaw:Action="http://tempuri.org/IInteropCostServiceDistributionSecondary/ListDistributionSecondaryByYearMonth" message="tns:IInteropCostService_ListDistributionSecondaryByYearMonth_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IInteropCostServiceDistributionSecondary/ListDistributionSecondaryByYearMonthResponse" message="tns:IInteropCostService_ListDistributionSecondaryByYearMonth_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SP_CopyPasteSecondaryDistribution">
+      <wsdl:input wsaw:Action="http://tempuri.org/IInteropCostServiceDistributionSecondary/SP_CopyPasteSecondaryDistribution" message="tns:IInteropCostService_SP_CopyPasteSecondaryDistribution_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IInteropCostServiceDistributionSecondary/SP_CopyPasteSecondaryDistributionResponse" message="tns:IInteropCostService_SP_CopyPasteSecondaryDistribution_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetCostEstimationByYearMonth">
+      <wsdl:input wsaw:Action="http://tempuri.org/IInteropCostServiceCostEstimation/GetCostEstimationByYearMonth" message="tns:IInteropCostService_GetCostEstimationByYearMonth_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IInteropCostServiceCostEstimation/GetCostEstimationByYearMonthResponse" message="tns:IInteropCostService_GetCostEstimationByYearMonth_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetCostEstimationById">
+      <wsdl:input wsaw:Action="http://tempuri.org/IInteropCostServiceCostEstimation/GetCostEstimationById" message="tns:IInteropCostService_GetCostEstimationById_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IInteropCostServiceCostEstimation/GetCostEstimationByIdResponse" message="tns:IInteropCostService_GetCostEstimationById_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetSpEstimateCost">
+      <wsdl:input wsaw:Action="http://tempuri.org/IInteropCostServiceCostEstimation/GetSpEstimateCost" message="tns:IInteropCostService_GetSpEstimateCost_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IInteropCostServiceCostEstimation/GetSpEstimateCostResponse" message="tns:IInteropCostService_GetSpEstimateCost_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="HasMonthClosed">
+      <wsdl:input wsaw:Action="http://tempuri.org/IInteropCostServiceCostEstimation/HasMonthClosed" message="tns:IInteropCostService_HasMonthClosed_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IInteropCostServiceCostEstimation/HasMonthClosedResponse" message="tns:IInteropCostService_HasMonthClosed_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ListrptEstimatingPrimaryGeneral">
+      <wsdl:input wsaw:Action="http://tempuri.org/IInteropCostServiceCostEstimation/ListrptEstimatingPrimaryGeneral" message="tns:IInteropCostService_ListrptEstimatingPrimaryGeneral_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IInteropCostServiceCostEstimation/ListrptEstimatingPrimaryGeneralResponse" message="tns:IInteropCostService_ListrptEstimatingPrimaryGeneral_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetDirectDistributionSecondary">
+      <wsdl:input wsaw:Action="http://tempuri.org/IInteropCostServiceDirectDistributionSecondary/GetDirectDistributionSecondary" message="tns:IInteropCostService_GetDirectDistributionSecondary_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IInteropCostServiceDirectDistributionSecondary/GetDirectDistributionSecondaryResponse" message="tns:IInteropCostService_GetDirectDistributionSecondary_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetDirectDistributionSecondaryById">
+      <wsdl:input wsaw:Action="http://tempuri.org/IInteropCostServiceDirectDistributionSecondary/GetDirectDistributionSecondaryById" message="tns:IInteropCostService_GetDirectDistributionSecondaryById_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IInteropCostServiceDirectDistributionSecondary/GetDirectDistributionSecondaryByIdResponse" message="tns:IInteropCostService_GetDirectDistributionSecondaryById_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SaveDirectDistributionSecondary">
+      <wsdl:input wsaw:Action="http://tempuri.org/IInteropCostServiceDirectDistributionSecondary/SaveDirectDistributionSecondary" message="tns:IInteropCostService_SaveDirectDistributionSecondary_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IInteropCostServiceDirectDistributionSecondary/SaveDirectDistributionSecondaryResponse" message="tns:IInteropCostService_SaveDirectDistributionSecondary_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetDataImportLogisticProductionCenterById">
+      <wsdl:input wsaw:Action="http://tempuri.org/IInteropCostServiceDirectDistributionSecondary/GetDataImportLogisticProductionCenterById" message="tns:IInteropCostService_GetDataImportLogisticProductionCenterById_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IInteropCostServiceDirectDistributionSecondary/GetDataImportLogisticProductionCenterByIdResponse" message="tns:IInteropCostService_GetDataImportLogisticProductionCenterById_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetLogisticsProductionCenterRecordById">
+      <wsdl:input wsaw:Action="http://tempuri.org/IInteropCostServiceLogisticsProductionCenterRecord/GetLogisticsProductionCenterRecordById" message="tns:IInteropCostService_GetLogisticsProductionCenterRecordById_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IInteropCostServiceLogisticsProductionCenterRecord/GetLogisticsProductionCenterRecordByIdResponse" message="tns:IInteropCostService_GetLogisticsProductionCenterRecordById_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetLogisticsProductionCenterRecordByCode">
+      <wsdl:input wsaw:Action="http://tempuri.org/IInteropCostServiceLogisticsProductionCenterRecord/GetLogisticsProductionCenterRecordByCode" message="tns:IInteropCostService_GetLogisticsProductionCenterRecordByCode_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IInteropCostServiceLogisticsProductionCenterRecord/GetLogisticsProductionCenterRecordByCodeResponse" message="tns:IInteropCostService_GetLogisticsProductionCenterRecordByCode_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SaveLogisticsProductionCenterRecord">
+      <wsdl:input wsaw:Action="http://tempuri.org/IInteropCostServiceLogisticsProductionCenterRecord/SaveLogisticsProductionCenterRecord" message="tns:IInteropCostService_SaveLogisticsProductionCenterRecord_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IInteropCostServiceLogisticsProductionCenterRecord/SaveLogisticsProductionCenterRecordResponse" message="tns:IInteropCostService_SaveLogisticsProductionCenterRecord_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="DeleteLogisticsProductionCenterRecord">
+      <wsdl:input wsaw:Action="http://tempuri.org/IInteropCostServiceLogisticsProductionCenterRecord/DeleteLogisticsProductionCenterRecord" message="tns:IInteropCostService_DeleteLogisticsProductionCenterRecord_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IInteropCostServiceLogisticsProductionCenterRecord/DeleteLogisticsProductionCenterRecordResponse" message="tns:IInteropCostService_DeleteLogisticsProductionCenterRecord_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ListReportConsolidatedCCLogistic">
+      <wsdl:input wsaw:Action="http://tempuri.org/IInteropCostServiceLogisticsProductionCenterRecord/ListReportConsolidatedCCLogistic" message="tns:IInteropCostService_ListReportConsolidatedCCLogistic_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IInteropCostServiceLogisticsProductionCenterRecord/ListReportConsolidatedCCLogisticResponse" message="tns:IInteropCostService_ListReportConsolidatedCCLogistic_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ListReportConsolidatedCCLogisticB">
+      <wsdl:input wsaw:Action="http://tempuri.org/IInteropCostServiceLogisticsProductionCenterRecord/ListReportConsolidatedCCLogisticB" message="tns:IInteropCostService_ListReportConsolidatedCCLogisticB_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IInteropCostServiceLogisticsProductionCenterRecord/ListReportConsolidatedCCLogisticBResponse" message="tns:IInteropCostService_ListReportConsolidatedCCLogisticB_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SaveGeneralExpenseCategory">
+      <wsdl:input wsaw:Action="http://tempuri.org/IInteropCostServiceGeneralExpenseCategory/SaveGeneralExpenseCategory" message="tns:IInteropCostService_SaveGeneralExpenseCategory_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IInteropCostServiceGeneralExpenseCategory/SaveGeneralExpenseCategoryResponse" message="tns:IInteropCostService_SaveGeneralExpenseCategory_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="DeleteGeneralExpenseCategory">
+      <wsdl:input wsaw:Action="http://tempuri.org/IInteropCostServiceGeneralExpenseCategory/DeleteGeneralExpenseCategory" message="tns:IInteropCostService_DeleteGeneralExpenseCategory_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IInteropCostServiceGeneralExpenseCategory/DeleteGeneralExpenseCategoryResponse" message="tns:IInteropCostService_DeleteGeneralExpenseCategory_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="UpdateStateGeneralExpenseCategory">
+      <wsdl:input wsaw:Action="http://tempuri.org/IInteropCostServiceGeneralExpenseCategory/UpdateStateGeneralExpenseCategory" message="tns:IInteropCostService_UpdateStateGeneralExpenseCategory_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IInteropCostServiceGeneralExpenseCategory/UpdateStateGeneralExpenseCategoryResponse" message="tns:IInteropCostService_UpdateStateGeneralExpenseCategory_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetGeneralExpenseCategory">
+      <wsdl:input wsaw:Action="http://tempuri.org/IInteropCostServiceGeneralExpenseCategory/GetGeneralExpenseCategory" message="tns:IInteropCostService_GetGeneralExpenseCategory_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IInteropCostServiceGeneralExpenseCategory/GetGeneralExpenseCategoryResponse" message="tns:IInteropCostService_GetGeneralExpenseCategory_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetGeneralExpenseCategoryById">
+      <wsdl:input wsaw:Action="http://tempuri.org/IInteropCostServiceGeneralExpenseCategory/GetGeneralExpenseCategoryById" message="tns:IInteropCostService_GetGeneralExpenseCategoryById_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IInteropCostServiceGeneralExpenseCategory/GetGeneralExpenseCategoryByIdResponse" message="tns:IInteropCostService_GetGeneralExpenseCategoryById_OutputMessage" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="basicHttp_Endpoint_InteropCost" type="tns:IInteropCostService">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="SaveOrganizationalStructure">
+      <soap:operation soapAction="http://tempuri.org/IInteropCostServiceOrganizationalStructure/SaveOrganizationalStructure" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteOrganizationalStructure">
+      <soap:operation soapAction="http://tempuri.org/IInteropCostServiceOrganizationalStructure/DeleteOrganizationalStructure" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateState">
+      <soap:operation soapAction="http://tempuri.org/IInteropCostServiceOrganizationalStructure/UpdateState" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetOrganizationalStructure">
+      <soap:operation soapAction="http://tempuri.org/IInteropCostServiceOrganizationalStructure/GetOrganizationalStructure" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetOrganizationalStructureById">
+      <soap:operation soapAction="http://tempuri.org/IInteropCostServiceOrganizationalStructure/GetOrganizationalStructureById" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetBlockRecordInteropCostByIdformAndIdRecord">
+      <soap:operation soapAction="http://tempuri.org/IInteropCostServiceBlockRecord/GetBlockRecordInteropCostByIdformAndIdRecord" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveBlockRecordInteropCost">
+      <soap:operation soapAction="http://tempuri.org/IInteropCostServiceBlockRecord/SaveBlockRecordInteropCost" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteBlockRecordInteropCost">
+      <soap:operation soapAction="http://tempuri.org/IInteropCostServiceBlockRecord/DeleteBlockRecordInteropCost" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetNumericSequenseGroupById">
+      <soap:operation soapAction="http://tempuri.org/IInteropCostServiceSequence/GetNumericSequenseGroupById" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetSequenseByIdForm">
+      <soap:operation soapAction="http://tempuri.org/IInteropCostServiceSequence/GetSequenseByIdForm" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveSequence">
+      <soap:operation soapAction="http://tempuri.org/IInteropCostServiceSequence/SaveSequence" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveProductionCenter">
+      <soap:operation soapAction="http://tempuri.org/IInteropCostSeriveProductionCenter/SaveProductionCenter" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteProductionCenter">
+      <soap:operation soapAction="http://tempuri.org/IInteropCostSeriveProductionCenter/DeleteProductionCenter" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateStateProductionCenter">
+      <soap:operation soapAction="http://tempuri.org/IInteropCostSeriveProductionCenter/UpdateStateProductionCenter" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetProductionCenter">
+      <soap:operation soapAction="http://tempuri.org/IInteropCostSeriveProductionCenter/GetProductionCenter" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetProductionCenterById">
+      <soap:operation soapAction="http://tempuri.org/IInteropCostSeriveProductionCenter/GetProductionCenterById" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ListProductionCenter">
+      <soap:operation soapAction="http://tempuri.org/IInteropCostSeriveProductionCenter/ListProductionCenter" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetProductionCenterByCostCenterOid">
+      <soap:operation soapAction="http://tempuri.org/IInteropCostSeriveProductionCenter/GetProductionCenterByCostCenterOid" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ListrptResultProductionCostsExpenses">
+      <soap:operation soapAction="http://tempuri.org/IInteropCostSeriveProductionCenter/ListrptResultProductionCostsExpenses" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ListrptResultProductionCostsExpensesDetail">
+      <soap:operation soapAction="http://tempuri.org/IInteropCostSeriveProductionCenter/ListrptResultProductionCostsExpensesDetail" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ListReportOperatingResult">
+      <soap:operation soapAction="http://tempuri.org/IInteropCostSeriveProductionCenter/ListReportOperatingResult" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ListReportOperatingResultsByOrganizationalStructure">
+      <soap:operation soapAction="http://tempuri.org/IInteropCostSeriveProductionCenter/ListReportOperatingResultsByOrganizationalStructure" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ListReportOperatingResultsByOrganizationalStatisticalGraphics">
+      <soap:operation soapAction="http://tempuri.org/IInteropCostSeriveProductionCenter/ListReportOperatingResultsByOrganizationalStatisticalGraphics" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveGeneralExpense">
+      <soap:operation soapAction="http://tempuri.org/IInteropCostServiceGeneralExpense/SaveGeneralExpense" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ListGeneralExpenseByStatus">
+      <soap:operation soapAction="http://tempuri.org/IInteropCostServiceGeneralExpense/ListGeneralExpenseByStatus" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteGeneralExpense">
+      <soap:operation soapAction="http://tempuri.org/IInteropCostServiceGeneralExpense/DeleteGeneralExpense" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetGeneralExpenseByMainAccountId">
+      <soap:operation soapAction="http://tempuri.org/IInteropCostServiceGeneralExpense/GetGeneralExpenseByMainAccountId" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetGeneralExpense">
+      <soap:operation soapAction="http://tempuri.org/IInteropCostServiceGeneralExpense/GetGeneralExpense" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetGeneralExpenseById">
+      <soap:operation soapAction="http://tempuri.org/IInteropCostServiceGeneralExpense/GetGeneralExpenseById" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateStateGeneralExpense">
+      <soap:operation soapAction="http://tempuri.org/IInteropCostServiceGeneralExpense/UpdateStateGeneralExpense" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ListGeneralExpenseByPeriod">
+      <soap:operation soapAction="http://tempuri.org/IInteropCostServiceDistributionDirectCost/ListGeneralExpenseByPeriod" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ListDistributionDirectCostToReport">
+      <soap:operation soapAction="http://tempuri.org/IInteropCostServiceDistributionDirectCost/ListDistributionDirectCostToReport" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveDistributionDirectCost">
+      <soap:operation soapAction="http://tempuri.org/IInteropCostServiceDistributionDirectCost/SaveDistributionDirectCost" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteDistributionDirectCost">
+      <soap:operation soapAction="http://tempuri.org/IInteropCostServiceDistributionDirectCost/DeleteDistributionDirectCost" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateStateDistributionDirectCost">
+      <soap:operation soapAction="http://tempuri.org/IInteropCostServiceDistributionDirectCost/UpdateStateDistributionDirectCost" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetDistributionDirectCost">
+      <soap:operation soapAction="http://tempuri.org/IInteropCostServiceDistributionDirectCost/GetDistributionDirectCost" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetDistributionDirectCostById">
+      <soap:operation soapAction="http://tempuri.org/IInteropCostServiceDistributionDirectCost/GetDistributionDirectCostById" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ListDistributionDirectCostByYearMonth">
+      <soap:operation soapAction="http://tempuri.org/IInteropCostServiceDistributionDirectCost/ListDistributionDirectCostByYearMonth" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetMainAccountValueByContainerNumberAccountYearAndMotn">
+      <soap:operation soapAction="http://tempuri.org/IInteropCostServiceDistributionDirectCost/GetMainAccountValueByContainerNumberAccountYearAndMotn" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CalculateDistribution">
+      <soap:operation soapAction="http://tempuri.org/IInteropCostServiceDistributionDirectCost/CalculateDistribution" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetPrimaryEstimateOrFinal">
+      <soap:operation soapAction="http://tempuri.org/IInteropCostServiceDistributionDirectCost/GetPrimaryEstimateOrFinal" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetPrimaryEstimateOrFinalB">
+      <soap:operation soapAction="http://tempuri.org/IInteropCostServiceDistributionDirectCost/GetPrimaryEstimateOrFinalB" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetPrimaryEstimateOrFinalC">
+      <soap:operation soapAction="http://tempuri.org/IInteropCostServiceDistributionDirectCost/GetPrimaryEstimateOrFinalC" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveInteropCostSetting">
+      <soap:operation soapAction="http://tempuri.org/IInteropCostServiceInteropCostSetting/SaveInteropCostSetting" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteInteropCostSetting">
+      <soap:operation soapAction="http://tempuri.org/IInteropCostServiceInteropCostSetting/DeleteInteropCostSetting" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetInteropCostSetting">
+      <soap:operation soapAction="http://tempuri.org/IInteropCostServiceInteropCostSetting/GetInteropCostSetting" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetInteropCostSettingById">
+      <soap:operation soapAction="http://tempuri.org/IInteropCostServiceInteropCostSetting/GetInteropCostSettingById" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveDistributionManpower">
+      <soap:operation soapAction="http://tempuri.org/IInteropCostServiceDistributionManpower/SaveDistributionManpower" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteDistributionManpower">
+      <soap:operation soapAction="http://tempuri.org/IInteropCostServiceDistributionManpower/DeleteDistributionManpower" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateStateDistributionManpower">
+      <soap:operation soapAction="http://tempuri.org/IInteropCostServiceDistributionManpower/UpdateStateDistributionManpower" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetDistributionManpower">
+      <soap:operation soapAction="http://tempuri.org/IInteropCostServiceDistributionManpower/GetDistributionManpower" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetDistributionManpowerByEmployeeIdAndYearMonth">
+      <soap:operation soapAction="http://tempuri.org/IInteropCostServiceDistributionManpower/GetDistributionManpowerByEmployeeIdAndYearMonth" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ListPeriodWithDataByMaximumPeriod">
+      <soap:operation soapAction="http://tempuri.org/IInteropCostServiceDistributionManpower/ListPeriodWithDataByMaximumPeriod" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetDistributionManpowerById">
+      <soap:operation soapAction="http://tempuri.org/IInteropCostServiceDistributionManpower/GetDistributionManpowerById" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ListDistributionManpowerByYearMonth">
+      <soap:operation soapAction="http://tempuri.org/IInteropCostServiceDistributionManpower/ListDistributionManpowerByYearMonth" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ConfirmMasiveInteropCost">
+      <soap:operation soapAction="http://tempuri.org/IInteropCostServiceDistributionManpower/ConfirmMasiveInteropCost" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SP_ExportExcelInteropCostDistributionManPower">
+      <soap:operation soapAction="http://tempuri.org/IInteropCostServiceDistributionManpower/SP_ExportExcelInteropCostDistributionManPower" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveDistributionFixedAsset">
+      <soap:operation soapAction="http://tempuri.org/IInteropCostServiceDistributionFixedAsset/SaveDistributionFixedAsset" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteDistributionFixedAsset">
+      <soap:operation soapAction="http://tempuri.org/IInteropCostServiceDistributionFixedAsset/DeleteDistributionFixedAsset" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetDistributionFixedAssetByActivoAndYearMonth">
+      <soap:operation soapAction="http://tempuri.org/IInteropCostServiceDistributionFixedAsset/GetDistributionFixedAssetByActivoAndYearMonth" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateStateDistributionFixedAsset">
+      <soap:operation soapAction="http://tempuri.org/IInteropCostServiceDistributionFixedAsset/UpdateStateDistributionFixedAsset" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetDistributionFixedAsset">
+      <soap:operation soapAction="http://tempuri.org/IInteropCostServiceDistributionFixedAsset/GetDistributionFixedAsset" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetDistributionFixedAssetById">
+      <soap:operation soapAction="http://tempuri.org/IInteropCostServiceDistributionFixedAsset/GetDistributionFixedAssetById" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ListDistributionFixedAssetByYearMonth">
+      <soap:operation soapAction="http://tempuri.org/IInteropCostServiceDistributionFixedAsset/ListDistributionFixedAssetByYearMonth" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ListPeriodWithDataByMaximumPeriodFixedAsset">
+      <soap:operation soapAction="http://tempuri.org/IInteropCostServiceDistributionFixedAsset/ListPeriodWithDataByMaximumPeriodFixedAsset" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAFNDEPRECIByOidYearMonth">
+      <soap:operation soapAction="http://tempuri.org/IInteropCostServiceDistributionFixedAsset/GetAFNDEPRECIByOidYearMonth" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetDeprecationValue">
+      <soap:operation soapAction="http://tempuri.org/IInteropCostServiceDistributionFixedAsset/GetDeprecationValue" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SP_ConfirmMasiveDistributionFixedAsset">
+      <soap:operation soapAction="http://tempuri.org/IInteropCostServiceDistributionFixedAsset/SP_ConfirmMasiveDistributionFixedAsset" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SP_ExportExcelDistributionFixedAsset">
+      <soap:operation soapAction="http://tempuri.org/IInteropCostServiceDistributionFixedAsset/SP_ExportExcelDistributionFixedAsset" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveDistributionIntermediate">
+      <soap:operation soapAction="http://tempuri.org/IInteropCostServiceDistributionIntermediate/SaveDistributionIntermediate" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteDistributionIntermediate">
+      <soap:operation soapAction="http://tempuri.org/IInteropCostServiceDistributionIntermediate/DeleteDistributionIntermediate" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateStateDistributionIntermediate">
+      <soap:operation soapAction="http://tempuri.org/IInteropCostServiceDistributionIntermediate/UpdateStateDistributionIntermediate" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetDistributionIntermediate">
+      <soap:operation soapAction="http://tempuri.org/IInteropCostServiceDistributionIntermediate/GetDistributionIntermediate" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetDistributionIntermediateById">
+      <soap:operation soapAction="http://tempuri.org/IInteropCostServiceDistributionIntermediate/GetDistributionIntermediateById" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ListPeriodWithDataByMaximumPeriodDistributionIntermediate">
+      <soap:operation soapAction="http://tempuri.org/IInteropCostServiceDistributionIntermediate/ListPeriodWithDataByMaximumPeriodDistributionIntermediate" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ListDistributionIntermediateByYearMonth">
+      <soap:operation soapAction="http://tempuri.org/IInteropCostServiceDistributionIntermediate/ListDistributionIntermediateByYearMonth" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveDistributionSecondary">
+      <soap:operation soapAction="http://tempuri.org/IInteropCostServiceDistributionSecondary/SaveDistributionSecondary" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteDistributionSecondary">
+      <soap:operation soapAction="http://tempuri.org/IInteropCostServiceDistributionSecondary/DeleteDistributionSecondary" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateStateDistributionSecondary">
+      <soap:operation soapAction="http://tempuri.org/IInteropCostServiceDistributionSecondary/UpdateStateDistributionSecondary" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetDistributionSecondary">
+      <soap:operation soapAction="http://tempuri.org/IInteropCostServiceDistributionSecondary/GetDistributionSecondary" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetDistributionSecondaryById">
+      <soap:operation soapAction="http://tempuri.org/IInteropCostServiceDistributionSecondary/GetDistributionSecondaryById" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ListPeriodWithDataByMaximumPeriodDistributionSecondary">
+      <soap:operation soapAction="http://tempuri.org/IInteropCostServiceDistributionSecondary/ListPeriodWithDataByMaximumPeriodDistributionSecondary" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ListDistributionSecondaryByYearMonth">
+      <soap:operation soapAction="http://tempuri.org/IInteropCostServiceDistributionSecondary/ListDistributionSecondaryByYearMonth" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SP_CopyPasteSecondaryDistribution">
+      <soap:operation soapAction="http://tempuri.org/IInteropCostServiceDistributionSecondary/SP_CopyPasteSecondaryDistribution" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCostEstimationByYearMonth">
+      <soap:operation soapAction="http://tempuri.org/IInteropCostServiceCostEstimation/GetCostEstimationByYearMonth" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCostEstimationById">
+      <soap:operation soapAction="http://tempuri.org/IInteropCostServiceCostEstimation/GetCostEstimationById" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetSpEstimateCost">
+      <soap:operation soapAction="http://tempuri.org/IInteropCostServiceCostEstimation/GetSpEstimateCost" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="HasMonthClosed">
+      <soap:operation soapAction="http://tempuri.org/IInteropCostServiceCostEstimation/HasMonthClosed" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ListrptEstimatingPrimaryGeneral">
+      <soap:operation soapAction="http://tempuri.org/IInteropCostServiceCostEstimation/ListrptEstimatingPrimaryGeneral" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetDirectDistributionSecondary">
+      <soap:operation soapAction="http://tempuri.org/IInteropCostServiceDirectDistributionSecondary/GetDirectDistributionSecondary" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetDirectDistributionSecondaryById">
+      <soap:operation soapAction="http://tempuri.org/IInteropCostServiceDirectDistributionSecondary/GetDirectDistributionSecondaryById" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveDirectDistributionSecondary">
+      <soap:operation soapAction="http://tempuri.org/IInteropCostServiceDirectDistributionSecondary/SaveDirectDistributionSecondary" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetDataImportLogisticProductionCenterById">
+      <soap:operation soapAction="http://tempuri.org/IInteropCostServiceDirectDistributionSecondary/GetDataImportLogisticProductionCenterById" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetLogisticsProductionCenterRecordById">
+      <soap:operation soapAction="http://tempuri.org/IInteropCostServiceLogisticsProductionCenterRecord/GetLogisticsProductionCenterRecordById" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetLogisticsProductionCenterRecordByCode">
+      <soap:operation soapAction="http://tempuri.org/IInteropCostServiceLogisticsProductionCenterRecord/GetLogisticsProductionCenterRecordByCode" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveLogisticsProductionCenterRecord">
+      <soap:operation soapAction="http://tempuri.org/IInteropCostServiceLogisticsProductionCenterRecord/SaveLogisticsProductionCenterRecord" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteLogisticsProductionCenterRecord">
+      <soap:operation soapAction="http://tempuri.org/IInteropCostServiceLogisticsProductionCenterRecord/DeleteLogisticsProductionCenterRecord" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ListReportConsolidatedCCLogistic">
+      <soap:operation soapAction="http://tempuri.org/IInteropCostServiceLogisticsProductionCenterRecord/ListReportConsolidatedCCLogistic" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ListReportConsolidatedCCLogisticB">
+      <soap:operation soapAction="http://tempuri.org/IInteropCostServiceLogisticsProductionCenterRecord/ListReportConsolidatedCCLogisticB" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveGeneralExpenseCategory">
+      <soap:operation soapAction="http://tempuri.org/IInteropCostServiceGeneralExpenseCategory/SaveGeneralExpenseCategory" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteGeneralExpenseCategory">
+      <soap:operation soapAction="http://tempuri.org/IInteropCostServiceGeneralExpenseCategory/DeleteGeneralExpenseCategory" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateStateGeneralExpenseCategory">
+      <soap:operation soapAction="http://tempuri.org/IInteropCostServiceGeneralExpenseCategory/UpdateStateGeneralExpenseCategory" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetGeneralExpenseCategory">
+      <soap:operation soapAction="http://tempuri.org/IInteropCostServiceGeneralExpenseCategory/GetGeneralExpenseCategory" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetGeneralExpenseCategoryById">
+      <soap:operation soapAction="http://tempuri.org/IInteropCostServiceGeneralExpenseCategory/GetGeneralExpenseCategoryById" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="netTcp_Endpoint_InteropCost" type="tns:IInteropCostService">
+    <wsp:PolicyReference URI="#netTcp_Endpoint_InteropCost_policy" />
+    <soap12:binding transport="http://schemas.microsoft.com/soap/tcp" />
+    <wsdl:operation name="SaveOrganizationalStructure">
+      <soap12:operation soapAction="http://tempuri.org/IInteropCostServiceOrganizationalStructure/SaveOrganizationalStructure" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteOrganizationalStructure">
+      <soap12:operation soapAction="http://tempuri.org/IInteropCostServiceOrganizationalStructure/DeleteOrganizationalStructure" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateState">
+      <soap12:operation soapAction="http://tempuri.org/IInteropCostServiceOrganizationalStructure/UpdateState" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetOrganizationalStructure">
+      <soap12:operation soapAction="http://tempuri.org/IInteropCostServiceOrganizationalStructure/GetOrganizationalStructure" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetOrganizationalStructureById">
+      <soap12:operation soapAction="http://tempuri.org/IInteropCostServiceOrganizationalStructure/GetOrganizationalStructureById" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetBlockRecordInteropCostByIdformAndIdRecord">
+      <soap12:operation soapAction="http://tempuri.org/IInteropCostServiceBlockRecord/GetBlockRecordInteropCostByIdformAndIdRecord" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveBlockRecordInteropCost">
+      <soap12:operation soapAction="http://tempuri.org/IInteropCostServiceBlockRecord/SaveBlockRecordInteropCost" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteBlockRecordInteropCost">
+      <soap12:operation soapAction="http://tempuri.org/IInteropCostServiceBlockRecord/DeleteBlockRecordInteropCost" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetNumericSequenseGroupById">
+      <soap12:operation soapAction="http://tempuri.org/IInteropCostServiceSequence/GetNumericSequenseGroupById" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetSequenseByIdForm">
+      <soap12:operation soapAction="http://tempuri.org/IInteropCostServiceSequence/GetSequenseByIdForm" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveSequence">
+      <soap12:operation soapAction="http://tempuri.org/IInteropCostServiceSequence/SaveSequence" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveProductionCenter">
+      <soap12:operation soapAction="http://tempuri.org/IInteropCostSeriveProductionCenter/SaveProductionCenter" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteProductionCenter">
+      <soap12:operation soapAction="http://tempuri.org/IInteropCostSeriveProductionCenter/DeleteProductionCenter" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateStateProductionCenter">
+      <soap12:operation soapAction="http://tempuri.org/IInteropCostSeriveProductionCenter/UpdateStateProductionCenter" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetProductionCenter">
+      <soap12:operation soapAction="http://tempuri.org/IInteropCostSeriveProductionCenter/GetProductionCenter" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetProductionCenterById">
+      <soap12:operation soapAction="http://tempuri.org/IInteropCostSeriveProductionCenter/GetProductionCenterById" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ListProductionCenter">
+      <soap12:operation soapAction="http://tempuri.org/IInteropCostSeriveProductionCenter/ListProductionCenter" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetProductionCenterByCostCenterOid">
+      <soap12:operation soapAction="http://tempuri.org/IInteropCostSeriveProductionCenter/GetProductionCenterByCostCenterOid" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ListrptResultProductionCostsExpenses">
+      <soap12:operation soapAction="http://tempuri.org/IInteropCostSeriveProductionCenter/ListrptResultProductionCostsExpenses" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ListrptResultProductionCostsExpensesDetail">
+      <soap12:operation soapAction="http://tempuri.org/IInteropCostSeriveProductionCenter/ListrptResultProductionCostsExpensesDetail" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ListReportOperatingResult">
+      <soap12:operation soapAction="http://tempuri.org/IInteropCostSeriveProductionCenter/ListReportOperatingResult" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ListReportOperatingResultsByOrganizationalStructure">
+      <soap12:operation soapAction="http://tempuri.org/IInteropCostSeriveProductionCenter/ListReportOperatingResultsByOrganizationalStructure" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ListReportOperatingResultsByOrganizationalStatisticalGraphics">
+      <soap12:operation soapAction="http://tempuri.org/IInteropCostSeriveProductionCenter/ListReportOperatingResultsByOrganizationalStatisticalGraphics" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveGeneralExpense">
+      <soap12:operation soapAction="http://tempuri.org/IInteropCostServiceGeneralExpense/SaveGeneralExpense" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ListGeneralExpenseByStatus">
+      <soap12:operation soapAction="http://tempuri.org/IInteropCostServiceGeneralExpense/ListGeneralExpenseByStatus" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteGeneralExpense">
+      <soap12:operation soapAction="http://tempuri.org/IInteropCostServiceGeneralExpense/DeleteGeneralExpense" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetGeneralExpenseByMainAccountId">
+      <soap12:operation soapAction="http://tempuri.org/IInteropCostServiceGeneralExpense/GetGeneralExpenseByMainAccountId" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetGeneralExpense">
+      <soap12:operation soapAction="http://tempuri.org/IInteropCostServiceGeneralExpense/GetGeneralExpense" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetGeneralExpenseById">
+      <soap12:operation soapAction="http://tempuri.org/IInteropCostServiceGeneralExpense/GetGeneralExpenseById" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateStateGeneralExpense">
+      <soap12:operation soapAction="http://tempuri.org/IInteropCostServiceGeneralExpense/UpdateStateGeneralExpense" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ListGeneralExpenseByPeriod">
+      <soap12:operation soapAction="http://tempuri.org/IInteropCostServiceDistributionDirectCost/ListGeneralExpenseByPeriod" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ListDistributionDirectCostToReport">
+      <soap12:operation soapAction="http://tempuri.org/IInteropCostServiceDistributionDirectCost/ListDistributionDirectCostToReport" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveDistributionDirectCost">
+      <soap12:operation soapAction="http://tempuri.org/IInteropCostServiceDistributionDirectCost/SaveDistributionDirectCost" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteDistributionDirectCost">
+      <soap12:operation soapAction="http://tempuri.org/IInteropCostServiceDistributionDirectCost/DeleteDistributionDirectCost" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateStateDistributionDirectCost">
+      <soap12:operation soapAction="http://tempuri.org/IInteropCostServiceDistributionDirectCost/UpdateStateDistributionDirectCost" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetDistributionDirectCost">
+      <soap12:operation soapAction="http://tempuri.org/IInteropCostServiceDistributionDirectCost/GetDistributionDirectCost" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetDistributionDirectCostById">
+      <soap12:operation soapAction="http://tempuri.org/IInteropCostServiceDistributionDirectCost/GetDistributionDirectCostById" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ListDistributionDirectCostByYearMonth">
+      <soap12:operation soapAction="http://tempuri.org/IInteropCostServiceDistributionDirectCost/ListDistributionDirectCostByYearMonth" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetMainAccountValueByContainerNumberAccountYearAndMotn">
+      <soap12:operation soapAction="http://tempuri.org/IInteropCostServiceDistributionDirectCost/GetMainAccountValueByContainerNumberAccountYearAndMotn" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CalculateDistribution">
+      <soap12:operation soapAction="http://tempuri.org/IInteropCostServiceDistributionDirectCost/CalculateDistribution" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetPrimaryEstimateOrFinal">
+      <soap12:operation soapAction="http://tempuri.org/IInteropCostServiceDistributionDirectCost/GetPrimaryEstimateOrFinal" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetPrimaryEstimateOrFinalB">
+      <soap12:operation soapAction="http://tempuri.org/IInteropCostServiceDistributionDirectCost/GetPrimaryEstimateOrFinalB" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetPrimaryEstimateOrFinalC">
+      <soap12:operation soapAction="http://tempuri.org/IInteropCostServiceDistributionDirectCost/GetPrimaryEstimateOrFinalC" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveInteropCostSetting">
+      <soap12:operation soapAction="http://tempuri.org/IInteropCostServiceInteropCostSetting/SaveInteropCostSetting" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteInteropCostSetting">
+      <soap12:operation soapAction="http://tempuri.org/IInteropCostServiceInteropCostSetting/DeleteInteropCostSetting" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetInteropCostSetting">
+      <soap12:operation soapAction="http://tempuri.org/IInteropCostServiceInteropCostSetting/GetInteropCostSetting" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetInteropCostSettingById">
+      <soap12:operation soapAction="http://tempuri.org/IInteropCostServiceInteropCostSetting/GetInteropCostSettingById" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveDistributionManpower">
+      <soap12:operation soapAction="http://tempuri.org/IInteropCostServiceDistributionManpower/SaveDistributionManpower" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteDistributionManpower">
+      <soap12:operation soapAction="http://tempuri.org/IInteropCostServiceDistributionManpower/DeleteDistributionManpower" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateStateDistributionManpower">
+      <soap12:operation soapAction="http://tempuri.org/IInteropCostServiceDistributionManpower/UpdateStateDistributionManpower" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetDistributionManpower">
+      <soap12:operation soapAction="http://tempuri.org/IInteropCostServiceDistributionManpower/GetDistributionManpower" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetDistributionManpowerByEmployeeIdAndYearMonth">
+      <soap12:operation soapAction="http://tempuri.org/IInteropCostServiceDistributionManpower/GetDistributionManpowerByEmployeeIdAndYearMonth" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ListPeriodWithDataByMaximumPeriod">
+      <soap12:operation soapAction="http://tempuri.org/IInteropCostServiceDistributionManpower/ListPeriodWithDataByMaximumPeriod" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetDistributionManpowerById">
+      <soap12:operation soapAction="http://tempuri.org/IInteropCostServiceDistributionManpower/GetDistributionManpowerById" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ListDistributionManpowerByYearMonth">
+      <soap12:operation soapAction="http://tempuri.org/IInteropCostServiceDistributionManpower/ListDistributionManpowerByYearMonth" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ConfirmMasiveInteropCost">
+      <soap12:operation soapAction="http://tempuri.org/IInteropCostServiceDistributionManpower/ConfirmMasiveInteropCost" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SP_ExportExcelInteropCostDistributionManPower">
+      <soap12:operation soapAction="http://tempuri.org/IInteropCostServiceDistributionManpower/SP_ExportExcelInteropCostDistributionManPower" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveDistributionFixedAsset">
+      <soap12:operation soapAction="http://tempuri.org/IInteropCostServiceDistributionFixedAsset/SaveDistributionFixedAsset" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteDistributionFixedAsset">
+      <soap12:operation soapAction="http://tempuri.org/IInteropCostServiceDistributionFixedAsset/DeleteDistributionFixedAsset" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetDistributionFixedAssetByActivoAndYearMonth">
+      <soap12:operation soapAction="http://tempuri.org/IInteropCostServiceDistributionFixedAsset/GetDistributionFixedAssetByActivoAndYearMonth" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateStateDistributionFixedAsset">
+      <soap12:operation soapAction="http://tempuri.org/IInteropCostServiceDistributionFixedAsset/UpdateStateDistributionFixedAsset" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetDistributionFixedAsset">
+      <soap12:operation soapAction="http://tempuri.org/IInteropCostServiceDistributionFixedAsset/GetDistributionFixedAsset" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetDistributionFixedAssetById">
+      <soap12:operation soapAction="http://tempuri.org/IInteropCostServiceDistributionFixedAsset/GetDistributionFixedAssetById" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ListDistributionFixedAssetByYearMonth">
+      <soap12:operation soapAction="http://tempuri.org/IInteropCostServiceDistributionFixedAsset/ListDistributionFixedAssetByYearMonth" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ListPeriodWithDataByMaximumPeriodFixedAsset">
+      <soap12:operation soapAction="http://tempuri.org/IInteropCostServiceDistributionFixedAsset/ListPeriodWithDataByMaximumPeriodFixedAsset" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAFNDEPRECIByOidYearMonth">
+      <soap12:operation soapAction="http://tempuri.org/IInteropCostServiceDistributionFixedAsset/GetAFNDEPRECIByOidYearMonth" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetDeprecationValue">
+      <soap12:operation soapAction="http://tempuri.org/IInteropCostServiceDistributionFixedAsset/GetDeprecationValue" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SP_ConfirmMasiveDistributionFixedAsset">
+      <soap12:operation soapAction="http://tempuri.org/IInteropCostServiceDistributionFixedAsset/SP_ConfirmMasiveDistributionFixedAsset" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SP_ExportExcelDistributionFixedAsset">
+      <soap12:operation soapAction="http://tempuri.org/IInteropCostServiceDistributionFixedAsset/SP_ExportExcelDistributionFixedAsset" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveDistributionIntermediate">
+      <soap12:operation soapAction="http://tempuri.org/IInteropCostServiceDistributionIntermediate/SaveDistributionIntermediate" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteDistributionIntermediate">
+      <soap12:operation soapAction="http://tempuri.org/IInteropCostServiceDistributionIntermediate/DeleteDistributionIntermediate" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateStateDistributionIntermediate">
+      <soap12:operation soapAction="http://tempuri.org/IInteropCostServiceDistributionIntermediate/UpdateStateDistributionIntermediate" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetDistributionIntermediate">
+      <soap12:operation soapAction="http://tempuri.org/IInteropCostServiceDistributionIntermediate/GetDistributionIntermediate" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetDistributionIntermediateById">
+      <soap12:operation soapAction="http://tempuri.org/IInteropCostServiceDistributionIntermediate/GetDistributionIntermediateById" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ListPeriodWithDataByMaximumPeriodDistributionIntermediate">
+      <soap12:operation soapAction="http://tempuri.org/IInteropCostServiceDistributionIntermediate/ListPeriodWithDataByMaximumPeriodDistributionIntermediate" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ListDistributionIntermediateByYearMonth">
+      <soap12:operation soapAction="http://tempuri.org/IInteropCostServiceDistributionIntermediate/ListDistributionIntermediateByYearMonth" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveDistributionSecondary">
+      <soap12:operation soapAction="http://tempuri.org/IInteropCostServiceDistributionSecondary/SaveDistributionSecondary" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteDistributionSecondary">
+      <soap12:operation soapAction="http://tempuri.org/IInteropCostServiceDistributionSecondary/DeleteDistributionSecondary" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateStateDistributionSecondary">
+      <soap12:operation soapAction="http://tempuri.org/IInteropCostServiceDistributionSecondary/UpdateStateDistributionSecondary" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetDistributionSecondary">
+      <soap12:operation soapAction="http://tempuri.org/IInteropCostServiceDistributionSecondary/GetDistributionSecondary" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetDistributionSecondaryById">
+      <soap12:operation soapAction="http://tempuri.org/IInteropCostServiceDistributionSecondary/GetDistributionSecondaryById" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ListPeriodWithDataByMaximumPeriodDistributionSecondary">
+      <soap12:operation soapAction="http://tempuri.org/IInteropCostServiceDistributionSecondary/ListPeriodWithDataByMaximumPeriodDistributionSecondary" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ListDistributionSecondaryByYearMonth">
+      <soap12:operation soapAction="http://tempuri.org/IInteropCostServiceDistributionSecondary/ListDistributionSecondaryByYearMonth" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SP_CopyPasteSecondaryDistribution">
+      <soap12:operation soapAction="http://tempuri.org/IInteropCostServiceDistributionSecondary/SP_CopyPasteSecondaryDistribution" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCostEstimationByYearMonth">
+      <soap12:operation soapAction="http://tempuri.org/IInteropCostServiceCostEstimation/GetCostEstimationByYearMonth" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCostEstimationById">
+      <soap12:operation soapAction="http://tempuri.org/IInteropCostServiceCostEstimation/GetCostEstimationById" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetSpEstimateCost">
+      <soap12:operation soapAction="http://tempuri.org/IInteropCostServiceCostEstimation/GetSpEstimateCost" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="HasMonthClosed">
+      <soap12:operation soapAction="http://tempuri.org/IInteropCostServiceCostEstimation/HasMonthClosed" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ListrptEstimatingPrimaryGeneral">
+      <soap12:operation soapAction="http://tempuri.org/IInteropCostServiceCostEstimation/ListrptEstimatingPrimaryGeneral" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetDirectDistributionSecondary">
+      <soap12:operation soapAction="http://tempuri.org/IInteropCostServiceDirectDistributionSecondary/GetDirectDistributionSecondary" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetDirectDistributionSecondaryById">
+      <soap12:operation soapAction="http://tempuri.org/IInteropCostServiceDirectDistributionSecondary/GetDirectDistributionSecondaryById" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveDirectDistributionSecondary">
+      <soap12:operation soapAction="http://tempuri.org/IInteropCostServiceDirectDistributionSecondary/SaveDirectDistributionSecondary" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetDataImportLogisticProductionCenterById">
+      <soap12:operation soapAction="http://tempuri.org/IInteropCostServiceDirectDistributionSecondary/GetDataImportLogisticProductionCenterById" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetLogisticsProductionCenterRecordById">
+      <soap12:operation soapAction="http://tempuri.org/IInteropCostServiceLogisticsProductionCenterRecord/GetLogisticsProductionCenterRecordById" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetLogisticsProductionCenterRecordByCode">
+      <soap12:operation soapAction="http://tempuri.org/IInteropCostServiceLogisticsProductionCenterRecord/GetLogisticsProductionCenterRecordByCode" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveLogisticsProductionCenterRecord">
+      <soap12:operation soapAction="http://tempuri.org/IInteropCostServiceLogisticsProductionCenterRecord/SaveLogisticsProductionCenterRecord" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteLogisticsProductionCenterRecord">
+      <soap12:operation soapAction="http://tempuri.org/IInteropCostServiceLogisticsProductionCenterRecord/DeleteLogisticsProductionCenterRecord" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ListReportConsolidatedCCLogistic">
+      <soap12:operation soapAction="http://tempuri.org/IInteropCostServiceLogisticsProductionCenterRecord/ListReportConsolidatedCCLogistic" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ListReportConsolidatedCCLogisticB">
+      <soap12:operation soapAction="http://tempuri.org/IInteropCostServiceLogisticsProductionCenterRecord/ListReportConsolidatedCCLogisticB" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveGeneralExpenseCategory">
+      <soap12:operation soapAction="http://tempuri.org/IInteropCostServiceGeneralExpenseCategory/SaveGeneralExpenseCategory" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteGeneralExpenseCategory">
+      <soap12:operation soapAction="http://tempuri.org/IInteropCostServiceGeneralExpenseCategory/DeleteGeneralExpenseCategory" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateStateGeneralExpenseCategory">
+      <soap12:operation soapAction="http://tempuri.org/IInteropCostServiceGeneralExpenseCategory/UpdateStateGeneralExpenseCategory" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetGeneralExpenseCategory">
+      <soap12:operation soapAction="http://tempuri.org/IInteropCostServiceGeneralExpenseCategory/GetGeneralExpenseCategory" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetGeneralExpenseCategoryById">
+      <soap12:operation soapAction="http://tempuri.org/IInteropCostServiceGeneralExpenseCategory/GetGeneralExpenseCategoryById" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="InteropCostService">
+    <wsdl:port name="basicHttp_Endpoint_InteropCost" binding="tns:basicHttp_Endpoint_InteropCost">
+      <soap:address location="http://localhost:9000/ServiceEntity/InteropCost.svc/basicHttpInteropCost" />
+    </wsdl:port>
+    <wsdl:port name="wsHttp_Endpoint_InteropCost" binding="tns:basicHttp_Endpoint_InteropCost">
+      <soap:address location="http://localhost:9000/ServiceEntity/InteropCost.svc/wsHttpInteropCost" />
+    </wsdl:port>
+    <wsdl:port name="netTcp_Endpoint_InteropCost" binding="tns:netTcp_Endpoint_InteropCost">
+      <soap12:address location="net.tcp://desktop-hq2rbc7:9001/ServiceEntity/InteropCost.svc/netTcpInteropCost" />
+      <wsa10:EndpointReference>
+        <wsa10:Address>net.tcp://desktop-hq2rbc7:9001/ServiceEntity/InteropCost.svc/netTcpInteropCost</wsa10:Address>
+      </wsa10:EndpointReference>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

@@ -1,0 +1,256 @@
+﻿#Region "Librerias Importadas"
+Imports Infrastructure.CrossCutting.Base
+Imports Infrastructure.Data.Xpo
+Imports Infrastructure.Data.Xpo.PayrollRepository
+Imports Domain.Entities
+Imports Presentation.Base
+Imports System.Globalization
+Imports System.Threading
+Imports Domain.Payroll.Entities
+Imports DevExpress.Xpo
+#End Region
+
+
+Public Class rptContractLiquidation
+    Implements IReport
+
+    ''' <summary>
+    ''' Variable para inicializar los valores de sesion
+    ''' </summary>
+    Dim IndigoSessionValues As SessionValues = SessionValues.Instance
+
+    Const CNameReport = "Payroll.FrmContractLiquidation"
+
+    Public Property ParametrosReporte As Object() Implements IReport.ParametrosReporte
+    Public Property DataSourceProv As List(Of PayrollContractLiquidationDetail)
+
+    Public Sub CargarDataSource() Implements IReport.CargarDataSource
+        Dim contractLiquidation As ContractLiquidation = TryCast(ParametrosReporte(0), ContractLiquidation)
+        If contractLiquidation IsNot Nothing Then
+            Me.DataSourceProv = MakeDataSource(contractLiquidation)
+        Else
+            Me.DataSourceProv = XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).PayrollService.GetCollection(Of PayrollContractLiquidationDetail)(Nothing, "ContractLiquidationId.ContractId = " & ParametrosReporte(0))
+        End If
+        Me.DataSource = DataSourceProv.FindAll(Function(e) e.ConceptType <> 3)
+        InitializeReportLocalization()
+
+        If Me.ParametrosReporte(1) IsNot Nothing Then
+            Me.INDlblAddress.Text = If(Me.ParametrosReporte(1).Address IsNot Nothing, Me.ParametrosReporte(1).Address.Trim() & If(Me.ParametrosReporte(1).City IsNot Nothing, If(Me.ParametrosReporte(1).City.Name IsNot Nothing, " " & Me.ParametrosReporte(1).City.Name.Trim() & If(Me.ParametrosReporte(1).City.Department IsNot Nothing, " - " & Me.ParametrosReporte(1).City.Department.Name.Trim(), String.Empty), String.Empty), String.Empty), String.Empty)
+            Me.INDlblPhoneEmail.Text = If(Me.ParametrosReporte(1).Phone IsNot Nothing, Me.ParametrosReporte(1).Phone.Trim() & If(Me.ParametrosReporte(1).EmailAudit IsNot Nothing, " - " & Me.ParametrosReporte(1).EmailAudit.Trim(), String.Empty), String.Empty)
+        End If
+
+        If Me.DataSource IsNot Nothing Then
+            Dim TmpObject As List(Of PayrollContractLiquidationDetail) = DataSource
+            Dim TmpObjectProv As List(Of PayrollContractLiquidationDetail) = DataSourceProv
+
+            Dim primas = TmpObject.FirstOrDefault(Function(x) x.IdConcept.ConceptClass = "002")
+            If primas IsNot Nothing Then
+                XrLabel38.Text = primas?.Accrued.MoneyFormat(0)
+                XrLabel20.Text = primas?.InitialDate
+
+                Dim provision = TmpObjectProv.FirstOrDefault(Function(x) x.IdConcept.ConceptClass = "033")
+                If provision IsNot Nothing Then
+                    XrLabel59.Text = provision?.Accrued.MoneyFormat(0)
+                    XrLabel42.Text = provision?.InitialDate
+                Else
+                    XrLabel43.Visible = False
+                    XrLabel59.Visible = False
+                    XrLabel42.Visible = False
+                    XrLabel55.Visible = False
+                End If
+            Else
+                XrLabel3.Visible = False
+                XrLabel38.Visible = False
+                XrLabel20.Visible = False
+                XrLabel43.Visible = False
+                XrLabel59.Visible = False
+                XrLabel42.Visible = False
+                XrLabel28.Visible = False
+                XrLabel55.Visible = False
+            End If
+
+            Dim vacaciones = TmpObject.FirstOrDefault(Function(x) x.IdConcept.ConceptClass = "030" OrElse x.IdConcept.ConceptClass = "073")
+            If vacaciones IsNot Nothing Then
+                XrLabel23.Text = vacaciones?.InitialDate
+                XrLabel39.Text = vacaciones?.Accrued.MoneyFormat(0)
+
+                Dim provisionVacaciones = TmpObjectProv.FirstOrDefault(Function(x) x.IdConcept.ConceptClass = "031")
+                If provisionVacaciones IsNot Nothing Then
+                    XrLabel60.Text = provisionVacaciones?.Accrued.MoneyFormat(0)
+                    XrLabel52.Text = provisionVacaciones?.InitialDate
+                Else
+                    XrLabel45.Visible = False
+                    XrLabel60.Visible = False
+                    XrLabel52.Visible = False
+                    XrLabel56.Visible = False
+                End If
+            Else
+                XrLabel6.Visible = False
+                XrLabel23.Visible = False
+                XrLabel39.Visible = False
+                XrLabel45.Visible = False
+                XrLabel60.Visible = False
+                XrLabel52.Visible = False
+                XrLabel35.Visible = False
+                XrLabel56.Visible = False
+            End If
+
+            Dim cesantias = TmpObject.FirstOrDefault(Function(x) x.IdConcept.ConceptClass = "010" And x.Description.StartsWith("CESANT"))
+            If cesantias IsNot Nothing Then
+                XrLabel40.Text = cesantias?.Accrued.MoneyFormat(0)
+                XrLabel25.Text = cesantias?.InitialDate
+
+                Dim provisionCesantias = TmpObjectProv.FirstOrDefault(Function(x) x.IdConcept.ConceptClass = "008")
+                If provisionCesantias IsNot Nothing Then
+                    XrLabel61.Text = provisionCesantias?.Accrued.MoneyFormat(0)
+                    XrLabel53.Text = provisionCesantias?.InitialDate
+                Else
+                    XrLabel46.Visible = False
+                    XrLabel61.Visible = False
+                    XrLabel53.Visible = False
+                    XrLabel57.Visible = False
+                End If
+            Else
+                XrLabel7.Visible = False
+                XrLabel40.Visible = False
+                XrLabel25.Visible = False
+                XrLabel46.Visible = False
+                XrLabel61.Visible = False
+                XrLabel53.Visible = False
+                XrLabel36.Visible = False
+                XrLabel57.Visible = False
+            End If
+
+            Dim interesesCesantias = TmpObject.FirstOrDefault(Function(x) x.IdConcept.ConceptClass = "010" AndAlso x.Description.StartsWith("INTERESES"))
+            If interesesCesantias IsNot Nothing Then
+                XrLabel41.Text = interesesCesantias?.Accrued.MoneyFormat(0)
+                XrLabel27.Text = interesesCesantias?.InitialDate
+
+                Dim provIntCesantias = TmpObjectProv.FirstOrDefault(Function(x) x.IdConcept.ConceptClass = "034")
+                If provIntCesantias IsNot Nothing Then
+
+                    XrLabel62.Text = provIntCesantias?.Accrued.MoneyFormat(0)
+                    XrLabel54.Text = provIntCesantias?.InitialDate
+                Else
+                    XrLabel47.Visible = False
+                    XrLabel62.Visible = False
+                    XrLabel54.Visible = False
+                    XrLabel58.Visible = False
+                End If
+            Else
+                XrLabel9.Visible = False
+                XrLabel41.Visible = False
+                XrLabel27.Visible = False
+                XrLabel47.Visible = False
+                XrLabel62.Visible = False
+                XrLabel54.Visible = False
+                XrLabel37.Visible = False
+                XrLabel58.Visible = False
+            End If
+        End If
+
+    End Sub
+
+    Public Sub CargarImagenes() Implements IReport.CargarImagenes
+
+    End Sub
+
+    Public ReadOnly Property NameReport As String Implements IReport.NameReport
+        Get
+            Return rptContractLiquidation.CNameReport
+        End Get
+    End Property
+
+    Private Sub rptContractLiquidation_AfterPrint(sender As Object, e As EventArgs) Handles MyBase.AfterPrint
+        '   INDlblTotalPagar.Text = acumulado.ToString()
+    End Sub
+
+    Private Sub INDlblTotalPagar_BeforePrint(sender As Object, e As System.ComponentModel.CancelEventArgs)
+        InitializeReportLocalization()
+    End Sub
+
+    Private Sub rptContractLiquidation_BeforePrint(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles MyBase.BeforePrint
+        INDLblNombreEmpresaCliente.Text = IndigoSessionValues.IndigoCompanyName
+        INDLblNitCliente.Text = "Nit:" & IndigoSessionValues.IndigoCompanyNit
+    End Sub
+
+    Dim acumulado As Decimal = 0
+    Private Sub rptContractLiquidation_DataSourceRowChanged(sender As Object, e As DevExpress.XtraReports.UI.DataSourceRowEventArgs) Handles MyBase.DataSourceRowChanged
+
+        acumulado += GetCurrentColumnValue("Accrued")
+
+    End Sub
+
+    Private Sub INDlblTotalPagar_SummaryGetResult(sender As Object, e As DevExpress.XtraReports.UI.SummaryGetResultEventArgs)
+        e.Result = Decimal.Parse(INDlblSumaAcumulado.Text)
+        e.Handled = True
+    End Sub
+
+    Private Sub InitializeReportLocalization()
+        Dim PayrollSettings As PayrollSettingsXpo =
+        XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).
+        AccountingService.GetXPOObject(Of PayrollSettingsXpo)(Nothing)
+        If PayrollSettings IsNot Nothing Then
+            Dim culture As CultureInfo = CultureInfo.CurrentCulture.Clone()
+            culture.NumberFormat = PayrollSettings.CurrencyId.Abbreviation.GetNumberFormat()
+            Thread.CurrentThread.CurrentCulture = culture
+            ApplyLocalization(culture)
+        End If
+
+    End Sub
+
+    Private Sub INDlblSalarioBasico_BeforePrint(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles INDlblSalarioBasico.BeforePrint
+        Dim PayrollSettings As PayrollSettingsXpo =
+        XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).
+        AccountingService.GetXPOObject(Of PayrollSettingsXpo)(Nothing)
+        If PayrollSettings IsNot Nothing Then
+            Dim culture As CultureInfo = CultureInfo.CurrentCulture.Clone()
+            culture.NumberFormat = PayrollSettings.CurrencyId.Abbreviation.GetNumberFormat()
+            ApplyLocalization(culture)
+        End If
+    End Sub
+
+#Region "Assembling the DataSource"
+    ''' <summary>
+    ''' Función que recibe la liquidación de contrato no confirmada
+    ''' </summary>
+    ''' <param name="contractLiquidation"></param>
+    ''' <returns>Retorna el DataSource armado con la liquidación de contrato</returns>
+    Private Function MakeDataSource(contractLiquidation As ContractLiquidation) As List(Of PayrollContractLiquidationDetail)
+        ' Se obtiene la sesión del contenedor transaccional para usarla en toda la operación.
+        Dim session As New Session
+
+        Dim listContractLiquidationDetail As New List(Of PayrollContractLiquidationDetail)
+
+        ' Se crea el objeto XPO de PayrollContractLiquidation usando la sesión común.
+        Dim contractLiquidationXpoObject As New PayrollContractLiquidation(session)
+        With contractLiquidationXpoObject
+            ' Se obtienen los objetos asociados usando la misma sesión
+            .EmployeeId = session.GetObjectByKey(Of PayrollEmployee)(contractLiquidation.EmployeeId)
+            .ContractId = session.GetObjectByKey(Of PayrollContract)(contractLiquidation.ContractId)
+            .RetirementReasonId = session.GetObjectByKey(Of PayrollRetirementReason)(contractLiquidation.RetirementReasonId)
+            .TotalPaid = contractLiquidation.TotalPaid
+            .RetirementDate = contractLiquidation.RetirementDate
+            .Status = String.Empty 'Contrato liquidado sin confirmar
+        End With
+
+        ' Se crean los detalles del contrato liquidados usando la misma sesión.
+        For Each detail As ContractLiquidationDetail In contractLiquidation.ContractLiquidationDetail.ToList()
+            Dim newDetail As New PayrollContractLiquidationDetail(session)
+            With newDetail
+                .ContractLiquidationId = contractLiquidationXpoObject
+                .Description = detail.Description
+                .Accrued = detail.Accrued
+                .Deducted = detail.Deducted
+                .ConceptType = detail.ConceptType
+                .IdConcept = session.GetObjectByKey(Of PayrollConcept)(detail.IdConcept)
+                .InitialDate = detail.InitialDate
+                .EndingDate = detail.EndingDate
+            End With
+            listContractLiquidationDetail.Add(newDetail)
+        Next
+
+        Return listContractLiquidationDetail
+    End Function
+#End Region
+End Class

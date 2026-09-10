@@ -1,0 +1,135 @@
+﻿#Region "Librerias Importadas"
+Imports Infrastructure.CrossCutting.Base
+Imports Infrastructure.Data.Xpo.FixedAssetRepository
+Imports Infrastructure.Data.Xpo
+Imports Presentation.Reporter
+Imports Presentation.CloudAgent
+Imports Presentation.Base
+Imports System.Drawing.Printing
+#End Region
+Public Class rptFixedAssetBalance
+    Implements IReport
+#Region "Globals"
+    ''' <summary>
+    ''' Variable para inicializar los valores de sesion
+    ''' </summary>
+    Private IndigoSessionValues As SessionValues = SessionValues.Instance
+    Private dtReportFixedAssetBalance As DataTable
+
+    ''' <summary>
+    ''' Abreviación de la moneda
+    ''' </summary>
+    Private _currencyAbbreviation As String
+
+    ''' <summary>
+    ''' Variable para darle formato de decimales a los valores del reporte
+    ''' </summary>
+    Private _decimalFormat As Integer
+#End Region
+
+
+    Public Async Sub CargarDataSource() Implements IReport.CargarDataSource
+
+    End Sub
+
+    Public Async Function CargarDataSource1() As Task
+        Dim filtroConsulta As String = Nothing
+        ParametrosReporte(1) = 0 & ParametrosReporte(1)
+
+        Try
+            Dim ds As DataSet = Await IndigoConecta.Instancia.CurrentCloud.IndigoFixedAssets.GetFixedAssetBalanceAsync(ParametrosReporte(0), ParametrosReporte(1), ParametrosReporte(2), ParametrosReporte(3), ParametrosReporte(4), ParametrosReporte(5), ParametrosReporte(6), ParametrosReporte(7), ParametrosReporte(8), ParametrosReporte(9), IndigoSessionValues)
+
+            If ds IsNot Nothing AndAlso ds.Tables.Count > 0 AndAlso ds.Tables(0).Rows.Count > 0 Then
+                dtReportFixedAssetBalance = ds.Tables("ReportFixedAssetBalance")
+                Me.DataSource = dtReportFixedAssetBalance
+                Me.DataMember = "ReportFixedAssetBalance"
+                SetCurrencyFormat()
+            Else
+                Me.DataSource = Nothing
+            End If
+        Catch ex As Exception
+            MessageIndigo.Show(GetExceptionDetails(ex), MessageType.Errores, Me.Text, Botones.Aceptar, "")
+        End Try
+
+    End Function
+    Public Function GetExceptionDetails(exception As Exception) As String
+        Dim properties = exception.[GetType]().GetProperties()
+        Dim fields = properties.[Select](Function([property]) New With {
+            Key .Name = [property].Name,
+            Key .Value = [property].GetValue(exception, Nothing)
+        }).[Select](Function(x) [String].Format("{0} : {1}", x.Name, If(x.Value IsNot Nothing, x.Value.ToString(), [String].Empty)))
+        Return [String].Join(vbLf, fields)
+    End Function
+    Public ReadOnly Property NameReport As String Implements IReport.NameReport
+        Get
+            Return ""
+        End Get
+    End Property
+
+    Public Property ParametrosReporte As Object() Implements IReport.ParametrosReporte
+
+    Public Sub CargarImagenes() Implements IReport.CargarImagenes
+
+    End Sub
+    Private Sub rptPriceListRate_BeforePrint(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles Me.BeforePrint
+        Dim formatMonth As String = MonthName(ParametrosReporte(1))
+        INDLblDate.Text = "Filtro aplicado: " + formatMonth + " de " + (ParametrosReporte(0)).ToString
+        INDLblCompany.Text = IndigoSessionValues.IndigoCompanyName
+        INDLblNitCompany.Text = "Nit:" & IndigoSessionValues.IndigoCompanyNit
+        Me.INDUserImp.Text = "Usuario Impresión : " & IndigoSessionValues.UserIndigo & " - " & IndigoSessionValues.UserIndigoName
+    End Sub
+
+#Region "Cambio de formato de moneda"
+    ''' <summary>
+    ''' Evento que obtiene los parámetros para establecer el formato de la moneda
+    ''' </summary>
+    Private Sub SetCurrencyFormat()
+        'Obtenemos los parámetros de activos fijos
+        Dim filter = "OperatingUnitId = " & IndigoSessionValues.IndigoOperatingUnitId
+        Dim settingFixedAsset = XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).FixedAsset.GetXPOObject(Of SettingFixedAssetXpo)(filter)
+        'Obtenemos la moneda de los parámetros
+        If settingFixedAsset.CurrencyId IsNot Nothing Then
+            _currencyAbbreviation = settingFixedAsset.CurrencyId.Abbreviation
+        End If
+        'Establecemos decimales
+        If settingFixedAsset.CurrencyId?.RoundingType IsNot Nothing Then
+            FormatValueWithDecimals(settingFixedAsset.CurrencyId.RoundingType)
+        End If
+    End Sub
+
+    ''' <summary>
+    ''' Método para formatear los valores del reporte según el tipo de redondeo parametrizado a la moneda
+    ''' </summary>
+    ''' <param name="roundingType"></param>
+    Private Sub FormatValueWithDecimals(roundingType As Integer)
+        Select Case roundingType
+            Case 1
+                _decimalFormat = 2
+            Case 2
+                _decimalFormat = 1
+            Case >= 3
+                _decimalFormat = 0
+        End Select
+    End Sub
+
+    ''' <summary>
+    ''' Método que modifica el formato de las celdas
+    ''' </summary>
+    ''' <param name="sender"></param>
+    ''' <param name="e"></param>
+    Private Sub ChangeFormat(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles XrTableCell14.BeforePrint, XrTableCell15.BeforePrint, XrTableCell3.BeforePrint, XrTableCell9.BeforePrint
+        sender.Text = Utils.GetMoneyWithISO4217(sender.Text, _currencyAbbreviation, _decimalFormat)
+    End Sub
+    ''' <summary>
+    ''' Modifica el formato de las celdas que obtienen totales
+    ''' </summary>
+    ''' <param name="sender"></param>
+    ''' <param name="e"></param>
+    Private Sub ChangeFormat_SummaryGetResult(sender As Object, e As DevExpress.XtraReports.UI.SummaryGetResultEventArgs) Handles XrTableCell20.SummaryGetResult, XrTableCell10.SummaryGetResult, XrTableCell16.SummaryGetResult, XrTableCell17.SummaryGetResult, XrTableCell22.SummaryGetResult, XrTableCell23.SummaryGetResult, XrTableCell24.SummaryGetResult, XrTableCell25.SummaryGetResult
+        e.Result = Utils.GetMoneyWithISO4217(e.CalculatedValues.ToEntityList(Of Decimal).Sum(), _currencyAbbreviation, _decimalFormat)
+        e.Handled = True
+    End Sub
+
+#End Region
+
+End Class

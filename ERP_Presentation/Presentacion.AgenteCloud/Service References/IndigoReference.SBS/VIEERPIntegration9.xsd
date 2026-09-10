@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:ser="http://schemas.microsoft.com/2003/10/Serialization/" xmlns:tns="http://schemas.datacontract.org/2004/07/Indigo.Sinapsis.Core.Domain.Supplier" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/Indigo.Sinapsis.Core.Domain.Supplier" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import schemaLocation="http://appserver-sbs.azurewebsites.net/VIEERPIntegration.svc?xsd=xsd4" namespace="http://schemas.datacontract.org/2004/07/Indigo.Sinapsis.Core.Domain.IFF" />
+  <xs:import schemaLocation="http://appserver-sbs.azurewebsites.net/VIEERPIntegration.svc?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+  <xs:import schemaLocation="http://appserver-sbs.azurewebsites.net/VIEERPIntegration.svc?xsd=xsd7" namespace="http://schemas.datacontract.org/2004/07/Indigo.Sinapsis.Core.Domain.Product" />
+  <xs:complexType name="SupplierOfguid">
+    <xs:annotation>
+      <xs:appinfo>
+        <GenericType Name="SupplierOf{0}{#}" Namespace="http://schemas.datacontract.org/2004/07/Indigo.Sinapsis.Core.Domain.Supplier" xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
+          <GenericParameter Name="guid" Namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+        </GenericType>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element xmlns:q1="http://schemas.datacontract.org/2004/07/Indigo.Sinapsis.Core.Domain.IFF" minOccurs="0" name="Acknowledgment" nillable="true" type="q1:AcknowledgmentOfguid" />
+      <xs:element minOccurs="0" name="Identifier" type="ser:guid" />
+      <xs:element minOccurs="0" name="IsActive" type="xs:boolean" />
+      <xs:element minOccurs="0" name="OldAward" type="xs:boolean" />
+      <xs:element minOccurs="0" name="Position" type="xs:int" />
+      <xs:element minOccurs="0" name="ProductQualityValue" type="xs:int" />
+      <xs:element xmlns:q2="http://schemas.datacontract.org/2004/07/Indigo.Sinapsis.Core.Domain.IFF" minOccurs="0" name="SalesExperience" nillable="true" type="q2:SalesExperienceOfguid" />
+      <xs:element minOccurs="0" name="SupplierAddress" nillable="true" type="tns:ArrayOfSupplierAddressOfguid" />
+      <xs:element minOccurs="0" name="SupplierCategories" nillable="true" type="tns:ArrayOfSupplierCategoryOfguid" />
+      <xs:element minOccurs="0" name="SupplierChangeQuantityFlexibility" type="xs:boolean" />
+      <xs:element minOccurs="0" name="SupplierContact" nillable="true" type="tns:ArrayOfSupplierContactOfguid" />
+      <xs:element minOccurs="0" name="SupplierDeadlinesFlexibility" type="xs:boolean" />
+      <xs:element minOccurs="0" name="SupplierEmployeesNumber" type="xs:int" />
+      <xs:element minOccurs="0" name="SupplierFundationDate" nillable="true" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="SupplierID" type="ser:guid" />
+      <xs:element minOccurs="0" name="SupplierName" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="SupplierNegotiableRates" type="xs:boolean" />
+      <xs:element minOccurs="0" name="SupplierTIN" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="SupplierTrayectory" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="isExcelMassive" type="xs:boolean" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="SupplierOfguid" nillable="true" type="tns:SupplierOfguid" />
+  <xs:complexType name="ArrayOfSupplierAddressOfguid">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="SupplierAddressOfguid" nillable="true" type="tns:SupplierAddressOfguid" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfSupplierAddressOfguid" nillable="true" type="tns:ArrayOfSupplierAddressOfguid" />
+  <xs:complexType name="SupplierAddressOfguid">
+    <xs:annotation>
+      <xs:appinfo>
+        <GenericType Name="SupplierAddressOf{0}{#}" Namespace="http://schemas.datacontract.org/2004/07/Indigo.Sinapsis.Core.Domain.Supplier" xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
+          <GenericParameter Name="guid" Namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+        </GenericType>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element minOccurs="0" name="AddressNumber" nillable="true" type="xs:string" />
+      <xs:element xmlns:q3="http://schemas.datacontract.org/2004/07/Indigo.Sinapsis.Core.Domain.IFF" minOccurs="0" name="City" nillable="true" type="q3:CityOfguid" />
+      <xs:element minOccurs="0" name="Identifier" type="ser:guid" />
+      <xs:element minOccurs="0" name="IsActive" type="xs:boolean" />
+      <xs:element minOccurs="0" name="PostalCode" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="PrincipalForContry" type="xs:boolean" />
+      <xs:element xmlns:q4="http://schemas.datacontract.org/2004/07/Indigo.Sinapsis.Core.Domain.IFF" minOccurs="0" name="Purpose" nillable="true" type="q4:AdressPurposeOfguid" />
+      <xs:element minOccurs="0" name="Supplier" nillable="true" type="tns:SupplierOfguid" />
+      <xs:element minOccurs="0" name="SupplierAddressDescription" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="SupplierAddressID" type="ser:guid" />
+      <xs:element minOccurs="0" name="SupplierAddressPrincipal" type="xs:boolean" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="SupplierAddressOfguid" nillable="true" type="tns:SupplierAddressOfguid" />
+  <xs:complexType name="ArrayOfSupplierCategoryOfguid">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="SupplierCategoryOfguid" nillable="true" type="tns:SupplierCategoryOfguid" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfSupplierCategoryOfguid" nillable="true" type="tns:ArrayOfSupplierCategoryOfguid" />
+  <xs:complexType name="SupplierCategoryOfguid">
+    <xs:annotation>
+      <xs:appinfo>
+        <GenericType Name="SupplierCategoryOf{0}{#}" Namespace="http://schemas.datacontract.org/2004/07/Indigo.Sinapsis.Core.Domain.Supplier" xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
+          <GenericParameter Name="guid" Namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+        </GenericType>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element xmlns:q5="http://schemas.datacontract.org/2004/07/Indigo.Sinapsis.Core.Domain.IFF" minOccurs="0" name="Category" nillable="true" type="q5:CategoryOfguid" />
+      <xs:element minOccurs="0" name="Identifier" type="ser:guid" />
+      <xs:element minOccurs="0" name="IsActive" type="xs:boolean" />
+      <xs:element minOccurs="0" name="Supplier" nillable="true" type="tns:SupplierOfguid" />
+      <xs:element minOccurs="0" name="SupplierCategoryID" type="ser:guid" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="SupplierCategoryOfguid" nillable="true" type="tns:SupplierCategoryOfguid" />
+  <xs:complexType name="ArrayOfSupplierContactOfguid">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="SupplierContactOfguid" nillable="true" type="tns:SupplierContactOfguid" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfSupplierContactOfguid" nillable="true" type="tns:ArrayOfSupplierContactOfguid" />
+  <xs:complexType name="SupplierContactOfguid">
+    <xs:annotation>
+      <xs:appinfo>
+        <GenericType Name="SupplierContactOf{0}{#}" Namespace="http://schemas.datacontract.org/2004/07/Indigo.Sinapsis.Core.Domain.Supplier" xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
+          <GenericParameter Name="guid" Namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+        </GenericType>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element xmlns:q6="http://schemas.datacontract.org/2004/07/Indigo.Sinapsis.Core.Domain.IFF" minOccurs="0" name="ContactType" nillable="true" type="q6:ContactTypeOfguid" />
+      <xs:element minOccurs="0" name="Identifier" type="ser:guid" />
+      <xs:element minOccurs="0" name="IsActive" type="xs:boolean" />
+      <xs:element minOccurs="0" name="SupplierContactAdress" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="SupplierContactDecripcion" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="SupplierContactID" type="ser:guid" />
+      <xs:element minOccurs="0" name="SupplierContactNumber" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="SupplierContactPrincipal" type="xs:boolean" />
+      <xs:element minOccurs="0" name="SupplierID" nillable="true" type="tns:SupplierOfguid" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="SupplierContactOfguid" nillable="true" type="tns:SupplierContactOfguid" />
+  <xs:complexType name="ArrayOfSupplierOfguid">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="SupplierOfguid" nillable="true" type="tns:SupplierOfguid" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfSupplierOfguid" nillable="true" type="tns:ArrayOfSupplierOfguid" />
+  <xs:complexType name="SupplierProductOfguid">
+    <xs:annotation>
+      <xs:appinfo>
+        <GenericType Name="SupplierProductOf{0}{#}" Namespace="http://schemas.datacontract.org/2004/07/Indigo.Sinapsis.Core.Domain.Supplier" xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
+          <GenericParameter Name="guid" Namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+        </GenericType>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element xmlns:q7="http://schemas.datacontract.org/2004/07/Indigo.Sinapsis.Core.Domain.IFF" minOccurs="0" name="Category" nillable="true" type="q7:CategoryOfguid" />
+      <xs:element minOccurs="0" name="Identifier" type="ser:guid" />
+      <xs:element minOccurs="0" name="IsActive" type="xs:boolean" />
+      <xs:element minOccurs="0" name="ListSupplierProductVariable" nillable="true" type="tns:ArrayOfSupplierProductVariableOfguid" />
+      <xs:element xmlns:q8="http://schemas.datacontract.org/2004/07/Indigo.Sinapsis.Core.Domain.IFF" minOccurs="0" name="ProductType" nillable="true" type="q8:ProductTypeOfguid" />
+      <xs:element minOccurs="0" name="Supplier" nillable="true" type="tns:SupplierOfguid" />
+      <xs:element minOccurs="0" name="SupplierProductID" type="ser:guid" />
+      <xs:element minOccurs="0" name="SupplierProductLookUp" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="SupplierProductName" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="SupplierProductSKU" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="SupplierProductState" type="xs:boolean" />
+      <xs:element minOccurs="0" name="SupplierProductVariableConcat" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="SupplierProductOfguid" nillable="true" type="tns:SupplierProductOfguid" />
+  <xs:complexType name="ArrayOfSupplierProductVariableOfguid">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="SupplierProductVariableOfguid" nillable="true" type="tns:SupplierProductVariableOfguid" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfSupplierProductVariableOfguid" nillable="true" type="tns:ArrayOfSupplierProductVariableOfguid" />
+  <xs:complexType name="SupplierProductVariableOfguid">
+    <xs:annotation>
+      <xs:appinfo>
+        <GenericType Name="SupplierProductVariableOf{0}{#}" Namespace="http://schemas.datacontract.org/2004/07/Indigo.Sinapsis.Core.Domain.Supplier" xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
+          <GenericParameter Name="guid" Namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+        </GenericType>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Identifier" type="ser:guid" />
+      <xs:element minOccurs="0" name="IsActive" type="xs:boolean" />
+      <xs:element minOccurs="0" name="IsUpdateSPV" type="xs:boolean" />
+      <xs:element minOccurs="0" name="IsUpdateSPVBos" type="xs:boolean" />
+      <xs:element xmlns:q9="http://schemas.datacontract.org/2004/07/Indigo.Sinapsis.Core.Domain.Product" minOccurs="0" name="ProductSupplierProduct" nillable="true" type="q9:ProductSupplierProductOfguid" />
+      <xs:element minOccurs="0" name="SupplierProduct" nillable="true" type="tns:SupplierProductOfguid" />
+      <xs:element minOccurs="0" name="SupplierProductVariableID" type="ser:guid" />
+      <xs:element xmlns:q10="http://schemas.datacontract.org/2004/07/Indigo.Sinapsis.Core.Domain.IFF" minOccurs="0" name="Variable" nillable="true" type="q10:VariableOfguid" />
+      <xs:element minOccurs="0" name="VariableValue" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="SupplierProductVariableOfguid" nillable="true" type="tns:SupplierProductVariableOfguid" />
+</xs:schema>

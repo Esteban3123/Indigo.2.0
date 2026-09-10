@@ -1,0 +1,2375 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:ser="http://schemas.microsoft.com/2003/10/Serialization/" xmlns:tns="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import schemaLocation="http://localhost:9000/ServiceSecurity/SecurityDefault.svc/ServiceEntity/?xsd=xsd0" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+  <xs:import schemaLocation="http://localhost:9000/ServiceSecurity/SecurityDefault.svc/ServiceEntity/?xsd=xsd1" namespace="http://schemas.datacontract.org/2004/07/Domain.Security.Entities" />
+  <xs:import schemaLocation="http://localhost:9000/ServiceSecurity/SecurityDefault.svc/ServiceEntity/?xsd=xsd7" namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
+  <xs:import schemaLocation="http://localhost:9000/ServiceSecurity/SecurityDefault.svc/ServiceEntity/?xsd=xsd9" namespace="http://schemas.datacontract.org/2004/07/Domain.Crystal.Entities" />
+  <xs:complexType name="ObjectChangeTracker">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="ExtendedProperties" nillable="true" type="tns:ExtendedPropertiesDictionary" />
+      <xs:element minOccurs="0" name="ObjectsAddedToCollectionProperties" nillable="true" type="tns:ObjectsAddedToCollectionProperties" />
+      <xs:element minOccurs="0" name="ObjectsRemovedFromCollectionProperties" nillable="true" type="tns:ObjectsRemovedFromCollectionProperties" />
+      <xs:element minOccurs="0" name="OriginalValues" nillable="true" type="tns:OriginalValuesDictionary" />
+      <xs:element minOccurs="0" name="State" type="tns:ObjectState" />
+    </xs:sequence>
+    <xs:attribute ref="ser:Id" />
+    <xs:attribute ref="ser:Ref" />
+  </xs:complexType>
+  <xs:element name="ObjectChangeTracker" nillable="true" type="tns:ObjectChangeTracker" />
+  <xs:complexType name="ExtendedPropertiesDictionary">
+    <xs:annotation>
+      <xs:appinfo>
+        <IsDictionary xmlns="http://schemas.microsoft.com/2003/10/Serialization/">true</IsDictionary>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="ExtendedProperties">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="Name" nillable="true" type="xs:string" />
+            <xs:element name="ExtendedProperty" nillable="true" type="xs:anyType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ExtendedPropertiesDictionary" nillable="true" type="tns:ExtendedPropertiesDictionary" />
+  <xs:complexType name="ObjectsAddedToCollectionProperties">
+    <xs:annotation>
+      <xs:appinfo>
+        <IsDictionary xmlns="http://schemas.microsoft.com/2003/10/Serialization/">true</IsDictionary>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="AddedObjectsForProperty">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="CollectionPropertyName" nillable="true" type="xs:string" />
+            <xs:element name="AddedObjects" nillable="true" type="tns:ObjectList" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ObjectsAddedToCollectionProperties" nillable="true" type="tns:ObjectsAddedToCollectionProperties" />
+  <xs:complexType name="ObjectList">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="ObjectValue" nillable="true" type="xs:anyType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ObjectList" nillable="true" type="tns:ObjectList" />
+  <xs:complexType name="ObjectsRemovedFromCollectionProperties">
+    <xs:annotation>
+      <xs:appinfo>
+        <IsDictionary xmlns="http://schemas.microsoft.com/2003/10/Serialization/">true</IsDictionary>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="DeletedObjectsForProperty">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="CollectionPropertyName" nillable="true" type="xs:string" />
+            <xs:element name="DeletedObjects" nillable="true" type="tns:ObjectList" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ObjectsRemovedFromCollectionProperties" nillable="true" type="tns:ObjectsRemovedFromCollectionProperties" />
+  <xs:complexType name="OriginalValuesDictionary">
+    <xs:annotation>
+      <xs:appinfo>
+        <IsDictionary xmlns="http://schemas.microsoft.com/2003/10/Serialization/">true</IsDictionary>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="OriginalValueForProperty">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="ReferencePropertyName" nillable="true" type="xs:string" />
+            <xs:element name="OriginalValue" nillable="true" type="xs:anyType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="OriginalValuesDictionary" nillable="true" type="tns:OriginalValuesDictionary" />
+  <xs:simpleType name="ObjectState">
+    <xs:list>
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="Unchanged" />
+          <xs:enumeration value="Added" />
+          <xs:enumeration value="Modified" />
+          <xs:enumeration value="Deleted" />
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:list>
+  </xs:simpleType>
+  <xs:element name="ObjectState" nillable="true" type="tns:ObjectState" />
+  <xs:complexType name="EntityOfApplicationSettingsfTq5mKeh">
+    <xs:annotation>
+      <xs:appinfo>
+        <GenericType Name="EntityOf{0}{#}" Namespace="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
+          <GenericParameter Name="ApplicationSettings" Namespace="http://schemas.datacontract.org/2004/07/Domain.Security.Entities" />
+        </GenericType>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element minOccurs="0" name="CustomProperties" nillable="true">
+        <xs:complexType>
+          <xs:annotation>
+            <xs:appinfo>
+              <ActualType Name="DataSet" Namespace="http://schemas.datacontract.org/2004/07/System.Data" xmlns="http://schemas.microsoft.com/2003/10/Serialization/" />
+            </xs:appinfo>
+          </xs:annotation>
+          <xs:sequence>
+            <xs:element ref="xs:schema" />
+            <xs:any />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element xmlns:q1="http://schemas.datacontract.org/2004/07/Domain.Security.Entities" minOccurs="0" name="OriginalValue" nillable="true" type="q1:ApplicationSettings" />
+    </xs:sequence>
+    <xs:attribute ref="ser:Id" />
+    <xs:attribute ref="ser:Ref" />
+  </xs:complexType>
+  <xs:element name="EntityOfApplicationSettingsfTq5mKeh" nillable="true" type="tns:EntityOfApplicationSettingsfTq5mKeh" />
+  <xs:complexType name="EntityOfServiceConfigurationfTq5mKeh">
+    <xs:annotation>
+      <xs:appinfo>
+        <GenericType Name="EntityOf{0}{#}" Namespace="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
+          <GenericParameter Name="ServiceConfiguration" Namespace="http://schemas.datacontract.org/2004/07/Domain.Security.Entities" />
+        </GenericType>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element minOccurs="0" name="CustomProperties" nillable="true">
+        <xs:complexType>
+          <xs:annotation>
+            <xs:appinfo>
+              <ActualType Name="DataSet" Namespace="http://schemas.datacontract.org/2004/07/System.Data" xmlns="http://schemas.microsoft.com/2003/10/Serialization/" />
+            </xs:appinfo>
+          </xs:annotation>
+          <xs:sequence>
+            <xs:element ref="xs:schema" />
+            <xs:any />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element xmlns:q2="http://schemas.datacontract.org/2004/07/Domain.Security.Entities" minOccurs="0" name="OriginalValue" nillable="true" type="q2:ServiceConfiguration" />
+    </xs:sequence>
+    <xs:attribute ref="ser:Id" />
+    <xs:attribute ref="ser:Ref" />
+  </xs:complexType>
+  <xs:element name="EntityOfServiceConfigurationfTq5mKeh" nillable="true" type="tns:EntityOfServiceConfigurationfTq5mKeh" />
+  <xs:complexType name="EntityOfUserConfigurationfTq5mKeh">
+    <xs:annotation>
+      <xs:appinfo>
+        <GenericType Name="EntityOf{0}{#}" Namespace="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
+          <GenericParameter Name="UserConfiguration" Namespace="http://schemas.datacontract.org/2004/07/Domain.Security.Entities" />
+        </GenericType>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element minOccurs="0" name="CustomProperties" nillable="true">
+        <xs:complexType>
+          <xs:annotation>
+            <xs:appinfo>
+              <ActualType Name="DataSet" Namespace="http://schemas.datacontract.org/2004/07/System.Data" xmlns="http://schemas.microsoft.com/2003/10/Serialization/" />
+            </xs:appinfo>
+          </xs:annotation>
+          <xs:sequence>
+            <xs:element ref="xs:schema" />
+            <xs:any />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element xmlns:q3="http://schemas.datacontract.org/2004/07/Domain.Security.Entities" minOccurs="0" name="OriginalValue" nillable="true" type="q3:UserConfiguration" />
+    </xs:sequence>
+    <xs:attribute ref="ser:Id" />
+    <xs:attribute ref="ser:Ref" />
+  </xs:complexType>
+  <xs:element name="EntityOfUserConfigurationfTq5mKeh" nillable="true" type="tns:EntityOfUserConfigurationfTq5mKeh" />
+  <xs:complexType name="ActionResultOfUserfTq5mKeh">
+    <xs:annotation>
+      <xs:appinfo>
+        <GenericType Name="ActionResultOf{0}{#}" Namespace="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
+          <GenericParameter Name="User" Namespace="http://schemas.datacontract.org/2004/07/Domain.Security.Entities" />
+        </GenericType>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element xmlns:q4="http://schemas.datacontract.org/2004/07/Domain.Security.Entities" minOccurs="0" name="Data" nillable="true" type="q4:ArrayOfUser" />
+      <xs:element minOccurs="0" name="Message" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="MessageAux" nillable="true" type="xs:string" />
+      <xs:element xmlns:q5="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="MessageResult" nillable="true" type="q5:ArrayOfstring" />
+      <xs:element xmlns:q6="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="MessageResultAux" nillable="true" type="q6:ArrayOfstring" />
+      <xs:element xmlns:q7="http://schemas.datacontract.org/2004/07/Domain.Security.Entities" minOccurs="0" name="ObjectEmbbeded" nillable="true" type="q7:User" />
+      <xs:element minOccurs="0" name="StateResult" type="xs:boolean" />
+      <xs:element minOccurs="0" name="StateResultAux" type="xs:boolean" />
+      <xs:element minOccurs="0" name="StatusCode" type="tns:eStatusResult" />
+    </xs:sequence>
+    <xs:attribute ref="ser:Id" />
+    <xs:attribute ref="ser:Ref" />
+  </xs:complexType>
+  <xs:element name="ActionResultOfUserfTq5mKeh" nillable="true" type="tns:ActionResultOfUserfTq5mKeh" />
+  <xs:simpleType name="eStatusResult">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="SUCCESS" />
+      <xs:enumeration value="WARNING" />
+      <xs:enumeration value="EXCEPTION" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:element name="eStatusResult" nillable="true" type="tns:eStatusResult" />
+  <xs:complexType name="ActionResultOfUserLoginfTq5mKeh">
+    <xs:annotation>
+      <xs:appinfo>
+        <GenericType Name="ActionResultOf{0}{#}" Namespace="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
+          <GenericParameter Name="UserLogin" Namespace="http://schemas.datacontract.org/2004/07/Domain.Security.Entities" />
+        </GenericType>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element xmlns:q8="http://schemas.datacontract.org/2004/07/Domain.Security.Entities" minOccurs="0" name="Data" nillable="true" type="q8:ArrayOfUserLogin" />
+      <xs:element minOccurs="0" name="Message" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="MessageAux" nillable="true" type="xs:string" />
+      <xs:element xmlns:q9="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="MessageResult" nillable="true" type="q9:ArrayOfstring" />
+      <xs:element xmlns:q10="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="MessageResultAux" nillable="true" type="q10:ArrayOfstring" />
+      <xs:element xmlns:q11="http://schemas.datacontract.org/2004/07/Domain.Security.Entities" minOccurs="0" name="ObjectEmbbeded" nillable="true" type="q11:UserLogin" />
+      <xs:element minOccurs="0" name="StateResult" type="xs:boolean" />
+      <xs:element minOccurs="0" name="StateResultAux" type="xs:boolean" />
+      <xs:element minOccurs="0" name="StatusCode" type="tns:eStatusResult" />
+    </xs:sequence>
+    <xs:attribute ref="ser:Id" />
+    <xs:attribute ref="ser:Ref" />
+  </xs:complexType>
+  <xs:element name="ActionResultOfUserLoginfTq5mKeh" nillable="true" type="tns:ActionResultOfUserLoginfTq5mKeh" />
+  <xs:complexType name="ActionResultOfArrayOfCompanyfTq5mKeh">
+    <xs:annotation>
+      <xs:appinfo>
+        <GenericType Name="ActionResultOf{0}{#}" Namespace="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
+          <GenericParameter Name="ArrayOfCompany" Namespace="http://schemas.datacontract.org/2004/07/Domain.Security.Entities" />
+        </GenericType>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element xmlns:q12="http://schemas.datacontract.org/2004/07/Domain.Security.Entities" minOccurs="0" name="Data" nillable="true" type="q12:ArrayOfArrayOfCompany" />
+      <xs:element minOccurs="0" name="Message" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="MessageAux" nillable="true" type="xs:string" />
+      <xs:element xmlns:q13="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="MessageResult" nillable="true" type="q13:ArrayOfstring" />
+      <xs:element xmlns:q14="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="MessageResultAux" nillable="true" type="q14:ArrayOfstring" />
+      <xs:element xmlns:q15="http://schemas.datacontract.org/2004/07/Domain.Security.Entities" minOccurs="0" name="ObjectEmbbeded" nillable="true" type="q15:ArrayOfCompany" />
+      <xs:element minOccurs="0" name="StateResult" type="xs:boolean" />
+      <xs:element minOccurs="0" name="StateResultAux" type="xs:boolean" />
+      <xs:element minOccurs="0" name="StatusCode" type="tns:eStatusResult" />
+    </xs:sequence>
+    <xs:attribute ref="ser:Id" />
+    <xs:attribute ref="ser:Ref" />
+  </xs:complexType>
+  <xs:element name="ActionResultOfArrayOfCompanyfTq5mKeh" nillable="true" type="tns:ActionResultOfArrayOfCompanyfTq5mKeh" />
+  <xs:complexType name="ActionResult">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Message" nillable="true" type="xs:string" />
+      <xs:element xmlns:q16="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="MessageResult" nillable="true" type="q16:ArrayOfstring" />
+      <xs:element minOccurs="0" name="StateResult" type="xs:boolean" />
+      <xs:element minOccurs="0" name="StatusCode" type="tns:eStatusResult" />
+    </xs:sequence>
+    <xs:attribute ref="ser:Id" />
+    <xs:attribute ref="ser:Ref" />
+  </xs:complexType>
+  <xs:element name="ActionResult" nillable="true" type="tns:ActionResult" />
+  <xs:complexType name="ActionResultOfUsersGroupUserfTq5mKeh">
+    <xs:annotation>
+      <xs:appinfo>
+        <GenericType Name="ActionResultOf{0}{#}" Namespace="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
+          <GenericParameter Name="UsersGroupUser" Namespace="http://schemas.datacontract.org/2004/07/Domain.Security.Entities" />
+        </GenericType>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element xmlns:q17="http://schemas.datacontract.org/2004/07/Domain.Security.Entities" minOccurs="0" name="Data" nillable="true" type="q17:ArrayOfUsersGroupUser" />
+      <xs:element minOccurs="0" name="Message" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="MessageAux" nillable="true" type="xs:string" />
+      <xs:element xmlns:q18="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="MessageResult" nillable="true" type="q18:ArrayOfstring" />
+      <xs:element xmlns:q19="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="MessageResultAux" nillable="true" type="q19:ArrayOfstring" />
+      <xs:element xmlns:q20="http://schemas.datacontract.org/2004/07/Domain.Security.Entities" minOccurs="0" name="ObjectEmbbeded" nillable="true" type="q20:UsersGroupUser" />
+      <xs:element minOccurs="0" name="StateResult" type="xs:boolean" />
+      <xs:element minOccurs="0" name="StateResultAux" type="xs:boolean" />
+      <xs:element minOccurs="0" name="StatusCode" type="tns:eStatusResult" />
+    </xs:sequence>
+    <xs:attribute ref="ser:Id" />
+    <xs:attribute ref="ser:Ref" />
+  </xs:complexType>
+  <xs:element name="ActionResultOfUsersGroupUserfTq5mKeh" nillable="true" type="tns:ActionResultOfUsersGroupUserfTq5mKeh" />
+  <xs:complexType name="ActionResultOfGroupUserfTq5mKeh">
+    <xs:annotation>
+      <xs:appinfo>
+        <GenericType Name="ActionResultOf{0}{#}" Namespace="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
+          <GenericParameter Name="GroupUser" Namespace="http://schemas.datacontract.org/2004/07/Domain.Security.Entities" />
+        </GenericType>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element xmlns:q21="http://schemas.datacontract.org/2004/07/Domain.Security.Entities" minOccurs="0" name="Data" nillable="true" type="q21:ArrayOfGroupUser" />
+      <xs:element minOccurs="0" name="Message" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="MessageAux" nillable="true" type="xs:string" />
+      <xs:element xmlns:q22="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="MessageResult" nillable="true" type="q22:ArrayOfstring" />
+      <xs:element xmlns:q23="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="MessageResultAux" nillable="true" type="q23:ArrayOfstring" />
+      <xs:element xmlns:q24="http://schemas.datacontract.org/2004/07/Domain.Security.Entities" minOccurs="0" name="ObjectEmbbeded" nillable="true" type="q24:GroupUser" />
+      <xs:element minOccurs="0" name="StateResult" type="xs:boolean" />
+      <xs:element minOccurs="0" name="StateResultAux" type="xs:boolean" />
+      <xs:element minOccurs="0" name="StatusCode" type="tns:eStatusResult" />
+    </xs:sequence>
+    <xs:attribute ref="ser:Id" />
+    <xs:attribute ref="ser:Ref" />
+  </xs:complexType>
+  <xs:element name="ActionResultOfGroupUserfTq5mKeh" nillable="true" type="tns:ActionResultOfGroupUserfTq5mKeh" />
+  <xs:complexType name="ActionMessageResultOfWeatherDocumentCEJWejlJ">
+    <xs:annotation>
+      <xs:appinfo>
+        <GenericType Name="ActionMessageResultOf{0}{#}" Namespace="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
+          <GenericParameter Name="WeatherDocument" Namespace="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" />
+        </GenericType>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Message" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="MessageResult" nillable="true" type="tns:ArrayOfMessageResult" />
+      <xs:element minOccurs="0" name="ObjectEmbbeded" nillable="true" type="tns:WeatherDocument" />
+      <xs:element minOccurs="0" name="StateResult" type="xs:boolean" />
+      <xs:element minOccurs="0" name="StatusCode" type="tns:eStatusResult" />
+    </xs:sequence>
+    <xs:attribute ref="ser:Id" />
+    <xs:attribute ref="ser:Ref" />
+  </xs:complexType>
+  <xs:element name="ActionMessageResultOfWeatherDocumentCEJWejlJ" nillable="true" type="tns:ActionMessageResultOfWeatherDocumentCEJWejlJ" />
+  <xs:complexType name="ArrayOfMessageResult">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="MessageResult" nillable="true" type="tns:MessageResult" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfMessageResult" nillable="true" type="tns:ArrayOfMessageResult" />
+  <xs:complexType name="MessageResult">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="CodeMessage" nillable="true" type="xs:string" />
+      <xs:element xmlns:q25="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="Parameters" nillable="true" type="q25:ArrayOfstring" />
+    </xs:sequence>
+    <xs:attribute ref="ser:Id" />
+    <xs:attribute ref="ser:Ref" />
+  </xs:complexType>
+  <xs:element name="MessageResult" nillable="true" type="tns:MessageResult" />
+  <xs:complexType name="WeatherDocument">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="CondText" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="ConditionCode" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="DateReaded" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="Humidity" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="NameCity" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Pressure" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="TempHigh" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="TempLow" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Temperature" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="UrlImage" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Visibility" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="WindSpeed" nillable="true" type="xs:string" />
+    </xs:sequence>
+    <xs:attribute ref="ser:Id" />
+    <xs:attribute ref="ser:Ref" />
+  </xs:complexType>
+  <xs:element name="WeatherDocument" nillable="true" type="tns:WeatherDocument" />
+  <xs:complexType name="ActionResultOfApplicationSettingsfTq5mKeh">
+    <xs:annotation>
+      <xs:appinfo>
+        <GenericType Name="ActionResultOf{0}{#}" Namespace="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
+          <GenericParameter Name="ApplicationSettings" Namespace="http://schemas.datacontract.org/2004/07/Domain.Security.Entities" />
+        </GenericType>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element xmlns:q26="http://schemas.datacontract.org/2004/07/Domain.Security.Entities" minOccurs="0" name="Data" nillable="true" type="q26:ArrayOfApplicationSettings" />
+      <xs:element minOccurs="0" name="Message" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="MessageAux" nillable="true" type="xs:string" />
+      <xs:element xmlns:q27="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="MessageResult" nillable="true" type="q27:ArrayOfstring" />
+      <xs:element xmlns:q28="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="MessageResultAux" nillable="true" type="q28:ArrayOfstring" />
+      <xs:element xmlns:q29="http://schemas.datacontract.org/2004/07/Domain.Security.Entities" minOccurs="0" name="ObjectEmbbeded" nillable="true" type="q29:ApplicationSettings" />
+      <xs:element minOccurs="0" name="StateResult" type="xs:boolean" />
+      <xs:element minOccurs="0" name="StateResultAux" type="xs:boolean" />
+      <xs:element minOccurs="0" name="StatusCode" type="tns:eStatusResult" />
+    </xs:sequence>
+    <xs:attribute ref="ser:Id" />
+    <xs:attribute ref="ser:Ref" />
+  </xs:complexType>
+  <xs:element name="ActionResultOfApplicationSettingsfTq5mKeh" nillable="true" type="tns:ActionResultOfApplicationSettingsfTq5mKeh" />
+  <xs:complexType name="ActionResultOfServiceConfigurationfTq5mKeh">
+    <xs:annotation>
+      <xs:appinfo>
+        <GenericType Name="ActionResultOf{0}{#}" Namespace="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
+          <GenericParameter Name="ServiceConfiguration" Namespace="http://schemas.datacontract.org/2004/07/Domain.Security.Entities" />
+        </GenericType>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element xmlns:q30="http://schemas.datacontract.org/2004/07/Domain.Security.Entities" minOccurs="0" name="Data" nillable="true" type="q30:ArrayOfServiceConfiguration" />
+      <xs:element minOccurs="0" name="Message" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="MessageAux" nillable="true" type="xs:string" />
+      <xs:element xmlns:q31="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="MessageResult" nillable="true" type="q31:ArrayOfstring" />
+      <xs:element xmlns:q32="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="MessageResultAux" nillable="true" type="q32:ArrayOfstring" />
+      <xs:element xmlns:q33="http://schemas.datacontract.org/2004/07/Domain.Security.Entities" minOccurs="0" name="ObjectEmbbeded" nillable="true" type="q33:ServiceConfiguration" />
+      <xs:element minOccurs="0" name="StateResult" type="xs:boolean" />
+      <xs:element minOccurs="0" name="StateResultAux" type="xs:boolean" />
+      <xs:element minOccurs="0" name="StatusCode" type="tns:eStatusResult" />
+    </xs:sequence>
+    <xs:attribute ref="ser:Id" />
+    <xs:attribute ref="ser:Ref" />
+  </xs:complexType>
+  <xs:element name="ActionResultOfServiceConfigurationfTq5mKeh" nillable="true" type="tns:ActionResultOfServiceConfigurationfTq5mKeh" />
+  <xs:complexType name="ActionResultOfUserConfigurationfTq5mKeh">
+    <xs:annotation>
+      <xs:appinfo>
+        <GenericType Name="ActionResultOf{0}{#}" Namespace="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
+          <GenericParameter Name="UserConfiguration" Namespace="http://schemas.datacontract.org/2004/07/Domain.Security.Entities" />
+        </GenericType>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element xmlns:q34="http://schemas.datacontract.org/2004/07/Domain.Security.Entities" minOccurs="0" name="Data" nillable="true" type="q34:ArrayOfUserConfiguration" />
+      <xs:element minOccurs="0" name="Message" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="MessageAux" nillable="true" type="xs:string" />
+      <xs:element xmlns:q35="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="MessageResult" nillable="true" type="q35:ArrayOfstring" />
+      <xs:element xmlns:q36="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="MessageResultAux" nillable="true" type="q36:ArrayOfstring" />
+      <xs:element xmlns:q37="http://schemas.datacontract.org/2004/07/Domain.Security.Entities" minOccurs="0" name="ObjectEmbbeded" nillable="true" type="q37:UserConfiguration" />
+      <xs:element minOccurs="0" name="StateResult" type="xs:boolean" />
+      <xs:element minOccurs="0" name="StateResultAux" type="xs:boolean" />
+      <xs:element minOccurs="0" name="StatusCode" type="tns:eStatusResult" />
+    </xs:sequence>
+    <xs:attribute ref="ser:Id" />
+    <xs:attribute ref="ser:Ref" />
+  </xs:complexType>
+  <xs:element name="ActionResultOfUserConfigurationfTq5mKeh" nillable="true" type="tns:ActionResultOfUserConfigurationfTq5mKeh" />
+  <xs:complexType name="ActionResultOfSP_SEG_AutenticarUsuario_Resulti5kHDmq8">
+    <xs:annotation>
+      <xs:appinfo>
+        <GenericType Name="ActionResultOf{0}{#}" Namespace="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
+          <GenericParameter Name="SP_SEG_AutenticarUsuario_Result" Namespace="http://schemas.datacontract.org/2004/07/Domain.Crystal.Entities" />
+        </GenericType>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element xmlns:q38="http://schemas.datacontract.org/2004/07/Domain.Crystal.Entities" minOccurs="0" name="Data" nillable="true" type="q38:ArrayOfSP_SEG_AutenticarUsuario_Result" />
+      <xs:element minOccurs="0" name="Message" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="MessageAux" nillable="true" type="xs:string" />
+      <xs:element xmlns:q39="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="MessageResult" nillable="true" type="q39:ArrayOfstring" />
+      <xs:element xmlns:q40="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="MessageResultAux" nillable="true" type="q40:ArrayOfstring" />
+      <xs:element xmlns:q41="http://schemas.datacontract.org/2004/07/Domain.Crystal.Entities" minOccurs="0" name="ObjectEmbbeded" nillable="true" type="q41:SP_SEG_AutenticarUsuario_Result" />
+      <xs:element minOccurs="0" name="StateResult" type="xs:boolean" />
+      <xs:element minOccurs="0" name="StateResultAux" type="xs:boolean" />
+      <xs:element minOccurs="0" name="StatusCode" type="tns:eStatusResult" />
+    </xs:sequence>
+    <xs:attribute ref="ser:Id" />
+    <xs:attribute ref="ser:Ref" />
+  </xs:complexType>
+  <xs:element name="ActionResultOfSP_SEG_AutenticarUsuario_Resulti5kHDmq8" nillable="true" type="tns:ActionResultOfSP_SEG_AutenticarUsuario_Resulti5kHDmq8" />
+  <xs:complexType name="ActionResultOfSP_SEG_AutenticarDatosProfesional_Resulti5kHDmq8">
+    <xs:annotation>
+      <xs:appinfo>
+        <GenericType Name="ActionResultOf{0}{#}" Namespace="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
+          <GenericParameter Name="SP_SEG_AutenticarDatosProfesional_Result" Namespace="http://schemas.datacontract.org/2004/07/Domain.Crystal.Entities" />
+        </GenericType>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element xmlns:q42="http://schemas.datacontract.org/2004/07/Domain.Crystal.Entities" minOccurs="0" name="Data" nillable="true" type="q42:ArrayOfSP_SEG_AutenticarDatosProfesional_Result" />
+      <xs:element minOccurs="0" name="Message" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="MessageAux" nillable="true" type="xs:string" />
+      <xs:element xmlns:q43="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="MessageResult" nillable="true" type="q43:ArrayOfstring" />
+      <xs:element xmlns:q44="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="MessageResultAux" nillable="true" type="q44:ArrayOfstring" />
+      <xs:element xmlns:q45="http://schemas.datacontract.org/2004/07/Domain.Crystal.Entities" minOccurs="0" name="ObjectEmbbeded" nillable="true" type="q45:SP_SEG_AutenticarDatosProfesional_Result" />
+      <xs:element minOccurs="0" name="StateResult" type="xs:boolean" />
+      <xs:element minOccurs="0" name="StateResultAux" type="xs:boolean" />
+      <xs:element minOccurs="0" name="StatusCode" type="tns:eStatusResult" />
+    </xs:sequence>
+    <xs:attribute ref="ser:Id" />
+    <xs:attribute ref="ser:Ref" />
+  </xs:complexType>
+  <xs:element name="ActionResultOfSP_SEG_AutenticarDatosProfesional_Resulti5kHDmq8" nillable="true" type="tns:ActionResultOfSP_SEG_AutenticarDatosProfesional_Resulti5kHDmq8" />
+  <xs:complexType name="ActionResultOfArrayOfSP_SEG_UnidadFuncional_Autorizado_Resulti5kHDmq8">
+    <xs:annotation>
+      <xs:appinfo>
+        <GenericType Name="ActionResultOf{0}{#}" Namespace="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
+          <GenericParameter Name="ArrayOfSP_SEG_UnidadFuncional_Autorizado_Result" Namespace="http://schemas.datacontract.org/2004/07/Domain.Crystal.Entities" />
+        </GenericType>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element xmlns:q46="http://schemas.datacontract.org/2004/07/Domain.Crystal.Entities" minOccurs="0" name="Data" nillable="true" type="q46:ArrayOfArrayOfSP_SEG_UnidadFuncional_Autorizado_Result" />
+      <xs:element minOccurs="0" name="Message" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="MessageAux" nillable="true" type="xs:string" />
+      <xs:element xmlns:q47="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="MessageResult" nillable="true" type="q47:ArrayOfstring" />
+      <xs:element xmlns:q48="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="MessageResultAux" nillable="true" type="q48:ArrayOfstring" />
+      <xs:element xmlns:q49="http://schemas.datacontract.org/2004/07/Domain.Crystal.Entities" minOccurs="0" name="ObjectEmbbeded" nillable="true" type="q49:ArrayOfSP_SEG_UnidadFuncional_Autorizado_Result" />
+      <xs:element minOccurs="0" name="StateResult" type="xs:boolean" />
+      <xs:element minOccurs="0" name="StateResultAux" type="xs:boolean" />
+      <xs:element minOccurs="0" name="StatusCode" type="tns:eStatusResult" />
+    </xs:sequence>
+    <xs:attribute ref="ser:Id" />
+    <xs:attribute ref="ser:Ref" />
+  </xs:complexType>
+  <xs:element name="ActionResultOfArrayOfSP_SEG_UnidadFuncional_Autorizado_Resulti5kHDmq8" nillable="true" type="tns:ActionResultOfArrayOfSP_SEG_UnidadFuncional_Autorizado_Resulti5kHDmq8" />
+  <xs:complexType name="ActionResultOfArrayOfSP_SEG_CentroAtencion_Autorizado_Resulti5kHDmq8">
+    <xs:annotation>
+      <xs:appinfo>
+        <GenericType Name="ActionResultOf{0}{#}" Namespace="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
+          <GenericParameter Name="ArrayOfSP_SEG_CentroAtencion_Autorizado_Result" Namespace="http://schemas.datacontract.org/2004/07/Domain.Crystal.Entities" />
+        </GenericType>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element xmlns:q50="http://schemas.datacontract.org/2004/07/Domain.Crystal.Entities" minOccurs="0" name="Data" nillable="true" type="q50:ArrayOfArrayOfSP_SEG_CentroAtencion_Autorizado_Result" />
+      <xs:element minOccurs="0" name="Message" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="MessageAux" nillable="true" type="xs:string" />
+      <xs:element xmlns:q51="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="MessageResult" nillable="true" type="q51:ArrayOfstring" />
+      <xs:element xmlns:q52="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="MessageResultAux" nillable="true" type="q52:ArrayOfstring" />
+      <xs:element xmlns:q53="http://schemas.datacontract.org/2004/07/Domain.Crystal.Entities" minOccurs="0" name="ObjectEmbbeded" nillable="true" type="q53:ArrayOfSP_SEG_CentroAtencion_Autorizado_Result" />
+      <xs:element minOccurs="0" name="StateResult" type="xs:boolean" />
+      <xs:element minOccurs="0" name="StateResultAux" type="xs:boolean" />
+      <xs:element minOccurs="0" name="StatusCode" type="tns:eStatusResult" />
+    </xs:sequence>
+    <xs:attribute ref="ser:Id" />
+    <xs:attribute ref="ser:Ref" />
+  </xs:complexType>
+  <xs:element name="ActionResultOfArrayOfSP_SEG_CentroAtencion_Autorizado_Resulti5kHDmq8" nillable="true" type="tns:ActionResultOfArrayOfSP_SEG_CentroAtencion_Autorizado_Resulti5kHDmq8" />
+  <xs:complexType name="ActionResultOfSEGpermiri5kHDmq8">
+    <xs:annotation>
+      <xs:appinfo>
+        <GenericType Name="ActionResultOf{0}{#}" Namespace="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
+          <GenericParameter Name="SEGpermir" Namespace="http://schemas.datacontract.org/2004/07/Domain.Crystal.Entities" />
+        </GenericType>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element xmlns:q54="http://schemas.datacontract.org/2004/07/Domain.Crystal.Entities" minOccurs="0" name="Data" nillable="true" type="q54:ArrayOfSEGpermir" />
+      <xs:element minOccurs="0" name="Message" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="MessageAux" nillable="true" type="xs:string" />
+      <xs:element xmlns:q55="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="MessageResult" nillable="true" type="q55:ArrayOfstring" />
+      <xs:element xmlns:q56="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="MessageResultAux" nillable="true" type="q56:ArrayOfstring" />
+      <xs:element xmlns:q57="http://schemas.datacontract.org/2004/07/Domain.Crystal.Entities" minOccurs="0" name="ObjectEmbbeded" nillable="true" type="q57:SEGpermir" />
+      <xs:element minOccurs="0" name="StateResult" type="xs:boolean" />
+      <xs:element minOccurs="0" name="StateResultAux" type="xs:boolean" />
+      <xs:element minOccurs="0" name="StatusCode" type="tns:eStatusResult" />
+    </xs:sequence>
+    <xs:attribute ref="ser:Id" />
+    <xs:attribute ref="ser:Ref" />
+  </xs:complexType>
+  <xs:element name="ActionResultOfSEGpermiri5kHDmq8" nillable="true" type="tns:ActionResultOfSEGpermiri5kHDmq8" />
+  <xs:complexType name="EntityOfSEGpermiri5kHDmq8">
+    <xs:annotation>
+      <xs:appinfo>
+        <GenericType Name="EntityOf{0}{#}" Namespace="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
+          <GenericParameter Name="SEGpermir" Namespace="http://schemas.datacontract.org/2004/07/Domain.Crystal.Entities" />
+        </GenericType>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element minOccurs="0" name="CustomProperties" nillable="true">
+        <xs:complexType>
+          <xs:annotation>
+            <xs:appinfo>
+              <ActualType Name="DataSet" Namespace="http://schemas.datacontract.org/2004/07/System.Data" xmlns="http://schemas.microsoft.com/2003/10/Serialization/" />
+            </xs:appinfo>
+          </xs:annotation>
+          <xs:sequence>
+            <xs:element ref="xs:schema" />
+            <xs:any />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element xmlns:q58="http://schemas.datacontract.org/2004/07/Domain.Crystal.Entities" minOccurs="0" name="OriginalValue" nillable="true" type="q58:SEGpermir" />
+    </xs:sequence>
+    <xs:attribute ref="ser:Id" />
+    <xs:attribute ref="ser:Ref" />
+  </xs:complexType>
+  <xs:element name="EntityOfSEGpermiri5kHDmq8" nillable="true" type="tns:EntityOfSEGpermiri5kHDmq8" />
+  <xs:complexType name="EntityOfSEGrolesui5kHDmq8">
+    <xs:annotation>
+      <xs:appinfo>
+        <GenericType Name="EntityOf{0}{#}" Namespace="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
+          <GenericParameter Name="SEGrolesu" Namespace="http://schemas.datacontract.org/2004/07/Domain.Crystal.Entities" />
+        </GenericType>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element minOccurs="0" name="CustomProperties" nillable="true">
+        <xs:complexType>
+          <xs:annotation>
+            <xs:appinfo>
+              <ActualType Name="DataSet" Namespace="http://schemas.datacontract.org/2004/07/System.Data" xmlns="http://schemas.microsoft.com/2003/10/Serialization/" />
+            </xs:appinfo>
+          </xs:annotation>
+          <xs:sequence>
+            <xs:element ref="xs:schema" />
+            <xs:any />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element xmlns:q59="http://schemas.datacontract.org/2004/07/Domain.Crystal.Entities" minOccurs="0" name="OriginalValue" nillable="true" type="q59:SEGrolesu" />
+    </xs:sequence>
+    <xs:attribute ref="ser:Id" />
+    <xs:attribute ref="ser:Ref" />
+  </xs:complexType>
+  <xs:element name="EntityOfSEGrolesui5kHDmq8" nillable="true" type="tns:EntityOfSEGrolesui5kHDmq8" />
+  <xs:complexType name="EntityOfSEGusuarui5kHDmq8">
+    <xs:annotation>
+      <xs:appinfo>
+        <GenericType Name="EntityOf{0}{#}" Namespace="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
+          <GenericParameter Name="SEGusuaru" Namespace="http://schemas.datacontract.org/2004/07/Domain.Crystal.Entities" />
+        </GenericType>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element minOccurs="0" name="CustomProperties" nillable="true">
+        <xs:complexType>
+          <xs:annotation>
+            <xs:appinfo>
+              <ActualType Name="DataSet" Namespace="http://schemas.datacontract.org/2004/07/System.Data" xmlns="http://schemas.microsoft.com/2003/10/Serialization/" />
+            </xs:appinfo>
+          </xs:annotation>
+          <xs:sequence>
+            <xs:element ref="xs:schema" />
+            <xs:any />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element xmlns:q60="http://schemas.datacontract.org/2004/07/Domain.Crystal.Entities" minOccurs="0" name="OriginalValue" nillable="true" type="q60:SEGusuaru" />
+    </xs:sequence>
+    <xs:attribute ref="ser:Id" />
+    <xs:attribute ref="ser:Ref" />
+  </xs:complexType>
+  <xs:element name="EntityOfSEGusuarui5kHDmq8" nillable="true" type="tns:EntityOfSEGusuarui5kHDmq8" />
+  <xs:complexType name="EntityOfADCENATENi5kHDmq8">
+    <xs:annotation>
+      <xs:appinfo>
+        <GenericType Name="EntityOf{0}{#}" Namespace="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
+          <GenericParameter Name="ADCENATEN" Namespace="http://schemas.datacontract.org/2004/07/Domain.Crystal.Entities" />
+        </GenericType>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element minOccurs="0" name="CustomProperties" nillable="true">
+        <xs:complexType>
+          <xs:annotation>
+            <xs:appinfo>
+              <ActualType Name="DataSet" Namespace="http://schemas.datacontract.org/2004/07/System.Data" xmlns="http://schemas.microsoft.com/2003/10/Serialization/" />
+            </xs:appinfo>
+          </xs:annotation>
+          <xs:sequence>
+            <xs:element ref="xs:schema" />
+            <xs:any />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element xmlns:q61="http://schemas.datacontract.org/2004/07/Domain.Crystal.Entities" minOccurs="0" name="OriginalValue" nillable="true" type="q61:ADCENATEN" />
+    </xs:sequence>
+    <xs:attribute ref="ser:Id" />
+    <xs:attribute ref="ser:Ref" />
+  </xs:complexType>
+  <xs:element name="EntityOfADCENATENi5kHDmq8" nillable="true" type="tns:EntityOfADCENATENi5kHDmq8" />
+  <xs:complexType name="EntityOfADCONTIPSi5kHDmq8">
+    <xs:annotation>
+      <xs:appinfo>
+        <GenericType Name="EntityOf{0}{#}" Namespace="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
+          <GenericParameter Name="ADCONTIPS" Namespace="http://schemas.datacontract.org/2004/07/Domain.Crystal.Entities" />
+        </GenericType>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element minOccurs="0" name="CustomProperties" nillable="true">
+        <xs:complexType>
+          <xs:annotation>
+            <xs:appinfo>
+              <ActualType Name="DataSet" Namespace="http://schemas.datacontract.org/2004/07/System.Data" xmlns="http://schemas.microsoft.com/2003/10/Serialization/" />
+            </xs:appinfo>
+          </xs:annotation>
+          <xs:sequence>
+            <xs:element ref="xs:schema" />
+            <xs:any />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element xmlns:q62="http://schemas.datacontract.org/2004/07/Domain.Crystal.Entities" minOccurs="0" name="OriginalValue" nillable="true" type="q62:ADCONTIPS" />
+    </xs:sequence>
+    <xs:attribute ref="ser:Id" />
+    <xs:attribute ref="ser:Ref" />
+  </xs:complexType>
+  <xs:element name="EntityOfADCONTIPSi5kHDmq8" nillable="true" type="tns:EntityOfADCONTIPSi5kHDmq8" />
+  <xs:complexType name="EntityOfAMBORDLABi5kHDmq8">
+    <xs:annotation>
+      <xs:appinfo>
+        <GenericType Name="EntityOf{0}{#}" Namespace="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
+          <GenericParameter Name="AMBORDLAB" Namespace="http://schemas.datacontract.org/2004/07/Domain.Crystal.Entities" />
+        </GenericType>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element minOccurs="0" name="CustomProperties" nillable="true">
+        <xs:complexType>
+          <xs:annotation>
+            <xs:appinfo>
+              <ActualType Name="DataSet" Namespace="http://schemas.datacontract.org/2004/07/System.Data" xmlns="http://schemas.microsoft.com/2003/10/Serialization/" />
+            </xs:appinfo>
+          </xs:annotation>
+          <xs:sequence>
+            <xs:element ref="xs:schema" />
+            <xs:any />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element xmlns:q63="http://schemas.datacontract.org/2004/07/Domain.Crystal.Entities" minOccurs="0" name="OriginalValue" nillable="true" type="q63:AMBORDLAB" />
+    </xs:sequence>
+    <xs:attribute ref="ser:Id" />
+    <xs:attribute ref="ser:Ref" />
+  </xs:complexType>
+  <xs:element name="EntityOfAMBORDLABi5kHDmq8" nillable="true" type="tns:EntityOfAMBORDLABi5kHDmq8" />
+  <xs:complexType name="EntityOfINCUPSIPSi5kHDmq8">
+    <xs:annotation>
+      <xs:appinfo>
+        <GenericType Name="EntityOf{0}{#}" Namespace="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
+          <GenericParameter Name="INCUPSIPS" Namespace="http://schemas.datacontract.org/2004/07/Domain.Crystal.Entities" />
+        </GenericType>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element minOccurs="0" name="CustomProperties" nillable="true">
+        <xs:complexType>
+          <xs:annotation>
+            <xs:appinfo>
+              <ActualType Name="DataSet" Namespace="http://schemas.datacontract.org/2004/07/System.Data" xmlns="http://schemas.microsoft.com/2003/10/Serialization/" />
+            </xs:appinfo>
+          </xs:annotation>
+          <xs:sequence>
+            <xs:element ref="xs:schema" />
+            <xs:any />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element xmlns:q64="http://schemas.datacontract.org/2004/07/Domain.Crystal.Entities" minOccurs="0" name="OriginalValue" nillable="true" type="q64:INCUPSIPS" />
+    </xs:sequence>
+    <xs:attribute ref="ser:Id" />
+    <xs:attribute ref="ser:Ref" />
+  </xs:complexType>
+  <xs:element name="EntityOfINCUPSIPSi5kHDmq8" nillable="true" type="tns:EntityOfINCUPSIPSi5kHDmq8" />
+  <xs:complexType name="EntityOfADPARAMETi5kHDmq8">
+    <xs:annotation>
+      <xs:appinfo>
+        <GenericType Name="EntityOf{0}{#}" Namespace="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
+          <GenericParameter Name="ADPARAMET" Namespace="http://schemas.datacontract.org/2004/07/Domain.Crystal.Entities" />
+        </GenericType>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element minOccurs="0" name="CustomProperties" nillable="true">
+        <xs:complexType>
+          <xs:annotation>
+            <xs:appinfo>
+              <ActualType Name="DataSet" Namespace="http://schemas.datacontract.org/2004/07/System.Data" xmlns="http://schemas.microsoft.com/2003/10/Serialization/" />
+            </xs:appinfo>
+          </xs:annotation>
+          <xs:sequence>
+            <xs:element ref="xs:schema" />
+            <xs:any />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element xmlns:q65="http://schemas.datacontract.org/2004/07/Domain.Crystal.Entities" minOccurs="0" name="OriginalValue" nillable="true" type="q65:ADPARAMET" />
+    </xs:sequence>
+    <xs:attribute ref="ser:Id" />
+    <xs:attribute ref="ser:Ref" />
+  </xs:complexType>
+  <xs:element name="EntityOfADPARAMETi5kHDmq8" nillable="true" type="tns:EntityOfADPARAMETi5kHDmq8" />
+  <xs:complexType name="EntityOfAMBORDPATi5kHDmq8">
+    <xs:annotation>
+      <xs:appinfo>
+        <GenericType Name="EntityOf{0}{#}" Namespace="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
+          <GenericParameter Name="AMBORDPAT" Namespace="http://schemas.datacontract.org/2004/07/Domain.Crystal.Entities" />
+        </GenericType>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element minOccurs="0" name="CustomProperties" nillable="true">
+        <xs:complexType>
+          <xs:annotation>
+            <xs:appinfo>
+              <ActualType Name="DataSet" Namespace="http://schemas.datacontract.org/2004/07/System.Data" xmlns="http://schemas.microsoft.com/2003/10/Serialization/" />
+            </xs:appinfo>
+          </xs:annotation>
+          <xs:sequence>
+            <xs:element ref="xs:schema" />
+            <xs:any />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element xmlns:q66="http://schemas.datacontract.org/2004/07/Domain.Crystal.Entities" minOccurs="0" name="OriginalValue" nillable="true" type="q66:AMBORDPAT" />
+    </xs:sequence>
+    <xs:attribute ref="ser:Id" />
+    <xs:attribute ref="ser:Ref" />
+  </xs:complexType>
+  <xs:element name="EntityOfAMBORDPATi5kHDmq8" nillable="true" type="tns:EntityOfAMBORDPATi5kHDmq8" />
+  <xs:complexType name="EntityOfINENTIDADi5kHDmq8">
+    <xs:annotation>
+      <xs:appinfo>
+        <GenericType Name="EntityOf{0}{#}" Namespace="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
+          <GenericParameter Name="INENTIDAD" Namespace="http://schemas.datacontract.org/2004/07/Domain.Crystal.Entities" />
+        </GenericType>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element minOccurs="0" name="CustomProperties" nillable="true">
+        <xs:complexType>
+          <xs:annotation>
+            <xs:appinfo>
+              <ActualType Name="DataSet" Namespace="http://schemas.datacontract.org/2004/07/System.Data" xmlns="http://schemas.microsoft.com/2003/10/Serialization/" />
+            </xs:appinfo>
+          </xs:annotation>
+          <xs:sequence>
+            <xs:element ref="xs:schema" />
+            <xs:any />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element xmlns:q67="http://schemas.datacontract.org/2004/07/Domain.Crystal.Entities" minOccurs="0" name="OriginalValue" nillable="true" type="q67:INENTIDAD" />
+    </xs:sequence>
+    <xs:attribute ref="ser:Id" />
+    <xs:attribute ref="ser:Ref" />
+  </xs:complexType>
+  <xs:element name="EntityOfINENTIDADi5kHDmq8" nillable="true" type="tns:EntityOfINENTIDADi5kHDmq8" />
+  <xs:complexType name="EntityOfADINGRESOi5kHDmq8">
+    <xs:annotation>
+      <xs:appinfo>
+        <GenericType Name="EntityOf{0}{#}" Namespace="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
+          <GenericParameter Name="ADINGRESO" Namespace="http://schemas.datacontract.org/2004/07/Domain.Crystal.Entities" />
+        </GenericType>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element minOccurs="0" name="CustomProperties" nillable="true">
+        <xs:complexType>
+          <xs:annotation>
+            <xs:appinfo>
+              <ActualType Name="DataSet" Namespace="http://schemas.datacontract.org/2004/07/System.Data" xmlns="http://schemas.microsoft.com/2003/10/Serialization/" />
+            </xs:appinfo>
+          </xs:annotation>
+          <xs:sequence>
+            <xs:element ref="xs:schema" />
+            <xs:any />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element xmlns:q68="http://schemas.datacontract.org/2004/07/Domain.Crystal.Entities" minOccurs="0" name="OriginalValue" nillable="true" type="q68:ADINGRESO" />
+    </xs:sequence>
+    <xs:attribute ref="ser:Id" />
+    <xs:attribute ref="ser:Ref" />
+  </xs:complexType>
+  <xs:element name="EntityOfADINGRESOi5kHDmq8" nillable="true" type="tns:EntityOfADINGRESOi5kHDmq8" />
+  <xs:complexType name="EntityOfCHREGEGREi5kHDmq8">
+    <xs:annotation>
+      <xs:appinfo>
+        <GenericType Name="EntityOf{0}{#}" Namespace="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
+          <GenericParameter Name="CHREGEGRE" Namespace="http://schemas.datacontract.org/2004/07/Domain.Crystal.Entities" />
+        </GenericType>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element minOccurs="0" name="CustomProperties" nillable="true">
+        <xs:complexType>
+          <xs:annotation>
+            <xs:appinfo>
+              <ActualType Name="DataSet" Namespace="http://schemas.datacontract.org/2004/07/System.Data" xmlns="http://schemas.microsoft.com/2003/10/Serialization/" />
+            </xs:appinfo>
+          </xs:annotation>
+          <xs:sequence>
+            <xs:element ref="xs:schema" />
+            <xs:any />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element xmlns:q69="http://schemas.datacontract.org/2004/07/Domain.Crystal.Entities" minOccurs="0" name="OriginalValue" nillable="true" type="q69:CHREGEGRE" />
+    </xs:sequence>
+    <xs:attribute ref="ser:Id" />
+    <xs:attribute ref="ser:Ref" />
+  </xs:complexType>
+  <xs:element name="EntityOfCHREGEGREi5kHDmq8" nillable="true" type="tns:EntityOfCHREGEGREi5kHDmq8" />
+  <xs:complexType name="EntityOfINMUNICIPi5kHDmq8">
+    <xs:annotation>
+      <xs:appinfo>
+        <GenericType Name="EntityOf{0}{#}" Namespace="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
+          <GenericParameter Name="INMUNICIP" Namespace="http://schemas.datacontract.org/2004/07/Domain.Crystal.Entities" />
+        </GenericType>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element minOccurs="0" name="CustomProperties" nillable="true">
+        <xs:complexType>
+          <xs:annotation>
+            <xs:appinfo>
+              <ActualType Name="DataSet" Namespace="http://schemas.datacontract.org/2004/07/System.Data" xmlns="http://schemas.microsoft.com/2003/10/Serialization/" />
+            </xs:appinfo>
+          </xs:annotation>
+          <xs:sequence>
+            <xs:element ref="xs:schema" />
+            <xs:any />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element xmlns:q70="http://schemas.datacontract.org/2004/07/Domain.Crystal.Entities" minOccurs="0" name="OriginalValue" nillable="true" type="q70:INMUNICIP" />
+    </xs:sequence>
+    <xs:attribute ref="ser:Id" />
+    <xs:attribute ref="ser:Ref" />
+  </xs:complexType>
+  <xs:element name="EntityOfINMUNICIPi5kHDmq8" nillable="true" type="tns:EntityOfINMUNICIPi5kHDmq8" />
+  <xs:complexType name="EntityOfHCREGEGREi5kHDmq8">
+    <xs:annotation>
+      <xs:appinfo>
+        <GenericType Name="EntityOf{0}{#}" Namespace="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
+          <GenericParameter Name="HCREGEGRE" Namespace="http://schemas.datacontract.org/2004/07/Domain.Crystal.Entities" />
+        </GenericType>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element minOccurs="0" name="CustomProperties" nillable="true">
+        <xs:complexType>
+          <xs:annotation>
+            <xs:appinfo>
+              <ActualType Name="DataSet" Namespace="http://schemas.datacontract.org/2004/07/System.Data" xmlns="http://schemas.microsoft.com/2003/10/Serialization/" />
+            </xs:appinfo>
+          </xs:annotation>
+          <xs:sequence>
+            <xs:element ref="xs:schema" />
+            <xs:any />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element xmlns:q71="http://schemas.datacontract.org/2004/07/Domain.Crystal.Entities" minOccurs="0" name="OriginalValue" nillable="true" type="q71:HCREGEGRE" />
+    </xs:sequence>
+    <xs:attribute ref="ser:Id" />
+    <xs:attribute ref="ser:Ref" />
+  </xs:complexType>
+  <xs:element name="EntityOfHCREGEGREi5kHDmq8" nillable="true" type="tns:EntityOfHCREGEGREi5kHDmq8" />
+  <xs:complexType name="EntityOfINPACIENTi5kHDmq8">
+    <xs:annotation>
+      <xs:appinfo>
+        <GenericType Name="EntityOf{0}{#}" Namespace="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
+          <GenericParameter Name="INPACIENT" Namespace="http://schemas.datacontract.org/2004/07/Domain.Crystal.Entities" />
+        </GenericType>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element minOccurs="0" name="CustomProperties" nillable="true">
+        <xs:complexType>
+          <xs:annotation>
+            <xs:appinfo>
+              <ActualType Name="DataSet" Namespace="http://schemas.datacontract.org/2004/07/System.Data" xmlns="http://schemas.microsoft.com/2003/10/Serialization/" />
+            </xs:appinfo>
+          </xs:annotation>
+          <xs:sequence>
+            <xs:element ref="xs:schema" />
+            <xs:any />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element xmlns:q72="http://schemas.datacontract.org/2004/07/Domain.Crystal.Entities" minOccurs="0" name="OriginalValue" nillable="true" type="q72:INPACIENT" />
+    </xs:sequence>
+    <xs:attribute ref="ser:Id" />
+    <xs:attribute ref="ser:Ref" />
+  </xs:complexType>
+  <xs:element name="EntityOfINPACIENTi5kHDmq8" nillable="true" type="tns:EntityOfINPACIENTi5kHDmq8" />
+  <xs:complexType name="EntityOfADACTIVIDi5kHDmq8">
+    <xs:annotation>
+      <xs:appinfo>
+        <GenericType Name="EntityOf{0}{#}" Namespace="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
+          <GenericParameter Name="ADACTIVID" Namespace="http://schemas.datacontract.org/2004/07/Domain.Crystal.Entities" />
+        </GenericType>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element minOccurs="0" name="CustomProperties" nillable="true">
+        <xs:complexType>
+          <xs:annotation>
+            <xs:appinfo>
+              <ActualType Name="DataSet" Namespace="http://schemas.datacontract.org/2004/07/System.Data" xmlns="http://schemas.microsoft.com/2003/10/Serialization/" />
+            </xs:appinfo>
+          </xs:annotation>
+          <xs:sequence>
+            <xs:element ref="xs:schema" />
+            <xs:any />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element xmlns:q73="http://schemas.datacontract.org/2004/07/Domain.Crystal.Entities" minOccurs="0" name="OriginalValue" nillable="true" type="q73:ADACTIVID" />
+    </xs:sequence>
+    <xs:attribute ref="ser:Id" />
+    <xs:attribute ref="ser:Ref" />
+  </xs:complexType>
+  <xs:element name="EntityOfADACTIVIDi5kHDmq8" nillable="true" type="tns:EntityOfADACTIVIDi5kHDmq8" />
+  <xs:complexType name="EntityOfADEMPRESAi5kHDmq8">
+    <xs:annotation>
+      <xs:appinfo>
+        <GenericType Name="EntityOf{0}{#}" Namespace="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
+          <GenericParameter Name="ADEMPRESA" Namespace="http://schemas.datacontract.org/2004/07/Domain.Crystal.Entities" />
+        </GenericType>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element minOccurs="0" name="CustomProperties" nillable="true">
+        <xs:complexType>
+          <xs:annotation>
+            <xs:appinfo>
+              <ActualType Name="DataSet" Namespace="http://schemas.datacontract.org/2004/07/System.Data" xmlns="http://schemas.microsoft.com/2003/10/Serialization/" />
+            </xs:appinfo>
+          </xs:annotation>
+          <xs:sequence>
+            <xs:element ref="xs:schema" />
+            <xs:any />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element xmlns:q74="http://schemas.datacontract.org/2004/07/Domain.Crystal.Entities" minOccurs="0" name="OriginalValue" nillable="true" type="q74:ADEMPRESA" />
+    </xs:sequence>
+    <xs:attribute ref="ser:Id" />
+    <xs:attribute ref="ser:Ref" />
+  </xs:complexType>
+  <xs:element name="EntityOfADEMPRESAi5kHDmq8" nillable="true" type="tns:EntityOfADEMPRESAi5kHDmq8" />
+  <xs:complexType name="EntityOfADGRUETNIi5kHDmq8">
+    <xs:annotation>
+      <xs:appinfo>
+        <GenericType Name="EntityOf{0}{#}" Namespace="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
+          <GenericParameter Name="ADGRUETNI" Namespace="http://schemas.datacontract.org/2004/07/Domain.Crystal.Entities" />
+        </GenericType>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element minOccurs="0" name="CustomProperties" nillable="true">
+        <xs:complexType>
+          <xs:annotation>
+            <xs:appinfo>
+              <ActualType Name="DataSet" Namespace="http://schemas.datacontract.org/2004/07/System.Data" xmlns="http://schemas.microsoft.com/2003/10/Serialization/" />
+            </xs:appinfo>
+          </xs:annotation>
+          <xs:sequence>
+            <xs:element ref="xs:schema" />
+            <xs:any />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element xmlns:q75="http://schemas.datacontract.org/2004/07/Domain.Crystal.Entities" minOccurs="0" name="OriginalValue" nillable="true" type="q75:ADGRUETNI" />
+    </xs:sequence>
+    <xs:attribute ref="ser:Id" />
+    <xs:attribute ref="ser:Ref" />
+  </xs:complexType>
+  <xs:element name="EntityOfADGRUETNIi5kHDmq8" nillable="true" type="tns:EntityOfADGRUETNIi5kHDmq8" />
+  <xs:complexType name="EntityOfAMBORDIMAi5kHDmq8">
+    <xs:annotation>
+      <xs:appinfo>
+        <GenericType Name="EntityOf{0}{#}" Namespace="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
+          <GenericParameter Name="AMBORDIMA" Namespace="http://schemas.datacontract.org/2004/07/Domain.Crystal.Entities" />
+        </GenericType>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element minOccurs="0" name="CustomProperties" nillable="true">
+        <xs:complexType>
+          <xs:annotation>
+            <xs:appinfo>
+              <ActualType Name="DataSet" Namespace="http://schemas.datacontract.org/2004/07/System.Data" xmlns="http://schemas.microsoft.com/2003/10/Serialization/" />
+            </xs:appinfo>
+          </xs:annotation>
+          <xs:sequence>
+            <xs:element ref="xs:schema" />
+            <xs:any />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element xmlns:q76="http://schemas.datacontract.org/2004/07/Domain.Crystal.Entities" minOccurs="0" name="OriginalValue" nillable="true" type="q76:AMBORDIMA" />
+    </xs:sequence>
+    <xs:attribute ref="ser:Id" />
+    <xs:attribute ref="ser:Ref" />
+  </xs:complexType>
+  <xs:element name="EntityOfAMBORDIMAi5kHDmq8" nillable="true" type="tns:EntityOfAMBORDIMAi5kHDmq8" />
+  <xs:complexType name="EntityOfINESPECIAi5kHDmq8">
+    <xs:annotation>
+      <xs:appinfo>
+        <GenericType Name="EntityOf{0}{#}" Namespace="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
+          <GenericParameter Name="INESPECIA" Namespace="http://schemas.datacontract.org/2004/07/Domain.Crystal.Entities" />
+        </GenericType>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element minOccurs="0" name="CustomProperties" nillable="true">
+        <xs:complexType>
+          <xs:annotation>
+            <xs:appinfo>
+              <ActualType Name="DataSet" Namespace="http://schemas.datacontract.org/2004/07/System.Data" xmlns="http://schemas.microsoft.com/2003/10/Serialization/" />
+            </xs:appinfo>
+          </xs:annotation>
+          <xs:sequence>
+            <xs:element ref="xs:schema" />
+            <xs:any />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element xmlns:q77="http://schemas.datacontract.org/2004/07/Domain.Crystal.Entities" minOccurs="0" name="OriginalValue" nillable="true" type="q77:INESPECIA" />
+    </xs:sequence>
+    <xs:attribute ref="ser:Id" />
+    <xs:attribute ref="ser:Ref" />
+  </xs:complexType>
+  <xs:element name="EntityOfINESPECIAi5kHDmq8" nillable="true" type="tns:EntityOfINESPECIAi5kHDmq8" />
+  <xs:complexType name="EntityOfAGASICITAi5kHDmq8">
+    <xs:annotation>
+      <xs:appinfo>
+        <GenericType Name="EntityOf{0}{#}" Namespace="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
+          <GenericParameter Name="AGASICITA" Namespace="http://schemas.datacontract.org/2004/07/Domain.Crystal.Entities" />
+        </GenericType>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element minOccurs="0" name="CustomProperties" nillable="true">
+        <xs:complexType>
+          <xs:annotation>
+            <xs:appinfo>
+              <ActualType Name="DataSet" Namespace="http://schemas.datacontract.org/2004/07/System.Data" xmlns="http://schemas.microsoft.com/2003/10/Serialization/" />
+            </xs:appinfo>
+          </xs:annotation>
+          <xs:sequence>
+            <xs:element ref="xs:schema" />
+            <xs:any />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element xmlns:q78="http://schemas.datacontract.org/2004/07/Domain.Crystal.Entities" minOccurs="0" name="OriginalValue" nillable="true" type="q78:AGASICITA" />
+    </xs:sequence>
+    <xs:attribute ref="ser:Id" />
+    <xs:attribute ref="ser:Ref" />
+  </xs:complexType>
+  <xs:element name="EntityOfAGASICITAi5kHDmq8" nillable="true" type="tns:EntityOfAGASICITAi5kHDmq8" />
+  <xs:complexType name="EntityOfAGACTIMEDi5kHDmq8">
+    <xs:annotation>
+      <xs:appinfo>
+        <GenericType Name="EntityOf{0}{#}" Namespace="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
+          <GenericParameter Name="AGACTIMED" Namespace="http://schemas.datacontract.org/2004/07/Domain.Crystal.Entities" />
+        </GenericType>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element minOccurs="0" name="CustomProperties" nillable="true">
+        <xs:complexType>
+          <xs:annotation>
+            <xs:appinfo>
+              <ActualType Name="DataSet" Namespace="http://schemas.datacontract.org/2004/07/System.Data" xmlns="http://schemas.microsoft.com/2003/10/Serialization/" />
+            </xs:appinfo>
+          </xs:annotation>
+          <xs:sequence>
+            <xs:element ref="xs:schema" />
+            <xs:any />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element xmlns:q79="http://schemas.datacontract.org/2004/07/Domain.Crystal.Entities" minOccurs="0" name="OriginalValue" nillable="true" type="q79:AGACTIMED" />
+    </xs:sequence>
+    <xs:attribute ref="ser:Id" />
+    <xs:attribute ref="ser:Ref" />
+  </xs:complexType>
+  <xs:element name="EntityOfAGACTIMEDi5kHDmq8" nillable="true" type="tns:EntityOfAGACTIMEDi5kHDmq8" />
+  <xs:complexType name="EntityOfINUNIFUNCi5kHDmq8">
+    <xs:annotation>
+      <xs:appinfo>
+        <GenericType Name="EntityOf{0}{#}" Namespace="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
+          <GenericParameter Name="INUNIFUNC" Namespace="http://schemas.datacontract.org/2004/07/Domain.Crystal.Entities" />
+        </GenericType>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element minOccurs="0" name="CustomProperties" nillable="true">
+        <xs:complexType>
+          <xs:annotation>
+            <xs:appinfo>
+              <ActualType Name="DataSet" Namespace="http://schemas.datacontract.org/2004/07/System.Data" xmlns="http://schemas.microsoft.com/2003/10/Serialization/" />
+            </xs:appinfo>
+          </xs:annotation>
+          <xs:sequence>
+            <xs:element ref="xs:schema" />
+            <xs:any />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element xmlns:q80="http://schemas.datacontract.org/2004/07/Domain.Crystal.Entities" minOccurs="0" name="OriginalValue" nillable="true" type="q80:INUNIFUNC" />
+    </xs:sequence>
+    <xs:attribute ref="ser:Id" />
+    <xs:attribute ref="ser:Ref" />
+  </xs:complexType>
+  <xs:element name="EntityOfINUNIFUNCi5kHDmq8" nillable="true" type="tns:EntityOfINUNIFUNCi5kHDmq8" />
+  <xs:complexType name="EntityOfCHCAMASHOi5kHDmq8">
+    <xs:annotation>
+      <xs:appinfo>
+        <GenericType Name="EntityOf{0}{#}" Namespace="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
+          <GenericParameter Name="CHCAMASHO" Namespace="http://schemas.datacontract.org/2004/07/Domain.Crystal.Entities" />
+        </GenericType>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element minOccurs="0" name="CustomProperties" nillable="true">
+        <xs:complexType>
+          <xs:annotation>
+            <xs:appinfo>
+              <ActualType Name="DataSet" Namespace="http://schemas.datacontract.org/2004/07/System.Data" xmlns="http://schemas.microsoft.com/2003/10/Serialization/" />
+            </xs:appinfo>
+          </xs:annotation>
+          <xs:sequence>
+            <xs:element ref="xs:schema" />
+            <xs:any />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element xmlns:q81="http://schemas.datacontract.org/2004/07/Domain.Crystal.Entities" minOccurs="0" name="OriginalValue" nillable="true" type="q81:CHCAMASHO" />
+    </xs:sequence>
+    <xs:attribute ref="ser:Id" />
+    <xs:attribute ref="ser:Ref" />
+  </xs:complexType>
+  <xs:element name="EntityOfCHCAMASHOi5kHDmq8" nillable="true" type="tns:EntityOfCHCAMASHOi5kHDmq8" />
+  <xs:complexType name="EntityOfCHGENTARIi5kHDmq8">
+    <xs:annotation>
+      <xs:appinfo>
+        <GenericType Name="EntityOf{0}{#}" Namespace="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
+          <GenericParameter Name="CHGENTARI" Namespace="http://schemas.datacontract.org/2004/07/Domain.Crystal.Entities" />
+        </GenericType>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element minOccurs="0" name="CustomProperties" nillable="true">
+        <xs:complexType>
+          <xs:annotation>
+            <xs:appinfo>
+              <ActualType Name="DataSet" Namespace="http://schemas.datacontract.org/2004/07/System.Data" xmlns="http://schemas.microsoft.com/2003/10/Serialization/" />
+            </xs:appinfo>
+          </xs:annotation>
+          <xs:sequence>
+            <xs:element ref="xs:schema" />
+            <xs:any />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element xmlns:q82="http://schemas.datacontract.org/2004/07/Domain.Crystal.Entities" minOccurs="0" name="OriginalValue" nillable="true" type="q82:CHGENTARI" />
+    </xs:sequence>
+    <xs:attribute ref="ser:Id" />
+    <xs:attribute ref="ser:Ref" />
+  </xs:complexType>
+  <xs:element name="EntityOfCHGENTARIi5kHDmq8" nillable="true" type="tns:EntityOfCHGENTARIi5kHDmq8" />
+  <xs:complexType name="EntityOfCHTIPESTAi5kHDmq8">
+    <xs:annotation>
+      <xs:appinfo>
+        <GenericType Name="EntityOf{0}{#}" Namespace="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
+          <GenericParameter Name="CHTIPESTA" Namespace="http://schemas.datacontract.org/2004/07/Domain.Crystal.Entities" />
+        </GenericType>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element minOccurs="0" name="CustomProperties" nillable="true">
+        <xs:complexType>
+          <xs:annotation>
+            <xs:appinfo>
+              <ActualType Name="DataSet" Namespace="http://schemas.datacontract.org/2004/07/System.Data" xmlns="http://schemas.microsoft.com/2003/10/Serialization/" />
+            </xs:appinfo>
+          </xs:annotation>
+          <xs:sequence>
+            <xs:element ref="xs:schema" />
+            <xs:any />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element xmlns:q83="http://schemas.datacontract.org/2004/07/Domain.Crystal.Entities" minOccurs="0" name="OriginalValue" nillable="true" type="q83:CHTIPESTA" />
+    </xs:sequence>
+    <xs:attribute ref="ser:Id" />
+    <xs:attribute ref="ser:Ref" />
+  </xs:complexType>
+  <xs:element name="EntityOfCHTIPESTAi5kHDmq8" nillable="true" type="tns:EntityOfCHTIPESTAi5kHDmq8" />
+  <xs:complexType name="EntityOfCHREGESTAi5kHDmq8">
+    <xs:annotation>
+      <xs:appinfo>
+        <GenericType Name="EntityOf{0}{#}" Namespace="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
+          <GenericParameter Name="CHREGESTA" Namespace="http://schemas.datacontract.org/2004/07/Domain.Crystal.Entities" />
+        </GenericType>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element minOccurs="0" name="CustomProperties" nillable="true">
+        <xs:complexType>
+          <xs:annotation>
+            <xs:appinfo>
+              <ActualType Name="DataSet" Namespace="http://schemas.datacontract.org/2004/07/System.Data" xmlns="http://schemas.microsoft.com/2003/10/Serialization/" />
+            </xs:appinfo>
+          </xs:annotation>
+          <xs:sequence>
+            <xs:element ref="xs:schema" />
+            <xs:any />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element xmlns:q84="http://schemas.datacontract.org/2004/07/Domain.Crystal.Entities" minOccurs="0" name="OriginalValue" nillable="true" type="q84:CHREGESTA" />
+    </xs:sequence>
+    <xs:attribute ref="ser:Id" />
+    <xs:attribute ref="ser:Ref" />
+  </xs:complexType>
+  <xs:element name="EntityOfCHREGESTAi5kHDmq8" nillable="true" type="tns:EntityOfCHREGESTAi5kHDmq8" />
+  <xs:complexType name="EntityOfCHREGESTADETi5kHDmq8">
+    <xs:annotation>
+      <xs:appinfo>
+        <GenericType Name="EntityOf{0}{#}" Namespace="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
+          <GenericParameter Name="CHREGESTADET" Namespace="http://schemas.datacontract.org/2004/07/Domain.Crystal.Entities" />
+        </GenericType>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element minOccurs="0" name="CustomProperties" nillable="true">
+        <xs:complexType>
+          <xs:annotation>
+            <xs:appinfo>
+              <ActualType Name="DataSet" Namespace="http://schemas.datacontract.org/2004/07/System.Data" xmlns="http://schemas.microsoft.com/2003/10/Serialization/" />
+            </xs:appinfo>
+          </xs:annotation>
+          <xs:sequence>
+            <xs:element ref="xs:schema" />
+            <xs:any />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element xmlns:q85="http://schemas.datacontract.org/2004/07/Domain.Crystal.Entities" minOccurs="0" name="OriginalValue" nillable="true" type="q85:CHREGESTADET" />
+    </xs:sequence>
+    <xs:attribute ref="ser:Id" />
+    <xs:attribute ref="ser:Ref" />
+  </xs:complexType>
+  <xs:element name="EntityOfCHREGESTADETi5kHDmq8" nillable="true" type="tns:EntityOfCHREGESTADETi5kHDmq8" />
+  <xs:complexType name="EntityOfHCCONOXIGi5kHDmq8">
+    <xs:annotation>
+      <xs:appinfo>
+        <GenericType Name="EntityOf{0}{#}" Namespace="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
+          <GenericParameter Name="HCCONOXIG" Namespace="http://schemas.datacontract.org/2004/07/Domain.Crystal.Entities" />
+        </GenericType>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element minOccurs="0" name="CustomProperties" nillable="true">
+        <xs:complexType>
+          <xs:annotation>
+            <xs:appinfo>
+              <ActualType Name="DataSet" Namespace="http://schemas.datacontract.org/2004/07/System.Data" xmlns="http://schemas.microsoft.com/2003/10/Serialization/" />
+            </xs:appinfo>
+          </xs:annotation>
+          <xs:sequence>
+            <xs:element ref="xs:schema" />
+            <xs:any />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element xmlns:q86="http://schemas.datacontract.org/2004/07/Domain.Crystal.Entities" minOccurs="0" name="OriginalValue" nillable="true" type="q86:HCCONOXIG" />
+    </xs:sequence>
+    <xs:attribute ref="ser:Id" />
+    <xs:attribute ref="ser:Ref" />
+  </xs:complexType>
+  <xs:element name="EntityOfHCCONOXIGi5kHDmq8" nillable="true" type="tns:EntityOfHCCONOXIGi5kHDmq8" />
+  <xs:complexType name="EntityOfINPROFSALi5kHDmq8">
+    <xs:annotation>
+      <xs:appinfo>
+        <GenericType Name="EntityOf{0}{#}" Namespace="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
+          <GenericParameter Name="INPROFSAL" Namespace="http://schemas.datacontract.org/2004/07/Domain.Crystal.Entities" />
+        </GenericType>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element minOccurs="0" name="CustomProperties" nillable="true">
+        <xs:complexType>
+          <xs:annotation>
+            <xs:appinfo>
+              <ActualType Name="DataSet" Namespace="http://schemas.datacontract.org/2004/07/System.Data" xmlns="http://schemas.microsoft.com/2003/10/Serialization/" />
+            </xs:appinfo>
+          </xs:annotation>
+          <xs:sequence>
+            <xs:element ref="xs:schema" />
+            <xs:any />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element xmlns:q87="http://schemas.datacontract.org/2004/07/Domain.Crystal.Entities" minOccurs="0" name="OriginalValue" nillable="true" type="q87:INPROFSAL" />
+    </xs:sequence>
+    <xs:attribute ref="ser:Id" />
+    <xs:attribute ref="ser:Ref" />
+  </xs:complexType>
+  <xs:element name="EntityOfINPROFSALi5kHDmq8" nillable="true" type="tns:EntityOfINPROFSALi5kHDmq8" />
+  <xs:complexType name="EntityOfHCDEVMEDCi5kHDmq8">
+    <xs:annotation>
+      <xs:appinfo>
+        <GenericType Name="EntityOf{0}{#}" Namespace="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
+          <GenericParameter Name="HCDEVMEDC" Namespace="http://schemas.datacontract.org/2004/07/Domain.Crystal.Entities" />
+        </GenericType>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element minOccurs="0" name="CustomProperties" nillable="true">
+        <xs:complexType>
+          <xs:annotation>
+            <xs:appinfo>
+              <ActualType Name="DataSet" Namespace="http://schemas.datacontract.org/2004/07/System.Data" xmlns="http://schemas.microsoft.com/2003/10/Serialization/" />
+            </xs:appinfo>
+          </xs:annotation>
+          <xs:sequence>
+            <xs:element ref="xs:schema" />
+            <xs:any />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element xmlns:q88="http://schemas.datacontract.org/2004/07/Domain.Crystal.Entities" minOccurs="0" name="OriginalValue" nillable="true" type="q88:HCDEVMEDC" />
+    </xs:sequence>
+    <xs:attribute ref="ser:Id" />
+    <xs:attribute ref="ser:Ref" />
+  </xs:complexType>
+  <xs:element name="EntityOfHCDEVMEDCi5kHDmq8" nillable="true" type="tns:EntityOfHCDEVMEDCi5kHDmq8" />
+  <xs:complexType name="EntityOfHCDEVMEDDi5kHDmq8">
+    <xs:annotation>
+      <xs:appinfo>
+        <GenericType Name="EntityOf{0}{#}" Namespace="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
+          <GenericParameter Name="HCDEVMEDD" Namespace="http://schemas.datacontract.org/2004/07/Domain.Crystal.Entities" />
+        </GenericType>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element minOccurs="0" name="CustomProperties" nillable="true">
+        <xs:complexType>
+          <xs:annotation>
+            <xs:appinfo>
+              <ActualType Name="DataSet" Namespace="http://schemas.datacontract.org/2004/07/System.Data" xmlns="http://schemas.microsoft.com/2003/10/Serialization/" />
+            </xs:appinfo>
+          </xs:annotation>
+          <xs:sequence>
+            <xs:element ref="xs:schema" />
+            <xs:any />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element xmlns:q89="http://schemas.datacontract.org/2004/07/Domain.Crystal.Entities" minOccurs="0" name="OriginalValue" nillable="true" type="q89:HCDEVMEDD" />
+    </xs:sequence>
+    <xs:attribute ref="ser:Id" />
+    <xs:attribute ref="ser:Ref" />
+  </xs:complexType>
+  <xs:element name="EntityOfHCDEVMEDDi5kHDmq8" nillable="true" type="tns:EntityOfHCDEVMEDDi5kHDmq8" />
+  <xs:complexType name="EntityOfADNIVELESi5kHDmq8">
+    <xs:annotation>
+      <xs:appinfo>
+        <GenericType Name="EntityOf{0}{#}" Namespace="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
+          <GenericParameter Name="ADNIVELES" Namespace="http://schemas.datacontract.org/2004/07/Domain.Crystal.Entities" />
+        </GenericType>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element minOccurs="0" name="CustomProperties" nillable="true">
+        <xs:complexType>
+          <xs:annotation>
+            <xs:appinfo>
+              <ActualType Name="DataSet" Namespace="http://schemas.datacontract.org/2004/07/System.Data" xmlns="http://schemas.microsoft.com/2003/10/Serialization/" />
+            </xs:appinfo>
+          </xs:annotation>
+          <xs:sequence>
+            <xs:element ref="xs:schema" />
+            <xs:any />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element xmlns:q90="http://schemas.datacontract.org/2004/07/Domain.Crystal.Entities" minOccurs="0" name="OriginalValue" nillable="true" type="q90:ADNIVELES" />
+    </xs:sequence>
+    <xs:attribute ref="ser:Id" />
+    <xs:attribute ref="ser:Ref" />
+  </xs:complexType>
+  <xs:element name="EntityOfADNIVELESi5kHDmq8" nillable="true" type="tns:EntityOfADNIVELESi5kHDmq8" />
+  <xs:complexType name="EntityOfHCHOGASINi5kHDmq8">
+    <xs:annotation>
+      <xs:appinfo>
+        <GenericType Name="EntityOf{0}{#}" Namespace="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
+          <GenericParameter Name="HCHOGASIN" Namespace="http://schemas.datacontract.org/2004/07/Domain.Crystal.Entities" />
+        </GenericType>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element minOccurs="0" name="CustomProperties" nillable="true">
+        <xs:complexType>
+          <xs:annotation>
+            <xs:appinfo>
+              <ActualType Name="DataSet" Namespace="http://schemas.datacontract.org/2004/07/System.Data" xmlns="http://schemas.microsoft.com/2003/10/Serialization/" />
+            </xs:appinfo>
+          </xs:annotation>
+          <xs:sequence>
+            <xs:element ref="xs:schema" />
+            <xs:any />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element xmlns:q91="http://schemas.datacontract.org/2004/07/Domain.Crystal.Entities" minOccurs="0" name="OriginalValue" nillable="true" type="q91:HCHOGASIN" />
+    </xs:sequence>
+    <xs:attribute ref="ser:Id" />
+    <xs:attribute ref="ser:Ref" />
+  </xs:complexType>
+  <xs:element name="EntityOfHCHOGASINi5kHDmq8" nillable="true" type="tns:EntityOfHCHOGASINi5kHDmq8" />
+  <xs:complexType name="EntityOfHCORDINTEi5kHDmq8">
+    <xs:annotation>
+      <xs:appinfo>
+        <GenericType Name="EntityOf{0}{#}" Namespace="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
+          <GenericParameter Name="HCORDINTE" Namespace="http://schemas.datacontract.org/2004/07/Domain.Crystal.Entities" />
+        </GenericType>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element minOccurs="0" name="CustomProperties" nillable="true">
+        <xs:complexType>
+          <xs:annotation>
+            <xs:appinfo>
+              <ActualType Name="DataSet" Namespace="http://schemas.datacontract.org/2004/07/System.Data" xmlns="http://schemas.microsoft.com/2003/10/Serialization/" />
+            </xs:appinfo>
+          </xs:annotation>
+          <xs:sequence>
+            <xs:element ref="xs:schema" />
+            <xs:any />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element xmlns:q92="http://schemas.datacontract.org/2004/07/Domain.Crystal.Entities" minOccurs="0" name="OriginalValue" nillable="true" type="q92:HCORDINTE" />
+    </xs:sequence>
+    <xs:attribute ref="ser:Id" />
+    <xs:attribute ref="ser:Ref" />
+  </xs:complexType>
+  <xs:element name="EntityOfHCORDINTEi5kHDmq8" nillable="true" type="tns:EntityOfHCORDINTEi5kHDmq8" />
+  <xs:complexType name="EntityOfHCORDPRONi5kHDmq8">
+    <xs:annotation>
+      <xs:appinfo>
+        <GenericType Name="EntityOf{0}{#}" Namespace="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
+          <GenericParameter Name="HCORDPRON" Namespace="http://schemas.datacontract.org/2004/07/Domain.Crystal.Entities" />
+        </GenericType>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element minOccurs="0" name="CustomProperties" nillable="true">
+        <xs:complexType>
+          <xs:annotation>
+            <xs:appinfo>
+              <ActualType Name="DataSet" Namespace="http://schemas.datacontract.org/2004/07/System.Data" xmlns="http://schemas.microsoft.com/2003/10/Serialization/" />
+            </xs:appinfo>
+          </xs:annotation>
+          <xs:sequence>
+            <xs:element ref="xs:schema" />
+            <xs:any />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element xmlns:q93="http://schemas.datacontract.org/2004/07/Domain.Crystal.Entities" minOccurs="0" name="OriginalValue" nillable="true" type="q93:HCORDPRON" />
+    </xs:sequence>
+    <xs:attribute ref="ser:Id" />
+    <xs:attribute ref="ser:Ref" />
+  </xs:complexType>
+  <xs:element name="EntityOfHCORDPRONi5kHDmq8" nillable="true" type="tns:EntityOfHCORDPRONi5kHDmq8" />
+  <xs:complexType name="EntityOfHCFARMEPCi5kHDmq8">
+    <xs:annotation>
+      <xs:appinfo>
+        <GenericType Name="EntityOf{0}{#}" Namespace="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
+          <GenericParameter Name="HCFARMEPC" Namespace="http://schemas.datacontract.org/2004/07/Domain.Crystal.Entities" />
+        </GenericType>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element minOccurs="0" name="CustomProperties" nillable="true">
+        <xs:complexType>
+          <xs:annotation>
+            <xs:appinfo>
+              <ActualType Name="DataSet" Namespace="http://schemas.datacontract.org/2004/07/System.Data" xmlns="http://schemas.microsoft.com/2003/10/Serialization/" />
+            </xs:appinfo>
+          </xs:annotation>
+          <xs:sequence>
+            <xs:element ref="xs:schema" />
+            <xs:any />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element xmlns:q94="http://schemas.datacontract.org/2004/07/Domain.Crystal.Entities" minOccurs="0" name="OriginalValue" nillable="true" type="q94:HCFARMEPC" />
+    </xs:sequence>
+    <xs:attribute ref="ser:Id" />
+    <xs:attribute ref="ser:Ref" />
+  </xs:complexType>
+  <xs:element name="EntityOfHCFARMEPCi5kHDmq8" nillable="true" type="tns:EntityOfHCFARMEPCi5kHDmq8" />
+  <xs:complexType name="EntityOfHCFARMEPDi5kHDmq8">
+    <xs:annotation>
+      <xs:appinfo>
+        <GenericType Name="EntityOf{0}{#}" Namespace="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
+          <GenericParameter Name="HCFARMEPD" Namespace="http://schemas.datacontract.org/2004/07/Domain.Crystal.Entities" />
+        </GenericType>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element minOccurs="0" name="CustomProperties" nillable="true">
+        <xs:complexType>
+          <xs:annotation>
+            <xs:appinfo>
+              <ActualType Name="DataSet" Namespace="http://schemas.datacontract.org/2004/07/System.Data" xmlns="http://schemas.microsoft.com/2003/10/Serialization/" />
+            </xs:appinfo>
+          </xs:annotation>
+          <xs:sequence>
+            <xs:element ref="xs:schema" />
+            <xs:any />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element xmlns:q95="http://schemas.datacontract.org/2004/07/Domain.Crystal.Entities" minOccurs="0" name="OriginalValue" nillable="true" type="q95:HCFARMEPD" />
+    </xs:sequence>
+    <xs:attribute ref="ser:Id" />
+    <xs:attribute ref="ser:Ref" />
+  </xs:complexType>
+  <xs:element name="EntityOfHCFARMEPDi5kHDmq8" nillable="true" type="tns:EntityOfHCFARMEPDi5kHDmq8" />
+  <xs:complexType name="EntityOfIHLISTPROi5kHDmq8">
+    <xs:annotation>
+      <xs:appinfo>
+        <GenericType Name="EntityOf{0}{#}" Namespace="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
+          <GenericParameter Name="IHLISTPRO" Namespace="http://schemas.datacontract.org/2004/07/Domain.Crystal.Entities" />
+        </GenericType>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element minOccurs="0" name="CustomProperties" nillable="true">
+        <xs:complexType>
+          <xs:annotation>
+            <xs:appinfo>
+              <ActualType Name="DataSet" Namespace="http://schemas.datacontract.org/2004/07/System.Data" xmlns="http://schemas.microsoft.com/2003/10/Serialization/" />
+            </xs:appinfo>
+          </xs:annotation>
+          <xs:sequence>
+            <xs:element ref="xs:schema" />
+            <xs:any />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element xmlns:q96="http://schemas.datacontract.org/2004/07/Domain.Crystal.Entities" minOccurs="0" name="OriginalValue" nillable="true" type="q96:IHLISTPRO" />
+    </xs:sequence>
+    <xs:attribute ref="ser:Id" />
+    <xs:attribute ref="ser:Ref" />
+  </xs:complexType>
+  <xs:element name="EntityOfIHLISTPROi5kHDmq8" nillable="true" type="tns:EntityOfIHLISTPROi5kHDmq8" />
+  <xs:complexType name="EntityOfHCFISIPROi5kHDmq8">
+    <xs:annotation>
+      <xs:appinfo>
+        <GenericType Name="EntityOf{0}{#}" Namespace="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
+          <GenericParameter Name="HCFISIPRO" Namespace="http://schemas.datacontract.org/2004/07/Domain.Crystal.Entities" />
+        </GenericType>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element minOccurs="0" name="CustomProperties" nillable="true">
+        <xs:complexType>
+          <xs:annotation>
+            <xs:appinfo>
+              <ActualType Name="DataSet" Namespace="http://schemas.datacontract.org/2004/07/System.Data" xmlns="http://schemas.microsoft.com/2003/10/Serialization/" />
+            </xs:appinfo>
+          </xs:annotation>
+          <xs:sequence>
+            <xs:element ref="xs:schema" />
+            <xs:any />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element xmlns:q97="http://schemas.datacontract.org/2004/07/Domain.Crystal.Entities" minOccurs="0" name="OriginalValue" nillable="true" type="q97:HCFISIPRO" />
+    </xs:sequence>
+    <xs:attribute ref="ser:Id" />
+    <xs:attribute ref="ser:Ref" />
+  </xs:complexType>
+  <xs:element name="EntityOfHCFISIPROi5kHDmq8" nillable="true" type="tns:EntityOfHCFISIPROi5kHDmq8" />
+  <xs:complexType name="EntityOfHCHISPACAi5kHDmq8">
+    <xs:annotation>
+      <xs:appinfo>
+        <GenericType Name="EntityOf{0}{#}" Namespace="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
+          <GenericParameter Name="HCHISPACA" Namespace="http://schemas.datacontract.org/2004/07/Domain.Crystal.Entities" />
+        </GenericType>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element minOccurs="0" name="CustomProperties" nillable="true">
+        <xs:complexType>
+          <xs:annotation>
+            <xs:appinfo>
+              <ActualType Name="DataSet" Namespace="http://schemas.datacontract.org/2004/07/System.Data" xmlns="http://schemas.microsoft.com/2003/10/Serialization/" />
+            </xs:appinfo>
+          </xs:annotation>
+          <xs:sequence>
+            <xs:element ref="xs:schema" />
+            <xs:any />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element xmlns:q98="http://schemas.datacontract.org/2004/07/Domain.Crystal.Entities" minOccurs="0" name="OriginalValue" nillable="true" type="q98:HCHISPACA" />
+    </xs:sequence>
+    <xs:attribute ref="ser:Id" />
+    <xs:attribute ref="ser:Ref" />
+  </xs:complexType>
+  <xs:element name="EntityOfHCHISPACAi5kHDmq8" nillable="true" type="tns:EntityOfHCHISPACAi5kHDmq8" />
+  <xs:complexType name="EntityOfHCJUNOPMHi5kHDmq8">
+    <xs:annotation>
+      <xs:appinfo>
+        <GenericType Name="EntityOf{0}{#}" Namespace="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
+          <GenericParameter Name="HCJUNOPMH" Namespace="http://schemas.datacontract.org/2004/07/Domain.Crystal.Entities" />
+        </GenericType>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element minOccurs="0" name="CustomProperties" nillable="true">
+        <xs:complexType>
+          <xs:annotation>
+            <xs:appinfo>
+              <ActualType Name="DataSet" Namespace="http://schemas.datacontract.org/2004/07/System.Data" xmlns="http://schemas.microsoft.com/2003/10/Serialization/" />
+            </xs:appinfo>
+          </xs:annotation>
+          <xs:sequence>
+            <xs:element ref="xs:schema" />
+            <xs:any />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element xmlns:q99="http://schemas.datacontract.org/2004/07/Domain.Crystal.Entities" minOccurs="0" name="OriginalValue" nillable="true" type="q99:HCJUNOPMH" />
+    </xs:sequence>
+    <xs:attribute ref="ser:Id" />
+    <xs:attribute ref="ser:Ref" />
+  </xs:complexType>
+  <xs:element name="EntityOfHCJUNOPMHi5kHDmq8" nillable="true" type="tns:EntityOfHCJUNOPMHi5kHDmq8" />
+  <xs:complexType name="EntityOfHCORDPROQi5kHDmq8">
+    <xs:annotation>
+      <xs:appinfo>
+        <GenericType Name="EntityOf{0}{#}" Namespace="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
+          <GenericParameter Name="HCORDPROQ" Namespace="http://schemas.datacontract.org/2004/07/Domain.Crystal.Entities" />
+        </GenericType>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element minOccurs="0" name="CustomProperties" nillable="true">
+        <xs:complexType>
+          <xs:annotation>
+            <xs:appinfo>
+              <ActualType Name="DataSet" Namespace="http://schemas.datacontract.org/2004/07/System.Data" xmlns="http://schemas.microsoft.com/2003/10/Serialization/" />
+            </xs:appinfo>
+          </xs:annotation>
+          <xs:sequence>
+            <xs:element ref="xs:schema" />
+            <xs:any />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element xmlns:q100="http://schemas.datacontract.org/2004/07/Domain.Crystal.Entities" minOccurs="0" name="OriginalValue" nillable="true" type="q100:HCORDPROQ" />
+    </xs:sequence>
+    <xs:attribute ref="ser:Id" />
+    <xs:attribute ref="ser:Ref" />
+  </xs:complexType>
+  <xs:element name="EntityOfHCORDPROQi5kHDmq8" nillable="true" type="tns:EntityOfHCORDPROQi5kHDmq8" />
+  <xs:complexType name="EntityOfHCPRESCRAi5kHDmq8">
+    <xs:annotation>
+      <xs:appinfo>
+        <GenericType Name="EntityOf{0}{#}" Namespace="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
+          <GenericParameter Name="HCPRESCRA" Namespace="http://schemas.datacontract.org/2004/07/Domain.Crystal.Entities" />
+        </GenericType>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element minOccurs="0" name="CustomProperties" nillable="true">
+        <xs:complexType>
+          <xs:annotation>
+            <xs:appinfo>
+              <ActualType Name="DataSet" Namespace="http://schemas.datacontract.org/2004/07/System.Data" xmlns="http://schemas.microsoft.com/2003/10/Serialization/" />
+            </xs:appinfo>
+          </xs:annotation>
+          <xs:sequence>
+            <xs:element ref="xs:schema" />
+            <xs:any />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element xmlns:q101="http://schemas.datacontract.org/2004/07/Domain.Crystal.Entities" minOccurs="0" name="OriginalValue" nillable="true" type="q101:HCPRESCRA" />
+    </xs:sequence>
+    <xs:attribute ref="ser:Id" />
+    <xs:attribute ref="ser:Ref" />
+  </xs:complexType>
+  <xs:element name="EntityOfHCPRESCRAi5kHDmq8" nillable="true" type="tns:EntityOfHCPRESCRAi5kHDmq8" />
+  <xs:complexType name="EntityOfHCPROCTERi5kHDmq8">
+    <xs:annotation>
+      <xs:appinfo>
+        <GenericType Name="EntityOf{0}{#}" Namespace="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
+          <GenericParameter Name="HCPROCTER" Namespace="http://schemas.datacontract.org/2004/07/Domain.Crystal.Entities" />
+        </GenericType>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element minOccurs="0" name="CustomProperties" nillable="true">
+        <xs:complexType>
+          <xs:annotation>
+            <xs:appinfo>
+              <ActualType Name="DataSet" Namespace="http://schemas.datacontract.org/2004/07/System.Data" xmlns="http://schemas.microsoft.com/2003/10/Serialization/" />
+            </xs:appinfo>
+          </xs:annotation>
+          <xs:sequence>
+            <xs:element ref="xs:schema" />
+            <xs:any />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element xmlns:q102="http://schemas.datacontract.org/2004/07/Domain.Crystal.Entities" minOccurs="0" name="OriginalValue" nillable="true" type="q102:HCPROCTER" />
+    </xs:sequence>
+    <xs:attribute ref="ser:Id" />
+    <xs:attribute ref="ser:Ref" />
+  </xs:complexType>
+  <xs:element name="EntityOfHCPROCTERi5kHDmq8" nillable="true" type="tns:EntityOfHCPROCTERi5kHDmq8" />
+  <xs:complexType name="EntityOfHCQXEQUIPi5kHDmq8">
+    <xs:annotation>
+      <xs:appinfo>
+        <GenericType Name="EntityOf{0}{#}" Namespace="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
+          <GenericParameter Name="HCQXEQUIP" Namespace="http://schemas.datacontract.org/2004/07/Domain.Crystal.Entities" />
+        </GenericType>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element minOccurs="0" name="CustomProperties" nillable="true">
+        <xs:complexType>
+          <xs:annotation>
+            <xs:appinfo>
+              <ActualType Name="DataSet" Namespace="http://schemas.datacontract.org/2004/07/System.Data" xmlns="http://schemas.microsoft.com/2003/10/Serialization/" />
+            </xs:appinfo>
+          </xs:annotation>
+          <xs:sequence>
+            <xs:element ref="xs:schema" />
+            <xs:any />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element xmlns:q103="http://schemas.datacontract.org/2004/07/Domain.Crystal.Entities" minOccurs="0" name="OriginalValue" nillable="true" type="q103:HCQXEQUIP" />
+    </xs:sequence>
+    <xs:attribute ref="ser:Id" />
+    <xs:attribute ref="ser:Ref" />
+  </xs:complexType>
+  <xs:element name="EntityOfHCQXEQUIPi5kHDmq8" nillable="true" type="tns:EntityOfHCQXEQUIPi5kHDmq8" />
+  <xs:complexType name="EntityOfHCQXINFORi5kHDmq8">
+    <xs:annotation>
+      <xs:appinfo>
+        <GenericType Name="EntityOf{0}{#}" Namespace="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
+          <GenericParameter Name="HCQXINFOR" Namespace="http://schemas.datacontract.org/2004/07/Domain.Crystal.Entities" />
+        </GenericType>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element minOccurs="0" name="CustomProperties" nillable="true">
+        <xs:complexType>
+          <xs:annotation>
+            <xs:appinfo>
+              <ActualType Name="DataSet" Namespace="http://schemas.datacontract.org/2004/07/System.Data" xmlns="http://schemas.microsoft.com/2003/10/Serialization/" />
+            </xs:appinfo>
+          </xs:annotation>
+          <xs:sequence>
+            <xs:element ref="xs:schema" />
+            <xs:any />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element xmlns:q104="http://schemas.datacontract.org/2004/07/Domain.Crystal.Entities" minOccurs="0" name="OriginalValue" nillable="true" type="q104:HCQXINFOR" />
+    </xs:sequence>
+    <xs:attribute ref="ser:Id" />
+    <xs:attribute ref="ser:Ref" />
+  </xs:complexType>
+  <xs:element name="EntityOfHCQXINFORi5kHDmq8" nillable="true" type="tns:EntityOfHCQXINFORi5kHDmq8" />
+  <xs:complexType name="EntityOfHCQXREALIi5kHDmq8">
+    <xs:annotation>
+      <xs:appinfo>
+        <GenericType Name="EntityOf{0}{#}" Namespace="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
+          <GenericParameter Name="HCQXREALI" Namespace="http://schemas.datacontract.org/2004/07/Domain.Crystal.Entities" />
+        </GenericType>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element minOccurs="0" name="CustomProperties" nillable="true">
+        <xs:complexType>
+          <xs:annotation>
+            <xs:appinfo>
+              <ActualType Name="DataSet" Namespace="http://schemas.datacontract.org/2004/07/System.Data" xmlns="http://schemas.microsoft.com/2003/10/Serialization/" />
+            </xs:appinfo>
+          </xs:annotation>
+          <xs:sequence>
+            <xs:element ref="xs:schema" />
+            <xs:any />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element xmlns:q105="http://schemas.datacontract.org/2004/07/Domain.Crystal.Entities" minOccurs="0" name="OriginalValue" nillable="true" type="q105:HCQXREALI" />
+    </xs:sequence>
+    <xs:attribute ref="ser:Id" />
+    <xs:attribute ref="ser:Ref" />
+  </xs:complexType>
+  <xs:element name="EntityOfHCQXREALIi5kHDmq8" nillable="true" type="tns:EntityOfHCQXREALIi5kHDmq8" />
+  <xs:complexType name="EntityOfHCQXVIABOi5kHDmq8">
+    <xs:annotation>
+      <xs:appinfo>
+        <GenericType Name="EntityOf{0}{#}" Namespace="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
+          <GenericParameter Name="HCQXVIABO" Namespace="http://schemas.datacontract.org/2004/07/Domain.Crystal.Entities" />
+        </GenericType>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element minOccurs="0" name="CustomProperties" nillable="true">
+        <xs:complexType>
+          <xs:annotation>
+            <xs:appinfo>
+              <ActualType Name="DataSet" Namespace="http://schemas.datacontract.org/2004/07/System.Data" xmlns="http://schemas.microsoft.com/2003/10/Serialization/" />
+            </xs:appinfo>
+          </xs:annotation>
+          <xs:sequence>
+            <xs:element ref="xs:schema" />
+            <xs:any />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element xmlns:q106="http://schemas.datacontract.org/2004/07/Domain.Crystal.Entities" minOccurs="0" name="OriginalValue" nillable="true" type="q106:HCQXVIABO" />
+    </xs:sequence>
+    <xs:attribute ref="ser:Id" />
+    <xs:attribute ref="ser:Ref" />
+  </xs:complexType>
+  <xs:element name="EntityOfHCQXVIABOi5kHDmq8" nillable="true" type="tns:EntityOfHCQXVIABOi5kHDmq8" />
+  <xs:complexType name="EntityOfINDIAGNOPi5kHDmq8">
+    <xs:annotation>
+      <xs:appinfo>
+        <GenericType Name="EntityOf{0}{#}" Namespace="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
+          <GenericParameter Name="INDIAGNOP" Namespace="http://schemas.datacontract.org/2004/07/Domain.Crystal.Entities" />
+        </GenericType>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element minOccurs="0" name="CustomProperties" nillable="true">
+        <xs:complexType>
+          <xs:annotation>
+            <xs:appinfo>
+              <ActualType Name="DataSet" Namespace="http://schemas.datacontract.org/2004/07/System.Data" xmlns="http://schemas.microsoft.com/2003/10/Serialization/" />
+            </xs:appinfo>
+          </xs:annotation>
+          <xs:sequence>
+            <xs:element ref="xs:schema" />
+            <xs:any />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element xmlns:q107="http://schemas.datacontract.org/2004/07/Domain.Crystal.Entities" minOccurs="0" name="OriginalValue" nillable="true" type="q107:INDIAGNOP" />
+    </xs:sequence>
+    <xs:attribute ref="ser:Id" />
+    <xs:attribute ref="ser:Ref" />
+  </xs:complexType>
+  <xs:element name="EntityOfINDIAGNOPi5kHDmq8" nillable="true" type="tns:EntityOfINDIAGNOPi5kHDmq8" />
+  <xs:complexType name="EntityOfINUBICACIi5kHDmq8">
+    <xs:annotation>
+      <xs:appinfo>
+        <GenericType Name="EntityOf{0}{#}" Namespace="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
+          <GenericParameter Name="INUBICACI" Namespace="http://schemas.datacontract.org/2004/07/Domain.Crystal.Entities" />
+        </GenericType>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element minOccurs="0" name="CustomProperties" nillable="true">
+        <xs:complexType>
+          <xs:annotation>
+            <xs:appinfo>
+              <ActualType Name="DataSet" Namespace="http://schemas.datacontract.org/2004/07/System.Data" xmlns="http://schemas.microsoft.com/2003/10/Serialization/" />
+            </xs:appinfo>
+          </xs:annotation>
+          <xs:sequence>
+            <xs:element ref="xs:schema" />
+            <xs:any />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element xmlns:q108="http://schemas.datacontract.org/2004/07/Domain.Crystal.Entities" minOccurs="0" name="OriginalValue" nillable="true" type="q108:INUBICACI" />
+    </xs:sequence>
+    <xs:attribute ref="ser:Id" />
+    <xs:attribute ref="ser:Ref" />
+  </xs:complexType>
+  <xs:element name="EntityOfINUBICACIi5kHDmq8" nillable="true" type="tns:EntityOfINUBICACIi5kHDmq8" />
+  <xs:complexType name="EntityOfINSALARIMi5kHDmq8">
+    <xs:annotation>
+      <xs:appinfo>
+        <GenericType Name="EntityOf{0}{#}" Namespace="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
+          <GenericParameter Name="INSALARIM" Namespace="http://schemas.datacontract.org/2004/07/Domain.Crystal.Entities" />
+        </GenericType>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element minOccurs="0" name="CustomProperties" nillable="true">
+        <xs:complexType>
+          <xs:annotation>
+            <xs:appinfo>
+              <ActualType Name="DataSet" Namespace="http://schemas.datacontract.org/2004/07/System.Data" xmlns="http://schemas.microsoft.com/2003/10/Serialization/" />
+            </xs:appinfo>
+          </xs:annotation>
+          <xs:sequence>
+            <xs:element ref="xs:schema" />
+            <xs:any />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element xmlns:q109="http://schemas.datacontract.org/2004/07/Domain.Crystal.Entities" minOccurs="0" name="OriginalValue" nillable="true" type="q109:INSALARIM" />
+    </xs:sequence>
+    <xs:attribute ref="ser:Id" />
+    <xs:attribute ref="ser:Ref" />
+  </xs:complexType>
+  <xs:element name="EntityOfINSALARIMi5kHDmq8" nillable="true" type="tns:EntityOfINSALARIMi5kHDmq8" />
+  <xs:complexType name="EntityOfINDEPARTAi5kHDmq8">
+    <xs:annotation>
+      <xs:appinfo>
+        <GenericType Name="EntityOf{0}{#}" Namespace="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
+          <GenericParameter Name="INDEPARTA" Namespace="http://schemas.datacontract.org/2004/07/Domain.Crystal.Entities" />
+        </GenericType>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element minOccurs="0" name="CustomProperties" nillable="true">
+        <xs:complexType>
+          <xs:annotation>
+            <xs:appinfo>
+              <ActualType Name="DataSet" Namespace="http://schemas.datacontract.org/2004/07/System.Data" xmlns="http://schemas.microsoft.com/2003/10/Serialization/" />
+            </xs:appinfo>
+          </xs:annotation>
+          <xs:sequence>
+            <xs:element ref="xs:schema" />
+            <xs:any />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element xmlns:q110="http://schemas.datacontract.org/2004/07/Domain.Crystal.Entities" minOccurs="0" name="OriginalValue" nillable="true" type="q110:INDEPARTA" />
+    </xs:sequence>
+    <xs:attribute ref="ser:Id" />
+    <xs:attribute ref="ser:Ref" />
+  </xs:complexType>
+  <xs:element name="EntityOfINDEPARTAi5kHDmq8" nillable="true" type="tns:EntityOfINDEPARTAi5kHDmq8" />
+  <xs:complexType name="EntityOfINPACIENTTOPANUi5kHDmq8">
+    <xs:annotation>
+      <xs:appinfo>
+        <GenericType Name="EntityOf{0}{#}" Namespace="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
+          <GenericParameter Name="INPACIENTTOPANU" Namespace="http://schemas.datacontract.org/2004/07/Domain.Crystal.Entities" />
+        </GenericType>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element minOccurs="0" name="CustomProperties" nillable="true">
+        <xs:complexType>
+          <xs:annotation>
+            <xs:appinfo>
+              <ActualType Name="DataSet" Namespace="http://schemas.datacontract.org/2004/07/System.Data" xmlns="http://schemas.microsoft.com/2003/10/Serialization/" />
+            </xs:appinfo>
+          </xs:annotation>
+          <xs:sequence>
+            <xs:element ref="xs:schema" />
+            <xs:any />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element xmlns:q111="http://schemas.datacontract.org/2004/07/Domain.Crystal.Entities" minOccurs="0" name="OriginalValue" nillable="true" type="q111:INPACIENTTOPANU" />
+    </xs:sequence>
+    <xs:attribute ref="ser:Id" />
+    <xs:attribute ref="ser:Ref" />
+  </xs:complexType>
+  <xs:element name="EntityOfINPACIENTTOPANUi5kHDmq8" nillable="true" type="tns:EntityOfINPACIENTTOPANUi5kHDmq8" />
+  <xs:complexType name="EntityOfHCORDIMAGi5kHDmq8">
+    <xs:annotation>
+      <xs:appinfo>
+        <GenericType Name="EntityOf{0}{#}" Namespace="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
+          <GenericParameter Name="HCORDIMAG" Namespace="http://schemas.datacontract.org/2004/07/Domain.Crystal.Entities" />
+        </GenericType>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element minOccurs="0" name="CustomProperties" nillable="true">
+        <xs:complexType>
+          <xs:annotation>
+            <xs:appinfo>
+              <ActualType Name="DataSet" Namespace="http://schemas.datacontract.org/2004/07/System.Data" xmlns="http://schemas.microsoft.com/2003/10/Serialization/" />
+            </xs:appinfo>
+          </xs:annotation>
+          <xs:sequence>
+            <xs:element ref="xs:schema" />
+            <xs:any />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element xmlns:q112="http://schemas.datacontract.org/2004/07/Domain.Crystal.Entities" minOccurs="0" name="OriginalValue" nillable="true" type="q112:HCORDIMAG" />
+    </xs:sequence>
+    <xs:attribute ref="ser:Id" />
+    <xs:attribute ref="ser:Ref" />
+  </xs:complexType>
+  <xs:element name="EntityOfHCORDIMAGi5kHDmq8" nillable="true" type="tns:EntityOfHCORDIMAGi5kHDmq8" />
+  <xs:complexType name="EntityOfHCORDLABOi5kHDmq8">
+    <xs:annotation>
+      <xs:appinfo>
+        <GenericType Name="EntityOf{0}{#}" Namespace="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
+          <GenericParameter Name="HCORDLABO" Namespace="http://schemas.datacontract.org/2004/07/Domain.Crystal.Entities" />
+        </GenericType>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element minOccurs="0" name="CustomProperties" nillable="true">
+        <xs:complexType>
+          <xs:annotation>
+            <xs:appinfo>
+              <ActualType Name="DataSet" Namespace="http://schemas.datacontract.org/2004/07/System.Data" xmlns="http://schemas.microsoft.com/2003/10/Serialization/" />
+            </xs:appinfo>
+          </xs:annotation>
+          <xs:sequence>
+            <xs:element ref="xs:schema" />
+            <xs:any />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element xmlns:q113="http://schemas.datacontract.org/2004/07/Domain.Crystal.Entities" minOccurs="0" name="OriginalValue" nillable="true" type="q113:HCORDLABO" />
+    </xs:sequence>
+    <xs:attribute ref="ser:Id" />
+    <xs:attribute ref="ser:Ref" />
+  </xs:complexType>
+  <xs:element name="EntityOfHCORDLABOi5kHDmq8" nillable="true" type="tns:EntityOfHCORDLABOi5kHDmq8" />
+  <xs:complexType name="EntityOfINAUTORIUi5kHDmq8">
+    <xs:annotation>
+      <xs:appinfo>
+        <GenericType Name="EntityOf{0}{#}" Namespace="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
+          <GenericParameter Name="INAUTORIU" Namespace="http://schemas.datacontract.org/2004/07/Domain.Crystal.Entities" />
+        </GenericType>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element minOccurs="0" name="CustomProperties" nillable="true">
+        <xs:complexType>
+          <xs:annotation>
+            <xs:appinfo>
+              <ActualType Name="DataSet" Namespace="http://schemas.datacontract.org/2004/07/System.Data" xmlns="http://schemas.microsoft.com/2003/10/Serialization/" />
+            </xs:appinfo>
+          </xs:annotation>
+          <xs:sequence>
+            <xs:element ref="xs:schema" />
+            <xs:any />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element xmlns:q114="http://schemas.datacontract.org/2004/07/Domain.Crystal.Entities" minOccurs="0" name="OriginalValue" nillable="true" type="q114:INAUTORIU" />
+    </xs:sequence>
+    <xs:attribute ref="ser:Id" />
+    <xs:attribute ref="ser:Ref" />
+  </xs:complexType>
+  <xs:element name="EntityOfINAUTORIUi5kHDmq8" nillable="true" type="tns:EntityOfINAUTORIUi5kHDmq8" />
+  <xs:complexType name="EntityOfHCUNITHISi5kHDmq8">
+    <xs:annotation>
+      <xs:appinfo>
+        <GenericType Name="EntityOf{0}{#}" Namespace="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
+          <GenericParameter Name="HCUNITHIS" Namespace="http://schemas.datacontract.org/2004/07/Domain.Crystal.Entities" />
+        </GenericType>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element minOccurs="0" name="CustomProperties" nillable="true">
+        <xs:complexType>
+          <xs:annotation>
+            <xs:appinfo>
+              <ActualType Name="DataSet" Namespace="http://schemas.datacontract.org/2004/07/System.Data" xmlns="http://schemas.microsoft.com/2003/10/Serialization/" />
+            </xs:appinfo>
+          </xs:annotation>
+          <xs:sequence>
+            <xs:element ref="xs:schema" />
+            <xs:any />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element xmlns:q115="http://schemas.datacontract.org/2004/07/Domain.Crystal.Entities" minOccurs="0" name="OriginalValue" nillable="true" type="q115:HCUNITHIS" />
+    </xs:sequence>
+    <xs:attribute ref="ser:Id" />
+    <xs:attribute ref="ser:Ref" />
+  </xs:complexType>
+  <xs:element name="EntityOfHCUNITHISi5kHDmq8" nillable="true" type="tns:EntityOfHCUNITHISi5kHDmq8" />
+  <xs:complexType name="EntityOfSEGgruusui5kHDmq8">
+    <xs:annotation>
+      <xs:appinfo>
+        <GenericType Name="EntityOf{0}{#}" Namespace="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
+          <GenericParameter Name="SEGgruusu" Namespace="http://schemas.datacontract.org/2004/07/Domain.Crystal.Entities" />
+        </GenericType>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element minOccurs="0" name="CustomProperties" nillable="true">
+        <xs:complexType>
+          <xs:annotation>
+            <xs:appinfo>
+              <ActualType Name="DataSet" Namespace="http://schemas.datacontract.org/2004/07/System.Data" xmlns="http://schemas.microsoft.com/2003/10/Serialization/" />
+            </xs:appinfo>
+          </xs:annotation>
+          <xs:sequence>
+            <xs:element ref="xs:schema" />
+            <xs:any />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element xmlns:q116="http://schemas.datacontract.org/2004/07/Domain.Crystal.Entities" minOccurs="0" name="OriginalValue" nillable="true" type="q116:SEGgruusu" />
+    </xs:sequence>
+    <xs:attribute ref="ser:Id" />
+    <xs:attribute ref="ser:Ref" />
+  </xs:complexType>
+  <xs:element name="EntityOfSEGgruusui5kHDmq8" nillable="true" type="tns:EntityOfSEGgruusui5kHDmq8" />
+  <xs:complexType name="EntityOfINAUTORIGi5kHDmq8">
+    <xs:annotation>
+      <xs:appinfo>
+        <GenericType Name="EntityOf{0}{#}" Namespace="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
+          <GenericParameter Name="INAUTORIG" Namespace="http://schemas.datacontract.org/2004/07/Domain.Crystal.Entities" />
+        </GenericType>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element minOccurs="0" name="CustomProperties" nillable="true">
+        <xs:complexType>
+          <xs:annotation>
+            <xs:appinfo>
+              <ActualType Name="DataSet" Namespace="http://schemas.datacontract.org/2004/07/System.Data" xmlns="http://schemas.microsoft.com/2003/10/Serialization/" />
+            </xs:appinfo>
+          </xs:annotation>
+          <xs:sequence>
+            <xs:element ref="xs:schema" />
+            <xs:any />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element xmlns:q117="http://schemas.datacontract.org/2004/07/Domain.Crystal.Entities" minOccurs="0" name="OriginalValue" nillable="true" type="q117:INAUTORIG" />
+    </xs:sequence>
+    <xs:attribute ref="ser:Id" />
+    <xs:attribute ref="ser:Ref" />
+  </xs:complexType>
+  <xs:element name="EntityOfINAUTORIGi5kHDmq8" nillable="true" type="tns:EntityOfINAUTORIGi5kHDmq8" />
+  <xs:complexType name="EntityOfHCINTESERi5kHDmq8">
+    <xs:annotation>
+      <xs:appinfo>
+        <GenericType Name="EntityOf{0}{#}" Namespace="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
+          <GenericParameter Name="HCINTESER" Namespace="http://schemas.datacontract.org/2004/07/Domain.Crystal.Entities" />
+        </GenericType>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element minOccurs="0" name="CustomProperties" nillable="true">
+        <xs:complexType>
+          <xs:annotation>
+            <xs:appinfo>
+              <ActualType Name="DataSet" Namespace="http://schemas.datacontract.org/2004/07/System.Data" xmlns="http://schemas.microsoft.com/2003/10/Serialization/" />
+            </xs:appinfo>
+          </xs:annotation>
+          <xs:sequence>
+            <xs:element ref="xs:schema" />
+            <xs:any />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element xmlns:q118="http://schemas.datacontract.org/2004/07/Domain.Crystal.Entities" minOccurs="0" name="OriginalValue" nillable="true" type="q118:HCINTESER" />
+    </xs:sequence>
+    <xs:attribute ref="ser:Id" />
+    <xs:attribute ref="ser:Ref" />
+  </xs:complexType>
+  <xs:element name="EntityOfHCINTESERi5kHDmq8" nillable="true" type="tns:EntityOfHCINTESERi5kHDmq8" />
+  <xs:complexType name="EntityOfSEGpermiui5kHDmq8">
+    <xs:annotation>
+      <xs:appinfo>
+        <GenericType Name="EntityOf{0}{#}" Namespace="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
+          <GenericParameter Name="SEGpermiu" Namespace="http://schemas.datacontract.org/2004/07/Domain.Crystal.Entities" />
+        </GenericType>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element minOccurs="0" name="CustomProperties" nillable="true">
+        <xs:complexType>
+          <xs:annotation>
+            <xs:appinfo>
+              <ActualType Name="DataSet" Namespace="http://schemas.datacontract.org/2004/07/System.Data" xmlns="http://schemas.microsoft.com/2003/10/Serialization/" />
+            </xs:appinfo>
+          </xs:annotation>
+          <xs:sequence>
+            <xs:element ref="xs:schema" />
+            <xs:any />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element xmlns:q119="http://schemas.datacontract.org/2004/07/Domain.Crystal.Entities" minOccurs="0" name="OriginalValue" nillable="true" type="q119:SEGpermiu" />
+    </xs:sequence>
+    <xs:attribute ref="ser:Id" />
+    <xs:attribute ref="ser:Ref" />
+  </xs:complexType>
+  <xs:element name="EntityOfSEGpermiui5kHDmq8" nillable="true" type="tns:EntityOfSEGpermiui5kHDmq8" />
+  <xs:complexType name="EntityOfINCUPSSUBi5kHDmq8">
+    <xs:annotation>
+      <xs:appinfo>
+        <GenericType Name="EntityOf{0}{#}" Namespace="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
+          <GenericParameter Name="INCUPSSUB" Namespace="http://schemas.datacontract.org/2004/07/Domain.Crystal.Entities" />
+        </GenericType>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element minOccurs="0" name="CustomProperties" nillable="true">
+        <xs:complexType>
+          <xs:annotation>
+            <xs:appinfo>
+              <ActualType Name="DataSet" Namespace="http://schemas.datacontract.org/2004/07/System.Data" xmlns="http://schemas.microsoft.com/2003/10/Serialization/" />
+            </xs:appinfo>
+          </xs:annotation>
+          <xs:sequence>
+            <xs:element ref="xs:schema" />
+            <xs:any />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element xmlns:q120="http://schemas.datacontract.org/2004/07/Domain.Crystal.Entities" minOccurs="0" name="OriginalValue" nillable="true" type="q120:INCUPSSUB" />
+    </xs:sequence>
+    <xs:attribute ref="ser:Id" />
+    <xs:attribute ref="ser:Ref" />
+  </xs:complexType>
+  <xs:element name="EntityOfINCUPSSUBi5kHDmq8" nillable="true" type="tns:EntityOfINCUPSSUBi5kHDmq8" />
+  <xs:complexType name="ActionResultOfSEGpermiui5kHDmq8">
+    <xs:annotation>
+      <xs:appinfo>
+        <GenericType Name="ActionResultOf{0}{#}" Namespace="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
+          <GenericParameter Name="SEGpermiu" Namespace="http://schemas.datacontract.org/2004/07/Domain.Crystal.Entities" />
+        </GenericType>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element xmlns:q121="http://schemas.datacontract.org/2004/07/Domain.Crystal.Entities" minOccurs="0" name="Data" nillable="true" type="q121:ArrayOfSEGpermiu" />
+      <xs:element minOccurs="0" name="Message" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="MessageAux" nillable="true" type="xs:string" />
+      <xs:element xmlns:q122="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="MessageResult" nillable="true" type="q122:ArrayOfstring" />
+      <xs:element xmlns:q123="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="MessageResultAux" nillable="true" type="q123:ArrayOfstring" />
+      <xs:element xmlns:q124="http://schemas.datacontract.org/2004/07/Domain.Crystal.Entities" minOccurs="0" name="ObjectEmbbeded" nillable="true" type="q124:SEGpermiu" />
+      <xs:element minOccurs="0" name="StateResult" type="xs:boolean" />
+      <xs:element minOccurs="0" name="StateResultAux" type="xs:boolean" />
+      <xs:element minOccurs="0" name="StatusCode" type="tns:eStatusResult" />
+    </xs:sequence>
+    <xs:attribute ref="ser:Id" />
+    <xs:attribute ref="ser:Ref" />
+  </xs:complexType>
+  <xs:element name="ActionResultOfSEGpermiui5kHDmq8" nillable="true" type="tns:ActionResultOfSEGpermiui5kHDmq8" />
+  <xs:complexType name="ActionResultOfArrayOfINCUPSSUBi5kHDmq8">
+    <xs:annotation>
+      <xs:appinfo>
+        <GenericType Name="ActionResultOf{0}{#}" Namespace="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
+          <GenericParameter Name="ArrayOfINCUPSSUB" Namespace="http://schemas.datacontract.org/2004/07/Domain.Crystal.Entities" />
+        </GenericType>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element xmlns:q125="http://schemas.datacontract.org/2004/07/Domain.Crystal.Entities" minOccurs="0" name="Data" nillable="true" type="q125:ArrayOfArrayOfINCUPSSUB" />
+      <xs:element minOccurs="0" name="Message" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="MessageAux" nillable="true" type="xs:string" />
+      <xs:element xmlns:q126="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="MessageResult" nillable="true" type="q126:ArrayOfstring" />
+      <xs:element xmlns:q127="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="MessageResultAux" nillable="true" type="q127:ArrayOfstring" />
+      <xs:element xmlns:q128="http://schemas.datacontract.org/2004/07/Domain.Crystal.Entities" minOccurs="0" name="ObjectEmbbeded" nillable="true" type="q128:ArrayOfINCUPSSUB" />
+      <xs:element minOccurs="0" name="StateResult" type="xs:boolean" />
+      <xs:element minOccurs="0" name="StateResultAux" type="xs:boolean" />
+      <xs:element minOccurs="0" name="StatusCode" type="tns:eStatusResult" />
+    </xs:sequence>
+    <xs:attribute ref="ser:Id" />
+    <xs:attribute ref="ser:Ref" />
+  </xs:complexType>
+  <xs:element name="ActionResultOfArrayOfINCUPSSUBi5kHDmq8" nillable="true" type="tns:ActionResultOfArrayOfINCUPSSUBi5kHDmq8" />
+</xs:schema>

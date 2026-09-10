@@ -1,0 +1,55 @@
+﻿#Region "Librerias Improtadas"
+Imports Infrastructure.CrossCutting.Base
+Imports Infrastructure.Data.Xpo
+Imports Infrastructure.Data.Xpo.AccountingRepository
+Imports Domain.Entities
+Imports DevExpress.XtraReports.UI
+Imports System.Drawing.Printing
+#End Region
+
+Public Class rptTreasuryNewsletterSummaryNewsletter
+    Implements IReport
+
+    ''' <summary>
+    ''' Variable para inicializar los valores de sesion
+    ''' </summary>
+    Dim IndigoSessionValues As SessionValues = SessionValues.Instance
+    Public Sub CargarDataSource() Implements IReport.CargarDataSource
+
+    End Sub
+
+    Public Sub CargarImagenes() Implements IReport.CargarImagenes
+
+    End Sub
+
+    Public ReadOnly Property NameReport As String Implements IReport.NameReport
+        Get
+            Return ""
+        End Get
+    End Property
+
+    Public Property ParametrosReporte As Object() Implements IReport.ParametrosReporte
+
+    Private Sub XrTableCell4_SummaryGetResult(sender As Object, e As SummaryGetResultEventArgs) Handles XrTableCell4.SummaryGetResult, XrTableCell5.SummaryGetResult, XrTableCell6.SummaryGetResult,
+                                                                                                        XrTableCell26.SummaryGetResult, XrTableCell27.SummaryGetResult, XrTableCell28.SummaryGetResult,
+                                                                                                        XrTableCell17.SummaryGetResult, XrTableCell18.SummaryGetResult, XrTableCell19.SummaryGetResult,
+                                                                                                        XrTableCell20.SummaryGetResult
+        Dim row = GetCurrentRow()
+        e.Result = Utils.GetMoneyWithISO4217(e.CalculatedValues.ToEntityList(Of Decimal).Sum(), If(String.IsNullOrEmpty(row.CurrencyAbbreviation),
+                                             IndigoSessionValues.CurrencyISO4217, row.CurrencyAbbreviation))
+        e.Handled = True
+    End Sub
+
+    Private Sub XrTableCell3_BeforePrint(sender As Object, e As PrintEventArgs) Handles XrTableCell3.BeforePrint
+        Dim row = GetCurrentRow()
+        XrTableCell3.Text = Utils.GetMoneyWithISO4217(row.SaldoAnterior, If(String.IsNullOrEmpty(row.CurrencyAbbreviation),
+                                             IndigoSessionValues.CurrencyISO4217, row.CurrencyAbbreviation))
+    End Sub
+
+    Private Sub XrTableCell25_BeforePrint(sender As Object, e As PrintEventArgs) Handles XrTableCell25.BeforePrint
+        Dim row = GetCurrentRow()
+        XrTableCell25.Text = Utils.GetMoneyWithISO4217(row.SaldoAnterior, If(String.IsNullOrEmpty(row.CurrencyAbbreviation),
+                                             IndigoSessionValues.CurrencyISO4217, row.CurrencyAbbreviation))
+    End Sub
+
+End Class

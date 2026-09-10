@@ -1,0 +1,588 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="INDIGO001Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="ADINGRESO">
+          <Key>
+            <PropertyRef Name="NUMINGRES" />
+          </Key>
+          <Property Name="NUMINGRES" Type="char" MaxLength="10" Nullable="false" />
+          <Property Name="IPCODPACI" Type="char" MaxLength="15" Nullable="false" />
+          <Property Name="TIPOINGRE" Type="int" Nullable="false" />
+          <Property Name="IINGREPOR" Type="int" Nullable="false" />
+          <Property Name="ITIPORIES" Type="int" Nullable="false" />
+          <Property Name="ICAUSAING" Type="int" Nullable="false" />
+          <Property Name="CODENTIDA" Type="char" MaxLength="9" Nullable="false" />
+          <Property Name="CODCONTRA" Type="char" MaxLength="6" Nullable="false" />
+          <Property Name="CODPANATE" Type="char" MaxLength="2" Nullable="false" />
+          <Property Name="IFECHAING" Type="datetime" Nullable="false" />
+          <Property Name="ILIQUIDAC" Type="int" Nullable="false" />
+          <Property Name="ICONTROLI" Type="char" MaxLength="15" Nullable="false" />
+          <Property Name="CODCENATE" Type="char" MaxLength="10" Nullable="false" />
+          <Property Name="UFUCODIGO" Type="char" MaxLength="10" Nullable="false" />
+          <Property Name="IAUTORIZA" Type="char" MaxLength="15" />
+          <Property Name="IESTADOIN" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="IINGRESOA" Type="char" MaxLength="10" />
+          <Property Name="ISOATVALO" Type="numeric" Precision="18" Scale="2" />
+          <Property Name="ISALCODIG" Type="char" MaxLength="3" />
+          <Property Name="INUMERORE" Type="char" MaxLength="8" />
+          <Property Name="IFECHAREM" Type="datetime" />
+          <Property Name="IAUTORREM" Type="char" MaxLength="15" />
+          <Property Name="DEPMUNCOD" Type="char" MaxLength="5" />
+          <Property Name="AIPSREMIS" Type="char" MaxLength="100" />
+          <Property Name="IOBSERVAC" Type="varchar" MaxLength="2000" />
+          <Property Name="IJUSTIFIC" Type="char" MaxLength="254" />
+          <Property Name="IREINGRES" Type="int" Nullable="false" />
+          <Property Name="UFUINGMED" Type="char" MaxLength="10" />
+          <Property Name="CODPROING" Type="char" MaxLength="20" />
+          <Property Name="UFUEGRMED" Type="char" MaxLength="10" />
+          <Property Name="CODPROEGR" Type="char" MaxLength="20" />
+          <Property Name="UFUINGHOS" Type="char" MaxLength="10" />
+          <Property Name="UFUEGRHOS" Type="char" MaxLength="10" />
+          <Property Name="CODESPTRA" Type="char" MaxLength="3" />
+          <Property Name="TIPOPROFE" Type="char" MaxLength="2" />
+          <Property Name="UFUAACTMED" Type="char" MaxLength="10" />
+          <Property Name="UFUAACTHOS" Type="char" MaxLength="10" />
+          <Property Name="CODCAMACT" Type="int" />
+          <Property Name="CODDIAING" Type="char" MaxLength="4" />
+          <Property Name="CODDIAEGR" Type="char" MaxLength="4" />
+          <Property Name="UFUACTPAC" Type="char" MaxLength="10" Nullable="false" />
+          <Property Name="CODUSUCRE" Type="char" MaxLength="20" />
+          <Property Name="FECREGCRE" Type="datetime" />
+          <Property Name="CODUSUMOD" Type="char" MaxLength="20" />
+          <Property Name="FECREGMOD" Type="datetime" />
+          <Property Name="CODUSUANU" Type="char" MaxLength="20" />
+          <Property Name="FECREGANU" Type="datetime" />
+          <Property Name="NUMINGREI" Type="char" MaxLength="10" />
+          <Property Name="CODICAMHO" Type="char" MaxLength="10" />
+          <Property Name="FECHOSPIT" Type="datetime" />
+          <Property Name="INDAUDFOR" Type="numeric" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="IPRNOMBRE" Type="char" MaxLength="80" />
+          <Property Name="IPCODACTR" Type="char" MaxLength="15" />
+          <Property Name="IPEXPEDIC" Type="char" MaxLength="40" />
+          <Property Name="FECACTRAN" Type="datetime" />
+          <Property Name="HORACIDEN" Type="char" MaxLength="5" />
+          <Property Name="IPTELEFON" Type="char" MaxLength="15" />
+          <Property Name="OBSERACIT" Type="varchar" MaxLength="250" />
+          <Property Name="OBSERAREM" Type="varchar" MaxLength="250" />
+          <Property Name="INGRECEXT" Type="bit" />
+          <Property Name="PACATENDI" Type="bit" />
+          <Property Name="ESCADOWNT" Type="char" MaxLength="1" />
+          <Property Name="ESCABIERI" Type="char" MaxLength="1" />
+          <Property Name="ESCARASS" Type="char" MaxLength="1" />
+          <Property Name="ESCNORPAC" Type="char" MaxLength="1" />
+          <Property Name="SERSUSCEP" Type="bit" />
+          <Property Name="ESCVASPAC" Type="char" MaxLength="1" />
+          <Property Name="ESCAPAPAC" Type="char" MaxLength="1" />
+        </EntityType>
+        <EntityType Name="INPACIENT">
+          <Key>
+            <PropertyRef Name="IPCODPACI" />
+          </Key>
+          <Property Name="IPCODPACI" Type="char" MaxLength="15" Nullable="false" />
+          <Property Name="IPTIPODOC" Type="int" Nullable="false" />
+          <Property Name="CODIGONIT" Type="char" MaxLength="15" Nullable="false" />
+          <Property Name="IPEXPEDIC" Type="char" MaxLength="40" Nullable="false" />
+          <Property Name="IPPRIAPEL" Type="char" MaxLength="20" Nullable="false" />
+          <Property Name="IPSEGAPEL" Type="char" MaxLength="20" Nullable="false" />
+          <Property Name="IPPRINOMB" Type="char" MaxLength="20" Nullable="false" />
+          <Property Name="IPSEGNOMB" Type="char" MaxLength="20" Nullable="false" />
+          <Property Name="IPNOMCOMP" Type="char" MaxLength="250" Nullable="false" />
+          <Property Name="CODEMPRES" Type="char" MaxLength="5" Nullable="false" />
+          <Property Name="IPTIPOPAC" Type="int" Nullable="false" />
+          <Property Name="IPTIPOAFI" Type="int" Nullable="false" />
+          <Property Name="CAPACIPAG" Type="int" Nullable="false" />
+          <Property Name="CODENTIDA" Type="char" MaxLength="9" Nullable="false" />
+          <Property Name="CCCONTRAT" Type="char" MaxLength="6" Nullable="false" />
+          <Property Name="CPPLANBEN" Type="char" MaxLength="2" Nullable="false" />
+          <Property Name="AUUBICACI" Type="char" MaxLength="10" Nullable="false" />
+          <Property Name="NIVCODIGO" Type="char" MaxLength="2" Nullable="false" />
+          <Property Name="IPDIRECCI" Type="varchar(max)" Nullable="false" />
+          <Property Name="IPTELEFON" Type="varchar(max)" Nullable="false" />
+          <Property Name="IPTELMOVI" Type="varchar(max)" Nullable="false" />
+          <Property Name="IPFECNACI" Type="datetime" Nullable="false" />
+          <Property Name="CODACTIVI" Type="char" MaxLength="4" Nullable="false" />
+          <Property Name="IPSEXOPAC" Type="int" Nullable="false" />
+          <Property Name="IPESTADOC" Type="int" Nullable="false" />
+          <Property Name="IPGRUPSAN" Type="char" MaxLength="2" />
+          <Property Name="IPRHSANGR" Type="char" MaxLength="1" />
+          <Property Name="TIPCOBSAL" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="CORELEPAC" Type="char" MaxLength="50" />
+          <Property Name="CODGRUPOE" Type="char" MaxLength="3" />
+          <Property Name="ESTADOPAC" Type="bit" Nullable="false" />
+          <Property Name="OBSERVACI" Type="varchar" MaxLength="250" />
+          <Property Name="INDAUDFOR" Type="numeric" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="PACIEFOTO" Type="varbinary(max)" />
+          <Property Name="PACIEHUELL" Type="varbinary(max)" />
+          <Property Name="NUMCARPET" Type="varchar" MaxLength="15" />
+          <Property Name="CODUSUCRE" Type="char" MaxLength="20" />
+          <Property Name="FECREGCRE" Type="datetime" />
+          <Property Name="CODUSUMOD" Type="char" MaxLength="20" />
+          <Property Name="FECREGMOD" Type="datetime" />
+          <Property Name="IPESTRATO" Type="int" />
+          <Property Name="CREDCODIGO" Type="char" MaxLength="3" />
+          <Property Name="DISCCODIGO" Type="char" MaxLength="3" />
+          <Property Name="IDICODIGO" Type="char" MaxLength="3" />
+          <Property Name="NIVECODIGO" Type="char" MaxLength="3" />
+          <Property Name="GRUPCODIGO" Type="char" MaxLength="3" />
+        </EntityType>
+        <EntityType Name="INPROFSAL">
+          <Key>
+            <PropertyRef Name="CODPROSAL" />
+          </Key>
+          <Property Name="CODPROSAL" Type="char" MaxLength="20" Nullable="false" />
+          <Property Name="CODIGONIT" Type="char" MaxLength="15" />
+          <Property Name="NOMMEDICO" Type="char" MaxLength="60" Nullable="false" />
+          <Property Name="MEDPRINOM" Type="char" MaxLength="15" Nullable="false" />
+          <Property Name="MEDSEGNOM" Type="char" MaxLength="15" Nullable="false" />
+          <Property Name="MEDPRIAPEL" Type="char" MaxLength="15" Nullable="false" />
+          <Property Name="MEDSEGAPEL" Type="char" MaxLength="15" Nullable="false" />
+          <Property Name="CODESPEC1" Type="char" MaxLength="3" Nullable="false" />
+          <Property Name="CODESPEC2" Type="char" MaxLength="3" />
+          <Property Name="CODESPEC3" Type="char" MaxLength="3" />
+          <Property Name="IMDIRECCI" Type="char" MaxLength="100" Nullable="false" />
+          <Property Name="IMTELEFON" Type="char" MaxLength="15" Nullable="false" />
+          <Property Name="IMTELMOVI" Type="char" MaxLength="15" Nullable="false" />
+          <Property Name="TARJETAPR" Type="char" MaxLength="15" />
+          <Property Name="ESTADOMED" Type="int" Nullable="false" />
+          <Property Name="MEDTIPVIN" Type="int" Nullable="false" />
+          <Property Name="CODUSUARI" Type="char" MaxLength="20" />
+          <Property Name="TIPPROFES" Type="int" Nullable="false" />
+          <Property Name="MEDICFOTO" Type="varbinary(max)" />
+          <Property Name="MEDIFIRMA" Type="varbinary(max)" />
+          <Property Name="MEDIHUELL" Type="varbinary(max)" />
+          <Property Name="MEDPERCIR" Type="char" MaxLength="1" />
+          <Property Name="INDAUDFOR" Type="numeric" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="REACONEXT" Type="bit" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_ADINGRESO_INPacient">
+          <End Role="INPACIENT" Type="Self.INPACIENT" Multiplicity="1" />
+          <End Role="ADINGRESO" Type="Self.ADINGRESO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="INPACIENT">
+              <PropertyRef Name="IPCODPACI" />
+            </Principal>
+            <Dependent Role="ADINGRESO">
+              <PropertyRef Name="IPCODPACI" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_INPACIENT_INPACIENT">
+          <End Role="INPACIENT" Type="Self.INPACIENT" Multiplicity="1" />
+          <End Role="INPACIENT1" Type="Self.INPACIENT" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="INPACIENT">
+              <PropertyRef Name="IPCODPACI" />
+            </Principal>
+            <Dependent Role="INPACIENT1">
+              <PropertyRef Name="IPCODPACI" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="INDIGO001ModelStoreContainer">
+          <EntitySet Name="ADINGRESO" EntityType="Self.ADINGRESO" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="INPACIENT" EntityType="Self.INPACIENT" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="INPROFSAL" EntityType="Self.INPROFSAL" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_ADINGRESO_INPacient" Association="Self.FK_ADINGRESO_INPacient">
+            <End Role="INPACIENT" EntitySet="INPACIENT" />
+            <End Role="ADINGRESO" EntitySet="ADINGRESO" />
+          </AssociationSet>
+          <AssociationSet Name="FK_INPACIENT_INPACIENT" Association="Self.FK_INPACIENT_INPACIENT">
+            <End Role="INPACIENT" EntitySet="INPACIENT" />
+            <End Role="INPACIENT1" EntitySet="INPACIENT" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="INDIGO001Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="ADINGRESO">
+          <Key>
+            <PropertyRef Name="NUMINGRES" />
+          </Key>
+          <Property Name="NUMINGRES" Type="String" MaxLength="10" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="TIPOINGRE" Type="Int32" Nullable="false" />
+          <Property Name="IINGREPOR" Type="Int32" Nullable="false" />
+          <Property Name="ITIPORIES" Type="Int32" Nullable="false" />
+          <Property Name="ICAUSAING" Type="Int32" Nullable="false" />
+          <Property Name="CODENTIDA" Type="String" MaxLength="9" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="CODCONTRA" Type="String" MaxLength="6" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="CODPANATE" Type="String" MaxLength="2" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="IFECHAING" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ILIQUIDAC" Type="Int32" Nullable="false" />
+          <Property Name="ICONTROLI" Type="String" MaxLength="15" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="CODCENATE" Type="String" MaxLength="10" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="UFUCODIGO" Type="String" MaxLength="10" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="IAUTORIZA" Type="String" MaxLength="15" FixedLength="true" Unicode="false" />
+          <Property Name="IESTADOIN" Type="String" MaxLength="1" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="IINGRESOA" Type="String" MaxLength="10" FixedLength="true" Unicode="false" />
+          <Property Name="ISOATVALO" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="ISALCODIG" Type="String" MaxLength="3" FixedLength="true" Unicode="false" />
+          <Property Name="INUMERORE" Type="String" MaxLength="8" FixedLength="true" Unicode="false" />
+          <Property Name="IFECHAREM" Type="DateTime" Precision="3" />
+          <Property Name="IAUTORREM" Type="String" MaxLength="15" FixedLength="true" Unicode="false" />
+          <Property Name="DEPMUNCOD" Type="String" MaxLength="5" FixedLength="true" Unicode="false" />
+          <Property Name="AIPSREMIS" Type="String" MaxLength="100" FixedLength="true" Unicode="false" />
+          <Property Name="IOBSERVAC" Type="String" MaxLength="2000" FixedLength="false" Unicode="false" />
+          <Property Name="IJUSTIFIC" Type="String" MaxLength="254" FixedLength="true" Unicode="false" />
+          <Property Name="IREINGRES" Type="Int32" Nullable="false" />
+          <Property Name="UFUINGMED" Type="String" MaxLength="10" FixedLength="true" Unicode="false" />
+          <Property Name="CODPROING" Type="String" MaxLength="20" FixedLength="true" Unicode="false" />
+          <Property Name="UFUEGRMED" Type="String" MaxLength="10" FixedLength="true" Unicode="false" />
+          <Property Name="CODPROEGR" Type="String" MaxLength="20" FixedLength="true" Unicode="false" />
+          <Property Name="UFUINGHOS" Type="String" MaxLength="10" FixedLength="true" Unicode="false" />
+          <Property Name="UFUEGRHOS" Type="String" MaxLength="10" FixedLength="true" Unicode="false" />
+          <Property Name="CODESPTRA" Type="String" MaxLength="3" FixedLength="true" Unicode="false" />
+          <Property Name="TIPOPROFE" Type="String" MaxLength="2" FixedLength="true" Unicode="false" />
+          <Property Name="UFUAACTMED" Type="String" MaxLength="10" FixedLength="true" Unicode="false" />
+          <Property Name="UFUAACTHOS" Type="String" MaxLength="10" FixedLength="true" Unicode="false" />
+          <Property Name="CODCAMACT" Type="Int32" />
+          <Property Name="CODDIAING" Type="String" MaxLength="4" FixedLength="true" Unicode="false" />
+          <Property Name="CODDIAEGR" Type="String" MaxLength="4" FixedLength="true" Unicode="false" />
+          <Property Name="UFUACTPAC" Type="String" MaxLength="10" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="CODUSUCRE" Type="String" MaxLength="20" FixedLength="true" Unicode="false" />
+          <Property Name="FECREGCRE" Type="DateTime" Precision="3" />
+          <Property Name="CODUSUMOD" Type="String" MaxLength="20" FixedLength="true" Unicode="false" />
+          <Property Name="FECREGMOD" Type="DateTime" Precision="3" />
+          <Property Name="CODUSUANU" Type="String" MaxLength="20" FixedLength="true" Unicode="false" />
+          <Property Name="FECREGANU" Type="DateTime" Precision="3" />
+          <Property Name="NUMINGREI" Type="String" MaxLength="10" FixedLength="true" Unicode="false" />
+          <Property Name="CODICAMHO" Type="String" MaxLength="10" FixedLength="true" Unicode="false" />
+          <Property Name="FECHOSPIT" Type="DateTime" Precision="3" />
+          <Property Name="INDAUDFOR" Type="Decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="IPRNOMBRE" Type="String" MaxLength="80" FixedLength="true" Unicode="false" />
+          <Property Name="IPCODACTR" Type="String" MaxLength="15" FixedLength="true" Unicode="false" />
+          <Property Name="IPEXPEDIC" Type="String" MaxLength="40" FixedLength="true" Unicode="false" />
+          <Property Name="FECACTRAN" Type="DateTime" Precision="3" />
+          <Property Name="HORACIDEN" Type="String" MaxLength="5" FixedLength="true" Unicode="false" />
+          <Property Name="IPTELEFON" Type="String" MaxLength="15" FixedLength="true" Unicode="false" />
+          <Property Name="OBSERACIT" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="OBSERAREM" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="INGRECEXT" Type="Boolean" />
+          <Property Name="PACATENDI" Type="Boolean" />
+          <Property Name="ESCADOWNT" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="ESCABIERI" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="ESCARASS" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="ESCNORPAC" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="SERSUSCEP" Type="Boolean" />
+          <Property Name="ESCVASPAC" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="ESCAPAPAC" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <NavigationProperty Name="INPACIENT" Relationship="Self.FK_ADINGRESO_INPacient" FromRole="ADINGRESO" ToRole="INPACIENT" />
+        </EntityType>
+        <EntityType Name="INPACIENT">
+          <Key>
+            <PropertyRef Name="IPCODPACI" />
+          </Key>
+          <Property Name="IPCODPACI" Type="String" MaxLength="15" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="IPTIPODOC" Type="Int32" Nullable="false" />
+          <Property Name="CODIGONIT" Type="String" MaxLength="15" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="IPEXPEDIC" Type="String" MaxLength="40" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="IPPRIAPEL" Type="String" MaxLength="20" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="IPSEGAPEL" Type="String" MaxLength="20" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="IPPRINOMB" Type="String" MaxLength="20" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="IPSEGNOMB" Type="String" MaxLength="20" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="IPNOMCOMP" Type="String" MaxLength="250" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="CODEMPRES" Type="String" MaxLength="5" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="IPTIPOPAC" Type="Int32" Nullable="false" />
+          <Property Name="IPTIPOAFI" Type="Int32" Nullable="false" />
+          <Property Name="CAPACIPAG" Type="Int32" Nullable="false" />
+          <Property Name="CODENTIDA" Type="String" MaxLength="9" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="CCCONTRAT" Type="String" MaxLength="6" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="CPPLANBEN" Type="String" MaxLength="2" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="AUUBICACI" Type="String" MaxLength="10" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="NIVCODIGO" Type="String" MaxLength="2" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="IPDIRECCI" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="IPTELEFON" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="IPTELMOVI" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="IPFECNACI" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="CODACTIVI" Type="String" MaxLength="4" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="IPSEXOPAC" Type="Int32" Nullable="false" />
+          <Property Name="IPESTADOC" Type="Int32" Nullable="false" />
+          <Property Name="IPGRUPSAN" Type="String" MaxLength="2" FixedLength="true" Unicode="false" />
+          <Property Name="IPRHSANGR" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="TIPCOBSAL" Type="String" MaxLength="1" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="CORELEPAC" Type="String" MaxLength="50" FixedLength="true" Unicode="false" />
+          <Property Name="CODGRUPOE" Type="String" MaxLength="3" FixedLength="true" Unicode="false" />
+          <Property Name="ESTADOPAC" Type="Boolean" Nullable="false" />
+          <Property Name="OBSERVACI" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="INDAUDFOR" Type="Decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="PACIEFOTO" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="PACIEHUELL" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="NUMCARPET" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="CODUSUCRE" Type="String" MaxLength="20" FixedLength="true" Unicode="false" />
+          <Property Name="FECREGCRE" Type="DateTime" Precision="3" />
+          <Property Name="CODUSUMOD" Type="String" MaxLength="20" FixedLength="true" Unicode="false" />
+          <Property Name="FECREGMOD" Type="DateTime" Precision="3" />
+          <Property Name="IPESTRATO" Type="Int32" />
+          <Property Name="CREDCODIGO" Type="String" MaxLength="3" FixedLength="true" Unicode="false" />
+          <Property Name="DISCCODIGO" Type="String" MaxLength="3" FixedLength="true" Unicode="false" />
+          <Property Name="IDICODIGO" Type="String" MaxLength="3" FixedLength="true" Unicode="false" />
+          <Property Name="NIVECODIGO" Type="String" MaxLength="3" FixedLength="true" Unicode="false" />
+          <Property Name="GRUPCODIGO" Type="String" MaxLength="3" FixedLength="true" Unicode="false" />
+          <NavigationProperty Name="ADINGRESO" Relationship="Self.FK_ADINGRESO_INPacient" FromRole="INPACIENT" ToRole="ADINGRESO" />
+          <NavigationProperty Name="INPACIENT1" Relationship="Self.FK_INPACIENT_INPACIENT" FromRole="INPACIENT" ToRole="INPACIENT1" />
+          <NavigationProperty Name="INPACIENT2" Relationship="Self.FK_INPACIENT_INPACIENT" FromRole="INPACIENT1" ToRole="INPACIENT" />
+        </EntityType>
+        <EntityType Name="INPROFSAL">
+          <Key>
+            <PropertyRef Name="CODPROSAL" />
+          </Key>
+          <Property Name="CODPROSAL" Type="String" MaxLength="20" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="CODIGONIT" Type="String" MaxLength="15" FixedLength="true" Unicode="false" />
+          <Property Name="NOMMEDICO" Type="String" MaxLength="60" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="MEDPRINOM" Type="String" MaxLength="15" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="MEDSEGNOM" Type="String" MaxLength="15" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="MEDPRIAPEL" Type="String" MaxLength="15" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="MEDSEGAPEL" Type="String" MaxLength="15" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="CODESPEC1" Type="String" MaxLength="3" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="CODESPEC2" Type="String" MaxLength="3" FixedLength="true" Unicode="false" />
+          <Property Name="CODESPEC3" Type="String" MaxLength="3" FixedLength="true" Unicode="false" />
+          <Property Name="IMDIRECCI" Type="String" MaxLength="100" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="IMTELEFON" Type="String" MaxLength="15" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="IMTELMOVI" Type="String" MaxLength="15" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="TARJETAPR" Type="String" MaxLength="15" FixedLength="true" Unicode="false" />
+          <Property Name="ESTADOMED" Type="Int32" Nullable="false" />
+          <Property Name="MEDTIPVIN" Type="Int32" Nullable="false" />
+          <Property Name="CODUSUARI" Type="String" MaxLength="20" FixedLength="true" Unicode="false" />
+          <Property Name="TIPPROFES" Type="Int32" Nullable="false" />
+          <Property Name="MEDICFOTO" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="MEDIFIRMA" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="MEDIHUELL" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="MEDPERCIR" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="INDAUDFOR" Type="Decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="REACONEXT" Type="Boolean" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_ADINGRESO_INPacient">
+          <End Role="INPACIENT" Type="Self.INPACIENT" Multiplicity="1" />
+          <End Role="ADINGRESO" Type="Self.ADINGRESO" Multiplicity="*" />
+        </Association>
+        <Association Name="FK_INPACIENT_INPACIENT">
+          <End Role="INPACIENT" Type="Self.INPACIENT" Multiplicity="1" />
+          <End Role="INPACIENT1" Type="Self.INPACIENT" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="INPACIENT">
+              <PropertyRef Name="IPCODPACI" />
+            </Principal>
+            <Dependent Role="INPACIENT1">
+              <PropertyRef Name="IPCODPACI" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="INDIGO001Entities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="ADINGRESO" EntityType="Self.ADINGRESO" />
+          <EntitySet Name="INPACIENT" EntityType="Self.INPACIENT" />
+          <EntitySet Name="INPROFSAL" EntityType="Self.INPROFSAL" />
+          <AssociationSet Name="FK_ADINGRESO_INPacient" Association="Self.FK_ADINGRESO_INPacient">
+            <End Role="INPACIENT" EntitySet="INPACIENT" />
+            <End Role="ADINGRESO" EntitySet="ADINGRESO" />
+          </AssociationSet>
+          <AssociationSet Name="FK_INPACIENT_INPACIENT" Association="Self.FK_INPACIENT_INPACIENT">
+            <End Role="INPACIENT" EntitySet="INPACIENT" />
+            <End Role="INPACIENT1" EntitySet="INPACIENT" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="INDIGO001ModelStoreContainer" CdmEntityContainer="INDIGO001Entities">
+          <EntitySetMapping Name="ADINGRESO">
+            <EntityTypeMapping TypeName="INDIGO001Model.ADINGRESO">
+              <MappingFragment StoreEntitySet="ADINGRESO">
+                <ScalarProperty Name="NUMINGRES" ColumnName="NUMINGRES" />
+                <ScalarProperty Name="TIPOINGRE" ColumnName="TIPOINGRE" />
+                <ScalarProperty Name="IINGREPOR" ColumnName="IINGREPOR" />
+                <ScalarProperty Name="ITIPORIES" ColumnName="ITIPORIES" />
+                <ScalarProperty Name="ICAUSAING" ColumnName="ICAUSAING" />
+                <ScalarProperty Name="CODENTIDA" ColumnName="CODENTIDA" />
+                <ScalarProperty Name="CODCONTRA" ColumnName="CODCONTRA" />
+                <ScalarProperty Name="CODPANATE" ColumnName="CODPANATE" />
+                <ScalarProperty Name="IFECHAING" ColumnName="IFECHAING" />
+                <ScalarProperty Name="ILIQUIDAC" ColumnName="ILIQUIDAC" />
+                <ScalarProperty Name="ICONTROLI" ColumnName="ICONTROLI" />
+                <ScalarProperty Name="CODCENATE" ColumnName="CODCENATE" />
+                <ScalarProperty Name="UFUCODIGO" ColumnName="UFUCODIGO" />
+                <ScalarProperty Name="IAUTORIZA" ColumnName="IAUTORIZA" />
+                <ScalarProperty Name="IESTADOIN" ColumnName="IESTADOIN" />
+                <ScalarProperty Name="IINGRESOA" ColumnName="IINGRESOA" />
+                <ScalarProperty Name="ISOATVALO" ColumnName="ISOATVALO" />
+                <ScalarProperty Name="ISALCODIG" ColumnName="ISALCODIG" />
+                <ScalarProperty Name="INUMERORE" ColumnName="INUMERORE" />
+                <ScalarProperty Name="IFECHAREM" ColumnName="IFECHAREM" />
+                <ScalarProperty Name="IAUTORREM" ColumnName="IAUTORREM" />
+                <ScalarProperty Name="DEPMUNCOD" ColumnName="DEPMUNCOD" />
+                <ScalarProperty Name="AIPSREMIS" ColumnName="AIPSREMIS" />
+                <ScalarProperty Name="IOBSERVAC" ColumnName="IOBSERVAC" />
+                <ScalarProperty Name="IJUSTIFIC" ColumnName="IJUSTIFIC" />
+                <ScalarProperty Name="IREINGRES" ColumnName="IREINGRES" />
+                <ScalarProperty Name="UFUINGMED" ColumnName="UFUINGMED" />
+                <ScalarProperty Name="CODPROING" ColumnName="CODPROING" />
+                <ScalarProperty Name="UFUEGRMED" ColumnName="UFUEGRMED" />
+                <ScalarProperty Name="CODPROEGR" ColumnName="CODPROEGR" />
+                <ScalarProperty Name="UFUINGHOS" ColumnName="UFUINGHOS" />
+                <ScalarProperty Name="UFUEGRHOS" ColumnName="UFUEGRHOS" />
+                <ScalarProperty Name="CODESPTRA" ColumnName="CODESPTRA" />
+                <ScalarProperty Name="TIPOPROFE" ColumnName="TIPOPROFE" />
+                <ScalarProperty Name="UFUAACTMED" ColumnName="UFUAACTMED" />
+                <ScalarProperty Name="UFUAACTHOS" ColumnName="UFUAACTHOS" />
+                <ScalarProperty Name="CODCAMACT" ColumnName="CODCAMACT" />
+                <ScalarProperty Name="CODDIAING" ColumnName="CODDIAING" />
+                <ScalarProperty Name="CODDIAEGR" ColumnName="CODDIAEGR" />
+                <ScalarProperty Name="UFUACTPAC" ColumnName="UFUACTPAC" />
+                <ScalarProperty Name="CODUSUCRE" ColumnName="CODUSUCRE" />
+                <ScalarProperty Name="FECREGCRE" ColumnName="FECREGCRE" />
+                <ScalarProperty Name="CODUSUMOD" ColumnName="CODUSUMOD" />
+                <ScalarProperty Name="FECREGMOD" ColumnName="FECREGMOD" />
+                <ScalarProperty Name="CODUSUANU" ColumnName="CODUSUANU" />
+                <ScalarProperty Name="FECREGANU" ColumnName="FECREGANU" />
+                <ScalarProperty Name="NUMINGREI" ColumnName="NUMINGREI" />
+                <ScalarProperty Name="CODICAMHO" ColumnName="CODICAMHO" />
+                <ScalarProperty Name="FECHOSPIT" ColumnName="FECHOSPIT" />
+                <ScalarProperty Name="INDAUDFOR" ColumnName="INDAUDFOR" />
+                <ScalarProperty Name="IPRNOMBRE" ColumnName="IPRNOMBRE" />
+                <ScalarProperty Name="IPCODACTR" ColumnName="IPCODACTR" />
+                <ScalarProperty Name="IPEXPEDIC" ColumnName="IPEXPEDIC" />
+                <ScalarProperty Name="FECACTRAN" ColumnName="FECACTRAN" />
+                <ScalarProperty Name="HORACIDEN" ColumnName="HORACIDEN" />
+                <ScalarProperty Name="IPTELEFON" ColumnName="IPTELEFON" />
+                <ScalarProperty Name="OBSERACIT" ColumnName="OBSERACIT" />
+                <ScalarProperty Name="OBSERAREM" ColumnName="OBSERAREM" />
+                <ScalarProperty Name="INGRECEXT" ColumnName="INGRECEXT" />
+                <ScalarProperty Name="PACATENDI" ColumnName="PACATENDI" />
+                <ScalarProperty Name="ESCADOWNT" ColumnName="ESCADOWNT" />
+                <ScalarProperty Name="ESCABIERI" ColumnName="ESCABIERI" />
+                <ScalarProperty Name="ESCARASS" ColumnName="ESCARASS" />
+                <ScalarProperty Name="ESCNORPAC" ColumnName="ESCNORPAC" />
+                <ScalarProperty Name="SERSUSCEP" ColumnName="SERSUSCEP" />
+                <ScalarProperty Name="ESCVASPAC" ColumnName="ESCVASPAC" />
+                <ScalarProperty Name="ESCAPAPAC" ColumnName="ESCAPAPAC" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="INPACIENT">
+            <EntityTypeMapping TypeName="INDIGO001Model.INPACIENT">
+              <MappingFragment StoreEntitySet="INPACIENT">
+                <ScalarProperty Name="IPCODPACI" ColumnName="IPCODPACI" />
+                <ScalarProperty Name="IPTIPODOC" ColumnName="IPTIPODOC" />
+                <ScalarProperty Name="CODIGONIT" ColumnName="CODIGONIT" />
+                <ScalarProperty Name="IPEXPEDIC" ColumnName="IPEXPEDIC" />
+                <ScalarProperty Name="IPPRIAPEL" ColumnName="IPPRIAPEL" />
+                <ScalarProperty Name="IPSEGAPEL" ColumnName="IPSEGAPEL" />
+                <ScalarProperty Name="IPPRINOMB" ColumnName="IPPRINOMB" />
+                <ScalarProperty Name="IPSEGNOMB" ColumnName="IPSEGNOMB" />
+                <ScalarProperty Name="IPNOMCOMP" ColumnName="IPNOMCOMP" />
+                <ScalarProperty Name="CODEMPRES" ColumnName="CODEMPRES" />
+                <ScalarProperty Name="IPTIPOPAC" ColumnName="IPTIPOPAC" />
+                <ScalarProperty Name="IPTIPOAFI" ColumnName="IPTIPOAFI" />
+                <ScalarProperty Name="CAPACIPAG" ColumnName="CAPACIPAG" />
+                <ScalarProperty Name="CODENTIDA" ColumnName="CODENTIDA" />
+                <ScalarProperty Name="CCCONTRAT" ColumnName="CCCONTRAT" />
+                <ScalarProperty Name="CPPLANBEN" ColumnName="CPPLANBEN" />
+                <ScalarProperty Name="AUUBICACI" ColumnName="AUUBICACI" />
+                <ScalarProperty Name="NIVCODIGO" ColumnName="NIVCODIGO" />
+                <ScalarProperty Name="IPDIRECCI" ColumnName="IPDIRECCI" />
+                <ScalarProperty Name="IPTELEFON" ColumnName="IPTELEFON" />
+                <ScalarProperty Name="IPTELMOVI" ColumnName="IPTELMOVI" />
+                <ScalarProperty Name="IPFECNACI" ColumnName="IPFECNACI" />
+                <ScalarProperty Name="CODACTIVI" ColumnName="CODACTIVI" />
+                <ScalarProperty Name="IPSEXOPAC" ColumnName="IPSEXOPAC" />
+                <ScalarProperty Name="IPESTADOC" ColumnName="IPESTADOC" />
+                <ScalarProperty Name="IPGRUPSAN" ColumnName="IPGRUPSAN" />
+                <ScalarProperty Name="IPRHSANGR" ColumnName="IPRHSANGR" />
+                <ScalarProperty Name="TIPCOBSAL" ColumnName="TIPCOBSAL" />
+                <ScalarProperty Name="CORELEPAC" ColumnName="CORELEPAC" />
+                <ScalarProperty Name="CODGRUPOE" ColumnName="CODGRUPOE" />
+                <ScalarProperty Name="ESTADOPAC" ColumnName="ESTADOPAC" />
+                <ScalarProperty Name="OBSERVACI" ColumnName="OBSERVACI" />
+                <ScalarProperty Name="INDAUDFOR" ColumnName="INDAUDFOR" />
+                <ScalarProperty Name="PACIEFOTO" ColumnName="PACIEFOTO" />
+                <ScalarProperty Name="PACIEHUELL" ColumnName="PACIEHUELL" />
+                <ScalarProperty Name="NUMCARPET" ColumnName="NUMCARPET" />
+                <ScalarProperty Name="CODUSUCRE" ColumnName="CODUSUCRE" />
+                <ScalarProperty Name="FECREGCRE" ColumnName="FECREGCRE" />
+                <ScalarProperty Name="CODUSUMOD" ColumnName="CODUSUMOD" />
+                <ScalarProperty Name="FECREGMOD" ColumnName="FECREGMOD" />
+                <ScalarProperty Name="IPESTRATO" ColumnName="IPESTRATO" />
+                <ScalarProperty Name="CREDCODIGO" ColumnName="CREDCODIGO" />
+                <ScalarProperty Name="DISCCODIGO" ColumnName="DISCCODIGO" />
+                <ScalarProperty Name="IDICODIGO" ColumnName="IDICODIGO" />
+                <ScalarProperty Name="NIVECODIGO" ColumnName="NIVECODIGO" />
+                <ScalarProperty Name="GRUPCODIGO" ColumnName="GRUPCODIGO" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="INPROFSAL">
+            <EntityTypeMapping TypeName="INDIGO001Model.INPROFSAL">
+              <MappingFragment StoreEntitySet="INPROFSAL">
+                <ScalarProperty Name="CODPROSAL" ColumnName="CODPROSAL" />
+                <ScalarProperty Name="CODIGONIT" ColumnName="CODIGONIT" />
+                <ScalarProperty Name="NOMMEDICO" ColumnName="NOMMEDICO" />
+                <ScalarProperty Name="MEDPRINOM" ColumnName="MEDPRINOM" />
+                <ScalarProperty Name="MEDSEGNOM" ColumnName="MEDSEGNOM" />
+                <ScalarProperty Name="MEDPRIAPEL" ColumnName="MEDPRIAPEL" />
+                <ScalarProperty Name="MEDSEGAPEL" ColumnName="MEDSEGAPEL" />
+                <ScalarProperty Name="CODESPEC1" ColumnName="CODESPEC1" />
+                <ScalarProperty Name="CODESPEC2" ColumnName="CODESPEC2" />
+                <ScalarProperty Name="CODESPEC3" ColumnName="CODESPEC3" />
+                <ScalarProperty Name="IMDIRECCI" ColumnName="IMDIRECCI" />
+                <ScalarProperty Name="IMTELEFON" ColumnName="IMTELEFON" />
+                <ScalarProperty Name="IMTELMOVI" ColumnName="IMTELMOVI" />
+                <ScalarProperty Name="TARJETAPR" ColumnName="TARJETAPR" />
+                <ScalarProperty Name="ESTADOMED" ColumnName="ESTADOMED" />
+                <ScalarProperty Name="MEDTIPVIN" ColumnName="MEDTIPVIN" />
+                <ScalarProperty Name="CODUSUARI" ColumnName="CODUSUARI" />
+                <ScalarProperty Name="TIPPROFES" ColumnName="TIPPROFES" />
+                <ScalarProperty Name="MEDICFOTO" ColumnName="MEDICFOTO" />
+                <ScalarProperty Name="MEDIFIRMA" ColumnName="MEDIFIRMA" />
+                <ScalarProperty Name="MEDIHUELL" ColumnName="MEDIHUELL" />
+                <ScalarProperty Name="MEDPERCIR" ColumnName="MEDPERCIR" />
+                <ScalarProperty Name="INDAUDFOR" ColumnName="INDAUDFOR" />
+                <ScalarProperty Name="REACONEXT" ColumnName="REACONEXT" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="FK_ADINGRESO_INPacient" TypeName="INDIGO001Model.FK_ADINGRESO_INPacient" StoreEntitySet="ADINGRESO">
+            <EndProperty Name="INPACIENT">
+              <ScalarProperty Name="IPCODPACI" ColumnName="IPCODPACI" />
+            </EndProperty>
+            <EndProperty Name="ADINGRESO">
+              <ScalarProperty Name="NUMINGRES" ColumnName="NUMINGRES" />
+            </EndProperty>
+          </AssociationSetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="false" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams>
+      <Diagram DiagramId="85c32fe4ba9c4aa8b7e9fb046996a258" Name="Diagram1" ZoomLevel="61">
+        <EntityTypeShape EntityType="INDIGO001Model.ADINGRESO" Width="1.5" PointX="3" PointY="1.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="INDIGO001Model.INPACIENT" Width="1.5" PointX="0.75" PointY="3.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="INDIGO001Model.INPROFSAL" Width="1.5" PointX="5.75" PointY="0.75" IsExpanded="true" />
+        <AssociationConnector Association="INDIGO001Model.FK_ADINGRESO_INPacient" ManuallyRouted="false" />
+        <AssociationConnector Association="INDIGO001Model.FK_INPACIENT_INPACIENT" ManuallyRouted="false" />
+      </Diagram>
+    </Diagrams>
+  </Designer>
+</edmx:Edmx>

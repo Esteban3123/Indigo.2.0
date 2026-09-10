@@ -1,0 +1,316 @@
+﻿#Region "Imports"
+Imports Infrastructure.CrossCutting.Base
+Imports Infrastructure.Data.Xpo
+Imports Infrastructure.Data.Xpo.PaymentsRepository
+Imports DevExpress.XtraReports.UI
+Imports DevExpress.XtraReports.Parameters
+Imports DevExpress.Xpo
+Imports System.Globalization
+Imports Domain.Entities
+Imports Presentation.CloudAgent
+Imports System.ServiceModel
+Imports Infrastructure.Data.Xpo.AccountingRepository
+Imports Presentation.Base
+
+#End Region
+
+Public Class rptAccountPayable
+    Implements IReport
+
+    ''' <summary>
+    ''' Variable para inicializar los valores de sesion
+    ''' </summary>
+    Dim IndigoSessionValues As SessionValues = SessionValues.Instance
+    Private INDUser As Object
+    Private INDAccountPayableLiquidationId As Object
+    Private CurrencyAbbreviation As String = SessionValues.Instance.CurrencyISO4217
+
+    ''' <summary>
+    ''' propiedad que almacena los tipo de registro del IVA  de companysettings
+    ''' </summary>
+    ''' <returns>1- IVA Costo (Control Fiscal)
+    '''             2- IVA Descontable
+    '''             3- IVA Mixto
+    '''             4- IVA Costo
+    '''             NULL - no parametrizado</returns>
+    Private Property CompanyTaxRegistration As Byte?
+
+    Private _dictionaryValidate As Dictionary(Of String, String) = New Dictionary(Of String, String)
+
+    Public Sub CargarDataSource() Implements IReport.CargarDataSource
+        Dim filtroConsulta As String = "Code = '" & ParametrosReporte(0) & "'"
+        Dim INDList = XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).PaymentsService.GetCollection(Of PaymentsAccountPayable)(Nothing, filtroConsulta)
+        Dim INDCodeUser = CType(INDList(0), PaymentsAccountPayable).CreationUser.Trim()
+        INDUser = XpoServiceEx.Instance(IndigoSessionValues.SecurityContainer).PaymentsService.GetCollection(Of Infrastructure.Data.Xpo.SecurityRepository.UserXpo)(Nothing, "UserCode = '" & INDCodeUser & "'")
+        CompanyTaxRegistration = XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).AccountingService.GetXPOObject(Of CompanySettingsXpo)("TaxRegistration > 0")?.TaxRegistration
+
+        Dim INDId = CType(INDList(0), PaymentsAccountPayable).Id
+        Dim filtroConsulta2 As String = "AccountPayableDetailConceptId.IdAccountPayable.Id = " & INDId
+        INDAccountPayableLiquidationId = XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).PaymentsService.ListAccountPayableDetailConceptLiquidationByAccountPayableDetailConceptId(filtroConsulta2)
+        If INDAccountPayableLiquidationId Is Nothing OrElse INDAccountPayableLiquidationId.Count = 0 Then
+            Me.GroupFooter3.PageBreak = DevExpress.XtraReports.UI.PageBreak.None
+        Else
+            Me.GroupFooter3.PageBreak = DevExpress.XtraReports.UI.PageBreak.BeforeBand
+        End If
+
+        INDTmpQuantity.Value = INDList.Count
+        Me.DataSource = INDList
+    End Sub
+
+    Public Sub CargarImagenes() Implements IReport.CargarImagenes
+
+    End Sub
+
+    Public ReadOnly Property NameReport As String Implements IReport.NameReport
+        Get
+            Return ""
+        End Get
+    End Property
+
+    Public Property ParametrosReporte As Object() Implements IReport.ParametrosReporte
+
+    Private Sub rptAccountPayable_BeforePrint(sender As Object, e As Printing.PrintEventArgs) Handles MyBase.BeforePrint
+        If Me.Parameters.Count > 0 AndAlso Me.Parameters(0).Value > 0 Then
+            Dim ParametrosFilter As ParameterCollection = Me.Parameters
+            ParametrosReporte = New Object() {ParametrosFilter.GetByName("INDSubIdAccountPayable").Value}
+            CargarDataSource()
+        End If
+        Dim _culture As CultureInfo
+        If Me.DataSource IsNot Nothing AndAlso Not String.IsNullOrEmpty(Me.DataSource?(0).CurrencyAbbreviation) Then
+            _culture = CultureInfo.CurrentCulture.Clone()
+            CurrencyAbbreviation = Me.DataSource?(0).CurrencyAbbreviation
+            _culture.NumberFormat = CurrencyAbbreviation.GetNumberFormat
+            ApplyLocalization(_culture)
+        End If
+
+        Me.INDLblUserPrint.Text = "Usuario Impresión : " & IndigoSessionValues.UserIndigo & " - " & IndigoSessionValues.UserIndigoName
+        Me.INDLblCompany.Text = IndigoSessionValues.IndigoCompanyName
+        Me.INDLblNitCompany.Text = "Nit : " & IndigoSessionValues.IndigoCompanyNit
+        If INDUser IsNot Nothing AndAlso INDUser.Count > 0 Then
+            INDLblCreationUser.Text = If(INDUser IsNot Nothing, INDUser(0).CodeName, "")
+        End If
+
+        Dim total As Decimal = Convert.ToDecimal(GetCurrentColumnValue("INDCfTotal"))
+        Dim integerPart As Long = Math.Truncate(total)
+        Dim decimalPart As Integer = Convert.ToInt32((total - integerPart) * 100)
+
+        Me.XrTableCell45.Text = String.Format("{0} {1}{2}",
+                                                  Utils.Num2Text(integerPart).ToString,
+                                                  If(Me.DataSource?(0).Currency?.ISO4217Xpo?.CurrencyName IsNot Nothing,
+                                                     UCase(Me.DataSource?(0).Currency?.ISO4217Xpo?.CurrencyName),
+                                                     IndigoSessionValues.CurrencyISO4217),
+                                                  If(decimalPart > 0, $", CON {Utils.Num2Text(decimalPart).ToString} {Utils.ListDecimalCurrency(CurrencyAbbreviation)}", ""))
+    End Sub
+
+    ''' <summary>
+    ''' evento celda valor total concepto
+    ''' </summary>
+    ''' <param name="sender"></param>
+    ''' <param name="e"></param>
+    Private Sub XrTableCell57_BeforePrint(sender As Object, e As Printing.PrintEventArgs) Handles XrTableCell57.BeforePrint
+        Dim Value = TryCast(sender, DevExpress.XtraReports.UI.XRFieldEmbeddableControl).[Text]
+        Dim CurrencyAbbreviation = GetCurrentColumnValue("CurrencyAbbreviation").ToString()
+        If Not String.IsNullOrEmpty(Value) AndAlso Not String.IsNullOrEmpty(CurrencyAbbreviation) Then
+            XrTableCell57.Text = Utils.GetMoneyWithISO4217(Value.AsDecimal, CurrencyAbbreviation)
+        End If
+    End Sub
+
+    ''' <summary>
+    ''' evento footer total factura
+    ''' </summary>
+    ''' <param name="sender"></param>
+    ''' <param name="e"></param>
+    Private Sub GroupFooter2_BeforePrint(sender As Object, e As Printing.PrintEventArgs) Handles GroupFooter2.BeforePrint
+        Dim CurrencyAbbreviation = GetCurrentColumnValue("CurrencyAbbreviation").ToString()
+        Dim InvoiceValue = GetCurrentColumnValue("InvoiceValue").ToString.AsDecimal
+        If InvoiceValue IsNot Nothing AndAlso Not String.IsNullOrEmpty(CurrencyAbbreviation) Then
+            XrTableCell39.Text = Utils.GetMoneyWithISO4217(GetCurrentColumnValue("InvoiceValue").ToString.AsDecimal, CurrencyAbbreviation)
+        End If
+    End Sub
+
+    Private Function getGeneralRow(item As PaymentsAccountPayableDetailConceptXpoP) As List(Of AccountPayableDetailConcept)
+        Dim acountPayabbleDetailChild As New List(Of AccountPayableDetailConcept)
+
+        ' Registro sin iva
+        If Not (item?.RateIva?.Id > 0 AndAlso item?.IvaValue > 0) OrElse (item?.RateIva?.Id Is Nothing OrElse item?.IvaValue Is Nothing) Then
+            Dim row As AccountPayableDetailConcept = New AccountPayableDetailConcept
+
+            row.IdAccount = item.IdAccount.Id
+            row.DescriptionPaymentConcept = item.IdConceptAccountPayable.CodeName
+            row.IdCostCenter = item.IdCostCenter?.Id
+            row.Nature = item.Nature
+            row.NatureName = If(item.Nature = 1, "Debito", "Credito")
+            row.Value = item.Value
+            row.RetentionConcepts = New RetentionConcepts()
+            row.RetentionConcepts.Name = item.IdRetentionConcept?.Code + "-" + item.IdRetentionConcept?.Name
+            row.ThirdParty = New ThirdParty()
+            row.ThirdParty.Name = item.IdThirdParty.Nit + "-" + item.IdThirdParty.Name
+            row.CostCenter = New CostCenter()
+            row.CostCenter.Name = item.IdCostCenter?.Code + "-" + item.IdCostCenter?.Name
+            row.NumberNameMainAccount = item.IdAccount.Number + "-" + item.IdAccount.Name
+
+            acountPayabbleDetailChild.Add(row)
+        End If
+
+        Return acountPayabbleDetailChild
+    End Function
+
+    Private Function getIVARow(TaxRegistration As Integer, item As PaymentsAccountPayableDetailConceptXpoP) As List(Of AccountPayableDetailConcept)
+        Dim acountPayabbleDetailChild As New List(Of AccountPayableDetailConcept)
+
+        ' Registro sin iva
+        If (item?.RateIva?.Id > 0 AndAlso item?.IvaValue > 0) Then
+            If TaxRegistration <> 2 AndAlso item.Value <> item.IvaValue Then
+                Dim row As AccountPayableDetailConcept = New AccountPayableDetailConcept
+
+                row.IdAccount = item.IdAccount.Id
+                row.DescriptionPaymentConcept = item.IdConceptAccountPayable.CodeName
+                row.IdCostCenter = item.IdCostCenter?.Id
+                row.Nature = item.Nature
+                row.NatureName = If(item.Nature = 1, "Debito", "Credito")
+                row.Value = If(TaxRegistration = 2 OrElse TaxRegistration = 4, item.BaseValue, item.Value)
+                row.RetentionConcepts = New RetentionConcepts()
+                row.RetentionConcepts.Name = item.IdRetentionConcept?.Code + "-" + item.IdRetentionConcept?.Name
+                row.ThirdParty = New ThirdParty()
+                row.ThirdParty.Name = item.IdThirdParty.Nit + "-" + item.IdThirdParty.Name
+                row.CostCenter = New CostCenter()
+                row.CostCenter.Name = item.IdCostCenter?.Code + "-" + item.IdCostCenter?.Name
+                row.NumberNameMainAccount = item.IdAccount.Number + "-" + item.IdAccount.Name
+
+                acountPayabbleDetailChild.Add(row)
+            End If
+
+            ''Se actualiza el total para que no tome el value sino el total del concepto
+            item.Value = item.TotalConcept
+            Dim Iva As GeneralLedgerIVA
+            Using scope As New OperationContextScope(IndigoConecta.Instancia.CurrentCloud.IndigoAccounting.InnerChannel)
+                IndigoSessionValues.AuditMessageWcf.Functional = Tag
+                Dim mess As New MessageHeader(Of AuditMessage)(IndigoSessionValues.AuditMessageWcf)
+                Dim header As System.ServiceModel.Channels.MessageHeader = mess.GetUntypedHeader(ConfigurationFile.SESS_AUDITMESSAGE, ConfigurationFile.SESS_NAME_SPACE)
+                OperationContext.Current.OutgoingMessageHeaders.Add(header)
+                Iva = IndigoConecta.Instancia.CurrentCloud.IndigoAccounting.GetGeneralLedgerIVAById(Convert.ToInt32(item.RateIva?.Id)).ObjectEmbbeded
+            End Using
+
+            ''se valida que la fac tura posea el control de iva descontable
+            ''en caso de que tenga iva descontable
+            If TaxRegistration = 2 Then
+                ''se genera registro para debito
+                If item.IvaValue > 0 Then
+                    Dim newChild As AccountPayableDetailConcept = New AccountPayableDetailConcept
+
+                    newChild.Value = item.IvaValue
+                    newChild.IdAccount = Iva.IdAccountPurchaseService
+                    newChild.Nature = 1
+                    newChild.NatureName = "Debito"
+                    Dim filtroC As String = "Id = " & Iva.IdAccountPurchaseService
+                    Dim accountInfo = XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).PaymentsService.GetCollection(Of Infrastructure.Data.Xpo.PaymentsRepository.GeneralLedgerMainAccountsXpo)(Nothing, filtroC).FirstOrDefault
+                    newChild.NumberNameMainAccount = accountInfo.NumberName
+                    newChild.DescriptionPaymentConcept = accountInfo.NumberName
+                    newChild.ThirdParty = New ThirdParty()
+                    newChild.ThirdParty.Name = item.IdThirdParty.Nit + "-" + item.IdThirdParty.Name
+
+                    acountPayabbleDetailChild.Add(newChild)
+                End If
+            ElseIf TaxRegistration = 1 Then
+
+                'validacion para mostrar que cuentas de iva no tiene parametros de control fiscal
+                If Iva?.IdAccountDebitControlFiscal Is Nothing OrElse Iva?.IdAccountCreditControlFiscal Is Nothing Then
+
+                    If Not _dictionaryValidate?.Any(Function(x) x.Key = Iva.Code) Then
+                        _dictionaryValidate.Add(Iva.Code, Iva.Name)
+                        MessageIndigo.Show($"Debe parámetrizar las cuentas debito o credito de control fiscal del iva ({Iva?.Code} - {Iva?.Name})", MessageType.Warning, Me.Text, Botones.Aceptar, "")
+                    End If
+
+                    Return New List(Of AccountPayableDetailConcept)
+                End If
+
+                ''se genera un registro para el debito
+                Dim debitChild As AccountPayableDetailConcept = New AccountPayableDetailConcept
+
+                debitChild.Value = item.IvaValue
+                debitChild.IdAccount = Iva.IdAccountDebitControlFiscal
+                debitChild.Nature = 1
+                debitChild.NatureName = "Debito"
+                Dim filtroD As String = "Id = " & Iva.IdAccountDebitControlFiscal
+                Dim accountInfo = XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).PaymentsService.GetCollection(Of Infrastructure.Data.Xpo.PaymentsRepository.GeneralLedgerMainAccountsXpo)(Nothing, filtroD).FirstOrDefault
+                debitChild.NumberNameMainAccount = accountInfo.NumberName
+                debitChild.DescriptionPaymentConcept = accountInfo.NumberName
+                debitChild.ThirdParty = New ThirdParty()
+                debitChild.ThirdParty.Name = item.IdThirdParty.Nit + "-" + item.IdThirdParty.Name
+
+                acountPayabbleDetailChild.Add(debitChild)
+
+                ''se genera registro para el credito
+                Dim creditChild As AccountPayableDetailConcept = New AccountPayableDetailConcept
+
+                creditChild.Value = item.IvaValue
+                creditChild.IdAccount = Iva.IdAccountCreditControlFiscal
+                creditChild.Nature = 2
+                creditChild.NatureName = "Credito"
+                Dim filtroC2 As String = "Id = " & Iva.IdAccountCreditControlFiscal
+                Dim accountInfo2 = XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).PaymentsService.GetCollection(Of Infrastructure.Data.Xpo.PaymentsRepository.GeneralLedgerMainAccountsXpo)(Nothing, filtroC2).FirstOrDefault
+                creditChild.NumberNameMainAccount = accountInfo2.NumberName
+                creditChild.DescriptionPaymentConcept = accountInfo2.NumberName
+                creditChild.ThirdParty = New ThirdParty()
+                creditChild.ThirdParty.Name = item.IdThirdParty.Nit + "-" + item.IdThirdParty.Name
+
+                acountPayabbleDetailChild.Add(creditChild)
+            ElseIf TaxRegistration = 4 Then
+
+                Dim newChild As AccountPayableDetailConcept = New AccountPayableDetailConcept
+
+                newChild.IdAccount = item.IdAccount.Id
+                newChild.DescriptionPaymentConcept = item.IdConceptAccountPayable.CodeName
+                newChild.IdCostCenter = item.IdCostCenter?.Id
+                newChild.Nature = item.Nature
+                newChild.NatureName = If(item.Nature = 1, "Debito", "Credito")
+                newChild.Value = item.IvaValue
+                newChild.ThirdParty = New ThirdParty()
+                newChild.ThirdParty.Name = $"{item?.IdThirdParty?.Nit } - {item?.IdThirdParty?.Name}"
+                newChild.CostCenter = New CostCenter()
+                newChild.CostCenter.Name = $"{item?.IdCostCenter?.Code} - {item?.IdCostCenter?.Name}"
+                newChild.NumberNameMainAccount = $"{item?.IdAccount?.Number} - {item?.IdAccount?.Name} "
+                newChild.Detail = $"IVA {Iva?.Percentage} % - {Iva?.Name}"
+
+                acountPayabbleDetailChild.Add(newChild)
+            End If
+        End If
+
+        Return acountPayabbleDetailChild
+    End Function
+
+    ''' <summary>
+    ''' EVENTO Before print para pintar los conceptos por CxP.
+    ''' </summary>
+    ''' <param name="sender"></param>
+    ''' <param name="e"></param>
+    Private Sub DetailReport_BeforePrint(sender As Object, e As Printing.PrintEventArgs) Handles DetailReport.BeforePrint
+        Dim dataSource As PaymentsAccountPayable = GetCurrentRow()
+
+        'se valida que la cxp tenga al menos un concepto
+        If dataSource?.PaymentsAccountPayableDetailConceptXpoP?.Any() Then
+
+            Dim itemsList = New AccountPayableDetailConcept()
+
+            Dim TaxRegistration = CType(dataSource, PaymentsAccountPayable).TaxRegistration
+            'TaxRegistration = If(hasDeductibleIva Is Nothing, False, hasDeductibleIva)
+
+            itemsList.AccountPayabbleDetailChild = New List(Of AccountPayableDetailConcept)
+			''validacion en caso de que tenga iva descontable y tenga un iva registrado 
+			If TaxRegistration IsNot Nothing Then
+				For Each itemDetail In dataSource.PaymentsAccountPayableDetailConceptXpoP
+					itemsList.AccountPayabbleDetailChild.AddRange(Me.getGeneralRow(itemDetail))
+					itemsList.AccountPayabbleDetailChild.AddRange(Me.getIVARow(TaxRegistration, itemDetail))
+				Next
+			Else
+				For Each itemDetail In dataSource.PaymentsAccountPayableDetailConceptXpoP
+					itemsList.AccountPayabbleDetailChild.AddRange(Me.getGeneralRow(itemDetail))
+				Next
+			End If
+
+			DetailReport.DataSource = itemsList
+            
+        End If
+
+    End Sub
+End Class

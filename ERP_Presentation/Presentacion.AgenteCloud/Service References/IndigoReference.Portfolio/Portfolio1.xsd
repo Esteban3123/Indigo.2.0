@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://schemas.datacontract.org/2004/07/Domain.Portfolio.Model" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/Domain.Portfolio.Model" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:complexType name="ArrayOfArrayOfPortfolioDeteriorationByClassificationDTO">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="ArrayOfPortfolioDeteriorationByClassificationDTO" nillable="true" type="tns:ArrayOfPortfolioDeteriorationByClassificationDTO" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfArrayOfPortfolioDeteriorationByClassificationDTO" nillable="true" type="tns:ArrayOfArrayOfPortfolioDeteriorationByClassificationDTO" />
+  <xs:complexType name="ArrayOfPortfolioDeteriorationByClassificationDTO">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="PortfolioDeteriorationByClassificationDTO" nillable="true" type="tns:PortfolioDeteriorationByClassificationDTO" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfPortfolioDeteriorationByClassificationDTO" nillable="true" type="tns:ArrayOfPortfolioDeteriorationByClassificationDTO" />
+  <xs:complexType name="PortfolioDeteriorationByClassificationDTO">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="AccountReceivableDate" nillable="true" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="AccountReceivableId" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="AccountReceivableType" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="AccumulatedDeterioration" nillable="true" type="xs:decimal" />
+      <xs:element minOccurs="0" name="AgesDescription" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="AgesId" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="Balance" nillable="true" type="xs:decimal" />
+      <xs:element minOccurs="0" name="BalanceGlosa" nillable="true" type="xs:decimal" />
+      <xs:element minOccurs="0" name="Code" type="xs:int" />
+      <xs:element minOccurs="0" name="Days" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="DeteriorationBalance" nillable="true" type="xs:decimal" />
+      <xs:element minOccurs="0" name="DocumentDate" nillable="true" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="DocumentValue" nillable="true" type="xs:decimal" />
+      <xs:element minOccurs="0" name="GlosaPortfolioGlosadaId" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="InvoiceNumber" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="LegalBookId" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="Message" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Percentage" nillable="true" type="xs:decimal" />
+      <xs:element minOccurs="0" name="PortfolioClassification" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="PortfolioClassificationId" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="RadicatedDate" nillable="true" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="RegimenName" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="ThirdPartyId" type="xs:int" />
+      <xs:element minOccurs="0" name="ThirdPartyNitName" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="TypeBook" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="Value" nillable="true" type="xs:decimal" />
+      <xs:element minOccurs="0" name="ValueGlosado" nillable="true" type="xs:decimal" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="PortfolioDeteriorationByClassificationDTO" nillable="true" type="tns:PortfolioDeteriorationByClassificationDTO" />
+</xs:schema>

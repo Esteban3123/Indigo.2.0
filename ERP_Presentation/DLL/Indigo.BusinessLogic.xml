@@ -1,0 +1,274 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Indigo.BusinessLogic</name>
+    </assembly>
+    <members>
+        <member name="T:IndigoBusinessLogic.clsCalculoConversiones">
+            <summary>
+            Clase para validar las conversiones 
+            </summary>
+        </member>
+        <member name="F:IndigoBusinessLogic.clsCalculoConversiones._CantidadVehiculo">
+            <summary>
+            Variables 
+            </summary>
+        </member>
+        <member name="P:IndigoBusinessLogic.clsCalculoConversiones.CantidadVehiculo">
+            <summary>
+            Propiedades
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:IndigoBusinessLogic.clsCalculoConversiones.#ctor(System.Decimal,System.Boolean,System.Decimal,System.Decimal,System.Decimal,System.String,System.String)">
+            <summary>
+            Inicializacion de clase 
+            </summary>
+            <param name="INDseLlevara"></param>
+            <param name="INDcheckVehiculo"></param>
+            <param name="PesoTotal"></param>
+            <param name="VolumenTotal"></param>
+            <param name="Cantidad"></param>
+            <param name="INDUnicos"></param>
+            <param name="UnidadPeso"></param>
+        </member>
+        <member name="M:IndigoBusinessLogic.clsCalculoConversiones.ObtenerVolumenTotal">
+            <summary>
+            Funcion para obtener el volumen total sin vehiculo
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:IndigoBusinessLogic.clsCalculoConversiones.ConversionUnidadMedida(System.Decimal,System.String,System.String)">
+            <summary>
+            Funcion para realizar la conversion de la unidad de medida del medicamento 
+            </summary>
+            <param name="Valor"></param>
+            <param name="UnidadMedidadOrigen"></param>
+            <param name="UnidadMedidaDestino"></param>
+            <returns></returns>
+        </member>
+        <member name="M:IndigoBusinessLogic.clsCalculoConversiones.ObtenerUnidadMedida(System.String)">
+            <summary>
+            Funcion para obtener la unidad de medida a convertir
+            </summary>
+            <param name="UnidadMedida"></param>
+            <returns></returns>
+        </member>
+        <member name="M:IndigoBusinessLogic.clsHCAplicacionesPendientes.ValidarMedicamento">
+            <summary>
+            Funcion boolean para detemrinar si existen medicamentos pendientes por aplicar
+            </summary>
+            <returns></returns>
+            <remarks></remarks>
+        </member>
+        <member name="T:IndigoBusinessLogic.clsHCCalculodeCantidades">
+            <summary>
+            Clase de Logica Pra El Calculo de Cantidades en la Prescripcion de Medicamentos
+            </summary>
+            <remarks></remarks>
+        </member>
+        <member name="P:IndigoBusinessLogic.clsHCCalculodeCantidades.Concentracion">
+            <summary>
+            Concentracion del Medicamento
+            </summary>
+            <value></value>
+            <returns></returns>
+            <remarks></remarks>
+        </member>
+        <member name="P:IndigoBusinessLogic.clsHCCalculodeCantidades.TiempodeVida">
+            <summary>
+            Tiempo de Vida del Medicamento
+            </summary>
+            <value></value>
+            <returns></returns>
+            <remarks></remarks>
+        </member>
+        <member name="P:IndigoBusinessLogic.clsHCCalculodeCantidades.Dosis">
+            <summary>
+            Dosis de Consumo o Aplicacion
+            </summary>
+            <value></value>
+            <returns></returns>
+            <remarks></remarks>
+        </member>
+        <member name="P:IndigoBusinessLogic.clsHCCalculodeCantidades.Frecuencia">
+            <summary>
+            Frecuencia de Consumo o Aplicacion
+            </summary>
+            <value></value>
+            <returns></returns>
+            <remarks></remarks>
+        </member>
+        <member name="P:IndigoBusinessLogic.clsHCCalculodeCantidades.Duracion">
+            <summary>
+            Duracion de la Prescripcion
+            </summary>
+            <value></value>
+            <returns></returns>
+            <remarks></remarks>
+        </member>
+        <member name="P:IndigoBusinessLogic.clsHCCalculodeCantidades.INDCantidadSolicitar">
+            <summary>
+            Resultado del Algoritmo
+            </summary>
+            <value></value>
+            <returns></returns>
+            <remarks></remarks>
+        </member>
+        <member name="P:IndigoBusinessLogic.clsHCCalculodeCantidades.INDNumerodeAplicaciones">
+            <summary>
+            Resultado del Algoritmo
+            </summary>
+            <value></value>
+            <returns></returns>
+            <remarks></remarks>
+        </member>
+        <member name="M:IndigoBusinessLogic.clsHCCalculodeCantidades.#ctor(System.Decimal,System.Decimal,System.Decimal,System.Decimal,System.Decimal,System.Boolean)">
+            <summary>
+            Cuando se Instacia la Clase
+            </summary>
+            <param name="varConcentracion">Concentracion del medicamento</param>
+            <param name="varTiempoVida">Tiempo de Vida del medicamento</param>
+            <param name="varDosis">Dosis a suministrar/aplicar</param>
+            <param name="varFrecuencia">Frecuencia de uso</param>
+            <param name="varDuracion">Duracion del Tratamiento</param>
+            <remarks></remarks>
+        </member>
+        <member name="M:IndigoBusinessLogic.clsHCCalculodeCantidades.CalcularCantidad_DosisMenor_SinVidaUtil">
+            <summary>
+            Algoritmo para calcular la cantidad cuando la dosis es menor y el medicamento no tiene tiempo de vida
+            </summary>
+            <remarks></remarks>
+        </member>
+        <member name="M:IndigoBusinessLogic.clsHCCalculodeCantidades.CalcularCantidad_DosisMenor_ConVidaUtil">
+            <summary>
+            Algoritmo para calcular la cantidad cuando la dosis es menor y el medicamento tiene tiempo de vida
+            </summary>
+            <remarks></remarks>
+        </member>
+        <member name="M:IndigoBusinessLogic.clsHCCalculodeCantidades.CalcularCantidad_DosisIgual_SinVidaUtil">
+            <summary>
+            Algoritmo para calcular la cantidad cuando la dosis es igual y el medicamento no tiene tiempo de vida
+            </summary>
+            <remarks></remarks>
+        </member>
+        <member name="M:IndigoBusinessLogic.clsHCCalculodeCantidades.CalcularCantidad_DosisIgual_ConVidaUtil">
+            <summary>
+            Algoritmo para calcular la cantidad cuando la dosis es igual y el medicamento  tiene tiempo de vida
+            </summary>
+            <remarks></remarks>
+        </member>
+        <member name="M:IndigoBusinessLogic.clsHCCalculodeCantidades.CalcularCantidad_DosisMayor_SinVidaUtil">
+            <summary>
+            Algoritmo para calcular la cantidad cuando la dosis es mayor y el medicamento no tiene tiempo de vida
+            </summary>
+            <remarks></remarks>
+        </member>
+        <member name="M:IndigoBusinessLogic.clsHCCalculodeCantidades.CalcularCantidad_DosisMayor_ConVidaUtil">
+            <summary>
+            Algoritmo para calcular la cantidad cuando la dosis es mayor y el medicamento tiene tiempo de vida
+            </summary>
+            <remarks></remarks>
+        </member>
+        <member name="T:IndigoBusinessLogic.clsHCCalculodeCantidadesInfusionesPuras">
+            <summary>
+            Clase de Logica Pra El Calculo de Cantidades en la Prescripcion de Medicamentos
+            </summary>
+            <remarks></remarks>
+        </member>
+        <member name="P:IndigoBusinessLogic.clsHCCalculodeCantidadesInfusionesPuras.Concentracion">
+            <summary>
+            Concentracion del Medicamento
+            </summary>
+            <value></value>
+            <returns></returns>
+            <remarks></remarks>
+        </member>
+        <member name="P:IndigoBusinessLogic.clsHCCalculodeCantidadesInfusionesPuras.TiempodeVida">
+            <summary>
+            Tiempo de Vida del Medicamento
+            </summary>
+            <value></value>
+            <returns></returns>
+            <remarks></remarks>
+        </member>
+        <member name="P:IndigoBusinessLogic.clsHCCalculodeCantidadesInfusionesPuras.Dosis">
+            <summary>
+            Dosis de Consumo o Aplicacion
+            </summary>
+            <value></value>
+            <returns></returns>
+            <remarks></remarks>
+        </member>
+        <member name="P:IndigoBusinessLogic.clsHCCalculodeCantidadesInfusionesPuras.Frecuencia">
+            <summary>
+            Frecuencia de Consumo o Aplicacion
+            </summary>
+            <value></value>
+            <returns></returns>
+            <remarks></remarks>
+        </member>
+        <member name="P:IndigoBusinessLogic.clsHCCalculodeCantidadesInfusionesPuras.Duracion">
+            <summary>
+            Duracion de la Prescripcion
+            </summary>
+            <value></value>
+            <returns></returns>
+            <remarks></remarks>
+        </member>
+        <member name="P:IndigoBusinessLogic.clsHCCalculodeCantidadesInfusionesPuras.INDCantidadSolicitar">
+            <summary>
+            Resultado del Algoritmo
+            </summary>
+            <value></value>
+            <returns></returns>
+            <remarks></remarks>
+        </member>
+        <member name="P:IndigoBusinessLogic.clsHCCalculodeCantidadesInfusionesPuras.INDNumerodeAplicaciones">
+            <summary>
+            Resultado del Algoritmo
+            </summary>
+            <value></value>
+            <returns></returns>
+            <remarks></remarks>
+        </member>
+        <member name="M:IndigoBusinessLogic.clsHCCalculodeCantidadesInfusionesPuras.#ctor(System.Decimal,System.Decimal,System.Decimal,System.Decimal,System.Decimal,System.Decimal,System.Boolean,System.Decimal,System.Boolean)">
+            <summary>
+            Cuando se Instacia la Clase
+            </summary>
+            <param name="varConcentracion">Concentracion del medicamento</param>
+            <param name="varTiempoVida">Tiempo de Vida del medicamento</param>
+            <param name="varDosis">Dosis a suministrar/aplicar</param>
+            <param name="varFrecuencia">Frecuencia de uso</param>
+            <param name="varDuracion">Duracion del Tratamiento</param>
+            <remarks></remarks>
+        </member>
+        <member name="M:IndigoBusinessLogic.clsHCCalculodeCantidadesInfusionesPuras.PureInfusion_CalularCantidad">
+            <summary>
+            calculo para infusiones puras
+            </summary>
+        </member>
+        <member name="M:IndigoBusinessLogic.clsHCCantidadesaDescontar.Calcular">
+            <summary>
+            procedimeinto para calcular la cantiad a descontar en el calendario de aplicacion
+            </summary>
+            <remarks></remarks>
+        </member>
+        <member name="T:IndigoBusinessLogic.Properties.Resources">
+            <summary>
+              Clase de recurso fuertemente tipado, para buscar cadenas traducidas, etc.
+            </summary>
+        </member>
+        <member name="P:IndigoBusinessLogic.Properties.Resources.ResourceManager">
+            <summary>
+              Devuelve la instancia de ResourceManager almacenada en caché utilizada por esta clase.
+            </summary>
+        </member>
+        <member name="P:IndigoBusinessLogic.Properties.Resources.Culture">
+            <summary>
+              Reemplaza la propiedad CurrentUICulture del subproceso actual para todas las
+              búsquedas de recursos mediante esta clase de recurso fuertemente tipado.
+            </summary>
+        </member>
+    </members>
+</doc>

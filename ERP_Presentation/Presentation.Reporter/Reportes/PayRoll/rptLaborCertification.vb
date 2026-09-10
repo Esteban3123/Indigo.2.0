@@ -1,0 +1,85 @@
+﻿#Region "Librerias Importadas"
+Imports Infrastructure.CrossCutting.Base
+Imports Infrastructure.Data.Xpo
+Imports Infrastructure.Data.Xpo.PayrollRepository
+Imports Domain.Entities
+#End Region
+
+Public Class rptLaborCertification
+    Implements IReport
+
+    ''' <summary>
+    ''' Variable para inicializar los valores de sesion
+    ''' </summary>
+    Private list As List(Of PayrollViewReportLaborCertificationReportXpo)
+    Private dateAdmission As String
+    Private cityDocument As String
+
+    Dim IndigoSessionValues As SessionValues = SessionValues.Instance
+
+    Public Sub CargarDataSource() Implements IReport.CargarDataSource
+        Dim filtroConsulta As String
+
+        filtroConsulta = "Id = " & ParametrosReporte(0)
+
+        list = XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).PayrollService.GetCollection(Of PayrollViewReportLaborCertificationReportXpo)(Nothing, filtroConsulta)
+
+        For Each li In list
+            dateAdmission = li.JobBondingDate
+            cityDocument = li.CityName
+        Next
+
+
+        Me.DataSource = list
+
+    End Sub
+
+    Public Sub CargarImagenes() Implements IReport.CargarImagenes
+
+    End Sub
+
+    Public ReadOnly Property NameReport As String Implements IReport.NameReport
+        Get
+            Return ""
+        End Get
+    End Property
+
+    Public Property ParametrosReporte As Object() Implements IReport.ParametrosReporte
+
+    Private Sub rptLaborCertification_BeforePrint(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles MyBase.BeforePrint
+        Me.INDLblCompany.Text = IndigoSessionValues.IndigoCompanyName
+        Me.INDLblNitCompany.Text = IndigoSessionValues.IndigoCompanyNit
+        INDUserImp.Text = "Usuario Impresión : " & IndigoSessionValues.UserIndigo & " - " & IndigoSessionValues.UserIndigoName
+
+        Me.XrTableCell45.Text = Utils.Num2Text(Convert.ToDouble(GetCurrentColumnValue("BasicSalary"))).ToString & " PESOS M/Cte."
+        XrLabel19.Text = CDate(dateAdmission).ToString("dd De MMMM Del yyyy").ToUpper()
+        XrLabel20.Text = CDate(dateAdmission).ToString("dd De MMMM Del yyyy").ToUpper()
+
+        'XrLabel17.Text = DateDiff("yyyy", CDate(dateAdmission).ToString, DateTime.Now.ToString("dd/MM/yyyy"))
+        'XrLabel28.Text = DateDiff("m", CDate("01/" & "01/" & DateTime.Now().ToString("yyyy")).ToString, DateTime.Now.ToString("dd/MM/yyyy"))
+        'XrLabel29.Text = DateDiff("d", DateTime.Now.ToString("MM/yyyy"), DateTime.Now.ToString("dd/MM/yyyy"))
+
+        Dim operatingUnit = XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).CommonService.ListOperatingUnitById(IndigoSessionValues.IndigoOperatingUnitId)
+        Dim City As String
+        If operatingUnit(0).IdCity IsNot Nothing Then
+            City = operatingUnit(0).IdCity.Descripcion
+        Else
+            City = "No asignada(o)"
+        End If
+
+        XrLabel14.Text = StrConv(City, VbStrConv.ProperCase) & ", " & Format(DateTime.Now, "dddd d De MMM De yyyy")
+        ''Dim countYear = DateDiff(DateInterval.Month, CDate(dateAdmission), DateTime.Now) / 12
+        ''Dim countMonth = DateDiff(DateInterval.Month, CDate(dateAdmission), DateTime.Now) - (countYear * 12)
+
+        Dim zeroTime = New DateTime(1, 1, 1)
+        Dim olddate = CDate(dateAdmission)
+        Dim curdate = DateTime.Now.ToLocalTime()
+
+        Dim span As TimeSpan = curdate - olddate
+
+        Dim years = (zeroTime + span).Year - 1
+        Dim months = (zeroTime + span).Month - 1
+        Dim days = DateDiff(DateInterval.Day, DateAdd(DateInterval.Month, months, DateAdd(DateInterval.Year, years, olddate)), curdate)
+        XrLabel17.Text = years.ToString() & " año (s) " & months.ToString() & " mes (es) " & days & " día (s) "
+    End Sub
+End Class

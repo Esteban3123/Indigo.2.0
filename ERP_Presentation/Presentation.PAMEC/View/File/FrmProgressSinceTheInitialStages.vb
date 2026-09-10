@@ -1,0 +1,3 @@
+﻿Public Class FrmProgressSinceTheInitialStages
+
+End Class

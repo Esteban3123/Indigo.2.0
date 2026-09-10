@@ -1,0 +1,126 @@
+﻿#Region "Librerias Importadas"
+Imports Presentation.Base
+Imports Infrastructure.CrossCutting.Base
+Imports Infrastructure.Data.Xpo
+Imports Infrastructure.Data.Xpo.FixedAssetRepository
+Imports Domain.Entities
+#End Region
+
+Public Class rptListFixedAssetTransfer
+    Implements IReport
+
+    ''' <summary>
+    ''' Variable para inicializar los valores de sesion
+    ''' </summary>
+    Dim IndigoSessionValues As SessionValues = SessionValues.Instance
+
+    ''' <summary>
+    ''' Almacenar  las configuraciones de activos fijos por unidad operativa
+    ''' </summary>
+    Private resSettingFixedAssetCache As New Dictionary(Of Integer, SettingFixedAssetXpo)()
+
+
+    Public Sub CargarDataSource() Implements IReport.CargarDataSource
+        Try
+            Dim filtroConsulta As String = Nothing
+
+            'filtro por fechas
+            If ParametrosReporte(0) IsNot Nothing And ParametrosReporte(1) IsNot Nothing Then
+                filtroConsulta &= "FixedAssetTransferId.DocumentDate >= #" & Format(ParametrosReporte(0), "yyyy-MM-dd") & "# AND FixedAssetTransferId.DocumentDate <= #" & Format(ParametrosReporte(1), "yyyy-MM-dd") & "#"
+            End If
+
+            'filtro por Estado
+            If ParametrosReporte(2) <> 4 Then
+                filtroConsulta &= " AND FixedAssetTransferId.Status = " & ParametrosReporte(2)
+            End If
+
+            'filtro por Responsable
+            If ParametrosReporte(3) IsNot Nothing And ParametrosReporte(4) IsNot Nothing Then
+                filtroConsulta &= " AND FixedAssetTransferId.SourceResponsibleId.ThirdPartyId.Nit >= '" & ParametrosReporte(3) & "' AND FixedAssetTransferId.TargetResponsibleId.ThirdPartyId.Nit <= '" & ParametrosReporte(4) & "'"
+            End If
+
+            'filtro por Ubicación
+            If ParametrosReporte(5) IsNot Nothing And ParametrosReporte(6) IsNot Nothing Then
+                filtroConsulta &= " AND FixedAssetTransferId.SourceLocationId.Code >= '" & ParametrosReporte(5) & "' AND FixedAssetTransferId.TargetLocationId.Code <= '" & ParametrosReporte(6) & "'"
+            End If
+
+            Me.DataSource = XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).FixedAsset.GetCollection(Of FixedAssetTransferDetailReportXpo)(Nothing, filtroConsulta)
+        Catch ex As Exception
+            MessageIndigo.Show(GetExceptionDetails(ex), MessageType.Errores, Me.Text, Botones.Aceptar, "")
+        End Try
+    End Sub
+
+    Public Function GetExceptionDetails(exception As Exception) As String
+        Dim properties = exception.[GetType]().GetProperties()
+        Dim fields = properties.[Select](Function([property]) New With {
+            Key .Name = [property].Name,
+            Key .Value = [property].GetValue(exception, Nothing)
+        }).[Select](Function(x) [String].Format("{0} : {1}", x.Name, If(x.Value IsNot Nothing, x.Value.ToString(), [String].Empty)))
+        Return [String].Join(vbLf, fields)
+    End Function
+
+    Public Sub CargarImagenes() Implements IReport.CargarImagenes
+
+    End Sub
+
+    Public ReadOnly Property NameReport As String Implements IReport.NameReport
+        Get
+            Return ""
+        End Get
+    End Property
+
+    Public Property ParametrosReporte As Object() Implements IReport.ParametrosReporte
+
+    Private Sub rptListFixedAsset_BeforePrint(sender As Object, e As Printing.PrintEventArgs) Handles MyBase.BeforePrint
+        INDLblCompany.Text = IndigoSessionValues.IndigoCompanyName
+        INDLblNitCompany.Text = "Nit:" & IndigoSessionValues.IndigoCompanyNit
+        Me.INDLblUserPrint.Text = "Usuario Impresión : " & IndigoSessionValues.UserIndigo & " - " & IndigoSessionValues.UserIndigoName
+    End Sub
+
+    Private Sub XrTableCell28_BeforePrint(sender As Object, e As Printing.PrintEventArgs) Handles XrTableCell28.BeforePrint
+        Dim currentRow As FixedAssetTransferDetailReportXpo = GetCurrentRow()
+        Dim operatingUnitId As Integer = currentRow.FixedAssetTransferId.OperatingUnitId
+        Dim resSettingFixedAsset As SettingFixedAssetXpo
+        If Not resSettingFixedAssetCache.TryGetValue(operatingUnitId, resSettingFixedAsset) Then
+            Dim filter As String = "OperatingUnitId = " & operatingUnitId
+            resSettingFixedAsset = XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer) _
+            .FixedAsset.GetCollection(Of SettingFixedAssetXpo)(Nothing, filter).FirstOrDefault()
+
+            ' Almacena en el diccionario para futuras referencias
+            If resSettingFixedAsset IsNot Nothing Then
+                resSettingFixedAssetCache(operatingUnitId) = resSettingFixedAsset
+            End If
+        End If
+        XrTableCell28.Text = Utils.GetMoneyWithISO4217(
+        currentRow.PhysicalAssetId.HistoricalValue,
+        If(String.IsNullOrEmpty(resSettingFixedAsset?.CurrencyId?.Abbreviation),
+           resSettingFixedAsset.CurrencyId.ISO4217Xpo.CodeAbbreviation,
+           resSettingFixedAsset.CurrencyId.Abbreviation)
+    )
+
+    End Sub
+
+    Private Sub XrTableCell52_SummaryGetResult(sender As Object, e As DevExpress.XtraReports.UI.SummaryGetResultEventArgs) Handles XrTableCell52.SummaryGetResult
+        Dim currentRow As FixedAssetTransferDetailReportXpo = GetCurrentRow()
+        Dim operatingUnitId As Integer = currentRow.FixedAssetTransferId.OperatingUnitId
+        Dim resSettingFixedAsset As SettingFixedAssetXpo
+        If Not resSettingFixedAssetCache.TryGetValue(operatingUnitId, resSettingFixedAsset) Then
+            Dim filter As String = "OperatingUnitId = " & operatingUnitId
+            resSettingFixedAsset = XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer) _
+            .FixedAsset.GetCollection(Of SettingFixedAssetXpo)(Nothing, filter).FirstOrDefault()
+
+            If resSettingFixedAsset IsNot Nothing Then
+                resSettingFixedAssetCache(operatingUnitId) = resSettingFixedAsset
+            End If
+        End If
+
+        e.Result = Utils.GetMoneyWithISO4217(
+        e.CalculatedValues.ToEntityList(Of Decimal).Sum(),
+        If(String.IsNullOrEmpty(resSettingFixedAsset?.CurrencyId?.Abbreviation),
+           resSettingFixedAsset.CurrencyId.ISO4217Xpo.CodeAbbreviation,
+           resSettingFixedAsset.CurrencyId.Abbreviation)
+    )
+        e.Handled = True
+
+    End Sub
+End Class

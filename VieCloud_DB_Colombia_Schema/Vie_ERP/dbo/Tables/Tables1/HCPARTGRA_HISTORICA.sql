@@ -1,0 +1,42 @@
+﻿
+CREATE TABLE [dbo].[HCPARTGRA_HISTORICA](
+	[IDPARTGRA] [int] IDENTITY(1,1) NOT NULL,
+	[IPCODPACI] [varchar](25) MASKED WITH (FUNCTION = 'partial(0, "Identification_Ofuscado", 0)') NOT NULL,
+	[NUMINGRES] [char](10) NOT NULL,
+	[CODCENATE] [char](10) NOT NULL,
+	[UFUCODIGO] [char](10) NOT NULL,
+	[CODPROSAL] [char](20) MASKED WITH (FUNCTION = 'partial(0, "Identification_Ofuscado", 0)') NOT NULL,
+	[FECPARTOG] [int] NOT NULL,
+	[FECREGIST] [datetime] NULL,
+	[TENSSARTE] [varchar](10) NULL,
+	[FRECUCARD] [int] MASKED WITH (FUNCTION = 'default()') NULL,
+	[SMFRERESP] [int] MASKED WITH (FUNCTION = 'default()') NULL,
+	[TEMPERATU] [float] MASKED WITH (FUNCTION = 'default()') NULL,
+	[AUFRECUEN] [varchar](10) MASKED WITH (FUNCTION = 'partial(0, "MaternalSigns_Ofuscado", 0)') NULL,
+	[AUINTESID] [int] NULL,
+	[AUDURACIO] [int] NULL,
+	[BFFETOCAR] [int] NULL,
+	[BFDESACEL] [int] NULL,
+	[BFMOVFETA] [int] NULL,
+	[TVDILATAC] [int] NULL,
+	[TVBORRAMI] [numeric](18, 0) NULL,
+	[TVESTACIO] [int] NULL,
+	[TVMEMBRAN] [int] NULL,
+	[TVLIQANMI] [int] NULL,
+	[TVVARPOSI] [int] NULL,
+	[OBSERVACI] [varchar](500) NULL,
+	[FECINIREG] [datetime] NULL,
+	[PARPELVIS] [char](1) NULL,
+	[ESTREGPAR] [bit] NULL,
+	[PARIDAD] [tinyint] NULL,
+	[POSMATERNA] [tinyint] NULL,
+	[IDENTIFICADOR] [bit] NULL,
+	[Container] [varchar](4) NULL,
+ CONSTRAINT [PK_HCPARTGRA_HISTORICA] PRIMARY KEY CLUSTERED 
+(
+	[IDPARTGRA] ASC
+)WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
+

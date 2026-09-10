@@ -1,0 +1,3 @@
+﻿Public Class rptPayrollKardexDeductions
+
+End Class

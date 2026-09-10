@@ -1,0 +1,31 @@
+﻿Imports DevExpress.XtraReports.UI
+Imports DevExpress.XtraPrinting.BarCode
+Imports System.Globalization
+Imports Presentation.Base
+Imports Domain.Entities
+Imports Infrastructure.CrossCutting.Base
+Imports Infrastructure.Data.Xpo.PayrollRepository
+Imports Infrastructure.Data.Xpo
+
+Public Class rptPayrollElectronicPaymentSupport
+    Inherits XtraReport
+
+    Dim IndigoSessionValues As SessionValues = SessionValues.Instance
+
+    Private Sub rptPayrollElectronicPaymentSupport_BeforePrint(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles MyBase.BeforePrint
+        InitializeReportLocalization()
+    End Sub
+
+    ''' <summary>
+    ''' Metodo para inicializar la moneda según la configuración de nómina
+    ''' </summary>
+    Private Sub InitializeReportLocalization()
+        Dim companySettings As PayrollSettingsXpo =
+            XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).PayrollService.GetXPOObject(Of PayrollSettingsXpo)(Nothing)
+        If companySettings IsNot Nothing Then
+            Dim culture As CultureInfo = CultureInfo.CurrentCulture.Clone()
+            culture.NumberFormat = companySettings.CurrencyId.Abbreviation.GetNumberFormat()
+            ApplyLocalization(culture)
+        End If
+    End Sub
+End Class

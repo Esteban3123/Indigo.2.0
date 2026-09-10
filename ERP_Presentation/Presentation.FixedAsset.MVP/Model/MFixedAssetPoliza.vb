@@ -1,0 +1,146 @@
+﻿Imports Infrastructure.CrossCutting.Base
+Imports Presentation.CloudAgent
+Imports Domain.Entities
+Imports Domain.Base.Entities
+Imports System.ServiceModel
+Imports Infrastructure.Data.Xpo
+Imports DevExpress.Xpo
+
+'***********************************************************************
+' Assembly         : Presentacion.Maintenance.MVP
+' Author           : Julian Andres Cardozo
+' Created          : 10-08-2013
+'
+' Last Modified By : 
+' Last Modified On : 
+' Description      : 
+'
+' Copyright        : (c) . All rights reserved.
+'***********************************************************************
+
+''' <summary>
+''' Modelo que se comunica con los servicios corresporndientes al funcional
+''' </summary>
+Public Class MFixedAssetPoliza
+    Implements IDisposable
+
+    Private _tagForm As String = "1702"
+#Region "Metodos"
+
+    ''' <summary>
+    ''' Variable para inicializar los valores de sesion
+    ''' </summary>
+    Dim Indigo As SessionValues = SessionValues.Instance
+    Sub New()
+        Indigo.AuditMessageWcf.Functional = _tagForm
+    End Sub
+
+    ''' <summary>
+    ''' Funcion para obtener la poliza
+    ''' </summary>
+    ''' <param name="Code">El codigo de la poliza</param>
+    ''' <returns></returns>
+    Public Async Function GetPoliza(ByVal Code As String) As Task(Of FixedAssetPolicy)
+        Return Await IndigoConecta.Instancia.CurrentCloud.IndigoFixedAssets.GetPolizaAsync(Indigo.TransactionalContainer, Code, Indigo.AuditMessageWcf)
+    End Function
+
+
+    ''' <summary>
+    ''' Funcion para guardar el objeto poliza
+    ''' </summary>
+    ''' <param name="Record">The registro.</param>
+    ''' <returns></returns>
+    Public Async Function SavePoliza(ByVal Record As FixedAssetPolicy, ByVal idSequense As Integer) As Task(Of ActionResult(Of FixedAssetPolicy))
+        'Using scope As New OperationContextScope(IndigoConecta.Instancia.CurrentCloud.IndigoMaintenance.InnerChannel)
+        '    Dim mess1 As New MessageHeader(Of Int64)(idSequense)
+        '    Dim header1 As System.ServiceModel.Channels.MessageHeader = mess1.GetUntypedHeader(ConfigurationFile.SESS_IDSEQUENSE, ConfigurationFile.SESS_NAME_SPACE)
+        '    OperationContext.Current.OutgoingMessageHeaders.Add(header1)
+        '    Return Await IndigoConecta.Instancia.CurrentCloud.IndigoFixedAssets.SavePolizaAsync(Indigo.TransactionalContainer, Record, Indigo.AuditMessageWcf)
+        'End Using
+        Return Await IndigoConecta.Instancia.CurrentCloud.IndigoFixedAssets.SavePolizaAsync(Indigo.TransactionalContainer, Record, Indigo.AuditMessageWcf, idSequense)
+    End Function
+
+    ''' <summary>
+    ''' Funcion para eliminar la poliza
+    ''' </summary>
+    ''' <param name="Record">The registro.</param>
+    ''' <returns></returns>
+    Public Async Function DeletePoliza(ByVal Record As FixedAssetPolicy) As Task(Of ActionResult)
+        Return Await IndigoConecta.Instancia.CurrentCloud.IndigoFixedAssets.DeletePolizaAsync(Indigo.TransactionalContainer, Record, Indigo.AuditMessageWcf)
+    End Function
+    ''' <summary>
+    ''' Funcion para listar todas las aseguradoras
+    ''' </summary>
+    ''' <returns></returns>
+    Public Async Function ListAllInsurance() As Task(Of List(Of FixedAssetInsurance))
+        Return Await IndigoConecta.Instancia.CurrentCloud.IndigoFixedAssets.ListAllInsuranceAsync(Indigo.TransactionalContainer)
+    End Function
+    ''' <summary>
+    ''' Funcion para listar todas los tipos de poliza
+    ''' </summary>
+    ''' <returns></returns>
+    Public Async Function ListAllPolizaType() As Task(Of List(Of FixedAssetPolicyType))
+        Return Await IndigoConecta.Instancia.CurrentCloud.IndigoFixedAssets.ListAllPolizaTypeAsync(Indigo.TransactionalContainer)
+    End Function
+    Public Async Function ListAllPoliza() As Task(Of List(Of FixedAssetPolicy))
+        Return Await IndigoConecta.Instancia.CurrentCloud.IndigoFixedAssets.ListAllPolizaAsync(Indigo.TransactionalContainer)
+    End Function
+
+    Public Async Function ChangeState(code As String, state As Boolean) As Task(Of ActionResult(Of FixedAssetPolicy))
+        Return Await IndigoConecta.Instancia.CurrentCloud.IndigoFixedAssets.ChangeStatePolizaAsync(Indigo.TransactionalContainer, code, state, Indigo.AuditMessageWcf)
+    End Function
+
+    ''' <summary>
+    ''' Lista las aseguradoras
+    ''' </summary>
+    ''' <returns></returns>
+    ''' <remarks></remarks>
+    Public Function ListFixedAssetInsuranceByStatus() As XPInstantFeedbackSource
+        Return XpoServiceEx.Instance(Indigo.TransactionalContainer).FixedAsset.ListFixedAssetInsuranceByStatus(True)
+    End Function
+
+    ''' <summary>
+    ''' Lista los tipos de poliza
+    ''' </summary>
+    ''' <returns></returns>
+    ''' <remarks></remarks>
+    Public Function ListFixedAssetPolizaTypeByStatus() As XPInstantFeedbackSource
+        Return XpoServiceEx.Instance(Indigo.TransactionalContainer).FixedAsset.ListFixedAssetPolizaTypeByStatus(True)
+    End Function
+
+#End Region
+
+#Region "IDisposable Support"
+    Private disposedValue As Boolean ' Para detectar llamadas redundantes
+
+    ' IDisposable
+    Protected Overridable Sub Dispose(disposing As Boolean)
+        If Not Me.disposedValue Then
+            If disposing Then
+                ' TODO: eliminar estado administrado (objetos administrados).
+            End If
+
+            ' TODO: liberar recursos no administrados (objetos no administrados) e invalidar Finalize() below.
+            ' TODO: Establecer campos grandes como Null.
+        End If
+        Me.disposedValue = True
+    End Sub
+
+    ' TODO: invalidar Finalize() sólo si la instrucción Dispose(ByVal disposing As Boolean) anterior tiene código para liberar recursos no administrados.
+    'Protected Overrides Sub Finalize()
+    '    ' No cambie este código. Ponga el código de limpieza en la instrucción Dispose(ByVal disposing As Boolean) anterior.
+    '    Dispose(False)
+    '    MyBase.Finalize()
+    'End Sub
+
+    ' Visual Basic agregó este código para implementar correctamente el modelo descartable.
+    Public Sub Dispose() Implements IDisposable.Dispose
+        ' No cambie este código. Coloque el código de limpieza en Dispose(disposing As Boolean).
+        Dispose(True)
+        GC.SuppressFinalize(Me)
+    End Sub
+#End Region
+
+End Class
+
+

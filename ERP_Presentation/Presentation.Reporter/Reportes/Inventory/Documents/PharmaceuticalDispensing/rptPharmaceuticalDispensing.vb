@@ -1,0 +1,82 @@
+#Region "Imports"
+
+Imports System.Drawing.Printing
+Imports DevExpress.XtraReports.Parameters
+Imports Infrastructure.CrossCutting.Base
+Imports Infrastructure.Data.Xpo
+Imports Infrastructure.Data.Xpo.InventoryRepository
+Imports Infrastructure.Data.Xpo.SecurityRepository
+
+#End Region
+
+
+Public Class rptPharmaceuticalDispensing
+    Implements IReport
+
+#Region "Properties"
+
+    ''' <summary>
+    ''' Variable para inicializar los valores de sesion
+    ''' </summary>
+    Dim IndigoSessionValues As SessionValues = SessionValues.Instance
+
+    Public Property ParametrosReporte As Object() Implements IReport.ParametrosReporte
+
+    Public ReadOnly Property NameReport As String Implements IReport.NameReport
+        Get
+            Return ""
+        End Get
+    End Property
+
+#End Region
+
+#Region "Load Data"
+
+    Public Sub CargarDataSource() Implements IReport.CargarDataSource
+        Dim filtroConsulta As String
+        If ParametrosReporte(0).GetType().Equals(GetType(Domain.Entities.PharmaceuticalDispensing)) Then
+            filtroConsulta = String.Format("Code = '{0}'", ParametrosReporte(0).Code)
+        Else
+            filtroConsulta = "Id = " & ParametrosReporte(0)
+        End If
+
+        Dim INDList As List(Of InventoryPharmaceuticalDispensingReportXpo) = XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).BillingService.GetCollection(Of InventoryPharmaceuticalDispensingReportXpo)(Nothing, filtroConsulta)
+        If INDList.Count > 0 Then
+            Dim INDNameUser = CType(INDList(0), InventoryPharmaceuticalDispensingReportXpo).CreationUser.Trim()
+            Dim INDListUser = XpoServiceEx.Instance(IndigoSessionValues.SecurityContainer).SecurityService.GetCollection(Of UserXpo)(Nothing, "UserCode = '" & INDNameUser & "'")
+            If INDListUser IsNot Nothing Then
+                Dim INDCodName = CType(INDListUser(0), UserXpo).CodeName.Trim
+                Me.INDUserCreate.Text = INDCodName
+            End If
+        End If
+        Me.DataSource = INDList
+    End Sub
+
+#End Region
+
+#Region "Methods"
+
+    Public Sub CargarImagenes() Implements IReport.CargarImagenes
+
+    End Sub
+
+#End Region
+
+#Region "Events"
+
+    Private Sub rptPharmaceuticalDispensing_BeforePrint(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles MyBase.BeforePrint
+        'Dim filtroConsulta As String = "Id = " & ParametrosReporte(0)
+        If Me.Parameters.Count > 0 And Me.Parameters(0).Value > 0 Then
+            Dim ParametrosFilter As ParameterCollection = Me.Parameters
+            ParametrosReporte = New Object() {ParametrosFilter("INDSubIdDispensing").Value}
+            CargarDataSource()
+        End If
+
+        INDLblCompany.Text = IndigoSessionValues.IndigoCompanyName
+        INDLblNitCompany.Text = "Nit:" & IndigoSessionValues.IndigoCompanyNit
+        INDUserImp.Text = "Usuario Impresión : " & IndigoSessionValues.UserIndigo & " - " & IndigoSessionValues.UserIndigoName
+    End Sub
+
+#End Region
+
+End Class

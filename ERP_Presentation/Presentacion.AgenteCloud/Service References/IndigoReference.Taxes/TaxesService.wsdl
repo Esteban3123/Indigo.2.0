@@ -1,0 +1,394 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:wsap="http://schemas.xmlsoap.org/ws/2004/08/addressing/policy" xmlns:wsa10="http://www.w3.org/2005/08/addressing" xmlns:tns="http://tempuri.org/" xmlns:msc="http://schemas.microsoft.com/ws/2005/12/wsdl/contract" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:wsx="http://schemas.xmlsoap.org/ws/2004/09/mex" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="TaxesService" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsp:Policy wsu:Id="wsHttp_Endpoint_Taxes_policy">
+    <wsp:ExactlyOne>
+      <wsp:All>
+        <wsaw:UsingAddressing />
+      </wsp:All>
+    </wsp:ExactlyOne>
+  </wsp:Policy>
+  <wsp:Policy wsu:Id="netTcp_Endpoint_Taxes_policy">
+    <wsp:ExactlyOne>
+      <wsp:All>
+        <msb:BinaryEncoding xmlns:msb="http://schemas.microsoft.com/ws/06/2004/mspolicy/netbinary1" />
+        <wsaw:UsingAddressing />
+      </wsp:All>
+    </wsp:ExactlyOne>
+  </wsp:Policy>
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://tempuri.org/Imports">
+      <xsd:import schemaLocation="http://localhost:9000/ServiceEntity/Taxes.svc/ServiceEntity/?xsd=xsd0" namespace="http://tempuri.org/" />
+      <xsd:import schemaLocation="http://localhost:9000/ServiceEntity/Taxes.svc/ServiceEntity/?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+      <xsd:import schemaLocation="http://localhost:9000/ServiceEntity/Taxes.svc/ServiceEntity/?xsd=xsd2" namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
+      <xsd:import schemaLocation="http://localhost:9000/ServiceEntity/Taxes.svc/ServiceEntity/?xsd=xsd3" namespace="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" />
+      <xsd:import schemaLocation="http://localhost:9000/ServiceEntity/Taxes.svc/ServiceEntity/?xsd=xsd4" namespace="http://schemas.datacontract.org/2004/07/System" />
+      <xsd:import schemaLocation="http://localhost:9000/ServiceEntity/Taxes.svc/ServiceEntity/?xsd=xsd5" namespace="http://schemas.datacontract.org/2004/07/Infrastructure.CrossCutting.Base" />
+      <xsd:import schemaLocation="http://localhost:9000/ServiceEntity/Taxes.svc/ServiceEntity/?xsd=xsd6" namespace="http://schemas.datacontract.org/2004/07/Domain.Entities" />
+      <xsd:import schemaLocation="http://localhost:9000/ServiceEntity/Taxes.svc/ServiceEntity/?xsd=xsd7" />
+      <xsd:import schemaLocation="http://localhost:9000/ServiceEntity/Taxes.svc/ServiceEntity/?xsd=xsd8" namespace="http://schemas.datacontract.org/2004/07/System.ComponentModel" />
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="ITaxesService_ValidateLoadPlaneCollection_InputMessage">
+    <wsdl:part name="parameters" element="tns:ValidateLoadPlaneCollection" />
+  </wsdl:message>
+  <wsdl:message name="ITaxesService_ValidateLoadPlaneCollection_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ValidateLoadPlaneCollectionResponse" />
+  </wsdl:message>
+  <wsdl:message name="ITaxesService_SaveLoadPlaneCollection_InputMessage">
+    <wsdl:part name="parameters" element="tns:SaveLoadPlaneCollection" />
+  </wsdl:message>
+  <wsdl:message name="ITaxesService_SaveLoadPlaneCollection_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SaveLoadPlaneCollectionResponse" />
+  </wsdl:message>
+  <wsdl:message name="ITaxesService_GetAllTaxedProperties_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetAllTaxedProperties" />
+  </wsdl:message>
+  <wsdl:message name="ITaxesService_GetAllTaxedProperties_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetAllTaxedPropertiesResponse" />
+  </wsdl:message>
+  <wsdl:message name="ITaxesService_GetTaxesPropertyByCode_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetTaxesPropertyByCode" />
+  </wsdl:message>
+  <wsdl:message name="ITaxesService_GetTaxesPropertyByCode_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetTaxesPropertyByCodeResponse" />
+  </wsdl:message>
+  <wsdl:message name="ITaxesService_SaveTaxesLiquidation_InputMessage">
+    <wsdl:part name="parameters" element="tns:SaveTaxesLiquidation" />
+  </wsdl:message>
+  <wsdl:message name="ITaxesService_SaveTaxesLiquidation_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SaveTaxesLiquidationResponse" />
+  </wsdl:message>
+  <wsdl:message name="ITaxesService_ConfirmTaxesLiquidation_InputMessage">
+    <wsdl:part name="parameters" element="tns:ConfirmTaxesLiquidation" />
+  </wsdl:message>
+  <wsdl:message name="ITaxesService_ConfirmTaxesLiquidation_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ConfirmTaxesLiquidationResponse" />
+  </wsdl:message>
+  <wsdl:message name="ITaxesService_GetLowTaxLiquidation_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetLowTaxLiquidation" />
+  </wsdl:message>
+  <wsdl:message name="ITaxesService_GetLowTaxLiquidation_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetLowTaxLiquidationResponse" />
+  </wsdl:message>
+  <wsdl:message name="ITaxesService_SaveLowTaxLiquidation_InputMessage">
+    <wsdl:part name="parameters" element="tns:SaveLowTaxLiquidation" />
+  </wsdl:message>
+  <wsdl:message name="ITaxesService_SaveLowTaxLiquidation_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SaveLowTaxLiquidationResponse" />
+  </wsdl:message>
+  <wsdl:message name="ITaxesService_SP_ValidateTaxBase_InputMessage">
+    <wsdl:part name="parameters" element="tns:SP_ValidateTaxBase" />
+  </wsdl:message>
+  <wsdl:message name="ITaxesService_SP_ValidateTaxBase_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SP_ValidateTaxBaseResponse" />
+  </wsdl:message>
+  <wsdl:portType name="ITaxesService">
+    <wsdl:operation name="ValidateLoadPlaneCollection">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITaxesServiceTaxesProperty/ValidateLoadPlaneCollection" message="tns:ITaxesService_ValidateLoadPlaneCollection_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ITaxesServiceTaxesProperty/ValidateLoadPlaneCollectionResponse" message="tns:ITaxesService_ValidateLoadPlaneCollection_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SaveLoadPlaneCollection">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITaxesServiceTaxesProperty/SaveLoadPlaneCollection" message="tns:ITaxesService_SaveLoadPlaneCollection_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ITaxesServiceTaxesProperty/SaveLoadPlaneCollectionResponse" message="tns:ITaxesService_SaveLoadPlaneCollection_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAllTaxedProperties">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITaxesServiceTaxesProperty/GetAllTaxedProperties" message="tns:ITaxesService_GetAllTaxedProperties_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ITaxesServiceTaxesProperty/GetAllTaxedPropertiesResponse" message="tns:ITaxesService_GetAllTaxedProperties_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetTaxesPropertyByCode">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITaxesServiceTaxesProperty/GetTaxesPropertyByCode" message="tns:ITaxesService_GetTaxesPropertyByCode_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ITaxesServiceTaxesProperty/GetTaxesPropertyByCodeResponse" message="tns:ITaxesService_GetTaxesPropertyByCode_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SaveTaxesLiquidation">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITaxesServiceTaxesLiquidation/SaveTaxesLiquidation" message="tns:ITaxesService_SaveTaxesLiquidation_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ITaxesServiceTaxesLiquidation/SaveTaxesLiquidationResponse" message="tns:ITaxesService_SaveTaxesLiquidation_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ConfirmTaxesLiquidation">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITaxesServiceTaxesLiquidation/ConfirmTaxesLiquidation" message="tns:ITaxesService_ConfirmTaxesLiquidation_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ITaxesServiceTaxesLiquidation/ConfirmTaxesLiquidationResponse" message="tns:ITaxesService_ConfirmTaxesLiquidation_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetLowTaxLiquidation">
+      <wsdl:input wsaw:Action="http://tempuri.org/ILowTaxServiceTaxesLiquidation/GetLowTaxLiquidation" message="tns:ITaxesService_GetLowTaxLiquidation_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ILowTaxServiceTaxesLiquidation/GetLowTaxLiquidationResponse" message="tns:ITaxesService_GetLowTaxLiquidation_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SaveLowTaxLiquidation">
+      <wsdl:input wsaw:Action="http://tempuri.org/ILowTaxServiceTaxesLiquidation/SaveLowTaxLiquidation" message="tns:ITaxesService_SaveLowTaxLiquidation_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ILowTaxServiceTaxesLiquidation/SaveLowTaxLiquidationResponse" message="tns:ITaxesService_SaveLowTaxLiquidation_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SP_ValidateTaxBase">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITaxesServiceFiscalization/SP_ValidateTaxBase" message="tns:ITaxesService_SP_ValidateTaxBase_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ITaxesServiceFiscalization/SP_ValidateTaxBaseResponse" message="tns:ITaxesService_SP_ValidateTaxBase_OutputMessage" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="basicHttp_Endpoint_Taxes" type="tns:ITaxesService">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="ValidateLoadPlaneCollection">
+      <soap:operation soapAction="http://tempuri.org/ITaxesServiceTaxesProperty/ValidateLoadPlaneCollection" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveLoadPlaneCollection">
+      <soap:operation soapAction="http://tempuri.org/ITaxesServiceTaxesProperty/SaveLoadPlaneCollection" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAllTaxedProperties">
+      <soap:operation soapAction="http://tempuri.org/ITaxesServiceTaxesProperty/GetAllTaxedProperties" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetTaxesPropertyByCode">
+      <soap:operation soapAction="http://tempuri.org/ITaxesServiceTaxesProperty/GetTaxesPropertyByCode" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveTaxesLiquidation">
+      <soap:operation soapAction="http://tempuri.org/ITaxesServiceTaxesLiquidation/SaveTaxesLiquidation" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ConfirmTaxesLiquidation">
+      <soap:operation soapAction="http://tempuri.org/ITaxesServiceTaxesLiquidation/ConfirmTaxesLiquidation" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetLowTaxLiquidation">
+      <soap:operation soapAction="http://tempuri.org/ILowTaxServiceTaxesLiquidation/GetLowTaxLiquidation" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveLowTaxLiquidation">
+      <soap:operation soapAction="http://tempuri.org/ILowTaxServiceTaxesLiquidation/SaveLowTaxLiquidation" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SP_ValidateTaxBase">
+      <soap:operation soapAction="http://tempuri.org/ITaxesServiceFiscalization/SP_ValidateTaxBase" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="wsHttp_Endpoint_Taxes" type="tns:ITaxesService">
+    <wsp:PolicyReference URI="#wsHttp_Endpoint_Taxes_policy" />
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="ValidateLoadPlaneCollection">
+      <soap12:operation soapAction="http://tempuri.org/ITaxesServiceTaxesProperty/ValidateLoadPlaneCollection" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveLoadPlaneCollection">
+      <soap12:operation soapAction="http://tempuri.org/ITaxesServiceTaxesProperty/SaveLoadPlaneCollection" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAllTaxedProperties">
+      <soap12:operation soapAction="http://tempuri.org/ITaxesServiceTaxesProperty/GetAllTaxedProperties" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetTaxesPropertyByCode">
+      <soap12:operation soapAction="http://tempuri.org/ITaxesServiceTaxesProperty/GetTaxesPropertyByCode" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveTaxesLiquidation">
+      <soap12:operation soapAction="http://tempuri.org/ITaxesServiceTaxesLiquidation/SaveTaxesLiquidation" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ConfirmTaxesLiquidation">
+      <soap12:operation soapAction="http://tempuri.org/ITaxesServiceTaxesLiquidation/ConfirmTaxesLiquidation" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetLowTaxLiquidation">
+      <soap12:operation soapAction="http://tempuri.org/ILowTaxServiceTaxesLiquidation/GetLowTaxLiquidation" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveLowTaxLiquidation">
+      <soap12:operation soapAction="http://tempuri.org/ILowTaxServiceTaxesLiquidation/SaveLowTaxLiquidation" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SP_ValidateTaxBase">
+      <soap12:operation soapAction="http://tempuri.org/ITaxesServiceFiscalization/SP_ValidateTaxBase" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="netTcp_Endpoint_Taxes" type="tns:ITaxesService">
+    <wsp:PolicyReference URI="#netTcp_Endpoint_Taxes_policy" />
+    <soap12:binding transport="http://schemas.microsoft.com/soap/tcp" />
+    <wsdl:operation name="ValidateLoadPlaneCollection">
+      <soap12:operation soapAction="http://tempuri.org/ITaxesServiceTaxesProperty/ValidateLoadPlaneCollection" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveLoadPlaneCollection">
+      <soap12:operation soapAction="http://tempuri.org/ITaxesServiceTaxesProperty/SaveLoadPlaneCollection" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAllTaxedProperties">
+      <soap12:operation soapAction="http://tempuri.org/ITaxesServiceTaxesProperty/GetAllTaxedProperties" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetTaxesPropertyByCode">
+      <soap12:operation soapAction="http://tempuri.org/ITaxesServiceTaxesProperty/GetTaxesPropertyByCode" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveTaxesLiquidation">
+      <soap12:operation soapAction="http://tempuri.org/ITaxesServiceTaxesLiquidation/SaveTaxesLiquidation" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ConfirmTaxesLiquidation">
+      <soap12:operation soapAction="http://tempuri.org/ITaxesServiceTaxesLiquidation/ConfirmTaxesLiquidation" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetLowTaxLiquidation">
+      <soap12:operation soapAction="http://tempuri.org/ILowTaxServiceTaxesLiquidation/GetLowTaxLiquidation" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveLowTaxLiquidation">
+      <soap12:operation soapAction="http://tempuri.org/ILowTaxServiceTaxesLiquidation/SaveLowTaxLiquidation" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SP_ValidateTaxBase">
+      <soap12:operation soapAction="http://tempuri.org/ITaxesServiceFiscalization/SP_ValidateTaxBase" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="TaxesService">
+    <wsdl:port name="basicHttp_Endpoint_Taxes" binding="tns:basicHttp_Endpoint_Taxes">
+      <soap:address location="http://localhost:9000/ServiceEntity/Taxes.svc/basicHttpTaxes" />
+    </wsdl:port>
+    <wsdl:port name="wsHttp_Endpoint_Taxes" binding="tns:wsHttp_Endpoint_Taxes">
+      <soap12:address location="http://localhost:9000/ServiceEntity/Taxes.svc/wsHttpTaxes" />
+      <wsa10:EndpointReference>
+        <wsa10:Address>http://localhost:9000/ServiceEntity/Taxes.svc/wsHttpTaxes</wsa10:Address>
+      </wsa10:EndpointReference>
+    </wsdl:port>
+    <wsdl:port name="netTcp_Endpoint_Taxes" binding="tns:netTcp_Endpoint_Taxes">
+      <soap12:address location="net.tcp://desktop-hq2rbc7:9001/ServiceEntity/Taxes.svc/netTcpTaxes" />
+      <wsa10:EndpointReference>
+        <wsa10:Address>net.tcp://desktop-hq2rbc7:9001/ServiceEntity/Taxes.svc/netTcpTaxes</wsa10:Address>
+      </wsa10:EndpointReference>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

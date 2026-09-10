@@ -1,0 +1,86 @@
+﻿#Region "Librerias Improtadas"
+Imports Infrastructure.CrossCutting.Base
+Imports Infrastructure.Data.Xpo
+Imports Infrastructure.Data.Xpo.InventoryRepository
+Imports Infrastructure.Data.Xpo.SecurityRepository
+Imports Infrastructure.Data.Xpo.CrystalRepository
+Imports Domain.Entities
+Imports DevExpress.XtraReports.UI
+Imports System.Drawing.Printing
+
+Imports System.Drawing
+Imports DevExpress.XtraPrinting.Drawing
+Imports Presentation.Base
+Imports DevExpress.XtraReports.Parameters
+Imports System.Text
+
+#End Region
+
+Public Class rptDashboardPharmacy
+    Implements IReport
+    ''' <summary>
+    ''' Variable para inicializar los valores de sesion
+    ''' </summary>
+    Dim IndigoSessionValues As SessionValues = SessionValues.Instance
+
+    Public Sub CargarDataSource() Implements IReport.CargarDataSource
+        Try
+            Dim filtroConsulta As New List(Of String)
+            For Each item As Object In ParametrosReporte(0)
+                filtroConsulta.Add("(CodigoPaciente = '" & item.CodigoPaciente & "' AND ConsecutivoFarmacia = '" & item.ConsecutivoFarmacia & "' AND Ingreso = '" & item.Ingreso & "')")
+            Next
+
+            Dim filter As String = String.Join(" OR ", filtroConsulta)
+            If ParametrosReporte(2) = False Then
+                filter = String.Format("CantidadPendiente > 0 AND ({0})", filter)
+            End If
+
+            Dim ListDetail = XpoServiceEx.Instance(IndigoSessionValues.HisContainer).InventoryService.ListViewDashboardPharmacyFilters(filter)
+            Me.DataSource = ListDetail
+        Catch ex As Exception
+            MessageIndigo.Show(GetExceptionDetails(ex), MessageType.Errores, Me.Text, Botones.Aceptar, "")
+        End Try
+    End Sub
+
+    Public Function GetExceptionDetails(exception As Exception) As String
+        Dim properties = exception.[GetType]().GetProperties()
+        Dim fields = properties.[Select](Function([property]) New With { _
+            Key .Name = [property].Name, _
+            Key .Value = [property].GetValue(exception, Nothing) _
+        }).[Select](Function(x) [String].Format("{0} : {1}", x.Name, If(x.Value IsNot Nothing, x.Value.ToString(), [String].Empty)))
+        Return [String].Join(vbLf, fields)
+    End Function
+
+    Public Sub CargarImagenes() Implements IReport.CargarImagenes
+
+    End Sub
+
+    Public ReadOnly Property NameReport As String Implements IReport.NameReport
+        Get
+            Return ""
+        End Get
+    End Property
+
+    Public Property ParametrosReporte As Object() Implements IReport.ParametrosReporte
+
+    Private Sub rptDashboardPharmacy_BeforePrint(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles MyBase.BeforePrint
+        If ParametrosReporte(1) = 1 Then
+            INDGroup.Value = 1
+            XrTable10.Visible = False
+            XrTable3.Visible = False
+        Else
+            INDGroup.Value = 2
+        End If
+        If ParametrosReporte(3) = True Then
+            GroupFooter1.PageBreak = DevExpress.XtraReports.UI.PageBreak.AfterBand
+        Else
+            GroupFooter1.PageBreak = DevExpress.XtraReports.UI.PageBreak.None
+        End If
+
+        INDRequests.Value = ParametrosReporte(2)
+        INDLblCompany.Text = IndigoSessionValues.IndigoCompanyName
+        INDLblNitCompany.Text = "Nit:" & IndigoSessionValues.IndigoCompanyNit
+        INDUserImp.Text = "Usuario Impresión: " & IndigoSessionValues.UserIndigo & " - " & IndigoSessionValues.UserIndigoName
+        INDUserCreate.Text = IndigoSessionValues.UserIndigo & " - " & IndigoSessionValues.UserIndigoName
+    End Sub
+End Class

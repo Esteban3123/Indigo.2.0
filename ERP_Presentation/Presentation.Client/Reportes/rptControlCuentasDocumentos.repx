@@ -1,0 +1,91 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<XtraReportsLayoutSerializer SerializerVersion="20.1.8.0" Ref="0" Name="rptControlCuentasDocumentos" ControlType="DevExpress.XtraReports.UI.XtraReport, DevExpress.XtraReports.v20.1, Version=20.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" DataMember="Historia" Version="20.1" Bookmark="Documentos de Soporte" DisplayName="rptControlCuentasDocumentos" PageWidth="850" PageHeight="1100" ScriptLanguage="VisualBasic" Margins="50, 50, 50, 35">
+  <Bands>
+    <Item1 Ref="1" ControlType="DetailBand" Name="Detail" TextAlignment="TopLeft" Padding="0,0,0,0,100" HeightF="0" />
+    <Item2 Ref="2" ControlType="GroupHeaderBand" Name="GroupDatosBasicos" HeightF="790.8751">
+      <Controls>
+        <Item1 Ref="3" Name="INDxLblDescripcionArchivo" ControlType="XRLabel" SizeF="425,17" LocationFloat="21.54166, 10.00001" Font="Arial, 8.25pt, style=Bold, charSet=0" Padding="2,2,0,0,100">
+          <StylePriority Ref="4" UseFont="false" />
+        </Item1>
+        <Item2 Ref="5" Name="XrPictureBox1" ControlType="XRPictureBox" SizeF="703.4583,746.9168" LocationFloat="21.54166, 33.95834" Sizing="ZoomImage" />
+      </Controls>
+    </Item2>
+    <Item3 Ref="6" ControlType="DetailReportBand" Name="DetailRecomendaciones" DataMember="Indicaciones Medicas" Level="0">
+      <Bands>
+        <Item1 Ref="7" ControlType="DetailBand" Name="Detail4" HeightF="0" />
+        <Item2 Ref="8" ControlType="GroupHeaderBand" Name="GroupRecomendaciones" HeightF="63.87501">
+          <Controls>
+            <Item1 Ref="9" Name="XrLabel57" ControlType="XRLabel" Bookmark="Recomendaciones" SizeF="733,17" LocationFloat="8.000024, 9.999974" Font="Arial, 9pt, style=Bold, Underline, charSet=0" BackColor="Gainsboro" Padding="2,2,0,0,100" Text="RECOMENDACIONES">
+              <StylePriority Ref="10" UseFont="false" UseBackColor="false" />
+            </Item1>
+            <Item2 Ref="11" Name="INDlblIndicacionesMedicas" ControlType="XRLabel" SizeF="733.9999,17" LocationFloat="8.000024, 38.54167" Font="Arial, 8.25pt, charSet=0" Padding="2,2,0,0,100" Multiline="true" Text="INDlblIndicacionesMedicas">
+              <DataBindings>
+                <Item1 Ref="12" PropertyName="Text" DataMember="Indicaciones Medicas.INDICACIONES MEDICAS" />
+              </DataBindings>
+              <StylePriority Ref="13" UseFont="false" />
+            </Item2>
+          </Controls>
+        </Item2>
+      </Bands>
+      <ReportPrintOptions Ref="14" PrintOnEmptyDataSource="false" />
+    </Item3>
+    <Item4 Ref="15" ControlType="DetailReportBand" Name="DetailDiagnosticos" DataMember="Diagnosticos Paciente" Level="1">
+      <Bands>
+        <Item1 Ref="16" ControlType="DetailBand" Name="Detail1" HeightF="19">
+          <Controls>
+            <Item1 Ref="17" Name="INDchkPrincipal" ControlType="XRCheckBox" SizeF="17,17" LocationFloat="708, 0">
+              <DataBindings>
+                <Item1 Ref="18" PropertyName="Checked" DataMember="Diagnosticos Paciente.CODIGO DEL DIAGNOSTICO PRINCIPAL" />
+              </DataBindings>
+            </Item1>
+            <Item2 Ref="19" Name="INDlblCodigoCIE10" ControlType="XRLabel" SizeF="42,17" LocationFloat="8, 0" Font="Arial, 8.25pt, charSet=0" Padding="2,2,0,0,100" Text="INDlblCodigoCIE10">
+              <DataBindings>
+                <Item1 Ref="20" PropertyName="Text" DataMember="Diagnosticos Paciente.CODIGO DEL DIAGNOSTICO" />
+              </DataBindings>
+              <StylePriority Ref="21" UseFont="false" />
+            </Item2>
+            <Item3 Ref="22" Name="INDlblDiagnostico" ControlType="XRLabel" SizeF="500,17" LocationFloat="58, 0" Font="Arial, 8.25pt, charSet=0" Padding="2,2,0,0,100" Text="INDlblDiagnostico">
+              <DataBindings>
+                <Item1 Ref="23" PropertyName="Text" DataMember="Diagnosticos Paciente.NOMBRE DEL DIAGNOSTICO" />
+              </DataBindings>
+              <StylePriority Ref="24" UseFont="false" />
+            </Item3>
+            <Item4 Ref="25" Name="INDlblObservacionesDiagnostico" ControlType="XRLabel" SizeF="125,17" LocationFloat="558, 0" Font="Arial, 8.25pt, charSet=0" Padding="2,2,0,0,100" Text="INDlblObservacionesDiagnostico">
+              <DataBindings>
+                <Item1 Ref="26" PropertyName="Text" DataMember="Diagnosticos Paciente.OBSERVACIONES DEL DIAGNOSTICO" />
+              </DataBindings>
+              <StylePriority Ref="27" UseFont="false" />
+            </Item4>
+          </Controls>
+        </Item1>
+        <Item2 Ref="28" ControlType="GroupHeaderBand" Name="GroupDiagnosticos" HeightF="59">
+          <Controls>
+            <Item1 Ref="29" Name="XrLabel31" ControlType="XRLabel" SizeF="125,17" LocationFloat="558, 42" Font="Arial, 8.25pt, style=Bold, charSet=0" Padding="2,2,0,0,100" Text="Observaciones">
+              <StylePriority Ref="30" UseFont="false" />
+            </Item1>
+            <Item2 Ref="31" Name="XrLabel49" ControlType="XRLabel" SizeF="425,17" LocationFloat="58, 42" Font="Arial, 8.25pt, style=Bold, charSet=0" Padding="2,2,0,0,100" Text="Diagnostico">
+              <StylePriority Ref="32" UseFont="false" />
+            </Item2>
+            <Item3 Ref="33" Name="XrLabel47" ControlType="XRLabel" SizeF="42,17" LocationFloat="8, 42" Font="Arial, 8.25pt, style=Bold, charSet=0" Padding="2,2,0,0,100" Text="CIE10">
+              <StylePriority Ref="34" UseFont="false" />
+            </Item3>
+            <Item4 Ref="35" Name="XrLabel65" ControlType="XRLabel" SizeF="58,17" LocationFloat="683, 42" Font="Arial, 8.25pt, style=Bold, charSet=0" Padding="2,2,0,0,100" Text="Principal">
+              <StylePriority Ref="36" UseFont="false" />
+            </Item4>
+            <Item5 Ref="37" Name="XrLabel45" ControlType="XRLabel" Bookmark="Impresión Diagnostica" SizeF="734,17" LocationFloat="8, 7.999992" Font="Arial, 9pt, style=Bold, Underline, charSet=0" BackColor="Gainsboro" Padding="2,2,0,0,100" Text="IMPRESIÓN DIAGNOSTICA">
+              <StylePriority Ref="38" UseFont="false" UseBackColor="false" />
+            </Item5>
+          </Controls>
+        </Item2>
+      </Bands>
+      <ReportPrintOptions Ref="39" PrintOnEmptyDataSource="false" />
+    </Item4>
+    <Item5 Ref="40" Name="TopMarginBand1" ControlType="TopMarginBand" HeightF="50" />
+    <Item6 Ref="41" Name="BottomMarginBand1" ControlType="BottomMarginBand" HeightF="34.67096" />
+  </Bands>
+  <FormattingRuleSheet>
+    <Item1 Ref="42" Name="FormattingRule1">
+      <Formatting Ref="43" StringFormat="Near;Near;0;None;Character;Default" BorderStyle="Inset" />
+    </Item1>
+  </FormattingRuleSheet>
+</XtraReportsLayoutSerializer>

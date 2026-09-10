@@ -1,0 +1,151 @@
+#Region "Librerias Importadas"
+Imports Infrastructure.CrossCutting.Base
+Imports Infrastructure.Data.Xpo.PortfolioRepository
+Imports Infrastructure.Data.Xpo
+Imports DevExpress.XtraReports.UI
+
+#End Region
+
+Public Class rptListAccountsReceivable
+    Implements IReport
+
+    ''' <summary>
+    ''' Variable para inicializar los valores de sesion
+    ''' </summary>
+    Dim IndigoSessionValues As SessionValues = SessionValues.Instance
+
+    ''' <summary>
+    ''' Obtiene los datos del reporte
+    ''' </summary>
+    Dim listDataSource As List(Of PortfolioAccountReceivableReportXpo)
+
+    ''' <summary>
+    ''' Lista que guarda las columnas creadas
+    ''' </summary>
+    Dim listCreatedRows As New List(Of XRTableRow)
+
+    Public Sub CargarDataSource() Implements IReport.CargarDataSource
+        Dim filtroConsulta As String = "GetDate(AccountReceivableDate) >= #" & Format(ParametrosReporte(0), "yyyy-MM-dd") & "# AND GetDate(AccountReceivableDate) <= #" & Format(ParametrosReporte(1), "yyyy-MM-dd") & "#"
+
+        'Se filtra por Clientes
+        If ParametrosReporte(4) IsNot Nothing And ParametrosReporte(5) IsNot Nothing Then
+            filtroConsulta &= " AND ThirdPartyId.Nit >= '" & ParametrosReporte(4) & "' AND ThirdPartyId.Nit <= '" & ParametrosReporte(5) & "'"
+        End If
+
+        'Se filtra por Cuentas por Cobrar (Facturas)
+        If ParametrosReporte(6) IsNot Nothing And ParametrosReporte(7) IsNot Nothing Then
+            filtroConsulta &= " AND Code >= '" & ParametrosReporte(6) & "' AND Code <= '" & ParametrosReporte(7) & "'"
+        End If
+
+        If ParametrosReporte(2) <> 4 Then
+            filtroConsulta &= " AND Status = " & ParametrosReporte(2)
+        End If
+
+        If ParametrosReporte(3) = True Then
+            filtroConsulta &= "AND Balance > 0 "
+        End If
+
+        Me.listDataSource = XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).PaymentsService.GetCollection(Of PortfolioAccountReceivableReportXpo)(Nothing, filtroConsulta)
+        Me.DataSource = Me.listDataSource
+    End Sub
+
+    Public Sub CargarImagenes() Implements IReport.CargarImagenes
+
+    End Sub
+
+    Public ReadOnly Property NameReport As String Implements IReport.NameReport
+        Get
+            Return ""
+        End Get
+    End Property
+
+    Public Property ParametrosReporte As Object() Implements IReport.ParametrosReporte
+
+    Private Sub rptListAccountsReceivable_BeforePrint(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles MyBase.BeforePrint
+        INDLblCompany.Text = IndigoSessionValues.IndigoCompanyName
+        INDLblNitCompany.Text = "Nit:" & IndigoSessionValues.IndigoCompanyNit
+        Me.ExcludeParameter.Value = ParametrosReporte(3)
+        INDLblUserPrint.Text = "Usuario Impresión : " & IndigoSessionValues.UserIndigo & " - " & IndigoSessionValues.UserIndigoName
+        Me.INDLBlSubtitle.Text = "Informe comprendido entre " & CDate(ParametrosReporte(0)).ToString("dd De MMMM Del yyyy") & " " & CDate(ParametrosReporte(1)).ToString("A dd De MMMM Del yyyy")
+        Me.CreateRowsByCurrencies(Me.listDataSource?.Select(Function(f) f.CurrencyAbbreviation).Distinct.ToList())
+    End Sub
+
+    Private Sub XrTableCell8_BeforePrint(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles XrTableCell8.BeforePrint
+        Dim row As PortfolioAccountReceivableReportXpo = GetCurrentRow()
+        If row IsNot Nothing AndAlso String.IsNullOrEmpty(row.CurrencyAbbreviation) Then
+            XrTableCell8.Text = Utils.GetMoneyWithISO4217(row.Value, row.CurrencyAbbreviation)
+        End If
+    End Sub
+
+    Private Sub XrTableCell10_BeforePrint(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles XrTableCell10.BeforePrint
+        Dim row As PortfolioAccountReceivableReportXpo = GetCurrentRow()
+        If row IsNot Nothing AndAlso Not String.IsNullOrEmpty(row.CurrencyAbbreviation) Then
+            XrTableCell10.Text = Utils.GetMoneyWithISO4217(row.Balance, row.CurrencyAbbreviation)
+        End If
+    End Sub
+
+    Private Sub GroupFooter2_BeforePrint(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles GroupFooter2.BeforePrint
+        Me.XrTableValueThirdParty.SuspendLayout()
+        If listCreatedRows?.Any Then
+            For Each control In listCreatedRows
+                Me.XrTableValueThirdParty.Rows.Remove(control)
+            Next
+            listCreatedRows = New List(Of XRTableRow)
+        End If
+        'Obtengo el tercero que entra en el Group para usarlo en el filtro y sacar los valores correspondientes
+        Dim thirdParty = GetCurrentColumnValue("ThirdPartyId")
+        If thirdParty IsNot Nothing Then
+            'Comienzo a renderizar
+            For Each currency In Me.listDataSource?.Where(Function(w) w.ThirdPartyId.Id = thirdParty.Id).Select(Function(f) f.CurrencyAbbreviation).Distinct.ToList()
+                Dim xrRow As New XRTableRow()
+                Me.listCreatedRows.Add(xrRow)
+                Dim value As Decimal = 0
+                Dim Balance As Decimal = 0
+                value = Me.listDataSource?.Where(Function(f) f.CurrencyAbbreviation = currency And f.ThirdPartyId.Id = thirdParty.Id).Sum(Function(s) s.Value)
+                Balance = Me.listDataSource?.Where(Function(f) f.CurrencyAbbreviation = currency And f.ThirdPartyId.Id = thirdParty.Id).Sum(Function(s) s.Balance)
+                Dim x = Me.listDataSource?.Where(Function(f) f.CurrencyAbbreviation = currency And f.ThirdPartyId.Id = thirdParty.Id).ToList()
+                Me.AddCellIntoTable(xrRow, New XRTableCell With {.Text = currency, .Width = 95}, New DevExpress.Drawing.DXFont("Arial", 8.5, System.Drawing.FontStyle.Regular))
+                Me.AddCellIntoTable(xrRow, New XRTableCell With {.Text = Utils.GetMoneyWithISO4217(value, currency), .Width = 132}, New DevExpress.Drawing.DXFont("Arial", 8.5, System.Drawing.FontStyle.Bold))
+                Me.AddCellIntoTable(xrRow, New XRTableCell With {.Text = Utils.GetMoneyWithISO4217(Balance, currency), .Width = 127}, New DevExpress.Drawing.DXFont("Arial", 8.5, System.Drawing.FontStyle.Bold))
+                Me.XrTableValueThirdParty.Rows.Add(xrRow)
+            Next
+        End If
+        Me.XrTableValueThirdParty.PerformLayout()
+    End Sub
+
+    Private Sub CreateRowsByCurrencies(listCurrenciesAbbreviation As List(Of String))
+        If listCurrenciesAbbreviation?.Any Then
+            ' Suspend the table's layout.
+            Me.XrtableTotals.SuspendLayout()
+
+            For Each currencyAbbreviation In listCurrenciesAbbreviation
+                Dim xrRow As New XRTableRow()
+                Dim ValueTotal = Me.listDataSource?.Where(Function(w) w.CurrencyAbbreviation = currencyAbbreviation).Sum(Function(s) s.Value)
+                Dim BalanceTotal = Me.listDataSource?.Where(Function(w) w.CurrencyAbbreviation = currencyAbbreviation).Sum(Function(s) s.Balance)
+                Me.AddCellIntoTable(xrRow, New XRTableCell With {.Text = currencyAbbreviation, .Width = 95})
+                Me.AddCellIntoTable(xrRow, New XRTableCell With {.Text = Utils.GetMoneyWithISO4217(ValueTotal, currencyAbbreviation), .Width = 132})
+                Me.AddCellIntoTable(xrRow, New XRTableCell With {.Text = Utils.GetMoneyWithISO4217(BalanceTotal, currencyAbbreviation), .Width = 127})
+                Me.XrtableTotals.Rows.Add(xrRow)
+            Next
+
+            ' Perform the table's layout.  
+            Me.XrtableTotals.PerformLayout()
+        End If
+    End Sub
+
+    ''' <summary>
+    ''' Crea una nueva celda dentro de un objeto XRTable
+    ''' </summary>
+    ''' <param name="cell"></param>
+    Private Sub AddCellIntoTable(row As XRTableRow, cell As XRTableCell, Optional font As DevExpress.Drawing.DXFont = Nothing)
+        If cell IsNot Nothing Then
+            cell.Font = If(font Is Nothing, New DevExpress.Drawing.DXFont("Arial", 9.0, System.Drawing.FontStyle.Regular), font)
+            cell.Borders = CType((((DevExpress.XtraPrinting.BorderSide.Left Or DevExpress.XtraPrinting.BorderSide.Top) _
+            Or DevExpress.XtraPrinting.BorderSide.Right) _
+            Or DevExpress.XtraPrinting.BorderSide.Bottom), DevExpress.XtraPrinting.BorderSide)
+            cell.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleRight
+            ' Add cell to row
+            row.Cells.Add(cell)
+        End If
+    End Sub
+End Class

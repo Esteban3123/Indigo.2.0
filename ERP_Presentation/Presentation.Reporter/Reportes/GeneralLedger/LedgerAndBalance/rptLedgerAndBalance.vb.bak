@@ -1,0 +1,439 @@
+﻿#Region "Imports"
+Imports Infrastructure.CrossCutting.Base
+Imports Infrastructure.Data.Xpo
+Imports Infrastructure.Data.Xpo.AccountingRepository
+Imports Domain.Entities
+Imports DevExpress.XtraReports.UI
+Imports DevExpress.XtraRichEdit.Model
+Imports System.Configuration
+Imports DevExpress.DataAccess
+Imports DevExpress.DataAccess.ConnectionParameters
+Imports Presentation.Base
+Imports System.Data.SqlClient
+Imports Presentation.CloudAgent
+Imports System.ServiceModel
+#End Region
+
+Public Class rptLedgerAndBalance
+    Implements IReport
+
+    ''' <summary>
+    ''' Variable para inicializar los valores de sesion
+    ''' </summary>
+    Dim IndigoSessionValues As SessionValues = SessionValues.Instance
+
+    ''' <summary>
+    ''' Variable par obtener la tabla de Trazabilidad
+    ''' </summary>
+    Dim dtReportLedgerAndBalance As DataTable
+
+    Dim currencyAbbreviation As String
+
+    Dim a As Integer
+    'Dim PreviousBalanceClass As Long = 0
+    'Dim NewBalanceClass As Long = 0
+
+    'Dim PreviousBalanceGroup As Long = 0
+    'Dim NewBalanceGroup As Long = 0
+
+    'Dim PreviousBalanceAccount As Long = 0
+    'Dim NewBalanceAccount As Long = 0
+
+    'Dim PreviousBalanceSubAccount As Long = 0
+
+    'Dim NewBalanceSubAccount As Long = 0
+
+    Public Sub CargarDataSource() Implements IReport.CargarDataSource
+        'Me.DataSource = XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).AccountingService.GetCollectionLedgerAndBalance(ParametrosReporte(0), ParametrosReporte(3), ParametrosReporte(4))
+    End Sub
+
+    Public Async Function CargarDataSource1() As Task
+        Try
+            Dim ds As DataSet = Await IndigoConecta.Instancia.CurrentCloud.IndigoAccounting.GetListReportLedgerAndBalanceAsync(Month(ParametrosReporte(0)), Year(ParametrosReporte(0)), ParametrosReporte(3), ParametrosReporte(4), ParametrosReporte(1), Me.IndigoSessionValues)
+            If ds IsNot Nothing Then
+                dtReportLedgerAndBalance = ds.Tables("ReportLedgerAndBalance")
+                Me.DataSource = dtReportLedgerAndBalance
+                Me.DataMember = "ReportLedgerAndBalance"
+
+                Dim book
+                Using scope As New OperationContextScope(IndigoConecta.Instancia.CurrentCloud.IndigoAccounting.InnerChannel)
+                    IndigoSessionValues.AuditMessageWcf.Functional = Tag
+                    Dim mess As New MessageHeader(Of AuditMessage)(IndigoSessionValues.AuditMessageWcf)
+                    Dim header As System.ServiceModel.Channels.MessageHeader = mess.GetUntypedHeader(ConfigurationFile.SESS_AUDITMESSAGE, ConfigurationFile.SESS_NAME_SPACE)
+                    OperationContext.Current.OutgoingMessageHeaders.Add(header)
+                    book = Await IndigoConecta.Instancia.CurrentCloud.IndigoAccounting.GetBookByIdAsync(ParametrosReporte(4))
+                End Using
+                If book.ObjectEmbbeded IsNot Nothing Then
+                    currencyAbbreviation = book.ObjectEmbbeded.Currency.Abbreviation
+                End If
+            Else
+                Me.DataSource = Nothing
+            End If
+            a = ParametrosReporte(6)
+        Catch ex As Exception
+            MessageIndigo.Show(GetExceptionDetails(ex), MessageType.Errores, Me.Text, Botones.Aceptar, "")
+        End Try
+    End Function
+
+    Public Function GetExceptionDetails(exception As Exception) As String
+        Dim properties = exception.[GetType]().GetProperties()
+        Dim fields = properties.[Select](Function([property]) New With { _
+            Key .Name = [property].Name, _
+            Key .Value = [property].GetValue(exception, Nothing) _
+        }).[Select](Function(x) [String].Format("{0} : {1}", x.Name, If(x.Value IsNot Nothing, x.Value.ToString(), [String].Empty)))
+        Return [String].Join(vbLf, fields)
+    End Function
+
+    Public Sub CargarImagenes() Implements IReport.CargarImagenes
+
+    End Sub
+
+    Public ReadOnly Property NameReport As String Implements IReport.NameReport
+        Get
+            Return ""
+        End Get
+    End Property
+
+    Public Property ParametrosReporte As Object() Implements IReport.ParametrosReporte
+
+    Private Sub rptLedgerAndBalance_BeforePrint(sender As Object, e As Printing.PrintEventArgs) Handles MyBase.BeforePrint
+
+        'Cargar los valores del titulo
+        Me.INDLblCompany.Text = IndigoSessionValues.IndigoCompanyName
+        Me.INDLblNitCompany.Text = "Nit : " & IndigoSessionValues.IndigoCompanyNit
+        Me.INDLblUserPrint.Text = "Usuario Impresión : " & IndigoSessionValues.UserIndigo & " - " & IndigoSessionValues.UserIndigoName
+        INDLblDate.Text = "Desde el 01 de " & CDate(Me.ParametrosReporte(0)).ToString("MMMM Del yyyy")
+
+        Select Case ParametrosReporte(1)
+            Case 1
+                INDLblLevelAccount.Text = "Clase"
+            Case 2
+                INDLblLevelAccount.Text = "Grupo"
+            Case 3
+                INDLblLevelAccount.Text = "Cuenta"
+            Case 4
+                INDLblLevelAccount.Text = "SubCuenta"
+            Case 5
+                INDLblLevelAccount.Text = "Auxiliar"
+        End Select
+
+    End Sub
+
+
+    Private Sub PageHeader_BeforePrint(sender As Object, e As Printing.PrintEventArgs) Handles PageHeader.BeforePrint
+        If ParametrosReporte(2) = 2 Then
+
+            XrPageInfo1.Visible = True
+
+            XrPageInfo1.Format = ParametrosReporte(5) & a
+            a = a + 1
+        End If
+    End Sub
+
+    Private Sub XrTableCell17_SummaryGetResult(sender As Object, e As SummaryGetResultEventArgs) Handles XrTableCell17.SummaryGetResult, XrTableCell18.SummaryGetResult,
+        XrTableCell54.SummaryGetResult, XrTableCell56.SummaryGetResult, XrTableCell58.SummaryGetResult, XrTableCell62.SummaryGetResult, XrTableCell64.SummaryGetResult,
+        XrTableCell66.SummaryGetResult, XrTableCell69.SummaryGetResult, XrTableCell70.SummaryGetResult, XrTableCell72.SummaryGetResult, XrTableCell73.SummaryGetResult
+
+        Dim row = GetCurrentRow()
+        e.Result = Utils.GetMoneyWithISO4217(e.CalculatedValues.ToEntityList(Of Decimal).Sum(), If(String.IsNullOrEmpty(currencyAbbreviation),
+                                             IndigoSessionValues.CurrencyISO4217, currencyAbbreviation))
+        e.Handled = True
+
+    End Sub
+
+    Private Sub XrTableCell15_BeforePrint(sender As Object, e As Printing.PrintEventArgs) Handles XrTableCell15.BeforePrint
+        Dim row = GetCurrentRow()
+        XrTableCell15.Text = Utils.GetMoneyWithISO4217(Convert.ToDecimal(GetCurrentColumnValue("INDCfPreviousBalanceDebit")), If(String.IsNullOrEmpty(currencyAbbreviation),
+                                             IndigoSessionValues.CurrencyISO4217, currencyAbbreviation))
+    End Sub
+
+    Private Sub XrTableCell16_BeforePrint(sender As Object, e As Printing.PrintEventArgs) Handles XrTableCell16.BeforePrint
+        Dim row = GetCurrentRow()
+        XrTableCell16.Text = Utils.GetMoneyWithISO4217(Convert.ToDecimal(GetCurrentColumnValue("INDCfPreviousBalanceCredit")), If(String.IsNullOrEmpty(currencyAbbreviation),
+                                             IndigoSessionValues.CurrencyISO4217, currencyAbbreviation))
+    End Sub
+
+    Private Sub XrTableCell19_BeforePrint(sender As Object, e As Printing.PrintEventArgs) Handles XrTableCell19.BeforePrint
+        Dim row = GetCurrentRow()
+        XrTableCell19.Text = Utils.GetMoneyWithISO4217(Convert.ToDecimal(GetCurrentColumnValue("INDCfNewBalanceDebit")), If(String.IsNullOrEmpty(currencyAbbreviation),
+                                             IndigoSessionValues.CurrencyISO4217, currencyAbbreviation))
+    End Sub
+
+    Private Sub XrTableCell20_BeforePrint(sender As Object, e As Printing.PrintEventArgs) Handles XrTableCell20.BeforePrint
+        Dim row = GetCurrentRow()
+        XrTableCell20.Text = Utils.GetMoneyWithISO4217(Convert.ToDecimal(GetCurrentColumnValue("INDCfNewBalanceCredit")), If(String.IsNullOrEmpty(currencyAbbreviation),
+                                             IndigoSessionValues.CurrencyISO4217, currencyAbbreviation))
+    End Sub
+
+    '#Region "Suma Saldos Clase"
+
+    '#Region "Suma Saldo Anterior Clase"
+
+    '    Private Sub XrTableCell15_SummaryRowChanged(sender As Object, e As EventArgs) Handles XrTableCell15.SummaryRowChanged
+    '        PreviousBalanceClass += Convert.ToDouble(GetCurrentColumnValue("INDCfPreviousBalance"))
+    '    End Sub
+
+    '    Private Sub XrTableCell15_SummaryGetResult(sender As Object, e As DevExpress.XtraReports.UI.SummaryGetResultEventArgs) Handles XrTableCell15.SummaryGetResult
+    '        If PreviousBalanceClass > 0 Then
+    '            e.Result = PreviousBalanceClass
+    '            e.Handled = True
+    '        Else
+    '            e.Result = 0
+    '            e.Handled = True
+    '        End If
+    '    End Sub
+
+    '    Private Sub XrTableCell16_SummaryGetResult(sender As Object, e As DevExpress.XtraReports.UI.SummaryGetResultEventArgs) Handles XrTableCell16.SummaryGetResult
+    '        If PreviousBalanceClass < 0 Then
+    '            e.Result = Math.Abs(PreviousBalanceClass)
+    '            e.Handled = True
+    '        Else
+    '            e.Result = 0
+    '            e.Handled = True
+    '        End If
+    '    End Sub
+
+    '    Private Sub XrTableCell15_SummaryReset(sender As Object, e As EventArgs) Handles XrTableCell15.SummaryReset
+    '        PreviousBalanceClass = 0
+    '    End Sub
+
+    '#End Region
+
+    '#Region "Suma Nuevo Saldo Clase"
+
+    '    Private Sub XrTableCell19_SummaryRowChanged(sender As Object, e As EventArgs) Handles XrTableCell19.SummaryRowChanged
+    '        NewBalanceClass += Convert.ToDouble(GetCurrentColumnValue("INDCfNewBalance"))
+    '    End Sub
+
+    '    Private Sub XrTableCell19_SummaryGetResult(sender As Object, e As DevExpress.XtraReports.UI.SummaryGetResultEventArgs) Handles XrTableCell19.SummaryGetResult
+    '        If NewBalanceClass > 0 Then
+    '            e.Result = NewBalanceClass
+    '            e.Handled = True
+    '        Else
+    '            e.Result = 0
+    '            e.Handled = True
+    '        End If
+    '    End Sub
+
+    '    Private Sub XrTableCell19_SummaryReset(sender As Object, e As EventArgs) Handles XrTableCell19.SummaryReset
+    '        NewBalanceClass = 0
+    '    End Sub
+
+    '    Private Sub XrTableCell20_SummaryGetResult(sender As Object, e As DevExpress.XtraReports.UI.SummaryGetResultEventArgs) Handles XrTableCell20.SummaryGetResult
+    '        If NewBalanceClass < 0 Then
+    '            e.Result = Math.Abs(NewBalanceClass)
+    '            e.Handled = True
+    '        Else
+    '            e.Result = 0
+    '            e.Handled = True
+    '        End If
+    '    End Sub
+
+    '#End Region
+
+    '#End Region
+
+    '#Region "Suma Saldos Grupo"
+
+    '#Region "Suma Saldo Anterior Grupo"
+
+    '    Private Sub XrTableCell23_SummaryGetResult(sender As Object, e As DevExpress.XtraReports.UI.SummaryGetResultEventArgs) Handles XrTableCell23.SummaryGetResult
+    '        If PreviousBalanceGroup > 0 Then
+    '            e.Result = PreviousBalanceGroup
+    '            e.Handled = True
+    '        Else
+    '            e.Result = 0
+    '            e.Handled = True
+    '        End If
+    '    End Sub
+
+    '    Private Sub XrTableCell23_SummaryReset(sender As Object, e As EventArgs) Handles XrTableCell23.SummaryReset
+    '        PreviousBalanceGroup = 0
+    '    End Sub
+
+    '    Private Sub XrTableCell23_SummaryRowChanged(sender As Object, e As EventArgs) Handles XrTableCell23.SummaryRowChanged
+    '        PreviousBalanceGroup += Convert.ToDouble(GetCurrentColumnValue("INDCfPreviousBalance"))
+    '    End Sub
+
+    '    Private Sub XrTableCell25_SummaryGetResult(sender As Object, e As DevExpress.XtraReports.UI.SummaryGetResultEventArgs) Handles XrTableCell25.SummaryGetResult
+    '        If PreviousBalanceGroup < 0 Then
+    '            e.Result = Math.Abs(PreviousBalanceGroup)
+    '            e.Handled = True
+    '        Else
+    '            e.Result = 0
+    '            e.Handled = True
+    '        End If
+    '    End Sub
+
+    '#End Region
+
+    '#Region "Suma Nuevo Saldo Grupo"
+
+    '    Private Sub XrTableCell27_SummaryGetResult(sender As Object, e As DevExpress.XtraReports.UI.SummaryGetResultEventArgs) Handles XrTableCell27.SummaryGetResult
+    '        If NewBalanceGroup > 0 Then
+    '            e.Result = NewBalanceGroup
+    '            e.Handled = True
+    '        Else
+    '            e.Result = 0
+    '            e.Handled = True
+    '        End If
+    '    End Sub
+
+    '    Private Sub XrTableCell27_SummaryReset(sender As Object, e As EventArgs) Handles XrTableCell27.SummaryReset
+    '        NewBalanceGroup = 0
+    '    End Sub
+
+    '    Private Sub XrTableCell27_SummaryRowChanged(sender As Object, e As EventArgs) Handles XrTableCell27.SummaryRowChanged
+    '        NewBalanceGroup += Convert.ToDouble(GetCurrentColumnValue("INDCfNewBalance"))
+    '    End Sub
+
+    '    Private Sub XrTableCell28_SummaryGetResult(sender As Object, e As DevExpress.XtraReports.UI.SummaryGetResultEventArgs) Handles XrTableCell28.SummaryGetResult
+    '        If NewBalanceGroup < 0 Then
+    '            e.Result = Math.Abs(NewBalanceGroup)
+    '            e.Handled = True
+    '        Else
+    '            e.Result = 0
+    '            e.Handled = True
+    '        End If
+    '    End Sub
+
+    '#End Region
+
+    '#End Region
+
+    '#Region "Suma Saldos Cuenta"
+
+    '#Region "Suma Saldo Anterior Cuenta"
+
+    '    Private Sub XrTableCell31_SummaryGetResult(sender As Object, e As DevExpress.XtraReports.UI.SummaryGetResultEventArgs) Handles XrTableCell31.SummaryGetResult
+    '        If PreviousBalanceAccount > 0 Then
+    '            e.Result = PreviousBalanceAccount
+    '            e.Handled = True
+    '        Else
+    '            e.Result = 0
+    '            e.Handled = True
+    '        End If
+    '    End Sub
+
+    '    Private Sub XrTableCell31_SummaryReset(sender As Object, e As EventArgs) Handles XrTableCell31.SummaryReset
+    '        PreviousBalanceAccount = 0
+    '    End Sub
+
+    '    Private Sub XrTableCell31_SummaryRowChanged(sender As Object, e As EventArgs) Handles XrTableCell31.SummaryRowChanged
+    '        PreviousBalanceAccount += Convert.ToDouble(GetCurrentColumnValue("INDCfPreviousBalance"))
+    '    End Sub
+
+    '    Private Sub XrTableCell32_SummaryGetResult(sender As Object, e As DevExpress.XtraReports.UI.SummaryGetResultEventArgs) Handles XrTableCell32.SummaryGetResult
+    '        If PreviousBalanceAccount < 0 Then
+    '            e.Result = Math.Abs(PreviousBalanceAccount)
+    '            e.Handled = True
+    '        Else
+    '            e.Result = 0
+    '            e.Handled = True
+    '        End If
+    '    End Sub
+
+    '#End Region
+
+    '#Region "Suma Nuevo Saldo Cuenta"
+
+    '    Private Sub XrTableCell35_SummaryGetResult(sender As Object, e As DevExpress.XtraReports.UI.SummaryGetResultEventArgs) Handles XrTableCell35.SummaryGetResult
+    '        If NewBalanceAccount > 0 Then
+    '            e.Result = NewBalanceAccount
+    '            e.Handled = True
+    '        Else
+    '            e.Result = 0
+    '            e.Handled = True
+    '        End If
+    '    End Sub
+
+    '    Private Sub XrTableCell35_SummaryReset(sender As Object, e As EventArgs) Handles XrTableCell35.SummaryReset
+    '        NewBalanceAccount = 0
+    '    End Sub
+
+    '    Private Sub XrTableCell35_SummaryRowChanged(sender As Object, e As EventArgs) Handles XrTableCell35.SummaryRowChanged
+    '        NewBalanceAccount += Convert.ToDouble(GetCurrentColumnValue("INDCfNewBalance"))
+    '    End Sub
+
+    '    Private Sub XrTableCell36_SummaryGetResult(sender As Object, e As DevExpress.XtraReports.UI.SummaryGetResultEventArgs) Handles XrTableCell36.SummaryGetResult
+    '        If NewBalanceAccount < 0 Then
+    '            e.Result = Math.Abs(NewBalanceAccount)
+    '            e.Handled = True
+    '        Else
+    '            e.Result = 0
+    '            e.Handled = True
+    '        End If
+    '    End Sub
+
+    '#End Region
+
+    '#End Region
+
+    '#Region "Suma Saldos SubCuenta"
+
+    '#Region "Suma Saldo Anterior SubCuentas"
+
+    '    Private Sub XrTableCell39_SummaryGetResult(sender As Object, e As DevExpress.XtraReports.UI.SummaryGetResultEventArgs) Handles XrTableCell39.SummaryGetResult
+    '        If PreviousBalanceSubAccount > 0 Then
+    '            e.Result = PreviousBalanceSubAccount
+    '            e.Handled = True
+    '        Else
+    '            e.Result = 0
+    '            e.Handled = True
+    '        End If
+    '    End Sub
+
+    '    Private Sub XrTableCell39_SummaryReset(sender As Object, e As EventArgs) Handles XrTableCell39.SummaryReset
+    '        PreviousBalanceSubAccount = 0
+    '    End Sub
+
+    '    Private Sub XrTableCell39_SummaryRowChanged(sender As Object, e As EventArgs) Handles XrTableCell39.SummaryRowChanged
+    '        PreviousBalanceSubAccount += Convert.ToDouble(GetCurrentColumnValue("INDCfPreviousBalance"))
+    '    End Sub
+
+    '    Private Sub XrTableCell40_SummaryGetResult(sender As Object, e As DevExpress.XtraReports.UI.SummaryGetResultEventArgs) Handles XrTableCell40.SummaryGetResult
+    '        If PreviousBalanceSubAccount < 0 Then
+    '            e.Result = Math.Abs(PreviousBalanceSubAccount)
+    '            e.Handled = True
+    '        Else
+    '            e.Result = 0
+    '            e.Handled = True
+    '        End If
+    '    End Sub
+
+    '#End Region
+
+    '#Region "Suma Nuevo Saldo SubCuentas"
+
+    '    Private Sub XrTableCell43_SummaryGetResult(sender As Object, e As DevExpress.XtraReports.UI.SummaryGetResultEventArgs) Handles XrTableCell43.SummaryGetResult
+    '        If NewBalanceSubAccount > 0 Then
+    '            e.Result = NewBalanceSubAccount
+    '            e.Handled = True
+    '        Else
+    '            e.Result = 0
+    '            e.Handled = True
+    '        End If
+    '    End Sub
+
+    '    Private Sub XrTableCell43_SummaryReset(sender As Object, e As EventArgs) Handles XrTableCell43.SummaryReset
+    '        NewBalanceSubAccount = 0
+    '    End Sub
+
+    '    Private Sub XrTableCell43_SummaryRowChanged(sender As Object, e As EventArgs) Handles XrTableCell43.SummaryRowChanged
+    '        NewBalanceSubAccount += Convert.ToDouble(GetCurrentColumnValue("INDCfNewBalance"))
+    '    End Sub
+
+    '    Private Sub XrTableCell44_SummaryGetResult(sender As Object, e As DevExpress.XtraReports.UI.SummaryGetResultEventArgs) Handles XrTableCell44.SummaryGetResult
+    '        If NewBalanceSubAccount < 0 Then
+    '            e.Result = Math.Abs(NewBalanceSubAccount)
+    '            e.Handled = True
+    '        Else
+    '            e.Result = 0
+    '            e.Handled = True
+    '        End If
+    '    End Sub
+
+    '#End Region
+
+    '#End Region
+End Class

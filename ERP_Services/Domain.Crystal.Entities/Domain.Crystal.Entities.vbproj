@@ -1,0 +1,526 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{AEF25407-1A53-4F3B-93CB-5258A6B80951}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>Domain.Crystal.Entities</RootNamespace>
+    <AssemblyName>Domain.Crystal.Entities</AssemblyName>
+    <FileAlignment>512</FileAlignment>
+    <MyType>Windows</MyType>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DocumentationFile>Domain.Crystal.Entities.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DocumentationFile>Domain.Crystal.Entities.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionExplicit>On</OptionExplicit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionCompare>Binary</OptionCompare>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionStrict>Off</OptionStrict>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionInfer>On</OptionInfer>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debugcito|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\Debugcito\</OutputPath>
+    <DocumentationFile>Domain.Crystal.Entities.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DocumentationFile>Domain.Crystal.Entities.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DocumentationFile>Domain.Crystal.Entities.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debugcito|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x64\Debugcito\</OutputPath>
+    <DocumentationFile>Domain.Crystal.Entities.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework">
+      <HintPath>..\DLL\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer">
+      <HintPath>..\DLL\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Core" />
+  </ItemGroup>
+  <ItemGroup>
+    <Import Include="System" />
+    <Import Include="System.Collections.Generic" />
+    <Import Include="System.Linq" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ADACTIVID.vb">
+      <DependentUpon>CrystalModel.Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ADCENATEN.vb">
+      <DependentUpon>CrystalModel.Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ADCONCOED.vb">
+      <DependentUpon>CrystalModel.Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ADCONCOEX.vb">
+      <DependentUpon>CrystalModel.Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ADCONTIPS.vb">
+      <DependentUpon>CrystalModel.Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ADCONTURG.vb">
+      <DependentUpon>CrystalModel.Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ADCREDO.vb">
+      <DependentUpon>CrystalModel.Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ADDISCAPACI.vb">
+      <DependentUpon>CrystalModel.Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ADEMPRESA.vb">
+      <DependentUpon>CrystalModel.Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ADGRUETNI.vb">
+      <DependentUpon>CrystalModel.Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ADGRUPESP.vb">
+      <DependentUpon>CrystalModel.Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ADIDIOMA.vb">
+      <DependentUpon>CrystalModel.Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ADINGRESO.vb">
+      <DependentUpon>CrystalModel.Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ADNIVELED.vb">
+      <DependentUpon>CrystalModel.Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ADNIVELES.vb">
+      <DependentUpon>CrystalModel.Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ADPARAMET.vb">
+      <DependentUpon>CrystalModel.Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="AGACTIMED.vb">
+      <DependentUpon>CrystalModel.Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="AGACTMDDD.vb">
+      <DependentUpon>CrystalModel.Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="AGASICITA.vb">
+      <DependentUpon>CrystalModel.Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="AMBORDIMA.vb">
+      <DependentUpon>CrystalModel.Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="AMBORDLAB.vb">
+      <DependentUpon>CrystalModel.Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="AMBORDPAT.vb">
+      <DependentUpon>CrystalModel.Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="AutomaticEntryDistribution.vb">
+      <DependentUpon>CrystalModel.Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CHCAMASHO.vb">
+      <DependentUpon>CrystalModel.Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CHGENTARI.vb">
+      <DependentUpon>CrystalModel.Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CHPARAMET.vb">
+      <DependentUpon>CrystalModel.Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CHREGEGRE.vb">
+      <DependentUpon>CrystalModel.Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CHREGESTA.vb">
+      <DependentUpon>CrystalModel.Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CHREGESTADET.vb">
+      <DependentUpon>CrystalModel.Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CHTIPESTA.vb">
+      <DependentUpon>CrystalModel.Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CrystalModel.Entities.vb">
+      <DependentUpon>CrystalModel.Entities.tt</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
+    <Compile Include="Enums\StayStatusEnum.vb" />
+    <Compile Include="Extends\ACTMEDCUPS.vb" />
+    <Compile Include="Extends\ADINGRESO.vb" />
+    <Compile Include="Extends\CHGENTARI\CHGENTARI.Service.vb" />
+    <Compile Include="Extends\HCQXVIABO.vb" />
+    <Compile Include="Extends\HCREGEGRE\HCREGEGRE.Service.vb" />
+    <Compile Include="Extends\HealthCareProfessional\HealthProfessionalModel.vb" />
+    <Compile Include="Extends\HealthCareProfessional\INPROFSAL.vb" />
+    <Compile Include="Extends\Patient\INPACIENT.vb" />
+    <Compile Include="Extends\RISGRIMAGE.vb" />
+    <Compile Include="Extends\SP_RIAS_ValidacionCUPSRIAS_Result.vb" />
+    <Compile Include="Extends\ProductATC.vb" />
+    <Compile Include="Extends\SP_AD_ListarCitasMedicasNativo_Result\SP_AD_ListarCitasMedicasNativo_Result.vb" />
+    <Compile Include="Extends\Stays\CHREGESTA.vb" />
+    <Compile Include="Extends\Stays\CHREGESTADET.vb" />
+    <Compile Include="Extends\Stays\StayFolios.vb" />
+    <Compile Include="Extends\ViewDashboardPharmacyDetailDevolution\ViewDashboardPharmacyDetailDevolution.vb" />
+    <Compile Include="Extends\ViewDashboardPharmacyDetail\ViewDashboardPharmacyDetail.vb" />
+    <Compile Include="Extends\ViewDashboardPharmacyDetail\ViewDashboardPharmacyDetailDeferred.vb" />
+    <Compile Include="Extends\ViewDashBoardPharmacy_SurgicalPackageDeatils\ViewDashBoardPharmacy_SurgicalPackageDeatils.vb" />
+    <Compile Include="HCCONOXIG.vb">
+      <DependentUpon>CrystalModel.Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="HCDEVMEDC.vb">
+      <DependentUpon>CrystalModel.Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="HCDEVMEDD.vb">
+      <DependentUpon>CrystalModel.Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="HCFARMEPC.vb">
+      <DependentUpon>CrystalModel.Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="HCFARMEPD.vb">
+      <DependentUpon>CrystalModel.Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="HCFISIPRO.vb">
+      <DependentUpon>CrystalModel.Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="HCHISPACA.vb">
+      <DependentUpon>CrystalModel.Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="HCHOGASIN.vb">
+      <DependentUpon>CrystalModel.Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="HCHOJAGASTOQX.vb">
+      <DependentUpon>CrystalModel.Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="HCINTESER.vb">
+      <DependentUpon>CrystalModel.Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="HCJUNOPMH.vb">
+      <DependentUpon>CrystalModel.Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="HCKARDPAC.vb">
+      <DependentUpon>CrystalModel.Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="HCORDIMAG.vb">
+      <DependentUpon>CrystalModel.Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="HCORDINTE.vb">
+      <DependentUpon>CrystalModel.Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="HCORDLABO.vb">
+      <DependentUpon>CrystalModel.Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="HCORDPATO.vb">
+      <DependentUpon>CrystalModel.Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="HCORDPRON.vb">
+      <DependentUpon>CrystalModel.Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="HCORDPROQ.vb">
+      <DependentUpon>CrystalModel.Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="HCORHEMSER.vb">
+      <DependentUpon>CrystalModel.Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="HCPARPACS.vb">
+      <DependentUpon>CrystalModel.Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="HCPLAOTRPROCUPS.vb">
+      <DependentUpon>CrystalModel.Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="HCPRESCRA.vb">
+      <DependentUpon>CrystalModel.Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="HCPROCTER.vb">
+      <DependentUpon>CrystalModel.Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="HCQXEQUIP.vb">
+      <DependentUpon>CrystalModel.Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="HCQXINFOR.vb">
+      <DependentUpon>CrystalModel.Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="HCQXREALI.vb">
+      <DependentUpon>CrystalModel.Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="HCQXVIABO.vb">
+      <DependentUpon>CrystalModel.Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="HCREGEGRE.vb">
+      <DependentUpon>CrystalModel.Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="HCUNITHIS.vb">
+      <DependentUpon>CrystalModel.Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="IHDCIMEDI.vb">
+      <DependentUpon>CrystalModel.Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="IHLISTPRO.vb">
+      <DependentUpon>CrystalModel.Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="INAUTORIG.vb">
+      <DependentUpon>CrystalModel.Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="INAUTORIU.vb">
+      <DependentUpon>CrystalModel.Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="INCONSECU.vb">
+      <DependentUpon>CrystalModel.Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="INCONSEPA.vb">
+      <DependentUpon>CrystalModel.Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="INCUPSGRU.vb">
+      <DependentUpon>CrystalModel.Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="INCUPSIPS.vb">
+      <DependentUpon>CrystalModel.Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="INCUPSSUB.vb">
+      <DependentUpon>CrystalModel.Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="INDEPARTA.vb">
+      <DependentUpon>CrystalModel.Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="INDIAGNOP.vb">
+      <DependentUpon>CrystalModel.Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="INENTIDAD.vb">
+      <DependentUpon>CrystalModel.Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="INESPECIA.vb">
+      <DependentUpon>CrystalModel.Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="INMUNICIP.vb">
+      <DependentUpon>CrystalModel.Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="INPACIENT.vb">
+      <DependentUpon>CrystalModel.Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="INPACIENTTOPANU.vb">
+      <DependentUpon>CrystalModel.Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="INPRODPAT.vb">
+      <DependentUpon>CrystalModel.Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="INPROFSAL.vb">
+      <DependentUpon>CrystalModel.Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="INSALARIM.vb">
+      <DependentUpon>CrystalModel.Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="INUBICACI.vb">
+      <DependentUpon>CrystalModel.Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="INUNIFUNC.vb">
+      <DependentUpon>CrystalModel.Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DiagnosticImagingUnion.vb" />
+    <Compile Include="Models\HCHOJAGASTOQX_Model.vb" />
+    <Compile Include="Models\ProductSurgicalExpenseSheetModel.vb" />
+    <Compile Include="Models\StayInfoModel.vb" />
+    <Compile Include="My Project\AssemblyInfo.vb" />
+    <Compile Include="My Project\Application.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Application.myapp</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="My Project\Resources.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="My Project\Settings.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="RIAS.vb">
+      <DependentUpon>CrystalModel.Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RISGRIMAGE.vb">
+      <DependentUpon>CrystalModel.Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoutingLog.vb">
+      <DependentUpon>CrystalModel.Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SEGgruusu.vb">
+      <DependentUpon>CrystalModel.Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SEGpermif.vb">
+      <DependentUpon>CrystalModel.Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SEGpermir.vb">
+      <DependentUpon>CrystalModel.Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SEGpermiu.vb">
+      <DependentUpon>CrystalModel.Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SEGrolesu.vb">
+      <DependentUpon>CrystalModel.Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SEGusuaru.vb">
+      <DependentUpon>CrystalModel.Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SPHC_ConfirmarHojaGastoQX_Result.vb">
+      <DependentUpon>CrystalModel.Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SPHC_ListarProductosHojaGastoQX_Result.vb">
+      <DependentUpon>CrystalModel.Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SP_AD_ListarCitasMedicasNativo_Result.vb">
+      <DependentUpon>CrystalModel.Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SP_AD_ValidaAnulacionIngreso_Result.vb">
+      <DependentUpon>CrystalModel.Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SP_AGE_ConfirmarSolicitarPaquete_Result.vb">
+      <DependentUpon>CrystalModel.Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SP_GetAdmissionByCode_Result.vb">
+      <DependentUpon>CrystalModel.Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SP_GetPatientByIdentification_Result.vb">
+      <DependentUpon>CrystalModel.Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SP_ListarHemocomponentesPorIngreso_Result.vb">
+      <DependentUpon>CrystalModel.Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SP_RIAS_ValidacionCUPSRIAS_Result.vb">
+      <DependentUpon>CrystalModel.Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SP_SEG_AutenticarDatosProfesional_Result.vb">
+      <DependentUpon>CrystalModel.Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SP_SEG_AutenticarUsuario_Result.vb">
+      <DependentUpon>CrystalModel.Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SP_SEG_CentroAtencion_Autorizado_Result.vb">
+      <DependentUpon>CrystalModel.Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SP_SEG_UnidadFuncional_Autorizado_Result.vb">
+      <DependentUpon>CrystalModel.Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ViewDashboardPharmacyDetail.vb">
+      <DependentUpon>CrystalModel.Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ViewDashboardPharmacyDetailDevolution.vb">
+      <DependentUpon>CrystalModel.Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ViewDashBoardPharmacyDevolution.vb">
+      <DependentUpon>CrystalModel.Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ViewDashBoardPharmacy_SurgicalPackage.vb">
+      <DependentUpon>CrystalModel.Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ViewDashBoardPharmacy_SurgicalPackageDeatils.vb">
+      <DependentUpon>CrystalModel.Entities.tt</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="My Project\Resources.resx">
+      <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.vb</LastGenOutput>
+      <CustomToolNamespace>My.Resources</CustomToolNamespace>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="CrystalModel.Entities.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>CrystalModel.Entities.vb</LastGenOutput>
+    </None>
+    <None Include="My Project\Application.myapp">
+      <Generator>MyApplicationCodeGenerator</Generator>
+      <LastGenOutput>Application.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="My Project\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <CustomToolNamespace>My</CustomToolNamespace>
+      <LastGenOutput>Settings.Designer.vb</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Domain.Base.Entities\Domain.Base.Entities.vbproj">
+      <Project>{78734d29-0073-4d48-9d0b-2362d0243e36}</Project>
+      <Name>Domain.Base.Entities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Domain.Entities\Domain.Entities.vbproj">
+      <Project>{0551aef4-ed84-4745-b00b-7475f26015cc}</Project>
+      <Name>Domain.Entities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastructure.CrossCutting.Base\Infrastructure.CrossCutting.Base.vbproj">
+      <Project>{2773d9f7-93bd-4520-9726-bce0d8875696}</Project>
+      <Name>Infrastructure.CrossCutting.Base</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

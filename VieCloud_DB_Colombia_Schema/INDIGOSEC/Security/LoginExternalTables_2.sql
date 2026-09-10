@@ -1,0 +1,3 @@
+﻿CREATE DATABASE SCOPED CREDENTIAL [LoginExternalTables]
+    WITH IDENTITY = N'dbaIndigo';
+

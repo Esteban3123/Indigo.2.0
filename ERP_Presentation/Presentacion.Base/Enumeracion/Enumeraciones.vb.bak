@@ -1,0 +1,4573 @@
+﻿'***********************************************************************
+' Assembly         : Presentacion.Base
+' Author           : AndresBonilla
+' Created          : 
+'
+' Last Modified By : Sergio Fernandez
+' Last Modified On : 12-10-2011
+' Description      : se agregaron los mensajes de los formularios con tag de 400 a 407
+'
+' Copyright        : (c) . All rights reserved.
+'***********************************************************************
+#Region "Enumeraciones"
+
+Public Enum ePortfolioAge
+    ''' <summary>
+    ''' color para las facturas no vencidas
+    ''' </summary>
+    ColorDefault = -1 '812789784
+End Enum
+
+''' <summary>
+''' enumeracion que contiene las acciones para las rejillas
+''' </summary>
+''' <remarks></remarks>
+Public Enum eAcciones
+    ''' <summary>
+    ''' accion para agregar un registro
+    ''' </summary>
+    ''' <remarks></remarks>
+    Add = 0
+    ''' <summary>
+    ''' accion para remover un item
+    ''' </summary>
+    ''' <remarks></remarks>
+    Remove = 1
+    ''' <summary>
+    ''' accion para editar un registro
+    ''' </summary>
+    ''' <remarks></remarks>
+    Edit = 2
+    ''' <summary>
+    ''' accion para anular un registro
+    ''' </summary>
+    ''' <remarks></remarks>
+    Annular = 3
+    ''' <summary>
+    ''' accion para diferir un registro
+    ''' </summary>
+    ''' <remarks></remarks>
+    Defer = 4
+    ''' <summary>
+    ''' accion para agregar una tarifa
+    ''' </summary>
+    ''' <remarks></remarks>
+    AddLiquidationType = 5
+    ''' <summary>
+    ''' accion para liquidar la entidad cups en el formulario de CareGroup
+    ''' </summary>
+    ''' <remarks></remarks>
+    Liquidate = 6
+    ''' <summary>
+    ''' Accion para procesar
+    ''' </summary>
+    Process = 7
+    ''' <summary>
+    ''' Accion entregar
+    ''' </summary>
+    ''' <remarks></remarks>
+    Deliver = 8
+    ''' <summary>
+    ''' accion aplicar procedimiento
+    ''' </summary>
+    ''' <remarks></remarks>
+    ApplyProcedure = 9
+    ''' <summary>
+    ''' accion de aceptar 
+    ''' </summary>
+    ''' <remarks></remarks>
+    Acceptance = 10
+    ''' <summary>
+    ''' accion de rechazar
+    ''' </summary>
+    ''' <remarks></remarks>
+    Reject = 11
+    ''' <summary>
+    ''' Accion para agregar un honorario
+    ''' </summary>
+    ''' <remarks></remarks>
+    AddFees = 12
+    ''' <summary>
+    ''' Accion para cambiar el contrato
+    ''' </summary>
+    ''' <remarks></remarks>
+    ChangeContract = 13
+    ''' <summary>
+    ''' Accion para eliminar una entidad cups
+    ''' </summary>
+    ''' <remarks></remarks>
+    DeleteCUPS = 14
+    ''' <summary>
+    ''' Accion para seleccionar las opciones
+    ''' </summary>
+    ''' <remarks></remarks>
+    CheckOptions = 15
+    ''' <summary>
+    ''' Accion para deseleccionar las opciones
+    ''' </summary>
+    ''' <remarks></remarks>
+    UnCheckOptions = 16
+    ''' <summary>
+    ''' Accion para eliminar una causación
+    ''' </summary>
+    ''' <remarks></remarks>
+    DeleteCausation = 17
+    ''' <summary>
+    ''' Accion para cambiar el médico
+    ''' </summary>
+    ''' <remarks></remarks>
+    ChangeHealthProfessional = 18
+    ''' <summary>
+    ''' Accion para causar los valores masivamente
+    ''' </summary>
+    ''' <remarks></remarks>
+    CausedValue = 19
+    ''' <summary>
+    ''' Accion para seleccionar el porcentaje
+    ''' </summary>
+    ''' <remarks></remarks>
+    SelectPercentage = 20
+    ''' <summary>
+    ''' accion para imprimir
+    ''' </summary>
+    Print = 21
+    ForcedEntry = 22
+    CancelRequest = 23
+    ''' <summary>
+    ''' acción para poner cantidades al máximo(formulario de devolución de remisiones)
+    ''' </summary>
+    ''' <remarks></remarks>
+    ReturnAllQuantities = 24
+    ''' <summary>
+    ''' acción para poner cantidades en 0(formulario de devolución de remisiones)
+    ''' </summary>
+    ''' <remarks></remarks>
+    Set0Quantities = 25
+    ''' <summary>
+    ''' Acción para descartar cambios de la rejilla
+    ''' </summary>
+    Discard = 26
+    ''' <summary>
+    ''' Accion para ver
+    ''' </summary>
+    View = 27
+
+    Cuentas = 28
+    ''' <summary>
+    ''' Alta técnica
+    ''' </summary>
+    HighTechnical = 29
+
+    ''' <summary>
+    ''' Orden de Trabajo
+    ''' </summary>
+    WorkOrder = 30
+    ''' <summary>
+    ''' Imprimir orden de trabajo
+    ''' </summary>
+    PrintWO = 31
+    ''' <summary>
+    ''' Historicos - Ot Manual
+    ''' </summary>
+    HistoricOTManual = 32
+    ''' <summary>
+    ''' programar
+    ''' </summary>
+    Programming = 33
+
+    WorkOrderNoProgramed = 34
+    ''' <summary>
+    ''' Aprobar
+    ''' </summary>
+    Approve = 35
+
+    ''' <summary>
+    ''' Accion para cambiar estado
+    ''' </summary>
+    ''' <remarks></remarks>
+    ChangeState = 36
+
+    ''' <summary>
+    ''' Accion para agregar una novedad
+    ''' </summary>
+    ''' <remarks></remarks>
+    AddNovelty = 37
+
+    ''' <summary>
+    ''' Accion para agregar una poliza
+    ''' </summary>
+    ''' <remarks></remarks>
+    AddPolicy = 38
+
+    ''' <summary>
+    ''' Accion para solicitar una cotización
+    ''' </summary>
+    ''' <remarks></remarks>
+    RequestQuotation = 39
+
+    ''' <summary>
+    ''' Accion para radicar
+    ''' </summary>
+    ''' <remarks></remarks>
+    AddEvent = 40
+
+    ''' <summary>
+    ''' Accion para reasignar
+    ''' </summary>
+    ''' <remarks></remarks>
+    Reasign = 41
+
+    ''' <summary>
+    ''' Accion para generar anexo
+    ''' </summary>
+    ''' <remarks></remarks>
+    GenerateAnnex = 42
+
+    ''' <summary>
+    ''' Accion para abrir un item
+    ''' </summary>
+    ''' <remarks></remarks>
+    Open = 43
+
+    ''' <summary>
+    ''' accion para Imprimir Registro Médico
+    ''' </summary>
+    PrintMedicalRecord = 44
+
+    ''' <summary>
+    ''' accion para Imprimir Registro Enfermería
+    ''' </summary>
+    PrintNursingRecord = 45
+
+    ''' <summary>
+    ''' accion para Imprimir Soporte de Cuentas
+    ''' </summary>
+    PrintAccountSupport = 46
+
+    ''' <summary>
+    ''' Accion para entregar al servicio
+    ''' </summary>
+    DeliverToService = 47
+
+    ''' <summary>
+    ''' Accion para reingresar
+    ''' </summary>
+    Reentry = 48
+
+    ''' <summary>
+    ''' Accion para ver documentos
+    ''' </summary>
+    ViewDocuments = 49
+
+    ''' <summary>
+    ''' Accion para ver control de autorizaciones
+    ''' </summary>
+    AuthorizationControl = 50
+
+    ''' <summary>
+    ''' Accion confirmar
+    ''' </summary>
+    ConfirmItem = 51
+
+    ''' <summary>
+    ''' Accion contratado
+    ''' </summary>
+    ContractedItem = 52
+
+    ''' <summary>
+    ''' Accion cotizado
+    ''' </summary>
+    QuotedItem = 53
+
+    ''' <summary>
+    ''' Accion generar cotización
+    ''' </summary>
+    GenerateQuoted = 54
+
+    ''' <summary>
+    ''' Accion asociar cotización
+    ''' </summary>
+    AssociateQuoted = 55
+
+    ''' <summary>
+    ''' Accion no cotizar
+    ''' </summary>
+    NotQuoted = 56
+
+    ''' <summary>
+    ''' Accion Asignar Automáticamente
+    ''' </summary>
+    AutomaticAllocation = 57
+
+    ''' <summary>
+    ''' Accion de remitir
+    ''' </summary>
+    Remit = 58
+
+    ''' <summary>
+    ''' Accion para suspender alerta
+    ''' </summary>
+    SuspendAlert = 59
+
+    ''' <summary>
+    ''' Accion para asignar paquete
+    ''' </summary>
+    AssignPackage = 60
+
+    ''' <summary>
+    ''' Accion para el detalle del medicamento
+    ''' </summary>
+    MedicineDetail = 61
+
+    ''' <summary>
+    ''' Accion para el detalle de aplicación
+    ''' </summary>
+    ApplicationDetail = 62
+
+    ''' <summary>
+    ''' Accion para el detalle de aplicación
+    ''' </summary>
+    RemovePackage = 63
+
+    ''' <summary>
+    ''' Accion para procesar central de mezclas
+    ''' </summary>
+    ProcessMixingStation = 64
+
+    ''' <summary>
+    ''' Accion para enviar a farmacia
+    ''' </summary>
+    SendPharmacy = 65
+
+    ''' <summary>
+    ''' Accion para asignar la linea de producción
+    ''' </summary>
+    AssignProductionLine = 66
+End Enum
+
+''' <summary>
+''' Enumeracion que sirve para el control de los formularios
+''' </summary>
+Public Enum EStatusUserMessangin
+    ''' <summary>
+    ''' El usuario se encuentra en linea
+    ''' </summary>
+    Online
+    ''' <summary>
+    ''' El usuario se encuentra desconectado
+    ''' </summary>
+    Offline
+    ''' <summary>
+    ''' El usuario esta ocupado
+    ''' </summary>
+    Bussy
+    ''' <summary>
+    ''' El usuario esta ausente
+    ''' </summary>
+    absent
+End Enum
+
+''' <summary>
+''' Enumeracion que sirve para el control de los formularioss
+''' </summary>
+Public Enum Eform
+    ''' <summary>
+    ''' Visor de eventos(No es un frontal, pero lo necesito para consumir los recursos correctos))
+    ''' </summary>
+    VisorEventos
+
+    ''' <summary>
+    ''' Formulario Conexiones.
+    ''' </summary>
+    Conexion
+
+    ''' <summary>
+    ''' Recuros Comunes(No es un frontal, pero lo necesito para consumir los recursos correctos))
+    ''' </summary>
+    Comunes
+
+    ''' <summary>
+    ''' Login(No es un frontal, pero lo necesito para consumir los recursos correctos))
+    ''' </summary>
+    Login
+
+    ''' <summary>
+    ''' Customizar(No es un frontal, pero lo necesito para consumir los recursos correctos))
+    ''' </summary>
+    Customizar
+
+    ''' <summary>
+    ''' Formulario Roles
+    ''' </summary>
+    Roles
+
+    ''' <summary>
+    ''' Formulario Grupos
+    ''' </summary>
+    Grupos
+
+    ''' <summary>
+    ''' Formulario Usuario
+    ''' </summary>
+    Usuario
+
+    ''' <summary>
+    ''' Formulario Cambiar Contrasena
+    ''' </summary>
+    CambiarContrasena
+
+    ''' <summary>
+    ''' Formulario Desbloquear Usuario.
+    ''' </summary>
+    DesbloquearUsuario
+
+    ''' <summary>
+    ''' Formulario Bloquear sesion.
+    ''' </summary>
+    BloquearSession
+
+    ''' <summary>
+    ''' Formulario Unidades Funcionales.
+    ''' </summary>
+    UnidadesFuncionales
+
+    ''' <summary>
+    ''' Formulario Centro Atenciones.
+    ''' </summary>
+    CentroAtenciones
+
+    ''' <summary>
+    ''' Formulario Clasificacion Codigos Cups.
+    ''' </summary>
+    ClasificacionCups
+
+    ''' <summary>
+    ''' Formulario de portafolio de servicios.
+    ''' </summary>
+    PortafolioServicios
+
+    ''' <summary>
+    ''' Formulario del iva.
+    ''' </summary>
+    Iva
+
+    ''' <summary>
+    ''' Formulario de Unidades de Mercadeo 
+    ''' </summary>
+    UnidadesMercadeo
+    ''' <summary>
+    ''' Formulario de Conceptos de Facturacion.
+    ''' </summary>
+    ConceptosFacturacion
+
+    ''' <summary>
+    ''' Formulario de convenios de contratos.
+    ''' </summary>
+    Convenios
+
+    ''' <summary>
+    ''' Formulario Tiene las Entidades Administradoras.
+    ''' </summary>
+    EntidadesAdministradores
+
+    ''' <summary>
+    ''' Este formulario sirve para agregar actividades medicas.
+    ''' </summary>
+    ActividadesMedicas
+
+    ''' <summary>
+    ''' Formulario que crea las especialidades.
+    ''' </summary>
+    NuevaEspecialidad
+
+    ''' <summary>
+    ''' Formulario que contiene las especialidades que tienen relacionadas las actividades.
+    ''' </summary>
+    EspecialidadesActividades
+
+    ''' <summary>
+    ''' Formulario que contiene los consultorios.
+    ''' </summary>
+    Consultorios
+
+    ''' <summary>
+    ''' Formulario que contiene los difetentes tipos de causas de cancelacion de citas.
+    ''' </summary>
+    CausaCancelacion
+
+    ''' <summary>
+    ''' Formulario que contiene el bloqueo de los medicos.
+    ''' </summary>
+    BloqueoMedico
+
+    ''' <summary>
+    ''' Formulario de empresas
+    ''' </summary>
+    Empresa
+
+    ''' <summary>
+    ''' Formulario de entidades
+    ''' </summary>
+    Entidades
+
+    ''' <summary>
+    ''' Formulario que contiene los departamentos
+    ''' </summary>
+    Departamentos
+
+    ''' <summary>
+    ''' Form que contiene los registros
+    ''' </summary>
+    Municipios
+
+    ''' <summary>
+    ''' Form que contiene las actividades o cargos empresariales
+    ''' </summary>
+    ActividadesCargo
+
+    ''' <summary>
+    ''' Form que contiene los niveles del sisben
+    ''' </summary>
+    Niveles
+    ''' <summary>
+    ''' formulario de pacientes
+    ''' </summary>
+    Pacientes
+    ''' <summary>
+    ''' Formulario profesionales
+    ''' </summary>
+    Profesionales
+    ''' <summary>
+    ''' Form que contiene las Profesiones
+    ''' </summary>
+    Profesiones
+    ''' <summary>
+    ''' Form que contiene los DxSindromaticos
+    ''' </summary>
+    DXSindromaticos
+    ''' <summary>
+    ''' Form que contiene los Diagnosticos
+    ''' </summary>
+    Diagnosticos
+    ''' <summary>
+    ''' Form que contiene los Dias Festivos
+    ''' </summary>
+    DiasFestivos
+    ''' <summary>
+    ''' Form que contiene los Salarios
+    ''' </summary>
+    Salarios
+    ''' <summary>
+    ''' 
+    '''     ''' Form que contiene los Paramentros3047
+    ''' </summary>
+    Parametros3047
+
+    ''' <summary>
+    ''' Form Contine los conceptos Generales de glosas
+    ''' </summary>
+    ConceptosGenerales
+
+    ''' <summary>
+    ''' Form Contine las compañias
+    ''' </summary>
+    Company
+
+    ''' <summary>
+    ''' Form Contine las corporaciones
+    ''' </summary>
+    Corporation
+
+    ''' <summary>
+    ''' Form Contine los nivels de cargo
+    ''' </summary>
+    PositionLevel
+
+    ''' <summary>
+    ''' Form Contine los Paises
+    ''' </summary>
+    Country
+
+    ''' <summary>
+    ''' Form Contine los Departamentos
+    ''' </summary>
+    Deparments
+
+    ''' <summary>
+    ''' Form Contine las ciudades
+    ''' </summary>
+    City
+
+    ''' <summary>
+    ''' Form Contine las ciudades
+    ''' </summary>
+    HealthCenter
+
+    ''' <summary>
+    ''' Frontal de autorizacion de centros de atencion
+    ''' </summary>
+    AutorizationHealthCenter
+
+    ''' <summary>
+    ''' Frontal de grupos
+    ''' </summary>
+    groups
+
+    ''' <summary>
+    ''' Frontal de Recepcion de objeciones
+    ''' </summary>
+    RecepcionObjeciones
+
+    ''' <summary>
+    ''' Control COnfirmado
+    ''' </summary>
+    CtrConfirmado
+
+    ''' <summary>
+    ''' Frontal de Lenguaje
+    ''' </summary>
+    Languages
+
+    ''' <summary>
+    ''' Frontal de registro de objeciones
+    ''' </summary>
+    RegisterObjection
+
+    ''' <summary>
+    ''' Frontal de conciliacion
+    ''' </summary>
+    Conciliation
+
+    ''' <summary>
+    ''' Frontal de devolución
+    ''' </summary>
+    Devolution
+
+    ''' <summary>
+    ''' Frontal de tipo de pensionado
+    ''' </summary>
+    TipoPensionado
+
+    ''' <summary>
+    ''' Frontal de centro de trabajo
+    ''' </summary>
+    CentroTrabajo
+
+    ''' <summary>
+    ''' Frontal de centro de trabajo
+    ''' </summary>
+    RiesgoProfesional
+
+    ''' <summary>
+    ''' Frontal de discapacidades
+    ''' </summary>
+    Discapacidad
+
+    ''' <summary>
+    ''' Frontal de Tipo de contribuyente
+    ''' </summary>
+    TipoContribuyente
+
+    ''' <summary>
+    ''' Frontal de Tipo de estudio
+    ''' </summary>
+    TipoEstudio
+
+    ''' <summary>
+    ''' Frontal de grupo de contratos
+    ''' </summary>
+    GrupoContrato
+
+    ''' <summary>
+    ''' Frontal de Terceros
+    ''' </summary>
+    Terceros
+    ''' <summary>
+    ''' Frontal de cargos
+    ''' </summary>
+    Cargo
+
+
+    ''' <summary>
+    ''' Frontal Tipo de Contrato
+    ''' </summary>
+    TipoDeContrato
+
+    ''' <summary>
+    ''' Frontal Centro de estudios
+    ''' </summary>
+    CentrosdeEstudio
+
+    ''' <summary>
+    ''' Frontal Plantilla de contratos
+    ''' </summary>
+    ''' <remarks></remarks>
+    PlantillaContrato
+
+    ''' <summary>
+    ''' Frontal Retenciones
+    ''' </summary>
+    ''' <remarks></remarks>
+    Retenciones
+    ''' <summary>
+    ''' Frontal Tipos de vinculacion
+    ''' </summary>
+    ''' <remarks></remarks>
+    TipodeVinculacion
+    ''' <summary>
+    ''' Frontal Unidad De Tiempo
+    ''' </summary>
+    ''' <remarks></remarks>
+    UnidaddeTiempo
+
+
+    ''' <summary>
+    ''' Control de aplicaciones abiertas
+    ''' </summary>
+    CtrAplicationOpen
+
+    ''' <summary>
+    ''' Frontal de coordinacion
+    ''' </summary>
+    Coordinacion
+    ''' <summary>
+    ''' Frontal plantilla de turno
+    ''' </summary>
+    ''' <remarks></remarks>
+    PlantillaDeTurno
+    ''' <summary>
+    ''' Frontal de evaluación
+    ''' </summary>
+    Evaluacion
+
+    ''' <summary>
+    ''' Frontal de autorización de conceptos
+    ''' </summary>
+    AutorizacionConceptos
+
+    ''' <summary>
+    ''' Frontal de incapacidades
+    ''' </summary>
+    ''' <remarks></remarks>
+    Incapacidades
+    ''' <summary>
+    ''' Frontal de Empleado
+    ''' </summary>
+    Empleado
+    ''' <summary>
+    ''' Frontal de Aseguradoras - Mantenimiento
+    ''' </summary>
+    Aseguradoras
+    ''' <summary>
+    ''' Frontal de Fabricantes Mantenimiento
+    ''' </summary>
+    Fabricantes
+    ''' <summary>
+    ''' Frontal de Polizas - Mantenimiento
+    ''' </summary>
+    Poliza
+    ''' <summary>
+    ''' Frontal de tipos de poliza - Mantenimiento
+    ''' </summary>
+    TiposPoliza
+    ''' <summary>
+    ''' Frontal de tipos de equipos - Mantenimiento
+    ''' </summary>
+    TiposEquipos
+    ''' <summary>
+    ''' Frontal de tipos de inventarios - Mantenimiento
+    ''' </summary>
+    TiposInventarios
+    ''' <summary>
+    ''' Frontal de Sucursales - Mantenimiento
+    ''' </summary>
+    Sucursales
+    ''' <summary>
+    ''' Frontal de accesorios - Mantenimiento
+    ''' </summary>
+    Accesorios
+    ''' <summary>
+    ''' Frontal Consumibles - Mantenimiento
+    ''' </summary>
+    Consumibles
+    ''' <summary>
+    ''' Frontal de Torres - Mantenimiento
+    ''' </summary>
+    Torres
+    ''' <summary>
+    ''' Frontal de Pisos - Mantenimiento
+    ''' </summary>
+    Pisos
+    ''' <summary>
+    ''' Frontal de Areas - Mantenimiento
+    ''' </summary>
+    Areas
+    ''' <summary>
+    ''' Frontal de Habitaciones - Mantenimiento
+    ''' </summary>
+    Habitaciones
+    ''' <summary>
+    ''' Frontal de resonsables - Mantenimiento
+    ''' </summary>
+    Responsables
+    ''' <summary>
+    ''' Frontal de Equipos - Mantenimiento
+    ''' </summary>
+    Equipment
+    ''' <summary>
+    ''' Frontal de partes - Mantenimiento
+    ''' </summary>
+    Part
+    ''' <summary>
+    ''' Frontal de Ingreso de Equipos - Mantenimiento
+    ''' </summary>
+    EquipmentReception
+    ''' <summary>
+    ''' Frontal de Unidad de medidas - Mantenimiento
+    ''' </summary>
+    UnitMeasure
+    ''' <summary>
+    ''' Frontal de registro tecnico - Mantenimiento
+    ''' </summary>
+    RegistroTecnico
+
+    ''' <summary>
+    ''' Frontal de parametros de glosas 
+    ''' </summary>
+    ''' <remarks></remarks>
+    ParametersGlosas
+
+    ''' <summary>
+    ''' Frontal de contrato
+    ''' </summary>
+    Contrato
+    ''' <summary>
+    ''' Frontal de metadata
+    ''' </summary>
+    EmployeeType
+    ''' <summary>
+    ''' Frontal de digitalización
+    ''' </summary>
+    Digitalizacion
+    ''' <summary>
+    ''' Frontal de adjuntar
+    ''' </summary>
+    Adjuntar
+    ''' <summary>
+    ''' Control de usuario Barra Botones
+    ''' </summary>
+    CtrBarraBotones
+
+    ''' <summary>
+    ''' Frontal de tipo de empleados
+    ''' </summary>
+    TipoEmpleados
+
+    ''' <summary>
+    ''' Frontal de Razon de modificacion de contratos
+    ''' </summary>
+    RazonModificacionContrato
+
+    ''' <summary>
+    ''' Frontal de Cuadro de turnos
+    ''' </summary>
+    ''' <remarks></remarks>
+    CuadroDeTurno
+
+    ''' <summary>
+    ''' Frontal de vacaciones
+    ''' </summary>
+    ''' <remarks></remarks>
+    Vacaciones
+
+    ''' <summary>
+    ''' Frontal de Metadata
+    ''' </summary>
+    ''' <remarks></remarks>
+    MetaData
+
+    ''' <summary>
+    ''' Frontal Liquidacion Nomina
+    ''' </summary>
+    ''' <remarks></remarks>
+    LiquidacionNomina
+
+    ''' <summary>
+    ''' Liquidacion de cesantías
+    ''' </summary>
+    ''' <remarks></remarks>
+    LiquidacionCesantias
+
+    ''' <summary>
+    ''' Liquidación de Primas
+    ''' </summary>
+    ''' <remarks></remarks>
+    LiquidacionPrimas
+
+    ''' <summary>
+    ''' Fronta de Traslado Cobro Jurídico
+    ''' </summary>
+    TrasladoCobroJurídico
+
+    ''' <summary>
+    ''' Enumeracion para el estado de clima
+    ''' </summary>
+    Weather
+
+    ''' <summary>
+    ''' Enumeracion para el sistema de mensajeria
+    ''' </summary>
+    Messages
+
+    ''' <summary>
+    ''' Enumeración para la metadata de todos los formularios
+    ''' </summary>
+    InfoMetaData
+
+    ''' <summary>
+    ''' Frontal de clases de convenios
+    ''' </summary>
+    ''' <remarks></remarks>
+    KindsAgreements
+
+    ''' <summary>
+    ''' Frontal de convenios
+    ''' </summary>
+    ''' <remarks></remarks>
+    Agreements
+
+    ''' <summary>
+    ''' Frontal de Conceptos Manuales
+    ''' </summary>
+    ''' <remarks></remarks>
+    ConceptosManuales
+
+    ''' <summary>
+    ''' Frontal de autoliquidacion
+    ''' </summary>
+    ''' <remarks></remarks>
+    Autoliquidation
+
+    ''' <summary>
+    ''' Frontal de configuracion de glosas
+    ''' </summary>
+    ''' <remarks></remarks>
+    ParametersInterfaz
+
+    ''' <summary>
+    ''' Enumeración para todo lo relacionado con reportes
+    ''' </summary>
+    Reportes
+
+    ''' <summary>
+    ''' Frontal de liquidación de contrato
+    ''' </summary>
+    ''' <remarks></remarks>
+    LiquidacionContrato
+
+    ''' <summary>
+    ''' Frontal de archivo de bancos
+    ''' </summary>
+    ''' <remarks></remarks>
+    ArchivoBanco
+
+    ''' <summary>
+    ''' Frontal de Fuentes de financiación
+    ''' </summary>
+    ''' <remarks></remarks>
+    FinancialSource
+
+    ''' <summary>
+    ''' Frontal de Entidades presupuestales
+    ''' </summary>
+    ''' <remarks></remarks>
+    BudgetEntities
+
+    ''' <summary>
+    ''' Frontal de tipos de ingreso
+    ''' </summary>
+    ''' <remarks></remarks>
+    RevenueType
+
+    ''' <summary>
+    ''' Frontal de tipos de gasto
+    ''' </summary>
+    ''' <remarks></remarks>
+    'RevenueType
+
+    ''' <summary>
+    ''' Frontal de Aumento de Sueldos
+    ''' </summary>
+    ''' <remarks></remarks>
+    AumentoSalario
+
+End Enum
+
+Public Enum EPluginsTypes
+
+    ''' <summary>
+    ''' Tipo de Plugin redes sociales
+    ''' </summary>
+    RedesSociales = 1
+
+    ''' <summary>
+    ''' Tipo de Plugin redes GestionDocuemntal
+    ''' </summary>
+    GestionDocumental = 2
+
+    ''' <summary>
+    ''' Tipo de Plugin redes COmunicaciones Unificadas
+    ''' </summary>
+    ComunicacionesUnificadas = 3
+
+    ''' <summary>
+    ''' Tipo de Plugin redes Otros (Calculadoras Financieras , etc)
+    ''' </summary>
+    OtrosPlugins = 4
+
+
+End Enum
+
+Public Enum EpluginsIcons
+
+    ''' <summary>
+    ''' Icono que representa una red social
+    ''' </summary>
+    IconoRedesSociales = 1
+
+    ''' <summary>
+    ''' Icono que representa un documento
+    ''' </summary>
+    IconoGestionDocumental = 2
+
+    ''' <summary>
+    ''' Icono que representa comunicaciones unificadas
+    ''' </summary>
+    IconoComunicacionesUnificadas = 3
+
+End Enum
+
+''' <summary>
+''' Enumeracion que sirve para conocer que tema se va autilizar en la barra de usuario.
+''' </summary>
+Public Enum EbarTheme
+    ''' <summary>
+    ''' 	Tema Enfermeria
+    ''' </summary>
+    Enfermeria = 1
+    ''' <summary>
+    ''' 	Tema Cuidados Intensivos
+    ''' </summary>
+    CuidadosIntensivos = 2
+    ''' <summary>
+    ''' 	Tema Medicos Generales
+    ''' </summary>
+    MedicosGenerales = 3
+    ''' <summary>
+    ''' 	Tema Cirugia
+    ''' </summary>
+    Cirugia = 4
+
+    ''' <summary>
+    '''     Tema Administativo
+    ''' </summary>
+    Administrativo = 5
+
+End Enum
+
+''' <summary>
+''' Enumeracion que sirve para establecer el tipo de icono que se muestra en el log de eventos
+''' </summary>
+Public Enum EeventViewerImages
+    ''' <summary>
+    ''' 	Icono de Advertencia
+    ''' </summary>
+    ''' <remarks></remarks>
+    Advertencia = 0
+    ''' <summary>
+    ''' 	Icono de Informacion
+    ''' </summary>
+    ''' <remarks></remarks>
+    Informacion = 1
+    ''' <summary>
+    ''' 	Icono de mensaje de error.
+    ''' </summary>
+    ''' <remarks></remarks>
+    MensajeError = 2
+    ''' <summary>
+    ''' 	Icono de mensaje de error.
+    ''' </summary>
+    ''' <remarks></remarks>
+    Pregunta = 3
+End Enum
+
+''' <summary>
+''' Enumeracion que sirve para establecerle un valor a los botones que no se muestran por permisos en la barra de botones
+''' </summary>
+Public Enum EbuttonsWithoutPermission
+    ''' <summary>
+    ''' 	Boton Nuevo de la barra de control.
+    ''' </summary>
+    ''' <remarks></remarks>
+    Nuevo = 1
+    ''' <summary>
+    ''' 	Boton Copiar de la barra de control.
+    ''' </summary>
+    ''' <remarks></remarks>
+    Copiar = 2
+    ''' <summary>
+    ''' 	Boton Cortar de la barra de control.
+    ''' </summary>
+    ''' <remarks></remarks>
+    Cortar = 3
+    ''' <summary>
+    ''' 	Boton Pegar de la barra de control.
+    ''' </summary>
+    ''' <remarks></remarks>
+    Pegar = 4
+    ''' <summary>
+    ''' 	Boton Buscar de la barra de control.
+    ''' </summary>
+    ''' <remarks></remarks>
+    Buscar = 5
+    ''' <summary>
+    ''' 	Boton Deshacer de la barra de control.
+    ''' </summary>
+    ''' <remarks></remarks>
+    Deshacer = 6
+    ''' <summary>
+    ''' 	Boton Permisos de la barra de control.
+    ''' </summary>
+    ''' <remarks></remarks>
+    Permisos = 7
+    ''' <summary>
+    ''' 	Boton Cerrar de la barra de control.
+    ''' </summary>
+    ''' <remarks></remarks>
+    Cerrar = 8
+    ''' <summary>
+    ''' 	Boton Favoritos de la barra de control.
+    ''' </summary>
+    ''' <remarks></remarks>
+    Favoritos = 9
+
+    ''' <summary>
+    '''     Boton para el plugins Redes Sociales de la barra de control.
+    ''' </summary>
+    RedesSociales = 10
+
+    ''' <summary>
+    '''     Boton para el plugins gestion documental de la barra de control.
+    ''' </summary>
+    GestionDocumental = 11
+
+    ''' <summary>
+    '''     Boton para el plugins Comunicaciones Unificadas de la barra de control.
+    ''' </summary>
+    ComunicacionesUnificadas = 12
+
+    ''' <summary>
+    '''     Boton para el plugins Otros de la barra de control.
+    ''' </summary>
+    OtrosPlugins = 13
+
+    ''' <summary>
+    ''' Boton para el componente de auditoria
+    ''' </summary>
+    ''' <remarks></remarks>
+    Auditoria = 14
+
+    ''' <summary>
+    '''     Boton para el control biometrico
+    ''' </summary>
+    ControlBiometrico = 20
+
+    ''' <summary>
+    ''' Boton de procesos para anular
+    ''' </summary>
+    Anular = 21
+
+    ''' <summary>
+    ''' Botón confirmar
+    ''' </summary>
+    Confirmar = 22
+    ''' <summary>
+    ''' Botón guardar
+    ''' </summary>
+    Guardar = 23
+    ''' <summary>
+    ''' Botón actualizar
+    ''' </summary>
+    Actualizar = 24
+    ''' <summary>
+    ''' Botón eliminar
+    ''' </summary>
+    Eliminar = 25
+    ''' <summary>
+    ''' Botón imprimir
+    ''' </summary>
+    Imprimir = 26
+    ''' <summary>
+    ''' Botón Suspender
+    ''' </summary>
+    ''' <remarks></remarks>
+    Suspender = 27
+    ''' <summary>
+    ''' Botón para Re-Activar
+    ''' </summary>
+    ''' <remarks></remarks>
+    Reactivar = 28
+
+    ''' <summary>
+    ''' Botón de Liquidar
+    ''' </summary>
+    ''' <remarks></remarks>
+    Liquidar = 29
+
+    ''' <summary>
+    ''' Consultar Liquidacion 
+    ''' </summary>
+    ''' <remarks></remarks>
+    ConsultarLiquidacion = 30
+
+    ''' <summary>
+    ''' Confirmar todos  
+    ''' </summary>
+    ''' <remarks></remarks>
+    ConfirmarTodos = 32
+
+    ''' <summary>
+    ''' Activar o Inactivar un Registro
+    ''' </summary>
+    ''' <remarks></remarks>
+    ActiveInactive = 33
+
+    ''' <summary>
+    ''' Generar archivo
+    ''' </summary>
+    ''' <remarks></remarks>
+    GenerateFile = 34
+
+    ''' <summary>
+    ''' Refrescar la rejilla
+    ''' </summary>
+    ''' <remarks></remarks>
+    RefreshGrid = 35
+
+    ''' <summary>
+    ''' Agregar fila a la rejilla
+    ''' </summary>
+    ''' <remarks></remarks>
+    AddGrid = 36
+
+    ''' <summary>
+    ''' Editar rejilla
+    ''' </summary>
+    ''' <remarks></remarks>
+    EditGrid = 36
+
+    ''' <summary>
+    ''' Eliminar fila rejilla
+    ''' </summary>
+    ''' <remarks></remarks>
+    DeleteGrid = 37
+
+    ''' <summary>
+    ''' Se desconfirma un registro
+    ''' </summary>
+    ''' <remarks></remarks>
+    Desconfirmar = 46
+
+    ''' <summary>
+    ''' guarda y confirma un registro
+    ''' </summary>
+    ''' <remarks></remarks>
+    GuardarConfirmar = 39
+
+    ''' <summary>
+    ''' Para cambiar al estado terminado del registro
+    ''' </summary>
+    ''' <remarks></remarks>
+    Terminar = 47
+
+    ''' <summary>
+    ''' Para cambiar al estado terminado del registro
+    ''' </summary>
+    ''' <remarks></remarks>
+    Activar = 48
+
+    ''' <summary>
+    ''' Enumeracion para el boton de jerarquia de la barra de botones
+    ''' </summary>
+    ''' <remarks></remarks>
+    Jerarquia = 49
+
+    ''' <summary>
+    ''' Enumeracion para el boton de jerarquia de la barra de botones
+    ''' </summary>
+    ''' <remarks></remarks>
+    ImportarInformacion = 50
+
+    ''' <summary>
+    ''' Enumeracion para el boton de Actualizar y confirmar
+    ''' </summary>
+    ''' <remarks></remarks>
+    ActualizarConfirmar = 51
+
+    ''' <summary>
+    ''' Enumeracion para el boton de entrega Manual
+    ''' </summary>
+    ''' <remarks></remarks>
+    EntregaManual = 52
+
+    ''' <summary>
+    ''' Enumeración para el boton de Validar
+    ''' </summary>
+    ''' <remarks></remarks>
+    Validar = 53
+
+    ''' <summary>
+    ''' 	Boton Deshacer Todo de la barra de control.
+    ''' </summary>
+    ''' <remarks></remarks>
+    DeshacerTodo = 54
+
+    ''' <summary>
+    ''' 	Boton Deshacer Todo de la barra de control.
+    ''' </summary>
+    ''' <remarks></remarks>
+    PesoPaciente = 55
+    ''' <summary>
+    ''' homologaciones del comprobante contable
+    ''' </summary>
+    ''' <remarks></remarks>
+    JournalVourcherHomologation = 56
+    ''' <summary>
+    ''' cargar orden de compra
+    ''' </summary>
+    ''' <remarks></remarks>
+    LoadPurcharseOrder = 57
+
+    ModoNavegacion = 58
+
+    Procesar = 81
+End Enum
+
+''' <summary>
+''' Enumeracion que sirve para establecer los recursos de excepciones.
+''' </summary>
+Public Enum EexceptionsResources
+    ''' <summary>
+    ''' Sucede cuando el constuctor del presentador no encuentra su vista correspondiente.
+    ''' </summary>
+    MensajeConstructorPresentador
+
+    ''' <summary>
+    ''' Sucede cuando la contraseña no se a podido cambiar debido a que el servicio retorna falso.
+    ''' </summary>
+    ContrasenaNosePudoCambiarContrasena
+
+    ''' <summary>
+    ''' Sucede cuando el usuario a sido validado con exito pero el usuario no tiene la suficiente informacion 
+    ''' para ser mostrado o el codigo del usuario esta presente mas de una vez.
+    ''' </summary>
+    LoginUsuarioSinDatos
+    ''' <summary>
+    ''' Sucede cuando el valor solicitado por el frontal de busqueda ya a sido removido y no se pueden traer los datos
+    ''' </summary>
+    BusquedaValorNoEncontrado
+    ''' <summary>
+    ''' Este es el complemento del frontal busqueda
+    ''' </summary>
+    BusquedaValorNoEncontradoComplemento
+
+    ''' <summary>
+    ''' Sucede cuando el archivo a aido modificado, movido o eliminado.
+    ''' </summary>
+    ArchivoNoExiste
+End Enum
+
+''' <summary>
+''' Enumeracion que sirve para establecer el tipo de recurso que se va consumir (localizacion)
+''' </summary>
+Public Enum Eresources
+    Informacion
+    Advertencia
+    Errores
+    Pregunta
+    Confirmado
+    SinConfirmar
+    Anulado
+    OficioConRespuesta
+    ComunesTodos
+    ComunesAbrirEntidad
+    ComunesActivo
+    ComunesInactivo
+    ComunesSeleccioneRegistroEliminar
+    ComunesEliminarConfirmado
+    ComunesConfirmadoCorrectamente
+    ComunesAnuladoCorrectamente
+    ComunesPreguntaAnular
+    ComunesPreguntaConfirmar
+    ComunesNoSeEncontroDatoERP
+    ComunesClienteNoExiste
+    ComunesConfirmar
+    ComunesImprimir
+    FacturasSinConfirmarComunes
+    ComunesSesionLocal
+    ComunesSesionRemota
+    ComunesSeguroCerrarSesion
+    ComunesUserNameInvalid
+    ComunesSePerderanCambios
+    ComunesUsuarioNoAdministrador
+    ComunesBloqueoSession
+    ComunesNoHayRegistros
+    ComunesNoHayRegistrosParaEliminar
+    ComunesDias
+    ComunesDebeIngresarLaRutaDeServiciosYProtocolo
+    ComunesRemplazaInformacionArchivoConfiguracion
+    ComunesSeleccioneAño
+    EliminarRegistro
+    EditarRegistro
+    RegistroActivo
+    RegistroInactivo
+    RegistroBloqueado
+    YaExisteFormulario
+    RegistroEnEdicion
+    ItemYaAgregado
+    AgregarComunes
+    ModificarComunes
+    TituloParametrosComunes
+    XpoGridErrorMessage
+    XpoGridErrorTitle
+    ValorMinimoMaximo
+    ValorMaximoMinimoHoras
+    SeConfirmaronTodos
+    SeConfirmoRegistro
+    ComunesPreguntaCerrarReg
+#Region "Visor de Imagenes"
+    ''' <summary>
+    ''' Titulo del visor de eventos.
+    ''' </summary>
+    VisorTitulo
+    ''' <summary>
+    ''' Error en el visor de eventos.
+    ''' </summary>
+    VisorErrores
+    ''' <summary>
+    ''' Advertencia en el visor de eventos.
+    ''' </summary>
+    VisorAdvertencias
+    ''' <summary>
+    ''' Mensajes de tipo informacion en el visor de eventos.
+    ''' </summary>
+    VisorMensajes
+#End Region
+#Region "Funcional Cambiar Contrasena"
+
+    ''' <summary>
+    ''' Cuando la contraseña no cumple con el minimo de caracteres establecidos.
+    ''' </summary>
+    ContrasenaMinimoCaracteres
+    ''' <summary>
+    ''' Cuando el campo confirmar Contraseña No puede estar vacio.
+    ''' </summary>
+    ContrasenaConfirmacionVacia
+    ''' <summary>
+    ''' Cuando la contraseña anterior esta vacia.
+    ''' </summary>
+    ContrasenaAnteriorVacia
+    ''' <summary>
+    ''' Cuando la nueva contraseña esta vacia.
+    ''' </summary>
+    ContrasenaNuevaVacia
+    ''' <summary>
+    ''' Cuando la nueva contraseña NO coincide con la confirmacion de la contraseña.
+    ''' </summary>
+    ContrasenasNoCoinciden
+    ''' <summary>
+    ''' Cuando la nueva contraseña no es la correcta.
+    ''' </summary>
+    ContrasenaNoCorrecta
+    ''' <summary>
+    ''' Cuando la contraseña se a actualizado correctamente.
+    ''' </summary>
+    ContrasenaGuardadaCorrectamente
+    ''' <summary>
+    ''' Cuando se le pide al usuario que digite la contraseña.
+    ''' </summary>
+    ContrasenaDigiteContrasena
+
+#End Region
+#Region "Mensajes Comunes"
+
+    ''' <summary>
+    ''' Mensaje que se envia cuando hay error al realizar una operacion del crud.
+    ''' </summary>
+    ComunesError
+    ''' <summary>
+    ''' Cuando el registro se a actualizado correctamente.
+    ''' </summary>
+    ComunesActualizado
+    ''' <summary>
+    ''' Cuando el codigo esta vacio.(Cualquier codigo:Roles-grupo-unidad....)
+    ''' </summary>
+    ComunesCodigoVacio
+    ''' <summary>
+    ''' Cuando el usuario da click en guardar, eliminar o actualizar y no a digitado ningun dato.
+    ''' </summary>
+    ComunesDigiteDatos
+    ''' <summary>
+    ''' Cuando el registro se a eliminado correctamente.
+    ''' </summary>
+    ComunesEliminado
+    ''' <summary>
+    ''' Cuando el registro se a guardado correctamente.
+    ''' </summary>
+    ComunesGuardado
+    ''' <summary>
+    ''' Cuando el nombre se encuentra vacio.
+    ''' </summary>
+    ComunesNombreVacio
+    ''' <summary>
+    ''' Cuando el archivo se a creado con exito.
+    ''' </summary>
+    ComunesArchivoCreado
+    ''' <summary>
+    ''' Titulo de los xtramessages ("Indigo Crystal.NET")
+    ''' </summary>
+    ComunesIndigoCrystal
+    ''' <summary>
+    ''' Cuando se quiere pedir una direccion("Por Favor, digite la Dirección")
+    ''' </summary>
+    ComunesDireccion
+    ''' <summary>
+    ''' Cuando se pide elegir una opcion de un radiobutton o checks("Por Favor, elija una Opción.")
+    ''' </summary>
+    ComunesElija
+    ''' <summary>
+    ''' Cuando el codigo no puede ser menor a 3 caracteres.
+    ''' </summary>
+    ComunesCodigoCaracteres
+    ''' <summary>
+    ''' Cuando se quiere preguntar si se desea eliminar un registro
+    ''' </summary>
+    ComunesEliminarRegistro
+    ''' <summary>
+    ''' Cuando se quiere mostrar al usuario que contacte al administrador.
+    ''' </summary>
+    ComunesContacteAdministrador
+    ''' <summary>
+    ''' Cuando se quiere mostrar el mensaje que falta un correo personal.
+    ''' </summary>
+    ComunesCorreoPersonal
+    ''' <summary>
+    ''' Cuando se quiere mostrar el mensaje que falta un correo empresarial.
+    ''' </summary>
+    ComunesCorreoEmpresarial
+    ''' <summary>
+    ''' Cuando se quiere mostrar que el diseño del frontal a sido cambiado y se va a guardar en un XML
+    ''' </summary>
+    ComunesXmlCambio
+    ''' <summary>
+    ''' Cuando se quiere mostrar  el Por Favor mas un complemento
+    ''' </summary>
+    ComunesPorFavor
+    ''' <summary>
+    ''' Cuando se quiere mostrar  el Seleccione para los casos de GridLookUp o un lista
+    ''' </summary>
+    ComunesSeleccione
+    ''' <summary>
+    ''' Cuando se quiere mostrar  que el usuario no tiene Pemisos para consultar
+    ''' </summary>
+    ComunesNoTienePermisos
+    ''' <summary>
+    ''' Cuando se quiere mostrar  que el usuario no tiene Pemisos para consultar
+    ''' </summary>
+    ComunesNoTienePermisosGuardar
+    ''' <summary>
+    ''' Cuando se quiere mostrar  que el usuario no tiene Pemisos para consultar
+    ''' </summary>
+    ComunesNoTienePermisosActualizar
+    ''' <summary>
+    ''' Cuando se quiere mostrar  que el usuario no tiene Pemisos para consultar
+    ''' </summary>
+    ComunesNoTienePermisosEliminar
+    ''' <summary>
+    ''' Cuando no se ha guardado la definicion XML de un funcional
+    ''' </summary>
+    ComunesErrorGuardarDefinicion
+
+    ''' <summary>
+    ''' Se usa cuando se provoca un error al tratar de levantar una definicion que exista.
+    ''' </summary>
+    ComunesErrorLevantarDefinicion
+
+    ''' <summary>
+    ''' Se usa para dar el mensaje de que el layout se restablecio correctamente
+    ''' </summary>
+    ComunesLayoutRestablecido
+
+    ''' <summary>
+    ''' Se usa para informar que el control que tiene el foco no admite busquedas
+    ''' </summary>
+    ComunesNoAplicaBuscar
+
+    ''' <summary>
+    ''' se usa para preguntar si se desea realmente confirmar la factura
+    ''' </summary>
+    ''' <remarks></remarks>
+    ComunesConfirmarFactura
+
+
+
+
+    ''' <summary>
+    ''' Se una cuando el formulario tiene datos por ingresar
+    ''' </summary>
+    ''' <remarks></remarks>
+    ComunesFormIncompleto
+
+    ''' <summary>
+    ''' Se usa cuando el mensaje es que la fecha no puede ser menor a la fecha actual
+    ''' </summary>
+    ComunesFechaMenorActual
+
+    ''' <summary>
+    ''' The cerrar formularios cambiar empresa
+    ''' </summary>
+    CerrarFormulariosCambiarEmpresa
+
+    ''' <summary>
+    ''' se usa para confirmar si el usuario quiere editar el registro
+    ''' </summary>
+    ''' <remarks></remarks>
+    ComunesEditarRegistro
+
+    ''' <summary>
+    ''' Enumeracion para mostrar el mensaje de que no tiene permisos a la empresa seleccionada
+    ''' </summary>
+    ComunesUsuarioSinPermisosEmpresa
+
+    ''' <summary>
+    ''' Enumeracion para mostrar el mensaje de error de concurrencia
+    ''' </summary>
+    ''' <remarks></remarks>
+    ComunesErrorConcurrencia
+
+    ''' <summary>
+    ''' Enumeracion para mostrar el mensaje de error al eliminar registro que ya tiene dependencia
+    ''' </summary>
+    ''' <remarks></remarks>
+    ComunesErrorDependencia
+
+    ''' <summary>
+    ''' Enumeracion para mostrar el mensaje de que el rol tiene el permiso asignado
+    ''' </summary>
+    ''' <remarks></remarks>
+    ComunesDebeQuitarPermisoRoll
+    ''' <summary>
+    ''' Enumeración para mostrar el mensaje de pregunta sobre la generación de un reporte
+    ''' </summary>
+    ComunesGenerarReporte
+
+#Region "Permisos"
+
+    ''' <summary>
+    ''' Se usa para establecer el permiso de eliminar.
+    ''' </summary>
+    PermisosEliminar
+    ''' <summary>
+    ''' Se usa para establecer el permiso de guardar.
+    ''' </summary>
+    PermisosGuardar
+    ''' <summary>
+    ''' Se usa para establecer el permiso de actualizar.
+    ''' </summary>
+    PermisosActualizar
+
+    ''' <summary>
+    ''' Se Usa para eliminar en la rejilla
+    ''' </summary>
+    PermisosEliminarRejilla
+
+    ''' <summary>
+    ''' Se usa para establecer el permiso de customizar el frontal.
+    ''' </summary>
+    PermisosCustomizar
+
+    ''' <summary>
+    ''' Se usa para establecer el permiso de utilizar redes sociales en el funcional.
+    ''' </summary>
+    PermisosRedesSociales
+    ''' <summary>
+    ''' Se usa para establecer el permiso de utilizar la Gestion Documental en el funcional.
+    ''' </summary>
+    PermisosDocumentos
+    ''' <summary>
+    ''' Se usa para establecer el permiso de utilizar las comunicaciones en el funcional.
+    ''' </summary>
+    PermisosComunicacion
+    ''' <summary>
+    ''' Se usa para establecer el permiso de utilizar los otros plugins en el funcional.
+    ''' </summary>
+    PermisosOtrosPlugins
+
+    ''' <summary>
+    ''' Se usa para establecer el permiso de consultar en el frontal.
+    ''' </summary>
+    PermisosConsultar
+
+    ''' <summary>
+    ''' Se usa para establecer el permiso de Visible en el frontal.
+    ''' </summary>
+    PermisosVisible
+
+
+#End Region
+
+#End Region
+#Region "Funcional Rol"
+    ''' <summary>
+    ''' Se usa para el complemento del frontal rol ("del Rol.")
+    ''' </summary>
+    RolesMensajeComplemento
+
+#End Region
+#Region "Funcional Usuario"
+
+    ''' <summary>
+    ''' Se usa para informar que debe seleccionar una unidad operativa por default
+    ''' </summary>
+    ''' <remarks></remarks>
+    UsuarioUnidadOperativaDefault
+    ''' <summary>
+    ''' se usa para informarle al usuario debe dar permiso a una empresa
+    ''' </summary>
+    ''' <remarks></remarks>
+    UsuarioPermisoUnaEmpresa
+    ''' <summary>
+    ''' Se usa para el complemento del frontal usuario ("del Usuario.")
+    ''' </summary>
+    UsuarioMensajeComplemento
+    ''' <summary>
+    ''' Se usa Cuando se produce un error y se quiere mostrar que el usuario no existe.
+    ''' </summary>
+    UsuarioNoExiste
+#End Region
+#Region "Funcional Unidad Funcional"
+    ''' <summary>
+    ''' Se usa para el complemento del frontal unidadfuncional ("de la unidad funcional.")
+    ''' </summary>
+    UnidadFunMensajeComplemento
+#End Region
+#Region "Desbloquear Usuario"
+
+    ''' <summary>
+    ''' Se usa cuando el usuario ha sido desbloqueado con exito.
+    ''' </summary>
+    DesbloquearUsuarioDesbloqueado
+    ''' <summary>
+    ''' Se usa cuando el usuario NO a podido ser desbloqueado.
+    ''' </summary>
+    DesbloquearUsuarioNOdesbloqueado
+
+
+
+#End Region
+#Region "Funcional Grupos"
+    ''' <summary>
+    ''' Se usa para el complemento del frontal grupos ("del Grupo.")
+    ''' </summary>
+    GruposMensajeComplemento
+    ''' <summary>
+    ''' Se usa para preguntarle al usuario si desea eliminar el grupo.
+    ''' </summary>
+    GruposNoEliminado
+#End Region
+#Region "Funcional Conexion"
+    ''' <summary>
+    ''' Se usa para cuando se le muestra al usuario que debe reiniciar indigo.
+    ''' </summary>
+    ConexionReiniciarIndigo
+
+    ''' <summary>
+    ''' Se usa para mostrar el mensaje de que no puede tener vacio la URL del servidor.
+    ''' </summary>
+    ConexionUrlServidor
+
+    ''' <summary>
+    ''' Se usa para mostrar el mensaje de que no puede tener vacio la URL del servidor de entidades.
+    ''' </summary>
+    ConexionUrlServidorEntidades
+
+    ''' <summary>
+    ''' Se usa cuando se quiere mostrar que la ruta escogida no existe o no es valida.
+    ''' </summary>
+    ConexionRutaNoExiste
+
+    ''' <summary>
+    ''' Se usa para pedir al usuario seleccione una ruta.
+    ''' </summary>
+    ConexionSeleccioneRuta
+
+#End Region
+#Region "Funcional Centro atencion"
+    ''' <summary>
+    ''' Se usa para el complemento del frontal centro atencion ("del Centro de Atencion.")
+    ''' </summary>
+    CentroAtenMensajeComplemento
+    ''' <summary>
+    ''' Se usa para el codigo de habilitación del centro de atencion.
+    ''' </summary>
+    CentroCodigoHabilitacion
+    ''' <summary>
+    ''' Se usa para saber si la unidad funcional ya a sido seleccionada con anterioridad
+    ''' </summary>
+    CentroUnidadAgregada
+
+    ''' <summary>
+    ''' Se usa para preguntar al usuario si desea eliminar el centro de atencion y las unidades funcionales relacionadas.
+    ''' </summary>
+    CentroEliminado
+
+
+
+#End Region
+#Region "Funcional Nueva Especialidad"
+    ''' <summary>
+    ''' Se usa para el complemento del funcionl de Nueva especialidad
+    ''' </summary>
+    NuevaEspecialidadMensajeCompleto
+#End Region
+#Region "Funcional EspecialidadesActividades"
+    ''' <summary>
+    ''' Se usa para el complemento del funcionl de la especialidad
+    ''' </summary>
+    EspecialidadMensajeCompleto
+
+    ''' <summary>
+    ''' se usa cuando se va a agregar una actividad que ya esta relacionada
+    ''' </summary>
+    ActividadRelacionadaExistente
+
+    ''' <summary>
+    ''' se usa cuando se va  a eliminar una actividad de la especialiad
+    ''' </summary>
+    Actividadeliminada
+#End Region
+#Region "Funcional Actividades Medicas"
+    ''' <summary>
+    ''' Se sa para el complemento del funcionl de las actividades
+    ''' </summary>
+    ActividadesMensajeCompleto
+
+    ''' <summary>
+    ''' Se usa para indicar que debe seleccionar un color de etiqueta
+    ''' </summary>
+    ColorEtiqueta
+    ''' <summary>
+    ''' Se usa para indicarle al usuario que debe especificar el numero de pacientes
+    ''' </summary>
+    NumeroPaciente
+    ''' <summary>
+    ''' Se usa para exigir la duracion de la actividad
+    ''' </summary>
+    Duracion
+    ''' <summary>
+    ''' Se usa para exigir El numero de control mensual
+    ''' </summary>
+    ControlMensual
+    ''' <summary>
+    ''' Se usa para exigir El numero de control diario
+    ''' </summary>
+    ControlDiario
+    ''' <summary>
+    ''' Se usa para exigir El numero de intervalo entre citas
+    ''' </summary>
+    Intervalo
+#End Region
+#Region "Funcional Cups"
+
+    ''' <summary>
+    ''' Se utiliza para informar que tiene que seleccionar un subgrupo Valido
+    ''' </summary>
+    CupsSubGrupo
+
+#End Region
+#Region "Funcional IVA"
+    IvaMensajeComplemento
+#End Region
+#Region "Funcional EntidadesAdmin"
+    EntidadMensajeComplemento
+#End Region
+#Region "Customizar"
+
+    ''' <summary>
+    ''' Se utiliza para el recurso "Espacio Vacio"
+    ''' </summary>
+    CustomizarEspacioVacio
+    ''' <summary>
+    ''' Se utiliza para el recurso "Etiqueta"
+    ''' </summary>
+    CustomizarEtiqueta
+    ''' <summary>
+    ''' Se utiliza para el recurso "Separador"
+    ''' </summary>
+    CustomizarSeparador
+    ''' <summary>
+    ''' Se utiliza para el recurso "Divisor"
+    ''' </summary>
+    CustomizarDivisor
+    ''' <summary>
+    ''' Se utiliza para el recurso "Mostrar Item"
+    ''' </summary>
+    CustomizarMostrarItem
+    ''' <summary>
+    ''' Se utiliza para el recurso "Mostrar Texto"
+    ''' </summary>
+    CustomizarMostrarTexto
+    ''' <summary>
+    ''' Se utiliza para el recurso "Ocultar Item"
+    ''' </summary>
+    CustomizarOcultarItem
+    ''' <summary>
+    ''' Se utiliza para el recurso "Ocultar Texto"
+    ''' </summary>
+    CustomizarOcultarTexto
+
+#End Region
+#Region "Login"
+
+    ''' <summary>
+    ''' Se usa cuando el usuario debe seleccionar una unidad funcional.
+    ''' </summary>
+    LoginUnidadFuncional
+    ''' <summary>
+    ''' Se usa cuando el usuario debe seleccionar un Centro de atencion.
+    ''' </summary>
+    LoginCentroAtencion
+    ''' <summary>
+    ''' Se usa cuando se debe seleccionar una empresa a conectarse.
+    ''' </summary>
+    LoginSeleccioneEmpresa
+    ''' <summary>
+    ''' Se usa cuando se debe seleccionar el perfil asistencial del usuario si es un usuario asistencial.
+    ''' </summary>
+    LoginPerfilAsistencial
+    ''' <summary>
+    ''' Se usa cuando el usaurio ha sido validado pero el codigo del usuario se repite mas de una vez
+    ''' </summary>
+    LoginUsuarioBloqueado
+    ''' <summary>
+    ''' Se usa cuando el usuario se equivoca en la contraseña o el usuario no existe.
+    ''' </summary>
+    LoginIntentoContrasena
+    ''' <summary>
+    ''' Se usa para complementar el mensaje de Intentos de contraseña.
+    ''' </summary>
+    LoginIntentoContrasenaComplemento
+    ''' <summary>
+    ''' Se usa para mostrarle al usuario que debe cambiar la contraseña para poder iniciar la aplicacion.
+    ''' </summary>
+    LoginCambiarContrasena
+    ''' <summary>
+    ''' Se usa cuando se a guardado correctamente la configuracion del usuario.
+    ''' </summary>
+    LoginGuardarComo
+    ''' <summary>
+    ''' Se usa cuando la cuenta del usuario ya a caducado.
+    ''' </summary>
+    LoginCuentaCaduco
+
+    ''' <summary>
+    ''' Se usa cuando la cuenta del usuario esta inactiva
+    ''' </summary>
+    LoginUsuarioInactivo
+
+#End Region
+#Region "CausaCanelacion"
+    ''' <summary>
+    ''' Contiene el complemento del mensaje completo de la causa de cancelacion
+    ''' </summary>
+    CausaCancelacionMensajeCompleto
+#End Region
+#Region "Funcional Consultorios"
+    ''' <summary>
+    ''' Se usa para el complemento del funcional de consultorios
+    ''' </summary>
+    ConsultorioMensajeCompleto
+#End Region
+#Region "Funcional BloqueoMedico"
+    ''' <summary>
+    ''' Se usa para el complemento del funcionl de bloqueo de medic
+    ''' </summary>
+    BloqueoMedicoMensajeCompleto
+
+    ''' <summary>
+    ''' Se usa para enviar un mensaje que alerte que se debe selecionar una fecha de inicio
+    ''' </summary>
+    seleccioneFechainicio
+
+    ''' <summary>
+    ''' Se usa para enviar un mensaje que alerte que se debe selecionar una fecha de fin
+    ''' </summary>
+    seleccioneFechafin
+    ''' <summary>
+    ''' Se usa para enviar un mensaje que alerte que se la fecha e inicio seleccionada no es valida
+    ''' </summary>
+    seleccioneFechainicioinvalida
+    ''' <summary>
+    ''' Se usa para enviar un mensaje que alerte que se la fecha de fin seleccionada no es valida
+    ''' </summary>
+    seleccioneFechafininvalida
+
+    ''' <summary>
+    ''' Se usa para enviar un mensaje que alerte que debe seleccionar estado
+    ''' </summary>
+    seleccioneEstado
+
+    ''' <summary>
+    ''' Se usa para enviar un mensaje que alerte que debe seleccionar una causa
+    ''' </summary>
+    seleccioneCausa
+#End Region
+#Region "Funcional Empresas"
+    ''' <summary>
+    ''' Se usa para el complemento del funcional de consultorios
+    ''' </summary>
+    EmpresasMensajeCompleto
+#End Region
+#Region "Funcional Entidades"
+    ''' <summary>
+    ''' Se usa para el complemento del funcional de consultorios
+    ''' </summary>
+    EntidadesMensajeCompleto
+#End Region
+#Region "Funcional Departamentos"
+    ''' <summary>
+    ''' Se usa para el complemento del funcional de consultorios
+    ''' </summary>
+    DepartamentosMensajeCompleto
+#End Region
+#Region "Funcional Municipios"
+    ''' <summary>
+    ''' Se usa para el complemento del funcional de consultorios
+    ''' </summary>
+    MunicipiosMensajeCompleto
+    ''' <summary>
+    ''' Se usa para pedir que seleccione el departamento
+    ''' </summary>
+    SeleccioneDepartamento
+#End Region
+#Region "Funcional ActividadesCargo"
+    ''' <summary>
+    ''' Se usa para el complemento del funcional de consultorios
+    ''' </summary>
+    ActividadesCargoMensajeCompleto
+#End Region
+#Region "Funcional Niveles"
+    ''' <summary>
+    ''' Se usa para el complemento del funcional de consultorios
+    ''' </summary>
+    NivelesMensajeCompleto
+#End Region
+#Region "Funcional Diagnosticos"
+    ''' <summary>
+    ''' Se usa para el complemento del funcional de consultorios
+    ''' </summary>
+    DiagnosticosMensajeCompleto
+    ''' <summary>
+    ''' Se usa para pedir que ingrese la edad minima
+    ''' </summary>
+    IngreseEdadMinima
+    ''' <summary>
+    ''' Se usa para pedir que ingrese la edad maxima
+    ''' </summary>
+    IngreseEdadMaxima
+    ''' <summary>
+    ''' Se usa para pedir que seleccione la unidad de edad maxima
+    ''' </summary>
+    SeleccioneUnidadEdadMaxima
+    ''' <summary>
+    ''' Se usa para pedir que seleccione la unidad de edad minima
+    ''' </summary>
+    SeleccioneUnidadEdadMinima
+    ''' <summary>
+    ''' Se usa para pedir que seleccione al menos un sexo
+    ''' </summary>
+    SeleccioneSexo
+    ''' <summary>
+    ''' Se usa para pedir que ingrese el CIE10
+    ''' </summary>
+    IngreseCIE10
+
+    ''' <summary>
+    ''' Se usa cuando la unidad no es valida
+    ''' </summary>
+    UnidadNovalida
+    ''' <summary>
+    ''' Se usa cuando la edad ingresada no es valida
+    ''' </summary>
+    EdadNovalida
+#End Region
+#Region "Funcional Dias Festivos"
+    ''' <summary>
+    ''' Se usa para el complemento del funcional de DiasFestivos
+    ''' </summary>
+    FestivosMensajeCompleto
+    ''' <summary>
+    ''' Se usa para pedir que ingrese la fecha del dia festivo
+    ''' </summary>
+    festivosFecha
+    ''' <summary>
+    ''' Se usa para Pedir que ingrese el motivo del dia festivo
+    ''' </summary>
+    FestivosMotivo
+#End Region
+#Region "Funcional DX Sindromaticos"
+    ''' <summary>
+    ''' Se usa mostrar el label del gauget
+    ''' </summary>
+    SidromaticoEmergencia
+    ''' <summary>
+    ''' Se usa mostrar el label del gauget
+    ''' </summary>
+    SidromaticoUrgenciaMedica
+    ''' <summary>
+    ''' Se usa mostrar el label del gauget
+    ''' </summary>
+    SidromaticoUrgenciaDiferida
+    ''' <summary>
+    ''' Se usa mostrar el label del gauget
+    ''' </summary>
+    SidromaticoNoUrgente
+    ''' <summary>
+    ''' Se usa para el complemento del funcional de DxSindromatico
+    ''' </summary>
+    SidromaticoMensajeCompleto
+    ''' <summary>
+    ''' Se usa para pedir que seleccione un nivel
+    ''' </summary>
+    SindromaticoNivel
+    ''' <summary>
+    ''' Se usa para Pedir que ingrese el Tipo 
+    ''' </summary>
+    SindromaticoTipo
+#End Region
+#Region "Funcional Salarios"
+    ''' <summary>
+    ''' Se usa para el complemento del funcional de Salarios
+    ''' </summary>
+    SalariosMensajeCompleto
+    ''' <summary>
+    ''' Se usa para pedir que ingrese el valor del salario
+    ''' </summary>
+    SalariosValor
+
+#Region "Funcional Profesiones"
+    ''' <summary>
+    ''' Se usa para el complemento del funcional de Profesiones
+    ''' </summary>
+    ProfesionesMensajeCompleto
+#End Region
+
+#End Region
+#Region "Funcional Pacientes"
+    ''' <summary>
+    ''' Se usa para el complemento del funcional de Profesiones
+    ''' </summary>
+    IdentificacionMamaNOValida
+
+    ''' <summary>
+    ''' Se usa cuando no existen los datos de la madre
+    ''' </summary>
+    NoexisteDatosMama
+
+    ''' <summary>
+    ''' Se usa cuando no existen datos de la madre
+    ''' </summary>
+    NoexisteuncodigodelaMama
+
+    ''' <summary>
+    ''' Se usa cuando se tiene que digitar otra vez la identificacion
+    ''' </summary>
+    DebeDigitarDeNuevolaIdentificacion
+
+    ''' <summary>
+    ''' Se usa cuando los datos de identificacion no coinciden
+    ''' </summary>
+    LasIdentificacionNoCoincidieron
+
+    ''' <summary>
+    ''' Se usa cuando se lanza una alerta
+    ''' </summary>
+    Alerta
+
+    ''' <summary>
+    ''' Se usa cuando la identificaion de madre no coincide
+    ''' </summary>
+    IdentificacionMamaEsdeHombre
+
+    ''' <summary>
+    ''' Hijo
+    ''' </summary>
+    Hijo
+
+    ''' <summary>
+    ''' Hija
+    ''' </summary>
+    Hija
+
+    ''' <summary>
+    ''' Se usa cuando se produce un error al tratar de copiar los archivos al servidor web.
+    ''' </summary>
+    ErrorAlcopiarAlservidorWeb
+
+    ''' <summary>
+    ''' Numero de identificacion
+    ''' </summary>
+    NumeroIdentificacion
+
+    ''' <summary>
+    ''' Se usa cuando para concatenar un mensaje.
+    ''' </summary>
+    Mensajecomplemento
+
+    ''' <summary>
+    ''' Se usa cuando no hay parametros del paciente
+    ''' </summary>
+    NoExistenParametros
+
+    ''' <summary>
+    ''' Se usa cuando se da un error al adjuntar errores.
+    ''' </summary>
+    ErrorAdjuntararchivos
+    ''' <summary>
+    ''' se usa cuando se requiere concatenar antes del numero de identificacion
+    ''' </summary>
+    PacientesConElNumeroDeIdentificacion
+    ''' <summary>
+    ''' se usa cuando se requiere la identificacion de la madre
+    ''' </summary>
+    PacientesDebeDigitarIdMadre
+    ''' <summary>
+    ''' se usa cuando se debe selecconar el tipo de anonimos
+    ''' </summary>
+    PacientesDebeSeleccionarTipoIdAnonimos
+    ''' <summary>
+    ''' se usa cuando se debe digitar el codigo de la madre
+    ''' </summary>
+    PacientesDebeDigitarCodigoMadre
+    ''' <summary>
+    ''' se usa cuando se requiere que expecifique el lugar de expedicion del documento
+    ''' </summary>
+    PacientesEspecifiqueLugarExpedicion
+    ''' <summary>
+    ''' se usa cuando se require el primer apellido
+    ''' </summary>
+    PacientesEspecifiquePrimerApellido
+    ''' <summary>
+    ''' se usa cuando se require la fecha de nacimiento
+    ''' </summary>
+    PacientesEspecifiqueFechaNacimiento
+    ''' <summary>
+    ''' se usa cuando se quire mostrar que la fecha esta mal ingresada
+    ''' </summary>
+    PacientesLaFechaNoPuedeSerIgualoMayoraLaActual
+    ''' <summary>
+    ''' se usa cuando se require especificar el sexo
+    ''' </summary>
+    PacientesEspecifiqueSexo
+    ''' <summary>
+    ''' se usa cuando se requiren los datos de contacto
+    ''' </summary>
+    PacientesEspecifiqueDatosContacto
+    ''' <summary>
+    ''' se usa cuando se require el estado civil
+    ''' </summary>
+    PacientesEspecifiqueEstadoCivil
+    ''' <summary>
+    ''' se usa cuando se quire mostrar que se van a cargar los datos de la madre
+    ''' </summary>
+    PacientesDeseaCargarDatosMadre
+    ''' <summary>
+    ''' se usa cuando se informa que no exite el codigo de la madre
+    ''' </summary>
+    PacientesNoExisteUnCodigoMadre
+    ''' <summary>
+    ''' se usa cuando no se ha ingresado al descripcion de un archivo
+    ''' </summary>
+    PacientesEcribaDescripcionArchivo
+    ''' <summary>
+    ''' se usa cuando no existe la ruta de los documentos
+    ''' </summary>
+    PacientesNoExisteRutaDocumentos
+    ''' <summary>
+    ''' se usa cuando se ha definido la ruta de documentos
+    ''' </summary>
+    PacientesLaRutaDeDocumentoDefinidaPara
+    ''' <summary>
+    ''' se usa cuando los documentos no son validos
+    ''' </summary>
+    PacientesDocumentoValidos
+    ''' <summary>
+    ''' se usa cuando supera el numero de caracteres permitidos 
+    ''' </summary>
+    PacientesElTamañoPermitido
+    ''' <summary>
+    ''' se usa cuando el archivo ya se encuentra
+    ''' </summary>
+    PacientesArchivoYaSeEncuentra
+    ''' <summary>
+    ''' se usa cuando se van a editar las reglas de negocio
+    ''' </summary>
+    PacientesEditarReglasNegocio
+    ''' <summary>
+    ''' se usa cuando se van editar el flujo de trabajo
+    ''' </summary>
+    PacientesEditarFlujoTrabajo
+    ''' <summary>
+    ''' se usa cuando se require el primer nombre
+    ''' </summary>
+    PacientesPrimerNombre
+    ''' <summary>
+    ''' se usa cuando se muestra que los parametros no han sido establecidos
+    ''' </summary>
+    PacintesParametrosNoEstablecidos
+    ''' <summary>
+    ''' se usa cuando se muestra que debe seleccionar un paciente en el frontal coincidencias
+    ''' </summary>
+    PacintesDebeSeleccionarUnPaciente
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#End Region
+#Region "Funcional Parametros Centro Atencion"
+    ''' <summary>
+    ''' Se usa para pedir que ingrese un email local
+    ''' </summary>
+    ParametrosEspecifiqueEmailLocal
+    ''' <summary>
+    ''' Se usa para especigique un indicativo local
+    ''' </summary>
+    ParametrosEspecifiqueIndicativoLocal
+    ''' <summary>
+    ''' Se usa para que especifique un numero de fax local
+    ''' </summary>
+    ParametrosEspecifiqueFaxLocal
+    ''' <summary>
+    ''' Se usa para que especifique una extencion local
+    ''' </summary>
+    ParametrosEspecifiqueExtencionLocal
+    ''' <summary>
+    ''' Se usa para que seleccione un centro de atencion
+    ''' </summary>
+    ParametrosSeleccionesCentroAtencion
+    ''' <summary>
+    ''' Se usa para idicar que la ruta a exedido el tamaño maximo de caracteres
+    ''' </summary>
+    ParametrosRutaExedeCaracteresMaximo
+#End Region
+#Region "Funcional Profesionales"
+    ''' <summary>
+    ''' Se usa para informar que la especialidad seleccionada ya esta relacionada
+    ''' </summary>
+    ProfesionalesMensajeEspecialidadRepetida
+    ''' <summary>
+    ''' Se usa para informa que hay que relacionar una especialidad
+    ''' </summary>
+    ProfesionalesRelacioneEspecialidad
+#End Region
+#Region "Funcional Conceptos Generales"
+    ''' <summary>
+    ''' Se usa para informar que debe seleccionar un concepto general para poder eliminar
+    ''' </summary>    
+    SeleccioneUnConceptoGeneral
+#End Region
+#Region "Funcional Empresas"
+    ''' <summary>
+    ''' Se usa para informar que debe seleccionar un concepto general para poder eliminar
+    ''' </summary>
+    SeleccioneUnaEmpresa
+#End Region
+#Region "Funcional Paises"
+    ''' <summary>
+    ''' Se usa para informar que debe seleccionar un pais para poder eliminar
+    ''' </summary>
+    SeleccioneUnPais
+#End Region
+#Region "Funcional Ciudades"
+    ''' <summary> 
+    ''' Se usa para informar que debe seleccionar un pais para poder eliminarla
+    ''' </summary>
+    SeleccioneUnaCiudad
+#End Region
+
+#Region "Funcional Empresas"
+    ''' <summary>
+    ''' Se usa para informar que debe seleccionar un concepto general para poder eliminar
+    ''' </summary>
+    SeleccioneUnCentroDeAtencion
+    ''' <summary>
+    ''' Texto del menu contextual de la rejilla de centros de atención
+    ''' </summary>
+    MenuEliminarCentroCompanies
+#End Region
+#Region "Funcional Empresas"
+    ''' <summary>
+    ''' Se usa cuando se va a agregar un centro de atencion que ya esta
+    ''' </summary>
+    CentroAtencionExisteEnEmpresa
+#End Region
+#Region "Funcional Autorizacion de centros de atencion"
+    ''' <summary>
+    ''' Se usa cuando se va consultar o agregar una autorizacion de centro de atencion a un usuario
+    ''' </summary>
+    SeleccioneUnUsuario
+    ''' <summary>
+    ''' Se usa cuando se va a agregar una empresa que ya existe en la autorizacion de centros de atencion
+    ''' </summary>
+    EmpresaYaExiste
+#End Region
+
+#Region "Funcional Empresas"
+    ''' <summary>
+    ''' Se usa para informar que debe seleccionar un concepto general para poder eliminar
+    ''' </summary>
+    seleccioneCorporacion
+#End Region
+
+
+#Region "Funcional Grupos"
+    ''' <summary>
+    ''' Se usa para informar que debe seleccionar un concepto general para poder eliminar
+    ''' </summary>
+    seleccioneGrupo
+
+    ''' <summary>
+    ''' Se una para informar que el concepto que se va a agregar ya esta registrado
+    ''' </summary>
+    ''' <remarks></remarks>
+    conceptoYaAgregado
+
+    ordinario
+
+    feriado
+
+    normal
+
+    nocturno
+
+    ''' <summary>
+    ''' Se utiliza para informar que debe registrar un concepto de cada dia y jornada
+    ''' </summary>
+    ''' <remarks></remarks>
+    GrupoEventosMinReg
+#End Region
+
+#Region "Funcional Lenguaje"
+    ''' <summary>
+    ''' Se usa para informar que debe seleccionar idioma para poder eliminar
+    ''' </summary>
+    seleccioneLenguaje
+#End Region
+
+#Region "Frontal de Recepcion de Objeciones"
+
+    ''' <summary>
+    ''' Mensaje de control para que no confirmen facturas sin valor glosado
+    ''' </summary>
+    ''' <remarks></remarks>
+    ConfirmarFacturaSinValorGlosado
+
+    ''' <summary>
+    ''' mensaje de uq el valor glosado no debe ser mayor saldo saldo
+    ''' </summary>
+    ''' <remarks></remarks>
+    ValorGlosadoMayorSaldo
+
+    ''' <summary>
+    ''' Mensaje de control debe estar todas las facturas confirmadas para poder confirmar el oficio
+    ''' </summary>
+    ''' <remarks></remarks>
+    FacturaSinConfirmarEnLista
+
+    ''' <summary>
+    ''' Mensaje que no permite anular porque existen movimineto glosa
+    ''' </summary>
+    ''' <remarks></remarks>
+    NoPuedeAnularHayMovimiento
+
+    ''' <summary>
+    ''' Mensaje de Informacion cuando no se puede eliminar una factura del detalle de oficio porque ya tiene movimientos
+    ''' </summary>
+    ''' <remarks></remarks>
+    NoPuedeEliminarPorMovimiento
+
+
+    ''' <summary>
+    ''' Mensaje para mostrar que el item tiene un detalle qx
+    ''' </summary>
+    GloseDetalleQX
+
+    ''' <summary>
+    ''' Mensaje para mostrar que No se Puede GLosar Por Estado ERP 
+    ''' </summary>
+    ''' <remarks></remarks>
+    NoPuedeGlosarEstadoERP
+
+    ''' <summary>
+    ''' Mensaje para Mostrar que no se puede guardar por el estado erp
+    ''' </summary>
+    ''' <remarks></remarks>
+    NoPuedeGuardarPorEstadoERP
+
+    ''' <summary>
+    ''' Mensaje para mostrar que no se puede realizar una accion por que el oficio ya esta anulado
+    ''' </summary>
+    ''' <remarks></remarks>
+    NoPuedeRealizarAccionAnulado
+
+    ''' <summary>
+    ''' Mensaje para mostrar que no se puede agregar la factura por el estado
+    ''' </summary>
+    NoSePuedeAgregarFacturaEstado
+
+
+    ''' <summary>
+    ''' Mensaje para mostrar que no se puede agregar la factura por que ya esta en otro oficio con estado no confirmado
+    ''' </summary>
+    ''' <remarks></remarks>
+    NosePuedeAgregaFacturaRadicada
+
+    ''' <summary>
+    ''' Mensaje para mostrar que no se puede agregar la factura porque ya esta como reiterada con otro oficio
+    ''' </summary>
+    ''' <remarks></remarks>
+    NosePuedeAgregaFacturaReiterada
+
+    ''' <summary>
+    ''' Mensaje para mostrar al realizar una reiteracion masiva
+    ''' </summary>
+    ''' <remarks></remarks>
+    ConfirmarReitereacionMasiva
+
+    ''' <summary>
+    ''' Mensaje para mostrar que no existe informacion o lista de factura en memoria para pegar 
+    ''' </summary>
+    ''' <remarks></remarks>
+    NoExisteInformacionAPegar
+
+
+    ''' <summary>
+    ''' Mensaje para Mostrar que no se puede eliminar datos de reiteracion por que el oficio esta confirmado
+    ''' </summary>
+    ''' <remarks></remarks>
+    NoPuedeEliminarDatoReiteracion
+
+    ''' <summary>
+    ''' Label de Nuevo Objecion
+    ''' </summary>
+    ''' <remarks></remarks>
+    LabelNuevo
+
+    ''' <summary>
+    ''' Texto de Mensaje de Estado de factura
+    ''' </summary>
+    ''' <remarks></remarks>
+    FacturaSinRadicar
+    FacturaRadicadaSinConfirmar
+    FacturaAnulada
+    EstadoInvalido
+
+    ''' <summary>
+    ''' Texto del Encabezado de las Rejilla principal de Recepcion de Objeciones
+    ''' </summary>
+    ''' <remarks></remarks>
+    EncabezadoReiteracion
+    TiponoReconocido
+
+    ''' <summary>
+    ''' Texto Para Los menus Contextuales de las Rejillas
+    ''' </summary>
+    ''' <remarks></remarks>
+    MenuVerDetalle
+    MenuEliminar
+    MenuGlosarSeleccion
+    MenuReiterar
+
+    ''' <summary>
+    ''' 'Mensaje para mostrar que no se puede agregar factura como reiterada porque esta en proceso de evaluacion o cordinacion y no se a generado respuesta
+    ''' </summary>
+    ''' <remarks></remarks>
+    NosePuedeAgregaFacturaEnProceso
+
+    ''' <summary>
+    ''' Mensaje para mostrar que no puede guardar por que no hay facturas  agregadas en la lista
+    ''' </summary>
+    ''' <remarks></remarks>
+    NoPuedeGuardarPorDetalleOficio
+
+    ''' <summary>
+    ''' se usa en el mensaje de no permitir una reiteracion a un item si este no tiene moviminetos glosa
+    ''' </summary>
+    ''' <remarks></remarks>
+    NoPuedeReiterarNoExisteGlosa
+
+
+    ''' <summary>
+    ''' Enumeracion mensaje de validacion falta nit
+    ''' </summary>
+    ''' <remarks></remarks>
+    FaltaNitTercero
+
+    ''' <summary>
+    ''' Mensaje no se encontraron registro con los criterios de busqueda especificados
+    ''' </summary>
+    ''' <remarks></remarks>
+    NoHayRegistroCriteriosBusqueda
+
+    ''' <summary>
+    ''' Mensaje que informa que la factura no se encuentra
+    ''' </summary>
+    ''' <remarks></remarks>
+    NoseEncuentraFactura
+
+    ''' <summary>
+    ''' Mensaje cuando existen un oficio sin detalles
+    ''' </summary>
+    OficioSinDetalles
+
+    ''' <summary>
+    ''' Mensaje Para validar que el valor aceptado no sea mayor al glosado
+    ''' </summary>
+    ''' <remarks></remarks>
+    ValorAceptadoMayorValorGlosado
+
+    ''' <summary>
+    ''' Mensaje para validar que la sumatoria de saldo conciliado enter IPS y EAPB no supere el saldo disponible a conciliar 
+    ''' </summary>
+    ''' <remarks></remarks>
+    ValorConciliarMayorValorSaldoAConciliar
+
+#End Region
+
+#Region "Frontal registro de objeciones"
+
+    ''' <summary>
+    ''' Se usa para informar al usuario que el concepto especifico
+    ''' seleccionado no tiene conceptos detallados relacionados
+    ''' </summary>
+    ConceptoEspecificoSinDetallados
+    ''' <summary>
+    ''' Se usa para el text del boton agregar objecion
+    ''' </summary>
+    TextBotonAgregarObjecion
+    ''' <summary>
+    ''' Se usa para el text del boton modificar objecion
+    ''' </summary>
+    TextBotonModificarObjecion
+
+    ''' <summary>
+    ''' Se usa para mostrar Mensaje cuando no existe la objecion con el consecutivo ingresado
+    ''' </summary>
+    ConsecutivoObjecionNoExiste
+
+    ''' <summary>
+    ''' se usa para mostrar mensaje de validacion cuando ya existe la glosa
+    ''' </summary>
+    ''' <remarks></remarks>
+    CodigoGlosaYaExiste
+    ''' <summary>
+    ''' se usa para el mensaje de validacion de valores a glosar y valor factura
+    ''' </summary>
+    ''' <remarks></remarks>
+    ValorGlosaMayorValorFactura
+    ''' <summary>
+    ''' se usa para mostrar mensaje de que el valor a reiterar no se ha mayor al valor glosado
+    ''' </summary>
+    ''' <remarks></remarks>
+    ValorReiteracionMayorValorGlosado
+
+    ''' <summary>
+    ''' que el valor reiterado no sea mayor al saldo pendiente
+    ''' </summary>
+    ''' <remarks></remarks>
+    ReiteratedSlopeValueGreaterBalance
+
+    ''' <summary>
+    ''' item sin saldo
+    ''' </summary>
+    ''' <remarks></remarks>
+    ItemWithoutBalance
+
+    ''' <summary>
+    ''' que el valor de la glosa ya fue aceptado en su totalidad
+    ''' </summary>
+    ''' <remarks></remarks>
+    GlossValueWasAlreadyAccepted
+
+#End Region
+
+#Region "Frontal de conciliacion"
+
+    ''' <summary>
+    ''' Mensaje que indica que el cliente consultado no existe
+    ''' </summary>
+    ClienteNoExite
+    ''' <summary>
+    ''' No se encuentra la conciliacion buscada
+    ''' </summary>
+    ConciliacionNoExiste
+    ''' <summary>
+    ''' Texto para el boton de participantes cuando es agregar
+    ''' </summary>
+    TextoBotonAgregarParticipante
+    ''' <summary>
+    ''' Texto para el boton de participantes cuando es modificar
+    ''' </summary>
+    TextoBotonModificarParticipante
+    ''' <summary>
+    ''' La factura ya existe en la conciliacion
+    ''' </summary>
+    FacturaYaExiste
+    ''' <summary>
+    ''' factura ya esta en la lista, no se puede agregar
+    ''' </summary>
+    ''' <remarks></remarks>
+    FacturaExisteLista
+    ''' <summary>
+    ''' La factura no existe al momento de agregarla a la conciliacion
+    ''' </summary>
+    FacturaNoExisteAlAgregar
+    ''' <summary>
+    ''' La lista de facturas en la conciliación no puede ser vacia, debe agregar al menos una
+    ''' </summary>
+    DetalleConciliacionVacia
+    ''' <summary>
+    ''' Pregunta si desea eliminar la factura de la rejilla
+    ''' </summary>
+    EliminarFacturaRejilla
+    ''' <summary>
+    ''' Se usa para el titulo del grupo de detalle de facturas
+    ''' </summary>
+    TituloDetalleFactura
+    ''' <summary>
+    ''' Se usa para el titulo del grupo de conciliación detalle factura
+    ''' </summary>
+    TituloConciliacionDetalleFactura
+    ''' <summary>
+    ''' Se usa para informar al usario que la factura que esta tratando de
+    ''' conciliar no se encuentra persistida aun
+    ''' </summary>
+    FacturaSinGuardar
+    ''' <summary>
+    ''' Indica que la conciliacion no se puede guardar sin al menos tener un detalle
+    ''' </summary>
+    ConciliacionSinDetalles
+    ''' <summary>
+    ''' Mensaje del label cuando se crea una nueva conciliacion
+    ''' </summary>
+    NuevaConciliacionLabel
+    ''' <summary>
+    ''' Se le indica al usuario que no ha completado los datos para poder guardar
+    ''' los movimientos del detalle que esta conciliando
+    ''' </summary>
+    FaltanDatosParaConciliar
+    ''' <summary>
+    ''' Se le indica al usuario que aun no se ha conciliado todos los detalles
+    ''' y por tanto no se puede confirmar
+    ''' </summary>
+    FaltanDetallesPorConciliar
+    ''' <summary>
+    ''' Se le indica al usuario que aun no se ha conciliado todas las facturas
+    ''' y por eso no se puede confirmar
+    ''' </summary>
+    FaltanFacturasPorConciliar
+    ''' <summary>
+    ''' Pregunta al usuario si desea confirmar la factura por el valor X
+    ''' </summary>
+    ConciliacionConfirmarFactura
+    ''' <summary>
+    ''' Se le indica al usuario que hay facturas que aún no se persisten
+    ''' </summary>
+    FaltanFacturasPorPersistir
+    ''' <summary>
+    ''' Se le indica al usuario que debe seleccionar un nit de tercero 
+    ''' para poder realizar la accion de pegado de facturas desde la clipboard
+    ''' </summary>
+    DebeSeleccionarTercero
+    ''' <summary>
+    ''' Texto del menu contextual de la rejilla de participantes
+    ''' </summary>
+    MenuEditarParticipante
+    ''' <summary>
+    ''' Texto del menu contextual de la rejilla de participantes
+    ''' </summary>
+    MenuEliminarParticipante
+    ''' <summary>
+    ''' Texto del menu contextual de la rejilla de detalles de conciliacion
+    ''' </summary>
+    MenuPegarFacturaConciliacion
+    ''' <summary>
+    ''' Texto del menu contextual de la rejilla de detalles de conciliacion
+    ''' </summary>
+    MenuConciliarFactura
+    ''' <summary>
+    ''' Texto del menu contextual de la rejilla de detalles de conciliacion
+    ''' </summary>
+    MenuEliminarFacturaConciliacion
+    ''' <summary>
+    ''' Texto del menu contextual de la rejilla de detalles de factura
+    ''' </summary>
+    MenuConciliarDetalle
+
+#End Region
+
+#Region "Frontal de devolución"
+    ''' <summary>
+    ''' No se encuentra la devolución buscada
+    ''' </summary>
+    DevolucionNoExiste
+    ''' <summary>
+    ''' Debe guardar primero el radicado para poder confirmar
+    ''' </summary>
+    RadicadoSinGuardar
+    ''' <summary>
+    ''' Debe guardar la devolución para poder ir al detalle radicado
+    ''' </summary>
+    GuardarDevolucion
+#End Region
+
+#Region "Frontal de configuracion de glosas"
+
+    ''' <summary>
+    ''' Mensaje que no existe base de Datos 
+    ''' </summary>
+    ''' <remarks></remarks>
+    NoExisteContenedor
+    ''' <summary>
+    ''' Mensaje que no existe datos de conceptos y cuentas contables en el contenedor ingresado
+    ''' </summary>
+    ''' <remarks></remarks>
+    NoExisteDatosContables
+
+    ''' <summary>
+    ''' Mensaje que la cuenta no esta configurada en los parametros de interface de glosa
+    ''' </summary>
+    ''' <remarks></remarks>
+    NoExisteCuentaConfigurada
+
+
+    ''' <summary>
+    ''' Mensaje que la cuenta no esta configurada en los parametros de interface de glosa columna FacturaRadicada
+    ''' </summary>
+    ''' <remarks></remarks>
+    NoExisteCuentaFacturaRadicadaConfigurada
+
+#End Region
+
+#Region "Funcional Tipo Pensionado"
+    ''' <summary>
+    ''' Se usa para informar que debe seleccionar un pais para poder eliminar
+    ''' </summary>
+    SeleccioneUnTipoPensionado
+#End Region
+
+#Region "Funcional Centro de trabajo"
+    ''' <summary>
+    ''' Se usa para informar que debe seleccionar un pais para poder eliminar
+    ''' </summary>
+    SeleccioneUnCentroTrabajo
+#End Region
+
+#Region "Funcional Riesgos profesionales"
+    ''' <summary>
+    ''' Se usa para informar que debe seleccionar un riesgo profesional para poder eliminar
+    ''' </summary>
+    SeleccioneUnRiesgoProfesional
+#End Region
+
+#Region "Funcional Discapacidades"
+    ''' <summary>
+    ''' Se usa para informar que debe seleccionar una discapacidad para poder eliminar
+    ''' </summary>
+    SeleccioneUnaDiscapacidad
+#End Region
+
+
+#Region "Funcional Tipo Contribuyente"
+    ''' <summary>
+    ''' Se usa para informar que debe seleccionar un tipo de contribuyente para poder eliminar
+    ''' </summary>
+    SeleccioneUnTipocontribuyente
+#End Region
+
+#Region "Funcional Tipo Estudio"
+    ''' <summary>
+    ''' Se usa para informar que debe seleccionar un tipo de estudio para poder eliminar
+    ''' </summary>
+    SeleccioneUnTipoestudio
+
+#Region "Jerarquia de estudios"
+    Primaria
+    Secundaria
+    Tecnico
+    Universitario
+    Postgrado
+#End Region
+
+#End Region
+
+#Region "Funcional Grupo de Contratos"
+    ''' <summary>
+    ''' Se usa para informar que debe seleccionar un grupo de contratos para poder eliminar
+    ''' </summary>
+    SeleccioneUnGrupoContrato
+#End Region
+
+#Region "Funcional Terceros"
+    ''' <summary> 
+    ''' Se usa para informar que debe seleccionar un tercero para poder eliminarla
+    ''' </summary>
+    SeleccioneUnTercero
+#End Region
+#Region "Funcional Tipo de Contrato"
+    ''' <summary> 
+    ''' Se usa para informar que debe seleccionar un tipo de contrato para poder eliminarla
+    ''' </summary>
+    SeleccioneUnTipodeContrato
+#End Region
+#Region "Funcional Tipo de Contrato"
+    ''' <summary> 
+    ''' Se usa para informar que debe seleccionar un centro de estudio para poder eliminarla
+    ''' </summary>
+    SeleccioneUnCentrodeEstudio
+#End Region
+#Region "Funcional Tipo de Contrato"
+    ''' <summary> 
+    ''' Se usa para informar que debe seleccionar una plantilla de contrato para poder eliminarla
+    ''' </summary>
+    SeleccionePlantilladeContrato
+#End Region
+#Region "Funcional Cargo"
+    ''' <summary>
+    ''' Se usa para informar que debe seleccionar un cargo para poder eliminar
+    ''' </summary>
+    SeleccioneUnCargo
+#End Region
+#Region "Funcional Retenciones"
+    ''' <summary> 
+    ''' Se usa para informar que debe seleccionar una plantilla de contrato para poder eliminarla
+    ''' </summary>
+    SeleccioneRetencion
+#End Region
+#Region "Funcional Tipo de Vinculacion"
+    ''' <summary> 
+    ''' Se usa para informar que debe seleccionar un tipo de vinculacion para poder eliminarla
+    ''' </summary>
+    SeleccioneUnTipodeVinculacion
+#End Region
+#Region "Funcional Unidad de Tiempo"
+    ''' <summary> 
+    ''' Se usa para informar que debe seleccionar una unidad de tiempo para poder eliminarla
+    ''' </summary>
+    SeleccioneUnaUnidaddeTiempo
+#End Region
+
+#Region "Frontal de coordinación"
+
+    ''' <summary>
+    ''' Texto del menu contextual de acciones sobre la rejilla de oficios
+    ''' </summary>
+    MenuDetalleDeOficio
+    ''' <summary>
+    ''' Texto del menu contextual de acciones sobre la rejilla de facturas
+    ''' </summary>
+    MenuDetalleDeFactura
+    ''' <summary>
+    ''' Se usa para el titulo en el grupo de detalle de oficio
+    ''' </summary>
+    TituloDetalleDeOficioCoordinacion
+    ''' <summary>
+    ''' Se usa para el grupo de detalle de factura
+    ''' </summary>
+    TituloDetalleDeFacturaCoordinacion
+
+#End Region
+#Region "Frontal de evaluación"
+
+    ''' <summary>
+    ''' Datos del responsable que bloquea una factura
+    ''' </summary>
+    ResponsableFacturaBloqueda
+
+#End Region
+#Region "Frontal de plantilla de turno"
+    ''' <summary>
+    ''' Se usa para informar que minimo debe agregar un concepto feriado
+    ''' </summary>
+    ''' <remarks></remarks>
+    MinimoUnFeriado
+    ''' <summary>
+    ''' Se usa para informar que minimo debe agregar un concepto ordinario
+    ''' </summary>
+    ''' <remarks></remarks>
+    MinimoUnOrdinario
+    ''' <summary>
+    ''' se usa para informar que el rango de tiempo debe ser con horas completas
+    ''' </summary>
+    ''' <remarks></remarks>
+    RangoHorasCompletas
+    ''' <summary>
+    ''' Se usa para informar que conceptos ordinarios selecciono
+    ''' </summary>
+    ''' <remarks></remarks>
+    ConceptoOrdinario
+    ''' <summary>
+    ''' Se usa para informar que conceptos feriados selecciono
+    ''' </summary>
+    ''' <remarks></remarks>
+    ConceptoFeriado
+    ''' <summary>
+    ''' Se usa para informar el rango de horas debe ser mayor a 0
+    ''' </summary>
+    ''' <remarks></remarks>
+    TiempoMayorCero
+    ''' <summary>
+    ''' Se usa para informar que ya existe un appointment en el rango de horas seleccionados
+    ''' </summary>
+    ''' <remarks></remarks>
+    AppointmentExiste
+#End Region
+#Region "Funcional Autorizacion de conceptos"
+    ''' <summary> 
+    ''' Se usa para informar que se registro correctamente los conceptos autorizados
+    ''' </summary>
+    ProcesoRealizadoConExito
+
+    ''' <summary>
+    ''' Se usa para informar que el concepto seleccionado no se puede quitar porque esta autorizado a nivel de grupo
+    ''' </summary>
+    ConceptoAutorizadoPorGrupo
+
+    ''' <summary>
+    ''' Se usa para informar que el algunos conceptos no se puede quitar porque estan autorizado a nivel de grupo
+    ''' </summary>
+    ConceptosAutorizadoPorGrupo
+
+    ''' <summary>
+    ''' Se utiliza para informar que esa clase de concepto no permite formula (Formulario de conceptos)
+    ''' </summary>
+    ''' <remarks></remarks>
+    ClaseConceptoNoPermiteFormula
+#End Region
+
+#Region "Funcional Empleado"
+
+    MinimoQuinceLaborar
+    EmpleadoNoSeElimino
+    EmpleadoTieneLiquidaciones
+    EmpleadoTieneLiquidacionContrato
+    EmpleadoTieneNovedades
+    EmpleadoTieneTurno
+    EmpleadoTieneConvenios
+
+#Region "Tipos de identificacion"
+    CedulaCiudadania
+    CedulaExtranjeria
+    TarjetaIdentidad
+    RegistroCivil
+    Pasaporte
+    AdultoSinIdentificacion
+    MenorSinIdentificacion
+    Nit
+    NumeroUnicoIdentificacionPersonal
+    CertificadoNacidoVivo
+    CarnetDiplomatico
+    Salvoconducto
+    PermisoEspecialPermanencia
+#End Region
+
+#Region "Tipos de cesantias"
+    NoAplica
+    Tradicional
+    TradicionalMensual
+    Consignado
+    ConsignadoMensual
+    Ley33
+#End Region
+
+#Region "Sindicato"
+    Ninguno
+    Convencionado
+    Sindicalizado
+    PactoColectivo
+#End Region
+
+#Region "Estado civil"
+    Soltero
+    Casado
+    Divorciado
+    Viudo
+    UnionLibre
+#End Region
+
+#Region "Estado estudios"
+    EstudiaActualmente
+    EstudioInterrumpido
+    EstudioTerminado
+    Graduado
+#End Region
+
+#Region "Genero"
+    Masculino
+    Femenino
+    Otro
+#End Region
+
+#Region "Libreta Militar"
+    NoTieneLibreta
+    LibretaPrimera
+    LibretaSegunda
+#End Region
+
+#Region "SI/NO"
+    Si
+    No
+#End Region
+
+#Region "Activo/Suspendido"
+    Activo
+    Suspendido
+#End Region
+
+#Region "Tipo de Retencion"
+    ExentoRetencion
+    HaceRetencion
+    Autoretenedor
+#End Region
+
+#Region "Tipos de educacion"
+    Formal
+    NoFormal
+#End Region
+
+#Region "Validacion de fechas"
+    FechaXMenorQueY
+#End Region
+
+
+#End Region
+
+#Region "Funcional de Cuadro de turno"
+    SobreescribirHorario
+    Manana
+    MananaTarde
+    Tarde
+    MananaNoche
+    TardeNoche
+    Noche
+    Incapacidad
+    Licencia
+    Sancion
+    EmpleadosLiquidados
+    EmpleadoLiquidado
+    ErrorHour
+    ErrorScheduleDetailExisting
+    ErrorMaximumTotalHourNumber
+    ErrorWithoutContract
+    ErrorHoliday
+    ErrorIncapacidad
+    ErrorSancion
+    ErrorLicencia
+    EventoAprobado
+    FechaInicioMenor
+    RangoFrecuenciaAlto
+    ErrorVacaciones
+    ErrorPermisoVacaciones
+    Vacaciones
+    PermisoVacaciones
+    NoHayDiasSeleccionados
+    ErrorMaximoHoras18
+#End Region
+
+#Region "Tipo de empleados"
+    SeleccioneTipoEmpleado
+#End Region
+
+#Region "Funcional contrato"
+
+#Region "General"
+    Mas
+#End Region
+
+#Region "Duracion del contrato"
+    Indefinido
+    Ano
+    Mes
+    Dia
+#End Region
+
+#Region "Tipo de salario"
+    Fijo
+    Integral
+    Variable
+#End Region
+
+#Region "Periodo de pago"
+    Mensual
+    Quincenal
+#End Region
+
+#Region "Tipo de pago"
+    Cheque
+    Efectivo
+    Consignacion
+    Desprendible
+#End Region
+
+#Region "Tipo de cuenta bancaria"
+    Ahorros
+    Corriente
+#End Region
+
+#Region "Tipo de empleado"
+    Administrativo
+    Asistencial
+#End Region
+
+#Region "Campos del contrato"
+    Id
+    RowType
+    InitialContractNumber
+    Position
+    Group
+    FunctionalUnit
+    ContractType
+    JobBondingType
+    JobBondingDate
+    ContractInitialDate
+    ContractEndingDate
+    BasicSalary
+    Status
+    RetirementReason
+    RetirementDate
+    PaymentPeriod
+    SalaryType
+    PaymentType
+    TrialPeriod
+    TrialPeriodTime
+    TrialPeriodSalaryPercentage
+    AutoRenew
+    ContractCreationDate
+    Valid
+    Notes
+    Bank
+    BankAccountNumber
+    BankAccountType
+#End Region
+
+#Region "Tipo de Registro"
+    ContratoBase
+    Novedad
+#End Region
+
+#Region "Clase de contrato"
+    ClaseContratoOtros
+    ClaseContratoAprendizaje
+    ClaseContratoAprendizajePractica
+    ClaseContratoLaboralFijo
+    ClaseContratoLaboralIndefinido
+#End Region
+
+#Region "Razon de Modificacion de contrato"
+    SeleccioneRazonMoficacionContrato
+#End Region
+
+#Region "tipos de fondos"
+    Salud
+    Pension
+    Riesgos
+    Cesantias
+    CajaCompensacion
+#End Region
+
+
+    ContratosNo2Vigentes
+    ContratosEnRangoOtroContrato
+    FondoArlObligatorio
+    FondoSaludObligatorio
+    FondoPensionesObligatorio
+    ContratosFechaMinimaPermitida
+    ContratosFechaMaximaContratoFijo
+    ContratoRangoDeFechas
+    FondoYaSeEncuentra
+    ContratosSalarioVsCargo
+    ContratosRenovacion
+    FondoFechasEntreAfiliaciones
+    FondoFechasEnRangoFondo
+    ContratosSinCambio
+    FondoFechaMinimaContrato
+    FondoAccionesInactivos
+    ContratosSalarioVsAnteriorSalario
+    ContratosCrearNuevo
+    ContratosConCuadroTurnos
+    ContratosEliminarAdvertencia
+    ContratosConNominaPagada
+
+
+#End Region
+
+#Region "Unidad Funcional"
+
+    ''' <summary>
+    ''' Se usa para informar que el usuario que desea agregar ya se encuentracomo responsable
+    ''' </summary>
+    ''' <remarks></remarks>
+    UsuarioYaAgregado
+    ''' <summary>
+    ''' Se usa para informar que debe seleccionar un usuario
+    ''' </summary>
+    ''' <remarks></remarks>
+    SeleccioneUsuario
+
+#End Region
+
+#Region "AutoLiquidacion"
+
+    ''' <summary>
+    ''' Se usa para informar que el empleado tiene mas de una EPS
+    ''' </summary>
+    ''' <remarks></remarks>
+    EmpleadoMasDeUnaEPS
+    ''' <summary>
+    ''' se usa para informar que el empleado no tiene EPS
+    ''' </summary>
+    ''' <remarks></remarks>
+    EmpleadoNoTieneEPS
+    ''' <summary>
+    ''' Se usa para informar que el empleado tiene mas de un fondo de empleado
+    ''' </summary>
+    ''' <remarks></remarks>
+    EmpleadoMasFondoPension
+    ''' <summary>
+    ''' Se usa para informar que el empleado no tiene EPS
+    ''' </summary>
+    ''' <remarks></remarks>
+    EmpleadoNoTieneFondoPension
+    ''' <summary>
+    ''' Se usa para informar que el empleado tiene mas de una caja de compensacion
+    ''' </summary>
+    ''' <remarks></remarks>
+    EmpleadoMasCajaCompensacion
+    ''' <summary>
+    ''' El empleado no tiene caja de compensacion
+    ''' </summary>
+    ''' <remarks></remarks>
+    EmpleadoNoTieneCajaCompensacion
+
+#End Region
+
+#Region "Vacaciones"
+
+    ''' <summary>
+    ''' Se utiliza para informar al usuario que no puede solicitar mas dias de vacaciones que los que tiene disponible
+    ''' </summary>
+    ''' <remarks></remarks>
+    NoPuedeSolicitarDias
+
+    ''' <summary>
+    ''' Se utiliza para informar que el usuario no puede solicitar mas de X cantidad de dias
+    ''' </summary>
+    ''' <remarks></remarks>
+    EmpleadoNoPuedeDias
+
+    ''' <summary>
+    ''' Se utiliza para informar que el empleado no tiene dias pendientes
+    ''' </summary>
+    ''' <remarks></remarks>
+    EmpleadoNotieneDiasPendientes
+
+    ''' <summary>
+    ''' Variable para informar al usuario que no tiene empleados seleccionados
+    ''' </summary>
+    ''' <remarks></remarks>
+    NoHayEmpleadosSeleccionados
+
+    ''' <summary>
+    ''' Variable para informar al usuario que el empleado esta en vacaciones
+    ''' </summary>
+    ''' <remarks></remarks>
+    EmpleadoEnVacaciones
+
+    ''' <summary>
+    ''' Vaiable para el estado esperando pago
+    ''' </summary>
+    ''' <remarks></remarks>
+    EsperandoPago
+
+    ''' <summary>
+    ''' Varible para estado pagas
+    ''' </summary>
+    ''' <remarks></remarks>
+    Pagas
+
+    ''' <summary>
+    ''' Variable para informar que si esta seguro de cancelar vacaciones
+    ''' </summary>
+    ''' <remarks></remarks>
+    EstaSeguroCancelarVacacion
+
+    ''' <summary>
+    ''' Variable para informar que si esta seguro de hacer reingreso
+    ''' </summary>
+    ''' <remarks></remarks>
+    EstaSeguroReingresoVacacion
+
+    ''' <summary>
+    ''' Variable para informar la accion Cacelar Solicitud
+    ''' </summary>
+    ''' <remarks></remarks>
+    CancelarSolicitud
+
+    ''' <summary>
+    ''' Variable para informar la accion Ingreso Forzoso
+    ''' </summary>
+    ''' <remarks></remarks>
+    IngresoForzoso
+
+    ''' <summary>
+    ''' Se usa para informar que se ha cancelado la solicitud correctamente
+    ''' </summary>
+    ''' <remarks></remarks>
+    SolicitudCanceladaCorrectamente
+
+    ''' <summary>
+    ''' Se usa para informar que se ya se han pagado la solicitud de vacaciones
+    ''' </summary>
+    ''' <remarks></remarks>
+    SolicitudYaEstanPagas
+
+    ''' <summary>
+    ''' Se usa para informar que se realizo un permiso cargo a vacaciones
+    ''' </summary>
+    ''' <remarks></remarks>
+    PermisoCargoVacaciones
+
+#End Region
+
+#Region "LiquidacionNomina"
+
+    ''' <summary>
+    ''' Se utiliza para informar al usuario que no se generó una Liquidación de Nómina
+    ''' </summary>
+    ''' <remarks></remarks>
+    NoGeneraLiquidacion
+
+    ''' <summary>
+    ''' Se utiliza para informar al usuario que no existe un empleado con ese número de identificación Liquidación de Nómina
+    ''' </summary>
+    ''' <remarks></remarks>
+    NoExisteEmpleado
+
+    ''' <summary>
+    ''' Se utiliza para informar al usuario que la Nómina fue Confirmada Correctamente
+    ''' </summary>
+    ''' <remarks></remarks>
+    NominaConfirmadaCorrectamente
+
+    ''' <summary>
+    ''' Se utiliza para infomar al usuario que debe primero Liquidar una nómina en Borrador para luego Confirmarla
+    ''' </summary>
+    ''' <remarks></remarks>
+    PrimeroNominaBorrador
+
+    ''' <summary>
+    ''' Se utiliza para informar al Usuario que no hay Empleados para Liquidar en este Periodo de Nómina
+    ''' </summary>
+    ''' <remarks></remarks>
+    NoHayEmpleadosLiquidar
+
+    ''' <summary>
+    ''' Se utiliza para infomar al Usuario que hay Errores Graves de Liquidación
+    ''' </summary>
+    ''' <remarks></remarks>
+    ErroresGravesLiquidacion
+
+    ''' <summary>
+    ''' Se utiliza para informar al Usuario que un Grupo NO tiene Conceptos Autorizados
+    ''' </summary>
+    ''' <remarks></remarks>
+    NoConceptosAutorizados
+
+    ''' <summary>
+    ''' Se utiliza para preguntar si se desea liquidar y confirmar la nomina
+    ''' </summary>
+    ''' <remarks></remarks>
+    NominaConfirmarNomina
+
+    ''' <summary>
+    ''' Se utiliza para informar al usuario que no hay grupos seleccionados para liquidar
+    ''' </summary>
+    ''' <remarks></remarks>
+    NoHayGruposSeleccionadosNomina
+
+    ''' <summary>
+    ''' Se utiliza para informar al usuario que no seleccionó Liquidaciones para mostrar
+    ''' </summary>
+    ''' <remarks></remarks>
+    NoSeleccionoLiquidacionVisualizar
+
+    ''' <summary>
+    ''' Se utiliza para informar que la Nómina se Liquidó Correctamente
+    ''' </summary>
+    ''' <remarks></remarks>
+    LiquidacionNominaCorrecta
+
+#End Region
+
+#Region "Liquidación de Cesantías"
+
+    ''' <summary>
+    ''' Se utiliza para informar que no hay nominas liquidadas
+    ''' </summary>
+    ''' <remarks></remarks>
+    NoHayNominasLiquidadas
+
+    ''' <summary>
+    ''' Se utiliza para informar que no hay grupos seleccionados
+    ''' </summary>
+    ''' <remarks></remarks>
+    NoHayGruposSeleccionados
+
+    ''' <summary>
+    ''' Se Utiliza para informar que el empleado no tiene nominas liquidadas
+    ''' </summary>
+    ''' <remarks></remarks>
+    EmpleadoNoTieneNominasLiquidadas
+
+    ''' <summary>
+    ''' Se Utiliza para informar que el empleado no tiene contrato de tipo laboral, que pueda liquidar cesantías
+    ''' </summary>
+    ''' <remarks></remarks>
+    EmpleadoNoTieneContratoLaboral
+
+    ''' <summary>
+    ''' Se Utiliza para informar que el empleado ya tiene liquidadas cesantías en un determinado periodo
+    ''' </summary>
+    ''' <remarks></remarks>
+    EmpleadoYaTieneCesantiasLiquidadas
+
+    ''' <summary>
+    ''' Se Utiliza para informar que el empleado no tiene contrato para liquidar determinado periodo de cesantías
+    ''' </summary>
+    ''' <remarks></remarks>
+    EmpleadoNoTieneContrato
+
+    ''' <summary>
+    ''' Informa que este empleado ha liquidado cesantía anual 
+    ''' </summary>
+    ''' <remarks></remarks>
+    EmpleadoYaTieneCesantiaAnualLiquidada
+
+    ''' <summary>
+    ''' Informa que no hay cesantias liquidadas
+    ''' </summary>
+    ''' <remarks></remarks>
+    NohayCesantiasLiquidadas
+
+    ''' <summary>
+    ''' Informa que no se liquidaron cesantias
+    ''' </summary>
+    ''' <remarks></remarks>
+    NoseLiquidaronCesantias
+
+    ''' <summary>
+    ''' Informa que un empleado no tiene fondo de cesantia
+    ''' </summary>
+    ''' <remarks></remarks>
+    EmpleadoNoTieneFondoDeCesantia
+
+    ''' <summary>
+    ''' Liquidacion de cesantias ya confirmadas
+    ''' </summary>
+    ''' <remarks></remarks>
+    LiquidacionCesantiasYaConfirmada
+
+    ''' <summary>
+    ''' Para preguntar si desea confirmar las cesantías
+    ''' </summary>
+    ''' <remarks></remarks>
+    ConfirmarCesantias
+
+    ''' <summary>
+    ''' Para informar que se confirmaron correctamente las cesantias
+    ''' </summary>
+    ''' <remarks></remarks>
+    CesantiasConfirmadasCorrectamente
+
+    ''' <summary>
+    ''' Para informar que no se pudieron confirmar las cesantias
+    ''' </summary>
+    ''' <remarks></remarks>
+    CesantiasNoSePudieronConfirmar
+#End Region
+
+#Region "Liquidación de Primas"
+
+    ''' <summary>
+    ''' Se utiliza para informar que no hay grupos seleccionados
+    ''' </summary>
+    ''' <remarks></remarks>
+    NoHayGruposSeleccionadosPrimas
+
+    ''' <summary>
+    ''' Se utiliza para informar que no hay primas
+    ''' </summary>
+    ''' <remarks></remarks>
+    NoGeneroPrimas
+
+    ''' <summary>
+    ''' Se utiliza para informar que las Primas fueron liquidadas y Confirmadas
+    ''' </summary>
+    ''' <remarks></remarks>
+    LiquidacionPrimasConfirmada
+
+    ''' <summary>
+    ''' Se utiliza para informar que las Primas fueron liquidadas pero NO confirmadas
+    ''' </summary>
+    ''' <remarks></remarks>
+    LiquidacionPrimasNoConfirmada
+
+    ''' <summary>
+    ''' Se utiliza para informar que ya existen primas Liquidadas y Confirmadas
+    ''' </summary>
+    ''' <remarks></remarks>
+    LiquidacionPrimasYaConfirmada
+
+    ''' <summary>
+    ''' Se utiliza para informar que no hay Liquidaciones de Nómina para Calcular Primas
+    ''' </summary>
+    ''' <remarks></remarks>
+    NoHayDatosAcumuladosLiquidacion
+
+    ''' <summary>
+    ''' Se utiliza para informar que Existen Liquidaciones de Nómina Confirmadas pero el campo IBC de Primas es vacío o NULO
+    ''' </summary>
+    ''' <remarks></remarks>
+    IBCPrimasVacio
+
+    ''' <summary>
+    ''' Se utiliza para informar que no existen almacenadas Liquidaciones de Nómina del Grupo Seleccionado
+    ''' </summary>
+    ''' <remarks></remarks>
+    NoHayLiquidacionesGeneradas
+
+    ''' <summary>
+    ''' Se utiliza para informar que existen numeros diferentes de primas en los Grupos Seleccionados
+    ''' </summary>
+    ''' <remarks></remarks>
+    NumeroPrimasDiferentes
+
+    ''' <summary>
+    ''' Se utiliza para informar que no se ha seleccionado un Semestre para Liquidar las Primas
+    ''' </summary>
+    ''' <remarks></remarks>
+    NoHaySeleccionadoSemestrePrimas
+
+    ''' <summary>
+    ''' Se utiliza para preguntar si se van a Confirmar las Primas
+    ''' </summary>
+    ''' <remarks></remarks>
+    ConfirmarPrimas
+
+    ''' <summary>
+    ''' Se utiliza para informar que no han Seleccionado la Forma de Pago
+    ''' </summary>
+    ''' <remarks></remarks>
+    NoHaSeleccionadoTipoPagoPrimas
+#End Region
+
+#Region "Funcional Incapacidades (Inability)"
+    ''' <summary>
+    ''' se usa para informar al usuario que la cantidad de dias debe ser mayor a 0
+    ''' </summary>
+    ''' <remarks></remarks>
+    CantidadDiasNovedad
+
+    ''' <summary>
+    ''' se usa para informar que el empleado no existe
+    ''' </summary>
+    ''' <remarks></remarks>
+    EmpleadoNoExiste
+
+    ''' <summary>
+    ''' Item del combo Postular valor
+    ''' </summary>
+    ''' <remarks></remarks>
+    Postular23
+    ''' <summary>
+    ''' Item del combo Postular valor
+    ''' </summary>
+    ''' <remarks></remarks>
+    PostularPatrono
+    ''' <summary>
+    ''' Item del combo Postular valor
+    ''' </summary>
+    ''' <remarks></remarks>
+    PostularNomina
+    ''' <summary>
+    ''' Item del combo Postular valor
+    ''' </summary>
+    ''' <remarks></remarks>
+    Postular90Dias
+    ''' <summary>
+    ''' Item del combo Postular valor
+    ''' </summary>
+    ''' <remarks></remarks>
+    Postular23Todos
+    ''' <summary>
+    ''' Item del combo Incapacidad
+    ''' </summary>
+    ''' <remarks></remarks>
+    IncapacidadAmbulatoria
+    ''' <summary>
+    ''' Item del combo Incapacidad
+    ''' </summary>
+    ''' <remarks></remarks>
+    IncapacidadGeneral
+    ''' <summary>
+    ''' Item del combo Incapacidad
+    ''' </summary>
+    ''' <remarks></remarks>
+    IncapacidadHospitalaria
+    ''' <summary>
+    ''' Item del combo Incapacidad
+    ''' </summary>
+    ''' <remarks></remarks>
+    IncapacidadMaternidad
+    ''' <summary>
+    ''' Item del combo Incapacidad
+    ''' </summary>
+    ''' <remarks></remarks>
+    IncapacidadPaternidad
+    ''' <summary>
+    ''' Item del combo Incapacidad
+    ''' </summary>
+    ''' <remarks></remarks>
+    LicenciaLuto
+    ''' <summary>
+    ''' Item del combo Incapacidad
+    ''' </summary>
+    ''' <remarks></remarks>
+    IncapacidadRiesgos
+    ''' <summary>
+    ''' Se usa para informar al usuario que el grupo no posee parametros de nomina
+    ''' </summary>
+    ''' <remarks></remarks>
+    GrupoSinParametros
+    ''' <summary>
+    ''' Se usa para informar que aun faltan campos por digilenciar para por guardar
+    ''' </summary>
+    ''' <remarks></remarks>
+    FaltaCampo
+    ''' <summary>
+    ''' Se usa para informar que se va crear novedad
+    ''' </summary>
+    ''' <remarks></remarks>
+    CrearNovedad
+    ''' <summary>
+    ''' Se usa para informar que se va editar novedad
+    ''' </summary>
+    ''' <remarks></remarks>
+    EditarNovedad
+    ''' <summary>
+    ''' Se usa para informar que se va dar prorroga a una novedad
+    ''' </summary>
+    ''' <remarks></remarks>
+    ProrrogaNovedad
+    ''' <summary>
+    ''' Se usa para informar que es una novedad inicial
+    ''' </summary>
+    ''' <remarks></remarks>
+    Inicial
+    ''' <summary>
+    ''' Se usa para informar que es una novedad de prorroga
+    ''' </summary>
+    ''' <remarks></remarks>
+    Prorroga
+
+    ''' <summary>
+    ''' se usa para informar al usuario que no puede ni eliminar ni editar la novedad ya que solo es permitido para la ultima prorroga
+    ''' </summary>
+    ''' <remarks></remarks>
+    NoPuedeAccionPorUltimaProrroga
+    ''' <summary>
+    ''' se usa para informar al usuario de que la fecha de inicio prorroga no puede ser mayor ala del contrato
+    ''' </summary>
+    ''' <remarks></remarks>
+    NoPuedeFechaInferiorContrato
+    ''' <summary>
+    ''' se usa para informar al usuario de que la fecha de inicio prorroga no puede ser mayor ala del contrato
+    ''' </summary>
+    ''' <remarks></remarks>
+    NoPuedeFechaSuperiorContrato
+    ''' <summary>
+    ''' Se usa para informar al usuario que la fecha fin de la novedad no puede ser mayor a la fecha fin del contrato
+    ''' </summary>
+    ''' <remarks></remarks>
+    NoPuedeFechaFinSuperiorContrato
+
+    ''' <summary>
+    ''' Se usa Para el estado Liquidar
+    ''' </summary>
+    ''' <remarks></remarks>
+    Liquidar
+
+    ''' <summary>
+    ''' Se usa Para el estado No Liquidar
+    ''' </summary>
+    ''' <remarks></remarks>
+    NoLiquidar
+
+    ''' <summary>
+    ''' Se usa para informar que el empleado se encuentra en vacaciones por lo cual no puede ingresar una novedad
+    ''' </summary>
+    ''' <remarks></remarks>
+    EmpleadoVacacionesNoPuedeNovedad
+
+    ''' <summary>
+    ''' Se usa para informar que el empleado se encuentra en vacaciones y si desa hacer un reajuste
+    ''' </summary>
+    ''' <remarks></remarks>
+    EmpleadoVacacionesReajuste
+
+    ''' <summary>
+    ''' Se usa para informar que la novedad no se puede editar cuando ha realizado un ajuste a vacaciones
+    ''' </summary>
+    ''' <remarks></remarks>
+    NovedadReajusteVacacionesNoEditar
+
+#End Region
+
+#Region "Control Busqueda Avanzada"
+
+    OcultarFiltros
+    OcultarListaFacturas
+    SeleccionesCamposParaFiltros
+    LabelNumeroDeRegistro
+
+#End Region
+
+#Region "Modulo Mantenimiento"
+
+#Region "Funcional Aseguradoras"
+    SeleccioneAseguradora
+#End Region
+#Region "Funcional Fabricantes"
+    SeleccioneFabricantes
+#End Region
+#Region "Funcional Tipo Equipos"
+    SeleccioneTipoEquipos
+#End Region
+#Region "Funcional Tipos Poliza"
+    SeleccioneTipoPoliza
+#End Region
+#Region "Funcional Poliza"
+    SeleccionePoliza
+#End Region
+#Region "Funcional Sucursales"
+    SeleccioneSucursal
+#End Region
+#Region "Funcional Accesorios"
+    SeleccioneAccesorios
+#End Region
+#Region "Funcional Areas"
+    SeleccioneArea
+#End Region
+#Region "Funcional Pisos"
+    SeleccionePiso
+#End Region
+#Region "Funcional Torres"
+    SeleccioneTorre
+#End Region
+#Region "Funcional Consumibles"
+    SeleccioneConsumibles
+#End Region
+#Region "Funcional Habitaciones"
+    SeleccioneHabitaciones
+#End Region
+#Region "Funcional Tipo Inventario"
+    SeleccioneTipoInventario
+#End Region
+#Region "Funcional Responsable"
+    SeleccioneResponsable
+#End Region
+#Region "Funcional Partes"
+    SeleccioneParte
+#End Region
+#Region "Funcional Equipos"
+    SeleccioneEquipo
+#End Region
+#Region "Funcional Unidad Medidas"
+    SeleccioneUnidadMedida
+#End Region
+#Region "Funcional Registro Tecnico"
+    SeleccioneRegistroTecnico
+#End Region
+
+
+
+#End Region
+
+#Region "Sistema Documental"
+
+#Region "Funcional MetaData"
+
+    ErrorGuardarDocumento
+    BotonGuardarDocumento
+    RadioGrupoDocumento
+    TituloMetada
+
+#End Region
+
+#Region "Funcional Configuración Metadata"
+    NoExisteArchivador
+#End Region
+
+#Region "Funcional Digitalización"
+
+    PaginaDigitalizacion
+    DeDigitalización
+    SeleccioneDispositivo
+    EscaneoDuplex
+    TituloDigitalizacion
+
+#End Region
+
+#Region "Funcional Adjuntar"
+
+    TituloAdjuntar
+
+#End Region
+
+#Region "CtrBarraBotones"
+
+    SinArchivador
+    SinDocumentos
+    SinPermisoAbrirDocumentos
+
+#End Region
+
+#End Region
+
+#Region "Traslado Cobro Jurídico"
+    NoExisteTrasladoCobroJuridico
+    FacturaYaExisteTrasladoCobroJuridico
+#End Region
+
+#Region "Weather"
+    Weathertornado
+    Weathertropicalstorm
+    Weatherhurricane
+    Weatherseverethunderstorms
+    Weatherthunderstorms
+    Weathermixedrainandsnow
+    Weathermixedrainandsleet
+    Weathermixedsnowandsleet
+    Weatherfreezingdrizzle
+    Weatherdrizzle
+    Weatherfreezingrain
+    Weathershowers
+    Weathersnowflurries
+    Weatherlightsnowshowers
+    Weatherblowingsnow
+    Weathersnow
+    Weatherhail
+    Weathersleet
+    Weatherdust
+    Weatherfoggy
+    Weatherhaze
+    Weathersmoky
+    Weatherblustery
+    Weatherwindy
+    Weathercold
+    Weathercloudy
+    Weathermostlycloudynight
+    Weathermostlycloudyday
+    Weatherpartlycloudynight
+    Weatherpartlycloudyday
+    Weatherclearnight
+    Weathersunny
+    Weatherfairnight
+    Weatherfairday
+    Weathermixedrainandhail
+    Weatherhot
+    Weatherisolatedthunderstorms
+    Weatherscatteredthunderstorms
+    Weatherscatteredshowers
+    Weatherheavysnow
+    Weatherscatteredsnowshowers
+    Weatherpartlycloudy
+    Weatherthundershowers
+    Weathersnowshowers
+    Weatherisolatedthundershowers
+
+#End Region
+
+#Region "Sitema Mensajeria"
+    MessagesTitle
+    MeesagesRead
+    MessagesWriting
+    MessagesGroupInvitation
+    MessagesGroupLeave
+#End Region
+
+#Region "MetaData Frontales"
+
+    FrmCustomersMetaData
+    FrmCustomersMetaDataTitle
+    DocumentsMetaDataTitle
+    FrmResponsibleMetaData
+    FrmResponsibleMetaDataTitle
+    FrmJustificationTemplateMetaData
+    FrmJustificationTemplateMetaDataTitle
+    FrmHealthCenterMetaData
+    FrmHealthCenterMetaDataTitle
+    FrmCompanyMetaData
+    FrmCompanyMetaDataTitle
+    FrmBankMetaData
+    FrmBankMetaDataTitle
+    FrmWorkCenterMetaData
+    FrmWorkCenterMetaDataTitle
+    FrmCityMetaData
+    FrmCityMetaDataTitle
+    FrmBranchOfficeMetaData
+    FrmBranchOfficeMetaDataTitle
+    FrmStudyTypeMetaData
+    FrmStudyTypeMetaDataTitle
+    FrmStudyCenterMetaData
+    FrmStudyCenterMetaDataTitle
+    FrmRetirementReasonMetaData
+    FrmRetirementReasonMetaDataTitle
+    FrmProfessionMetaData
+    FrmProfessionMetaDataTitle
+    FrmProfessionalRiskMetaData
+    FrmProfessionalRiskMetaDataTitle
+    FrmPositionLevelMetaData
+    FrmPositionLevelMetaDataTitle
+    FrmPositionMetaData
+    FrmPositionMetaDataTitle
+    FrmPensionaryTypeMetaData
+    FrmPensionaryTypeMetaDataTitle
+    FrmLanguageMetaData
+    FrmLanguageMetaDataTitle
+    FrmKinshipMetaData
+    FrmKinshipMetaDataTitle
+    FrmDepartmentMetaData
+    FrmDepartmentMetaDataTitle
+    FrmCurrencyMetaData
+    FrmCurrencyMetaDataTitle
+    FrmCountryMetaData
+    FrmCountryMetaDataTitle
+    FrmDisabilityMetaData
+    FrmDisabilityMetaDataTitle
+    FrmThirdPartyMetaData
+    FrmThirdPartyMetaDataTitle
+    FrmJobBondingTypeMetaData
+    FrmJobBondingTypeMetaDataTitle
+    FrmGroupMetaData
+    FrmGroupMetaDataTitle
+    FrmFundMetaData
+    FrmFundMetaDataTitle
+    FrmFunctionalUnitMetaData
+    FrmFunctionalUnitMetaDataTitle
+    FrmGroupsMetaData
+    FrmGroupsMetaDataTitle
+    FrmCompanyPayrollMetaData
+    FrmCompanyPayrollMetaDataTitle
+    FrmConceptsMetaData
+    FrmConceptsMetaDataTitle
+    FrmTimeUnitMetaData
+    FrmTimeUnitMetaDataTitle
+    FrmContractGroupMetaData
+    FrmContractGroupMetaDataTitle
+    FrmContractModificationReasonMetaData
+    FrmContractModificationReasonMetaDataTitle
+    FrmContractTemplateMetaData
+    FrmContractTemplateMetaDataTitle
+    FrmContractTypeMetaData
+    FrmContractTypeMetaDataTitle
+    FrmContributorTypeMetaData
+    FrmContributorTypeMetaDataTitle
+    FrmCostCenterMetaData
+    FrmCostCenterMetaDataTitle
+    FrmEducationLevelsMetaData
+    FrmEducationLevelsMetaDataTitle
+    FrmEmployeeTypeMetaData
+    FrmEmployeeTypeMetaDataTitle
+    FrmAuthorizationConceptMetaData
+    FrmAuthorizationConceptMetaDataTitle
+    FrmKindsAgrementsMetaData
+    FrmKindsAgrementsMetaDataTitle
+    FrmDocumentTypeMetaData
+    FrmDocumentTypeMetaDataTitle
+    FrmFunctionalAgreementsMetaData
+    FrmFunctionalAgreementsMetaDataTitle
+    FrmRetentionConceptMetaData
+    FrmRetentionConceptMetaDataTitle
+    FrmTimeParametersMetaData
+    FrmTimeParametersMetaDataTitle
+    FrmJuridicalDebtMetaDataTitle
+    FrmJuridicalDebtMetaData
+    FrmJuridicalDebtMetaDataDetail
+    FrmDevolutionMetaDataTitle
+    FrmDevolutionMetaData
+    FrmDevolutionMetaDataDetail
+    FrmCoordinationMetaData
+    FrmCoordinationMetaDataTitle
+    FrmEvaluationMetaData
+    FrmEvaluationMetaDataTitle
+    FrmNoveltyMetaData
+    FrmNoveltyMetaDataTitle
+    FrmPhoneTypeMetaData
+    FrmPhoneTypeMetaDataTitle
+    FrmScheduleTemplateMetaData
+    FrmScheduleTemplateMetaDataTitle
+    FrmEmployeeMetaData
+    FrmEmployeeMetaDataTitle
+    FrmAccountClassMetaData
+    FrmAccountClassMetaDataTitle
+    FrmManualConceptsMetaData
+    FrmManualConceptsMetaDataTitle
+    FrmFinancialSourceMetaData
+    FrmFinancialSourceMetaDataTitle
+    FrmBudgetEntitiesMetaData
+    FrmBudgetEntitiesMetaDataTitle
+    FrmEarningsTypeMetaData
+    FrmEarningsTypeMetaDataTitle
+    FrmExpenseTypeMetaData
+    FrmExpenseTypeMetaDataTitle
+    FrmBudgetDependencyMetaData
+    FrmBudgetDependencyMetaDataTitle
+    FrmBudgetConceptMetaData
+    FrmBudgetConceptMetaDataTitle
+    FrmSyndicateMetaData
+    FrmSyndicateMetaDataTitle
+    FrmSportPracticeMetaData
+    FrmSportPracticeMetaDataTitle
+
+#End Region
+
+#Region "Funcional de Convenios"
+    PaidValueExceeds
+    TipoPorNomina
+    TipoManual
+    TipoPorArchivo
+#End Region
+
+#Region "Funcional Plantillas de Justificación"
+    PlantillaExistente
+    PlantillaPorDefecto
+#End Region
+
+#Region "Reportes"
+
+    DefinitionReport
+    DefaultDefinition
+
+#End Region
+
+#Region "Funcional de Conceptos Manuales"
+    EstadoActivo
+    EstadoSuspendido
+    EstadoCompletado
+    FormPagoPrimeraQuincena
+    FormPagoSegundaQuincena
+    FormPagoAmbas
+    FormPagoMensual
+    EstadoEsperandoPago
+    EstadoPagado
+    DeseaSuspender
+    YaTieneNominaLiquidada
+    YaTieneConcManConEsteConcDesdeHasta
+    YaTieneConcManConEsteConcDesdeHastaFinal
+    YaTieneEsteConceptoManualHastaFin
+    NoSeRegistraronTodasCuotas
+#End Region
+
+#Region "Funcional de Archivo de bancos"
+    GrupoNoTieneEstructuraArch
+    GuardadoDeseaAbrir
+    ExisteAuditoriaArchivoBanco
+#End Region
+
+#Region "Fuentes de financiacion"
+    ConSituacion
+    SinSituacion
+    RecursosPropios
+#End Region
+
+#Region "Entidades Presupuestales"
+    Activa
+    Cerrada
+    Registrada
+    PresupuestoInicial
+    ModificacionesAlPresupuesto
+    TrasladosLaPresupuesto
+    ModificacionesAlPAC
+    TrasladosAlPAC
+    Reconocimientos
+    ModificacionesAReconocimiento
+    Recaudos
+    ModificacionARecaudos
+    CuentasPorCobrar
+    Disponibilidades
+    ModificacionesADisponibilidades
+    Compromisos
+    ModificacionesACompromisos
+    Obligaciones
+    ModificacionesAObligaciones
+    OrdenDePago
+    ProrrogasDeDisponibilidades
+    LiberacionDeRecursos
+    ReintegroDeRecurso
+    ReservasPresupuestales
+    CuentasPorPagarPresupuestales
+    DisponibilidadesVFT
+    CompromisosVFT
+    ObligacionesVFT
+    OrdenesDePagoVFT
+    SuspencionAlPresupuestoDeGastos
+    LevantamientoDeSuspencionesAlPresupuestoDeGastos
+    ProrrogasDeDocumentos
+
+#End Region
+
+#Region "Tipos de Ingreso"
+    AportesNacionales
+    Ingresospropios
+    Disponibilidadinicial
+    Ventadeservicios
+    Sistemageneraldeparticipaciones
+    Otrosingresos
+    Ingresoscapital
+    Totalingresos
+#End Region
+
+#Region "Tipo de gasto"
+    Funcionamiento
+    Inversión
+    ServiciosDeuda
+    GastosPersonal
+    GastosGenerales
+    MantenimientoHospitalario
+    Trasferencias
+    GastosOperaconComercial
+    DisponibilidadFinal
+#End Region
+
+#Region "Liquidación de contrato"
+
+    EmpleadoTieneErrores
+    AlgunEmpleadoTieneErrores
+
+#End Region
+
+#Region "Funcional Aumento de Sueldos"
+    PorcentajeCero
+    FechaRetroactivo
+    ModificacionSueldosCorrecta
+#End Region
+
+End Enum
+
+
+''' <summary>
+''' Enumeracion con los procesos de la gloas
+''' </summary>
+Public Enum GlosasProcess
+    Objection = 1
+    ObjectionEvaluation = 2
+    ObjectionCoordination = 3
+    Reiteration = 4
+    ReiterationEvaluation = 5
+    ReiterationCoordination = 6
+    Conciliation = 7
+
+End Enum
+
+''' <summary>
+''' Enumeracion con los lenguajes para los diccionarios
+''' </summary>
+Public Enum LanguageDictionaries
+    Spanish = 0
+    English = 1
+End Enum
+
+''' <summary>
+''' Enumeracion que sirve para establecer  los botones que tiene los mensajes indigo
+''' </summary>
+Public Enum Botones
+    Ok = 0
+    SiNo = 1
+    AceptarCancelar = 2
+    Aceptar = 3
+    Cancelar = 4
+End Enum
+
+''' <summary>
+''' Enumeracion que sirve para establecer el tipo de mensaje indigo
+''' </summary>
+Public Enum Icono
+    Errores = 0
+    Advertencia = 1
+    Informacion = 2
+    pregunta = 3
+    Ninguno = 4
+End Enum
+
+''' <summary>
+''' Enumeracion que sirve para establecer si el manseje es un show dialog o un mensaje slide
+''' </summary>
+Public Enum TipoMensaje
+    Slide = 0
+    ShowDialog = 1
+End Enum
+
+Public Enum Confirm
+    Confirmed
+    NotConfirmed
+    Invalidate
+    OfficeResponse
+    Vacio
+End Enum
+
+Public Enum AppBarButtons
+    ''' <summary>
+    ''' Opcion para mostrar los botones de desanclar del menu y el boton mas grande
+    ''' </summary>
+    MasGrandeDesanclar = 0
+
+    ''' <summary>
+    ''' Opcion para mostrar los botones de desanclar del menu y el boton mas pequeño
+    ''' </summary>
+    MasPequeñoDesanclar = 1
+
+    ''' <summary>
+    ''' Opcion para mostrar los botones de desanclar del menu y borrar seleccion
+    ''' </summary>
+    DesanclarBorraSeleccion = 2
+
+    ''' <summary>
+    ''' Opcion para mostrar el Boton Nombre del grupo
+    ''' </summary>
+    CambiarNombreGrupo = 3
+
+    ''' <summary>
+    ''' Opcion para mostrar el Boton Anclar a mi menu
+    ''' </summary>
+    AnclarMiMenu = 4
+
+End Enum
+
+''' <summary>
+''' Enumeracion Para establecer que xml se quiere obtener
+''' </summary>
+Public Enum eDataXml
+    XMLPermissions
+    ''' <summary>
+    ''' xml que tiene los permisos que dispone cada formulario
+    ''' </summary>
+    XMLPermissionsForm
+    ''' <summary>
+    ''' xml que tiene la asociacion de los formulario con los modulos
+    ''' </summary>
+    XMLFormsModule
+    ''' <summary>
+    ''' xml que tiene los modulos 
+    ''' </summary>
+    XMLModules
+    ''' <summary>
+    ''' xml que tiene los formularios
+    ''' </summary>
+    XMLForms
+    ''' <summary>
+    ''' xml que tiene los grupos de modulos
+    ''' </summary>
+    XMLModulesGroup
+
+    XMLGroups
+    ''' <summary>
+    ''' xml que tiene los WOEID de las principales ciudades de colombia
+    ''' </summary>
+    XMLWoeidCities
+    ''' <summary>
+    ''' xml que tiene los meses
+    ''' </summary>
+    XMLMonths
+
+    XMLReports
+
+    XMLReportsForm
+
+    ''' <summary>
+    ''' xml que tiene los formularios y agrega el formulario en los modulos donde esta asociado
+    ''' </summary>
+    XMLFormsModuleUser
+
+End Enum
+
+''' <summary>
+''' Enumeracion que contiene las acciones que se pueden realizar con el contrato
+''' </summary>
+Public Enum ContractActions
+    NewContractWithPayments
+    NewContractWithoutPayments
+    DeleteContract
+    EditContract
+    'ModifyContract
+    EndingContract
+    NoAction
+End Enum
+
+''' <summary>
+''' Enumeración que contiene la acciones permitidas por los formularios
+''' </summary>
+Public Enum PermissionsActionsForm
+    Eliminar = 1
+    Guardar = 2
+    Actualizar = 3
+    Confirmar = 7
+    Anular = 8
+    Customizar = 11
+    RedesSociales = 12
+    Documentos = 13
+    Comunicación = 14
+    Adjuntar = 16
+    Digitalizar = 17
+    Abrir = 18
+    Auditoria = 19
+    Suspender = 20
+    Reactivar = 21
+    VisualizarReporte = 22
+    ImprimirReporte = 23
+    ExportarFormatoLectura = 24
+    ExportarFormatoEscritura = 25
+    Consultar = 40
+    Visible = 41
+    EditarHorario = 42
+    RegistrarEvento = 43
+    AprobarEvento = 44
+    Liquidar = 45
+    ActivarInactivar = 33
+    GenerateFile = 34
+    RefreshGrid = 35
+    AddGrid = 36
+    EditGrid = 36
+    DeleteGrid = 37
+    VisualizarContratoEmpleado = 38
+    Desconfirmar = 46
+    Causacion = 51
+    LiquidarFolio = 47
+    VerFacturasAnuladas = 48
+    AnularFactura = 49
+    BloquearFolio = 50
+    DesbloquearFolio = 52
+    ImprimirTirilla = 53
+    ImprimirDetallado = 54
+    LiquidarCuotaPaciente = 55
+    DistribuirFolio = 56
+    ModificarCantidadEstancias = 57
+    LiquidarEstancias = 58
+    PermiteCuentaXCobrarPaciente = 59
+    AgregarDescuentoPaciente = 60
+    EmpaquetarItems = 63
+    DesempaquetarItems = 64
+    ImprimirFacturaAnulada = 66
+    ModificarNumeroAutorizacion = 67
+    IncluirDentroDeOtroServicio = 68
+    Validar = 69
+    PersonalizarReporte = 70
+    ModificarTopeAnual = 71
+    ModificarCategoriaFactura = 72
+    ModificarCantidadProducto = 73
+    LiquidarProductosNoPOS = 77
+    ModificarObservacionFactura = 78
+    GenerarOrdenServicio = 79
+    Procesar = 81
+    Terminar = 82
+    DashboardPgp = 83
+    ModifyQuantityFixedAssetPerDay = 85
+    RelationsAdmissions = 87
+    ApproveItems = 88
+    EditDemandStatus = 90
+    Reversar = 92
+    HideWatermark = 114
+    AssociateInvoice = 116
+End Enum
+
+''' <summary>
+''' Enumeracion que contiene las acciones que se permiten sobre un registro
+''' </summary>
+''' <remarks></remarks>
+Public Enum eActionsStatusRecords
+    ''' <summary>
+    ''' Marca un estado como inactivo
+    ''' </summary>
+    ''' <remarks></remarks>
+    Inactive
+    ''' <summary>
+    ''' Marca un estado como activo
+    ''' </summary>
+    ''' <remarks></remarks>
+    Active
+    ''' <summary>
+    ''' Marca un estado como liquidado
+    ''' </summary>
+    ''' <remarks></remarks>
+    Liquidated
+    ''' <summary>
+    ''' Marca un estado como Anulado
+    ''' </summary>
+    ''' <remarks></remarks>
+    Invalidate
+    ''' <summary>
+    ''' Marca un estado como reemplazado
+    ''' </summary>
+    ''' <remarks></remarks>
+    Replaced
+    ''' <summary>
+    ''' Marca un estado como confirmado
+    ''' </summary>
+    ''' <remarks></remarks>
+    Confirmed
+    ''' <summary>
+    ''' Marca un estado como suspendido
+    ''' </summary>
+    ''' <remarks></remarks>
+    Suspended
+    ''' <summary>
+    ''' Marca un estado como finalizado
+    ''' </summary>
+    ''' <remarks></remarks>
+    Finalized
+End Enum
+
+#End Region

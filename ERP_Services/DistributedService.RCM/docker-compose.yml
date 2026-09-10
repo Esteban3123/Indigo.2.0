@@ -1,0 +1,26 @@
+version: '3.8'
+
+services:
+
+  erp-rcm:
+    container_name: erp-rcm
+    build: 
+        dockerfile: Dockerfile
+    image: erp-rcm
+    restart: always
+    ports:
+      - "3000:80"
+    environment:
+      - SITECORE_VERSION=10.0.0-1909
+    depends_on:
+      - sqlserver
+
+  sqlserver: 
+    image: willh/mssql-server-windows-developer:20H2
+    container_name: sqlserver
+    ports:
+      - "1433:1433"
+    environment:
+      - SA_PASSWORD=PAs5CoNtr@D4t0sB@5e
+      - ACCEPT_EULA=Y
+    restart: always

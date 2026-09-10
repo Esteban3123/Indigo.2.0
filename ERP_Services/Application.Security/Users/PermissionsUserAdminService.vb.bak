@@ -1,0 +1,297 @@
+﻿'***********************************************************************
+' Assembly         : Application.Security
+' Author           : WalterSierra
+' Created          : 11-03-2011
+'
+' Last Modified By : Juan F. Tamayo
+' Last Modified On : 2013-03-04
+'
+' Copyright        : (c) . All rights reserved.
+'***********************************************************************
+
+#Region "Imports"
+
+Imports System.Transactions
+Imports Domain.Base
+Imports Domain.Base.Entities
+Imports Domain.Crystal
+Imports Domain.Crystal.Entities
+Imports Domain.Security
+Imports Domain.Security.Entities
+Imports Infrastructure.CrossCutting.Base
+Imports Infrastructure.CrossCutting.Exceptions
+Imports Infrastructure.CrossCutting.Security
+
+#End Region
+
+''' <summary>
+''' 	
+''' </summary>
+Public Class PermissionsUserAdminService
+    Implements IPermissionsUserAdminService
+
+    Dim _userPermissionsRepository As IRepository(Of PermissionUser)
+    Dim _userRepository As IUserRepository
+    Dim _userMembershipRepository As IUserMembershipRepository
+    Dim _personRepository As IPersonRepository
+    Dim _usersGroupUserRepository As IUsersGroupUserRepository
+    Dim _roleRepository As IRoleRepository
+    Dim _groupRepository As IGroupRepository
+    Dim _groupUserRepository As IGroupUserRepository
+
+    'EHR
+    Dim _sEGroleRepository As ISEGrolesuRepository
+    Dim _sEGgruusuRepository As ISEGgruusuRepository
+    Dim _sEGusuaruRepository As ISEGusuaruRepository
+    Dim _SEGpermiuRepository As ISEGpermiuRepository
+
+    ''' <summary>
+    ''' Initializa una nueva instancia de la clase <see cref="PermissionsUserAdminService" />.
+    ''' </summary>
+    ''' <param name="userPermissionsRepository">el repositorio para el manejo de los permisos de usuarios.</param>
+    ''' <param name="userRepository">el repositorio para el manejo de los usuarios</param>
+    ''' <param name="personRepository"></param>
+    ''' <param name="userMembershipRepository">el repositorio para el manejo de los usuarios en membership</param>
+    ''' <param name="usersGroupUserRepository"></param>
+    ''' <param name="roleRepository"></param>
+    ''' <param name="groupRepository"></param>
+    ''' <param name="groupUserRepository"></param>
+    ''' <param name="sEGroleRepository"></param>
+    ''' <param name="sEGgruusuRepository"></param>
+    ''' <param name="sEGusuaruRepository"></param>
+    ''' <param name="SEGpermiuRepository"></param>
+    Public Sub New(ByVal userPermissionsRepository As IRepository(Of PermissionUser), ByVal userRepository As IUserRepository, personRepository As IPersonRepository, ByVal userMembershipRepository As IUserMembershipRepository, ByVal usersGroupUserRepository As IUsersGroupUserRepository,
+                   ByVal roleRepository As IRoleRepository, groupRepository As IGroupRepository, ByVal groupUserRepository As IGroupUserRepository,
+                   ByVal sEGroleRepository As ISEGrolesuRepository, ByVal sEGgruusuRepository As ISEGgruusuRepository, ByVal sEGusuaruRepository As ISEGusuaruRepository,
+                   SEGpermiuRepository As ISEGpermiuRepository)
+        If userPermissionsRepository Is Nothing Then
+            Throw New ArgumentNullException("userPermissionsRepository Vacio")
+        End If
+        If userRepository Is Nothing Then
+            Throw New ArgumentNullException("userRepository Vacio")
+        End If
+        If userMembershipRepository Is Nothing Then
+            Throw New ArgumentNullException("userMembershipRepository Vacio")
+        End If
+
+        _userRepository = userRepository
+        _userPermissionsRepository = userPermissionsRepository
+        _userMembershipRepository = userMembershipRepository
+        _personRepository = personRepository
+        _usersGroupUserRepository = usersGroupUserRepository
+        _roleRepository = roleRepository
+        _groupRepository = groupRepository
+        _groupUserRepository = groupUserRepository
+
+        _sEGroleRepository = sEGroleRepository
+        _sEGgruusuRepository = sEGgruusuRepository
+        _sEGusuaruRepository = sEGusuaruRepository
+        _SEGpermiuRepository = SEGpermiuRepository
+    End Sub
+
+    ''' <summary>
+    ''' Deletes the user.	
+    ''' </summary>
+    ''' <param name="user">The user.</param>
+    ''' <param name="audit">The audit.</param>
+    ''' <returns></returns>
+    ''' <remarks></remarks>
+    Public Function DeleteUser(user As User, audit As AuditMessage) As Boolean Implements IPermissionsUserAdminService.DeleteUsers
+        If user.PermissionUser Is Nothing Then
+            Throw New ArgumentNullException("permissionUser Vacio")
+        End If
+        If user Is Nothing Then
+            Throw New ArgumentNullException("user Vacio")
+        End If
+        If user.PermissionCompany Is Nothing Then
+            Throw New ArgumentNullException("PermissionCompany Vacio")
+        End If
+        Dim unitWorkUser As IUnitWork = TryCast(_userRepository.UnitWork, IUnitWork)
+        Dim unitWorkUserGroupUser As IUnitWork = TryCast(_usersGroupUserRepository.UnitWork, IUnitWork)
+        Dim unitWorkgroupUser As IUnitWork = TryCast(_groupUserRepository.UnitWork, IUnitWork)
+        Try
+
+            Dim UserGroupUser As List(Of UsersGroupUser) = _usersGroupUserRepository.ListUserInGroupsById(user.Id)
+            For I = 0 To UserGroupUser.Count - 1
+                _usersGroupUserRepository.DeleteEntity(UserGroupUser(I))
+            Next
+
+            unitWorkUserGroupUser.Commit()
+
+            'elimino los permisos de usuario
+            For I = 0 To user.PermissionUser.Count - 1
+                user.PermissionUser(0).ChangeTracker.State = ObjectState.Deleted
+            Next
+
+            For I = 0 To user.PermissionCompany.Count - 1
+                user.PermissionCompany(0).ChangeTracker.State = ObjectState.Deleted
+            Next
+
+            For I = 0 To user.GroupUser.Count - 1
+                For j = 0 To user.GroupUser(I).UsersGroupUser.Count - 1
+                    user.GroupUser(I).UsersGroupUser(0).ChangeTracker.State = ObjectState.Deleted
+                Next
+            Next
+
+            For I = 0 To user.GroupUser.Count - 1
+                user.GroupUser(0).ChangeTracker.State = ObjectState.Deleted
+            Next
+
+            user.ChangeTracker.State = ObjectState.Deleted
+            _userRepository.SaveEntity(user)
+            'elimino el usuario en membership
+            If _userMembershipRepository.DeleteUser(user.UserCode.Trim) = False Then
+                'devuelvo cambios permisos
+                unitWorkUser.RollbackChanges()
+                Return False
+            End If
+            'confirmo cambios usuarios
+            unitWorkUser.Commit()
+            Return True
+        Catch ex As Exception
+            'devuelvo cambios permisos
+            unitWorkUser.RollbackChanges()
+            IndigoManagementExceptions.HandleException(ex, "UIPolicy")
+            Return False
+        End Try
+    End Function
+
+    ''' <summary>
+    ''' Saves the permissions user.	
+    ''' </summary>
+    ''' <param name="user">The user.</param>
+    ''' <param name="audit">The audit.</param>
+    ''' <returns></returns>
+    ''' <remarks></remarks>
+    Public Function SavePermissionsUser(user As User, audit As AuditMessage) As ActionResult Implements IPermissionsUserAdminService.SavePermissionsUser
+        If user Is Nothing Then
+            Throw New ArgumentNullException("user Vacio")
+        End If
+
+        Dim unitWorkUser As IUnitWork = TryCast(_userRepository.UnitWork, IUnitWork)
+        Try
+            'configuro la transaccion
+            Dim txSettings As New TransactionOptions()
+            txSettings.Timeout = TransactionManager.DefaultTimeout
+            txSettings.IsolationLevel = IsolationLevel.ReadCommitted
+            'inicio la transaccion
+            Using scope As New TransactionScope(TransactionScopeOption.Required, txSettings)
+                user.Roll = Nothing
+                If user.ChangeTracker.State = ObjectState.Added Then
+                    'encripto la contraseña del usuario
+                    user.Password = IndigoRijndael.Encrypt(user.Password)
+                End If
+                If user.TenantId = 0 Then
+                    user.TenantId = Nothing
+                End If
+                _userRepository.SaveEntity(user)
+                unitWorkUser.CommitAndRefreshChanges()
+
+                'EHR
+                Dim rol = _roleRepository.GetRoleId(user.RollCode)
+                Dim rolCrystal = _sEGroleRepository.GetRolCrystal(rol.RollCode)
+                If rolCrystal Is Nothing Then
+                    rolCrystal = New Domain.Crystal.Entities.SEGrolesu()
+                    rolCrystal.codigorol = rol.RollCode
+                    rolCrystal.descrirol = rol.Description
+                    _sEGroleRepository.SaveEntity(rolCrystal)
+                    _sEGroleRepository.UnitWork.Commit()
+                End If
+
+                Dim group = _groupRepository.GetGroupById(user.GroupCode)
+                Dim groupCrystal = _sEGgruusuRepository.GetGrupoCrystal(group.Code)
+                If groupCrystal Is Nothing Then
+                    groupCrystal = New Domain.Crystal.Entities.SEGgruusu()
+                    groupCrystal.codgrupou = group.Code
+                    groupCrystal.descrigru = group.Description
+                    _sEGgruusuRepository.SaveEntity(groupCrystal)
+                    _sEGgruusuRepository.UnitWork.Commit()
+                End If
+
+                Dim newPasswd As String = IndigoRijndael.Decrypt(user.Password)
+                Dim userCrystal = _sEGusuaruRepository.GetusuarioCrystal(user.UserCode)
+                If userCrystal Is Nothing Then
+                    userCrystal = New Domain.Crystal.Entities.SEGusuaru
+                    userCrystal.CODUSUARI = user.UserCode
+                    userCrystal.PASSUSUAR = IndigoEncriptar.EncriptarPassword(newPasswd)
+                    userCrystal.CODUSUDGH = user.CodeInterface
+                    userCrystal.USUACTIVO = user.State
+                    userCrystal.CODIGOROL = rol.RollCode
+                    userCrystal.CODGRUPOU = group.Code
+                    If user.Person IsNot Nothing Then
+                        userCrystal.NOMUSUARI = user.Person.Fullname
+                        If user.Person.Email IsNot Nothing AndAlso user.Person.Email.Any() Then
+                            userCrystal.USUEMAILE = user.Person.Email.FirstOrDefault().Email1
+                        End If
+                    End If
+                    userCrystal.DESCARUSU = user.Position
+                    userCrystal.TIPPERUSU = user.UserType
+                    userCrystal.SOLCAMCON = 0
+                    userCrystal.FECULTCAM = DateTime.Now
+                    userCrystal.USUADMINI = If(user.UserType = "1" OrElse user.UserType = "3", True, False)
+                    _sEGusuaruRepository.SaveEntity(userCrystal)
+                    _sEGusuaruRepository.UnitWork.Commit()
+                Else
+                    _sEGusuaruRepository.ChangePassword(user.UserCode, IndigoEncriptar.EncriptarPassword(newPasswd))
+                    _sEGusuaruRepository.UnitWork.Commit()
+                End If
+
+                'confirmo la transaccion
+                scope.Complete()
+            End Using
+
+            Return New ActionResult With {.StateResult = True, .MessageResult = New List(Of String)(New String() {"USERID:" + user.Id.ToString()})}
+        Catch ex As Exception
+            'devuelvo cambios usuario
+            unitWorkUser.RollbackChanges()
+            IndigoManagementExceptions.HandleException(ex, "ApplicationPolicy")
+            Return New ActionResult With {.StateResult = False, .MessageResult = New List(Of String) From {Utils.GetInnerExceptionMessageToString(ex)}}
+        End Try
+    End Function
+
+#Region "EHR"
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="idMenu"></param>
+    ''' <param name="codigoUsuario"></param>
+    ''' <returns></returns>
+    Public Function GetPermisoUsuario(idMenu As String, codigoUsuario As String) As ActionResult(Of SEGpermiu) Implements IPermissionsUserAdminService.GetPermisoUsuario
+        Try
+            Return _SEGpermiuRepository.GetPermisoUsuario(idMenu, codigoUsuario)
+        Catch ex As Exception
+            IndigoManagementExceptions.HandleException(ex, "ApplicationPolicy")
+            Return New ActionResult(Of SEGpermiu) With {.StateResult = False, .ObjectEmbbeded = Nothing, .Message = ex.Message}
+        End Try
+    End Function
+
+#End Region
+
+#Region "IDisposable Support"
+    Private disposedValue As Boolean ' Para detectar llamadas redundantes
+
+    ' IDisposable
+    Protected Overridable Sub Dispose(disposing As Boolean)
+        If Not disposedValue Then
+            If disposing Then
+
+            End If
+            _userRepository = Nothing
+            _userPermissionsRepository = Nothing
+            _userMembershipRepository = Nothing
+            _personRepository = Nothing
+            _usersGroupUserRepository = Nothing
+            _groupUserRepository = Nothing
+            IndigoGC.Execute()
+        End If
+        disposedValue = True
+    End Sub
+
+    ' Visual Basic agrega este código para implementar correctamente el patrón descartable.
+    Public Sub Dispose() Implements IDisposable.Dispose
+        Dispose(True)
+        GC.SuppressFinalize(Me)
+    End Sub
+#End Region
+
+End Class

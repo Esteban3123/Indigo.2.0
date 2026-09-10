@@ -1,0 +1,261 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:wsap="http://schemas.xmlsoap.org/ws/2004/08/addressing/policy" xmlns:wsa10="http://www.w3.org/2005/08/addressing" xmlns:tns="http://tempuri.org/" xmlns:msc="http://schemas.microsoft.com/ws/2005/12/wsdl/contract" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:wsx="http://schemas.xmlsoap.org/ws/2004/09/mex" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="FileManagerService" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsp:Policy wsu:Id="wsHttp_Endpoint_FileManager_policy">
+    <wsp:ExactlyOne>
+      <wsp:All>
+        <wsaw:UsingAddressing />
+      </wsp:All>
+    </wsp:ExactlyOne>
+  </wsp:Policy>
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://tempuri.org/Imports">
+      <xsd:import schemaLocation="http://localhost:9000/FileManager.svc/ServiceEntity/?xsd=xsd0" namespace="http://tempuri.org/" />
+      <xsd:import schemaLocation="http://localhost:9000/FileManager.svc/ServiceEntity/?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+      <xsd:import schemaLocation="http://localhost:9000/FileManager.svc/ServiceEntity/?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/System.IO" />
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="IFileManagerService_GetToken_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetToken" />
+  </wsdl:message>
+  <wsdl:message name="IFileManagerService_GetToken_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetTokenResponse" />
+  </wsdl:message>
+  <wsdl:message name="IFileManagerService_UploadFile_InputMessage">
+    <wsdl:part name="parameters" element="tns:UploadFile" />
+  </wsdl:message>
+  <wsdl:message name="IFileManagerService_UploadFile_OutputMessage">
+    <wsdl:part name="parameters" element="tns:UploadFileResponse" />
+  </wsdl:message>
+  <wsdl:message name="IFileManagerService_CancelUpload_InputMessage">
+    <wsdl:part name="parameters" element="tns:CancelUpload" />
+  </wsdl:message>
+  <wsdl:message name="IFileManagerService_CancelUpload_OutputMessage">
+    <wsdl:part name="parameters" element="tns:CancelUploadResponse" />
+  </wsdl:message>
+  <wsdl:message name="IFileManagerService_GetPathFile_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetPathFile" />
+  </wsdl:message>
+  <wsdl:message name="IFileManagerService_GetPathFile_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetPathFileResponse" />
+  </wsdl:message>
+  <wsdl:message name="IFileManagerService_ExistsFile_InputMessage">
+    <wsdl:part name="parameters" element="tns:ExistsFile" />
+  </wsdl:message>
+  <wsdl:message name="IFileManagerService_ExistsFile_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ExistsFileResponse" />
+  </wsdl:message>
+  <wsdl:message name="IFileManagerService_CopyFile_InputMessage">
+    <wsdl:part name="parameters" element="tns:CopyFile" />
+  </wsdl:message>
+  <wsdl:message name="IFileManagerService_CopyFile_OutputMessage">
+    <wsdl:part name="parameters" element="tns:CopyFileResponse" />
+  </wsdl:message>
+  <wsdl:message name="IFileManagerService_DeleteFile_InputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteFile" />
+  </wsdl:message>
+  <wsdl:message name="IFileManagerService_DeleteFile_OutputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteFileResponse" />
+  </wsdl:message>
+  <wsdl:message name="IFileManagerService_GetBufferSize_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetBufferSize" />
+  </wsdl:message>
+  <wsdl:message name="IFileManagerService_GetBufferSize_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetBufferSizeResponse" />
+  </wsdl:message>
+  <wsdl:portType name="IFileManagerService">
+    <wsdl:operation name="GetToken">
+      <wsdl:input wsaw:Action="http://tempuri.org/IFileManagerService/GetToken" message="tns:IFileManagerService_GetToken_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IFileManagerService/GetTokenResponse" message="tns:IFileManagerService_GetToken_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="UploadFile">
+      <wsdl:input wsaw:Action="http://tempuri.org/IFileManagerService/UploadFile" message="tns:IFileManagerService_UploadFile_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IFileManagerService/UploadFileResponse" message="tns:IFileManagerService_UploadFile_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="CancelUpload">
+      <wsdl:input wsaw:Action="http://tempuri.org/IFileManagerService/CancelUpload" message="tns:IFileManagerService_CancelUpload_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IFileManagerService/CancelUploadResponse" message="tns:IFileManagerService_CancelUpload_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetPathFile">
+      <wsdl:input wsaw:Action="http://tempuri.org/IFileManagerService/GetPathFile" message="tns:IFileManagerService_GetPathFile_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IFileManagerService/GetPathFileResponse" message="tns:IFileManagerService_GetPathFile_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ExistsFile">
+      <wsdl:input wsaw:Action="http://tempuri.org/IFileManagerService/ExistsFile" message="tns:IFileManagerService_ExistsFile_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IFileManagerService/ExistsFileResponse" message="tns:IFileManagerService_ExistsFile_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="CopyFile">
+      <wsdl:input wsaw:Action="http://tempuri.org/IFileManagerService/CopyFile" message="tns:IFileManagerService_CopyFile_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IFileManagerService/CopyFileResponse" message="tns:IFileManagerService_CopyFile_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="DeleteFile">
+      <wsdl:input wsaw:Action="http://tempuri.org/IFileManagerService/DeleteFile" message="tns:IFileManagerService_DeleteFile_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IFileManagerService/DeleteFileResponse" message="tns:IFileManagerService_DeleteFile_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetBufferSize">
+      <wsdl:input wsaw:Action="http://tempuri.org/IFileManagerService/GetBufferSize" message="tns:IFileManagerService_GetBufferSize_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IFileManagerService/GetBufferSizeResponse" message="tns:IFileManagerService_GetBufferSize_OutputMessage" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="basicHttp_Endpoint_FileManager" type="tns:IFileManagerService">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="GetToken">
+      <soap:operation soapAction="http://tempuri.org/IFileManagerService/GetToken" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UploadFile">
+      <soap:operation soapAction="http://tempuri.org/IFileManagerService/UploadFile" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CancelUpload">
+      <soap:operation soapAction="http://tempuri.org/IFileManagerService/CancelUpload" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetPathFile">
+      <soap:operation soapAction="http://tempuri.org/IFileManagerService/GetPathFile" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ExistsFile">
+      <soap:operation soapAction="http://tempuri.org/IFileManagerService/ExistsFile" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CopyFile">
+      <soap:operation soapAction="http://tempuri.org/IFileManagerService/CopyFile" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteFile">
+      <soap:operation soapAction="http://tempuri.org/IFileManagerService/DeleteFile" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetBufferSize">
+      <soap:operation soapAction="http://tempuri.org/IFileManagerService/GetBufferSize" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="wsHttp_Endpoint_FileManager" type="tns:IFileManagerService">
+    <wsp:PolicyReference URI="#wsHttp_Endpoint_FileManager_policy" />
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="GetToken">
+      <soap12:operation soapAction="http://tempuri.org/IFileManagerService/GetToken" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UploadFile">
+      <soap12:operation soapAction="http://tempuri.org/IFileManagerService/UploadFile" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CancelUpload">
+      <soap12:operation soapAction="http://tempuri.org/IFileManagerService/CancelUpload" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetPathFile">
+      <soap12:operation soapAction="http://tempuri.org/IFileManagerService/GetPathFile" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ExistsFile">
+      <soap12:operation soapAction="http://tempuri.org/IFileManagerService/ExistsFile" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CopyFile">
+      <soap12:operation soapAction="http://tempuri.org/IFileManagerService/CopyFile" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteFile">
+      <soap12:operation soapAction="http://tempuri.org/IFileManagerService/DeleteFile" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetBufferSize">
+      <soap12:operation soapAction="http://tempuri.org/IFileManagerService/GetBufferSize" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="FileManagerService">
+    <wsdl:port name="basicHttp_Endpoint_FileManager" binding="tns:basicHttp_Endpoint_FileManager">
+      <soap:address location="http://localhost:9000/FileManager.svc/basicHttpFileManager" />
+    </wsdl:port>
+    <wsdl:port name="wsHttp_Endpoint_FileManager" binding="tns:wsHttp_Endpoint_FileManager">
+      <soap12:address location="http://localhost:9000/FileManager.svc/wsHttpFileManager" />
+      <wsa10:EndpointReference>
+        <wsa10:Address>http://localhost:9000/FileManager.svc/wsHttpFileManager</wsa10:Address>
+      </wsa10:EndpointReference>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

@@ -1,0 +1,247 @@
+﻿#Region "Librerias Importadas"
+Imports Infrastructure.CrossCutting.Base
+Imports Infrastructure.Data.Xpo
+Imports Infrastructure.Data.Xpo.AccountingRepository
+Imports Infrastructure.Data.Xpo.BillingRepository
+Imports Infrastructure.Data.Xpo.SecurityRepository
+Imports Infrastructure.Data.Xpo.CrystalRepository
+Imports Domain.Entities
+Imports DevExpress.XtraReports.UI
+Imports System.Drawing.Printing
+
+Imports System.Drawing
+Imports DevExpress.XtraPrinting.Drawing
+Imports Presentation.Base
+
+#End Region
+
+Public Class rptSaleListInvoice
+    Implements IReport
+
+    ''' <summary>
+    ''' Variable para inicializar los valores de sesion
+    ''' </summary>
+    Dim IndigoSessionValues As SessionValues = SessionValues.Instance
+
+    Const CNameReport = "Facturacion.CtrFolio"
+
+    Public Sub CargarDataSource() Implements IReport.CargarDataSource
+        Try
+            Dim filtroConsulta As String = "InvoiceId.InvoiceDate >= '" & ParametrosReporte(0) & "' AND InvoiceId.InvoiceDate <= '" & ParametrosReporte(1) & "'" & " AND ServiceOrderDetailId.SettlementType != 3"
+
+            'Se filtra por Entidad 
+            If ParametrosReporte(3) IsNot Nothing Then
+                filtroConsulta &= " AND InvoiceId.InvoiceNumber = '" & ParametrosReporte(3) & "'"
+            End If
+
+            'Se filtra por Entidad 
+            If ParametrosReporte(4) IsNot Nothing Then
+                filtroConsulta &= " AND InvoiceId.HealthAdministratorId.Id = " & ParametrosReporte(4)
+            End If
+
+            'Se filtra por Paciente 
+            If ParametrosReporte(5) IsNot Nothing Then
+                filtroConsulta &= " AND InvoiceId.PatientCode = '" & ParametrosReporte(5) & "'"
+            End If
+
+            'Se filtra por Grupo 
+            If ParametrosReporte(6) IsNot Nothing Then
+                filtroConsulta &= " AND InvoiceId.CareGroupId.Id = " & ParametrosReporte(6)
+            End If
+
+            'Se filtra por Categoria 
+            If ParametrosReporte(7) IsNot Nothing Then
+                filtroConsulta &= " AND InvoiceId.InvoiceCategoryId.Id = " & ParametrosReporte(7)
+            End If
+
+            'Se filtra por Tercero
+            If ParametrosReporte(8) IsNot Nothing Then
+                filtroConsulta &= " AND InvoiceId.ThirdPartyId.Id = " & ParametrosReporte(8)
+            End If
+
+            ''Parametros de filtro
+            'If ParametrosReporte(4) > 0 Then
+            '    filtroConsulta &= " OR InvoiceId.PatientCode = '" & ParametrosReporte(4) & "'"
+            '    Dim INDListFil = XpoServiceex.Instance(IndigoSessionValues.TransactionalContainer).BillingService.GetCollection(Of DetailInvoicesXpo)(Nothing, filtroConsulta)
+            '    Me.DataSource = INDListFil
+            'End If
+
+            'Se obtiene el Código del Paciente, el Grupo de Atención y el Id de la Entidad
+            Dim INDList = XpoServiceex.Instance(IndigoSessionValues.TransactionalContainer).BillingService.GetCollection(Of DetailInvoicesXpo)(Nothing, filtroConsulta)
+            If INDList.Count > 0 Then
+                Dim INDPatientCode = CType(INDList(0), DetailInvoicesXpo).InvoiceId.PatientCode.Trim()
+                Dim INDInvoiceUser = CType(INDList(0), DetailInvoicesXpo).InvoiceId.InvoicedUser.Trim()
+                'Se obtiene el Grupo de Atención del Paciente, la Fecha de Nacimiento, el Tipo de Cobertura en Salud, el Sexo, el Nombre y su Código
+                Dim INDList2 = XpoServiceex.Instance(IndigoSessionValues.HisContainer).CrystalService.GetCollection(Of PatientXpo)(Nothing, "IPCODPACI = '" & INDPatientCode & "'")
+
+                If INDList2.Count > 0 Then
+                    XrTableCell10.Text = CType(INDList2(0), PatientXpo).IPNOMCOMP.Trim()
+                    XrTableCell14.Text = INDPatientCode
+
+                    Dim INDEdadPac As Date = CType(INDList2(0), PatientXpo).IPFECNACI
+                    XrTableCell24.Text = CalcularEdad(INDEdadPac)
+
+                    Dim INDTipoPac = CType(INDList2(0), PatientXpo).IPTIPOPAC
+                    Select Case INDTipoPac
+                        Case 0
+                            XrTableCell11.Text = "Contributivo"
+                        Case 1
+                            XrTableCell11.Text = "Subsidiado"
+                        Case 2
+                            XrTableCell11.Text = "Vinculado"
+                        Case 3
+                            XrTableCell11.Text = "Particular"
+                        Case 5
+                            XrTableCell11.Text = "Desplazado Reg. Contributivo"
+                        Case 6
+                            XrTableCell11.Text = "Desplazado Reg. Subsidiado"
+                        Case 7
+                            XrTableCell11.Text = "Desplazado no Asegurado"
+                    End Select
+
+                    If (CType(INDList2(0), PatientXpo).IPDIRECCI.Trim() = "") Then
+                        XrTableCell20.Text = "No asignada(o)"
+                    Else
+                        XrTableCell20.Text = CType(INDList2(0), PatientXpo).IPDIRECCI
+                    End If
+
+                    If (CType(INDList2(0), PatientXpo).IPTELEFON.Trim() = "") Then
+                        If (CType(INDList2(0), PatientXpo).IPTELMOVI.Trim() = "") Then
+                            XrTableCell26.Text = "No asignada(o)"
+                        Else
+                            XrTableCell26.Text = CType(INDList2(0), PatientXpo).IPTELMOVI.Trim()
+                        End If
+                    ElseIf (CType(INDList2(0), PatientXpo).IPTELMOVI.Trim() = "") Then
+                        XrTableCell26.Text = CType(INDList2(0), PatientXpo).IPTELEFON.Trim()
+                    Else
+                        XrTableCell26.Text = CType(INDList2(0), PatientXpo).IPTELMOVI.Trim() & " - " & CType(INDList2(0), PatientXpo).IPTELEFON.Trim()
+                    End If
+
+                    Dim INDNivCod = CType(INDList2(0), PatientXpo).NIVCODIGO.Trim()
+                    Dim INDList3 = XpoServiceex.Instance(IndigoSessionValues.HisContainer).CrystalService.GetCollection(Of LevelsXpo)(Nothing, "NIVCODIGO = '" & INDNivCod & "'")
+                    If INDList3.Count > 0 Then
+                        XrTableCell18.Text = CType(INDList3(0), LevelsXpo).NIVCODIGO.Trim() & " - " & CType(INDList3(0), LevelsXpo).NIVDESCRI.Trim()
+                    End If
+                End If
+
+                'Se obtiene la Fecha de Ingreso del Paciente
+                Dim INDList4 = XpoServiceex.Instance(IndigoSessionValues.HisContainer).CrystalService.GetCollection(Of AdmissionXpo)(Nothing, "IPCODPACI = '" & INDPatientCode & "' And NUMINGRES = '" & ParametrosReporte(1) & "'")
+                If INDList4.Count > 0 Then
+                    'XrTableCell16.Text = CType(INDList4(0), AdmissionXpo).IFECHAING.ToString.Trim()
+                    If CType(INDList4(0), AdmissionXpo).IAUTORIZA IsNot Nothing Then
+                        XrTableCell28.Text = CType(INDList4(0), AdmissionXpo).IAUTORIZA.Trim()
+                    End If
+                    Dim INDNumIngres = CType(INDList4(0), AdmissionXpo).NUMINGRES
+                    'Se comenta para Validad si tiene activa la fecha de corte abajo
+                    'Dim INDList6 = XpoServiceex.Instance(IndigoSessionValues.HisContainer).CrystalService.GetCollection(Of HcregegreXpo)(Nothing, "NUMINGRES = '" & INDNumIngres & "'")
+                    'If INDList6.Count > 0 Then
+                    '    XrTableCell22.Text = CType(INDList6(0), HcregegreXpo).FECALTPAC.ToString.Trim()
+                    'End If
+                End If
+
+                'Se obtiene la Fecha de Ingreso del Paciente
+                'MessageIndigo.Show("INDList5.Count=" & "", MessageType.Information, Me.Text, Botones.Aceptar, "")
+                Dim INDList5 = XpoServiceex.Instance(IndigoSessionValues.TransactionalContainer).BillingService.GetCollection(Of Infrastructure.Data.Xpo.SecurityRepository.UserXpo)(Nothing, "UserCode = '" & INDInvoiceUser & "'")
+                If INDList5 IsNot Nothing AndAlso INDList5.Count > 0 Then
+                    Dim INDIdPerson = CType(INDList5(0), Infrastructure.Data.Xpo.SecurityRepository.UserXpo).IdPerson.Id
+                    Dim INDList6 = XpoServiceex.Instance(IndigoSessionValues.TransactionalContainer).BillingService.GetCollection(Of Infrastructure.Data.Xpo.SecurityRepository.PersonXpo)(Nothing, "Id = '" & INDIdPerson & "'")
+                    If INDList6.Count > 0 Then
+                        XrTableCell30.Text = INDInvoiceUser + " - " & CType(INDList6(0), Infrastructure.Data.Xpo.SecurityRepository.PersonXpo).Fullname
+                    End If
+                End If
+                'Validad si tiene activa la fecha de corte
+                Dim INDCutType As Boolean = CType(INDList(0), DetailInvoicesXpo).InvoiceId.CutType
+                If INDCutType = 1 OrElse INDCutType = 4 Then
+                    XrTableCell21.Text = "Fecha Egreso:"
+                Else
+                    XrTableCell21.Text = "Fecha Corte:"
+                End If
+                If INDCutType = 1 OrElse INDCutType = 2 Then
+                    XrTableCell15.Text = "Fecha Ingreso:"
+                Else
+                    XrTableCell15.Text = "Fecha Inicial:"
+                End If
+                XrTableCell16.Text = CType(INDList(0), DetailInvoicesXpo).InvoiceId.InitialDate
+                XrTableCell22.Text = CType(INDList(0), DetailInvoicesXpo).InvoiceId.OutputDate
+            End If
+
+            Me.DataSource = INDList
+        Catch ex As Exception
+            MessageIndigo.Show(GetExceptionDetails(ex), MessageType.Errores, Me.Text, Botones.Aceptar, "")
+        End Try
+    End Sub
+
+    Public Function GetExceptionDetails(exception As Exception) As String
+        Dim properties = exception.[GetType]().GetProperties()
+        Dim fields = properties.[Select](Function([property]) New With { _
+            Key .Name = [property].Name, _
+            Key .Value = [property].GetValue(exception, Nothing) _
+        }).[Select](Function(x) [String].Format("{0} : {1}", x.Name, If(x.Value IsNot Nothing, x.Value.ToString(), [String].Empty)))
+        Return [String].Join(vbLf, fields)
+    End Function
+
+
+    Public Sub CargarImagenes() Implements IReport.CargarImagenes
+
+    End Sub
+
+    Public ReadOnly Property NameReport As String Implements IReport.NameReport
+        Get
+            Return rptSaleListInvoice.CNameReport
+        End Get
+    End Property
+
+    Public Property ParametrosReporte As Object() Implements IReport.ParametrosReporte
+
+    Public Function CalcularEdad(INDDateN As Date) As String
+        Dim INDEdadY, INDEdadM, INDEdadD, INDYearR, INDMonthsR, INDDaysR, INDDaysMonthR, INDEdadYN, INDEdadMN, INDEdadDN As Integer
+
+        INDDaysR = Now.Day
+        INDMonthsR = Now.Month
+        INDDaysMonthR = DateTime.DaysInMonth(Now.Year, Now.Month)
+        INDYearR = Now.Year
+        INDEdadD = Format(INDDateN, "dd")
+        INDEdadM = Format(INDDateN, "MM")
+        INDEdadY = Format(INDDateN, "yyyy")
+
+        INDEdadDN = INDDaysR - INDEdadD
+
+        If (INDEdadDN < 0) Then
+            INDEdadMN = INDMonthsR - INDEdadM - 1
+            INDEdadDN += INDDaysMonthR
+        Else
+            INDEdadMN = INDMonthsR - INDEdadM
+        End If
+
+        If (INDEdadMN < 0) Then
+            INDEdadMN += 12
+            INDEdadYN = INDYearR - INDEdadY - 1
+        Else
+            INDEdadYN = INDYearR - INDEdadY
+        End If
+
+        Return INDEdadYN & " Años / " & INDEdadMN & " Meses / " & INDEdadDN & " Días"
+    End Function
+
+    Private Sub rptSaleListInvoice_BeforePrint(sender As Object, e As PrintEventArgs) Handles MyBase.BeforePrint
+
+        Dim address, phoneNumber As String
+        If (IndigoSessionValues.IndigoCompanyAddress = "") Then
+            address = "No asignada(o)"
+        Else
+            address = IndigoSessionValues.IndigoCompanyAddress
+        End If
+        If (IndigoSessionValues.IndigoCompanyPhoneNumber = "") Then
+            phoneNumber = "No asignada(o)"
+        Else
+            phoneNumber = IndigoSessionValues.IndigoCompanyPhoneNumber
+        End If
+
+        INDLblCompany.Text = IndigoSessionValues.IndigoCompanyName
+        INDLblNitCompany.Text = "Nit:" & IndigoSessionValues.IndigoCompanyNit & " - Dirección: " & address & _
+                                " - Teléfono: " & phoneNumber
+        INDUserImp.Text = "Usuario Impresión: " & IndigoSessionValues.UserIndigoName
+        Me.XrTableCell45.Text = Utils.Num2Text(Convert.ToDouble(GetCurrentColumnValue("INDTotalInvoice"))).ToString & " PESOS M/Cte."
+    End Sub
+
+End Class

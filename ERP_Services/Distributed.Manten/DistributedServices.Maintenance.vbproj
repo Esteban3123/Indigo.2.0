@@ -1,0 +1,276 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{F5563670-B434-42E8-A801-B92486BAFBAF}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>DistributedServices.Maintenance</RootNamespace>
+    <AssemblyName>DistributedServices.Maintenance</AssemblyName>
+    <FileAlignment>512</FileAlignment>
+    <MyType>Windows</MyType>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DocumentationFile>DistributedServices.Maintenance.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DocumentationFile>DistributedServices.Maintenance.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionExplicit>On</OptionExplicit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionCompare>Binary</OptionCompare>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionStrict>On</OptionStrict>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionInfer>On</OptionInfer>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debugcito|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\Debugcito\</OutputPath>
+    <DocumentationFile>DistributedServices.Maintenance.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DocumentationFile>DistributedServices.Maintenance.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DocumentationFile>DistributedServices.Maintenance.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debugcito|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x64\Debugcito\</OutputPath>
+    <DocumentationFile>DistributedServices.Maintenance.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+    <Reference Include="Microsoft.Practices.Unity, Version=1.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\DLL\Microsoft.Practices.Unity.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Core" />
+  </ItemGroup>
+  <ItemGroup>
+    <Import Include="Microsoft.VisualBasic" />
+    <Import Include="System" />
+    <Import Include="System.Collections" />
+    <Import Include="System.Collections.Generic" />
+    <Import Include="System.Data" />
+    <Import Include="System.Diagnostics" />
+    <Import Include="System.Linq" />
+    <Import Include="System.Xml.Linq" />
+    <Import Include="System.Threading.Tasks" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Contracts\IAccesoryService.vb" />
+    <Compile Include="Contracts\IBrandService.vb" />
+    <Compile Include="Contracts\IConsumableService.vb" />
+    <Compile Include="Contracts\IEquipmentFunctionService.vb" />
+    <Compile Include="Contracts\IEquipmentHistoryService.vb" />
+    <Compile Include="Contracts\IEquipmentRegistrationService.vb" />
+    <Compile Include="Contracts\IEquipmentRequirementService.vb" />
+    <Compile Include="Contracts\IEquipmentService.vb" />
+    <Compile Include="Contracts\IMaintenanceManufacturersService.vb" />
+    <Compile Include="Contracts\IMaintenanceFailureRequestService.vb" />
+    <Compile Include="Contracts\IMaintenanceContractService.vb" />
+    <Compile Include="Contracts\IMaintenanceToolsService.vb" />
+    <Compile Include="Contracts\IMaintenanceResponsibleService.vb" />
+    <Compile Include="Contracts\IMaintenanceParameterService.vb" />
+    <Compile Include="Contracts\IMaintenancePlanAndMetrologyService.vb" />
+    <Compile Include="Contracts\IMaintenancePlanService.vb" />
+    <Compile Include="Contracts\IMaintenanceProtocolService.vb" />
+    <Compile Include="Contracts\IMaintenanceService.vb" />
+    <Compile Include="Contracts\IMaintenanceSequense.vb" />
+    <Compile Include="Contracts\IBlockRecordMaintenanceService.vb" />
+    <Compile Include="Contracts\IPhysicalRiskService.vb" />
+    <Compile Include="Contracts\IMaintenanceServiceReports.vb" />
+    <Compile Include="Contracts\ISupplierService.vb" />
+    <Compile Include="Contracts\IMeasurementUnitService.vb" />
+    <Compile Include="Contracts\ITechnicalLogService.vb" />
+    <Compile Include="Contracts\ITemplateEquipmentTypeService.vb" />
+    <Compile Include="Contracts\IWorkOrderService.vb" />
+    <Compile Include="MaintenanceService.MaintenanceManufacturers.vb" />
+    <Compile Include="MaintenanceService.MaintenanceFailure.vb" />
+    <Compile Include="MaintenanceService.MaintenanceContract.vb" />
+    <Compile Include="MaintenanceService.Tools.vb" />
+    <Compile Include="MaintenanceService.Reponsible.vb" />
+    <Compile Include="Maintenance.EquipmentFunctionService.vb" />
+    <Compile Include="MaintenanceService.Accesory.vb" />
+    <Compile Include="MaintenanceService.Brand.vb" />
+    <Compile Include="MaintenanceService.Consumable.vb" />
+    <Compile Include="MaintenanceService.Equipment.vb" />
+    <Compile Include="MaintenanceService.EquipmentHistory.vb" />
+    <Compile Include="MaintenanceService.EquipmentRegistration.vb" />
+    <Compile Include="MaintenanceService.EquipmentRequirement.vb" />
+    <Compile Include="MaintanceService.vb" />
+    <Compile Include="MaintenanceService.MaintenanceParameter.vb" />
+    <Compile Include="MaintenanceService.MaintenancePlan.vb" />
+    <Compile Include="MaintenanceService.MaintenancePlanAndMetrology.vb" />
+    <Compile Include="MaintenanceService.PhysicalRisk.vb" />
+    <Compile Include="MaintenanceService.Supplier.vb" />
+    <Compile Include="MaintenanceService.MeasurementUnit.vb" />
+    <Compile Include="MaintenanceService.TechnicalLog.vb" />
+    <Compile Include="MaintenanceService.TemplateEquipmentType.vb" />
+    <Compile Include="MaintenanceService.WorkOrder.vb" />
+    <Compile Include="My Project\AssemblyInfo.vb" />
+    <Compile Include="My Project\Application.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Application.myapp</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="My Project\Resources.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="My Project\Settings.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="MaintenanceService.Sequense.vb" />
+    <Compile Include="MaintenanceService.BlockRecord.vb" />
+    <Compile Include="MaintenanceService.Reports.vb" />
+    <Compile Include="Unity\Container.vb" />
+    <Compile Include="Unity\UnityInstanceProvider.vb" />
+    <Compile Include="Unity\UnityInstanceProviderServiceBehavior.vb" />
+    <Compile Include="Unity\UnityMessageInspector.vb" />
+    <Compile Include="Unity\UnityMessageInspectorServiceBehavior.vb" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="My Project\Resources.resx">
+      <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.vb</LastGenOutput>
+      <CustomToolNamespace>My.Resources</CustomToolNamespace>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="MaintenanceService.MaintenanceProtocol.vb" />
+    <None Include="app.config" />
+    <None Include="My Project\Application.myapp">
+      <Generator>MyApplicationCodeGenerator</Generator>
+      <LastGenOutput>Application.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="My Project\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <CustomToolNamespace>My</CustomToolNamespace>
+      <LastGenOutput>Settings.Designer.vb</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Application.Common\Application.Common.vbproj">
+      <Project>{0509e89e-92df-4b99-a74b-3043c7e6b1d2}</Project>
+      <Name>Application.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Application.Maintenance\Application.Maintenance.vbproj">
+      <Project>{86f76e42-9f3c-4728-84ca-245c069dac20}</Project>
+      <Name>Application.Maintenance</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Domain.Base.Entities\Domain.Base.Entities.vbproj">
+      <Project>{78734d29-0073-4d48-9d0b-2362d0243e36}</Project>
+      <Name>Domain.Base.Entities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Domain.Base\Domain.Base.vbproj">
+      <Project>{8157f242-6a69-44c1-a9ac-19f0ee5cb8a2}</Project>
+      <Name>Domain.Base</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Domain.Entities\Domain.Entities.vbproj">
+      <Project>{0551aef4-ed84-4745-b00b-7475f26015cc}</Project>
+      <Name>Domain.Entities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Domain.Maintenance.Entities\Domain.Maintenance.Entities.vbproj">
+      <Project>{446b9431-03a5-4ec3-91ba-98b48630c400}</Project>
+      <Name>Domain.Maintenance.Entities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Domain.Security\Domain.Security.vbproj">
+      <Project>{435B789A-BE74-4F5A-932F-0A4900825D61}</Project>
+      <Name>Domain.Security</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastructure.CrossCutting.Base\Infrastructure.CrossCutting.Base.vbproj">
+      <Project>{2773d9f7-93bd-4520-9726-bce0d8875696}</Project>
+      <Name>Infrastructure.CrossCutting.Base</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastructure.CrossCutting.IoC\Infrastructure.CrossCutting.IOC.vbproj">
+      <Project>{6855513d-b574-40c5-812e-baf05f9bb7be}</Project>
+      <Name>Infrastructure.CrossCutting.IOC</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastructure.CrossCutting.Queue\Infrastructure.CrossCutting.Queue.vbproj">
+      <Project>{4ECC4501-B252-4AFF-A829-DC46BCCA069B}</Project>
+      <Name>Infrastructure.CrossCutting.Queue</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastructure.Data.Base\Infrastructure.Data.Base.vbproj">
+      <Project>{69C4FE61-549B-42E8-ADAC-18D1CFC83FED}</Project>
+      <Name>Infrastructure.Data.Base</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastructure.Data.ModelRepository\Infrastructure.Data.ModelRepository.vbproj">
+      <Project>{a029ee5d-d97c-45a3-a213-43e17d1dbe0d}</Project>
+      <Name>Infrastructure.Data.ModelRepository</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastructure.Data.SecurityRepository\Infrastructure.Data.SecurityRepository.vbproj">
+      <Project>{C1457F9B-B14F-4DCF-9F8E-B317C9A9EF8F}</Project>
+      <Name>Infrastructure.Data.SecurityRepository</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

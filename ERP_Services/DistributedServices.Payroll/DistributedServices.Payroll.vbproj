@@ -1,0 +1,352 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.50727</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{15B3E0D2-6217-493A-A690-158C497F5318}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>DistributedServices.Payroll</RootNamespace>
+    <AssemblyName>DistributedServices.Payroll</AssemblyName>
+    <ProjectTypeGuids>{3D9AD99F-2412-4246-B90B-4EAA41C64699};{F184B08F-C81C-45F6-A57F-5ABD9991F28F}</ProjectTypeGuids>
+    <StartArguments>/client:"WcfTestClient.exe"</StartArguments>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <WcfConfigValidationEnabled>True</WcfConfigValidationEnabled>
+    <XsdCodeGenEnabled>True</XsdCodeGenEnabled>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <OldToolsVersion>4.0</OldToolsVersion>
+    <UpgradeBackupLocation />
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DocumentationFile>DistributedServices.Payroll.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022,42353,42354,42355</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DocumentationFile>DistributedServices.Payroll.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022,42353,42354,42355</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionExplicit>On</OptionExplicit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionCompare>Binary</OptionCompare>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionStrict>Off</OptionStrict>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionInfer>On</OptionInfer>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debugcito|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\Debugcito\</OutputPath>
+    <DocumentationFile>DistributedServices.Payroll.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022,42353,42354,42355</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debugcito|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\Debugcito\</OutputPath>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <PlatformTarget>x64</PlatformTarget>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework">
+      <HintPath>..\DLL\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer">
+      <HintPath>..\DLL\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.ServiceModel" />
+  </ItemGroup>
+  <ItemGroup>
+    <Import Include="Microsoft.VisualBasic" />
+    <Import Include="System" />
+    <Import Include="System.Collections" />
+    <Import Include="System.Collections.Generic" />
+    <Import Include="System.Data" />
+    <Import Include="System.Diagnostics" />
+    <Import Include="System.Runtime.Serialization" />
+    <Import Include="System.ServiceModel" />
+    <Import Include="System.Linq" />
+    <Import Include="System.Xml.Linq" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Contracts\IPayrollVacationSummary.vb" />
+    <Compile Include="PayrollService.VacationSummary.vb" />
+    <Compile Include="Contracts\IPayrollAccountingStructure.vb" />
+    <Compile Include="Contracts\IPayrollBankDetailFile.vb" />
+    <Compile Include="Contracts\IPayrollContributorSubtype.vb" />
+    <Compile Include="Contracts\IPayrollElectronicPayroll.vb" />
+    <Compile Include="Contracts\IPayrollElectronicPayrollConcepts.vb" />
+    <Compile Include="Contracts\IPayrollFileForeclousure.vb" />
+    <Compile Include="Contracts\IPayrollForeclousure.vb" />
+    <Compile Include="Contracts\IPayrollAuditoryBankFile.vb" />
+    <Compile Include="Contracts\IPayrollBlockSchedule.vb" />
+    <Compile Include="Contracts\IPayrollDiagnosedDisease.vb" />
+    <Compile Include="Contracts\IPayrollEthnicGroups.vb" />
+    <Compile Include="Contracts\IPayrollHumanTalentParameterization.vb" />
+    <Compile Include="Contracts\IPayrollLicensingConcepts.vb" />
+    <Compile Include="Contracts\IPayrollMaritalStatus.vb" />
+    <Compile Include="Contracts\IPayrollMassiveContract.vb" />
+    <Compile Include="Contracts\IPayrollMinimumSalary.vb" />
+    <Compile Include="Contracts\IPayrollPermissionSchedule.vb" />
+    <Compile Include="Contracts\IPayrollReligiousBeliefs.vb" />
+    <Compile Include="Contracts\IPayrollFreeTimeUse.vb" />
+    <Compile Include="Contracts\IPayrollSportPractice.vb" />
+    <Compile Include="Contracts\IPayrollIAgreementsMassive.vb" />
+    <Compile Include="Contracts\IPayrollInitialBalancePayroll.vb" />
+    <Compile Include="Contracts\IPayrollBankFile.vb" />
+    <Compile Include="Contracts\IPayrollBlockRecordPayroll.vb" />
+    <Compile Include="Contracts\IPayrollConceptAccountingStructure.vb" />
+    <Compile Include="Contracts\IPayrollCostDistribution.vb" />
+    <Compile Include="Contracts\IPayrollIncreaseSalary.vb" />
+    <Compile Include="Contracts\IPayrollManualConcepts.vb" />
+    <Compile Include="Contracts\IPayrollAgreements.vb" />
+    <Compile Include="Contracts\IPayrollAuthorizationConcept.vb" />
+    <Compile Include="Contracts\IPayrollAutoliquidation.vb" />
+    <Compile Include="Contracts\IPayrollBank.vb" />
+    <Compile Include="Contracts\IPayrollBranchOffice.vb" />
+    <Compile Include="Contracts\IPayrollCommon.vb" />
+    <Compile Include="Contracts\IPayrollConcept.vb" />
+    <Compile Include="Contracts\IPayrollContractGroup.vb" />
+    <Compile Include="Contracts\IPayrollContractLiquidation.vb" />
+    <Compile Include="Contracts\IPayrollContractModificationReason.vb" />
+    <Compile Include="Contracts\IPayrollContractTemplate.vb" />
+    <Compile Include="Contracts\IPayrollContributorType.vb" />
+    <Compile Include="Contracts\IPayrollContractType.vb" />
+    <Compile Include="Contracts\IPayrollCostCenter.vb" />
+    <Compile Include="Contracts\IPayrollEmployee.vb" />
+    <Compile Include="Contracts\IPayrollEmployeeType.vb" />
+    <Compile Include="Contracts\IPayrollFunctionalUnit.vb" />
+    <Compile Include="Contracts\IPayrollIncentivePayment.vb" />
+    <Compile Include="Contracts\IPayrollKindsAgreements.vb" />
+    <Compile Include="Contracts\IPayrollNationalSavingsFund.vb" />
+    <Compile Include="Contracts\IPayrollNovelty.vb" />
+    <Compile Include="Contracts\IPayrollJobBondingType.vb" />
+    <Compile Include="Contracts\IPayrollKinship.vb" />
+    <Compile Include="Contracts\IPayrollCompany.vb" />
+    <Compile Include="Contracts\IPayrollLanguage.vb" />
+    <Compile Include="Contracts\IPayrollLiquidation.vb" />
+    <Compile Include="Contracts\IPayrollParameter.vb" />
+    <Compile Include="Contracts\IPayrollPensionaryType.vb" />
+    <Compile Include="Contracts\IPayrollPosition.vb" />
+    <Compile Include="Contracts\IPayrollProfessionalRisk.vb" />
+    <Compile Include="Contracts\IPayrollRetention.vb" />
+    <Compile Include="Contracts\IPayrollRetirementReason.vb" />
+    <Compile Include="Contracts\IPayrollProfessions.vb" />
+    <Compile Include="Contracts\IPayrollPositionLevel.vb" />
+    <Compile Include="Contracts\IPayrollGroup.vb" />
+    <Compile Include="Contracts\IPayrollFunds.vb" />
+    <Compile Include="Contracts\IPayrollEducationLevels.vb" />
+    <Compile Include="Contracts\IPayrollSchedule.vb" />
+    <Compile Include="Contracts\IPayrollScheduleDetail.vb" />
+    <Compile Include="Contracts\IPayrollScheduleTemplate.vb" />
+    <Compile Include="Contracts\IPayrollSequence.vb" />
+    <Compile Include="Contracts\IPayrollService.vb" />
+    <Compile Include="Contracts\IPayrollSettings.vb" />
+    <Compile Include="Contracts\IPayrollStudyCenter.vb" />
+    <Compile Include="Contracts\IPayrollTradeUnion.vb" />
+    <Compile Include="Contracts\IPayrollUnemployedLiquidation.vb" />
+    <Compile Include="Contracts\IPayrollResumptionHoliday.vb" />
+    <Compile Include="Contracts\IPayrollVacationPeriod.vb" />
+    <Compile Include="Contracts\IPayrollVacationRequest.vb" />
+    <Compile Include="Contracts\IPayrollWorkCenter.vb" />
+    <Compile Include="Contracts\IPayrollStudyType.vb" />
+    <Compile Include="PayrollService.BankFileDetail.vb" />
+    <Compile Include="PayrollService.ElectronicPayroll.vb" />
+    <Compile Include="PayrollService.ElectronicPayrollConcepts.vb" />
+    <Compile Include="PayrollService.FileForeclousure.vb" />
+    <Compile Include="PayrollService.Foreclousure.vb" />
+    <Compile Include="PayrollService.AgreementsMassive.vb" />
+    <Compile Include="PayrollService.AuditoryBankFile.vb" />
+    <Compile Include="PayrollService.BlockSchedule.vb" />
+    <Compile Include="PayrollService.DiagnosedDisease.vb" />
+    <Compile Include="PayrollService.EthnicGroups.vb" />
+    <Compile Include="PayrollService.HumanTalentParameterization.vb" />
+    <Compile Include="PayrollService.LicensingConcepts.vb" />
+    <Compile Include="PayrollService.MaritalStatus.vb" />
+    <Compile Include="PayrollService.MassiveContract.vb" />
+    <Compile Include="PayrollService.MinimumSalary.vb" />
+    <Compile Include="PayrollService.PermissionSchedule.vb" />
+    <Compile Include="PayrollService.ReligiousBeliefs.vb" />
+    <Compile Include="PayrollService.FreeTimeUse.vb" />
+    <Compile Include="PayrollService.SportPractice.vb" />
+    <Compile Include="PayrollService.InitialBalancePayroll.vb" />
+    <Compile Include="PayrollService.BankFile.vb" />
+    <Compile Include="PayrollService.AccountingStructure.vb" />
+    <Compile Include="PayrollService.BlockRecordPayroll.vb" />
+    <Compile Include="PayrollService.ConceptAccountingStructure.vb" />
+    <Compile Include="PayrollService.CostDistribution.vb" />
+    <Compile Include="PayrollService.IncreaseSalary.vb" />
+    <Compile Include="PayrollService.ManualConcepts.vb" />
+    <Compile Include="My Project\AssemblyInfo.vb" />
+    <Compile Include="My Project\Resources.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="My Project\Settings.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="PayrollService.Agreements.vb" />
+    <Compile Include="PayrollService.AuthorizationConcept.vb" />
+    <Compile Include="PayrollService.Autoliquidation.vb" />
+    <Compile Include="PayrollService.Concept.vb" />
+    <Compile Include="PayrollService.ContractGroup.vb" />
+    <Compile Include="PayrollService.ContractModificationReason.vb" />
+    <Compile Include="PayrollService.ContractTemplate.vb" />
+    <Compile Include="PayrollService.ContractType.vb" />
+    <Compile Include="PayrollService.ContributorType.vb" />
+    <Compile Include="PayrollService.Employee.vb" />
+    <Compile Include="PayrollService.EmployeeType.vb" />
+    <Compile Include="PayrollService.IncentivePayment.vb" />
+    <Compile Include="PayrollService.KindsAgreements.vb" />
+    <Compile Include="PayrollService.NationalSavingsFund.vb" />
+    <Compile Include="PayrollService.Novelty.vb" />
+    <Compile Include="PayrollService.JobBondingType.vb" />
+    <Compile Include="PayrollService.Liquidation.vb" />
+    <Compile Include="PayrollService.PayrollParameter.vb" />
+    <Compile Include="PayrollService.PayrollSequence.vb" />
+    <Compile Include="PayrollService.Position.vb" />
+    <Compile Include="PayrollService.ProfessionalRisk.vb" />
+    <Compile Include="PayrollService.Retention.vb" />
+    <Compile Include="PayrollService.Schedule.vb" />
+    <Compile Include="PayrollService.ScheduleDetail.vb" />
+    <Compile Include="PayrollService.ScheduleTemplate.vb" />
+    <Compile Include="PayrollService.Settings.vb" />
+    <Compile Include="PayrollService.StudyCenter.vb" />
+    <Compile Include="PayrollService.TradeUnion.vb" />
+    <Compile Include="PayrollService.UnemployedLiquidation.vb" />
+    <Compile Include="PayrollService.ResumptionHoliday.vb" />
+    <Compile Include="PayrollService.VacationPeriod.vb" />
+    <Compile Include="PayrollService.VacationRequest.vb" />
+    <Compile Include="PayrollService.WorkCenter.vb" />
+    <Compile Include="PayrollService.Bank.vb" />
+    <Compile Include="PayrollService.BranchOffice.vb" />
+    <Compile Include="PayrollService.Common.vb" />
+    <Compile Include="PayrollService.Company.vb" />
+    <Compile Include="PayrollService.CostCenter.vb" />
+    <Compile Include="PayrollService.EducationLevels.vb" />
+    <Compile Include="PayrollService.FunctionalUnit.vb" />
+    <Compile Include="PayrollService.Funds.vb" />
+    <Compile Include="PayrollService.Group.vb" />
+    <Compile Include="PayrollService.Kinship.vb" />
+    <Compile Include="PayrollService.Language.vb" />
+    <Compile Include="PayrollService.PensionaryType.vb" />
+    <Compile Include="PayrollService.PositionLevel.vb" />
+    <Compile Include="PayrollService.Professions.vb" />
+    <Compile Include="PayrollService.RetirementReason.vb" />
+    <Compile Include="PayrollService.StudyType.vb" />
+    <Compile Include="PayrollService.vb" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="My Project\Resources.resx">
+      <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.vb</LastGenOutput>
+      <CustomToolNamespace>My.Resources</CustomToolNamespace>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="My Project\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <CustomToolNamespace>My</CustomToolNamespace>
+      <LastGenOutput>Settings.Designer.vb</LastGenOutput>
+    </None>
+    <Compile Include="PayrollService.ContractLiquidation.vb" />
+    <Compile Include="PayrollService.ContributorSubtype.vb" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Application.Payroll\Application.Payroll.vbproj">
+      <Project>{787ce04a-a6b3-41fd-97d4-2c7e12ac7a65}</Project>
+      <Name>Application.Payroll</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DistributedServices.Authentication\DistributedServices.Authentication.vbproj">
+      <Project>{EBFDECA0-D6B3-470B-99AB-2CEE3C356117}</Project>
+      <Name>DistributedServices.Authentication</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Domain.Base.Entities\Domain.Base.Entities.vbproj">
+      <Project>{78734d29-0073-4d48-9d0b-2362d0243e36}</Project>
+      <Name>Domain.Base.Entities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Domain.Entities\Domain.Entities.vbproj">
+      <Project>{0551aef4-ed84-4745-b00b-7475f26015cc}</Project>
+      <Name>Domain.Entities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Domain.InterfaceERPPayroll\Domain.InterfaceERPPayroll.vbproj">
+      <Project>{93798372-7644-438b-9f6f-ea741291980a}</Project>
+      <Name>Domain.InterfaceERPPayroll</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Domain.Payroll.Entities\Domain.Payroll.Entities.vbproj">
+      <Project>{f0fe946f-2bd9-4bb8-8741-51ea3d862237}</Project>
+      <Name>Domain.Payroll.Entities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Domain.Payroll\Domain.Payroll.vbproj">
+      <Project>{0b26cafa-8df4-49ab-8943-41a91d67694e}</Project>
+      <Name>Domain.Payroll</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastructure.CrossCutting.Base\Infrastructure.CrossCutting.Base.vbproj">
+      <Project>{2773d9f7-93bd-4520-9726-bce0d8875696}</Project>
+      <Name>Infrastructure.CrossCutting.Base</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastructure.CrossCutting.IoC\Infrastructure.CrossCutting.IOC.vbproj">
+      <Project>{6855513d-b574-40c5-812e-baf05f9bb7be}</Project>
+      <Name>Infrastructure.CrossCutting.IOC</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.VisualBasic.targets" />
+  <PropertyGroup>
+    <VSToolsPath Condition="'$(VSToolsPath)' == '' and '$(VisualStudioVersion)' != '' and '$(VisualStudioVersion)' != '11.0'">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio</VSToolsPath>
+    <WcfServiceModelTargetPath>$(VSToolsPath)\WCF</WcfServiceModelTargetPath>
+  </PropertyGroup>
+  <Import Project="$(WcfServiceModelTargetPath)\Microsoft.VisualStudio.ServiceModel.targets" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{3D9AD99F-2412-4246-B90B-4EAA41C64699}">
+        <WcfProjectProperties>
+          <AutoStart>True</AutoStart>
+        </WcfProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

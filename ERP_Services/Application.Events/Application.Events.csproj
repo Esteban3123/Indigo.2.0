@@ -1,0 +1,270 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{B1AFEA8E-8308-457E-A0C7-CFF4ACF86B1C}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Application.Events</RootNamespace>
+    <AssemblyName>Application.Events</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Infrastructure.CrossCutting.Exceptions">
+      <HintPath>..\DLL\Infrastructure.CrossCutting.Exceptions.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.13.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Transactions" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Models\AdministrationRoute\MadministrationRoute.cs" />
+    <Compile Include="Models\ATCEntity\MATCEntity.cs" />
+    <Compile Include="Models\ATCEntity\MethodsATCEntity.cs" />
+    <Compile Include="Models\CostCenter\BranchOffice.cs" />
+    <Compile Include="Models\CostCenter\MCostCenter.cs" />
+    <Compile Include="Models\CUPS\BillingGroup.cs" />
+    <Compile Include="Models\CUPS\ContractDescriptions.cs" />
+    <Compile Include="Models\CUPS\cUPSEntity.cs" />
+    <Compile Include="Models\CUPS\CUPSEntityContractDescriptions.cs" />
+    <Compile Include="Models\CUPS\CUPSSubGroup.cs" />
+    <Compile Include="Models\CUPS\MethodsCups.cs" />
+    <Compile Include="Models\CUPS\RIASBillingConcept.cs" />
+    <Compile Include="Models\CUPS\RIASBillingGroup.cs" />
+    <Compile Include="Models\Customer\LegalBook.cs" />
+    <Compile Include="Models\Customer\MainAccountReceivable.cs" />
+    <Compile Include="Models\Customer\MethodsCustomer.cs" />
+    <Compile Include="Models\Customer\PortfolioNoteConcept.cs" />
+    <Compile Include="Models\Customer\RetentionConcept.cs" />
+    <Compile Include="Models\Customer\Retentions.cs" />
+    <Compile Include="Models\Customer\ThirdParty.cs" />
+    <Compile Include="Models\DCI\ATCEntity.cs" />
+    <Compile Include="Models\DCI\DCI.cs" />
+    <Compile Include="Models\DCI\DCIATCEntity.cs" />
+    <Compile Include="Models\DCI\DrugInteraction.cs" />
+    <Compile Include="Models\DCI\MDCI.cs" />
+    <Compile Include="Models\DCI\MethodsDCI.cs" />
+    <Compile Include="Models\ElectronicRIPS\MElectronicRIPS.cs" />
+    <Compile Include="Models\ErrorWrapper.cs" />
+    <Compile Include="Models\FunctionalUnit\MFunctionalUnit.cs" />
+    <Compile Include="Models\GeneralMethods.cs" />
+    <Compile Include="Models\HealthAdministrator\MethodsHealthAdministrator.cs" />
+    <Compile Include="Models\HealthAdministrator\MHealthAdministrator.cs" />
+    <Compile Include="Models\InventoryMeasurementUnit\MinventoryMeasurementUnit.cs" />
+    <Compile Include="Models\inventoryRiskLevel\MinventoryRiskLevel.cs" />
+    <Compile Include="Models\inventorySupplie\inventoryRiskLevelSupplie.cs" />
+    <Compile Include="Models\inventorySupplie\MethodsinventorySupplie.cs" />
+    <Compile Include="Models\inventorySupplie\MinventorySupplie.cs" />
+    <Compile Include="Models\InvoiceEntityCapitated\CareGroup.cs" />
+    <Compile Include="Models\InvoiceEntityCapitated\InvoiceCategory.cs" />
+    <Compile Include="Models\InvoiceEntityCapitated\MethodsInvoiceCapitated.cs" />
+    <Compile Include="Models\InvoiceEntityCapitated\MInvoiceCapitated.cs" />
+    <Compile Include="Models\InvoiceEntityCapitated\OperatingUnit.cs" />
+    <Compile Include="Models\InvoiceEntityCapitated\PreviousRIPSInvoice.cs" />
+    <Compile Include="Models\iPSService\AssociatedMaterialIPSService.cs" />
+    <Compile Include="Models\iPSService\BillingConcept.cs" />
+    <Compile Include="Models\iPSService\CUPSEntity.cs" />
+    <Compile Include="Models\iPSService\CupsHomologation.cs" />
+    <Compile Include="Models\iPSService\IPSService.cs" />
+    <Compile Include="Models\iPSService\SurgicalProcedureService.cs" />
+    <Compile Include="Models\Manufacturer\MManufacturer.cs" />
+    <Compile Include="Models\MedicalFeesContract\MethodsMedicalFeesContract.cs" />
+    <Compile Include="Models\MedicalFeesContract\MMedicalFeesContract.cs" />
+    <Compile Include="Models\MProduct.cs" />
+    <Compile Include="Models\PackagingUnit\MPackagingUnit.cs" />
+    <Compile Include="Models\pharmaceuticalForm\MpharmaceuticalForm.cs" />
+    <Compile Include="Models\pharmacologicalGroup\MpharmacologicalGroup.cs" />
+    <Compile Include="Models\ProductGroup\CostCenter.cs" />
+    <Compile Include="Models\ProductGroup\DeclarantRetentionAccountPayableConcept.cs" />
+    <Compile Include="Models\ProductGroup\FunctionalUnit.cs" />
+    <Compile Include="Models\ProductGroup\GeneralAccount.cs" />
+    <Compile Include="Models\ProductGroup\InventoryAccountPayableConcept.cs" />
+    <Compile Include="Models\ProductGroup\LegalBook.cs" />
+    <Compile Include="Models\ProductGroup\MethodsProductGroup.cs" />
+    <Compile Include="Models\ProductGroup\MProductGroup.cs" />
+    <Compile Include="Models\ProductGroup\NotDeclarantRetentionAccountPayableConcept.cs" />
+    <Compile Include="Models\ProductGroup\ProductGroupFunctionalUnit.cs" />
+    <Compile Include="Models\ProductGroup\ReteFuenteConcept.cs" />
+    <Compile Include="Models\ProductSubGroup\MProductSubGroup.cs" />
+    <Compile Include="Models\ProductType\MProductType.cs" />
+    <Compile Include="Models\Product\AdministrationRoute.cs" />
+    <Compile Include="Models\Product\ATC.cs" />
+    <Compile Include="Models\Product\BillingGroup.cs" />
+    <Compile Include="Models\Product\IVA.cs" />
+    <Compile Include="Models\Product\Manufacturer.cs" />
+    <Compile Include="Models\Product\MeasurementUnit.cs" />
+    <Compile Include="Models\Product\MethodsProduct.cs" />
+    <Compile Include="Models\Product\PackagingUnit.cs" />
+    <Compile Include="Models\Product\PBillingGroupNoPos.cs" />
+    <Compile Include="Models\Product\PharmaceuticalForm.cs" />
+    <Compile Include="Models\Product\PharmacologicalGroup.cs" />
+    <Compile Include="Models\Product\PInventoryRiskLevel.cs" />
+    <Compile Include="Models\Product\ProductBarcode.cs" />
+    <Compile Include="Models\Product\ProductGroup.cs" />
+    <Compile Include="Models\Product\ProductSubGroup.cs" />
+    <Compile Include="Models\Product\ProductType.cs" />
+    <Compile Include="Models\Product\Supplie.cs" />
+    <Compile Include="Models\Product\WeightMeasureUnit.cs" />
+    <Compile Include="Models\Warehouse\MWarehouse.cs" />
+    <Compile Include="Repository\CostCenter\MethodsCostCenter.cs" />
+    <Compile Include="Serializers\administrationRoute.cs" />
+    <Compile Include="Serializers\ATCEntity.cs" />
+    <Compile Include="Serializers\CostCenter.cs" />
+    <Compile Include="Serializers\DCI.cs" />
+    <Compile Include="Serializers\ElectronicRIPSEvent.cs" />
+    <Compile Include="Serializers\FunctionalUnit.cs" />
+    <Compile Include="Serializers\inventoryMeasurementUnit.cs" />
+    <Compile Include="Serializers\inventoryRiskLevel.cs" />
+    <Compile Include="Serializers\inventorySupplie.cs" />
+    <Compile Include="Serializers\iPSService.cs" />
+    <Compile Include="Models\iPSService\MethodsiPSService.cs" />
+    <Compile Include="Models\iPSService\MiPSService.cs" />
+    <Compile Include="Models\iPSService\SurgicalGroup.cs" />
+    <Compile Include="Models\MainAccounts\AccountClass.cs" />
+    <Compile Include="Models\MainAccounts\AccountLevel.cs" />
+    <Compile Include="Models\MainAccounts\MethodsMainAccounts.cs" />
+    <Compile Include="Models\MainAccounts\MMainAccounts.cs" />
+    <Compile Include="Serializers\Manufacturer.cs" />
+    <Compile Include="Serializers\InvoiceCapitatedEvent.cs" />
+    <Compile Include="Serializers\MedicalFeesContract.cs" />
+    <Compile Include="Serializers\ObjMainAccounts.cs" />
+    <Compile Include="Models\MainAccounts\Parent.cs" />
+    <Compile Include="Models\CUPS\MCups.cs" />
+    <Compile Include="Models\MCustomer.cs" />
+    <Compile Include="Models\Medicament\BillingGroupNoPos.cs" />
+    <Compile Include="Models\DittoQueue.cs" />
+    <Compile Include="Models\Medicament\InventoryRiskLevel.cs" />
+    <Compile Include="Models\Medicament\MAdministrationRoute.cs" />
+    <Compile Include="Models\Medicament\MATCAdministrationRoute.cs" />
+    <Compile Include="Models\MMedicament.cs" />
+    <Compile Include="Models\Medicament\MRelatedSupplieMedicine.cs" />
+    <Compile Include="Models\Medicament\PharmaceuticalForm.cs" />
+    <Compile Include="Models\Medicament\PharmacologicalGroup.cs" />
+    <Compile Include="Models\MSupplier.cs" />
+    <Compile Include="Models\MThirdparty.cs" />
+    <Compile Include="Models\QueueParameter.cs" />
+    <Compile Include="Models\Medicament\WeightMeasureUnit.cs" />
+    <Compile Include="Models\Address.cs" />
+    <Compile Include="Models\Supplier\DistributionLines.cs" />
+    <Compile Include="Models\Supplier\MethodsSupplier.cs" />
+    <Compile Include="Models\Supplier\MThirdpartySupplier.cs" />
+    <Compile Include="Models\Supplier\PersonSupplier.cs" />
+    <Compile Include="Models\Supplier\Position.cs" />
+    <Compile Include="Models\Supplier\SupplierBankAccount.cs" />
+    <Compile Include="Models\Supplier\SupplierType.cs" />
+    <Compile Include="Models\Thirdparty\BranchOffice.cs" />
+    <Compile Include="Models\Thirdparty\EconomicActivity.cs" />
+    <Compile Include="Models\Emails.cs" />
+    <Compile Include="Models\Thirdparty\FiscalResponsibility.cs" />
+    <Compile Include="Models\IdentificacionCity.cs" />
+    <Compile Include="Models\Thirdparty\IVARetentionAccountPayableConcept.cs" />
+    <Compile Include="Models\Thirdparty\IVARetentionConcep.cs" />
+    <Compile Include="Models\Thirdparty\methodsThirdparty.cs" />
+    <Compile Include="Models\Thirdparty\Person.cs" />
+    <Compile Include="Models\Phones.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repository\ExecuteCommand.cs" />
+    <Compile Include="Serializers\Customer.cs" />
+    <Compile Include="Serializers\HealthAdministrator.cs" />
+    <Compile Include="Serializers\Medicament.cs" />
+    <Compile Include="Models\Medicament\MethodsMedicament.cs" />
+    <Compile Include="Serializers\packagingUnit.cs" />
+    <Compile Include="Serializers\pharmaceuticalForm.cs" />
+    <Compile Include="Serializers\pharmacologicalGroup.cs" />
+    <Compile Include="Serializers\Product.cs" />
+    <Compile Include="Serializers\ProductGroup.cs" />
+    <Compile Include="Serializers\ProductSubGroup.cs" />
+    <Compile Include="Serializers\productType.cs" />
+    <Compile Include="Serializers\Supplier.cs" />
+    <Compile Include="Serializers\Thirdparty.cs" />
+    <Compile Include="Serializers\Warehouse.cs" />
+    <Compile Include="Wrapper.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Domain.Base.Entities\Domain.Base.Entities.vbproj">
+      <Project>{78734D29-0073-4D48-9D0B-2362D0243E36}</Project>
+      <Name>Domain.Base.Entities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Domain.Base\Domain.Base.vbproj">
+      <Project>{8157f242-6a69-44c1-a9ac-19f0ee5cb8a2}</Project>
+      <Name>Domain.Base</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Domain.Entities\Domain.Entities.vbproj">
+      <Project>{0551AEF4-ED84-4745-B00B-7475F26015CC}</Project>
+      <Name>Domain.Entities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Domain.Payroll.Entities\Domain.Payroll.Entities.vbproj">
+      <Project>{f0fe946f-2bd9-4bb8-8741-51ea3d862237}</Project>
+      <Name>Domain.Payroll.Entities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Domain.Security.Entities\Domain.Security.Entities.vbproj">
+      <Project>{99f1c077-1e8f-432f-b5d0-e801bf6d6a39}</Project>
+      <Name>Domain.Security.Entities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Domain.Security\Domain.Security.vbproj">
+      <Project>{435b789a-be74-4f5a-932f-0a4900825d61}</Project>
+      <Name>Domain.Security</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastructure.CrossCutting.Base\Infrastructure.CrossCutting.Base.vbproj">
+      <Project>{2773d9f7-93bd-4520-9726-bce0d8875696}</Project>
+      <Name>Infrastructure.CrossCutting.Base</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastructure.CrossCutting.Interface\Infrastructure.CrossCutting.Interface.vbproj">
+      <Project>{3F7AE2A8-2CB6-4FEB-9545-D70601C40846}</Project>
+      <Name>Infrastructure.CrossCutting.Interface</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastructure.CrossCutting.Queue\Infrastructure.CrossCutting.Queue.vbproj">
+      <Project>{4ECC4501-B252-4AFF-A829-DC46BCCA069B}</Project>
+      <Name>Infrastructure.CrossCutting.Queue</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastructure.Data.Base\Infrastructure.Data.Base.vbproj">
+      <Project>{69C4FE61-549B-42E8-ADAC-18D1CFC83FED}</Project>
+      <Name>Infrastructure.Data.Base</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastructure.Data.SecurityRepository\Infrastructure.Data.SecurityRepository.vbproj">
+      <Project>{C1457F9B-B14F-4DCF-9F8E-B317C9A9EF8F}</Project>
+      <Name>Infrastructure.Data.SecurityRepository</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\RabbitMQ.Bus\RabbitMQ.Bus.csproj">
+      <Project>{a4a2d503-c198-4dd6-baba-1884933491d8}</Project>
+      <Name>RabbitMQ.Bus</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

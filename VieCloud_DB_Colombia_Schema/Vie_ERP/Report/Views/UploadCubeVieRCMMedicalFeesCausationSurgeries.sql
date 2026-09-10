@@ -1,0 +1,116 @@
+﻿
+--CREATE PROCEDURE [EHR].[ReporteCausacionCirugia]
+--DECLARE	@FechaInicio Datetime='2024-06-01';
+--DECLARE	@FechaFin Datetime ='2024-06-30';
+--as
+
+create view [Report].[UploadCubeVieRCMMedicalFeesCausationSurgeries] AS
+
+SELECT DISTINCT  CAST(DB_NAME() AS VARCHAR(9)) AS ID_COMPANY,
+A.CODSERIPS as [CODIGO SERVICIO],RTRIM(B.DESSERIPS) AS [SERVICIO], A.IPCODPACI AS [IDENTIFICACION],i.IPNOMCOMP  as [NOMBRE PACIENTE], A.NUMINGRES AS [INGRESO],CASE WHEN CODCONCEC IS NULL THEN 'Procedimientos Solicitados' WHEN NOT CODCONCEC IS NULL THEN 'Procedimientos Menores' END AS [TIPO],
+SUM(A.CANSERIPS) AS TOTAL,A.NUMEFOLIO as [FOLIO],'NO' as [QX MULTIPLE],ISNULL(cd.Code + ' - ' + cd.Name, '') [DESCRIPCION RELACIONADA],A.CODPROSAL [IDENTIFICACION PROFESIONAL], PRO.NOMMEDICO AS [PROFESIONAL], A.FECORDMED [FECHA SERVICIO],
+'' AS [HALLAZGO OPERATORIO],A.OBSSERIPS [DESCRIPCION PROCEDIMIENTO],
+CEN.NOMCENATE AS [CENTRO ATENCION] ,UNI.UFUDESCRI AS [UNIDAD FUNCIONAL] ,A.CODDIAGNO AS CIE10, DIA.NOMDIAGNO AS [DIAGNOSTICO] ,CASE WHEN A.MANEXTPRO =0 THEN 'CONSULTA EXTERNA' ELSE 'HOSPITALARIO' END [TIPO SOLICITUD],
+	cast(A.FECORDMED as date) as 'FECHA BUSQUEDA',
+	CONVERT(DATETIME,COMMON.GETDATE() AT TIME ZONE 'Pakistan Standard Time',1) AS ULT_ACTUAL
+	FROM dbo.ADINGRESO ing
+	JOIN dbo.HCORDPROQ A WITH (NOLOCK) ON ing.NUMINGRES = a.NUMINGRES
+	JOIN dbo.INCUPSIPS B WITH (NOLOCK) ON A.CODSERIPS=B.CODSERIPS 
+	JOIN dbo.INPACIENT i WITH (NOLOCK) on a.IPCODPACI = i.IPCODPACI 
+	JOIN dbo.ADCENATEN AS CEN WITH (NOLOCK) ON CEN.CODCENATE =A.CODCENATE 
+	JOIN dbo.INDIAGNOS AS DIA WITH (NOLOCK) ON DIA.CODDIAGNO =A.CODDIAGNO 
+	JOIN dbo.INUNIFUNC UNI WITH (NOLOCK) ON UNI.UFUCODIGO =A.UFUCODIGO 
+	LEFT JOIN dbo.HCINFPROM AS Men WITH (NOLOCK) ON A.IPCODPACI=Men.IPCODPACI AND A.NUMINGRES = Men.NUMINGRES And A.NUMEFOLIO = Men.NUMEFOLIO --A.CODSERIPS=Men.CODSERIPS and 
+	LEFT JOIN Contract.CUPSEntityContractDescriptions cecd WITH (NOLOCK) on cecd.Id = a.IDDESCRIPCIONRELACIONADA
+	LEFT JOIN Contract.ContractDescriptions cd WITH (NOLOCK) on cd.Id = cecd.ContractDescriptionId
+	LEFT JOIN dbo.INPROFSAL AS PRO WITH (NOLOCK) ON A.CODPROSAL =PRO.CODPROSAL 
+	WHERE  cast(A.FECORDMED as date)>='2023-01-01'
+	--cast(A.FECORDMED as date) between @FechaInicio and @FechaFin --A.MANEXTPRO = 0 OR ISNULL(ing.TRATAESPECIA, 0) = 3
+	GROUP BY A.CODSERIPS,B.DESSERIPS,CODCONCEC,A.IPCODPACI, A.NUMINGRES,A.NUMEFOLIO,A.GENSERVICEORDER,i.IPNOMCOMP, cecd.Id, cd.Id, cd.Code, cd.Name,A.CODPROSAL,PRO.NOMMEDICO,	A.FECORDMED,
+	A.OBSSERIPS,CEN.NOMCENATE ,UNI.UFUDESCRI ,A.CODDIAGNO, DIA.NOMDIAGNO ,CASE WHEN A.MANEXTPRO =0 THEN 'CONSULTA EXTERNA' ELSE 'HOSPITALARIO' END
+UNION ALL
+	SELECT	DISTINCT  CAST(DB_NAME() AS VARCHAR(9)) AS ID_COMPANY,
+	A.CODSERIPS as [CODIGO SERVICIO],RTRIM(B.DESSERIPS) AS [SERVICIO], A.IPCODPACI AS [IDENTIFICACION],i.IPNOMCOMP  as [NOMBRE PACIENTE], A.NUMINGRES AS [INGRESO],'Procedimientos con Informe QX' AS [TIPO],
+SUM(CANTIDAQX) AS TOTAL,A.NUMEFOLIO as  [FOLIO],
+case when (select count(*) from dbo.HCQXREALI where A.IPCODPACI=IPCODPACI AND A.NUMINGRES=NUMINGRES AND A.NUMEFOLIO=NUMEFOLIO) > 1 then 'SI' else 'NO' end as  [QX MULTIPLE],
+'' [DESCRIPCION RELACIONADA],A.CODPROSAL [IDENTIFICACION PROFESIONAL],PRO.NOMMEDICO AS [PROFESIONAL],A.FECHORINI [FECHA SERVICIO],
+A.DESHALLOP AS [HALLAZGO OPERATORIO] ,A.DESPROCED [DESCRIPCION PROCEDIMIENTO],
+CEN.NOMCENATE AS [CENTRO ATENCION] ,UNI.UFUDESCRI AS [UNIDAD FUNCIONAL] ,A.CODDIAPOS AS CIE10, DIA.NOMDIAGNO AS [DIAGNOSTICO], 'HOSPITALARIO' [TIPO SOLICITUD],
+	cast(A.FECHORINI as date) as 'FECHA BUSQUEDA',
+	CONVERT(DATETIME,COMMON.GETDATE() AT TIME ZONE 'Pakistan Standard Time',1) AS ULT_ACTUAL
+	FROM dbo.HCQXINFOR A WITH (NOLOCK)
+	JOIN dbo.INCUPSIPS B WITH (NOLOCK) ON A.CODSERIPS=B.CODSERIPS 
+	JOIN dbo.INPACIENT i WITH (NOLOCK) on a.IPCODPACI = i.IPCODPACI 
+	JOIN dbo.HCQXREALI C WITH (NOLOCK) ON A.IPCODPACI=C.IPCODPACI AND A.NUMINGRES=C.NUMINGRES AND A.NUMEFOLIO=C.NUMEFOLIO --AND A.CODSERIPS=C.CODSERIPS 
+	JOIN dbo.ADCENATEN AS CEN WITH (NOLOCK) ON CEN.CODCENATE =A.CODCENATE 
+	JOIN dbo.INDIAGNOS AS DIA WITH (NOLOCK) ON DIA.CODDIAGNO =A.CODDIAPOS  
+	JOIN dbo.INUNIFUNC UNI WITH (NOLOCK) ON UNI.UFUCODIGO =A.UFUCODIGO 
+	LEFT JOIN dbo.INPROFSAL AS PRO WITH (NOLOCK) ON A.CODPROSAL =PRO.CODPROSAL 
+	where  cast(A.FECHORINI as date)>='2023-01-01'
+	--cast(A.FECHORINI as date) between @FechaInicio and @FechaFin
+	GROUP BY A.CODSERIPS,B.DESSERIPS,A.IPCODPACI, A.NUMINGRES,A.NUMEFOLIO,A.GENSERVICEORDER,i.IPNOMCOMP,A.CODPROSAL,PRO.NOMMEDICO,A.FECHORINI,
+	A.DESHALLOP,A.DESPROCED ,CEN.NOMCENATE ,UNI.UFUDESCRI ,A.CODDIAPOS , DIA.NOMDIAGNO 
+UNION ALL
+	SELECT	DISTINCT  CAST(DB_NAME() AS VARCHAR(9)) AS ID_COMPANY,
+	A.CODSERIPS as [CODIGO SERVICIO],RTRIM(B.DESSERIPS) AS [SERVICIO],A.IPCODPACI AS [IDENTIFICACION],'Hijo '+ cast(rn.NUMHIJREG as varchar(20)) as [NOMBRE PACIENTE], INGMH.NUMINGRES AS [INGRESO],CASE WHEN CODCONCEC IS NULL THEN 'Procedimientos Solicitados' WHEN NOT CODCONCEC IS NULL THEN 'Procedimientos Menores' END AS [TIPO],
+SUM(A.CANSERIPS) AS TOTAL,A.NUMEFOLIO as [FOLIO],'NO' as [QX MULTIPLE],ISNULL(cd.Code + ' - ' + cd.Name, '') [DESCRIPCION RELACIONADA],
+A.CODPROSAL [IDENTIFICACION PROFESIONAL],PRO.NOMMEDICO AS [PROFESIONAL], A.FECORDMED [FECHA SERVICIO],'' AS [HALLAZGO OPERATORIO],A.OBSSERIPS [DESCRIPCION PROCEDIMIENTO],
+CEN.NOMCENATE AS [CENTRO ATENCION] ,UNI.UFUDESCRI AS [UNIDAD FUNCIONAL] ,A.CODDIAGNO AS CIE10, DIA.NOMDIAGNO AS [DIAGNOSTICO] ,CASE WHEN A.MANEXTPRO =0 THEN 'CONSULTA EXTERNA' ELSE 'HOSPITALARIO' END [TIPO SOLICITUD],
+	cast(A.FECORDMED as date) as 'FECHA BUSQUEDA',
+	CONVERT(DATETIME,COMMON.GETDATE() AT TIME ZONE 'Pakistan Standard Time',1) AS ULT_ACTUAL
+	FROM dbo.HCORDPROQ A WITH (NOLOCK)
+	JOIN dbo.INCUPSIPS B WITH (NOLOCK) ON A.CODSERIPS=B.CODSERIPS 
+	JOIN dbo.HCINGRESORECNAC INGMH  WITH (NOLOCK) on a.NUMINGRES = INGMH .NUMINGRESHIJO
+	JOIN dbo.HCRECINAC RN  WITH (NOLOCK) on INGMH.NUMINGRESHIJO  = rn.NUMINGRESHIJO  
+	JOIN dbo.ADINGRESO AS ING  WITH (NOLOCK) on ING.NUMINGRES = INGMH.NUMINGRESHIJO 
+	JOIN dbo.ADCENATEN AS CEN WITH (NOLOCK) ON CEN.CODCENATE =A.CODCENATE 
+	JOIN dbo.INDIAGNOS AS DIA WITH (NOLOCK) ON DIA.CODDIAGNO =A.CODDIAGNO   
+	JOIN dbo.INUNIFUNC UNI WITH (NOLOCK) ON UNI.UFUCODIGO =A.UFUCODIGO 
+	LEFT JOIN dbo.HCINFPROM AS Men WITH (NOLOCK) ON A.IPCODPACI=Men.IPCODPACI AND A.NUMINGRES = Men.NUMINGRES And A.NUMEFOLIO = Men.NUMEFOLIO --A.CODSERIPS=Men.CODSERIPS and 
+	LEFT JOIN Contract.CUPSEntityContractDescriptions cecd WITH (NOLOCK) on cecd.Id = a.IDDESCRIPCIONRELACIONADA
+	LEFT JOIN Contract.ContractDescriptions cd WITH (NOLOCK) on cd.Id = cecd.ContractDescriptionId
+	LEFT JOIN dbo.INPROFSAL AS PRO WITH (NOLOCK) ON A.CODPROSAL =PRO.CODPROSAL 
+	WHERE cast(A.FECORDMED as date)>='2023-01-01'
+	--cast(A.FECORDMED as date) between @FechaInicio and @FechaFin -- A.MANEXTPRO = 0 OR ISNULL(ing.TRATAESPECIA, 0) = 3 
+	GROUP BY A.CODSERIPS,B.DESSERIPS,CODCONCEC,A.IPCODPACI, INGMH.NUMINGRES,A.NUMEFOLIO,A.GENSERVICEORDER,rn.NUMHIJREG, cecd.Id, cd.Id, cd.Code, cd.Name,A.CODPROSAL,PRO.NOMMEDICO,A.FECORDMED,
+	A.OBSSERIPS,CEN.NOMCENATE ,UNI.UFUDESCRI ,A.CODDIAGNO, DIA.NOMDIAGNO ,CASE WHEN A.MANEXTPRO =0 THEN 'CONSULTA EXTERNA' ELSE 'HOSPITALARIO' END
+UNION ALL
+	SELECT	DISTINCT  CAST(DB_NAME() AS VARCHAR(9)) AS ID_COMPANY,
+	A.CODSERIPS as [CODIGO SERVICIO],RTRIM(B.DESSERIPS) AS [SERVICIO],A.IPCODPACI AS [IDENTIFICACION],'Hijo '+ cast(rn.NUMHIJREG as varchar(20)) as [NOMBRE PACIENTE], INGMH.NUMINGRES AS [INGRESO],'Procedimientos con Informe QX' AS [TIPO],
+SUM(CANTIDAQX) AS TOTAL,A.NUMEFOLIO as [FOLIO],case when (select count(*) from dbo.HCQXREALI where A.IPCODPACI=IPCODPACI AND INGMH.NUMINGRES=NUMINGRES AND A.NUMEFOLIO=NUMEFOLIO) > 1 then 'SI' else 'NO' end as [QX MULTIPLE],
+'' ContractDescriptionCodeName,A.CODPROSAL [IDENTIFICACION PROFESIONAL],PRO.NOMMEDICO AS [PROFESIONAL], A.FECHORINI [FECHA SERVICIO],A.DESHALLOP AS [HALLAZGO OPERATORIO],A.DESPROCED [DESCRIPCION PROCEDIMIENTO],
+CEN.NOMCENATE AS [CENTRO ATENCION] ,UNI.UFUDESCRI AS [UNIDAD FUNCIONAL] ,A.CODDIAPOS  AS CIE10, DIA.NOMDIAGNO AS [DIAGNOSTICO] , 'HOSPITALARIO' [TIPO SOLICITUD],
+	cast(A.FECHORINI as date) as 'FECHA BUSQUEDA',
+	CONVERT(DATETIME,COMMON.GETDATE() AT TIME ZONE 'Pakistan Standard Time',1) AS ULT_ACTUAL
+	FROM dbo.HCQXINFOR A WITH (NOLOCK)
+	JOIN dbo.INCUPSIPS B WITH (NOLOCK) ON A.CODSERIPS=B.CODSERIPS 
+	JOIN dbo.HCINGRESORECNAC INGMH  WITH (NOLOCK) on a.NUMINGRES = INGMH .NUMINGRESHIJO
+	JOIN dbo.HCRECINAC RN  WITH (NOLOCK) on INGMH.NUMINGRESHIJO  = rn.NUMINGRESHIJO  
+	JOIN dbo.ADINGRESO AS ING  WITH (NOLOCK) on ING.NUMINGRES = INGMH.NUMINGRESHIJO 
+	JOIN dbo.HCQXREALI C WITH (NOLOCK) ON A.IPCODPACI=C.IPCODPACI AND A.NUMINGRES=C.NUMINGRES AND A.NUMEFOLIO=C.NUMEFOLIO --AND A.CODSERIPS=C.CODSERIPS 
+	JOIN dbo.ADCENATEN AS CEN WITH (NOLOCK) ON CEN.CODCENATE =A.CODCENATE 
+	JOIN dbo.INDIAGNOS AS DIA WITH (NOLOCK) ON DIA.CODDIAGNO =A.CODDIAPOS  
+	JOIN dbo.INUNIFUNC UNI WITH (NOLOCK) ON UNI.UFUCODIGO =A.UFUCODIGO 
+	LEFT JOIN dbo.INPROFSAL AS PRO WITH (NOLOCK) ON A.CODPROSAL =PRO.CODPROSAL 
+	where  cast(A.FECHORINI as date)>='2023-01-01'
+	--cast(A.FECHORINI as date) between @FechaInicio and @FechaFin
+	GROUP BY A.CODSERIPS,B.DESSERIPS,A.IPCODPACI, INGMH.NUMINGRES,A.NUMEFOLIO,A.GENSERVICEORDER,rn.NUMHIJREG,A.CODPROSAL,PRO.NOMMEDICO,A.FECHORINI,A.DESHALLOP,A.DESPROCED,
+	CEN.NOMCENATE ,UNI.UFUDESCRI ,A.CODDIAPOS, DIA.NOMDIAGNO
+
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_BR_Purpose', @value=N'Consolida en una sola vista los procedimientos quirúrgicos solicitados, menores y con informe de cirugía (incluyendo recién nacidos vinculados al ingreso de la madre) desde 2023-01-01 para causación de honorarios médicos.', @level0type=N'SCHEMA', @level0name=N'Report', @level1type=N'VIEW', @level1name=N'UploadCubeVieRCMMedicalFeesCausationSurgeries';
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_BR_Preconditions', @value=N'Los registros de HCORDPROQ y HCQXINFOR deben tener fecha (FECORDMED/FECHORINI) >= 2023-01-01.; Debe existir correspondencia entre los códigos de servicio (CODSERIPS) y el catálogo INCUPSIPS, así como diagnósticos en INDIAGNOS, centros en ADCENATEN y unidades funcionales en INUNIFUNC.; Para los bloques de recién nacidos, el ingreso debe estar registrado como NUMINGRESHIJO en HCINGRESORECNAC y HCRECINAC.', @level0type=N'SCHEMA', @level0name=N'Report', @level1type=N'VIEW', @level1name=N'UploadCubeVieRCMMedicalFeesCausationSurgeries';
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_BR_Invariants', @value=N'Solo se incluyen procedimientos con fecha de orden o de inicio de cirugía a partir de 2023-01-01.; El ID_COMPANY se deriva siempre del nombre de la base de datos actual (DB_NAME) truncado a 9 caracteres.; Los bloques de procedimientos solicitados/menores fuerzan [QX MULTIPLE] = ''NO'' y [HALLAZGO OPERATORIO] vacío.; Los bloques de informe QX fuerzan [TIPO SOLICITUD] = ''HOSPITALARIO'' y [DESCRIPCION RELACIONADA] vacía.; La marca de tiempo de actualización (ULT_ACTUAL) se calcula con la fecha actual convertida a la zona horaria ''Pakistan Standard Time''.; El total se calcula con SUM (CANSERIPS o CANTIDAQX) agrupando por servicio, paciente, ingreso, folio, profesional, diagnóstico, centro y unidad funcional.; Todos los joins usan WITH (NOLOCK), por lo que se aceptan lecturas sucias.', @level0type=N'SCHEMA', @level0name=N'Report', @level1type=N'VIEW', @level1name=N'UploadCubeVieRCMMedicalFeesCausationSurgeries';
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_BR_DomainConcepts', @value=N'Procedimientos quirúrgicos solicitados; Procedimientos menores; Informe quirúrgico (QX); Cirugía múltiple; Hallazgo operatorio; Diagnóstico CIE-10; Centro de atención; Unidad funcional; Profesional de salud; Folio de atención; Ingreso hospitalario / consulta externa; Recién nacido (hijo) vinculado al ingreso; Causación de honorarios médicos (RCM); Descripción de contrato CUPS', @level0type=N'SCHEMA', @level0name=N'Report', @level1type=N'VIEW', @level1name=N'UploadCubeVieRCMMedicalFeesCausationSurgeries';
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_BR_SideEffects', @value=N'[RETURN_RESULT] Report.UploadCubeVieRCMMedicalFeesCausationSurgeries: Devuelve la unión de cuatro consultas: procedimientos solicitados/menores de pacientes, procedimientos con informe QX de pacientes, y los mismos dos conjuntos pero atribuidos a recién nacidos (hijos) vinculados al ingreso de la madre.', @level0type=N'SCHEMA', @level0name=N'Report', @level1type=N'VIEW', @level1name=N'UploadCubeVieRCMMedicalFeesCausationSurgeries';
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_BR_Decisions', @value=N'si CODCONCEC IS NULL en HCORDPROQ → Clasifica el registro como ''Procedimientos Solicitados'' else Lo clasifica como ''Procedimientos Menores''; si A.MANEXTPRO = 0 → Marca [TIPO SOLICITUD] como ''CONSULTA EXTERNA'' else Marca [TIPO SOLICITUD] como ''HOSPITALARIO''; si Existe más de un registro en HCQXREALI para el mismo paciente, ingreso y folio (count(*) > 1) → Marca [QX MULTIPLE] = ''SI'' else Marca [QX MULTIPLE] = ''NO''; si Origen del registro es HCQXINFOR (informe QX) → Asigna [TIPO] = ''Procedimientos con Informe QX'' y [TIPO SOLICITUD] = ''HOSPITALARIO'' fijo; si El ingreso corresponde a un NUMINGRESHIJO en HCINGRESORECNAC → Reemplaza el nombre del paciente por ''Hijo '' + NUMHIJREG (recién nacido) y usa el ingreso del hijo', @level0type=N'SCHEMA', @level0name=N'Report', @level1type=N'VIEW', @level1name=N'UploadCubeVieRCMMedicalFeesCausationSurgeries';
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_BR_Consumes', @value=N'dbo.ADINGRESO; dbo.HCORDPROQ; dbo.INCUPSIPS; dbo.INPACIENT; dbo.ADCENATEN; dbo.INDIAGNOS; dbo.INUNIFUNC; dbo.HCINFPROM; Contract.CUPSEntityContractDescriptions; Contract.ContractDescriptions; dbo.INPROFSAL; dbo.HCQXINFOR; dbo.HCQXREALI; dbo.HCINGRESORECNAC; dbo.HCRECINAC', @level0type=N'SCHEMA', @level0name=N'Report', @level1type=N'VIEW', @level1name=N'UploadCubeVieRCMMedicalFeesCausationSurgeries';
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_BR_Source', @value=N'ai_claude-opus-4-7_tier-c_2026-05-06', @level0type=N'SCHEMA', @level0name=N'Report', @level1type=N'VIEW', @level1name=N'UploadCubeVieRCMMedicalFeesCausationSurgeries';
+GO

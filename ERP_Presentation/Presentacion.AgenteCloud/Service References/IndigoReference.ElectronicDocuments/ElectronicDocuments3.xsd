@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://tempuri.org/" elementFormDefault="qualified" targetNamespace="http://tempuri.org/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import schemaLocation="https://localhost:9001/ServiceEntity/ElectronicDocuments.svc?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/Domain.Entities" />
+  <xs:import schemaLocation="https://localhost:9001/ServiceEntity/ElectronicDocuments.svc?xsd=xsd3" namespace="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" />
+  <xs:import schemaLocation="https://localhost:9001/ServiceEntity/ElectronicDocuments.svc?xsd=xsd6" namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
+  <xs:element name="GetBillingAuthorizationResolution">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="operatingUnitId" type="xs:int" />
+        <xs:element xmlns:q1="http://schemas.datacontract.org/2004/07/Domain.Entities" minOccurs="0" name="billingAuthorization" nillable="true" type="q1:BillingAuthorization" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetBillingAuthorizationResolutionResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q2="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="GetBillingAuthorizationResolutionResult" nillable="true" type="q2:ActionResultOfBillingAuthorizationMbb067J0" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ExecuteProcess">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ExecuteProcessResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q3="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="ExecuteProcessResult" nillable="true" type="q3:ActionResultOfstring" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ExecuteSendMailProcess">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ExecuteSendMailProcessResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q4="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="ExecuteSendMailProcessResult" nillable="true" type="q4:ActionResultOfstring" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ProcessElectronicPayroll">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="operatingUnitId" type="xs:int" />
+        <xs:element xmlns:q5="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="electronicPayrollIds" nillable="true" type="q5:ArrayOfint" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ProcessElectronicPayrollResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q6="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="ProcessElectronicPayrollResult" nillable="true" type="q6:ActionResultOfstring" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetElectronicPaymentSupportXML">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="consecutive" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetElectronicPaymentSupportXMLResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q7="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="GetElectronicPaymentSupportXMLResult" nillable="true" type="q7:ActionResultOfNominaIndividualyTTmPDUi" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ExecuteProcessDocumentSupport">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ExecuteProcessDocumentSupportResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q8="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="ExecuteProcessDocumentSupportResult" nillable="true" type="q8:ActionResultOfstring" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

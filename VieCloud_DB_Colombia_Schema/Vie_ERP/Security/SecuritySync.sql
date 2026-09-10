@@ -1,0 +1,3 @@
+﻿CREATE SCHEMA [SecuritySync]
+    AUTHORIZATION [dbo];
+GO

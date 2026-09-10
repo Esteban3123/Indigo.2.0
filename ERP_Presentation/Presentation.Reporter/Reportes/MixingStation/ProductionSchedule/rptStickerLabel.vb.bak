@@ -1,0 +1,143 @@
+﻿#Region "Imports"
+
+Imports System.Drawing.Printing
+Imports DevExpress.XtraPrinting
+Imports DevExpress.XtraReports.Parameters
+Imports DevExpress.XtraReports.UI
+Imports Infrastructure.CrossCutting.Base
+Imports Infrastructure.Data.Xpo
+Imports Infrastructure.Data.Xpo.MixingStationRepository
+Imports Presentation.Base
+
+#End Region
+
+Public Class rptStickerLabel
+    Implements IReport
+    Implements IReportAsync
+
+#Region "Properties"
+
+    ''' <summary>
+    ''' Variable para inicializar los valores de sesion
+    ''' </summary>
+    Private _sessionValues As SessionValues = SessionValues.Instance
+
+    Public Property ParametrosReporte As Object() Implements IReport.ParametrosReporte
+
+    Public ReadOnly Property NameReport As String Implements IReport.NameReport
+        Get
+            Return ""
+        End Get
+    End Property
+#End Region
+
+#Region "Load Data"
+
+    Public Sub CargarDataSource() Implements IReport.CargarDataSource
+        Try
+            Dim campaignDetailId As String = ParametrosReporte(0)
+            Dim data = XpoServiceEx.Instance(_sessionValues.TransactionalContainer).MixingStationService.GetCollection(Of ViewStickerLabel)(Nothing, $"CampaignDetailId = {campaignDetailId}")
+
+            If Not data.Any() Then
+                Exit Sub
+            End If
+
+            data = data.OrderBy(Function(p) p.Main).ThenBy(Function(p) p.BatchCode).ToList()
+            DataSource = data
+
+        Catch ex As Exception
+            MessageIndigo.Show(GetExceptionDetails(ex), MessageType.Errores, Me.Text, Botones.Aceptar, "")
+        End Try
+    End Sub
+
+    Public Function CargarDataSourceAsync() As Task Implements IReportAsync.CargarDataSourceAsync
+        Return Task.Factory.StartNew(AddressOf CargarDataSource)
+    End Function
+
+#End Region
+
+#Region "Methods"
+
+    Private Sub rpt_BeforePrint(sender As Object, e As PrintEventArgs) Handles MyBase.BeforePrint
+        If Me.Parameters.Count > 0 Then
+            Dim ParametrosFilter As ParameterCollection = Me.Parameters
+            ParametrosReporte = New Object() {ParametrosFilter.GetByName("Id").Value, ParametrosFilter.GetByName("Entity").Value}
+
+            If ParametrosReporte.Length > 1 Then
+                If ParametrosReporte(1) = "DashboardProductionSchedule" Then
+                    XrTableCell85.Text = String.Empty
+                    XrTableCell86.Text = String.Empty
+                    XrTableCell87.Text = String.Empty
+                    XrTableCell88.Text = String.Empty
+                    XrTableCell89.Text = String.Empty
+                    XrTableCell90.Text = String.Empty
+                    XrTableCell91.Text = String.Empty
+                End If
+            End If
+            CargarDataSource()
+        End If
+        ApplyInitialLabelFormatting()
+    End Sub
+    Public Sub CargarImagenes() Implements IReport.CargarImagenes
+
+    End Sub
+
+
+    ''' <summary>
+    '''  Aplica configuración inicial de márgenes y comportamiento visual de celdas para evitar desbordamientos.
+    ''' </summary>
+    Private Sub ApplyInitialLabelFormatting()
+        ''Margins = New Margins(left:=20, right:=20, top:=6, bottom:=0)
+        For Each row As XRTableRow In XrTableStikerLabel.Rows
+            For Each cell As XRTableCell In row.Cells
+                With cell
+                    .CanGrow = False    ' No permitir que crezca con texto largo
+                    .CanShrink = False  ' No permitir que se reduzca
+                    .WordWrap = True    ' Permitir salto de línea automático
+                End With
+            Next
+        Next
+    End Sub
+
+
+    Public Function GetExceptionDetails(exception As Exception) As String
+        Dim properties = exception.[GetType]().GetProperties()
+        Dim fields = properties.[Select](Function([property]) New With {
+            Key .Name = [property].Name,
+            Key .Value = [property].GetValue(exception, Nothing)
+        }).[Select](Function(x) [String].Format("{0} : {1}", x.Name, If(x.Value IsNot Nothing, x.Value.ToString(), [String].Empty)))
+        Return [String].Join(vbLf, fields)
+    End Function
+
+    Private Sub XrTable1_BeforePrint(sender As Object, e As PrintEventArgs)
+        Dim result = String.IsNullOrEmpty(Me.GetCurrentColumnValue("Thinner"))
+        e.Cancel = result
+    End Sub
+
+    Private Sub XrLabel56_BeforePrint(sender As Object, e As PrintEventArgs)
+        Dim result = Not String.IsNullOrEmpty(Me.GetCurrentColumnValue("Thinner"))
+        e.Cancel = result
+    End Sub
+
+    Private Sub XrTableRow17_BeforePrint(sender As Object, e As PrintEventArgs) Handles XrTableRow17.BeforePrint
+        Dim result = String.IsNullOrEmpty(Me.GetCurrentColumnValue("Vehicle"))
+        e.Cancel = result
+    End Sub
+
+    Private Sub XrTableCell1_BeforePrint(sender As Object, e As PrintEventArgs) Handles XrTableCell1.BeforePrint
+        Dim result = String.IsNullOrEmpty(Me.GetCurrentColumnValue("Vehicle"))
+        XrTableCell1.Text = ""
+        If result Then
+            XrTableCell1.Text = "T"
+        End If
+    End Sub
+
+    Private Sub XrTableCell85_BeforePrint(sender As Object, e As PrintEventArgs) Handles XrTableCell85.BeforePrint
+        Dim result = String.IsNullOrEmpty(Me.GetCurrentColumnValue("Vehicle"))
+        If result Then
+            XrTableCell85.Text = "E"
+        End If
+    End Sub
+
+#End Region
+End Class

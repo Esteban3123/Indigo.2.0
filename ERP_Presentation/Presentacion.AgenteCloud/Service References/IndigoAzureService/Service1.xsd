@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://tempuri.org/" elementFormDefault="qualified" targetNamespace="http://tempuri.org/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import schemaLocation="http://indigocrystalazure.cloudapp.net/Service.svc?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/WCFServiceWebRole" />
+  <xs:element name="GetMultimediaLoginToday">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="Date" type="xs:dateTime" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetMultimediaLoginTodayResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q1="http://schemas.datacontract.org/2004/07/WCFServiceWebRole" minOccurs="0" name="GetMultimediaLoginTodayResult" nillable="true" type="q1:MultimediaLogin" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SaveMultimediaLogin">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q2="http://schemas.datacontract.org/2004/07/WCFServiceWebRole" minOccurs="0" name="Login" nillable="true" type="q2:MultimediaLogin" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SaveMultimediaLoginResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="SaveMultimediaLoginResult" type="xs:boolean" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetWeather">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="WOEID" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetWeatherResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q3="http://schemas.datacontract.org/2004/07/WCFServiceWebRole" minOccurs="0" name="GetWeatherResult" nillable="true" type="q3:Weather" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

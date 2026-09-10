@@ -1,0 +1,62 @@
+﻿#Region "Imports"
+Imports Infrastructure.CrossCutting.Base
+Imports Infrastructure.Data.Xpo
+Imports Infrastructure.Data.Xpo.BudgetRepository
+Imports DevExpress.XtraReports.UI
+Imports DevExpress.Xpo
+
+#End Region
+
+Public Class rptBudgetExpense
+    Implements IReport
+
+    ''' <summary>
+    ''' Variable para inicializar los valores de sesion
+    ''' </summary>
+    Dim IndigoSessionValues As SessionValues = SessionValues.Instance
+
+    Dim listReport As XPCollection(Of VReportBudgetExpenseXpo)
+
+    Public Sub CargarDataSource() Implements IReport.CargarDataSource
+        Dim filtroConsulta As String = "BudgetaryValidityId = " & ParametrosReporte(0)
+        listReport = XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).BudgetService.ListBudgetExpense(filtroConsulta)
+        Me.DataSource = listReport
+    End Sub
+
+    Public Sub CargarImagenes() Implements IReport.CargarImagenes
+
+    End Sub
+
+    Public ReadOnly Property NameReport As String Implements IReport.NameReport
+        Get
+            Return ""
+        End Get
+    End Property
+
+    Public Property ParametrosReporte As Object() Implements IReport.ParametrosReporte
+
+    Private Sub rptBudgetIncome_BeforePrint(sender As Object, e As Printing.PrintEventArgs) Handles MyBase.BeforePrint
+        Me.INDUserImp.Text = "Usuario Impresión : " & IndigoSessionValues.UserIndigo & " - " & IndigoSessionValues.UserIndigoName
+        Me.INDLblCompany.Text = IndigoSessionValues.IndigoCompanyName
+        Me.INDLblNitCompany.Text = "Nit : " & IndigoSessionValues.IndigoCompanyNit
+
+        Dim filtro As String = "BudgetaryValidityId = " & ParametrosReporte(0)
+        Dim aux = XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).TreasuryService.GetCollection(Of BudgetHeaderXpo)(Nothing, filtro)
+        If aux.Count > 0 Then
+
+            Select Case CType(aux(0), BudgetHeaderXpo).Status
+                Case 1
+                    INDLblStatus.Text = "Reigstrado"
+                Case 2
+                    INDLblStatus.Text = "Confirmado"
+                Case Else
+                    INDLblStatus.Text = ""
+
+            End Select
+
+
+
+            INDLblSubtitle.Text = (CType(aux(0), BudgetHeaderXpo).BudgetaryValidityId.Year).ToString
+        End If
+    End Sub
+End Class

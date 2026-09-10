@@ -1,0 +1,184 @@
+﻿#Region "Librerias Importadas"
+Imports DevExpress.XtraEditors
+Imports Infrastructure.CrossCutting.Base
+Imports Infrastructure.Data.Xpo.CrystalRepository
+Imports Infrastructure.Data.Xpo
+Imports Presentation.CloudAgent
+Imports Presentation.Reporter
+Imports System.Xml
+#End Region
+
+Public Class rptReportAverageConsumptionTransfer
+    Implements IReport
+    ''' <summary>
+    ''' Variable para inicializar los valores de sesion
+    ''' </summary>
+    Dim IndigoSessionValues As SessionValues = SessionValues.Instance
+
+
+    Private _xmlDoc As XmlDocument
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <returns></returns>
+    Public Property XmlDoc() As XmlDocument
+        Get
+            Return _xmlDoc
+        End Get
+        Set(ByVal value As XmlDocument)
+            _xmlDoc = value
+        End Set
+    End Property
+
+    Private _encontroInformacion As Boolean
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <returns></returns>
+    Public Property EncontroInformacion() As Boolean
+        Get
+            Return _encontroInformacion
+        End Get
+        Set(ByVal value As Boolean)
+            _encontroInformacion = value
+        End Set
+    End Property
+
+    Public ReadOnly Property NameReport As String Implements IReport.NameReport
+    Public Property ParametrosReporte As Object() Implements IReport.ParametrosReporte
+    Public Sub CargarImagenes() Implements IReport.CargarImagenes
+    End Sub
+    Private Sub IReport_CargarDataSource() Implements IReport.CargarDataSource
+    End Sub
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    Public Async Function CargarDataSource() As Task
+
+        Dim parameters As String = ParametrosReporte(0)
+        XmlDoc = New XmlDocument
+        XmlDoc.LoadXml(parameters)
+        Dim Resultado As DataSet = Await IndigoConecta.Instancia.CurrentCloud.IndigoInventory.ListAverageConsumptionTransferAsync(parameters, Me.IndigoSessionValues)
+        If Resultado IsNot Nothing AndAlso Resultado.Tables.Count > 0 AndAlso Resultado.Tables(0).Rows.Count > 0 Then
+            Me.EncontroInformacion = True
+            Me.DataSource = Resultado
+        End If
+    End Function
+
+
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="sender"></param>
+    ''' <param name="e"></param>
+    Private Sub rptReporteAuditoriaHC_BeforePrint(sender As Object, e As Printing.PrintEventArgs) Handles MyBase.BeforePrint
+        'Logica para mostrar reporte resumido.
+        
+        Dim titulo As String = String.Empty
+        Dim subtitulo As String = String.Empty
+        Dim item As String = XmlDoc.GetElementsByTagName("OrderType")(0).InnerText
+        Select case item
+            Case "1"
+                titulo = "REPORTE PROMEDIO DE TRASLADOS"
+                subtitulo = "TRASLADO"
+                Case "2"
+                titulo = "REPORTE PROMEDIO DE CONSUMOS"
+                subtitulo = "CONSUMOS"
+                Case "3"
+                titulo = "REPORTE PROMEDIO DE TRASLADOS Y CONSUMOS"
+                subtitulo = "CONSUMOS"
+        End Select
+        item = XmlDoc.GetElementsByTagName("ReportType")(0).InnerText
+        Select case item
+            Case "1"
+                'RESUMIDO
+                Detail.Visible = False
+                INDLblEne.Visible = False
+                INDLblFeb.Visible = False
+                INDLblMar.Visible = False
+                INDLblAbr.Visible = False
+                INDLblMay.Visible = False
+                INDLblJun.Visible = False
+                INDLblJul.Visible = False
+                INDLblAgo.Visible = False
+                INDLblSep.Visible = False
+                INDLblOct.Visible = False
+                INDLblNov.Visible = False
+                INDLblDic.Visible = False
+                INDLblTargetEne.Visible = False
+                INDLblTargetFeb.Visible = False
+                INDLblTargetMar.Visible = False
+                INDLblTargetAbr.Visible = False
+                INDLblTargetMay.Visible = False
+                INDLblTargetJun.Visible = False
+                INDLblTargetJul.Visible = False
+                INDLblTargetAgo.Visible = False
+                INDLblTargetSep.Visible = False
+                INDLblTargetOct.Visible = False
+                INDLblTargetNov.Visible = False
+                INDLblTargetDic.Visible = False
+                INDLblProductEne.Visible = False
+                INDLblProductFeb.Visible = False
+                INDLblProductMar.Visible = False
+                INDLblProductAbr.Visible = False
+                INDLblProductMay.Visible = False
+                INDLblProductJun.Visible = False
+                INDLblProductJul.Visible = False
+                INDLblProductAgo.Visible = False
+                INDLblProductSep.Visible = False
+                INDLblProductOct.Visible = False
+                INDLblProductNov.Visible = False
+                INDLblProductDic.Visible = False
+                INDLblYearEne.Visible = False
+                INDLblYearFeb.Visible = False
+                INDLblYearMar.Visible = False
+                INDLblYearAbr.Visible = False
+                INDLblYearMay.Visible = False
+                INDLblYearJun.Visible = False
+                INDLblYearJul.Visible = False
+                INDLblYearAgo.Visible = False
+                INDLblYearSep.Visible = False
+                INDLblYearOct.Visible = False
+                INDLblYearNov.Visible = False
+                INDLblYearDic.Visible = False
+                INDLblTotalEne.Visible = False
+                INDLblTotalFeb.Visible = False
+                INDLblTotalMar.Visible = False
+                INDLblTotalAbr.Visible = False
+                INDLblTotalMay.Visible = False
+                INDLblTotalJun.Visible = False
+                INDLblTotalJul.Visible = False
+                INDLblTotalAgo.Visible = False
+                INDLblTotalSep.Visible = False
+                INDLblTotalOct.Visible = False
+                INDLblTotalNov.Visible = False
+                INDLblTotalDic.Visible = False
+            Case "2"
+                titulo = String.Format("{0} DETALLADO", titulo)
+        End Select
+        If subtitulo.Contains("CONSUMOS") Then
+            item = XmlDoc.GetElementsByTagName("OfficeTo")(0).InnerText
+            Select case item
+                Case "1"
+                    subtitulo = String.Format("{0} - ALMACÉN", subtitulo)
+                    Case "2"
+                    subtitulo = String.Format("{0} - UNIDAD FUNCIONAL", subtitulo)
+
+                Case "3"
+                    subtitulo = String.Format("{0} - ALMACÉN Y UNIDAD FUNCIONAL", subtitulo)
+            End Select
+        End If
+        INDLblTitulo.Text = titulo
+        Dim esC As Globalization.CultureInfo = new Globalization.CultureInfo("es-ES")
+        Dim _InitialDate As Date = Convert.ToDateTime(XmlDoc.GetElementsByTagName("InitialDate")(0).InnerText)
+        Dim _EndDate As Date = Convert.ToDateTime(XmlDoc.GetElementsByTagName("EndDate")(0).InnerText)
+        INDLblRangeDate.Text = String.Format("DESDE {0} HASTA {1}", _InitialDate.ToString("f", esC), _EndDate.ToString("f", esC))
+        INDLblSubTitulo.Text = subtitulo
+
+        'Cargar los valores del titulo.
+        Me.INDLblCompany.Text = IndigoSessionValues.IndigoCompanyName
+        Me.INDLblNitCompany.Text = "Nit : " & IndigoSessionValues.IndigoCompanyNit
+        Me.INDLblUserPrint.Text = "Usuario Impresión : " & IndigoSessionValues.UserIndigo & " - " & IndigoSessionValues.UserIndigoName
+    End Sub
+
+End Class

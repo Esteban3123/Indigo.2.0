@@ -1,0 +1,81 @@
+﻿#Region "Librerias Importadas"
+Imports Infrastructure.CrossCutting.Base
+Imports Infrastructure.Data.Xpo.InventoryRepository
+Imports Infrastructure.Data.Xpo
+#End Region
+Public Class rptPriceListRate
+    Implements IReport
+
+
+    ''' <summary>
+    ''' Variable para inicializar los valores de sesion
+    ''' </summary>
+    Dim IndigoSessionValues As SessionValues = SessionValues.Instance
+
+    Public Sub CargarDataSource() Implements IReport.CargarDataSource
+        Dim filtroConsulta As String = Nothing
+
+
+        ' si filtra por Grupo
+        If ParametrosReporte(0) IsNot Nothing And ParametrosReporte(1) IsNot Nothing Then
+            If filtroConsulta Is Nothing Then
+                filtroConsulta = "CodeGroup >= '" & ParametrosReporte(0) & "' AND CodeGroup <= '" & ParametrosReporte(1) & "'"
+            Else
+                filtroConsulta &= " AND CodeGroup >= '" & ParametrosReporte(0) & "' AND CodeGroup <= '" & ParametrosReporte(1) & "'"
+            End If
+        End If
+
+        ' si filtra por SubGrupo
+        If ParametrosReporte(2) IsNot Nothing And ParametrosReporte(3) IsNot Nothing Then
+            If filtroConsulta Is Nothing Then
+                filtroConsulta = "CodeSubgroup >= '" & ParametrosReporte(2) & "' AND CodeSubgroup <= '" & ParametrosReporte(3) & "'"
+            Else
+                filtroConsulta &= " AND CodeSubgroup >= '" & ParametrosReporte(2) & "' AND CodeSubgroup <= '" & ParametrosReporte(3) & "'"
+            End If
+        End If
+
+        'si filtra por Producto
+        If ParametrosReporte(4) IsNot Nothing And ParametrosReporte(5) IsNot Nothing Then
+            If filtroConsulta Is Nothing Then
+                filtroConsulta = "CodeProduct >= '" & ParametrosReporte(4) & "' AND CodeProduct <= '" & ParametrosReporte(5) & "'"
+            Else
+                filtroConsulta &= " AND CodeProduct >= '" & ParametrosReporte(4) & "' AND CodeProduct <= '" & ParametrosReporte(5) & "'"
+            End If
+        End If
+
+
+        If ParametrosReporte(7) IsNot Nothing Or ParametrosReporte(8) IsNot Nothing Then
+            If filtroConsulta Is Nothing Then
+                filtroConsulta = "CodeRate >= '" & ParametrosReporte(7) & "' AND CodeRate <= '" & ParametrosReporte(8) & "'"
+
+            Else
+                filtroConsulta &= " AND CodeRate >= '" & ParametrosReporte(7) & "' AND CodeRate <= '" & ParametrosReporte(8) & "'"
+
+            End If
+        End If
+
+
+
+        Me.DataSource = XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).TreasuryService.GetCollection(Of InventoryViewReportListRateXpo)(Nothing, filtroConsulta)
+
+    End Sub
+
+    Public Sub CargarImagenes() Implements IReport.CargarImagenes
+
+    End Sub
+
+    Public ReadOnly Property NameReport As String Implements IReport.NameReport
+        Get
+            Return ""
+        End Get
+    End Property
+
+    Public Property ParametrosReporte As Object() Implements IReport.ParametrosReporte
+
+
+    Private Sub rptPriceListRate_BeforePrint(sender As Object, e As Printing.PrintEventArgs) Handles Me.BeforePrint
+        INDLblCompany.Text = IndigoSessionValues.IndigoCompanyName
+        INDLblNitCompany.Text = "Nit:" & IndigoSessionValues.IndigoCompanyNit
+        Me.INDUserImp.Text = "Usuario Impresión : " & IndigoSessionValues.UserIndigo & " - " & IndigoSessionValues.UserIndigoName
+    End Sub
+End Class

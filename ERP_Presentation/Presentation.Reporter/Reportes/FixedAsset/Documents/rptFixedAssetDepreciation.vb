@@ -1,0 +1,81 @@
+﻿#Region "Librerias Improtadas"
+Imports Infrastructure.CrossCutting.Base
+Imports Infrastructure.Data.Xpo
+Imports Infrastructure.Data.Xpo.FixedAssetRepository
+Imports Domain.Entities
+Imports DevExpress.XtraReports.UI
+Imports System.Drawing.Printing
+Imports DevExpress.XtraReports.Parameters
+Imports Infrastructure.Data.Xpo.SecurityRepository
+
+#End Region
+
+Public Class rptFixedAssetDepreciation
+    Implements IReport
+
+    ''' <summary>
+    ''' Variable para inicializar los valores de sesion
+    ''' </summary>
+    Dim IndigoSessionValues As SessionValues = SessionValues.Instance
+
+    Dim INDList As List(Of FixedAssetVReportDepreciationReportXpo)
+
+    Public Sub CargarDataSource() Implements IReport.CargarDataSource
+        Dim filtroConsulta As String = "ClosingMonth = " & ParametrosReporte(0) & " And ClosingYear = " & ParametrosReporte(1)
+        INDList = XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).BillingService.GetCollection(Of FixedAssetVReportDepreciationReportXpo)(Nothing, filtroConsulta)
+        'If INDList.Count > 0 Then
+        '    Dim INDNameUser = CType(INDList(0), FixedAssetVReportDepreciationReportXpo).FixedAssetActiveOutputId.CreationUser.Trim()
+
+        '    Dim INDListUser = XpoServiceEx.Instance(IndigoSessionValues.SecurityContainer).SecurityService.GetCollection(Of UserXpo)(Nothing, "UserCode = '" & INDNameUser & "'")
+
+        '    If INDListUser IsNot Nothing Then
+        '        Dim INDCodName = CType(INDListUser(0), UserXpo).CodeName.Trim
+        '        Me.INDUserCreate.Text = INDCodName
+        '    End If
+        'End If
+        Me.DataSource = INDList
+    End Sub
+
+    Public Sub CargarImagenes() Implements IReport.CargarImagenes
+
+    End Sub
+
+    Public ReadOnly Property NameReport As String Implements IReport.NameReport
+        Get
+            Return ""
+        End Get
+    End Property
+
+    Public Property ParametrosReporte As Object() Implements IReport.ParametrosReporte
+
+    Private Sub rptFixedAssetDepreciation_BeforePrint(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles MyBase.BeforePrint
+
+        INDLblCompany.Text = IndigoSessionValues.IndigoCompanyName
+
+
+        Dim address, phoneNumber, codeips, city As String
+        'cargar direccion, telefono y codigo ips
+        If ParametrosReporte(1) IsNot Nothing Then
+            Dim operatingUnit = XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).CommonService.ListOperatingUnitById(ParametrosReporte(2))
+            address = operatingUnit(0).Address
+            phoneNumber = operatingUnit(0).Phone
+            codeips = operatingUnit(0).IPSCode
+            If operatingUnit(0).IdCity IsNot Nothing Then
+                city = operatingUnit(0).IdCity.Descripcion
+            Else
+                city = "No asignada(o)"
+            End If
+        Else
+            address = "No asignada(o)"
+            phoneNumber = "No asignada(o)"
+            codeips = "No asignada(o)"
+            city = "No asignada(o)"
+        End If
+
+        INDLblNitCompany.Text = "Nit:" & IndigoSessionValues.IndigoCompanyNit & " - Dirección: " & address & _
+                            " - Teléfono: " & phoneNumber & " - Código IPS: " & codeips
+
+        INDUserImp.Text = "Usuario Impresión : " & IndigoSessionValues.UserIndigo & " - " & IndigoSessionValues.UserIndigoName
+    End Sub
+
+End Class

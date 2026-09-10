@@ -1,0 +1,511 @@
+﻿'***********************************************************************
+' Assembly         : Presentacion.Common
+' Author           : Juan Diego Diaz 
+' Created          : 24-09-2013
+'
+' Copyright        : (c) . All rights reserved.
+'***********************************************************************
+
+Imports DevExpress.XtraLayout
+Imports DevExpress.XtraEditors
+Imports System.Text.RegularExpressions
+Imports Presentation.Controls.MVP
+Imports Domain.DocumentalSystem.Entities
+Imports Presentation.Base
+Imports Infrastructure.CrossCutting.Base
+Imports Presentation.Base.BaseClass
+Imports Domain.Base.Entities
+Imports Presentation.Base.Eform
+Imports Presentation.Base.Eresources
+
+''' <summary>
+''' Frontal de MetaData
+''' </summary>
+Public Class FrmMetaData
+
+#Region "Fields"
+
+    ''' <summary>
+    ''' Layout que encapsula los campos a generar
+    ''' </summary>
+    Private _itemField2 As LayoutControlItem
+    ''' <summary>
+    ''' Lista de Archivadores por formulario
+    ''' </summary>
+    Private listData As List(Of FileContainersForm)
+    ''' <summary>
+    ''' Grupo para los controles dinamicos
+    ''' </summary>
+    Private itemGroup As DevExpress.XtraLayout.LayoutControlGroup
+    ''' <summary>
+    ''' Expresion regular
+    ''' </summary>
+    Private regex As Regex
+    ''' <summary>
+    ''' Reutilizamos el modelo de adjuntar
+    ''' </summary>
+    Private model As MAttach
+    ''' <summary>
+    ''' Integer que representa el Id del Formulario
+    ''' </summary>
+    Private _idForm As Integer
+    ''' <summary>
+    ''' Integer que representa el Id del registro que tiene documentos
+    ''' </summary>
+    Private _idEntityAux As Integer
+    ''' <summary>
+    ''' Objeto Información documento
+    ''' </summary>
+    Private _documentInfo As DocumentInfo
+    ''' <summary>
+    ''' Objeto documento Almacen
+    ''' </summary>
+    Private _documentStore As DocumentsStore
+    ''' <summary>
+    ''' Lista de información metadata
+    ''' </summary>
+    Private listMetaData As List(Of Domain.DocumentalSystem.Entities.Metadata)
+    ''' <summary>
+    ''' FormularioBase
+    ''' </summary>
+    Private _formBase As Presentation.Controls.FormBase
+    ''' <summary>
+    ''' Ruta del archivo adjuntado
+    ''' </summary>
+    Private _filePath As String
+    ''' <summary>
+    ''' Metadata del formulario
+    ''' </summary>
+    Private _dataForm As String
+    ''' <summary>
+    ''' Variable que se utiliza para devolver la descripción cuando se abre desde el modal de eventos del dashboard de autorizaciones
+    ''' </summary>
+    Public _descriptionString As String
+#End Region
+
+#Region "Properties"
+
+    ''' <summary>
+    ''' Registra un mensaje en el visor de eventos
+    ''' </summary>
+    ''' <param name="Icono">Tipo de icono del mensaje</param>
+    ''' <value>Mensaje a registrar</value>
+    Public WriteOnly Property Mensaje(Icono As EeventViewerImages) As String
+        Set(value As String)
+            If Icono = EeventViewerImages.Advertencia Then
+                MessageIndigo.Show(value, MessageType.Warning, Me.Text)
+            ElseIf Icono = EeventViewerImages.Informacion Then
+                MessageIndigo.Show(value, MessageType.Information, Me.Text)
+            ElseIf Icono = EeventViewerImages.MensajeError Then
+                MessageIndigo.Show(value, MessageType.Errores, Me.Text, Botones.Aceptar, "")
+            End If
+        End Set
+    End Property
+
+    ''' <summary>
+    ''' Propiedad con almacen de documentos
+    ''' </summary>
+    Public ReadOnly Property DocumentStoreMetaData As DocumentsStore
+        Get
+            Return Me._documentStore
+        End Get
+    End Property
+
+    ''' <summary>
+    ''' Propiedad con formulario Base
+    ''' </summary>
+    Public Property TopForm As Presentation.Controls.FormBase
+        Get
+            Return Me._formBase
+        End Get
+        Set(value As Presentation.Controls.FormBase)
+            Me._formBase = value
+        End Set
+    End Property
+
+    ''' <summary>
+    ''' Propiedad con ruta del archivo
+    ''' </summary>
+    Public Property FilePath As String
+        Get
+            Return Me._filePath
+        End Get
+        Set(value As String)
+            Me._filePath = value
+        End Set
+    End Property
+
+#End Region
+
+#Region "Builders"
+
+    ''' <summary>
+    ''' Constructor del frontal
+    ''' </summary>
+    ''' <param name="IdForm">Formulario del documento</param>
+    ''' <param name="idEntity">Registro del documento</param>
+    ''' <param name="documentInfo">Información del documento</param>
+    Sub New(IdForm As Integer, idEntity As Integer, documentInfo As DocumentInfo)
+        InitializeComponent()
+        Me._idEntityAux = idEntity
+        Me._idForm = IdForm
+        Me._documentInfo = documentInfo
+    End Sub
+
+#End Region
+
+#Region "Handlers"
+
+    Private _initialHeight As Integer
+
+    ''' <summary>
+    ''' Evento cargar del formulario
+    ''' </summary>
+    Private Async Sub FrmMetaData_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        Me.Text = obtenerRecurso(Eresources.TituloMetada, Eform.MetaData)
+        listData = New List(Of FileContainersForm)
+        regex = New Regex("[\r\n]")
+        model = New MAttach
+        Me.INDFilePathLbl.Text = FilePath
+        Me.BarraBotones.Visible = False
+        Me.INDmpbLoad.Visible = False
+
+        Me.itemGroup = Me.INDLycRoot.Root.AddGroup
+        Me.itemGroup.TextVisible = False
+        Me._initialHeight = Me.Height
+
+        If _idForm = 2176 Then 'Si se abre desde el modal de eventos de dashboard de autorización
+            LayoutControlItem1.Visibility = DevExpress.XtraLayout.Utils.LayoutVisibility.Never
+            LayoutControlItem2.Visibility = DevExpress.XtraLayout.Utils.LayoutVisibility.Never
+
+            CreateMemoEditRunTime(obtenerRecurso(Eresources.RadioGrupoDocumento, Eform.MetaData))
+            CreateButtonRunTime()
+
+            Me.Width = 500
+            Me.Height = 350
+        Else 'Si su proceso normal
+            LayoutControlItem1.Visibility = DevExpress.XtraLayout.Utils.LayoutVisibility.Always
+            LayoutControlItem2.Visibility = DevExpress.XtraLayout.Utils.LayoutVisibility.Always
+            listData = Await model.getFileContainers(Me._idForm)
+            Me.INDFileContainersGle.Properties.DataSource = listData
+        End If
+    End Sub
+
+    ''' <summary>
+    ''' Al cambiar el valor del gridLookUp de los archivadores
+    ''' </summary>
+    Private Async Sub INDFileContainersGle_EditValueChanged(sender As Object, e As EventArgs) Handles INDFileContainersGle.EditValueChanged
+        INDUseInformationRdg.SelectedIndex = -1
+        Dim gridLookUp As GridLookUpEdit = CType(sender, GridLookUpEdit)
+        Dim fileContainer = gridLookUp.EditValue
+        listMetaData = Await model.getMetaData(fileContainer.ToString)
+        LoadControls(listMetaData)
+        Dim dataLookUp As FileContainersForm = CType(gridLookUp.Properties.View.GetRow(gridLookUp.Properties.View.FocusedRowHandle), FileContainersForm)
+        Me.INDUseInformationRdg.Enabled = False
+        If dataLookUp.FileContainer.UseFormMetada Then
+            Me.INDUseInformationRdg.EditValue = True
+        Else
+            Me.INDUseInformationRdg.EditValue = False
+        End If
+        GenerateFormContent()
+    End Sub
+
+    ''' <summary>
+    ''' Aqui se obtiene la info del formulario o se genera los campos de la metadata
+    ''' </summary>
+    Private Async Sub GenerateFormContent()
+        Me.ResetSize()
+        If Me.INDUseInformationRdg.EditValue = True Then
+            If itemGroup.Items.Count > 0 Then
+                ClearLayoutFromFurtherCtrlGroups()
+            End If
+            CreateMemoEditRunTime(obtenerRecurso(Eresources.RadioGrupoDocumento, Eform.MetaData))
+            CreateButtonRunTime()
+            Dim controlMemoExEdit = (From a As DevExpress.XtraLayout.LayoutControlItem In Me.itemGroup.Items
+                                     Where a.Control.Name = "INDInformationMee"
+                                     Select a).FirstOrDefault
+
+            If TopForm._doc Is Nothing Then
+                Await TopForm.ReindexFormAsync(TopForm.BarraBotones._listDocuments)
+            End If
+            If TopForm._doc IsNot Nothing Then
+                controlMemoExEdit.Control.Text = TopForm._doc.Content.ToString
+                Me._dataForm = controlMemoExEdit.Control.Text
+                CType(controlMemoExEdit.Control, MemoEdit).Properties.ReadOnly = True
+            End If
+        Else
+            If itemGroup.Items.Count > 0 Then
+                ClearLayoutFromFurtherCtrlGroups()
+                LoadControls(listMetaData)
+                If listMetaData.Count = 0 Then
+                    Me.ResetSize()
+                End If
+            End If
+        End If
+    End Sub
+
+#End Region
+
+#Region "Methods or Functions"
+
+    ''' <summary>
+    ''' Metodo para crear controles en tiempo de ejecución
+    ''' </summary>
+    ''' <param name="item"></param>
+    ''' <param name="control"></param>
+    ''' <remarks></remarks>
+    Sub CreateControlRunTime(item As Domain.DocumentalSystem.Entities.Metadata, control As ControlMetadataEnum)
+        Me._itemField2 = Me.itemGroup.AddItem
+        Me._itemField2.Name = "itemControl"
+        Me._itemField2.Text = item.Name
+        Me._itemField2.AppearanceItemCaption.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Near
+        Me._itemField2.AppearanceItemCaption.TextOptions.VAlignment = DevExpress.Utils.VertAlignment.Center
+        Me._itemField2.TextAlignMode = TextAlignModeItem.CustomSize
+        Me._itemField2.TextToControlDistance = 12
+        Me._itemField2.ShowInCustomizationForm = False
+        Me._itemField2.AllowHide = False
+        Me._itemField2.TextSize = New System.Drawing.Size(120, 35)
+        Me._itemField2.AppearanceItemCaption.Font = New Font("Segoe UI Light", 12.0!)
+        If control = ControlMetadataEnum.TextEdit Then
+            Me._itemField2.Control = New TextEdit()
+            CType(Me._itemField2.Control, TextEdit).TabIndex = 1
+            CType(Me._itemField2.Control, TextEdit).EnterMoveNextControl = False
+            CType(Me._itemField2.Control, TextEdit).Font = New Font("Segoe UI", 12.0!, FontStyle.Regular)
+            CType(Me._itemField2.Control, TextEdit).Properties.MaxLength = item.Long
+        End If
+        If control = ControlMetadataEnum.MemoEdit Then
+            Me._itemField2.Control = New MemoEdit()
+            CType(Me._itemField2.Control, MemoEdit).TabIndex = 1
+            CType(Me._itemField2.Control, MemoEdit).Font = New Font("Segoe UI", 12.0!, FontStyle.Regular)
+            CType(Me._itemField2.Control, MemoEdit).Properties.MaxLength = item.Long
+        End If
+        If control = ControlMetadataEnum.DateEdit Then
+            Me._itemField2.Control = New DateEdit()
+            CType(Me._itemField2.Control, DateEdit).TabIndex = 1
+            CType(Me._itemField2.Control, DateEdit).EnterMoveNextControl = False
+            CType(Me._itemField2.Control, DateEdit).Properties.ShowClear = False
+            CType(Me._itemField2.Control, DateEdit).Font = New Font("Segoe UI", 12.0!, FontStyle.Regular)
+            CType(Me._itemField2.Control, DateEdit).Properties.Mask.EditMask = "dd MMMM yyyy"
+            CType(Me._itemField2.Control, DateEdit).Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret
+            CType(Me._itemField2.Control, DateEdit).Properties.Mask.UseMaskAsDisplayFormat = True
+            CType(Me._itemField2.Control, DateEdit).Properties.VistaDisplayMode = DevExpress.Utils.DefaultBoolean.Default
+            CType(Me._itemField2.Control, DateEdit).Properties.VistaEditTime = DevExpress.Utils.DefaultBoolean.Default
+        End If
+        Me._itemField2.SizeConstraintsType = SizeConstraintsType.Custom
+        Me._itemField2.MinSize = New Size(390, 36)
+        Me._itemField2.MaxSize = New Size(390, 36)
+        Me.NewHeight(Me.Size.Height + 36)
+    End Sub
+
+    ''' <summary>
+    ''' Clears the layout from bond editor.
+    ''' </summary>
+    Private Sub ClearLayoutFromFurtherCtrlGroups()
+        Dim localCtrlGrp As LayoutControlGroup = itemGroup
+        RemoveAllControlsInCollection(localCtrlGrp.Items)
+    End Sub
+
+    ''' <summary>
+    ''' Remueve toda la colección.
+    ''' </summary>
+    ''' <param name="collection">The collection.</param>
+    Private Shared Sub RemoveAllControlsInCollection(collection As DevExpress.XtraLayout.Utils.LayoutGroupItemCollection)
+        For i As Integer = collection.Count - 1 To 0 Step -1
+            Dim ctrl As LayoutControlItem = TryCast(collection(i), LayoutControlItem)
+            collection.RemoveAt(i)
+            ctrl.Control.Dispose()
+            ctrl.Dispose()
+        Next
+    End Sub
+
+    Private Sub ResetSize()
+        Me.SuspendLayout()
+        Me.SetBounds(Me.Bounds.X, Me.Bounds.Y, Me.Bounds.Width, Me._initialHeight)
+        Me.Refresh()
+        Me.ResumeLayout()
+    End Sub
+
+    Private Sub NewHeight(ByVal height As Int32)
+        Me.SuspendLayout()
+        Me.SetBounds(Me.Bounds.X, Me.Bounds.Y, Me.Bounds.Width, height)
+        Me.Refresh()
+        Me.ResumeLayout()
+    End Sub
+
+    Private Sub FixSize()
+        Dim ly As LayoutControlItem = Me.itemGroup.Items.FindByName("INDGuardarBtn")
+        Dim rest As Int32 = Me.Size.Height - ly.Control.Location.Y
+        rest = rest - ly.Control.Size.Height
+
+    End Sub
+
+    ''' <summary>
+    ''' Evento para cargar los controles según metadata del archivador
+    ''' </summary>
+    Sub LoadControls(metaData As List(Of Domain.DocumentalSystem.Entities.Metadata))
+        If itemGroup.Items.Count > 0 Then
+            ClearLayoutFromFurtherCtrlGroups()
+            Me.ResetSize()
+        End If
+        For Each item As Domain.DocumentalSystem.Entities.Metadata In metaData
+            Select Case item.DataType
+                Case "Texto"
+                    CreateControlRunTime(item, ControlMetadataEnum.TextEdit)
+                Case "Fecha"
+                    CreateControlRunTime(item, ControlMetadataEnum.DateEdit)
+                Case "TextoLargo"
+                    CreateControlRunTime(item, ControlMetadataEnum.MemoEdit)
+            End Select
+        Next
+        If metaData.Count > 0 Then
+            CreateButtonRunTime()
+        End If
+    End Sub
+
+    ''' <summary>
+    ''' Función para crear el boton guardar en tiempo de ejecución
+    ''' </summary>
+    Function CreateButtonRunTime() As Rectangle
+        Me.INDLycRoot.BeginUpdate()
+        Me.INDLycRoot.SuspendLayout()
+        Me._itemField2 = Me.itemGroup.AddItem
+        CType(Me._itemField2, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me._itemField2.TextVisible = False
+        Me._itemField2.Name = "INDGuardarBtn"
+        Me._itemField2.Text = " "
+        Me._itemField2.Padding = New DevExpress.XtraLayout.Utils.Padding(0, 0, 10, 0)
+        Me._itemField2.ShowInCustomizationForm = False
+        Me._itemField2.AllowHide = False
+        Me._itemField2.Control = New SimpleButton()
+        CType(Me._itemField2.Control, SimpleButton).TabIndex = 1
+        CType(Me._itemField2.Control, SimpleButton).Text = obtenerRecurso(BotonGuardarDocumento, Eform.MetaData)
+        AddHandler CType(Me._itemField2.Control, SimpleButton).Click, AddressOf GenerateString
+        CType(Me._itemField2.Control, SimpleButton).Font = New Font("Segoe UI", 12.0!, FontStyle.Regular)
+        CType(Me._itemField2.Control, SimpleButton).Size = New Size(100, 36)
+        CType(Me._itemField2.Control, SimpleButton).Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center
+        Me._itemField2.SizeConstraintsType = SizeConstraintsType.Custom
+        Me._itemField2.MinSize = New Size(390, 36)
+        Me._itemField2.MaxSize = New Size(390, 36)
+        CType(Me._itemField2, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.INDLycRoot.EndUpdate()
+        Me.INDLycRoot.ResumeLayout(False)
+        Me.NewHeight(Me.Size.Height + 36)
+        Me.FixSize()
+        Return Me._itemField2.Bounds
+    End Function
+
+    Sub CreateMemoEditRunTime(info As String)
+        Me._itemField2 = Me.itemGroup.AddItem
+        Me._itemField2.Name = "itemControl"
+        Me._itemField2.Text = info
+        Me._itemField2.AppearanceItemCaption.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Near
+        Me._itemField2.AppearanceItemCaption.TextOptions.VAlignment = DevExpress.Utils.VertAlignment.Center
+        Me._itemField2.TextAlignMode = TextAlignModeItem.CustomSize
+        Me._itemField2.TextToControlDistance = 12
+        Me._itemField2.ShowInCustomizationForm = False
+        Me._itemField2.AllowHide = False
+        Me._itemField2.TextSize = New System.Drawing.Size(120, 66)
+        Me._itemField2.AppearanceItemCaption.Font = New Font("Segoe UI Light", 12.0!)
+        Me._itemField2.Control = New MemoEdit()
+        CType(Me._itemField2.Control, MemoEdit).Name = "INDInformationMee"
+        CType(Me._itemField2.Control, MemoEdit).TabIndex = 1
+        CType(Me._itemField2.Control, MemoEdit).Font = New Font("Segoe UI", 12.0!, FontStyle.Regular)
+        Me._itemField2.SizeConstraintsType = SizeConstraintsType.Custom
+        Me._itemField2.MinSize = New Size(390, 66)
+        Me._itemField2.MaxSize = New Size(390, 66)
+        Me.NewHeight(Me.Size.Height + 66)
+    End Sub
+
+    ''' <summary>
+    ''' Metodo para habilitar la imagen de carga
+    ''' </summary>
+    ''' <param name="control">Variable de control</param>
+    Sub ShowLoading(control As Boolean)
+        If control Then
+            INDPanelControlBase.Enabled = False
+            Me.INDLoadingPcc.SetBounds((Me.Width / 2) - (Me.INDLoadingPcc.Width / 2), (Me.Height / 2) - (Me.INDLoadingPcc.Height / 2), Me.INDLoadingPcc.Width, Me.INDLoadingPcc.Height)
+            Me.INDLoadingPcc.Show()
+        Else
+            INDPanelControlBase.Enabled = True
+            Me.INDLoadingPcc.Hide()
+        End If
+    End Sub
+
+
+    ''' <summary>
+    ''' Evento ejecutado por la accion guardar
+    ''' </summary>
+    Async Sub GenerateString(sender As Object, e As EventArgs)
+        Dim stringConcat As String = String.Empty
+
+        If Me._idForm = 2176 Then
+            Dim controlMemoExEdit = (From a As DevExpress.XtraLayout.LayoutControlItem In Me.itemGroup.Items
+                                     Where a.Control.Name = "INDInformationMee"
+                                     Select a).FirstOrDefault
+            _descriptionString = regex.Replace(controlMemoExEdit.Control.Text, " ")
+            Me.DialogResult = System.Windows.Forms.DialogResult.OK
+        Else
+            If Me.INDUseInformationRdg.EditValue = False Then
+                For Each item As DevExpress.XtraLayout.LayoutControlItem In Me.itemGroup.Items
+                    If item.Control.GetType() <> GetType(SimpleButton) Then
+                        If item.Control.Text.Trim().Equals(String.Empty) Then
+                            Me.Mensaje(EeventViewerImages.Advertencia) = "Debe llenar todos los campos de la metadata"
+                            item.Control.Focus()
+                            Exit Sub
+                        End If
+                        If item.Control.GetType() = GetType(MemoExEdit) Then
+                            Dim dataReplace = regex.Replace(item.Control.Text, " ")
+                            stringConcat = stringConcat & (item.Text & " : " & dataReplace) & " | "
+                        Else 'TextEdit
+                            stringConcat = stringConcat & (item.Text & " : " & item.Control.Text) & " | "
+                        End If
+                    End If
+                Next
+                Dim lastPaid As Integer = stringConcat.LastIndexOf(" | ")
+                If lastPaid <> -1 Then
+                    stringConcat = stringConcat.Substring(0, stringConcat.Length - 2)
+                End If
+            Else
+                stringConcat = Me._dataForm
+            End If
+            stringConcat = stringConcat.Replace("$#", "").ToString.Replace("#$", "")
+            model = New MAttach
+            Dim dateServer = Await model.GetServerDate
+            Dim response As CloudAgent.IndigoReference.DocumentalSystem.ResponseDocument = Nothing
+            Me.ShowLoading(True)
+            response = Await model.saveDocument(_documentInfo.DocumentStreamLength, _documentInfo.FileName, _documentInfo.DocumentStream, stringConcat, dateServer, _idForm, _idEntityAux, Me.INDFileContainersGle.EditValue, Me.INDUseInformationRdg.EditValue)
+            Me.ShowLoading(False)
+            If response.response Then
+                Dim ext = System.IO.Path.GetExtension(_documentInfo.FileName).ToLower
+                Dim documento As New IndexedDocument2 With {.Content = stringConcat, .CreationDate = dateServer, .CreationUser = SessionValues.Instance.UserIndigo & "-" & SessionValues.Instance.UserIndigoName, .DocumentType = IndexedDocumentType.ScannedDocument, .Extension = ext, .IdEntity = "$#" & _idForm & "_" & response.documentStore.Id.ToString & "#$", .IdForm = _idForm, .Title = "#" & Me._idEntityAux & " " & _documentInfo.FileName, .Update = dateServer, .UpdateUser = SessionValues.Instance.UserIndigo & "-" & SessionValues.Instance.UserIndigoName}
+                'Await model.SaveIndexingDocument(documento)
+                Me._documentStore = response.documentStore
+                Me.DialogResult = System.Windows.Forms.DialogResult.OK
+            Else
+                Me.Mensaje(EeventViewerImages.Advertencia) = obtenerRecurso(Eresources.ErrorGuardarDocumento, Eform.MetaData) & Environment.NewLine & response.message
+            End If
+        End If
+    End Sub
+
+#End Region
+
+End Class
+
+''' <summary>
+''' Enumera los tipos de controles
+''' </summary>
+<Serializable()>
+Public Enum ControlMetadataEnum
+    ''' <summary>
+    ''' TextEdit
+    ''' </summary>
+    TextEdit
+    ''' <summary>
+    ''' DateEdit
+    ''' </summary>
+    DateEdit
+    ''' <summary>
+    ''' MemoEdit
+    ''' </summary>
+    MemoEdit
+End Enum

@@ -1,0 +1,185 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<XtraReportsLayoutSerializer SerializerVersion="20.1.8.0" Ref="0" Name="rptINDGestionCotizaciones" ControlType="DevExpress.XtraReports.UI.XtraReport, DevExpress.XtraReports.v20.1, Version=20.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" DataMember="Cotizacion" Version="20.1" PageWidth="850" PageHeight="1100" Margins="35, 38, 32, 40">
+  <Bands>
+    <Item1 Ref="1" ControlType="DetailBand" Name="Detail" TextAlignment="TopLeft" Padding="0,0,0,0,100" HeightF="0" />
+    <Item2 Ref="2" Name="TopMargin" ControlType="TopMarginBand" TextAlignment="TopLeft" Padding="0,0,0,0,100" HeightF="32" />
+    <Item3 Ref="3" Name="BottomMargin" ControlType="BottomMarginBand" TextAlignment="TopLeft" Padding="0,0,0,0,100" HeightF="39.58333" />
+    <Item4 Ref="4" Name="CabeceraReporte" ControlType="ReportHeaderBand" HeightF="89.99999">
+      <Controls>
+        <Item1 Ref="5" Name="INDPictureBoxLogo" ControlType="XRPictureBox" SizeF="259.375,64.66666" LocationFloat="3.920428, 0" Sizing="AutoSize" LockedInUserDesigner="true" />
+        <Item2 Ref="6" Name="XrPageInfo1" ControlType="XRPageInfo" SizeF="221.5056,20.91665" Padding="2,2,0,0,100" LocationFloat="544.2549, 64.29167" Format="{0:dd 'de' MMMM 'del' yyyy   hh:mm tt}" PageInfo="DateTime" LockedInUserDesigner="true" />
+        <Item3 Ref="7" Name="XrLabel10" ControlType="XRLabel" SizeF="136.9727,20.91666" LocationFloat="407.2822, 64.29167" Font="Times New Roman, 11.25pt" Padding="2,2,0,0,100" LockedInUserDesigner="true" Text="Fecha de Impresión:">
+          <StylePriority Ref="8" UseFont="false" />
+        </Item3>
+        <Item4 Ref="9" Name="XrLine3" ControlType="XRLine" SizeF="769.0379,2.583344" LocationFloat="2.680906, 87.41665" />
+        <Item5 Ref="10" Name="INDlblNombreReporte" ControlType="XRLabel" SizeF="382.571,48.95834" LocationFloat="383.0029, 0" Font="Arial, 14.25pt, style=Bold" Padding="2,2,0,0,100" TextAlignment="MiddleRight" LockedInUserDesigner="true" Text="SOLICITUD DE COTIZACIÓN">
+          <StylePriority Ref="11" UseFont="false" UseTextAlignment="false" />
+        </Item5>
+      </Controls>
+    </Item4>
+    <Item5 Ref="12" ControlType="DetailReportBand" Name="DetailReport" DataMember="Cotizaciones" Level="0">
+      <Bands>
+        <Item1 Ref="13" ControlType="DetailBand" Name="Detail1" HeightF="25">
+          <Controls>
+            <Item1 Ref="14" Name="XrTable1" ControlType="XRTable" SizeF="762.9583,25" LocationFloat="10.00001, 0" Borders="All">
+              <Rows>
+                <Item1 Ref="15" ControlType="XRTableRow" Name="XrTableRow1" Weight="1">
+                  <Cells>
+                    <Item1 Ref="16" Name="INDCodigoProducto" ControlType="XRTableCell" Text="Código" TextAlignment="TopCenter" Weight="0.56071368210603412">
+                      <DataBindings>
+                        <Item1 Ref="17" PropertyName="Text" DataMember="Cotizaciones.CODIGO DEL PRODUCTO" />
+                      </DataBindings>
+                      <StylePriority Ref="18" UseTextAlignment="false" />
+                    </Item1>
+                    <Item2 Ref="19" Name="INDNombreProducto" ControlType="XRTableCell" Text="Producto" Weight="0.85703052144709524">
+                      <DataBindings>
+                        <Item1 Ref="20" PropertyName="Text" DataMember="Cotizaciones.NOMBRE DEL PRODUCTO" />
+                      </DataBindings>
+                    </Item2>
+                    <Item3 Ref="21" Name="INDDescripcionMedida" ControlType="XRTableCell" Text="INDDescripcionMedida" Weight="0.85703052144709524">
+                      <DataBindings>
+                        <Item1 Ref="22" PropertyName="Text" DataMember="Cotizaciones.UNIDAD MEDIDA" />
+                      </DataBindings>
+                    </Item3>
+                    <Item4 Ref="23" Name="INDIvaProducto" ControlType="XRTableCell" Text="iva" TextAlignment="TopCenter" Weight="0.92386326570139976">
+                      <DataBindings>
+                        <Item1 Ref="24" PropertyName="Text" DataMember="Cotizaciones.IVA DEL PRODUCTO" />
+                      </DataBindings>
+                      <StylePriority Ref="25" UseTextAlignment="false" />
+                    </Item4>
+                    <Item5 Ref="26" Name="XrTableCell11" ControlType="XRTableCell" TextAlignment="TopCenter" Weight="0.72607436313596407">
+                      <StylePriority Ref="27" UseTextAlignment="false" />
+                    </Item5>
+                    <Item6 Ref="28" Name="INDCantidadProducto" ControlType="XRTableCell" Text="Cantidad" TextAlignment="TopCenter" Weight="0.56087270843696835">
+                      <DataBindings>
+                        <Item1 Ref="29" PropertyName="Text" DataMember="Cotizaciones.CANTIDAD AUTORIZADA" />
+                      </DataBindings>
+                      <StylePriority Ref="30" UseTextAlignment="false" />
+                    </Item6>
+                    <Item7 Ref="31" Name="XrTableCell3" ControlType="XRTableCell" Weight="0.6603635000839434" />
+                  </Cells>
+                </Item1>
+              </Rows>
+              <StylePriority Ref="32" UseBorders="false" />
+            </Item1>
+          </Controls>
+        </Item1>
+        <Item2 Ref="33" ControlType="GroupFooterBand" Name="GroupFooter1" HeightF="83.95831">
+          <Controls>
+            <Item1 Ref="34" Name="INDObservaciones" ControlType="XRLabel" SizeF="662.1499,73.95833" LocationFloat="110.8085, 9.999974" Padding="2,2,0,0,100" Borders="All">
+              <StylePriority Ref="35" UseBorders="false" />
+            </Item1>
+            <Item2 Ref="36" Name="INDlblObservaciones" ControlType="XRLabel" SizeF="95.1599,25" LocationFloat="10.00004, 9.999974" Font="Times New Roman, 9.75pt, style=Bold" Padding="2,2,0,0,100" Text="Observaciones:">
+              <StylePriority Ref="37" UseFont="false" />
+            </Item2>
+          </Controls>
+        </Item2>
+        <Item3 Ref="38" ControlType="GroupHeaderBand" Name="GroupHeader1" HeightF="25">
+          <Controls>
+            <Item1 Ref="39" Name="XrTable2" ControlType="XRTable" SizeF="762.9583,25" LocationFloat="10.00001, 0" Font="Times New Roman, 9.75pt, style=Bold" ForeColor="Black" BackColor="Silver" Borders="All" BorderWidth="2" TextAlignment="TopCenter">
+              <Rows>
+                <Item1 Ref="40" ControlType="XRTableRow" Name="XrTableRow2" Weight="1">
+                  <Cells>
+                    <Item1 Ref="41" Name="XrTableCell4" ControlType="XRTableCell" Text="CODIGO" Weight="0.273242954726709" />
+                    <Item2 Ref="42" Name="XrTableCell5" ControlType="XRTableCell" Text="PRODUCTO" Weight="0.417641579670703" />
+                    <Item3 Ref="43" Name="XrTableCell2" ControlType="XRTableCell" Text="UNIDAD" Weight="0.417641579670703" />
+                    <Item4 Ref="44" Name="XrTableCell7" ControlType="XRTableCell" Text="IVA" Weight="0.4502100298022147" />
+                    <Item5 Ref="45" Name="XrTableCell9" ControlType="XRTableCell" Text="VALOR NETO" Weight="0.35382522924944632" />
+                    <Item6 Ref="46" Name="XrTableCell12" ControlType="XRTableCell" Text="CANTIDAD" Weight="0.27332029341943392" />
+                    <Item7 Ref="47" Name="XrTableCell8" ControlType="XRTableCell" Text="TOTAL" Weight="0.321803482036828" />
+                  </Cells>
+                </Item1>
+              </Rows>
+              <StylePriority Ref="48" UseFont="false" UseForeColor="false" UseBackColor="false" UseBorders="false" UseBorderWidth="false" UseTextAlignment="false" />
+            </Item1>
+          </Controls>
+        </Item3>
+      </Bands>
+    </Item5>
+    <Item6 Ref="49" ControlType="GroupHeaderBand" Name="GroupHeader2" HeightF="170.6666">
+      <Controls>
+        <Item1 Ref="50" Name="XrLine12" ControlType="XRLine" SizeF="11.45844,21.62498" LocationFloat="642.7083, 6.791624" LineDirection="Slant" LineWidth="2" />
+        <Item2 Ref="51" Name="XrLine11" ControlType="XRLine" SizeF="11.45844,21.62498" LocationFloat="592.7084, 6.874943" LineDirection="Slant" LineWidth="2" />
+        <Item3 Ref="52" Name="XrLine10" ControlType="XRLine" SizeF="155.7451,3.125" LocationFloat="556.7549, 26.41659" />
+        <Item4 Ref="53" Name="XrLine9" ControlType="XRLine" SizeF="245.8334,2" LocationFloat="101.4335, 121.4166" />
+        <Item5 Ref="54" Name="XrLine8" ControlType="XRLine" SizeF="245.8334,2" LocationFloat="101.4335, 104.3332" />
+        <Item6 Ref="55" Name="XrTable4" ControlType="XRTable" SizeF="370.52,148.1667" LocationFloat="396.4801, 6.791624" Borders="All" BorderWidth="2">
+          <Rows>
+            <Item1 Ref="56" ControlType="XRTableRow" Name="XrTableRow4" Weight="2.7916668701171874">
+              <Cells>
+                <Item1 Ref="57" Name="XrTableCell14" ControlType="XRTableCell" Weight="3" />
+              </Cells>
+            </Item1>
+          </Rows>
+          <StylePriority Ref="58" UseBorders="false" UseBorderWidth="false" />
+        </Item6>
+        <Item7 Ref="59" Name="XrTable3" ControlType="XRTable" SizeF="388.2698,148.0834" LocationFloat="3.920428, 6.874975">
+          <Rows>
+            <Item1 Ref="60" ControlType="XRTableRow" Name="XrTableRow3" Weight="1">
+              <Cells>
+                <Item1 Ref="61" Name="XrTableCell13" ControlType="XRTableCell" Borders="All" BorderWidth="2" Weight="3">
+                  <StylePriority Ref="62" UseBorders="false" UseBorderWidth="false" />
+                </Item1>
+              </Cells>
+            </Item1>
+          </Rows>
+        </Item7>
+        <Item8 Ref="63" Name="XrLabel1" ControlType="XRLabel" SizeF="83.92903,23" LocationFloat="10.00004, 39.41666" Font="Times New Roman, 11.25pt" Padding="2,2,0,0,100" TextAlignment="MiddleLeft" LockedInUserDesigner="true" Text="Cotizado a:">
+          <StylePriority Ref="64" UseFont="false" UseTextAlignment="false" />
+        </Item8>
+        <Item9 Ref="65" Name="INDLblNombreEmpresaCliente" ControlType="XRLabel" SizeF="285.7612,23" LocationFloat="93.92907, 39.41666" Font="Times New Roman, 12pt, style=Bold" Padding="2,2,0,0,100" TextAlignment="MiddleLeft" AnchorVertical="Top" LockedInUserDesigner="true" Text="INDIGO CRYSTAL">
+          <StylePriority Ref="66" UseFont="false" UseTextAlignment="false" />
+        </Item9>
+        <Item10 Ref="67" Name="XrLabel2" ControlType="XRLabel" SizeF="40.17903,16.99999" LocationFloat="53.75004, 62.41665" Font="Times New Roman, 11.25pt" Padding="2,2,0,0,100" LockedInUserDesigner="true" Text="NIT:">
+          <StylePriority Ref="68" UseFont="false" />
+        </Item10>
+        <Item11 Ref="69" Name="XrLabel3" ControlType="XRLabel" SizeF="71.42903,16.99999" LocationFloat="22.50004, 89.41666" Font="Times New Roman, 11.25pt" Padding="2,2,0,0,100" Text="Vigencia:">
+          <StylePriority Ref="70" UseFont="false" />
+        </Item11>
+        <Item12 Ref="71" Name="INDLblNitCliente" ControlType="XRLabel" SizeF="285.7612,17" LocationFloat="93.92907, 62.41665" Font="Arial, 9.75pt" Padding="2,2,0,0,100" TextAlignment="TopLeft" LockedInUserDesigner="true" Text="800000100-0">
+          <StylePriority Ref="72" UseFont="false" UseTextAlignment="false" />
+        </Item12>
+        <Item13 Ref="73" Name="XrLabel5" ControlType="XRLabel" SizeF="90.00859,16.99998" LocationFloat="3.920428, 106.4166" Font="Times New Roman, 11.25pt" Padding="2,2,0,0,100" Text="Forma Pago:">
+          <StylePriority Ref="74" UseFont="false" />
+        </Item13>
+        <Item14 Ref="75" Name="XrLabel11" ControlType="XRLabel" SizeF="136.9727,15.70832" LocationFloat="406.5634, 12.70828" Font="Times New Roman, 11.25pt" Padding="2,2,0,0,100" Text="Fecha de Cotización:">
+          <StylePriority Ref="76" UseFont="false" />
+        </Item14>
+        <Item15 Ref="77" Name="XrLabel8" ControlType="XRLabel" SizeF="40.17903,16.99999" LocationFloat="462.8134, 62.41658" Font="Times New Roman, 11.25pt" Padding="2,2,0,0,100" Text="NIT:">
+          <StylePriority Ref="78" UseFont="false" />
+        </Item15>
+        <Item16 Ref="79" Name="XrLabel9" ControlType="XRLabel" SizeF="96.42902,16.99999" LocationFloat="406.5634, 89.41663" Font="Times New Roman, 11.25pt" Padding="2,2,0,0,100" Text="Plazo Entrega:">
+          <StylePriority Ref="80" UseFont="false" />
+        </Item16>
+        <Item17 Ref="81" Name="XrLabel13" ControlType="XRLabel" SizeF="49.15704,17" LocationFloat="592.7084, 89.41663" Font="Times New Roman, 11.25pt" Padding="2,2,0,0,100" Text="Dia(s)">
+          <StylePriority Ref="82" UseFont="false" />
+        </Item17>
+        <Item18 Ref="83" Name="XrLine1" ControlType="XRLine" SizeF="245.8334,2" LocationFloat="506.25, 61.04164" />
+        <Item19 Ref="84" Name="XrLine2" ControlType="XRLine" SizeF="245.8334,2.000008" LocationFloat="506.25, 77.41661" />
+        <Item20 Ref="85" Name="XrLine4" ControlType="XRLine" SizeF="86.45837,2.083336" LocationFloat="506.25, 104.3332" />
+        <Item21 Ref="86" Name="XrLabel7" ControlType="XRLabel" SizeF="96.42908,23.00002" LocationFloat="406.5634, 39.41663" Font="Times New Roman, 11.25pt" Padding="2,2,0,0,100" TextAlignment="MiddleLeft" Text="Cotizado por:">
+          <StylePriority Ref="87" UseFont="false" UseTextAlignment="false" />
+        </Item21>
+      </Controls>
+    </Item6>
+    <Item7 Ref="88" ControlType="ReportFooterBand" Name="ReportFooter" HeightF="93.75">
+      <Controls>
+        <Item1 Ref="89" Name="XrLabel17" ControlType="XRLabel" SizeF="214.5833,23" LocationFloat="484.2424, 60.75" Font="Times New Roman, 11.25pt" Padding="2,2,0,0,100" Text="Firma y Sello">
+          <StylePriority Ref="90" UseFont="false" />
+        </Item1>
+        <Item2 Ref="91" Name="XrLine6" ControlType="XRLine" SizeF="214.5833,2" LocationFloat="484.2424, 58.75003" />
+        <Item3 Ref="92" Name="XrLabel15" ControlType="XRLabel" SizeF="95.15993,19.875" LocationFloat="384.2424, 8.750026" Font="Times New Roman, 11.25pt" Padding="2,2,0,0,100" Text="Recibido Por :">
+          <StylePriority Ref="93" UseFont="false" />
+        </Item3>
+        <Item4 Ref="94" Name="XrLabel16" ControlType="XRLabel" SizeF="214.5833,23" LocationFloat="110.8085, 60.75001" Font="Times New Roman, 11.25pt" Padding="2,2,0,0,100" Text="Firma y Sello">
+          <StylePriority Ref="95" UseFont="false" />
+        </Item4>
+        <Item5 Ref="96" Name="XrLine5" ControlType="XRLine" SizeF="214.5833,2" LocationFloat="110.8085, 58.75003" />
+        <Item6 Ref="97" Name="XrLabel14" ControlType="XRLabel" SizeF="95.15993,19.875" LocationFloat="10.00001, 9.999974" Font="Times New Roman, 11.25pt" Padding="2,2,0,0,100" Text="Cotizado Por :">
+          <StylePriority Ref="98" UseFont="false" />
+        </Item6>
+        <Item7 Ref="99" Name="XrLine7" ControlType="XRLine" SizeF="769.038,3.208336" LocationFloat="3.920333, 0" />
+      </Controls>
+    </Item7>
+  </Bands>
+</XtraReportsLayoutSerializer>

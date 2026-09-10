@@ -1,0 +1,107 @@
+﻿#Region "Imports"
+Imports DevExpress.XtraReports.UI
+Imports Infrastructure.CrossCutting.Base
+Imports Infrastructure.Data.Xpo
+Imports Infrastructure.Data.Xpo.TreasuryRepository
+#End Region
+
+Public Class rptSchedulePayment
+    Implements IReport
+
+    ''' <summary>
+    ''' Variable para inicializar los valores de sesion
+    ''' </summary>
+    Dim IndigoSessionValues As SessionValues = SessionValues.Instance
+
+    Private ValueTotal As Decimal
+
+    Private INDUser As Object
+
+    Private List As List(Of TreasurySchedulePaymentDetailXpo)
+
+    Public Sub CargarDataSource() Implements IReport.CargarDataSource
+
+        Dim filtroConsulta As String = "SchedulePaymentId.Id = " & ParametrosReporte(0)
+        List = XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).TreasuryService.GetCollection(Of TreasurySchedulePaymentDetailXpo)(Nothing, filtroConsulta)
+        Dim INDCodeUser = CType(List(0), TreasurySchedulePaymentDetailXpo).SchedulePaymentId.CreationUser.Trim()
+        INDUser = XpoServiceEx.Instance(IndigoSessionValues.SecurityContainer).TreasuryService.GetCollection(Of Infrastructure.Data.Xpo.SecurityRepository.UserXpo)(Nothing, "UserCode = '" & INDCodeUser & "'")
+
+        Me.DataSource = List
+        ValueTotal = 0
+        For Each item In List
+            ValueTotal += item.AmountPaid
+        Next
+    End Sub
+
+    Public Sub CargarImagenes() Implements IReport.CargarImagenes
+
+    End Sub
+
+    Public ReadOnly Property NameReport As String Implements IReport.NameReport
+        Get
+            Return ""
+        End Get
+    End Property
+
+    Public Property ParametrosReporte As Object() Implements IReport.ParametrosReporte
+
+    Private Sub rptSchedulePayment_BeforePrint(sender As Object, e As Printing.PrintEventArgs) Handles MyBase.BeforePrint
+
+        Me.INDLblUserPrint.Text = "Usuario Impresión : " & IndigoSessionValues.UserIndigo & " - " & IndigoSessionValues.UserIndigoName
+        Me.INDLblCompany.Text = IndigoSessionValues.IndigoCompanyName
+        Me.INDLblNitCompany.Text = "Nit : " & IndigoSessionValues.IndigoCompanyNit
+        If INDUser.count() > 0 Then
+            INDUserCreate.Text = INDUser(0).CodeName
+        End If
+
+        'ordenamos por el parametro seleccionado
+        Dim OrderByList = OrderBy.Value
+        Dim OrderList As List(Of TreasurySchedulePaymentDetailXpo)
+        Select Case OrderByList
+            Case 1
+                OrderList = List.OrderBy(Function(x) x.Id).ToList()
+            Case 2
+                OrderList = List.OrderBy(Function(x) x.AmountPaid).ToList()
+            Case 3
+                OrderList = List.OrderByDescending(Function(x) x.AmountPaid).ToList()
+        End Select
+
+        Me.DataSource = OrderList
+
+    End Sub
+
+    ''' <summary>
+    ''' se crean los acumulados por monedas
+    ''' </summary>
+    ''' <param name="sender"></param>
+    ''' <param name="e"></param>
+    Private Sub GroupFooter1_BeforePrint(sender As Object, e As Printing.PrintEventArgs) Handles GroupFooter1.BeforePrint
+        Dim GroupByCurrency = (From x In List
+                               Group By x.CurrencyAbbreviation Into Group
+                               Select CurrencyAbbreviation, SumCurrency = Group.Sum(Function(f) f.AmountPaid))
+        Dim row = 0
+        For Each ObjItem In GroupByCurrency
+            If row = 0 Then
+                XrTableCell11.Text = $"Valor Total {ObjItem.CurrencyAbbreviation}"
+                XrTableCell12.Text = (ObjItem.SumCurrency).ToString("n2")
+                XrTableCell12.TextFormatString = "{0:n2}"
+                row += 1
+                Continue For
+            End If
+
+            XrTable3.InsertRowBelow(XrTable3.Rows.LastRow)
+            Dim irow = XrTable3.Rows.LastRow.Index
+            For Each Column As XRTableCell In XrTableRow3
+                Dim cell = XrTable3.Rows(irow).Cells.Item(Column.Index)
+                Select Case Column.Name
+                    Case NameOf(XrTableCell11)
+                        cell.Text = $"Valor Total {ObjItem.CurrencyAbbreviation}"
+                    Case NameOf(XrTableCell12)
+                        cell.Text = (ObjItem.SumCurrency).ToString("n2")
+                        cell.TextFormatString = "{0:n2}"
+                End Select
+                XrTable3.Rows(irow).Cells.Add(cell)
+            Next
+        Next
+    End Sub
+End Class

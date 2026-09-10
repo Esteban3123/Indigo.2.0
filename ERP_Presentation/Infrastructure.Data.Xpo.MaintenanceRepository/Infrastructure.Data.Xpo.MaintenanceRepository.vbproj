@@ -1,0 +1,494 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{825AF482-AA7B-4253-AD88-748B665E5598}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>Infrastructure.Data.Xpo.MaintenanceRepository</RootNamespace>
+    <AssemblyName>Infrastructure.Data.Xpo.MaintenanceRepository</AssemblyName>
+    <FileAlignment>512</FileAlignment>
+    <MyType>Windows</MyType>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DocumentationFile>Infrastructure.Data.Xpo.MaintenanceRepository.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DocumentationFile>Infrastructure.Data.Xpo.MaintenanceRepository.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionExplicit>On</OptionExplicit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionCompare>Binary</OptionCompare>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionStrict>On</OptionStrict>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionInfer>On</OptionInfer>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debugcito|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\Debugcito\</OutputPath>
+    <DocumentationFile>Infrastructure.Data.Xpo.MaintenanceRepository.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DocumentationFile>Infrastructure.Data.Xpo.MaintenanceRepository.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DocumentationFile>Infrastructure.Data.Xpo.MaintenanceRepository.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debugcito|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x64\Debugcito\</OutputPath>
+    <DocumentationFile>Infrastructure.Data.Xpo.MaintenanceRepository.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DocumentationFile>Infrastructure.Data.Xpo.MaintenanceRepository.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DocumentationFile>Infrastructure.Data.Xpo.MaintenanceRepository.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debugcito|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x86\Debugcito\</OutputPath>
+    <DocumentationFile>Infrastructure.Data.Xpo.MaintenanceRepository.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'VieBuild|AnyCPU'">
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\VieBuild\</OutputPath>
+    <DocumentationFile>Infrastructure.Data.Xpo.MaintenanceRepository.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'VieBuild|x64'">
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x64\VieBuild\</OutputPath>
+    <DocumentationFile>Infrastructure.Data.Xpo.MaintenanceRepository.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'VieBuild|x86'">
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x86\VieBuild\</OutputPath>
+    <DocumentationFile>Infrastructure.Data.Xpo.MaintenanceRepository.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="DevExpress.Drawing.v25.1, Version=25.1.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.Printing.v25.1.Core, Version=25.1.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.Data.v25.1, Version=25.1.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.Xpo.v25.1, Version=25.1.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="Infrastructure.CrossCutting.Base, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\DLL\Infrastructure.CrossCutting.Base.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+  </ItemGroup>
+  <ItemGroup>
+    <Import Include="Microsoft.VisualBasic" />
+    <Import Include="System" />
+    <Import Include="System.Collections" />
+    <Import Include="System.Collections.Generic" />
+    <Import Include="System.Data" />
+    <Import Include="System.Diagnostics" />
+    <Import Include="System.Linq" />
+    <Import Include="System.Xml.Linq" />
+    <Import Include="System.Threading.Tasks" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="CommonThirdPartyXpo.vb" />
+    <Compile Include="FixedAssetEquipmentCatalogXpo.Designer.vb">
+      <DependentUpon>FixedAssetEquipmentCatalogXpo.vb</DependentUpon>
+    </Compile>
+    <Compile Include="FixedAssetEquipmentCatalogXpo.vb" />
+    <Compile Include="FixedAssetEquipmentXpo.Designer.vb">
+      <DependentUpon>FixedAssetEquipmentXpo.vb</DependentUpon>
+    </Compile>
+    <Compile Include="FixedAssetEquipmentXpo.vb" />
+    <Compile Include="FixedAssetFixedAssetLocationXpo.vb" />
+    <Compile Include="FixedAssetPhysicalAssetXpo.Designer.vb">
+      <DependentUpon>FixedAssetPhysicalAssetXpo.vb</DependentUpon>
+    </Compile>
+    <Compile Include="FixedAssetPhysicalAssetXpo.vb" />
+    <Compile Include="Inventory_InventoryProduct.vb" />
+    <Compile Include="MaintenanceFailureRequestDetailNotificationXpo.vb" />
+    <Compile Include="Maintenance_MaintenanceManufacturers.vb" />
+    <Compile Include="FixedAssetTrademarkXpo.vb" />
+    <Compile Include="Maintenance_EquipmentInvima.vb" />
+    <Compile Include="Maintenance_FailureRequestXpo.Designer.vb">
+      <DependentUpon>Maintenance_FailureRequestXpo.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Maintenance_FailureRequestXpo.vb" />
+    <Compile Include="Maintenance_MaintenanceContractXpoDetail.vb" />
+    <Compile Include="Maintenance_MaintenanceContractXpo.vb" />
+    <Compile Include="InventoryContractTypeXpo.vb" />
+    <Compile Include="Maintenance_ToolsXpo.Designer.vb">
+      <DependentUpon>Maintenance_ToolsXpo.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Maintenance_ToolsXpo.vb" />
+    <Compile Include="Maintenance_ResponsibleXpo.Designer.vb">
+      <DependentUpon>Maintenance_ResponsibleXpo.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Maintenance_ResponsibleXpo.vb" />
+    <Compile Include="Common_PersonDiagnosedDisease.Designer.vb">
+      <DependentUpon>Common_PersonDiagnosedDisease.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Common_PersonDiagnosedDisease.vb" />
+    <Compile Include="Common_PersonFreeTimeUse.Designer.vb">
+      <DependentUpon>Common_PersonFreeTimeUse.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Common_PersonFreeTimeUse.vb" />
+    <Compile Include="Common_PersonSportPractice.Designer.vb">
+      <DependentUpon>Common_PersonSportPractice.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Common_PersonSportPractice.vb" />
+    <Compile Include="Common_ThirdParty.vb" />
+    <Compile Include="Maintenance_WorkOrderActivities.vb" />
+    <Compile Include="PayrollBranchOffice.vb" />
+    <Compile Include="Views\Contract_ViewCareGroupsWithGroupers.Designer.vb">
+      <DependentUpon>Contract_ViewCareGroupsWithGroupers.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Contract_ViewCareGroupsWithGroupers.vb" />
+    <Compile Include="FixedAsset_FixedAssetItem.Designer.vb">
+      <DependentUpon>FixedAsset_FixedAssetItem.vb</DependentUpon>
+    </Compile>
+    <Compile Include="FixedAsset_FixedAssetItem.vb" />
+    <Compile Include="FixedAsset_FixedAssetItemAccesory.Designer.vb">
+      <DependentUpon>FixedAsset_FixedAssetItemAccesory.vb</DependentUpon>
+    </Compile>
+    <Compile Include="FixedAsset_FixedAssetItemAccesory.vb" />
+    <Compile Include="FixedAsset_FixedAssetItemConsumible.Designer.vb">
+      <DependentUpon>FixedAsset_FixedAssetItemConsumible.vb</DependentUpon>
+    </Compile>
+    <Compile Include="FixedAsset_FixedAssetItemConsumible.vb" />
+    <Compile Include="FixedAsset_FixedAssetItemPart.Designer.vb">
+      <DependentUpon>FixedAsset_FixedAssetItemPart.vb</DependentUpon>
+    </Compile>
+    <Compile Include="FixedAsset_FixedAssetItemPart.vb" />
+    <Compile Include="FixedAsset_FixedAssetItemProtocol.Designer.vb">
+      <DependentUpon>FixedAsset_FixedAssetItemProtocol.vb</DependentUpon>
+    </Compile>
+    <Compile Include="FixedAsset_FixedAssetItemProtocol.vb" />
+    <Compile Include="FixedAsset_FixedAssetItemTechnicalLog.Designer.vb">
+      <DependentUpon>FixedAsset_FixedAssetItemTechnicalLog.vb</DependentUpon>
+    </Compile>
+    <Compile Include="FixedAsset_FixedAssetItemTechnicalLog.vb" />
+    <Compile Include="FixedAsset_FixedAssetItemType.Designer.vb">
+      <DependentUpon>FixedAsset_FixedAssetItemType.vb</DependentUpon>
+    </Compile>
+    <Compile Include="FixedAsset_FixedAssetItemType.vb" />
+    <Compile Include="FixedAsset_FixedAssetItemTypePartsAccesories.Designer.vb">
+      <DependentUpon>FixedAsset_FixedAssetItemTypePartsAccesories.vb</DependentUpon>
+    </Compile>
+    <Compile Include="FixedAsset_FixedAssetItemTypePartsAccesories.vb" />
+    <Compile Include="FixedAsset_FixedAssetPartsAccesoriesConsumables.Designer.vb">
+      <DependentUpon>FixedAsset_FixedAssetPartsAccesoriesConsumables.vb</DependentUpon>
+    </Compile>
+    <Compile Include="FixedAsset_FixedAssetPartsAccesoriesConsumables.vb" />
+    <Compile Include="FixedAsset_FixedAssetPhysicalAsset.Designer.vb">
+      <DependentUpon>FixedAsset_FixedAssetPhysicalAsset.vb</DependentUpon>
+    </Compile>
+    <Compile Include="FixedAsset_FixedAssetPhysicalAsset.vb" />
+    <Compile Include="FixedAsset_FixedAssetResponsible.Designer.vb">
+      <DependentUpon>FixedAsset_FixedAssetResponsible.vb</DependentUpon>
+    </Compile>
+    <Compile Include="FixedAsset_FixedAssetResponsible.vb" />
+    <Compile Include="FixedAsset_ResponsibleType.Designer.vb">
+      <DependentUpon>FixedAsset_ResponsibleType.vb</DependentUpon>
+    </Compile>
+    <Compile Include="FixedAsset_ResponsibleType.vb" />
+    <Compile Include="Maintenance_AccesoryDetail.Designer.vb">
+      <DependentUpon>Maintenance_AccesoryDetail.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Maintenance_AccesoryDetail.vb" />
+    <Compile Include="Maintenance_Accessory.Designer.vb">
+      <DependentUpon>Maintenance_Accessory.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Maintenance_Accessory.vb" />
+    <Compile Include="Maintenance_Consumable.Designer.vb">
+      <DependentUpon>Maintenance_Consumable.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Maintenance_Consumable.vb" />
+    <Compile Include="Maintenance_ConsumableDetail.Designer.vb">
+      <DependentUpon>Maintenance_ConsumableDetail.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Maintenance_ConsumableDetail.vb" />
+    <Compile Include="Maintenance_EquipmentFunction.Designer.vb">
+      <DependentUpon>Maintenance_EquipmentFunction.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Maintenance_EquipmentFunction.vb" />
+    <Compile Include="Maintenance_EquipmentHistory.Designer.vb">
+      <DependentUpon>Maintenance_EquipmentHistory.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Maintenance_EquipmentHistory.vb" />
+    <Compile Include="Maintenance_EquipmentRegistration.Designer.vb">
+      <DependentUpon>Maintenance_EquipmentRegistration.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Maintenance_EquipmentRegistration.vb" />
+    <Compile Include="Maintenance_EquipmentRequirement.Designer.vb">
+      <DependentUpon>Maintenance_EquipmentRequirement.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Maintenance_EquipmentRequirement.vb" />
+    <Compile Include="Maintenance_MaintenanceAnulateReason.Designer.vb">
+      <DependentUpon>Maintenance_MaintenanceAnulateReason.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Maintenance_MaintenanceAnulateReason.vb" />
+    <Compile Include="Maintenance_MaintenancePlanAndMetrology.Designer.vb">
+      <DependentUpon>Maintenance_MaintenancePlanAndMetrology.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Maintenance_MaintenancePlanAndMetrology.vb" />
+    <Compile Include="Maintenance_MaintenancePlanProgramated.Designer.vb">
+      <DependentUpon>Maintenance_MaintenancePlanProgramated.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Maintenance_MaintenancePlanProgramated.vb" />
+    <Compile Include="Maintenance_MaintenanceProtocol.Designer.vb">
+      <DependentUpon>Maintenance_MaintenanceProtocol.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Maintenance_MaintenanceProtocol.vb" />
+    <Compile Include="Maintenance_MaintenancesProtocolActivities.Designer.vb">
+      <DependentUpon>Maintenance_MaintenancesProtocolActivities.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Maintenance_MaintenancesProtocolActivities.vb" />
+    <Compile Include="Maintenance_MeasurementUnit.vb" />
+    <Compile Include="Maintenance_PhysicalRisk.Designer.vb">
+      <DependentUpon>Maintenance_PhysicalRisk.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Maintenance_PhysicalRisk.vb" />
+    <Compile Include="Maintenance_ProtocolActivities.Designer.vb">
+      <DependentUpon>Maintenance_ProtocolActivities.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Maintenance_ProtocolActivities.vb" />
+    <Compile Include="Maintenance_ProtocolConsumables.Designer.vb">
+      <DependentUpon>Maintenance_ProtocolConsumables.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Maintenance_ProtocolConsumables.vb" />
+    <Compile Include="Maintenance_ProtocolSupplier.Designer.vb">
+      <DependentUpon>Maintenance_ProtocolSupplier.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Maintenance_ProtocolSupplier.vb" />
+    <Compile Include="Maintenance_ProtocolTools.Designer.vb">
+      <DependentUpon>Maintenance_ProtocolTools.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Maintenance_ProtocolTools.vb" />
+    <Compile Include="Maintenance_TechnicalLog.Designer.vb">
+      <DependentUpon>Maintenance_TechnicalLog.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Maintenance_TechnicalLog.vb" />
+    <Compile Include="Maintenance_TechnicalLogDetail.Designer.vb">
+      <DependentUpon>Maintenance_TechnicalLogDetail.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Maintenance_TechnicalLogDetail.vb" />
+    <Compile Include="Maintenance_TechnicalLogMeasurementUnitDetail.Designer.vb">
+      <DependentUpon>Maintenance_TechnicalLogMeasurementUnitDetail.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Maintenance_TechnicalLogMeasurementUnitDetail.vb" />
+    <Compile Include="Views\Maintenance_ViewMaintenanceProgramming.vb" />
+    <Compile Include="Views\Maintenance_ViewMaintenanceWithOutProgramming.Designer.vb">
+      <DependentUpon>Maintenance_ViewMaintenanceWithOutProgramming.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Maintenance_ViewMaintenanceWithOutProgramming.vb" />
+    <Compile Include="Views\Maintenance_ViewPartAccesoryConsumables.Designer.vb">
+      <DependentUpon>Maintenance_ViewPartAccesoryConsumables.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Maintenance_ViewPartAccesoryConsumables.vb" />
+    <Compile Include="Maintenance_WorkOrder.vb" />
+    <Compile Include="Payroll_DiagnosedDisease.Designer.vb">
+      <DependentUpon>Payroll_DiagnosedDisease.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Payroll_DiagnosedDisease.vb" />
+    <Compile Include="Payroll_Foreclousure.Designer.vb">
+      <DependentUpon>Payroll_Foreclousure.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Payroll_Foreclousure.vb" />
+    <Compile Include="Payroll_FreeTimeUse.Designer.vb">
+      <DependentUpon>Payroll_FreeTimeUse.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Payroll_FreeTimeUse.vb" />
+    <Compile Include="Payroll_SportPractice.Designer.vb">
+      <DependentUpon>Payroll_SportPractice.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Payroll_SportPractice.vb" />
+    <Compile Include="MaintenanceServiceEx.vb" />
+    <Compile Include="Maintenance_CostCenter.Designer.vb">
+      <DependentUpon>Maintenance_CostCenter.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Maintenance_CostCenter.vb" />
+    <Compile Include="Maintenance_Location.vb" />
+    <Compile Include="Maintenance_Branch.vb" />
+    <Compile Include="Maintenance_EquipmentType.vb" />
+    <Compile Include="Maintenance_Insurance.vb" />
+    <Compile Include="Maintenance_InventoryType.vb" />
+    <Compile Include="Maintenance_PartsAccesoriesConsumables.vb" />
+    <Compile Include="Maintenance_Poliza.vb" />
+    <Compile Include="Maintenance_PolizaType.vb" />
+    <Compile Include="Maintenance_Floor.vb" />
+    <Compile Include="Maintenance_Area.vb" />
+    <Compile Include="Maintenance_Room.vb" />
+    <Compile Include="Maintenance_Responsible.vb" />
+    <Compile Include="Maintenance_Equipment.vb" />
+    <Compile Include="Maintenance_Part.vb" />
+    <Compile Include="Maintenance_EquipmentReceptionC.vb" />
+    <Compile Include="Maintenance_SupplierDetailType.vb" />
+    <Compile Include="Maintenance_SupplierType.vb" />
+    <Compile Include="Maintenance_Supplier.vb" />
+    <Compile Include="Maintenance_Brand.vb" />
+    <Compile Include="Maintenance_TemplateEquipmentType.vb" />
+    <Compile Include="Maintenance_Trademark.vb" />
+    <Compile Include="Maintenance_SupplierMaintenance.Designer.vb">
+      <DependentUpon>Maintenance_SupplierMaintenance.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Maintenance_SupplierMaintenance.vb" />
+    <Compile Include="Maintenance_MaintenancePlan.Designer.vb">
+      <DependentUpon>Maintenance_MaintenancePlan.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Maintenance_MaintenancePlan.vb" />
+    <Compile Include="My Project\AssemblyInfo.vb" />
+    <Compile Include="My Project\Application.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Application.myapp</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="My Project\Resources.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="My Project\Settings.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="Maintenance_Tower.vb" />
+    <Compile Include="Views\ViewListRequestsXpo.vb" />
+    <Compile Include="Views\ViewMaintenanceResponsibleItemCatalogsXpo.vb" />
+    <Compile Include="Views\ViewMaintenanceResponsibleItemCatalogXpo.vb" />
+    <Compile Include="Views\ViewMaintenanceResponsibleUserXpo.vb" />
+    <Compile Include="Views\ViewWorkOrderNotificationXpo.vb" />
+    <Compile Include="Views\ViewWorkOrderScheduledMaintenanceXpo.vb" />
+    <Compile Include="Views\ViewWorkOrderUnScheduledMaintenanceXpo.vb" />
+    <Compile Include="Views\ViewWorkOrderReportXpo.vb" />
+    <Compile Include="Views\ViewWorkOrderXpo.vb" />
+    <Compile Include="WorkOrderNotificationXpo.vb" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="My Project\Resources.resx">
+      <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.vb</LastGenOutput>
+      <CustomToolNamespace>My.Resources</CustomToolNamespace>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="My Project\Application.myapp">
+      <Generator>MyApplicationCodeGenerator</Generator>
+      <LastGenOutput>Application.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="My Project\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <CustomToolNamespace>My</CustomToolNamespace>
+      <LastGenOutput>Settings.Designer.vb</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Infrastructure.CrossCutting.Xpo.Base\Infrastructure.CrossCutting.Xpo.Base.vbproj">
+      <Project>{06aea7a4-8792-405e-97e6-4b6fb10502b5}</Project>
+      <Name>Infrastructure.CrossCutting.Xpo.Base</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastructure.Data.Xpo.FixedAsset\Infrastructure.Data.Xpo.FixedAssetRepository.vbproj">
+      <Project>{0577946D-AE93-4EE6-991B-91BCC9D8EE34}</Project>
+      <Name>Infrastructure.Data.Xpo.FixedAssetRepository</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastructure.Data.Xpo.PayrollRepository\Infrastructure.Data.Xpo.PayrollRepository.vbproj">
+      <Project>{CE46AB34-7B36-422F-AE89-2D5F759E1960}</Project>
+      <Name>Infrastructure.Data.Xpo.PayrollRepository</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

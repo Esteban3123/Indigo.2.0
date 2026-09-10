@@ -1,0 +1,291 @@
+﻿Imports System
+Imports DevExpress.Xpo
+Imports DevExpress.Data.Filtering
+Imports System.Collections.Generic
+Imports System.ComponentModel
+
+<Persistent("Contract.Contract")> _
+Public Class ContractsXpo
+    Inherits XPLiteObject
+
+#Region "Members"
+
+    Dim fId As Integer
+    <Key(True)> _
+    Public Property Id() As Integer
+        Get
+            Return fId
+        End Get
+        Set(ByVal value As Integer)
+            SetPropertyValue(Of Integer)("Id", fId, value)
+        End Set
+    End Property
+    Dim fContractEntityId As ContractsEntityXpo
+    <Association("Contract_ContractReferencesContract_ContractEntity")> _
+    Public Property ContractEntityId() As ContractsEntityXpo
+        Get
+            Return fContractEntityId
+        End Get
+        Set(ByVal value As ContractsEntityXpo)
+            SetPropertyValue(Of ContractsEntityXpo)("ContractEntityId", fContractEntityId, value)
+        End Set
+    End Property
+    Dim fHealthAdministratorId As AdministratorHealthXpo
+    <Association("Contract_ContractReferencesContract_HealthAdministrator")> _
+    Public Property HealthAdministratorId() As AdministratorHealthXpo
+        Get
+            Return fHealthAdministratorId
+        End Get
+        Set(ByVal value As AdministratorHealthXpo)
+            SetPropertyValue(Of AdministratorHealthXpo)("HealthAdministratorId", fHealthAdministratorId, value)
+        End Set
+    End Property
+    Dim fCode As String
+    <Size(20)> _
+    Public Property Code() As String
+        Get
+            Return fCode
+        End Get
+        Set(ByVal value As String)
+            SetPropertyValue(Of String)("Code", fCode, value)
+        End Set
+    End Property
+    Dim fContractName As String
+    Public Property ContractName() As String
+        Get
+            Return fContractName
+        End Get
+        Set(ByVal value As String)
+            SetPropertyValue(Of String)("ContractName", fContractName, value)
+        End Set
+    End Property
+    Dim fContractNumber As String
+    <Size(15)> _
+    Public Property ContractNumber() As String
+        Get
+            Return fContractNumber
+        End Get
+        Set(ByVal value As String)
+            SetPropertyValue(Of String)("ContractNumber", fContractNumber, value)
+        End Set
+    End Property
+    Dim fContractValue As Decimal
+    Public Property ContractValue() As Decimal
+        Get
+            Return fContractValue
+        End Get
+        Set(ByVal value As Decimal)
+            SetPropertyValue(Of Decimal)("ContractValue", fContractValue, value)
+        End Set
+    End Property
+    Dim fInitialDate As DateTime
+    Public Property InitialDate() As DateTime
+        Get
+            Return fInitialDate
+        End Get
+        Set(ByVal value As DateTime)
+            SetPropertyValue(Of DateTime)("InitialDate", fInitialDate, value)
+        End Set
+    End Property
+    Dim fEndDate As DateTime
+    Public Property EndDate() As DateTime
+        Get
+            Return fEndDate
+        End Get
+        Set(ByVal value As DateTime)
+            SetPropertyValue(Of DateTime)("EndDate", fEndDate, value)
+        End Set
+    End Property
+    Dim fLegalized As Boolean
+    Public Property Legalized() As Boolean
+        Get
+            Return fLegalized
+        End Get
+        Set(ByVal value As Boolean)
+            SetPropertyValue(Of Boolean)("Legalized", fLegalized, value)
+        End Set
+    End Property
+    Dim fDateLegalization As DateTime
+    Public Property DateLegalization() As DateTime
+        Get
+            Return fDateLegalization
+        End Get
+        Set(ByVal value As DateTime)
+            SetPropertyValue(Of DateTime)("DateLegalization", fDateLegalization, value)
+        End Set
+    End Property
+    Dim fObservations As String
+    <Size(SizeAttribute.Unlimited)> _
+    Public Property Observations() As String
+        Get
+            Return fObservations
+        End Get
+        Set(ByVal value As String)
+            SetPropertyValue(Of String)("Observations", fObservations, value)
+        End Set
+    End Property
+    Dim fContractObject As String
+    <Size(SizeAttribute.Unlimited)> _
+    Public Property ContractObject() As String
+        Get
+            Return fContractObject
+        End Get
+        Set(ByVal value As String)
+            SetPropertyValue(Of String)("ContractObject", fContractObject, value)
+        End Set
+    End Property
+    Dim fPrintingMode As Byte
+    Public Property PrintingMode() As Byte
+        Get
+            Return fPrintingMode
+        End Get
+        Set(ByVal value As Byte)
+            SetPropertyValue(Of Byte)("PrintingMode", fPrintingMode, value)
+        End Set
+    End Property
+    Dim fTerminationControl As Byte
+    Public Property TerminationControl() As Byte
+        Get
+            Return fTerminationControl
+        End Get
+        Set(ByVal value As Byte)
+            SetPropertyValue(Of Byte)("TerminationControl", fTerminationControl, value)
+        End Set
+    End Property
+    Dim fStatus As Byte
+    Public Property Status() As Byte
+        Get
+            Return fStatus
+        End Get
+        Set(ByVal value As Byte)
+            SetPropertyValue(Of Byte)("Status", fStatus, value)
+        End Set
+    End Property
+    Dim fCreationUser As String
+    <Size(20)> _
+    Public Property CreationUser() As String
+        Get
+            Return fCreationUser
+        End Get
+        Set(ByVal value As String)
+            SetPropertyValue(Of String)("CreationUser", fCreationUser, value)
+        End Set
+    End Property
+    Dim fCreationDate As DateTime
+    Public Property CreationDate() As DateTime
+        Get
+            Return fCreationDate
+        End Get
+        Set(ByVal value As DateTime)
+            SetPropertyValue(Of DateTime)("CreationDate", fCreationDate, value)
+        End Set
+    End Property
+    Dim fModificationUser As String
+    <Size(20)> _
+    Public Property ModificationUser() As String
+        Get
+            Return fModificationUser
+        End Get
+        Set(ByVal value As String)
+            SetPropertyValue(Of String)("ModificationUser", fModificationUser, value)
+        End Set
+    End Property
+    Dim fModificationDate As DateTime
+    Public Property ModificationDate() As DateTime
+        Get
+            Return fModificationDate
+        End Get
+        Set(ByVal value As DateTime)
+            SetPropertyValue(Of DateTime)("ModificationDate", fModificationDate, value)
+        End Set
+    End Property
+    Dim fInForceUser As String
+    <Size(20)> _
+    Public Property InForceUser() As String
+        Get
+            Return fInForceUser
+        End Get
+        Set(ByVal value As String)
+            SetPropertyValue(Of String)("InForceUser", fInForceUser, value)
+        End Set
+    End Property
+    Dim fInForceDate As DateTime
+    Public Property InForceDate() As DateTime
+        Get
+            Return fInForceDate
+        End Get
+        Set(ByVal value As DateTime)
+            SetPropertyValue(Of DateTime)("InForceDate", fInForceDate, value)
+        End Set
+    End Property
+    Dim fSuspendedUser As String
+    <Size(20)> _
+    Public Property SuspendedUser() As String
+        Get
+            Return fSuspendedUser
+        End Get
+        Set(ByVal value As String)
+            SetPropertyValue(Of String)("SuspendedUser", fSuspendedUser, value)
+        End Set
+    End Property
+    Dim fSuspendedDate As DateTime
+    Public Property SuspendedDate() As DateTime
+        Get
+            Return fSuspendedDate
+        End Get
+        Set(ByVal value As DateTime)
+            SetPropertyValue(Of DateTime)("SuspendedDate", fSuspendedDate, value)
+        End Set
+    End Property
+    Dim fFinishedUser As String
+    <Size(20)> _
+    Public Property FinishedUser() As String
+        Get
+            Return fFinishedUser
+        End Get
+        Set(ByVal value As String)
+            SetPropertyValue(Of String)("FinishedUser", fFinishedUser, value)
+        End Set
+    End Property
+    Dim fFinishedDate As DateTime
+    Public Property FinishedDate() As DateTime
+        Get
+            Return fFinishedDate
+        End Get
+        Set(ByVal value As DateTime)
+            SetPropertyValue(Of DateTime)("FinishedDate", fFinishedDate, value)
+        End Set
+    End Property
+
+#End Region
+
+#Region "Navigations"
+
+    <Association("Contract_CareGroupReferencesContract_Contract", GetType(CareGroupReportXpo))>
+    Public ReadOnly Property Contract_CareGroups() As XPCollection(Of CareGroupReportXpo)
+        Get
+            Return GetCollection(Of CareGroupReportXpo)("Contract_CareGroups")
+        End Get
+    End Property
+
+    <Association("Billing_Invoice_References_Contract_Contract", GetType(InvoicesXpo))>
+    Public ReadOnly Property Billing_Invoices() As XPCollection(Of InvoicesXpo)
+        Get
+            Return GetCollection(Of InvoicesXpo)("Billing_Invoices")
+        End Get
+    End Property
+
+#End Region
+
+#Region "Builders"
+
+    Public Sub New(ByVal session As Session)
+        MyBase.New(session)
+    End Sub
+    Public Overrides Sub AfterConstruction()
+        MyBase.AfterConstruction()
+    End Sub
+
+#End Region
+
+End Class

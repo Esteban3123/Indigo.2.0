@@ -1,0 +1,134 @@
+#Region "Imports"
+Imports Infrastructure.CrossCutting.Base
+Imports Infrastructure.Data.Xpo
+Imports Infrastructure.Data.Xpo.TreasuryRepository
+Imports DevExpress.XtraReports.UI
+Imports Domain.Entities
+Imports System.Drawing.Printing
+Imports DevExpress.XtraReports.Parameters
+Imports System.Globalization
+Imports Presentation.CloudAgent
+
+#End Region
+
+Public Class rptCashReceipt
+    Implements IReport
+
+    ''' <summary>
+    ''' Variable para inicializar los valores de sesion
+    ''' </summary>
+    Private IndigoSessionValues As SessionValues = SessionValues.Instance
+
+    Dim INDList As List(Of TreasuryCashReceiptsXpo)
+    Private INDUser As Object
+
+    ''' <summary>
+    ''' abreviacion de la moneda 
+    ''' </summary>
+    Dim CurrencyAbbreviation As String = IndigoSessionValues.CurrencyISO4217
+
+    ''' <summary>
+    ''' Nombre de la moneda
+    ''' </summary>
+    Dim CurrencyName As String = IndigoSessionValues.CurrencyName
+
+    Public Sub CargarDataSource() Implements IReport.CargarDataSource
+
+        Dim filtroConsulta As String = "Id = " & ParametrosReporte(0)
+        INDList = XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).TreasuryService.GetCollection(Of TreasuryCashReceiptsXpo)(Nothing, filtroConsulta)
+        Dim INDCodeUser = CType(INDList(0), TreasuryCashReceiptsXpo).CreationUser.Trim()
+        INDUser = XpoServiceEx.Instance(IndigoSessionValues.SecurityContainer).TreasuryService.GetCollection(Of Infrastructure.Data.Xpo.SecurityRepository.UserXpo)(Nothing, "UserCode = '" & INDCodeUser & "'")
+        Me.DataSource = INDList
+    End Sub
+
+    Public Sub CargarImagenes() Implements IReport.CargarImagenes
+
+    End Sub
+
+    Public ReadOnly Property NameReport As String Implements IReport.NameReport
+        Get
+            Return ""
+        End Get
+    End Property
+
+    Public Property ParametrosReporte As Object() Implements IReport.ParametrosReporte
+    Private Sub rptCashReceipt_BeforePrint(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles MyBase.BeforePrint
+
+        If Me.Parameters.Count > 0 And Me.Parameters(0).Value > 0 Then
+            Dim ParametrosFilter As ParameterCollection = Me.Parameters
+            ParametrosReporte = New Object() {ParametrosFilter("INDSubIdCashReceipt").Value}
+            CargarDataSource()
+        End If
+
+        Me.INDLblUserPrint.Text = "Usuario Impresión : " & IndigoSessionValues.UserIndigo & " - " & IndigoSessionValues.UserIndigoName
+        Me.INDLblCompany.Text = IndigoSessionValues.IndigoCompanyName
+        Me.INDLblNitCompany.Text = "Nit : " & IndigoSessionValues.IndigoCompanyNit
+
+        'Insertar el Usuario de creacion en el reporte
+        If INDUser.count() > 0 Then
+            INDLblCreationUser.Text = INDUser(0).CodeName
+        End If
+
+        CType(INDList(0), TreasuryCashReceiptsXpo).CreationUser = INDLblCreationUser.Text
+        If INDList?.Any() Then
+            Dim _culture As CultureInfo = CultureInfo.CurrentCulture.Clone()
+            CurrencyAbbreviation = INDList?.FirstOrDefault?.CurrencyAbbreviation
+            CurrencyName = INDList?.FirstOrDefault?.CurrencyNameISO
+            _culture.NumberFormat = CurrencyAbbreviation.GetNumberFormat
+            ApplyLocalization(_culture)
+        End If
+
+        Dim _integerPart As Long = Int(Convert.ToDecimal(CType(INDList(0), TreasuryCashReceiptsXpo).Value))
+        Dim _decimalPart As Long = Strings.Right(Format(Convert.ToDecimal(CType(INDList(0), TreasuryCashReceiptsXpo).Value) - _integerPart, "0.00"), 2)
+        INDLblNumLetters.Text = String.Format("{0} {1}{2}",
+                                                  Utils.Num2Text(_integerPart).ToString,
+                                                  CurrencyName.ToUpper,
+                                                  If(_decimalPart > 0, $", CON {Utils.Num2Text(_decimalPart).ToString } {Utils.ListDecimalCurrency(CurrencyAbbreviation)}", ""))
+
+        CType(INDList(0), TreasuryCashReceiptsXpo).ValueLetters = INDLblNumLetters.Text
+
+        Dim value As Decimal = 0
+        For Each item In INDList(0).TreasuryPaymentMethodsXpo.ToList().FindAll(Function(x) x.PaymentMethodTypes <> 5)
+            value += item.ValueInCurrencyHeader
+        Next
+
+        XrTableCell47.Text = Utils.GetMoneyWithISO4217(value, CurrencyAbbreviation)
+        CType(INDList(0), TreasuryCashReceiptsXpo).ValueDebit = value
+    End Sub
+
+    Private Sub XrTable14_BeforePrint(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles XrTable14.BeforePrint
+        Dim table As XRTable = CType(sender, XRTable)
+        Dim row As XRTableRow = table.Rows(0)
+
+        Dim TreausuryCashReceipts As New TreasuryCashReceiptsXpo
+
+        TreausuryCashReceipts = CType(INDList(0), TreasuryCashReceiptsXpo)
+
+        Dim TmpListTreasuryCashReceiptDetailsXpo = TreausuryCashReceipts.TreasuryCashReceiptDetailsXpo.ToList()
+
+        For Each ObjTreasuryCashReceiptDetailsXpo As TreasuryCashReceiptDetailsXpo In TmpListTreasuryCashReceiptDetailsXpo
+            If ObjTreasuryCashReceiptDetailsXpo.TreasuryCashReceiptDetailAccountPayableXpo.ToList().Count > 0 Then
+                DetailReport9.Visible = True
+                'Dim aux = XrTable14.WidthF
+                '    row.Cells.Remove(XrTableCell17)
+                '    XrTable14.WidthF = aux
+                'End If
+            Else
+                DetailReport9.Visible = False
+            End If
+        Next
+    End Sub
+
+    Private Sub XrTableCell48_BeforePrint(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles XrTableCell48.BeforePrint
+        Dim CurrencyAbbreviation = Me.DataSource(0)?.CurrencyAbbreviation
+        XrTableCell48.Text = Utils.GetMoneyWithISO4217(0.00, CurrencyAbbreviation)
+    End Sub
+
+    Private Sub Detail9_BeforePrint(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles Detail9.BeforePrint
+        Dim obj = TryCast(Me.DetailReport8.GetCurrentRow, TreasuryPaymentMethodsXpo)
+        If obj Is Nothing Then
+            e.Cancel = True
+        End If
+    End Sub
+
+End Class

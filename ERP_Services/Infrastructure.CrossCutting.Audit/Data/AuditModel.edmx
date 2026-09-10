@@ -1,0 +1,713 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="GENESISSECURITYAuditModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityContainer Name="GENESISSECURITYAuditModelStoreContainer">
+          <EntitySet Name="AuditRuledDocumentUser" EntityType="GENESISSECURITYAuditModel.Store.AuditRuledDocumentUser" store:Type="Tables" Schema="Audit" />
+          <EntitySet Name="AuditRulesDocument" EntityType="GENESISSECURITYAuditModel.Store.AuditRulesDocument" store:Type="Tables" Schema="Audit" />
+          <EntitySet Name="AuditRulesDocumentPC" EntityType="GENESISSECURITYAuditModel.Store.AuditRulesDocumentPC" store:Type="Tables" Schema="Audit" />
+          <EntitySet Name="AuditRulesPC" EntityType="GENESISSECURITYAuditModel.Store.AuditRulesPC" store:Type="Tables" Schema="Audit" />
+          <EntitySet Name="AuditRulesPCDocument" EntityType="GENESISSECURITYAuditModel.Store.AuditRulesPCDocument" store:Type="Tables" Schema="Audit" />
+          <EntitySet Name="AuditRulesPCUser" EntityType="GENESISSECURITYAuditModel.Store.AuditRulesPCUser" store:Type="Tables" Schema="Audit" />
+          <EntitySet Name="AuditRulesUser" EntityType="GENESISSECURITYAuditModel.Store.AuditRulesUser" store:Type="Tables" Schema="Audit" />
+          <EntitySet Name="AuditRulesUserDocument" EntityType="GENESISSECURITYAuditModel.Store.AuditRulesUserDocument" store:Type="Tables" Schema="Audit" />
+          <EntitySet Name="AuditRulesUserPC" EntityType="GENESISSECURITYAuditModel.Store.AuditRulesUserPC" store:Type="Tables" Schema="Audit" />
+          <EntitySet Name="Category" EntityType="GENESISSECURITYAuditModel.Store.Category" store:Type="Tables" Schema="Audit" />
+          <EntitySet Name="CategoryLog" EntityType="GENESISSECURITYAuditModel.Store.CategoryLog" store:Type="Tables" Schema="Audit" />
+          <EntitySet Name="Log" EntityType="GENESISSECURITYAuditModel.Store.Log" store:Type="Tables" Schema="Audit" />
+          <AssociationSet Name="FK_AuditoriaReglasDocumentoPC_AuditoriaReglasDocumento" Association="GENESISSECURITYAuditModel.Store.FK_AuditoriaReglasDocumentoPC_AuditoriaReglasDocumento">
+            <End Role="AuditRulesDocument" EntitySet="AuditRulesDocument" />
+            <End Role="AuditRulesDocumentPC" EntitySet="AuditRulesDocumentPC" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AuditoriaReglasDocumentoUsuario_AuditoriaReglasDocumento" Association="GENESISSECURITYAuditModel.Store.FK_AuditoriaReglasDocumentoUsuario_AuditoriaReglasDocumento">
+            <End Role="AuditRulesDocument" EntitySet="AuditRulesDocument" />
+            <End Role="AuditRuledDocumentUser" EntitySet="AuditRuledDocumentUser" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AuditoriaReglasPCDocumento_AuditoriaReglasPC" Association="GENESISSECURITYAuditModel.Store.FK_AuditoriaReglasPCDocumento_AuditoriaReglasPC">
+            <End Role="AuditRulesPC" EntitySet="AuditRulesPC" />
+            <End Role="AuditRulesPCDocument" EntitySet="AuditRulesPCDocument" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AuditoriaReglasPCUsuario_AuditoriaReglasPC" Association="GENESISSECURITYAuditModel.Store.FK_AuditoriaReglasPCUsuario_AuditoriaReglasPC">
+            <End Role="AuditRulesPC" EntitySet="AuditRulesPC" />
+            <End Role="AuditRulesPCUser" EntitySet="AuditRulesPCUser" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AuditoriaReglasUsuarioDocumento_AuditoriaReglasUsuario" Association="GENESISSECURITYAuditModel.Store.FK_AuditoriaReglasUsuarioDocumento_AuditoriaReglasUsuario">
+            <End Role="AuditRulesUser" EntitySet="AuditRulesUser" />
+            <End Role="AuditRulesUserDocument" EntitySet="AuditRulesUserDocument" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AuditoriaReglasUsuarioPC_AuditoriaReglasUsuario" Association="GENESISSECURITYAuditModel.Store.FK_AuditoriaReglasUsuarioPC_AuditoriaReglasUsuario">
+            <End Role="AuditRulesUser" EntitySet="AuditRulesUser" />
+            <End Role="AuditRulesUserPC" EntitySet="AuditRulesUserPC" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CATEGORYLOG_CATEGORY" Association="GENESISSECURITYAuditModel.Store.FK_CATEGORYLOG_CATEGORY">
+            <End Role="Category" EntitySet="Category" />
+            <End Role="CategoryLog" EntitySet="CategoryLog" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CATEGORYLOG_LOG" Association="GENESISSECURITYAuditModel.Store.FK_CATEGORYLOG_LOG">
+            <End Role="Log" EntitySet="Log" />
+            <End Role="CategoryLog" EntitySet="CategoryLog" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="AuditRuledDocumentUser">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="IdDocument" Type="int" Nullable="false" />
+          <Property Name="Users" Type="varchar" Nullable="false" MaxLength="200" />
+        </EntityType>
+        <EntityType Name="AuditRulesDocument">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="DocumentCode" Type="varchar" Nullable="false" MaxLength="200" />
+          <Property Name="UserFilter" Type="bit" Nullable="false" />
+          <Property Name="PcFilter" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="AuditRulesDocumentPC">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="IdDocument" Type="int" Nullable="false" />
+          <Property Name="Pc" Type="varchar" Nullable="false" MaxLength="200" />
+        </EntityType>
+        <EntityType Name="AuditRulesPC">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="PcName" Type="varchar" Nullable="false" MaxLength="200" />
+          <Property Name="UserFiler" Type="bit" Nullable="false" />
+          <Property Name="DocumentFilter" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="AuditRulesPCDocument">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="IdPc" Type="int" Nullable="false" />
+          <Property Name="Documents" Type="varchar" Nullable="false" MaxLength="200" />
+        </EntityType>
+        <EntityType Name="AuditRulesPCUser">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="IdPc" Type="int" Nullable="false" />
+          <Property Name="Users" Type="varchar" Nullable="false" MaxLength="200" />
+        </EntityType>
+        <EntityType Name="AuditRulesUser">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="UserCode" Type="varchar" Nullable="false" MaxLength="50" />
+          <Property Name="PcFilter" Type="bit" Nullable="false" />
+          <Property Name="DocumentFilter" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="AuditRulesUserDocument">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="IdUser" Type="int" Nullable="false" />
+          <Property Name="Documents" Type="varchar" Nullable="false" MaxLength="200" />
+        </EntityType>
+        <EntityType Name="AuditRulesUserPC">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="IdUser" Type="int" Nullable="false" />
+          <Property Name="PcName" Type="varchar" Nullable="false" MaxLength="200" />
+        </EntityType>
+        <EntityType Name="Category">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="CategoryName" Type="nvarchar" Nullable="false" MaxLength="64" />
+          <Property Name="TimeSpam" Type="bigint" />
+        </EntityType>
+        <EntityType Name="CategoryLog">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="IdCategory" Type="int" Nullable="false" />
+          <Property Name="IdLog" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Log">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="IdEvent" Type="int" />
+          <Property Name="Priority" Type="int" Nullable="false" />
+          <Property Name="Severity" Type="nvarchar" Nullable="false" MaxLength="32" />
+          <Property Name="Title" Type="nvarchar" Nullable="false" MaxLength="256" />
+          <Property Name="TimeSpam" Type="datetime" Nullable="false" />
+          <Property Name="WorkstationName" Type="nvarchar" Nullable="false" MaxLength="32" />
+          <Property Name="AppDomainName" Type="nvarchar" Nullable="false" MaxLength="512" />
+          <Property Name="ProcessId" Type="nvarchar" Nullable="false" MaxLength="256" />
+          <Property Name="ProcessName" Type="nvarchar" Nullable="false" MaxLength="512" />
+          <Property Name="ThreadName" Type="nvarchar" MaxLength="512" />
+          <Property Name="Win32ThreadId" Type="nvarchar" MaxLength="128" />
+          <Property Name="Message" Type="nvarchar" MaxLength="1500" />
+          <Property Name="FormatedMessage" Type="ntext" />
+        </EntityType>
+        <Association Name="FK_AuditoriaReglasDocumentoPC_AuditoriaReglasDocumento">
+          <End Role="AuditRulesDocument" Type="GENESISSECURITYAuditModel.Store.AuditRulesDocument" Multiplicity="1" />
+          <End Role="AuditRulesDocumentPC" Type="GENESISSECURITYAuditModel.Store.AuditRulesDocumentPC" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AuditRulesDocument">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AuditRulesDocumentPC">
+              <PropertyRef Name="IdDocument" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AuditoriaReglasDocumentoUsuario_AuditoriaReglasDocumento">
+          <End Role="AuditRulesDocument" Type="GENESISSECURITYAuditModel.Store.AuditRulesDocument" Multiplicity="1" />
+          <End Role="AuditRuledDocumentUser" Type="GENESISSECURITYAuditModel.Store.AuditRuledDocumentUser" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AuditRulesDocument">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AuditRuledDocumentUser">
+              <PropertyRef Name="IdDocument" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AuditoriaReglasPCDocumento_AuditoriaReglasPC">
+          <End Role="AuditRulesPC" Type="GENESISSECURITYAuditModel.Store.AuditRulesPC" Multiplicity="1" />
+          <End Role="AuditRulesPCDocument" Type="GENESISSECURITYAuditModel.Store.AuditRulesPCDocument" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AuditRulesPC">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AuditRulesPCDocument">
+              <PropertyRef Name="IdPc" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AuditoriaReglasPCUsuario_AuditoriaReglasPC">
+          <End Role="AuditRulesPC" Type="GENESISSECURITYAuditModel.Store.AuditRulesPC" Multiplicity="1" />
+          <End Role="AuditRulesPCUser" Type="GENESISSECURITYAuditModel.Store.AuditRulesPCUser" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AuditRulesPC">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AuditRulesPCUser">
+              <PropertyRef Name="IdPc" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AuditoriaReglasUsuarioDocumento_AuditoriaReglasUsuario">
+          <End Role="AuditRulesUser" Type="GENESISSECURITYAuditModel.Store.AuditRulesUser" Multiplicity="1" />
+          <End Role="AuditRulesUserDocument" Type="GENESISSECURITYAuditModel.Store.AuditRulesUserDocument" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AuditRulesUser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AuditRulesUserDocument">
+              <PropertyRef Name="IdUser" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AuditoriaReglasUsuarioPC_AuditoriaReglasUsuario">
+          <End Role="AuditRulesUser" Type="GENESISSECURITYAuditModel.Store.AuditRulesUser" Multiplicity="1" />
+          <End Role="AuditRulesUserPC" Type="GENESISSECURITYAuditModel.Store.AuditRulesUserPC" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AuditRulesUser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AuditRulesUserPC">
+              <PropertyRef Name="IdUser" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CATEGORYLOG_CATEGORY">
+          <End Role="Category" Type="GENESISSECURITYAuditModel.Store.Category" Multiplicity="1" />
+          <End Role="CategoryLog" Type="GENESISSECURITYAuditModel.Store.CategoryLog" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Category">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CategoryLog">
+              <PropertyRef Name="IdCategory" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CATEGORYLOG_LOG">
+          <End Role="Log" Type="GENESISSECURITYAuditModel.Store.Log" Multiplicity="1" />
+          <End Role="CategoryLog" Type="GENESISSECURITYAuditModel.Store.CategoryLog" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Log">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CategoryLog">
+              <PropertyRef Name="IdLog" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="CreateAuditData" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Xml" Type="xml" Mode="In" />
+        </Function>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="GENESISSECURITYAuditModel" Alias="Self" p1:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:p1="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="GENESISSECURITYAuditEntities" p1:LazyLoadingEnabled="true">
+          <EntitySet Name="AuditRuledDocumentUser" EntityType="GENESISSECURITYAuditModel.AuditRuledDocumentUser" />
+          <EntitySet Name="AuditRulesDocument" EntityType="GENESISSECURITYAuditModel.AuditRulesDocument" />
+          <EntitySet Name="AuditRulesDocumentPC" EntityType="GENESISSECURITYAuditModel.AuditRulesDocumentPC" />
+          <EntitySet Name="AuditRulesPC" EntityType="GENESISSECURITYAuditModel.AuditRulesPC" />
+          <EntitySet Name="AuditRulesPCDocument" EntityType="GENESISSECURITYAuditModel.AuditRulesPCDocument" />
+          <EntitySet Name="AuditRulesPCUser" EntityType="GENESISSECURITYAuditModel.AuditRulesPCUser" />
+          <EntitySet Name="AuditRulesUser" EntityType="GENESISSECURITYAuditModel.AuditRulesUser" />
+          <EntitySet Name="AuditRulesUserDocument" EntityType="GENESISSECURITYAuditModel.AuditRulesUserDocument" />
+          <EntitySet Name="AuditRulesUserPC" EntityType="GENESISSECURITYAuditModel.AuditRulesUserPC" />
+          <EntitySet Name="Category" EntityType="GENESISSECURITYAuditModel.Category" />
+          <EntitySet Name="CategoryLog" EntityType="GENESISSECURITYAuditModel.CategoryLog" />
+          <EntitySet Name="Log" EntityType="GENESISSECURITYAuditModel.Log" />
+          <AssociationSet Name="FK_AuditoriaReglasDocumentoUsuario_AuditoriaReglasDocumento" Association="GENESISSECURITYAuditModel.FK_AuditoriaReglasDocumentoUsuario_AuditoriaReglasDocumento">
+            <End Role="AuditRulesDocument" EntitySet="AuditRulesDocument" />
+            <End Role="AuditRuledDocumentUser" EntitySet="AuditRuledDocumentUser" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AuditoriaReglasDocumentoPC_AuditoriaReglasDocumento" Association="GENESISSECURITYAuditModel.FK_AuditoriaReglasDocumentoPC_AuditoriaReglasDocumento">
+            <End Role="AuditRulesDocument" EntitySet="AuditRulesDocument" />
+            <End Role="AuditRulesDocumentPC" EntitySet="AuditRulesDocumentPC" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AuditoriaReglasPCDocumento_AuditoriaReglasPC" Association="GENESISSECURITYAuditModel.FK_AuditoriaReglasPCDocumento_AuditoriaReglasPC">
+            <End Role="AuditRulesPC" EntitySet="AuditRulesPC" />
+            <End Role="AuditRulesPCDocument" EntitySet="AuditRulesPCDocument" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AuditoriaReglasPCUsuario_AuditoriaReglasPC" Association="GENESISSECURITYAuditModel.FK_AuditoriaReglasPCUsuario_AuditoriaReglasPC">
+            <End Role="AuditRulesPC" EntitySet="AuditRulesPC" />
+            <End Role="AuditRulesPCUser" EntitySet="AuditRulesPCUser" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AuditoriaReglasUsuarioDocumento_AuditoriaReglasUsuario" Association="GENESISSECURITYAuditModel.FK_AuditoriaReglasUsuarioDocumento_AuditoriaReglasUsuario">
+            <End Role="AuditRulesUser" EntitySet="AuditRulesUser" />
+            <End Role="AuditRulesUserDocument" EntitySet="AuditRulesUserDocument" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AuditoriaReglasUsuarioPC_AuditoriaReglasUsuario" Association="GENESISSECURITYAuditModel.FK_AuditoriaReglasUsuarioPC_AuditoriaReglasUsuario">
+            <End Role="AuditRulesUser" EntitySet="AuditRulesUser" />
+            <End Role="AuditRulesUserPC" EntitySet="AuditRulesUserPC" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CATEGORYLOG_CATEGORY" Association="GENESISSECURITYAuditModel.FK_CATEGORYLOG_CATEGORY">
+            <End Role="Category" EntitySet="Category" />
+            <End Role="CategoryLog" EntitySet="CategoryLog" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CATEGORYLOG_LOG" Association="GENESISSECURITYAuditModel.FK_CATEGORYLOG_LOG">
+            <End Role="Log" EntitySet="Log" />
+            <End Role="CategoryLog" EntitySet="CategoryLog" />
+          </AssociationSet>
+          <FunctionImport Name="CreateAuditData">
+            <Parameter Name="Xml" Mode="In" Type="String" />
+          </FunctionImport>
+        </EntityContainer>
+        <EntityType Name="AuditRuledDocumentUser">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="IdDocument" Type="Int32" Nullable="false" />
+          <Property Name="Users" Type="String" Nullable="false" MaxLength="200" Unicode="false" FixedLength="false" />
+          <NavigationProperty Name="AuditRulesDocument" Relationship="GENESISSECURITYAuditModel.FK_AuditoriaReglasDocumentoUsuario_AuditoriaReglasDocumento" FromRole="AuditRuledDocumentUser" ToRole="AuditRulesDocument" />
+        </EntityType>
+        <EntityType Name="AuditRulesDocument">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="DocumentCode" Type="String" Nullable="false" MaxLength="200" Unicode="false" FixedLength="false" />
+          <Property Name="UserFilter" Type="Boolean" Nullable="false" />
+          <Property Name="PcFilter" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="AuditRuledDocumentUser" Relationship="GENESISSECURITYAuditModel.FK_AuditoriaReglasDocumentoUsuario_AuditoriaReglasDocumento" FromRole="AuditRulesDocument" ToRole="AuditRuledDocumentUser" />
+          <NavigationProperty Name="AuditRulesDocumentPC" Relationship="GENESISSECURITYAuditModel.FK_AuditoriaReglasDocumentoPC_AuditoriaReglasDocumento" FromRole="AuditRulesDocument" ToRole="AuditRulesDocumentPC" />
+        </EntityType>
+        <EntityType Name="AuditRulesDocumentPC">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="IdDocument" Type="Int32" Nullable="false" />
+          <Property Name="Pc" Type="String" Nullable="false" MaxLength="200" Unicode="false" FixedLength="false" />
+          <NavigationProperty Name="AuditRulesDocument" Relationship="GENESISSECURITYAuditModel.FK_AuditoriaReglasDocumentoPC_AuditoriaReglasDocumento" FromRole="AuditRulesDocumentPC" ToRole="AuditRulesDocument" />
+        </EntityType>
+        <EntityType Name="AuditRulesPC">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="PcName" Type="String" Nullable="false" MaxLength="200" Unicode="false" FixedLength="false" />
+          <Property Name="UserFiler" Type="Boolean" Nullable="false" />
+          <Property Name="DocumentFilter" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="AuditRulesPCDocument" Relationship="GENESISSECURITYAuditModel.FK_AuditoriaReglasPCDocumento_AuditoriaReglasPC" FromRole="AuditRulesPC" ToRole="AuditRulesPCDocument" />
+          <NavigationProperty Name="AuditRulesPCUser" Relationship="GENESISSECURITYAuditModel.FK_AuditoriaReglasPCUsuario_AuditoriaReglasPC" FromRole="AuditRulesPC" ToRole="AuditRulesPCUser" />
+        </EntityType>
+        <EntityType Name="AuditRulesPCDocument">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="IdPc" Type="Int32" Nullable="false" />
+          <Property Name="Documents" Type="String" Nullable="false" MaxLength="200" Unicode="false" FixedLength="false" />
+          <NavigationProperty Name="AuditRulesPC" Relationship="GENESISSECURITYAuditModel.FK_AuditoriaReglasPCDocumento_AuditoriaReglasPC" FromRole="AuditRulesPCDocument" ToRole="AuditRulesPC" />
+        </EntityType>
+        <EntityType Name="AuditRulesPCUser">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="IdPc" Type="Int32" Nullable="false" />
+          <Property Name="Users" Type="String" Nullable="false" MaxLength="200" Unicode="false" FixedLength="false" />
+          <NavigationProperty Name="AuditRulesPC" Relationship="GENESISSECURITYAuditModel.FK_AuditoriaReglasPCUsuario_AuditoriaReglasPC" FromRole="AuditRulesPCUser" ToRole="AuditRulesPC" />
+        </EntityType>
+        <EntityType Name="AuditRulesUser">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="UserCode" Type="String" Nullable="false" MaxLength="50" Unicode="false" FixedLength="false" />
+          <Property Name="PcFilter" Type="Boolean" Nullable="false" />
+          <Property Name="DocumentFilter" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="AuditRulesUserDocument" Relationship="GENESISSECURITYAuditModel.FK_AuditoriaReglasUsuarioDocumento_AuditoriaReglasUsuario" FromRole="AuditRulesUser" ToRole="AuditRulesUserDocument" />
+          <NavigationProperty Name="AuditRulesUserPC" Relationship="GENESISSECURITYAuditModel.FK_AuditoriaReglasUsuarioPC_AuditoriaReglasUsuario" FromRole="AuditRulesUser" ToRole="AuditRulesUserPC" />
+        </EntityType>
+        <EntityType Name="AuditRulesUserDocument">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="IdUser" Type="Int32" Nullable="false" />
+          <Property Name="Documents" Type="String" Nullable="false" MaxLength="200" Unicode="false" FixedLength="false" />
+          <NavigationProperty Name="AuditRulesUser" Relationship="GENESISSECURITYAuditModel.FK_AuditoriaReglasUsuarioDocumento_AuditoriaReglasUsuario" FromRole="AuditRulesUserDocument" ToRole="AuditRulesUser" />
+        </EntityType>
+        <EntityType Name="AuditRulesUserPC">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="IdUser" Type="Int32" Nullable="false" />
+          <Property Name="PcName" Type="String" Nullable="false" MaxLength="200" Unicode="false" FixedLength="false" />
+          <NavigationProperty Name="AuditRulesUser" Relationship="GENESISSECURITYAuditModel.FK_AuditoriaReglasUsuarioPC_AuditoriaReglasUsuario" FromRole="AuditRulesUserPC" ToRole="AuditRulesUser" />
+        </EntityType>
+        <EntityType Name="Category">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="CategoryName" Type="String" Nullable="false" MaxLength="64" Unicode="true" FixedLength="false" />
+          <Property Name="TimeSpam" Type="Int64" />
+          <NavigationProperty Name="CategoryLog" Relationship="GENESISSECURITYAuditModel.FK_CATEGORYLOG_CATEGORY" FromRole="Category" ToRole="CategoryLog" />
+        </EntityType>
+        <EntityType Name="CategoryLog">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="IdCategory" Type="Int32" Nullable="false" />
+          <Property Name="IdLog" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Category" Relationship="GENESISSECURITYAuditModel.FK_CATEGORYLOG_CATEGORY" FromRole="CategoryLog" ToRole="Category" />
+          <NavigationProperty Name="Log" Relationship="GENESISSECURITYAuditModel.FK_CATEGORYLOG_LOG" FromRole="CategoryLog" ToRole="Log" />
+        </EntityType>
+        <EntityType Name="Log">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="IdEvent" Type="Int32" />
+          <Property Name="Priority" Type="Int32" Nullable="false" />
+          <Property Name="Severity" Type="String" Nullable="false" MaxLength="32" Unicode="true" FixedLength="false" />
+          <Property Name="Title" Type="String" Nullable="false" MaxLength="256" Unicode="true" FixedLength="false" />
+          <Property Name="TimeSpam" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="WorkstationName" Type="String" Nullable="false" MaxLength="32" Unicode="true" FixedLength="false" />
+          <Property Name="AppDomainName" Type="String" Nullable="false" MaxLength="512" Unicode="true" FixedLength="false" />
+          <Property Name="ProcessId" Type="String" Nullable="false" MaxLength="256" Unicode="true" FixedLength="false" />
+          <Property Name="ProcessName" Type="String" Nullable="false" MaxLength="512" Unicode="true" FixedLength="false" />
+          <Property Name="ThreadName" Type="String" MaxLength="512" Unicode="true" FixedLength="false" />
+          <Property Name="Win32ThreadId" Type="String" MaxLength="128" Unicode="true" FixedLength="false" />
+          <Property Name="Message" Type="String" MaxLength="1500" Unicode="true" FixedLength="false" />
+          <Property Name="FormatedMessage" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <NavigationProperty Name="CategoryLog" Relationship="GENESISSECURITYAuditModel.FK_CATEGORYLOG_LOG" FromRole="Log" ToRole="CategoryLog" />
+        </EntityType>
+        <Association Name="FK_AuditoriaReglasDocumentoUsuario_AuditoriaReglasDocumento">
+          <End Role="AuditRulesDocument" Type="GENESISSECURITYAuditModel.AuditRulesDocument" Multiplicity="1" />
+          <End Role="AuditRuledDocumentUser" Type="GENESISSECURITYAuditModel.AuditRuledDocumentUser" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AuditRulesDocument">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AuditRuledDocumentUser">
+              <PropertyRef Name="IdDocument" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AuditoriaReglasDocumentoPC_AuditoriaReglasDocumento">
+          <End Role="AuditRulesDocument" Type="GENESISSECURITYAuditModel.AuditRulesDocument" Multiplicity="1" />
+          <End Role="AuditRulesDocumentPC" Type="GENESISSECURITYAuditModel.AuditRulesDocumentPC" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AuditRulesDocument">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AuditRulesDocumentPC">
+              <PropertyRef Name="IdDocument" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AuditoriaReglasPCDocumento_AuditoriaReglasPC">
+          <End Role="AuditRulesPC" Type="GENESISSECURITYAuditModel.AuditRulesPC" Multiplicity="1" />
+          <End Role="AuditRulesPCDocument" Type="GENESISSECURITYAuditModel.AuditRulesPCDocument" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AuditRulesPC">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AuditRulesPCDocument">
+              <PropertyRef Name="IdPc" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AuditoriaReglasPCUsuario_AuditoriaReglasPC">
+          <End Role="AuditRulesPC" Type="GENESISSECURITYAuditModel.AuditRulesPC" Multiplicity="1" />
+          <End Role="AuditRulesPCUser" Type="GENESISSECURITYAuditModel.AuditRulesPCUser" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AuditRulesPC">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AuditRulesPCUser">
+              <PropertyRef Name="IdPc" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AuditoriaReglasUsuarioDocumento_AuditoriaReglasUsuario">
+          <End Role="AuditRulesUser" Type="GENESISSECURITYAuditModel.AuditRulesUser" Multiplicity="1" />
+          <End Role="AuditRulesUserDocument" Type="GENESISSECURITYAuditModel.AuditRulesUserDocument" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AuditRulesUser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AuditRulesUserDocument">
+              <PropertyRef Name="IdUser" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AuditoriaReglasUsuarioPC_AuditoriaReglasUsuario">
+          <End Role="AuditRulesUser" Type="GENESISSECURITYAuditModel.AuditRulesUser" Multiplicity="1" />
+          <End Role="AuditRulesUserPC" Type="GENESISSECURITYAuditModel.AuditRulesUserPC" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AuditRulesUser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AuditRulesUserPC">
+              <PropertyRef Name="IdUser" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CATEGORYLOG_CATEGORY">
+          <End Role="Category" Type="GENESISSECURITYAuditModel.Category" Multiplicity="1" />
+          <End Role="CategoryLog" Type="GENESISSECURITYAuditModel.CategoryLog" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Category">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CategoryLog">
+              <PropertyRef Name="IdCategory" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CATEGORYLOG_LOG">
+          <End Role="Log" Type="GENESISSECURITYAuditModel.Log" Multiplicity="1" />
+          <End Role="CategoryLog" Type="GENESISSECURITYAuditModel.CategoryLog" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Log">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CategoryLog">
+              <PropertyRef Name="IdLog" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="GENESISSECURITYAuditModelStoreContainer" CdmEntityContainer="GENESISSECURITYAuditEntities">
+          <EntitySetMapping Name="AuditRuledDocumentUser">
+            <EntityTypeMapping TypeName="GENESISSECURITYAuditModel.AuditRuledDocumentUser">
+              <MappingFragment StoreEntitySet="AuditRuledDocumentUser">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="IdDocument" ColumnName="IdDocument" />
+                <ScalarProperty Name="Users" ColumnName="Users" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AuditRulesDocument">
+            <EntityTypeMapping TypeName="GENESISSECURITYAuditModel.AuditRulesDocument">
+              <MappingFragment StoreEntitySet="AuditRulesDocument">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="DocumentCode" ColumnName="DocumentCode" />
+                <ScalarProperty Name="UserFilter" ColumnName="UserFilter" />
+                <ScalarProperty Name="PcFilter" ColumnName="PcFilter" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AuditRulesDocumentPC">
+            <EntityTypeMapping TypeName="GENESISSECURITYAuditModel.AuditRulesDocumentPC">
+              <MappingFragment StoreEntitySet="AuditRulesDocumentPC">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="IdDocument" ColumnName="IdDocument" />
+                <ScalarProperty Name="Pc" ColumnName="Pc" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AuditRulesPC">
+            <EntityTypeMapping TypeName="GENESISSECURITYAuditModel.AuditRulesPC">
+              <MappingFragment StoreEntitySet="AuditRulesPC">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="PcName" ColumnName="PcName" />
+                <ScalarProperty Name="UserFiler" ColumnName="UserFiler" />
+                <ScalarProperty Name="DocumentFilter" ColumnName="DocumentFilter" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AuditRulesPCDocument">
+            <EntityTypeMapping TypeName="GENESISSECURITYAuditModel.AuditRulesPCDocument">
+              <MappingFragment StoreEntitySet="AuditRulesPCDocument">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="IdPc" ColumnName="IdPc" />
+                <ScalarProperty Name="Documents" ColumnName="Documents" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AuditRulesPCUser">
+            <EntityTypeMapping TypeName="GENESISSECURITYAuditModel.AuditRulesPCUser">
+              <MappingFragment StoreEntitySet="AuditRulesPCUser">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="IdPc" ColumnName="IdPc" />
+                <ScalarProperty Name="Users" ColumnName="Users" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AuditRulesUser">
+            <EntityTypeMapping TypeName="GENESISSECURITYAuditModel.AuditRulesUser">
+              <MappingFragment StoreEntitySet="AuditRulesUser">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="UserCode" ColumnName="UserCode" />
+                <ScalarProperty Name="PcFilter" ColumnName="PcFilter" />
+                <ScalarProperty Name="DocumentFilter" ColumnName="DocumentFilter" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AuditRulesUserDocument">
+            <EntityTypeMapping TypeName="GENESISSECURITYAuditModel.AuditRulesUserDocument">
+              <MappingFragment StoreEntitySet="AuditRulesUserDocument">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="IdUser" ColumnName="IdUser" />
+                <ScalarProperty Name="Documents" ColumnName="Documents" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AuditRulesUserPC">
+            <EntityTypeMapping TypeName="GENESISSECURITYAuditModel.AuditRulesUserPC">
+              <MappingFragment StoreEntitySet="AuditRulesUserPC">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="IdUser" ColumnName="IdUser" />
+                <ScalarProperty Name="PcName" ColumnName="PcName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Category">
+            <EntityTypeMapping TypeName="GENESISSECURITYAuditModel.Category">
+              <MappingFragment StoreEntitySet="Category">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="CategoryName" ColumnName="CategoryName" />
+                <ScalarProperty Name="TimeSpam" ColumnName="TimeSpam" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CategoryLog">
+            <EntityTypeMapping TypeName="GENESISSECURITYAuditModel.CategoryLog">
+              <MappingFragment StoreEntitySet="CategoryLog">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="IdCategory" ColumnName="IdCategory" />
+                <ScalarProperty Name="IdLog" ColumnName="IdLog" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Log">
+            <EntityTypeMapping TypeName="GENESISSECURITYAuditModel.Log">
+              <MappingFragment StoreEntitySet="Log">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="IdEvent" ColumnName="IdEvent" />
+                <ScalarProperty Name="Priority" ColumnName="Priority" />
+                <ScalarProperty Name="Severity" ColumnName="Severity" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="TimeSpam" ColumnName="TimeSpam" />
+                <ScalarProperty Name="WorkstationName" ColumnName="WorkstationName" />
+                <ScalarProperty Name="AppDomainName" ColumnName="AppDomainName" />
+                <ScalarProperty Name="ProcessId" ColumnName="ProcessId" />
+                <ScalarProperty Name="ProcessName" ColumnName="ProcessName" />
+                <ScalarProperty Name="ThreadName" ColumnName="ThreadName" />
+                <ScalarProperty Name="Win32ThreadId" ColumnName="Win32ThreadId" />
+                <ScalarProperty Name="Message" ColumnName="Message" />
+                <ScalarProperty Name="FormatedMessage" ColumnName="FormatedMessage" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="CreateAuditData" FunctionName="GENESISSECURITYAuditModel.Store.CreateAuditData" />
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="False" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams>
+      <Diagram DiagramId="5eeb590e0cae4d499b2825a7db7f3c14" Name="Diagram1">
+        <EntityTypeShape EntityType="GENESISSECURITYAuditModel.AuditRuledDocumentUser" Width="1.5" PointX="10" PointY="7" IsExpanded="true" />
+        <EntityTypeShape EntityType="GENESISSECURITYAuditModel.AuditRulesDocument" Width="1.5" PointX="7.75" PointY="8.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="GENESISSECURITYAuditModel.AuditRulesDocumentPC" Width="1.5" PointX="10" PointY="9.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="GENESISSECURITYAuditModel.AuditRulesPC" Width="1.5" PointX="7.75" PointY="2.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="GENESISSECURITYAuditModel.AuditRulesPCDocument" Width="1.5" PointX="10" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="GENESISSECURITYAuditModel.AuditRulesPCUser" Width="1.5" PointX="10" PointY="3.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="GENESISSECURITYAuditModel.AuditRulesUser" Width="1.5" PointX="2.75" PointY="5.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="GENESISSECURITYAuditModel.AuditRulesUserDocument" Width="1.5" PointX="5" PointY="4" IsExpanded="true" />
+        <EntityTypeShape EntityType="GENESISSECURITYAuditModel.AuditRulesUserPC" Width="1.5" PointX="5" PointY="6.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="GENESISSECURITYAuditModel.Category" Width="1.5" PointX="0.75" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="GENESISSECURITYAuditModel.CategoryLog" Width="1.5" PointX="3" PointY="0.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="GENESISSECURITYAuditModel.Log" Width="1.5" PointX="0.75" PointY="6.625" IsExpanded="true" />
+        <AssociationConnector Association="GENESISSECURITYAuditModel.FK_AuditoriaReglasDocumentoUsuario_AuditoriaReglasDocumento" ManuallyRouted="false" />
+        <AssociationConnector Association="GENESISSECURITYAuditModel.FK_AuditoriaReglasDocumentoPC_AuditoriaReglasDocumento" ManuallyRouted="false" />
+        <AssociationConnector Association="GENESISSECURITYAuditModel.FK_AuditoriaReglasPCDocumento_AuditoriaReglasPC" ManuallyRouted="false" />
+        <AssociationConnector Association="GENESISSECURITYAuditModel.FK_AuditoriaReglasPCUsuario_AuditoriaReglasPC" ManuallyRouted="false" />
+        <AssociationConnector Association="GENESISSECURITYAuditModel.FK_AuditoriaReglasUsuarioDocumento_AuditoriaReglasUsuario" ManuallyRouted="false" />
+        <AssociationConnector Association="GENESISSECURITYAuditModel.FK_AuditoriaReglasUsuarioPC_AuditoriaReglasUsuario" ManuallyRouted="false" />
+        <AssociationConnector Association="GENESISSECURITYAuditModel.FK_CATEGORYLOG_CATEGORY" ManuallyRouted="false" />
+        <AssociationConnector Association="GENESISSECURITYAuditModel.FK_CATEGORYLOG_LOG" ManuallyRouted="false" />
+      </Diagram>
+    </Diagrams>
+  </Designer>
+</edmx:Edmx>

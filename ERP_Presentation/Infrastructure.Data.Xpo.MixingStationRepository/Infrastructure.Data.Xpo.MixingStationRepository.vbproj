@@ -1,0 +1,366 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{2AC32F2A-CCF0-4708-B11A-EE7F7107106C}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>Infrastructure.Data.Xpo.MixingStationRepository</RootNamespace>
+    <AssemblyName>Infrastructure.Data.Xpo.MixingStationRepository</AssemblyName>
+    <FileAlignment>512</FileAlignment>
+    <MyType>Windows</MyType>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DocumentationFile>Infrastructure.Data.Xpo.MixingStationRepository.xml</DocumentationFile>
+    <NoWarn>
+    </NoWarn>
+    <WarningsAsErrors>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</WarningsAsErrors>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DocumentationFile>Infrastructure.Data.Xpo.MixingStationRepository.xml</DocumentationFile>
+    <NoWarn>
+    </NoWarn>
+    <WarningsAsErrors>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</WarningsAsErrors>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionExplicit>On</OptionExplicit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionCompare>Binary</OptionCompare>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionStrict>On</OptionStrict>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionInfer>On</OptionInfer>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DocumentationFile>Infrastructure.Data.Xpo.MixingStationRepository.xml</DocumentationFile>
+    <NoWarn>
+    </NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <WarningsAsErrors>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</WarningsAsErrors>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DocumentationFile>Infrastructure.Data.Xpo.MixingStationRepository.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <NoWarn>
+    </NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <WarningsAsErrors>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</WarningsAsErrors>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DocumentationFile>Infrastructure.Data.Xpo.MixingStationRepository.xml</DocumentationFile>
+    <NoWarn>
+    </NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <WarningsAsErrors>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</WarningsAsErrors>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DocumentationFile>Infrastructure.Data.Xpo.MixingStationRepository.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <NoWarn>
+    </NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <WarningsAsErrors>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</WarningsAsErrors>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'VieBuild|AnyCPU'">
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\VieBuild\</OutputPath>
+    <DocumentationFile>Infrastructure.Data.Xpo.MixingStationRepository.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <NoWarn>
+    </NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <WarningsAsErrors>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</WarningsAsErrors>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'VieBuild|x64'">
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x64\VieBuild\</OutputPath>
+    <DocumentationFile>Infrastructure.Data.Xpo.MixingStationRepository.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <NoWarn>
+    </NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <WarningsAsErrors>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</WarningsAsErrors>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'VieBuild|x86'">
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x86\VieBuild\</OutputPath>
+    <DocumentationFile>Infrastructure.Data.Xpo.MixingStationRepository.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <NoWarn>
+    </NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <WarningsAsErrors>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</WarningsAsErrors>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="DevExpress.Drawing.v25.1, Version=25.1.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="DevExpress.Printing.v25.1.Core, Version=25.1.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="DevExpress.Data.v25.1, Version=25.1.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="DevExpress.ExpressApp.v25.1, Version=25.1.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="DevExpress.ExpressApp.Xpo.v25.1, Version=25.1.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="DevExpress.Persistent.Base.v25.1, Version=25.1.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="DevExpress.Persistent.BaseImpl.Xpo.v25.1, Version=25.1.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="DevExpress.Xpo.v25.1, Version=25.1.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="Domain.Entities">
+      <HintPath>..\DLL\Domain.Entities.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+  </ItemGroup>
+  <ItemGroup>
+    <Import Include="System" />
+    <Import Include="System.Collections.Generic" />
+    <Import Include="System.Linq" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="CampaignDetailUsersXpo.vb" />
+    <Compile Include="CategoryDefectsXpo.vb" />
+    <Compile Include="CMMixingProducitonLineXpo.vb" />
+    <Compile Include="DefectsUnitDoseTypeXpo.vb" />
+    <Compile Include="DefectsXpo.vb" />
+    <Compile Include="DilutionFactorDetailXpo.vb" />
+    <Compile Include="ExternalPatientPreparationDetailXpo.vb" />
+    <Compile Include="ExternalPatientPreparationXpo.vb" />
+    <Compile Include="LineClearanceCriteriaXpo.vb" />
+    <Compile Include="Relation\GenderTypesXpo.vb" />
+    <Compile Include="MixingStationStorageTemperatureXpo.vb" />
+    <Compile Include="Relation\MixingStationATCAdministrationRouteXpo.vb" />
+    <Compile Include="ViewDetailPharmaceuticalParametersNPTXpo.vb" />
+    <Compile Include="ViewListValidationWeightNPTXpo.vb" />
+    <Compile Include="ViewDetailRequestNPTXpo.vb" />
+    <Compile Include="HCPARNUTCXpo.vb" />
+    <Compile Include="MixinStationPackagePersonalizedXpo.vb" />
+    <Compile Include="DilutionFactorsXpo.vb" />
+    <Compile Include="Relation\CentersXpo.vb" />
+    <Compile Include="Relation\CommonCustomerXpo.vb" />
+    <Compile Include="Relation\INCENUNFUXpo.vb" />
+    <Compile Include="Relation\INUNIFUNCXpo.vb" />
+    <Compile Include="Relation\InventoryDCIXpo.vb" />
+    <Compile Include="Reports\ViewDefectClassificationToReportXpo.vb" />
+    <Compile Include="Reports\ViewReportRemissionsXpo.vb" />
+    <Compile Include="Reports\ViewProductionScheduleToReportXpo.vb" />
+    <Compile Include="Reports\ViewReleaseLineToReportXpo.vb" />
+    <Compile Include="Views\ViewCustomersWithExternalCareCentersXpo.vb" />
+    <Compile Include="Views\PendingRequestsCampaignForIngressXpo.vb" />
+    <Compile Include="Views\ViewListComponentsNPTXpo.vb" />
+    <Compile Include="Views\ViewMagistralLabelDetailsXpo.vb" />
+    <Compile Include="Views\ViewMainInformationParenteralNutritionLabelXpo.vb" />
+    <Compile Include="Views\ViewParenteralNutritionLabelCampaignXpo.vb" />
+    <Compile Include="Views\ViewDetailsParenteralNutritionLabelXpo.vb" />
+    <Compile Include="Views\ViewParenteralNutritionLabelComponentsXpo.vb" />
+    <Compile Include="Views\ViewParenteralNutritionLabelPharmaceuticalParametersXpo.vb" />
+    <Compile Include="Views\ViewCampaignDetailInfo.vb" />
+    <Compile Include="Views\ViewQuantityRemainingLow.vb" />
+    <Compile Include="Views\ViewQuantityRemaining.vb" />
+    <Compile Include="Views\ViewPackageConcentrationByPreparationType.vb" />
+    <Compile Include="RequestPackageDetailStatusXpo.vb" />
+    <Compile Include="CampaignDetailXpo.vb" />
+    <Compile Include="CampaignXpo.vb" />
+    <Compile Include="CauseReprocessingRejectionXpo.vb" />
+    <Compile Include="CMCenterAttentionXpo.vb" />
+    <Compile Include="CMConfigurationUsersXpo.vb" />
+    <Compile Include="CMConfigurationXpo.vb" />
+    <Compile Include="CMExternalCareCenterXpo.vb" />
+    <Compile Include="CMFunctionalUnitXpo.vb" />
+    <Compile Include="ContractExternalClientsXpo.vb" />
+    <Compile Include="ExternalCareCenterUsersXpo.vb" />
+    <Compile Include="ExternalCareCenterXpo.vb" />
+    <Compile Include="MedicinesProductionXpo.vb" />
+    <Compile Include="MixingStationProductionLineXpo.vb" />
+    <Compile Include="MixingStationServiceEx.vb" />
+    <Compile Include="MixinStationCMConfigXpo.vb" />
+    <Compile Include="MixinStationPackageDetailXpo.vb" />
+    <Compile Include="MixinStationPackageXpo.vb" />
+    <Compile Include="MixinStationUnitDoseTypeXpo.vb" />
+    <Compile Include="MixinStationTurnXpo.vb" />
+    <Compile Include="My Project\AssemblyInfo.vb" />
+    <Compile Include="My Project\Application.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Application.myapp</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="My Project\Resources.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="My Project\Settings.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="PackagePersonalizedDetailXpo.vb" />
+    <Compile Include="PatientExternalCareCenterXpo.vb" />
+    <Compile Include="RawMaterialDevolutionXpo.vb" />
+    <Compile Include="Reports\ViewListPrintLabelsXpo.vb" />
+    <Compile Include="Views\ViewAdecuationPlanXpo.vb" />
+    <Compile Include="Views\ViewHistoricCampaingXpo.vb" />
+    <Compile Include="Views\ViewGeneralReportMainDataXpo.vb" />
+    <Compile Include="Views\ViewParenteralNutritionLabelXpo.vb" />
+    <Compile Include="Views\ViewReadjustmentsToBeAssignedXpo.vb" />
+    <Compile Include="Views\ViewStabilityTableDetailXpo.vb" />
+    <Compile Include="Views\ViewSumQuantityByPreparationStatus.vb" />
+    <Compile Include="Views\ViewMagistralLabelXpo.vb" />
+    <Compile Include="Views\ViewTechnicalDirectorByCampaignXpo.vb" />
+    <Compile Include="Views\ViewCampaignMainInfoXpo.vb" />
+    <Compile Include="Views\ViewUsersRolsCMXpo.vb" />
+    <Compile Include="Views\ViewListUserByContainerCM.vb" />
+    <Compile Include="Views\ViewDilutionFactorsDetailByIdFactorXpo.vb" />
+    <Compile Include="Views\ViewRequestDetailStatusXpo.vb" />
+    <Compile Include="Views\ViewReadjustmentsXpo.vb" />
+    <Compile Include="Views\ViewProcessSettingXpo.vb" />
+    <Compile Include="Views\ViewCampaignKardexXpo.vb" />
+    <Compile Include="Views\ViewListMedicinesProductionXpo.vb" />
+    <Compile Include="Views\ViewListCMCenterAttentionXpo.vb" />
+    <Compile Include="Views\ViewListAuthorizeUsersXpo.vb" />
+    <Compile Include="ProductionBasketsXpo.vb" />
+    <Compile Include="ProductionLineUnitDoseTypeXpo.vb" />
+    <Compile Include="Relation\MixingStationAdministrationRouteXpo.vb" />
+    <Compile Include="Relation\MixingStationATCEntityXpo.vb" />
+    <Compile Include="Relation\MixingStationATCXpo.vb" />
+    <Compile Include="Relation\MixingStationFunctionalUnitXpo.vb" />
+    <Compile Include="Relation\MixingStationMeasurementUnitXpo.vb" />
+    <Compile Include="Relation\MixingStationProductXpo.vb" />
+    <Compile Include="Relation\MixingStationRiskLevelXpo.vb" />
+    <Compile Include="Relation\MixingStationSupplieXpo.vb" />
+    <Compile Include="Relation\MixingStationWarehouseXpo.vb" />
+    <Compile Include="RequestMixingStationDetailXpo.vb" />
+    <Compile Include="RequestUnitDoseExternalCareCenterMaquilaXpo.vb" />
+    <Compile Include="RequestUnitDoseExternalCareCenterPatientXpo.vb" />
+    <Compile Include="RequestUnitDoseExternalCareCenterXpo.vb" />
+    <Compile Include="RequestUnitDoseInventoryDetailXpo.vb" />
+    <Compile Include="RequestUnitDoseInventoryXpo.vb" />
+    <Compile Include="StabilityTableDetailDilutionXpo.vb" />
+    <Compile Include="StabilityTableDetailReconstitutionXpo.vb" />
+    <Compile Include="StabilityTableDetailXpo.vb" />
+    <Compile Include="StabilityTableXpo.vb" />
+    <Compile Include="TransportationAssistantXpo.vb" />
+    <Compile Include="TransportationXpo.vb" />
+    <Compile Include="Views\ViewItemsCampaignsXpo.vb" />
+    <Compile Include="Views\ViewListApplicationDetailXpo.vb" />
+    <Compile Include="Views\ViewListCampaignDetailWithRequestsXpo.vb" />
+    <Compile Include="Views\ViewListCMProductionLineXpo.vb" />
+    <Compile Include="Views\ViewListHCFARMEPDtoConfirmationUnitDoseXpo.vb" />
+    <Compile Include="Views\ViewListCMXpo.vb" />
+    <Compile Include="Views\ViewListDashboardConfirmationUnitDoseXpo.vb" />
+    <Compile Include="Views\ViewListDashboardProductionScheduleXpo.vb" />
+    <Compile Include="Views\ViewListDashboardRequestMixingStationDetailXpo.vb" />
+    <Compile Include="Views\ViewListDashboardRequestMixingStationXpo.vb" />
+    <Compile Include="Views\ViewListFinalControlProductXpo.vb" />
+    <Compile Include="Views\ViewListDetailPatientsXpo.vb" />
+    <Compile Include="Views\ViewListProductionLineXpo.vb" />
+    <Compile Include="Views\ViewComponentPackageXpo.vb" />
+    <Compile Include="Views\ViewListMasInfoQualityXpo.vb" />
+    <Compile Include="Views\ViewListRequestsByCampaignXpo.vb" />
+    <Compile Include="ReleaseLineXpo.vb" />
+    <Compile Include="Views\ViewNonConformingProductXpo.vb" />
+    <Compile Include="Views\ViewTabletSticker.vb" />
+    <Compile Include="Views\ViewStickerLabel.vb" />
+    <Compile Include="WorkingAreaXpo.vb" />
+    <Compile Include="Views\ViewQualityControlXpo.vb" />
+    <Compile Include="Views\ViewWarehouseMaquilaXpo.vb" />
+    <Compile Include="Views\ViewListWarehouseTypeXpo.vb" />
+    <Compile Include="Views\ViewListRawMaterialXpo.vb" />
+    <Compile Include="Views\ViewListRequestsProcessToCampaignXpo.vb" />
+    <Compile Include="Views\ViewProductionOrderXpo.vb" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="My Project\Resources.resx">
+      <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.vb</LastGenOutput>
+      <CustomToolNamespace>My.Resources</CustomToolNamespace>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="My Project\Application.myapp">
+      <Generator>MyApplicationCodeGenerator</Generator>
+      <LastGenOutput>Application.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="My Project\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <CustomToolNamespace>My</CustomToolNamespace>
+      <LastGenOutput>Settings.Designer.vb</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\Infrastructure.CrossCutting.Xpo.Base\Infrastructure.CrossCutting.Xpo.Base.vbproj">
+      <Project>{06aea7a4-8792-405e-97e6-4b6fb10502b5}</Project>
+      <Name>Infrastructure.CrossCutting.Xpo.Base</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastructure.Data.Xpo.InventoryRepository\Infrastructure.Data.Xpo.InventoryRepository.csproj">
+      <Project>{e16b7310-400a-46dd-b7ab-c54ea51f197c}</Project>
+      <Name>Infrastructure.Data.Xpo.InventoryRepository</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

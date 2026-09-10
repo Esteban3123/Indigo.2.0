@@ -1,0 +1,3 @@
+﻿CREATE SCHEMA [Deploy]
+    AUTHORIZATION [dbo];
+

@@ -1,0 +1,750 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{CE8AB9C9-2B94-4B85-AC8B-1D13AB8F5D14}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>Presentation.Authorization</RootNamespace>
+    <AssemblyName>Presentation.Authorization</AssemblyName>
+    <FileAlignment>512</FileAlignment>
+    <MyType>Windows</MyType>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <Deterministic>true</Deterministic>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DocumentationFile>Presentation.Authorization.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DocumentationFile>Presentation.Authorization.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionExplicit>On</OptionExplicit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionCompare>Binary</OptionCompare>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionStrict>Off</OptionStrict>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionInfer>On</OptionInfer>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DocumentationFile>Presentation.Authorization.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DocumentationFile>Presentation.Authorization.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DocumentationFile>Presentation.Authorization.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DocumentationFile>Presentation.Authorization.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'VieBuild|AnyCPU'">
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\VieBuild\</OutputPath>
+    <DocumentationFile>Presentation.Authorization.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'VieBuild|x64'">
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x64\VieBuild\</OutputPath>
+    <DocumentationFile>Presentation.Authorization.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'VieBuild|x86'">
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x86\VieBuild\</OutputPath>
+    <DocumentationFile>Presentation.Authorization.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Accessibility" />
+    <Reference Include="DevExpress.Charts.v20.1.Core, Version=20.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.CodeParser.v20.1, Version=20.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Dashboard.v20.1.Core, Version=20.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Dashboard.v20.1.Win, Version=20.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Data.v20.1, Version=20.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.DataAccess.v20.1, Version=20.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.DataAccess.v20.1.UI, Version=20.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Images.v20.1, Version=20.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Map.v20.1.Core, Version=20.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Office.v20.1.Core, Version=20.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.PivotGrid.v20.1.Core, Version=20.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Printing.v20.1.Core, Version=20.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.RichEdit.v20.1.Core, Version=20.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Sparkline.v20.1.Core, Version=20.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.SpellChecker.v20.1.Core, Version=20.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.TreeMap.v20.1.Core, Version=20.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Data.Desktop.v20.1, Version=20.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.Utils.v20.1, Version=20.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.Utils.v20.1.UI, Version=20.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Xpo.v20.1, Version=20.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.XtraBars.v20.1, Version=20.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.XtraCharts.v20.1, Version=20.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.XtraCharts.v20.1.UI, Version=20.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.XtraCharts.v20.1.Wizard, Version=20.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.XtraEditors.v20.1, Version=20.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.XtraGauges.v20.1.Core, Version=20.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.XtraGauges.v20.1.Presets, Version=20.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.XtraGauges.v20.1.Win, Version=20.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.XtraGrid.v20.1, Version=20.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.XtraLayout.v20.1, Version=20.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.XtraMap.v20.1, Version=20.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.XtraNavBar.v20.1, Version=20.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.XtraPivotGrid.v20.1, Version=20.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.XtraPrinting.v20.1, Version=20.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.XtraReports.v20.1, Version=20.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.XtraReports.v20.1.Extensions, Version=20.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.XtraRichEdit.v20.1, Version=20.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.XtraScheduler.v20.1, Version=20.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.XtraScheduler.v20.1.Core, Version=20.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.XtraSpellChecker.v20.1, Version=20.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.XtraTreeList.v20.1, Version=20.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.XtraTreeMap.v20.1, Version=20.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.XtraVerticalGrid.v20.1, Version=20.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="Domain.Base.Entities">
+      <HintPath>..\DLL\Domain.Base.Entities.dll</HintPath>
+    </Reference>
+    <Reference Include="Domain.Crystal.Entities, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\DLL\Domain.Crystal.Entities.dll</HintPath>
+    </Reference>
+    <Reference Include="Domain.DocumentalSystem.Entities">
+      <HintPath>..\DLL\Domain.DocumentalSystem.Entities.dll</HintPath>
+    </Reference>
+    <Reference Include="Domain.Entities">
+      <HintPath>..\DLL\Domain.Entities.dll</HintPath>
+    </Reference>
+    <Reference Include="Domain.Security.Entities">
+      <HintPath>..\DLL\Domain.Security.Entities.dll</HintPath>
+    </Reference>
+    <Reference Include="DynamicDotNetTWAIN">
+      <HintPath>..\DLL\DynamicDotNetTWAIN.dll</HintPath>
+    </Reference>
+    <Reference Include="Indigo.eHistorias">
+      <HintPath>..\DLL\Indigo.eHistorias.dll</HintPath>
+    </Reference>
+    <Reference Include="Indigo.Emergentes">
+      <HintPath>..\DLL\Indigo.Emergentes.dll</HintPath>
+    </Reference>
+    <Reference Include="Indigo.Singleton, Version=2018.305.28.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\DLL\Indigo.Singleton.dll</HintPath>
+    </Reference>
+    <Reference Include="IndigoReportsBase">
+      <HintPath>..\DLL\IndigoReportsBase.dll</HintPath>
+    </Reference>
+    <Reference Include="Infrastructure.CrossCutting.Base">
+      <HintPath>..\DLL\Infrastructure.CrossCutting.Base.dll</HintPath>
+    </Reference>
+    <Reference Include="Infrastructure.CrossCutting.Resources">
+      <HintPath>..\DLL\Infrastructure.CrossCutting.Resources.dll</HintPath>
+    </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="PresentationUI, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="ReachFramework" />
+    <Reference Include="SMDiagnostics, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL" />
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Data.Linq" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Printing" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.ServiceModel.Internals, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="System.Transactions" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xaml" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="UIAutomationProvider" />
+    <Reference Include="UIAutomationTypes" />
+    <Reference Include="WindowsBase" />
+    <Reference Include="WindowsFormsIntegration" />
+  </ItemGroup>
+  <ItemGroup>
+    <Import Include="Microsoft.VisualBasic" />
+    <Import Include="System" />
+    <Import Include="System.Collections" />
+    <Import Include="System.Collections.Generic" />
+    <Import Include="System.Data" />
+    <Import Include="System.Diagnostics" />
+    <Import Include="System.Linq" />
+    <Import Include="System.Xml.Linq" />
+    <Import Include="System.Threading.Tasks" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="My Project\AssemblyInfo.vb" />
+    <Compile Include="My Project\Application.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Application.myapp</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="My Project\Resources.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="My Project\Settings.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="Reports\FrmReportRequests.Designer.vb">
+      <DependentUpon>FrmReportRequests.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\FrmReportRequests.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\File\AuthorizationScheduleTemplate\FrmRangeHours.Designer.vb">
+      <DependentUpon>FrmRangeHours.vb</DependentUpon>
+    </Compile>
+    <Compile Include="View\File\AuthorizationScheduleTemplate\FrmRangeHours.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\File\FrmAuthorizationGroup.Designer.vb">
+      <DependentUpon>FrmAuthorizationGroup.vb</DependentUpon>
+    </Compile>
+    <Compile Include="View\File\FrmAuthorizationGroup.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\File\AuthorizationScheduleTemplate\FrmAuthorizationScheduleTemplate.Designer.vb">
+      <DependentUpon>FrmAuthorizationScheduleTemplate.vb</DependentUpon>
+    </Compile>
+    <Compile Include="View\File\AuthorizationScheduleTemplate\FrmAuthorizationScheduleTemplate.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\File\FrmAuthorizationPortfolio.Designer.vb">
+      <DependentUpon>FrmAuthorizationPortfolio.vb</DependentUpon>
+    </Compile>
+    <Compile Include="View\File\FrmAuthorizationPortfolio.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\File\FrmAuthorizationRejection.Designer.vb">
+      <DependentUpon>FrmAuthorizationRejection.vb</DependentUpon>
+    </Compile>
+    <Compile Include="View\File\FrmAuthorizationRejection.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\File\FrmAuthorizationSource.Designer.vb">
+      <DependentUpon>FrmAuthorizationSource.vb</DependentUpon>
+    </Compile>
+    <Compile Include="View\File\FrmAuthorizationSource.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\File\FrmCancellationReasons.Designer.vb">
+      <DependentUpon>FrmCancellationReasons.vb</DependentUpon>
+    </Compile>
+    <Compile Include="View\File\FrmCancellationReasons.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\File\FrmPostponementReasons.Designer.vb">
+      <DependentUpon>FrmPostponementReasons.vb</DependentUpon>
+    </Compile>
+    <Compile Include="View\File\FrmPostponementReasons.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\Process\AcceptanceAuthorization\FrmAcceptanceAuthorization.Designer.vb">
+      <DependentUpon>FrmAcceptanceAuthorization.vb</DependentUpon>
+    </Compile>
+    <Compile Include="View\Process\AcceptanceAuthorization\FrmAcceptanceAuthorization.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\Process\AcceptanceAuthorization\FrmReject.Designer.vb">
+      <DependentUpon>FrmReject.vb</DependentUpon>
+    </Compile>
+    <Compile Include="View\Process\AcceptanceAuthorization\FrmReject.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\Process\AuthorizationOutsourcedServices\FrmAuthorizationOutsourcedServices.Designer.vb">
+      <DependentUpon>FrmAuthorizationOutsourcedServices.vb</DependentUpon>
+    </Compile>
+    <Compile Include="View\Process\AuthorizationOutsourcedServices\FrmAuthorizationOutsourcedServices.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\Process\AuthorizationOutsourcedServices\FrmImportInfoAOS.Designer.vb">
+      <DependentUpon>FrmImportInfoAOS.vb</DependentUpon>
+    </Compile>
+    <Compile Include="View\Process\AuthorizationOutsourcedServices\FrmImportInfoAOS.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\Process\AuthorizationSchedule\FrmAuthorizationSchedule.Designer.vb">
+      <DependentUpon>FrmAuthorizationSchedule.vb</DependentUpon>
+    </Compile>
+    <Compile Include="View\Process\AuthorizationSchedule\FrmAuthorizationSchedule.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\Process\AuthorizationSchedule\FrmAuthorizationScheduleDetail.Designer.vb">
+      <DependentUpon>FrmAuthorizationScheduleDetail.vb</DependentUpon>
+    </Compile>
+    <Compile Include="View\Process\AuthorizationSchedule\FrmAuthorizationScheduleDetail.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\Process\AuthorizationSchedule\FrmEventAndNovelty.Designer.vb">
+      <DependentUpon>FrmEventAndNovelty.vb</DependentUpon>
+    </Compile>
+    <Compile Include="View\Process\AuthorizationSchedule\FrmEventAndNovelty.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\Process\DashboardAuthorizationMedicalOrder\PopUpCancellationReasons.Designer.vb">
+      <DependentUpon>PopUpCancellationReasons.vb</DependentUpon>
+    </Compile>
+    <Compile Include="View\Process\DashboardAuthorizationMedicalOrder\PopUpCancellationReasons.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\Process\DashboardAuthorizationMedicalOrder\FrmDashboardAuthorizationMedicalOrder.Designer.vb">
+      <DependentUpon>FrmDashboardAuthorizationMedicalOrder.vb</DependentUpon>
+    </Compile>
+    <Compile Include="View\Process\DashboardAuthorizationMedicalOrder\FrmDashboardAuthorizationMedicalOrder.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\Process\DashboardAuthorization\Extension.vb" />
+    <Compile Include="View\Process\DashboardAuthorization\FrmAddPostponementReasons.Designer.vb">
+      <DependentUpon>FrmAddPostponementReasons.vb</DependentUpon>
+    </Compile>
+    <Compile Include="View\Process\DashboardAuthorization\FrmAddPostponementReasons.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\Process\DashboardAuthorization\FrmOpenAlert.Designer.vb">
+      <DependentUpon>FrmOpenAlert.vb</DependentUpon>
+    </Compile>
+    <Compile Include="View\Process\DashboardAuthorization\FrmOpenAlert.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\Process\DashboardAuthorization\FrmAddAnnexes.Designer.vb">
+      <DependentUpon>FrmAddAnnexes.vb</DependentUpon>
+    </Compile>
+    <Compile Include="View\Process\DashboardAuthorization\FrmAddAnnexes.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\Process\DashboardAuthorization\FrmAddCancellationReasons.Designer.vb">
+      <DependentUpon>FrmAddCancellationReasons.vb</DependentUpon>
+    </Compile>
+    <Compile Include="View\Process\DashboardAuthorization\FrmAddCancellationReasons.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\Process\DashboardAuthorization\FrmAddEvent.Designer.vb">
+      <DependentUpon>FrmAddEvent.vb</DependentUpon>
+    </Compile>
+    <Compile Include="View\Process\DashboardAuthorization\FrmAddEvent.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\Process\DashboardAuthorization\FrmAddServices.Designer.vb">
+      <DependentUpon>FrmAddServices.vb</DependentUpon>
+    </Compile>
+    <Compile Include="View\Process\DashboardAuthorization\FrmAddServices.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\Process\DashboardAuthorization\FrmAssignUser.Designer.vb">
+      <DependentUpon>FrmAssignUser.vb</DependentUpon>
+    </Compile>
+    <Compile Include="View\Process\DashboardAuthorization\FrmAssignUser.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\Process\DashboardAuthorization\FrmRemit.Designer.vb">
+      <DependentUpon>FrmRemit.vb</DependentUpon>
+    </Compile>
+    <Compile Include="View\Process\DashboardAuthorization\FrmRemit.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\Process\DashboardAuthorization\FrmRequestsToAutomaticAllocation.Designer.vb">
+      <DependentUpon>FrmRequestsToAutomaticAllocation.vb</DependentUpon>
+    </Compile>
+    <Compile Include="View\Process\DashboardAuthorization\FrmRequestsToAutomaticAllocation.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\Process\DashboardAuthorization\FrmDashboardAuthorization.Designer.vb">
+      <DependentUpon>FrmDashboardAuthorization.vb</DependentUpon>
+    </Compile>
+    <Compile Include="View\Process\DashboardAuthorization\FrmDashboardAuthorization.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\Process\DashboardAuthorization\FrmDeliverToService.Designer.vb">
+      <DependentUpon>FrmDeliverToService.vb</DependentUpon>
+    </Compile>
+    <Compile Include="View\Process\DashboardAuthorization\FrmDeliverToService.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\Process\DashboardAuthorization\FrmOpenItem.Designer.vb">
+      <DependentUpon>FrmOpenItem.vb</DependentUpon>
+    </Compile>
+    <Compile Include="View\Process\DashboardAuthorization\FrmOpenItem.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\Process\DashboardContractCoverage\FrmAnnotations.Designer.vb">
+      <DependentUpon>FrmAnnotations.vb</DependentUpon>
+    </Compile>
+    <Compile Include="View\Process\DashboardContractCoverage\FrmAnnotations.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\Process\DashboardContractCoverage\FrmDashboardContractCoverage.Designer.vb">
+      <DependentUpon>FrmDashboardContractCoverage.vb</DependentUpon>
+    </Compile>
+    <Compile Include="View\Process\DashboardContractCoverage\FrmDashboardContractCoverage.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\Utils\ConfigurationServicesAmbulatory\FrmConfigurationServicesAmbulatory.Designer.vb">
+      <DependentUpon>FrmConfigurationServicesAmbulatory.vb</DependentUpon>
+    </Compile>
+    <Compile Include="View\Utils\ConfigurationServicesAmbulatory\FrmConfigurationServicesAmbulatory.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\Utils\ConfigurationServicesAmbulatory\FrmConfigurationServicesAmbulatoryDetail.Designer.vb">
+      <DependentUpon>FrmConfigurationServicesAmbulatoryDetail.vb</DependentUpon>
+    </Compile>
+    <Compile Include="View\Utils\ConfigurationServicesAmbulatory\FrmConfigurationServicesAmbulatoryDetail.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\Utils\FrmSettingsAuthorization.Designer.vb">
+      <DependentUpon>FrmSettingsAuthorization.vb</DependentUpon>
+    </Compile>
+    <Compile Include="View\Utils\FrmSettingsAuthorization.vb">
+      <SubType>Form</SubType>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="My Project\licenses.licx" />
+    <EmbeddedResource Include="My Project\Resources.resx">
+      <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.vb</LastGenOutput>
+      <CustomToolNamespace>My.Resources</CustomToolNamespace>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\FrmReportRequests.resx">
+      <DependentUpon>FrmReportRequests.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\File\AuthorizationScheduleTemplate\FrmRangeHours.resx">
+      <DependentUpon>FrmRangeHours.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\File\FrmAuthorizationGroup.resx">
+      <DependentUpon>FrmAuthorizationGroup.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\File\AuthorizationScheduleTemplate\FrmAuthorizationScheduleTemplate.resx">
+      <DependentUpon>FrmAuthorizationScheduleTemplate.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\File\FrmAuthorizationPortfolio.resx">
+      <DependentUpon>FrmAuthorizationPortfolio.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\File\FrmAuthorizationRejection.resx">
+      <DependentUpon>FrmAuthorizationRejection.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\File\FrmAuthorizationSource.resx">
+      <DependentUpon>FrmAuthorizationSource.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\File\FrmCancellationReasons.resx">
+      <DependentUpon>FrmCancellationReasons.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\File\FrmPostponementReasons.resx">
+      <DependentUpon>FrmPostponementReasons.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\Process\AcceptanceAuthorization\FrmAcceptanceAuthorization.resx">
+      <DependentUpon>FrmAcceptanceAuthorization.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\Process\AcceptanceAuthorization\FrmReject.resx">
+      <DependentUpon>FrmReject.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\Process\AuthorizationOutsourcedServices\FrmAuthorizationOutsourcedServices.resx">
+      <DependentUpon>FrmAuthorizationOutsourcedServices.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\Process\AuthorizationOutsourcedServices\FrmImportInfoAOS.resx">
+      <DependentUpon>FrmImportInfoAOS.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\Process\AuthorizationSchedule\FrmAuthorizationSchedule.resx">
+      <DependentUpon>FrmAuthorizationSchedule.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\Process\AuthorizationSchedule\FrmAuthorizationScheduleDetail.resx">
+      <DependentUpon>FrmAuthorizationScheduleDetail.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\Process\AuthorizationSchedule\FrmEventAndNovelty.resx">
+      <DependentUpon>FrmEventAndNovelty.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\Process\DashboardAuthorizationMedicalOrder\PopUpCancellationReasons.resx">
+      <DependentUpon>PopUpCancellationReasons.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\Process\DashboardAuthorizationMedicalOrder\FrmDashboardAuthorizationMedicalOrder.resx">
+      <DependentUpon>FrmDashboardAuthorizationMedicalOrder.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\Process\DashboardAuthorization\FrmAddPostponementReasons.resx">
+      <DependentUpon>FrmAddPostponementReasons.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\Process\DashboardAuthorization\FrmOpenAlert.resx">
+      <DependentUpon>FrmOpenAlert.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\Process\DashboardAuthorization\FrmAddAnnexes.resx">
+      <DependentUpon>FrmAddAnnexes.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\Process\DashboardAuthorization\FrmAddCancellationReasons.resx">
+      <DependentUpon>FrmAddCancellationReasons.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\Process\DashboardAuthorization\FrmAddEvent.resx">
+      <DependentUpon>FrmAddEvent.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\Process\DashboardAuthorization\FrmAddServices.resx">
+      <DependentUpon>FrmAddServices.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\Process\DashboardAuthorization\FrmAssignUser.resx">
+      <DependentUpon>FrmAssignUser.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\Process\DashboardAuthorization\FrmRemit.resx">
+      <DependentUpon>FrmRemit.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\Process\DashboardAuthorization\FrmRequestsToAutomaticAllocation.resx">
+      <DependentUpon>FrmRequestsToAutomaticAllocation.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\Process\DashboardAuthorization\FrmDashboardAuthorization.resx">
+      <DependentUpon>FrmDashboardAuthorization.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\Process\DashboardAuthorization\FrmDeliverToService.resx">
+      <DependentUpon>FrmDeliverToService.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\Process\DashboardAuthorization\FrmOpenItem.resx">
+      <DependentUpon>FrmOpenItem.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\Process\DashboardContractCoverage\FrmAnnotations.resx">
+      <DependentUpon>FrmAnnotations.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\Process\DashboardContractCoverage\FrmDashboardContractCoverage.resx">
+      <DependentUpon>FrmDashboardContractCoverage.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\Utils\ConfigurationServicesAmbulatory\FrmConfigurationServicesAmbulatory.resx">
+      <DependentUpon>FrmConfigurationServicesAmbulatory.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\Utils\ConfigurationServicesAmbulatory\FrmConfigurationServicesAmbulatoryDetail.resx">
+      <DependentUpon>FrmConfigurationServicesAmbulatoryDetail.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\Utils\FrmSettingsAuthorization.resx">
+      <DependentUpon>FrmSettingsAuthorization.vb</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="My Project\Application.myapp">
+      <Generator>MyApplicationCodeGenerator</Generator>
+      <LastGenOutput>Application.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="My Project\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <CustomToolNamespace>My</CustomToolNamespace>
+      <LastGenOutput>Settings.Designer.vb</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\Infrastructure.CrossCutting.Exceptions\Infrastructure.CrossCutting.Exceptions.vbproj">
+      <Project>{4ddb3588-6bc6-4545-85ca-222b8348492f}</Project>
+      <Name>Infrastructure.CrossCutting.Exceptions</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastructure.CrossCutting.Xpo.Base\Infrastructure.CrossCutting.Xpo.Base.vbproj">
+      <Project>{06AEA7A4-8792-405E-97E6-4B6FB10502B5}</Project>
+      <Name>Infrastructure.CrossCutting.Xpo.Base</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastructure.Data.Xpo.AuthorizationRepository\Infrastructure.Data.Xpo.AuthorizationRepository.vbproj">
+      <Project>{6E621F16-588E-4FF2-8098-035C81553FA4}</Project>
+      <Name>Infrastructure.Data.Xpo.AuthorizationRepository</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastructure.Data.Xpo.BillingRepository\Infrastructure.Data.Xpo.BillingRepository.vbproj">
+      <Project>{020C0C10-A6D2-43B0-AE5A-D1EABEA2F16C}</Project>
+      <Name>Infrastructure.Data.Xpo.BillingRepository</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastructure.Data.Xpo.BudgetRepository\Infrastructure.Data.Xpo.BudgetRepository.vbproj">
+      <Project>{43721df9-e30f-44a6-b512-901cba41c894}</Project>
+      <Name>Infrastructure.Data.Xpo.BudgetRepository</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastructure.Data.Xpo.CommonRepository\Infrastructure.Data.Xpo.CommonRepository.vbproj">
+      <Project>{C087E009-72B8-4E9E-80F7-BE336BE83794}</Project>
+      <Name>Infrastructure.Data.Xpo.CommonRepository</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastructure.Data.Xpo.ContractRepository\Infrastructure.Data.Xpo.ContractRepository.vbproj">
+      <Project>{994E8EE6-D75B-4730-B50D-77FB360EB863}</Project>
+      <Name>Infrastructure.Data.Xpo.ContractRepository</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastructure.Data.Xpo.GlosasRepository\Infrastructure.Data.Xpo.GlosasRepository.vbproj">
+      <Project>{697869d8-6dad-4170-b120-c3f6cbd6dc4a}</Project>
+      <Name>Infrastructure.Data.Xpo.GlosasRepository</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastructure.Data.Xpo.InventoryRepository\Infrastructure.Data.Xpo.InventoryRepository.csproj">
+      <Project>{e16b7310-400a-46dd-b7ab-c54ea51f197c}</Project>
+      <Name>Infrastructure.Data.Xpo.InventoryRepository</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastructure.Data.Xpo.MaintenanceRepository\Infrastructure.Data.Xpo.MaintenanceRepository.vbproj">
+      <Project>{825af482-aa7b-4253-ad88-748b665e5598}</Project>
+      <Name>Infrastructure.Data.Xpo.MaintenanceRepository</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastructure.Data.Xpo.PaymentsRepository\Infrastructure.Data.Xpo.PaymentsRepository.vbproj">
+      <Project>{6d87a185-58c7-4cce-93e0-5ff663152660}</Project>
+      <Name>Infrastructure.Data.Xpo.PaymentsRepository</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastructure.Data.Xpo.PortfolioRepository\Infrastructure.Data.Xpo.PortfolioRepository.vbproj">
+      <Project>{ab90b939-7342-4d1e-8a01-13b863c8f0dc}</Project>
+      <Name>Infrastructure.Data.Xpo.PortfolioRepository</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastructure.Data.Xpo.SecurityRepository\Infrastructure.Data.Xpo.SecurityRepository.vbproj">
+      <Project>{75506435-56f8-4069-9540-c7c37e197458}</Project>
+      <Name>Infrastructure.Data.Xpo.SecurityRepository</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastructure.Data.Xpo.TreasuryRepository\Infrastructure.Data.Xpo.TreasuryRepository.vbproj">
+      <Project>{80eeac4e-4409-4469-9299-3cb99582ad33}</Project>
+      <Name>Infrastructure.Data.Xpo.TreasuryRepository</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastructure.Data.Xpo\Infrastructure.Data.Xpo.vbproj">
+      <Project>{B5E32668-0270-4D5E-ADB7-840EDF9D6DB8}</Project>
+      <Name>Infrastructure.Data.Xpo</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastucture.Data.Xpo.AccountingRepository\Infrastructure.Data.Xpo.AccountingRepository.vbproj">
+      <Project>{539916d8-97ff-497f-bc89-12d89b47cb70}</Project>
+      <Name>Infrastructure.Data.Xpo.AccountingRepository</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Insfrastructure.Data.Xpo.CrystalRepository\Infrastructure.Data.Xpo.CrystalRepository.vbproj">
+      <Project>{6AF0AD3B-B0A2-48A4-9FBD-CA1C11FC74FC}</Project>
+      <Name>Infrastructure.Data.Xpo.CrystalRepository</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Presentacion.AgenteCloud\Presentation.ProxyAgent.vbproj">
+      <Project>{ab3573a9-5acf-4971-b298-be3a1ed617e8}</Project>
+      <Name>Presentation.ProxyAgent</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Presentacion.Base\Presentation.Base.vbproj">
+      <Project>{7BC84999-6EA3-47E9-92E9-697ADE41BB9A}</Project>
+      <Name>Presentation.Base</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Presentacion.Controles.MVP\Presentation.Controls.MVP.vbproj">
+      <Project>{47d30452-ca41-44a9-b3ad-867793353ede}</Project>
+      <Name>Presentation.Controls.MVP</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Presentacion.Controles\Presentation.Controls.vbproj">
+      <Project>{B031E890-3C50-4DEA-BA76-96BC4BB6A05A}</Project>
+      <Name>Presentation.Controls</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Presentation.Authorization.MVP\Presentation.Authorization.MVP.vbproj">
+      <Project>{308BBAAF-5FB2-4C79-A0E7-95DFDCDE08B8}</Project>
+      <Name>Presentation.Authorization.MVP</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Presentation.Billing.MVP\Presentation.Billing.MVP.vbproj">
+      <Project>{3DC26EA3-5867-4EFC-BC6A-17F27C827CDE}</Project>
+      <Name>Presentation.Billing.MVP</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Presentation.Billing\Presentation.Billing.vbproj">
+      <Project>{b3e03dc2-35d9-4211-b05a-bdec97ce90ba}</Project>
+      <Name>Presentation.Billing</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Presentation.Common.MVP\Presentation.Common.MVP.vbproj">
+      <Project>{62FD08CC-4D21-425C-B5C8-65F3D1FA8401}</Project>
+      <Name>Presentation.Common.MVP</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Presentation.Common\Presentation.Common.vbproj">
+      <Project>{d649cfc8-0561-4bc3-b1c8-585ba91f94d2}</Project>
+      <Name>Presentation.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Presentation.Contract.MVP\Presentation.Contract.MVP.vbproj">
+      <Project>{15D6DDB6-F8C6-4373-B20F-D1F6CB3AEA79}</Project>
+      <Name>Presentation.Contract.MVP</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Presentation.Contract\Presentation.Contract.vbproj">
+      <Project>{94973bef-493c-4a72-aded-16eb9be75d39}</Project>
+      <Name>Presentation.Contract</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Presentation.FixedAsset\Presentation.FixedAsset.vbproj">
+      <Project>{202f3203-f206-4c3a-86dd-f2cfe229f8c3}</Project>
+      <Name>Presentation.FixedAsset</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Presentation.Inventory.MVP\Presentation.Inventory.MVP.vbproj">
+      <Project>{7C7E2847-A090-44CC-A515-CC7F08504DBD}</Project>
+      <Name>Presentation.Inventory.MVP</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Presentation.Reporter\Presentation.Reporter.vbproj">
+      <Project>{4fed3f7c-503d-4257-8b02-e4fa08c328cd}</Project>
+      <Name>Presentation.Reporter</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Presentation.Resources\Presentation.Resources.vbproj">
+      <Project>{56a8b8d1-0a6c-456e-8978-2edf8c3b9034}</Project>
+      <Name>Presentation.Resources</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Mmenu_de_acciones.png" />
+    <None Include="Resources\ICONO EXCEL-02.png" />
+    <None Include="Resources\Find_24x24_blue.png" />
+    <None Include="Resources\Print_16x16_blue.png" />
+    <None Include="Resources\Reject.png" />
+    <None Include="Resources\Refresh_16x16_blue.png" />
+    <None Include="Resources\IconosEliminar.png" />
+    <None Include="Resources\undcheck.png" />
+    <None Include="Resources\check.png" />
+    <None Include="Resources\Add_16x16_blue.png" />
+    <None Include="Resources\Add_24x24_blue.png" />
+    <None Include="Resources\Agregar16.png" />
+    <None Include="Resources\Acceptance.png" />
+    <None Include="Resources\Alerta.gif" />
+    <Content Include="Resources\BuscarMetro.png" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
+</Project>

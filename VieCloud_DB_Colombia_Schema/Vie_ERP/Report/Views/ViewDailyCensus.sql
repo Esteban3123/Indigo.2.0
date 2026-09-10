@@ -1,0 +1,310 @@
+﻿
+
+/*******************************************************************************************************************
+Nombre: [Report].[ViewDailyCensus]
+Tipo:Procedimiento Vista
+Observacion:Informe del censo diario
+Profesional: 
+Fecha:
+---------------------------------------------------------------------------
+Modificaciones
+_____________________________________________________________________________
+Version 1
+Persona que modifico: Nilsson Miguel Galindo Lopez
+Fecha:30-03-2023
+Ovservaciones: Se crea un nuevo cte_ingreso y se cometarean tablas ya que no se utilizan para el reporte, esto con el fin de darle mas
+			   rendimiento a la vista en mas de un 99%
+-----------------------------------------------------------------------------------------------------------------------------------------
+Version 2
+Persona que modifico:Nilsson Miguel Galindo lopez
+Fecha: 19-05-2023
+Observacion: Se modifica el cte_ingreso cambiando la tabla DBO.CHREGESTA por el CTE_CAMAS_OCUPADA para mejorar la velocidad de la consulta ademas tambien se edita
+			 el CTE_ESPECIALIDAD_FINAL tambien para mejorar la velocidad, tambien en el cte_ingreso se modifica en la relación con la entidad administradora por codigo
+			 esto ultimo solicitado por HOMI en el ticket 9745
+***********************************************************************************************************************************/
+
+CREATE VIEW [Report].[ViewDailyCensus] as
+
+--------- SCRIPS DEL CENSO DIARIO VALORIZADO--------*/
+WITH CTE_CAMAS_OCUPADA
+--CTE PARA IDENTIFICAR LAS CAMAS ACTIVAS EN HOSPITALIZACION
+AS
+(
+SELECT  
+FUN.UFUDESCRI AS 'UNIDAD FUNCIONAL',
+C.IPCODPACI 'IDENTIFICACION',
+C.NUMINGRES 'INGRESO',
+A.NUMCAMHOS 'CAMA',
+G.DESTIPEST 'TIPO ESTANCIA',
+C.ID  'ID_ESTANCIA', 
+A.CODICAMAS 'ID_CAMAS',
+CEN.NOMCENATE 'CENTRO DE ATENCION',
+A.CODCLAHAB ,
+A.CODCLACAM 
+FROM dbo.CHCAMASHO A
+INNER JOIN DBO.INUNIFUNC FUN ON A.UFUCODIGO =FUN.UFUCODIGO 
+LEFT JOIN dbo.CHREGESTA C ON A.CODICAMAS=C.CODICAMAS AND C.REGESTADO = 1 
+LEFT JOIN dbo.CHTIPESTA G ON G.CODTIPEST=C.CODTIPEST 
+LEFT JOIN DBO.ADCENATEN CEN ON CEN.CODCENATE =A.CODCENATE 
+),
+CTE_PRIMERA_HOSPITALIZACION
+---CTE PARA IDENTIIFCAR LA PRIMERA FECHA DE HOSPITALIZACION
+AS
+(
+	SELECT 
+	EST.NUMINGRES ,EST.IPCODPACI ,EST.FECINIEST 'FECHA INICIAL HOSPITALIZACION'  
+	FROM DBO.CHREGESTA EST 
+	INNER JOIN 
+	(
+	SELECT EST.NUMINGRES ,EST.IPCODPACI ,MIN(EST.ID) ID FROM DBO.CHREGESTA EST
+	INNER JOIN CTE_CAMAS_OCUPADA AS CAM ON CAM.INGRESO =EST.NUMINGRES
+	GROUP BY EST.NUMINGRES ,EST.IPCODPACI
+	) AS G ON G.ID =EST.ID 
+),
+CTE_ESPECIALIDAD_FINAL
+--CTE PARA IDENTIFICAR LA ESPECIALIDAD FINAL
+AS
+(
+	SELECT 
+	HIS.NUMINGRES ,HIS.IPCODPACI ,HIS.CODESPTRA,
+	  ESP.DESESPECI 'ESPECIALIDAD',SAL.CODPROSAL,
+	  SAL.NOMMEDICO 'PROFESIONAL'  
+	FROM 
+	CTE_CAMAS_OCUPADA CAM INNER JOIN
+	DBO.HCHISPACA HIS ON CAM.INGRESO=HIS.NUMINGRES AND HIS.ID=(SELECT MAX(H.ID) FROM DBO.HCHISPACA H WHERE HIS.NUMINGRES=H.NUMINGRES) INNER JOIN 
+	DBO.INESPECIA ESP ON ESP.CODESPECI=HIS.CODESPTRA INNER JOIN 
+	DBO.INPROFSAL SAL ON HIS.CODPROSAL=SAL.CODPROSAL 
+),
+CTE_REFERENCIA AS
+--CTE PARA IDENTIFICAR LAS REFERENCIAS
+(
+  SELECT REF.NUMINGRES ,REF.AUTO ,REF.FECSOLICIT  ,REF.FECCONFIR   FROM DBO.HCREFCONP AS REF 
+   INNER JOIN
+   (SELECT NUMINGRES, MAX(AUTO) ID FROM DBO.HCREFCONP REF
+   INNER JOIN CTE_CAMAS_OCUPADA AS CAM with (nolock) ON CAM.INGRESO =REF.NUMINGRES
+   WHERE ESTADO!=4 GROUP BY NUMINGRES ) AS G ON G.NUMINGRES =REF.NUMINGRES AND G.ID =REF.AUTO 
+),
+
+CTE_PAD AS 
+--CTE PARA IDENTIFICAR EL PLAN DE MANEJO HOSPITALARIO
+(
+  SELECT PAD.NUMINGRES ,PAD.ID ,PAD.FECHAREGISTRO    FROM DBO.PADCONTROL AS PAD 
+  INNER JOIN
+   (SELECT NUMINGRES, MAX(ID) ID FROM DBO.PADCONTROL PAD 
+   INNER JOIN CTE_CAMAS_OCUPADA AS CAM ON CAM.INGRESO =PAD.NUMINGRES 
+   WHERE ESTADO='1' GROUP BY NUMINGRES ) AS G ON G.NUMINGRES =PAD.NUMINGRES AND G.ID =PAD.ID 
+),
+---------------------*******CTE PARA CONSULTAR LO PENDIENTE DE FACTURAR DEL PACIENTE HOSPITALIZADO ***************------------------------------
+CTE_SERVICIOS_PENDIENTES
+ AS
+  (
+  select  
+   RCD.id, RCD.Status,
+   RCD.StatusFolioId,RCD.InvoiceCategoryId, RC.AdmissionNumber 'INGRESO',
+   ISNULL(RC.PatientCode, 0) AS 'IDENTIFICACION'
+  FROM BILLING.REVENUECONTROLDETAIL AS RCD
+  INNER JOIN BILLING.REVENUECONTROL AS RC ON RCD.REVENUECONTROLID = RC.ID
+  INNER JOIN DBO.ADINGRESO AS ING ON ING.NUMINGRES = RC.ADMISSIONNUMBER
+  INNER JOIN CTE_CAMAS_OCUPADA AS CAM ON CAM.INGRESO =ING.NUMINGRES 
+  --INNER JOIN DBO.INPACIENT AS PAC ON PAC.IPCODPACI = ING.IPCODPACI 
+  --INNER JOIN CONTRACT.CAREGROUP AS CG ON CG.ID = RCD.CAREGROUPID
+  --INNER JOIN CONTRACT.HEALTHADMINISTRATOR AS HA ON HA.ID = RCD.HEALTHADMINISTRATORID
+  --INNER JOIN COMMON.THIRDPARTY AS T ON T .ID = RCD.ThirdPartyId 
+  --LEFT JOIN CONTRACT.CONTRACTENTITY AS E ON E.ID = RCD.CONTRACTENTITYID
+  ),
+
+CTE_VALOR_ESTANCIA
+AS
+(
+ SELECT 
+ RCD.INGRESO,RCD.IDENTIFICACION, 
+ SUM(ISNULL(DQ.TOTALSALESPRICE,SOD.GrandTotalSalesPrice)) 'DET_ORD_VALOR_TOTAL'
+ FROM CTE_SERVICIOS_PENDIENTES  AS RCD
+ INNER JOIN BILLING.SERVICEORDERDETAILDISTRIBUTION AS SODD ON RCD.ID = SODD.REVENUECONTROLDETAILID AND RCD.STATUS IN ('1', '3')
+ INNER JOIN BILLING.SERVICEORDERDETAIL AS SOD ON SODD.SERVICEORDERDETAILID = SOD.ID
+ --IN V1 INNER JOIN Payroll.FunctionalUnit AS FU ON FU.Id = SOD.PerformsFunctionalUnitId
+ --LEFT JOIN Billing .ConceptsCausesStatusFolio AS CCSF ON CCSF.Id =RCD.StatusFolioId 
+ --LEFT JOIN BILLING.INVOICECATEGORIES AS CAT ON CAT.ID = RCD.INVOICECATEGORYID
+ --LEFT JOIN CONTRACT.CUPSENTITY AS CUPS ON CUPS.ID = SOD.CUPSENTITYID
+ --LEFT JOIN Contract.CupsSubgroup AS CSG ON CUPS.CUPSSubGroupId=CSG.ID
+ --LEFT JOIN Contract.CupsGroup AS CGR ON CGR.ID=CSG.CupsGroupId
+ --LEFT JOIN Contract.IPSService AS IPS ON IPS.Id = SOD.IPSServiceId
+ --LEFT JOIN Billing .ServiceOrderDetail AS SOD_PAQ ON SOD_PAQ.Id =SOD.PackageServiceOrderDetailId 
+ --LEFT JOIN Contract.CUPSEntity AS CUPS_PAQ ON CUPS_PAQ.Id = SOD_PAQ.CUPSEntityId
+ --LEFT JOIN INVENTORY.INVENTORYPRODUCT AS IPR ON IPR.ID = SOD.PRODUCTID AND IPR.Status = 1
+ --LEFT JOIN Inventory.ProductType AS PT ON IPR.ProductTypeId = PT.Id
+ --LEFT JOIN Inventory.ProductGroup AS PG ON PG.ID =IPR.ProductGroupId
+ --LEFT JOIN Inventory.ProductSubGroup AS PSG ON PSG.ID =IPR.ProductSubGroupId
+ --LEFT JOIN dbo.INPROFSAL AS MED ON MED.CODPROSAL = SOD.PerformsHealthProfessionalCode
+ --LEFT JOIN dbo.INESPECIA AS ESPMED ON ESPMED.CODESPECI = MED.CODESPEC1
+ --LEFT JOIN Payroll.CostCenter AS COST ON COST.Id =SOD.CostCenterId
+ --LEFT JOIN Billing .ServiceOrderDetail AS SOD_INC ON SOD_INC.Id =SOD.IncludeServiceOrderDetailId
+ --LEFT JOIN Contract.CUPSEntity AS CUPS_INC ON CUPS_INC.Id = SOD_INC.CUPSEntityId
+ --LEFT JOIN PAYROLL.FUNCTIONALUNIT AS UF ON UF.ID = SOD.PERFORMSFUNCTIONALUNITID
+ --LEFT JOIN Billing.BillingGroup AS GF ON GF.Id = CUPS.BillingGroupId
+ --LEFT JOIN Billing.BillingGroup AS GF2 ON GF2.Id = IPR.BillingGroupId FN V1
+ LEFT JOIN Billing.ServiceOrderDetailSurgical AS DQ ON DQ.ServiceOrderDetailId = SOD.Id AND DQ.OnlyMedicalFees = '0'
+ -- IN V1 LEFT JOIN dbo.INPROFSAL AS MEDQX ON MEDQX.CODPROSAL = DQ.PerformsHealthProfessionalCode
+ --LEFT JOIN dbo.INESPECIA AS ESPQX ON ESPQX.CODESPECI = MEDQX.CODESPEC1
+ --LEFT JOIN Contract.IPSService AS SERVICIOSIPSQ ON SERVICIOSIPSQ.Id = DQ.IPSServiceId FN V1
+ WHERE SOD.IsDelete ='0'
+ GROUP BY RCD.INGRESO,RCD.IDENTIFICACION
+ ),
+
+CTE_ALTA_MEDICA AS 
+--CTE PARA IDENTIFICAR LA FECHA DE ALTA MEDICA
+(
+  SELECT EGR.NUMINGRES,EGR.IPCODPACI FROM DBO.HCREGEGRE AS EGR 
+  INNER JOIN
+   (SELECT NUMINGRES, MAX(EGR.FECALTPAC) FECALTPAC FROM DBO.HCREGEGRE EGR 
+   INNER JOIN CTE_CAMAS_OCUPADA AS CAM ON CAM.INGRESO =EGR.NUMINGRES 
+   GROUP BY NUMINGRES ) AS G ON G.NUMINGRES =EGR.NUMINGRES AND G.FECALTPAC =EGR.FECALTPAC 
+),
+--IN V1
+CTE_INGRESO AS
+(
+SELECT --distinct
+ING.NUMINGRES,
+ING.IFECHAING,
+ING.IAUTORIZA AS [NUMERO AUTORIZACIÓN], 
+ING.IOBSERVAC AS [OBSERVACIONES],
+HA.Name AS ENTIDAD,
+CASE HA.ENTITYTYPE WHEN 1 THEN 'EPS CONTRIBUTIVO' 
+				   WHEN 2 THEN 'EPS SUBSIDIADO' 
+				   WHEN 3 THEN 'ET VINCULADO MUNICIPIO' 
+				   WHEN 4 THEN 'ET VINCULADOS DAPARTAMENTO'
+				   WHEN 5 THEN 'ARL RIESGO LABORALES' 
+				   WHEN 6 THEN 'MP MEDICINA PREPAGADA' 
+				   WHEN 7 THEN 'IPS PRIVADA' 
+				   WHEN 8 THEN 'IPS PUBLICA' 
+				   WHEN 9 THEN 'REGIMEN ESPECIAL' 
+				   WHEN 10 THEN 'ACCIDENTE DE TRANSITO'
+				   WHEN 11 THEN 'FOSYGA' 
+				   WHEN 12 THEN 'OTROS' END AS [REGIMEN],
+RTRIM(Q.CODDIAGNO) + ' - ' + RTRIM(Q.NOMDIAGNO) AS [DIAGNOSTICO PRINCIPAL]
+FROM
+CTE_CAMAS_OCUPADA EST INNER JOIN
+DBO.ADINGRESO ING ON EST.INGRESO=ING.NUMINGRES INNER JOIN
+CONTRACT.HEALTHADMINISTRATOR HA ON  ING.GENCONENTITY=HA.ID /*IN V2 ING.CODENTIDA=HA.Code FN V2*/ LEFT JOIN
+INDIAGNOP DIA ON ING.NUMINGRES=DIA.NUMINGRES AND DIA.CODDIAPRI=1 LEFT JOIN
+dbo.INDIAGNOS Q ON DIA.CODDIAGNO=Q.CODDIAGNO
+GROUP BY ING.NUMINGRES,ING.IFECHAING,ING.IAUTORIZA,ING.IOBSERVAC,HA.Name,HA.ENTITYTYPE,
+Q.CODDIAGNO,Q.NOMDIAGNO
+)
+--FN V1
+SELECT --DISTINCT
+CAST(DB_NAME() AS VARCHAR(9)) AS ID_COMPANY, 
+CAM.[CENTRO DE ATENCION],
+CAM.ID_CAMAS AS [CODIGO CAMA],
+CAM.CAMA [CAMA],
+EST.NUMINGRES 'INGRESO',
+CAST(EST.FECINIEST as date) [FECHA INGRESO],
+DATEDIFF(DAY,EST.FECINIEST,GETDATE()) [DIAS TRANSCURRIDOS],
+TE.DESTIPEST AS [TIPO DE ESTANCIA],
+CAM.[UNIDAD FUNCIONAL] 'SERVICIO',
+CASE CAM.CODCLAHAB WHEN '1' THEN 'SALA OBSERVACION' WHEN '2' THEN 'SALA PROCEDIMIENTO' WHEN '3' THEN 'SALA RECUPERACION' 
+WHEN '4' THEN 'HABITACION 1 CAMA' WHEN '5' THEN 'HABITACION 2 CAMAS'  WHEN '6' THEN 'HABITACION 3 CAMAS'  WHEN '7' THEN 'HABITACION 4 CAMAS'  WHEN '8' THEN 'SUITE' 
+WHEN '9' THEN 'HAB.ESPECIAL' WHEN '10' THEN 'UCI'  WHEN '11' THEN 'OTRO' END AS [CLASE DE HABITACION], 
+CASE CAM.CODCLACAM WHEN '1' THEN UPPER('ObservacionUrgencias')
+WHEN '2' THEN UPPER('Recuperacion Post Qx')  WHEN '3' THEN 'HOSPITALARIA' END AS [CLASE DE CAMA],
+CASE PAC.IPTIPODOC WHEN '1' THEN 'CC'
+				   WHEN '2' THEN 'CE'
+				   WHEN '3' THEN 'TI'
+				   WHEN '4' THEN 'RC'
+				   WHEN '5' THEN 'PA'
+				   WHEN '6' THEN 'AS'
+				   WHEN '7' THEN 'MS'
+				   WHEN '8' THEN 'NU'
+				   WHEN '9' THEN 'NV'
+				   WHEN '10' THEN 'CD'
+				   WHEN '11' THEN 'SC'
+				   WHEN '12' THEN 'PE' 
+				   WHEN '13' THEN 'PT'
+				   WHEN '14' THEN 'DE'
+				   WHEN '15' THEN 'SI' END AS [TIPO DOCUMENTO],
+PAC.IPCODPACI AS [IDENTIFICACION], 
+PAC.IPNOMCOMP AS [NOMBRE DEL PACIENTE],
+CASE PAC.IPSEXOPAC WHEN 1 THEN 'MASCULINO' ELSE 'FEMENINO' END AS 'SEXO',
+CAST(PAC.IPFECNACI AS DATE) 'FECHA NACIMIENTO' ,
+FLOOR((CAST(CONVERT(VARCHAR(8), EST.FECINIEST  , 112) AS INT) - CAST(CONVERT(VARCHAR(8), PAC.IPFECNACI, 112) AS INT)) / 10000) AS 'EDAD',
+PAC.IPDIRECCI AS DIRECCION, PAC.IPTELEFON AS TELEFONO, 
+PAC.IPTELMOVI AS MOVIL,
+ING.ENTIDAD,
+--IN V1 HA.Name AS ENTIDAD, --FN V1
+ING.REGIMEN,
+--IN V1 CASE HA.ENTITYTYPE WHEN 1 THEN 'EPS CONTRIBUTIVO' 
+--				   WHEN 2 THEN 'EPS SUBSIDIADO' WHEN 3 THEN 'ET VINCULADO MUNICIPIO' WHEN 4 THEN 'ET VINCULADOS DAPARTAMENTO'
+--WHEN 5 THEN 'ARL RIESGO LABORALES' WHEN 6 THEN 'MP MEDICINA PREPAGADA' WHEN 7 THEN 'IPS PRIVADA' WHEN 8 THEN 'IPS PUBLICA' WHEN 9 THEN 'REGIMEN ESPECIAL' WHEN 10 THEN 'ACCIDENTE DE TRANSITO'
+--WHEN 11 THEN 'FOSYGA' WHEN 12 THEN 'OTROS'   END AS [REGIMEN], --FN V1
+NV.NIVDESCRI AS [CATEGORIA],
+ING.[DIAGNOSTICO PRINCIPAL],
+--IN V1 RTRIM(Q.CODDIAGNO) + ' - ' + RTRIM(Q.NOMDIAGNO) as [DIAGNOSTICO PRINCIPAL], FN V1
+RTRIM(ISNULL(Prof.CODPROSAL,ESP.CODPROSAL)) + ' - ' + RTRIM(ISNULL(Prof.NOMMEDICO,ESP.PROFESIONAL)) 'MEDICO',
+RTRIM(ISNULL(K.DESESPECI,ESP.ESPECIALIDAD)) AS 'ESPECIALIDAD',
+ING.[NUMERO AUTORIZACIÓN], 
+ING.[OBSERVACIONES],
+CASE WHEN REF.NUMINGRES IS NULL THEN 'NO' ELSE 'SI' END AS REFERENCIA, 
+REF.FECSOLICIT AS [SOLICITUD REFERENCIA],
+CASE WHEN PAD.NUMINGRES IS NULL THEN 'NO' ELSE 'SI' END AS PAD,PAD.FECHAREGISTRO AS [FECHA PAD],
+CASE WHEN  ALT.NUMINGRES IS NULL THEN '1 - Pacientes en la Unidad' ELSE '2 - Pacientes Con Salida' END AS 'ESTADO',
+ING.IFECHAING as 'FECHA INGRESO ADMISION',
+--IN V1 ING.IFECHAING as 'FECHA INGRESO ADMISION', FN V1
+HOS.[FECHA INICIAL HOSPITALIZACION],
+EST.FECINIEST 'FECHA ASIGNACION UNIDAD',
+CAM.[TIPO ESTANCIA]  [ESTANCIA] ,
+DATEDIFF(DAY,HOS.[FECHA INICIAL HOSPITALIZACION], GETDATE()) 'DIAS DE HOSPITALIZACION',
+DATEDIFF(DAY,EST.FECINIEST,GETDATE()) 'DIAS EN LA UNIDAD',
+ISNULL(VAL.DET_ORD_VALOR_TOTAL,0) 'VALOR',
+YEAR(EST.FECINIEST) AS 'AÑO FECHA BUSQUEDA',
+MONTH(EST.FECINIEST) AS 'MES AÑO FECHA BUSQUEDA',
+CASE MONTH(EST.FECINIEST) WHEN 1 THEN 'ENERO'
+						  WHEN 2 THEN 'FEBRERO'
+						  WHEN 3 THEN 'MARZO'
+						  WHEN 4 THEN 'ABRIL'
+						  WHEN 5 THEN 'MAYO'
+						  WHEN 6 THEN 'JUNIO'
+						  WHEN 7 THEN 'JULIO'
+						  WHEN 8 THEN 'AGOSTO'
+						  WHEN 9 THEN 'SEPTIEMBRE'
+						  WHEN 10 THEN 'OCTUBRE'
+						  WHEN 11 THEN 'NOVIEMBRE'
+						  WHEN 12 THEN 'DICIEMBRE' END AS 'MES NOMBRE FECHA BUSQUEDA', 
+FORMAT(DAY(EST.FECINIEST), '00') AS 'DIA FECHA BUSQUEDA',
+CONVERT(DATETIME,GETDATE() AT TIME ZONE 'Pakistan Standard Time',1) AS ULT_ACTUAL
+FROM  DBO.CHREGESTA EST
+INNER JOIN CTE_CAMAS_OCUPADA AS CAM ON CAM.ID_ESTANCIA =EST.ID AND CAM.INGRESO =EST.NUMINGRES 
+LEFT JOIN CTE_INGRESO AS ING ON ING.NUMINGRES =EST.NUMINGRES 
+INNER JOIN CTE_PRIMERA_HOSPITALIZACION HOS ON HOS.NUMINGRES =EST.NUMINGRES 
+INNER JOIN dbo.INPacient PAC ON EST.IPCODPACI=PAC.IPCODPACI 
+INNER JOIN dbo.CHTIPESTA AS TE ON TE.CODTIPEST = EST.CODTIPEST
+-- IN V1 INNER JOIN CONTRACT.HEALTHADMINISTRATOR HA ON ING.GENCONENTITY = HA.ID FN V1
+INNER JOIN Dbo.ADNIVELES NV ON PAC.NIVCODIGO=NV.NIVCODIGO
+LEFT JOIN dbo.INESPECIA K ON EST.CODESPECI = K.CODESPECI
+--IN V1 LEFT  JOIN dbo.INDIAGNOS Q with (nolock) ON Q.CODDIAGNO = (SELECT TOP 1 CODDIAGNO FROM INDIAGNOP with (nolock) WHERE IPCODPACI = PAC.IPCODPACI AND NUMINGRES = ING.NUMINGRES AND CODDIAPRI = 1) FN V1
+LEFT  JOIN dbo.INPROFSAL Prof ON EST.CODPROSAL = Prof.CODPROSAL
+LEFT JOIN CTE_ESPECIALIDAD_FINAL ESP ON ESP.NUMINGRES =EST.NUMINGRES
+LEFT JOIN CTE_ALTA_MEDICA AS ALT ON ALT.NUMINGRES =EST.NUMINGRES 
+LEFT JOIN CTE_REFERENCIA REF ON REF.NUMINGRES=ALT.NUMINGRES
+LEFT JOIN CTE_PAD PAD ON PAD.NUMINGRES=ALT.NUMINGRES
+LEFT JOIN CTE_VALOR_ESTANCIA AS VAL ON VAL.INGRESO = EST.NUMINGRES 
+--IN V1 WHERE CAM.[UNIDAD FUNCIONAL] = 'URGENCIAS OBSERVACION'   FN V1  
+--where est.NUMINGRES='180571'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'Vista de reporte que consolida el censo diario de pacientes hospitalizados con cama activa, integrando datos de ocupación de camas, estancias, ingresos, pacientes, entidad administradora (EPS/ARL/régimen), diagnóstico principal CIE-10, especialidad y médico tratante, referencias, plan de alta (PAD), alta médica y valor pendiente de facturar por servicios y procedimientos quirúrgicos. Está diseñada para consumo de reportes operativos y de gestión hospitalaria.', @level0type=N'SCHEMA', @level0name=N'Report', @level1type=N'VIEW', @level1name=N'ViewDailyCensus';
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_DescriptionSource', @value=N'ai_claude-sonnet-4-6_2026-05-05', @level0type=N'SCHEMA', @level0name=N'Report', @level1type=N'VIEW', @level1name=N'ViewDailyCensus';
+GO
+GO
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_BR_Purpose', @value=N'Vista que produce el censo diario hospitalario valorizado, listando para cada cama ocupada el paciente, ingreso, estancia, especialidad/médico tratante, referencias, plan de atención domiciliaria (PAD), alta médica y el valor pendiente de facturar.', @level0type=N'SCHEMA', @level0name=N'Report', @level1type=N'VIEW', @level1name=N'ViewDailyCensus';
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_BR_Preconditions', @value=N'Existen camas registradas en CHCAMASHO con su unidad funcional (INUNIFUNC) y centro de atención (ADCENATEN).; Para considerar una cama como ocupada, debe existir en CHREGESTA un registro con REGESTADO = 1 asociado a la cama.; El ingreso en ADINGRESO debe estar vinculado a una entidad administradora (HEALTHADMINISTRATOR) vía GENCONENTITY.; Las referencias se consideran solo si su ESTADO != 4 en HCREFCONP.; El plan de atención domiciliaria (PADCONTROL) se considera solo si ESTADO = ''1''.; Los servicios pendientes de facturar se toman de REVENUECONTROLDETAIL con STATUS IN (''1'',''3'') y SERVICEORDERDETAIL.IsDelete = ''0''.; Los honorarios quirúrgicos (ServiceOrderDetailSurgical) se incluyen solo si OnlyMedicalFees = ''0''.', @level0type=N'SCHEMA', @level0name=N'Report', @level1type=N'VIEW', @level1name=N'ViewDailyCensus';
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_BR_Invariants', @value=N'Solo se incluyen camas cuya estancia tenga REGESTADO = 1, garantizando que el censo refleja únicamente ocupaciones activas.; La fecha inicial de hospitalización se calcula como la primera estancia (MIN(ID) en CHREGESTA) del ingreso.; La especialidad final se determina por el último registro (MAX(ID)) en HCHISPACA del ingreso.; La referencia activa corresponde al MAX(AUTO) en HCREFCONP con ESTADO!=4.; El PAD activo corresponde al MAX(ID) en PADCONTROL con ESTADO=''1''.; El alta médica considerada es la de mayor FECALTPAC en HCREGEGRE para el ingreso.; El valor de la estancia suma TOTALSALESPRICE (quirúrgico no honorarios) o GrandTotalSalesPrice del detalle de orden de servicio, solo para servicios con STATUS IN (''1'',''3'') e IsDelete=''0''.; La edad se calcula en años completos a partir de la diferencia entre FECINIEST y IPFECNACI mediante formato YYYYMMDD.; La marca de tiempo ULT_ACTUAL se entrega convertida a la zona horaria ''Pakistan Standard Time''.; El ID_COMPANY corresponde al nombre de la base de datos actual (DB_NAME).', @level0type=N'SCHEMA', @level0name=N'Report', @level1type=N'VIEW', @level1name=N'ViewDailyCensus';
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_BR_SideEffects', @value=N'[RETURN_RESULT] Report.ViewDailyCensus: Devuelve una fila por cada estancia activa (CHREGESTA con REGESTADO=1) cruzada con la cama ocupada, enriquecida con datos del paciente, entidad, diagnóstico principal, médico, especialidad, referencias, PAD, alta médica y valor pendiente de facturar.', @level0type=N'SCHEMA', @level0name=N'Report', @level1type=N'VIEW', @level1name=N'ViewDailyCensus';
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_BR_Decisions', @value=N'si CHCAMASHO.CODCLAHAB → Se traduce a etiqueta de clase de habitación: 1=SALA OBSERVACION, 2=SALA PROCEDIMIENTO, 3=SALA RECUPERACION, 4-7=HABITACION 1-4 CAMAS, 8=SUITE, 9=HAB.ESPECIAL, 10=UCI, 11=OTRO.; si CHCAMASHO.CODCLACAM → Se traduce a clase de cama: 1=ObservacionUrgencias, 2=Recuperacion Post Qx, 3=HOSPITALARIA.; si HEALTHADMINISTRATOR.ENTITYTYPE (1..12) → Determina el régimen: 1=EPS CONTRIBUTIVO, 2=EPS SUBSIDIADO, 3=ET VINCULADO MUNICIPIO, 4=ET VINCULADOS DEPARTAMENTO, 5=ARL, 6=Medicina Prepagada, 7=IPS PRIVADA, 8=IPS PUBLICA, 9=REGIMEN ESPECIAL, 10=ACCIDENTE TRANSITO, 11=FOSYGA, 12=OTROS.; si INPACIENT.IPTIPODOC (1..15) → Se traduce a sigla del tipo de documento (CC, CE, TI, RC, PA, AS, MS, NU, NV, CD, SC, PE, PT, DE, SI).; si INPACIENT.IPSEXOPAC = 1 → Sexo = ''MASCULINO'' else Sexo = ''FEMENINO''; si Existe registro en HCREFCONP para el ingreso (CTE_REFERENCIA) → REFERENCIA = ''SI'' y se reporta FECSOLICIT else REFERENCIA = ''NO''; si Existe registro en PADCONTROL con ESTADO=''1'' para el ingreso → PAD = ''SI'' y se reporta FECHAREGISTRO else PAD = ''NO''; si Existe registro en HCREGEGRE (alta médica) para el ingreso → ESTADO = ''2 - Pacientes Con Salida'' else ESTADO = ''1 - Pacientes en la Unidad''; si Profesional disponible en CHREGESTA (Prof) o solo en CTE_ESPECIALIDAD_FINAL → MEDICO y ESPECIALIDAD se toman primero de INPROFSAL/INESPECIA del registro de estancia; si no existe, se usan los del último registro de HCHISPACA (especialidad final).', @level0type=N'SCHEMA', @level0name=N'Report', @level1type=N'VIEW', @level1name=N'ViewDailyCensus';
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_BR_Source', @value=N'ai_claude-opus-4-7_tier-c_2026-05-06', @level0type=N'SCHEMA', @level0name=N'Report', @level1type=N'VIEW', @level1name=N'ViewDailyCensus';
+GO

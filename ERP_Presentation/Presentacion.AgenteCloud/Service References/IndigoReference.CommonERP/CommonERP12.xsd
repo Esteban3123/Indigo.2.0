@@ -1,0 +1,1805 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://tempuri.org/" elementFormDefault="qualified" targetNamespace="http://tempuri.org/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import schemaLocation="https://localhost:9001/ServiceEntity/CommonERP.svc?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/Infrastructure.CrossCutting.Base" />
+  <xs:import schemaLocation="https://localhost:9001/ServiceEntity/CommonERP.svc?xsd=xsd5" namespace="http://schemas.datacontract.org/2004/07/Domain.Entities" />
+  <xs:import schemaLocation="https://localhost:9001/ServiceEntity/CommonERP.svc?xsd=xsd6" namespace="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" />
+  <xs:import schemaLocation="https://localhost:9001/ServiceEntity/CommonERP.svc?xsd=xsd8" namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
+  <xs:element name="ListAllCity">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q1="http://schemas.datacontract.org/2004/07/Infrastructure.CrossCutting.Base" minOccurs="0" name="session" nillable="true" type="q1:SessionValues" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ListAllCityResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q2="http://schemas.datacontract.org/2004/07/Domain.Entities" minOccurs="0" name="ListAllCityResult" nillable="true" type="q2:ArrayOfCity" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetCity">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="code" nillable="true" type="xs:string" />
+        <xs:element xmlns:q3="http://schemas.datacontract.org/2004/07/Infrastructure.CrossCutting.Base" minOccurs="0" name="session" nillable="true" type="q3:SessionValues" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetCityResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q4="http://schemas.datacontract.org/2004/07/Domain.Entities" minOccurs="0" name="GetCityResult" nillable="true" type="q4:City" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetCityByDepartment">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="code" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="idDepartamento" type="xs:int" />
+        <xs:element xmlns:q5="http://schemas.datacontract.org/2004/07/Infrastructure.CrossCutting.Base" minOccurs="0" name="session" nillable="true" type="q5:SessionValues" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetCityByDepartmentResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q6="http://schemas.datacontract.org/2004/07/Domain.Entities" minOccurs="0" name="GetCityByDepartmentResult" nillable="true" type="q6:City" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SaveCity">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q7="http://schemas.datacontract.org/2004/07/Domain.Entities" minOccurs="0" name="city" nillable="true" type="q7:City" />
+        <xs:element xmlns:q8="http://schemas.datacontract.org/2004/07/Infrastructure.CrossCutting.Base" minOccurs="0" name="session" nillable="true" type="q8:SessionValues" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SaveCityResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q9="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="SaveCityResult" nillable="true" type="q9:ActionResultOfCityMbb067J0" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="DeleteCity">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q10="http://schemas.datacontract.org/2004/07/Domain.Entities" minOccurs="0" name="city" nillable="true" type="q10:City" />
+        <xs:element xmlns:q11="http://schemas.datacontract.org/2004/07/Infrastructure.CrossCutting.Base" minOccurs="0" name="session" nillable="true" type="q11:SessionValues" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="DeleteCityResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q12="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="DeleteCityResult" nillable="true" type="q12:ActionMessageResultOfCityMbb067J0" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ListAllCitiesByIdDepartment">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="idDepartment" type="xs:int" />
+        <xs:element xmlns:q13="http://schemas.datacontract.org/2004/07/Infrastructure.CrossCutting.Base" minOccurs="0" name="session" nillable="true" type="q13:SessionValues" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ListAllCitiesByIdDepartmentResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q14="http://schemas.datacontract.org/2004/07/Domain.Entities" minOccurs="0" name="ListAllCitiesByIdDepartmentResult" nillable="true" type="q14:ArrayOfCity" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetCityById">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="idCity" type="xs:int" />
+        <xs:element xmlns:q15="http://schemas.datacontract.org/2004/07/Infrastructure.CrossCutting.Base" minOccurs="0" name="session" nillable="true" type="q15:SessionValues" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetCityByIdResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q16="http://schemas.datacontract.org/2004/07/Domain.Entities" minOccurs="0" name="GetCityByIdResult" nillable="true" type="q16:City" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ChangeStateCity">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="code" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="state" type="xs:boolean" />
+        <xs:element xmlns:q17="http://schemas.datacontract.org/2004/07/Infrastructure.CrossCutting.Base" minOccurs="0" name="session" nillable="true" type="q17:SessionValues" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ChangeStateCityResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q18="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="ChangeStateCityResult" nillable="true" type="q18:ActionResultOfCityMbb067J0" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetFieldsNULL">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="TableName" nillable="true" type="xs:string" />
+        <xs:element xmlns:q19="http://schemas.datacontract.org/2004/07/Infrastructure.CrossCutting.Base" minOccurs="0" name="session" nillable="true" type="q19:SessionValues" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetFieldsNULLResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="GetFieldsNULLResult" nillable="true">
+          <xs:complexType>
+            <xs:annotation>
+              <xs:appinfo>
+                <ActualType Name="DataSet" Namespace="http://schemas.datacontract.org/2004/07/System.Data" xmlns="http://schemas.microsoft.com/2003/10/Serialization/" />
+              </xs:appinfo>
+            </xs:annotation>
+            <xs:sequence>
+              <xs:element ref="xs:schema" />
+              <xs:any />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ListAllCountry">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q20="http://schemas.datacontract.org/2004/07/Infrastructure.CrossCutting.Base" minOccurs="0" name="session" nillable="true" type="q20:SessionValues" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ListAllCountryResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q21="http://schemas.datacontract.org/2004/07/Domain.Entities" minOccurs="0" name="ListAllCountryResult" nillable="true" type="q21:ArrayOfCountry" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetCountry">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="code" nillable="true" type="xs:string" />
+        <xs:element xmlns:q22="http://schemas.datacontract.org/2004/07/Infrastructure.CrossCutting.Base" minOccurs="0" name="session" nillable="true" type="q22:SessionValues" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetCountryResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q23="http://schemas.datacontract.org/2004/07/Domain.Entities" minOccurs="0" name="GetCountryResult" nillable="true" type="q23:Country" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetCountryById">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="idCountry" type="xs:int" />
+        <xs:element xmlns:q24="http://schemas.datacontract.org/2004/07/Infrastructure.CrossCutting.Base" minOccurs="0" name="session" nillable="true" type="q24:SessionValues" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetCountryByIdResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q25="http://schemas.datacontract.org/2004/07/Domain.Entities" minOccurs="0" name="GetCountryByIdResult" nillable="true" type="q25:Country" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SaveCountry">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q26="http://schemas.datacontract.org/2004/07/Domain.Entities" minOccurs="0" name="country" nillable="true" type="q26:Country" />
+        <xs:element xmlns:q27="http://schemas.datacontract.org/2004/07/Infrastructure.CrossCutting.Base" minOccurs="0" name="session" nillable="true" type="q27:SessionValues" />
+        <xs:element minOccurs="0" name="idSequence" type="xs:long" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SaveCountryResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q28="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="SaveCountryResult" nillable="true" type="q28:ActionResultOfCountryMbb067J0" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="DeleteCountry">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q29="http://schemas.datacontract.org/2004/07/Domain.Entities" minOccurs="0" name="country" nillable="true" type="q29:Country" />
+        <xs:element xmlns:q30="http://schemas.datacontract.org/2004/07/Infrastructure.CrossCutting.Base" minOccurs="0" name="session" nillable="true" type="q30:SessionValues" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="DeleteCountryResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q31="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="DeleteCountryResult" nillable="true" type="q31:ActionMessageResultOfCountryMbb067J0" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ListAllCurrency">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q32="http://schemas.datacontract.org/2004/07/Infrastructure.CrossCutting.Base" minOccurs="0" name="session" nillable="true" type="q32:SessionValues" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ListAllCurrencyResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q33="http://schemas.datacontract.org/2004/07/Domain.Entities" minOccurs="0" name="ListAllCurrencyResult" nillable="true" type="q33:ArrayOfCurrency" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetCurrency">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="code" nillable="true" type="xs:string" />
+        <xs:element xmlns:q34="http://schemas.datacontract.org/2004/07/Infrastructure.CrossCutting.Base" minOccurs="0" name="session" nillable="true" type="q34:SessionValues" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetCurrencyResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q35="http://schemas.datacontract.org/2004/07/Domain.Entities" minOccurs="0" name="GetCurrencyResult" nillable="true" type="q35:Currency" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetCurrencyById">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="idCurrency" type="xs:int" />
+        <xs:element xmlns:q36="http://schemas.datacontract.org/2004/07/Infrastructure.CrossCutting.Base" minOccurs="0" name="session" nillable="true" type="q36:SessionValues" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetCurrencyByIdResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q37="http://schemas.datacontract.org/2004/07/Domain.Entities" minOccurs="0" name="GetCurrencyByIdResult" nillable="true" type="q37:Currency" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SaveCurrency">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q38="http://schemas.datacontract.org/2004/07/Domain.Entities" minOccurs="0" name="Currency" nillable="true" type="q38:Currency" />
+        <xs:element xmlns:q39="http://schemas.datacontract.org/2004/07/Infrastructure.CrossCutting.Base" minOccurs="0" name="session" nillable="true" type="q39:SessionValues" />
+        <xs:element minOccurs="0" name="idSequence" type="xs:long" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SaveCurrencyResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q40="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="SaveCurrencyResult" nillable="true" type="q40:ActionResultOfCurrencyMbb067J0" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="DeleteCurrency">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q41="http://schemas.datacontract.org/2004/07/Domain.Entities" minOccurs="0" name="Currency" nillable="true" type="q41:Currency" />
+        <xs:element xmlns:q42="http://schemas.datacontract.org/2004/07/Infrastructure.CrossCutting.Base" minOccurs="0" name="session" nillable="true" type="q42:SessionValues" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="DeleteCurrencyResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q43="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="DeleteCurrencyResult" nillable="true" type="q43:ActionMessageResultOfCurrencyMbb067J0" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="UpdateCurrency">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="code" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="state" type="xs:boolean" />
+        <xs:element xmlns:q44="http://schemas.datacontract.org/2004/07/Infrastructure.CrossCutting.Base" minOccurs="0" name="session" nillable="true" type="q44:SessionValues" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="UpdateCurrencyResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q45="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="UpdateCurrencyResult" nillable="true" type="q45:ActionResultOfCurrencyMbb067J0" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetTRMbyCurrencyId">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="ToCurrencyId" type="xs:int" />
+        <xs:element minOccurs="0" name="FromCurrencyId" type="xs:int" />
+        <xs:element xmlns:q46="http://schemas.datacontract.org/2004/07/Infrastructure.CrossCutting.Base" minOccurs="0" name="session" nillable="true" type="q46:SessionValues" />
+        <xs:element minOccurs="0" name="DateTrm" nillable="true" type="xs:dateTime" />
+        <xs:element minOccurs="0" name="entityName" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetTRMbyCurrencyIdResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q47="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="GetTRMbyCurrencyIdResult" nillable="true" type="q47:ActionResultOfTRMMbb067J0" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ListAllDepartment">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q48="http://schemas.datacontract.org/2004/07/Infrastructure.CrossCutting.Base" minOccurs="0" name="session" nillable="true" type="q48:SessionValues" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ListAllDepartmentResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q49="http://schemas.datacontract.org/2004/07/Domain.Entities" minOccurs="0" name="ListAllDepartmentResult" nillable="true" type="q49:ArrayOfDepartment" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetDepartment">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="code" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="idCountry" nillable="true" type="xs:string" />
+        <xs:element xmlns:q50="http://schemas.datacontract.org/2004/07/Infrastructure.CrossCutting.Base" minOccurs="0" name="session" nillable="true" type="q50:SessionValues" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetDepartmentResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q51="http://schemas.datacontract.org/2004/07/Domain.Entities" minOccurs="0" name="GetDepartmentResult" nillable="true" type="q51:Department" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetDepartments">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="idCountry" nillable="true" type="xs:string" />
+        <xs:element xmlns:q52="http://schemas.datacontract.org/2004/07/Infrastructure.CrossCutting.Base" minOccurs="0" name="session" nillable="true" type="q52:SessionValues" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetDepartmentsResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q53="http://schemas.datacontract.org/2004/07/Domain.Entities" minOccurs="0" name="GetDepartmentsResult" nillable="true" type="q53:ArrayOfDepartment" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SaveDepartment">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q54="http://schemas.datacontract.org/2004/07/Domain.Entities" minOccurs="0" name="department" nillable="true" type="q54:Department" />
+        <xs:element xmlns:q55="http://schemas.datacontract.org/2004/07/Infrastructure.CrossCutting.Base" minOccurs="0" name="session" nillable="true" type="q55:SessionValues" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SaveDepartmentResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q56="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="SaveDepartmentResult" nillable="true" type="q56:ActionResultOfDepartmentMbb067J0" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="DeleteDepartment">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q57="http://schemas.datacontract.org/2004/07/Domain.Entities" minOccurs="0" name="department" nillable="true" type="q57:Department" />
+        <xs:element xmlns:q58="http://schemas.datacontract.org/2004/07/Infrastructure.CrossCutting.Base" minOccurs="0" name="session" nillable="true" type="q58:SessionValues" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="DeleteDepartmentResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q59="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="DeleteDepartmentResult" nillable="true" type="q59:ActionMessageResultOfDepartmentMbb067J0" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetDepartmentById">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="idDepartment" type="xs:int" />
+        <xs:element xmlns:q60="http://schemas.datacontract.org/2004/07/Infrastructure.CrossCutting.Base" minOccurs="0" name="session" nillable="true" type="q60:SessionValues" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetDepartmentByIdResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q61="http://schemas.datacontract.org/2004/07/Domain.Entities" minOccurs="0" name="GetDepartmentByIdResult" nillable="true" type="q61:Department" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ChangeStateDepartment">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="code" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="IdCountry" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="state" type="xs:boolean" />
+        <xs:element xmlns:q62="http://schemas.datacontract.org/2004/07/Infrastructure.CrossCutting.Base" minOccurs="0" name="session" nillable="true" type="q62:SessionValues" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ChangeStateDepartmentResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q63="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="ChangeStateDepartmentResult" nillable="true" type="q63:ActionResultOfDepartmentMbb067J0" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ListAllBlockRecord">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q64="http://schemas.datacontract.org/2004/07/Infrastructure.CrossCutting.Base" minOccurs="0" name="session" nillable="true" type="q64:SessionValues" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ListAllBlockRecordResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q65="http://schemas.datacontract.org/2004/07/Domain.Entities" minOccurs="0" name="ListAllBlockRecordResult" nillable="true" type="q65:ArrayOfBlockRecord" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetBlockRecordByIdformAndIdRecord">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="IdForm" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="IdRecord" nillable="true" type="xs:string" />
+        <xs:element xmlns:q66="http://schemas.datacontract.org/2004/07/Infrastructure.CrossCutting.Base" minOccurs="0" name="session" nillable="true" type="q66:SessionValues" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetBlockRecordByIdformAndIdRecordResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q67="http://schemas.datacontract.org/2004/07/Domain.Entities" minOccurs="0" name="GetBlockRecordByIdformAndIdRecordResult" nillable="true" type="q67:BlockRecord" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SaveBlockRecord">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q68="http://schemas.datacontract.org/2004/07/Domain.Entities" minOccurs="0" name="blockRecord" nillable="true" type="q68:BlockRecord" />
+        <xs:element xmlns:q69="http://schemas.datacontract.org/2004/07/Infrastructure.CrossCutting.Base" minOccurs="0" name="session" nillable="true" type="q69:SessionValues" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SaveBlockRecordResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q70="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="SaveBlockRecordResult" nillable="true" type="q70:ActionResultOfBlockRecordMbb067J0" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="DeleteBlockRecord">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q71="http://schemas.datacontract.org/2004/07/Domain.Entities" minOccurs="0" name="blockRecord" nillable="true" type="q71:BlockRecord" />
+        <xs:element xmlns:q72="http://schemas.datacontract.org/2004/07/Infrastructure.CrossCutting.Base" minOccurs="0" name="session" nillable="true" type="q72:SessionValues" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="DeleteBlockRecordResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q73="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="DeleteBlockRecordResult" nillable="true" type="q73:ActionResult" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SP_UnlockBlockRecord">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="CodUser" nillable="true" type="xs:string" />
+        <xs:element xmlns:q74="http://schemas.datacontract.org/2004/07/Infrastructure.CrossCutting.Base" minOccurs="0" name="session" nillable="true" type="q74:SessionValues" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SP_UnlockBlockRecordResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="SP_UnlockBlockRecordResult" type="xs:boolean" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ListAllBasicAudit">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q75="http://schemas.datacontract.org/2004/07/Infrastructure.CrossCutting.Base" minOccurs="0" name="session" nillable="true" type="q75:SessionValues" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ListAllBasicAuditResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q76="http://schemas.datacontract.org/2004/07/Domain.Entities" minOccurs="0" name="ListAllBasicAuditResult" nillable="true" type="q76:ArrayOfBasicAudit" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetBasicAuditById">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="code" nillable="true" type="xs:string" />
+        <xs:element xmlns:q77="http://schemas.datacontract.org/2004/07/Infrastructure.CrossCutting.Base" minOccurs="0" name="session" nillable="true" type="q77:SessionValues" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetBasicAuditByIdResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q78="http://schemas.datacontract.org/2004/07/Domain.Entities" minOccurs="0" name="GetBasicAuditByIdResult" nillable="true" type="q78:BasicAudit" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ListBasicAuditByEntity">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="entity" nillable="true" type="xs:string" />
+        <xs:element xmlns:q79="http://schemas.datacontract.org/2004/07/Infrastructure.CrossCutting.Base" minOccurs="0" name="session" nillable="true" type="q79:SessionValues" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ListBasicAuditByEntityResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q80="http://schemas.datacontract.org/2004/07/Domain.Entities" minOccurs="0" name="ListBasicAuditByEntityResult" nillable="true" type="q80:ArrayOfBasicAudit" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ListBasicAuditByIdUsuario">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="code" nillable="true" type="xs:string" />
+        <xs:element xmlns:q81="http://schemas.datacontract.org/2004/07/Infrastructure.CrossCutting.Base" minOccurs="0" name="session" nillable="true" type="q81:SessionValues" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ListBasicAuditByIdUsuarioResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q82="http://schemas.datacontract.org/2004/07/Domain.Entities" minOccurs="0" name="ListBasicAuditByIdUsuarioResult" nillable="true" type="q82:ArrayOfBasicAudit" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ListBasicAuditByIdIdFormAndIdEntity">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="IdForm" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="IdEntity" nillable="true" type="xs:string" />
+        <xs:element xmlns:q83="http://schemas.datacontract.org/2004/07/Infrastructure.CrossCutting.Base" minOccurs="0" name="session" nillable="true" type="q83:SessionValues" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ListBasicAuditByIdIdFormAndIdEntityResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q84="http://schemas.datacontract.org/2004/07/Domain.Entities" minOccurs="0" name="ListBasicAuditByIdIdFormAndIdEntityResult" nillable="true" type="q84:ArrayOfBasicAudit" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ListBasicAuditByTag">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="Tag" nillable="true" type="xs:string" />
+        <xs:element xmlns:q85="http://schemas.datacontract.org/2004/07/Infrastructure.CrossCutting.Base" minOccurs="0" name="session" nillable="true" type="q85:SessionValues" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ListBasicAuditByTagResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q86="http://schemas.datacontract.org/2004/07/Domain.Entities" minOccurs="0" name="ListBasicAuditByTagResult" nillable="true" type="q86:ArrayOfBasicAudit" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SaveBasicAudit">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="Id" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="NameEntity" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="Parameters" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="ReportName" nillable="true" type="xs:string" />
+        <xs:element xmlns:q87="http://schemas.datacontract.org/2004/07/Infrastructure.CrossCutting.Base" minOccurs="0" name="ActionAudit" type="q87:ActionsAudit" />
+        <xs:element xmlns:q88="http://schemas.datacontract.org/2004/07/Infrastructure.CrossCutting.Base" minOccurs="0" name="session" nillable="true" type="q88:SessionValues" />
+        <xs:element minOccurs="0" name="count" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SaveBasicAuditResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q89="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="SaveBasicAuditResult" nillable="true" type="q89:ActionResultOfBasicAuditMbb067J0" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ListAllPhoneType">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q90="http://schemas.datacontract.org/2004/07/Infrastructure.CrossCutting.Base" minOccurs="0" name="session" nillable="true" type="q90:SessionValues" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ListAllPhoneTypeResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q91="http://schemas.datacontract.org/2004/07/Domain.Entities" minOccurs="0" name="ListAllPhoneTypeResult" nillable="true" type="q91:ArrayOfPhoneType" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetPhoneType">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="code" nillable="true" type="xs:string" />
+        <xs:element xmlns:q92="http://schemas.datacontract.org/2004/07/Infrastructure.CrossCutting.Base" minOccurs="0" name="session" nillable="true" type="q92:SessionValues" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetPhoneTypeResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q93="http://schemas.datacontract.org/2004/07/Domain.Entities" minOccurs="0" name="GetPhoneTypeResult" nillable="true" type="q93:PhoneType" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SavePhoneType">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q94="http://schemas.datacontract.org/2004/07/Domain.Entities" minOccurs="0" name="phoneType" nillable="true" type="q94:PhoneType" />
+        <xs:element xmlns:q95="http://schemas.datacontract.org/2004/07/Infrastructure.CrossCutting.Base" minOccurs="0" name="session" nillable="true" type="q95:SessionValues" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SavePhoneTypeResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="SavePhoneTypeResult" type="xs:boolean" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="DeletePhoneType">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q96="http://schemas.datacontract.org/2004/07/Domain.Entities" minOccurs="0" name="phoneType" nillable="true" type="q96:PhoneType" />
+        <xs:element xmlns:q97="http://schemas.datacontract.org/2004/07/Infrastructure.CrossCutting.Base" minOccurs="0" name="session" nillable="true" type="q97:SessionValues" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="DeletePhoneTypeResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q98="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="DeletePhoneTypeResult" nillable="true" type="q98:ActionMessageResultOfPhoneTypeMbb067J0" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetThirdPartyByNit">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="nit" nillable="true" type="xs:string" />
+        <xs:element xmlns:q99="http://schemas.datacontract.org/2004/07/Infrastructure.CrossCutting.Base" minOccurs="0" name="session" nillable="true" type="q99:SessionValues" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetThirdPartyByNitResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q100="http://schemas.datacontract.org/2004/07/Domain.Entities" minOccurs="0" name="GetThirdPartyByNitResult" nillable="true" type="q100:ThirdParty" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetPersonByIdentification">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="identificationNumber" nillable="true" type="xs:string" />
+        <xs:element xmlns:q101="http://schemas.datacontract.org/2004/07/Infrastructure.CrossCutting.Base" minOccurs="0" name="session" nillable="true" type="q101:SessionValues" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetPersonByIdentificationResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q102="http://schemas.datacontract.org/2004/07/Domain.Entities" minOccurs="0" name="GetPersonByIdentificationResult" nillable="true" type="q102:Person" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ListAllThirdParty">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q103="http://schemas.datacontract.org/2004/07/Infrastructure.CrossCutting.Base" minOccurs="0" name="session" nillable="true" type="q103:SessionValues" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ListAllThirdPartyResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q104="http://schemas.datacontract.org/2004/07/Domain.Entities" minOccurs="0" name="ListAllThirdPartyResult" nillable="true" type="q104:ArrayOfThirdParty" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ValidateLenghtNit">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="ThirdPartyNit" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="IdentificationAcronyms" nillable="true" type="xs:string" />
+        <xs:element xmlns:q105="http://schemas.datacontract.org/2004/07/Infrastructure.CrossCutting.Base" minOccurs="0" name="session" nillable="true" type="q105:SessionValues" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ValidateLenghtNitResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q106="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="ValidateLenghtNitResult" nillable="true" type="q106:ActionResultOfboolean" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SaveThirdParty">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q107="http://schemas.datacontract.org/2004/07/Domain.Entities" minOccurs="0" name="thirdParty" nillable="true" type="q107:ThirdParty" />
+        <xs:element xmlns:q108="http://schemas.datacontract.org/2004/07/Infrastructure.CrossCutting.Base" minOccurs="0" name="session" nillable="true" type="q108:SessionValues" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SaveThirdPartyResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="SaveThirdPartyResult" type="xs:boolean" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="DeleteThirdParty">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q109="http://schemas.datacontract.org/2004/07/Domain.Entities" minOccurs="0" name="thirdParty" nillable="true" type="q109:ThirdParty" />
+        <xs:element xmlns:q110="http://schemas.datacontract.org/2004/07/Infrastructure.CrossCutting.Base" minOccurs="0" name="session" nillable="true" type="q110:SessionValues" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="DeleteThirdPartyResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="DeleteThirdPartyResult" type="xs:boolean" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetThirdPartyById">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="id" type="xs:int" />
+        <xs:element xmlns:q111="http://schemas.datacontract.org/2004/07/Infrastructure.CrossCutting.Base" minOccurs="0" name="session" nillable="true" type="q111:SessionValues" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetThirdPartyByIdResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q112="http://schemas.datacontract.org/2004/07/Domain.Entities" minOccurs="0" name="GetThirdPartyByIdResult" nillable="true" type="q112:ThirdParty" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="UpdateStateThirdParty">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="id" type="xs:int" />
+        <xs:element minOccurs="0" name="state" type="xs:boolean" />
+        <xs:element xmlns:q113="http://schemas.datacontract.org/2004/07/Infrastructure.CrossCutting.Base" minOccurs="0" name="session" nillable="true" type="q113:SessionValues" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="UpdateStateThirdPartyResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="UpdateStateThirdPartyResult" type="xs:boolean" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ListAllDisability">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q114="http://schemas.datacontract.org/2004/07/Infrastructure.CrossCutting.Base" minOccurs="0" name="session" nillable="true" type="q114:SessionValues" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ListAllDisabilityResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q115="http://schemas.datacontract.org/2004/07/Domain.Entities" minOccurs="0" name="ListAllDisabilityResult" nillable="true" type="q115:ArrayOfDisability" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="DeleteDisability">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q116="http://schemas.datacontract.org/2004/07/Domain.Entities" minOccurs="0" name="disability" nillable="true" type="q116:Disability" />
+        <xs:element xmlns:q117="http://schemas.datacontract.org/2004/07/Infrastructure.CrossCutting.Base" minOccurs="0" name="session" nillable="true" type="q117:SessionValues" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="DeleteDisabilityResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q118="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="DeleteDisabilityResult" nillable="true" type="q118:ActionMessageResultOfDisabilityMbb067J0" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SaveDisability">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q119="http://schemas.datacontract.org/2004/07/Domain.Entities" minOccurs="0" name="disability" nillable="true" type="q119:Disability" />
+        <xs:element xmlns:q120="http://schemas.datacontract.org/2004/07/Infrastructure.CrossCutting.Base" minOccurs="0" name="session" nillable="true" type="q120:SessionValues" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SaveDisabilityResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="SaveDisabilityResult" type="xs:boolean" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetDisability">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="code" nillable="true" type="xs:string" />
+        <xs:element xmlns:q121="http://schemas.datacontract.org/2004/07/Infrastructure.CrossCutting.Base" minOccurs="0" name="session" nillable="true" type="q121:SessionValues" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetDisabilityResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q122="http://schemas.datacontract.org/2004/07/Domain.Entities" minOccurs="0" name="GetDisabilityResult" nillable="true" type="q122:Disability" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ListAllTimeUnit">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q123="http://schemas.datacontract.org/2004/07/Infrastructure.CrossCutting.Base" minOccurs="0" name="session" nillable="true" type="q123:SessionValues" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ListAllTimeUnitResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q124="http://schemas.datacontract.org/2004/07/Domain.Entities" minOccurs="0" name="ListAllTimeUnitResult" nillable="true" type="q124:ArrayOfTimeUnit" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetTimeUnit">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="code" nillable="true" type="xs:string" />
+        <xs:element xmlns:q125="http://schemas.datacontract.org/2004/07/Infrastructure.CrossCutting.Base" minOccurs="0" name="session" nillable="true" type="q125:SessionValues" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetTimeUnitResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q126="http://schemas.datacontract.org/2004/07/Domain.Entities" minOccurs="0" name="GetTimeUnitResult" nillable="true" type="q126:TimeUnit" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SaveTimeUnit">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q127="http://schemas.datacontract.org/2004/07/Domain.Entities" minOccurs="0" name="timeUnit" nillable="true" type="q127:TimeUnit" />
+        <xs:element xmlns:q128="http://schemas.datacontract.org/2004/07/Infrastructure.CrossCutting.Base" minOccurs="0" name="session" nillable="true" type="q128:SessionValues" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SaveTimeUnitResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="SaveTimeUnitResult" type="xs:boolean" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="DeleteTimeUnit">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q129="http://schemas.datacontract.org/2004/07/Domain.Entities" minOccurs="0" name="timeUnit" nillable="true" type="q129:TimeUnit" />
+        <xs:element xmlns:q130="http://schemas.datacontract.org/2004/07/Infrastructure.CrossCutting.Base" minOccurs="0" name="session" nillable="true" type="q130:SessionValues" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="DeleteTimeUnitResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q131="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="DeleteTimeUnitResult" nillable="true" type="q131:ActionMessageResultOfTimeUnitMbb067J0" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ListAllHolidays">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q132="http://schemas.datacontract.org/2004/07/Infrastructure.CrossCutting.Base" minOccurs="0" name="session" nillable="true" type="q132:SessionValues" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ListAllHolidaysResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q133="http://schemas.datacontract.org/2004/07/Domain.Entities" minOccurs="0" name="ListAllHolidaysResult" nillable="true" type="q133:ArrayOfHoliday" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="DeleteHoliday">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q134="http://schemas.datacontract.org/2004/07/Domain.Entities" minOccurs="0" name="holiday" nillable="true" type="q134:Holiday" />
+        <xs:element xmlns:q135="http://schemas.datacontract.org/2004/07/Infrastructure.CrossCutting.Base" minOccurs="0" name="session" nillable="true" type="q135:SessionValues" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="DeleteHolidayResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="DeleteHolidayResult" type="xs:boolean" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SaveHoliday">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q136="http://schemas.datacontract.org/2004/07/Domain.Entities" minOccurs="0" name="holiday" nillable="true" type="q136:Holiday" />
+        <xs:element xmlns:q137="http://schemas.datacontract.org/2004/07/Infrastructure.CrossCutting.Base" minOccurs="0" name="session" nillable="true" type="q137:SessionValues" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SaveHolidayResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="SaveHolidayResult" type="xs:boolean" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetHoliday">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="holiDate" type="xs:dateTime" />
+        <xs:element xmlns:q138="http://schemas.datacontract.org/2004/07/Infrastructure.CrossCutting.Base" minOccurs="0" name="session" nillable="true" type="q138:SessionValues" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetHolidayResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q139="http://schemas.datacontract.org/2004/07/Domain.Entities" minOccurs="0" name="GetHolidayResult" nillable="true" type="q139:Holiday" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ListHolidaybyYear">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="year" type="xs:int" />
+        <xs:element xmlns:q140="http://schemas.datacontract.org/2004/07/Infrastructure.CrossCutting.Base" minOccurs="0" name="session" nillable="true" type="q140:SessionValues" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ListHolidaybyYearResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q141="http://schemas.datacontract.org/2004/07/Domain.Entities" minOccurs="0" name="ListHolidaybyYearResult" nillable="true" type="q141:ArrayOfHoliday" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ListHolidayBetweenDate">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="initialDate" type="xs:dateTime" />
+        <xs:element minOccurs="0" name="endDate" type="xs:dateTime" />
+        <xs:element xmlns:q142="http://schemas.datacontract.org/2004/07/Infrastructure.CrossCutting.Base" minOccurs="0" name="session" nillable="true" type="q142:SessionValues" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ListHolidayBetweenDateResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q143="http://schemas.datacontract.org/2004/07/Domain.Entities" minOccurs="0" name="ListHolidayBetweenDateResult" nillable="true" type="q143:ArrayOfHoliday" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ListConceptGlosas">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q144="http://schemas.datacontract.org/2004/07/Infrastructure.CrossCutting.Base" minOccurs="0" name="session" nillable="true" type="q144:SessionValues" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ListConceptGlosasResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q145="http://schemas.datacontract.org/2004/07/Domain.Entities" minOccurs="0" name="ListConceptGlosasResult" nillable="true" type="q145:ArrayOfConceptGlosas" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ListConceptGlosaByType">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="type" nillable="true" type="xs:string" />
+        <xs:element xmlns:q146="http://schemas.datacontract.org/2004/07/Infrastructure.CrossCutting.Base" minOccurs="0" name="session" nillable="true" type="q146:SessionValues" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ListConceptGlosaByTypeResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q147="http://schemas.datacontract.org/2004/07/Domain.Entities" minOccurs="0" name="ListConceptGlosaByTypeResult" nillable="true" type="q147:ArrayOfConceptGlosas" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ListConceptGlosaByListTypes">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q148="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="types" nillable="true" type="q148:ArrayOfstring" />
+        <xs:element xmlns:q149="http://schemas.datacontract.org/2004/07/Infrastructure.CrossCutting.Base" minOccurs="0" name="session" nillable="true" type="q149:SessionValues" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ListConceptGlosaByListTypesResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q150="http://schemas.datacontract.org/2004/07/Domain.Entities" minOccurs="0" name="ListConceptGlosaByListTypesResult" nillable="true" type="q150:ArrayOfConceptGlosas" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetOperatingUnitByCode">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="code" nillable="true" type="xs:string" />
+        <xs:element xmlns:q151="http://schemas.datacontract.org/2004/07/Infrastructure.CrossCutting.Base" minOccurs="0" name="session" nillable="true" type="q151:SessionValues" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetOperatingUnitByCodeResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q152="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="GetOperatingUnitByCodeResult" nillable="true" type="q152:ActionResultOfOperatingUnitMbb067J0" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetOperatingUnitById">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="id" type="xs:int" />
+        <xs:element xmlns:q153="http://schemas.datacontract.org/2004/07/Infrastructure.CrossCutting.Base" minOccurs="0" name="session" nillable="true" type="q153:SessionValues" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetOperatingUnitByIdResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q154="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="GetOperatingUnitByIdResult" nillable="true" type="q154:ActionResultOfOperatingUnitMbb067J0" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SaveOperatingUnit">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q155="http://schemas.datacontract.org/2004/07/Domain.Entities" minOccurs="0" name="operatingUnit" nillable="true" type="q155:OperatingUnit" />
+        <xs:element xmlns:q156="http://schemas.datacontract.org/2004/07/Infrastructure.CrossCutting.Base" minOccurs="0" name="session" nillable="true" type="q156:SessionValues" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SaveOperatingUnitResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q157="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="SaveOperatingUnitResult" nillable="true" type="q157:ActionResultOfOperatingUnitMbb067J0" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="DeleteOperatingUnit">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q158="http://schemas.datacontract.org/2004/07/Domain.Entities" minOccurs="0" name="operatingUnit" nillable="true" type="q158:OperatingUnit" />
+        <xs:element xmlns:q159="http://schemas.datacontract.org/2004/07/Infrastructure.CrossCutting.Base" minOccurs="0" name="session" nillable="true" type="q159:SessionValues" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="DeleteOperatingUnitResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q160="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="DeleteOperatingUnitResult" nillable="true" type="q160:ActionResult" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ListAllOperatingUnit">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q161="http://schemas.datacontract.org/2004/07/Infrastructure.CrossCutting.Base" minOccurs="0" name="session" nillable="true" type="q161:SessionValues" />
+        <xs:element minOccurs="0" name="transactionContainer" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ListAllOperatingUnitResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q162="http://schemas.datacontract.org/2004/07/Domain.Entities" minOccurs="0" name="ListAllOperatingUnitResult" nillable="true" type="q162:ArrayOfOperatingUnit" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ListAllOperatingUnitCommand">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q163="http://schemas.datacontract.org/2004/07/Infrastructure.CrossCutting.Base" minOccurs="0" name="session" nillable="true" type="q163:SessionValues" />
+        <xs:element minOccurs="0" name="transactionContainer" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ListAllOperatingUnitCommandResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q164="http://schemas.datacontract.org/2004/07/Domain.Entities" minOccurs="0" name="ListAllOperatingUnitCommandResult" nillable="true" type="q164:ArrayOfOperatingUnit" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ListAllBank">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q165="http://schemas.datacontract.org/2004/07/Infrastructure.CrossCutting.Base" minOccurs="0" name="session" nillable="true" type="q165:SessionValues" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ListAllBankResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q166="http://schemas.datacontract.org/2004/07/Domain.Entities" minOccurs="0" name="ListAllBankResult" nillable="true" type="q166:ArrayOfBank" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="DeleteBank">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q167="http://schemas.datacontract.org/2004/07/Domain.Entities" minOccurs="0" name="bank" nillable="true" type="q167:Bank" />
+        <xs:element xmlns:q168="http://schemas.datacontract.org/2004/07/Infrastructure.CrossCutting.Base" minOccurs="0" name="session" nillable="true" type="q168:SessionValues" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="DeleteBankResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q169="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="DeleteBankResult" nillable="true" type="q169:ActionMessageResultOfBankMbb067J0" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SaveBank">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q170="http://schemas.datacontract.org/2004/07/Domain.Entities" minOccurs="0" name="bank" nillable="true" type="q170:Bank" />
+        <xs:element xmlns:q171="http://schemas.datacontract.org/2004/07/Infrastructure.CrossCutting.Base" minOccurs="0" name="session" nillable="true" type="q171:SessionValues" />
+        <xs:element minOccurs="0" name="idSequence" type="xs:long" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SaveBankResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q172="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="SaveBankResult" nillable="true" type="q172:ActionResultOfBankMbb067J0" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="UpdateStateBank">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="code" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="state" type="xs:boolean" />
+        <xs:element xmlns:q173="http://schemas.datacontract.org/2004/07/Infrastructure.CrossCutting.Base" minOccurs="0" name="session" nillable="true" type="q173:SessionValues" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="UpdateStateBankResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q174="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="UpdateStateBankResult" nillable="true" type="q174:ActionResultOfBankMbb067J0" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetBank">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="code" nillable="true" type="xs:string" />
+        <xs:element xmlns:q175="http://schemas.datacontract.org/2004/07/Infrastructure.CrossCutting.Base" minOccurs="0" name="session" nillable="true" type="q175:SessionValues" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetBankResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q176="http://schemas.datacontract.org/2004/07/Domain.Entities" minOccurs="0" name="GetBankResult" nillable="true" type="q176:Bank" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetBankById">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="Id" type="xs:int" />
+        <xs:element xmlns:q177="http://schemas.datacontract.org/2004/07/Infrastructure.CrossCutting.Base" minOccurs="0" name="session" nillable="true" type="q177:SessionValues" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetBankByIdResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q178="http://schemas.datacontract.org/2004/07/Domain.Entities" minOccurs="0" name="GetBankByIdResult" nillable="true" type="q178:Bank" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SaveSuppliersDistributionLines">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q179="http://schemas.datacontract.org/2004/07/Domain.Entities" minOccurs="0" name="supplierDistributionLine" nillable="true" type="q179:SuppliersDistributionLines" />
+        <xs:element xmlns:q180="http://schemas.datacontract.org/2004/07/Infrastructure.CrossCutting.Base" minOccurs="0" name="session" nillable="true" type="q180:SessionValues" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SaveSuppliersDistributionLinesResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q181="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="SaveSuppliersDistributionLinesResult" nillable="true" type="q181:ActionResultOfSuppliersDistributionLinesMbb067J0" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="DeleteSuppliersDistributionLines">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q182="http://schemas.datacontract.org/2004/07/Domain.Entities" minOccurs="0" name="supplierDistributionLine" nillable="true" type="q182:SuppliersDistributionLines" />
+        <xs:element xmlns:q183="http://schemas.datacontract.org/2004/07/Infrastructure.CrossCutting.Base" minOccurs="0" name="session" nillable="true" type="q183:SessionValues" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="DeleteSuppliersDistributionLinesResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q184="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="DeleteSuppliersDistributionLinesResult" nillable="true" type="q184:ActionResult" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetSuppliersDistributionLinesByIdSupplier">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="id" type="xs:int" />
+        <xs:element xmlns:q185="http://schemas.datacontract.org/2004/07/Infrastructure.CrossCutting.Base" minOccurs="0" name="session" nillable="true" type="q185:SessionValues" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetSuppliersDistributionLinesByIdSupplierResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q186="http://schemas.datacontract.org/2004/07/Domain.Entities" minOccurs="0" name="GetSuppliersDistributionLinesByIdSupplierResult" nillable="true" type="q186:ArrayOfSuppliersDistributionLines" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetSuppliersDistributionLinesById">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="id" type="xs:int" />
+        <xs:element xmlns:q187="http://schemas.datacontract.org/2004/07/Infrastructure.CrossCutting.Base" minOccurs="0" name="session" nillable="true" type="q187:SessionValues" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetSuppliersDistributionLinesByIdResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q188="http://schemas.datacontract.org/2004/07/Domain.Entities" minOccurs="0" name="GetSuppliersDistributionLinesByIdResult" nillable="true" type="q188:SuppliersDistributionLines" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetICARetentionConceptBySupplierDistributionLine">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="idSupplierDistributionLine" type="xs:int" />
+        <xs:element minOccurs="0" name="OperatingUnitId" type="xs:int" />
+        <xs:element xmlns:q189="http://schemas.datacontract.org/2004/07/Infrastructure.CrossCutting.Base" minOccurs="0" name="session" nillable="true" type="q189:SessionValues" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetICARetentionConceptBySupplierDistributionLineResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q190="http://schemas.datacontract.org/2004/07/Domain.Entities" minOccurs="0" name="GetICARetentionConceptBySupplierDistributionLineResult" nillable="true" type="q190:RetentionConcepts" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetDistributionLinesByIdSupplierAndAccusationConcept">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="idSupplier" type="xs:int" />
+        <xs:element minOccurs="0" name="accusationConcept" type="xs:int" />
+        <xs:element xmlns:q191="http://schemas.datacontract.org/2004/07/Infrastructure.CrossCutting.Base" minOccurs="0" name="session" nillable="true" type="q191:SessionValues" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetDistributionLinesByIdSupplierAndAccusationConceptResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q192="http://schemas.datacontract.org/2004/07/Domain.Entities" minOccurs="0" name="GetDistributionLinesByIdSupplierAndAccusationConceptResult" nillable="true" type="q192:ArrayOfSuppliersDistributionLines" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SaveDistributionLines">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q193="http://schemas.datacontract.org/2004/07/Domain.Entities" minOccurs="0" name="distributionLines" nillable="true" type="q193:DistributionLines" />
+        <xs:element xmlns:q194="http://schemas.datacontract.org/2004/07/Infrastructure.CrossCutting.Base" minOccurs="0" name="session" nillable="true" type="q194:SessionValues" />
+        <xs:element minOccurs="0" name="idSequense" type="xs:long" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SaveDistributionLinesResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q195="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="SaveDistributionLinesResult" nillable="true" type="q195:ActionResultOfDistributionLinesMbb067J0" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="DeleteDistributionLines">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q196="http://schemas.datacontract.org/2004/07/Domain.Entities" minOccurs="0" name="distributionLines" nillable="true" type="q196:DistributionLines" />
+        <xs:element xmlns:q197="http://schemas.datacontract.org/2004/07/Infrastructure.CrossCutting.Base" minOccurs="0" name="session" nillable="true" type="q197:SessionValues" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="DeleteDistributionLinesResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q198="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="DeleteDistributionLinesResult" nillable="true" type="q198:ActionResult" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetDistributionLinesById">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="id" type="xs:int" />
+        <xs:element xmlns:q199="http://schemas.datacontract.org/2004/07/Infrastructure.CrossCutting.Base" minOccurs="0" name="session" nillable="true" type="q199:SessionValues" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetDistributionLinesByIdResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q200="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="GetDistributionLinesByIdResult" nillable="true" type="q200:ActionResultOfDistributionLinesMbb067J0" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetDistributionLines">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="code" nillable="true" type="xs:string" />
+        <xs:element xmlns:q201="http://schemas.datacontract.org/2004/07/Infrastructure.CrossCutting.Base" minOccurs="0" name="session" nillable="true" type="q201:SessionValues" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetDistributionLinesResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q202="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="GetDistributionLinesResult" nillable="true" type="q202:ActionResultOfDistributionLinesMbb067J0" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ChangeStateDistributionLines">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="code" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="state" type="xs:boolean" />
+        <xs:element xmlns:q203="http://schemas.datacontract.org/2004/07/Infrastructure.CrossCutting.Base" minOccurs="0" name="session" nillable="true" type="q203:SessionValues" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ChangeStateDistributionLinesResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q204="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="ChangeStateDistributionLinesResult" nillable="true" type="q204:ActionResultOfDistributionLinesMbb067J0" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetSequenseByIdForm">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="idForm" nillable="true" type="xs:string" />
+        <xs:element xmlns:q205="http://schemas.datacontract.org/2004/07/Infrastructure.CrossCutting.Base" minOccurs="0" name="session" nillable="true" type="q205:SessionValues" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetSequenseByIdFormResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q206="http://schemas.datacontract.org/2004/07/Domain.Entities" minOccurs="0" name="GetSequenseByIdFormResult" nillable="true" type="q206:CommonSequence" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetNumericSequenseGroupById">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="id" type="xs:int" />
+        <xs:element xmlns:q207="http://schemas.datacontract.org/2004/07/Infrastructure.CrossCutting.Base" minOccurs="0" name="session" nillable="true" type="q207:SessionValues" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetNumericSequenseGroupByIdResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q208="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="GetNumericSequenseGroupByIdResult" nillable="true" type="q208:ArrayOfstring" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ListSequences">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q209="http://schemas.datacontract.org/2004/07/Infrastructure.CrossCutting.Base" minOccurs="0" name="session" nillable="true" type="q209:SessionValues" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ListSequencesResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q210="http://schemas.datacontract.org/2004/07/Domain.Entities" minOccurs="0" name="ListSequencesResult" nillable="true" type="q210:ArrayOfSequense" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SaveSequence">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q211="http://schemas.datacontract.org/2004/07/Domain.Entities" minOccurs="0" name="seq" nillable="true" type="q211:CommonSequence" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SaveSequenceResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q212="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="SaveSequenceResult" nillable="true" type="q212:ActionResult" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SavePatternSequence">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q213="http://schemas.datacontract.org/2004/07/Domain.Entities" minOccurs="0" name="seq" nillable="true" type="q213:Sequense" />
+        <xs:element xmlns:q214="http://schemas.datacontract.org/2004/07/Infrastructure.CrossCutting.Base" minOccurs="0" name="session" nillable="true" type="q214:SessionValues" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SavePatternSequenceResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q215="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="SavePatternSequenceResult" nillable="true" type="q215:ActionResult" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetPatternSequence">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="idSeq" type="xs:int" />
+        <xs:element xmlns:q216="http://schemas.datacontract.org/2004/07/Infrastructure.CrossCutting.Base" minOccurs="0" name="session" nillable="true" type="q216:SessionValues" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetPatternSequenceResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q217="http://schemas.datacontract.org/2004/07/Domain.Entities" minOccurs="0" name="GetPatternSequenceResult" nillable="true" type="q217:Sequense" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetPatternSequenceByName">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="nameSeq" nillable="true" type="xs:string" />
+        <xs:element xmlns:q218="http://schemas.datacontract.org/2004/07/Infrastructure.CrossCutting.Base" minOccurs="0" name="session" nillable="true" type="q218:SessionValues" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetPatternSequenceByNameResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q219="http://schemas.datacontract.org/2004/07/Domain.Entities" minOccurs="0" name="GetPatternSequenceByNameResult" nillable="true" type="q219:Sequense" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SaveEconomicActivity">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q220="http://schemas.datacontract.org/2004/07/Domain.Entities" minOccurs="0" name="EconomicActivity" nillable="true" type="q220:EconomicActivity" />
+        <xs:element xmlns:q221="http://schemas.datacontract.org/2004/07/Infrastructure.CrossCutting.Base" minOccurs="0" name="session" nillable="true" type="q221:SessionValues" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SaveEconomicActivityResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q222="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="SaveEconomicActivityResult" nillable="true" type="q222:ActionResultOfEconomicActivityMbb067J0" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="DeleteEconomicActivity">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q223="http://schemas.datacontract.org/2004/07/Domain.Entities" minOccurs="0" name="EconomicActivity" nillable="true" type="q223:EconomicActivity" />
+        <xs:element xmlns:q224="http://schemas.datacontract.org/2004/07/Infrastructure.CrossCutting.Base" minOccurs="0" name="session" nillable="true" type="q224:SessionValues" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="DeleteEconomicActivityResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q225="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="DeleteEconomicActivityResult" nillable="true" type="q225:ActionResult" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetEconomicActivityById">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="id" type="xs:int" />
+        <xs:element xmlns:q226="http://schemas.datacontract.org/2004/07/Infrastructure.CrossCutting.Base" minOccurs="0" name="session" nillable="true" type="q226:SessionValues" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetEconomicActivityByIdResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q227="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="GetEconomicActivityByIdResult" nillable="true" type="q227:ActionResultOfEconomicActivityMbb067J0" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetEconomicActivity">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="code" nillable="true" type="xs:string" />
+        <xs:element xmlns:q228="http://schemas.datacontract.org/2004/07/Infrastructure.CrossCutting.Base" minOccurs="0" name="session" nillable="true" type="q228:SessionValues" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetEconomicActivityResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q229="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="GetEconomicActivityResult" nillable="true" type="q229:ActionResultOfEconomicActivityMbb067J0" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ChangeStateEconomicActivity">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="code" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="state" type="xs:boolean" />
+        <xs:element xmlns:q230="http://schemas.datacontract.org/2004/07/Infrastructure.CrossCutting.Base" minOccurs="0" name="session" nillable="true" type="q230:SessionValues" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ChangeStateEconomicActivityResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q231="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="ChangeStateEconomicActivityResult" nillable="true" type="q231:ActionResultOfEconomicActivityMbb067J0" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetSuppliersDetailTypeByIdSupplier">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="id" type="xs:int" />
+        <xs:element xmlns:q232="http://schemas.datacontract.org/2004/07/Infrastructure.CrossCutting.Base" minOccurs="0" name="session" nillable="true" type="q232:SessionValues" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetSuppliersDetailTypeByIdSupplierResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q233="http://schemas.datacontract.org/2004/07/Domain.Entities" minOccurs="0" name="GetSuppliersDetailTypeByIdSupplierResult" nillable="true" type="q233:ArrayOfSupplierDetailType" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetSuppliersDetailTypeById">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="id" type="xs:int" />
+        <xs:element xmlns:q234="http://schemas.datacontract.org/2004/07/Infrastructure.CrossCutting.Base" minOccurs="0" name="session" nillable="true" type="q234:SessionValues" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetSuppliersDetailTypeByIdResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q235="http://schemas.datacontract.org/2004/07/Domain.Entities" minOccurs="0" name="GetSuppliersDetailTypeByIdResult" nillable="true" type="q235:SupplierDetailType" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ListAllSupplier">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q236="http://schemas.datacontract.org/2004/07/Infrastructure.CrossCutting.Base" minOccurs="0" name="session" nillable="true" type="q236:SessionValues" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ListAllSupplierResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q237="http://schemas.datacontract.org/2004/07/Domain.Entities" minOccurs="0" name="ListAllSupplierResult" nillable="true" type="q237:ArrayOfSupplier" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SaveBalancedScorecard">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="Id" type="xs:int" />
+        <xs:element minOccurs="0" name="name" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="data" nillable="true" type="xs:string" />
+        <xs:element xmlns:q238="http://schemas.datacontract.org/2004/07/Infrastructure.CrossCutting.Base" minOccurs="0" name="session" nillable="true" type="q238:SessionValues" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SaveBalancedScorecardResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q239="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="SaveBalancedScorecardResult" nillable="true" type="q239:ActionResult" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetAttachmentById">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="id" type="xs:int" />
+        <xs:element xmlns:q240="http://schemas.datacontract.org/2004/07/Infrastructure.CrossCutting.Base" minOccurs="0" name="session" nillable="true" type="q240:SessionValues" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetAttachmentByIdResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q241="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="GetAttachmentByIdResult" nillable="true" type="q241:ActionResultOfAttachmentMbb067J0" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetAttachmentsByFormAndEntity">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="formId" type="xs:int" />
+        <xs:element minOccurs="0" name="entityName" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="entityId" type="xs:int" />
+        <xs:element minOccurs="0" name="withTop" type="xs:boolean" />
+        <xs:element xmlns:q242="http://schemas.datacontract.org/2004/07/Infrastructure.CrossCutting.Base" minOccurs="0" name="session" nillable="true" type="q242:SessionValues" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetAttachmentsByFormAndEntityResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q243="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="GetAttachmentsByFormAndEntityResult" nillable="true" type="q243:ActionResultOfArrayOfAttachmentMbb067J0" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SaveAttachment">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q244="http://schemas.datacontract.org/2004/07/Domain.Entities" minOccurs="0" name="attachment" nillable="true" type="q244:Attachment" />
+        <xs:element xmlns:q245="http://schemas.datacontract.org/2004/07/Infrastructure.CrossCutting.Base" minOccurs="0" name="session" nillable="true" type="q245:SessionValues" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SaveAttachmentResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q246="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="SaveAttachmentResult" nillable="true" type="q246:ActionResultOfAttachmentMbb067J0" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="DeleteAttachment">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q247="http://schemas.datacontract.org/2004/07/Domain.Entities" minOccurs="0" name="attachment" nillable="true" type="q247:Attachment" />
+        <xs:element xmlns:q248="http://schemas.datacontract.org/2004/07/Infrastructure.CrossCutting.Base" minOccurs="0" name="session" nillable="true" type="q248:SessionValues" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="DeleteAttachmentResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q249="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="DeleteAttachmentResult" nillable="true" type="q249:ActionResultOfAttachmentMbb067J0" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SaveTaxExemptions">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q250="http://schemas.datacontract.org/2004/07/Domain.Entities" minOccurs="0" name="TaxExemptions" nillable="true" type="q250:TaxExemptions" />
+        <xs:element xmlns:q251="http://schemas.datacontract.org/2004/07/Infrastructure.CrossCutting.Base" minOccurs="0" name="session" nillable="true" type="q251:SessionValues" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SaveTaxExemptionsResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q252="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="SaveTaxExemptionsResult" nillable="true" type="q252:ActionResultOfTaxExemptionsMbb067J0" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetTaxExemptionsById">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="id" type="xs:int" />
+        <xs:element xmlns:q253="http://schemas.datacontract.org/2004/07/Infrastructure.CrossCutting.Base" minOccurs="0" name="session" nillable="true" type="q253:SessionValues" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetTaxExemptionsByIdResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q254="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="GetTaxExemptionsByIdResult" nillable="true" type="q254:ActionResultOfTaxExemptionsMbb067J0" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetTaxExemptions">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="code" nillable="true" type="xs:string" />
+        <xs:element xmlns:q255="http://schemas.datacontract.org/2004/07/Infrastructure.CrossCutting.Base" minOccurs="0" name="session" nillable="true" type="q255:SessionValues" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetTaxExemptionsResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q256="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="GetTaxExemptionsResult" nillable="true" type="q256:ActionResultOfTaxExemptionsMbb067J0" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ChangeStateTaxExemptions">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="code" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="state" type="xs:boolean" />
+        <xs:element xmlns:q257="http://schemas.datacontract.org/2004/07/Infrastructure.CrossCutting.Base" minOccurs="0" name="session" nillable="true" type="q257:SessionValues" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ChangeStateTaxExemptionsResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q258="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="ChangeStateTaxExemptionsResult" nillable="true" type="q258:ActionResultOfTaxExemptionsMbb067J0" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetDataTable">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="procedureName" nillable="true" type="xs:string" />
+        <xs:element xmlns:q259="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="parameters" nillable="true" type="q259:ArrayOfArrayOfstring" />
+        <xs:element xmlns:q260="http://schemas.datacontract.org/2004/07/Infrastructure.CrossCutting.Base" minOccurs="0" name="session" nillable="true" type="q260:SessionValues" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetDataTableResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="GetDataTableResult" nillable="true">
+          <xs:complexType>
+            <xs:annotation>
+              <xs:appinfo>
+                <ActualType Name="DataTable" Namespace="http://schemas.datacontract.org/2004/07/System.Data" xmlns="http://schemas.microsoft.com/2003/10/Serialization/" />
+              </xs:appinfo>
+            </xs:annotation>
+            <xs:sequence>
+              <xs:any minOccurs="0" maxOccurs="unbounded" namespace="http://www.w3.org/2001/XMLSchema" processContents="lax" />
+              <xs:any minOccurs="1" namespace="urn:schemas-microsoft-com:xml-diffgram-v1" processContents="lax" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

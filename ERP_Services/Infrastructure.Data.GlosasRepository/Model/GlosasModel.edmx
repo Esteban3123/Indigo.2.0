@@ -1,0 +1,668 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="GENESISEntitiesGlosas1.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="TimeParameters">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="tinyint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IdCustomer" Type="int" />
+          <Property Name="MaxTimeExtemporaneousGlosa" Type="tinyint" Nullable="false" />
+          <Property Name="MaxTimeResponse" Type="tinyint" Nullable="false" />
+          <Property Name="MaxTimeSendingDocumentResponse" Type="tinyint" Nullable="false" />
+          <Property Name="MaxTimeReiterationResponse" Type="tinyint" Nullable="false" />
+          <Property Name="MaxTimeExtemporaneousReiteration" Type="tinyint" Nullable="false" />
+          <Property Name="MaxTimeSendingReiterationDocumentResponse" Type="tinyint" Nullable="false" />
+          <Property Name="MaxTimeConciliation" Type="tinyint" Nullable="false" />
+          <Property Name="MaxTimeJuridicalDebtCollectionStart" Type="tinyint" Nullable="false" />
+          <Property Name="NotificationPeriodicity" Type="tinyint" Nullable="false" />
+          <Property Name="IsDaybusinessSunday" Type="bit" Nullable="false" />
+          <Property Name="IsDaybusinessSaturday" Type="bit" Nullable="false" />
+          <Property Name="DiscountedMedicalFees" Type="bit" />
+          <Property Name="AffectedService" Type="bit" />
+          <Property Name="DevolutionInjustificate" Type="tinyint" />
+          <Property Name="GeneralGlossConceptNoteId" Type="int" />
+          <Property Name="DetailedGlossConceptNoteId" Type="int" />
+          <Property Name="PreviousLifetimesConceptNoteId" Type="int" />
+          <Property Name="RadicationJournalVoucherTypeId" Type="int" />
+          <Property Name="ReceptionObjectionJournalVoucherTypeId" Type="int" />
+          <Property Name="ConciliationJournalVoucherTypeId" Type="int" />
+          <Property Name="DevolutionJournalVoucherTypeId" Type="int" />
+          <Property Name="TransferLegalJournalVoucherTypeId" Type="int" />
+          <Property Name="GroupAccountingVoucher" Type="bit" Nullable="false" />
+          <Property Name="CreationUser" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="CreationDate" Type="datetime" Nullable="false" />
+          <Property Name="ModificationUser" Type="varchar" MaxLength="20" />
+          <Property Name="ModificationDate" Type="datetime" />
+          <Property Name="TimeStamp" Type="timestamp" StoreGeneratedPattern="Computed" Nullable="false" />
+        </EntityType>
+        <Function Name="SP_AccountingConceptList" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="Glosas">
+          <Parameter Name="Empresa" Type="varchar" Mode="In" />
+          <Parameter Name="ConceptType" Type="int" Mode="In" />
+        </Function>
+        <Function Name="SP_AccountsList" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="Glosas">
+          <Parameter Name="Empresa" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="SP_invoiceDetailList" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="Glosas">
+          <Parameter Name="container" Type="varchar" Mode="In" />
+          <Parameter Name="HISContainer" Type="varchar" Mode="In" />
+          <Parameter Name="SecurityContainer" Type="varchar" Mode="In" />
+          <Parameter Name="numerofactura" Type="varchar" Mode="In" />
+          <Parameter Name="numeroConsecutivo" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="SP_invoiceDetailListQX" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="Glosas">
+          <Parameter Name="container" Type="varchar" Mode="In" />
+          <Parameter Name="numeroConsecutivo" Type="varchar" Mode="In" />
+          <Parameter Name="ordenServicio" Type="varchar" Mode="In" />
+          <Parameter Name="ServiceCode" Type="varchar" Mode="In" />
+          <Parameter Name="consecutiveOrder" Type="varchar" Mode="In" />
+          <Parameter Name="ServiceNumber" Type="varchar" Mode="In" />
+          <Parameter Name="ConsecutivoInventory" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="SP_invoiceList" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="Glosas">
+          <Parameter Name="container" Type="varchar" Mode="In" />
+          <Parameter Name="nit" Type="varchar" Mode="In" />
+          <Parameter Name="InvoiceNumber" Type="varchar" Mode="In" />
+          <Parameter Name="IndigoCompany" Type="varchar" Mode="In" />
+          <Parameter Name="HISContainer" Type="varchar" Mode="In" />
+          <Parameter Name="StringSQl" Type="varchar" Mode="In" />
+          <Parameter Name="TopQuery" Type="varchar" Mode="In" />
+          <Parameter Name="FlagNotConfirmInvoice" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="SP_invoiceListCount" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="Glosas">
+          <Parameter Name="container" Type="varchar" Mode="In" />
+          <Parameter Name="nit" Type="varchar" Mode="In" />
+          <Parameter Name="InvoiceNumber" Type="varchar" Mode="In" />
+          <Parameter Name="IndigoCompany" Type="varchar" Mode="In" />
+          <Parameter Name="StringSQl" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="SP_InvoiceTraceability" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="Glosas">
+          <Parameter Name="ContainerDG" Type="varchar" Mode="In" />
+          <Parameter Name="SecurityContainer" Type="varchar" Mode="In" />
+          <Parameter Name="InvoiceNumber" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="SP_InvoiceTraceabilityConciliation" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="Glosas">
+          <Parameter Name="InvoiceNumber" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="SP_InvoiceTraceabilityDevolution" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="Glosas">
+          <Parameter Name="InvoiceNumber" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="SP_InvoiceTraceabilityRadication" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="Glosas">
+          <Parameter Name="InvoiceNumber" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="SP_InvoiceTraceabilityResponsibles" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="Glosas">
+          <Parameter Name="InvoiceNumber" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="SP_TypeDocumentList" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="Glosas">
+          <Parameter Name="Empresa" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="SP_ValidateContainer" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="Glosas">
+          <Parameter Name="Empresa" Type="varchar" Mode="In" />
+        </Function>
+        <EntityContainer Name="GENESISEntitiesGlosas1StoreContainer">
+          <EntitySet Name="TimeParameters" EntityType="Self.TimeParameters" Schema="Glosas" store:Type="Tables" />
+          </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="GENESISModelGlosas" Alias="Self" p1:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:p1="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="GENESISEntitiesGlosas" p1:LazyLoadingEnabled="true">
+          <FunctionImport Name="SP_invoiceListCount" ReturnType="Collection(GENESISModelGlosas.SP_invoiceListCount_Result)">
+            <Parameter Name="container" Mode="In" Type="String" />
+            <Parameter Name="nit" Mode="In" Type="String" />
+            <Parameter Name="InvoiceNumber" Mode="In" Type="String" />
+            <Parameter Name="IndigoCompany" Mode="In" Type="String" />
+            <Parameter Name="StringSQl" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="SP_ValidateContainer" ReturnType="Collection(GENESISModelGlosas.SP_ValidateContainer_Result)">
+          <Parameter Name="Empresa" Mode="In" Type="String" />
+          </FunctionImport>
+          <EntitySet Name="TimeParameters" EntityType="GENESISModelGlosas.TimeParameters" />
+          <FunctionImport Name="SP_InvoiceTraceabilityConciliation" ReturnType="Collection(GENESISModelGlosas.SP_InvoiceTraceabilityConciliation_Result)">
+          <Parameter Name="InvoiceNumber" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="SP_InvoiceTraceabilityDevolution" ReturnType="Collection(GENESISModelGlosas.SP_InvoiceTraceabilityDevolution_Result)">
+          <Parameter Name="InvoiceNumber" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="SP_invoiceDetailList" ReturnType="Collection(GENESISModelGlosas.SP_invoiceDetailList_Result)">
+            <Parameter Name="container" Mode="In" Type="String" />
+            <Parameter Name="HISContainer" Mode="In" Type="String" />
+            <Parameter Name="SecurityContainer" Mode="In" Type="String" />
+            <Parameter Name="numerofactura" Mode="In" Type="String" />
+            <Parameter Name="numeroConsecutivo" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="SP_invoiceDetailListQX" ReturnType="Collection(GENESISModelGlosas.SP_invoiceDetailListQX_Result)">
+            <Parameter Name="container" Mode="In" Type="String" />
+            <Parameter Name="numeroConsecutivo" Mode="In" Type="String" />
+            <Parameter Name="ordenServicio" Mode="In" Type="String" />
+            <Parameter Name="ServiceCode" Mode="In" Type="String" />
+            <Parameter Name="consecutiveOrder" Mode="In" Type="String" />
+            <Parameter Name="ServiceNumber" Mode="In" Type="String" />
+            <Parameter Name="ConsecutivoInventory" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="SP_InvoiceTraceabilityRadication" ReturnType="Collection(GENESISModelGlosas.SP_InvoiceTraceabilityRadication_Result)">
+          <Parameter Name="InvoiceNumber" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="SP_InvoiceTraceability" ReturnType="Collection(GENESISModelGlosas.SP_InvoiceTraceability_Result)">
+            <Parameter Name="ContainerDG" Mode="In" Type="String" />
+            <Parameter Name="SecurityContainer" Mode="In" Type="String" />
+            <Parameter Name="InvoiceNumber" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="SP_InvoiceTraceabilityResponsibles" ReturnType="Collection(GENESISModelGlosas.SP_InvoiceTraceabilityResponsibles_Result)">
+          <Parameter Name="InvoiceNumber" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="SP_AccountingConceptList" ReturnType="Collection(GENESISModelGlosas.SP_AccountingConceptList_Result)">
+            <Parameter Name="Empresa" Mode="In" Type="String" />
+            <Parameter Name="ConceptType" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="SP_AccountsList" ReturnType="Collection(GENESISModelGlosas.SP_AccountsList_Result)">
+          <Parameter Name="Empresa" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="SP_TypeDocumentList" ReturnType="Collection(GENESISModelGlosas.SP_TypeDocumentList_Result)">
+          <Parameter Name="Empresa" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="SP_invoiceList" ReturnType="Collection(GENESISModelGlosas.SP_invoiceList_Result)">
+            <Parameter Name="container" Mode="In" Type="String" />
+            <Parameter Name="nit" Mode="In" Type="String" />
+            <Parameter Name="InvoiceNumber" Mode="In" Type="String" />
+            <Parameter Name="IndigoCompany" Mode="In" Type="String" />
+            <Parameter Name="HISContainer" Mode="In" Type="String" />
+            <Parameter Name="StringSQl" Mode="In" Type="String" />
+            <Parameter Name="TopQuery" Mode="In" Type="String" />
+            <Parameter Name="FlagNotConfirmInvoice" Mode="In" Type="String" />
+          </FunctionImport>
+          </EntityContainer>
+        <ComplexType Name="SP_invoiceListCount_Result" >
+          <Property Type="Int32" Name="countRegister" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="SP_ValidateContainer_Result">
+          <Property Type="String" Name="Respuesta" Nullable="true" MaxLength="100" />
+        </ComplexType>
+        <EntityType Name="TimeParameters">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Byte" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="IdCustomer" />
+          <Property Type="Byte" Name="MaxTimeExtemporaneousGlosa" Nullable="false" />
+          <Property Type="Byte" Name="MaxTimeResponse" Nullable="false" />
+          <Property Type="Byte" Name="MaxTimeSendingDocumentResponse" Nullable="false" />
+          <Property Type="Byte" Name="MaxTimeReiterationResponse" Nullable="false" />
+          <Property Type="Byte" Name="MaxTimeExtemporaneousReiteration" Nullable="false" />
+          <Property Type="Byte" Name="MaxTimeSendingReiterationDocumentResponse" Nullable="false" />
+          <Property Type="Byte" Name="MaxTimeConciliation" Nullable="false" />
+          <Property Type="Byte" Name="MaxTimeJuridicalDebtCollectionStart" Nullable="false" />
+          <Property Type="Byte" Name="NotificationPeriodicity" Nullable="false" />
+          <Property Type="Boolean" Name="IsDaybusinessSunday" Nullable="false" />
+          <Property Type="Boolean" Name="IsDaybusinessSaturday" Nullable="false" />
+          <Property Type="String" Name="CreationUser" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Type="DateTime" Name="CreationDate" Nullable="false" Precision="3" />
+          <Property Type="String" Name="ModificationUser" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Type="DateTime" Name="ModificationDate" Precision="3" />
+          <Property Type="Binary" Name="TimeStamp" Nullable="false" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" />
+          <Property Name="DiscountedMedicalFees" Type="Boolean" />
+          <Property Name="AffectedService" Type="Boolean" />
+          <Property Name="DevolutionInjustificate" Type="Byte" />
+          <Property Name="GeneralGlossConceptNoteId" Type="Int32" />
+          <Property Name="DetailedGlossConceptNoteId" Type="Int32" />
+          <Property Name="PreviousLifetimesConceptNoteId" Type="Int32" />
+          <Property Name="RadicationJournalVoucherTypeId" Type="Int32" />
+          <Property Name="ReceptionObjectionJournalVoucherTypeId" Type="Int32" />
+          <Property Name="ConciliationJournalVoucherTypeId" Type="Int32" />
+          <Property Name="DevolutionJournalVoucherTypeId" Type="Int32" />
+          <Property Name="TransferLegalJournalVoucherTypeId" Type="Int32" />
+          <Property Name="GroupAccountingVoucher" Type="Boolean" Nullable="false" />
+        </EntityType>
+        <ComplexType Name="SP_InvoiceTraceabilityConciliation_Result">
+          <Property Type="Decimal" Name="ConciliationConsecutive" Nullable="false" Precision="18" Scale="0" />
+          <Property Type="DateTime" Name="ConciliationDate" Nullable="false" Precision="23" />
+          <Property Type="String" Name="StateOficeConciliation" Nullable="true" MaxLength="13" />
+          <Property Type="String" Name="StateInvoiceConciliation" Nullable="true" MaxLength="13" />
+          <Property Type="Decimal" Name="ValueAcceptedIPSconciliation" Nullable="true" Precision="19" />
+          <Property Type="Decimal" Name="ValueAcceptedEAPBconciliation" Nullable="true" Precision="19" />
+        </ComplexType>
+        <ComplexType Name="SP_InvoiceTraceabilityDevolution_Result">
+          <Property Type="Int32" Name="RadicatedConsecutive" Nullable="false" />
+          <Property Type="DateTime" Name="RadicatedDate" Nullable="false" Precision="23" />
+          <Property Type="String" Name="StateRadicate" Nullable="true" MaxLength="13" />
+          <Property Type="String" Name="StateInvoice" Nullable="true" MaxLength="13" />
+          <Property Type="String" Name="TypeDevolution" Nullable="false" MaxLength="13" />
+          <Property Type="String" Name="NameSpecific" Nullable="false" MaxLength="200" />
+          <Property Type="String" Name="Comment" Nullable="true" MaxLength="250" />
+          <Property Type="String" Name="Answer" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="SP_invoiceDetailList_Result">
+          <Property Type="String" Name="InvoiceNumber" Nullable="true" MaxLength="50" />
+          <Property Type="DateTime" Name="ServiceDate" Nullable="true" Precision="23" />
+          <Property Type="String" Name="ServiceCode" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="ServiceName" Nullable="true" MaxLength="250" />
+          <Property Type="String" Name="ServiceAreaCode" Nullable="true" MaxLength="10" />
+          <Property Type="String" Name="DescriptionServiceArea" Nullable="true" MaxLength="300" />
+          <Property Type="Int32" Name="InvoiceDetailId" Nullable="true" />
+          <Property Type="Int32" Name="ServiceOrderDetailId" Nullable="true" />
+          <Property Type="String" Name="MedicalCode" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="MedicalName" Nullable="true" MaxLength="500" />
+          <Property Type="String" Name="BillerCode" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="BillerName" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="BillingGroupCode" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="BillingGroup" Nullable="true" MaxLength="120" />
+          <Property Type="Decimal" Name="ValueServiceManual" Nullable="true" Precision="19" />
+          <Property Type="Decimal" Name="UnitValue" Nullable="true" Precision="19" />
+          <Property Type="Decimal" Name="InvoicedValue" Nullable="true" Precision="19" />
+          <Property Type="Int32" Name="Ammount" Nullable="true" />
+          <Property Type="String" Name="CostCenterCode" Nullable="true" MaxLength="14" />
+          <Property Type="String" Name="CostCenterName" Nullable="true" MaxLength="500" />
+          <Property Type="String" Name="TypeServiceProduct" Nullable="true" MaxLength="1" />
+          <Property Type="String" Name="TypeProcedure" Nullable="true" MaxLength="1" />
+          <Property Type="String" Name="AccountantAccountIncome" Nullable="true" MaxLength="30" />
+          <Property Type="String" Name="Ingress" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="ServiceOrder" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="consecutiveOrder" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="ServiceNumber" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="ConsecutivoInventory" Nullable="true" MaxLength="50" />
+        </ComplexType>
+        <ComplexType Name="SP_invoiceDetailListQX_Result">
+          <Property Type="Int32" Name="ServiceOrderDetailSurgicalId" Nullable="true" />
+          <Property Type="String" Name="ServiceCode" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="ServiceName" Nullable="true" MaxLength="300" />
+          <Property Type="String" Name="MedicalCode" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="MedicalName" Nullable="true" MaxLength="200" />
+          <Property Type="Decimal" Name="ValueServiceManual" Nullable="true" Precision="19" />
+          <Property Type="Decimal" Name="UnitValue" Nullable="true" Precision="19" />
+          <Property Type="Decimal" Name="InvoicedValue" Nullable="true" Precision="19" />
+          <Property Type="Int32" Name="Ammount" Nullable="true" />
+          <Property Type="String" Name="CostCenterCode" Nullable="true" MaxLength="14" />
+          <Property Type="String" Name="CostCenterName" Nullable="true" MaxLength="500" />
+          <Property Type="String" Name="ServiceAreaCode" Nullable="true" MaxLength="10" />
+          <Property Type="String" Name="DescriptionServiceArea" Nullable="true" MaxLength="300" />
+          <Property Type="String" Name="AccountantAccountIncome" Nullable="true" MaxLength="30" />
+        </ComplexType>
+        <ComplexType Name="SP_InvoiceTraceabilityRadication_Result">
+          <Property Type="Int32" Name="RadicatedConsecutive" Nullable="false" />
+          <Property Type="DateTime" Name="RadicatedDate" Nullable="false" Precision="23" />
+          <Property Type="Int32" Name="ConfirmUser" Nullable="true" />
+          <Property Type="String" Name="StateRadicate" Nullable="true" MaxLength="13" />
+          <Property Type="String" Name="StateInvoice" Nullable="true" MaxLength="13" />
+          <Property Type="String" Name="StateInvalidate" Nullable="true" MaxLength="20" />
+        </ComplexType>
+        <ComplexType Name="SP_InvoiceTraceability_Result">
+          <Property Type="String" Name="InvoiceNumber" Nullable="false" MaxLength="14" />
+          <Property Type="String" Name="Customer" Nullable="true" MaxLength="118" />
+          <Property Type="DateTime" Name="InvoiceDate" Nullable="false" Precision="23" />
+          <Property Type="String" Name="BillerName" Nullable="false" MaxLength="46" />
+          <Property Type="String" Name="ContractCode" Nullable="false" MaxLength="6" />
+          <Property Type="Decimal" Name="InvoiceValueEntity" Nullable="false" Precision="18" Scale="2" />
+          <Property Type="Decimal" Name="InvoiceValuePacient" Nullable="false" Precision="18" Scale="2" />
+          <Property Type="Int32" Name="ObjectionCode" Nullable="false" />
+          <Property Type="DateTime" Name="ObjectionDate" Nullable="false" Precision="23" />
+          <Property Type="Decimal" Name="ObjectionValue" Nullable="false" Precision="19" />
+          <Property Type="Decimal" Name="ValueAcceptedFirstInstance" Nullable="false" Precision="19" />
+          <Property Type="Int32" Name="ReiterationCode" Nullable="false" />
+          <Property Type="DateTime" Name="ReiterationDate" Nullable="false" Precision="23" />
+          <Property Type="Decimal" Name="ValueReiterated" Nullable="false" Precision="19" />
+          <Property Type="Decimal" Name="ValueAcceptedSecondInstance" Nullable="false" Precision="19" />
+          <Property Type="Decimal" Name="InvoiceTotal" Nullable="false" Precision="18" Scale="2" />
+          <Property Type="Decimal" Name="PortfolioCurrentBalance" Nullable="false" Precision="18" Scale="2" />
+          <Property Type="Decimal" Name="GlossedTotal" Nullable="false" Precision="19" />
+          <Property Type="Decimal" Name="BalanceReconcile" Nullable="false" Precision="19" />
+          <Property Type="Decimal" Name="ValuePayments" Nullable="false" Precision="19" />
+          <Property Type="Decimal" Name="TotalAcceptIPS" Nullable="true" Precision="19" />
+          <Property Type="Decimal" Name="TotalAcceptEAPB" Nullable="true" Precision="19" />
+          <Property Type="String" Name="State" Nullable="false" MaxLength="35" />
+          <Property Type="String" Name="StateERPIntegration" Nullable="false" MaxLength="24" />
+          <Property Type="String" Name="TimeResponse" Nullable="false" MaxLength="1" />
+        </ComplexType>
+        <ComplexType Name="SP_InvoiceTraceabilityResponsibles_Result">
+          <Property Type="String" Name="InvoiceNumber" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="ResponsibleGlosa" Nullable="false" MaxLength="63" />
+          <Property Type="String" Name="ResponsibleEvalutionInvoiceGlosa" Nullable="true" MaxLength="63" />
+          <Property Type="String" Name="ResponsibleConfirmOfficeGlosa" Nullable="true" MaxLength="63" />
+          <Property Type="String" Name="ResponsibleReiteration" Nullable="true" MaxLength="61" />
+          <Property Type="String" Name="ResponsibleEvalutionInvoiceReiteration" Nullable="true" MaxLength="63" />
+          <Property Type="String" Name="ResponsibleConfirmOfficeReiteration" Nullable="true" MaxLength="63" />
+        </ComplexType>
+        <ComplexType Name="SP_AccountingConceptList_Result">
+          <Property Type="String" Name="Conceptcode" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="ConceptName" Nullable="true" MaxLength="150" />
+          <Property Type="String" Name="ConceptNameCode" Nullable="true" MaxLength="200" />
+        </ComplexType>
+        <ComplexType Name="SP_AccountsList_Result">
+          <Property Type="String" Name="AccountCode" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="AccountName" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="AccountNameCode" Nullable="true" MaxLength="200" />
+        </ComplexType>
+        <ComplexType Name="SP_TypeDocumentList_Result">
+          <Property Type="String" Name="Code" Nullable="true" MaxLength="5" />
+          <Property Type="String" Name="Name" Nullable="true" MaxLength="100" />
+          <Property Type="Int32" Name="Consecutive" Nullable="true" />
+          <Property Type="String" Name="CodeName" Nullable="true" MaxLength="150" />
+        </ComplexType>
+        <ComplexType Name="SP_invoiceList_Result">
+          <Property Type="String" Name="InvoiceNumber" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="InvoiceCategory" Nullable="false" MaxLength="200" />
+          <Property Type="DateTime" Name="InvoiceDate" Nullable="false" Precision="23" />
+          <Property Type="String" Name="RadicatedNumber" Nullable="true" MaxLength="50" />
+          <Property Type="DateTime" Name="RadicatedDate" Nullable="true" Precision="23" />
+          <Property Type="String" Name="PatientCode" Nullable="false" MaxLength="20" />
+          <Property Type="String" Name="PatientName" Nullable="true" MaxLength="300" />
+          <Property Type="String" Name="PatientNameInicial" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="PatientLastName" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="IngressNumber" Nullable="false" MaxLength="15" />
+          <Property Type="DateTime" Name="IngressDate" Nullable="true" Precision="23" />
+          <Property Type="String" Name="UserNameInvoice" Nullable="false" MaxLength="200" />
+          <Property Type="String" Name="Comment" Nullable="false" MaxLength="250" />
+          <Property Type="String" Name="ContractCode" Nullable="false" MaxLength="20" />
+          <Property Type="String" Name="ContractName" Nullable="false" MaxLength="200" />
+          <Property Type="String" Name="State" Nullable="false" MaxLength="1" />
+          <Property Type="Decimal" Name="BalanceInvoice" Nullable="false" Precision="18" Scale="2" />
+          <Property Type="Boolean" Name="Selection" Nullable="true" />
+          <Property Type="Decimal" Name="InvoiceValueEntity" Nullable="false" Precision="18" Scale="0" />
+          <Property Type="Decimal" Name="InvoiceValuePacient" Nullable="false" Precision="18" Scale="0" />
+          <Property Type="String" Name="AccountantAccountCustomers" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="PortfolioAge" Nullable="true" />
+          <Property Type="Decimal" Name="ValueGlosado" Nullable="true" />
+          <Property Type="String" Name="StateCurrentInvoice" Nullable="true" MaxLength="1" />
+          <Property Type="String" Name="CodePlan" Nullable="false" MaxLength="20" />
+          <Property Type="String" Name="ContractEntity" Nullable="false" MaxLength="20" />
+          <Property Type="Int32" Name="RadicatedConsecutive" Nullable="true" />
+          <Property Type="Int32" Name="StateObjectionReceptionC" Nullable="true" />
+          <Property Type="Int32" Name="Reiterated" Nullable="true" />
+          <Property Type="Int32" Name="TraslateJuridical" Nullable="true" />
+          <Property Type="Int32" Name="StatePortfolioGlosada" Nullable="true" />
+          <Property Type="Decimal" Name="CreditNoteValue" Nullable="true" Precision="18" Scale="0" />
+          <Property Type="Decimal" Name="DebitNoteValue" Nullable="true" Precision="18" Scale="0" />
+          <Property Type="Int32" Name="Devolution" Nullable="false" />
+          <Property Type="String" Name="ConceptDevolution" Nullable="true" MaxLength="206" />
+        </ComplexType>
+        </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="GENESISEntitiesGlosas1StoreContainer" CdmEntityContainer="GENESISEntitiesGlosas">
+          <FunctionImportMapping FunctionImportName="SP_invoiceListCount" FunctionName="GENESISEntitiesGlosas1.Store.SP_invoiceListCount" >
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="GENESISModelGlosas.SP_invoiceListCount_Result">
+                <ScalarProperty Name="countRegister" ColumnName="countRegister" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_ValidateContainer" FunctionName="GENESISEntitiesGlosas1.Store.SP_ValidateContainer" >
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="GENESISModelGlosas.SP_ValidateContainer_Result">
+                <ScalarProperty Name="Respuesta" ColumnName="Respuesta" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <EntitySetMapping Name="TimeParameters">
+            <EntityTypeMapping TypeName="GENESISModelGlosas.TimeParameters">
+              <MappingFragment StoreEntitySet="TimeParameters">
+                <ScalarProperty Name="GroupAccountingVoucher" ColumnName="GroupAccountingVoucher" />
+                <ScalarProperty Name="TransferLegalJournalVoucherTypeId" ColumnName="TransferLegalJournalVoucherTypeId" />
+                <ScalarProperty Name="DevolutionJournalVoucherTypeId" ColumnName="DevolutionJournalVoucherTypeId" />
+                <ScalarProperty Name="ConciliationJournalVoucherTypeId" ColumnName="ConciliationJournalVoucherTypeId" />
+                <ScalarProperty Name="ReceptionObjectionJournalVoucherTypeId" ColumnName="ReceptionObjectionJournalVoucherTypeId" />
+                <ScalarProperty Name="RadicationJournalVoucherTypeId" ColumnName="RadicationJournalVoucherTypeId" />
+                <ScalarProperty Name="PreviousLifetimesConceptNoteId" ColumnName="PreviousLifetimesConceptNoteId" />
+                <ScalarProperty Name="DetailedGlossConceptNoteId" ColumnName="DetailedGlossConceptNoteId" />
+                <ScalarProperty Name="GeneralGlossConceptNoteId" ColumnName="GeneralGlossConceptNoteId" />
+                <ScalarProperty Name="DevolutionInjustificate" ColumnName="DevolutionInjustificate" />
+                <ScalarProperty Name="AffectedService" ColumnName="AffectedService" />
+                <ScalarProperty Name="DiscountedMedicalFees" ColumnName="DiscountedMedicalFees" />
+                <ScalarProperty Name="TimeStamp" ColumnName="TimeStamp" />
+                <ScalarProperty Name="ModificationDate" ColumnName="ModificationDate" />
+                <ScalarProperty Name="ModificationUser" ColumnName="ModificationUser" />
+                <ScalarProperty Name="CreationDate" ColumnName="CreationDate" />
+                <ScalarProperty Name="CreationUser" ColumnName="CreationUser" />
+                <ScalarProperty Name="IsDaybusinessSaturday" ColumnName="IsDaybusinessSaturday" />
+                <ScalarProperty Name="IsDaybusinessSunday" ColumnName="IsDaybusinessSunday" />
+                <ScalarProperty Name="NotificationPeriodicity" ColumnName="NotificationPeriodicity" />
+                <ScalarProperty Name="MaxTimeJuridicalDebtCollectionStart" ColumnName="MaxTimeJuridicalDebtCollectionStart" />
+                <ScalarProperty Name="MaxTimeConciliation" ColumnName="MaxTimeConciliation" />
+                <ScalarProperty Name="MaxTimeSendingReiterationDocumentResponse" ColumnName="MaxTimeSendingReiterationDocumentResponse" />
+                <ScalarProperty Name="MaxTimeExtemporaneousReiteration" ColumnName="MaxTimeExtemporaneousReiteration" />
+                <ScalarProperty Name="MaxTimeReiterationResponse" ColumnName="MaxTimeReiterationResponse" />
+                <ScalarProperty Name="MaxTimeSendingDocumentResponse" ColumnName="MaxTimeSendingDocumentResponse" />
+                <ScalarProperty Name="MaxTimeResponse" ColumnName="MaxTimeResponse" />
+                <ScalarProperty Name="MaxTimeExtemporaneousGlosa" ColumnName="MaxTimeExtemporaneousGlosa" />
+                <ScalarProperty Name="IdCustomer" ColumnName="IdCustomer" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="SP_InvoiceTraceabilityConciliation" FunctionName="GENESISEntitiesGlosas1.Store.SP_InvoiceTraceabilityConciliation">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="GENESISModelGlosas.SP_InvoiceTraceabilityConciliation_Result">
+                <ScalarProperty Name="ConciliationConsecutive" ColumnName="ConciliationConsecutive" />
+                <ScalarProperty Name="ConciliationDate" ColumnName="ConciliationDate" />
+                <ScalarProperty Name="StateOficeConciliation" ColumnName="StateOficeConciliation" />
+                <ScalarProperty Name="StateInvoiceConciliation" ColumnName="StateInvoiceConciliation" />
+                <ScalarProperty Name="ValueAcceptedIPSconciliation" ColumnName="ValueAcceptedIPSconciliation" />
+                <ScalarProperty Name="ValueAcceptedEAPBconciliation" ColumnName="ValueAcceptedEAPBconciliation" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_InvoiceTraceabilityDevolution" FunctionName="GENESISEntitiesGlosas1.Store.SP_InvoiceTraceabilityDevolution">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="GENESISModelGlosas.SP_InvoiceTraceabilityDevolution_Result">
+                <ScalarProperty Name="RadicatedConsecutive" ColumnName="RadicatedConsecutive" />
+                <ScalarProperty Name="RadicatedDate" ColumnName="RadicatedDate" />
+                <ScalarProperty Name="StateRadicate" ColumnName="StateRadicate" />
+                <ScalarProperty Name="StateInvoice" ColumnName="StateInvoice" />
+                <ScalarProperty Name="TypeDevolution" ColumnName="TypeDevolution" />
+                <ScalarProperty Name="NameSpecific" ColumnName="NameSpecific" />
+                <ScalarProperty Name="Comment" ColumnName="Comment" />
+                <ScalarProperty Name="Answer" ColumnName="Answer" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_invoiceDetailList" FunctionName="GENESISEntitiesGlosas1.Store.SP_invoiceDetailList">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="GENESISModelGlosas.SP_invoiceDetailList_Result">
+                <ScalarProperty Name="InvoiceNumber" ColumnName="InvoiceNumber" />
+                <ScalarProperty Name="ServiceDate" ColumnName="ServiceDate" />
+                <ScalarProperty Name="ServiceCode" ColumnName="ServiceCode" />
+                <ScalarProperty Name="ServiceName" ColumnName="ServiceName" />
+                <ScalarProperty Name="ServiceAreaCode" ColumnName="ServiceAreaCode" />
+                <ScalarProperty Name="DescriptionServiceArea" ColumnName="DescriptionServiceArea" />
+                <ScalarProperty Name="InvoiceDetailId" ColumnName="InvoiceDetailId" />
+                <ScalarProperty Name="ServiceOrderDetailId" ColumnName="ServiceOrderDetailId" />
+                <ScalarProperty Name="MedicalCode" ColumnName="MedicalCode" />
+                <ScalarProperty Name="MedicalName" ColumnName="MedicalName" />
+                <ScalarProperty Name="BillerCode" ColumnName="BillerCode" />
+                <ScalarProperty Name="BillerName" ColumnName="BillerName" />
+                <ScalarProperty Name="BillingGroupCode" ColumnName="BillingGroupCode" />
+                <ScalarProperty Name="BillingGroup" ColumnName="BillingGroup" />
+                <ScalarProperty Name="ValueServiceManual" ColumnName="ValueServiceManual" />
+                <ScalarProperty Name="UnitValue" ColumnName="UnitValue" />
+                <ScalarProperty Name="InvoicedValue" ColumnName="InvoicedValue" />
+                <ScalarProperty Name="Ammount" ColumnName="Ammount" />
+                <ScalarProperty Name="CostCenterCode" ColumnName="CostCenterCode" />
+                <ScalarProperty Name="CostCenterName" ColumnName="CostCenterName" />
+                <ScalarProperty Name="TypeServiceProduct" ColumnName="TypeServiceProduct" />
+                <ScalarProperty Name="TypeProcedure" ColumnName="TypeProcedure" />
+                <ScalarProperty Name="AccountantAccountIncome" ColumnName="AccountantAccountIncome" />
+                <ScalarProperty Name="Ingress" ColumnName="Ingress" />
+                <ScalarProperty Name="ServiceOrder" ColumnName="ServiceOrder" />
+                <ScalarProperty Name="consecutiveOrder" ColumnName="consecutiveOrder" />
+                <ScalarProperty Name="ServiceNumber" ColumnName="ServiceNumber" />
+                <ScalarProperty Name="ConsecutivoInventory" ColumnName="ConsecutivoInventory" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_invoiceDetailListQX" FunctionName="GENESISEntitiesGlosas1.Store.SP_invoiceDetailListQX">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="GENESISModelGlosas.SP_invoiceDetailListQX_Result">
+                <ScalarProperty Name="ServiceOrderDetailSurgicalId" ColumnName="ServiceOrderDetailSurgicalId" />
+                <ScalarProperty Name="ServiceCode" ColumnName="ServiceCode" />
+                <ScalarProperty Name="ServiceName" ColumnName="ServiceName" />
+                <ScalarProperty Name="MedicalCode" ColumnName="MedicalCode" />
+                <ScalarProperty Name="MedicalName" ColumnName="MedicalName" />
+                <ScalarProperty Name="ValueServiceManual" ColumnName="ValueServiceManual" />
+                <ScalarProperty Name="UnitValue" ColumnName="UnitValue" />
+                <ScalarProperty Name="InvoicedValue" ColumnName="InvoicedValue" />
+                <ScalarProperty Name="Ammount" ColumnName="Ammount" />
+                <ScalarProperty Name="CostCenterCode" ColumnName="CostCenterCode" />
+                <ScalarProperty Name="CostCenterName" ColumnName="CostCenterName" />
+                <ScalarProperty Name="ServiceAreaCode" ColumnName="ServiceAreaCode" />
+                <ScalarProperty Name="DescriptionServiceArea" ColumnName="DescriptionServiceArea" />
+                <ScalarProperty Name="AccountantAccountIncome" ColumnName="AccountantAccountIncome" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_InvoiceTraceabilityRadication" FunctionName="GENESISEntitiesGlosas1.Store.SP_InvoiceTraceabilityRadication">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="GENESISModelGlosas.SP_InvoiceTraceabilityRadication_Result">
+                <ScalarProperty Name="RadicatedConsecutive" ColumnName="RadicatedConsecutive" />
+                <ScalarProperty Name="RadicatedDate" ColumnName="RadicatedDate" />
+                <ScalarProperty Name="ConfirmUser" ColumnName="ConfirmUser" />
+                <ScalarProperty Name="StateRadicate" ColumnName="StateRadicate" />
+                <ScalarProperty Name="StateInvoice" ColumnName="StateInvoice" />
+                <ScalarProperty Name="StateInvalidate" ColumnName="StateInvalidate" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_InvoiceTraceability" FunctionName="GENESISEntitiesGlosas1.Store.SP_InvoiceTraceability">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="GENESISModelGlosas.SP_InvoiceTraceability_Result">
+                <ScalarProperty Name="InvoiceNumber" ColumnName="InvoiceNumber" />
+                <ScalarProperty Name="Customer" ColumnName="Customer" />
+                <ScalarProperty Name="InvoiceDate" ColumnName="InvoiceDate" />
+                <ScalarProperty Name="BillerName" ColumnName="BillerName" />
+                <ScalarProperty Name="ContractCode" ColumnName="ContractCode" />
+                <ScalarProperty Name="InvoiceValueEntity" ColumnName="InvoiceValueEntity" />
+                <ScalarProperty Name="InvoiceValuePacient" ColumnName="InvoiceValuePacient" />
+                <ScalarProperty Name="ObjectionCode" ColumnName="ObjectionCode" />
+                <ScalarProperty Name="ObjectionDate" ColumnName="ObjectionDate" />
+                <ScalarProperty Name="ObjectionValue" ColumnName="ObjectionValue" />
+                <ScalarProperty Name="ValueAcceptedFirstInstance" ColumnName="ValueAcceptedFirstInstance" />
+                <ScalarProperty Name="ReiterationCode" ColumnName="ReiterationCode" />
+                <ScalarProperty Name="ReiterationDate" ColumnName="ReiterationDate" />
+                <ScalarProperty Name="ValueReiterated" ColumnName="ValueReiterated" />
+                <ScalarProperty Name="ValueAcceptedSecondInstance" ColumnName="ValueAcceptedSecondInstance" />
+                <ScalarProperty Name="InvoiceTotal" ColumnName="InvoiceTotal" />
+                <ScalarProperty Name="PortfolioCurrentBalance" ColumnName="PortfolioCurrentBalance" />
+                <ScalarProperty Name="GlossedTotal" ColumnName="GlossedTotal" />
+                <ScalarProperty Name="BalanceReconcile" ColumnName="BalanceReconcile" />
+                <ScalarProperty Name="ValuePayments" ColumnName="ValuePayments" />
+                <ScalarProperty Name="TotalAcceptIPS" ColumnName="TotalAcceptIPS" />
+                <ScalarProperty Name="TotalAcceptEAPB" ColumnName="TotalAcceptEAPB" />
+                <ScalarProperty Name="State" ColumnName="State" />
+                <ScalarProperty Name="StateERPIntegration" ColumnName="StateERPIntegration" />
+                <ScalarProperty Name="TimeResponse" ColumnName="TimeResponse" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_InvoiceTraceabilityResponsibles" FunctionName="GENESISEntitiesGlosas1.Store.SP_InvoiceTraceabilityResponsibles">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="GENESISModelGlosas.SP_InvoiceTraceabilityResponsibles_Result">
+                <ScalarProperty Name="InvoiceNumber" ColumnName="InvoiceNumber" />
+                <ScalarProperty Name="ResponsibleGlosa" ColumnName="ResponsibleGlosa" />
+                <ScalarProperty Name="ResponsibleEvalutionInvoiceGlosa" ColumnName="ResponsibleEvalutionInvoiceGlosa" />
+                <ScalarProperty Name="ResponsibleConfirmOfficeGlosa" ColumnName="ResponsibleConfirmOfficeGlosa" />
+                <ScalarProperty Name="ResponsibleReiteration" ColumnName="ResponsibleReiteration" />
+                <ScalarProperty Name="ResponsibleEvalutionInvoiceReiteration" ColumnName="ResponsibleEvalutionInvoiceReiteration" />
+                <ScalarProperty Name="ResponsibleConfirmOfficeReiteration" ColumnName="ResponsibleConfirmOfficeReiteration" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_AccountingConceptList" FunctionName="GENESISEntitiesGlosas1.Store.SP_AccountingConceptList">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="GENESISModelGlosas.SP_AccountingConceptList_Result">
+                <ScalarProperty Name="Conceptcode" ColumnName="Conceptcode" />
+                <ScalarProperty Name="ConceptName" ColumnName="ConceptName" />
+                <ScalarProperty Name="ConceptNameCode" ColumnName="ConceptNameCode" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_AccountsList" FunctionName="GENESISEntitiesGlosas1.Store.SP_AccountsList">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="GENESISModelGlosas.SP_AccountsList_Result">
+                <ScalarProperty Name="AccountCode" ColumnName="AccountCode" />
+                <ScalarProperty Name="AccountName" ColumnName="AccountName" />
+                <ScalarProperty Name="AccountNameCode" ColumnName="AccountNameCode" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_TypeDocumentList" FunctionName="GENESISEntitiesGlosas1.Store.SP_TypeDocumentList">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="GENESISModelGlosas.SP_TypeDocumentList_Result">
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Consecutive" ColumnName="Consecutive" />
+                <ScalarProperty Name="CodeName" ColumnName="CodeName" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_invoiceList" FunctionName="GENESISEntitiesGlosas1.Store.SP_invoiceList">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="GENESISModelGlosas.SP_invoiceList_Result">
+                <ScalarProperty Name="InvoiceNumber" ColumnName="InvoiceNumber" />
+                <ScalarProperty Name="InvoiceCategory" ColumnName="InvoiceCategory" />
+                <ScalarProperty Name="InvoiceDate" ColumnName="InvoiceDate" />
+                <ScalarProperty Name="RadicatedNumber" ColumnName="RadicatedNumber" />
+                <ScalarProperty Name="RadicatedDate" ColumnName="RadicatedDate" />
+                <ScalarProperty Name="PatientCode" ColumnName="PatientCode" />
+                <ScalarProperty Name="PatientName" ColumnName="PatientName" />
+                <ScalarProperty Name="PatientNameInicial" ColumnName="PatientNameInicial" />
+                <ScalarProperty Name="PatientLastName" ColumnName="PatientLastName" />
+                <ScalarProperty Name="IngressNumber" ColumnName="IngressNumber" />
+                <ScalarProperty Name="IngressDate" ColumnName="IngressDate" />
+                <ScalarProperty Name="UserNameInvoice" ColumnName="UserNameInvoice" />
+                <ScalarProperty Name="Comment" ColumnName="Comment" />
+                <ScalarProperty Name="ContractCode" ColumnName="ContractCode" />
+                <ScalarProperty Name="ContractName" ColumnName="ContractName" />
+                <ScalarProperty Name="State" ColumnName="State" />
+                <ScalarProperty Name="BalanceInvoice" ColumnName="BalanceInvoice" />
+                <ScalarProperty Name="Selection" ColumnName="Selection" />
+                <ScalarProperty Name="InvoiceValueEntity" ColumnName="InvoiceValueEntity" />
+                <ScalarProperty Name="InvoiceValuePacient" ColumnName="InvoiceValuePacient" />
+                <ScalarProperty Name="AccountantAccountCustomers" ColumnName="AccountantAccountCustomers" />
+                <ScalarProperty Name="PortfolioAge" ColumnName="PortfolioAge" />
+                <ScalarProperty Name="ValueGlosado" ColumnName="ValueGlosado" />
+                <ScalarProperty Name="StateCurrentInvoice" ColumnName="StateCurrentInvoice" />
+                <ScalarProperty Name="CodePlan" ColumnName="CodePlan" />
+                <ScalarProperty Name="ContractEntity" ColumnName="ContractEntity" />
+                <ScalarProperty Name="RadicatedConsecutive" ColumnName="RadicatedConsecutive" />
+                <ScalarProperty Name="StateObjectionReceptionC" ColumnName="StateObjectionReceptionC" />
+                <ScalarProperty Name="Reiterated" ColumnName="Reiterated" />
+                <ScalarProperty Name="TraslateJuridical" ColumnName="TraslateJuridical" />
+                <ScalarProperty Name="StatePortfolioGlosada" ColumnName="StatePortfolioGlosada" />
+                <ScalarProperty Name="CreditNoteValue" ColumnName="CreditNoteValue" />
+                <ScalarProperty Name="DebitNoteValue" ColumnName="DebitNoteValue" />
+                <ScalarProperty Name="Devolution" ColumnName="Devolution" />
+                <ScalarProperty Name="ConceptDevolution" ColumnName="ConceptDevolution" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="False" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+        <DesignerProperty Name="UseLegacyProvider" Value="False" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams>
+      <Diagram DiagramId="d90346a76fc146b4a9c8700384741ddf" Name="Diagram1" ZoomLevel="47">
+        </Diagram>
+    </Diagrams>
+  </Designer>
+</edmx:Edmx>

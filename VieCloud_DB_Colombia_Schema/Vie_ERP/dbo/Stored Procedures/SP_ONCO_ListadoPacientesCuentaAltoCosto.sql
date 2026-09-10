@@ -1,0 +1,1111 @@
+﻿
+CREATE PROCEDURE [dbo].[SP_ONCO_ListadoPacientesCuentaAltoCosto]
+(
+@IdEntidades varchar(MAX),
+@Confirmado as bit,
+@Id as Integer,
+@TipoConsulta As Integer,
+@FechaInicial As Datetime,
+@FechaFinal As Datetime
+)
+WITH RECOMPILE
+AS
+BEGIN
+	SET NOCOUNT ON;
+
+if @Confirmado =  0
+		BEGIN 
+			if @TipoConsulta = 1
+			BEGIN
+				select 
+				A.Id, 
+				A.FECHACREACION,
+				A.FECHAMODIFICACION,
+				A.CODDIAGNO, 
+				A.IDEntidadVIE, 
+				A.[1], 
+				A.[2], 
+				A.[3], 
+				A.[4], 
+				A.[5], 
+				A.[6], 
+				IIF(A.[7] IS NULL,NULL,FORMAT( A.[7], 'yyyy-MM-dd') ) as [7], 
+				A.[8], 
+				A.[9],
+				A.[10],  
+				s.HealthEntityCode as [11],
+				--A.[11], 
+				A.[12], 
+				A.[13], 
+				A.[14], 
+				A.[15], 
+				IIF(A.[16] IS NULL, NULL,FORMAT( A.[16], 'yyyy-MM-dd') ) as [16], 
+				A.[17], 
+				IIF(A.[18] IS NULL, NULL, FORMAT( A.[18], 'yyyy-MM-dd') ) as [18], 
+				IIF(A.[19] IS NULL,NULL, FORMAT( A.[19], 'yyyy-MM-dd') ) as [19], 
+				IIF(A.[20] IS NULL,NULL, FORMAT( A.[20], 'yyyy-MM-dd') ) as [20], 
+				A.[21], 
+				A.[22], 
+				IIF(A.[23] IS NULL, NULL, FORMAT( A.[23], 'yyyy-MM-dd') ) as [23], 
+				IIF(A.[24] IS NULL, NULL, FORMAT( A.[24], 'yyyy-MM-dd') ) as [24],
+				A.[25], 
+				IIF(A.[26] IS NULL, NULL, FORMAT( A.[26], 'yyyy-MM-dd') ) as [26], 
+				A.[27], 
+				A.[28], 
+				A.[29], 
+				IIF(A.[30] IS NULL, NULL, FORMAT( A.[30], 'yyyy-MM-dd') ) as [30], 
+				A.[31], 
+				IIF(A.[32] IS NULL, NULL, FORMAT( A.[32], 'yyyy-MM-dd') ) as [32], 
+				A.[33], 
+				A.[34], 
+				IIF(A.[35] IS NULL, NULL, FORMAT( A.[35], 'yyyy-MM-dd') ) as [35], 
+				A.[36], 
+				A.[37], 
+				A.[38], 
+				IIF(A.[39] IS NULL, NULL, FORMAT( A.[39], 'yyyy-MM-dd') ) as [39], 
+				A.[40], 
+				A.[41], 
+				A.[42], 
+				IIF(A.[43] IS NULL, NULL, FORMAT( A.[43], 'yyyy-MM-dd') ) as [43], 
+				A.[44], 
+				A.[45], 
+				A.[46], 
+				A.[46.1], 
+				A.[46.2], 
+				A.[46.3], 
+				A.[46.4], 
+				A.[46.5], 
+				A.[46.6], 
+				A.[46.7], 
+				A.[46.8], 
+				A.[47], 
+				A.[48], 
+				IIF(A.[49] IS NULL, NULL, FORMAT( A.[49], 'yyyy-MM-dd') ) as [49], 
+				A.[50], 
+				A.[51], 
+				A.[52], 
+				A.[53], 
+				A.[53.1], 
+				A.[53.2], 
+				A.[53.3], 
+				A.[53.4], 
+				A.[53.5], 
+				A.[53.6], 
+				A.[53.7], 
+				A.[53.8], 
+				A.[53.9], 
+				A.[54], 
+				A.[55], 
+				A.[56], 
+				A.[57], 
+				IIF(A.[58] IS NULL, NULL, FORMAT( A.[58], 'yyyy-MM-dd') ) as [58], 
+				A.[59], 
+				A.[60], 
+				A.[61], 
+				IIF(A.[62] IS NULL, NULL, FORMAT( A.[62], 'yyyy-MM-dd') ) as [62],
+				A.[63], 
+				A.[64], 
+				A.[65], 
+				A.[66], 
+				A.[66.1], 
+				A.[66.2], 
+				A.[66.3], 
+				A.[66.4], 
+				A.[66.5], 
+				A.[66.6], 
+				A.[66.7], 
+				A.[66.8], 
+				A.[66.9], 
+				A.[67], 
+				A.[68], 
+				A.[69], 
+				A.[70], 
+				IIF(A.[71] IS NULL, NULL, FORMAT( A.[71], 'yyyy-MM-dd') ) as [71],
+				A.[72], 
+				A.[73], 
+				A.[74], 
+				A.[75], 
+				IIF(A.[76] IS NULL, NULL, FORMAT( A.[76], 'yyyy-MM-dd') ) as [76],
+				A.[77],
+				A.[78],
+				A.[79],
+				IIF(A.[80] IS NULL, NULL, FORMAT( A.[80], 'yyyy-MM-dd') ) as [80],
+				A.[81],
+				A.[82],
+				A.[83],
+				A.[84],
+				A.[85],
+				A.[86],
+				A.[87],
+				IIF(A.[88] IS NULL, NULL, FORMAT( A.[88], 'yyyy-MM-dd') ) as [88],
+				A.[89],
+				A.[90],
+				A.[91],
+				A.[92],
+				A.[93],
+				IIF(A.[94] IS NULL, NULL, FORMAT( A.[94], 'yyyy-MM-dd') ) as [94],
+				A.[95], 
+				A.[96], 
+				IIF(A.[97] IS NULL, NULL, FORMAT( A.[97], 'yyyy-MM-dd') ) as [97],
+				A.[98], 
+				A.[99], 
+				A.[100], 
+				A.[101], 
+				A.[102], 
+				IIF(A.[103] IS NULL, NULL, FORMAT( A.[103], 'yyyy-MM-dd') ) as [103],
+				A.[104], 
+				A.[105], 
+				A.[106], 
+				A.[107], 
+				A.[108], 
+				IIF(A.[109] IS NULL, NULL, FORMAT( A.[109], 'yyyy-MM-dd') ) as [109], 
+				A.[110], 
+				A.[111], 
+				IIF(A.[112] IS NULL, NULL, FORMAT( A.[112], 'yyyy-MM-dd') ) as [112],
+				A.[113],
+				A.[114], 
+				A.[114.1], 
+				A.[114.2], 
+				A.[114.3], 
+				A.[114.4], 
+				A.[114.5], 
+				A.[114.6], 
+				IIF(A.[115] IS NULL, NULL, FORMAT( A.[115], 'yyyy-MM-dd') ) as [115],
+				A.[116], 
+				A.[117], 
+				IIF(A.[118] IS NULL, NULL, FORMAT( A.[118], 'yyyy-MM-dd') ) as [118], 
+				A.[119],
+				A.[120], 
+				IIF(A.[121] IS NULL, NULL, FORMAT( A.[121], 'yyyy-MM-dd') ) as [121], 
+				A.[122], 
+				A.[123], 
+				A.[124], 
+				A.[125], 
+				A.[126], 
+				A.[127], 
+				A.[128], 
+				A.[129], 
+				IIF(A.[130] IS NULL, NULL, FORMAT( A.[130], 'yyyy-MM-dd') ) as [130], 
+				IIF(A.[131] IS NULL, NULL, FORMAT( A.[131], 'yyyy-MM-dd') ) as [131],
+				A.[132], 
+				A.[133], 
+				IIF(A.[134] IS NULL, NULL, FORMAT( A.[134], 'yyyy-MM-dd') ) as [134],
+				A.[AdicionalCAC1] ,
+				A.[AdicionalCAC2] ,
+				A.[AdicionalCAC3] ,
+				A.[AdicionalCAC4] ,
+				A.[AdicionalCAC5] ,
+				A.[AdicionalCAC6] ,
+				A.[AdicionalCAC7] ,
+				A.[AdicionalCAC8] ,
+				A.[AdicionalCAC9] ,
+				A.[AdicionalCAC10],
+				A.[AdicionalCAC11],
+				A.[AdicionalCAC12],
+				A.[AdicionalCAC13],
+				A.[AdicionalCAC14],
+				A.[AdicionalCAC16],
+				A.[AdicionalCAC17],
+				A.[AdicionalCAC18],
+				IIF(A.[AdicionalCAC19] IS NULL, NULL, FORMAT( A.[AdicionalCAC19], 'yyyy-MM-dd') ) as [AdicionalCAC19],
+				A.[AdicionalCAC20],
+				IIF(A.[AdicionalCAC21] IS NULL, NULL, FORMAT( A.[AdicionalCAC21], 'yyyy-MM-dd') ) as [AdicionalCAC21],
+				A.[AdicionalCAC25],
+				A.[AdicionalCAC26],
+				A.[AdicionalCAC27],
+				A.[AdicionalCAC28],
+				A.[AdicionalCAC29],
+				A.[AdicionalCAC30],
+				A.[AdicionalCAC31],
+				A.[AdicionalCAC32],
+				A.[AdicionalCAC33],
+				A.[AdicionalCAC34],
+				A.[AdicionalCAC35],
+				A.[AdicionalODO1] ,
+				A.[AdicionalODO2] ,
+				A.[AdicionalODO3] ,
+				A.[AdicionalODO4] ,
+				A.[AdicionalODO5] ,
+				A.[AdicionalODO6] ,
+				A.[AdicionalODO7] ,
+				A.[AdicionalODO8] ,
+				A.[AdicionalODO9] ,
+				A.[AdicionalODO10],
+				A.[AdicionalODO11],
+				rtrim(b.IPNOMCOMP) as 'Nombre Paciente',
+				rtrim(B.IPCODPACI) AS 'Identificacion',
+				[dbo].[EDAD] (B.IPFECNACI,getdate()) As 'Edad',
+				rtrim(C.CODDIAGNO) + ' - ' + rtrim(C.NOMDIAGNO) AS 'Nombre Diagnostico',
+				rtrim(C.CODDIAGNO) as 'Codigo Diagnostico',
+				rtrim(s.Name) as 'Nombre Entidad'
+			from
+				HCONCOPREG A
+				Inner Join INPACIENT b with(nolock) on a.[6] = b.IPCODPACI 
+				Inner Join INDIAGNOS C with(nolock) on C.CODDIAGNO = A.CODDIAGNO  
+				Inner Join Contract.HealthAdministrator s ON s.Id = A.IDEntidadVIE 
+			Where
+				A.IDEntidadVIE IN (SELECT Value FROM dbo.SplitString(@IdEntidades))
+			END
+			if @TipoConsulta = 2
+			BEGIN
+				select 
+				A.Id, 
+				A.FECHACREACION,
+				A.FECHAMODIFICACION,
+				A.CODDIAGNO, 
+				A.IDEntidadVIE, 
+				A.[1], 
+				A.[2], 
+				A.[3], 
+				A.[4], 
+				A.[5], 
+				A.[6], 
+				IIF(A.[7] IS NULL,NULL,FORMAT( A.[7], 'yyyy-MM-dd') ) as [7], 
+				A.[8], 
+				A.[9],
+				A.[10],  
+				s.HealthEntityCode as [11],
+				--A.[11], 
+				A.[12], 
+				A.[13], 
+				A.[14], 
+				A.[15], 
+				IIF(A.[16] IS NULL, NULL,FORMAT( A.[16], 'yyyy-MM-dd') ) as [16], 
+				A.[17], 
+				IIF(A.[18] IS NULL, NULL, FORMAT( A.[18], 'yyyy-MM-dd') ) as [18], 
+				IIF(A.[19] IS NULL,NULL, FORMAT( A.[19], 'yyyy-MM-dd') ) as [19], 
+				IIF(A.[20] IS NULL,NULL, FORMAT( A.[20], 'yyyy-MM-dd') ) as [20], 
+				A.[21], 
+				A.[22], 
+				IIF(A.[23] IS NULL, NULL, FORMAT( A.[23], 'yyyy-MM-dd') ) as [23], 
+				IIF(A.[24] IS NULL, NULL, FORMAT( A.[24], 'yyyy-MM-dd') ) as [24],
+				A.[25], 
+				IIF(A.[26] IS NULL, NULL, FORMAT( A.[26], 'yyyy-MM-dd') ) as [26], 
+				A.[27], 
+				A.[28], 
+				A.[29], 
+				IIF(A.[30] IS NULL, NULL, FORMAT( A.[30], 'yyyy-MM-dd') ) as [30], 
+				A.[31], 
+				IIF(A.[32] IS NULL, NULL, FORMAT( A.[32], 'yyyy-MM-dd') ) as [32], 
+				A.[33], 
+				A.[34], 
+				IIF(A.[35] IS NULL, NULL, FORMAT( A.[35], 'yyyy-MM-dd') ) as [35], 
+				A.[36], 
+				A.[37], 
+				A.[38], 
+				IIF(A.[39] IS NULL, NULL, FORMAT( A.[39], 'yyyy-MM-dd') ) as [39], 
+				A.[40], 
+				A.[41], 
+				A.[42], 
+				IIF(A.[43] IS NULL, NULL, FORMAT( A.[43], 'yyyy-MM-dd') ) as [43], 
+				A.[44], 
+				A.[45], 
+				A.[46], 
+				A.[46.1], 
+				A.[46.2], 
+				A.[46.3], 
+				A.[46.4], 
+				A.[46.5], 
+				A.[46.6], 
+				A.[46.7], 
+				A.[46.8], 
+				A.[47], 
+				A.[48], 
+				IIF(A.[49] IS NULL, NULL, FORMAT( A.[49], 'yyyy-MM-dd') ) as [49], 
+				A.[50], 
+				A.[51], 
+				A.[52], 
+				A.[53], 
+				A.[53.1], 
+				A.[53.2], 
+				A.[53.3], 
+				A.[53.4], 
+				A.[53.5], 
+				A.[53.6], 
+				A.[53.7], 
+				A.[53.8], 
+				A.[53.9], 
+				A.[54], 
+				A.[55], 
+				A.[56], 
+				A.[57], 
+				IIF(A.[58] IS NULL, NULL, FORMAT( A.[58], 'yyyy-MM-dd') ) as [58], 
+				A.[59], 
+				A.[60], 
+				A.[61], 
+				IIF(A.[62] IS NULL, NULL, FORMAT( A.[62], 'yyyy-MM-dd') ) as [62],
+				A.[63], 
+				A.[64], 
+				A.[65], 
+				A.[66], 
+				A.[66.1], 
+				A.[66.2], 
+				A.[66.3], 
+				A.[66.4], 
+				A.[66.5], 
+				A.[66.6], 
+				A.[66.7], 
+				A.[66.8], 
+				A.[66.9], 
+				A.[67], 
+				A.[68], 
+				A.[69], 
+				A.[70], 
+				IIF(A.[71] IS NULL, NULL, FORMAT( A.[71], 'yyyy-MM-dd') ) as [71],
+				A.[72], 
+				A.[73], 
+				A.[74], 
+				A.[75], 
+				IIF(A.[76] IS NULL, NULL, FORMAT( A.[76], 'yyyy-MM-dd') ) as [76],
+				A.[77],
+				A.[78],
+				A.[79],
+				IIF(A.[80] IS NULL, NULL, FORMAT( A.[80], 'yyyy-MM-dd') ) as [80],
+				A.[81],
+				A.[82],
+				A.[83],
+				A.[84],
+				A.[85],
+				A.[86],
+				A.[87],
+				IIF(A.[88] IS NULL, NULL, FORMAT( A.[88], 'yyyy-MM-dd') ) as [88],
+				A.[89],
+				A.[90],
+				A.[91],
+				A.[92],
+				A.[93],
+				IIF(A.[94] IS NULL, NULL, FORMAT( A.[94], 'yyyy-MM-dd') ) as [94],
+				A.[95], 
+				A.[96], 
+				IIF(A.[97] IS NULL, NULL, FORMAT( A.[97], 'yyyy-MM-dd') ) as [97],
+				A.[98], 
+				A.[99], 
+				A.[100], 
+				A.[101], 
+				A.[102], 
+				IIF(A.[103] IS NULL, NULL, FORMAT( A.[103], 'yyyy-MM-dd') ) as [103],
+				A.[104], 
+				A.[105], 
+				A.[106], 
+				A.[107], 
+				A.[108], 
+				IIF(A.[109] IS NULL, NULL, FORMAT( A.[109], 'yyyy-MM-dd') ) as [109], 
+				A.[110], 
+				A.[111], 
+				IIF(A.[112] IS NULL, NULL, FORMAT( A.[112], 'yyyy-MM-dd') ) as [112],
+				A.[113],
+				A.[114], 
+				A.[114.1], 
+				A.[114.2], 
+				A.[114.3], 
+				A.[114.4], 
+				A.[114.5], 
+				A.[114.6], 
+				IIF(A.[115] IS NULL, NULL, FORMAT( A.[115], 'yyyy-MM-dd') ) as [115],
+				A.[116], 
+				A.[117], 
+				IIF(A.[118] IS NULL, NULL, FORMAT( A.[118], 'yyyy-MM-dd') ) as [118], 
+				A.[119],
+				A.[120], 
+				IIF(A.[121] IS NULL, NULL, FORMAT( A.[121], 'yyyy-MM-dd') ) as [121], 
+				A.[122], 
+				A.[123], 
+				A.[124], 
+				A.[125], 
+				A.[126], 
+				A.[127], 
+				A.[128], 
+				A.[129], 
+				IIF(A.[130] IS NULL, NULL, FORMAT( A.[130], 'yyyy-MM-dd') ) as [130], 
+				IIF(A.[131] IS NULL, NULL, FORMAT( A.[131], 'yyyy-MM-dd') ) as [131],
+				A.[132], 
+				A.[133], 
+				IIF(A.[134] IS NULL, NULL, FORMAT( A.[134], 'yyyy-MM-dd') ) as [134],
+				A.[AdicionalCAC1] ,
+				A.[AdicionalCAC2] ,
+				A.[AdicionalCAC3] ,
+				A.[AdicionalCAC4] ,
+				A.[AdicionalCAC5] ,
+				A.[AdicionalCAC6] ,
+				A.[AdicionalCAC7] ,
+				A.[AdicionalCAC8] ,
+				A.[AdicionalCAC9] ,
+				A.[AdicionalCAC10],
+				A.[AdicionalCAC11],
+				A.[AdicionalCAC12],
+				A.[AdicionalCAC13],
+				A.[AdicionalCAC14],
+				A.[AdicionalCAC16],
+				A.[AdicionalCAC17],
+				A.[AdicionalCAC18],
+				IIF(A.[AdicionalCAC19] IS NULL, NULL, FORMAT( A.[AdicionalCAC19], 'yyyy-MM-dd') ) as [AdicionalCAC19],
+				A.[AdicionalCAC20],
+				IIF(A.[AdicionalCAC21] IS NULL, NULL, FORMAT( A.[AdicionalCAC21], 'yyyy-MM-dd') ) as [AdicionalCAC21],
+				A.[AdicionalCAC25],
+				A.[AdicionalCAC26],
+				A.[AdicionalCAC27],
+				A.[AdicionalCAC28],
+				A.[AdicionalCAC29],
+				A.[AdicionalCAC30],
+				A.[AdicionalCAC31],
+				A.[AdicionalCAC32],
+				A.[AdicionalCAC33],
+				A.[AdicionalCAC34],
+				A.[AdicionalCAC35],
+				A.[AdicionalODO1] ,
+				A.[AdicionalODO2] ,
+				A.[AdicionalODO3] ,
+				A.[AdicionalODO4] ,
+				A.[AdicionalODO5] ,
+				A.[AdicionalODO6] ,
+				A.[AdicionalODO7] ,
+				A.[AdicionalODO8] ,
+				A.[AdicionalODO9] ,
+				A.[AdicionalODO10],
+				A.[AdicionalODO11],
+				rtrim(b.IPNOMCOMP) as 'Nombre Paciente',
+				rtrim(B.IPCODPACI) AS 'Identificacion',
+				[dbo].[EDAD] (B.IPFECNACI,getdate()) As 'Edad',
+				rtrim(C.CODDIAGNO) + ' - ' + rtrim(C.NOMDIAGNO) AS 'Nombre Diagnostico',
+				rtrim(C.CODDIAGNO) as 'Codigo Diagnostico',
+				rtrim(s.Name) as 'Nombre Entidad'
+			from
+				HCGRUPOCANCERPACIC AB
+				Inner Join HCONCOPREG A with(nolock) on a.[6] = AB.IPCODPACI AND a.CODDIAGNO = AB.CODDIAGNO
+				Inner Join INPACIENT b with(nolock) on a.[6] = b.IPCODPACI 
+				Inner Join INDIAGNOS C with(nolock) on C.CODDIAGNO = A.CODDIAGNO  
+				Inner Join Contract.HealthAdministrator s ON s.Id = A.IDEntidadVIE 
+			Where
+				AB.ESTADO in ('1') AND A.IDEntidadVIE IN (SELECT Value FROM dbo.SplitString(@IdEntidades))
+				AND AB.FECHAREGISTRO between (@FechaInicial) AND (@FechaFinal)
+			END
+			if @TipoConsulta = 3
+			BEGIN				
+					--Consulta externa 
+						--'    Tipo Especialidad
+						--'0- Ninguna
+						--'1- Oftalmología
+						--'2- Nutrición
+						--'3- Psicología
+						--'5- Anestesiología
+						--'6- Mastología
+						--'7- Oncología
+						--'8- Hematología
+						--'9- Cx oncológica
+						--'10- Ortopedia oncológica
+						--'11- Cx Plastica oncológica
+						--'12- Urológia oncológica
+						--'13- dermatología oncológica
+						--'14- Cuidados paliativos
+						--'15- Fisioterapia
+
+	                WITH tmp_ConsultaExternaOncologicas AS
+					(
+					select H.IPCODPACI  from dbo.HCHISPACA H with(nolock) inner join 
+					dbo.INESPECIA E with(nolock) on E.CODESPECI = H.CODESPTRA and  H.GENCONEXT =1 inner join
+					dbo.HCONCOPREG P with(nolock) on P.[6] = H.IPCODPACI 
+					where  E.TIPESPECI IN (1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23) AND P.IDEntidadVIE IN (SELECT Value FROM dbo.SplitString(@IdEntidades)) AND H.FECHISPAC between (@FechaInicial) AND (@FechaFinal)
+					),
+					--Consultamos folios de hospitalizacion
+					tmp_Hospitalizaciones AS
+					(
+					select H.IPCODPACI 
+					from dbo.HCHISPACA H  inner join
+					dbo.INPROFSAL P with(nolock) on P.CODPROSAL  = H.CODPROSAL AND P.TIPPROFES in (1,6) inner join
+					dbo.ADINGRESO I with(nolock) on I.NUMINGRES = H.NUMINGRES AND (I.UFUEGRHOS is not null or I.UFUAACTHOS is not null ) inner join
+					dbo.HCONCOPREG ONC with(nolock) on ONC.[6] = H.IPCODPACI
+					WHERE ONC.IDEntidadVIE IN (SELECT Value FROM dbo.SplitString(@IdEntidades)) AND H.FECHISPAC between (@FechaInicial) AND (@FechaFinal)
+					),
+					--informe QX
+					tmp_InformeQX AS
+					(
+					select H.IPCODPACI 
+					from dbo.HCQXINFOR H inner join
+					dbo.HCONCOPREG ONC with(nolock) on ONC.[6] = H.IPCODPACI 
+					WHERE ONC.IDEntidadVIE IN (SELECT Value FROM dbo.SplitString(@IdEntidades)) AND H.FECHORINI between (@FechaInicial) AND (@FechaFinal)
+					),
+					---aplicaciones de dosis de radio y braquiterapia
+					tmp_AplicacionesRadio AS
+					(
+					select 			
+					A.IPCODPACI 
+					from HCRADORDEN A 
+					INNER JOIN dbo.HCRADESQUEMAS ES with(nolock) ON A.ID = ES.IDHCRADORDEN
+					INNER JOIN dbo.HCRADDOSIS RAD with(nolock) ON ES.ID = RAD.IDHCRADESQUEMAS --(inner para validar que los pacientes han sido confirmados y han empezado la aplicación)
+					INNER JOIN dbo.HCORDPRON ORD with(nolock) ON A.IDHCORDPRON = ORD.AUTO
+					INNER JOIN dbo.INCUPSIPS  E with(nolock) ON A.CODSERIPS = E.CODSERIPS AND E.SERIPSDASH  = 6 --Radioterapia Externa
+					inner join dbo.HCONCOPREG ONC with(nolock) on ONC.[6] = A.IPCODPACI 
+					WHERE  A.ESTADO IN (3,4,5,6,7) AND ONC.IDEntidadVIE IN (SELECT Value FROM dbo.SplitString(@IdEntidades)) AND RAD.FECHAREGISTRO between (@FechaInicial) AND (@FechaFinal)
+					),
+					Tmp_Braquiterapias AS
+					(
+					select  A.IPCODPACI 
+					from dbo.HCRADORDEN A 
+					INNER JOIN dbo.HCORDPRON ORD with(nolock) ON A.IDHCORDPRON = ORD.AUTO
+					INNER JOIN dbo.INCUPSIPS  E with(nolock) ON A.CODSERIPS = E.CODSERIPS AND E.SERIPSDASH  = 13 ---Braquiterapias
+					inner join dbo.HCONCOPREG ONC with(nolock) on ONC.[6] = A.IPCODPACI 
+					WHERE A.ESTADO IN (5,7,8) AND ONC.IDEntidadVIE IN (SELECT Value FROM dbo.SplitString(@IdEntidades)) AND A.FECHAREGISTRO between (@FechaInicial) AND (@FechaFinal)
+					),
+					Tmp_Quimio AS
+					(
+					--aplicaciones de quimioterapia 
+					select  IPCODPACI
+					from dbo.HCHOJAMED H 
+					inner join dbo.HCONCOPREG ONC with(nolock) on ONC.[6] = H.IPCODPACI 
+					where  H.IDHCORDQUIMIO IS NOT NULL AND H.MEDESTADO = '2' AND ONC.IDEntidadVIE IN (SELECT Value FROM dbo.SplitString(@IdEntidades)) AND H.FECAPLMED between (@FechaInicial) AND (@FechaFinal)
+					),
+					TMP_patologiasCancer_Hosp  AS
+					(
+					--patologias con cancer 
+					select IPCODPACI
+					from dbo.HCORDPATO H 
+					inner join PathologyALULA.INTEGRATIONCONTROL CTR with(nolock) on H.AUTO = CTR.idpathology AND H.CODSERIPS = CTR.CUPS
+					inner join PathologyALULA.OBSERVATION_REQUESTS O with(nolock) on O.placer_order_number = CTR.id and ctr.ordertype  ='INT' 
+					inner join PathologyALULA.DIAGNOSIS_RESULTS R with(nolock) on R.order_id = O.id  
+					inner join dbo.HCONCOPREG ONC with(nolock) on ONC.[6] = H.IPCODPACI 
+					where  H.CAC23 IS NOT NULL AND H.ESTSERIPS NOT IN(1,6) AND R.report_base64 is not null AND ONC.IDEntidadVIE IN (SELECT Value FROM dbo.SplitString(@IdEntidades)) AND H.FECORDMED between (@FechaInicial) AND (@FechaFinal)
+					),
+					TMP_patologiasCancer_Amb AS
+					(
+					select IPCODPACI
+					from dbo.AMBORDPAT H 
+					inner join PathologyALULA.INTEGRATIONCONTROL CTR with(nolock) on H.AUTO = CTR.idpathology AND H.CODSERIPS = CTR.CUPS
+					inner join PathologyALULA.OBSERVATION_REQUESTS O with(nolock) on O.placer_order_number = CTR.id and ctr.ordertype  ='AMB' 
+					inner join PathologyALULA.DIAGNOSIS_RESULTS R with(nolock) on R.order_id = O.id 
+					inner join dbo.HCONCOPREG ONC with(nolock) on ONC.[6] = H.IPCODPACI  
+					where H.CAC23 IS NOT NULL AND H.ESTSERIPS NOT IN(1,6)  AND R.report_base64 is not null AND ONC.IDEntidadVIE IN (SELECT Value FROM dbo.SplitString(@IdEntidades)) AND H.FECORDMED between (@FechaInicial) AND (@FechaFinal)
+					),
+					--medicamentos domiciliarios
+					TMP_MedicamentoDomiciliarios AS
+					(
+					select tmp.IPCODPACI
+					from Inventory.PharmaceuticalDispensing D inner join
+					Inventory.PharmaceuticalDispensingDetail DD with(nolock) on D.Id = DD.PharmaceuticalDispensingId inner join
+					Inventory.InventoryProduct P with(nolock) on P.Id = dd.ProductId inner join
+					Inventory.ATC Atc with(nolock) on atc.id = P.ATCId inner join
+					(
+						select C.CODCONCEC , C.NUMINGRES, CC.CODPRODUC, C.CODBODEGA, C.CODPROSAL,C.IPCODPACI    from dbo.HCFARMEPC C with(nolock) inner join dbo.HCFARMEPD CC with(nolock) on C.CODCONCEC = CC.CODCONCEC  where C.ORDESTADO =2 AND CC.PROESTADO = 2 AND C.IDHCORDPRON IS NOT NULL 
+					)as TMP on D.AdmissionNumber = TMP.NUMINGRES AND ATc.Code = tmp.CODPRODUC AND TMP.CODPROSAL = DD.OrderedHealthProfessionalCode  inner join 
+					dbo.HCONCOPREG ONC with(nolock) on ONC.[6] = TMP.IPCODPACI
+					where D.Status = 2 
+					AND D.SurgeryExpenseSheetId is null 
+					AND D.AffectInventory =  1 
+					AND D.EntityName = 'SaveDashboardPharmacy' 
+					AND ONC.IDEntidadVIE IN (SELECT Value FROM dbo.SplitString(@IdEntidades)) AND D.AdmissionNumber in (select distinct H.NUMINGRES from dbo.HCFARMEPC H with(nolock)  where H.ORDESTADO = 2 AND IDHCORDPRON  is not null AND H.ORDESTADO = 2 AND H.FECHAORDE between (@FechaInicial) AND (@FechaFinal))  
+					),
+					TMP_NotasPrematuraFinalizacion AS
+					(
+					select IPCODPACI
+					from dbo.HCCTRNOTE A inner join dbo.HCONCOPREG ONC ON A.IPCODPACI = ONC.[6]
+					where  TITNOTENF = 'FINALIZACIÓN PREMATURA QUIMIOTERAPIA' AND (FECREGIST BETWEEN @FechaInicial AND @FechaFinal) AND ONC.IDEntidadVIE IN (SELECT Value FROM dbo.SplitString(@IdEntidades))
+					),
+					Tmp_ConsultasOncologicas AS
+					(
+							select IPCODPACI from tmp_ConsultaExternaOncologicas
+						UNION 
+							select IPCODPACI from tmp_Hospitalizaciones
+						UNION 
+							select IPCODPACI from tmp_InformeQX		
+						UNION 
+							select IPCODPACI from tmp_AplicacionesRadio					
+						UNION 
+							select IPCODPACI from Tmp_Braquiterapias
+						UNION
+							select IPCODPACI from Tmp_Quimio
+						UNION 
+							select IPCODPACI from TMP_patologiasCancer_Hosp
+						UNION 
+							select IPCODPACI from TMP_patologiasCancer_Amb
+						union
+							select IPCODPACI from TMP_MedicamentoDomiciliarios
+						UNION 
+							select IPCODPACI from TMP_NotasPrematuraFinalizacion
+					) 
+										
+				select 
+					A.Id, 
+					A.FECHACREACION,
+					A.FECHAMODIFICACION,
+					A.CODDIAGNO, 
+					A.IDEntidadVIE, 
+					A.[1], 
+					A.[2], 
+					A.[3], 
+					A.[4], 
+					A.[5], 
+					A.[6], 
+					IIF(A.[7] IS NULL,NULL,FORMAT( A.[7], 'yyyy-MM-dd') ) as [7], 
+					A.[8], 
+					A.[9],
+					A.[10],  
+					s.HealthEntityCode as [11],
+					--A.[11], 
+					A.[12], 
+					A.[13], 
+					A.[14], 
+					A.[15], 
+					IIF(A.[16] IS NULL, NULL,FORMAT( A.[16], 'yyyy-MM-dd') ) as [16], 
+					A.[17], 
+					IIF(A.[18] IS NULL, NULL, FORMAT( A.[18], 'yyyy-MM-dd') ) as [18], 
+					IIF(A.[19] IS NULL,NULL, FORMAT( A.[19], 'yyyy-MM-dd') ) as [19], 
+					IIF(A.[20] IS NULL,NULL, FORMAT( A.[20], 'yyyy-MM-dd') ) as [20], 
+					A.[21], 
+					A.[22], 
+					IIF(A.[23] IS NULL, NULL, FORMAT( A.[23], 'yyyy-MM-dd') ) as [23], 
+					IIF(A.[24] IS NULL, NULL, FORMAT( A.[24], 'yyyy-MM-dd') ) as [24],
+					A.[25], 
+					IIF(A.[26] IS NULL, NULL, FORMAT( A.[26], 'yyyy-MM-dd') ) as [26], 
+					A.[27], 
+					A.[28], 
+					A.[29], 
+					IIF(A.[30] IS NULL, NULL, FORMAT( A.[30], 'yyyy-MM-dd') ) as [30], 
+					A.[31], 
+					IIF(A.[32] IS NULL, NULL, FORMAT( A.[32], 'yyyy-MM-dd') ) as [32], 
+					A.[33], 
+					A.[34], 
+					IIF(A.[35] IS NULL, NULL, FORMAT( A.[35], 'yyyy-MM-dd') ) as [35], 
+					A.[36], 
+					A.[37], 
+					A.[38], 
+					IIF(A.[39] IS NULL, NULL, FORMAT( A.[39], 'yyyy-MM-dd') ) as [39], 
+					A.[40], 
+					A.[41], 
+					A.[42], 
+					IIF(A.[43] IS NULL, NULL, FORMAT( A.[43], 'yyyy-MM-dd') ) as [43], 
+					A.[44], 
+					A.[45], 
+					A.[46], 
+					A.[46.1], 
+					A.[46.2], 
+					A.[46.3], 
+					A.[46.4], 
+					A.[46.5], 
+					A.[46.6], 
+					A.[46.7], 
+					A.[46.8], 
+					A.[47], 
+					A.[48], 
+					IIF(A.[49] IS NULL, NULL, FORMAT( A.[49], 'yyyy-MM-dd') ) as [49], 
+					A.[50], 
+					A.[51], 
+					A.[52], 
+					A.[53], 
+					A.[53.1], 
+					A.[53.2], 
+					A.[53.3], 
+					A.[53.4], 
+					A.[53.5], 
+					A.[53.6], 
+					A.[53.7], 
+					A.[53.8], 
+					A.[53.9], 
+					A.[54], 
+					A.[55], 
+					A.[56], 
+					A.[57], 
+					IIF(A.[58] IS NULL, NULL, FORMAT( A.[58], 'yyyy-MM-dd') ) as [58], 
+					A.[59], 
+					A.[60], 
+					A.[61], 
+					IIF(A.[62] IS NULL, NULL, FORMAT( A.[62], 'yyyy-MM-dd') ) as [62],
+					A.[63], 
+					A.[64], 
+					A.[65], 
+					A.[66], 
+					A.[66.1], 
+					A.[66.2], 
+					A.[66.3], 
+					A.[66.4], 
+					A.[66.5], 
+					A.[66.6], 
+					A.[66.7], 
+					A.[66.8], 
+					A.[66.9], 
+					A.[67], 
+					A.[68], 
+					A.[69], 
+					A.[70], 
+					IIF(A.[71] IS NULL, NULL, FORMAT( A.[71], 'yyyy-MM-dd') ) as [71],
+					A.[72], 
+					A.[73], 
+					A.[74], 
+					A.[75], 
+					IIF(A.[76] IS NULL, NULL, FORMAT( A.[76], 'yyyy-MM-dd') ) as [76],
+					A.[77],
+					A.[78],
+					A.[79],
+					IIF(A.[80] IS NULL, NULL, FORMAT( A.[80], 'yyyy-MM-dd') ) as [80],
+					A.[81],
+					A.[82],
+					A.[83],
+					A.[84],
+					A.[85],
+					A.[86],
+					A.[87],
+					IIF(A.[88] IS NULL, NULL, FORMAT( A.[88], 'yyyy-MM-dd') ) as [88],
+					A.[89],
+					A.[90],
+					A.[91],
+					A.[92],
+					A.[93],
+					IIF(A.[94] IS NULL, NULL, FORMAT( A.[94], 'yyyy-MM-dd') ) as [94],
+					A.[95], 
+					A.[96], 
+					IIF(A.[97] IS NULL, NULL, FORMAT( A.[97], 'yyyy-MM-dd') ) as [97],
+					A.[98], 
+					A.[99], 
+					A.[100], 
+					A.[101], 
+					A.[102], 
+					IIF(A.[103] IS NULL, NULL, FORMAT( A.[103], 'yyyy-MM-dd') ) as [103],
+					A.[104], 
+					A.[105], 
+					A.[106], 
+					A.[107], 
+					A.[108], 
+					IIF(A.[109] IS NULL, NULL, FORMAT( A.[109], 'yyyy-MM-dd') ) as [109], 
+					A.[110], 
+					A.[111], 
+					IIF(A.[112] IS NULL, NULL, FORMAT( A.[112], 'yyyy-MM-dd') ) as [112],
+					A.[113],
+					A.[114], 
+					A.[114.1], 
+					A.[114.2], 
+					A.[114.3], 
+					A.[114.4], 
+					A.[114.5], 
+					A.[114.6], 
+					IIF(A.[115] IS NULL, NULL, FORMAT( A.[115], 'yyyy-MM-dd') ) as [115],
+					A.[116], 
+					A.[117], 
+					IIF(A.[118] IS NULL, NULL, FORMAT( A.[118], 'yyyy-MM-dd') ) as [118], 
+					A.[119],
+					A.[120], 
+					IIF(A.[121] IS NULL, NULL, FORMAT( A.[121], 'yyyy-MM-dd') ) as [121], 
+					A.[122], 
+					A.[123], 
+					A.[124], 
+					A.[125], 
+					A.[126], 
+					A.[127], 
+					A.[128], 
+					A.[129], 
+					IIF(A.[130] IS NULL, NULL, FORMAT( A.[130], 'yyyy-MM-dd') ) as [130], 
+					IIF(A.[131] IS NULL, NULL, FORMAT( A.[131], 'yyyy-MM-dd') ) as [131],
+					A.[132], 
+					A.[133], 
+					IIF(A.[134] IS NULL, NULL, FORMAT( A.[134], 'yyyy-MM-dd') ) as [134],
+					A.[AdicionalCAC1] ,
+					A.[AdicionalCAC2] ,
+					A.[AdicionalCAC3] ,
+					A.[AdicionalCAC4] ,
+					A.[AdicionalCAC5] ,
+					A.[AdicionalCAC6] ,
+					A.[AdicionalCAC7] ,
+					A.[AdicionalCAC8] ,
+					A.[AdicionalCAC9] ,
+					A.[AdicionalCAC10],
+					A.[AdicionalCAC11],
+					A.[AdicionalCAC12],
+					A.[AdicionalCAC13],
+					A.[AdicionalCAC14],
+					A.[AdicionalCAC16],
+					A.[AdicionalCAC17],
+					A.[AdicionalCAC18],
+					IIF(A.[AdicionalCAC19] IS NULL, NULL, FORMAT( A.[AdicionalCAC19], 'yyyy-MM-dd') ) as [AdicionalCAC19],
+					A.[AdicionalCAC20],
+					IIF(A.[AdicionalCAC21] IS NULL, NULL, FORMAT( A.[AdicionalCAC21], 'yyyy-MM-dd') ) as [AdicionalCAC21],
+					A.[AdicionalCAC25],
+					A.[AdicionalCAC26],
+					A.[AdicionalCAC27],
+					A.[AdicionalCAC28],
+					A.[AdicionalCAC29],
+					A.[AdicionalCAC30],
+					A.[AdicionalCAC31],
+					A.[AdicionalCAC32],
+					A.[AdicionalCAC33],
+					A.[AdicionalCAC34],
+					A.[AdicionalCAC35],
+					A.[AdicionalODO1] ,
+					A.[AdicionalODO2] ,
+					A.[AdicionalODO3] ,
+					A.[AdicionalODO4] ,
+					A.[AdicionalODO5] ,
+					A.[AdicionalODO6] ,
+					A.[AdicionalODO7] ,
+					A.[AdicionalODO8] ,
+					A.[AdicionalODO9] ,
+					A.[AdicionalODO10],
+					A.[AdicionalODO11],
+					rtrim(b.IPNOMCOMP) as 'Nombre Paciente',
+					rtrim(B.IPCODPACI) AS 'Identificacion',
+					[dbo].[EDAD] (B.IPFECNACI,getdate()) As 'Edad',
+					rtrim(C.CODDIAGNO) + ' - ' + rtrim(C.NOMDIAGNO) AS 'Nombre Diagnostico',
+					rtrim(C.CODDIAGNO) as 'Codigo Diagnostico',
+					rtrim(s.Name) as 'Nombre Entidad'
+				from (select distinct IPCODPACI from Tmp_ConsultasOncologicas) Tmp INNER JOIN 
+					HCONCOPREG A with(nolock) on A.[6] = tmp.IPCODPACI Inner Join 
+					INPACIENT b with(nolock) on a.[6] = b.IPCODPACI Inner Join 
+					INDIAGNOS C  on rtrim(C.CODDIAGNO) = rtrim(A.CODDIAGNO)  Inner Join 
+					Contract.HealthAdministrator s ON s.Id = A.IDEntidadVIE 
+				Where
+					A.IDEntidadVIE IN (SELECT Value FROM dbo.SplitString(@IdEntidades))
+				--	AND A.GeneroSoporteCAC IS NULL
+			END
+		end
+else
+		BEGIN
+		select 
+				A.Id, 
+				A.IDHCCUENTACOSTOC, 
+				A.CODDIAGNO, 
+				A.IDEntidadVIE, 
+				A.[1], 
+				A.[2], 
+				A.[3], 
+				A.[4], 
+				A.[5], 
+				A.[6], 
+				IIF(A.[7] IS NULL,NULL,FORMAT( A.[7], 'yyyy-MM-dd') ) as [7], 
+				A.[8], 
+				A.[9],
+				A.[10],  
+				s.HealthEntityCode as [11],
+				--A.[11], 
+				A.[12], 
+				A.[13], 
+				A.[14], 
+				A.[15], 
+				IIF(A.[16] IS NULL, NULL,FORMAT( A.[16], 'yyyy-MM-dd') ) as [16], 
+				A.[17], 
+				IIF(A.[18] IS NULL, NULL, FORMAT( A.[18], 'yyyy-MM-dd') ) as [18], 
+				IIF(A.[19] IS NULL,NULL, FORMAT( A.[19], 'yyyy-MM-dd') ) as [19], 
+				IIF(A.[20] IS NULL,NULL, FORMAT( A.[20], 'yyyy-MM-dd') ) as [20], 
+				A.[21], 
+				A.[22], 
+				IIF(A.[23] IS NULL, NULL, FORMAT( A.[23], 'yyyy-MM-dd') ) as [23], 
+				IIF(A.[24] IS NULL, NULL, FORMAT( A.[24], 'yyyy-MM-dd') ) as [24],
+				A.[25], 
+				IIF(A.[26] IS NULL, NULL, FORMAT( A.[26], 'yyyy-MM-dd') ) as [26], 
+				A.[27], 
+				A.[28], 
+				A.[29], 
+				IIF(A.[30] IS NULL, NULL, FORMAT( A.[30], 'yyyy-MM-dd') ) as [30], 
+				A.[31], 
+				IIF(A.[32] IS NULL, NULL, FORMAT( A.[32], 'yyyy-MM-dd') ) as [32], 
+				A.[33], 
+				A.[34], 
+				IIF(A.[35] IS NULL, NULL, FORMAT( A.[35], 'yyyy-MM-dd') ) as [35], 
+				A.[36], 
+				A.[37], 
+				A.[38], 
+				IIF(A.[39] IS NULL, NULL, FORMAT( A.[39], 'yyyy-MM-dd') ) as [39], 
+				A.[40], 
+				A.[41], 
+				A.[42], 
+				IIF(A.[43] IS NULL, NULL, FORMAT( A.[43], 'yyyy-MM-dd') ) as [43], 
+				A.[44], 
+				A.[45], 
+				A.[46], 
+				A.[46.1], 
+				A.[46.2], 
+				A.[46.3], 
+				A.[46.4], 
+				A.[46.5], 
+				A.[46.6], 
+				A.[46.7], 
+				A.[46.8], 
+				A.[47], 
+				A.[48], 
+				IIF(A.[49] IS NULL, NULL, FORMAT( A.[49], 'yyyy-MM-dd') ) as [49], 
+				A.[50], 
+				A.[51], 
+				A.[52], 
+				A.[53], 
+				A.[53.1], 
+				A.[53.2], 
+				A.[53.3], 
+				A.[53.4], 
+				A.[53.5], 
+				A.[53.6], 
+				A.[53.7], 
+				A.[53.8], 
+				A.[53.9], 
+				A.[54], 
+				A.[55], 
+				A.[56], 
+				A.[57], 
+				IIF(A.[58] IS NULL, NULL, FORMAT( A.[58], 'yyyy-MM-dd') ) as [58], 
+				A.[59], 
+				A.[60], 
+				A.[61], 
+				IIF(A.[62] IS NULL, NULL, FORMAT( A.[62], 'yyyy-MM-dd') ) as [62],
+				A.[63], 
+				A.[64], 
+				A.[65], 
+				A.[66], 
+				A.[66.1], 
+				A.[66.2], 
+				A.[66.3], 
+				A.[66.4], 
+				A.[66.5], 
+				A.[66.6], 
+				A.[66.7], 
+				A.[66.8], 
+				A.[66.9], 
+				A.[67], 
+				A.[68], 
+				A.[69], 
+				A.[70], 
+				IIF(A.[71] IS NULL, NULL, FORMAT( A.[71], 'yyyy-MM-dd') ) as [71],
+				A.[72], 
+				A.[73], 
+				A.[74], 
+				A.[75], 
+				IIF(A.[76] IS NULL, NULL, FORMAT( A.[76], 'yyyy-MM-dd') ) as [76],
+				A.[77],
+				A.[78],
+				A.[79],
+				IIF(A.[80] IS NULL, NULL, FORMAT( A.[80], 'yyyy-MM-dd') ) as [80],
+				A.[81],
+				A.[82],
+				A.[83],
+				A.[84],
+				A.[85],
+				A.[86],
+				A.[87],
+				IIF(A.[88] IS NULL, NULL, FORMAT( A.[88], 'yyyy-MM-dd') ) as [88],
+				A.[89],
+				A.[90],
+				A.[91],
+				A.[92],
+				A.[93],
+				IIF(A.[94] IS NULL, NULL, FORMAT( A.[94], 'yyyy-MM-dd') ) as [94],
+				A.[95], 
+				A.[96], 
+				IIF(A.[97] IS NULL, NULL, FORMAT( A.[97], 'yyyy-MM-dd') ) as [97],
+				A.[98], 
+				A.[99], 
+				A.[100], 
+				A.[101], 
+				A.[102], 
+				IIF(A.[103] IS NULL, NULL, FORMAT( A.[103], 'yyyy-MM-dd') ) as [103],
+				A.[104], 
+				A.[105], 
+				A.[106], 
+				A.[107], 
+				A.[108], 
+				IIF(A.[109] IS NULL, NULL, FORMAT( A.[109], 'yyyy-MM-dd') ) as [109], 
+				A.[110], 
+				A.[111], 
+				IIF(A.[112] IS NULL, NULL, FORMAT( A.[112], 'yyyy-MM-dd') ) as [112],
+				A.[113],
+				A.[114], 
+				A.[114.1], 
+				A.[114.2], 
+				A.[114.3], 
+				A.[114.4], 
+				A.[114.5], 
+				A.[114.6], 
+				IIF(A.[115] IS NULL, NULL, FORMAT( A.[115], 'yyyy-MM-dd') ) as [115],
+				A.[116], 
+				A.[117], 
+				IIF(A.[118] IS NULL, NULL, FORMAT( A.[118], 'yyyy-MM-dd') ) as [118], 
+				A.[119],
+				A.[120], 
+				IIF(A.[121] IS NULL, NULL, FORMAT( A.[121], 'yyyy-MM-dd') ) as [121], 
+				A.[122], 
+				A.[123], 
+				A.[124], 
+				A.[125], 
+				A.[126], 
+				A.[127], 
+				A.[128], 
+				A.[129], 
+				IIF(A.[130] IS NULL, NULL, FORMAT( A.[130], 'yyyy-MM-dd') ) as [130], 
+				IIF(A.[131] IS NULL, NULL, FORMAT( A.[131], 'yyyy-MM-dd') ) as [131],
+				A.[132], 
+				A.[133], 
+				IIF(A.[134] IS NULL, NULL, FORMAT( A.[134], 'yyyy-MM-dd') ) as [134],
+				A.[AdicionalCAC1] ,
+				A.[AdicionalCAC2] ,
+				A.[AdicionalCAC3] ,
+				A.[AdicionalCAC4] ,
+				A.[AdicionalCAC5] ,
+				A.[AdicionalCAC6] ,
+				A.[AdicionalCAC7] ,
+				A.[AdicionalCAC8] ,
+				A.[AdicionalCAC9] ,
+				A.[AdicionalCAC10],
+				A.[AdicionalCAC11],
+				A.[AdicionalCAC12],
+				A.[AdicionalCAC13],
+				A.[AdicionalCAC14],
+				A.[AdicionalCAC16],
+				A.[AdicionalCAC17],
+				A.[AdicionalCAC18],
+				IIF(A.[AdicionalCAC19] IS NULL, NULL, FORMAT( A.[AdicionalCAC19], 'yyyy-MM-dd') ) as [AdicionalCAC19],
+				A.[AdicionalCAC20],
+				IIF(A.[AdicionalCAC21] IS NULL, NULL, FORMAT( A.[AdicionalCAC21], 'yyyy-MM-dd') ) as [AdicionalCAC21],
+				A.[AdicionalCAC25],
+				A.[AdicionalCAC26],
+				A.[AdicionalCAC27],
+				A.[AdicionalCAC28],
+				A.[AdicionalCAC29],
+				A.[AdicionalCAC30],
+				A.[AdicionalCAC31],
+				A.[AdicionalCAC32],
+				A.[AdicionalCAC33],
+				A.[AdicionalCAC34],
+				A.[AdicionalCAC35],
+				A.[AdicionalODO1] ,
+				A.[AdicionalODO2] ,
+				A.[AdicionalODO3] ,
+				A.[AdicionalODO4] ,
+				A.[AdicionalODO5] ,
+				A.[AdicionalODO6] ,
+				A.[AdicionalODO7] ,
+				A.[AdicionalODO8] ,
+				A.[AdicionalODO9] ,
+				A.[AdicionalODO10],
+				A.[AdicionalODO11],
+				rtrim(b.IPNOMCOMP) as 'Nombre Paciente', 
+				rtrim(B.IPCODPACI) AS 'Identificacion', 
+				[dbo].[EDAD] (B.IPFECNACI,getdate()) As 'Edad', 
+				rtrim(C.CODDIAGNO) + ' - ' + rtrim(C.NOMDIAGNO) AS 'Nombre Diagnostico',
+				rtrim(C.CODDIAGNO) as 'Codigo Diagnostico',
+				rtrim(s.Name) as 'Nombre Entidad'
+			from 
+				HCCUENTACOSTOD A
+				Inner Join INPACIENT b with(nolock) on a.[6] = b.IPCODPACI 
+				Inner Join INDIAGNOS C with(nolock) on C.CODDIAGNO = A.CODDIAGNO 
+				Inner Join Contract.HealthAdministrator s ON s.Id = A.IDEntidadVIE 
+			Where
+				A.IDEntidadVIE IN (SELECT Value FROM dbo.SplitString(@IdEntidades))
+				and a.IDHCCUENTACOSTOC =@Id 
+
+		END
+end
+GO
+-- EXECUTE sp_addextendedproperty @name = N'MS_Description', @value = N'Genera el listado de pacientes oncológicos registrados en la cuenta de alto costo (CAC), utilizado para el reporte oficial a las entidades reguladoras de salud. Consulta la tabla de preguntas/formulario oncológico (HCONCOPREG), cruza con el maestro de pacientes (INPACIENT) para obtener nombre, cédula y edad, con el catálogo de diagnósticos CIE-10 (INDIAGNOS) para mostrar el nombre del diagnóstico, y con las administradoras de salud (HealthAdministrator) para identificar la EPS o pagador asociado. Permite filtrar por rango de fechas, entidades específicas, estado de confirmación del registro (@Confirmado: borradores o confirmados) y tipo de consulta (@TipoConsulta), devolviendo todos los campos del formulario de alto costo (hasta más de 130 preguntas numeradas más campos adicionales CAC y odontológicos) con las fechas formateadas en estándar ISO (yyyy-MM-dd).', @level0type = N'SCHEMA', @level0name = N'dbo', @level1type = N'PROCEDURE', @level1name = N'SP_ONCO_ListadoPacientesCuentaAltoCosto';
+-- GO
+-- EXECUTE sp_addextendedproperty @name = N'MS_DescriptionSource', @value = N'backport_from_v25.47c_2026-05-05', @level0type = N'SCHEMA', @level0name = N'dbo', @level1type = N'PROCEDURE', @level1name = N'SP_ONCO_ListadoPacientesCuentaAltoCosto';
+-- GO
+-- GO
+-- GO
+-- EXEC sys.sp_addextendedproperty @name=N'MS_BR_Purpose', @value=N'Devolver el listado de pacientes candidatos o confirmados para el reporte de Cuenta de Alto Costo oncológica, según el tipo de consulta y si el registro ya está confirmado, filtrando por entidades aseguradoras y rango de fechas.', @level0type=N'SCHEMA', @level0name=N'dbo', @level1type=N'PROCEDURE', @level1name=N'SP_ONCO_ListadoPacientesCuentaAltoCosto';
+-- GO
+-- EXEC sys.sp_addextendedproperty @name=N'MS_BR_Preconditions', @value=N'@IdEntidades debe contener una lista de IDs de entidad parseable por dbo.SplitString.; Para TipoConsulta 2 y 3 se requiere @FechaInicial y @FechaFinal válidos para filtrar por rango.; Para el flujo confirmado (Confirmado=1) se requiere @Id correspondiente al identificador de cabecera de cuenta de costo (IDHCCUENTACOSTOC).; Las funciones dbo.SplitString y dbo.EDAD deben existir y ser accesibles.', @level0type=N'SCHEMA', @level0name=N'dbo', @level1type=N'PROCEDURE', @level1name=N'SP_ONCO_ListadoPacientesCuentaAltoCosto';
+-- GO
+-- EXEC sys.sp_addextendedproperty @name=N'MS_BR_Invariants', @value=N'Todas las consultas filtran por las entidades pasadas en @IdEntidades usando dbo.SplitString.; Las fechas se devuelven formateadas como ''yyyy-MM-dd'' cuando no son nulas.; TipoConsulta=2 sólo considera grupos de cáncer con ESTADO=''1''.; En radioterapia externa sólo se incluyen órdenes con ESTADO IN (3,4,5,6,7) y servicio SERIPSDASH=6.; En braquiterapia sólo se incluyen órdenes con ESTADO IN (5,7,8) y servicio SERIPSDASH=13.; En quimioterapia sólo se incluyen aplicaciones con IDHCORDQUIMIO no nulo y MEDESTADO=''2''.; En patologías (hospitalaria y ambulatoria) sólo se incluyen registros con CAC23 no nulo, ESTSERIPS no en (1,6) y reporte (report_base64) presente.; En medicamentos domiciliarios sólo se consideran dispensaciones con Status=2, sin SurgeryExpenseSheetId, AffectInventory=1 y EntityName=''SaveDashboardPharmacy'', ligadas a órdenes HCFARMEPC con ORDESTADO=2 e IDHCORDPRON no nulo.; En hospitalizaciones sólo se cuentan ingresos con UFUEGRHOS o UFUAACTHOS no nulos y profesional de tipo 1 o 6.; Las consultas externas oncológicas se reconocen por GENCONEXT=1 y TIPESPECI en 1..23.; Las notas de finalización prematura se identifican por TITNOTENF=''FINALIZACIÓN PREMATURA QUIMIOTERAPIA''.; El procedimiento sólo retorna resultados, no modifica datos.; Se ejecuta WITH RECOMPILE en cada llamada.', @level0type=N'SCHEMA', @level0name=N'dbo', @level1type=N'PROCEDURE', @level1name=N'SP_ONCO_ListadoPacientesCuentaAltoCosto';
+-- GO
+-- EXEC sys.sp_addextendedproperty @name=N'MS_BR_DomainConcepts', @value=N'Cuenta de Alto Costo (CAC); Paciente oncológico; Diagnóstico; Entidad administradora de salud (EPS); Consulta externa por especialidad oncológica; Hospitalización oncológica; Informe quirúrgico; Radioterapia externa; Braquiterapia; Quimioterapia; Patología de cáncer (hospitalaria y ambulatoria); Medicamentos domiciliarios; Finalización prematura de quimioterapia; Reporte ODO (odontológico); Edad del paciente; Grupo de cáncer del paciente', @level0type=N'SCHEMA', @level0name=N'dbo', @level1type=N'PROCEDURE', @level1name=N'SP_ONCO_ListadoPacientesCuentaAltoCosto';
+-- GO
+-- EXEC sys.sp_addextendedproperty @name=N'MS_BR_Decisions', @value=N'si Confirmado = 0 y TipoConsulta = 1 → Lista todos los registros de pre-cuenta de alto costo (HCONCOPREG) filtrados por las entidades indicadas, sin filtro de fecha; si Confirmado = 0 y TipoConsulta = 2 → Lista pacientes con grupo de cáncer activo (HCGRUPOCANCERPACIC.ESTADO=''1'') registrados en el rango de fechas y con las entidades indicadas; si Confirmado = 0 y TipoConsulta = 3 → Lista pacientes oncológicos identificados a partir de la unión de múltiples fuentes clínicas (consulta externa especializada, hospitalización, informe QX, radioterapia, braquiterapia, quimioterapia, patologías de cáncer hospitalarias y ambulatorias, medicamentos domiciliarios y notas de finalización prematura de quimioterapia) en el rango de fechas; si Confirmado = 1 → Lista los registros confirmados de la cuenta de alto costo (HCCUENTACOSTOD) filtrados por entidad y por el identificador de cuenta de costo (Id) else N/A', @level0type=N'SCHEMA', @level0name=N'dbo', @level1type=N'PROCEDURE', @level1name=N'SP_ONCO_ListadoPacientesCuentaAltoCosto';
+-- GO
+-- EXEC sys.sp_addextendedproperty @name=N'MS_BR_Calls', @value=N'dbo.SplitString; dbo.EDAD', @level0type=N'SCHEMA', @level0name=N'dbo', @level1type=N'PROCEDURE', @level1name=N'SP_ONCO_ListadoPacientesCuentaAltoCosto';
+-- GO
+-- EXEC sys.sp_addextendedproperty @name=N'MS_BR_Consumes', @value=N'dbo.HCONCOPREG; dbo.INPACIENT; dbo.INDIAGNOS; Contract.HealthAdministrator; dbo.HCGRUPOCANCERPACIC; dbo.HCHISPACA; dbo.INESPECIA; dbo.INPROFSAL; dbo.ADINGRESO; dbo.HCQXINFOR; dbo.HCRADORDEN; dbo.HCRADESQUEMAS; dbo.HCRADDOSIS; dbo.HCORDPRON; dbo.INCUPSIPS; dbo.HCHOJAMED; dbo.HCORDPATO; PathologyALULA.INTEGRATIONCONTROL; PathologyALULA.OBSERVATION_REQUESTS; PathologyALULA.DIAGNOSIS_RESULTS; dbo.AMBORDPAT; Inventory.PharmaceuticalDispensing; Inventory.PharmaceuticalDispensingDetail; Inventory.InventoryProduct; Inventory.ATC; dbo.HCFARMEPC; dbo.HCFARMEPD; dbo.HCCTRNOTE; dbo.HCCUENTACOSTOD', @level0type=N'SCHEMA', @level0name=N'dbo', @level1type=N'PROCEDURE', @level1name=N'SP_ONCO_ListadoPacientesCuentaAltoCosto';
+-- GO
+-- EXEC sys.sp_addextendedproperty @name=N'MS_BR_Source', @value=N'ai_claude-opus-4-7_tier-c_2026-05-06', @level0type=N'SCHEMA', @level0name=N'dbo', @level1type=N'PROCEDURE', @level1name=N'SP_ONCO_ListadoPacientesCuentaAltoCosto';
+-- GO

@@ -1,0 +1,361 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{AB90B939-7342-4D1E-8A01-13B863C8F0DC}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>Infrastructure.Data.Xpo.PortfolioRepository</RootNamespace>
+    <AssemblyName>Infrastructure.Data.Xpo.PortfolioRepository</AssemblyName>
+    <FileAlignment>512</FileAlignment>
+    <MyType>Windows</MyType>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DocumentationFile>Infrastructure.Data.Xpo.PortfolioRepository.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DocumentationFile>Infrastructure.Data.Xpo.PortfolioRepository.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionExplicit>On</OptionExplicit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionCompare>Binary</OptionCompare>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionStrict>Off</OptionStrict>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionInfer>On</OptionInfer>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debugcito|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\Debugcito\</OutputPath>
+    <DocumentationFile>Infrastructure.Data.Xpo.PortfolioRepository.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DocumentationFile>Infrastructure.Data.Xpo.PortfolioRepository.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DocumentationFile>Infrastructure.Data.Xpo.PortfolioRepository.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debugcito|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x64\Debugcito\</OutputPath>
+    <DocumentationFile>Infrastructure.Data.Xpo.PortfolioRepository.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DocumentationFile>Infrastructure.Data.Xpo.PortfolioRepository.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DocumentationFile>Infrastructure.Data.Xpo.PortfolioRepository.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debugcito|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x86\Debugcito\</OutputPath>
+    <DocumentationFile>Infrastructure.Data.Xpo.PortfolioRepository.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'VieBuild|AnyCPU'">
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\VieBuild\</OutputPath>
+    <DocumentationFile>Infrastructure.Data.Xpo.PortfolioRepository.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'VieBuild|x64'">
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x64\VieBuild\</OutputPath>
+    <DocumentationFile>Infrastructure.Data.Xpo.PortfolioRepository.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'VieBuild|x86'">
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x86\VieBuild\</OutputPath>
+    <DocumentationFile>Infrastructure.Data.Xpo.PortfolioRepository.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="DevExpress.Data.v20.1, Version=20.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.ExpressApp.v20.1, Version=20.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.ExpressApp.Xpo.v20.1, Version=20.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Persistent.Base.v20.1, Version=20.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Xpo.v20.1, Version=20.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="Infrastructure.CrossCutting.Base, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\DLL\Infrastructure.CrossCutting.Base.dll</HintPath>
+    </Reference>
+    <Reference Include="Infrastructure.CrossCutting.Resources, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\DLL\Infrastructure.CrossCutting.Resources.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+  </ItemGroup>
+  <ItemGroup>
+    <Import Include="Microsoft.VisualBasic" />
+    <Import Include="System" />
+    <Import Include="System.Collections" />
+    <Import Include="System.Collections.Generic" />
+    <Import Include="System.Data" />
+    <Import Include="System.Diagnostics" />
+    <Import Include="System.Linq" />
+    <Import Include="System.Xml.Linq" />
+    <Import Include="System.Threading.Tasks" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AccountReceivableDocumentDetailXpo.vb" />
+    <Compile Include="AccountReceivableDocumentXpo.vb" />
+    <Compile Include="Association\CashReceiptsXpo.vb" />
+    <Compile Include="Association\CommonCurrencyXpo.vb" />
+    <Compile Include="Association\CustomerXpo.vb" />
+    <Compile Include="Association\PatientXpo.vb" />
+    <Compile Include="Association\PortfolioInvoiceXpo.vb" />
+    <Compile Include="Association\MainAccountsXpo.vb" />
+    <Compile Include="PortfolioAdvance\Treasury_CashReceiptConceptsXpo.vb" />
+    <Compile Include="PortfolioAdvance\Treasury_CashReceiptsDetailsXpo.vb" />
+    <Compile Include="PortfolioDeteriorationClassificationXpo.vb" />
+    <Compile Include="My Project\AssemblyInfo.vb" />
+    <Compile Include="My Project\Application.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Application.myapp</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="My Project\Resources.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="My Project\Settings.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="HardCollectionXpo.vb" />
+    <Compile Include="HardCollectionDetailXpo.vb" />
+    <Compile Include="PortfolioAdvance\TreasuryPaymentMethodsXpo.vb" />
+    <Compile Include="PortfolioNoteDistributionOriginalXpo.vb" />
+    <Compile Include="PortfolioRevaluationDetailXpo.vb" />
+    <Compile Include="PortfolioRevaluationXpo.vb" />
+    <Compile Include="PortfolioCircular030Xpo.vb" />
+    <Compile Include="PortfolioCircular030DetailXpo.vb" />
+    <Compile Include="PortfolioConciliationXpo.vb" />
+    <Compile Include="PortfolioControlXpo.vb" />
+    <Compile Include="AgesPortfolioXpo.vb" />
+    <Compile Include="LawyerXpo.vb" />
+    <Compile Include="PortfolioDemandStatusXpo.vb" />
+    <Compile Include="PortfolioConciliationConceptsXpo.vb" />
+    <Compile Include="PortfolioProvisionDetailXpo.vb" />
+    <Compile Include="PortfolioServicesXpoEx.vb" />
+    <Compile Include="PortfolioTransferDetailXpo.vb" />
+    <Compile Include="PortfolioProvisionXpo.vb" />
+    <Compile Include="PortfolioTransferOtherConceptXpo.vb" />
+    <Compile Include="Reports\PortfolioAccountReceivableConceptReportXpo.vb" />
+    <Compile Include="Reports\PortfolioAccountReceivableDocumentDetailReportXpo.vb" />
+    <Compile Include="Reports\PortfolioAccountReceivableDocumentReportXpo.vb" />
+    <Compile Include="Reports\PortfolioConciliationDetailXpo.vb" />
+    <Compile Include="Reports\PortfolioConciliationParticipantsXpo.vb" />
+    <Compile Include="Reports\PortfolioRadicateInvoiceCReportXpo.vb" />
+    <Compile Include="Reports\PortfolioRadicateInvoiceDReportXpo.vb" />
+    <Compile Include="Reports\PortfolioTransferOtherConceptReportXpo.vb" />
+    <Compile Include="Reports\PortfolioViewReportInvoiceTraceability.vb" />
+    <Compile Include="Reports\PortfolioViewReportPortfolioDeterioratingProvisionReportXpo.vb" />
+    <Compile Include="Reports\PortfolioViewReportRadicateInvoiceDocumentXpo.vb" />
+    <Compile Include="Reports\PortfolioVReportListRadicatedInvoiceXpo.vb" />
+    <Compile Include="Views\PortfolioViewRadicateInvoiceDetailXpo.vb" />
+    <Compile Include="Views\ViewPortfolioListBillsTransfersXpo.vb" />
+    <Compile Include="Views\ViewInvoiceCustomerRetentionXpo.vb" />
+    <Compile Include="Views\ViewPortfolioNoteAccountReceivableDetailXpo.vb" />
+    <Compile Include="Views\ViewInvoiceDetailsXpo.vb" />
+    <Compile Include="Views\VPortfolioProvisionDetailXpo.vb" />
+    <Compile Include="Views\ViewAccountReceivableAccountingByPortfolioNoteXpo.vb" />
+    <Compile Include="Views\ViewListPortfolioTransferDetailXpo.vb" />
+    <Compile Include="PortfolioViewPortfolioReclasificationXpo.vb" />
+    <Compile Include="PortfolioViewPortfolioReclasificationDetailXpo.vb" />
+    <Compile Include="Views\ViewBudgetAllocationInitialBalancesXpo.vb" />
+    <Compile Include="PortfolioInitialBalanceAccountReceivableXpo.vb" />
+    <Compile Include="PortfolioInitialBalanceAccountReceivableAccountingXpo.vb" />
+    <Compile Include="PortfolioInitialBalanceAccountReceivableShareXpo.vb" />
+    <Compile Include="PortfolioAdvance\Common_Seller.vb" />
+    <Compile Include="PortfolioAdvance\Common_ThirdParty.vb" />
+    <Compile Include="PortfolioAdvance\GeneralLedger_MainAccounts.vb" />
+    <Compile Include="PortfolioAdvance\Common_Customer.vb" />
+    <Compile Include="PortfolioAdvance\Payroll_CostCenter.vb" />
+    <Compile Include="PortfolioAdvance\Portfolio_PortfolioAdvance.vb" />
+    <Compile Include="PortfolioAdvance\Treasury_CashReceipts.vb" />
+    <Compile Include="PortfolioAccountReceivableAccountingXpo.vb" />
+    <Compile Include="PortfolioAccountReceivableShareXpo.vb" />
+    <Compile Include="PortfolioAccountReceivableXpo.vb" />
+    <Compile Include="PortfolioAdvanceXpo.vb" />
+    <Compile Include="PortfolioEconomicIndicatorXpo.vb" />
+    <Compile Include="PortfolioInitialBalanceXpo.vb" />
+    <Compile Include="PortfolioNoteAccountReceivableAdvanceXpo.vb" />
+    <Compile Include="PortfolioNoteDetailXpo.vb" />
+    <Compile Include="PortfolioNoteXpo.vb" />
+    <Compile Include="PortfolioAccountReceivableConceptXpo.vb" />
+    <Compile Include="PortfolioPortfolioNoteConceptXpo.vb" />
+    <Compile Include="PortfolioProvisionRangesXpo.vb" />
+    <Compile Include="PortfolioReclassificationXpo.vb" />
+    <Compile Include="PortfolioTransferXpo.vb" />
+    <Compile Include="Reports\CommonAddressXpo.vb" />
+    <Compile Include="Reports\CommonCustomerReportXpo.vb" />
+    <Compile Include="Reports\CommonDepartmentXpo.vb" />
+    <Compile Include="Reports\CommonPhoneXpo.vb" />
+    <Compile Include="Reports\CommonSellerReportXpo.vb" />
+    <Compile Include="Reports\CommonSupplierXpo.vb" />
+    <Compile Include="Reports\CommonThirdPartyXpo.vb" />
+    <Compile Include="Reports\ComonCityXpo.vb" />
+    <Compile Include="Reports\CommonPersonXpo.vb" />
+    <Compile Include="Reports\ContractCareGroupXpo.vb" />
+    <Compile Include="Reports\ContractContractEntityXpo.vb" />
+    <Compile Include="Reports\ContractContractXpo.vb" />
+    <Compile Include="Reports\GeneralLedgerMainAccountClassesXpo.vb" />
+    <Compile Include="Reports\GeneralLedgerMainAccountLevelsXpo.vb" />
+    <Compile Include="Reports\GeneralLedgerMainAccountsXpo.vb" />
+    <Compile Include="Reports\PayrollBankXpo.vb" />
+    <Compile Include="Reports\PayrollCostCenterXpo.vb" />
+    <Compile Include="Reports\PortfolioAccountReceivableAccountingReportXpo.vb" />
+    <Compile Include="Reports\PortfolioAccountReceivableReportXpo.vb" />
+    <Compile Include="Reports\PortfolioAccountReceivableShareReportXpo.vb" />
+    <Compile Include="Reports\PortfolioAdvanceReportXpo.vb" />
+    <Compile Include="Reports\PortfolioAgesPortfolioXpo.vb" />
+    <Compile Include="Reports\PortfolioInitialBalanceAccountReceivableAccountingReportXpo.vb" />
+    <Compile Include="Reports\PortfolioInitialBalanceAccountReceivableReportXpo.vb" />
+    <Compile Include="Reports\PortfolioInitialBalanceAccountReceivableShareReportXpo.vb" />
+    <Compile Include="Reports\PortfolioInitialBalanceAdvanceReportXpo.vb" />
+    <Compile Include="Reports\PortfolioInitialBalanceReportXpo.vb" />
+    <Compile Include="Reports\PortfolioNoteAccountReceivableAdvanceReportXpo.vb" />
+    <Compile Include="Reports\PortfolioNoteConceptReportXpo.vb" />
+    <Compile Include="Reports\PortfolioNoteDetailReportXpo.vb" />
+    <Compile Include="Reports\PortfolioNoteDistributionXpo.vb" />
+    <Compile Include="Reports\PortfolioNoteReportXpo.vb" />
+    <Compile Include="Reports\PortfolioSettingPortfolioXpo.vb" />
+    <Compile Include="Reports\PortfolioTransferDetailAccountShareReportXpo.vb" />
+    <Compile Include="Reports\PortfolioTransferDetailReportXpo.vb" />
+    <Compile Include="Reports\PortfolioTransferReportXpo.vb" />
+    <Compile Include="Reports\TreasuryCashReceiptsXpo.vb" />
+    <Compile Include="Reports\TreasuryEntityBankAccountsXpo.vb" />
+    <Compile Include="Views\VReportExtractAccountReceivableXpo.vb" />
+    <Compile Include="Views\VReportSuretyFileXpo.vb" />
+    <Compile Include="Views\ViewAccountReceivableByPortfolioProvisionXpo.vb" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="My Project\Resources.resx">
+      <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.vb</LastGenOutput>
+      <CustomToolNamespace>My.Resources</CustomToolNamespace>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="My Project\Application.myapp">
+      <Generator>MyApplicationCodeGenerator</Generator>
+      <LastGenOutput>Application.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="My Project\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <CustomToolNamespace>My</CustomToolNamespace>
+      <LastGenOutput>Settings.Designer.vb</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Infrastructure.CrossCutting.Xpo.Base\Infrastructure.CrossCutting.Xpo.Base.vbproj">
+      <Project>{06AEA7A4-8792-405E-97E6-4B6FB10502B5}</Project>
+      <Name>Infrastructure.CrossCutting.Xpo.Base</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastructure.Data.Xpo.PaymentsRepository\Infrastructure.Data.Xpo.PaymentsRepository.vbproj">
+      <Project>{6D87A185-58C7-4CCE-93E0-5FF663152660}</Project>
+      <Name>Infrastructure.Data.Xpo.PaymentsRepository</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Insfrastructure.Data.Xpo.CrystalRepository\Infrastructure.Data.Xpo.CrystalRepository.vbproj">
+      <Project>{6AF0AD3B-B0A2-48A4-9FBD-CA1C11FC74FC}</Project>
+      <Name>Infrastructure.Data.Xpo.CrystalRepository</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

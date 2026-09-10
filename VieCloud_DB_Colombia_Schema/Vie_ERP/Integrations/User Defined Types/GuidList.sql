@@ -1,0 +1,4 @@
+﻿CREATE TYPE [Integrations].[GuidList] AS TABLE (
+    [Id] UNIQUEIDENTIFIER NOT NULL,
+    PRIMARY KEY CLUSTERED ([Id] ASC));
+

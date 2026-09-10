@@ -1,0 +1,213 @@
+﻿#Region "Imports"
+Imports Infrastructure.CrossCutting.Base
+Imports Presentation.Base
+Imports Presentation.CloudAgent
+#End Region
+
+Public Class rptReportBudgetExecutionOfExpensesForTerritorialPublicEntities
+    Implements IReport
+    Implements IReportAsync
+
+#Region "Properties"
+
+    ''' <summary>
+    ''' Variable para inicializar los valores de sesion
+    ''' </summary>
+    Dim IndigoSessionValues As SessionValues = SessionValues.Instance
+
+    Dim criterias As Dictionary(Of String, String)
+
+    ''' <summary>
+    ''' Variable par obtener la tabla de Trazabilidad
+    ''' </summary>
+    Dim dtReportBudgetExecutionExpense As DataTable
+
+    Public Property ParametrosReporte As Object() Implements IReport.ParametrosReporte
+
+    Public ReadOnly Property NameReport As String Implements IReport.NameReport
+        Get
+            Return ""
+        End Get
+    End Property
+
+#End Region
+
+#Region "Load Data"
+
+    Public Sub CargarDataSource() Implements IReport.CargarDataSource
+
+    End Sub
+
+    Public Async Function CargarDataSourceAsync() As Task Implements IReportAsync.CargarDataSourceAsync
+        Try
+            criterias = ParametrosReporte(0)
+
+            Dim ds As DataSet = Await IndigoConecta.Instancia.CurrentCloud.IndigoBudget.GetListReportBudgetExecutionOfExpensesForTerritorialPublicEntitiesAsync(criterias, Me.IndigoSessionValues)
+            If ds IsNot Nothing AndAlso ds.Tables(0).Rows.Count > 0 Then
+                dtReportBudgetExecutionExpense = ds.Tables("ReportBudgetExcutionOfExpensesForTerritorialPublicEntities")
+                Me.DataSource = dtReportBudgetExecutionExpense
+                Me.DataMember = "ReportBudgetExcutionOfExpensesForTerritorialPublicEntities"
+            Else
+                Me.DataSource = Nothing
+            End If
+        Catch ex As Exception
+            MessageIndigo.Show(GetExceptionDetails(ex), MessageType.Errores, Me.Text, Botones.Aceptar, "")
+        End Try
+    End Function
+
+#End Region
+
+#Region "Methods"
+
+    Private Sub rptReportBudgetExecutionExpense_BeforePrint(sender As Object, e As Printing.PrintEventArgs) Handles MyBase.BeforePrint
+        Me.INDLblCompany.Text = IndigoSessionValues.IndigoCompanyName
+        Me.INDLblNitCompany.Text = "Nit:" & IndigoSessionValues.IndigoCompanyNit
+        Me.INDLblBudgetaryValidity.Text = "Vigencia " & criterias("Year")
+        Me.INDLblReportData.Text = "Informe Del Mes De " & CDate("01/" & criterias("Month") & "/" & criterias("Year")).ToString("MMMM")
+        Me.INDUserImp.Text = "Usuario Impresión : " & IndigoSessionValues.UserIndigo & " - " & IndigoSessionValues.UserIndigoName
+    End Sub
+
+    Public Sub CargarImagenes() Implements IReport.CargarImagenes
+
+    End Sub
+
+    Public Function GetExceptionDetails(exception As Exception) As String
+        Dim properties = exception.[GetType]().GetProperties()
+        Dim fields = properties.[Select](Function([property]) New With {
+            Key .Name = [property].Name,
+            Key .Value = [property].GetValue(exception, Nothing)
+        }).[Select](Function(x) [String].Format("{0} : {1}", x.Name, If(x.Value IsNot Nothing, x.Value.ToString(), [String].Empty)))
+        Return [String].Join(vbLf, fields)
+    End Function
+
+    Private Sub rptReportINDColValidityType_BeforePrint(sender As Object, e As Printing.PrintEventArgs) Handles INDColValidityType.BeforePrint
+        Me.INDColValidityType.Text = validityType(Me.INDColValidityType.Text)
+    End Sub
+
+    Private Sub INDColBudgetSection_BeforePrint(sender As Object, e As Printing.PrintEventArgs) Handles INDColBudgetSection.BeforePrint
+        If Me.INDColBudgetSection.Text = "2.6" Then
+            Me.INDColBudgetSection.Text = "Salud"
+        End If
+    End Sub
+
+    Private Sub INDColSector_BeforePrint(sender As Object, e As Printing.PrintEventArgs) Handles INDColSector.BeforePrint
+        Me.INDColSector.Text = sector(Me.INDColSector.Text)
+    End Sub
+
+    Private Sub INDColCPC_BeforePrint(sender As Object, e As Printing.PrintEventArgs) Handles INDColCPC.BeforePrint
+        If Me.INDColCPC.Text = " - " Then
+            Me.INDColCPC.Text = "NO APLICA"
+        End If
+    End Sub
+
+    Private Sub INDColFinancialSource_BeforePrint(sender As Object, e As Printing.PrintEventArgs) Handles INDColFinancialSource.BeforePrint
+        If Me.INDColFinancialSource.Text = " - " Then
+            Me.INDColFinancialSource.Text = ""
+        End If
+    End Sub
+
+    Private Sub INDColPublicPolicy_BeforePrint(sender As Object, e As Printing.PrintEventArgs) Handles INDColPublicPolicy.BeforePrint
+        If Me.INDColPublicPolicy.Text = " - " Then
+            Me.INDColPublicPolicy.Text = "NO APLICA"
+        End If
+    End Sub
+
+    Private Sub INDColThirdParty_BeforePrint(sender As Object, e As Printing.PrintEventArgs) Handles INDColThirdParty.BeforePrint
+        If Me.INDColThirdParty.Text = " - " Then
+            Me.INDColThirdParty.Text = "NO APLICA"
+        End If
+    End Sub
+#End Region
+
+#Region "Utils"
+    Private Function sector(SectorId As Integer) As String
+        Dim SectorName As String = ""
+        Select Case SectorId
+            Case 1
+                SectorName = "Congreso de la república"
+            Case 2
+                SectorName = "Presidencia de la república"
+            Case 3
+                SectorName = "Planeación"
+            Case 4
+                SectorName = "Información estadística"
+            Case 5
+                SectorName = "Empleo público"
+            Case 11
+                SectorName = "Relaciones exteriores"
+            Case 12
+                SectorName = "Justicia y del derecho"
+            Case 13
+                SectorName = "Hacienda"
+            Case 15
+                SectorName = "Defensa y policía"
+            Case 17
+                SectorName = "Agricultura y desarrollo rural"
+            Case 19
+                SectorName = "Salud y protección social"
+            Case 21
+                SectorName = "Minas y energía"
+            Case 22
+                SectorName = "Educación"
+            Case 23
+                SectorName = "Tecnologías de la información y las comunicaciones"
+            Case 24
+                SectorName = "Transporte"
+            Case 25
+                SectorName = "Organismos de control"
+            Case 27
+                SectorName = "Rama judicial"
+            Case 28
+                SectorName = "Registraduria"
+            Case 29
+                SectorName = "Fiscalía"
+            Case 32
+                SectorName = "Ambiente y desarrollo sostenible"
+            Case 33
+                SectorName = "Cultura"
+            Case 35
+                SectorName = "Comercio, industria y turismo"
+            Case 36
+                SectorName = "Trabajo"
+            Case 37
+                SectorName = "Interior"
+            Case 39
+                SectorName = "Ciencia, tecnología e innovación"
+            Case 40
+                SectorName = "Vivienda, ciudad y territorio"
+            Case 41
+                SectorName = "Inclusión social y reconciliación"
+            Case 42
+                SectorName = "Inteligencia"
+            Case 43
+                SectorName = "Deporte y recreación"
+            Case 44
+                SectorName = "Justicia especial para la paz"
+            Case 45
+                SectorName = "Gobierno territorial"
+        End Select
+        Return SectorName
+    End Function
+
+    Private Function validityType(vailidityTypeId As Integer) As String
+        Dim ValidityName As String = ""
+        Select Case vailidityTypeId
+            Case 1
+                ValidityName = "Vigencia Actual"
+            Case 2
+                ValidityName = "Reservas"
+            Case 3
+                ValidityName = "Cuentas por pagar"
+            Case 4
+                ValidityName = "Vigencias futuras - Vigencia Actual "
+            Case 5
+                ValidityName = "Vigencias futuras - Reservas"
+            Case 6
+                ValidityName = "Vigencias futuras - Cuentas por pagar"
+        End Select
+        Return ValidityName
+    End Function
+
+#End Region
+
+End Class

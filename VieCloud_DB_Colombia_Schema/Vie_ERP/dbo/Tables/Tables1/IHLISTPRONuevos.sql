@@ -1,0 +1,46 @@
+﻿CREATE TABLE [dbo].[IHLISTPRONuevos] (
+    [CODPRODUC]  CHAR (20)       NOT NULL,
+    [CODDCIMED]  CHAR (5)        NULL,
+    [DESPRODUC]  CHAR (255)      NOT NULL,
+    [NOPOSPROD]  BIT             NOT NULL,
+    [TIPPRODUC]  CHAR (1)        NOT NULL,
+    [MANCONPRO]  BIT             NOT NULL,
+    [REGINVACT]  BIT             NOT NULL,
+    [REGINVIMA]  CHAR (30)       NULL,
+    [CODGRUFAR]  CHAR (10)       NULL,
+    [CODVIAADM]  CHAR (2)        NULL,
+    [CONCENMED]  CHAR (50)       NULL,
+    [PRESENMED]  CHAR (160)      NULL,
+    [CODFORMED]  CHAR (3)        NULL,
+    [TIEESTMED]  INT             NULL,
+    [TIPFORMED]  CHAR (1)        NULL,
+    [PESTOTMED]  NUMERIC (18, 2) NULL,
+    [CODUNIPES]  CHAR (3)        NULL,
+    [VOLTOTMED]  NUMERIC (18, 2) NULL,
+    [CODUNIVOL]  CHAR (3)        NULL,
+    [CODUNIADM]  CHAR (3)        NULL,
+    [CALCANAUT]  BIT             NULL,
+    [ESPDILPRO]  BIT             NULL,
+    [ABRPROMEZ]  CHAR (200)      NULL,
+    [PROESTADO]  BIT             NOT NULL,
+    [PROCONTRO]  BIT             NOT NULL,
+    [TODASPATO]  BIT             NOT NULL,
+    [MANLOCALI]  BIT             NOT NULL,
+    [RETRASOGE]  BIT             NOT NULL,
+    [CODUSUCRE]  CHAR (20)       NULL,
+    [FECUSUCRE]  DATETIME        NULL,
+    [CODUSUMOD]  CHAR (20)       NULL,
+    [FECUSUMOD]  DATETIME        NULL,
+    [JUSINMEDI]  BIT             NOT NULL,
+    [CODNIVRIE]  CHAR (3)        NULL,
+    [CODJUMEES]  BIT             NOT NULL,
+    [ADVERTENC]  VARCHAR (MAX)   NULL,
+    [POSOLOGIA]  VARCHAR (MAX)   NULL,
+    [MEDTRAZA]   BIT             NULL,
+    [MATOSTOSIN] BIT             NULL
+);
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'Tabla de staging o lista de nuevos productos farmacéuticos pendientes de incorporación al catálogo maestro. Almacena atributos farmacológicos como código de producto, descripción, vía de administración, forma farmacéutica, concentración, presentación, peso, volumen y grupo farmacológico. Incluye indicadores de control (producto controlado, trazabilidad, dilución especial, retraso de generación) y datos de auditoría de creación y modificación por usuario.', @level0type=N'SCHEMA', @level0name=N'dbo', @level1type=N'TABLE', @level1name=N'IHLISTPRONuevos';
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_DescriptionSource', @value=N'ai_claude-sonnet-4-6_2026-05-05', @level0type=N'SCHEMA', @level0name=N'dbo', @level1type=N'TABLE', @level1name=N'IHLISTPRONuevos';
+GO

@@ -1,0 +1,127 @@
+﻿#Region "Librerias Importadas"
+Imports Infrastructure.CrossCutting.Base
+Imports Infrastructure.Data.Xpo.PortfolioRepository
+Imports Infrastructure.Data.Xpo
+Imports DevExpress.XtraReports.UI
+Imports DevExpress.Xpo
+Imports Presentation.Base
+Imports System.Globalization
+
+#End Region
+
+Public Class rptSuretyFile
+    Implements IReport
+
+    ''' <summary>
+    ''' Variable para inicializar los valores de sesion
+    ''' </summary>
+    Dim IndigoSessionValues As SessionValues = SessionValues.Instance
+
+    Dim listReportt As XPCollection(Of VReportSuretyFileXpo)
+
+    Public Sub CargarDataSource() Implements IReport.CargarDataSource
+        Try
+            Dim filtroConsulta As String = Nothing
+
+            If ParametrosReporte(0) IsNot Nothing And ParametrosReporte(1) IsNot Nothing Then
+                filtroConsulta &= "GetDate(DocumentDate) >= #" & Format(ParametrosReporte(0), "yyyy-MM-dd") & "# AND GetDate(DocumentDate) <= #" & Format(ParametrosReporte(1), "yyyy-MM-dd") & "#"
+            End If
+
+            'Se filtra por Tercero
+            If ParametrosReporte(2) IsNot Nothing And ParametrosReporte(3) IsNot Nothing Then
+                If filtroConsulta Is Nothing Then
+                    filtroConsulta &= "Nit >= '" & ParametrosReporte(2) & "' AND Nit <= '" & ParametrosReporte(3) & "'"
+                Else
+                    filtroConsulta &= " AND Nit >= '" & ParametrosReporte(2) & "' AND Nit <= '" & ParametrosReporte(3) & "'"
+                End If
+            End If
+
+            'Se filtra por Cuentas Bancaria
+            If ParametrosReporte(4) IsNot Nothing And ParametrosReporte(5) IsNot Nothing Then
+                If filtroConsulta Is Nothing Then
+                    filtroConsulta &= "BankAccount >= '" & ParametrosReporte(4) & "' AND BankAccount <= '" & ParametrosReporte(5) & "'"
+                Else
+                    filtroConsulta &= " AND BankAccount >= '" & ParametrosReporte(4) & "' AND BankAccount <= '" & ParametrosReporte(5) & "'"
+                End If
+            End If
+
+            If ParametrosReporte(6) <> 0 Then
+                If filtroConsulta Is Nothing Then
+                    filtroConsulta &= "CollectType = " & ParametrosReporte(6)
+                Else
+                    filtroConsulta &= " AND CollectType = " & ParametrosReporte(6)
+                End If
+            End If
+
+            If Not ParametrosReporte(7) Then
+                filtroConsulta &= " AND Balance <> 0"
+            End If
+
+            Dim listReport As List(Of VReportSuretyFileXpo) = XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).PaymentsService.GetCollection(Of VReportSuretyFileXpo)(Nothing, filtroConsulta)
+            Me.DataSource = listReport
+        Catch ex As Exception
+            MessageIndigo.Show(GetExceptionDetails(ex), MessageType.Errores, Me.Text, Botones.Aceptar, "")
+        End Try
+    End Sub
+    Public Function GetExceptionDetails(exception As Exception) As String
+        Dim properties = exception.[GetType]().GetProperties()
+        Dim fields = properties.[Select](Function([property]) New With {
+            Key .Name = [property].Name,
+            Key .Value = [property].GetValue(exception, Nothing)
+        }).[Select](Function(x) [String].Format("{0} : {1}", x.Name, If(x.Value IsNot Nothing, x.Value.ToString(), [String].Empty)))
+        Return [String].Join(vbLf, fields)
+    End Function
+    Public Sub CargarImagenes() Implements IReport.CargarImagenes
+
+    End Sub
+
+    Public ReadOnly Property NameReport As String Implements IReport.NameReport
+        Get
+            Return ""
+        End Get
+    End Property
+
+    Public Property ParametrosReporte As Object() Implements IReport.ParametrosReporte
+
+    Private Sub rptSuretyFile_BeforePrint(sender As Object, e As Printing.PrintEventArgs) Handles MyBase.BeforePrint
+        INDLblCompany.Text = IndigoSessionValues.IndigoCompanyName
+        INDLblNitCompany.Text = "Nit:" & IndigoSessionValues.IndigoCompanyNit
+        INDLblUserPrint.Text = "Usuario Impresión : " & IndigoSessionValues.UserIndigo & " - " & IndigoSessionValues.UserIndigoName
+    End Sub
+
+    Private Sub GroupHeader2_BeforePrint(sender As Object, e As Printing.PrintEventArgs) Handles GroupHeader2.BeforePrint
+        Dim currentRow = TryCast(GetCurrentRow(), VReportSuretyFileXpo)
+        If currentRow Is Nothing Then
+            e.Cancel = True
+            Exit Sub
+        End If
+
+        Dim currencyAbbreviation = currentRow?.CurrencyAbbreviation
+        XrTableCell1.Text = Utils.GetMoneyWithISO4217(currentRow?.NetValue, currencyAbbreviation)
+        XrTableCell2.Text = Utils.GetMoneyWithISO4217(currentRow?.Withholding, currencyAbbreviation)
+        XrTableCell3.Text = Utils.GetMoneyWithISO4217(currentRow?.ICARetention, currencyAbbreviation)
+        XrTableCell4.Text = Utils.GetMoneyWithISO4217(currentRow?.OtherRetention, currencyAbbreviation)
+        XrTableCell5.Text = Utils.GetMoneyWithISO4217(currentRow?.Value, currencyAbbreviation)
+    End Sub
+
+    Private Sub XrTableCell22_SummaryGetResult(sender As Object, e As Printing.PrintEventArgs) Handles XrTableCell22.BeforePrint
+        Dim currentRow = TryCast(GetCurrentRow(), VReportSuretyFileXpo)
+        If currentRow Is Nothing Then
+            Exit Sub
+        End If
+
+        Dim currencyAbbreviation = currentRow?.CurrencyAbbreviation
+        XrTableCell22.Text = Utils.GetMoneyWithISO4217(currentRow?.Balance, currencyAbbreviation)
+    End Sub
+
+    Private Sub XrTableCell9_BeforePrint(sender As Object, e As Printing.PrintEventArgs) Handles XrTableCell9.BeforePrint
+        Dim currentRow = TryCast(GetCurrentRow(), VReportSuretyFileXpo)
+        If currentRow Is Nothing Then
+            e.Cancel = True
+            Exit Sub
+        End If
+
+        Dim currencyAbbreviation = currentRow?.CurrencyAbbreviation
+        XrTableCell9.Text = Utils.GetMoneyWithISO4217(currentRow?.ValueOperatingUnit, currencyAbbreviation)
+    End Sub
+End Class

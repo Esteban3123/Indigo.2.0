@@ -1,0 +1,95 @@
+#Region "Imports"
+
+Imports System.Drawing.Printing
+Imports DevExpress.XtraReports.Parameters
+Imports Infrastructure.CrossCutting.Base
+Imports Infrastructure.Data.Xpo.MixingStationRepository
+Imports Presentation.Base
+
+#End Region
+
+Public Class rptSubLabelAll
+    Implements IReport
+    Implements IReportAsync
+
+#Region "Properties"
+
+    ''' <summary>
+    ''' Variable para inicializar los valores de sesion
+    ''' </summary>
+    Dim IndigoSessionValues As SessionValues = SessionValues.Instance
+
+    Public Property ParametrosReporte As Object() Implements IReport.ParametrosReporte
+
+    Public ReadOnly Property NameReport As String Implements IReport.NameReport
+        Get
+            Return ""
+        End Get
+    End Property
+
+    Dim INDList As List(Of Domain.Entities.CampaignDetail)
+#End Region
+
+#Region "Load Data"
+
+    Public Sub CargarDataSource() Implements IReport.CargarDataSource
+        Try
+            INDList = New List(Of Domain.Entities.CampaignDetail)
+
+            For Each param In ParametrosReporte(0)
+                If param.Id IsNot Nothing AndAlso param.Id > 0 Then
+                    INDList.Add(New Domain.Entities.CampaignDetail With
+                                 {
+                                 .Id = param.Id
+                                 }
+                    )
+                End If
+            Next
+
+            Me.DataSource = INDList
+
+        Catch ex As Exception
+            MessageIndigo.Show(GetExceptionDetails(ex), MessageType.Errores, Me.Text, Botones.Aceptar, "")
+        End Try
+    End Sub
+
+    Public Function CargarDataSourceAsync() As Task Implements IReportAsync.CargarDataSourceAsync
+        Return Task.Factory.StartNew(AddressOf CargarDataSource)
+    End Function
+
+#End Region
+
+#Region "Methods"
+
+    Public Sub CargarImagenes() Implements IReport.CargarImagenes
+
+    End Sub
+
+    Public Function GetExceptionDetails(exception As Exception) As String
+        Dim properties = exception.[GetType]().GetProperties()
+        Dim fields = properties.[Select](Function([property]) New With {
+            Key .Name = [property].Name,
+            Key .Value = [property].GetValue(exception, Nothing)
+        }).[Select](Function(x) [String].Format("{0} : {1}", x.Name, If(x.Value IsNot Nothing, x.Value.ToString(), [String].Empty)))
+        Return [String].Join(vbLf, fields)
+    End Function
+
+    Private Sub rptSubLabelAll_BeforePrint(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles MyBase.BeforePrint
+        If Me.Parameters.Count > 0 Then
+            Dim ParametrosFilter As ParameterCollection = Me.Parameters
+            Dim campaignDetailId = ParametrosFilter("INDCampaignDetailId").Value
+            If campaignDetailId > 0 Then
+                Dim listCampaignDetail As New List(Of Domain.Entities.CampaignDetail)
+                listCampaignDetail.Add(New Domain.Entities.CampaignDetail With
+                {
+                    .Id = campaignDetailId
+                })
+                ParametrosReporte = New Object() {listCampaignDetail}
+                CargarDataSource()
+            End If
+        End If
+    End Sub
+
+#End Region
+
+End Class

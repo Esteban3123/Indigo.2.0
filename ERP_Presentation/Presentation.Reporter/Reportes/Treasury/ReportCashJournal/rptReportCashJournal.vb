@@ -1,0 +1,201 @@
+﻿#Region "Librerias Importadas"
+Imports Infrastructure.CrossCutting.Base
+Imports Infrastructure.Data.Xpo.TreasuryRepository
+Imports Infrastructure.Data.Xpo
+Imports Domain.Entities
+Imports System.Globalization
+Imports DevExpress.XtraReports.UI
+#End Region
+
+Public Class rptReportCashJournal
+    Implements IReport
+
+    ''' <summary>
+    ''' Variable para inicializar los valores de sesion
+    ''' </summary>
+    Dim IndigoSessionValues As SessionValues = SessionValues.Instance
+
+    ''' <summary>
+    ''' obtiene la informacion de la moneda seleccionada
+    ''' </summary>
+    ''' <returns></returns>
+    Public Property Currency As Currency
+
+    ''' <summary>
+    ''' abreviacion de la moneda 
+    ''' </summary>
+    Dim CurrencyAbbreviation As String
+
+    Private EndBalanceGroup As Double = 0
+    Private EndBalanceReport As Double = 0
+
+    Public Sub CargarDataSource() Implements IReport.CargarDataSource
+
+        Me.DataSource = XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).TreasuryService.GetCollectionReportCashJournal(ParametrosReporte(0), ParametrosReporte(1), ParametrosReporte(6), ParametrosReporte(4), ParametrosReporte(2), ParametrosReporte(3), ParametrosReporte(7))
+
+    End Sub
+
+    Public Sub CargarImagenes() Implements IReport.CargarImagenes
+
+    End Sub
+
+    Public ReadOnly Property NameReport As String Implements IReport.NameReport
+        Get
+            Return ""
+        End Get
+    End Property
+
+
+
+    Public Property ParametrosReporte As Object() Implements IReport.ParametrosReporte
+
+    ''' <summary>
+    ''' resetear el valor del resultado para sacar el saldo final por grupos de cajas
+    ''' </summary>
+    ''' <param name="sender"></param>
+    ''' <param name="e"></param>
+    ''' <remarks></remarks>
+    Private Sub INDLblPreviousBalanceGroup_SummaryReset(sender As Object, e As EventArgs) Handles INDLblPreviousBalanceGroup.SummaryReset
+        EndBalanceGroup = 0
+    End Sub
+
+    ''' <summary>
+    ''' calcular el valor de debitos - creditos para sacar el saldo final por grupos de cajas
+    ''' </summary>
+    ''' <param name="sender"></param>
+    ''' <param name="e"></param>
+    ''' <remarks></remarks>
+    Private Sub INDLblPreviousBalanceGroup_SummaryRowChanged(sender As Object, e As EventArgs) Handles INDLblPreviousBalanceGroup.SummaryRowChanged
+        EndBalanceGroup += Convert.ToDouble(GetCurrentColumnValue("SaldoAnterior")) + Convert.ToDouble(GetCurrentColumnValue("INDCfValueDebitCredit"))
+    End Sub
+
+    ''' <summary>
+    ''' sumarle el saldo anterior a la sumatoria de debitos - creditos para sacar el saldo final por grupos de cajas
+    ''' </summary>
+    ''' <param name="sender"></param>
+    ''' <param name="e"></param>
+    ''' <remarks></remarks>
+    Private Sub INDLblPreviousBalanceGroup_SummaryGetResult(sender As Object, e As DevExpress.XtraReports.UI.SummaryGetResultEventArgs) Handles INDLblPreviousBalanceGroup.SummaryGetResult
+        e.Result = EndBalanceGroup
+        Dim row = GetCurrentRow()
+        e.Result = Utils.GetMoneyWithISO4217(e.CalculatedValues.ToEntityList(Of Decimal).Sum(), If(String.IsNullOrEmpty(row?.CurrencyAbbreviation),
+                                             IndigoSessionValues.CurrencyISO4217, row?.CurrencyAbbreviation))
+        e.Handled = True
+
+    End Sub
+
+    ''' <summary>
+    ''' alcular el valor de debitos - creditos para sacar el saldo final por reporte
+    ''' </summary>
+    ''' <param name="sender"></param>
+    ''' <param name="e"></param>
+    ''' <remarks></remarks>
+    Private Sub INDLblPreviousBalanceTotal_SummaryRowChanged(sender As Object, e As EventArgs)
+        EndBalanceReport += Convert.ToDouble(GetCurrentColumnValue("SaldoAnterior")) + Convert.ToDouble(GetCurrentColumnValue("INDCfValueDebitCredit"))
+    End Sub
+
+    ''' <summary>
+    ''' sumarle el saldo anterior a la sumatoria de debitos - creditos para sacar el saldo final por reporte
+    ''' </summary>
+    ''' <param name="sender"></param>
+    ''' <param name="e"></param>
+    ''' <remarks></remarks>
+    Private Sub INDLblPreviousBalanceTotal_SummaryGetResult(sender As Object, e As DevExpress.XtraReports.UI.SummaryGetResultEventArgs)
+        e.Result = EndBalanceReport
+        e.Handled = True
+    End Sub
+
+    Private Sub rptReportCashJournal_BeforePrint(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles MyBase.BeforePrint
+
+        INDLblCompany.Text = IndigoSessionValues.IndigoCompanyName
+        INDLblNitCompany.Text = "Nit:" & IndigoSessionValues.IndigoCompanyNit
+        INDLblUserPrint.Text = "Usuario Impresión : " & IndigoSessionValues.UserIndigo & " - " & IndigoSessionValues.UserIndigoName
+
+        If ParametrosReporte(5) = 2 Then
+            XrTable2.Visible = False
+            Detail.Visible = False
+        End If
+        INDLblDate.Text = "Informe comprendido entre " & CDate(Me.ParametrosReporte(0)).ToString("dd De MMMM Del yyyy") & " " & CDate(Me.ParametrosReporte(1)).ToString("A dd De MMMM Del yyyy")
+
+    End Sub
+
+    'detail
+    Private Sub XrTableCell17_BeforePrint(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles XrTableCell17.BeforePrint
+        Dim row = GetCurrentRow()
+        If String.IsNullOrWhiteSpace(XrTableCell17.Text) Then
+            XrTableCell17.Text = ""
+            Exit Sub
+        End If
+        XrTableCell17.Text = Utils.GetMoneyWithISO4217(XrTableCell17.Text, If(String.IsNullOrEmpty(row?.CurrencyAbbreviation),
+                                             IndigoSessionValues.CurrencyISO4217, row?.CurrencyAbbreviation))
+    End Sub
+
+    Private Sub XrTableCell18_BeforePrint(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles XrTableCell18.BeforePrint
+        Dim row = GetCurrentRow()
+        If String.IsNullOrWhiteSpace(XrTableCell18.Text) Then
+            XrTableCell18.Text = ""
+            Exit Sub
+        End If
+        XrTableCell18.Text = Utils.GetMoneyWithISO4217(XrTableCell18.Text, If(String.IsNullOrEmpty(row.CurrencyAbbreviation),
+                                             IndigoSessionValues.CurrencyISO4217, row.CurrencyAbbreviation))
+    End Sub
+
+    'GroupFooter
+    Private Sub XrTableCell44_SummaryGetResult(sender As Object, e As DevExpress.XtraReports.UI.SummaryGetResultEventArgs) Handles XrTableCell44.SummaryGetResult, XrTableCell45.SummaryGetResult,
+                                                                                                                                   XrTableCell30.SummaryGetResult, XrTableCell29.SummaryGetResult,
+                                                                                                                                   XrTableCell27.SummaryGetResult, XrTableCell26.SummaryGetResult,
+                                                                                                                                   XrTableCell26.SummaryGetResult, XrTableCell23.SummaryGetResult,
+                                                                                                                                   XrTableCell24.SummaryGetResult, XrTableCell20.SummaryGetResult,
+                                                                                                                                   XrTableCell21.SummaryGetResult
+        Dim row = GetCurrentRow()
+        Dim total As Decimal = e.CalculatedValues.Cast(Of Object)().Where(Function(x) x IsNot Nothing AndAlso x IsNot DBNull.Value).Sum(Function(x) Convert.ToDecimal(x))
+        e.Result = Utils.GetMoneyWithISO4217(total, If(String.IsNullOrEmpty(row?.CurrencyAbbreviation),
+                                             IndigoSessionValues.CurrencyISO4217, row?.CurrencyAbbreviation))
+        e.Handled = True
+    End Sub
+
+    Private Sub reportfooter_beforeprint(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles ReportFooter.BeforePrint
+        Dim list As List(Of TreasuryVReportCashBookXpo) = Me.DataSource
+        Dim groupbycurrency = (From x In list.ToList()
+                               Group By x.CurrencyAbbreviation Into A = Group
+                               Select CurrencyAbbreviation,
+                                       ValueCheckTotal = A.Sum(Function(t) If(t.PaymentMethod = 2, t.ValueDebit, 0) - If(t.PaymentMethod = 2, t.ValueCredit, 0)),
+                                       ValueCardTotal = A.Sum(Function(t) If(t.PaymentMethod = 1, t.ValueDebit, 0) - If(t.PaymentMethod = 1, t.ValueCredit, 0)),
+                                       ValueNoteTotal = A.Sum(Function(t) If(t.PaymentMethod = 3, t.ValueDebit, 0) - If(t.PaymentMethod = 3, t.ValueCredit, 0)), '---
+                                       ValueEfectyTotal = A.Sum(Function(t) If(t.PaymentMethod = 4, t.ValueDebit, 0) - If(t.PaymentMethod = 4, t.ValueCredit, 0)),
+                                       ValueConsigmentTotal = A.Sum(Function(t) If(t.PaymentMethod = 5, t.ValueDebit, 0) - If(t.PaymentMethod = 5, t.ValueCredit, 0)),
+                                       ValueDebitCredit = Math.Round(A.Sum(Function(t) t.ValueDebit - t.ValueCredit), 2, MidpointRounding.AwayFromZero))
+
+        Dim index = groupbycurrency.Count
+        For Each objitem In groupbycurrency
+            XrTable7.InsertRowBelow(XrTable7.Rows.LastRow)
+            Dim irow = XrTable7.Rows.LastRow.Index
+            For Each column As XRTableCell In XrTableRow14
+                Dim cell = XrTable7.Rows(irow).Cells.Item(column.Index)
+                Select Case column.Name
+                    Case NameOf(XrTableCell60)
+                        cell.Text = $"({objitem.CurrencyAbbreviation})"
+                    Case NameOf(XrTableCell47) 'total cheque
+                        cell.Text = Utils.GetMoneyWithISO4217(objitem.ValueCheckTotal, If(String.IsNullOrEmpty(objitem.CurrencyAbbreviation),
+                                            IndigoSessionValues.CurrencyISO4217, objitem.CurrencyAbbreviation))
+                    Case NameOf(XrTableCell48) 'total Tarjeta
+                        cell.Text = Utils.GetMoneyWithISO4217(objitem.ValueCardTotal, If(String.IsNullOrEmpty(objitem.CurrencyAbbreviation),
+                                            IndigoSessionValues.CurrencyISO4217, objitem.CurrencyAbbreviation))
+                    Case NameOf(XrTableCell49) 'total Nota
+                        cell.Text = Utils.GetMoneyWithISO4217(objitem.ValueNoteTotal, If(String.IsNullOrEmpty(objitem.CurrencyAbbreviation),
+                                            IndigoSessionValues.CurrencyISO4217, objitem.CurrencyAbbreviation))
+                    Case NameOf(XrTableCell51) 'total Efectivo
+                        cell.Text = Utils.GetMoneyWithISO4217(objitem.ValueEfectyTotal, If(String.IsNullOrEmpty(objitem.CurrencyAbbreviation),
+                                            IndigoSessionValues.CurrencyISO4217, objitem.CurrencyAbbreviation))
+                    Case NameOf(XrTableCell52) 'total Consignaciones
+                        cell.Text = Utils.GetMoneyWithISO4217(objitem.ValueConsigmentTotal, If(String.IsNullOrEmpty(objitem.CurrencyAbbreviation),
+                                            IndigoSessionValues.CurrencyISO4217, objitem.CurrencyAbbreviation))
+                    Case NameOf(XrTableCell50) 'total saldo final
+                        cell.Text = Utils.GetMoneyWithISO4217(objitem.ValueDebitCredit, If(String.IsNullOrEmpty(objitem.CurrencyAbbreviation),
+                                            IndigoSessionValues.CurrencyISO4217, objitem.CurrencyAbbreviation))
+                End Select
+            Next
+        Next
+    End Sub
+
+End Class

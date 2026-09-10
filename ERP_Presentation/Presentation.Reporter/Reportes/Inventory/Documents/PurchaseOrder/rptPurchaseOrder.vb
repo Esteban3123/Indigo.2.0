@@ -1,0 +1,217 @@
+#Region "Librerias Improtadas"
+Imports Infrastructure.CrossCutting.Base
+Imports Infrastructure.Data.Xpo
+Imports Infrastructure.Data.Xpo.InventoryRepository
+Imports Domain.Entities
+Imports DevExpress.XtraReports.UI
+Imports System.Drawing.Printing
+Imports DevExpress.XtraReports.Parameters
+Imports Infrastructure.Data.Xpo.SecurityRepository
+Imports System.Globalization
+Imports Presentation.CloudAgent
+Imports Infrastructure.Data.Xpo.CommonRepository
+#End Region
+
+Public Class rptPurchaseOrder
+    Implements IReport
+
+    ''' <summary>
+    ''' Valor total de la transacción, incluyendo parte entera y decimal.
+    ''' </summary>
+    Private _totalValue As Decimal
+    ''' <summary>
+    ''' Parte entera del valor total de la transacción.
+    ''' </summary>
+    Private _integerPart As Long
+    ''' <summary>
+    ''' Parte decimal del valor total de la transacción, representada como entero.
+    ''' </summary>
+    Private _decimalPart As Integer
+
+    ''' <summary>
+    ''' Variable para inicializar los valores de sesion
+    ''' </summary>
+    Dim IndigoSessionValues As SessionValues = SessionValues.Instance
+    Dim CurrencyName As String
+    Dim CurrencyDecimal As String
+    Dim INDList As Object
+    Dim ISO4217 As Object
+
+    Public Sub CargarDataSource() Implements IReport.CargarDataSource
+        Dim filtroConsulta As String = "Id = " & ParametrosReporte(0)
+        INDList = XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).TreasuryService.GetCollection(Of InventoryPurchaseOrderReportXpo)(Nothing, filtroConsulta)
+        If INDList.Count > 0 Then
+
+            CurrencyName = UCase(CType(INDList(0), InventoryPurchaseOrderReportXpo)?.Currency.ISO4217Xpo.CurrencyName)
+            CurrencyDecimal = UCase(CType(INDList(0), InventoryPurchaseOrderReportXpo)?.Currency.ISO4217Xpo.CodeAbbreviation)
+            Dim INDNameUser = CType(INDList(0), InventoryPurchaseOrderReportXpo).CreationUser.Trim()
+            Dim INDListUser = XpoServiceEx.Instance(IndigoSessionValues.SecurityContainer).SecurityService.GetCollection(Of UserXpo)(Nothing, "UserCode = '" & INDNameUser & "'")
+            If INDListUser IsNot Nothing And INDListUser.Any() Then
+                Dim INDCodName = CType(INDListUser(0), UserXpo).CodeName.Trim
+                Me.INDUserCreate.Text = INDCodName
+            End If
+            If Not String.IsNullOrEmpty(Me.INDList(0).CurrencyId > 0) Then
+                Dim _culture As CultureInfo
+                _culture = CultureInfo.CurrentCulture.Clone()
+                Dim currency As Currency = IndigoConecta.Instancia.CurrentCloud.IndigoCommonERP.GetCurrencyById(Me.INDList(0).CurrencyId, SessionValues.Instance)
+                Dim round = currency.RoundingType
+                Dim _roundingType As Decimal
+                Select Case round
+                    Case 1
+                        _roundingType = 0.01
+                    Case 2
+                        _roundingType = 0.1
+                    Case 3
+                        _roundingType = 1
+                    Case 4
+                        _roundingType = 10
+                    Case 5
+                        _roundingType = 100
+                    Case 6
+                        _roundingType = 1000
+                End Select
+                ''se actualiza el formato de los campos numericos en el formuario
+                Dim mask = Utils.MaskByCurrencyRounding(_roundingType, _culture.NumberFormat)
+                'Me.INDColIva.TextFormatString = "{0:C" + mask.ToString() + "}"
+                Me.INDCellIva.TextFormatString = "{0:C" + mask.ToString() + "}"
+                Me.INDCellTotal.TextFormatString = "{0:C" + mask.ToString() + "}"
+            End If
+        End If
+
+        Me.DataSource = INDList
+    End Sub
+
+    Public Sub CargarImagenes() Implements IReport.CargarImagenes
+
+    End Sub
+
+    Public ReadOnly Property NameReport As String Implements IReport.NameReport
+        Get
+            Return ""
+        End Get
+    End Property
+
+    Public Property ParametrosReporte As Object() Implements IReport.ParametrosReporte
+    Private Sub rptPurchaseOrder_BeforePrint(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles MyBase.BeforePrint
+
+        INDLblCompany.Text = IndigoSessionValues.IndigoCompanyName
+
+        If Me.Parameters.Count > 0 And Me.Parameters(0).Value > 0 Then
+            Dim ParametrosFilter As ParameterCollection = Me.Parameters
+            ParametrosReporte = New Object() {ParametrosFilter("INDIdOrderSubreport").Value}
+            CargarDataSource()
+        End If
+
+        If INDList.Count > 0 Then
+            Dim address, phoneNumber, codeips As String
+            'cargar direccion, telefono y codigo ips
+            If INDList(0)?.OperatingUnitId IsNot Nothing AndAlso INDList(0).OperatingUnitId <> 0 Then
+                Dim operatingUnit = XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).CommonService.ListOperatingUnitById(INDList(0).OperatingUnitId)
+                address = operatingUnit(0).Address
+                phoneNumber = operatingUnit(0).Phone
+                codeips = operatingUnit(0).IPSCode
+            Else
+                address = "No asignada(o)"
+                phoneNumber = "No asignada(o)"
+                codeips = "No asignada(o)"
+            End If
+
+            If INDList(0).Inventory_PurchaseOrderDetails Is Nothing OrElse INDList(0).Inventory_PurchaseOrderDetails.Count = 0 Then
+                XrTable1.Visible = False
+                DetailReport.Visible = False
+            End If
+
+            INDLblNitCompany.Text = "Nit:" & IndigoSessionValues.IndigoCompanyNit & " - Dirección: " & address &
+                                " - Teléfono: " & phoneNumber & " - Código IPS: " & codeips
+        End If
+
+        INDUserImp.Text = "Usuario Impresión : " & IndigoSessionValues.UserIndigo & " - " & IndigoSessionValues.UserIndigoName
+
+        '''validacion para mostrar el tipo de metodo de pago
+        If (CType(INDList(0), InventoryPurchaseOrderReportXpo)?.TypePaymentMethod = 0) Then
+            Select Case UCase(CType(INDList(0), InventoryPurchaseOrderReportXpo)?.PaymentMethod)
+                Case "CONTADO"
+                    INDClPaymentMethods.Text = "CONTADO"
+                Case "CREDITO"
+                    INDClPaymentMethods.Text = "CREDITO"
+                Case Else
+                    INDClPaymentMethods.Text = "CONTADO"
+            End Select
+        Else
+            Select Case UCase(CType(INDList(0), InventoryPurchaseOrderReportXpo)?.TypePaymentMethod)
+                Case 1
+                    INDClPaymentMethods.Text = "CONTADO"
+                Case 2
+                    INDClPaymentMethods.Text = "CREDITO"
+                Case Else
+                    INDClPaymentMethods.Text = "CONTADO"
+            End Select
+        End If
+
+        'obtiene la parte escrita del valor
+        'Se obtiene el nombre de la moneda desde la tabla de iso4217
+        _totalValue = Convert.ToDecimal(CType(INDList(0), InventoryPurchaseOrderReportXpo)?.TotalValue)
+        _integerPart = CLng(Math.Truncate(_totalValue))
+        _decimalPart = CInt((_totalValue - _integerPart) * 100)
+
+        Dim _culture As CultureInfo
+        If Me.DataSource IsNot Nothing AndAlso Not String.IsNullOrEmpty(Me.DataSource(0).Currency.Abbreviation) Then
+            _culture = CultureInfo.CurrentCulture.Clone()
+            Dim CurrencyAbbreviation As String = Me.DataSource?(0).Currency.Abbreviation
+            _culture.NumberFormat = CurrencyAbbreviation.GetNumberFormat
+            ApplyLocalization(_culture)
+        End If
+
+        Me.INDCllValueTotalInvoiceLetters.Text = String.Format("{0} {1}{2}",
+                                                  Utils.Num2Text(_integerPart).ToString,
+                                                   CurrencyName,
+                                                  If(_decimalPart > 0, $", CON {Utils.Num2Text(_decimalPart).ToString } {Utils.ListDecimalCurrency(CurrencyDecimal)}", ""))
+
+        '' En caso de que no tenga jerarquia se eliminan los campos de la rejilla
+        Dim detailsWithHier = (CType(INDList(0), InventoryPurchaseOrderReportXpo))?.Inventory_PurchaseOrderDetails
+        Dim data = From item In detailsWithHier Where item.HierarchyQuantity > 0 Select item
+        If data Is Nothing OrElse Not data.Any() Then
+            ' Obtain the table instance where the cell is located
+            XrTableCell50.Row?.Cells?.Remove(XrTableCell50)
+            XrTableCell46.Row?.Cells?.Remove(XrTableCell46)
+            XrTableCell51.Row?.Cells?.Remove(XrTableCell51)
+            XrTableCell49.Row?.Cells?.Remove(XrTableCell49)
+        End If
+    End Sub
+
+    Private Sub XrTableCell29_BeforePrint(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles XrTableCell29.BeforePrint
+        Dim row = GetCurrentRow()
+        XrTableCell29.Text = Utils.GetMoneyWithISO4217(XrTableCell29.Text, If(String.IsNullOrEmpty(row.CurrencyAbbreviation),
+                                             IndigoSessionValues.CurrencyISO4217, row.CurrencyAbbreviation))
+    End Sub
+
+    Private Sub XrTableCell30_BeforePrint(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles XrTableCell30.BeforePrint
+        Dim row = GetCurrentRow()
+        XrTableCell30.Text = Utils.GetMoneyWithISO4217(XrTableCell30.Text, If(String.IsNullOrEmpty(row.CurrencyAbbreviation),
+                                             IndigoSessionValues.CurrencyISO4217, row.CurrencyAbbreviation))
+    End Sub
+
+    Private Sub XrTableCell39_BeforePrint(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles XrTableCell39.BeforePrint
+        Dim row = GetCurrentRow()
+        XrTableCell39.Text = Utils.GetMoneyWithISO4217(XrTableCell39.Text, If(String.IsNullOrEmpty(row.CurrencyAbbreviation),
+                                             IndigoSessionValues.CurrencyISO4217, row.CurrencyAbbreviation))
+    End Sub
+
+    Private Sub XrTableCell34_BeforePrint(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles XrTableCell34.BeforePrint
+        Dim row = GetCurrentRow()
+        XrTableCell34.Text = Utils.GetMoneyWithISO4217(XrTableCell34.Text, If(String.IsNullOrEmpty(row.CurrencyAbbreviation),
+                                             IndigoSessionValues.CurrencyISO4217, row.CurrencyAbbreviation))
+    End Sub
+
+    Private Sub INDCellIva_BeforePrint(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles INDCellIva.BeforePrint
+        Dim row = GetCurrentRow()
+        INDCellIva.Text = Utils.GetMoneyWithISO4217(INDCellIva.Text, If(String.IsNullOrEmpty(row.CurrencyAbbreviation),
+                                             IndigoSessionValues.CurrencyISO4217, row.CurrencyAbbreviation))
+    End Sub
+
+    Private Sub INDCellTotal_BeforePrint(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles INDCellTotal.BeforePrint
+        Dim row = GetCurrentRow()
+        INDCellTotal.Text = Utils.GetMoneyWithISO4217(INDCellTotal.Text, If(String.IsNullOrEmpty(row.CurrencyAbbreviation),
+                                             IndigoSessionValues.CurrencyISO4217, row.CurrencyAbbreviation))
+    End Sub
+End Class

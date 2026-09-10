@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://schemas.datacontract.org/2004/07/" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import schemaLocation="http://localhost:9010/Treasury.svc?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/Domain.Entities" />
+  <xs:complexType name="ArrayOfPendingItemsToReconciled">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="PendingItemsToReconciled" nillable="true" type="tns:PendingItemsToReconciled" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfPendingItemsToReconciled" nillable="true" type="tns:ArrayOfPendingItemsToReconciled" />
+  <xs:complexType name="PendingItemsToReconciled">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Checked" type="xs:boolean" />
+      <xs:element minOccurs="0" name="DocumentDate" type="xs:dateTime" />
+      <xs:element xmlns:q1="http://schemas.datacontract.org/2004/07/Domain.Entities" minOccurs="0" name="DocumentDetail" nillable="true" type="q1:BankReconciliationAutomaticDetail" />
+      <xs:element minOccurs="0" name="DocumentType" type="xs:int" />
+      <xs:element xmlns:q2="http://schemas.datacontract.org/2004/07/Domain.Entities" minOccurs="0" name="ExtractDetail" nillable="true" type="q2:BankReconciliationAutomaticExtractDetail" />
+      <xs:element minOccurs="0" name="Nature" type="xs:unsignedByte" />
+      <xs:element minOccurs="0" name="Origin" type="xs:unsignedByte" />
+      <xs:element minOccurs="0" name="ReconciledStatus" type="xs:unsignedByte" />
+      <xs:element minOccurs="0" name="Value" type="xs:decimal" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="PendingItemsToReconciled" nillable="true" type="tns:PendingItemsToReconciled" />
+  <xs:complexType name="ArrayOfBankReconciliationCoincidencesResult">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="BankReconciliationCoincidencesResult" nillable="true" type="tns:BankReconciliationCoincidencesResult" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfBankReconciliationCoincidencesResult" nillable="true" type="tns:ArrayOfBankReconciliationCoincidencesResult" />
+  <xs:complexType name="BankReconciliationCoincidencesResult">
+    <xs:sequence>
+      <xs:element xmlns:q3="http://schemas.datacontract.org/2004/07/Domain.Entities" minOccurs="0" name="Associations" nillable="true" type="q3:ArrayOfBankReconciliationAutomaticAssociation" />
+      <xs:element xmlns:q4="http://schemas.datacontract.org/2004/07/Domain.Entities" minOccurs="0" name="Documents" nillable="true" type="q4:ArrayOfBankReconciliationAutomaticDetail" />
+      <xs:element xmlns:q5="http://schemas.datacontract.org/2004/07/Domain.Entities" minOccurs="0" name="Extracts" nillable="true" type="q5:ArrayOfBankReconciliationAutomaticExtractDetail" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="BankReconciliationCoincidencesResult" nillable="true" type="tns:BankReconciliationCoincidencesResult" />
+</xs:schema>

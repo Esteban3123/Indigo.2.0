@@ -1,0 +1,487 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\NUnit.3.13.1\build\NUnit.props" Condition="Exists('..\packages\NUnit.3.13.1\build\NUnit.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{7A3BC462-013F-43DD-8E3B-8919576D312C}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>Application.Inventory.Test</RootNamespace>
+    <AssemblyName>Application.Inventory.Test</AssemblyName>
+    <FileAlignment>512</FileAlignment>
+    <MyType>Windows</MyType>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{F184B08F-C81C-45F6-A57F-5ABD9991F28F}</ProjectTypeGuids>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+    <ReferencePath>$(ProgramFiles)\Common Files\microsoft shared\VSTT\$(VisualStudioVersion)\UITestExtensionPackages</ReferencePath>
+    <IsCodedUITest>False</IsCodedUITest>
+    <TestProjectType>UnitTest</TestProjectType>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DocumentationFile>Application.Inventory.Test.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DocumentationFile>Application.Inventory.Test.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionExplicit>On</OptionExplicit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionCompare>Binary</OptionCompare>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionStrict>Off</OptionStrict>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionInfer>On</OptionInfer>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\DLL\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer">
+      <HintPath>..\DLL\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Unity">
+      <HintPath>..\DLL\Microsoft.Practices.Unity.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\DLL\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="nunit.framework, Version=3.13.1.0, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
+      <HintPath>..\packages\NUnit.3.13.1\lib\net45\nunit.framework.dll</HintPath>
+    </Reference>
+    <Reference Include="SpecRun.SpecFlowPlugin, Version=1.6.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\SpecRun.SpecFlow.2-2-0.1.6.0\lib\net45\SpecRun.SpecFlowPlugin.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Transactions" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="TechTalk.SpecFlow, Version=2.2.0.0, Culture=neutral, PublicKeyToken=0778194805d6db41, processorArchitecture=MSIL">
+      <HintPath>..\packages\SpecFlow.2.2.0\lib\net45\TechTalk.SpecFlow.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="TechTalk.SpecRun, Version=1.6.0.0, Culture=neutral, PublicKeyToken=d0fc5cc18b3b389b, processorArchitecture=MSIL">
+      <HintPath>..\packages\SpecRun.SpecFlow.2-2-0.1.6.0\lib\net45\TechTalk.SpecRun.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="TechTalk.SpecRun.Common, Version=1.6.0.0, Culture=neutral, PublicKeyToken=d0fc5cc18b3b389b, processorArchitecture=MSIL">
+      <HintPath>..\packages\SpecRun.SpecFlow.2-2-0.1.6.0\lib\net45\TechTalk.SpecRun.Common.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+  </ItemGroup>
+  <Choose>
+    <When Condition="('$(VisualStudioVersion)' == '10.0' or '$(VisualStudioVersion)' == '') and '$(TargetFrameworkVersion)' == 'v3.5'">
+      <ItemGroup>
+        <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
+      </ItemGroup>
+    </When>
+    <Otherwise>
+      <ItemGroup>
+        <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework" />
+      </ItemGroup>
+    </Otherwise>
+  </Choose>
+  <ItemGroup>
+    <Import Include="Microsoft.VisualBasic" />
+    <Import Include="System" />
+    <Import Include="System.Collections" />
+    <Import Include="System.Collections.Generic" />
+    <Import Include="System.Data" />
+    <Import Include="System.Diagnostics" />
+    <Import Include="System.Linq" />
+    <Import Include="System.Xml.Linq" />
+    <Import Include="System.Threading.Tasks" />
+    <Import Include="Microsoft.VisualStudio.TestTools.UnitTesting" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Features\SaveAndConfirmEntranceVoucher\SaveAndConfirmEntranceVoucher.feature.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SaveAndConfirmEntranceVoucher.feature</DependentUpon>
+    </Compile>
+    <Compile Include="Features\SaveAndConfirmEntranceVoucher\SaveAndConfirmEntranceVoucher02.feature.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SaveAndConfirmEntranceVoucher02.feature</DependentUpon>
+    </Compile>
+    <Compile Include="Features\SaveAndConfirmEntranceVoucher\SaveAndConfirmEntranceVoucher03.feature.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SaveAndConfirmEntranceVoucher03.feature</DependentUpon>
+    </Compile>
+    <Compile Include="Features\SaveAndConfirmEntranceVoucher\SaveAndConfirmEntranceVoucher04.feature.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SaveAndConfirmEntranceVoucher04.feature</DependentUpon>
+    </Compile>
+    <Compile Include="Features\SaveAndConfirmEntranceVoucher\SaveAndConfirmEntranceVoucher05.feature.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SaveAndConfirmEntranceVoucher05.feature</DependentUpon>
+    </Compile>
+    <Compile Include="Features\SaveAndConfirmEntranceVoucher\SaveAndConfirmEntranceVoucher06.feature.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SaveAndConfirmEntranceVoucher06.feature</DependentUpon>
+    </Compile>
+    <Compile Include="Features\SaveAndConfirmEntranceVoucher\SaveAndConfirmEntranceVoucher07.feature.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SaveAndConfirmEntranceVoucher07.feature</DependentUpon>
+    </Compile>
+    <Compile Include="Features\SaveAndConfirmEntranceVoucher\SaveAndConfirmEntranceVoucher08.feature.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SaveAndConfirmEntranceVoucher08.feature</DependentUpon>
+    </Compile>
+    <Compile Include="Features\SaveAndConfirmPharmaceuticalDispensing\SaveAndConfirmPharmaceuticalDispensing.feature.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SaveAndConfirmPharmaceuticalDispensing.feature</DependentUpon>
+    </Compile>
+    <Compile Include="Features\SaveAndConfirmTransferOrder\SaveAndConfirmTransferOrder.feature.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SaveAndConfirmTransferOrder.feature</DependentUpon>
+    </Compile>
+    <Compile Include="Features\SaveAndConfirmTransferOrder\SaveAndConfirmTransferOrder02.feature.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SaveAndConfirmTransferOrder02.feature</DependentUpon>
+    </Compile>
+    <Compile Include="Features\SaveAndConfirmTransferOrder\SaveAndConfirmTransferOrder03.feature.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SaveAndConfirmTransferOrder03.feature</DependentUpon>
+    </Compile>
+    <Compile Include="Features\SaveAndConfirmTransferOrder\SaveAndConfirmTransferOrder04.feature.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SaveAndConfirmTransferOrder04.feature</DependentUpon>
+    </Compile>
+    <Compile Include="Features\SaveAndConfirmTransferOrder\SaveAndConfirmTransferOrder05.feature.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SaveAndConfirmTransferOrder05.feature</DependentUpon>
+    </Compile>
+    <Compile Include="Features\SaveAndConfirmTransferOrder\SaveAndConfirmTransferOrder06.feature.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SaveAndConfirmTransferOrder06.feature</DependentUpon>
+    </Compile>
+    <Compile Include="Features\SaveAndConfirmTransferOrder\SaveAndConfirmTransferOrder07.feature.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SaveAndConfirmTransferOrder07.feature</DependentUpon>
+    </Compile>
+    <Compile Include="Features\SaveAndConfirmTransferOrder\SaveAndConfirmTransferOrder08.feature.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SaveAndConfirmTransferOrder08.feature</DependentUpon>
+    </Compile>
+    <Compile Include="Features\SaveEntranceVoucher\SaveEntranceVoucher.feature.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SaveEntranceVoucher.feature</DependentUpon>
+    </Compile>
+    <Compile Include="Features\SaveEntranceVoucher\SaveEntranceVoucher02.feature.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SaveEntranceVoucher02.feature</DependentUpon>
+    </Compile>
+    <Compile Include="Features\SaveEntranceVoucher\SaveEntranceVoucher03.feature.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SaveEntranceVoucher03.feature</DependentUpon>
+    </Compile>
+    <Compile Include="Features\SaveEntranceVoucher\SaveEntranceVoucher04.feature.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SaveEntranceVoucher04.feature</DependentUpon>
+    </Compile>
+    <Compile Include="Features\SaveEntranceVoucher\SaveEntranceVoucher05.feature.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SaveEntranceVoucher05.feature</DependentUpon>
+    </Compile>
+    <Compile Include="Features\SaveEntranceVoucher\SaveEntranceVoucher06.feature.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SaveEntranceVoucher06.feature</DependentUpon>
+    </Compile>
+    <Compile Include="Features\SaveEntranceVoucher\SaveEntranceVoucher07.feature.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SaveEntranceVoucher07.feature</DependentUpon>
+    </Compile>
+    <Compile Include="Features\SaveEntranceVoucher\SaveEntranceVoucher08.feature.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SaveEntranceVoucher08.feature</DependentUpon>
+    </Compile>
+    <Compile Include="InventoryContext.vb" />
+    <Compile Include="My Project\AssemblyInfo.vb" />
+    <Compile Include="My Project\Application.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Application.myapp</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="My Project\Resources.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="My Project\Settings.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="TestingContext.vb" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="My Project\Resources.resx">
+      <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.vb</LastGenOutput>
+      <CustomToolNamespace>My.Resources</CustomToolNamespace>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="Default.srprofile">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Features\SaveAndConfirmEntranceVoucher\SaveAndConfirmEntranceVoucher.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>SaveAndConfirmEntranceVoucher.feature.vb</LastGenOutput>
+    </None>
+    <None Include="Features\SaveAndConfirmEntranceVoucher\SaveAndConfirmEntranceVoucher02.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>SaveAndConfirmEntranceVoucher02.feature.vb</LastGenOutput>
+    </None>
+    <None Include="Features\SaveAndConfirmEntranceVoucher\SaveAndConfirmEntranceVoucher03.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>SaveAndConfirmEntranceVoucher03.feature.vb</LastGenOutput>
+    </None>
+    <None Include="Features\SaveAndConfirmEntranceVoucher\SaveAndConfirmEntranceVoucher04.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>SaveAndConfirmEntranceVoucher04.feature.vb</LastGenOutput>
+    </None>
+    <None Include="Features\SaveAndConfirmEntranceVoucher\SaveAndConfirmEntranceVoucher05.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>SaveAndConfirmEntranceVoucher05.feature.vb</LastGenOutput>
+    </None>
+    <None Include="Features\SaveAndConfirmEntranceVoucher\SaveAndConfirmEntranceVoucher06.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>SaveAndConfirmEntranceVoucher06.feature.vb</LastGenOutput>
+    </None>
+    <None Include="Features\SaveAndConfirmEntranceVoucher\SaveAndConfirmEntranceVoucher07.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>SaveAndConfirmEntranceVoucher07.feature.vb</LastGenOutput>
+    </None>
+    <None Include="Features\SaveAndConfirmEntranceVoucher\SaveAndConfirmEntranceVoucher08.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>SaveAndConfirmEntranceVoucher08.feature.vb</LastGenOutput>
+    </None>
+    <None Include="Features\SaveAndConfirmPharmaceuticalDispensing\SaveAndConfirmPharmaceuticalDispensing.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>SaveAndConfirmPharmaceuticalDispensing.feature.vb</LastGenOutput>
+    </None>
+    <None Include="Features\SaveAndConfirmTransferOrder\SaveAndConfirmTransferOrder.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>SaveAndConfirmTransferOrder.feature.vb</LastGenOutput>
+    </None>
+    <None Include="Features\SaveAndConfirmTransferOrder\SaveAndConfirmTransferOrder02.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>SaveAndConfirmTransferOrder02.feature.vb</LastGenOutput>
+    </None>
+    <None Include="Features\SaveAndConfirmTransferOrder\SaveAndConfirmTransferOrder03.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>SaveAndConfirmTransferOrder03.feature.vb</LastGenOutput>
+    </None>
+    <None Include="Features\SaveAndConfirmTransferOrder\SaveAndConfirmTransferOrder04.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>SaveAndConfirmTransferOrder04.feature.vb</LastGenOutput>
+    </None>
+    <None Include="Features\SaveAndConfirmTransferOrder\SaveAndConfirmTransferOrder05.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>SaveAndConfirmTransferOrder05.feature.vb</LastGenOutput>
+    </None>
+    <None Include="Features\SaveAndConfirmTransferOrder\SaveAndConfirmTransferOrder06.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>SaveAndConfirmTransferOrder06.feature.vb</LastGenOutput>
+    </None>
+    <None Include="Features\SaveAndConfirmTransferOrder\SaveAndConfirmTransferOrder07.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>SaveAndConfirmTransferOrder07.feature.vb</LastGenOutput>
+    </None>
+    <None Include="Features\SaveAndConfirmTransferOrder\SaveAndConfirmTransferOrder08.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>SaveAndConfirmTransferOrder08.feature.vb</LastGenOutput>
+    </None>
+    <None Include="Features\SaveEntranceVoucher\SaveEntranceVoucher.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>SaveEntranceVoucher.feature.vb</LastGenOutput>
+    </None>
+    <None Include="Features\SaveEntranceVoucher\SaveEntranceVoucher02.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>SaveEntranceVoucher02.feature.vb</LastGenOutput>
+    </None>
+    <None Include="Features\SaveEntranceVoucher\SaveEntranceVoucher03.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>SaveEntranceVoucher03.feature.vb</LastGenOutput>
+    </None>
+    <None Include="Features\SaveEntranceVoucher\SaveEntranceVoucher04.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>SaveEntranceVoucher04.feature.vb</LastGenOutput>
+    </None>
+    <None Include="Features\SaveEntranceVoucher\SaveEntranceVoucher05.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>SaveEntranceVoucher05.feature.vb</LastGenOutput>
+    </None>
+    <None Include="Features\SaveEntranceVoucher\SaveEntranceVoucher06.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>SaveEntranceVoucher06.feature.vb</LastGenOutput>
+    </None>
+    <None Include="Features\SaveEntranceVoucher\SaveEntranceVoucher07.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>SaveEntranceVoucher07.feature.vb</LastGenOutput>
+    </None>
+    <None Include="Features\SaveEntranceVoucher\SaveEntranceVoucher08.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>SaveEntranceVoucher08.feature.vb</LastGenOutput>
+    </None>
+    <None Include="My Project\Application.myapp">
+      <Generator>MyApplicationCodeGenerator</Generator>
+      <LastGenOutput>Application.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="My Project\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <CustomToolNamespace>My</CustomToolNamespace>
+      <LastGenOutput>Settings.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="packages.config" />
+    <None Include="runtests.cmd" />
+    <None Include="SpecRunTestProfile.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="SpecRunTestProfile_2011_09.xsd">
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Application.Inventory\Application.Inventory.csproj">
+      <Project>{355F1DEE-04D6-492C-8BBF-22B00E19AC79}</Project>
+      <Name>Application.Inventory</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DistributedServices.Inventory\DistributedServices.Inventory.csproj">
+      <Project>{9a533c87-745e-46ff-b7c2-d4ef253d0fdd}</Project>
+      <Name>DistributedServices.Inventory</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Domain.Base.Entities\Domain.Base.Entities.vbproj">
+      <Project>{78734D29-0073-4D48-9D0B-2362D0243E36}</Project>
+      <Name>Domain.Base.Entities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Domain.Base\Domain.Base.vbproj">
+      <Project>{8157F242-6A69-44C1-A9AC-19F0EE5CB8A2}</Project>
+      <Name>Domain.Base</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Domain.Entities\Domain.Entities.vbproj">
+      <Project>{0551AEF4-ED84-4745-B00B-7475F26015CC}</Project>
+      <Name>Domain.Entities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastructure.CrossCutting.Audit\Infrastructure.CrossCutting.Audit.vbproj">
+      <Project>{D2B2306D-6404-46CD-8A22-F827F3E1B75C}</Project>
+      <Name>Infrastructure.CrossCutting.Audit</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastructure.CrossCutting.Base\Infrastructure.CrossCutting.Base.vbproj">
+      <Project>{2773D9F7-93BD-4520-9726-BCE0D8875696}</Project>
+      <Name>Infrastructure.CrossCutting.Base</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastructure.CrossCutting.Resources\Infrastructure.CrossCutting.Resources.vbproj">
+      <Project>{134F5B02-EBA4-4414-BB62-BF5D55E2B906}</Project>
+      <Name>Infrastructure.CrossCutting.Resources</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastructure.Data.Base\Infrastructure.Data.Base.vbproj">
+      <Project>{69C4FE61-549B-42E8-ADAC-18D1CFC83FED}</Project>
+      <Name>Infrastructure.Data.Base</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastructure.Data.ModelRepository\Infrastructure.Data.ModelRepository.vbproj">
+      <Project>{A029EE5D-D97C-45A3-A213-43E17D1DBE0D}</Project>
+      <Name>Infrastructure.Data.ModelRepository</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Steps\SaveEntranceVoucher\SaveEntranceVoucherSteps.vb" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Steps\SaveAndConfirmPharmaceuticalDispensing\SaveAndConfirmPharmaceuticalDispensingSteps.vb" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Steps\SaveAndConfirmTransferOrder\SaveAndConfirmTransferOrderSteps.vb" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Steps\SaveAndConfirmEntranceVoucher\SaveAndConfirmEntranceVoucherSteps.vb" />
+  </ItemGroup>
+  <Choose>
+    <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
+      <ItemGroup>
+        <Reference Include="Microsoft.VisualStudio.QualityTools.CodedUITestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+          <Private>False</Private>
+        </Reference>
+        <Reference Include="Microsoft.VisualStudio.TestTools.UITest.Common, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+          <Private>False</Private>
+        </Reference>
+        <Reference Include="Microsoft.VisualStudio.TestTools.UITest.Extension, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+          <Private>False</Private>
+        </Reference>
+        <Reference Include="Microsoft.VisualStudio.TestTools.UITesting, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+          <Private>False</Private>
+        </Reference>
+      </ItemGroup>
+    </When>
+  </Choose>
+  <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>Este proyecto hace referencia a los paquetes NuGet que faltan en este equipo. Use la restauración de paquetes NuGet para descargarlos. Para obtener más información, consulte http://go.microsoft.com/fwlink/?LinkID=322105. El archivo que falta es {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\NUnit.3.13.1\build\NUnit.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\NUnit.3.13.1\build\NUnit.props'))" />
+  </Target>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

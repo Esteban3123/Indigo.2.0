@@ -1,0 +1,95 @@
+﻿#Region "Imports"
+
+Imports Infrastructure.CrossCutting.Base
+Imports Presentation.Base
+Imports Presentation.CloudAgent
+
+#End Region
+
+Public Class rptReportBudgetExecutionIncome
+    Implements IReport
+    Implements IReportAsync
+
+#Region "Properties"
+
+    ''' <summary>
+    ''' Variable para inicializar los valores de sesion
+    ''' </summary>
+    Dim IndigoSessionValues As SessionValues = SessionValues.Instance
+
+    Dim criterias As Dictionary(Of String, String)
+
+    ''' <summary>
+    ''' Variable par obtener la tabla de Trazabilidad
+    ''' </summary>
+    Dim dtReportBudgetExecutionIncome As DataTable
+
+    Public Property ParametrosReporte As Object() Implements IReport.ParametrosReporte
+
+    Public ReadOnly Property NameReport As String Implements IReport.NameReport
+        Get
+            Return ""
+        End Get
+    End Property
+
+#End Region
+
+#Region "Load Data"
+
+    Public Sub CargarDataSource() Implements IReport.CargarDataSource
+
+    End Sub
+
+    Public Async Function CargarDataSourceAsync() As Task Implements IReportAsync.CargarDataSourceAsync
+        Try
+            criterias = ParametrosReporte(0)
+
+            Dim ds As DataSet = Await IndigoConecta.Instancia.CurrentCloud.IndigoBudget.GetListReportBudgetExecutionIncomeAsync(criterias, Me.IndigoSessionValues)
+            If ds IsNot Nothing Then
+                dtReportBudgetExecutionIncome = ds.Tables("ReportBudgetExcutionIncome")
+                Me.DataSource = dtReportBudgetExecutionIncome
+                Me.DataMember = "ReportBudgetExcutionIncome"
+            Else
+                Me.DataSource = Nothing
+            End If
+        Catch ex As Exception
+            MessageIndigo.Show(GetExceptionDetails(ex), MessageType.Errores, Me.Text, Botones.Aceptar, "")
+        End Try
+    End Function
+
+#End Region
+
+#Region "Methods"
+
+    Private Sub rptReportBudgetExecutionIncome_BeforePrint(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles MyBase.BeforePrint
+        Me.INDPrmCodeToUse.Value = criterias("CodeToUse")
+
+        If INDPrmCodeToUse.Value = 3 Then
+            INDLblCode.WidthF = INDLblCode.SizeF.Width + INDLblRevenueType.SizeF.Width
+            INDLblRevenueType.Visible = False
+            INDColRevenueType.Visible = False
+        End If
+
+        Me.INDLblCompany.Text = IndigoSessionValues.IndigoCompanyName
+        Me.INDLblNitCompany.Text = "Nit:" & IndigoSessionValues.IndigoCompanyNit
+        Me.INDLblBudgetaryValidity.Text = "Vigencia " & criterias("Year")
+        Me.INDLblReportData.Text = "Informe Del Mes De " & CDate("01/" & criterias("Month") & "/" & criterias("Year")).ToString("MMMM")
+        Me.INDUserImp.Text = "Usuario Impresión : " & IndigoSessionValues.UserIndigo & " - " & IndigoSessionValues.UserIndigoName
+    End Sub
+
+    Public Sub CargarImagenes() Implements IReport.CargarImagenes
+
+    End Sub
+
+    Public Function GetExceptionDetails(exception As Exception) As String
+        Dim properties = exception.[GetType]().GetProperties()
+        Dim fields = properties.[Select](Function([property]) New With {
+            Key .Name = [property].Name,
+            Key .Value = [property].GetValue(exception, Nothing)
+        }).[Select](Function(x) [String].Format("{0} : {1}", x.Name, If(x.Value IsNot Nothing, x.Value.ToString(), [String].Empty)))
+        Return [String].Join(vbLf, fields)
+    End Function
+
+#End Region
+
+End Class

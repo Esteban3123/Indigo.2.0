@@ -1,0 +1,90 @@
+#Region "Imports"
+
+Imports DevExpress.XtraReports.Parameters
+Imports Infrastructure.CrossCutting.Base
+Imports Infrastructure.Data.Xpo
+Imports Infrastructure.Data.Xpo.InventoryRepository
+Imports Infrastructure.Data.Xpo.SecurityRepository
+
+#End Region
+
+Public Class rptInventoryContractModification
+    Implements IReport
+
+#Region "Properties"
+
+    ''' <summary>
+    ''' Variable para inicializar los valores de sesion
+    ''' </summary>
+    Dim IndigoSessionValues As SessionValues = SessionValues.Instance
+
+    Dim INDList As Object
+
+    Public Property ParametrosReporte As Object() Implements IReport.ParametrosReporte
+
+    Public ReadOnly Property NameReport As String Implements IReport.NameReport
+        Get
+            Return ""
+        End Get
+    End Property
+
+#End Region
+
+#Region "Load Data"
+
+    Public Sub CargarDataSource() Implements IReport.CargarDataSource
+        Dim filtroConsulta As String = "Id = " & ParametrosReporte(0)
+        INDList = XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).InventoryService.GetCollection(Of InventoryContractModificationReportXpo)(Nothing, filtroConsulta)
+        If INDList.Count > 0 Then
+            Dim INDNameUser = CType(INDList(0), InventoryContractModificationReportXpo).CreationUser.Trim()
+            Dim INDListUser = XpoServiceEx.Instance(IndigoSessionValues.SecurityContainer).SecurityService.GetCollection(Of UserXpo)(Nothing, "UserCode = '" & INDNameUser & "'")
+            If INDListUser IsNot Nothing Then
+                Dim INDCodName = CType(INDListUser(0), UserXpo).CodeName.Trim
+                Me.INDUserCreate.Text = INDCodName
+            End If
+        End If
+
+        Me.DataSource = INDList
+    End Sub
+
+#End Region
+
+#Region "Methods"
+
+    Private Sub rptContractLiquidation_BeforePrint(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles MyBase.BeforePrint
+        INDLblCompany.Text = IndigoSessionValues.IndigoCompanyName
+
+        If Me.Parameters.Count > 0 And Me.Parameters(0).Value > 0 Then
+            Dim ParametrosFilter As ParameterCollection = Me.Parameters
+            ParametrosReporte = New Object() {ParametrosFilter("INDIdOrderSubreport").Value}
+            CargarDataSource()
+        End If
+
+        If INDList.Count > 0 Then
+            Dim address, phoneNumber, codeips As String
+            'cargar direccion, telefono y codigo ips
+            If INDList(0).OperatingUnitId IsNot Nothing AndAlso INDList(0).OperatingUnitId <> 0 Then
+                Dim operatingUnit = XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).CommonService.ListOperatingUnitById(INDList(0).OperatingUnitId)
+                address = operatingUnit(0).Address
+                phoneNumber = operatingUnit(0).Phone
+                codeips = operatingUnit(0).IPSCode
+            Else
+                address = "No asignada(o)"
+                phoneNumber = "No asignada(o)"
+                codeips = "No asignada(o)"
+            End If
+
+            INDLblNitCompany.Text = "Nit:" & IndigoSessionValues.IndigoCompanyNit & " - Dirección: " & address &
+                                " - Teléfono: " & phoneNumber & " - Código IPS: " & codeips
+        End If
+
+        INDUserImp.Text = "Usuario Impresión : " & IndigoSessionValues.UserIndigo & " - " & IndigoSessionValues.UserIndigoName
+    End Sub
+
+    Public Sub CargarImagenes() Implements IReport.CargarImagenes
+
+    End Sub
+
+#End Region
+
+End Class

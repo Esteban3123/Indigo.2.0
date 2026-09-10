@@ -1,0 +1,134 @@
+﻿'***********************************************************************
+' Assembly         : Infrastructure.CrossCutting.Updater
+' Author           : WalterSierra
+' Created          : 28-03-2011
+'
+' Last Modified By : Juan F. Tamayo
+' Last Modified On : 2013-02-27
+'
+' Copyright        : (c) . All rights reserved.
+'***********************************************************************
+
+#Region "Imports"
+Imports System.Reflection
+Imports System.IO
+Imports System.Windows.Forms
+Imports System.Runtime.InteropServices
+
+#End Region
+
+''' <summary>
+''' esta clase busca nuevas versiones de la aplicacion buscando en una ruta preestablecida
+''' </summary>
+Public NotInheritable Class IndigoUpdater
+
+    ''' <summary>
+    ''' Nombre del ensamblado
+    ''' </summary>
+    ''' <remarks></remarks>
+    Public Shared AssemblyName As String = "Indigo.Crystal.dll" '"Indigo Crystal.exe"
+    ''' <summary>
+    ''' Version del Ensamblado en la ruta de actualizaciones
+    ''' </summary>
+    Public Shared AssemblyVersion As String
+    ''' <summary>
+    ''' Ruta del servidor de actualizaciones
+    ''' </summary>
+    Public Shared PathUpdateServer As String
+    ''' <summary>
+    ''' Ruta al compilador NGen
+    ''' </summary>
+    Public Shared NGEN As String = System.IO.Path.Combine(If(Environment.Is64BitOperatingSystem, RuntimeEnvironment.GetRuntimeDirectory().Replace("Framework", "Framework64").Replace("Framework6464", "Framework64"), RuntimeEnvironment.GetRuntimeDirectory()), "ngen.exe")
+
+    ''' <summary>
+    ''' metodo como punto de netrada del assembly de actualizaciones
+    ''' </summary>
+    ''' <param name="args">los argumentos, debe ser la ruta de actualizaciones para que funcione.</param>
+    Public Shared Sub Main(args() As String)
+        If args.Length = 0 Then
+            MessageBox.Show("Ejecute " & AssemblyName & ", para realizar una actualización satisfactoria", My.Application.Info.AssemblyName, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            End
+        ElseIf args.Length <> 2 Then
+            MessageBox.Show("La cantidad de argumentos no es válida. Cantidad: " & args.Length, My.Application.Info.AssemblyName, MessageBoxButtons.OK, MessageBoxIcon.Error)
+            End
+        End If
+        'configuro las variables de entorno
+        EnvironmentVars(args(0), args(1))
+        'lanzo la aplicacion
+        Application.EnableVisualStyles()
+        Application.SetCompatibleTextRenderingDefault(False)
+        Application.Run(New FrmUpdater())
+    End Sub
+
+    ''' <summary>
+    ''' establezco las variables de entorno
+    ''' </summary>
+    ''' <param name="pathUpdates">la ruta del servidor de actualizaciones.</param>
+    Public Shared Sub EnvironmentVars(execName As String, pathUpdates As String)
+        PathUpdateServer = pathUpdates.Trim()
+        AssemblyName = execName.Trim()
+        'verificar si la ruta existe
+        If System.IO.Directory.Exists(pathUpdates) = False Then
+            If MessageBox.Show("No se Encuentra la Ruta: " & pathUpdates & ", Desea Continuar?", My.Application.Info.AssemblyName, MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) = DialogResult.Yes Then
+                RunAssembly()
+            End If
+            'termino la aplicacion
+            End
+        End If
+        'verficar si exite una version del assembly en el servidor
+        If Not File.Exists(System.IO.Path.Combine(pathUpdates, AssemblyName)) Then
+            If MessageBox.Show("No se Encuentra el Archivo: " & System.IO.Path.Combine(pathUpdates, AssemblyName) & ", Desea Continuar?", My.Application.Info.AssemblyName, MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) = DialogResult.Yes Then
+                RunAssembly()
+            End If
+            'termino la aplicacion
+            End
+        End If
+        'obtengo la version del servidor
+        AssemblyVersion = System.Diagnostics.FileVersionInfo.GetVersionInfo(System.IO.Path.Combine(pathUpdates, AssemblyName)).FileVersion
+    End Sub
+
+    ''' <summary>
+    ''' Realiza la optimización de ensamblados asíncronamente
+    ''' </summary>
+    ''' <returns>Valor que indica si se realizó exitosamente</returns>
+    Public Shared Function OptimizeAssemblyAsync() As Task(Of Boolean)
+        Return Task.Factory.StartNew(Of Boolean)(AddressOf OptimizeAssembly)
+    End Function
+
+    ''' <summary>
+    ''' Realiza la optimización de ensamblados
+    ''' </summary>
+    ''' <returns>Valor que indica si se realizó exitosamente</returns>
+    Public Shared Function OptimizeAssembly() As Boolean
+        Try
+            Dim p As New Process()
+            p.StartInfo.FileName = NGEN
+            p.StartInfo.CreateNoWindow = True
+            p.StartInfo.UseShellExecute = False
+            p.StartInfo.RedirectStandardOutput = True
+
+            'p.StartInfo.Arguments = (Convert.ToString("install """) & System.IO.Path.Combine(Application.StartupPath, AssemblyName)) + """"
+            p.StartInfo.Arguments = (Convert.ToString("install """) & String.Concat(Infrastructure.CrossCutting.Base.Utils.AppFolder(), AssemblyName)) + """"
+            p.Start()
+            p.WaitForExit()
+            Return True
+        Catch
+            Return False
+        End Try
+    End Function
+
+    ''' <summary>
+    ''' Lanzo el assembly principal
+    ''' </summary>
+    Public Shared Sub RunAssembly()
+        Dim myProcess As New Process()
+        myProcess.StartInfo.UseShellExecute = False
+        myProcess.StartInfo.WindowStyle = ProcessWindowStyle.Maximized
+        'myProcess.StartInfo.FileName = System.IO.Path.Combine(Application.StartupPath, AssemblyName)
+        myProcess.StartInfo.FileName = String.Concat(Infrastructure.CrossCutting.Base.Utils.AppFolder(), AssemblyName)
+        myProcess.StartInfo.CreateNoWindow = True
+        'Lanzando proceso
+        myProcess.Start()
+    End Sub
+
+End Class

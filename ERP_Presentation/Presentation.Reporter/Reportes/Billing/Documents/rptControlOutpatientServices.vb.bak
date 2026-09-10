@@ -1,0 +1,228 @@
+﻿#Region "Imports"
+Imports Infrastructure.CrossCutting.Base
+Imports Infrastructure.Data.Xpo
+Imports Infrastructure.Data.Xpo.BillingRepository
+Imports Infrastructure.Data.Xpo.CrystalRepository
+Imports Presentation.Base
+Imports DevExpress.XtraReports.UI
+Imports DevExpress.Xpo
+Imports Infrastructure.Data.Xpo.SecurityRepository
+
+#End Region
+
+Public Class rptControlOutpatientServices
+    Implements IReport
+
+    ''' <summary>
+    ''' Variable para inicializar los valores de sesion
+    ''' </summary>
+    Dim IndigoSessionValues As SessionValues = SessionValues.Instance
+    Private INDUser As Object
+
+    Public Sub CargarDataSourceAsync()
+        Try
+            If ParametrosReporte.Count > 1 Then
+                ParametrosReporte(0) = ParametrosReporte(1)
+            End If
+
+            Dim IndList = XpoServiceEx.Instance(IndigoSessionValues.HisContainer).CrystalService.ListAdmissionsToReport(ParametrosReporte(0))
+            Me.DataSource = IndList
+        Catch ex As Exception
+            MessageIndigo.Show(GetExceptionDetails(ex), MessageType.Errores, Me.Text, Botones.Aceptar, "")
+        End Try
+    End Sub
+
+    Public Sub CargarDataSource() Implements IReport.CargarDataSource
+        Try
+            If ParametrosReporte.Count > 1 Then
+                ParametrosReporte(0) = ParametrosReporte(1)
+            End If
+
+            Dim IndList As XPCollection(Of VAdmission) = XpoServiceEx.Instance(IndigoSessionValues.HisContainer).CrystalService.ListAdmissionsToReport(ParametrosReporte(0))
+            If IndList.Count > 0 Then
+                'CType(IndList, XPCollection(Of VAdmission)).Sorting.Add(New SortProperty("FECHAHOSPITALIZACION", DevExpress.Xpo.DB.SortingDirection.Descending))
+                'collect.Sorting.Add(New SortProperty("FECHAHOSPITALIZACION", DevExpress.Xpo.DB.SortingDirection.Descending))
+
+                Dim INDNameUser = CType(IndList(0), VAdmission).CODIGOUSARIO.Trim()
+                'Obtenemos la fecha de nacimiento
+                Dim INDEdadPac As Date = CType(IndList(0), VAdmission).FECHADENACIMIENTOCORTA
+                'Pasamos la edad al metodo
+                XrTableCell5.Text = CalcularEdad(INDEdadPac)
+
+                Dim INDListUser = XpoServiceEx.Instance(IndigoSessionValues.SecurityContainer).SecurityService.GetCollection(Of UserXpo)(Nothing, "UserCode = '" & INDNameUser & "'")
+
+                If INDListUser IsNot Nothing AndAlso INDListUser.Count > 0 Then
+                    Dim INDCodName = CType(INDListUser(0), UserXpo).CodeName.Trim
+                    Me.INDUserCreate.Text = INDCodName
+                End If
+
+                'Ocultar la remision si llega vacia
+                Dim table1 As XRTable = CType(XrTable13, XRTable)
+                Dim table2 As XRTable = CType(XrTable14, XRTable)
+                Dim table3 As XRTable = CType(XrTable15, XRTable)
+
+                'oculta el soat
+                Dim table4 As XRTable = CType(XrTable16, XRTable)
+                Dim table5 As XRTable = CType(XrTable17, XRTable)
+
+                'oculta Nombre acompanate
+                Dim table6 As XRTable = CType(XrTable11, XRTable)
+                Dim table7 As XRTable = CType(XrTable12, XRTable)
+
+                If ((CType(IndList(0), VAdmission).NUMERODEREMISION Is Nothing OrElse CType(IndList(0), VAdmission).NUMERODEREMISION.Trim() = "") AndAlso CType(IndList(0), VAdmission).TIPODERIESGO <> "Accidente de Transito") Then
+                    XrTable13.Visible = False
+                    XrTable14.Visible = False
+                    XrTable15.Visible = False
+                    XrTable16.Visible = False
+                    XrTable17.Visible = False
+                Else
+                    If ((CType(IndList(0), VAdmission).NUMERODEREMISION Is Nothing OrElse CType(IndList(0), VAdmission).NUMERODEREMISION.Trim() = "") AndAlso CType(IndList(0), VAdmission).TIPODERIESGO = "Accidente de Transito") Then
+                        table1.Rows.Remove(XrTableRow28)
+                        table2.Rows.Remove(XrTableRow29)
+                        table3.Rows.Remove(XrTableRow30)
+                    Else
+                        If (CType(IndList(0), VAdmission).NUMERODEREMISION Is Nothing OrElse CType(IndList(0), VAdmission).NUMERODEREMISION.Trim() = "") Then
+                            table1.Rows.Remove(XrTableRow28)
+                            table2.Rows.Remove(XrTableRow29)
+                            table3.Rows.Remove(XrTableRow30)
+                        ElseIf (CType(IndList(0), VAdmission).TIPODERIESGO <> "Accidente de Transito") Then
+                            table4.Rows.Remove(XrTableRow31)
+                            table5.Rows.Remove(XrTableRow32)
+                        End If
+                    End If
+                End If
+
+                'ocultar o remover tabla datos de acompanante
+                If (CType(IndList(0), VAdmission).NOMBREACOMPANANTE Is Nothing OrElse CType(IndList(0), VAdmission).NOMBREACOMPANANTE.Trim() = "") Then
+                    table6.Rows.Remove(XrTableRow24)
+                    table6.Rows.Remove(XrTableRow25)
+                    table7.Rows.Remove(XrTableRow26)
+                End If
+            End If
+            Me.DataSource = IndList
+        Catch ex As Exception
+            MessageIndigo.Show(GetExceptionDetails(ex), MessageType.Errores, Me.Text, Botones.Aceptar, "")
+        End Try
+    End Sub
+
+    Public Function GetExceptionDetails(exception As Exception) As String
+        Dim properties = exception.[GetType]().GetProperties()
+        Dim fields = properties.[Select](Function([property]) New With {
+            Key .Name = [property].Name,
+            Key .Value = [property].GetValue(exception, Nothing)
+        }).[Select](Function(x) [String].Format("{0} : {1}", x.Name, If(x.Value IsNot Nothing, x.Value.ToString(), [String].Empty)))
+        Return [String].Join(vbLf, fields)
+    End Function
+
+    Public Sub CargarImagenes() Implements IReport.CargarImagenes
+
+    End Sub
+
+    Public ReadOnly Property NameReport As String Implements IReport.NameReport
+        Get
+            Return ""
+        End Get
+    End Property
+
+    Public Property ParametrosReporte As Object() Implements IReport.ParametrosReporte
+
+    Public Function CalcularEdad(INDDateN As Date) As String
+        Dim INDEdadY, INDEdadM, INDEdadD, INDYearR, INDMonthsR, INDDaysR, INDDaysMonthR, INDEdadYN, INDEdadMN, INDEdadDN As Integer
+
+        INDDaysR = Now.Day
+        INDMonthsR = Now.Month
+        INDDaysMonthR = DateTime.DaysInMonth(Now.Year, Now.Month)
+        INDYearR = Now.Year
+        INDEdadD = Format(INDDateN, "dd")
+        INDEdadM = Format(INDDateN, "MM")
+        INDEdadY = Format(INDDateN, "yyyy")
+
+        INDEdadDN = INDDaysR - INDEdadD
+
+        If (INDEdadDN < 0) Then
+            INDEdadMN = INDMonthsR - INDEdadM - 1
+            INDEdadDN += INDDaysMonthR
+        Else
+            INDEdadMN = INDMonthsR - INDEdadM
+        End If
+
+        If (INDEdadMN < 0) Then
+            INDEdadMN += 12
+            INDEdadYN = INDYearR - INDEdadY - 1
+        Else
+            INDEdadYN = INDYearR - INDEdadY
+        End If
+
+        Return INDEdadYN & " Años / " & INDEdadMN & " Meses / " & INDEdadDN & " Días"
+    End Function
+
+    Private Sub rptControlOutpatientServices_BeforePrint(sender As Object, e As Printing.PrintEventArgs) Handles MyBase.BeforePrint
+        Me.INDLblUserPrint.Text = "Usuario Impresión : " & IndigoSessionValues.UserIndigo & " - " & IndigoSessionValues.UserIndigoName
+        Me.INDLblCompany.Text = IndigoSessionValues.IndigoCompanyName
+        Me.INDLblNitCompany.Text = "Nit : " & IndigoSessionValues.IndigoCompanyNit
+
+        'Dim IndList As XPCollection(Of VAdmission) = Me.DataSource
+        'If IndList.Count > 0 Then
+        '    'CType(IndList, XPCollection(Of VAdmission)).Sorting.Add(New SortProperty("FECHAHOSPITALIZACION", DevExpress.Xpo.DB.SortingDirection.Descending))
+        '    'collect.Sorting.Add(New SortProperty("FECHAHOSPITALIZACION", DevExpress.Xpo.DB.SortingDirection.Descending))
+
+        '    Dim INDNameUser = CType(IndList(0), VAdmission).CODIGOUSARIO.Trim()
+        '    'Obtenemos la fecha de nacimiento
+        '    Dim INDEdadPac As Date = CType(IndList(0), VAdmission).FECHADENACIMIENTOCORTA
+        '    'Pasamos la edad al metodo
+        '    XrTableCell5.Text = CalcularEdad(INDEdadPac)
+
+        '    Dim INDListUser = XpoServiceEx.Instance(IndigoSessionValues.SecurityContainer).SecurityService.GetCollection(Of UserXpo)(Nothing, "UserCode = '" & INDNameUser & "'")
+
+        '    If INDListUser IsNot Nothing AndAlso INDListUser.Count > 0 Then
+        '        Dim INDCodName = CType(INDListUser(0), UserXpo).CodeName.Trim
+        '        Me.INDUserCreate.Text = INDCodName
+        '    End If
+
+        '    'Ocultar la remision si llega vacia
+        '    Dim table1 As XRTable = CType(XrTable13, XRTable)
+        '    Dim table2 As XRTable = CType(XrTable14, XRTable)
+        '    Dim table3 As XRTable = CType(XrTable15, XRTable)
+
+        '    'oculta el soat
+        '    Dim table4 As XRTable = CType(XrTable16, XRTable)
+        '    Dim table5 As XRTable = CType(XrTable17, XRTable)
+
+        '    'oculta Nombre acompanate
+        '    Dim table6 As XRTable = CType(XrTable11, XRTable)
+        '    Dim table7 As XRTable = CType(XrTable12, XRTable)
+
+        '    If ((CType(IndList(0), VAdmission).NUMERODEREMISION Is Nothing OrElse CType(IndList(0), VAdmission).NUMERODEREMISION.Trim() = "") AndAlso CType(IndList(0), VAdmission).TIPODERIESGO <> "Accidente de Transito") Then
+        '        XrTable13.Visible = False
+        '        XrTable14.Visible = False
+        '        XrTable15.Visible = False
+        '        XrTable16.Visible = False
+        '        XrTable17.Visible = False
+        '    Else
+        '        If ((CType(IndList(0), VAdmission).NUMERODEREMISION Is Nothing OrElse CType(IndList(0), VAdmission).NUMERODEREMISION.Trim() = "") AndAlso CType(IndList(0), VAdmission).TIPODERIESGO = "Accidente de Transito") Then
+        '            table1.Rows.Remove(XrTableRow28)
+        '            table2.Rows.Remove(XrTableRow29)
+        '            table3.Rows.Remove(XrTableRow30)
+        '        Else
+        '            If (CType(IndList(0), VAdmission).NUMERODEREMISION Is Nothing OrElse CType(IndList(0), VAdmission).NUMERODEREMISION.Trim() = "") Then
+        '                table1.Rows.Remove(XrTableRow28)
+        '                table2.Rows.Remove(XrTableRow29)
+        '                table3.Rows.Remove(XrTableRow30)
+        '            ElseIf (CType(IndList(0), VAdmission).TIPODERIESGO <> "Accidente de Transito") Then
+        '                table4.Rows.Remove(XrTableRow31)
+        '                table5.Rows.Remove(XrTableRow32)
+        '            End If
+        '        End If
+        '    End If
+
+        '    'ocultar o remover tabla datos de acompanante
+        '    If (CType(IndList(0), VAdmission).NOMBREACOMPANANTE Is Nothing OrElse CType(IndList(0), VAdmission).NOMBREACOMPANANTE.Trim() = "") Then
+        '        table6.Rows.Remove(XrTableRow24)
+        '        table6.Rows.Remove(XrTableRow25)
+        '        table7.Rows.Remove(XrTableRow26)
+        '    End If
+        'End If
+
+
+    End Sub
+End Class

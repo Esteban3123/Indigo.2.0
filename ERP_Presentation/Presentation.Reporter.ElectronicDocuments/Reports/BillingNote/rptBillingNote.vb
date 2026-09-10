@@ -1,0 +1,58 @@
+#Region "Imports"
+
+Imports DevExpress.XtraReports.Parameters
+Imports Presentation.Reporter.ElectronicDocuments.Infrastructure
+Imports Presentation.Reporter.ElectronicDocuments.XpoEntities
+
+#End Region
+
+Public Class rptBillingNote
+    Implements IReport
+
+#Region "Properties"
+
+    Dim IndigoSessionValues As SessionValues = SessionValues.Instance
+
+    Public Property ParametrosReporte As Object() Implements IReport.ParametrosReporte
+
+    Public ReadOnly Property NameReport As String Implements IReport.NameReport
+        Get
+            Return ""
+        End Get
+    End Property
+
+#End Region
+
+#Region "Load Data"
+
+    Public Sub CargarDataSource() Implements IReport.CargarDataSource
+        Dim filtroConsulta As String = $"Id ={ParametrosReporte(0)} AND (NoteType IS NULL OR NoteType <> 6)"
+        Me.DataSource = XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).BillingService.GetCollection(Of ViewBillingNoteXpo)(Nothing, filtroConsulta)
+    End Sub
+
+#End Region
+
+#Region "Methods"
+
+    Public Sub CargarImagenes() Implements IReport.CargarImagenes
+
+    End Sub
+
+#End Region
+
+#Region "Events"
+
+    Private Sub rptBillingNote_BeforePrint(sender As Object, e As System.Drawing.Printing.PrintEventArgs) Handles MyBase.BeforePrint
+        If Me.Parameters.Count > 0 And Me.Parameters(0).Value > 0 Then
+            Dim ParametrosFilter As ParameterCollection = Me.Parameters
+            ParametrosReporte = New Object() {ParametrosFilter.GetByName("INDIdBillingNoteSubreport").Value}
+            CargarDataSource()
+        End If
+
+        INDLblCompany.Text = IndigoSessionValues.IndigoCompanyName
+        INDLblNitCompany.Text = "Nit:" & IndigoSessionValues.IndigoCompanyNit
+    End Sub
+
+#End Region
+
+End Class

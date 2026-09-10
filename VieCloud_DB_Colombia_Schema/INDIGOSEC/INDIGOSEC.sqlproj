@@ -1,0 +1,264 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <Name>INDIGOSEC</Name>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectVersion>4.1</ProjectVersion>
+    <ProjectGuid>{20308fae-37b5-4ca1-ad4d-4b694a323838}</ProjectGuid>
+    <DSP>Microsoft.Data.Tools.Schema.Sql.SqlAzureV12DatabaseSchemaProvider</DSP>
+    <OutputType>Database</OutputType>
+    <RootPath>
+    </RootPath>
+    <RootNamespace>INDIGOSEC</RootNamespace>
+    <AssemblyName>INDIGOSEC</AssemblyName>
+    <ModelCollation>3082,CI</ModelCollation>
+    <DefaultFileStructure>BySchemaAndSchemaType</DefaultFileStructure>
+    <DeployToDatabase>True</DeployToDatabase>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <TargetLanguage>CS</TargetLanguage>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <SqlServerVerification>False</SqlServerVerification>
+    <IncludeCompositeObjects>True</IncludeCompositeObjects>
+    <TargetDatabaseSet>True</TargetDatabaseSet>
+    <DefaultCollation>Modern_Spanish_CI_AS</DefaultCollation>
+    <DefaultFilegroup>PRIMARY</DefaultFilegroup>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <OutputPath>bin\Release\</OutputPath>
+    <BuildScriptName>$(MSBuildProjectName).sql</BuildScriptName>
+    <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <OutputPath>bin\Debug\</OutputPath>
+    <BuildScriptName>$(MSBuildProjectName).sql</BuildScriptName>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">11.0</VisualStudioVersion>
+    <!-- Default to the v11.0 targets path if the targets file for the current VS version is not found -->
+    <SSDTExists Condition="Exists('$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.SqlTasks.targets')">True</SSDTExists>
+    <VisualStudioVersion Condition="'$(SSDTExists)' == ''">11.0</VisualStudioVersion>
+  </PropertyGroup>
+  <Import Condition="'$(SQLDBExtensionsRefPath)' != ''" Project="$(SQLDBExtensionsRefPath)\Microsoft.Data.Tools.Schema.SqlTasks.targets" />
+  <Import Condition="'$(SQLDBExtensionsRefPath)' == ''" Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.SqlTasks.targets" />
+  <ItemGroup>
+    <Folder Include="Properties" />
+    <Folder Include="Security\" />
+    <Folder Include="Security\Tables\" />
+    <Folder Include="WebAppointment\" />
+    <Folder Include="WebAppointment\Tables\" />
+    <Folder Include="SelfService\" />
+    <Folder Include="SelfService\Tables\" />
+    <Folder Include="Marketplace\" />
+    <Folder Include="Marketplace\Tables\" />
+    <Folder Include="Application\" />
+    <Folder Include="Application\Tables\" />
+    <Folder Include="Prometheus\" />
+    <Folder Include="Prometheus\Tables\" />
+    <Folder Include="Feature\" />
+    <Folder Include="Feature\Tables\" />
+    <Folder Include="Audit\" />
+    <Folder Include="Audit\Tables\" />
+    <Folder Include="Platform\" />
+    <Folder Include="Platform\Tables\" />
+    <Folder Include="dbo\" />
+    <Folder Include="dbo\Tables\" />
+    <Folder Include="Chat\" />
+    <Folder Include="Chat\Tables\" />
+    <Folder Include="Management\" />
+    <Folder Include="Management\Tables\" />
+    <Folder Include="Security\Views\" />
+    <Folder Include="Common\" />
+    <Folder Include="Common\Functions\" />
+    <Folder Include="Security\Stored Procedures\" />
+    <Folder Include="SelfService\Stored Procedures\" />
+    <Folder Include="dbo\Stored Procedures\" />
+    <Folder Include="External Resources\" />
+    <Folder Include="Security\External Tables\" />
+    <Folder Include="SecuritySync" />
+    <Folder Include="SecuritySync\Tables" />
+  </ItemGroup>
+  <ItemGroup>
+    <Build Include="SecuritySync\SecuritySync.sql" />
+    <Build Include="Security\Tables\Group.sql" />
+    <Build Include="Security\Tables\FormAction.sql" />
+    <Build Include="Security\Tables\PermissionCompany.sql" />
+    <Build Include="Security\Tables\ApplicationSettings.sql" />
+    <Build Include="Security\Tables\TenantUsers.sql" />
+    <Build Include="Security\Tables\TenantUsers_Ledger_History.sql" />
+    <Build Include="Security\Tables\Person.sql" />
+    <Build Include="WebAppointment\Tables\Parameters.sql" />
+    <Build Include="Security\Tables\Phone.sql" />
+    <Build Include="Security\Tables\Module.sql" />
+    <Build Include="Security\Tables\PhoneType.sql" />
+    <Build Include="SelfService\Tables\PortalUserEmail.sql" />
+    <Build Include="Security\Tables\Countries.sql" />
+    <Build Include="Security\Tables\Title.sql" />
+    <Build Include="Security\Tables\Tenant.sql" />
+    <Build Include="Security\Tables\User_Ledger.sql" />
+    <Build Include="Security\Tables\UserOperatingUnit.sql" />
+    <Build Include="SelfService\Tables\Action.sql" />
+    <Build Include="Security\Tables\Roll.sql" />
+    <Build Include="SelfService\Tables\Form.sql" />
+    <Build Include="SelfService\Tables\FormAction.sql" />
+    <Build Include="Security\Tables\Action.sql" />
+    <Build Include="Security\Tables\User_Ledger_History.sql" />
+    <Build Include="SelfService\Tables\FormFolder.sql" />
+    <Build Include="SelfService\Tables\PortalUser.sql" />
+    <Build Include="SelfService\Tables\PortalUserCompany.sql" />
+    <Build Include="SelfService\Tables\Role.sql" />
+    <Build Include="Security\Tables\VieFormModule-Faltantes.sql" />
+    <Build Include="Marketplace\Tables\ActiveSubscription.sql" />
+    <Build Include="SelfService\Tables\RolePortalUser.sql" />
+    <Build Include="Security\Tables\VieModuleTitle-Faltantes.sql" />
+    <Build Include="Security\Tables\UsersApiClient.sql" />
+    <Build Include="Marketplace\Tables\MeteredDimensions.sql" />
+    <Build Include="SelfService\Tables\RolFormAction.sql" />
+    <Build Include="Security\Tables\Containers.sql" />
+    <Build Include="Application\Tables\AppSettings.sql" />
+    <Build Include="Application\Tables\EnvironmentSpaces.sql" />
+    <Build Include="WebAppointment\Tables\SystemUser.sql" />
+    <Build Include="Application\Tables\SettingAssignments.sql" />
+    <Build Include="WebAppointment\Tables\HostessUser.sql" />
+    <Build Include="Marketplace\Tables\MeteredSubscription.sql" />
+    <Build Include="Security\Tables\Endpoints.sql" />
+    <Build Include="Security\Tables\TenantGroup.sql" />
+    <Build Include="SelfService\Tables\RolesForms.sql" />
+    <Build Include="Prometheus\Tables\FormFields.sql" />
+    <Build Include="Prometheus\Tables\TenantRipsConfiguration.sql" />
+    <Build Include="Feature\Tables\FeatureFlags.sql" />
+    <Build Include="Security\Tables\User.sql" />
+    <Build Include="Security\Tables\PermissionRoll.sql" />
+    <Build Include="Security\Tables\FormRelationship.sql" />
+    <Build Include="Security\Tables\Form.sql" />
+    <Build Include="WebAppointment\Tables\Users.sql" />
+    <Build Include="Audit\Tables\Audit.sql" />
+    <Build Include="Platform\Tables\TenantCatalog.sql" />
+    <Build Include="WebAppointment\Tables\UserContainers.sql" />
+    <Build Include="Audit\Tables\AuditDetail.sql" />
+    <Build Include="Audit\Tables\AuditRuledDocumentUser.sql" />
+    <Build Include="Platform\Tables\TenantOutboxCursor.sql" />
+    <Build Include="Audit\Tables\AuditRulesDocument.sql" />
+    <Build Include="Security\Tables\UsersApiClientIp.sql" />
+    <Build Include="Audit\Tables\AuditRulesDocumentPC.sql" />
+    <Build Include="Platform\Tables\TenantOutboxLease.sql" />
+    <Build Include="Security\Tables\ServiceConfiguration.sql" />
+    <Build Include="Platform\Tables\PoolThrottlingConfig.sql" />
+    <Build Include="Audit\Tables\AuditRulesPC.sql" />
+    <Build Include="Security\Tables\EventsConfiguration.sql" />
+    <Build Include="Audit\Tables\AuditRulesPCDocument.sql" />
+    <Build Include="Audit\Tables\AuditRulesPCUser.sql" />
+    <Build Include="Audit\Tables\AuditRulesUser.sql" />
+    <Build Include="Audit\Tables\AuditRulesUserDocument.sql" />
+    <Build Include="Security\Tables\GeneralConfiguration.sql" />
+    <Build Include="Security\Tables\ProductCatalog.sql" />
+    <Build Include="Audit\Tables\AuditRulesUserPC.sql" />
+    <Build Include="Prometheus\Tables\Prometheus.Usuario.sql" />
+    <Build Include="Security\Tables\Timezone.sql" />
+    <Build Include="Audit\Tables\BasicAudit.sql" />
+    <Build Include="Security\Tables\Suscriptions.sql" />
+    <Build Include="Audit\Tables\Category.sql" />
+    <Build Include="Audit\Tables\CategoryLog.sql" />
+    <Build Include="dbo\Tables\INEMPRESU.sql" />
+    <Build Include="Audit\Tables\Log.sql" />
+    <Build Include="Security\Tables\UserConfiguration.sql" />
+    <Build Include="Security\Tables\SyncLog.sql" />
+    <Build Include="Chat\Tables\GroupUser.sql" />
+    <Build Include="Security\Tables\TenantDomains.sql" />
+    <Build Include="dbo\Tables\SyncLog.sql" />
+    <Build Include="Chat\Tables\UsersGroupUser.sql" />
+    <Build Include="dbo\Tables\CruceMaquinas.sql" />
+    <Build Include="dbo\Tables\NUsuarios.sql" />
+    <Build Include="dbo\Tables\NUsuariosAct.sql" />
+    <Build Include="Security\Tables\LicenseControlByUser.sql" />
+    <Build Include="dbo\Tables\XPObjectType.sql" />
+    <Build Include="Security\Tables\LicenseControlByDevice.sql" />
+    <Build Include="Security\Tables\TenantContainer.sql" />
+    <Build Include="Management\Tables\Machines.sql" />
+    <Build Include="Security\Tables\TenantRoll.sql" />
+    <Build Include="Management\Tables\MachineUpdatePackage.sql" />
+    <Build Include="Security\Tables\ProductModule.sql" />
+    <Build Include="Security\Tables\TenantRoll_Ledger_History.sql" />
+    <Build Include="Management\Tables\UpdatePackage.sql" />
+    <Build Include="Security\Tables\Address.sql" />
+    <Build Include="Security\Tables\ModuleTitle.sql" />
+    <Build Include="Security\Tables\PermissionUser.sql" />
+    <Build Include="Security\Tables\Email.sql" />
+    <Build Include="Security\Tables\FilePerson.sql" />
+    <Build Include="Security\Tables\ModuleForm.sql" />
+    <Build Include="Security\Views\TenantUsers_Ledger_Ledger.sql" />
+    <Build Include="Security\Views\User_Ledger_Ledger.sql" />
+    <Build Include="Security\Views\ViewTenantRoll.sql" />
+    <Build Include="Security\Views\ViewTenantGroup.sql" />
+    <Build Include="Security\Views\ViewTenantUsers.sql" />
+    <Build Include="Security\Views\TenantRoll_Ledger_Ledger.sql" />
+    <Build Include="Security\MasterKey.sql" />
+    <Build Include="Security\LoginExternalTables.sql" />
+    <Build Include="Security\LoginExternalTables_1.sql" />
+    <Build Include="Security\PoCDFUsr_Indigo.sql" />
+    <Build Include="Security\PoCDFUsr_Indigo_1.sql" />
+    <Build Include="Security\IndigoDev.sql" />
+    <Build Include="Security\IndigoDev_1.sql" />
+    <Build Include="Security\IPC-SQL-Application.sql" />
+    <Build Include="Security\mconde.sql" />
+    <Build Include="Security\mconde_1.sql" />
+    <Build Include="Security\mcalderon.sql" />
+    <Build Include="Security\mcalderon_1.sql" />
+    <Build Include="Security\IPC-SQL-DEV-Application.sql" />
+    <Build Include="Security\IPC-SQL-Developers.sql" />
+    <Build Include="Security\IPC-SQL-DevelopersQA.sql" />
+    <Build Include="Security\RoleMemberships.sql" />
+    <Build Include="Common\Functions\GETDATE.sql" />
+    <Build Include="Security\Stored Procedures\SP_GetFormActions.sql" />
+    <Build Include="SelfService\Stored Procedures\AuthenticateUser.sql" />
+    <Build Include="dbo\Stored Procedures\GetAccountRecoveryEmail.sql" />
+    <Build Include="Security\Stored Procedures\SP_InsertRoleAndActionsByRole.sql" />
+    <Build Include="dbo\Stored Procedures\CreateAuditData.sql" />
+    <Build Include="dbo\Stored Procedures\CreateBasicAuditData.sql" />
+    <Build Include="Security\Stored Procedures\SP_GetAccountRecoveryEmail.sql" />
+    <Build Include="Security\Stored Procedures\SP_UserProfile.sql" />
+    <Build Include="Security\Stored Procedures\SP_GetRolePortalUser.sql" />
+    <Build Include="Security\Stored Procedures\SP_DeleteRole.sql" />
+    <Build Include="Security\Stored Procedures\SP_GetFormFolder.sql" />
+    <Build Include="Security\Stored Procedures\SP_GetPortalUserCompanyList.sql" />
+    <Build Include="Security\Stored Procedures\SP_GetRecoveryAccountEmail.sql" />
+    <Build Include="Security\Stored Procedures\SP_GetUserProfile.sql" />
+    <Build Include="dbo\Stored Procedures\JobReference.sql" />
+    <Build Include="dbo\Stored Procedures\LiquidationDetail.sql" />
+    <Build Include="dbo\Stored Procedures\SP_UserPermissionsForm.sql" />
+    <Build Include="Security\LoginExternalTables_2.sql" />
+    <Build Include="Security\Application.sql" />
+    <Build Include="Security\Audit.sql" />
+    <Build Include="Security\Chat.sql" />
+    <Build Include="Security\Common.sql" />
+    <Build Include="Security\Confg.sql" />
+    <Build Include="Security\Deploy.sql" />
+    <Build Include="Security\Feature.sql" />
+    <Build Include="Security\Management.sql" />
+    <Build Include="Security\Marketplace.sql" />
+    <Build Include="Security\Platform.sql" />
+    <Build Include="Security\Prometheus.sql" />
+    <Build Include="Security\Security.sql" />
+    <Build Include="Security\SelfService.sql" />
+    <Build Include="Security\WebAppointment.sql" />
+    <Build Include="External Resources\INDIGOSEC_TEMP.sql" />
+    <Build Include="Security\External Tables\ModuleForm_temp.sql" />
+    <Build Include="SecuritySync\Tables\OutboxEvent.sql" />
+    <Build Include="Platform\Tables\OutboxCatalog.sql" />
+  </ItemGroup>
+</Project>

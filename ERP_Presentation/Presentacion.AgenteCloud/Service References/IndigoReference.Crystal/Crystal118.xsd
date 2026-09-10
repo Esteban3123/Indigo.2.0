@@ -1,0 +1,756 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://tempuri.org/" elementFormDefault="qualified" targetNamespace="http://tempuri.org/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import schemaLocation="https://localhost:9001/ServiceEntity/Crystal.svc?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" />
+  <xs:import schemaLocation="https://localhost:9001/ServiceEntity/Crystal.svc?xsd=xsd3" namespace="http://schemas.datacontract.org/2004/07/Domain.Crystal.Entities" />
+  <xs:import schemaLocation="https://localhost:9001/ServiceEntity/Crystal.svc?xsd=xsd7" namespace="http://schemas.datacontract.org/2004/07/Domain.Entities" />
+  <xs:import schemaLocation="https://localhost:9001/ServiceEntity/Crystal.svc?xsd=xsd9" namespace="http://schemas.datacontract.org/2004/07/Infrastructure.CrossCutting.Base" />
+  <xs:import schemaLocation="https://localhost:9001/ServiceEntity/Crystal.svc?xsd=xsd5" namespace="http://schemas.datacontract.org/2004/07/System" />
+  <xs:element name="GetProfessionalByCode">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="Code" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetProfessionalByCodeResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q1="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="GetProfessionalByCodeResult" nillable="true" type="q1:ActionResultOfINPROFSALi5kHDmq8" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetSpecialityByCode">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="Code" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetSpecialityByCodeResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q2="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="GetSpecialityByCodeResult" nillable="true" type="q2:ActionResultOfINESPECIAi5kHDmq8" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SaveProfessional">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q3="http://schemas.datacontract.org/2004/07/Domain.Crystal.Entities" minOccurs="0" name="professional" nillable="true" type="q3:INPROFSAL" />
+        <xs:element xmlns:q4="http://schemas.datacontract.org/2004/07/Domain.Entities" minOccurs="0" name="ListHealthProfessionalContract" nillable="true" type="q4:ArrayOfHealthProfessionalContract" />
+        <xs:element xmlns:q5="http://schemas.datacontract.org/2004/07/Domain.Entities" minOccurs="0" name="ListDeleteHealthProfessionalContract" nillable="true" type="q5:ArrayOfHealthProfessionalContract" />
+        <xs:element xmlns:q6="http://schemas.datacontract.org/2004/07/Infrastructure.CrossCutting.Base" minOccurs="0" name="audit" nillable="true" type="q6:AuditMessage" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SaveProfessionalResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q7="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="SaveProfessionalResult" nillable="true" type="q7:ActionResultOfINPROFSALi5kHDmq8" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="DeleteProfessional">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="Code" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="DeleteProfessionalResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q8="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="DeleteProfessionalResult" nillable="true" type="q8:ActionResult" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="UpdateStatusProfessional">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="Code" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="Status" type="xs:boolean" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="UpdateStatusProfessionalResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q9="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="UpdateStatusProfessionalResult" nillable="true" type="q9:ActionResultOfINPROFSALi5kHDmq8" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetListHealthProfessionalContractByHealthProfessionalCode">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="healthProfessionalCode" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetListHealthProfessionalContractByHealthProfessionalCodeResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q10="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="GetListHealthProfessionalContractByHealthProfessionalCodeResult" nillable="true" type="q10:ActionResultOfArrayOfHealthProfessionalContractMbb067J0" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetUserHIS">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="Code" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetUserHISResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q11="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="GetUserHISResult" nillable="true" type="q11:ActionResultOfSEGusuarui5kHDmq8" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetHealthProfessionalByCode">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="Code" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetHealthProfessionalByCodeResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q12="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="GetHealthProfessionalByCodeResult" nillable="true" type="q12:ActionResultOfHealthProfessionalModeli5kHDmq8" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SaveHealthProfessional">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q13="http://schemas.datacontract.org/2004/07/Domain.Crystal.Entities" minOccurs="0" name="professional" nillable="true" type="q13:HealthProfessionalModel" />
+        <xs:element xmlns:q14="http://schemas.datacontract.org/2004/07/Domain.Entities" minOccurs="0" name="ListHealthProfessionalContract" nillable="true" type="q14:ArrayOfHealthProfessionalContract" />
+        <xs:element xmlns:q15="http://schemas.datacontract.org/2004/07/Domain.Entities" minOccurs="0" name="ListDeleteHealthProfessionalContract" nillable="true" type="q15:ArrayOfHealthProfessionalContract" />
+        <xs:element xmlns:q16="http://schemas.datacontract.org/2004/07/Infrastructure.CrossCutting.Base" minOccurs="0" name="audit" nillable="true" type="q16:AuditMessage" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SaveHealthProfessionalResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q17="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="SaveHealthProfessionalResult" nillable="true" type="q17:ActionResultOfHealthProfessionalModeli5kHDmq8" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="UpdateStatusProfessionalHealth">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="Code" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="Status" type="xs:boolean" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="UpdateStatusProfessionalHealthResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q18="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="UpdateStatusProfessionalHealthResult" nillable="true" type="q18:ActionResultOfHealthProfessionalModeli5kHDmq8" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetAdmissionByCode">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="Code" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetAdmissionByCodeResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q19="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="GetAdmissionByCodeResult" nillable="true" type="q19:ActionResultOfADINGRESOi5kHDmq8" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ListarHemocomponentesPorIngreso">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="ingreso" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ListarHemocomponentesPorIngresoResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q20="http://schemas.datacontract.org/2004/07/Domain.Crystal.Entities" minOccurs="0" name="ListarHemocomponentesPorIngresoResult" nillable="true" type="q20:ArrayOfSP_ListarHemocomponentesPorIngreso_Result" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetAdmissionsByPatient">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="Identification" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetAdmissionsByPatientResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q21="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="GetAdmissionsByPatientResult" nillable="true" type="q21:ActionResultOfArrayOfADINGRESOi5kHDmq8" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SaveAdmission">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q22="http://schemas.datacontract.org/2004/07/Domain.Crystal.Entities" minOccurs="0" name="admission" nillable="true" type="q22:ADINGRESO" />
+        <xs:element xmlns:q23="http://schemas.datacontract.org/2004/07/Infrastructure.CrossCutting.Base" minOccurs="0" name="audit" nillable="true" type="q23:AuditMessage" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SaveAdmissionResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q24="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="SaveAdmissionResult" nillable="true" type="q24:ActionResultOfADINGRESOi5kHDmq8" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="DeleteAdmission">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="Code" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="DeleteAdmissionResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q25="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="DeleteAdmissionResult" nillable="true" type="q25:ActionResult" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="UpdateStatusAdmission">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="Code" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="Status" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="Justification" nillable="true" type="xs:string" />
+        <xs:element xmlns:q26="http://schemas.datacontract.org/2004/07/Infrastructure.CrossCutting.Base" minOccurs="0" name="audit" nillable="true" type="q26:AuditMessage" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="UpdateStatusAdmissionResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q27="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="UpdateStatusAdmissionResult" nillable="true" type="q27:ActionResultOfADINGRESOi5kHDmq8" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetCentersParameters">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="_codcenate" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetCentersParametersResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q28="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="GetCentersParametersResult" nillable="true" type="q28:ActionResultOfADPARAMETi5kHDmq8" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetTriageDate">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="paciente" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetTriageDateResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="GetTriageDateResult" type="xs:dateTime" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetusuarioCrystal">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="code" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetusuarioCrystalResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q29="http://schemas.datacontract.org/2004/07/Domain.Crystal.Entities" minOccurs="0" name="GetusuarioCrystalResult" nillable="true" type="q29:SEGusuaru" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetAdmissionStatusByNumIngres">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="admissionNumber" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetAdmissionStatusByNumIngresResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="GetAdmissionStatusByNumIngresResult" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ModifyAuthorizationAdmission">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="admissionNumber" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="authorizationNumber" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ModifyAuthorizationAdmissionResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q30="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="ModifyAuthorizationAdmissionResult" nillable="true" type="q30:ActionResult" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetINDIAGNOPByAdmissionNumber">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="adminssionNumber" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetINDIAGNOPByAdmissionNumberResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q31="http://schemas.datacontract.org/2004/07/Domain.Crystal.Entities" minOccurs="0" name="GetINDIAGNOPByAdmissionNumberResult" nillable="true" type="q31:INDIAGNOP" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="AdmisionValidations">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="AdmisionCode" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="AdmisionValidationsResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q32="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="AdmisionValidationsResult" nillable="true" type="q32:ActionResult" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ListDashboardPharmacyDetail">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="consecutive" type="xs:decimal" />
+        <xs:element minOccurs="0" name="patientCode" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="admission" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ListDashboardPharmacyDetailResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q33="http://schemas.datacontract.org/2004/07/Domain.Crystal.Entities" minOccurs="0" name="ListDashboardPharmacyDetailResult" nillable="true" type="q33:ArrayOfViewDashboardPharmacyDetail" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetStayType">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="codePatient" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="admissionNumber" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetStayTypeResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="GetStayTypeResult" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ListDashboardPharmacyDetailSurgicalPackage">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="consecutive" type="xs:decimal" />
+        <xs:element minOccurs="0" name="patientCode" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ListDashboardPharmacyDetailSurgicalPackageResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q34="http://schemas.datacontract.org/2004/07/Domain.Crystal.Entities" minOccurs="0" name="ListDashboardPharmacyDetailSurgicalPackageResult" nillable="true" type="q34:ArrayOfViewDashBoardPharmacy_SurgicalPackageDeatils" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SP_RIAS_ValidacionCUPSRIAS">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q35="http://schemas.datacontract.org/2004/07/System" minOccurs="0" name="ListParameters" nillable="true" type="q35:ArrayOfTupleOfstringintstringintdateTime" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SP_RIAS_ValidacionCUPSRIASResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q36="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="SP_RIAS_ValidacionCUPSRIASResult" nillable="true" type="q36:ActionResultOfArrayOfSP_RIAS_ValidacionCUPSRIAS_Resulti5kHDmq8" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="RouteToPharmacy">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q37="http://schemas.datacontract.org/2004/07/Domain.Crystal.Entities" minOccurs="0" name="ListHCFARMEPD" nillable="true" type="q37:ArrayOfViewDashboardPharmacyDetail" />
+        <xs:element xmlns:q38="http://schemas.datacontract.org/2004/07/Domain.Crystal.Entities" minOccurs="0" name="GeneralRoutingLog" nillable="true" type="q38:RoutingLog" />
+        <xs:element xmlns:q39="http://schemas.datacontract.org/2004/07/Infrastructure.CrossCutting.Base" minOccurs="0" name="Audit" nillable="true" type="q39:AuditMessage" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="RouteToPharmacyResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q40="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="RouteToPharmacyResult" nillable="true" type="q40:ActionResult" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="DashboardPharmacyDetail">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="entityId" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="DashboardPharmacyDetailResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q41="http://schemas.datacontract.org/2004/07/Domain.Crystal.Entities" minOccurs="0" name="DashboardPharmacyDetailResult" nillable="true" type="q41:ViewDashboardPharmacyDetail" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="DashboardPharmacyDetailSurgicalPackage">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="consecutive" type="xs:decimal" />
+        <xs:element minOccurs="0" name="patientCode" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="productCode" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="DashboardPharmacyDetailSurgicalPackageResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q42="http://schemas.datacontract.org/2004/07/Domain.Crystal.Entities" minOccurs="0" name="DashboardPharmacyDetailSurgicalPackageResult" nillable="true" type="q42:ViewDashBoardPharmacy_SurgicalPackageDeatils" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ListDashboardPharmacyDetailDevolution">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="consecutive" type="xs:decimal" />
+        <xs:element minOccurs="0" name="patientCode" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="admission" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ListDashboardPharmacyDetailDevolutionResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q43="http://schemas.datacontract.org/2004/07/Domain.Crystal.Entities" minOccurs="0" name="ListDashboardPharmacyDetailDevolutionResult" nillable="true" type="q43:ArrayOfViewDashboardPharmacyDetailDevolution" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetBedRatebyBedCode">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="bedCode" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetBedRatebyBedCodeResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q44="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="GetBedRatebyBedCodeResult" nillable="true" type="q44:ActionResultOfArrayOfCHGENTARIi5kHDmq8" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SaveBedRate">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q45="http://schemas.datacontract.org/2004/07/Domain.Crystal.Entities" minOccurs="0" name="bedRate" nillable="true" type="q45:CHGENTARI" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SaveBedRateResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q46="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="SaveBedRateResult" nillable="true" type="q46:ActionResultOfCHGENTARIi5kHDmq8" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="DeleteBedRate">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q47="http://schemas.datacontract.org/2004/07/Domain.Crystal.Entities" minOccurs="0" name="bedRate" nillable="true" type="q47:CHGENTARI" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="DeleteBedRateResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q48="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="DeleteBedRateResult" nillable="true" type="q48:ActionResult" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetBedRatebyCode">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="code" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetBedRatebyCodeResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q49="http://schemas.datacontract.org/2004/07/Domain.Crystal.Entities" minOccurs="0" name="GetBedRatebyCodeResult" nillable="true" type="q49:CHGENTARI" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ListarCitasMedicas">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="patientCode" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="atentionCenterCode" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ListarCitasMedicasResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q50="http://schemas.datacontract.org/2004/07/Domain.Crystal.Entities" minOccurs="0" name="ListarCitasMedicasResult" nillable="true" type="q50:ArrayOfSP_AD_ListarCitasMedicasNativo_Result" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetHCUNITHISByUFUCODIGO">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="ufucodigo" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetHCUNITHISByUFUCODIGOResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q51="http://schemas.datacontract.org/2004/07/Domain.Crystal.Entities" minOccurs="0" name="GetHCUNITHISByUFUCODIGOResult" nillable="true" type="q51:ArrayOfHCUNITHIS" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetHCUNITHISByUFUCODIGOWithFACMECONINS">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="ufucodigo" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetHCUNITHISByUFUCODIGOWithFACMECONINSResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q52="http://schemas.datacontract.org/2004/07/Domain.Crystal.Entities" minOccurs="0" name="GetHCUNITHISByUFUCODIGOWithFACMECONINSResult" nillable="true" type="q52:HCUNITHIS" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ListStaysByAdmissionCodeAndStatus">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="admissionCode" nillable="true" type="xs:string" />
+        <xs:element xmlns:q53="http://schemas.datacontract.org/2004/07/Domain.Crystal.Entities" minOccurs="0" name="status" type="q53:StayStatusEnum" />
+        <xs:element minOccurs="0" name="asNoTracking" type="xs:boolean" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ListStaysByAdmissionCodeAndStatusResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q54="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="ListStaysByAdmissionCodeAndStatusResult" nillable="true" type="q54:ActionResultOfArrayOfCHREGESTAi5kHDmq8" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ListLiquidatedStaysByAdmissionCode">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="admissionCode" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="asNoTracking" type="xs:boolean" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ListLiquidatedStaysByAdmissionCodeResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q55="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="ListLiquidatedStaysByAdmissionCodeResult" nillable="true" type="q55:ActionResultOfArrayOfCHREGESTAi5kHDmq8" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ListDontLiquidatedStaysByAdmissionCode">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="admissionCode" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="caregroupId" type="xs:int" />
+        <xs:element xmlns:q56="http://schemas.datacontract.org/2004/07/Domain.Entities" minOccurs="0" name="stayOption" type="q56:eLiquidateStayOption" />
+        <xs:element minOccurs="0" name="medicalOrderDate" nillable="true" type="xs:dateTime" />
+        <xs:element minOccurs="0" name="endDate" nillable="true" type="xs:dateTime" />
+        <xs:element minOccurs="0" name="asNoTracking" type="xs:boolean" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ListDontLiquidatedStaysByAdmissionCodeResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q57="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="ListDontLiquidatedStaysByAdmissionCodeResult" nillable="true" type="q57:ActionResultOfArrayOfCHREGESTAi5kHDmq8" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetPatientByIdentification">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="Identification" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetPatientByIdentificationResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q58="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="GetPatientByIdentificationResult" nillable="true" type="q58:ActionResultOfINPACIENTi5kHDmq8" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="DeletePatient">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="Identification" nillable="true" type="xs:string" />
+        <xs:element xmlns:q59="http://schemas.datacontract.org/2004/07/Infrastructure.CrossCutting.Base" minOccurs="0" name="audit" nillable="true" type="q59:AuditMessage" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="DeletePatientResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q60="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="DeletePatientResult" nillable="true" type="q60:ActionResult" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SavePatient">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q61="http://schemas.datacontract.org/2004/07/Domain.Crystal.Entities" minOccurs="0" name="patient" nillable="true" type="q61:INPACIENT" />
+        <xs:element xmlns:q62="http://schemas.datacontract.org/2004/07/Infrastructure.CrossCutting.Base" minOccurs="0" name="audit" nillable="true" type="q62:AuditMessage" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SavePatientResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q63="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="SavePatientResult" nillable="true" type="q63:ActionResultOfINPACIENTi5kHDmq8" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="LiquidateStays">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="admissionCode" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="healthAdministratorId" type="xs:int" />
+        <xs:element minOccurs="0" name="thirdPartyId" type="xs:int" />
+        <xs:element minOccurs="0" name="caregroupId" type="xs:int" />
+        <xs:element xmlns:q64="http://schemas.datacontract.org/2004/07/Domain.Entities" minOccurs="0" name="stayOption" type="q64:eLiquidateStayOption" />
+        <xs:element minOccurs="0" name="medicalOrderDate" nillable="true" type="xs:dateTime" />
+        <xs:element minOccurs="0" name="endDate" nillable="true" type="xs:dateTime" />
+        <xs:element minOccurs="0" name="patientCode" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="idSequence" type="xs:int" />
+        <xs:element minOccurs="0" name="operatingUnitId" type="xs:int" />
+        <xs:element xmlns:q65="http://schemas.datacontract.org/2004/07/Infrastructure.CrossCutting.Base" minOccurs="0" name="audit" nillable="true" type="q65:AuditMessage" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="LiquidateStaysResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q66="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="LiquidateStaysResult" nillable="true" type="q66:ActionResult" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetLevelByCode">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="Code" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetLevelByCodeResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q67="http://schemas.datacontract.org/2004/07/Domain.Crystal.Entities" minOccurs="0" name="GetLevelByCodeResult" nillable="true" type="q67:ADNIVELES" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SaveWeightPatient">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="weight" type="xs:int" />
+        <xs:element minOccurs="0" name="codePatient" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SaveWeightPatientResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="SaveWeightPatientResult" type="xs:boolean" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ListOfStaysByAdmission">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="admissionCode" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ListOfStaysByAdmissionResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q68="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="ListOfStaysByAdmissionResult" nillable="true" type="q68:ActionResultOfArrayOfCHREGESTAi5kHDmq8" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ListOfStaysByAdmissionToModel">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="admissionCode" nillable="true" type="xs:string" />
+        <xs:element xmlns:q69="http://schemas.datacontract.org/2004/07/Infrastructure.CrossCutting.Base" minOccurs="0" name="audit" nillable="true" type="q69:AuditMessage" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ListOfStaysByAdmissionToModelResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q70="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="ListOfStaysByAdmissionToModelResult" nillable="true" type="q70:ActionResultOfArrayOfStayInfoModeli5kHDmq8" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="CalculateUnitStayForRange">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="admissionCode" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="startDate" type="xs:dateTime" />
+        <xs:element minOccurs="0" name="endDate" type="xs:dateTime" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="CalculateUnitStayForRangeResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q71="http://schemas.datacontract.org/2004/07/Infrastructure.CrossCutting.Base" minOccurs="0" name="CalculateUnitStayForRangeResult" nillable="true" type="q71:UnitStay" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

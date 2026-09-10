@@ -1,0 +1,49 @@
+﻿Imports Infrastructure.CrossCutting.Base
+Imports Infrastructure.Data.Xpo
+Imports Infrastructure.Data.Xpo.PayrollRepository
+Imports System.Text
+Imports Infrastructure.Data.Xpo.CrystalRepository
+
+Public Class rptUnemployedLiquidation
+    Implements IReport
+
+
+    Private _iNEMPRESU As INEMPRESU
+
+    Dim IndigoSessionValues As SessionValues = SessionValues.Instance
+
+    Const CNameReport = "Payroll.FrmUnemployedLiquidation"
+
+    Public Property ParametrosReporte As Object() Implements IReport.ParametrosReporte
+
+    Public Sub CargarDataSource() Implements IReport.CargarDataSource
+        Dim unemply = ParametrosReporte(0)
+        Dim filtroConsulta As New StringBuilder
+        filtroConsulta.AppendFormat("Year = {0} AND (EmployeeId = {1} OR {1} IS NULL)", unemply.Año, IIf(unemply.EmployeeId Is Nothing, "NULL", unemply.EmployeeId))
+        filtroConsulta.AppendFormat(" AND (Status = {0} OR {0} IS NULL)", IIf(unemply.Estado = 2, "NULL", unemply.Estado))
+        filtroConsulta.AppendFormat(" AND ((GroupId.Id >= {0} AND GroupId.Id <= {1}) OR ({0} IS NULL AND {1} IS NULL))", IIf(unemply.StartGroup Is Nothing, "NULL", unemply.StartGroup), IIf(unemply.EndGroup Is Nothing, "NULL", unemply.EndGroup))
+        Me.DataSource = XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).PayrollService.GetCollection(Of PayrollUnemployedLiquidation)(Nothing, filtroConsulta.ToString())
+        Me._iNEMPRESU = XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).CrystalService.GetXPOObject(Of INEMPRESU)(Nothing)
+    End Sub
+
+    Public Sub CargarImagenes() Implements IReport.CargarImagenes
+
+    End Sub
+
+    Public ReadOnly Property NameReport As String Implements IReport.NameReport
+        Get
+            Return rptUnemployedLiquidation.CNameReport
+        End Get
+    End Property
+
+    Private Sub rptUnemployment_BeforePrint(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles MyBase.BeforePrint
+
+        If _iNEMPRESU IsNot Nothing Then
+            INDLblNombreEmpresaCliente.Text = If(String.IsNullOrEmpty(_iNEMPRESU.INDNOMEMP), INDLblNombreEmpresaCliente.Text, _iNEMPRESU.INDNOMEMP)
+            INDLblNitCliente.Text = If(String.IsNullOrEmpty(_iNEMPRESU.INDNITEMP), INDLblNitCliente.Text, "NIT: " & _iNEMPRESU.INDNITEMP)
+            INDlblPhoneEmail.Text = If(String.IsNullOrEmpty(_iNEMPRESU.INDCOERES), INDlblPhoneEmail.Text, "Email: " & _iNEMPRESU.INDCOERES)
+        End If
+        lblAñoLiquidacion.Text = Me.ParametrosReporte(0).Año
+
+    End Sub
+End Class

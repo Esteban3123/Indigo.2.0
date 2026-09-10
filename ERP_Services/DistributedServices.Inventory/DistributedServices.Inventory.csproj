@@ -1,0 +1,496 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{9A533C87-745E-46FF-B7C2-D4EF253D0FDD}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>DistributedServices.Inventory</RootNamespace>
+    <AssemblyName>DistributedServices.Inventory</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debugcito|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\Debugcito\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debugcito|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\Debugcito\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework">
+      <HintPath>..\DLL\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer">
+      <HintPath>..\DLL\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Caching.Abstractions, Version=3.1.32.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Caching.Abstractions.3.1.32\lib\netstandard2.0\Microsoft.Extensions.Caching.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Caching.Memory, Version=3.1.32.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Caching.Memory.3.1.32\lib\netstandard2.0\Microsoft.Extensions.Caching.Memory.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.DependencyInjection.Abstractions, Version=3.1.32.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.DependencyInjection.Abstractions.3.1.32\lib\netstandard2.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Logging.Abstractions, Version=3.1.32.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Logging.Abstractions.3.1.32\lib\netstandard2.0\Microsoft.Extensions.Logging.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Options, Version=3.1.32.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Options.3.1.32\lib\netstandard2.0\Microsoft.Extensions.Options.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Primitives, Version=3.1.32.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Primitives.3.1.32\lib\netstandard2.0\Microsoft.Extensions.Primitives.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Unity, Version=1.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\DLL\Microsoft.Practices.Unity.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Buffers, Version=4.0.2.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Buffers.4.4.0\lib\netstandard2.0\System.Buffers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ComponentModel.Annotations, Version=4.2.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ComponentModel.Annotations.4.7.0\lib\net461\System.ComponentModel.Annotations.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Memory, Version=4.0.1.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Memory.4.5.2\lib\netstandard2.0\System.Memory.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Numerics.Vectors, Version=4.1.3.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Numerics.Vectors.4.4.0\lib\net46\System.Numerics.Vectors.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.6.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.4.7.1\lib\net461\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="Microsoft.CSharp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Contracts\IInventoryATC.cs" />
+    <Compile Include="Contracts\IInventoryATCEntity.cs" />
+    <Compile Include="Contracts\IInventoryBatchSerial.cs" />
+    <Compile Include="Contracts\IInventoryBlockRecordInventory.cs" />
+    <Compile Include="Contracts\IInventoryContract.cs" />
+    <Compile Include="Contracts\IInventoryContractAssignment.cs" />
+    <Compile Include="Contracts\IInventoryContractModification.cs" />
+    <Compile Include="Contracts\IInventoryContractType.cs" />
+    <Compile Include="Contracts\IInventoryConsignmentCostList.cs" />
+    <Compile Include="Contracts\IInventoryDashBoardPharmacy.cs" />
+    <Compile Include="Contracts\IInventoryEntranceVoucher.cs" />
+    <Compile Include="Contracts\IInventoryInventoryControl.cs" />
+    <Compile Include="Contracts\IInventoryInventoryControlService.cs" />
+    <Compile Include="Contracts\IInventoryKardex.cs" />
+    <Compile Include="Contracts\IInventoryMedicationType.cs" />
+    <Compile Include="Contracts\IInventoryServicePharmaceuticalFormGrouping.cs" />
+    <Compile Include="Contracts\IInventoryRequestParam.cs" />
+    <Compile Include="Contracts\IInventoryServiceAntineoplasicoMedication.cs" />
+    <Compile Include="Contracts\IInventoryServiceBacterialResistanceMedication.cs" />
+    <Compile Include="Contracts\IInventoryServiceConsignmentTransfer.cs" />
+    <Compile Include="Contracts\IInventoryServiceDevolutionCause.cs" />
+    <Compile Include="Contracts\IInventoryServiceReports.cs" />
+    <Compile Include="Contracts\IInventoryServiceSurgicalPackageProcess.cs" />
+    <Compile Include="Contracts\IInventoryShelfType.cs" />
+    <Compile Include="Contracts\IInventoryPurchaseOrderDevolution.cs" />
+    <Compile Include="Contracts\IInventoryRequest.cs" />
+    <Compile Include="Contracts\IInventoryRequestDevolution.cs" />
+    <Compile Include="Contracts\IInventoryServiceDocumentInvoiceProductSales.cs" />
+    <Compile Include="Contracts\IInventoryServiceInventoryMassiveConfirm.cs" />
+    <Compile Include="Contracts\IInventoryServiceInventoryRequestDetail.cs" />
+    <Compile Include="Contracts\IInventoryServiceLoanMerchandiseDevolution.cs" />
+    <Compile Include="Contracts\IInventoryServiceLoanMerchandise.cs" />
+    <Compile Include="Contracts\IInventoryPharmaceuticalDispensing.cs" />
+    <Compile Include="Contracts\IInventoryPharmacologicalGroup.cs" />
+    <Compile Include="Contracts\IInventoryAdjustmentConcept.cs" />
+    <Compile Include="Contracts\IInventoryManufacturer.cs" />
+    <Compile Include="Contracts\IInventoryOtherWithholdingDeductions.cs" />
+    <Compile Include="Contracts\IInventoryAttributeProductType.cs" />
+    <Compile Include="Contracts\IInventoryDCI.cs" />
+    <Compile Include="Contracts\IInventoryPharmaceuticalForm.cs" />
+    <Compile Include="Contracts\IInventoryAdministrationRoute.cs" />
+    <Compile Include="Contracts\IInventoryProduct.cs" />
+    <Compile Include="Contracts\IInventoryProductRateDetail.cs" />
+    <Compile Include="Contracts\IInventoryProductTemplate.cs" />
+    <Compile Include="Contracts\IInventoryProductType.cs" />
+    <Compile Include="Contracts\IInventoryPurchaseOrder.cs" />
+    <Compile Include="Contracts\IInventoryRiskLevel.cs" />
+    <Compile Include="Contracts\IInventoryServiceInventoryAdjustment.cs" />
+    <Compile Include="Contracts\IInventoryServiceInventoryContractDetail.cs" />
+    <Compile Include="Contracts\IInventoryServiceLoanMerchandiseDevolutionDetail.cs" />
+    <Compile Include="Contracts\IInventoryServiceLoanMerchandiseDetail.cs" />
+    <Compile Include="Contracts\IInventoryServiceConsumeService.cs" />
+    <Compile Include="Contracts\IInventoryServicePackagingUnit.cs" />
+    <Compile Include="Contracts\IInventoryServicePharmaceuticalDispensingDetailBatchSerial.cs" />
+    <Compile Include="Contracts\IInventoryServicePharmaceuticalDispensingDevolution.cs" />
+    <Compile Include="Contracts\IInventoryServicePharmaceuticalDispensingDevolutionDetail.cs" />
+    <Compile Include="Contracts\IInventoryServicePhysicalInventory.cs" />
+    <Compile Include="Contracts\IInventoryServicePurchaseOrderDetail.cs" />
+    <Compile Include="Contracts\IInventoryServicePurchaseRequest.cs" />
+    <Compile Include="Contracts\IInventoryServicePurchaseRequestDetail.cs" />
+    <Compile Include="Contracts\IInventoryServiceRemissionDevolution.cs" />
+    <Compile Include="Contracts\IInventoryServiceConsignmentInventoryRemission.cs" />
+    <Compile Include="Contracts\IInventoryServiceRemissionEntrance.cs" />
+    <Compile Include="Contracts\IInventoryServiceConsignmentInventoryRemissionDetail.cs" />
+    <Compile Include="Contracts\IInventoryServiceRemissionEntranceDetail.cs" />
+    <Compile Include="Contracts\IInventoryServiceConsignmentInventoryRemissionDetailBatchSerial.cs" />
+    <Compile Include="Contracts\IInventoryServiceRemissionEntranceDetailBatchSerial.cs" />
+    <Compile Include="Contracts\IInventoryServiceRemissionOutput.cs" />
+    <Compile Include="Contracts\IInventoryServiceRemissionOutputDetail.cs" />
+    <Compile Include="Contracts\IInventoryServiceRemissionOutputDetailPhysical.cs" />
+    <Compile Include="Contracts\IInventoryServiceTransferOrderDetail.cs" />
+    <Compile Include="Contracts\IInventoryServiceWarehouseStock.cs" />
+    <Compile Include="Contracts\IInventorySettingInventory.cs" />
+    <Compile Include="Contracts\IInventoryServiceInventorySupplie.cs" />
+    <Compile Include="Contracts\IInventoryPharmaceuticalDispensingTransfer.cs" />
+    <Compile Include="Contracts\IInventoryTrasnferOrder.cs" />
+    <Compile Include="Contracts\IInventoryTrasnferOrderDetailBatchSerial.cs" />
+    <Compile Include="Contracts\IInventoryUPRUnits.cs" />
+    <Compile Include="Contracts\IInventoryStorageTemperature.cs" />
+    <Compile Include="Contracts\IInventoryWarehouse.cs" />
+    <Compile Include="Contracts\IInventoryMeasureUnit.cs" />
+    <Compile Include="Contracts\IInventoryProductSubGroups.cs" />
+    <Compile Include="Contracts\IInventoryProductGroups.cs" />
+    <Compile Include="Contracts\IInventorySequense.cs" />
+    <Compile Include="Contracts\IInventoryService.cs" />
+    <Compile Include="Contracts\IInventoryEntranceVoucherDevolution.cs" />
+    <Compile Include="Contracts\IInventoryTransferOrderDevolution.cs" />
+    <Compile Include="Contracts\IInventoryServiceDocumentInvoiceProductSalesDetail.cs" />
+    <Compile Include="Contracts\IInventoryServiceProductInTransit.cs" />
+    <Compile Include="Contracts\IInventoryServiceRollbackStrategy.cs" />
+    <Compile Include="IInventoryServiceProductInTransitDetail.cs" />
+    <Compile Include="InventoryService.ATCEntity.cs" />
+    <Compile Include="InventoryService.AntineoplasicoMedication.cs" />
+    <Compile Include="InventoryService.BacterialResistanceMedication.cs" />
+    <Compile Include="InventoryService.DocumentInvoiceProductSales.cs" />
+    <Compile Include="InventoryService.DocumentInvoiceProductSalesDetail.cs" />
+    <Compile Include="InventoryService.EntranceVoucherDevolution.cs" />
+    <Compile Include="InventoryService.InventoryAdjustment.cs" />
+    <Compile Include="InventoryService.InventoryConsignmentTransfer.cs" />
+    <Compile Include="InventoryService.InventoryContractAssignment.cs" />
+    <Compile Include="InventoryService.InventoryContractModification.cs" />
+    <Compile Include="InventoryService.InventoryControl.cs" />
+    <Compile Include="InventoryService.InventoryMassiveConfirm.cs" />
+    <Compile Include="InventoryService.InventoryRequest.cs" />
+    <Compile Include="InventoryService.InventoryRequestDetail.cs" />
+    <Compile Include="InventoryService.InventorySupplie.cs" />
+    <Compile Include="InventoryService.Kardex.cs" />
+    <Compile Include="InventoryService.LoanMerchandiseDevolution.cs" />
+    <Compile Include="InventoryService.LoanMerchandiseDevolutionDetail.cs" />
+    <Compile Include="InventoryService.LoanMerchandiseDetail.cs" />
+    <Compile Include="InventoryService.LoanMerchandise.cs" />
+    <Compile Include="InventoryService.ConsumeService.cs" />
+    <Compile Include="InventoryService.DevolutionCause.cs" />
+    <Compile Include="InventoryService.ProductInTransit.cs" />
+    <Compile Include="InventoryService.ProductInTransitDetail.cs" />
+    <Compile Include="InventoryService.RequestParam.cs" />
+    <Compile Include="InventoryService.ShelfType.cs" />
+    <Compile Include="InventoryService.PackagingUnit.cs" />
+    <Compile Include="InventoryService.PharmaceuticalDispensing.cs" />
+    <Compile Include="InventoryService.PharmaceuticalDispensingDetailBatchSerial.cs" />
+    <Compile Include="InventoryService.PharmaceuticalDispensingDevolution.cs" />
+    <Compile Include="InventoryService.PharmaceuticalDispensingDevolutionDetail.cs" />
+    <Compile Include="InventoryService.ProductRateDetail.cs" />
+    <Compile Include="InventoryService.PurchaseRequest.cs" />
+    <Compile Include="InventoryService.PurchaseRequestDetail.cs" />
+    <Compile Include="InventoryService.RemissionDevolution.cs" />
+    <Compile Include="InventoryService.ConsignmentInventoryRemission.cs" />
+    <Compile Include="InventoryService.ConsignmentInventoryRemissionDetail.cs" />
+    <Compile Include="InventoryService.ConsignmentInventoryRemissionDetailBatchSerial.cs" />
+    <Compile Include="InventoryService.RemissionEntranceDetailBatchSerial.cs" />
+    <Compile Include="InventoryService.InventoryRequestDevolution.cs" />
+    <Compile Include="InventoryService.SettingInventory.cs" />
+    <Compile Include="InventoryService.BatchSerial.cs" />
+    <Compile Include="InventoryService.BlockRecordInventory.cs" />
+    <Compile Include="InventoryService.cs" />
+    <Compile Include="InventoryService.EntranceVoucher.cs" />
+    <Compile Include="InventoryService.InventoryContract.cs" />
+    <Compile Include="InventoryService.InventoryContractDetail.cs" />
+    <Compile Include="InventoryService.PharmacologicalGroup.cs" />
+    <Compile Include="InventoryService.AdjustmentConcept.cs" />
+    <Compile Include="InventoryService.Manufacturer.cs" />
+    <Compile Include="InventoryService.OtherWithholdingDeductions.cs" />
+    <Compile Include="InventoryService.AttributeProductType.cs" />
+    <Compile Include="InventoryService.DCI.cs" />
+    <Compile Include="InventoryService.PharmaceuticalForm.cs" />
+    <Compile Include="InventoryService.AdministrationRoute.cs" />
+    <Compile Include="InventoryService.PhysicalInventory.cs" />
+    <Compile Include="InventoryService.Product.cs" />
+    <Compile Include="InventoryService.ProductTemplate.cs" />
+    <Compile Include="InventoryService.ProductType.cs" />
+    <Compile Include="InventoryService.PurchaseOrder.cs" />
+    <Compile Include="InventoryService.RemissionEntrance.cs" />
+    <Compile Include="InventoryService.RemissionEntranceDetail.cs" />
+    <Compile Include="InventoryService.RemissionOutput.cs" />
+    <Compile Include="InventoryService.RemissionOutputDetail.cs" />
+    <Compile Include="InventoryService.RiskLevel.cs" />
+    <Compile Include="InventoryService.PharmaceuticalDispensingTransfer.cs" />
+    <Compile Include="InventoryService.SurgicalPackageProcess.cs" />
+    <Compile Include="InventoryService.TransferOrder.cs" />
+    <Compile Include="InventoryService.TransferOrderDetail.cs" />
+    <Compile Include="InventoryService.TransferOrderDetailBatchSerial.cs" />
+    <Compile Include="InventoryService.TransferOrderDevolution.cs" />
+    <Compile Include="InventoryService.UPRUnits.cs" />
+    <Compile Include="InventoryService.StorageTemperature.cs" />
+    <Compile Include="InventoryService.Warehouse.cs" />
+    <Compile Include="InventoryService.MeasureUnit.cs" />
+    <Compile Include="InventoryService.ProductSubGroups.cs" />
+    <Compile Include="InventoryService.Sequense.cs" />
+    <Compile Include="InventoryService.ATC.cs" />
+    <Compile Include="InventoryService.WarehouseStock.cs" />
+    <Compile Include="InventoryService.PharmaceuticalFormGrouping.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Unity\Container.cs" />
+    <Compile Include="InventoryService.PurchaseOrderDevolution.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="InventoryService.ProductGroups.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Application.Accounting\Application.Accounting.vbproj">
+      <Project>{3eca7b1f-d62b-4223-9f17-53a1c5b3a0c9}</Project>
+      <Name>Application.Accounting</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Application.Billing\Application.Billing.vbproj">
+      <Project>{22ec7c4c-0cab-46ad-8137-4ec5ebd42335}</Project>
+      <Name>Application.Billing</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Application.Budget\Application.Budget.vbproj">
+      <Project>{ae94c086-82ba-42e7-9502-2fe42e3fd365}</Project>
+      <Name>Application.Budget</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Application.Common\Application.Common.vbproj">
+      <Project>{0509E89E-92DF-4B99-A74B-3043C7E6B1D2}</Project>
+      <Name>Application.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Application.Contract\Application.Contract.vbproj">
+      <Project>{1573e13c-2daa-459f-b74b-02e221c72c06}</Project>
+      <Name>Application.Contract</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Application.EventHandlers\Application.EventHandlers.csproj">
+      <Project>{bc7db3be-4b97-49d3-92b1-dbac5aa3021b}</Project>
+      <Name>Application.EventHandlers</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Application.Glosas\Application.Glosas.vbproj">
+      <Project>{59ee539b-bfb1-4114-a11e-3bac5971bbc3}</Project>
+      <Name>Application.Glosas</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Application.Inventory\Application.Inventory.csproj">
+      <Project>{355f1dee-04d6-492c-8bbf-22b00e19ac79}</Project>
+      <Name>Application.Inventory</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Application.MedicalFees\Application.MedicalFees.vbproj">
+      <Project>{99a411fd-a8e8-4881-992f-cecb763e7569}</Project>
+      <Name>Application.MedicalFees</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Application.MixingStation\Application.MixingStation.vbproj">
+      <Project>{1780673A-3A88-4802-9BE4-5C3BAD1D8D1B}</Project>
+      <Name>Application.MixingStation</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Application.Payments\Application.Payments.vbproj">
+      <Project>{6d5a593d-d08d-4c4e-8cac-0a7cf615522e}</Project>
+      <Name>Application.Payments</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Application.Payroll\Application.Payroll.vbproj">
+      <Project>{787ce04a-a6b3-41fd-97d4-2c7e12ac7a65}</Project>
+      <Name>Application.Payroll</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Application.Receivable\Application.Portfolio.vbproj">
+      <Project>{0e3ce6cd-428b-4c23-96f8-5080650f898a}</Project>
+      <Name>Application.Portfolio</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Application.Security\Application.Security.vbproj">
+      <Project>{57355c0b-d732-4ab2-88a4-4ab855376599}</Project>
+      <Name>Application.Security</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Application.Treasury\Application.Treasury.vbproj">
+      <Project>{b7a6adb9-46bd-4791-bafb-626b69358166}</Project>
+      <Name>Application.Treasury</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DistributedServices.Authentication\DistributedServices.Authentication.vbproj">
+      <Project>{EBFDECA0-D6B3-470B-99AB-2CEE3C356117}</Project>
+      <Name>DistributedServices.Authentication</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DistributedServices.ConsumeService\DistributedServices.ConsumeService.vbproj">
+      <Project>{5050200f-5d85-4ed7-99da-84b2dc93fcd4}</Project>
+      <Name>DistributedServices.ConsumeService</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Domain.Base.Entities\Domain.Base.Entities.vbproj">
+      <Project>{78734d29-0073-4d48-9d0b-2362d0243e36}</Project>
+      <Name>Domain.Base.Entities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Domain.Base\Domain.Base.vbproj">
+      <Project>{8157f242-6a69-44c1-a9ac-19f0ee5cb8a2}</Project>
+      <Name>Domain.Base</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Domain.Crystal.Entities\Domain.Crystal.Entities.vbproj">
+      <Project>{aef25407-1a53-4f3b-93cb-5258a6b80951}</Project>
+      <Name>Domain.Crystal.Entities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Domain.Crystal\Domain.Crystal.vbproj">
+      <Project>{fb110e4f-2309-46ef-8a11-d979517e315b}</Project>
+      <Name>Domain.Crystal</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Domain.Entities.Service\Domain.Entities.Service.vbproj">
+      <Project>{99e9ab54-bb1b-4279-99e7-b4b8e7068ce7}</Project>
+      <Name>Domain.Entities.Service</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Domain.Entities\Domain.Entities.vbproj">
+      <Project>{0551aef4-ed84-4745-b00b-7475f26015cc}</Project>
+      <Name>Domain.Entities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Domain.InterfaceERPGlosa\Domain.InterfaceERPGlosa.vbproj">
+      <Project>{eaf86347-33f7-4f5e-a923-a42994c77955}</Project>
+      <Name>Domain.InterfaceERPGlosa</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Domain.Inventory\Domain.Inventory.csproj">
+      <Project>{62504CDC-606B-4D89-9E9F-0A18C43FD8A4}</Project>
+      <Name>Domain.Inventory</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Domain.Maintenance\Domain.Maintenance.vbproj">
+      <Project>{21e7389b-f4ee-454a-9559-10b919970e89}</Project>
+      <Name>Domain.Maintenance</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Domain.Payroll\Domain.Payroll.vbproj">
+      <Project>{0b26cafa-8df4-49ab-8943-41a91d67694e}</Project>
+      <Name>Domain.Payroll</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Domain.Security\Domain.Security.vbproj">
+      <Project>{435b789a-be74-4f5a-932f-0a4900825d61}</Project>
+      <Name>Domain.Security</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastructure.CrossCutting.Audit\Infrastructure.CrossCutting.Audit.vbproj">
+      <Project>{d2b2306d-6404-46cd-8a22-f827f3e1b75c}</Project>
+      <Name>Infrastructure.CrossCutting.Audit</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastructure.CrossCutting.Base\Infrastructure.CrossCutting.Base.vbproj">
+      <Project>{2773d9f7-93bd-4520-9726-bce0d8875696}</Project>
+      <Name>Infrastructure.CrossCutting.Base</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastructure.CrossCutting.Queue\Infrastructure.CrossCutting.Queue.vbproj">
+      <Project>{4ECC4501-B252-4AFF-A829-DC46BCCA069B}</Project>
+      <Name>Infrastructure.CrossCutting.Queue</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastructure.CrossCutting.Rollback\Infrastructure.CrossCutting.Rollback.csproj">
+      <Project>{6bfd498b-a576-4bac-b6c7-cb49eb39e3f5}</Project>
+      <Name>Infrastructure.CrossCutting.Rollback</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastructure.CrossCutting.Security\Infrastructure.CrossCutting.Security.vbproj">
+      <Project>{358f9e13-8e7f-41ec-be1d-b38af3e1ffa8}</Project>
+      <Name>Infrastructure.CrossCutting.Security</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastructure.Data.Base\Infrastructure.Data.Base.vbproj">
+      <Project>{69c4fe61-549b-42e8-adac-18d1cfc83fed}</Project>
+      <Name>Infrastructure.Data.Base</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastructure.Data.CrystalRepository\Infrastructure.Data.CrystalRepository.vbproj">
+      <Project>{99bd064d-fb14-49bc-a2e5-a8b26b6a0f95}</Project>
+      <Name>Infrastructure.Data.CrystalRepository</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastructure.Data.MaintenanceRepository\Infrastructure.Data.MaintenanceRepository.vbproj">
+      <Project>{8778b018-79ca-4fba-8295-5497618f3ac1}</Project>
+      <Name>Infrastructure.Data.MaintenanceRepository</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastructure.Data.ModelRepository\Infrastructure.Data.ModelRepository.vbproj">
+      <Project>{a029ee5d-d97c-45a3-a213-43e17d1dbe0d}</Project>
+      <Name>Infrastructure.Data.ModelRepository</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastructure.Data.PayrollRepository\Infrastructure.Data.PayrollRepository.vbproj">
+      <Project>{97673314-a589-43c4-a604-54ec33856a76}</Project>
+      <Name>Infrastructure.Data.PayrollRepository</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastructure.Data.SecurityRepository\Infrastructure.Data.SecurityRepository.vbproj">
+      <Project>{c1457f9b-b14f-4dcf-9f8e-b317c9a9ef8f}</Project>
+      <Name>Infrastructure.Data.SecurityRepository</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="InventoryService.InventoryContractType.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="InventoryService.PurchaseOrderDetail.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="InventoryService.RemissionOutputDetailPhysical.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="InventoryService.InventoryControlService.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="InventoryService.Reports.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <Compile Include="InventoryService.ConsignmentCostList.cs" />
+    <Compile Include="InventoryService.DashBoardPharmacy.cs" />
+    <Compile Include="InventoryService.MedicationType.cs" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

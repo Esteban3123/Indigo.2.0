@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:ser="http://schemas.microsoft.com/2003/10/Serialization/" xmlns:tns="http://schemas.datacontract.org/2004/07/Indigo.Sinapsis.Core.Domain.Product" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/Indigo.Sinapsis.Core.Domain.Product" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import schemaLocation="http://appserver-sbs.azurewebsites.net/VIEERPIntegration.svc?xsd=xsd4" namespace="http://schemas.datacontract.org/2004/07/Indigo.Sinapsis.Core.Domain.IFF" />
+  <xs:import schemaLocation="http://appserver-sbs.azurewebsites.net/VIEERPIntegration.svc?xsd=xsd3" namespace="http://schemas.datacontract.org/2004/07/Indigo.Sinapsis.Core.Domain.Company" />
+  <xs:import schemaLocation="http://appserver-sbs.azurewebsites.net/VIEERPIntegration.svc?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+  <xs:import schemaLocation="http://appserver-sbs.azurewebsites.net/VIEERPIntegration.svc?xsd=xsd9" namespace="http://schemas.datacontract.org/2004/07/Indigo.Sinapsis.Core.Domain.Supplier" />
+  <xs:complexType name="ProductOfguid">
+    <xs:annotation>
+      <xs:appinfo>
+        <GenericType Name="ProductOf{0}{#}" Namespace="http://schemas.datacontract.org/2004/07/Indigo.Sinapsis.Core.Domain.Product" xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
+          <GenericParameter Name="guid" Namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+        </GenericType>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element minOccurs="0" name="ArrayOfVariables" nillable="true" type="xs:string" />
+      <xs:element xmlns:q1="http://schemas.datacontract.org/2004/07/Indigo.Sinapsis.Core.Domain.IFF" minOccurs="0" name="Category" nillable="true" type="q1:CategoryOfguid" />
+      <xs:element xmlns:q2="http://schemas.datacontract.org/2004/07/Indigo.Sinapsis.Core.Domain.Company" minOccurs="0" name="Company" nillable="true" type="q2:CompanyOfguid" />
+      <xs:element minOccurs="0" name="Identifier" type="ser:guid" />
+      <xs:element minOccurs="0" name="IsActive" type="xs:boolean" />
+      <xs:element minOccurs="0" name="LastPrice" type="xs:decimal" />
+      <xs:element minOccurs="0" name="LastQuantity" type="xs:int" />
+      <xs:element minOccurs="0" name="LastSupplier" nillable="true" type="xs:string" />
+      <xs:element xmlns:q3="http://schemas.datacontract.org/2004/07/Indigo.Sinapsis.Core.Domain.IFF" minOccurs="0" name="Manufacturer" nillable="true" type="q3:ManufacturerOfguid" />
+      <xs:element xmlns:q4="http://schemas.datacontract.org/2004/07/Indigo.Sinapsis.Core.Domain.IFF" minOccurs="0" name="PackageUnit" nillable="true" type="q4:PackageUnitOfguid" />
+      <xs:element minOccurs="0" name="ProductID" type="ser:guid" />
+      <xs:element minOccurs="0" name="ProductLookUp" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="ProductName" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="ProductPriceControl" type="xs:boolean" />
+      <xs:element minOccurs="0" name="ProductSKU" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="ProductState" type="xs:boolean" />
+      <xs:element xmlns:q5="http://schemas.datacontract.org/2004/07/Indigo.Sinapsis.Core.Domain.IFF" minOccurs="0" name="ProductType" nillable="true" type="q5:ProductTypeOfguid" />
+      <xs:element xmlns:q6="http://schemas.datacontract.org/2004/07/Indigo.Sinapsis.Core.Domain.IFF" minOccurs="0" name="TypeSaleTax" nillable="true" type="q6:TypeSaleTaxOfguid" />
+      <xs:element minOccurs="0" name="VariablesOfProduct" nillable="true" type="tns:ArrayOfProductVariableOfguid" />
+      <xs:element minOccurs="0" name="fecha" nillable="true" type="xs:dateTime" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ProductOfguid" nillable="true" type="tns:ProductOfguid" />
+  <xs:complexType name="ArrayOfProductVariableOfguid">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="ProductVariableOfguid" nillable="true" type="tns:ProductVariableOfguid" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfProductVariableOfguid" nillable="true" type="tns:ArrayOfProductVariableOfguid" />
+  <xs:complexType name="ProductVariableOfguid">
+    <xs:annotation>
+      <xs:appinfo>
+        <GenericType Name="ProductVariableOf{0}{#}" Namespace="http://schemas.datacontract.org/2004/07/Indigo.Sinapsis.Core.Domain.Product" xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
+          <GenericParameter Name="guid" Namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+        </GenericType>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element xmlns:q7="http://schemas.datacontract.org/2004/07/Indigo.Sinapsis.Core.Domain.Company" minOccurs="0" name="Company" nillable="true" type="q7:CompanyOfguid" />
+      <xs:element minOccurs="0" name="Identifier" type="ser:guid" />
+      <xs:element minOccurs="0" name="IsActive" type="xs:boolean" />
+      <xs:element minOccurs="0" name="Product" nillable="true" type="tns:ProductOfguid" />
+      <xs:element minOccurs="0" name="ProductVariableID" type="ser:guid" />
+      <xs:element xmlns:q8="http://schemas.datacontract.org/2004/07/Indigo.Sinapsis.Core.Domain.IFF" minOccurs="0" name="Variable" nillable="true" type="q8:VariableOfguid" />
+      <xs:element minOccurs="0" name="VariableValue" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ProductVariableOfguid" nillable="true" type="tns:ProductVariableOfguid" />
+  <xs:complexType name="ProductSupplierProductOfguid">
+    <xs:annotation>
+      <xs:appinfo>
+        <GenericType Name="ProductSupplierProductOf{0}{#}" Namespace="http://schemas.datacontract.org/2004/07/Indigo.Sinapsis.Core.Domain.Product" xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
+          <GenericParameter Name="guid" Namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+        </GenericType>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element xmlns:q9="http://schemas.datacontract.org/2004/07/Indigo.Sinapsis.Core.Domain.Company" minOccurs="0" name="Company" nillable="true" type="q9:CompanyOfguid" />
+      <xs:element minOccurs="0" name="ControlKeyProductQuality" type="ser:guid" />
+      <xs:element minOccurs="0" name="Identifier" type="ser:guid" />
+      <xs:element minOccurs="0" name="IsActive" type="xs:boolean" />
+      <xs:element minOccurs="0" name="Price" type="xs:decimal" />
+      <xs:element minOccurs="0" name="Product" nillable="true" type="tns:ProductOfguid" />
+      <xs:element xmlns:q10="http://schemas.datacontract.org/2004/07/Indigo.Sinapsis.Core.Domain.IFF" minOccurs="0" name="ProductQuality" nillable="true" type="q10:ProductQualityOfguid" />
+      <xs:element minOccurs="0" name="ProductSupplierProductID" type="ser:guid" />
+      <xs:element xmlns:q11="http://schemas.datacontract.org/2004/07/Indigo.Sinapsis.Core.Domain.Supplier" minOccurs="0" name="SupplierProduct" nillable="true" type="q11:SupplierProductOfguid" />
+      <xs:element xmlns:q12="http://schemas.datacontract.org/2004/07/Indigo.Sinapsis.Core.Domain.IFF" minOccurs="0" name="TypeSaleTax" nillable="true" type="q12:TypeSaleTaxOfguid" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ProductSupplierProductOfguid" nillable="true" type="tns:ProductSupplierProductOfguid" />
+</xs:schema>

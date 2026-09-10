@@ -1,0 +1,87 @@
+﻿#Region "Librerias Improtadas"
+Imports Infrastructure.CrossCutting.Base
+Imports Infrastructure.Data.Xpo
+Imports Infrastructure.Data.Xpo.PayrollRepository
+Imports Domain.Entities
+Imports Presentation.Base
+
+#End Region
+
+Public Class rptPayrollRelationNegative
+    Implements IReport
+
+    ''' <summary>
+    ''' Variable para inicializar los valores de sesion
+    ''' </summary>
+    Dim IndigoSessionValues As SessionValues = SessionValues.Instance
+
+
+    Public Sub CargarDataSource() Implements IReport.CargarDataSource
+        Try
+            Dim filtroConsulta As String = "PayrollDateLiquidated >= '" & Format(Me.ParametrosReporte(0), "yyyyMMdd") & "' And PayrollDateLiquidated <= '" & Format(Me.ParametrosReporte(1), "yyyyMMdd") & "'"
+            ''filtro por estado
+            'If ParametrosReporte(2) <> "T" Then
+            '    filtroConsulta &= " AND PayrollId.RegisterStatus = '" & ParametrosReporte(2) & "'"
+            'End If
+
+            'filtro por Empleado
+            If ParametrosReporte(2) IsNot Nothing Then
+                filtroConsulta &= " And Nit = '" & ParametrosReporte(2) & "'"
+            End If
+
+            ''filtro concepto
+            'If ParametrosReporte(4) IsNot Nothing Then
+            '    filtroConsulta &= " And ConceptId.Id = " & Me.ParametrosReporte(4)
+            'End If
+
+            ''filtro por Grupo
+            'If ParametrosReporte(5) IsNot Nothing And ParametrosReporte(6) IsNot Nothing Then
+            '    filtroConsulta &= " And PayrollId.GroupId.Id >= " & Me.ParametrosReporte(5) & " AND PayrollId.GroupId.Id <= " & ParametrosReporte(6)
+            'End If
+
+            'Dim list As List(Of PayrollVRelationNegativeXpo) = XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).PayrollService.GetCollection(Of PayrollVRelationNegativeXpo)(Nothing, filtroConsulta)
+
+            'For Each item In List.OrderBy(Function(x) x.PayrollId.GroupId.Id).ThenBy(Function(x) x.PayrollId.EmployeeId.Id).ToList
+            '    If Not dictionaryEmployee.ContainsKey(item.PayrollId.GroupId.Id & " - " & item.PayrollId.EmployeeId.Id) Then
+            '        item.NumEmploye = 1
+            '        dictionaryEmployee.Add(item.PayrollId.GroupId.Id & " - " & item.PayrollId.EmployeeId.Id, item.PayrollId.GroupId.Id & " - " & item.PayrollId.EmployeeId.Id)
+            '    Else
+            '        item.NumEmploye = 0
+            '    End If
+            'Next
+
+            Me.DataSource = XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).PayrollService.GetCollection(Of PayrollVRelationNegativeXpo)(Nothing, filtroConsulta)
+        Catch ex As Exception
+            MessageIndigo.Show(GetExceptionDetails(ex), MessageType.Errores, Me.Text, Botones.Aceptar, "")
+        End Try
+    End Sub
+
+    Public Function GetExceptionDetails(exception As Exception) As String
+        Dim properties = exception.[GetType]().GetProperties()
+        Dim fields = properties.[Select](Function([property]) New With { _
+            Key .Name = [property].Name, _
+            Key .Value = [property].GetValue(exception, Nothing) _
+        }).[Select](Function(x) [String].Format("{0} : {1}", x.Name, If(x.Value IsNot Nothing, x.Value.ToString(), [String].Empty)))
+        Return [String].Join(vbLf, fields)
+    End Function
+
+    Public Sub CargarImagenes() Implements IReport.CargarImagenes
+
+    End Sub
+
+    Public ReadOnly Property NameReport As String Implements IReport.NameReport
+        Get
+            Return ""
+        End Get
+    End Property
+
+    Public Property ParametrosReporte As Object() Implements IReport.ParametrosReporte
+
+    Private Sub rptPayrollLiquidationdetailGrupoPorConcepto_BeforePrint(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles MyBase.BeforePrint
+        INDlblFechaFin.Text = Me.ParametrosReporte(1)
+        INDlblFechaInicio.Text = Me.ParametrosReporte(0)
+        INDLblCompany.Text = IndigoSessionValues.IndigoCompanyName
+        INDLblNitCompany.Text = "Nit:" & IndigoSessionValues.IndigoCompanyNit
+        INDUserImp.Text = "Usuario Impresión : " & IndigoSessionValues.UserIndigo & " - " & IndigoSessionValues.UserIndigoName
+    End Sub
+End Class

@@ -1,0 +1,51 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <RootNamespace>Presentation.Reporter.ElectronicDocuments</RootNamespace>
+    <AssemblyName>Presentation.Reporter.ElectronicDocuments</AssemblyName>
+    <OptionInfer>On</OptionInfer>
+    <OptionStrict>Off</OptionStrict>
+    <DefaultItemExcludes>$(DefaultItemExcludes);$(ProjectDir)**\*.cs</DefaultItemExcludes>
+    <EnableDefaultCompileItems>true</EnableDefaultCompileItems>
+    <LangVersion>latest</LangVersion>
+    <!-- Desactivar warnings como errores para NuGet -->
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <NoWarn>$(NoWarn);NU1603;NU1605</NoWarn>
+  </PropertyGroup>
+  
+  <!-- Import global de Microsoft.VisualBasic para funciones VB.NET -->
+  <ItemGroup>
+    <Import Include="Microsoft.VisualBasic" />
+  </ItemGroup>
+
+  <!-- Paquetes NuGet compatibles con netstandard2.0 -->
+  <ItemGroup>
+    <PackageReference Include="System.Drawing.Common" Version="6.0.0" />
+    <PackageReference Include="Microsoft.VisualBasic" Version="10.3.0" />
+  </ItemGroup>
+
+  <!-- Referencias DevExpress 20.1 - DLLs de .NET Standard -->
+  <ItemGroup>
+    <Reference Include="DevExpress.Data.v20.1">
+      <HintPath>..\..\..\..\Program Files (x86)\DevExpress 20.1\Components\Bin\Standard\DevExpress.Data.v20.1.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.Printing.v20.1.Core">
+      <HintPath>..\..\..\..\Program Files (x86)\DevExpress 20.1\Components\Bin\Standard\DevExpress.Printing.v20.1.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.Xpo.v20.1">
+      <HintPath>..\..\..\..\Program Files (x86)\DevExpress 20.1\Components\Bin\Standard\DevExpress.Xpo.v20.1.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.XtraReports.v20.1">
+      <HintPath>..\..\..\..\Program Files (x86)\DevExpress 20.1\Components\Bin\Standard\DevExpress.XtraReports.v20.1.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  
+  <ItemGroup>
+    <Compile Update="Reports\BillingNote\rptBillingNote.vb" />
+    <Compile Update="Reports\BillingNote\rptBillingNoteDetail.vb" />
+    <Compile Update="Reports\Invoice\rptBasicBilling.vb" />
+    <Compile Update="Reports\Invoice\rptInvoiceProducts.vb" />
+    <Compile Update="Reports\Invoice\rptSaleInvoice.vb" />
+    <Compile Update="Reports\Invoice\rptSaleInvoiceCapitated.vb" />
+  </ItemGroup>
+</Project>

@@ -1,0 +1,470 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\Microsoft.VisualStudio.Azure.Containers.Tools.Targets.1.11.1\build\Microsoft.VisualStudio.Azure.Containers.Tools.Targets.props" Condition="Exists('..\packages\Microsoft.VisualStudio.Azure.Containers.Tools.Targets.1.11.1\build\Microsoft.VisualStudio.Azure.Containers.Tools.Targets.props')" />
+  <Import Project="..\packages\EntityFramework.6.4.4\build\EntityFramework.props" Condition="Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.props')" />
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>
+    </SchemaVersion>
+    <ProjectGuid>{06D57A8E-8F0F-445F-AE49-DB9B17B5CB7A}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{F184B08F-C81C-45F6-A57F-5ABD9991F28F}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <RootNamespace>DistributedService.Deployment</RootNamespace>
+    <AssemblyName>DistributedService.Deployment</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <WcfConfigValidationEnabled>True</WcfConfigValidationEnabled>
+    <UseIISExpress>false</UseIISExpress>
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+    <UseGlobalApplicationHostFile />
+    <TargetFrameworkProfile />
+    <Use64BitIISExpress />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+    <DockerLaunchAction>LaunchWcfTestClient</DockerLaunchAction>
+    <DockerLaunchUrl>http://{ServiceIPAddress}/Accounting.svc</DockerLaunchUrl>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\</OutputPath>
+    <DocumentationFile>DistributedService.Deployment.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DocumentationFile>DistributedService.Deployment.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.4.4\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.4.4\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.EnterpriseLibrary.Caching">
+      <HintPath>..\DLL\Microsoft.Practices.EnterpriseLibrary.Caching.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.EnterpriseLibrary.Common, Version=5.0.414.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\DLL\Microsoft.Practices.EnterpriseLibrary.Common.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Practices.EnterpriseLibrary.Data">
+      <HintPath>..\DLL\Microsoft.Practices.EnterpriseLibrary.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.EnterpriseLibrary.ExceptionHandling, Version=5.0.414.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\DLL\Microsoft.Practices.EnterpriseLibrary.ExceptionHandling.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Practices.EnterpriseLibrary.ExceptionHandling.Logging, Version=5.0.414.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\DLL\Microsoft.Practices.EnterpriseLibrary.ExceptionHandling.Logging.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Practices.EnterpriseLibrary.ExceptionHandling.WCF">
+      <HintPath>..\DLL\Microsoft.Practices.EnterpriseLibrary.ExceptionHandling.WCF.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.EnterpriseLibrary.Logging, Version=5.0.414.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\DLL\Microsoft.Practices.EnterpriseLibrary.Logging.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Practices.EnterpriseLibrary.Logging.Database">
+      <HintPath>..\DLL\Microsoft.Practices.EnterpriseLibrary.Logging.Database.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.EnterpriseLibrary.PolicyInjection">
+      <HintPath>..\DLL\Microsoft.Practices.EnterpriseLibrary.PolicyInjection.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.EnterpriseLibrary.Validation, Version=5.0.414.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\DLL\Microsoft.Practices.EnterpriseLibrary.Validation.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Practices.ServiceLocation, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\DLL\Microsoft.Practices.ServiceLocation.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Unity, Version=2.0.414.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\DLL\Microsoft.Practices.Unity.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Unity.Configuration, Version=2.0.414.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\DLL\Microsoft.Practices.Unity.Configuration.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Unity.Interception, Version=2.0.414.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\DLL\Microsoft.Practices.Unity.Interception.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Unity.Interception.Configuration">
+      <HintPath>..\DLL\Microsoft.Practices.Unity.Interception.Configuration.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.13.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="RabbitMQ.Client, Version=6.0.0.0, Culture=neutral, PublicKeyToken=89e7d7c5feba84ce, processorArchitecture=MSIL">
+      <HintPath>..\packages\RabbitMQ.Client.6.5.0\lib\net461\RabbitMQ.Client.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Buffers.4.5.1\lib\net461\System.Buffers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Diagnostics.DiagnosticSource, Version=6.0.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Diagnostics.DiagnosticSource.6.0.1\lib\net461\System.Diagnostics.DiagnosticSource.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Memory, Version=4.0.1.2, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Memory.4.5.5\lib\net461\System.Memory.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Numerics.Vectors, Version=4.1.4.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Numerics.Vectors.4.5.0\lib\net46\System.Numerics.Vectors.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=6.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.6.1.0\lib\net462\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Threading.Channels, Version=7.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Threading.Channels.7.0.0\lib\net462\System.Threading.Channels.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Threading.Tasks.Extensions, Version=4.2.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Threading.Tasks.Extensions.4.5.4\lib\net461\System.Threading.Tasks.Extensions.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Import Include="System" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Admissions.svc" />
+    <Content Include="Authorization.svc" />
+    <Content Include="AccountManagement.svc" />
+    <Content Include="ElectronicDocuments.svc" />
+    <Content Include="MixingStation.svc" />
+    <Content Include="Taxes.svc" />
+    <Content Include="Cost.svc" />
+    <Content Include="Crystal.svc" />
+    <Content Include="Billing.svc" />
+    <Content Include="Accounting.svc" />
+    <Content Include="Budget.svc" />
+    <Content Include="Common.svc" />
+    <Content Include="CommonERP.svc" />
+    <Content Include="Contract.svc" />
+    <Content Include="FileManager.svc" />
+    <Content Include="FixedAssets.svc" />
+    <Content Include="InteropCost.svc" />
+    <Content Include="Inventory.svc" />
+    <Content Include="Maintenance.svc" />
+    <Content Include="Glosas.svc" />
+    <Content Include="crossdomain.xml" />
+    <Content Include="MedicalFees.svc" />
+    <Content Include="Payments.svc" />
+    <Content Include="Payroll.svc" />
+    <Content Include="Portfolio.svc" />
+    <Content Include="Security.svc" />
+    <Content Include="Treasury.svc" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="My Project\AssemblyInfo.vb" />
+    <Compile Include="My Project\Application.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Application.myapp</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="My Project\Resources.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="My Project\Settings.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="My Project\Resources.resx">
+      <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.vb</LastGenOutput>
+      <CustomToolNamespace>My.Resources</CustomToolNamespace>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Dockerfile" />
+    <None Include=".dockerignore">
+      <DependentUpon>Dockerfile</DependentUpon>
+    </None>
+    <None Include="My Project\Application.myapp">
+      <Generator>MyApplicationCodeGenerator</Generator>
+      <LastGenOutput>Application.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="My Project\PublishProfiles\droldan.pubxml" />
+    <None Include="My Project\PublishProfiles\erptx-qa - FTP.pubxml" />
+    <None Include="My Project\PublishProfiles\erptx-qa - ReadOnly - FTP.pubxml" />
+    <None Include="My Project\PublishProfiles\erptx-qa - Web Deploy.pubxml" />
+    <None Include="My Project\PublishProfiles\jddm.pubxml" />
+    <None Include="My Project\PublishProfiles\Local.pubxml" />
+    <None Include="My Project\PublishProfiles\Mario.pubxml" />
+    <None Include="My Project\PublishProfiles\rafa.pubxml" />
+    <None Include="My Project\PublishProfiles\yefer.pubxml" />
+    <None Include="My Project\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <CustomToolNamespace>My</CustomToolNamespace>
+      <LastGenOutput>Settings.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="packages.config" />
+    <None Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+    <None Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="App_Data\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DistribuitedServices.Authorization\DistribuitedServices.Authorization.vbproj">
+      <Project>{dd683071-f402-48c6-88d9-1c4e21501d04}</Project>
+      <Name>DistribuitedServices.Authorization</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DistribuitedServices.Billing\DistribuitedServices.Billing.vbproj">
+      <Project>{1ebf3a45-2439-4798-9156-371b7f502950}</Project>
+      <Name>DistribuitedServices.Billing</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DistribuitedServices.FixedAssets\DistribuitedServices.FixedAssets.vbproj">
+      <Project>{a6f558d3-03f8-4b62-be79-0a8305f64917}</Project>
+      <Name>DistribuitedServices.FixedAssets</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DistribuitedServicesPortfolio\DistribuitedServices.Portfolio.vbproj">
+      <Project>{1bca3095-63f4-4285-ad01-b4e228bd25b3}</Project>
+      <Name>DistribuitedServices.Portfolio</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Distributed.Manten\DistributedServices.Maintenance.vbproj">
+      <Project>{f5563670-b434-42e8-a801-b92486bafbaf}</Project>
+      <Name>DistributedServices.Maintenance</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DistributedService.AccountManagement\DistributedServices.AccountManagement.vbproj">
+      <Project>{2bc7af65-b273-4611-aa4e-785a740a977e}</Project>
+      <Name>DistributedServices.AccountManagement</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DistributedServices.Accounting\DistributedServices.Accounting.vbproj">
+      <Project>{0ee33f3d-fde6-4456-8394-185c36b84430}</Project>
+      <Name>DistributedServices.Accounting</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DistributedServices.Admissions\DistributedServices.Admissions.vbproj">
+      <Project>{91d76bcb-1384-4848-b411-f01dd40544bf}</Project>
+      <Name>DistributedServices.Admissions</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DistributedServices.Base\DistributedServices.Base.vbproj">
+      <Project>{c4e0bc92-b6a7-4b1a-b280-150aa44e1ac9}</Project>
+      <Name>DistributedServices.Base</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DistributedServices.Budget\DistributedServices.Budget.vbproj">
+      <Project>{1b753d9d-9d71-45ae-b97f-0618e96323ec}</Project>
+      <Name>DistributedServices.Budget</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DistributedServices.Common\DistributedServices.Common.vbproj">
+      <Project>{d0620a2b-3906-4c00-8832-1d650860c2aa}</Project>
+      <Name>DistributedServices.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DistributedServices.Contract\DistributedServices.Contract.vbproj">
+      <Project>{123dbf86-3280-47b2-93ce-c5931d1f9860}</Project>
+      <Name>DistributedServices.Contract</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DistributedServices.Cost\DistributedServices.Cost.vbproj">
+      <Project>{27e35e79-ab45-4c0e-a594-71a1176f028b}</Project>
+      <Name>DistributedServices.Cost</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DistributedServices.Crystal\DistributedServices.Crystal.vbproj">
+      <Project>{cdc90ede-b9c5-41e5-98c3-048bbb9598db}</Project>
+      <Name>DistributedServices.Crystal</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DistributedServices.ElectronicDocuments\DistributedServices.ElectronicDocuments.vbproj">
+      <Project>{ec6a2e93-710a-4e67-9181-2d38223707c6}</Project>
+      <Name>DistributedServices.ElectronicDocuments</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DistributedServices.FileManager\DistributedServices.FileManager.vbproj">
+      <Project>{fc281ba2-95e2-41c8-834e-0359b6615f97}</Project>
+      <Name>DistributedServices.FileManager</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DistributedServices.Glosas\DistributedServices.Glosas.vbproj">
+      <Project>{bb9cd7a8-2533-419a-8de5-dab7eaa963de}</Project>
+      <Name>DistributedServices.Glosas</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DistributedServices.InteropCost\DistributedServices.InteropCost.vbproj">
+      <Project>{f721aa01-2cba-4fd5-9c9d-be7ea783edd2}</Project>
+      <Name>DistributedServices.InteropCost</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DistributedServices.Inventory\DistributedServices.Inventory.csproj">
+      <Project>{9a533c87-745e-46ff-b7c2-d4ef253d0fdd}</Project>
+      <Name>DistributedServices.Inventory</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DistributedServices.MedicalFees\DistributedServices.MedicalFees.vbproj">
+      <Project>{1fe8cb46-48c7-4e39-8e90-050a24ef0a7f}</Project>
+      <Name>DistributedServices.MedicalFees</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DistributedServices.MixingStation\DistributedServices.MixingStation.vbproj">
+      <Project>{e0c848b6-0f70-4a4f-974d-dbae4d0b4773}</Project>
+      <Name>DistributedServices.MixingStation</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DistributedServices.Payments\DistributedServices.Payments.vbproj">
+      <Project>{9bf90db5-ea04-41ce-b674-127f40bea0e0}</Project>
+      <Name>DistributedServices.Payments</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DistributedServices.Payroll\DistributedServices.Payroll.vbproj">
+      <Project>{15b3e0d2-6217-493a-a690-158c497f5318}</Project>
+      <Name>DistributedServices.Payroll</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DistributedServices.Security\DistributedServices.Security.vbproj">
+      <Project>{5c8c7603-1442-432c-890c-2a43f2d6d373}</Project>
+      <Name>DistributedServices.Security</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DistributedServices.Taxes\DistributedServices.Taxes.vbproj">
+      <Project>{84e3f681-231c-4150-a4b9-63e31357eade}</Project>
+      <Name>DistributedServices.Taxes</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DistributedServices.Treasury\DistributedServices.Treasury.vbproj">
+      <Project>{729d7406-939b-4baf-843e-6d0804ce2fa1}</Project>
+      <Name>DistributedServices.Treasury</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionExplicit>On</OptionExplicit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionCompare>Binary</OptionCompare>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionStrict>Off</OptionStrict>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionInfer>On</OptionInfer>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>
+    </AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debugcito|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\</OutputPath>
+    <DocumentationFile>DistributedService.Deployment.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\</OutputPath>
+    <DocumentationFile>DistributedService.Deployment.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\</OutputPath>
+    <DocumentationFile>DistributedService.Deployment.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debugcito|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\</OutputPath>
+    <DocumentationFile>DistributedService.Deployment.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.VisualBasic.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>False</AutoAssignPort>
+          <DevelopmentServerPort>9000</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:9000/ServiceEntity</IISUrl>
+          <OverrideIISAppRootUrl>True</OverrideIISAppRootUrl>
+          <IISAppRootUrl>http://localhost:9000/ServiceEntity</IISAppRootUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>http://localhost/ServiceEntity/</CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>Este proyecto hace referencia a los paquetes NuGet que faltan en este equipo. Use la restauración de paquetes NuGet para descargarlos. Para obtener más información, consulte http://go.microsoft.com/fwlink/?LinkID=322105. El archivo que falta es {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\EntityFramework.6.4.4\build\EntityFramework.props'))" />
+    <Error Condition="!Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\EntityFramework.6.4.4\build\EntityFramework.targets'))" />
+    <Error Condition="!Exists('..\packages\Microsoft.VisualStudio.Azure.Containers.Tools.Targets.1.11.1\build\Microsoft.VisualStudio.Azure.Containers.Tools.Targets.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.VisualStudio.Azure.Containers.Tools.Targets.1.11.1\build\Microsoft.VisualStudio.Azure.Containers.Tools.Targets.props'))" />
+    <Error Condition="!Exists('..\packages\Microsoft.VisualStudio.Azure.Containers.Tools.Targets.1.11.1\build\Microsoft.VisualStudio.Azure.Containers.Tools.Targets.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.VisualStudio.Azure.Containers.Tools.Targets.1.11.1\build\Microsoft.VisualStudio.Azure.Containers.Tools.Targets.targets'))" />
+  </Target>
+  <Import Project="..\packages\EntityFramework.6.4.4\build\EntityFramework.targets" Condition="Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.targets')" />
+  <Import Project="..\packages\Microsoft.VisualStudio.Azure.Containers.Tools.Targets.1.11.1\build\Microsoft.VisualStudio.Azure.Containers.Tools.Targets.targets" Condition="Exists('..\packages\Microsoft.VisualStudio.Azure.Containers.Tools.Targets.1.11.1\build\Microsoft.VisualStudio.Azure.Containers.Tools.Targets.targets')" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

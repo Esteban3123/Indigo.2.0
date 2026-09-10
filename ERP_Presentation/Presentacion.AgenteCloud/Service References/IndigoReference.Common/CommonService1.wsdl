@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:wsap="http://schemas.xmlsoap.org/ws/2004/08/addressing/policy" xmlns:wsa10="http://www.w3.org/2005/08/addressing" xmlns:tns="http://tempuri.org/" xmlns:msc="http://schemas.microsoft.com/ws/2005/12/wsdl/contract" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:wsx="http://schemas.xmlsoap.org/ws/2004/09/mex" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="CommonService" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsp:Policy wsu:Id="wsHttp_Endpoint_Common_policy">
+    <wsp:ExactlyOne>
+      <wsp:All>
+        <wsaw:UsingAddressing />
+      </wsp:All>
+    </wsp:ExactlyOne>
+  </wsp:Policy>
+  <wsp:Policy wsu:Id="netTcp_Endpoint_Common_policy">
+    <wsp:ExactlyOne>
+      <wsp:All>
+        <msb:BinaryEncoding xmlns:msb="http://schemas.microsoft.com/ws/06/2004/mspolicy/netbinary1" />
+        <wsaw:UsingAddressing />
+      </wsp:All>
+    </wsp:ExactlyOne>
+  </wsp:Policy>
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://tempuri.org/Imports">
+      <xsd:import schemaLocation="http://localhost:9999/ServiceEntity/Common.svc/ServiceEntity/?xsd=xsd0" namespace="http://tempuri.org/" />
+      <xsd:import schemaLocation="http://localhost:9999/ServiceEntity/Common.svc/ServiceEntity/?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+      <xsd:import schemaLocation="http://localhost:9999/ServiceEntity/Common.svc/ServiceEntity/?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/Infrastructure.CrossCutting.Base" />
+      <xsd:import schemaLocation="http://localhost:9999/ServiceEntity/Common.svc/ServiceEntity/?xsd=xsd3" namespace="http://schemas.datacontract.org/2004/07/DistributedServices.Base" />
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="ICommonService_GetServerDate_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetServerDate" />
+  </wsdl:message>
+  <wsdl:message name="ICommonService_GetServerDate_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetServerDateResponse" />
+  </wsdl:message>
+  <wsdl:message name="ICommonService_GetCustomDateFormatDate_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetCustomDateFormatDate" />
+  </wsdl:message>
+  <wsdl:message name="ICommonService_GetCustomDateFormatDate_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetCustomDateFormatDateResponse" />
+  </wsdl:message>
+  <wsdl:message name="ICommonService_GetCustomDateStringFormat_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetCustomDateStringFormat" />
+  </wsdl:message>
+  <wsdl:message name="ICommonService_GetCustomDateStringFormat_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetCustomDateStringFormatResponse" />
+  </wsdl:message>
+  <wsdl:message name="ICommonService_GetNotificationServiceCredential_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetNotificationServiceCredential" />
+  </wsdl:message>
+  <wsdl:message name="ICommonService_GetNotificationServiceCredential_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetNotificationServiceCredentialResponse" />
+  </wsdl:message>
+  <wsdl:portType name="ICommonService">
+    <wsdl:operation name="GetServerDate">
+      <wsdl:input wsaw:Action="http://tempuri.org/ICommonService/GetServerDate" message="tns:ICommonService_GetServerDate_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ICommonService/GetServerDateResponse" message="tns:ICommonService_GetServerDate_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetCustomDateFormatDate">
+      <wsdl:input wsaw:Action="http://tempuri.org/ICommonService/GetCustomDateFormatDate" message="tns:ICommonService_GetCustomDateFormatDate_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ICommonService/GetCustomDateFormatDateResponse" message="tns:ICommonService_GetCustomDateFormatDate_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetCustomDateStringFormat">
+      <wsdl:input wsaw:Action="http://tempuri.org/ICommonService/GetCustomDateStringFormat" message="tns:ICommonService_GetCustomDateStringFormat_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ICommonService/GetCustomDateStringFormatResponse" message="tns:ICommonService_GetCustomDateStringFormat_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetNotificationServiceCredential">
+      <wsdl:input wsaw:Action="http://tempuri.org/ICommonService/GetNotificationServiceCredential" message="tns:ICommonService_GetNotificationServiceCredential_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ICommonService/GetNotificationServiceCredentialResponse" message="tns:ICommonService_GetNotificationServiceCredential_OutputMessage" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="basicHttp_Endpoint_Common" type="tns:ICommonService">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="GetServerDate">
+      <soap:operation soapAction="http://tempuri.org/ICommonService/GetServerDate" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCustomDateFormatDate">
+      <soap:operation soapAction="http://tempuri.org/ICommonService/GetCustomDateFormatDate" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCustomDateStringFormat">
+      <soap:operation soapAction="http://tempuri.org/ICommonService/GetCustomDateStringFormat" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetNotificationServiceCredential">
+      <soap:operation soapAction="http://tempuri.org/ICommonService/GetNotificationServiceCredential" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="wsHttp_Endpoint_Common" type="tns:ICommonService">
+    <wsp:PolicyReference URI="#wsHttp_Endpoint_Common_policy" />
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="GetServerDate">
+      <soap12:operation soapAction="http://tempuri.org/ICommonService/GetServerDate" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCustomDateFormatDate">
+      <soap12:operation soapAction="http://tempuri.org/ICommonService/GetCustomDateFormatDate" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCustomDateStringFormat">
+      <soap12:operation soapAction="http://tempuri.org/ICommonService/GetCustomDateStringFormat" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetNotificationServiceCredential">
+      <soap12:operation soapAction="http://tempuri.org/ICommonService/GetNotificationServiceCredential" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="netTcp_Endpoint_Common" type="tns:ICommonService">
+    <wsp:PolicyReference URI="#netTcp_Endpoint_Common_policy" />
+    <soap12:binding transport="http://schemas.microsoft.com/soap/tcp" />
+    <wsdl:operation name="GetServerDate">
+      <soap12:operation soapAction="http://tempuri.org/ICommonService/GetServerDate" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCustomDateFormatDate">
+      <soap12:operation soapAction="http://tempuri.org/ICommonService/GetCustomDateFormatDate" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCustomDateStringFormat">
+      <soap12:operation soapAction="http://tempuri.org/ICommonService/GetCustomDateStringFormat" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetNotificationServiceCredential">
+      <soap12:operation soapAction="http://tempuri.org/ICommonService/GetNotificationServiceCredential" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="CommonService">
+    <wsdl:port name="basicHttp_Endpoint_Common" binding="tns:basicHttp_Endpoint_Common">
+      <soap:address location="http://localhost:9999/ServiceEntity/Common.svc/basicHttpCommon" />
+    </wsdl:port>
+    <wsdl:port name="wsHttp_Endpoint_Common" binding="tns:wsHttp_Endpoint_Common">
+      <soap12:address location="http://localhost:9999/ServiceEntity/Common.svc/wsHttpCommon" />
+      <wsa10:EndpointReference>
+        <wsa10:Address>http://localhost:9999/ServiceEntity/Common.svc/wsHttpCommon</wsa10:Address>
+      </wsa10:EndpointReference>
+    </wsdl:port>
+    <wsdl:port name="netTcp_Endpoint_Common" binding="tns:netTcp_Endpoint_Common">
+      <soap12:address location="net.tcp://desktop-fi54bma:9999/ServiceEntity/Common.svc/netTcpCommon" />
+      <wsa10:EndpointReference>
+        <wsa10:Address>net.tcp://desktop-fi54bma:9999/ServiceEntity/Common.svc/netTcpCommon</wsa10:Address>
+      </wsa10:EndpointReference>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

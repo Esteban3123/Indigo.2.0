@@ -1,0 +1,569 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{7BC84999-6EA3-47E9-92E9-697ADE41BB9A}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <StartupObject>
+    </StartupObject>
+    <RootNamespace>Presentation.Base</RootNamespace>
+    <AssemblyName>Presentation.Base</AssemblyName>
+    <FileAlignment>512</FileAlignment>
+    <MyType>Windows</MyType>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <PlatformTarget>x64</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DocumentationFile>Presentation.Base.xml</DocumentationFile>
+    <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <WarningsAsErrors>
+    </WarningsAsErrors>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DocumentationFile>Presentation.Base.xml</DocumentationFile>
+    <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
+    <WarningsAsErrors>
+    </WarningsAsErrors>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionExplicit>On</OptionExplicit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionCompare>Binary</OptionCompare>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionStrict>Off</OptionStrict>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionInfer>On</OptionInfer>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>
+    </AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <DebugType>Full</DebugType>
+    <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <OutputPath>bin\Release\</OutputPath>
+    <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debugcito|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x86\Debugcito\</OutputPath>
+    <DocumentationFile>Presentation.Base.xml</DocumentationFile>
+    <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debugcito|AnyCPU'">
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\Debugcito\</OutputPath>
+    <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
+    <DebugType>Full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
+    <DebugType>Full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
+    <PlatformTarget>x64</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debugcito|x64'">
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x64\Debugcito\</OutputPath>
+    <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
+    <DebugType>Full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'VieBuild|x86'">
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x86\VieBuild\</OutputPath>
+    <DocumentationFile>Presentation.Base.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'VieBuild|AnyCPU'">
+    <OutputPath>bin\VieBuild\</OutputPath>
+    <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'VieBuild|x64'">
+    <OutputPath>bin\x64\VieBuild\</OutputPath>
+    <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
+    <PlatformTarget>x64</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Common.Logging, Version=3.4.1.0, Culture=neutral, PublicKeyToken=af08829b84f0328e, processorArchitecture=MSIL">
+      <HintPath>..\packages\Common.Logging.3.4.1\lib\net40\Common.Logging.dll</HintPath>
+    </Reference>
+    <Reference Include="Common.Logging.Core, Version=3.4.1.0, Culture=neutral, PublicKeyToken=af08829b84f0328e, processorArchitecture=MSIL">
+      <HintPath>..\packages\Common.Logging.Core.3.4.1\lib\net40\Common.Logging.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.Data.v20.1, Version=20.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="DevExpress.Data.Desktop.v20.1, Version=20.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="DevExpress.Printing.v20.1.Core, Version=20.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Utils.v20.1, Version=20.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="DevExpress.XtraBars.v20.1, Version=20.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.XtraEditors.v20.1, Version=20.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="DevExpress.XtraGrid.v20.1, Version=20.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.XtraLayout.v20.1, Version=20.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Domain.Base.Entities, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\DLL\Domain.Base.Entities.dll</HintPath>
+    </Reference>
+    <Reference Include="Domain.Entities">
+      <HintPath>..\DLL\Domain.Entities.dll</HintPath>
+    </Reference>
+    <Reference Include="Domain.Security.Entities, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\DLL\Domain.Security.Entities.dll</HintPath>
+    </Reference>
+    <Reference Include="ExtCursors">
+      <HintPath>..\DLL\ExtCursors.dll</HintPath>
+    </Reference>
+    <Reference Include="Infrastructure.CrossCutting.Base, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\DLL\Infrastructure.CrossCutting.Base.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.Practices.EnterpriseLibrary.Common, Version=4.1.0.0, Culture=neutral, PublicKeyToken=e44a2bc38ed2c13c, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\DLL\Microsoft.Practices.EnterpriseLibrary.Common.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Practices.EnterpriseLibrary.Validation">
+      <HintPath>..\DLL\Microsoft.Practices.EnterpriseLibrary.Validation.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Practices.ServiceLocation">
+      <HintPath>..\DLL\Microsoft.Practices.ServiceLocation.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="System" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xaml" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Core" />
+    <Reference Include="WindowsBase" />
+    <Reference Include="WindowsFormsIntegration" />
+  </ItemGroup>
+  <ItemGroup>
+    <Import Include="Microsoft.VisualBasic" />
+    <Import Include="System" />
+    <Import Include="System.Collections.Generic" />
+    <Import Include="System.Diagnostics" />
+    <Import Include="System.Linq" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ClasesBases\BaseClass.vb" />
+    <Compile Include="ClasesBases\BaseClassForms.vb" />
+    <Compile Include="ClasesBases\Extension.vb" />
+    <Compile Include="ClasesBases\FormsCustomization .vb" />
+    <Compile Include="ClasesBases\FrmFlyoutIndigo.Designer.vb">
+      <DependentUpon>FrmFlyoutIndigo.vb</DependentUpon>
+    </Compile>
+    <Compile Include="ClasesBases\FrmFlyoutIndigo.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ClasesBases\FrmMensajeIndigo.Designer.vb">
+      <DependentUpon>FrmMensajeIndigo.vb</DependentUpon>
+    </Compile>
+    <Compile Include="ClasesBases\FrmMensajeIndigo.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ClasesBases\FrmTransparent.Designer.vb">
+      <DependentUpon>FrmTransparent.vb</DependentUpon>
+    </Compile>
+    <Compile Include="ClasesBases\FrmTransparent.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ClasesBases\IFrmStart.vb" />
+    <Compile Include="ClasesBases\MessageIndigo.vb" />
+    <Compile Include="ClasesBases\MessagesConversations.vb" />
+    <Compile Include="ClasesBases\MiMenuIndigo.vb" />
+    <Compile Include="ClasesBases\ModelBase.vb" />
+    <Compile Include="ClasesBases\PermisosFormularios.vb" />
+    <Compile Include="ClasesBases\Process.vb" />
+    <Compile Include="ClasesBases\ReportCache.vb" />
+    <Compile Include="ClasesBases\SelectorCache.vb" />
+    <Compile Include="ClasesBases\WindowFlash.vb" />
+    <Compile Include="Enumeracion\EndpointCodes.vb" />
+    <Compile Include="Enumeracion\EnumeracionesCopy.vb" />
+    <Compile Include="Enumeracion\Enumeraciones.vb" />
+    <Compile Include="ClasesBases\BaseModel.vb" />
+    <Compile Include="FeatureFlag\FeatureFlagSession.vb" />
+    <Compile Include="FrmMessageConversation.Designer.vb">
+      <DependentUpon>FrmMessageConversation.vb</DependentUpon>
+    </Compile>
+    <Compile Include="FrmMessageConversation.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="POCO\ServiceResponse.vb" />
+    <Compile Include="RecursosIdiomas\RecursoExcepcionesEN-US.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>RecursoExcepcionesEN-US.resx</DependentUpon>
+    </Compile>
+    <Compile Include="RecursosIdiomas\RecursosES-CO1.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>RecursosES-CO.resx</DependentUpon>
+    </Compile>
+    <Compile Include="RecursosIdiomas\RecursosExcepcionesES-CO.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>RecursosExcepcionesES-CO.resx</DependentUpon>
+    </Compile>
+    <Compile Include="ClasesBases\IcrudBase.vb" />
+    <Compile Include="My Project\AssemblyInfo.vb" />
+    <Compile Include="My Project\Application.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Application.myapp</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="My Project\Resources.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="My Project\Settings.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="RecursosIdiomas\RecursoEN-US.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>RecursoEN-US.resx</DependentUpon>
+    </Compile>
+    <Compile Include="ClasesBases\ControlsValidations.vb" />
+    <Compile Include="Reports.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reports.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Base_es-CO.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Base_es-CO.resx</DependentUpon>
+    </Compile>
+    <Compile Include="WPFMessageConversation.xaml.vb">
+      <DependentUpon>WPFMessageConversation.xaml</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="ClasesBases\FrmFlyoutIndigo.resx">
+      <DependentUpon>FrmFlyoutIndigo.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ClasesBases\FrmMensajeIndigo.resx">
+      <DependentUpon>FrmMensajeIndigo.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ClasesBases\FrmTransparent.resx">
+      <DependentUpon>FrmTransparent.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmMessageConversation.resx">
+      <DependentUpon>FrmMessageConversation.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="My Project\licenses.licx" />
+    <EmbeddedResource Include="RecursosIdiomas\RecursoExcepcionesEN-US.resx">
+      <CustomToolNamespace>My.Resources</CustomToolNamespace>
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>RecursoExcepcionesEN-US.Designer.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="RecursosIdiomas\RecursosExcepcionesES-CO.resx">
+      <CustomToolNamespace>My.Resources</CustomToolNamespace>
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>RecursosExcepcionesES-CO.Designer.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="My Project\Resources.resx">
+      <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.vb</LastGenOutput>
+      <CustomToolNamespace>My.Resources</CustomToolNamespace>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="RecursosIdiomas\RecursoEN-US.resx">
+      <CustomToolNamespace>My.Resources</CustomToolNamespace>
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>RecursoEN-US.Designer.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="RecursosIdiomas\RecursosES-CO.resx">
+      <CustomToolNamespace>My.Resources</CustomToolNamespace>
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>RecursosES-CO1.Designer.vb</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports.resx">
+      <CustomToolNamespace>My.Resources</CustomToolNamespace>
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Reports.Designer.vb</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Base_es-CO.resx">
+      <CustomToolNamespace>My.Resources</CustomToolNamespace>
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Base_es-CO.Designer.vb</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="My Project\Application.myapp">
+      <Generator>MyApplicationCodeGenerator</Generator>
+      <LastGenOutput>Application.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="My Project\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <CustomToolNamespace>My</CustomToolNamespace>
+      <LastGenOutput>Settings.Designer.vb</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Resources\60.png" />
+    <None Include="Resources\CursorVie.ani" />
+    <None Include="Resources\CursorVie.gif" />
+    <Content Include="Resources\aceptar16x16.png" />
+    <Content Include="Resources\BannerMensajeDer.png" />
+    <Content Include="Resources\BannerMensajeDer.svg" />
+    <Content Include="Resources\BannerMensajeIzq.png" />
+    <Content Include="Resources\BannerMensajeIzq.svg" />
+    <Content Include="Resources\Banner_angulo.png" />
+    <Content Include="Resources\Banner_negro.png" />
+    <Content Include="Resources\cancelar16x16.png" />
+    <Content Include="Xml\VieForms.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Xml\VieFormsModuleNuevo.xml" />
+    <Content Include="Xml\VieFormsNuevo.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Xml\VieGroupsNuevo.xml" />
+    <Content Include="Xml\VieModulesGroupNuevo.xml" />
+    <Content Include="Xml\VieModulesNuevo.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Xml\VieMonths.es-CO.xml" />
+    <Content Include="Xml\VieMonths.xml" />
+    <Content Include="Xml\VieFormsModule.xml" />
+    <Content Include="Xml\VieGroups.xml" />
+    <Content Include="Xml\VieModules.xml" />
+    <Content Include="Xml\VieModulesGroup.xml" />
+    <Content Include="Xml\ViePermissions.xml" />
+    <Content Include="Xml\ViePermissionsForm.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Xml\VieReportForms.xml" />
+    <Content Include="Xml\VieReports.xml" />
+    <Content Include="Xml\VieTitles.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Xml\VieWoeidCities.xml" />
+    <None Include="packages.config" />
+    <None Include="Resources\CursorBlue.cur" />
+    <None Include="Resources\CursorHandBlue.cur" />
+    <None Include="Resources\mensajeria-inverso.png" />
+    <None Include="Resources\IMG_0233.JPG" />
+    <None Include="Resources\IMG_0226.JPG" />
+    <None Include="Resources\GetUserPhoto.jpg" />
+    <None Include="Resources\CerrarClaro.png" />
+    <None Include="Resources\IconBussy.ico" />
+    <None Include="Resources\IconBussy16.ico" />
+    <None Include="Resources\IconMissing.ico" />
+    <None Include="Resources\IconMissing16.ico" />
+    <None Include="Resources\IconOffline.ico" />
+    <None Include="Resources\IconOffline16.ico" />
+    <None Include="Resources\IconOnline.ico" />
+    <None Include="Resources\IconOnline16.ico" />
+    <None Include="Resources\Vituel16.png" />
+    <None Include="Resources\Vituel24.png" />
+    <None Include="Resources\Vituel32.png" />
+    <None Include="Resources\Usuario180s.PNG" />
+    <None Include="Resources\User175x200.png" />
+    <None Include="Resources\logo.png" />
+    <None Include="Resources\LogoIndigo.png" />
+    <None Include="Resources\LogoIndigo2.png" />
+    <None Include="Resources\LogoIndigo3.png" />
+    <None Include="Resources\Loader.GIF" />
+    <None Include="Resources\60x60.png" />
+    <Content Include="Resources\Action_Printing_Print_32x32.png" />
+    <Content Include="Resources\Action_Security_ChangePassword_32x32.png" />
+    <None Include="Resources\Advertencia.png" />
+    <Content Include="Resources\Allergist 2.png" />
+    <Content Include="Resources\Allergist 21.png" />
+    <Content Include="Resources\Allergy Vials Dosage.png" />
+    <Content Include="Resources\Bandaid.png" />
+    <Content Include="Resources\Cadenas 3D.ico" />
+    <Content Include="Resources\Calendar.png" />
+    <Content Include="Resources\Chief of Staff 2 Edit 2.png" />
+    <Content Include="Resources\Chief of Staff 2.png" />
+    <Content Include="Resources\ClosePreviewLarge.png" />
+    <Content Include="Resources\copy-16x16.png" />
+    <None Include="Resources\CursorIndigo.ani" />
+    <None Include="Resources\CursorIndigo48.ani" />
+    <Content Include="Resources\cut-16x16.png" />
+    <Content Include="Resources\editpaste.ico" />
+    <Content Include="Resources\exit.ico" />
+    <Content Include="Resources\FindLarge.png" />
+    <Content Include="Resources\Find_16x16.png" />
+    <Content Include="Resources\First_32x32.png" />
+    <Content Include="Resources\Hospital.png" />
+    <Content Include="Resources\Icon1.ico" />
+    <Content Include="Resources\ico_favoritos.gif" />
+    <Content Include="Resources\Image1.bmp" />
+    <Content Include="Resources\images.jpg" />
+    <Content Include="Resources\Intensive Care Blue.png" />
+    <Content Include="Resources\Jrdn88 IconPackage Icon 146.ico" />
+    <Content Include="Resources\Jrdn88 IconPackage Icon 1461.ico" />
+    <Content Include="Resources\Jrdn88 IconPackage Icon 1462.ico" />
+    <Content Include="Resources\Jrdn88 IconPackage Icon 85.ico" />
+    <Content Include="Resources\Jrdn88 IconPackage Icon 851.ico" />
+    <Content Include="Resources\katomic.ico" />
+    <Content Include="Resources\kuser.ico" />
+    <Content Include="Resources\kuser.png" />
+    <Content Include="Resources\Last_32x32.png" />
+    <Content Include="Resources\Lock.ico" />
+    <Content Include="Resources\Login Manager.ico" />
+    <Content Include="Resources\Login Manager.png" />
+    <None Include="Resources\login.png" />
+    <Content Include="Resources\Medical Bills.png" />
+    <Content Include="Resources\Medical Chart.png" />
+    <Content Include="Resources\Medical Invoice 3D Configur.png" />
+    <Content Include="Resources\Medical Invoice 3D Configur1.png" />
+    <Content Include="Resources\Medical Invoice 3D Delete.png" />
+    <Content Include="Resources\Medical Invoice 3D Search.png" />
+    <Content Include="Resources\Medical Invoice 3D.png" />
+    <Content Include="Resources\Medical Invoice 3D1.png" />
+    <Content Include="Resources\mobsync.png" />
+    <Content Include="Resources\Network Connection Internet.png" />
+    <Content Include="Resources\Next_32x32.png" />
+    <Content Include="Resources\Next_32x321.png" />
+    <Content Include="Resources\Padlock User Control.png" />
+    <Content Include="Resources\Padlock User Control1.png" />
+    <Content Include="Resources\password.ico" />
+    <Content Include="Resources\paste-16x16.png" />
+    <Content Include="Resources\Patient Man 2 Blue.png" />
+    <Content Include="Resources\Prev_32x32.png" />
+    <Content Include="Resources\refresh.png" />
+    <Content Include="Resources\reminders.ico" />
+    <Content Include="Resources\Surgeon 1 Blue Check.png" />
+    <Content Include="Resources\Surgeon 1 Blue Restricted.png" />
+    <Content Include="Resources\Surgeon 1 Blue.png" />
+    <Content Include="Resources\Surgeon 1 Green Add.png" />
+    <Content Include="Resources\Surgeon 1 Green Edit.png" />
+    <Content Include="Resources\Surgeon 1 Green Restricted.png" />
+    <Content Include="Resources\Surgeon 2 Add.png" />
+    <Content Include="Resources\Tablet.png" />
+    <Content Include="Resources\TransitionControl.Icon.png" />
+    <Content Include="Resources\UndoLarge.png" />
+    <Content Include="Resources\Undo_16x16.png" />
+    <Content Include="Resources\Untitled.png" />
+    <Content Include="Resources\User.ico" />
+    <Content Include="Resources\User.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Infrastructure.CrossCutting.Exceptions\Infrastructure.CrossCutting.Exceptions.vbproj">
+      <Project>{4ddb3588-6bc6-4545-85ca-222b8348492f}</Project>
+      <Name>Infrastructure.CrossCutting.Exceptions</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Presentacion.AgenteCloud\Presentation.ProxyAgent.vbproj">
+      <Project>{ab3573a9-5acf-4971-b298-be3a1ed617e8}</Project>
+      <Name>Presentation.ProxyAgent</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Presentation.Resources\Presentation.Resources.vbproj">
+      <Project>{56a8b8d1-0a6c-456e-8978-2edf8c3b9034}</Project>
+      <Name>Presentation.Resources</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="DesignerWorkFlow\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="WPFMessageConversation.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
+  <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

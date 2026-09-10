@@ -1,0 +1,93 @@
+﻿#Region "Librerias Improtadas"
+Imports Infrastructure.CrossCutting.Base
+Imports Infrastructure.Data.Xpo
+Imports Infrastructure.Data.Xpo.AccountingRepository
+Imports Domain.Entities
+Imports DevExpress.XtraReports.UI
+Imports System.Drawing.Printing
+Imports Infrastructure.CrossCutting.Base.Utils
+#End Region
+
+Public Class rptResultStatusComparative
+    Implements IReport
+
+    Public Shared ExpressedValues As RoundLevel
+
+    Public Sub CargarDataSource() Implements IReport.CargarDataSource
+
+    End Sub
+
+    Public Sub CargarImagenes() Implements IReport.CargarImagenes
+
+    End Sub
+
+    Public ReadOnly Property NameReport As String Implements IReport.NameReport
+        Get
+            Return ""
+        End Get
+    End Property
+
+    Public Property ParametrosReporte As Object() Implements IReport.ParametrosReporte
+
+    ''' <summary>
+    ''' Evento que se dispara al pintarse el reporte
+    ''' </summary>
+    ''' <param name="sender"></param>
+    ''' <param name="e"></param>
+    Private Sub rptResultStatusAnual_BeforePrint(sender As Object, e As PrintEventArgs) Handles MyBase.BeforePrint
+        Dim isVisibleNumberAccount As Boolean = Me.Parameters("IncludedAccountNumber").Value
+        If isVisibleNumberAccount = False Then
+            Dim xrTableRow As XRTableRow = XrTable10.Rows(0)
+            If xrTableRow.Cells(XrTableCell28.Name) IsNot Nothing Then
+                Dim control = Me.FindControl(XrTableCell28.Name, True)
+                xrTableRow.Cells.Remove(control)
+            End If
+        End If
+    End Sub
+
+    Dim valueResult As Decimal = 0
+
+    Private Sub XrTableCell30_SummaryReset(sender As Object, e As EventArgs) Handles XrTableCell30.SummaryReset
+        valueResult = 0
+    End Sub
+
+    Private Sub XrTableCell30_SummaryRowChanged(sender As Object, e As EventArgs) Handles XrTableCell30.SummaryRowChanged
+        valueResult += Convert.ToDecimal(GetCurrentColumnValue("newBalanceInitial"))
+    End Sub
+
+    Private Sub XrTableCell30_SummaryGetResult(sender As Object, e As SummaryGetResultEventArgs) Handles XrTableCell30.SummaryGetResult
+        e.Result = Utils.RoundValue(valueResult, ExpressedValues)
+        e.Handled = True
+    End Sub
+
+    Dim valueResult2 As Decimal = 0
+
+    Private Sub XrTableCell1_SummaryReset(sender As Object, e As EventArgs) Handles XrTableCell1.SummaryReset
+        valueResult2 = 0
+    End Sub
+
+    Private Sub XrTableCell1_SummaryRowChanged(sender As Object, e As EventArgs) Handles XrTableCell1.SummaryRowChanged
+        valueResult2 += Convert.ToDecimal(GetCurrentColumnValue("newBalanceFinal"))
+    End Sub
+
+    Private Sub XrTableCell1_SummaryGetResult(sender As Object, e As SummaryGetResultEventArgs) Handles XrTableCell1.SummaryGetResult
+        e.Result = Utils.RoundValue(valueResult2, ExpressedValues)
+        e.Handled = True
+    End Sub
+
+    Dim absoluteValue As Decimal = 0
+
+    Private Sub XrTableCell2_SummaryReset(sender As Object, e As EventArgs) Handles XrTableCell2.SummaryReset
+        absoluteValue = 0
+    End Sub
+
+    Private Sub XrTableCell2_SummaryRowChanged(sender As Object, e As EventArgs) Handles XrTableCell2.SummaryRowChanged
+        absoluteValue += Convert.ToDecimal(GetCurrentColumnValue("INDcfAbsoluteValue"))
+    End Sub
+
+    Private Sub XrTableCell2_SummaryGetResult(sender As Object, e As SummaryGetResultEventArgs) Handles XrTableCell2.SummaryGetResult
+        e.Result = Utils.RoundValue(absoluteValue, ExpressedValues)
+        e.Handled = True
+    End Sub
+
+End Class

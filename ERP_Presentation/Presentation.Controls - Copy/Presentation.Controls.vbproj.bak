@@ -1,0 +1,684 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{F9244F46-3699-4EA8-9A98-93DB716403EC}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <StartupObject>
+    </StartupObject>
+    <RootNamespace>Presentation.Controls</RootNamespace>
+    <AssemblyName>Presentation.Controls</AssemblyName>
+    <FileAlignment>512</FileAlignment>
+    <MyType>Windows</MyType>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DocumentationFile>Presentation.Controls.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DocumentationFile>Presentation.Controls.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionExplicit>Off</OptionExplicit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionCompare>Binary</OptionCompare>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionStrict>Off</OptionStrict>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionInfer>On</OptionInfer>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="DevExpress.CodeParser.v20.1, Version=20.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Data.v20.1, Version=20.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Images.v20.1, Version=20.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      
+    </Reference>
+    <Reference Include="DevExpress.Office.v20.1.Core, Version=20.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Pdf.v20.1.Core, Version=20.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.RichEdit.v20.1.Export, Version=20.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Printing.v20.1.Core, Version=20.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.RichEdit.v20.1.Core, Version=20.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Sparkline.v20.1.Core, Version=20.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.Data.Desktop.v20.1, Version=20.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Utils.v20.1, Version=20.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Xpo.v20.1, Version=20.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      
+    </Reference>
+    <Reference Include="DevExpress.XtraBars.v20.1, Version=20.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="DevExpress.XtraEditors.v20.1, Version=20.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.XtraGrid.v20.1, Version=20.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.XtraLayout.v20.1, Version=20.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.XtraPrinting.v20.1, Version=20.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.XtraRichEdit.v20.1, Version=20.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      
+    </Reference>
+    <Reference Include="DevExpress.XtraRichEdit.v20.1.Design, Version=20.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      
+    </Reference>
+    <Reference Include="DevExpress.XtraTreeList.v20.1, Version=20.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="DevExpress.XtraVerticalGrid.v20.1, Version=20.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="Domain.Base.Entities, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\DLL\Domain.Base.Entities.dll</HintPath>
+    </Reference>
+    <Reference Include="Domain.Common.Entities">
+      <HintPath>..\DLL\Domain.Common.Entities.dll</HintPath>
+    </Reference>
+    <Reference Include="Domain.DocumentalSystem.Entities, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\DLL\Domain.DocumentalSystem.Entities.dll</HintPath>
+    </Reference>
+    <Reference Include="Domain.Entities, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\DLL\Domain.Entities.dll</HintPath>
+    </Reference>
+    <Reference Include="Domain.Glosas.Entities, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\DLL\Domain.Glosas.Entities.dll</HintPath>
+    </Reference>
+    <Reference Include="Domain.Security.Entities, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\DLL\Domain.Security.Entities.dll</HintPath>
+    </Reference>
+    <Reference Include="Futesh">
+      <HintPath>..\DLL\Futesh.dll</HintPath>
+    </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Data.Linq" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Printing" />
+    <Reference Include="System.Runtime.Remoting" />
+    <Reference Include="System.Windows" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xaml" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="UIAutomationClient" />
+    <Reference Include="UIAutomationProvider" />
+    <Reference Include="UIAutomationTypes" />
+    <Reference Include="WindowsBase" />
+    <Reference Include="WindowsFormsIntegration" />
+  </ItemGroup>
+  <ItemGroup>
+    <Import Include="Microsoft.VisualBasic" />
+    <Import Include="System" />
+    <Import Include="System.Collections" />
+    <Import Include="System.Collections.Generic" />
+    <Import Include="System.Data" />
+    <Import Include="System.Drawing" />
+    <Import Include="System.Diagnostics" />
+    <Import Include="System.Windows.Forms" />
+    <Import Include="System.Linq" />
+    <Import Include="System.Xml.Linq" />
+    <Import Include="System.Threading.Tasks" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Customization\CustomHelper.vb" />
+    <Compile Include="Customization\ICustom.vb" />
+    <Compile Include="Customization\ICustomizableForm.vb" />
+    <Compile Include="Customization\IValidable.vb" />
+    <Compile Include="Customization\LayoutControlItemPropertyGridWrapper .vb" />
+    <Compile Include="Customization\TextEditCustom.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Customization\ToolsCustomizationForm.Designer.vb">
+      <DependentUpon>ToolsCustomizationForm.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Customization\ToolsCustomizationForm.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Enumerations.vb" />
+    <Compile Include="Extender\IndigoCheckEdit.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Extender\IndigoCheckedListBoxControl.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Extender\IndigoComboBoxEdit.Designer.vb">
+      <DependentUpon>IndigoComboBoxEdit.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Extender\IndigoComboBoxEdit.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Extender\IndigoDate.Designer.vb">
+      <DependentUpon>IndigoDate.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Extender\IndigoDate.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Extender\IndigoGridControl.Designer.vb">
+      <DependentUpon>IndigoGridControl.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Extender\IndigoGridControl.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Extender\IndigoGridLookUpControl.Designer.vb">
+      <DependentUpon>IndigoGridLookUpControl.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Extender\IndigoGridLookUpControl.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Extender\IndigoGridView.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Extender\IndigoGroupControl.Designer.vb">
+      <DependentUpon>IndigoGroupControl.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Extender\IndigoGroupControl.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Extender\IndigoLabelControl.Designer.vb">
+      <DependentUpon>IndigoLabelControl.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Extender\IndigoLabelControl.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Extender\IndigoLayoutControl.Designer.vb">
+      <DependentUpon>IndigoLayoutControl.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Extender\IndigoLayoutControl.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Extender\IndigoLayoutControlGroup.Designer.vb">
+      <DependentUpon>IndigoLayoutControlGroup.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Extender\IndigoLayoutControlGroup.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Extender\IndigoPopUpContainerEdit.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Extender\IndigoRadioGroup.Designer.vb">
+      <DependentUpon>IndigoRadioGroup.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Extender\IndigoRadioGroup.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Extender\IndigoRichEditControl.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Extender\IndigoSearchLookUpControl.Designer.vb">
+      <DependentUpon>IndigoSearchLookUpControl.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Extender\IndigoSearchLookUpControl.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Extender\IndigoSimpleButton.Designer.vb">
+      <DependentUpon>IndigoSimpleButton.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Extender\IndigoSimpleButton.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Extender\IndigoTextEdit.Designer.vb">
+      <DependentUpon>IndigoTextEdit.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Extender\IndigoTextEdit.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Extender\IndigoTreeList.Designer.vb">
+      <DependentUpon>IndigoTreeList.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Extender\IndigoTreeList.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Forms\CustomizableFormBase.Designer.vb">
+      <DependentUpon>CustomizableFormBase.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\CustomizableFormBase.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FormBase.Designer.vb">
+      <DependentUpon>FormBase.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\FormBase.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FrmBusqueda.Designer.vb">
+      <DependentUpon>FrmBusqueda.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\FrmBusqueda.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FrmListErrors.Designer.vb">
+      <DependentUpon>FrmListErrors.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\FrmListErrors.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="My Project\AssemblyInfo.vb" />
+    <Compile Include="My Project\Resources.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="My Project\Settings.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="UserControls\AdvanceFilter\CtrAdvancedFilter.Designer.vb">
+      <DependentUpon>CtrAdvancedFilter.vb</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\AdvanceFilter\CtrAdvancedFilter.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControls\AdvanceFilter\CtrAdvancedFilterLink.Designer.vb">
+      <DependentUpon>CtrAdvancedFilterLink.vb</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\AdvanceFilter\CtrAdvancedFilterLink.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControls\AdvanceFilter\CtrAdvancedFilterSearchField.Designer.vb">
+      <DependentUpon>CtrAdvancedFilterSearchField.vb</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\AdvanceFilter\CtrAdvancedFilterSearchField.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControls\Buttons\CtrXtraInfo.Designer.vb">
+      <DependentUpon>CtrXtraInfo.vb</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\Buttons\CtrXtraInfo.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControls\AlertControl\CustomAlertControl.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="UserControls\Buttons\RowVisibilityHelper.Designer.vb">
+      <DependentUpon>RowVisibilityHelper.vb</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\Buttons\RowVisibilityHelper.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="UserControls\CtrBarraBotones.Designer.vb">
+      <DependentUpon>CtrBarraBotones.vb</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\CtrBarraBotones.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControls\CtrCalendar.designer.vb">
+      <DependentUpon>CtrCalendar.vb</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\CtrCalendar.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControls\CtrContactos.Designer.vb">
+      <DependentUpon>CtrContactos.vb</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\CtrContactos.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControls\CtrDateNavigator.designer.vb">
+      <DependentUpon>CtrDateNavigator.vb</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\CtrDateNavigator.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControls\CtrDebitCredit.Designer.vb">
+      <DependentUpon>CtrDebitCredit.vb</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\CtrDebitCredit.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControls\CtrMenuForm.Designer.vb">
+      <DependentUpon>CtrMenuForm.vb</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\CtrMenuForm.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControls\CtrNature.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="UserControls\CtrNavigation.Designer.vb">
+      <DependentUpon>CtrNavigation.vb</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\CtrNavigation.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControls\CtrPUC.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="UserControls\CtrSupplierType.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="UserControls\CtrTraceabilityControl.Designer.vb">
+      <DependentUpon>CtrTraceabilityControl.vb</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\CtrTraceabilityControl.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControls\CtrUpdateLoad.Designer.vb">
+      <DependentUpon>CtrUpdateLoad.vb</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\CtrUpdateLoad.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControls\Buttons\ExportDataButton.Designer.vb">
+      <DependentUpon>ExportDataButton.vb</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\Buttons\ExportDataButton.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="UserControls\CtrYesNo.Designer.vb">
+      <DependentUpon>CtrYesNo.vb</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\CtrYesNo.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="UserControls\Buttons\ExportStructureButton.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="UserControls\Liquidation\CtrSearchLookUpEditWithPopUp.Designer.vb">
+      <DependentUpon>CtrSearchLookUpEditWithPopUp.vb</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\Liquidation\CtrSearchLookUpEditWithPopUp.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControls\NavigationControls\CtrNavigationControl.Designer.vb">
+      <DependentUpon>CtrNavigationControl.vb</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\NavigationControls\CtrNavigationControl.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControls\Search\GridControlMultiFilter.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="UserControls\Search\GridLookUpMultiFilter.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="UserControls\Search\SearchLookUpEditEx.Designer.vb">
+      <DependentUpon>SearchLookUpEditEx.vb</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\Search\SearchLookUpEditEx.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControls\Transition Control\WpfAnimationPopUp.xaml.vb">
+      <DependentUpon>WpfAnimationPopUp.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\Transition Control\WpfTansitionControl.xaml.vb">
+      <DependentUpon>WpfTansitionControl.xaml</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Customization\ToolsCustomizationForm.resx">
+      <DependentUpon>ToolsCustomizationForm.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\CustomizableFormBase.resx">
+      <DependentUpon>CustomizableFormBase.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FormBase.resx">
+      <DependentUpon>FormBase.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FrmBusqueda.en-US.resx">
+      <DependentUpon>FrmBusqueda.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FrmBusqueda.es-CO.resx">
+      <DependentUpon>FrmBusqueda.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FrmBusqueda.resx">
+      <DependentUpon>FrmBusqueda.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FrmListErrors.resx">
+      <DependentUpon>FrmListErrors.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="My Project\licenses.licx" />
+    <EmbeddedResource Include="My Project\Resources.resx">
+      <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.vb</LastGenOutput>
+      <CustomToolNamespace>My.Resources</CustomToolNamespace>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControls\AdvanceFilter\CtrAdvancedFilter.es-CO.resx">
+      <DependentUpon>CtrAdvancedFilter.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControls\AdvanceFilter\CtrAdvancedFilter.resx">
+      <DependentUpon>CtrAdvancedFilter.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControls\AdvanceFilter\CtrAdvancedFilterLink.es-CO.resx">
+      <DependentUpon>CtrAdvancedFilterLink.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControls\AdvanceFilter\CtrAdvancedFilterLink.resx">
+      <DependentUpon>CtrAdvancedFilterLink.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControls\AdvanceFilter\CtrAdvancedFilterSearchField.resx">
+      <DependentUpon>CtrAdvancedFilterSearchField.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControls\Buttons\CtrXtraInfo.resx">
+      <DependentUpon>CtrXtraInfo.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControls\CtrBarraBotones.resx">
+      <DependentUpon>CtrBarraBotones.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControls\CtrCalendar.es-CO.resx">
+      <DependentUpon>CtrCalendar.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControls\CtrCalendar.resx">
+      <DependentUpon>CtrCalendar.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControls\CtrContactos.es-CO.resx">
+      <DependentUpon>CtrContactos.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControls\CtrContactos.resx">
+      <DependentUpon>CtrContactos.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControls\CtrDateNavigator.es-CO.resx">
+      <DependentUpon>CtrDateNavigator.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControls\CtrDateNavigator.resx">
+      <DependentUpon>CtrDateNavigator.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControls\CtrDebitCredit.resx">
+      <DependentUpon>CtrDebitCredit.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControls\CtrMenuForm.resx">
+      <DependentUpon>CtrMenuForm.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControls\CtrNavigation.resx">
+      <DependentUpon>CtrNavigation.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControls\CtrPUC.resx">
+      <DependentUpon>CtrPUC.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControls\CtrSupplierType.resx">
+      <DependentUpon>CtrSupplierType.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControls\CtrTraceabilityControl.en.resx">
+      <DependentUpon>CtrTraceabilityControl.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControls\CtrTraceabilityControl.es-CO.resx">
+      <DependentUpon>CtrTraceabilityControl.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControls\CtrTraceabilityControl.resx">
+      <DependentUpon>CtrTraceabilityControl.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControls\CtrUpdateLoad.resx">
+      <DependentUpon>CtrUpdateLoad.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControls\Liquidation\CtrSearchLookUpEditWithPopUp.resx">
+      <DependentUpon>CtrSearchLookUpEditWithPopUp.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControls\NavigationControls\CtrNavigationControl.resx">
+      <DependentUpon>CtrNavigationControl.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControls\Search\SearchLookUpEditEx.resx">
+      <DependentUpon>SearchLookUpEditEx.vb</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="My Project\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <CustomToolNamespace>My</CustomToolNamespace>
+      <LastGenOutput>Settings.Designer.vb</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Infrastructure.CrossCutting.Base\Infrastructure.CrossCutting.Base.vbproj">
+      <Project>{2773d9f7-93bd-4520-9726-bce0d8875696}</Project>
+      <Name>Infrastructure.CrossCutting.Base</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastructure.CrossCutting.Resources\Infrastructure.CrossCutting.Resources.vbproj">
+      <Project>{134f5b02-eba4-4414-bb62-bf5d55e2b906}</Project>
+      <Name>Infrastructure.CrossCutting.Resources</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastructure.Data.Xpo.MaintenanceRepository\Infrastructure.Data.Xpo.MaintenanceRepository.vbproj">
+      <Project>{825af482-aa7b-4253-ad88-748b665e5598}</Project>
+      <Name>Infrastructure.Data.Xpo.MaintenanceRepository</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Presentacion.Base\Presentation.Base.vbproj">
+      <Project>{7bc84999-6ea3-47e9-92e9-697ade41bb9a}</Project>
+      <Name>Presentation.Base</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Presentacion.Controles.MVP\Presentation.Controls.MVP.vbproj">
+      <Project>{47d30452-ca41-44a9-b3ad-867793353ede}</Project>
+      <Name>Presentation.Controls.MVP</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Add_24x24_blue.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\IconoEditar .png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\IconoEliminar.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Acceptance.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Reject.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{94E38DFF-614B-4CBD-B67C-F211BB35CE8B}" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\PestañaNavigator.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\PestañaNavigator1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ActualizarBlanco.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Cargando36x36.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\manana.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\manana_16x16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\manana-tarde_16x16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\mananatarde.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\tarde.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\tarde_16x16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\manana-noche_16x16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\manananoche.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\tarde-noche.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\tarde-noche_16x16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\noche.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\noche_16x16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\incapacidad.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\permiso.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\sancion2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\trabajador-en-vacaciones.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Add_16x16_blue.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\MoreInfo_16x16_blue.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="UserControls\Transition Control\WpfAnimationPopUp.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserControls\Transition Control\WpfTansitionControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Arrow1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Arrow2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Arrow3.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Load170x170.gif" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

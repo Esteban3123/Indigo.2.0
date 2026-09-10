@@ -1,0 +1,324 @@
+﻿#Region "Imports"
+
+Imports System.Globalization
+Imports System.IO
+Imports Infrastructure.CrossCutting.Base
+Imports Infrastructure.Data.Xpo
+Imports Infrastructure.Data.Xpo.BillingRepository
+Imports Presentation.Base
+Imports Domain.Entities
+Imports DevExpress.XtraReports.UI
+
+#End Region
+
+Public Class rptSubSaleInvoiceAll
+    Implements IReport
+
+#Region "Constructor"
+
+    ''' <summary>
+    ''' Diccionario para guardar el estado original de visibilidad de los parámetros de cada subreporte
+    ''' </summary>
+    Private _originalParameterVisibility As New Dictionary(Of String, Dictionary(Of String, Boolean))
+
+    Public Sub New()
+        InitializeComponent()
+        ' Guardar el estado original de visibilidad y luego oculta todos los parámetros
+        SaveOriginalVisibilityAndHideAll()
+    End Sub
+
+    ''' <summary>
+    ''' Guarda el estado original de visibilidad de los parámetros de cada subreporte y luego los oculta todos
+    ''' </summary>
+    Private Sub SaveOriginalVisibilityAndHideAll()
+        For Each control As XRControl In Me.Detail.Controls
+            If TypeOf control Is XRSubreport Then
+                Dim subreport As XRSubreport = DirectCast(control, XRSubreport)
+                If subreport.ReportSource IsNot Nothing Then
+                    ' Crear diccionario para este subreporte
+                    Dim paramVisibility As New Dictionary(Of String, Boolean)
+
+                    For Each param As DevExpress.XtraReports.Parameters.Parameter In subreport.ReportSource.Parameters
+                        ' Guardar el estado original
+                        paramVisibility(param.Name) = param.Visible
+                        ' Ocultar el parámetro
+                        param.Visible = False
+                    Next
+
+                    ' Guardar en el diccionario principal usando el nombre del subreporte
+                    _originalParameterVisibility(subreport.Name) = paramVisibility
+
+                    subreport.ReportSource.RequestParameters = False
+                End If
+            End If
+        Next
+    End Sub
+
+    ''' <summary>
+    ''' Restaura la visibilidad original de los parámetros del subreporte activo
+    ''' </summary>
+    ''' <param name="activeSubreport">El subreporte que se va a renderizar</param>
+    Private Sub RestoreParameterVisibility(activeSubreport As XRSubreport)
+        If activeSubreport Is Nothing OrElse activeSubreport.ReportSource Is Nothing Then
+            Exit Sub
+        End If
+
+        ' Verificar si tenemos el estado original guardado
+        If _originalParameterVisibility.ContainsKey(activeSubreport.Name) Then
+            Dim originalVisibility = _originalParameterVisibility(activeSubreport.Name)
+
+            For Each param As DevExpress.XtraReports.Parameters.Parameter In activeSubreport.ReportSource.Parameters
+                ' Restaurar el estado original (respetando los que ya estaban ocultos)
+                If originalVisibility.ContainsKey(param.Name) Then
+                    param.Visible = originalVisibility(param.Name)
+                End If
+            Next
+        End If
+    End Sub
+
+    ''' <summary>
+    ''' Determina y activa los parámetros del subreporte que se va a renderizar según el DocumentType
+    ''' </summary>
+    ''' <param name="documentType">Tipo de documento</param>
+    ''' <param name="liquidateMasterAccount">Indica si liquida cuenta madre</param>
+    ''' <param name="isMasterAccount">Tipo de cuenta madre</param>
+    Private Sub ShowActiveSubreportParameters(documentType As Integer, liquidateMasterAccount As Boolean, Optional isMasterAccount As Integer = 0)
+        ' Determinar cuál subreporte se mostrará según las condiciones del Designer
+        Dim activeSubreport As XRSubreport = Nothing
+
+        ' XrSubreport6: DocumentType = 8 And IsMasterAccount = 3
+        If documentType = 8 AndAlso isMasterAccount = 3 Then
+            activeSubreport = XrSubreport6
+        ' XrSubreport5: (DocumentType In 1,2,3,5 Or (DocumentType = 8 And IsMasterAccount In 2,4)) And LiquidateMasterAccount
+        ElseIf (documentType = 1 OrElse documentType = 2 OrElse documentType = 3 OrElse documentType = 5 OrElse (documentType = 8 AndAlso (isMasterAccount = 2 OrElse isMasterAccount = 4))) AndAlso liquidateMasterAccount Then
+            activeSubreport = XrSubreport5
+        ' XrSubreport1: (DocumentType In 1,2,3,5) And Not LiquidateMasterAccount
+        ElseIf (documentType = 1 OrElse documentType = 2 OrElse documentType = 3 OrElse documentType = 5) AndAlso Not liquidateMasterAccount Then
+            activeSubreport = XrSubreport1
+        ' XrSubreport2: DocumentType = 4
+        ElseIf documentType = 4 Then
+            activeSubreport = XrSubreport2
+        ' XrSubreport3: DocumentType = 6
+        ElseIf documentType = 6 Then
+            activeSubreport = XrSubreport3
+        ' XrSubreport4: DocumentType = 7
+        ElseIf documentType = 7 Then
+            activeSubreport = XrSubreport4
+        End If
+
+        ' Restaurar la visibilidad original de los parámetros del subreporte activo
+        RestoreParameterVisibility(activeSubreport)
+    End Sub
+
+#End Region
+
+#Region "Properties"
+
+    ''' <summary>
+    ''' Variable para inicializar los valores de sesion
+    ''' </summary>
+    Private IndigoSessionValues As SessionValues = SessionValues.Instance
+
+    ''' <summary>
+    ''' Obtiene el listado de los datos del reporte
+    ''' </summary>
+    Private data As List(Of BillingVReportListInvoice)
+
+    ''' <summary>
+    ''' obtiene la informacion de la moneda seleccionada
+    ''' </summary>
+    ''' <returns></returns>
+    Public Property Currency As Currency
+
+    ''' <summary>
+    ''' abreviacion de la moneda 
+    ''' </summary>
+    Private CurrencyAbbreviation As String
+
+    Public Property ParametrosReporte As Object() Implements IReport.ParametrosReporte
+
+    Public ReadOnly Property NameReport As String Implements IReport.NameReport
+        Get
+            Return ""
+        End Get
+    End Property
+
+#End Region
+
+#Region "Load Data"
+
+    Public Sub CargarDataSource() Implements IReport.CargarDataSource
+        Try
+            Dim filterParameters As New List(Of String)()
+
+            If ParametrosReporte.Length = 1 Then
+                filterParameters.Add(String.Format("InvoiceId IN ({0})", String.Join(",", CType(ParametrosReporte(0), List(Of Domain.Entities.Invoice)).Select(Function(i) i.Id).ToList())))
+            Else
+                If ParametrosReporte(0) IsNot Nothing AndAlso ParametrosReporte(1) IsNot Nothing Then
+                    filterParameters.Add("InvoiceDate >= #" & Format(ParametrosReporte(0), "yyyy-MM-dd HH:mm:ss") & "# AND InvoiceDate <= #" & Format(ParametrosReporte(1), "yyyy-MM-dd HH:mm:ss") & "#")
+                End If
+
+                If ParametrosReporte(2) <> 0 Then
+                    filterParameters.Add(String.Format("DocumentType = {0}", ParametrosReporte(2)))
+                End If
+
+                If ParametrosReporte(3) <> 3 Then
+                    filterParameters.Add(String.Format("Status = {0}", ParametrosReporte(3)))
+                End If
+
+                If ParametrosReporte(4) IsNot Nothing AndAlso ParametrosReporte(5) IsNot Nothing Then
+                    filterParameters.Add(String.Format("InvoiceNumber >= '{0}' AND InvoiceNumber <= '{1}'", ParametrosReporte(4), ParametrosReporte(5)))
+                ElseIf ParametrosReporte(4) IsNot Nothing Then
+                    filterParameters.Add(String.Format("InvoiceNumber IN ({0})", ParametrosReporte(4)))
+                End If
+
+                If ParametrosReporte(6) IsNot Nothing Then
+                    filterParameters.Add(String.Format("HealthAdministratorId = {0}", ParametrosReporte(6)))
+                End If
+
+                If ParametrosReporte(7) IsNot Nothing Then
+                    filterParameters.Add(String.Format("PatientCode = '{0}'", ParametrosReporte(7)))
+                End If
+
+                If ParametrosReporte(8) IsNot Nothing Then
+                    filterParameters.Add(String.Format("CareGroupId = {0}", ParametrosReporte(8)))
+                End If
+
+                If ParametrosReporte(9) IsNot Nothing Then
+                    filterParameters.Add(String.Format("InvoiceCategoryId = {0}", ParametrosReporte(9)))
+                End If
+
+                If ParametrosReporte(10) IsNot Nothing Then
+                    filterParameters.Add(String.Format("ThirdPartyId = {0}", ParametrosReporte(10)))
+                End If
+
+                If ParametrosReporte(11) IsNot Nothing Then
+                    filterParameters.Add(String.Format("SucursalId = {0}", ParametrosReporte(11)))
+                End If
+
+                If ParametrosReporte(12) IsNot Nothing Then
+                    filterParameters.Add(String.Format("AdmissionNumber IN ({0})", ParametrosReporte(12)))
+                End If
+
+                If ParametrosReporte(13) IsNot Nothing Then
+                    filterParameters.Add(String.Format("RadicateInvoiceId = {0}", ParametrosReporte(13)))
+                End If
+
+                If ParametrosReporte(14) IsNot Nothing Then
+                    filterParameters.Add(String.Format("InvoicedUser = '{0}'", ParametrosReporte(14)))
+                End If
+
+                'filtro por moneda
+                If ParametrosReporte(15) IsNot Nothing Then
+                    Dim currencyFilter As String = IIf(ParametrosReporte(2) = 8,
+                            $"(CurrencyId Is NULL)",
+                            Nothing)
+                    If currencyFilter IsNot Nothing Then
+                        filterParameters.Add(
+                                                    $"(CurrencyId = {ParametrosReporte(15)} OR {currencyFilter})"
+                                                )
+                    Else
+                        filterParameters.Add(String.Format("CurrencyId = '{0}'", ParametrosReporte(15)))
+
+                    End If
+                End If
+                If ParametrosReporte.Length > 16 Then
+                    If ParametrosReporte(16) IsNot Nothing And ParametrosReporte(16) = 3 Then
+                        filterParameters.Add("CUV IS NOT NULL AND CUV <> ''")
+                    End If
+                End If
+
+            End If
+
+            data = XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).BillingService.GetCollection(Of BillingVReportListInvoice)(Nothing, String.Join(" AND ", filterParameters))
+
+            If data?.Any() Then
+                If data.Exists(Function(x) x.CurrencyId = Nothing) Then
+                    Parallel.ForEach(data.Where(Function(x) x.CurrencyId = Nothing), Sub(x)
+                                                                                         x.CurrencyId = Currency.Id
+                                                                                     End Sub)
+                End If
+
+                Dim groupedData = data.GroupBy(Function(m) m.InvoiceId).Select(Function(m) m.FirstOrDefault()).ToList()
+
+                If ParametrosReporte.Count > 2 AndAlso ParametrosReporte(2) = 8 Then
+                    Detail.SortFields.Clear()
+                    DataSource = groupedData.OrderBy(Function(x) x.AdmissionNumber).ThenByDescending(Function(y) y.Status).ToList()
+                Else
+                    DataSource = groupedData
+                End If
+
+                ' Mostrar solo los parámetros del subreporte que se va a renderizar (respetando visibilidad original)
+                Dim firstRecord = groupedData.FirstOrDefault()
+                If firstRecord IsNot Nothing Then
+                    Dim liquidateMasterAccount As Boolean = If(Me.Parameters("LiquidateMasterAccount")?.Value, False)
+                    ShowActiveSubreportParameters(firstRecord.DocumentType, liquidateMasterAccount, If(firstRecord?.IsMasterAccount, 0))
+                End If
+            End If
+        Catch ex As Exception
+            MessageIndigo.Show(GetExceptionDetails(ex), MessageType.Errores, Me.Text, Botones.Aceptar, "")
+        End Try
+    End Sub
+
+#End Region
+
+#Region "Methods"
+
+    Public Function GetExceptionDetails(exception As Exception) As String
+        Dim properties = exception.[GetType]().GetProperties()
+        Dim fields = properties.[Select](Function([property]) New With {
+            Key .Name = [property].Name,
+            Key .Value = [property].GetValue(exception, Nothing)
+        }).[Select](Function(x) [String].Format("{0} : {1}", x.Name, If(x.Value IsNot Nothing, x.Value.ToString(), [String].Empty)))
+        Return [String].Join(vbLf, fields)
+    End Function
+
+    Public Sub CargarImagenes() Implements IReport.CargarImagenes
+
+    End Sub
+
+#End Region
+
+#Region "Events"
+
+    Private Sub INDCfInvoiceNumber_GetValue(sender As Object, e As DevExpress.XtraReports.UI.GetValueEventArgs) Handles INDCfInvoiceNumber.GetValue
+        Dim value = e.Row.InvoiceNumber
+        If value IsNot Nothing Then
+            Dim numberPart As Int64 = 0
+            Dim textPart As String = String.Empty
+            Dim numberString As String = System.Text.RegularExpressions.Regex.Match(value, "\d+").Value
+            If numberString <> "" Then
+                numberPart = Convert.ToInt64(numberString)
+                textPart = value.ToString().Replace(numberString, "").ToLower()
+            Else
+                numberPart = 0
+                textPart = value.ToString().ToLower()
+            End If
+
+            e.Value = String.Concat(textPart, numberPart.ToString().PadLeft(20, "0"))
+        End If
+    End Sub
+
+    ''' <summary>
+    ''' funcion para cargar la definicion customizada de los subreportes
+    ''' </summary>
+    ''' <param name="_tag"></param>
+    ''' <param name="Name"></param>
+    ''' <returns></returns>
+    Public Function LoadCustomLayout(_tag As Object, Name As String) As String
+        Dim nameRepDefault As String = If(File.Exists(Path.Combine(ConfigurationFile.Instance.ReportsPath, _tag & "Repx.Default")), File.ReadAllText(Path.Combine(ConfigurationFile.Instance.ReportsPath, _tag & "Repx.Default"))?.Trim(), "*")
+        Dim pattern As String = $"{_tag}.{Name}.{nameRepDefault}.repx"
+        Return Directory.GetFiles(ConfigurationFile.Instance.ReportsPath, pattern, SearchOption.TopDirectoryOnly)?.FirstOrDefault
+    End Function
+    Private Sub rptSubSaleInvoiceAll_BeforePrint(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles MyBase.BeforePrint
+        Dim _culture As CultureInfo = CultureInfo.CurrentCulture.Clone()
+        If data IsNot Nothing And Currency IsNot Nothing Then
+            CurrencyAbbreviation = Currency?.Abbreviation
+            _culture.NumberFormat = CurrencyAbbreviation.GetNumberFormat
+            ApplyLocalization(_culture)
+        End If
+    End Sub
+
+#End Region
+
+End Class

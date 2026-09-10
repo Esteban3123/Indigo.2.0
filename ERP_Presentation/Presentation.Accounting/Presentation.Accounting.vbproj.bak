@@ -1,0 +1,1001 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{6F46E9AE-BE16-4DA0-AF52-9EE35332FADA}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>Presentation.Accounting</RootNamespace>
+    <AssemblyName>Presentation.Accounting</AssemblyName>
+    <FileAlignment>512</FileAlignment>
+    <MyType>Windows</MyType>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DocumentationFile>Presentation.Accounting.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DocumentationFile>Presentation.Accounting.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionExplicit>On</OptionExplicit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionCompare>Binary</OptionCompare>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionStrict>Off</OptionStrict>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionInfer>On</OptionInfer>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debugcito|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\Debugcito\</OutputPath>
+    <DocumentationFile>Presentation.Accounting.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DocumentationFile>Presentation.Accounting.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DocumentationFile>Presentation.Accounting.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debugcito|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x64\Debugcito\</OutputPath>
+    <DocumentationFile>Presentation.Accounting.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DocumentationFile>Presentation.Accounting.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DocumentationFile>Presentation.Accounting.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debugcito|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x86\Debugcito\</OutputPath>
+    <DocumentationFile>Presentation.Accounting.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'VieBuild|AnyCPU'">
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\VieBuild\</OutputPath>
+    <DocumentationFile>Presentation.Accounting.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'VieBuild|x64'">
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x64\VieBuild\</OutputPath>
+    <DocumentationFile>Presentation.Accounting.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'VieBuild|x86'">
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x86\VieBuild\</OutputPath>
+    <DocumentationFile>Presentation.Accounting.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Accessibility" />
+    <Reference Include="DevExpress.Charts.v20.1.Core, Version=20.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.CodeParser.v20.1, Version=20.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Docs.v20.1, Version=20.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Pdf.v20.1.Drawing, Version=20.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.Snap.v20.1.Core, Version=20.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.TreeMap.v20.1.Core, Version=20.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.XtraTreeMap.v20.1, Version=20.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Dashboard.v20.1.Core, Version=20.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Dashboard.v20.1.Win, Version=20.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Data.v20.1, Version=20.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.DataAccess.v20.1, Version=20.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.DataAccess.v20.1.UI, Version=20.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Images.v20.1, Version=20.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Map.v20.1.Core, Version=20.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Office.v20.1.Core, Version=20.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.PivotGrid.v20.1.Core, Version=20.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Pdf.v20.1.Core, Version=20.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.RichEdit.v20.1.Export, Version=20.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Printing.v20.1.Core, Version=20.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.RichEdit.v20.1.Core, Version=20.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Sparkline.v20.1.Core, Version=20.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.SpellChecker.v20.1.Core, Version=20.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Spreadsheet.v20.1.Core, Version=20.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Data.Desktop.v20.1, Version=20.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Utils.v20.1, Version=20.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Utils.v20.1.UI, Version=20.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Xpo.v20.1, Version=20.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.XtraBars.v20.1, Version=20.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.XtraCharts.v20.1, Version=20.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.XtraCharts.v20.1.UI, Version=20.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.XtraCharts.v20.1.Wizard, Version=20.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.XtraEditors.v20.1, Version=20.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.XtraGauges.v20.1.Core, Version=20.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.XtraGauges.v20.1.Presets, Version=20.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.XtraGauges.v20.1.Win, Version=20.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.XtraGrid.v20.1, Version=20.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.XtraLayout.v20.1, Version=20.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.XtraMap.v20.1, Version=20.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.XtraNavBar.v20.1, Version=20.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.XtraPivotGrid.v20.1, Version=20.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.XtraPrinting.v20.1, Version=20.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.XtraReports.v20.1, Version=20.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.XtraRichEdit.v20.1, Version=20.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.XtraSpellChecker.v20.1, Version=20.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.XtraSpreadsheet.v20.1, Version=20.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.XtraTreeList.v20.1, Version=20.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.XtraVerticalGrid.v20.1, Version=20.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="Domain.Base, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\DLL\Domain.Base.dll</HintPath>
+    </Reference>
+    <Reference Include="Domain.Base.Entities, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\DLL\Domain.Base.Entities.dll</HintPath>
+    </Reference>
+    <Reference Include="Domain.Common.Entities, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\DLL\Domain.Common.Entities.dll</HintPath>
+    </Reference>
+    <Reference Include="Domain.Crystal.Entities, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\DLL\Domain.Crystal.Entities.dll</HintPath>
+    </Reference>
+    <Reference Include="Domain.DocumentalSystem.Entities, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\DLL\Domain.DocumentalSystem.Entities.dll</HintPath>
+    </Reference>
+    <Reference Include="Domain.Entities, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\DLL\Domain.Entities.dll</HintPath>
+    </Reference>
+    <Reference Include="Domain.Entities.Service, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\DLL\Domain.Entities.Service.dll</HintPath>
+    </Reference>
+    <Reference Include="Domain.InteropCost.Entities, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\DLL\Domain.InteropCost.Entities.dll</HintPath>
+    </Reference>
+    <Reference Include="Domain.Maintenance.Entities, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\DLL\Domain.Maintenance.Entities.dll</HintPath>
+    </Reference>
+    <Reference Include="Domain.Payroll.Entities, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\DLL\Domain.Payroll.Entities.dll</HintPath>
+    </Reference>
+    <Reference Include="Domain.Security.Entities, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\DLL\Domain.Security.Entities.dll</HintPath>
+    </Reference>
+    <Reference Include="DynamicDotNetTWAIN, Version=4.1.0.0, Culture=neutral, PublicKeyToken=f94d92ed52fde552, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\DLL\DynamicDotNetTWAIN.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\DLL\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="Indigo.Singleton, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\DLL\Indigo.Singleton.dll</HintPath>
+    </Reference>
+    <Reference Include="Infrastructure.CrossCutting.Base">
+      <HintPath>..\DLL\Infrastructure.CrossCutting.Base.dll</HintPath>
+    </Reference>
+    <Reference Include="Infrastructure.CrossCutting.Resources, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\DLL\Infrastructure.CrossCutting.Resources.dll</HintPath>
+    </Reference>
+    <Reference Include="Infrastructure.CrossCutting.Root, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\DLL\Infrastructure.CrossCutting.Root.dll</HintPath>
+    </Reference>
+    <Reference Include="Infrastructure.Data.Xpo.BillingRepository, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Infrastructure.Data.Xpo.BillingRepository\bin\Debug\Infrastructure.Data.Xpo.BillingRepository.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="MongoDB.Bson, Version=2.2.4.26, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\DLL\MongoDB.Bson.dll</HintPath>
+    </Reference>
+    <Reference Include="Presentation.Billing.Entities, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Presentation.Billing.Entities\bin\Debug\Presentation.Billing.Entities.dll</HintPath>
+    </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="PresentationUI, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" />
+    <Reference Include="ReachFramework" />
+    <Reference Include="SMDiagnostics, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Data.Linq" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Printing" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Runtime.Serialization.Formatters.Soap" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.ServiceModel.Internals, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" />
+    <Reference Include="System.Transactions" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xaml" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="UIAutomationProvider" />
+    <Reference Include="UIAutomationTypes" />
+    <Reference Include="WindowsBase" />
+    <Reference Include="WindowsFormsIntegration" />
+  </ItemGroup>
+  <ItemGroup>
+    <Import Include="Microsoft.VisualBasic" />
+    <Import Include="System" />
+    <Import Include="System.Collections" />
+    <Import Include="System.Collections.Generic" />
+    <Import Include="System.Data" />
+    <Import Include="System.Diagnostics" />
+    <Import Include="System.Linq" />
+    <Import Include="System.Xml.Linq" />
+    <Import Include="System.Threading.Tasks" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="File\FrmAccountLevel.Designer.vb">
+      <DependentUpon>FrmAccountLevel.vb</DependentUpon>
+    </Compile>
+    <Compile Include="File\FrmAccountLevel.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="File\FrmBook.Designer.vb">
+      <DependentUpon>FrmBook.vb</DependentUpon>
+    </Compile>
+    <Compile Include="File\FrmBook.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="File\FrmExogenousFormat.Designer.vb">
+      <DependentUpon>FrmExogenousFormat.vb</DependentUpon>
+    </Compile>
+    <Compile Include="File\FrmExogenousFormat.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="File\FrmGeneralLedgerIVA.Designer.vb">
+      <DependentUpon>FrmGeneralLedgerIVA.vb</DependentUpon>
+    </Compile>
+    <Compile Include="File\FrmGeneralLedgerIVA.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="File\FrmHealthSuperintendencyParameters.Designer.vb">
+      <DependentUpon>FrmHealthSuperintendencyParameters.vb</DependentUpon>
+    </Compile>
+    <Compile Include="File\FrmHealthSuperintendencyParameters.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="File\FrmMainAccountLevels.Designer.vb">
+      <DependentUpon>FrmMainAccountLevels.vb</DependentUpon>
+    </Compile>
+    <Compile Include="File\FrmMainAccountLevels.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="File\FrmPatrimonialParticipation.Designer.vb">
+      <DependentUpon>FrmPatrimonialParticipation.vb</DependentUpon>
+    </Compile>
+    <Compile Include="File\FrmPatrimonialParticipation.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="File\FrmDocumentType.Designer.vb">
+      <DependentUpon>FrmDocumentType.vb</DependentUpon>
+    </Compile>
+    <Compile Include="File\FrmDocumentType.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="File\frmPUC.Designer.vb">
+      <DependentUpon>frmPUC.vb</DependentUpon>
+    </Compile>
+    <Compile Include="File\frmPUC.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="File\FrmRetentionConcept.Designer.vb">
+      <DependentUpon>FrmRetentionConcept.vb</DependentUpon>
+    </Compile>
+    <Compile Include="File\FrmRetentionConcept.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="File\FrmStatementFolio.Designer.vb">
+      <DependentUpon>FrmStatementFolio.vb</DependentUpon>
+    </Compile>
+    <Compile Include="File\FrmStatementFolio.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="My Project\AssemblyInfo.vb" />
+    <Compile Include="My Project\Application.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Application.myapp</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="My Project\Resources.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="My Project\Settings.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="PrintRibbonControllerResources.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>PrintRibbonControllerResources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Process\AddDocumentAccountingEventArgs.vb" />
+    <Compile Include="Process\FrmAccountantsBudgets.Designer.vb">
+      <DependentUpon>FrmAccountantsBudgets.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Process\FrmAccountantsBudgets.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Process\JournalVoucher\FrmAccountingVoucher.Designer.vb">
+      <DependentUpon>FrmAccountingVoucher.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Process\JournalVoucher\FrmAccountingVoucher.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Process\FrmAnnualClose.Designer.vb">
+      <DependentUpon>FrmAnnualClose.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Process\FrmAnnualClose.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Process\FrmApprovalAccounts.Designer.vb">
+      <DependentUpon>FrmApprovalAccounts.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Process\FrmApprovalAccounts.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Process\FrmClosingConfirmation.Designer.vb">
+      <DependentUpon>FrmClosingConfirmation.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Process\FrmClosingConfirmation.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Process\FrmMontClose.Designer.vb">
+      <DependentUpon>FrmMontClose.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Process\FrmMontClose.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Process\FrmMonthOpen.Designer.vb">
+      <DependentUpon>FrmMonthOpen.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Process\FrmMonthOpen.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Process\FrmPopupVoucherAccount.Designer.vb">
+      <DependentUpon>FrmPopupVoucherAccount.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Process\FrmPopupVoucherAccount.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Process\frmPopupJournalVouchers.Designer.vb">
+      <DependentUpon>frmPopupJournalVouchers.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Process\frmPopupJournalVouchers.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Process\JournalVoucher\FrmImportJournalVoucher.Designer.vb">
+      <DependentUpon>FrmImportJournalVoucher.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Process\JournalVoucher\FrmImportJournalVoucher.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Reports\FrmReportReconcileModule.designer.vb">
+      <DependentUpon>FrmReportReconcileModule.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\FrmReportReconcileModule.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Reports\FrmReportSingleCircular.Designer.vb">
+      <DependentUpon>FrmReportSingleCircular.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\FrmReportSingleCircular.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Reports\FrmReportExogenousInformation.Designer.vb">
+      <DependentUpon>FrmReportExogenousInformation.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\FrmReportExogenousInformation.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Reports\FrmReportTreasutyAudit.Designer.vb">
+      <DependentUpon>FrmReportTreasutyAudit.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\FrmReportTreasutyAudit.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Reports\FrmReportBalanceAccountMonthly.Designer.vb">
+      <DependentUpon>FrmReportBalanceAccountMonthly.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\FrmReportBalanceAccountMonthly.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Reports\FrmReportAccountPlan.Designer.vb">
+      <DependentUpon>FrmReportAccountPlan.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\FrmReportAccountPlan.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Reports\FrmReportAuxiliary.Designer.vb">
+      <DependentUpon>FrmReportAuxiliary.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\FrmReportAuxiliary.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Reports\FrmReportBulletinDefaultersState.Designer.vb">
+      <DependentUpon>FrmReportBulletinDefaultersState.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\FrmReportBulletinDefaultersState.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Reports\FrmReportCGN002ReciprocalOperations.Designer.vb">
+      <DependentUpon>FrmReportCGN002ReciprocalOperations.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\FrmReportCGN002ReciprocalOperations.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Reports\FrmReportCGN001BalanceAndMovement.Designer.vb">
+      <DependentUpon>FrmReportCGN001BalanceAndMovement.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\FrmReportCGN001BalanceAndMovement.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Reports\FrmReportDailyLedger.Designer.vb">
+      <DependentUpon>FrmReportDailyLedger.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\FrmReportDailyLedger.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Reports\FrmReportDiaryVouchers.Designer.vb">
+      <DependentUpon>FrmReportDiaryVouchers.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\FrmReportDiaryVouchers.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Reports\FrmReportGeneralBalance.Designer.vb">
+      <DependentUpon>FrmReportGeneralBalance.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\FrmReportGeneralBalance.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Reports\FrmReportInventoryBalance.Designer.vb">
+      <DependentUpon>FrmReportInventoryBalance.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\FrmReportInventoryBalance.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Reports\FrmReportLedgerAndBalance.Designer.vb">
+      <DependentUpon>FrmReportLedgerAndBalance.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\FrmReportLedgerAndBalance.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Reports\FrmReportListAccountingVoucher.Designer.vb">
+      <DependentUpon>FrmReportListAccountingVoucher.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\FrmReportListAccountingVoucher.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Reports\FrmReportMoveList.Designer.vb">
+      <DependentUpon>FrmReportMoveList.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\FrmReportMoveList.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Reports\FrmReportPatrimonialChanges.Designer.vb">
+      <DependentUpon>FrmReportPatrimonialChanges.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\FrmReportPatrimonialChanges.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Reports\FrmReportResultStatus.Designer.vb">
+      <DependentUpon>FrmReportResultStatus.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\FrmReportResultStatus.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Reports\FrmReportStatusEfecty.Designer.vb">
+      <DependentUpon>FrmReportStatusEfecty.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\FrmReportStatusEfecty.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Reports\FrmReportThird.Designer.vb">
+      <DependentUpon>FrmReportThird.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\FrmReportThird.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Reports\FrmReportThirdBalance.Designer.vb">
+      <DependentUpon>FrmReportThirdBalance.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\FrmReportThirdBalance.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Reports\FrmReportTrialBalance.Designer.vb">
+      <DependentUpon>FrmReportTrialBalance.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\FrmReportTrialBalance.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Utilities\FrmAccountingHomologations.Designer.vb">
+      <DependentUpon>FrmAccountingHomologations.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Utilities\FrmAccountingHomologations.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Utilities\FrmCompanySettings.Designer.vb">
+      <DependentUpon>FrmCompanySettings.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Utilities\FrmCompanySettings.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Utilities\FrmDistrictDirectorateOfTaxes.Designer.vb">
+      <DependentUpon>FrmDistrictDirectorateOfTaxes.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Utilities\FrmDistrictDirectorateOfTaxes.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Utilities\FrmMassiveReplication.Designer.vb">
+      <DependentUpon>FrmMassiveReplication.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Utilities\FrmMassiveReplication.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Utilities\FrmSettingsExogenousInformation.Designer.vb">
+      <DependentUpon>FrmSettingsExogenousInformation.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Utilities\FrmSettingsExogenousInformation.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Utilities\FrmGeneralAccountingParameters.Designer.vb">
+      <DependentUpon>FrmGeneralAccountingParameters.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Utilities\FrmGeneralAccountingParameters.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Utilities\FrmNationalHealthSuperintendence.Designer.vb">
+      <DependentUpon>FrmNationalHealthSuperintendence.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Utilities\FrmNationalHealthSuperintendence.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Utilities\FrmParametersAccounting.Designer.vb">
+      <DependentUpon>FrmParametersAccounting.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Utilities\FrmParametersAccounting.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Utilities\FrmRecalculateBalances.Designer.vb">
+      <DependentUpon>FrmRecalculateBalances.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Utilities\FrmRecalculateBalances.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Utilities\FrmVieBot.Designer.vb">
+      <DependentUpon>FrmVieBot.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Utilities\FrmVieBot.vb">
+      <SubType>Form</SubType>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="File\FrmAccountLevel.es-CO.resx">
+      <DependentUpon>FrmAccountLevel.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="File\FrmAccountLevel.resx">
+      <DependentUpon>FrmAccountLevel.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="File\FrmBook.resx">
+      <DependentUpon>FrmBook.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="File\FrmExogenousFormat.resx">
+      <DependentUpon>FrmExogenousFormat.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="File\FrmGeneralLedgerIVA.resx">
+      <DependentUpon>FrmGeneralLedgerIVA.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="File\FrmHealthSuperintendencyParameters.resx">
+      <DependentUpon>FrmHealthSuperintendencyParameters.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="File\FrmMainAccountLevels.resx">
+      <DependentUpon>FrmMainAccountLevels.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="File\FrmPatrimonialParticipation.resx">
+      <DependentUpon>FrmPatrimonialParticipation.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="File\FrmDocumentType.resx">
+      <DependentUpon>FrmDocumentType.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="File\frmPUC.resx">
+      <DependentUpon>frmPUC.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="File\FrmRetentionConcept.es-CO.resx">
+      <DependentUpon>FrmRetentionConcept.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="File\FrmRetentionConcept.resx">
+      <DependentUpon>FrmRetentionConcept.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="File\FrmStatementFolio.resx">
+      <DependentUpon>FrmStatementFolio.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="My Project\licenses.licx" />
+    <EmbeddedResource Include="My Project\Resources.resx">
+      <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.vb</LastGenOutput>
+      <CustomToolNamespace>My.Resources</CustomToolNamespace>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PrintRibbonControllerResources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>PrintRibbonControllerResources.Designer.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Process\FrmAccountantsBudgets.resx">
+      <DependentUpon>FrmAccountantsBudgets.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Process\JournalVoucher\FrmAccountingVoucher.resx">
+      <DependentUpon>FrmAccountingVoucher.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Process\FrmAnnualClose.resx">
+      <DependentUpon>FrmAnnualClose.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Process\FrmApprovalAccounts.resx">
+      <DependentUpon>FrmApprovalAccounts.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Process\FrmClosingConfirmation.resx">
+      <DependentUpon>FrmClosingConfirmation.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Process\FrmMontClose.resx">
+      <DependentUpon>FrmMontClose.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Process\FrmMonthOpen.resx">
+      <DependentUpon>FrmMonthOpen.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Process\frmPopupJournalVouchers.resx">
+      <DependentUpon>frmPopupJournalVouchers.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Process\FrmPopupVoucherAccount.resx">
+      <DependentUpon>FrmPopupVoucherAccount.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Process\JournalVoucher\FrmImportJournalVoucher.resx">
+      <DependentUpon>FrmImportJournalVoucher.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\FrmReportReconcileModule.resx">
+      <DependentUpon>FrmReportReconcileModule.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\FrmReportSingleCircular.resx">
+      <DependentUpon>FrmReportSingleCircular.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\FrmReportExogenousInformation.resx">
+      <DependentUpon>FrmReportExogenousInformation.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\FrmReportTreasutyAudit.resx">
+      <DependentUpon>FrmReportTreasutyAudit.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\FrmReportBalanceAccountMonthly.resx">
+      <DependentUpon>FrmReportBalanceAccountMonthly.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\FrmReportAccountPlan.resx">
+      <DependentUpon>FrmReportAccountPlan.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\FrmReportAuxiliary.resx">
+      <DependentUpon>FrmReportAuxiliary.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\FrmReportBulletinDefaultersState.resx">
+      <DependentUpon>FrmReportBulletinDefaultersState.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\FrmReportCGN002ReciprocalOperations.resx">
+      <DependentUpon>FrmReportCGN002ReciprocalOperations.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\FrmReportCGN001BalanceAndMovement.resx">
+      <DependentUpon>FrmReportCGN001BalanceAndMovement.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\FrmReportDailyLedger.resx">
+      <DependentUpon>FrmReportDailyLedger.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\FrmReportDiaryVouchers.resx">
+      <DependentUpon>FrmReportDiaryVouchers.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\FrmReportGeneralBalance.resx">
+      <DependentUpon>FrmReportGeneralBalance.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\FrmReportInventoryBalance.resx">
+      <DependentUpon>FrmReportInventoryBalance.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\FrmReportLedgerAndBalance.resx">
+      <DependentUpon>FrmReportLedgerAndBalance.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\FrmReportListAccountingVoucher.resx">
+      <DependentUpon>FrmReportListAccountingVoucher.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\FrmReportMoveList.resx">
+      <DependentUpon>FrmReportMoveList.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\FrmReportPatrimonialChanges.resx">
+      <DependentUpon>FrmReportPatrimonialChanges.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\FrmReportResultStatus.resx">
+      <DependentUpon>FrmReportResultStatus.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\FrmReportStatusEfecty.resx">
+      <DependentUpon>FrmReportStatusEfecty.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\FrmReportThird.resx">
+      <DependentUpon>FrmReportThird.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\FrmReportThirdBalance.resx">
+      <DependentUpon>FrmReportThirdBalance.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\FrmReportTrialBalance.resx">
+      <DependentUpon>FrmReportTrialBalance.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Utilities\FrmAccountingHomologations.resx">
+      <DependentUpon>FrmAccountingHomologations.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Utilities\FrmCompanySettings.resx">
+      <DependentUpon>FrmCompanySettings.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Utilities\FrmDistrictDirectorateOfTaxes.resx">
+      <DependentUpon>FrmDistrictDirectorateOfTaxes.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Utilities\FrmMassiveReplication.resx">
+      <DependentUpon>FrmMassiveReplication.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Utilities\FrmSettingsExogenousInformation.resx">
+      <DependentUpon>FrmSettingsExogenousInformation.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Utilities\FrmGeneralAccountingParameters.es-CO.resx">
+      <DependentUpon>FrmGeneralAccountingParameters.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Utilities\FrmNationalHealthSuperintendence.resx">
+      <DependentUpon>FrmNationalHealthSuperintendence.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Utilities\FrmGeneralAccountingParameters.resx">
+      <DependentUpon>FrmGeneralAccountingParameters.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Utilities\FrmParametersAccounting.resx">
+      <DependentUpon>FrmParametersAccounting.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Utilities\FrmRecalculateBalances.resx">
+      <DependentUpon>FrmRecalculateBalances.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Utilities\FrmVieBot.resx">
+      <DependentUpon>FrmVieBot.vb</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="My Project\Application.myapp">
+      <Generator>MyApplicationCodeGenerator</Generator>
+      <LastGenOutput>Application.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="My Project\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <CustomToolNamespace>My</CustomToolNamespace>
+      <LastGenOutput>Settings.Designer.vb</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Infrastructure.CrossCutting.Exceptions\Infrastructure.CrossCutting.Exceptions.vbproj">
+      <Project>{4ddb3588-6bc6-4545-85ca-222b8348492f}</Project>
+      <Name>Infrastructure.CrossCutting.Exceptions</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastructure.CrossCutting.Xpo.Base\Infrastructure.CrossCutting.Xpo.Base.vbproj">
+      <Project>{06AEA7A4-8792-405E-97E6-4B6FB10502B5}</Project>
+      <Name>Infrastructure.CrossCutting.Xpo.Base</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastructure.Data.Xpo.BudgetRepository\Infrastructure.Data.Xpo.BudgetRepository.vbproj">
+      <Project>{43721df9-e30f-44a6-b512-901cba41c894}</Project>
+      <Name>Infrastructure.Data.Xpo.BudgetRepository</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastructure.Data.Xpo.GlosasRepository\Infrastructure.Data.Xpo.GlosasRepository.vbproj">
+      <Project>{697869d8-6dad-4170-b120-c3f6cbd6dc4a}</Project>
+      <Name>Infrastructure.Data.Xpo.GlosasRepository</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastructure.Data.Xpo.InventoryRepository\Infrastructure.Data.Xpo.InventoryRepository.csproj">
+      <Project>{e16b7310-400a-46dd-b7ab-c54ea51f197c}</Project>
+      <Name>Infrastructure.Data.Xpo.InventoryRepository</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastructure.Data.Xpo.MaintenanceRepository\Infrastructure.Data.Xpo.MaintenanceRepository.vbproj">
+      <Project>{825af482-aa7b-4253-ad88-748b665e5598}</Project>
+      <Name>Infrastructure.Data.Xpo.MaintenanceRepository</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastructure.Data.Xpo.PaymentsRepository\Infrastructure.Data.Xpo.PaymentsRepository.vbproj">
+      <Project>{6d87a185-58c7-4cce-93e0-5ff663152660}</Project>
+      <Name>Infrastructure.Data.Xpo.PaymentsRepository</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastructure.Data.Xpo.PayrollRepository\Infrastructure.Data.Xpo.PayrollRepository.vbproj">
+      <Project>{CE46AB34-7B36-422F-AE89-2D5F759E1960}</Project>
+      <Name>Infrastructure.Data.Xpo.PayrollRepository</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastructure.Data.Xpo.PortfolioRepository\Infrastructure.Data.Xpo.PortfolioRepository.vbproj">
+      <Project>{ab90b939-7342-4d1e-8a01-13b863c8f0dc}</Project>
+      <Name>Infrastructure.Data.Xpo.PortfolioRepository</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastructure.Data.Xpo.SecurityRepository\Infrastructure.Data.Xpo.SecurityRepository.vbproj">
+      <Project>{75506435-56f8-4069-9540-c7c37e197458}</Project>
+      <Name>Infrastructure.Data.Xpo.SecurityRepository</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastructure.Data.Xpo.TreasuryRepository\Infrastructure.Data.Xpo.TreasuryRepository.vbproj">
+      <Project>{80eeac4e-4409-4469-9299-3cb99582ad33}</Project>
+      <Name>Infrastructure.Data.Xpo.TreasuryRepository</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastructure.Data.Xpo\Infrastructure.Data.Xpo.vbproj">
+      <Project>{b5e32668-0270-4d5e-adb7-840edf9d6db8}</Project>
+      <Name>Infrastructure.Data.Xpo</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastucture.Data.Xpo.AccountingRepository\Infrastructure.Data.Xpo.AccountingRepository.vbproj">
+      <Project>{539916d8-97ff-497f-bc89-12d89b47cb70}</Project>
+      <Name>Infrastructure.Data.Xpo.AccountingRepository</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Presentacion.AgenteCloud\Presentation.ProxyAgent.vbproj">
+      <Project>{AB3573A9-5ACF-4971-B298-BE3A1ED617E8}</Project>
+      <Name>Presentation.ProxyAgent</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Presentacion.Base\Presentation.Base.vbproj">
+      <Project>{7bc84999-6ea3-47e9-92e9-697ade41bb9a}</Project>
+      <Name>Presentation.Base</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Presentacion.Controles.MVP\Presentation.Controls.MVP.vbproj">
+      <Project>{47d30452-ca41-44a9-b3ad-867793353ede}</Project>
+      <Name>Presentation.Controls.MVP</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Presentacion.Controles\Presentation.Controls.vbproj">
+      <Project>{b031e890-3c50-4dea-ba76-96bc4bb6a05a}</Project>
+      <Name>Presentation.Controls</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Presentation.Accounting.MVP\Presentation.Accounting.MVP.vbproj">
+      <Project>{16aef376-07f1-4f7f-864b-1ce7b8fec2b1}</Project>
+      <Name>Presentation.Accounting.MVP</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Presentation.Billing.MVP\Presentation.Billing.MVP.vbproj">
+      <Project>{3dc26ea3-5867-4efc-bc6a-17f27c827cde}</Project>
+      <Name>Presentation.Billing.MVP</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Presentation.Common.MVP\Presentation.Common.MVP.vbproj">
+      <Project>{62fd08cc-4d21-425c-b5c8-65f3d1fa8401}</Project>
+      <Name>Presentation.Common.MVP</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Presentation.Common\Presentation.Common.vbproj">
+      <Project>{d649cfc8-0561-4bc3-b1c8-585ba91f94d2}</Project>
+      <Name>Presentation.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Presentation.Payments.MVP\Presentation.Payments.MVP.vbproj">
+      <Project>{6a55f792-8bc6-44f9-b840-9ff3a71ecd18}</Project>
+      <Name>Presentation.Payments.MVP</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Presentation.Reporter\Presentation.Reporter.vbproj">
+      <Project>{4fed3f7c-503d-4257-8b02-e4fa08c328cd}</Project>
+      <Name>Presentation.Reporter</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Presentation.Resources\Presentation.Resources.vbproj">
+      <Project>{56a8b8d1-0a6c-456e-8978-2edf8c3b9034}</Project>
+      <Name>Presentation.Resources</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BuscarMetro.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Agregar16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\refrescar16x16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ICONO EXCEL-02.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Add_16x16_blue.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Block de notas.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Bloc de notas.png" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

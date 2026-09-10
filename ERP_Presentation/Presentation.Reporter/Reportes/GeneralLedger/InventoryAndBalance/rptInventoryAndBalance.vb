@@ -1,0 +1,184 @@
+﻿#Region "Imports"
+Imports Infrastructure.CrossCutting.Base
+Imports Infrastructure.Data.Xpo
+Imports DevExpress.XtraReports.UI
+Imports Presentation.Base
+Imports Presentation.CloudAgent
+Imports System.ServiceModel
+
+#End Region
+
+Public Class rptInventoryAndBalance
+    Implements IReport
+
+    ''' <summary>
+    ''' Variable para inicializar los valores de sesion
+    ''' </summary>
+    Dim IndigoSessionValues As SessionValues = SessionValues.Instance
+    ''' <summary>
+    ''' Variable par obtener la tabla de Trazabilidad
+    ''' </summary>
+    Dim dtReportInventoryAndBalance As DataTable
+
+    Dim a As Integer
+
+    Dim currencyAbbreviation As String
+
+    Public Sub CargarDataSource() Implements IReport.CargarDataSource
+        'Me.DataSource = XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).AccountingService.GetCollectionInventoryAndBalance(ParametrosReporte(0), ParametrosReporte(3), ParametrosReporte(5))
+    End Sub
+
+    Public Async Function CargarDataSource1() As Task
+        Try
+            'Await Task.Run(Sub() Me.DataSource = XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).AccountingService.GetCollectionInventoryAndBalance(ParametrosReporte(0), ParametrosReporte(3), ParametrosReporte(5)))
+            Dim ds As DataSet = Await IndigoConecta.Instancia.CurrentCloud.IndigoAccounting.GetListReportInventoryAndBalanceAsync(ParametrosReporte(0), ParametrosReporte(1), ParametrosReporte(2), ParametrosReporte(4), ParametrosReporte(6), ParametrosReporte(7), ParametrosReporte(5), ParametrosReporte(10), ParametrosReporte(11), Me.IndigoSessionValues)
+            If ds.Tables(0).Rows.Count > 0 Then
+                dtReportInventoryAndBalance = ds.Tables("ReportInventoryAndBalance")
+                Me.DataSource = dtReportInventoryAndBalance
+                Me.DataMember = "ReportInventoryAndBalance"
+            Else
+                Me.DataSource = Nothing
+            End If
+            a = ParametrosReporte(9)
+
+            Dim book
+            Using scope As New OperationContextScope(IndigoConecta.Instancia.CurrentCloud.IndigoAccounting.InnerChannel)
+                IndigoSessionValues.AuditMessageWcf.Functional = Tag
+                Dim mess As New MessageHeader(Of AuditMessage)(IndigoSessionValues.AuditMessageWcf)
+                Dim header As System.ServiceModel.Channels.MessageHeader = mess.GetUntypedHeader(ConfigurationFile.SESS_AUDITMESSAGE, ConfigurationFile.SESS_NAME_SPACE)
+                OperationContext.Current.OutgoingMessageHeaders.Add(header)
+                book = Await IndigoConecta.Instancia.CurrentCloud.IndigoAccounting.GetBookByIdAsync(ParametrosReporte(6))
+            End Using
+            If book.ObjectEmbbeded IsNot Nothing Then
+                currencyAbbreviation = book.ObjectEmbbeded.Currency.Abbreviation
+            End If
+
+        Catch ex As Exception
+            MessageIndigo.Show(GetExceptionDetails(ex), MessageType.Errores, Me.Text, Botones.Aceptar, "")
+        End Try
+    End Function
+
+    Public Sub CargarImagenes() Implements IReport.CargarImagenes
+
+    End Sub
+
+    Public Function GetExceptionDetails(exception As Exception) As String
+        Dim properties = exception.[GetType]().GetProperties()
+        Dim fields = properties.[Select](Function([property]) New With { _
+            Key .Name = [property].Name, _
+            Key .Value = [property].GetValue(exception, Nothing) _
+        }).[Select](Function(x) [String].Format("{0} : {1}", x.Name, If(x.Value IsNot Nothing, x.Value.ToString(), [String].Empty)))
+        Return [String].Join(vbLf, fields)
+    End Function
+
+    Public ReadOnly Property NameReport As String Implements IReport.NameReport
+        Get
+            Return ""
+        End Get
+    End Property
+
+    Public Property ParametrosReporte As Object() Implements IReport.ParametrosReporte
+
+    Private Sub rptInventoryAndBalance_BeforePrint(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles MyBase.BeforePrint
+        If ParametrosReporte(10) Is Nothing And ParametrosReporte(11) Is Nothing Then
+            INDPmInitialAccount.Value = 0
+            INDPmFinalAccount.Value = "z"
+        Else
+            INDPmInitialAccount.Value = ParametrosReporte(10)
+            INDPmFinalAccount.Value = ParametrosReporte(11)
+        End If
+
+
+        'Cargar los valores del titulo
+        Me.INDLblCompany.Text = IndigoSessionValues.IndigoCompanyName
+        Me.INDLblNitCompany.Text = "Nit : " & IndigoSessionValues.IndigoCompanyNit
+        Me.INDLblUserPrint.Text = "Usuario Impresión : " & IndigoSessionValues.UserIndigo & " - " & IndigoSessionValues.UserIndigoName
+        'INDLblDate.Text = "Hasta el 31 de" & CDate(Me.ParametrosReporte(0)).ToString("MMMM Del yyyy")
+        INDLblDate.Text = "Fecha de Corte " & MonthName(Me.ParametrosReporte(1)).ToUpper & " Del " & ParametrosReporte(2)
+
+        'If ParametrosReporte(7) = 5 Then
+        '    INDGhAuxiliary.Visible = True
+
+
+        '    INDGhSubAuxiliar.Visible = True
+        'End If
+
+        If ParametrosReporte(5) = True Then
+            INDGhThirdParty.Visible = True
+            INDGhClass.Visible = True
+        End If
+
+    End Sub
+
+    Private Sub XrTable1_BeforePrint(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles XrTable1.BeforePrint
+        Dim table As XRTable = CType(sender, XRTable)
+        Dim row As XRTableRow = table.Rows(0)
+        If ParametrosReporte(5) = 0 Then
+            If row.Cells("XrTableCell2") IsNot Nothing And row.Cells("XrTableCell4") IsNot Nothing Then
+                row.Cells.Remove(XrTableCell2)
+                row.Cells.Remove(XrTableCell4)
+                XrTableCell1.WidthF = 80
+                XrTableCell3.WidthF = 380
+                XrTableCell5.WidthF = 168
+                XrTableCell6.WidthF = 171
+            End If
+        End If
+    End Sub
+
+    Private Sub XrTable2_BeforePrint(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles XrTable2.BeforePrint
+        Dim table As XRTable = CType(sender, XRTable)
+        Dim row As XRTableRow = table.Rows(0)
+        If ParametrosReporte(5) = 0 Then
+            If row.Cells("XrTableCell8") IsNot Nothing And row.Cells("XrTableCell10") IsNot Nothing Then
+                row.Cells.Remove(XrTableCell8)
+                row.Cells.Remove(XrTableCell10)
+                XrTableCell7.WidthF = 80
+                XrTableCell9.WidthF = 380
+                XrTableCell11.WidthF = 168
+                XrTableCell12.WidthF = 171
+            End If
+        End If
+    End Sub
+
+    Private Sub PageHeader_BeforePrint(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles PageHeader.BeforePrint
+        If ParametrosReporte(3) = 2 Then
+
+            XrPageInfo1.Visible = True
+
+            XrPageInfo1.Format = ParametrosReporte(8) & a
+            a = a + 1
+        End If
+    End Sub
+    Private Sub INDGhThirdParty_BeforePrint(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles INDGhThirdParty.BeforePrint
+        Dim thirdPartyId = GetCurrentColumnValue("INDThirdPartyNit")
+        Dim table7 As XRTable = CType(XrTable7, XRTable)
+        Dim newBalance As XRTableCell = CType(XrTableCell40, XRTableCell)
+        Dim creditValue As XRTableCell = CType(XrTableCell41, XRTableCell)
+        Dim debitValue As XRTableCell = CType(XrTableCell42, XRTableCell)
+        If ParametrosReporte(10) IsNot Nothing And ParametrosReporte(11) IsNot Nothing Then
+            Dim Detalle As GroupHeaderBand = CType(INDGhThirdParty, GroupHeaderBand)
+            If thirdPartyId = "" Then
+                table7.Visible = False
+                table7.HeightF = 0
+                newBalance.Visible = False
+                creditValue.Visible = False
+                debitValue.Visible = False
+                Detalle.HeightF = 0
+            Else
+                table7.Visible = True
+                table7.HeightF = 15
+                newBalance.Visible = True
+                creditValue.Visible = True
+                debitValue.Visible = True
+                Detalle.HeightF = 16
+            End If
+        End If
+    End Sub
+
+    Private Sub XrTableCell10_SummaryGetResult(sender As Object, e As SummaryGetResultEventArgs) Handles XrTableCell10.SummaryGetResult, XrTableCell11.SummaryGetResult, XrTableCell12.SummaryGetResult, XrTableCell40.SummaryGetResult, XrTableCell41.SummaryGetResult, XrTableCell42.SummaryGetResult, XrTableCell44.SummaryGetResult, XrTableCell45.SummaryGetResult
+        Dim row = GetCurrentRow()
+        e.Result = Utils.GetMoneyWithISO4217(e.CalculatedValues.ToEntityList(Of Decimal).Sum(), If(String.IsNullOrEmpty(currencyAbbreviation),
+                                             IndigoSessionValues.CurrencyISO4217, currencyAbbreviation))
+        e.Handled = True
+    End Sub
+End Class

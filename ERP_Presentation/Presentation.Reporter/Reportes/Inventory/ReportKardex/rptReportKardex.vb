@@ -1,0 +1,118 @@
+﻿#Region "Imports"
+
+Imports Infrastructure.CrossCutting.Base
+Imports Infrastructure.Data.Xpo
+
+#End Region
+
+Public Class rptReportKardex
+    Implements IReport
+
+#Region "Properties"
+
+    ''' <summary>
+    ''' Variable para inicializar los valores de sesion
+    ''' </summary>
+    Dim IndigoSessionValues As SessionValues = SessionValues.Instance
+
+    Public Property ParametrosReporte As Object() Implements IReport.ParametrosReporte
+
+    Public ReadOnly Property NameReport As String Implements IReport.NameReport
+        Get
+            Return ""
+        End Get
+    End Property
+
+#End Region
+
+#Region "Load Data"
+
+    Public Sub CargarDataSource() Implements IReport.CargarDataSource
+
+        Dim orderBy As String = If(ParametrosReporte(6) = 1, "CreationDate", "DocumentDate")
+        Dim fechaInicio As Date = CDate(ParametrosReporte(0)).Date
+        Dim fechaFinExclusivo As Date = CDate(ParametrosReporte(1)).Date.AddDays(1).AddSeconds(-1)
+        Dim Filter As String = String.Format("{0} >= #{1:yyyy-MM-dd HH:mm:ss}# AND {0} <= #{2:yyyy-MM-dd HH:mm:ss}#", orderBy, fechaInicio, fechaFinExclusivo)
+
+        'Filtro por producto
+        If Not String.IsNullOrEmpty(ParametrosReporte(2)) Then
+            Filter &= If(String.IsNullOrEmpty(Filter), "", " AND ") & String.Format("ProductId IN ({0})", ParametrosReporte(2))
+        End If
+
+        'Filtro por Almacen
+        If Not String.IsNullOrEmpty(ParametrosReporte(3)) Then
+            Filter &= If(String.IsNullOrEmpty(Filter), "", " AND ") & String.Format("WarehouseId IN ({0})", ParametrosReporte(3))
+        End If
+
+        'FILTRO POR LOTE
+        If Not String.IsNullOrEmpty(ParametrosReporte(4)) Then
+            Filter &= If(String.IsNullOrEmpty(Filter), "", " AND ") & String.Format("BatchSerialId IN ({0})", ParametrosReporte(4))
+        End If
+        Me.DataSource = XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).InventoryService.ListKardex(Filter, orderBy)
+    End Sub
+
+#End Region
+
+#Region "Methods"
+
+    Public Sub CargarImagenes() Implements IReport.CargarImagenes
+
+    End Sub
+
+#End Region
+
+#Region "Events"
+
+    Private Sub rptReportKardex_BeforePrint(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles MyBase.BeforePrint
+        Me.INDLblNameCompany.Text = IndigoSessionValues.IndigoCompanyName
+        Me.INDLblNitCompany.Text = "Nit : " & IndigoSessionValues.IndigoCompanyNit
+        Me.INDUserImp.Text = "Usuario Impresión : " & IndigoSessionValues.UserIndigo & " - " & IndigoSessionValues.UserIndigoName
+
+        Me.INDPrmTypeReport.Value = ParametrosReporte(5)
+        Me.INDPrmDateReport.Value = ParametrosReporte(6)
+        INDLblDate.Text = "Informe comprendido entre " & CDate(Me.ParametrosReporte(0)).ToString("dd De MMMM Del yyyy") & " " & CDate(Me.ParametrosReporte(1)).ToString("A dd De MMMM Del yyyy")
+
+        If ParametrosReporte(5) = 1 Then
+            Me.INDLblTitle.Text = "KARDEX POR PRODUCTO"
+            INDTblHeaderWarehouseBatch.Visible = False
+            INDGhWarehouseBatch.Visible = False
+            INDTblGroupProductWare.Visible = False
+            INDLblHeaderPreviosBatch.Visible = False
+            INDTblDetailWarehouseBatch.Visible = False
+            INDLblDetailAmountBatch.Visible = False
+            INDTblFooterWarehouseBatch.Visible = False
+            INDLblFooterAmountBatch.Visible = False
+            INDTblDetailBatchWarehouse.Visible = False
+            INDLblHeaderBatch.Visible = False
+            XrTable1.Visible = True
+        ElseIf ParametrosReporte(5) = 2 Then
+            Me.INDLblTitle.Text = "KARDEX POR ALMACEN"
+            INDTblHeaderProduct.Visible = False
+            INDTblGroupBatch.Visible = False
+            INDTblGroupProductProd.Visible = False
+            INDLblHeaderPreviosBatch.Visible = False
+            INDTblDetailProduct.Visible = False
+            INDLblDetailAmountBatch.Visible = False
+            INDTblFooterProduct.Visible = False
+            INDLblFooterAmountBatch.Visible = False
+            INDTblDetailBatchWarehouse.Visible = False
+            INDLblHeaderBatch.Visible = False
+        ElseIf ParametrosReporte(5) = 3 Then
+            Me.INDLblTitle.Text = "KARDEX POR LOTE - SERIAL"
+            INDTblHeaderProduct.Visible = False
+            INDTblGroupWarehouse.Visible = False
+            INDTblGroupProductProd.Visible = False
+            INDLblHeaderPreviosWarehouse.Visible = False
+            INDTblDetailProduct.Visible = False
+            INDLblDetailAmountWarehouse.Visible = False
+            INDTblFooterProduct.Visible = False
+            INDLblFooterAmountWarehouse.Visible = False
+            'INDLblDetailWarehouseCodeBatch.Visible = False
+            INDLblDetailWarehouseNameBatch.Visible = False
+            INDLblHeaderWarehouse.Visible = False
+        End If
+    End Sub
+
+#End Region
+
+End Class

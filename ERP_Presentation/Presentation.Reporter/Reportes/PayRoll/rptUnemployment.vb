@@ -1,0 +1,54 @@
+﻿#Region "Librerias Importadas"
+Imports Infrastructure.CrossCutting.Base
+Imports Infrastructure.Data.Xpo
+Imports Infrastructure.Data.Xpo.PayrollRepository
+Imports Domain.Payroll.Entities
+#End Region
+
+Public Class rptUnemployment
+    Implements IReport
+
+    ''' <summary>
+    ''' Variable para inicializar los valores de sesion
+    ''' </summary>
+    Dim IndigoSessionValues As SessionValues = SessionValues.Instance
+
+    Const CNameReport = "Payroll.FrmUnemployedLiquidation"
+
+    Public Property ParametrosReporte As Object() Implements IReport.ParametrosReporte
+
+    Public Sub CargarDataSource() Implements IReport.CargarDataSource
+        Dim filtroConsulta As String = "Year = " & Me.ParametrosReporte(1)
+
+        If Me.ParametrosReporte(0).Count > 0 Then
+            Dim filtroGrupos As String
+            filtroGrupos = " or "
+            For Each grupo As Group In Me.ParametrosReporte(1)
+                filtroGrupos += " ContractId.GroupId.Id = " & grupo.Id & " or"
+            Next
+            filtroConsulta += filtroGrupos
+        End If
+
+        filtroConsulta = filtroConsulta.Remove(filtroConsulta.Length - 2, 2)
+
+        Me.DataSource = XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).PayrollService.GetCollection(Of PayrollUnemployedLiquidation)(Nothing, filtroConsulta)
+        If Me.ParametrosReporte(2) IsNot Nothing Then
+            Me.INDlblAddress.Text = If(Me.ParametrosReporte(2).Address IsNot Nothing, Me.ParametrosReporte(2).Address.Trim() & If(Me.ParametrosReporte(2).City IsNot Nothing, If(Me.ParametrosReporte(2).City.Name IsNot Nothing, " " & Me.ParametrosReporte(2).City.Name.Trim() & If(Me.ParametrosReporte(2).City.Department IsNot Nothing, " - " & Me.ParametrosReporte(2).City.Department.Name.Trim(), String.Empty), String.Empty), String.Empty), String.Empty)
+            Me.INDlblPhoneEmail.Text = If(Me.ParametrosReporte(2).Phone IsNot Nothing, Me.ParametrosReporte(2).Phone.Trim() & If(Me.ParametrosReporte(2).EmailAudit IsNot Nothing, " - " & Me.ParametrosReporte(2).EmailAudit.Trim(), String.Empty), String.Empty)
+        End If
+    End Sub
+
+    Public Sub CargarImagenes() Implements IReport.CargarImagenes
+
+    End Sub
+
+    Public ReadOnly Property NameReport As String Implements IReport.NameReport
+        Get
+            Return rptUnemployment.CNameReport
+        End Get
+    End Property
+
+    Private Sub rptUnemployment_BeforePrint(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles MyBase.BeforePrint
+        lblAñoLiquidacion.Text = Me.ParametrosReporte(1).ToString()
+    End Sub
+End Class

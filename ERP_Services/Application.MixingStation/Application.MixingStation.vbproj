@@ -1,0 +1,316 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{1780673A-3A88-4802-9BE4-5C3BAD1D8D1B}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>Application.MixingStation</RootNamespace>
+    <AssemblyName>Application.MixingStation</AssemblyName>
+    <FileAlignment>512</FileAlignment>
+    <MyType>Windows</MyType>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DocumentationFile>Application.MixingStation.xml</DocumentationFile>
+    <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
+    <WarningsAsErrors>
+    </WarningsAsErrors>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DocumentationFile>Application.MixingStation.xml</DocumentationFile>
+    <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
+    <WarningsAsErrors>
+    </WarningsAsErrors>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionExplicit>On</OptionExplicit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionCompare>Binary</OptionCompare>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionStrict>Off</OptionStrict>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionInfer>On</OptionInfer>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\DLL\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="Infrastructure.CrossCutting.Exceptions">
+      <HintPath>..\DLL\Infrastructure.CrossCutting.Exceptions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Caching.Abstractions, Version=3.1.32.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Caching.Abstractions.3.1.32\lib\netstandard2.0\Microsoft.Extensions.Caching.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Primitives, Version=3.1.32.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Primitives.3.1.32\lib\netstandard2.0\Microsoft.Extensions.Primitives.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.13.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Buffers, Version=4.0.2.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Buffers.4.4.0\lib\netstandard2.0\System.Buffers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Data.Entity" />
+    <Reference Include="System.Memory, Version=4.0.1.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Memory.4.5.2\lib\netstandard2.0\System.Memory.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Numerics.Vectors, Version=4.1.3.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Numerics.Vectors.4.4.0\lib\net46\System.Numerics.Vectors.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.6.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.4.7.1\lib\net461\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Transactions" />
+    <Reference Include="System.Core" />
+  </ItemGroup>
+  <ItemGroup>
+    <Import Include="Microsoft.VisualBasic" />
+    <Import Include="System" />
+    <Import Include="System.Collections" />
+    <Import Include="System.Collections.Generic" />
+    <Import Include="System.Data" />
+    <Import Include="System.Diagnostics" />
+    <Import Include="System.Linq" />
+    <Import Include="System.Xml.Linq" />
+    <Import Include="System.Threading.Tasks" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="CategoryDefects\CategoryDefectsAdminService.vb" />
+    <Compile Include="CategoryDefects\ICategoryDefectsAdminService.vb" />
+    <Compile Include="DefectClassificationItem\DefectClassificationItemLineService.vb" />
+    <Compile Include="DefectClassificationItem\IDefectClassificationItemLineService.vb" />
+    <Compile Include="DilutionFactors\IDilutionFactorsAdminService.vb" />
+    <Compile Include="DilutionFactors\DilutionFactorsAdminService.vb" />
+    <Compile Include="LineClearanceCriteria\ILineClearanceCriteriaService.vb" />
+    <Compile Include="LineClearanceCriteria\LineClearanceCriteriaService.vb" />
+    <Compile Include="ReadjustmentLog\IReadjustmentLogAdminService.vb" />
+    <Compile Include="ReadjustmentLog\ReadjustmentLogAdminService.vb" />
+    <Compile Include="Readjustments\ReadjustmentsAdminService.vb" />
+    <Compile Include="Readjustments\IReadjustmentsAdminService.vb" />
+    <Compile Include="BlockRecordMixingStation\BlockRecordMixingStationAdminService.vb" />
+    <Compile Include="BlockRecordMixingStation\IBlockRecordMixingStationAdminService.vb" />
+    <Compile Include="CampaignKardex\CampaignKardexAdminService.vb" />
+    <Compile Include="CampaignKardex\ICampaignKardexAdminService.vb" />
+    <Compile Include="Campaign\CampaignAdminService.vb" />
+    <Compile Include="Campaign\ICampaignAdminService.vb" />
+    <Compile Include="CauseReprocessingRejection\CauseReprocessingRejectionAdminService.vb" />
+    <Compile Include="CauseReprocessingRejection\ICauseReprocessingRejectionAdminService.vb" />
+    <Compile Include="CMConfig\CMCenterAdminAttention.vb" />
+    <Compile Include="CMConfig\ICMCenterAttention.vb" />
+    <Compile Include="CMConfig\ICMConfigAdminService.vb" />
+    <Compile Include="CMConfig\CMConfigAdminService.vb" />
+    <Compile Include="ConfirmationUnitDose\ConfirmationUnitDoseAdminService.vb" />
+    <Compile Include="ConfirmationUnitDose\IConfirmationUnitDoseAdminService.vb" />
+    <Compile Include="Consecutive\IMixingStationConsecutiveAdminService.vb" />
+    <Compile Include="Consecutive\MixingStationConsecutiveAdminService.vb" />
+    <Compile Include="ContractExternalClients\ContractExternalClientsAdminService.vb" />
+    <Compile Include="ContractExternalClients\IContractExternalClientsAdminService.vb" />
+    <Compile Include="ExternalCareCenter\ExternalCareCenterAdminService.vb" />
+    <Compile Include="ExternalCareCenter\IExternalCareCenterAdminService.vb" />
+    <Compile Include="BatchSerialSetting\IBatchSerialSettingAdminService.vb" />
+    <Compile Include="BatchSerialSetting\BatchSerialSettingAdminService.vb" />
+    <Compile Include="MixingStationSetting\IMixingStationSettingAdminService.vb" />
+    <Compile Include="MixingStationSetting\MixingStationSettingAdminService.vb" />
+    <Compile Include="PackageDetail\IPackageDetailAdminService.vb" />
+    <Compile Include="PackageDetail\PackageDetailAdminService.vb" />
+    <Compile Include="Package\IPackageAdminService.vb" />
+    <Compile Include="Package\PackageAdminService.vb" />
+    <Compile Include="PatientExternalCareCenter\IPatientExternalCareCenterAdminService.vb" />
+    <Compile Include="PatientExternalCareCenter\PatientExternalCareCenterAdminService.vb" />
+    <Compile Include="ProductionBaskets\IProductionBasketsAdminService.vb" />
+    <Compile Include="ProductionBaskets\ProductionBasketsAdminService.vb" />
+    <Compile Include="ProductionLine\IProductionLineService.vb" />
+    <Compile Include="ProductionLine\ProductionLineService.vb" />
+    <Compile Include="CampaignReports\ICampaignReportsAdminService.vb" />
+    <Compile Include="CampaignReports\CampaignReportsAdminService.vb" />
+    <Compile Include="QualityControl\IQualityControlAdminService.vb" />
+    <Compile Include="QualityControl\QualityControlAdminService.vb" />
+    <Compile Include="ProductionSchedule\IProductionScheduleAdminService.vb" />
+    <Compile Include="ProductionSchedule\ProductionScheduleAdminService.vb" />
+    <Compile Include="Harnessed\IHarnessedAdminService.vb" />
+    <Compile Include="Harnessed\HarnessedAdminService.vb" />
+    <Compile Include="QuantityRemaining\IQuantityRemainingAdminService.vb" />
+    <Compile Include="QuantityRemaining\QuantityRemainingAdminService.vb" />
+    <Compile Include="RawMaterialDevolution\IRawMaterialDevolutionAdminService.vb" />
+    <Compile Include="RawMaterialDevolution\RawMaterialDevolutionAdminService.vb" />
+    <Compile Include="RawMaterial\IRawMaterialAdminService.vb" />
+    <Compile Include="RawMaterial\RawMaterialAdminService.vb" />
+    <Compile Include="RequestMixingStation\IRequestMixingStationAdminService.vb" />
+    <Compile Include="RequestMixingStation\RequestMixingStationAdminService.vb" />
+    <Compile Include="RequestUnitDoseExternalCareCenter\IRequestUnitDoseExternalCareCenterAdminService.vb" />
+    <Compile Include="RequestUnitDoseExternalCareCenter\RequestUnitDoseExternalCareCenterAdminService.vb" />
+    <Compile Include="RequestUnitDoseInventory\IRequestUnitDoseInventoryAdminService.vb" />
+    <Compile Include="RequestUnitDoseInventory\RequestUnitDoseInventoryAdminService.vb" />
+    <Compile Include="StabilityTable\IStabilityTableAdminService.vb" />
+    <Compile Include="StabilityTable\StabilityTableAdminService.vb" />
+    <Compile Include="TransportationAssistant\ITransportationAssistantAdminService.vb" />
+    <Compile Include="TransportationAssistant\TransportationAssistantAdminService.vb" />
+    <Compile Include="Transportation\ITransportationAdminService.vb" />
+    <Compile Include="Transportation\TransportationAdminService.vb" />
+    <Compile Include="Turn\ITurnAdminService.vb" />
+    <Compile Include="Turn\TurnAdminService.vb" />
+    <Compile Include="My Project\AssemblyInfo.vb" />
+    <Compile Include="My Project\Application.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Application.myapp</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="My Project\Resources.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="My Project\Settings.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="Sequence\IMixingStationSequenceAdminService.vb" />
+    <Compile Include="Sequence\MixingStationSequenceAdminService.vb" />
+    <Compile Include="NPTConfiguration\INPTConfigurationAdminService.vb" />
+    <Compile Include="NPTConfiguration\NPTConfigurationAdminService.vb" />
+    <Compile Include="UnitDoseType\IUnitDoseTypeAdminService.vb" />
+    <Compile Include="UnitDoseType\UnitDoseTypeAdminService.vb" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="My Project\Resources.resx">
+      <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.vb</LastGenOutput>
+      <CustomToolNamespace>My.Resources</CustomToolNamespace>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="My Project\Application.myapp">
+      <Generator>MyApplicationCodeGenerator</Generator>
+      <LastGenOutput>Application.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="My Project\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <CustomToolNamespace>My</CustomToolNamespace>
+      <LastGenOutput>Settings.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Application.Base\Application.Base.vbproj">
+      <Project>{0E700653-1525-4D34-AA89-BFB243F6515C}</Project>
+      <Name>Application.Base</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Application.Common\Application.Common.vbproj">
+      <Project>{0509E89E-92DF-4B99-A74B-3043C7E6B1D2}</Project>
+      <Name>Application.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Application.Inventory\Application.Inventory.csproj">
+      <Project>{355f1dee-04d6-492c-8bbf-22b00e19ac79}</Project>
+      <Name>Application.Inventory</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Application.Payroll\Application.Payroll.vbproj">
+      <Project>{787CE04A-A6B3-41FD-97D4-2C7E12AC7A65}</Project>
+      <Name>Application.Payroll</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Application.Security\Application.Security.vbproj">
+      <Project>{57355C0B-D732-4AB2-88A4-4AB855376599}</Project>
+      <Name>Application.Security</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Domain.Base.Entities\Domain.Base.Entities.vbproj">
+      <Project>{78734D29-0073-4D48-9D0B-2362D0243E36}</Project>
+      <Name>Domain.Base.Entities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Domain.Base\Domain.Base.vbproj">
+      <Project>{8157F242-6A69-44C1-A9AC-19F0EE5CB8A2}</Project>
+      <Name>Domain.Base</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Domain.Crystal.Entities\Domain.Crystal.Entities.vbproj">
+      <Project>{AEF25407-1A53-4F3B-93CB-5258A6B80951}</Project>
+      <Name>Domain.Crystal.Entities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Domain.Crystal\Domain.Crystal.vbproj">
+      <Project>{FB110E4F-2309-46EF-8A11-D979517E315B}</Project>
+      <Name>Domain.Crystal</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Domain.Entities.Service\Domain.Entities.Service.vbproj">
+      <Project>{99E9AB54-BB1B-4279-99E7-B4B8E7068CE7}</Project>
+      <Name>Domain.Entities.Service</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Domain.Entities\Domain.Entities.vbproj">
+      <Project>{0551AEF4-ED84-4745-B00B-7475F26015CC}</Project>
+      <Name>Domain.Entities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Domain.Payroll.Entities\Domain.Payroll.Entities.vbproj">
+      <Project>{f0fe946f-2bd9-4bb8-8741-51ea3d862237}</Project>
+      <Name>Domain.Payroll.Entities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Domain.Payroll\Domain.Payroll.vbproj">
+      <Project>{0b26cafa-8df4-49ab-8943-41a91d67694e}</Project>
+      <Name>Domain.Payroll</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Domain.Security.Entities\Domain.Security.Entities.vbproj">
+      <Project>{99f1c077-1e8f-432f-b5d0-e801bf6d6a39}</Project>
+      <Name>Domain.Security.Entities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastructure.CrossCutting.Audit\Infrastructure.CrossCutting.Audit.vbproj">
+      <Project>{d2b2306d-6404-46cd-8a22-f827f3e1b75c}</Project>
+      <Name>Infrastructure.CrossCutting.Audit</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastructure.CrossCutting.AzureBlobStorage\Infrastructure.CrossCutting.Storage.csproj">
+      <Project>{A660E715-269C-43F4-BFEF-8DEEBAA2BD17}</Project>
+      <Name>Infrastructure.CrossCutting.Storage</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastructure.CrossCutting.Base\Infrastructure.CrossCutting.Base.vbproj">
+      <Project>{2773D9F7-93BD-4520-9726-BCE0D8875696}</Project>
+      <Name>Infrastructure.CrossCutting.Base</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastructure.CrossCutting.Resources\Infrastructure.CrossCutting.Resources.vbproj">
+      <Project>{134F5B02-EBA4-4414-BB62-BF5D55E2B906}</Project>
+      <Name>Infrastructure.CrossCutting.Resources</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastructure.Data.Base\Infrastructure.Data.Base.vbproj">
+      <Project>{69c4fe61-549b-42e8-adac-18d1cfc83fed}</Project>
+      <Name>Infrastructure.Data.Base</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastructure.Data.ModelRepository\Infrastructure.Data.ModelRepository.vbproj">
+      <Project>{a029ee5d-d97c-45a3-a213-43e17d1dbe0d}</Project>
+      <Name>Infrastructure.Data.ModelRepository</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastructure.Data.PayrollRepository\Infrastructure.Data.PayrollRepository.vbproj">
+      <Project>{97673314-A589-43C4-A604-54EC33856A76}</Project>
+      <Name>Infrastructure.Data.PayrollRepository</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

@@ -1,0 +1,78 @@
+﻿#Region "Librerias Importadas"
+Imports Presentation.Base
+Imports Infrastructure.CrossCutting.Base
+Imports Infrastructure.Data.Xpo
+Imports Infrastructure.Data.Xpo.InteropCostRepository
+Imports Domain.Entities
+Imports Presentation.CloudAgent
+#End Region
+
+Public Class rptCostListCostMeasurementUnit2
+    Implements IReport
+
+    Implements IReportAsync
+
+    ''' <summary>
+    ''' Variable para inicializar los valores de sesion
+    ''' </summary>
+    Dim IndigoSessionValues As SessionValues = SessionValues.Instance
+
+    ''' <summary>
+    ''' Variable par obtener la tabla de Trazabilidad
+    ''' </summary>
+    Dim dtReportCostMeasurementUnit As DataTable
+
+
+    Public Sub CargarDataSource() Implements IReport.CargarDataSource
+        Try
+            Dim ds As DataSet = IndigoConecta.Instancia.CurrentCloud.IndigoCost.GetListReportCostMeasurementUnit(Me.ParametrosReporte(0), Me.ParametrosReporte(1), Me.ParametrosReporte(2), Me.ParametrosReporte(3), Me.ParametrosReporte(5), Me.ParametrosReporte(6), Me.ParametrosReporte(4), IndigoSessionValues)
+            If ds.Tables(0).Rows.Count > 0 Then
+                dtReportCostMeasurementUnit = ds.Tables("ReportCostMeasurementUnit")
+                Me.DataSource = dtReportCostMeasurementUnit
+                Me.DataMember = "ReportCostMeasurementUnit"
+            Else
+                Me.DataSource = Nothing
+            End If
+        Catch ex As Exception
+            MessageIndigo.Show(GetExceptionDetails(ex), MessageType.Errores, Me.Text, Botones.Aceptar, "")
+        End Try
+    End Sub
+
+    Public Function CargarDataSourceAsync() As Task Implements IReportAsync.CargarDataSourceAsync
+        Return Task.Factory.StartNew(AddressOf CargarDataSource)
+    End Function
+
+    Public Function GetExceptionDetails(exception As Exception) As String
+        Dim properties = exception.[GetType]().GetProperties()
+        Dim fields = properties.[Select](Function([property]) New With { _
+            Key .Name = [property].Name, _
+            Key .Value = [property].GetValue(exception, Nothing) _
+        }).[Select](Function(x) [String].Format("{0} : {1}", x.Name, If(x.Value IsNot Nothing, x.Value.ToString(), [String].Empty)))
+        Return [String].Join(vbLf, fields)
+    End Function
+
+    Public Sub CargarImagenes() Implements IReport.CargarImagenes
+
+    End Sub
+
+    Public ReadOnly Property NameReport As String Implements IReport.NameReport
+        Get
+            Return ""
+        End Get
+    End Property
+
+    Public Property ParametrosReporte As Object() Implements IReport.ParametrosReporte
+
+    Private Sub rptListCostMeasurementUnit_BeforePrint(sender As Object, e As Printing.PrintEventArgs) Handles MyBase.BeforePrint
+        INDLblCompany.Text = IndigoSessionValues.IndigoCompanyName
+        INDLblNitCompany.Text = "Nit:" & IndigoSessionValues.IndigoCompanyNit
+        Me.INDLblUserPrint.Text = "Usuario Impresión : " & IndigoSessionValues.UserIndigo & " - " & IndigoSessionValues.UserIndigoName
+        Me.XrTableCell45.Text = Utils.Num2Text(Convert.ToDouble(GetCurrentColumnValue("INDCostCfSumTotal"))).ToString & " PESOS M/Cte."
+        INDLblDate.Text = "Informe comprendido entre " & CDate(Me.ParametrosReporte(7)).ToString("MMMM Del ") & " " & CDate(Me.ParametrosReporte(7)).ToString("yyyy") & " y " & CDate(Me.ParametrosReporte(8)).ToString("MMMM Del ") & " " & CDate(Me.ParametrosReporte(8)).ToString("yyyy")
+
+        ''Muestra Los almacenes seleccionados
+        'If ParametrosReporte(6) <> String.Empty Then
+        '    INDLblSubTitleProductionCenter.Text = "Informe Comprendido del Centro de Produccion :" & ParametrosReporte(8)
+        'End If
+    End Sub
+End Class

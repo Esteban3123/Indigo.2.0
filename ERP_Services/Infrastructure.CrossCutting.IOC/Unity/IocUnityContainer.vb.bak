@@ -1,0 +1,1284 @@
+﻿'***********************************************************************
+' Assembly         : Infrastructure.CrossCutting.IOC
+' Author           : WalterSierra
+' Created          : 11-03-2011
+'
+' Last Modified By : Juan F. Tamayo
+' Last Modified On : 2013-02-25
+'
+' Copyright        : (c) . All rights reserved.
+'***********************************************************************
+
+#Region "Imports"
+
+Imports System.Configuration
+Imports Application.Accounting
+Imports Application.Budget
+Imports Application.Common
+Imports Application.DocumentalSystem
+Imports Application.FixedAsset
+Imports Application.Glosas
+Imports Application.Inventory.OtherWithholdingDeduction
+Imports Application.Maintenance
+Imports Application.Payments
+Imports Application.Payroll
+Imports Application.Portfolio
+Imports Application.Security
+Imports Application.Treasury
+Imports Domain.Crystal
+Imports Domain.DocumentalSystem
+Imports Domain.Entities
+Imports Domain.Entities.Service
+Imports Domain.Maintenance
+Imports Domain.Payroll
+Imports Domain.Security
+Imports Domain.Security.Entities
+Imports Infrastructure.CrossCutting.Base
+Imports Infrastructure.CrossCutting.IOC.My.Resources
+Imports Infrastructure.CrossCutting.Security
+Imports Infrastructure.Data.Base
+Imports Infrastructure.Data.CrystalRepository
+Imports Infrastructure.Data.DocumentalSystemRepository
+Imports Infrastructure.Data.MaintenanceRepository
+Imports Infrastructure.Data.ModelRepository
+Imports Infrastructure.Data.PayrollRepository
+Imports Infrastructure.Data.SecurityRepository
+Imports Microsoft.Practices.Unity
+
+#End Region
+
+''' <summary>
+''' Clase con los Metodos Necesarios para la configuracion y mapeo del contenedro IoC
+''' </summary>
+Partial Public NotInheritable Class IocUnityContainer
+    Implements IContainer
+
+#Region "Fields"
+
+    Private _containersDictionary As IDictionary(Of String, IUnityContainer)
+
+#End Region
+
+#Region "Builders"
+
+    ''' <summary>
+    ''' Crea una nueva instancia de la clase <see cref="IoCUnityContainer" />.
+    ''' </summary>
+    Public Sub New(Optional ByVal company As String = "")
+        _containersDictionary = New Dictionary(Of String, IUnityContainer)()
+
+        'Crea el contenedor root (raiz)
+        Dim rootContainer As IUnityContainer = New UnityContainer()
+        _containersDictionary.Add("RootContext", rootContainer)
+
+        'Crea un contenedor para el contexto 'real', hijo del contenedor raiz
+        Dim realAppContainer As IUnityContainer = rootContainer.CreateChildContainer()
+        _containersDictionary.Add("RealAppContext", realAppContainer)
+
+        'Crea un contenedor para pruebas, hijo del contenedor raiz
+        Dim fakeAppContainer As IUnityContainer = rootContainer.CreateChildContainer()
+        _containersDictionary.Add("FakeAppContext", fakeAppContainer)
+
+        ConfigureRootContainer(rootContainer, company)
+    End Sub
+
+#End Region
+
+#Region "Private Methods"
+
+    Private Sub ConfigureDependencies(ByVal container As IUnityContainer, ByVal company As String)
+        If company Is Nothing OrElse company.Trim().Equals(String.Empty) Then
+            Throw New ArgumentNullException("company", "El argumento no puede ser nulo ni vacío en el metodo de inyección ConfigureDependencies")
+        End If
+
+        '**********************************COMMON************************
+        container.RegisterType(Of IPersonMaintenanceRepository, PersonMaintenanceRepository)(New TransientLifetimeManager)
+
+        container.RegisterType(Of ISuppliersDistributionLinesRepository, SuppliersDistributionLinesRepository)(New TransientLifetimeManager)
+        container.RegisterType(Of ISuppliersDistributionLinesAdminService, SuppliersDistributionLinesAdminService)(New TransientLifetimeManager)
+
+        container.RegisterType(Of IDistributionLinesRepository, DistributionLinesRepository)(New TransientLifetimeManager)
+        container.RegisterType(Of IDistributionLinesAdminService, DistributionLinesAdminService)(New TransientLifetimeManager)
+
+        container.RegisterType(Of IEconomicActivityRepository, EconomicActivityRepository)(New TransientLifetimeManager)
+        container.RegisterType(Of IEconomicActivityAdminService, EconomicActivityAdminService)(New TransientLifetimeManager)
+
+        container.RegisterType(Of ISequenseRepository, SequenseReporitory)(New TransientLifetimeManager)
+
+        container.RegisterType(Of ISequenseCommonCRepository, SequenseCommonCRepository)(New TransientLifetimeManager)
+        container.RegisterType(Of ICommonSequenseAdminService, CommonSequenseAdminService)(New TransientLifetimeManager)
+
+        container.RegisterType(Of ISequenseCommonDRepository, SequenseCommonDRepository)(New TransientLifetimeManager)
+        container.RegisterType(Of ICommonSequenseAdminService, CommonSequenseAdminService)(New TransientLifetimeManager)
+
+        container.RegisterType(Of ISuppliersDetailTypeAdminService, SuppliersDetailTypeAdminService)(New TransientLifetimeManager)
+        container.RegisterType(Of ISuppliersDetailTypeRepository, SuppliersDetailTypeRepository)(New TransientLifetimeManager)
+
+        container.RegisterType(Of IAttachmentAdminService, AttachmentAdminService)(New TransientLifetimeManager)
+        container.RegisterType(Of IAttachmentRepository, AttachmentRepository)(New TransientLifetimeManager)
+
+        container.RegisterType(Of Application.Common.ISupplierAdminService, Application.Common.SupplierAdminService)(New TransientLifetimeManager)
+        container.RegisterType(Of Application.Maintenance.ISupplierAdminService, Application.Maintenance.SupplierAdminService)(New TransientLifetimeManager)
+
+        '----------------------------------------------------------------
+
+        '************Unidades operativas *****
+        container.RegisterType(Of IOperatingUnitAdminService, OperatingUnitAdminService)(New TransientLifetimeManager)
+        container.RegisterType(Of IOperatingUnitRepository, OperatingUnitRepository)(New TransientLifetimeManager)
+
+        '************Unidades de trabajo************
+        'Unidad de trabajo global
+        container.RegisterType(Of IGlobalModelUnitOfWork)(New PerResolveLifetimeManager(), New InjectionFactory(Function(c)
+                                                                                                                    Return New GlobalModelUnitOfWork(company)
+                                                                                                                End Function))
+        '--------------------------------------------------------------------------------------------------------
+        '************Repositorios************
+        'Repositorio global
+        container.RegisterType(Of IDocumentTypeRepository, DocumentTypeRepository)(New TransientLifetimeManager())
+        'container.RegisterType(Of ISequenseAccountingCRepository, SequenseAccountingCRepository)(New TransientLifetimeManager())
+        'container.RegisterType(Of ISequenseAccountingDRepository, SequenseAccountingDRepository)(New TransientLifetimeManager())
+        '--------------------------------------------------------------------------------------------------------
+        '********************************Accountig*****************************'
+        container.RegisterType(Of IAccountingSequenseAdminService, AccountingSequenseAdminService)(New TransientLifetimeManager)
+        container.RegisterType(Of IAccountClassAdminService, AccountClassAdminService)(New TransientLifetimeManager)
+        container.RegisterType(Of IAccountClassRepository, AccountClassRepository)(New TransientLifetimeManager)
+
+
+        '**************************************************************************'
+        '********************************MAPEO TREASURY*****************************'
+        '**************************************************************************'
+
+
+
+        container.RegisterType(Of ICashRegisterAdminService, CashRegisterAdminService)(New TransientLifetimeManager)
+        container.RegisterType(Of ICashRegisterRepository, CashRegisterRepository)(New TransientLifetimeManager)
+
+        container.RegisterType(Of ICardAdminService, CardAdminService)(New TransientLifetimeManager)
+        container.RegisterType(Of ICardRepository, CardRepository)(New TransientLifetimeManager)
+
+        container.RegisterType(Of ICashReceiptConceptAdminService, CashReceiptConceptAdminService)(New TransientLifetimeManager)
+        container.RegisterType(Of ICashReceiptConceptRepository, CashReceiptConceptRepository)(New TransientLifetimeManager)
+
+        container.RegisterType(Of IExpenseConceptAdminService, ExpenseConceptAdminService)(New TransientLifetimeManager)
+        container.RegisterType(Of IExpenseConceptRepository, ExpenseConceptRepository)(New TransientLifetimeManager)
+
+        container.RegisterType(Of INoteConceptAdminService, NoteConceptAdminService)(New TransientLifetimeManager)
+        container.RegisterType(Of INoteConceptRepository, NoteConceptRepository)(New TransientLifetimeManager)
+
+        container.RegisterType(Of IBlockRecordTreasuryAdminService, BlockRecordTreasuryAdminService)(New TransientLifetimeManager)
+        container.RegisterType(Of IBlockRecordTreasuryRepository, BlockRecordTreasuryRepository)(New TransientLifetimeManager)
+
+        container.RegisterType(Of IEntityBankAccountAdminService, EntityBankAccountAdminService)(New TransientLifetimeManager)
+        container.RegisterType(Of IEntityBankAccountRepository, EntityBankAccountRepository)(New TransientLifetimeManager)
+
+        container.RegisterType(Of ICrossingAccountAdminService, CrossingAccountAdminService)(New TransientLifetimeManager)
+        container.RegisterType(Of ICrossingAccountRepository, CrossingAccountRepository)(New TransientLifetimeManager)
+
+        '**************************************************************************'
+        '********************************MAPEO PAYMENTS*****************************'
+        '**************************************************************************'
+
+        container.RegisterType(Of IPaymentsConceptRepository, PaymentsConceptRepository)(New TransientLifetimeManager)
+        container.RegisterType(Of IDeferredCausationAdminService, DeferredCausationAdminService)(New TransientLifetimeManager)
+
+        container.RegisterType(Of IPaymentsNoteConceptRepository, PaymentsNoteConceptRepository)(New TransientLifetimeManager)
+        container.RegisterType(Of IPaymentsNoteConceptAdminService, PaymentsNoteConceptAdminService)(New TransientLifetimeManager)
+
+        container.RegisterType(Of IBlockRecordPaymentsRepository, BlockRecordPaymentsRepository)(New TransientLifetimeManager)
+        container.RegisterType(Of IBlockRecordPaymentsAdminService, BlockRecordPaymentsAdminService)(New TransientLifetimeManager)
+
+        'container.RegisterType(Of IRouteDependencyRepository, RouteDependencyRepository)(New TransientLifetimeManager)
+        'container.RegisterType(Of IRouteDependencyAdminService, RouteDependencyAdminService)(New TransientLifetimeManager)
+
+        'container.RegisterType(Of IUserDependencyRepository, UserDependencyRepository)(New TransientLifetimeManager)
+        'container.RegisterType(Of IUserDependencyAdminService, UserDependencyAdminService)(New TransientLifetimeManager)
+
+        '********************************MAPEO Fixed Assets*****************************'
+        '**************************************************************************'
+        container.RegisterType(Of IBlockRecordFixedAssetRepository, BlockRecordFixedAssetRepository)(New TransientLifetimeManager)
+        container.RegisterType(Of IBlockRecordFixedAssetAdminService, BlockRecordFixedAssetAdminService)(New TransientLifetimeManager)
+
+        container.RegisterType(Of IFixedAssetTrademarkRepository, FixedAssetTrademarkRepository)(New TransientLifetimeManager)
+        container.RegisterType(Of IFixedAssetTrademarkAdminService, FixedAssetTrademarkAdminService)(New TransientLifetimeManager)
+
+        '********************************contabilidad*****************************'
+        '**************************************************************************'
+
+        container.RegisterType(Of IStatementFolioRepository, StatementFolioRepository)(New TransientLifetimeManager)
+        container.RegisterType(Of IStatementFolioAdminService, StatementFolioAdminService)(New TransientLifetimeManager)
+
+        container.RegisterType(Of IBlockRecordAccountingAdminService, BlockRecordAccountingAdminService)(New TransientLifetimeManager)
+        container.RegisterType(Of IBlockRecordAccountingRepository, BlockRecordAccountingRepository)(New TransientLifetimeManager)
+
+        container.RegisterType(Of IRetentionConceptAdminService, RetentionConceptAdminService)(New TransientLifetimeManager)
+        container.RegisterType(Of IRetentionConceptRepository, RetentionConceptRepository)(New TransientLifetimeManager)
+
+
+        container.RegisterType(Of IAccountLevelRepository, AccountLevelRepository)(New TransientLifetimeManager)
+        container.RegisterType(Of IAccountLevelAdminService, AccountLevelAdminService)(New TransientLifetimeManager)
+
+        container.RegisterType(Of ISettingAccountAdminService, SettingAccountAdminService)(New TransientLifetimeManager)
+        container.RegisterType(Of ISettingsAccountRepository, SettingAccountRepository)(New TransientLifetimeManager)
+
+
+        '********************************MAPEO Portfolio*****************************'
+        '**************************************************************************'
+        container.RegisterType(Of IPortfolioNoteConceptRepository, PortfolioNoteConceptRepository)(New TransientLifetimeManager)
+        container.RegisterType(Of IPortfolioNoteConceptAdminService, PortfolioNoteConceptAdminService)(New TransientLifetimeManager)
+
+        container.RegisterType(Of IAccountReceivableConceptRepository, AccountReceivableConceptRepository)(New TransientLifetimeManager)
+        container.RegisterType(Of IAccountReceivableConceptAdminService, AccountReceivableConceptAdminService)(New TransientLifetimeManager)
+
+        container.RegisterType(Of IEconomicIndicatorRepository, EconomicIndicatorRepository)(New TransientLifetimeManager)
+        container.RegisterType(Of IEconomicIndicatorAdminService, EconomicIndicatorAdminService)(New TransientLifetimeManager)
+
+        container.RegisterType(Of IProvisionRangesRepository, ProvisionRangesRepository)(New TransientLifetimeManager)
+        container.RegisterType(Of IProvisionRangesAdminService, ProvisionRangesAdminService)(New TransientLifetimeManager)
+
+        container.RegisterType(Of IBlockRecordPortfolioRepository, BlockRecordPortfolioRepository)(New TransientLifetimeManager)
+        container.RegisterType(Of IBlockRecordPortfolioAdminService, BlockRecordPortfolioAdminService)(New TransientLifetimeManager)
+
+        'container.RegisterType(Of IEquipmentTypePartsAccesoriesConsumablesAdminService, EquipmentTypePartsAccesoriesConsumablesAdminService)(New TransientLifetimeManager)
+        container.RegisterType(Of IEquipmentTypePartsAccesoriesConsumablesRepository, EquipmentTypePartsAccesoriesConsumiblesRepository)(New TransientLifetimeManager)
+
+        container.RegisterType(Of IMaintenancePlanAdminService, MaintenancePlanAdminService)(New TransientLifetimeManager)
+        'container.RegisterType(Of IMaintenancePlanRepository, MaintenancePlanRepository)(New TransientLifetimeManager)
+
+        'container.RegisterType(Of IMaintenancePlanDetailRepository, MaintenancePlanDetailRepository)(New TransientLifetimeManager)
+        'container.RegisterType(Of IMaintenanceActivityRepository, MaintenanceActivityRepository)(New TransientLifetimeManager)
+
+        'container.RegisterType(Of IEquipmentReceptionPACRepository, EquipmentReceptionPACRepository)(New TransientLifetimeManager)
+
+        container.RegisterType(Of Domain.Entities.Service.IPortfolioService, Domain.Entities.Service.PortfolioServices)(New TransientLifetimeManager)
+
+        '**********************************inventario******************************'
+        '**************************************************************************'
+
+        container.RegisterType(Of IOtherWithholdingDeductionAdminService, OtherWithholdingDeductionAdminService)(New TransientLifetimeManager)
+        container.RegisterType(Of IOtherWithholdingDeductionRepository, OtherWithholdingDeductionRepository)(New TransientLifetimeManager)
+
+    End Sub
+
+    Private Sub ConfigureContainerSecurity(ByVal container As IUnityContainer)
+        container.RegisterType(Of ISeguridadUnitOfWork, Infrastructure.Data.SecurityRepository.GenesisEntities)()
+        container.RegisterType(Of IQueryableContextSecurity, Infrastructure.Data.SecurityRepository.GenesisEntities)()
+
+        container.RegisterType(Of IUserMembershipRepository, IndigoAutentication)(New TransientLifetimeManager)
+        container.RegisterType(Of IUserRepository, UserRepository)(New TransientLifetimeManager)
+        container.RegisterType(Of IFileUserRepository, FileUserRepository)(New TransientLifetimeManager)
+        container.RegisterType(Of ILoginRepository, LoginRepository)(New TransientLifetimeManager)
+        container.RegisterType(Of Domain.Security.IGroupRepository, Infrastructure.Data.SecurityRepository.GroupRepository)(New TransientLifetimeManager)
+        container.RegisterType(Of Domain.Security.IMachineRepository, Infrastructure.Data.SecurityRepository.MachineRepository)(New TransientLifetimeManager)
+        container.RegisterType(Of Domain.Security.IUpdatePackageRepository, Infrastructure.Data.SecurityRepository.UpdatePackageRepository)(New TransientLifetimeManager)
+        container.RegisterType(Of Domain.Security.IMachineUpdatePackageRepository, Infrastructure.Data.SecurityRepository.MachineUpdatePackageRepository)(New TransientLifetimeManager)
+        container.RegisterType(Of IRoleRepository, RoleRepository)(New TransientLifetimeManager)
+        container.RegisterType(Of IToolbarRepository, ToolbarRepository)(New TransientLifetimeManager)
+        container.RegisterType(Of Domain.Base.IRepository(Of PermissionRoll), GenericRepositorySecurity(Of PermissionRoll))(New TransientLifetimeManager)
+        container.RegisterType(Of IPermissionCompanyRepository, PermissionCompanyRepository)(New TransientLifetimeManager)
+        container.RegisterType(Of Domain.Base.IRepository(Of PermissionCompany), GenericRepositorySecurity(Of PermissionCompany))(New TransientLifetimeManager)
+        container.RegisterType(Of Domain.Base.IRepository(Of PermissionUser), GenericRepositorySecurity(Of PermissionUser))(New TransientLifetimeManager)
+        container.RegisterType(Of Application.Base.ICommonAdminService, Application.Base.CommonAdminService)(New TransientLifetimeManager)
+        container.RegisterType(Of Domain.Base.IRepository(Of Domain.Security.Entities.Person), GenericRepositorySecurity(Of Domain.Security.Entities.Person))(New TransientLifetimeManager)
+        container.RegisterType(Of Domain.Security.IPersonRepository, Infrastructure.Data.SecurityRepository.PersonRepository)(New TransientLifetimeManager)
+        container.RegisterType(Of IContainersRepository, ContainersRepository)(New TransientLifetimeManager)
+
+        container.RegisterType(Of IUserAdminService, UserAdminService)(New TransientLifetimeManager)
+        container.RegisterType(Of IConfigurationAdminService, ConfigurationAdminService)(New TransientLifetimeManager)
+        container.RegisterType(Of IMachineAdminService, MachineAdminService)(New TransientLifetimeManager)
+        container.RegisterType(Of IGroupUserAdminService, GroupUserAdminService)(New TransientLifetimeManager)
+        container.RegisterType(Of IGroupUserRepository, GroupUserRepository)(New TransientLifetimeManager)
+        container.RegisterType(Of IUsersGroupUserRepository, UsersGroupUserRepository)(New TransientLifetimeManager)
+        container.RegisterType(Of IUsersGroupUserAdminService, UsersGroupUserAdminService)(New TransientLifetimeManager)
+        container.RegisterType(Of Application.Security.IGroupAdminService, Application.Security.GroupAdminService)(New TransientLifetimeManager)
+        container.RegisterType(Of IRoleAdminService, RoleAdminService)(New TransientLifetimeManager)
+        container.RegisterType(Of IPermissionsUserAdminService, PermissionsUserAdminService)(New TransientLifetimeManager)
+        container.RegisterType(Of IPermissionsRoleAdminService, PermissionsRoleAdminService)(New TransientLifetimeManager)
+        container.RegisterType(Of IToolbarAdminService, ToolbarAdminService)(New TransientLifetimeManager)
+        container.RegisterType(Of ILoginAdminService, LoginAdminService)(New TransientLifetimeManager)
+        container.RegisterType(Of IPermissionAdminCompany, PermissionAdminCompany)(New TransientLifetimeManager)
+        container.RegisterType(Of IFilePersonAdminService, FilePersonAdminService)(New TransientLifetimeManager)
+
+        container.RegisterType(Of IBasicAuditDataRepository, Infrastructure.Data.SecurityRepository.BasicAuditRepository)(New TransientLifetimeManager)
+
+
+        container.RegisterType(Of Domain.Entities.ISupplierRepository, Infrastructure.Data.ModelRepository.SupplierRepository)(New TransientLifetimeManager)
+        container.RegisterType(Of Domain.Maintenance.ISupplierRepository, Infrastructure.Data.MaintenanceRepository.SupplierRepository)(New TransientLifetimeManager)
+
+        container.RegisterType(Of Domain.Entities.IMaintenanceSequenceDetailRepository, Infrastructure.Data.ModelRepository.MaintenanceSequenceDetailRepository)(New TransientLifetimeManager)
+        container.RegisterType(Of Domain.Maintenance.IMaintenanceSequenceDetailRepository, Infrastructure.Data.MaintenanceRepository.MaintenanceSequenceDetailRepository)(New TransientLifetimeManager)
+
+        container.RegisterType(Of IServiceConfigurationAdminService, ServiceConfigurationAdminService)(New TransientLifetimeManager)
+        container.RegisterType(Of IUserConfigurationAdminService, UserConfigurationAdminService)(New TransientLifetimeManager)
+        container.RegisterType(Of IApplicationSettingsAdminService, ApplicationSettingsAdminService)(New TransientLifetimeManager)
+        container.RegisterType(Of IGeneralConfigurationAdminService, GeneralConfigurationAdminService)(New TransientLifetimeManager)
+
+        container.RegisterType(Of IServiceConfigurationRepository, ServiceConfigurationRepository)(New TransientLifetimeManager)
+        container.RegisterType(Of IUserConfigurationRepository, UserConfigurationRepository)(New TransientLifetimeManager)
+        container.RegisterType(Of IApplicationSettingRepository, ApplicationSettingRepository)(New TransientLifetimeManager)
+        container.RegisterType(Of IGeneralConfigurationRepository, GeneralConfigurationRepository)(New TransientLifetimeManager)
+    End Sub
+
+    Private Sub ConfigureContainer(ByVal container As IUnityContainer, ByVal company As String)
+
+        If company Is Nothing OrElse company.Trim().Equals(String.Empty) Then
+            Throw New ArgumentNullException("company", "El argumento no puede ser nulo ni vacío en el metrodo de inyección ConfigureContainerSeguridad")
+        End If
+
+        'Registra el mapeo de los Repositorios
+
+        ' container.RegisterType(Of IGlosasUnitOfWork, GENESISEntitiesGlosas)(New InjectionConstructor(company))
+        'container.RegisterType(Of IQueryableContext, GENESISEntitiesGlosas)(New InjectionConstructor(company))
+
+        container.RegisterType(Of IPayrollUnitOfWork, PayrollUnitOfWork)(New InjectionConstructor(company))
+        container.RegisterType(Of IQueryableContext, PayrollUnitOfWork)(New InjectionConstructor(company))
+
+
+        container.RegisterType(Of IDocumentalSystemUnitOfWork, GENESISDOCUMENTALEntities)(New InjectionConstructor(company))
+        container.RegisterType(Of IQueryableContext, GENESISDOCUMENTALEntities)(New InjectionConstructor(company))
+
+        '**************************************************************************'
+        '********************************MAPEO PORTFOLIO******************************'
+        '**************************************************************************'
+
+        container.RegisterType(Of IAccountReceivableAdminService, AccountReceivableAdminService)(New TransientLifetimeManager)
+        container.RegisterType(Of IAccountReceivableRepository, AccountReceivableRepository)(New TransientLifetimeManager)
+
+        '**************************************************************************'
+        '********************************MAPEO GLOSAS******************************'
+        '**************************************************************************'
+
+        container.RegisterType(Of IGlosasServices, GlosasServices)(New TransientLifetimeManager)
+        container.RegisterType(Of IGlosasMassiveConfirmAdminService, GlosasMassiveConfirmAdminService)(New TransientLifetimeManager)
+
+        container.RegisterType(Of IGlosasMovementGlosasService, GlosasMovementGlosasService)(New TransientLifetimeManager)
+        container.RegisterType(Of IGlosasResponsiblesService, GlosasResponsiblesService)(New TransientLifetimeManager)
+
+        container.RegisterType(Of IObjectionsReceptionDRepository, ObjectionsReceptionDRepository)(New TransientLifetimeManager)
+        container.RegisterType(Of IObjectionsReceptionDAdminService, ObjectionsReceptionDAdminService)(New TransientLifetimeManager)
+
+        container.RegisterType(Of IInvoiceDetailRepository, InvoiceDetailRepository)(New TransientLifetimeManager)
+        container.RegisterType(Of IInvoiceDetailAdminService, InvoiceDetailAdminService)(New TransientLifetimeManager)
+
+
+        container.RegisterType(Of IResponseHierarchyRepository, ResponseHierarchyRepository)(New TransientLifetimeManager)
+        container.RegisterType(Of IResponseHierarchyAdminService, ResponseHierarchyAdminService)(New TransientLifetimeManager)
+
+        container.RegisterType(Of IInvoiceDetailQxRepository, InvoiceDetailQXRepository)(New TransientLifetimeManager)
+        container.RegisterType(Of IPortfolioGlosadaRepository, PortfolioGlosadaRepository)(New TransientLifetimeManager)
+
+        container.RegisterType(Of Domain.Entities.IResponsibleRepository, Infrastructure.Data.ModelRepository.ResponsibleRepository)(New TransientLifetimeManager)
+        container.RegisterType(Of Application.Glosas.IResponsibleAdminService, Application.Glosas.ResponsibleAdminService)(New TransientLifetimeManager)
+
+        container.RegisterType(Of Domain.Entities.IRadicateInvoiceCRepository, Infrastructure.Data.ModelRepository.RadicateInvoiceCRepository)(New TransientLifetimeManager)
+        container.RegisterType(Of Application.Glosas.IRadicateInvoiceAdminService, Application.Glosas.RadicateInvoiceAdminService)(New TransientLifetimeManager)
+
+        container.RegisterType(Of Domain.Entities.IRadicateInvoiceDRepository, Infrastructure.Data.ModelRepository.RadicateInvoiceDRepository)(New TransientLifetimeManager)
+        container.RegisterType(Of Application.Glosas.IRadicateInvoiceDAdminService, Application.Glosas.RadicateInvoiceDAdminService)(New TransientLifetimeManager)
+
+        container.RegisterType(Of Domain.Entities.IGlosaSequenceRepository, Infrastructure.Data.ModelRepository.GlosaSequenceRepository)(New TransientLifetimeManager)
+        container.RegisterType(Of Domain.Entities.IGlosaSequenceDetailRepository, Infrastructure.Data.ModelRepository.GlosaSequenceDetailRepository)(New TransientLifetimeManager)
+        container.RegisterType(Of Application.Glosas.IGlosaSequenseAdminService, Application.Glosas.GlosaSequenseAdminService)(New TransientLifetimeManager)
+
+        'secuencia numerica de cartera
+        container.RegisterType(Of ISequensePortfolioDRepository, SequensePortfolioDRepository)()
+        'cuentas por cobrar - cartera
+        container.RegisterType(Of IAccountReceivableRepository, AccountReceivableRepository)()
+        'centro de atencion - contratos
+        container.RegisterType(Of ICareGroupRepository, CareGroupRepository)()
+        'reclasificacion
+        container.RegisterType(Of IReclassificationRepository, ReclassificationRepository)()
+        'estructura de cuentas de cobros
+        container.RegisterType(Of IAccountReceivableAccountingRepository, AccountReceivableAccountingRepository)()
+        '******************* document accounting
+        container.RegisterType(Of IAccountingDocumentRepository, DocumentAccountingRepository)()
+        container.RegisterType(Of IAccountingDocumentAdminService, AccountingDocumentAdminService)()
+
+        container.RegisterType(Of IAccountReceivableDocumentRepository, AccountReceivableDocumentRepository)()
+        container.RegisterType(Of IAccountReceivableDocumentAdminService, AccountReceivableDocumentAdminService)()
+
+        container.RegisterType(Of IBillingInvoiceCategories, BillingInvoiceCategories)()
+
+        'Secuencias numericas
+        container.RegisterType(Of IAccountingSequenseAdminService, AccountingSequenseAdminService)()
+        container.RegisterType(Of ISequenseAccountingCRepository, SequenseAccountingCRepository)()
+        container.RegisterType(Of ISequenseAccountingDRepository, SequenseAccountingDRepository)()
+        'balance
+        container.RegisterType(Of IAccountingBalanceRepository, AccountingBalanceRepository)()
+        container.RegisterType(Of IAccountingBalanceAdminService, AccountingBalanceAdminService)()
+        'MainAccount
+        container.RegisterType(Of IPUCAdminService, PUCAdminService)()
+        container.RegisterType(Of IPUCRepository, PUCRepository)()
+        'cierre de mes
+        container.RegisterType(Of ICloseMonthRepository, CloseMonthRepository)()
+        container.RegisterType(Of ICloseMonthAdminService, CloseMonthAdminService)()
+        'cuotas
+        container.RegisterType(Of IAccountReceivableShareRepository, AccountReceivableShareRepository)()
+        'Secuencias numericas
+        container.RegisterType(Of IPortfolioSequenseAdminService, PortfolioSequenseAdminService)()
+        container.RegisterType(Of ISequensePortfolioCRepository, SequensePortfolioCRepository)()
+        'notas
+        container.RegisterType(Of IPortfolioNoteAdminService, PortfolioNoteAdminService)()
+        container.RegisterType(Of IPortfolioNoteRepository, PortfolioNoteRepository)()
+        'control
+        container.RegisterType(Of IPortfolioControlRepository, PortfolioControlRepository)()
+        'anticipo
+        container.RegisterType(Of IPortfolioAdvanceRepository, PortfolioAdvanceRepository)()
+        'setting
+        container.RegisterType(Of ISettingPortfolioRepository, SettingPortfolioRepository)()
+        'interface modo nativo
+        container.RegisterType(Of IInterfaceNativeAdminService, InterfaceNativeAdminService)()
+        'repositorio de honorarios medicos
+        container.RegisterType(Of IMedicalFeesCausationRepository, MedicalFeesCausationRepository)()
+        'portfolioNoteDistribution
+        container.RegisterType(Of IPortfolioNoteDistributionRepository, PortfolioNoteDistributionRepository)()
+
+        container.RegisterType(Of Domain.InterfaceERPGlosa.IInterfaceFOX, Domain.InterfaceERPGlosa.InterfaceFOX)(New InjectionConstructor(company))
+        container.RegisterType(Of Domain.InterfaceERPGlosa.IInterfaceNET, Domain.InterfaceERPGlosa.InterfaceNET)(New InjectionConstructor(company))
+        container.RegisterType(Of Domain.InterfaceERPGlosa.IInterfacePublicFOX, Domain.InterfaceERPGlosa.InterfacePublicFOX)(New InjectionConstructor(company))
+        container.RegisterType(Of Domain.InterfaceERPGlosa.IInterfacePublicNET, Domain.InterfaceERPGlosa.InterfacePublicNET)(New InjectionConstructor(company))
+
+        container.RegisterType(Of IMovementGlosaAdminService, MovementGlosaAdminService)(New TransientLifetimeManager)
+        container.RegisterType(Of IMovementGlosaRepository, MovementGlosaRepository)(New TransientLifetimeManager)
+
+
+        container.RegisterType(Of IJustificationTemplateAdminService, JustificationTemplateAdminService)(New TransientLifetimeManager)
+
+        container.RegisterType(Of ICustomerAdminService, CustomerAdminService)(New TransientLifetimeManager)
+        container.RegisterType(Of ICustomerRepository, CustomerRepository)(New TransientLifetimeManager)
+
+        container.RegisterType(Of IObjectionsReceptionCAdminService, ObjectionsReceptionCAdminService)(New TransientLifetimeManager)
+        container.RegisterType(Of IObjectionsReceptionCRepository, ObjectionsReceptionCRepository)(New TransientLifetimeManager)
+
+        container.RegisterType(Of Domain.Base.IRepository(Of GlosaObjectionsReceptionD), GenericRepository(Of GlosaObjectionsReceptionD))(New TransientLifetimeManager)
+
+        container.RegisterType(Of IImportunityCausesAdminService, ImportunityCausesAdminService)(New TransientLifetimeManager)
+        container.RegisterType(Of IImportunityCausesRepository, ImportunityCausesRepository)(New TransientLifetimeManager)
+
+        container.RegisterType(Of IConciliationCAdminService, ConciliationCAdminService)(New TransientLifetimeManager)
+        container.RegisterType(Of IConciliationCRepository, ConciliationCRepository)(New TransientLifetimeManager)
+
+        container.RegisterType(Of IConciliationDAdminService, ConciliationDAdminService)(New TransientLifetimeManager)
+        container.RegisterType(Of IConciliationDRepository, ConciliationDRepository)(New TransientLifetimeManager)
+
+        container.RegisterType(Of IConciliationParticipantsAdminService, ConciliationParticipantsAdminService)(New TransientLifetimeManager)
+        container.RegisterType(Of IConciliationParticipantsRepository, ConciliationParticipantsRepository)(New TransientLifetimeManager)
+
+        container.RegisterType(Of IDevolutionsReceptionCAdminService, DevolutionsReceptionCAdminService)(New TransientLifetimeManager)
+        container.RegisterType(Of IDevolutionsReceptionCRepository, DevolutionsReceptionCRepository)(New TransientLifetimeManager)
+
+        container.RegisterType(Of IDevolutionsReceptionDAdminService, DevolutionsReceptionDAdminService)(New TransientLifetimeManager)
+        container.RegisterType(Of IDevolutionsReceptionDRepository, DevolutionsReceptionDRepository)(New TransientLifetimeManager)
+
+        container.RegisterType(Of IPortfolioGlosadaAdminService, PortfolioGlosadaAdminService)(New TransientLifetimeManager)
+
+        container.RegisterType(Of ITimeParametersAdminService, TimeParametersAdminService)(New TransientLifetimeManager)
+        container.RegisterType(Of ITimeParametersRepository, TimeParametersRepository)(New TransientLifetimeManager)
+
+        container.RegisterType(Of IMovementDevolutionsAdminService, MovementDevolutionsAdminService)(New TransientLifetimeManager)
+        container.RegisterType(Of IMovementDevolutionsRepository, MovementDevolutionsRepository)(New TransientLifetimeManager)
+
+        container.RegisterType(Of IJustificationTemplateRepository, JustificationTemplateRepository)(New TransientLifetimeManager)
+
+        container.RegisterType(Of ITransferJuridicalDebtCAdminService, TransferJuridicalDebtCAdminService)(New TransientLifetimeManager)
+        container.RegisterType(Of ITransferJuridicalDebtCRepository, TransferJuridicalDebtCRepository)(New TransientLifetimeManager)
+
+        container.RegisterType(Of ITransferJuridicalDebtDAdminService, TransferJuridicalDebtDAdminService)(New TransientLifetimeManager)
+        container.RegisterType(Of ITransferJuridicalDebtDRepository, TransferJuridicalDebtDRepository)(New TransientLifetimeManager)
+
+        container.RegisterType(Of IInterfaceParametersRepository, InterfacesParametersRepository)(New TransientLifetimeManager)
+        container.RegisterType(Of IInterfaceParameterAdminService, InterfaceParametersAdminService)(New TransientLifetimeManager)
+
+        'container.RegisterType(Of IPublicParametersInterfaceRepositoy, PublicParametersInterfaceRepository)(New TransientLifetimeManager)
+        'container.RegisterType(Of IPublicParametersInterfaceAdminService, PublicParametersInterfaceAdminService)(New TransientLifetimeManager)
+
+        'container.RegisterType(Of IPrivateParametersInterfaceAdminService, PrivateParametersInterfaceAdminService)(New TransientLifetimeManager)
+        'container.RegisterType(Of IPrivateParametersInterfaceRepository, PrivateParametersInterfaceRepository)(New TransientLifetimeManager)
+        ' container.RegisterType(Of ICommonAdminService, CommonAdminService)(New TransientLifetimeManager)
+
+        container.RegisterType(Of IPartialPaymentsCAdminService, PartialPaymentsCAdminService)(New TransientLifetimeManager)
+        container.RegisterType(Of IPartialPaymentsCRepository, PartialPaymentsCRepository)(New TransientLifetimeManager)
+        container.RegisterType(Of IPartialPaymentsDAdminService, PartialPaymentsDAdminService)(New TransientLifetimeManager)
+        container.RegisterType(Of IPartialPaymentsDRepository, PartialPaymentsDRepository)(New TransientLifetimeManager)
+        container.RegisterType(Of IPartialPaymentsMovementRepository, PartialPaymentsMovementRepository)(New TransientLifetimeManager)
+        container.RegisterType(Of IDemandTransferJuridicalRepository, DemandTransferJuridicalRepository)(New TransientLifetimeManager)
+
+        '**************************************************************************'
+        '********************************MAPEO COMMONS******************************'
+        '**************************************************************************'
+
+        container.RegisterType(Of IPersonMaintenanceRepository, PersonMaintenanceRepository)(New TransientLifetimeManager)
+
+        container.RegisterType(Of ISuppliersDistributionLinesRepository, SuppliersDistributionLinesRepository)(New TransientLifetimeManager)
+        container.RegisterType(Of ISuppliersDistributionLinesAdminService, SuppliersDistributionLinesAdminService)(New TransientLifetimeManager)
+
+        container.RegisterType(Of IDistributionLinesRepository, DistributionLinesRepository)(New TransientLifetimeManager)
+        container.RegisterType(Of IDistributionLinesAdminService, DistributionLinesAdminService)(New TransientLifetimeManager)
+
+        container.RegisterType(Of ISequensePaymentsDRepository, SequensePaymentsDRepository)(New TransientLifetimeManager)
+
+        container.RegisterType(Of IEconomicActivityRepository, EconomicActivityRepository)(New TransientLifetimeManager)
+        container.RegisterType(Of IEconomicActivityAdminService, EconomicActivityAdminService)(New TransientLifetimeManager)
+
+        container.RegisterType(Of Application.Common.IBankAdminService, Application.Common.BankAdminService)(New TransientLifetimeManager)
+        container.RegisterType(Of Domain.Entities.IBankRepository, Infrastructure.Data.ModelRepository.BankRepository)(New TransientLifetimeManager)
+
+        container.RegisterType(Of ICountryAdminService, CountryAdminService)(New TransientLifetimeManager)
+        container.RegisterType(Of ICountryRepository, CountryRepository)(New TransientLifetimeManager)
+
+        container.RegisterType(Of ICurrencyAdminService, CurrencyAdminService)(New TransientLifetimeManager)
+        container.RegisterType(Of ICurrencyRepository, CurrencyRepository)(New TransientLifetimeManager)
+
+        container.RegisterType(Of ICityAdminService, CityAdminService)(New TransientLifetimeManager)
+        container.RegisterType(Of ICityRepository, CityRepository)(New TransientLifetimeManager)
+
+        container.RegisterType(Of IDepartmentAdminService, DepartmentAdminService)(New TransientLifetimeManager)
+        container.RegisterType(Of IDepartmentRepository, DepartmentRepository)(New TransientLifetimeManager)
+
+        container.RegisterType(Of Application.Common.ICommonAdminService, Application.Common.CommonAdminService)(New TransientLifetimeManager)
+
+        container.RegisterType(Of IPhoneTypeAdminService, PhoneTypeAdminService)(New TransientLifetimeManager)
+        container.RegisterType(Of IPhoneTypeRepository, PhoneTypeRepository)(New TransientLifetimeManager)
+
+        container.RegisterType(Of IBasicAuditRepository, Infrastructure.Data.ModelRepository.BasicAuditRepository)(New TransientLifetimeManager)
+        container.RegisterType(Of IBasicAuditAdminService, BasicAuditAdminService)(New TransientLifetimeManager)
+
+        container.RegisterType(Of Domain.Entities.IConsecutiveRepository, ConsecutiveRepository)(New TransientLifetimeManager)
+
+        container.RegisterType(Of IThirdPartyAdminService, ThirdPartyAdminService)(New TransientLifetimeManager)
+        container.RegisterType(Of IThirdPartyRepository, ThirdPartyRepository)(New TransientLifetimeManager)
+        container.RegisterType(Of Domain.Entities.IPersonRepository, Infrastructure.Data.ModelRepository.PersonRepository)(New TransientLifetimeManager)
+
+        container.RegisterType(Of IDisabilityAdminService, DisabilityAdminService)(New TransientLifetimeManager)
+        container.RegisterType(Of IDisabilityRepository, DisabilityRepository)(New TransientLifetimeManager)
+
+        container.RegisterType(Of IBlockRecordAdminService, BlockRecordAdminService)(New TransientLifetimeManager)
+        container.RegisterType(Of ITimeUnitRepository, TimeUnitRepository)(New TransientLifetimeManager)
+
+        container.RegisterType(Of IHolidayAdminService, HolidayAdminService)(New TransientLifetimeManager)
+        container.RegisterType(Of IHolidayRepository, HolidayRepository)(New TransientLifetimeManager)
+
+        container.RegisterType(Of IConceptGlosasAdminService, ConceptGlosasAdminService)(New TransientLifetimeManager)
+        container.RegisterType(Of IConceptGlosasRepository, ConceptGlosasRepositoryvb)(New TransientLifetimeManager)
+
+        container.RegisterType(Of IBlockRecordRepository, BlockRecordRepository)(New TransientLifetimeManager)
+
+        container.RegisterType(Of ITimeUnitAdminService, TimeUnitAdminService)(New TransientLifetimeManager)
+
+
+        '**************************************************************************'
+        '********************************MAPEO PAYROLL*****************************'
+        '**************************************************************************'
+
+        container.RegisterType(Of IPositionLevelAdminService, PositionLevelAdminService)(New TransientLifetimeManager)
+        container.RegisterType(Of IPositionLevelRepository, PositionLevelRepository)(New TransientLifetimeManager)
+
+        container.RegisterType(Of IEducationLevelsAdminService, EducationLevelsAdminService)(New TransientLifetimeManager)
+        container.RegisterType(Of IEducationLevelsRepository, EducationLevelsRepository)(New TransientLifetimeManager)
+
+        container.RegisterType(Of IProfessionsAdminService, ProfessionsAdminService)(New TransientLifetimeManager)
+        container.RegisterType(Of IProfessionsRepository, ProfessionsRepository)(New TransientLifetimeManager)
+
+        container.RegisterType(Of IRetirementReasonAdminService, RetirementReasonAdminService)(New TransientLifetimeManager)
+        container.RegisterType(Of IRetirementReasonRepository, RetirementReasonRepository)(New TransientLifetimeManager)
+
+        container.RegisterType(Of IFundsAdminService, FundsAdminService)(New TransientLifetimeManager)
+        container.RegisterType(Of IFundsLevelRepository, FundsRepository)(New TransientLifetimeManager)
+
+        container.RegisterType(Of Application.Payroll.IGroupAdminService, Application.Payroll.GroupAdminService)(New TransientLifetimeManager)
+        container.RegisterType(Of Domain.Payroll.IGroupRepository, Infrastructure.Data.PayrollRepository.GroupRepository)(New TransientLifetimeManager)
+
+        container.RegisterType(Of ILanguageAdminService, LanguageAdminService)(New TransientLifetimeManager)
+        container.RegisterType(Of ILanguageRepository, LanguageRepository)(New TransientLifetimeManager)
+
+        container.RegisterType(Of Application.Payroll.ICompanyAdminService, Application.Payroll.CompanyAdminService)(New TransientLifetimeManager)
+        container.RegisterType(Of Domain.Payroll.ICompanyRepository, Infrastructure.Data.PayrollRepository.CompanyRepository)(New TransientLifetimeManager)
+
+        container.RegisterType(Of IKinshipAdminService, KinshipAdminService)(New TransientLifetimeManager)
+        container.RegisterType(Of IKinshipRepository, KinshipRepository)(New TransientLifetimeManager)
+
+        container.RegisterType(Of Application.Payroll.ICommonAdminService, Application.Payroll.CommonAdminService)(New TransientLifetimeManager)
+
+        container.RegisterType(Of IBranchOfficeAdminService, BranchOfficeAdminService)(New TransientLifetimeManager)
+        container.RegisterType(Of IBranchOfficeRepository, BranchOfficeRepository)(New TransientLifetimeManager)
+
+        container.RegisterType(Of Application.Payroll.IFunctionalUnitAdminService, Application.Payroll.FunctionalUnitAdminService)(New TransientLifetimeManager)
+        container.RegisterType(Of Domain.Payroll.IFunctionalUnitRepository, Infrastructure.Data.PayrollRepository.FunctionalUnitRepository)(New TransientLifetimeManager)
+
+        container.RegisterType(Of Application.Payroll.ICostCenterAdminService, Application.Payroll.CostCenterAdminService)(New TransientLifetimeManager)
+        container.RegisterType(Of Domain.Payroll.ICostCenterRepository, Infrastructure.Data.PayrollRepository.CostCenterRepository)(New TransientLifetimeManager)
+
+        container.RegisterType(Of Application.Payroll.IBankAdminService, Application.Payroll.BankAdminService)(New TransientLifetimeManager)
+        container.RegisterType(Of Domain.Payroll.IBankRepository, Infrastructure.Data.PayrollRepository.BankRepository)(New TransientLifetimeManager)
+
+        container.RegisterType(Of Application.Payroll.IPensionaryTypeAdminService, Application.Payroll.PensionaryTypeAdminService)(New TransientLifetimeManager)
+        container.RegisterType(Of Domain.Payroll.IPensionaryTypeRepository, Infrastructure.Data.PayrollRepository.PensionaryTypeRepository)(New TransientLifetimeManager)
+
+        container.RegisterType(Of Application.Payroll.IWorkCenterAdminService, Application.Payroll.WorkCenterAdminService)(New TransientLifetimeManager)
+        container.RegisterType(Of Domain.Payroll.IWorkCenterRepository, Infrastructure.Data.PayrollRepository.WorkCenterRepository)(New TransientLifetimeManager)
+
+        container.RegisterType(Of Application.Payroll.IStudyTypeAdminService, Application.Payroll.StudyTypeAdminService)(New TransientLifetimeManager)
+        container.RegisterType(Of Domain.Payroll.IStudyTypeRepository, Infrastructure.Data.PayrollRepository.StudyTypeRepository)(New TransientLifetimeManager)
+
+        container.RegisterType(Of Application.Payroll.IContractGroupAdminService, Application.Payroll.ContractGroupAdminService)(New TransientLifetimeManager)
+        container.RegisterType(Of Domain.Payroll.IContractGroupRepository, Infrastructure.Data.PayrollRepository.ContractGroupRepository)(New TransientLifetimeManager)
+
+        container.RegisterType(Of Application.Payroll.IProfessionalRiskAdminService, Application.Payroll.ProfessionalRiskAdminService)(New TransientLifetimeManager)
+        container.RegisterType(Of Domain.Payroll.IProfessionalRiskRepository, Infrastructure.Data.PayrollRepository.ProfessionalRiskRepository)(New TransientLifetimeManager)
+
+        container.RegisterType(Of Application.Payroll.IStudyCenterAdminService, Application.Payroll.StudyCenterAdminService)(New TransientLifetimeManager)
+        container.RegisterType(Of Domain.Payroll.IStudyCenterRepository, Infrastructure.Data.PayrollRepository.StudyCenterRepository)(New TransientLifetimeManager)
+
+        container.RegisterType(Of Application.Payroll.IContributorTypeAdminService, Application.Payroll.ContributorTypeAdminService)(New TransientLifetimeManager)
+        container.RegisterType(Of Domain.Payroll.IContributorTypeRepository, Infrastructure.Data.PayrollRepository.ContributorTypeRepository)(New TransientLifetimeManager)
+
+        container.RegisterType(Of Application.Payroll.IContractTypeAdminService, Application.Payroll.ContractTypeAdminService)(New TransientLifetimeManager)
+        container.RegisterType(Of Domain.Payroll.IContractTypeRepository, Infrastructure.Data.PayrollRepository.ContractTypeRepository)(New TransientLifetimeManager)
+
+        container.RegisterType(Of Application.Payroll.IPositionAdminService, Application.Payroll.PositionAdminService)(New TransientLifetimeManager)
+        container.RegisterType(Of Domain.Payroll.IPositionRepository, Infrastructure.Data.PayrollRepository.PositionRepository)(New TransientLifetimeManager)
+
+        container.RegisterType(Of Application.Payroll.IContractTemplateAdminService, Application.Payroll.ContractTemplateAdminService)(New TransientLifetimeManager)
+        container.RegisterType(Of Domain.Payroll.IContractTemplateRepository, Infrastructure.Data.PayrollRepository.ContractTemplateRepository)(New TransientLifetimeManager)
+
+        container.RegisterType(Of Application.Payroll.IRetentionAdminService, Application.Payroll.RetentionAdminService)(New TransientLifetimeManager)
+        container.RegisterType(Of Domain.Payroll.IRetentionRepository, Infrastructure.Data.PayrollRepository.RetentionRepository)(New TransientLifetimeManager)
+
+        container.RegisterType(Of Application.Payroll.INoveltyAdminService, Application.Payroll.NoveltyAdminService)(New TransientLifetimeManager)
+        container.RegisterType(Of Domain.Payroll.INoveltyRepository, Infrastructure.Data.PayrollRepository.NoveltyRepository)(New TransientLifetimeManager)
+        container.RegisterType(Of Domain.Payroll.Entities.INoveltyDomain, Domain.Payroll.Entities.NoveltyDomain)(New TransientLifetimeManager)
+
+        container.RegisterType(Of Application.Payroll.IConceptAdminService, Application.Payroll.ConceptAdminService)(New TransientLifetimeManager)
+        container.RegisterType(Of Domain.Payroll.IConceptRepository, Infrastructure.Data.PayrollRepository.ConceptRepository)(New TransientLifetimeManager)
+
+        container.RegisterType(Of Application.Payroll.IEmployeeAdminService, Application.Payroll.EmployeeAdminService)(New TransientLifetimeManager)
+        container.RegisterType(Of Domain.Payroll.IEmployeeRepository, Infrastructure.Data.PayrollRepository.EmployeeRepository)(New TransientLifetimeManager)
+
+        container.RegisterType(Of Application.Payroll.IJobBondingTypeAdminService, Application.Payroll.JobBondingTypeAdminService)(New TransientLifetimeManager)
+        container.RegisterType(Of Domain.Payroll.IJobBondingTypeRepository, Infrastructure.Data.PayrollRepository.JobBondingTypeRepository)(New TransientLifetimeManager)
+
+        container.RegisterType(Of Application.Payroll.IScheduleTemplateAdminService, Application.Payroll.ScheduleTemplateAdminService)(New TransientLifetimeManager)
+        container.RegisterType(Of Domain.Payroll.IScheduleTemplateRepository, Infrastructure.Data.PayrollRepository.ScheduleTemplateRepository)(New TransientLifetimeManager)
+
+        container.RegisterType(Of Application.Payroll.IPayrollParameterAdminService, Application.Payroll.PayrollParameterAdminService)(New TransientLifetimeManager)
+        container.RegisterType(Of Domain.Payroll.IPayrollParameterRepository, Infrastructure.Data.PayrollRepository.PayrollParameterRepository)(New TransientLifetimeManager)
+
+        container.RegisterType(Of Application.Payroll.IScheduleAdminService, Application.Payroll.ScheduleAdminService)(New TransientLifetimeManager)
+        container.RegisterType(Of Domain.Payroll.IScheduleRepository, Infrastructure.Data.PayrollRepository.ScheduleRepository)(New TransientLifetimeManager)
+        container.RegisterType(Of Domain.Payroll.IScheduleDomain, Domain.Payroll.ScheduleDomain)(New TransientLifetimeManager)
+
+        container.RegisterType(Of Application.Payroll.IAuthorizationConceptAdminService, Application.Payroll.AuthorizationConceptAdminService)(New TransientLifetimeManager)
+        container.RegisterType(Of Domain.Payroll.IAuthorizationConceptRepository, Infrastructure.Data.PayrollRepository.AuthorizationConceptRepository)(New TransientLifetimeManager)
+
+        container.RegisterType(Of Application.Payroll.IScheduleDetailAdminService, Application.Payroll.ScheduleDetailAdminService)(New TransientLifetimeManager)
+        container.RegisterType(Of Domain.Payroll.IScheduleDetailRepository, Infrastructure.Data.PayrollRepository.ScheduleDetailRepository)(New TransientLifetimeManager)
+
+        container.RegisterType(Of Application.Payroll.IPayrollLiquidationAdminService, Application.Payroll.PayrollLiquidationAdminService)(New TransientLifetimeManager)
+        container.RegisterType(Of Domain.Payroll.IPayrollLiquidationRepository, Infrastructure.Data.PayrollRepository.PayrollLiquidationRepository)(New TransientLifetimeManager)
+
+        container.RegisterType(Of Application.Payroll.IInitialBalancePayrollAdminService, Application.Payroll.InitialBalancePayrollAdminService)(New TransientLifetimeManager)
+        container.RegisterType(Of Domain.Entities.IInitialBalancePayrollRepository, InitialBalancePayrollRepository)(New TransientLifetimeManager)
+
+        container.RegisterType(Of Application.Payroll.IAgreementsMassiveAdminService, Application.Payroll.AgreementsMassiveAdminService)(New TransientLifetimeManager)
+        container.RegisterType(Of Domain.Entities.IAgreementsMassiveRepository, AgreementsMassiveRepository)(New TransientLifetimeManager)
+
+        container.RegisterType(Of Domain.Payroll.IRetroactiveCRepository, Infrastructure.Data.PayrollRepository.RetroactiveCRepository)(New TransientLifetimeManager)
+
+        container.RegisterType(Of Domain.Payroll.ILiquidationDomain, Domain.Payroll.LiquidationDomain)(New TransientLifetimeManager)
+
+        container.RegisterType(Of Domain.Payroll.ILiquidationFunctions, Domain.Payroll.LiquidationFunctions)(New TransientLifetimeManager)
+
+        container.RegisterType(Of Domain.Payroll.INoveltyScheduleDetailRepository, Infrastructure.Data.PayrollRepository.NoveltyScheduleDetailRepository)(New TransientLifetimeManager)
+        container.RegisterType(Of Domain.Payroll.INoveltyScheduleDetailHourRepository, Infrastructure.Data.PayrollRepository.NoveltyScheduleDetailHourRepository)(New TransientLifetimeManager)
+        container.RegisterType(Of Domain.Payroll.INoveltyScheduleDetailConceptRepository, Infrastructure.Data.PayrollRepository.NoveltyScheduleDetailConceptRepository)(New TransientLifetimeManager)
+        container.RegisterType(Of Domain.Payroll.IScheduleDetailHourRepository, Infrastructure.Data.PayrollRepository.ScheduleDetailHourRepository)(New TransientLifetimeManager)
+        container.RegisterType(Of Domain.Payroll.IScheduleDetailConceptRepository, Infrastructure.Data.PayrollRepository.ScheduleDetailConceptRepository)(New TransientLifetimeManager)
+
+        container.RegisterType(Of Application.Payroll.IContractModificationReasonAdminService, Application.Payroll.ContractModificationReasonAdminService)(New TransientLifetimeManager)
+        container.RegisterType(Of Domain.Payroll.IContractModificationReasonRepository, Infrastructure.Data.PayrollRepository.ContractModificationReasonRepository)(New TransientLifetimeManager)
+
+        container.RegisterType(Of Application.Payroll.IEmployeeTypeAdminService, Application.Payroll.EmployeeTypeAdminService)(New TransientLifetimeManager)
+        container.RegisterType(Of Domain.Payroll.IEmployeeTypeRepository, Infrastructure.Data.PayrollRepository.EmployeeTypeRepository)(New TransientLifetimeManager)
+
+        container.RegisterType(Of Application.Payroll.IVacationPeriodAdminService, Application.Payroll.VacationPeriodAdminService)(New TransientLifetimeManager)
+        container.RegisterType(Of Domain.Payroll.IVacationPeriodRepository, Infrastructure.Data.PayrollRepository.VacationPeriodRepository)(New TransientLifetimeManager)
+
+        container.RegisterType(Of Domain.Payroll.IVacationPeriodDomain, Domain.Payroll.VacationPeriodDomain)(New TransientLifetimeManager)
+        container.RegisterType(Of Domain.Payroll.IVacationRepository, Infrastructure.Data.PayrollRepository.VacationRepository)(New TransientLifetimeManager)
+
+        container.RegisterType(Of Domain.Payroll.ILiquidationDetailRepository, Infrastructure.Data.PayrollRepository.LiquidationDetailRepository)(New TransientLifetimeManager)
+        container.RegisterType(Of Domain.Payroll.IMessageLiquitadionRepository, Infrastructure.Data.PayrollRepository.MessageLiquidationRepository)(New TransientLifetimeManager)
+
+        container.RegisterType(Of IUnemployedLiquidationAdminService, UnemployedLiquidationAdminService)(New TransientLifetimeManager)
+        container.RegisterType(Of IUnemployedLiquidationRepository, UnemployedLiquidationRepository)(New TransientLifetimeManager)
+
+        container.RegisterType(Of IUnemployedLiquidationDetailRepository, UnemployedLiquidationDetailRepository)(New TransientLifetimeManager)
+
+        container.RegisterType(Of Domain.Payroll.IUnemployedLiquidationDomain, Domain.Payroll.UnemployedLiquidationDomain)(New TransientLifetimeManager)
+
+        container.RegisterType(Of Application.Payroll.IKindsAgreementsAdminService, Application.Payroll.KindsAgreementsAdminService)(New TransientLifetimeManager)
+        container.RegisterType(Of Domain.Payroll.IKindsAgreementsRepository, Infrastructure.Data.PayrollRepository.KindsAgreementsRepository)(New TransientLifetimeManager)
+
+        container.RegisterType(Of Application.Payroll.IAgreementsAdminService, Application.Payroll.AgreementsAdminService)(New TransientLifetimeManager)
+        container.RegisterType(Of Domain.Payroll.IAgreementsCRepository, Infrastructure.Data.PayrollRepository.AgreementsCRepository)(New TransientLifetimeManager)
+
+        container.RegisterType(Of Domain.Payroll.IAgreementsDomain, Domain.Payroll.AgreementsDomain)(New TransientLifetimeManager)
+        container.RegisterType(Of Domain.Payroll.IForeclosureDomain, Domain.Payroll.ForeclousureDomain)(New TransientLifetimeManager)
+
+        container.RegisterType(Of Application.Payroll.IAutoliquidationAdminService, Application.Payroll.AutoliquidationAdminService)(New TransientLifetimeManager)
+        container.RegisterType(Of Domain.Payroll.IAutoliquidationRepository, Infrastructure.Data.PayrollRepository.AutoliquidationRepository)(New TransientLifetimeManager)
+        container.RegisterType(Of Domain.Payroll.IVerifyAutoliquidationRepository, Infrastructure.Data.PayrollRepository.VerifyAutoliquidationRepository)(New TransientLifetimeManager)
+
+        container.RegisterType(Of Application.Payroll.IContractLiquidationAdminService, Application.Payroll.ContractLiquidationAdminService)(New TransientLifetimeManager)
+        container.RegisterType(Of Domain.Payroll.IContractLiquidationRepository, Infrastructure.Data.PayrollRepository.ContractLiquidationRepository)(New TransientLifetimeManager)
+        container.RegisterType(Of Domain.Payroll.IContractLiquidationDomain, Domain.Payroll.ContractLiquidationDomain)(New TransientLifetimeManager)
+
+        container.RegisterType(Of Application.Payroll.IIncentivePaymentAdminService, Application.Payroll.IncentivePaymentAdminService)(New TransientLifetimeManager)
+        container.RegisterType(Of Domain.Payroll.IIncentivePaymentRepository, Infrastructure.Data.PayrollRepository.IncentivePaymentRepository)(New TransientLifetimeManager)
+        container.RegisterType(Of Domain.Payroll.IIncentivePaymentDomain, Domain.Payroll.IncentivePaymentDomain)(New TransientLifetimeManager)
+
+        container.RegisterType(Of Domain.Payroll.Entities.IAutoliquidationDomain, Domain.Payroll.Entities.AutoliquidationDomain)(New TransientLifetimeManager)
+        container.RegisterType(Of Domain.Payroll.IAutoliquidationDomain, Domain.Payroll.AutoliquidationDomain)(New TransientLifetimeManager)
+
+        container.RegisterType(Of Domain.Payroll.IContractRepository, Infrastructure.Data.PayrollRepository.ContractRepository)(New TransientLifetimeManager)
+        container.RegisterType(Of Domain.Payroll.ICostDistributionsRepository, Infrastructure.Data.PayrollRepository.CostDistributionsRepository)(New TransientLifetimeManager)
+
+        container.RegisterType(Of Application.Payroll.IManualConceptsAdminService, Application.Payroll.ManualConceptsAdminService)(New TransientLifetimeManager)
+        container.RegisterType(Of Domain.Payroll.IManualConcepts, Infrastructure.Data.PayrollRepository.ManualConceptsRepository)(New TransientLifetimeManager)
+
+        container.RegisterType(Of Application.Payroll.IBankFileAdminService, Application.Payroll.BankFileAdminService)(New TransientLifetimeManager)
+        container.RegisterType(Of Domain.Payroll.IBankFileDomain, Domain.Payroll.BankFileDomain)(New TransientLifetimeManager)
+        container.RegisterType(Of Domain.Payroll.IBankFileRepository, Infrastructure.Data.PayrollRepository.BankFileRepository)(New TransientLifetimeManager)
+
+        container.RegisterType(Of Application.Payroll.IBlockScheduleAdminService, Application.Payroll.BlockScheduleAdminService)(New TransientLifetimeManager)
+        container.RegisterType(Of Domain.Payroll.IBlockScheduleRepository, Infrastructure.Data.PayrollRepository.BlockScheduleRepository)(New TransientLifetimeManager)
+        container.RegisterType(Of Domain.Payroll.IBlockScheduleCRepository, Infrastructure.Data.PayrollRepository.BlockScheduleCRepository)(New TransientLifetimeManager)
+
+        container.RegisterType(Of Domain.Payroll.IAuditoryBankFileRepository, Infrastructure.Data.PayrollRepository.AuditoryBankFileRepository)(New TransientLifetimeManager)
+
+        container.RegisterType(Of Application.Payroll.IBankFileDetailAdminService, Application.Payroll.BankFileDetailAdminService)(New TransientLifetimeManager)
+        container.RegisterType(Of Domain.Payroll.IBankFileDetailRepository, Infrastructure.Data.PayrollRepository.BankFileDetailRepository)(New TransientLifetimeManager)
+
+        container.RegisterType(Of Application.Payroll.IAccountingStructureAdminService, Application.Payroll.AccountingStructureAdminService)(New TransientLifetimeManager)
+        container.RegisterType(Of Domain.Payroll.IAccountingStructureRepository, Infrastructure.Data.PayrollRepository.AccountingStructureRepository)(New TransientLifetimeManager)
+
+        container.RegisterType(Of Application.Payroll.IConceptAccountingStructureAdminService, Application.Payroll.ConceptAccountingStructureAdminService)(New TransientLifetimeManager)
+        container.RegisterType(Of Domain.Payroll.IConceptAccountingStructureRepository, Infrastructure.Data.PayrollRepository.ConceptAccountingStructureRepository)(New TransientLifetimeManager)
+
+        container.RegisterType(Of Application.Payroll.ICostDistributionAdminService, Application.Payroll.CostDistributionAdminService)(New TransientLifetimeManager)
+        container.RegisterType(Of Domain.Payroll.ICostDistributionsRepository, Infrastructure.Data.PayrollRepository.CostDistributionsRepository)(New TransientLifetimeManager)
+        container.RegisterType(Of Domain.Payroll.ICostDistributionDomain, Domain.Payroll.CostDistributionDomain)(New TransientLifetimeManager)
+
+        container.RegisterType(Of Domain.InterfaceERPPayroll.IInterfaceNET, Domain.InterfaceERPPayroll.InterfaceNET)(New InjectionConstructor(company))
+
+        container.RegisterType(Of Application.Payroll.INationalSavingsFundAdminService, Application.Payroll.NationalSavingsFundAdminService)(New TransientLifetimeManager)
+        container.RegisterType(Of Domain.Payroll.INationalSavingsFundDomain, Domain.Payroll.NationalSavingsFundDomain)(New TransientLifetimeManager)
+
+        container.RegisterType(Of Application.Payroll.IFileForeclousureAdminService, Application.Payroll.FileForeclousureAdminService)(New TransientLifetimeManager)
+
+        container.RegisterType(Of Application.Payroll.IVacationRequestAdminService, Application.Payroll.VacationRequestAdminService)(New TransientLifetimeManager)
+        container.RegisterType(Of Domain.Payroll.IVacationRequestRepository, Infrastructure.Data.PayrollRepository.VacationRequestRepository)(New TransientLifetimeManager)
+
+        container.RegisterType(Of Application.Payroll.IIncreaseSalaryAdminService, Application.Payroll.IncreaseSalaryAdminService)(New TransientLifetimeManager)
+        container.RegisterType(Of Domain.Payroll.IIncreaseSalaryDomain, Domain.Payroll.IncreaseSalaryDomain)(New TransientLifetimeManager)
+        container.RegisterType(Of Domain.Payroll.IIncreaseSalaryRepository, Infrastructure.Data.PayrollRepository.IncreaseSalaryRepository)(New TransientLifetimeManager)
+
+        container.RegisterType(Of IBlockRecordPayrollRepository, BlockRecordPayrollRepository)(New TransientLifetimeManager)
+        container.RegisterType(Of IBlockRecordPayrollAdminService, BlockRecordPayrollAdminService)(New TransientLifetimeManager)
+
+        container.RegisterType(Of IPayrollSequenceRepository, PayrollSequenceRepository)(New TransientLifetimeManager)
+        container.RegisterType(Of IPayrollSequenceAdminService, PayrollSequenceAdminService)(New TransientLifetimeManager)
+
+        container.RegisterType(Of ITradeUnionRepository, TradeUnionRepository)(New TransientLifetimeManager)
+        container.RegisterType(Of ITradeUnionAdminService, TradeUnionAdminService)(New TransientLifetimeManager)
+
+        container.RegisterType(Of IPayrollSequenceDetailRepository, PayrollSequenceDetailRepository)(New TransientLifetimeManager)
+
+        container.RegisterType(Of Application.Payroll.IPayrollSettingsAdminService, Application.Payroll.PayrollSettingsAdminService)(New TransientLifetimeManager)
+        container.RegisterType(Of Domain.Payroll.IPayrollSettingsRepository, Infrastructure.Data.PayrollRepository.PayrollSettingsRepository)(New TransientLifetimeManager)
+
+        container.RegisterType(Of Domain.Payroll.INoveltyIncentivePaymentRepository, Infrastructure.Data.PayrollRepository.NoveltyIncentivePaymentRepository)(New TransientLifetimeManager)
+
+        container.RegisterType(Of Application.Payroll.IResumptionHolidayAdminService, Application.Payroll.ResumptionHolidayAdminService)(New TransientLifetimeManager)
+        container.RegisterType(Of Domain.Payroll.IResumptionHolidayRepository, Infrastructure.Data.PayrollRepository.ResumptionHolidayRepository)(New TransientLifetimeManager)
+
+        container.RegisterType(Of Domain.Payroll.IFixedPercentageRetentionRepository, Infrastructure.Data.PayrollRepository.FixedPercentageRetentionRepository)(New TransientLifetimeManager)
+
+        container.RegisterType(Of Application.Payroll.ISportPracticeAdminService, Application.Payroll.SportPracticeAdminService)(New TransientLifetimeManager)
+        container.RegisterType(Of Domain.Payroll.ISportPracticeRepository, Infrastructure.Data.PayrollRepository.SportPracticeRepository)(New TransientLifetimeManager)
+
+        container.RegisterType(Of Application.Payroll.IReligiousBeliefsAdminService, Application.Payroll.ReligiousBeliefsAdminService)(New TransientLifetimeManager)
+        container.RegisterType(Of Domain.Payroll.IReligiousBeliefsRepository, Infrastructure.Data.PayrollRepository.ReligiousBeliefsRepository)(New TransientLifetimeManager)
+
+        container.RegisterType(Of Application.Payroll.IFreeTimeUseAdminService, Application.Payroll.FreeTimeUseAdminService)(New TransientLifetimeManager)
+        container.RegisterType(Of Domain.Payroll.IFreeTimeUseRepository, Infrastructure.Data.PayrollRepository.FreeTimeUseRepository)(New TransientLifetimeManager)
+
+        container.RegisterType(Of Application.Payroll.IMassiveContractAdminService, Application.Payroll.MassiveContractAdminService)(New TransientLifetimeManager)
+
+        container.RegisterType(Of Application.Payroll.IEthnicGroupsAdminService, Application.Payroll.EthnicGroupsAdminService)(New TransientLifetimeManager)
+        container.RegisterType(Of Domain.Payroll.IEthnicGroupsRepository, Infrastructure.Data.PayrollRepository.EthnicGroupsRepository)(New TransientLifetimeManager)
+
+        container.RegisterType(Of Application.Payroll.IDiagnosedDiseaseAdminService, Application.Payroll.DiagnosedDiseaseAdminService)(New TransientLifetimeManager)
+        container.RegisterType(Of Domain.Payroll.IDiagnosedDiseaseRepository, Infrastructure.Data.PayrollRepository.DiagnosedDiseaseRepository)(New TransientLifetimeManager)
+
+        container.RegisterType(Of Application.Payroll.IForeclousureAdminService, Application.Payroll.ForeclousureAdminService)(New TransientLifetimeManager)
+        container.RegisterType(Of Domain.Payroll.IForeclousureRepository, Infrastructure.Data.PayrollRepository.ForeclousureRepository)(New TransientLifetimeManager)
+
+        '**************************************************************************'
+        '********************************MAPEO MAINTENANCE*****************************'
+        '**************************************************************************'
+        container.RegisterType(Of IMaintenanceModelUnitOfWork, MaintenanceModelUnitOfWork)(New InjectionConstructor(company))
+        container.RegisterType(Of IQueryableContext, MaintenanceModelUnitOfWork)(New InjectionConstructor(company))
+
+
+        container.RegisterType(Of ILocationRespository, LocationRepository)(New TransientLifetimeManager)
+        'container.RegisterType(Of ILocationAdminService, LocationAdminService)(New TransientLifetimeManager)
+
+
+        'container.RegisterType(Of IInsuranceAdminService, InsuranceAdminsService)(New TransientLifetimeManager)
+        container.RegisterType(Of IInsuranceRepository, InsuranceRepository)(New TransientLifetimeManager)
+
+
+        container.RegisterType(Of IEquipmentRequirementAdminService, EquipmentRequirementAdminService)(New TransientLifetimeManager)
+
+        container.RegisterType(Of IPolizaRepository, PolizaRepository)(New TransientLifetimeManager)
+        'container.RegisterType(Of IPolizaAdminService, PolizaAdminService)(New TransientLifetimeManager)
+
+        'container.RegisterType(Of IBlockRecordMaintenanceRepository, BlockRecordMaintenanceRepository)(New TransientLifetimeManager)
+        container.RegisterType(Of IBlockRecordMaintenanceAdminService, BlockRecordMaintenanceAdminService)(New TransientLifetimeManager)
+
+        container.RegisterType(Of IPolizaTypeRepository, PolizaTypeRepository)(New TransientLifetimeManager)
+        'container.RegisterType(Of IPolizaTypeAdminService, PolizaTypeAdminService)(New TransientLifetimeManager)
+
+        container.RegisterType(Of IEquipmentTypeRepository, EquipmentTypeRepository)(New TransientLifetimeManager)
+        'container.RegisterType(Of IEquipmentTypeAdminService, EquipmentTypeAdminService)(New TransientLifetimeManager)
+
+
+
+        container.RegisterType(Of Domain.Maintenance.IMaintenanceSequenceRepository, Infrastructure.Data.MaintenanceRepository.MaintenanceSequenceRepository)(New TransientLifetimeManager)
+        container.RegisterType(Of Application.Maintenance.IMaintenanceSequenseAdminService, Application.Maintenance.MaintenanceSequenseAdminService)(New TransientLifetimeManager)
+
+        container.RegisterType(Of Domain.Maintenance.IMaintenanceSequenceDetailRepository, Infrastructure.Data.MaintenanceRepository.MaintenanceSequenceDetailRepository)(New TransientLifetimeManager)
+
+        container.RegisterType(Of Application.Maintenance.IMaintenanceSequenseAdminService, Application.Maintenance.MaintenanceSequenseAdminService)(New TransientLifetimeManager)
+
+        container.RegisterType(Of IBranchRepository, BranchRepository)(New TransientLifetimeManager)
+        'container.RegisterType(Of IBranchAdminService, BranchAdmisService)(New TransientLifetimeManager)
+
+        'container.RegisterType(Of IEquipmentAllRepository, EquipmentAllRepository)(New TransientLifetimeManager)
+        container.RegisterType(Of IEquipmentAdminService, EquipmentAdminService)(New TransientLifetimeManager)
+
+        container.RegisterType(Of IInvetoryTypeRepository, InventoryTypeRepository)(New TransientLifetimeManager)
+        'container.RegisterType(Of IInventoryTypeAdminService, InventoryTypeAdminService)(New TransientLifetimeManager)
+
+        container.RegisterType(Of Domain.Entities.ISupplierRepository, Infrastructure.Data.ModelRepository.SupplierRepository)(New TransientLifetimeManager)
+        container.RegisterType(Of Domain.Maintenance.ISupplierRepository, Infrastructure.Data.MaintenanceRepository.SupplierRepository)(New TransientLifetimeManager)
+        container.RegisterType(Of Application.Common.ISupplierAdminService, Application.Common.SupplierAdminService)(New TransientLifetimeManager)
+        container.RegisterType(Of Application.Maintenance.ISupplierAdminService, Application.Maintenance.SupplierAdminService)(New TransientLifetimeManager)
+
+        container.RegisterType(Of Domain.Maintenance.ISupplierMaintenanceRepository, Infrastructure.Data.MaintenanceRepository.SupplierMaintenanceRepository)(New TransientLifetimeManager)
+        'container.RegisterType(Of Application.Maintenance.ISupplierMaintenanceAdminService, Application.Maintenance.SupplierMaintenanceAdminService)(New TransientLifetimeManager)
+
+        'container.RegisterType(Of IAccesoryRepository, AccesoryRepository)(New TransientLifetimeManager)
+        container.RegisterType(Of IAccesoryAdminService, AccesoryAdminService)(New TransientLifetimeManager)
+
+        container.RegisterType(Of IConsumableAdminService, ConsumibleAdminService)(New TransientLifetimeManager)
+        'container.RegisterType(Of IConsumableRepository, ConsumableRepository)(New TransientLifetimeManager)
+
+
+
+
+        container.RegisterType(Of ILocationRespository, LocationRepository)(New TransientLifetimeManager)
+        'container.RegisterType(Of ILocationAdminService, LocationAdminService)(New TransientLifetimeManager)
+
+        container.RegisterType(Of ITemplateEquipmentTypeAdminService, TemplateEquipmentTypeAdminService)(New TransientLifetimeManager)
+        'container.RegisterType(Of ITemplateEquipmentTypeRepository, TemplateEquipmentTypeRepository)(New TransientLifetimeManager)
+
+        ''''''
+
+        container.RegisterType(Of IEquipmentFunctionAdminService, EquipmentFunctionAdminService)(New TransientLifetimeManager)
+        'container.RegisterType(Of IEquipmentFunctionRepository, EquipmentFunctionRepostory)(New TransientLifetimeManager)
+
+        container.RegisterType(Of IEquipmentHistoryAdminService, EquipmentHistoryAdminService)(New TransientLifetimeManager)
+        'container.RegisterType(Of IEquipmentHistoryRepository, EquipmentHistoryRepository)(New TransientLifetimeManager)
+
+        'container.RegisterType(Of IEquipmentRequirementRepository, EquipmentRequirementRepository)(New TransientLifetimeManager)
+
+        'container.RegisterType(Of IPhisicalRiskRepository, PhysicalRiskRepository)(New TransientLifetimeManager)
+        container.RegisterType(Of IPhysicalRiskAdminService, PhysicalRiskAdminService)(New TransientLifetimeManager)
+
+        'container.RegisterType(Of ILocationTypeAdminService, LocationTypeAdminService)(New TransientLifetimeManager)
+        container.RegisterType(Of ILocationTypeRepository, LocationTypeRepository)(New TransientLifetimeManager)
+        ''''''
+
+        'container.RegisterType(Of IPartAdminService, PartAdminService)(New TransientLifetimeManager)
+        container.RegisterType(Of IPartRepository, PartRepository)(New TransientLifetimeManager)
+
+        'container.RegisterType(Of ITrademarkAdminService, TrademarkAdminService)(New TransientLifetimeManager)
+        container.RegisterType(Of ITrademarkRepository, TrademarkRepository)(New TransientLifetimeManager)
+
+        'container.RegisterType(Of IPartsAccesoriesConsumablesAdminService, PartsAccesoriesConsumablesAdminService)(New TransientLifetimeManager)
+        container.RegisterType(Of IPartsAccesoriesConsumablesRepository, PartsAccesoriesConsumablesRepository)(New TransientLifetimeManager)
+
+        container.RegisterType(Of IMaintenanceParameterAdminService, MaintenanceParameterAdminService)(New TransientLifetimeManager)
+        'container.RegisterType(Of IMaintenanceParameterRepository, MaintenanceParametersRepository)(New TransientLifetimeManager)
+
+        'container.RegisterType(Of IEquipmentTypeTechnicalLogAdminService, EquipmentTypeTechnicalLogAdminService)(New TransientLifetimeManager)
+        container.RegisterType(Of IEquipmentTypeTechnicalLogRepository, EquipmentTypeTechnicalLogRepository)(New TransientLifetimeManager)
+
+        'container.RegisterType(Of IEquipmentTypePartsAccesoriesConsumablesAdminService, EquipmentTypePartsAccesoriesConsumablesAdminService)(New TransientLifetimeManager)
+        container.RegisterType(Of IEquipmentTypePartsAccesoriesConsumablesRepository, EquipmentTypePartsAccesoriesConsumiblesRepository)(New TransientLifetimeManager)
+
+        container.RegisterType(Of IMaintenancePlanAdminService, MaintenancePlanAdminService)(New TransientLifetimeManager)
+        'container.RegisterType(Of IMaintenancePlanRepository, MaintenancePlanRepository)(New TransientLifetimeManager)
+
+        'container.RegisterType(Of IMaintenancePlanDetailRepository, MaintenancePlanDetailRepository)(New TransientLifetimeManager)
+        'container.RegisterType(Of IMaintenanceActivityRepository, MaintenanceActivityRepository)(New TransientLifetimeManager)
+
+
+        'container.RegisterType(Of ICostCenterMaintenanceAdminService, CostCenterMaintenanceAdminService)(New TransientLifetimeManager)
+        container.RegisterType(Of ICostCenterMaintenanceRepository, CostCenterMaintenanceRepository)(New TransientLifetimeManager)
+
+        'container.RegisterType(Of Application.Maintenance.IResponsibleAdminService, Application.Maintenance.ResponsibleAdminService)(New TransientLifetimeManager)
+        container.RegisterType(Of Domain.Maintenance.IResponsibleRepository, Infrastructure.Data.MaintenanceRepository.ResponsibleRepository)(New TransientLifetimeManager)
+
+        container.RegisterType(Of Domain.Entities.IRadicateInvoiceCRepository, Infrastructure.Data.ModelRepository.RadicateInvoiceCRepository)(New TransientLifetimeManager)
+        container.RegisterType(Of Application.Glosas.IRadicateInvoiceAdminService, Application.Glosas.RadicateInvoiceAdminService)(New TransientLifetimeManager)
+
+        container.RegisterType(Of Domain.Entities.IRadicateInvoiceDRepository, Infrastructure.Data.ModelRepository.RadicateInvoiceDRepository)(New TransientLifetimeManager)
+        container.RegisterType(Of Application.Glosas.IRadicateInvoiceDAdminService, Application.Glosas.RadicateInvoiceDAdminService)(New TransientLifetimeManager)
+
+        container.RegisterType(Of Domain.InterfaceERPGlosa.IInterfaceFOX, Domain.InterfaceERPGlosa.InterfaceFOX)(New TransientLifetimeManager)
+        container.RegisterType(Of Domain.InterfaceERPGlosa.IInterfaceNET, Domain.InterfaceERPGlosa.InterfaceNET)(New TransientLifetimeManager)
+        container.RegisterType(Of Domain.InterfaceERPGlosa.IInterfacePublicFOX, Domain.InterfaceERPGlosa.InterfacePublicFOX)(New TransientLifetimeManager)
+
+        container.RegisterType(Of Domain.Entities.IRIPSPlane, Domain.Entities.RIPSPlane)(New TransientLifetimeManager)
+        container.RegisterType(Of Application.Glosas.IRIPSPlaneAdminService, Application.Glosas.RIPSPlaneAdminService)(New TransientLifetimeManager)
+
+        container.RegisterType(Of IMeasurementUnitAdminService, MeasurementUnitAdminService)(New TransientLifetimeManager)
+        'container.RegisterType(Of IMeasurementUnitRepository, MeasurementUnitRepository)(New TransientLifetimeManager)
+
+
+        container.RegisterType(Of IEquipmentRegistrationAdminService, EquipmentRegistrationAdminService)(New TransientLifetimeManager)
+        'container.RegisterType(Of IEquipmentRegistration, EquipmentRegistrationRepository)(New TransientLifetimeManager)
+
+        'container.RegisterType(Of IEquipmentReceptionPACRepository, EquipmentReceptionPACRepository)(New TransientLifetimeManager)
+
+        container.RegisterType(Of ITechnicalLogAdminService, TechnicalLogAdminService)(New TransientLifetimeManager)
+        'container.RegisterType(Of ITechnicalLogRepository, TechnicalLogRepository)(New TransientLifetimeManager)
+
+
+        'container.RegisterType(Of IAccesoryDetailRepository, AccesoryDetailRepository)(New TransientLifetimeManager)
+
+        'container.RegisterType(Of ITrademarkAdminService, TrademarkAdminService)(New TransientLifetimeManager)
+        container.RegisterType(Of ITrademarkRepository, TrademarkRepository)(New TransientLifetimeManager)
+
+
+
+        container.RegisterType(Of IMaintenanceParameterAdminService, MaintenanceParameterAdminService)(New TransientLifetimeManager)
+        'container.RegisterType(Of IMaintenanceParameterRepository, MaintenanceParametersRepository)(New TransientLifetimeManager)
+
+        'container.RegisterType(Of IEquipmentTypeTechnicalLogAdminService, EquipmentTypeTechnicalLogAdminService)(New TransientLifetimeManager)
+        container.RegisterType(Of IEquipmentTypeTechnicalLogRepository, EquipmentTypeTechnicalLogRepository)(New TransientLifetimeManager)
+
+
+        'container.RegisterType(Of ICostCenterMaintenanceAdminService, CostCenterMaintenanceAdminService)(New TransientLifetimeManager)
+        container.RegisterType(Of ICostCenterMaintenanceRepository, CostCenterMaintenanceRepository)(New TransientLifetimeManager)
+
+        container.RegisterType(Of ISuppliersDetailTypeAdminService, SuppliersDetailTypeAdminService)(New TransientLifetimeManager)
+        container.RegisterType(Of ISuppliersDetailTypeRepository, SuppliersDetailTypeRepository)(New TransientLifetimeManager)
+
+        container.RegisterType(Of IAddressRepositoryMaintenance, AddressMaintenanceRepository)(New TransientLifetimeManager)
+        container.RegisterType(Of IEmailMaintenanceRepository, EmailMaintenanceRepository)(New TransientLifetimeManager)
+        container.RegisterType(Of IPhoneMaintenanceRepository, PhoneMaintenanceRepository)(New TransientLifetimeManager)
+        'container.RegisterType(Of ITechnicalLogDetailRepository, TechnicalLogDetailRepository)(New TransientLifetimeManager)
+        'container.RegisterType(Of IEquipmentReceptionAccesoryRepository, EquipmentReceptionsAccesoryRepository)(New TransientLifetimeManager)
+        'container.RegisterType(Of ITechnicalEquipmentSheetRepository, TechnicalEquipmentSheetRepository)(New TransientLifetimeManager)
+        'container.RegisterType(Of IManualDetailRepository, ManualDetailRepository)(New TransientLifetimeManager)
+        container.RegisterType(Of IEquipmentReceptionParteRepository, EquipmentReceptionParteRepository)(New TransientLifetimeManager)
+        'container.RegisterType(Of IEquipmentReceptionConsumableRepository, EquipmentReceptionConsumableRepository)(New TransientLifetimeManager)
+        'container.RegisterType(Of IDrawingsDetailRepository, DrawingsDetailRepository)(New TransientLifetimeManager)
+
+
+        'TODO: Registra el mapeo de los servicios de la capa de dominio
+        'container.RegisterType(Of IServicioDominioHistoriasClinicas, ServicioDominioHistoriasClinicas)(New TransientLifetimeManager)
+
+        'TODO: Registra el mapeo de la capa de infraestructura transaversal
+        ''container.RegisterType(Of ITraceManager, TraceManager)(New TransientLifetimeManager())
+
+        '**************************************************************************'
+        '**********************MAPEO DOCUMENTAL SYSTEM*****************************'
+        '**************************************************************************'
+        container.RegisterType(Of IDocumentalSystemAdminService, DocumentalSystemAdminService)(New TransientLifetimeManager)
+        container.RegisterType(Of IDocumentsStoreRepository, DocumentsStoreRepository)(New TransientLifetimeManager)
+
+        container.RegisterType(Of IFileContainerAdminService, FileContainersAdminService)(New TransientLifetimeManager)
+        container.RegisterType(Of IFileContainerRepository, FileContainerRepository)(New TransientLifetimeManager)
+
+        container.RegisterType(Of IMetaDataAdminService, MetaDataAdminService)(New TransientLifetimeManager)
+        container.RegisterType(Of IMetaDataRepository, MetadataRepository)(New TransientLifetimeManager)
+
+        container.RegisterType(Of IFileContainersFormAdminService, FileContainersFormAdminService)(New TransientLifetimeManager)
+        container.RegisterType(Of IFileContainersFormRepository, FileContainersFormRepository)(New TransientLifetimeManager)
+
+
+        '**************************************************************************'
+        '**********************MAPEO BUDGET*****************************'
+        '**************************************************************************'
+        container.RegisterType(Of IFinancialSourceAdminService, FinancialSourceAdminService)(New TransientLifetimeManager)
+        container.RegisterType(Of IFinancialSourceRepository, FinancialSourceRepository)(New TransientLifetimeManager)
+
+        container.RegisterType(Of IBudgetInstitutionAdminService, BudgetInstitutionAdminService)(New TransientLifetimeManager)
+        container.RegisterType(Of IBudgetInstitutionRepository, BudgetInstitutionsRepository)(New TransientLifetimeManager)
+
+        container.RegisterType(Of IValidityAdminService, ValidityAdminService)(New TransientLifetimeManager)
+        container.RegisterType(Of IValidityRepository, ValidityRepository)(New TransientLifetimeManager)
+
+        container.RegisterType(Of IConsecutiveBudgetRepository, ConsecutiveBudgetRepository)(New TransientLifetimeManager)
+
+        container.RegisterType(Of IBlockRecordBudgetAdminService, BlockRecordBudgetAdminService)(New TransientLifetimeManager)
+        container.RegisterType(Of IBlockRecordBudgetRepository, BlockRecordBudgetRepository)(New TransientLifetimeManager)
+
+        container.RegisterType(Of IEarningsTypeAdminService, EarningsTypeAdminService)(New TransientLifetimeManager)
+        container.RegisterType(Of IEarningsTypeRepository, EarningsTypeRepository)(New TransientLifetimeManager)
+
+        container.RegisterType(Of IExpenseTypeAdminService, ExpenseTypeAdminService)(New TransientLifetimeManager)
+        container.RegisterType(Of IExpenseTypeRepository, ExpenseTypeRepository)(New TransientLifetimeManager)
+
+        container.RegisterType(Of IBudgetConceptAdminService, BudgetConceptAdminService)(New TransientLifetimeManager)
+        container.RegisterType(Of IBudgetConceptRepository, BudgetConceptRepository)(New TransientLifetimeManager)
+
+        container.RegisterType(Of IBudgetDependencyAdminService, BudgetDependencyAdminService)(New TransientLifetimeManager)
+        container.RegisterType(Of IBudgetDependencyRepository, BudgetDependencyRepository)(New TransientLifetimeManager)
+
+        container.RegisterType(Of IBudgetItemAdminService, BudgetItemAdminService)(New TransientLifetimeManager)
+        container.RegisterType(Of IBudgetItemRepository, BudgetItemRepository)(New TransientLifetimeManager)
+
+        container.RegisterType(Of ILevelCategoryAdminService, LevelCategoryAdminService)(New TransientLifetimeManager)
+        container.RegisterType(Of ILevelCategoryRepository, LevelCategoryRepository)(New TransientLifetimeManager)
+
+        container.RegisterType(Of IBudgetEntryAdminService, BudgetEntryAdminService)(New TransientLifetimeManager)
+        container.RegisterType(Of IBudgetEntryRepository, BudgetEntryRepository)(New TransientLifetimeManager)
+
+        container.RegisterType(Of IBudgetModificationAdminService, BudgetModificationAdminService)(New TransientLifetimeManager)
+        container.RegisterType(Of IBudgetModificationRepository, BudgetModificationRepository)(New TransientLifetimeManager)
+
+        container.RegisterType(Of IBudgetSequenceRepository, BudgetSequenceRepository)(New TransientLifetimeManager)
+
+        container.RegisterType(Of IBudgetRepository, BudgetRepository)(New TransientLifetimeManager)
+        container.RegisterType(Of IRecognitionRepository, RecognitionRepository)(New TransientLifetimeManager)
+
+
+        container.RegisterType(Of ISequenseTreasuryCRepository, SequenseTreasuryCRepository)(New TransientLifetimeManager)
+
+        container.RegisterType(Of ISequenseTreasuryDRepository, SequenseTreasuryDRepository)(New TransientLifetimeManager)
+
+        container.RegisterType(Of IVoucherTransactionAdminService, VoucherTransactionAdminService)()
+        container.RegisterType(Of IVoucherTransactionRepository, VoucherTransactionRepository)()
+
+        container.RegisterType(Of ICheckRepository, CheckRepository)()
+        container.RegisterType(Of ICheckBlockRepository, CheckBlockRepository)()
+
+        container.RegisterType(Of IAccountPayableAdminService, AccountPayableAdminService)()
+        container.RegisterType(Of IAccountPayableRepository, AccountPayableRepository)()
+
+        container.RegisterType(Of ISettingPaymentsRepository, SettingPaymentsRepository)()
+
+        container.RegisterType(Of IDeferredCausationRepository, DeferredCausationRepository)()
+
+        container.RegisterType(Of IMonthlyAmortizationRepository, MonthlyAmortizationRepository)()
+
+        container.RegisterType(Of IPaymentControlAdminService, PaymentControlAdminService)()
+        container.RegisterType(Of IPaymentControlRepository, PaymentControlRepository)()
+
+        container.RegisterType(Of ICompanySettingsRepository, CompanySettingsRepository)()
+
+        container.RegisterType(Of ISettingsTreasuryRepository, SettingsTreasuryRepository)()
+
+        container.RegisterType(Of ITreasuryAdvanceRepository, TreasuryAdvanceRepository)()
+
+        container.RegisterType(Of IMovementAccountPayableAdminService, MovementAccountPayableAdminService)()
+        container.RegisterType(Of IMovementAccountPayableRepository, MovementAccountPayableRepository)()
+
+        container.RegisterType(Of IMoneyAdvanceAdminService, MoneyAdvanceAdminService)()
+        container.RegisterType(Of IMoneyAdvanceRepository, MoneyAdvanceRepository)()
+
+        container.RegisterType(Of IDischargeBillAdminService, DischargeBillAdminService)()
+        container.RegisterType(Of IDischargeBillRepository, DischargeBillRepository)()
+
+        container.RegisterType(Of IRefundAdminService, RefundAdminService)()
+        container.RegisterType(Of IRefundRepository, RefundRepository)()
+
+        container.RegisterType(Of ITreasuryControlAdminService, TreasuryControlAdminService)()
+        container.RegisterType(Of ITreasuryControlRepository, TreasuryControlRepository)()
+
+        container.RegisterType(Of IPaymentsSequenseAdminService, PaymentsSequenseAdminService)()
+
+        container.RegisterType(Of ISequensePaymentsCRepository, SequensePaymentsCRepository)()
+
+        container.RegisterType(Of IPortfolioAdvanceAdminService, PortfolioAdvanceAdminService)()
+
+        container.RegisterType(Of ICancellationCheckRepository, CancellationCheckRepository)()
+
+        container.RegisterType(Of IOutstandingChecksRepository, OutstandingChecksRepository)()
+
+        container.RegisterType(Of ITreasuryServices, TreasuryServices)()
+
+        container.RegisterType(Of ICrossingAccountDetailCxPRepository, CrossingAccountDetailCxPRepository)()
+
+        container.RegisterType(Of ICrossingAccountDetailCxCRepository, CrossingAccountDetailCxCRepository)()
+
+        container.RegisterType(Of ICashReceiptsRepository, CashReceiptsRepository)()
+
+        container.RegisterType(Of ICrossingAccountDetailOtherConceptsRepository, CrossingAccountDetailOtherConceptsRepository)()
+
+        container.RegisterType(Of IPaymentNotesAccountPayableAdvanceRepository, PaymentNotesAccountPayableAdvanceRepository)()
+
+        container.RegisterType(Of ITransfersRepository, TransfersRepository)()
+
+        container.RegisterType(Of ICrossingAccountRepository, CrossingAccountRepository)()
+
+        container.RegisterType(Of IBillingSequenceRepository, BillingSequenceRepository)()
+
+        container.RegisterType(Of IBillingNoteRepository, BillingNoteRepository)()
+
+        container.RegisterType(Of IElectronicDocumentRepository, ElectronicDocumentRepository)()
+
+        container.RegisterType(Of IPermissionScheduleAdminService, PermissionScheduleAdminService)()
+        container.RegisterType(Of IPositionRollRepository, PositionRollRepository)()
+        container.RegisterType(Of IPositionUserRepository, PositionUserRepository)()
+        container.RegisterType(Of IFunctionalUnitResponsibleRepository, FunctionalUnitResponsibleRepository)()
+
+        container.RegisterType(Of IEmployeeScheduleDetailRepository, EmployeeScheduleDetailRepository)()
+
+
+        'Exogena Format
+        container.RegisterType(Of IFormatosExogena, FormatosExogena)()
+
+        'Reports Glosa
+        container.RegisterType(Of Application.Glosas.IReportAdminService, Application.Glosas.ReportAdminService)(New TransientLifetimeManager)
+
+        container.RegisterType(Of ICashFlowConceptRepository, CashFlowConceptRepository)()
+    End Sub
+
+    Private Sub ConfigureEHRDependencies(container As IUnityContainer)
+        'Inyectamos el contexto de Crystal
+        container.RegisterType(Of ICrystalModelUnitOfWork, CrystalModelUnitOfWork)(New InjectionConstructor(ServerSessionValues.Current.CurrentHISContainer))
+
+        container.RegisterType(Of ISEGrolesuRepository, SEGrolesuRepository)(New TransientLifetimeManager)
+        container.RegisterType(Of ISEGgruusuRepository, SEGgruusuRepository)(New TransientLifetimeManager)
+        container.RegisterType(Of ISEGusuaruRepository, SegusuaruRepository)(New TransientLifetimeManager)
+        container.RegisterType(Of IINUNIFUNCRepository, INUNIFUNCRepository)(New TransientLifetimeManager)
+        container.RegisterType(Of IADCENATENRepository, ADCENATENRepository)(New TransientLifetimeManager)
+        container.RegisterType(Of ISEGPermiuRepository, SEGpermiuRepository)(New TransientLifetimeManager)
+        container.RegisterType(Of ISEGpermirRepository, SEGpermirRepository)(New TransientLifetimeManager)
+        container.RegisterType(Of IINCUPSSUBRepository, INCUPSSUBRepository)(New TransientLifetimeManager)
+    End Sub
+
+    ''' <summary>
+    ''' Configura el contenedor raiz.
+    ''' Registra tipos y administradores del tiempo de vida para unity
+    ''' </summary>
+    ''' <param name="container">Contenedor a configurar</param>
+    Private Sub ConfigureRootContainer(ByVal container As IUnityContainer, ByVal company As String)
+
+        'Se pone para eliminar la advertencia 
+        'por estar declarado y no usado
+        container.ToString()
+
+        ''configuro el contenedor de contratos
+        'ConfigureContainerContratos(container)
+
+        ''configuro el contenedor de seguridad
+        'If company IsNot Nothing And company <> String.Empty Then
+        '    ConfigureContainerSeguridad(container, company)
+        'Else
+        '    ConfigureContainerSeguridad(container)
+        'End If
+
+        ConfigureContainerSecurity(container)
+        ConfigureContainer(container, If(company Is Nothing OrElse company.Trim().Equals(String.Empty), "#", company))
+        ConfigureDependencies(container, If(company Is Nothing OrElse company.Trim().Equals(String.Empty), "#", company))
+        ConfigureEHRDependencies(container)
+
+        ''configuro el contenedor de transversales
+        'ConfigureContainerTransversal(container)
+
+
+        ''configuro el contenedor de agendamiento
+        'ConfigureContainerAgendamiento(container)
+
+        ''configuro el contenedor de admisiones
+        'ConfigureContainerAdmisiones(container)
+
+        'ConfigureContainerEnterpriseLibrary(container)
+
+    End Sub
+
+#End Region
+
+#Region "IServiceFactory Members"
+
+    ''' <summary>
+    ''' Resuelve la dependencia TService
+    ''' </summary>
+    ''' <typeparam name="TService">Tipo de la Dependencia</typeparam>
+    ''' <returns>Instancia de TService</returns>
+    Public Function Resolve(Of TService)() As TService Implements IContainer.Resolve
+        'We use the default container specified in AppSettings
+        Dim containerName As String = ConfigurationManager.AppSettings("defaultIoCContainer")
+
+        If [String].IsNullOrEmpty(containerName) OrElse [String].IsNullOrWhiteSpace(containerName) Then
+            Throw New ArgumentNullException(Messages.exception_DefaultIOCSettings)
+        End If
+
+        If Not _containersDictionary.ContainsKey(containerName) Then
+            Throw New InvalidOperationException(Messages.exception_ContainerNotFound)
+        End If
+
+        Dim container As IUnityContainer = _containersDictionary(containerName)
+
+        Return container.Resolve(Of TService)()
+    End Function
+
+    ''' <summary>
+    ''' Resuelve el Tipo del Constructor y retorna el objeto como una instancia de TService
+    ''' </summary>
+    ''' <param name="type"></param>
+    ''' <returns>instancia del tipo pasado</returns>
+    Public Function Resolve(ByVal type As Type) As Object Implements IContainer.Resolve
+        'Nosotros usamos lel contenedor por defecto especificado en AppSettings del sitio WEB
+        Dim containerName As String = ConfigurationManager.AppSettings("defaultIoCContainer")
+
+        If [String].IsNullOrEmpty(containerName) OrElse [String].IsNullOrWhiteSpace(containerName) Then
+            Throw New ArgumentNullException(Messages.exception_DefaultIOCSettings)
+        End If
+
+        If Not _containersDictionary.ContainsKey(containerName) Then
+            Throw New InvalidOperationException(Messages.exception_ContainerNotFound)
+        End If
+
+        Dim container As IUnityContainer = _containersDictionary(containerName)
+
+        Return container.Resolve(type, Nothing)
+    End Function
+
+
+    ''' <summary>
+    ''' Registra un Tipo en el Localizador
+    ''' </summary>
+    ''' <param name="type">Tipo a registrar</param>
+    Public Sub RegisterType(ByVal type As Type) Implements IContainer.RegisterType
+        Dim container As IUnityContainer = Me._containersDictionary("RootContext")
+
+        If container IsNot Nothing Then
+            container.RegisterType(type, New TransientLifetimeManager())
+        End If
+    End Sub
+
+    Public Shared Widening Operator CType(v As UnityContainer) As IocUnityContainer
+        Throw New NotImplementedException()
+    End Operator
+
+#End Region
+
+End Class

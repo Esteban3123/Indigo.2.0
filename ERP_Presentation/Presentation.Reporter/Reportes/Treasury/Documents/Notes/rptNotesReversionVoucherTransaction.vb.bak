@@ -1,0 +1,185 @@
+﻿#Region "Imports"
+Imports Infrastructure.CrossCutting.Base
+Imports Infrastructure.Data.Xpo
+Imports Infrastructure.Data.Xpo.TreasuryRepository
+Imports DevExpress.XtraReports.Parameters
+Imports Infrastructure.Data.Xpo.SecurityRepository
+Imports System.Globalization
+Imports Domain.Entities
+Imports Infrastructure.CrossCutting.Resources
+Imports Presentation.common.MVP
+Imports Infrastructure.Data.Xpo.CommonRepository
+Imports Presentation.CloudAgent
+
+#End Region
+
+Public Class rptNotesReversionVoucherTransaction
+    Implements IReport
+
+    ''' <summary>
+    ''' Variable para inicializar los valores de sesion
+    ''' </summary>
+    Dim IndigoSessionValues As SessionValues = SessionValues.Instance
+    Private INDUser As Object
+
+    ''' <summary>
+    ''' Valor total de la transacción, incluyendo parte entera y decimal.
+    ''' </summary>
+    Private _totalValue As Decimal
+
+    ''' <summary>
+    ''' Parte entera del valor total de la transacción.
+    ''' </summary>
+    Private _integerPart As Long
+
+    ''' <summary>
+    ''' Parte decimal del valor total de la transacción, representada como entero.
+    ''' </summary>
+    Private _decimalPart As Integer
+
+    Dim INDList As List(Of TreasuryNotesXpo)
+
+    ''' <summary>
+    ''' obtiene la moneda a la cual se realiza el reporte 
+    ''' </summary>
+    Dim CurrencyData As Currency
+
+    ''' <summary>
+    ''' Valor total en letras
+    ''' </summary>
+    ''' <remarks></remarks>
+    Dim ValueLetter As Decimal = 0
+    ''' <summary>
+    ''' abreviacion de la moneda 
+    ''' </summary>
+    Dim CurrencyAbbreviation As String
+    ''' <summary>
+    ''' Nombre de la moneda
+    ''' </summary>
+    Dim CurrencyName As String
+
+    Public Async Sub CargarDataSource() Implements IReport.CargarDataSource
+
+        Dim filtroConsulta As String = "Id = " & ParametrosReporte(0)
+        INDList = XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).TreasuryService.GetCollection(Of TreasuryNotesXpo)(Nothing, filtroConsulta)
+        Dim INDCodeUser = CType(INDList(0), TreasuryNotesXpo).CreationUser.Trim()
+        INDUser = XpoServiceEx.Instance(IndigoSessionValues.SecurityContainer).TreasuryService.GetCollection(Of Infrastructure.Data.Xpo.SecurityRepository.UserXpo)(Nothing, "UserCode = '" & INDCodeUser & "'")
+        Me.DataSource = INDList
+
+        Dim ivadetail = New List(Of VoucherTransactionDetailAccountInfo)
+        For Each Itemc In INDList
+            Itemc?.VoucherTransactionId?.TreasuryVoucherTransactionDetailsXpo?.Where(Function(s) s.discountableIVA.HasValue)?.ToList()?.ForEach(Sub(item)
+                                                                                                                                                    If item?.discountableIVA Then
+                                                                                                                                                        ivadetail.Add(New VoucherTransactionDetailAccountInfo With {
+                                                                                                                                                                                                .ConceptName = $"{item?.IdExpenseConcept?.Code} - {item?.GeneralLedgerIVAXpo?.Name}",
+                                                                                                                                                                                                .MainAccountCodeName = item?.GeneralLedgerIVAXpo?.AccountPurchaseService?.Number,
+                                                                                                                                                                                                .CostCenterCodeName = "",
+                                                                                                                                                                                                .NatureName = If(item?.IdExpenseConcept?.Nature = 1, "Crédito", "Débito"),
+                                                                                                                                                                                                .ValueTotalConcept = item.ValueIVA,
+                                                                                                                                                                                                .Nature = item?.IdExpenseConcept?.Nature,
+                                                                                                                                                                                                .DebitValue = If(.Nature = 2, .ValueTotalConcept, 0),
+                                                                                                                                                                                                .CreditValue = If(.Nature = 1, .ValueTotalConcept, 0),
+                                                                                                                                                                                                .ThirdPartyNitName = item.IdThirdParty.Nit
+                                                                                                                                                                                            })
+
+                                                                                                                                                    ElseIf item?.discountableIVA IsNot Nothing Then
+                                                                                                                                                        ivadetail.Add(New VoucherTransactionDetailAccountInfo With {    'Debito
+                                                                                                                                                                                                             .ConceptName = $"{item?.IdExpenseConcept?.Code} - { item?.GeneralLedgerIVAXpo?.AccountCreditControlFiscal?.Name}",
+                                                                                                                                                                                                             .MainAccountCodeName = item?.GeneralLedgerIVAXpo?.AccountCreditControlFiscal?.Number,
+                                                                                                                                                                                                             .CostCenterCodeName = "",
+                                                                                                                                                                                                             .NatureName = ResourceManager.GetString("AccountNatureCredit"),
+                                                                                                                                                                                                             .CreditValue = item.ValueIVA,
+                                                                                                                                                                                                             .Nature = 2,
+                                                                                                                                                                                                             .ThirdPartyNitName = item.IdThirdParty?.Nit
+                                                                                                                                                                                                          })
+
+                                                                                                                                                        ivadetail.Add(New VoucherTransactionDetailAccountInfo With {    'Credito
+                                                                                                                                                                                                             .ConceptName = $"{item?.IdExpenseConcept?.Code} - {item?.GeneralLedgerIVAXpo?.AccountDebitControlFiscal?.Name}",
+                                                                                                                                                                                                             .MainAccountCodeName = item?.GeneralLedgerIVAXpo?.AccountDebitControlFiscal?.Number,
+                                                                                                                                                                                                             .CostCenterCodeName = "",
+                                                                                                                                                                                                             .NatureName = ResourceManager.GetString("AccountNatureDebit"),
+                                                                                                                                                                                                             .DebitValue = item.ValueIVA,
+                                                                                                                                                                                                             .Nature = 1,
+                                                                                                                                                                                                             .ThirdPartyNitName = item.IdThirdParty?.Nit
+                                                                                                                                                                                                          })
+                                                                                                                                                    End If
+                                                                                                                                                End Sub)
+            Dim CurrencyId = CType(INDList(0), TreasuryNotesXpo)?.CurrencyId.Id
+            CurrencyData = Await IndigoConecta.Instancia.CurrentCloud.IndigoCommonERP.GetCurrencyByIdAsync(INDList(0).CurrencyId.Id, IndigoSessionValues)
+        Next
+        Me.DetailReport1.DataSource = ivadetail
+    End Sub
+
+    Public Sub CargarImagenes() Implements IReport.CargarImagenes
+
+    End Sub
+
+    Public ReadOnly Property NameReport As String Implements IReport.NameReport
+        Get
+            Return ""
+        End Get
+    End Property
+
+    Public Property ParametrosReporte As Object() Implements IReport.ParametrosReporte
+
+    Private Sub rptNotesReversionVoucherTransaction_BeforePrint(sender As Object, e As Printing.PrintEventArgs) Handles MyBase.BeforePrint
+        'Dim filtroConsulta As String = "Id = " & ParametrosReporte(0)
+        If Me.Parameters.Count > 0 And Me.Parameters(0).Value > 0 Then
+            Dim ParametrosFilter As ParameterCollection = Me.Parameters
+            ParametrosReporte = New Object() {ParametrosFilter.GetByName("INDSubIdNotesVoucherTransaction").Value}
+            CargarDataSource()
+        End If
+
+        Me.INDLblUserPrint.Text = "Usuario Impresión : " & IndigoSessionValues.UserIndigo & " - " & IndigoSessionValues.UserIndigoName
+        Me.INDLblCompany.Text = IndigoSessionValues.IndigoCompanyName
+        Me.INDLblNitCompany.Text = "Nit : " & IndigoSessionValues.IndigoCompanyNit
+        If INDUser.count() > 0 Then
+            INDLblCreationUser.Text = INDUser(0).CodeName
+        End If
+
+        If CurrencyData IsNot Nothing AndAlso Not String.IsNullOrEmpty(CurrencyData.Abbreviation) Then
+            Dim _culture As CultureInfo = CultureInfo.CurrentCulture.Clone()
+            CurrencyAbbreviation = CurrencyData.Abbreviation
+            _culture.NumberFormat = CurrencyAbbreviation.GetNumberFormat
+            ApplyLocalization(_culture)
+        End If
+
+        _totalValue = Convert.ToDecimal(CType(INDList(0), TreasuryNotesXpo).VoucherTransactionId.Value)
+        _integerPart = CLng(Math.Truncate(_totalValue))
+        _decimalPart = CInt((_totalValue - _integerPart) * 100)
+
+
+        INDLblNumLetters.Text = String.Format("{0} {1}{2}",
+                                                  Utils.Num2Text(_integerPart).ToString,
+                                                  CurrencyData.ISO4217.CurrencyName.ToUpper,
+                                                  If(_decimalPart > 0, $", CON {Utils.Num2Text(_decimalPart).ToString } {Utils.ListDecimalCurrency(CurrencyAbbreviation)}", ""))
+
+    End Sub
+
+    Private Sub Detail2_BeforePrint(sender As Object, e As Printing.PrintEventArgs) Handles Detail2.BeforePrint
+        Dim dataIva = TryCast(Me.DetailReport1.GetCurrentRow, VoucherTransactionDetailAccountInfo)
+        If dataIva Is Nothing Then
+            e.Cancel = True
+        End If
+    End Sub
+
+    Private Sub XrTableCell71_BeforePrint(sender As Object, e As Printing.PrintEventArgs) Handles XrTableCell71.BeforePrint
+        Dim row = GetCurrentRow()
+        Dim Value = 0
+        Dim CurrencyAbbreviation = DirectCast(row, TreasuryNotesXpo)?.VoucherTransactionId.CurrencyAbbreviation
+
+        If Value >= 0 AndAlso Not String.IsNullOrEmpty(CurrencyAbbreviation) Then
+            XrTableCell71.Text = Utils.GetMoneyWithISO4217(Value, CurrencyAbbreviation)
+        End If
+    End Sub
+
+    Private Sub XrTableCell36_BeforePrint(sender As Object, e As Printing.PrintEventArgs) Handles XrTableCell36.BeforePrint
+        Dim row = GetCurrentRow()
+        Dim Value = 0
+        Dim CurrencyAbbreviation = DirectCast(row, TreasuryNotesXpo)?.VoucherTransactionId.CurrencyAbbreviation
+
+        If Value >= 0 AndAlso Not String.IsNullOrEmpty(CurrencyAbbreviation) Then
+            XrTableCell36.Text = Utils.GetMoneyWithISO4217(Value, CurrencyAbbreviation)
+        End If
+    End Sub
+End Class

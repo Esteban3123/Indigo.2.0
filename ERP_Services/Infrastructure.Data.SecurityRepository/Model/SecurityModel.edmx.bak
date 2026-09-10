@@ -1,0 +1,2194 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="GENESISSECURITYModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012.Azure" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="GroupUser">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IdUser" Type="int" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <EntityType Name="UsersGroupUser">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IdGroupUser" Type="int" Nullable="false" />
+          <Property Name="IdUser" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Machines">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UID" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="NickName" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="ClientVersion" Type="varchar" MaxLength="12" />
+          <Property Name="OSName" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="Architecture" Type="varchar" MaxLength="5" Nullable="false" />
+          <Property Name="IPs" Type="varchar" MaxLength="500" Nullable="false" />
+          <Property Name="MACs" Type="varchar" MaxLength="500" Nullable="false" />
+          <Property Name="RegDate" Type="datetime" Nullable="false" />
+          <Property Name="LastUpDate" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="MachineUpdatePackage">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IdMachine" Type="int" Nullable="false" />
+          <Property Name="IdUpdatePackage" Type="int" Nullable="false" />
+          <Property Name="UpgradeDate" Type="datetime" />
+          <Property Name="UpgradedDate" Type="datetime" />
+          <Property Name="Upgraded" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="UpdatePackage">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NumberVersion" Type="int" Nullable="false" />
+          <Property Name="PackageVersion" Type="varchar" MaxLength="12" Nullable="false" />
+          <Property Name="Description" Type="varchar(max)" Nullable="false" />
+          <Property Name="BuildDate" Type="datetime" Nullable="false" />
+          <Property Name="CreationDate" Type="datetime" Nullable="false" />
+          <Property Name="PackageFileName" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="Status" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Address">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IdPerson" Type="int" Nullable="false" />
+          <Property Name="Addresss" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="State" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ApplicationSettings">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="smallint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ContainerId" Type="int" Nullable="false" />
+          <Property Name="CacheServerName" Type="varchar" MaxLength="50" />
+          <Property Name="CachePort" Type="varchar" MaxLength="10" />
+          <Property Name="NombreCache" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="DuraccionCacheCorta" Type="smallint" Nullable="false" />
+          <Property Name="DuraccionCacheMedia" Type="smallint" Nullable="false" />
+          <Property Name="DuraccionCacheLarga" Type="smallint" Nullable="false" />
+          <Property Name="ServidorMongo" Type="varchar" MaxLength="50" />
+          <Property Name="BaseDatosMongo" Type="varchar" MaxLength="50" />
+          <Property Name="CachedEnable" Type="bit" Nullable="false" />
+          <Property Name="NewServices" Type="bit" Nullable="false" />
+          <Property Name="ChangeMessageBox" Type="varchar" MaxLength="1" Nullable="false" />
+          <Property Name="UrlServiceDispensing" Type="varchar" MaxLength="300" />
+        </EntityType>
+        <EntityType Name="Containers">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Code" Type="varchar" MaxLength="2" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="FoundationalContainer" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="TransactionalContainer" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="DocumentalContainer" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="VituelContainer" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="HISContainer" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="InteropCostContainer" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="HISIntegration" Type="tinyint" Nullable="false" />
+          <Property Name="GlossesIntegration" Type="tinyint" Nullable="false" />
+          <Property Name="PayrollIntegration" Type="tinyint" Nullable="false" />
+          <Property Name="CompanyType" Type="tinyint" Nullable="false" />
+          <Property Name="CompanyNit" Type="varchar" MaxLength="15" />
+          <Property Name="RepresentationLegal" Type="varchar" MaxLength="100" />
+          <Property Name="City" Type="varchar" MaxLength="50" />
+          <Property Name="Address" Type="varchar" MaxLength="50" />
+          <Property Name="Telephone" Type="varchar" MaxLength="20" />
+          <Property Name="ProductionCompany" Type="bit" Nullable="false" />
+          <Property Name="KeyCode" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="LyncIntegration" Type="bit" Nullable="false" />
+          <Property Name="Version" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="State" Type="bit" Nullable="false" />
+          <Property Name="DispensingIntegration" Type="tinyint" Nullable="false" />
+          <Property Name="HumanTalentIntegration" Type="tinyint" Nullable="false" />
+          <Property Name="VerificationDigitNit" Type="varchar" MaxLength="3" />
+          <Property Name="ArchitectureType" Type="tinyint" />
+          <Property Name="CloudType" Type="tinyint" />
+          <Property Name="Multitenant" Type="bit" />
+          <Property Name="SuscriptionID" Type="uniqueidentifier" />
+          <Property Name="BranchOffices" Type="tinyint" />
+          <Property Name="ServiceConfigurationId" Type="tinyint" />
+        </EntityType>
+        <EntityType Name="Email">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IdPerson" Type="int" Nullable="false" />
+          <Property Name="Email" Type="varchar" MaxLength="60" Nullable="false" />
+          <Property Name="State" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="FilePerson">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IdPerson" Type="int" Nullable="false" />
+          <Property Name="Photo" Type="varbinary(max)" />
+          <Property Name="Signature" Type="varbinary(max)" />
+          <Property Name="TimeStamp" Type="timestamp" StoreGeneratedPattern="Computed" Nullable="false" />
+          <Property Name="State" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="GeneralConfiguration">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="smallint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="HISAssemblyFileName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Tenant" Type="varchar" MaxLength="100" />
+          <Property Name="SignUpSignIn" Type="varchar" MaxLength="100" />
+          <Property Name="ClientId" Type="uniqueidentifier" />
+          <Property Name="RedirectUri" Type="varchar" MaxLength="300" />
+          <Property Name="SessionLogoutUrl" Type="varchar" MaxLength="300" />
+          <Property Name="AppFunctionURL" Type="varchar" MaxLength="300" />
+          <Property Name="FunctionKey1" Type="varchar" MaxLength="100" />
+          <Property Name="FunctionKey2" Type="varchar" MaxLength="100" />
+          <Property Name="PasswordReset" Type="varchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="Group">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Code" Type="varchar" MaxLength="3" Nullable="false" />
+          <Property Name="Description" Type="varchar" MaxLength="60" Nullable="false" />
+          <Property Name="TimeStamp" Type="timestamp" StoreGeneratedPattern="Computed" Nullable="false" />
+          <Property Name="State" Type="bit" Nullable="false" />
+          <Property Name="Synchronized" Type="varchar" MaxLength="1" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PermissionCompany">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IdUser" Type="int" Nullable="false" />
+          <Property Name="IdContainer" Type="int" Nullable="false" />
+          <Property Name="IdOperatingUnitDefault" Type="int" Nullable="false" />
+          <Property Name="Permission" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PermissionRoll">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IdRoll" Type="int" Nullable="false" />
+          <Property Name="IdForm" Type="varchar" MaxLength="5" Nullable="false" />
+          <Property Name="Action" Type="varchar" MaxLength="5" Nullable="false" />
+          <Property Name="ActionValue" Type="bit" Nullable="false" />
+          <Property Name="TimeStamp" Type="timestamp" StoreGeneratedPattern="Computed" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PermissionUser">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IdUser" Type="int" Nullable="false" />
+          <Property Name="IdForm" Type="varchar" MaxLength="5" Nullable="false" />
+          <Property Name="Action" Type="varchar" MaxLength="3" Nullable="false" />
+          <Property Name="ActionValue" Type="bit" Nullable="false" />
+          <Property Name="TimeStamp" Type="timestamp" StoreGeneratedPattern="Computed" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Person">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Identification" Type="varchar" MaxLength="15" Nullable="false" />
+          <Property Name="IdentificationType" Type="smallint" Nullable="false" />
+          <Property Name="FirstName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="SecondName" Type="varchar" MaxLength="50" />
+          <Property Name="FirstLastName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="SecondLastName" Type="varchar" MaxLength="50" />
+          <Property Name="Fullname" Type="varchar" MaxLength="250" Nullable="false" />
+          <Property Name="BirthDay" Type="datetime" />
+          <Property Name="Fingerprint" Type="varbinary(max)" />
+          <Property Name="Gender" Type="smallint" Nullable="false" />
+          <Property Name="State" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Phone">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IdPerson" Type="int" Nullable="false" />
+          <Property Name="Phone" Type="varchar" MaxLength="15" Nullable="false" />
+          <Property Name="IdPhoneType" Type="smallint" Nullable="false" />
+          <Property Name="State" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PhoneType">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="smallint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Code" Type="varchar" MaxLength="1" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="State" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Roll">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="RollCode" Type="char" MaxLength="3" Nullable="false" />
+          <Property Name="Description" Type="varchar" MaxLength="60" Nullable="false" />
+          <Property Name="TimeStamp" Type="timestamp" StoreGeneratedPattern="Computed" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ServiceConfiguration">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="tinyint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="EntityServiceProtocol" Type="tinyint" Nullable="false" />
+          <Property Name="XPOServiceProtocol" Type="tinyint" Nullable="false" />
+          <Property Name="DocumentServiceProtocol" Type="tinyint" Nullable="false" />
+          <Property Name="IndexingServiceProtocol" Type="tinyint" Nullable="false" />
+          <Property Name="EntityServiceURL" Type="varchar" MaxLength="300" Nullable="false" />
+          <Property Name="XPOServiceURL" Type="varchar" MaxLength="300" Nullable="false" />
+          <Property Name="DocumentServiceURL" Type="varchar" MaxLength="300" Nullable="false" />
+          <Property Name="IndexingServiceURL" Type="varchar" MaxLength="300" Nullable="false" />
+          <Property Name="NotificationServiceURL" Type="varchar" MaxLength="300" Nullable="false" />
+          <Property Name="EHRWebServiceProtocol" Type="tinyint" Nullable="false" />
+          <Property Name="EHREntityServiceProtocol" Type="tinyint" Nullable="false" />
+          <Property Name="EHRWebServiceURL" Type="varchar" MaxLength="300" Nullable="false" />
+          <Property Name="EHREntityServiceURL" Type="varchar" MaxLength="300" Nullable="false" />
+          <Property Name="AppFunctionURL" Type="varchar" MaxLength="300" />
+          <Property Name="FunctionKey1" Type="varchar" MaxLength="100" />
+          <Property Name="FunctionKey2" Type="varchar" MaxLength="100" />
+          <Property Name="FunctionKey3" Type="varchar" MaxLength="100" />
+          <Property Name="FunctionKey4" Type="varchar" MaxLength="100" />
+          <Property Name="FunctionKey5" Type="varchar" MaxLength="100" />
+          <Property Name="FunctionKey6" Type="varchar" MaxLength="100" />
+          <Property Name="FunctionKey7" Type="varchar" MaxLength="100" />
+          <Property Name="FunctionKey8" Type="varchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="Tenant">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="smallint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="Status" Type="tinyint" />
+          <Property Name="WorkFlowStatus" Type="tinyint" />
+          <Property Name="CompanyType" Type="tinyint" />
+          <Property Name="CompanyNit" Type="varchar" MaxLength="15" />
+          <Property Name="RepresentationLegal" Type="varchar" MaxLength="100" />
+          <Property Name="City" Type="varchar" MaxLength="50" />
+          <Property Name="Address" Type="varchar" MaxLength="50" />
+          <Property Name="Telephone" Type="varchar" MaxLength="20" />
+          <Property Name="KeyCode" Type="varchar" MaxLength="20" />
+          <Property Name="CloudType" Type="tinyint" />
+          <Property Name="AuthenticationType" Type="tinyint" />
+          <Property Name="TimeStamp" Type="timestamp" StoreGeneratedPattern="Computed" />
+        </EntityType>
+        <EntityType Name="TenantContainer">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TenantId" Type="smallint" Nullable="false" />
+          <Property Name="ContainerId" Type="int" Nullable="false" />
+          <Property Name="Principal" Type="bit" Nullable="false" />
+          <Property Name="State" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IdPerson" Type="int" Nullable="false" />
+          <Property Name="UserCode" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="RollCode" Type="int" Nullable="false" />
+          <Property Name="GroupCode" Type="int" Nullable="false" />
+          <Property Name="Position" Type="varchar" MaxLength="30" />
+          <Property Name="UserType" Type="char" MaxLength="1" />
+          <Property Name="ChangePassword" Type="bit" />
+          <Property Name="DaysChangePassword" Type="int" />
+          <Property Name="DateLastChangePassword" Type="datetime" />
+          <Property Name="DateExpiryAccount" Type="datetime" />
+          <Property Name="TimeStamp" Type="timestamp" StoreGeneratedPattern="Computed" Nullable="false" />
+          <Property Name="Password" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="State" Type="bit" Nullable="false" />
+          <Property Name="UserNameLync" Type="varchar" MaxLength="100" />
+          <Property Name="AddressSingInLync" Type="varchar" MaxLength="100" />
+          <Property Name="PasswordLync" Type="varchar" MaxLength="100" />
+          <Property Name="PersonalNote" Type="varchar" MaxLength="100" />
+          <Property Name="ViewForm" Type="bit" Nullable="false" />
+          <Property Name="CodeInterface" Type="varchar" MaxLength="12" />
+          <Property Name="IsLockedOut" Type="bit" Nullable="false" />
+          <Property Name="FailedPasswordCount" Type="int" Nullable="false" />
+          <Property Name="TenantId" Type="smallint" />
+        </EntityType>
+        <EntityType Name="UserConfiguration">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserId" Type="int" Nullable="false" />
+          <Property Name="ShowThemeSkinSelector" Type="bit" Nullable="false" />
+          <Property Name="ReporteadorActivo" Type="bit" Nullable="false" />
+          <Property Name="LightweightVersion" Type="bit" Nullable="false" />
+          <Property Name="CustomReportPath" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="ActualCity" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="LanguageCulture" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="DefaultCompany" Type="int" />
+          <Property Name="Dashboard" Type="tinyint" />
+          <Property Name="SideFace" Type="tinyint" />
+          <Property Name="CenterAttention" Type="varchar" MaxLength="10" />
+          <Property Name="FunctionalUnit" Type="varchar" MaxLength="10" />
+          <Property Name="NameCareCenter" Type="varchar" MaxLength="100" />
+          <Property Name="FunctionalUnitName" Type="varchar" MaxLength="60" />
+          <Property Name="TypeFunctionalUnit" Type="int" />
+          <Property Name="RoleCode" Type="varchar" MaxLength="3" />
+          <Property Name="GroupCode" Type="varchar" MaxLength="3" />
+          <Property Name="DefaultConfiguration" Type="bit" />
+        </EntityType>
+        <EntityType Name="UserOperatingUnit">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IdUser" Type="int" Nullable="false" />
+          <Property Name="IdContainer" Type="int" Nullable="false" />
+          <Property Name="IdOperatingUnit" Type="int" Nullable="false" />
+          <Property Name="Status" Type="bit" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Address_Person">
+          <End Role="Person" Type="Self.Person" Multiplicity="1" />
+          <End Role="Address" Type="Self.Address" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Person">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Address">
+              <PropertyRef Name="IdPerson" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ApplicationSettings_Containers">
+          <End Role="Containers" Type="Self.Containers" Multiplicity="1" />
+          <End Role="ApplicationSettings" Type="Self.ApplicationSettings" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Containers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ApplicationSettings">
+              <PropertyRef Name="ContainerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Containers_ServiceConfiguration">
+          <End Role="ServiceConfiguration" Type="Self.ServiceConfiguration" Multiplicity="0..1" />
+          <End Role="Containers" Type="Self.Containers" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ServiceConfiguration">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Containers">
+              <PropertyRef Name="ServiceConfigurationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Email_Person">
+          <End Role="Person" Type="Self.Person" Multiplicity="1" />
+          <End Role="Email" Type="Self.Email" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Person">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Email">
+              <PropertyRef Name="IdPerson" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FilePerson_Person">
+          <End Role="Person" Type="Self.Person" Multiplicity="1" />
+          <End Role="FilePerson" Type="Self.FilePerson" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Person">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="FilePerson">
+              <PropertyRef Name="IdPerson" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_GroupUser_User">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="GroupUser" Type="Self.GroupUser" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="GroupUser">
+              <PropertyRef Name="IdUser" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MachineUpdatePackage_MachineUpdatePackage">
+          <End Role="Machines" Type="Self.Machines" Multiplicity="1" />
+          <End Role="MachineUpdatePackage" Type="Self.MachineUpdatePackage" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Machines">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="MachineUpdatePackage">
+              <PropertyRef Name="IdMachine" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MachineUpdatePackage_UpdatePackage">
+          <End Role="UpdatePackage" Type="Self.UpdatePackage" Multiplicity="1" />
+          <End Role="MachineUpdatePackage" Type="Self.MachineUpdatePackage" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UpdatePackage">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="MachineUpdatePackage">
+              <PropertyRef Name="IdUpdatePackage" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PermissionCompany_Containers">
+          <End Role="Containers" Type="Self.Containers" Multiplicity="1" />
+          <End Role="PermissionCompany" Type="Self.PermissionCompany" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Containers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PermissionCompany">
+              <PropertyRef Name="IdContainer" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PermissionCompany_User">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="PermissionCompany" Type="Self.PermissionCompany" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PermissionCompany">
+              <PropertyRef Name="IdUser" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PermissionRoll_Roll">
+          <End Role="Roll" Type="Self.Roll" Multiplicity="1" />
+          <End Role="PermissionRoll" Type="Self.PermissionRoll" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Roll">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PermissionRoll">
+              <PropertyRef Name="IdRoll" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PermissionUser_User">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="PermissionUser" Type="Self.PermissionUser" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PermissionUser">
+              <PropertyRef Name="IdUser" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Phone_Person">
+          <End Role="Person" Type="Self.Person" Multiplicity="1" />
+          <End Role="Phone" Type="Self.Phone" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Person">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Phone">
+              <PropertyRef Name="IdPerson" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Phone_PhoneType">
+          <End Role="PhoneType" Type="Self.PhoneType" Multiplicity="1" />
+          <End Role="Phone" Type="Self.Phone" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PhoneType">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Phone">
+              <PropertyRef Name="IdPhoneType" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TenantContainer_Container">
+          <End Role="Containers" Type="Self.Containers" Multiplicity="1" />
+          <End Role="TenantContainer" Type="Self.TenantContainer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Containers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="TenantContainer">
+              <PropertyRef Name="ContainerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TenantContainer_Tenant">
+          <End Role="Tenant" Type="Self.Tenant" Multiplicity="1" />
+          <End Role="TenantContainer" Type="Self.TenantContainer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tenant">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="TenantContainer">
+              <PropertyRef Name="TenantId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_User_Group">
+          <End Role="Group" Type="Self.Group" Multiplicity="1" />
+          <End Role="User" Type="Self.User" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Group">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="User">
+              <PropertyRef Name="GroupCode" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_User_Person">
+          <End Role="Person" Type="Self.Person" Multiplicity="1" />
+          <End Role="User" Type="Self.User" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Person">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="User">
+              <PropertyRef Name="IdPerson" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_User_Roll">
+          <End Role="Roll" Type="Self.Roll" Multiplicity="1" />
+          <End Role="User" Type="Self.User" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Roll">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="User">
+              <PropertyRef Name="RollCode" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_User_Tenant">
+          <End Role="Tenant" Type="Self.Tenant" Multiplicity="0..1" />
+          <End Role="User" Type="Self.User" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tenant">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="User">
+              <PropertyRef Name="TenantId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserConfiguration_Containers">
+          <End Role="Containers" Type="Self.Containers" Multiplicity="0..1" />
+          <End Role="UserConfiguration" Type="Self.UserConfiguration" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Containers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="UserConfiguration">
+              <PropertyRef Name="DefaultCompany" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserConfiguration_User">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="UserConfiguration" Type="Self.UserConfiguration" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="UserConfiguration">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserOperatingUnit_Containers">
+          <End Role="Containers" Type="Self.Containers" Multiplicity="1" />
+          <End Role="UserOperatingUnit" Type="Self.UserOperatingUnit" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Containers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="UserOperatingUnit">
+              <PropertyRef Name="IdContainer" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserOperatingUnit_User">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="UserOperatingUnit" Type="Self.UserOperatingUnit" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="UserOperatingUnit">
+              <PropertyRef Name="IdUser" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UsersGroupUser_GroupUser">
+          <End Role="GroupUser" Type="Self.GroupUser" Multiplicity="1" />
+          <End Role="UsersGroupUser" Type="Self.UsersGroupUser" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GroupUser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="UsersGroupUser">
+              <PropertyRef Name="IdGroupUser" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UsersGroupUser_User">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="UsersGroupUser" Type="Self.UsersGroupUser" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="UsersGroupUser">
+              <PropertyRef Name="IdUser" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="CreateBasicAuditData" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Entity" Type="varchar" Mode="In" />
+          <Parameter Name="Form" Type="int" Mode="In" />
+          <Parameter Name="RegisterId" Type="varchar" Mode="In" />
+          <Parameter Name="UserName" Type="varchar" Mode="In" />
+          <Parameter Name="UserCode" Type="varchar" Mode="In" />
+          <Parameter Name="UserMachine" Type="varchar" Mode="In" />
+          <Parameter Name="Parameters" Type="varchar" Mode="In" />
+          <Parameter Name="ReportName" Type="varchar" Mode="In" />
+          <Parameter Name="Operation" Type="tinyint" Mode="In" />
+          <Parameter Name="DateAudit" Type="datetime" Mode="In" />
+          <Parameter Name="Company" Type="varchar" Mode="In" />
+          <Parameter Name="ContainerSecurity" Type="varchar" Mode="In" />
+          <Parameter Name="Count" Type="int" Mode="In" />
+        </Function>
+        <EntityContainer Name="GENESISSECURITYModelStoreContainer">
+          <EntitySet Name="GroupUser" EntityType="Self.GroupUser" Schema="Chat" store:Type="Tables" />
+          <EntitySet Name="UsersGroupUser" EntityType="Self.UsersGroupUser" Schema="Chat" store:Type="Tables" />
+          <EntitySet Name="Machines" EntityType="Self.Machines" Schema="Management" store:Type="Tables" />
+          <EntitySet Name="MachineUpdatePackage" EntityType="Self.MachineUpdatePackage" Schema="Management" store:Type="Tables" />
+          <EntitySet Name="UpdatePackage" EntityType="Self.UpdatePackage" Schema="Management" store:Type="Tables" />
+          <EntitySet Name="Address" EntityType="Self.Address" Schema="Security" store:Type="Tables" />
+          <EntitySet Name="ApplicationSettings" EntityType="Self.ApplicationSettings" Schema="Security" store:Type="Tables" />
+          <EntitySet Name="Containers" EntityType="Self.Containers" Schema="Security" store:Type="Tables" />
+          <EntitySet Name="Email" EntityType="Self.Email" Schema="Security" store:Type="Tables" />
+          <EntitySet Name="FilePerson" EntityType="Self.FilePerson" Schema="Security" store:Type="Tables" />
+          <EntitySet Name="GeneralConfiguration" EntityType="Self.GeneralConfiguration" Schema="Security" store:Type="Tables" />
+          <EntitySet Name="Group" EntityType="Self.Group" Schema="Security" store:Type="Tables" />
+          <EntitySet Name="PermissionCompany" EntityType="Self.PermissionCompany" Schema="Security" store:Type="Tables" />
+          <EntitySet Name="PermissionRoll" EntityType="Self.PermissionRoll" Schema="Security" store:Type="Tables" />
+          <EntitySet Name="PermissionUser" EntityType="Self.PermissionUser" Schema="Security" store:Type="Tables" />
+          <EntitySet Name="Person" EntityType="Self.Person" Schema="Security" store:Type="Tables" />
+          <EntitySet Name="Phone" EntityType="Self.Phone" Schema="Security" store:Type="Tables" />
+          <EntitySet Name="PhoneType" EntityType="Self.PhoneType" Schema="Security" store:Type="Tables" />
+          <EntitySet Name="Roll" EntityType="Self.Roll" Schema="Security" store:Type="Tables" />
+          <EntitySet Name="ServiceConfiguration" EntityType="Self.ServiceConfiguration" Schema="Security" store:Type="Tables" />
+          <EntitySet Name="Tenant" EntityType="Self.Tenant" Schema="Security" store:Type="Tables" />
+          <EntitySet Name="TenantContainer" EntityType="Self.TenantContainer" Schema="Security" store:Type="Tables" />
+          <EntitySet Name="User" EntityType="Self.User" Schema="Security" store:Type="Tables" />
+          <EntitySet Name="UserConfiguration" EntityType="Self.UserConfiguration" Schema="Security" store:Type="Tables" />
+          <EntitySet Name="UserOperatingUnit" EntityType="Self.UserOperatingUnit" Schema="Security" store:Type="Tables" />
+          <AssociationSet Name="FK_Address_Person" Association="Self.FK_Address_Person">
+            <End Role="Person" EntitySet="Person" />
+            <End Role="Address" EntitySet="Address" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ApplicationSettings_Containers" Association="Self.FK_ApplicationSettings_Containers">
+            <End Role="Containers" EntitySet="Containers" />
+            <End Role="ApplicationSettings" EntitySet="ApplicationSettings" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Containers_ServiceConfiguration" Association="Self.FK_Containers_ServiceConfiguration">
+            <End Role="ServiceConfiguration" EntitySet="ServiceConfiguration" />
+            <End Role="Containers" EntitySet="Containers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Email_Person" Association="Self.FK_Email_Person">
+            <End Role="Person" EntitySet="Person" />
+            <End Role="Email" EntitySet="Email" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FilePerson_Person" Association="Self.FK_FilePerson_Person">
+            <End Role="Person" EntitySet="Person" />
+            <End Role="FilePerson" EntitySet="FilePerson" />
+          </AssociationSet>
+          <AssociationSet Name="FK_GroupUser_User" Association="Self.FK_GroupUser_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="GroupUser" EntitySet="GroupUser" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MachineUpdatePackage_MachineUpdatePackage" Association="Self.FK_MachineUpdatePackage_MachineUpdatePackage">
+            <End Role="Machines" EntitySet="Machines" />
+            <End Role="MachineUpdatePackage" EntitySet="MachineUpdatePackage" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MachineUpdatePackage_UpdatePackage" Association="Self.FK_MachineUpdatePackage_UpdatePackage">
+            <End Role="UpdatePackage" EntitySet="UpdatePackage" />
+            <End Role="MachineUpdatePackage" EntitySet="MachineUpdatePackage" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PermissionCompany_Containers" Association="Self.FK_PermissionCompany_Containers">
+            <End Role="Containers" EntitySet="Containers" />
+            <End Role="PermissionCompany" EntitySet="PermissionCompany" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PermissionCompany_User" Association="Self.FK_PermissionCompany_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="PermissionCompany" EntitySet="PermissionCompany" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PermissionRoll_Roll" Association="Self.FK_PermissionRoll_Roll">
+            <End Role="Roll" EntitySet="Roll" />
+            <End Role="PermissionRoll" EntitySet="PermissionRoll" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PermissionUser_User" Association="Self.FK_PermissionUser_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="PermissionUser" EntitySet="PermissionUser" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Phone_Person" Association="Self.FK_Phone_Person">
+            <End Role="Person" EntitySet="Person" />
+            <End Role="Phone" EntitySet="Phone" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Phone_PhoneType" Association="Self.FK_Phone_PhoneType">
+            <End Role="PhoneType" EntitySet="PhoneType" />
+            <End Role="Phone" EntitySet="Phone" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TenantContainer_Container" Association="Self.FK_TenantContainer_Container">
+            <End Role="Containers" EntitySet="Containers" />
+            <End Role="TenantContainer" EntitySet="TenantContainer" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TenantContainer_Tenant" Association="Self.FK_TenantContainer_Tenant">
+            <End Role="Tenant" EntitySet="Tenant" />
+            <End Role="TenantContainer" EntitySet="TenantContainer" />
+          </AssociationSet>
+          <AssociationSet Name="FK_User_Group" Association="Self.FK_User_Group">
+            <End Role="Group" EntitySet="Group" />
+            <End Role="User" EntitySet="User" />
+          </AssociationSet>
+          <AssociationSet Name="FK_User_Person" Association="Self.FK_User_Person">
+            <End Role="Person" EntitySet="Person" />
+            <End Role="User" EntitySet="User" />
+          </AssociationSet>
+          <AssociationSet Name="FK_User_Roll" Association="Self.FK_User_Roll">
+            <End Role="Roll" EntitySet="Roll" />
+            <End Role="User" EntitySet="User" />
+          </AssociationSet>
+          <AssociationSet Name="FK_User_Tenant" Association="Self.FK_User_Tenant">
+            <End Role="Tenant" EntitySet="Tenant" />
+            <End Role="User" EntitySet="User" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserConfiguration_Containers" Association="Self.FK_UserConfiguration_Containers">
+            <End Role="Containers" EntitySet="Containers" />
+            <End Role="UserConfiguration" EntitySet="UserConfiguration" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserConfiguration_User" Association="Self.FK_UserConfiguration_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="UserConfiguration" EntitySet="UserConfiguration" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserOperatingUnit_Containers" Association="Self.FK_UserOperatingUnit_Containers">
+            <End Role="Containers" EntitySet="Containers" />
+            <End Role="UserOperatingUnit" EntitySet="UserOperatingUnit" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserOperatingUnit_User" Association="Self.FK_UserOperatingUnit_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="UserOperatingUnit" EntitySet="UserOperatingUnit" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UsersGroupUser_GroupUser" Association="Self.FK_UsersGroupUser_GroupUser">
+            <End Role="GroupUser" EntitySet="GroupUser" />
+            <End Role="UsersGroupUser" EntitySet="UsersGroupUser" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UsersGroupUser_User" Association="Self.FK_UsersGroupUser_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="UsersGroupUser" EntitySet="UsersGroupUser" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="GENESISSECURITYModel" Alias="Self" p1:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:p1="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="GenesisEntities" p1:LazyLoadingEnabled="true">
+          <EntitySet Name="Group" EntityType="GENESISSECURITYModel.Group" />
+          <EntitySet Name="PhoneType" EntityType="GENESISSECURITYModel.PhoneType" />
+          <EntitySet Name="Address" EntityType="GENESISSECURITYModel.Address" />
+          <EntitySet Name="Email" EntityType="GENESISSECURITYModel.Email" />
+          <EntitySet Name="FilePerson" EntityType="GENESISSECURITYModel.FilePerson" />
+          <EntitySet Name="Person" EntityType="GENESISSECURITYModel.Person" />
+          <EntitySet Name="Phone" EntityType="GENESISSECURITYModel.Phone" />
+          <AssociationSet Name="FK_Address_Person" Association="GENESISSECURITYModel.FK_Address_Person">
+            <End Role="Person" EntitySet="Person" />
+            <End Role="Address" EntitySet="Address" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Email_Person" Association="GENESISSECURITYModel.FK_Email_Person">
+            <End Role="Person" EntitySet="Person" />
+            <End Role="Email" EntitySet="Email" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FilePerson_Person" Association="GENESISSECURITYModel.FK_FilePerson_Person">
+            <End Role="Person" EntitySet="Person" />
+            <End Role="FilePerson" EntitySet="FilePerson" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Phone_Person" Association="GENESISSECURITYModel.FK_Phone_Person">
+            <End Role="Person" EntitySet="Person" />
+            <End Role="Phone" EntitySet="Phone" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Phone_PhoneType" Association="GENESISSECURITYModel.FK_Phone_PhoneType">
+            <End Role="PhoneType" EntitySet="PhoneType" />
+            <End Role="Phone" EntitySet="Phone" />
+          </AssociationSet>
+          <EntitySet Name="GroupUser" EntityType="GENESISSECURITYModel.GroupUser" />
+          <EntitySet Name="UsersGroupUser" EntityType="GENESISSECURITYModel.UsersGroupUser" />
+          <AssociationSet Name="FK_UsersGroupUser_GroupUser" Association="GENESISSECURITYModel.FK_UsersGroupUser_GroupUser">
+            <End Role="GroupUser" EntitySet="GroupUser" />
+            <End Role="UsersGroupUser" EntitySet="UsersGroupUser" />
+          </AssociationSet>
+          <FunctionImport Name="CreateBasicAuditData" ReturnType="Collection(GENESISSECURITYModel.CreateBasicAuditData_Result)">
+            <Parameter Name="Entity" Mode="In" Type="String" />
+            <Parameter Name="Form" Mode="In" Type="Int32" />
+            <Parameter Name="RegisterId" Mode="In" Type="String" />
+            <Parameter Name="UserName" Mode="In" Type="String" />
+            <Parameter Name="UserCode" Mode="In" Type="String" />
+            <Parameter Name="UserMachine" Mode="In" Type="String" />
+            <Parameter Name="Parameters" Mode="In" Type="String" />
+            <Parameter Name="ReportName" Mode="In" Type="String" />
+            <Parameter Name="Operation" Mode="In" Type="Byte" />
+            <Parameter Name="DateAudit" Mode="In" Type="DateTime" />
+            <Parameter Name="Company" Mode="In" Type="String" />
+            <Parameter Name="ContainerSecurity" Mode="In" Type="String" />
+            <Parameter Name="Count" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <EntitySet Name="Roll" EntityType="GENESISSECURITYModel.Roll" />
+          <EntitySet Name="PermissionCompany" EntityType="GENESISSECURITYModel.PermissionCompany" />
+          <EntitySet Name="UserOperatingUnit" EntityType="GENESISSECURITYModel.UserOperatingUnit" />
+          <EntitySet Name="PermissionRoll" EntityType="GENESISSECURITYModel.PermissionRoll" />
+          <EntitySet Name="PermissionUser" EntityType="GENESISSECURITYModel.PermissionUser" />
+          <AssociationSet Name="FK_PermissionRoll_Roll" Association="GENESISSECURITYModel.FK_PermissionRoll_Roll">
+            <End Role="Roll" EntitySet="Roll" />
+            <End Role="PermissionRoll" EntitySet="PermissionRoll" />
+          </AssociationSet>
+          <EntitySet Name="User" EntityType="GENESISSECURITYModel.User" />
+          <AssociationSet Name="FK_GroupUser_User" Association="GENESISSECURITYModel.FK_GroupUser_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="GroupUser" EntitySet="GroupUser" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UsersGroupUser_User" Association="GENESISSECURITYModel.FK_UsersGroupUser_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="UsersGroupUser" EntitySet="UsersGroupUser" />
+          </AssociationSet>
+          <AssociationSet Name="FK_User_Group" Association="GENESISSECURITYModel.FK_User_Group">
+            <End Role="Group" EntitySet="Group" />
+            <End Role="User" EntitySet="User" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PermissionCompany_User" Association="GENESISSECURITYModel.FK_PermissionCompany_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="PermissionCompany" EntitySet="PermissionCompany" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PermissionUser_User" Association="GENESISSECURITYModel.FK_PermissionUser_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="PermissionUser" EntitySet="PermissionUser" />
+          </AssociationSet>
+          <AssociationSet Name="FK_User_Person" Association="GENESISSECURITYModel.FK_User_Person">
+            <End Role="Person" EntitySet="Person" />
+            <End Role="User" EntitySet="User" />
+          </AssociationSet>
+          <AssociationSet Name="FK_User_Roll" Association="GENESISSECURITYModel.FK_User_Roll">
+            <End Role="Roll" EntitySet="Roll" />
+            <End Role="User" EntitySet="User" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserOperatingUnit_User" Association="GENESISSECURITYModel.FK_UserOperatingUnit_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="UserOperatingUnit" EntitySet="UserOperatingUnit" />
+          </AssociationSet>
+          <EntitySet Name="Machines" EntityType="GENESISSECURITYModel.Machines" />
+          <EntitySet Name="UpdatePackage" EntityType="GENESISSECURITYModel.UpdatePackage" />
+          <EntitySet Name="MachineUpdatePackage" EntityType="GENESISSECURITYModel.MachineUpdatePackage" />
+          <AssociationSet Name="FK_MachineUpdatePackage_MachineUpdatePackage" Association="GENESISSECURITYModel.FK_MachineUpdatePackage_MachineUpdatePackage">
+            <End Role="Machines" EntitySet="Machines" />
+            <End Role="MachineUpdatePackage" EntitySet="MachineUpdatePackage" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MachineUpdatePackage_UpdatePackage" Association="GENESISSECURITYModel.FK_MachineUpdatePackage_UpdatePackage">
+            <End Role="UpdatePackage" EntitySet="UpdatePackage" />
+            <End Role="MachineUpdatePackage" EntitySet="MachineUpdatePackage" />
+          </AssociationSet>
+          <EntitySet Name="Containers" EntityType="GENESISSECURITYModel.Containers" />
+          <AssociationSet Name="FK_PermissionCompany_Containers" Association="GENESISSECURITYModel.FK_PermissionCompany_Containers">
+            <End Role="Containers" EntitySet="Containers" />
+            <End Role="PermissionCompany" EntitySet="PermissionCompany" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserOperatingUnit_Containers" Association="GENESISSECURITYModel.FK_UserOperatingUnit_Containers">
+            <End Role="Containers" EntitySet="Containers" />
+            <End Role="UserOperatingUnit" EntitySet="UserOperatingUnit" />
+          </AssociationSet>
+          <EntitySet Name="ServiceConfiguration" EntityType="GENESISSECURITYModel.ServiceConfiguration" />
+          <AssociationSet Name="FK_Containers_ServiceConfiguration" Association="GENESISSECURITYModel.FK_Containers_ServiceConfiguration">
+            <End Role="ServiceConfiguration" EntitySet="ServiceConfiguration" />
+            <End Role="Containers" EntitySet="Containers" />
+          </AssociationSet>
+          <EntitySet Name="ApplicationSettings" EntityType="GENESISSECURITYModel.ApplicationSettings" />
+          <EntitySet Name="GeneralConfiguration" EntityType="GENESISSECURITYModel.GeneralConfiguration" />
+          <EntitySet Name="Tenant" EntityType="GENESISSECURITYModel.Tenant" />
+          <EntitySet Name="TenantContainer" EntityType="GENESISSECURITYModel.TenantContainer" />
+          <EntitySet Name="UserConfiguration" EntityType="GENESISSECURITYModel.UserConfiguration" />
+          <AssociationSet Name="FK_ApplicationSettings_Containers" Association="GENESISSECURITYModel.FK_ApplicationSettings_Containers">
+            <End Role="Containers" EntitySet="Containers" />
+            <End Role="ApplicationSettings" EntitySet="ApplicationSettings" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TenantContainer_Container" Association="GENESISSECURITYModel.FK_TenantContainer_Container">
+            <End Role="Containers" EntitySet="Containers" />
+            <End Role="TenantContainer" EntitySet="TenantContainer" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserConfiguration_Containers" Association="GENESISSECURITYModel.FK_UserConfiguration_Containers">
+            <End Role="Containers" EntitySet="Containers" />
+            <End Role="UserConfiguration" EntitySet="UserConfiguration" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TenantContainer_Tenant" Association="GENESISSECURITYModel.FK_TenantContainer_Tenant">
+            <End Role="Tenant" EntitySet="Tenant" />
+            <End Role="TenantContainer" EntitySet="TenantContainer" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserConfiguration_User" Association="GENESISSECURITYModel.FK_UserConfiguration_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="UserConfiguration" EntitySet="UserConfiguration" />
+          </AssociationSet>
+          <AssociationSet Name="FK_User_Tenant" Association="GENESISSECURITYModel.FK_User_Tenant">
+            <End Role="Tenant" EntitySet="Tenant" />
+            <End Role="User" EntitySet="User" />
+          </AssociationSet>
+          </EntityContainer>
+        <EntityType Name="Group">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="Code" Type="String" Nullable="false" MaxLength="3" Unicode="false" FixedLength="false" />
+          <Property Name="Description" Type="String" Nullable="false" MaxLength="60" Unicode="false" FixedLength="false" />
+          <Property Name="TimeStamp" Type="Binary" Nullable="false" MaxLength="8" FixedLength="true" p1:StoreGeneratedPattern="Computed" ConcurrencyMode="Fixed" />
+          <Property Name="State" Type="Boolean" Nullable="false" />
+          <Property Name="Synchronized" Type="String" Nullable="false" MaxLength="1" Unicode="false" FixedLength="false" />
+          <NavigationProperty Name="User" Relationship="GENESISSECURITYModel.FK_User_Group" FromRole="Group" ToRole="User" />
+        </EntityType>
+        <EntityType Name="PhoneType">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int16" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="Code" Type="String" Nullable="false" MaxLength="1" Unicode="false" FixedLength="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="30" Unicode="false" FixedLength="false" />
+          <Property Name="State" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Phone" Relationship="GENESISSECURITYModel.FK_Phone_PhoneType" FromRole="PhoneType" ToRole="Phone" />
+        </EntityType>
+        <EntityType Name="Address">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="IdPerson" Nullable="false" />
+          <Property Type="String" Name="Addresss" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Type="Boolean" Name="State" Nullable="false" />
+          <NavigationProperty Name="Person" Relationship="GENESISSECURITYModel.FK_Address_Person" FromRole="Address" ToRole="Person" />
+        </EntityType>
+        <EntityType Name="Email">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="IdPerson" Nullable="false" />
+          <Property Type="String" Name="Email1" Nullable="false" MaxLength="60" FixedLength="false" Unicode="false" />
+          <Property Type="Boolean" Name="State" Nullable="false" />
+          <NavigationProperty Name="Person" Relationship="GENESISSECURITYModel.FK_Email_Person" FromRole="Email" ToRole="Person" />
+        </EntityType>
+        <EntityType Name="FilePerson">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="IdPerson" Nullable="false" />
+          <Property Type="Binary" Name="Photo" MaxLength="Max" FixedLength="false" />
+          <Property Type="Binary" Name="Signature" MaxLength="Max" FixedLength="false" />
+          <Property Type="Binary" Name="TimeStamp" Nullable="false" MaxLength="8" FixedLength="true" p1:StoreGeneratedPattern="Computed" ConcurrencyMode="Fixed" />
+          <Property Type="Boolean" Name="State" Nullable="false" />
+          <NavigationProperty Name="Person" Relationship="GENESISSECURITYModel.FK_FilePerson_Person" FromRole="FilePerson" ToRole="Person" />
+        </EntityType>
+        <EntityType Name="Person">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Identification" Nullable="false" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Type="Int16" Name="IdentificationType" Nullable="false" />
+          <Property Type="String" Name="FirstName" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="SecondName" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="FirstLastName" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="SecondLastName" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="Fullname" Nullable="false" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Type="DateTime" Name="BirthDay" Precision="3" />
+          <Property Type="Binary" Name="Fingerprint" MaxLength="Max" FixedLength="false" />
+          <Property Type="Int16" Name="Gender" Nullable="false" />
+          <Property Type="Boolean" Name="State" Nullable="false" />
+          <NavigationProperty Name="Address" Relationship="GENESISSECURITYModel.FK_Address_Person" FromRole="Person" ToRole="Address" />
+          <NavigationProperty Name="Email" Relationship="GENESISSECURITYModel.FK_Email_Person" FromRole="Person" ToRole="Email" />
+          <NavigationProperty Name="FilePerson" Relationship="GENESISSECURITYModel.FK_FilePerson_Person" FromRole="Person" ToRole="FilePerson" />
+          <NavigationProperty Name="Phone" Relationship="GENESISSECURITYModel.FK_Phone_Person" FromRole="Person" ToRole="Phone" />
+          <NavigationProperty Name="User" Relationship="GENESISSECURITYModel.FK_User_Person" FromRole="Person" ToRole="User" />
+        </EntityType>
+        <EntityType Name="Phone">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="IdPerson" Nullable="false" />
+          <Property Type="String" Name="Phone1" Nullable="false" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Type="Int16" Name="IdPhoneType" Nullable="false" />
+          <Property Type="Boolean" Name="State" Nullable="false" />
+          <NavigationProperty Name="Person" Relationship="GENESISSECURITYModel.FK_Phone_Person" FromRole="Phone" ToRole="Person" />
+          <NavigationProperty Name="PhoneType" Relationship="GENESISSECURITYModel.FK_Phone_PhoneType" FromRole="Phone" ToRole="PhoneType" />
+        </EntityType>
+        <Association Name="FK_Address_Person">
+          <End Type="GENESISSECURITYModel.Person" Role="Person" Multiplicity="1" />
+          <End Type="GENESISSECURITYModel.Address" Role="Address" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Person">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Address">
+              <PropertyRef Name="IdPerson" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Email_Person">
+          <End Type="GENESISSECURITYModel.Person" Role="Person" Multiplicity="1" />
+          <End Type="GENESISSECURITYModel.Email" Role="Email" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Person">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Email">
+              <PropertyRef Name="IdPerson" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FilePerson_Person">
+          <End Type="GENESISSECURITYModel.Person" Role="Person" Multiplicity="1" />
+          <End Type="GENESISSECURITYModel.FilePerson" Role="FilePerson" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Person">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="FilePerson">
+              <PropertyRef Name="IdPerson" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Phone_Person">
+          <End Type="GENESISSECURITYModel.Person" Role="Person" Multiplicity="1" />
+          <End Type="GENESISSECURITYModel.Phone" Role="Phone" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Person">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Phone">
+              <PropertyRef Name="IdPerson" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Phone_PhoneType">
+          <End Type="GENESISSECURITYModel.PhoneType" Role="PhoneType" Multiplicity="1" />
+          <End Type="GENESISSECURITYModel.Phone" Role="Phone" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PhoneType">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Phone">
+              <PropertyRef Name="IdPhoneType" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="GroupUser">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="IdUser" Nullable="false" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="UsersGroupUser" Relationship="GENESISSECURITYModel.FK_UsersGroupUser_GroupUser" FromRole="GroupUser" ToRole="UsersGroupUser" />
+          <NavigationProperty Name="User" Relationship="GENESISSECURITYModel.FK_GroupUser_User" FromRole="GroupUser" ToRole="User" />
+        </EntityType>
+        <EntityType Name="UsersGroupUser">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="IdGroupUser" Nullable="false" />
+          <Property Type="Int32" Name="IdUser" Nullable="false" />
+          <NavigationProperty Name="GroupUser" Relationship="GENESISSECURITYModel.FK_UsersGroupUser_GroupUser" FromRole="UsersGroupUser" ToRole="GroupUser" />
+          <NavigationProperty Name="User" Relationship="GENESISSECURITYModel.FK_UsersGroupUser_User" FromRole="UsersGroupUser" ToRole="User" />
+        </EntityType>
+        <Association Name="FK_UsersGroupUser_GroupUser">
+          <End Type="GENESISSECURITYModel.GroupUser" Role="GroupUser" Multiplicity="1" />
+          <End Type="GENESISSECURITYModel.UsersGroupUser" Role="UsersGroupUser" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GroupUser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="UsersGroupUser">
+              <PropertyRef Name="IdGroupUser" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <ComplexType Name="CreateBasicAuditData_Result">
+          <Property Type="String" Name="Mensaje" Nullable="false" MaxLength="33" />
+          <Property Type="Int32" Name="CodigoMensaje" Nullable="false" />
+          <Property Type="String" Name="Estado" Nullable="false" MaxLength="4" />
+        </ComplexType>
+        <EntityType Name="Roll">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="RollCode" Type="String" Nullable="false" MaxLength="3" FixedLength="true" Unicode="false" />
+          <Property Name="Description" Type="String" Nullable="false" MaxLength="60" FixedLength="false" Unicode="false" />
+          <Property Name="TimeStamp" Type="Binary" Nullable="false" MaxLength="8" FixedLength="true" p1:StoreGeneratedPattern="Computed" ConcurrencyMode="Fixed" />
+          <NavigationProperty Name="PermissionRoll" Relationship="GENESISSECURITYModel.FK_PermissionRoll_Roll" FromRole="Roll" ToRole="PermissionRoll" />
+          <NavigationProperty Name="User" Relationship="GENESISSECURITYModel.FK_User_Roll" FromRole="Roll" ToRole="User" />
+        </EntityType>
+        <EntityType Name="PermissionCompany">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="IdUser" Nullable="false" />
+          <Property Type="Int32" Name="IdContainer" Nullable="false" />
+          <Property Type="Int32" Name="IdOperatingUnitDefault" Nullable="false" />
+          <Property Type="Boolean" Name="Permission" Nullable="false" />
+          <NavigationProperty Name="User" Relationship="GENESISSECURITYModel.FK_PermissionCompany_User" FromRole="PermissionCompany" ToRole="User" />
+          <NavigationProperty Name="Containers" Relationship="GENESISSECURITYModel.FK_PermissionCompany_Containers" FromRole="PermissionCompany" ToRole="Containers" />
+        </EntityType>
+        <EntityType Name="UserOperatingUnit">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="IdUser" Nullable="false" />
+          <Property Type="Int32" Name="IdContainer" Nullable="false" />
+          <Property Type="Int32" Name="IdOperatingUnit" Nullable="false" />
+          <Property Type="Boolean" Name="Status" Nullable="false" />
+          <NavigationProperty Name="User" Relationship="GENESISSECURITYModel.FK_UserOperatingUnit_User" FromRole="UserOperatingUnit" ToRole="User" />
+          <NavigationProperty Name="Containers" Relationship="GENESISSECURITYModel.FK_UserOperatingUnit_Containers" FromRole="UserOperatingUnit" ToRole="Containers" />
+        </EntityType>
+        <EntityType Name="PermissionRoll">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="IdRoll" Type="Int32" Nullable="false" />
+          <Property Name="IdForm" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="Action" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="ActionValue" Type="Boolean" Nullable="false" />
+          <Property Name="TimeStamp" Type="Binary" Nullable="false" MaxLength="8" FixedLength="true" p1:StoreGeneratedPattern="Computed" ConcurrencyMode="Fixed" />
+          <NavigationProperty Name="Roll" Relationship="GENESISSECURITYModel.FK_PermissionRoll_Roll" FromRole="PermissionRoll" ToRole="Roll" />
+        </EntityType>
+        <EntityType Name="PermissionUser">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="IdUser" Type="Int32" Nullable="false" />
+          <Property Name="IdForm" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="Action" Type="String" Nullable="false" MaxLength="3" FixedLength="false" Unicode="false" />
+          <Property Name="ActionValue" Type="Boolean" Nullable="false" />
+          <Property Name="TimeStamp" Type="Binary" Nullable="false" MaxLength="8" FixedLength="true" p1:StoreGeneratedPattern="Computed" ConcurrencyMode="Fixed" />
+          <NavigationProperty Name="User" Relationship="GENESISSECURITYModel.FK_PermissionUser_User" FromRole="PermissionUser" ToRole="User" />
+        </EntityType>
+        <Association Name="FK_PermissionRoll_Roll">
+          <End Type="GENESISSECURITYModel.Roll" Role="Roll" Multiplicity="1" />
+          <End Type="GENESISSECURITYModel.PermissionRoll" Role="PermissionRoll" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Roll">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PermissionRoll">
+              <PropertyRef Name="IdRoll" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="IdPerson" Nullable="false" />
+          <Property Type="String" Name="UserCode" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Type="Int32" Name="RollCode" Nullable="false" />
+          <Property Type="Int32" Name="GroupCode" Nullable="false" />
+          <Property Type="String" Name="Position" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="UserType" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Type="Boolean" Name="ChangePassword" />
+          <Property Type="Int32" Name="DaysChangePassword" />
+          <Property Type="DateTime" Name="DateLastChangePassword" Precision="3" />
+          <Property Type="DateTime" Name="DateExpiryAccount" Precision="3" />
+          <Property Type="Binary" Name="TimeStamp" Nullable="false" MaxLength="8" FixedLength="true" p1:StoreGeneratedPattern="Computed" ConcurrencyMode="Fixed" />
+          <Property Type="String" Name="Password" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="Boolean" Name="State" Nullable="false" />
+          <Property Type="String" Name="UserNameLync" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="AddressSingInLync" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="PasswordLync" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="PersonalNote" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Type="Boolean" Name="ViewForm" Nullable="false" />
+          <Property Type="String" Name="CodeInterface" MaxLength="12" FixedLength="false" Unicode="false" />
+          <Property Type="Boolean" Name="IsLockedOut" Nullable="false" />
+          <Property Type="Int32" Name="FailedPasswordCount" Nullable="false" />
+          <NavigationProperty Name="GroupUser" Relationship="GENESISSECURITYModel.FK_GroupUser_User" FromRole="User" ToRole="GroupUser" />
+          <NavigationProperty Name="UsersGroupUser" Relationship="GENESISSECURITYModel.FK_UsersGroupUser_User" FromRole="User" ToRole="UsersGroupUser" />
+          <NavigationProperty Name="Group" Relationship="GENESISSECURITYModel.FK_User_Group" FromRole="User" ToRole="Group" />
+          <NavigationProperty Name="PermissionCompany" Relationship="GENESISSECURITYModel.FK_PermissionCompany_User" FromRole="User" ToRole="PermissionCompany" />
+          <NavigationProperty Name="PermissionUser" Relationship="GENESISSECURITYModel.FK_PermissionUser_User" FromRole="User" ToRole="PermissionUser" />
+          <NavigationProperty Name="Person" Relationship="GENESISSECURITYModel.FK_User_Person" FromRole="User" ToRole="Person" />
+          <NavigationProperty Name="Roll" Relationship="GENESISSECURITYModel.FK_User_Roll" FromRole="User" ToRole="Roll" />
+          <NavigationProperty Name="UserOperatingUnit" Relationship="GENESISSECURITYModel.FK_UserOperatingUnit_User" FromRole="User" ToRole="UserOperatingUnit" />
+          <NavigationProperty Name="UserConfiguration" Relationship="GENESISSECURITYModel.FK_UserConfiguration_User" FromRole="User" ToRole="UserConfiguration" />
+          <Property Name="TenantId" Type="Int16" />
+          <NavigationProperty Name="Tenant" Relationship="GENESISSECURITYModel.FK_User_Tenant" FromRole="User" ToRole="Tenant" />
+        </EntityType>
+        <Association Name="FK_GroupUser_User">
+          <End Type="GENESISSECURITYModel.User" Role="User" Multiplicity="1" />
+          <End Type="GENESISSECURITYModel.GroupUser" Role="GroupUser" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="GroupUser">
+              <PropertyRef Name="IdUser" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UsersGroupUser_User">
+          <End Type="GENESISSECURITYModel.User" Role="User" Multiplicity="1" />
+          <End Type="GENESISSECURITYModel.UsersGroupUser" Role="UsersGroupUser" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="UsersGroupUser">
+              <PropertyRef Name="IdUser" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_User_Group">
+          <End Type="GENESISSECURITYModel.Group" Role="Group" Multiplicity="1" />
+          <End Type="GENESISSECURITYModel.User" Role="User" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Group">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="User">
+              <PropertyRef Name="GroupCode" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PermissionCompany_User">
+          <End Type="GENESISSECURITYModel.User" Role="User" Multiplicity="1" />
+          <End Type="GENESISSECURITYModel.PermissionCompany" Role="PermissionCompany" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PermissionCompany">
+              <PropertyRef Name="IdUser" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PermissionUser_User">
+          <End Type="GENESISSECURITYModel.User" Role="User" Multiplicity="1" />
+          <End Type="GENESISSECURITYModel.PermissionUser" Role="PermissionUser" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PermissionUser">
+              <PropertyRef Name="IdUser" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_User_Person">
+          <End Type="GENESISSECURITYModel.Person" Role="Person" Multiplicity="1" />
+          <End Type="GENESISSECURITYModel.User" Role="User" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Person">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="User">
+              <PropertyRef Name="IdPerson" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_User_Roll">
+          <End Type="GENESISSECURITYModel.Roll" Role="Roll" Multiplicity="1" />
+          <End Type="GENESISSECURITYModel.User" Role="User" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Roll">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="User">
+              <PropertyRef Name="RollCode" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserOperatingUnit_User">
+          <End Type="GENESISSECURITYModel.User" Role="User" Multiplicity="1" />
+          <End Type="GENESISSECURITYModel.UserOperatingUnit" Role="UserOperatingUnit" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="UserOperatingUnit">
+              <PropertyRef Name="IdUser" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Machines">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="UID" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="NickName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="ClientVersion" Type="String" MaxLength="12" FixedLength="false" Unicode="false" />
+          <Property Name="OSName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Architecture" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="IPs" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="MACs" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="RegDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="LastUpDate" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="MachineUpdatePackage" Relationship="GENESISSECURITYModel.FK_MachineUpdatePackage_MachineUpdatePackage" FromRole="Machines" ToRole="MachineUpdatePackage" />
+        </EntityType>
+        <EntityType Name="UpdatePackage">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="NumberVersion" Type="Int32" Nullable="false" />
+          <Property Name="PackageVersion" Type="String" Nullable="false" MaxLength="12" FixedLength="false" Unicode="false" />
+          <Property Name="Description" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="BuildDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="CreationDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="PackageFileName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Status" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="MachineUpdatePackage" Relationship="GENESISSECURITYModel.FK_MachineUpdatePackage_UpdatePackage" FromRole="UpdatePackage" ToRole="MachineUpdatePackage" />
+        </EntityType>
+        <EntityType Name="MachineUpdatePackage">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="IdMachine" Type="Int32" Nullable="false" />
+          <Property Name="IdUpdatePackage" Type="Int32" Nullable="false" />
+          <Property Name="UpgradeDate" Type="DateTime" Precision="3" />
+          <Property Name="UpgradedDate" Type="DateTime" Precision="3" />
+          <Property Name="Upgraded" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Machines" Relationship="GENESISSECURITYModel.FK_MachineUpdatePackage_MachineUpdatePackage" FromRole="MachineUpdatePackage" ToRole="Machines" />
+          <NavigationProperty Name="UpdatePackage" Relationship="GENESISSECURITYModel.FK_MachineUpdatePackage_UpdatePackage" FromRole="MachineUpdatePackage" ToRole="UpdatePackage" />
+        </EntityType>
+        <Association Name="FK_MachineUpdatePackage_MachineUpdatePackage">
+          <End Type="GENESISSECURITYModel.Machines" Role="Machines" Multiplicity="1" />
+          <End Type="GENESISSECURITYModel.MachineUpdatePackage" Role="MachineUpdatePackage" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Machines">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="MachineUpdatePackage">
+              <PropertyRef Name="IdMachine" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MachineUpdatePackage_UpdatePackage">
+          <End Type="GENESISSECURITYModel.UpdatePackage" Role="UpdatePackage" Multiplicity="1" />
+          <End Type="GENESISSECURITYModel.MachineUpdatePackage" Role="MachineUpdatePackage" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UpdatePackage">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="MachineUpdatePackage">
+              <PropertyRef Name="IdUpdatePackage" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Containers">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Code" Type="String" Nullable="false" MaxLength="2" FixedLength="false" Unicode="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+		  <Property Name="FoundationalContainer" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="TransactionalContainer" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="DocumentalContainer" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="VituelContainer" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="HISContainer" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="InteropCostContainer" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="HISIntegration" Type="Byte" Nullable="false" />
+          <Property Name="GlossesIntegration" Type="Byte" Nullable="false" />
+          <Property Name="PayrollIntegration" Type="Byte" Nullable="false" />
+          <Property Name="HumanTalentIntegration" Type="Byte" Nullable="false" />
+          <Property Name="CompanyType" Type="Byte" Nullable="false" />
+          <Property Name="CompanyNit" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="RepresentationLegal" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="City" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Address" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Telephone" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="ProductionCompany" Type="Boolean" Nullable="false" />
+          <Property Name="KeyCode" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="LyncIntegration" Type="Boolean" Nullable="false" />
+          <Property Name="Version" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="State" Type="Boolean" Nullable="false" />
+          <Property Name="DispensingIntegration" Type="Byte" Nullable="false" />
+          <Property Name="VerificationDigitNit" Type="String" MaxLength="3" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="PermissionCompany" Relationship="GENESISSECURITYModel.FK_PermissionCompany_Containers" FromRole="Containers" ToRole="PermissionCompany" />
+          <NavigationProperty Name="UserOperatingUnit" Relationship="GENESISSECURITYModel.FK_UserOperatingUnit_Containers" FromRole="Containers" ToRole="UserOperatingUnit" />
+          <Property Name="ArchitectureType" Type="Byte" />
+          <Property Name="CloudType" Type="Byte" />
+          <Property Name="Multitenant" Type="Boolean" />
+          <Property Name="SuscriptionID" Type="Guid" />
+          <Property Name="BranchOffices" Type="Byte" />
+          <Property Name="ServiceConfigurationId" Type="Byte" />
+          <NavigationProperty Name="ServiceConfiguration" Relationship="GENESISSECURITYModel.FK_Containers_ServiceConfiguration" FromRole="Containers" ToRole="ServiceConfiguration" />
+          <NavigationProperty Name="ApplicationSettings" Relationship="GENESISSECURITYModel.FK_ApplicationSettings_Containers" FromRole="Containers" ToRole="ApplicationSettings" />
+          <NavigationProperty Name="TenantContainer" Relationship="GENESISSECURITYModel.FK_TenantContainer_Container" FromRole="Containers" ToRole="TenantContainer" />
+          <NavigationProperty Name="UserConfiguration" Relationship="GENESISSECURITYModel.FK_UserConfiguration_Containers" FromRole="Containers" ToRole="UserConfiguration" />
+        </EntityType>
+        <Association Name="FK_PermissionCompany_Containers">
+          <End Type="GENESISSECURITYModel.Containers" Role="Containers" Multiplicity="1" />
+          <End Type="GENESISSECURITYModel.PermissionCompany" Role="PermissionCompany" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Containers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PermissionCompany">
+              <PropertyRef Name="IdContainer" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserOperatingUnit_Containers">
+          <End Type="GENESISSECURITYModel.Containers" Role="Containers" Multiplicity="1" />
+          <End Type="GENESISSECURITYModel.UserOperatingUnit" Role="UserOperatingUnit" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Containers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="UserOperatingUnit">
+              <PropertyRef Name="IdContainer" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="ServiceConfiguration">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Byte" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="EntityServiceProtocol" Type="Byte" Nullable="false" />
+          <Property Name="XPOServiceProtocol" Type="Byte" Nullable="false" />
+          <Property Name="DocumentServiceProtocol" Type="Byte" Nullable="false" />
+          <Property Name="IndexingServiceProtocol" Type="Byte" Nullable="false" />
+          <Property Name="EntityServiceURL" Type="String" Nullable="false" MaxLength="300" FixedLength="false" Unicode="false" />
+          <Property Name="XPOServiceURL" Type="String" Nullable="false" MaxLength="300" FixedLength="false" Unicode="false" />
+          <Property Name="DocumentServiceURL" Type="String" Nullable="false" MaxLength="300" FixedLength="false" Unicode="false" />
+          <Property Name="IndexingServiceURL" Type="String" Nullable="false" MaxLength="300" FixedLength="false" Unicode="false" />
+          <Property Name="NotificationServiceURL" Type="String" Nullable="false" MaxLength="300" FixedLength="false" Unicode="false" />
+          <Property Name="EHRWebServiceProtocol" Type="Byte" Nullable="false" />
+          <Property Name="EHREntityServiceProtocol" Type="Byte" Nullable="false" />
+          <Property Name="EHRWebServiceURL" Type="String" Nullable="false" MaxLength="300" FixedLength="false" Unicode="false" />
+          <Property Name="EHREntityServiceURL" Type="String" Nullable="false" MaxLength="300" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Containers" Relationship="GENESISSECURITYModel.FK_Containers_ServiceConfiguration" FromRole="ServiceConfiguration" ToRole="Containers" />
+          <Property Name="AppFunctionURL" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
+          <Property Name="FunctionKey1" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="FunctionKey2" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="FunctionKey3" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="FunctionKey4" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="FunctionKey5" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="FunctionKey6" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="FunctionKey7" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="FunctionKey8" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <Association Name="FK_Containers_ServiceConfiguration">
+          <End Type="GENESISSECURITYModel.ServiceConfiguration" Role="ServiceConfiguration" Multiplicity="0..1" />
+          <End Type="GENESISSECURITYModel.Containers" Role="Containers" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ServiceConfiguration">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Containers">
+              <PropertyRef Name="ServiceConfigurationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="ApplicationSettings">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int16" Nullable="false" />
+          <Property Name="ContainerId" Type="Int32" Nullable="false" />
+          <Property Name="CacheServerName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CachePort" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="NombreCache" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="DuraccionCacheCorta" Type="Int16" Nullable="false" />
+          <Property Name="DuraccionCacheMedia" Type="Int16" Nullable="false" />
+          <Property Name="DuraccionCacheLarga" Type="Int16" Nullable="false" />
+          <Property Name="ServidorMongo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="BaseDatosMongo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CachedEnable" Type="Boolean" Nullable="false" />
+          <Property Name="NewServices" Type="Boolean" Nullable="false" />
+          <Property Name="ChangeMessageBox" Type="String" Nullable="false" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="UrlServiceDispensing" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Containers" Relationship="GENESISSECURITYModel.FK_ApplicationSettings_Containers" FromRole="ApplicationSettings" ToRole="Containers" />
+        </EntityType>
+        <EntityType Name="GeneralConfiguration">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int16" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="HISAssemblyFileName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Tenant" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="SignUpSignIn" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="ClientId" Type="Guid" />
+          <Property Name="RedirectUri" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
+          <Property Name="SessionLogoutUrl" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
+          <Property Name="AppFunctionURL" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
+          <Property Name="FunctionKey1" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="FunctionKey2" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="PasswordReset" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="Tenant">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int16" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="TenantContainer" Relationship="GENESISSECURITYModel.FK_TenantContainer_Tenant" FromRole="Tenant" ToRole="TenantContainer" />
+          <NavigationProperty Name="User" Relationship="GENESISSECURITYModel.FK_User_Tenant" FromRole="Tenant" ToRole="User" />
+          <Property Name="Status" Type="Byte" />
+          <Property Name="WorkFlowStatus" Type="Byte" />
+          <Property Name="CompanyType" Type="Byte" />
+          <Property Name="CompanyNit" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="RepresentationLegal" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="City" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Address" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Telephone" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="KeyCode" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="CloudType" Type="Byte" />
+          <Property Name="AuthenticationType" Type="Byte" />
+          <Property Name="TimeStamp" Type="Binary" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" />
+        </EntityType>
+        <EntityType Name="TenantContainer">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" />
+          <Property Name="TenantId" Type="Int16" Nullable="false" />
+          <Property Name="ContainerId" Type="Int32" Nullable="false" />
+          <Property Name="Principal" Type="Boolean" Nullable="false" />
+          <Property Name="State" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Containers" Relationship="GENESISSECURITYModel.FK_TenantContainer_Container" FromRole="TenantContainer" ToRole="Containers" />
+          <NavigationProperty Name="Tenant" Relationship="GENESISSECURITYModel.FK_TenantContainer_Tenant" FromRole="TenantContainer" ToRole="Tenant" />
+        </EntityType>
+        <EntityType Name="UserConfiguration">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserId" Type="Int32" Nullable="false" />
+          <Property Name="ShowThemeSkinSelector" Type="Boolean" Nullable="false" />
+          <Property Name="ReporteadorActivo" Type="Boolean" Nullable="false" />
+          <Property Name="LightweightVersion" Type="Boolean" Nullable="false" />
+          <Property Name="CustomReportPath" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="ActualCity" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="LanguageCulture" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="DefaultCompany" Type="Int32" />
+          <NavigationProperty Name="Containers" Relationship="GENESISSECURITYModel.FK_UserConfiguration_Containers" FromRole="UserConfiguration" ToRole="Containers" />
+          <NavigationProperty Name="User" Relationship="GENESISSECURITYModel.FK_UserConfiguration_User" FromRole="UserConfiguration" ToRole="User" />
+          <Property Name="Dashboard" Type="Byte" />
+          <Property Name="SideFace" Type="Byte" />
+          <Property Name="CenterAttention" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="FunctionalUnit" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="NameCareCenter" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="FunctionalUnitName" Type="String" MaxLength="60" FixedLength="false" Unicode="false" />
+          <Property Name="TypeFunctionalUnit" Type="Int32" />
+          <Property Name="RoleCode" Type="String" MaxLength="3" FixedLength="false" Unicode="false" />
+          <Property Name="GroupCode" Type="String" MaxLength="3" FixedLength="false" Unicode="false" />
+          <Property Name="DefaultConfiguration" Type="Boolean" />
+        </EntityType>
+        <Association Name="FK_ApplicationSettings_Containers">
+          <End Type="GENESISSECURITYModel.Containers" Role="Containers" Multiplicity="1" />
+          <End Type="GENESISSECURITYModel.ApplicationSettings" Role="ApplicationSettings" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Containers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ApplicationSettings">
+              <PropertyRef Name="ContainerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TenantContainer_Container">
+          <End Type="GENESISSECURITYModel.Containers" Role="Containers" Multiplicity="1" />
+          <End Type="GENESISSECURITYModel.TenantContainer" Role="TenantContainer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Containers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="TenantContainer">
+              <PropertyRef Name="ContainerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserConfiguration_Containers">
+          <End Type="GENESISSECURITYModel.Containers" Role="Containers" Multiplicity="0..1" />
+          <End Type="GENESISSECURITYModel.UserConfiguration" Role="UserConfiguration" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Containers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="UserConfiguration">
+              <PropertyRef Name="DefaultCompany" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TenantContainer_Tenant">
+          <End Type="GENESISSECURITYModel.Tenant" Role="Tenant" Multiplicity="1" />
+          <End Type="GENESISSECURITYModel.TenantContainer" Role="TenantContainer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tenant">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="TenantContainer">
+              <PropertyRef Name="TenantId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserConfiguration_User">
+          <End Type="GENESISSECURITYModel.User" Role="User" Multiplicity="1" />
+          <End Type="GENESISSECURITYModel.UserConfiguration" Role="UserConfiguration" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="UserConfiguration">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_User_Tenant">
+          <End Type="GENESISSECURITYModel.Tenant" Role="Tenant" Multiplicity="0..1" />
+          <End Type="GENESISSECURITYModel.User" Role="User" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tenant">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="User">
+              <PropertyRef Name="TenantId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="GENESISSECURITYModelStoreContainer" CdmEntityContainer="GenesisEntities">
+          <EntitySetMapping Name="Group">
+            <EntityTypeMapping TypeName="GENESISSECURITYModel.Group">
+              <MappingFragment StoreEntitySet="Group">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="TimeStamp" ColumnName="TimeStamp" />
+                <ScalarProperty Name="State" ColumnName="State" />
+                <ScalarProperty Name="Synchronized" ColumnName="Synchronized" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PhoneType">
+            <EntityTypeMapping TypeName="GENESISSECURITYModel.PhoneType">
+              <MappingFragment StoreEntitySet="PhoneType">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="State" ColumnName="State" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Address">
+            <EntityTypeMapping TypeName="GENESISSECURITYModel.Address">
+              <MappingFragment StoreEntitySet="Address">
+                <ScalarProperty Name="State" ColumnName="State" />
+                <ScalarProperty Name="Addresss" ColumnName="Addresss" />
+                <ScalarProperty Name="IdPerson" ColumnName="IdPerson" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Email">
+            <EntityTypeMapping TypeName="GENESISSECURITYModel.Email">
+              <MappingFragment StoreEntitySet="Email">
+                <ScalarProperty Name="State" ColumnName="State" />
+                <ScalarProperty Name="Email1" ColumnName="Email" />
+                <ScalarProperty Name="IdPerson" ColumnName="IdPerson" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FilePerson">
+            <EntityTypeMapping TypeName="GENESISSECURITYModel.FilePerson">
+              <MappingFragment StoreEntitySet="FilePerson">
+                <ScalarProperty Name="State" ColumnName="State" />
+                <ScalarProperty Name="TimeStamp" ColumnName="TimeStamp" />
+                <ScalarProperty Name="Signature" ColumnName="Signature" />
+                <ScalarProperty Name="Photo" ColumnName="Photo" />
+                <ScalarProperty Name="IdPerson" ColumnName="IdPerson" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Person">
+            <EntityTypeMapping TypeName="GENESISSECURITYModel.Person">
+              <MappingFragment StoreEntitySet="Person">
+                <ScalarProperty Name="State" ColumnName="State" />
+                <ScalarProperty Name="Gender" ColumnName="Gender" />
+                <ScalarProperty Name="Fingerprint" ColumnName="Fingerprint" />
+                <ScalarProperty Name="BirthDay" ColumnName="BirthDay" />
+                <ScalarProperty Name="Fullname" ColumnName="Fullname" />
+                <ScalarProperty Name="SecondLastName" ColumnName="SecondLastName" />
+                <ScalarProperty Name="FirstLastName" ColumnName="FirstLastName" />
+                <ScalarProperty Name="SecondName" ColumnName="SecondName" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="IdentificationType" ColumnName="IdentificationType" />
+                <ScalarProperty Name="Identification" ColumnName="Identification" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Phone">
+            <EntityTypeMapping TypeName="GENESISSECURITYModel.Phone">
+              <MappingFragment StoreEntitySet="Phone">
+                <ScalarProperty Name="State" ColumnName="State" />
+                <ScalarProperty Name="IdPhoneType" ColumnName="IdPhoneType" />
+                <ScalarProperty Name="Phone1" ColumnName="Phone" />
+                <ScalarProperty Name="IdPerson" ColumnName="IdPerson" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="GroupUser">
+            <EntityTypeMapping TypeName="GENESISSECURITYModel.GroupUser">
+              <MappingFragment StoreEntitySet="GroupUser">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="IdUser" ColumnName="IdUser" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UsersGroupUser">
+            <EntityTypeMapping TypeName="GENESISSECURITYModel.UsersGroupUser">
+              <MappingFragment StoreEntitySet="UsersGroupUser">
+                <ScalarProperty Name="IdUser" ColumnName="IdUser" />
+                <ScalarProperty Name="IdGroupUser" ColumnName="IdGroupUser" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="CreateBasicAuditData" FunctionName="GENESISSECURITYModel.Store.CreateBasicAuditData">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="GENESISSECURITYModel.CreateBasicAuditData_Result">
+                <ScalarProperty Name="Mensaje" ColumnName="Mensaje" />
+                <ScalarProperty Name="CodigoMensaje" ColumnName="CodigoMensaje" />
+                <ScalarProperty Name="Estado" ColumnName="Estado" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <EntitySetMapping Name="Roll">
+            <EntityTypeMapping TypeName="GENESISSECURITYModel.Roll">
+              <MappingFragment StoreEntitySet="Roll">
+                <ScalarProperty Name="TimeStamp" ColumnName="TimeStamp" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="RollCode" ColumnName="RollCode" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PermissionCompany">
+            <EntityTypeMapping TypeName="GENESISSECURITYModel.PermissionCompany">
+              <MappingFragment StoreEntitySet="PermissionCompany">
+                <ScalarProperty Name="Permission" ColumnName="Permission" />
+                <ScalarProperty Name="IdOperatingUnitDefault" ColumnName="IdOperatingUnitDefault" />
+                <ScalarProperty Name="IdContainer" ColumnName="IdContainer" />
+                <ScalarProperty Name="IdUser" ColumnName="IdUser" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserOperatingUnit">
+            <EntityTypeMapping TypeName="GENESISSECURITYModel.UserOperatingUnit">
+              <MappingFragment StoreEntitySet="UserOperatingUnit">
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="IdOperatingUnit" ColumnName="IdOperatingUnit" />
+                <ScalarProperty Name="IdContainer" ColumnName="IdContainer" />
+                <ScalarProperty Name="IdUser" ColumnName="IdUser" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PermissionRoll">
+            <EntityTypeMapping TypeName="GENESISSECURITYModel.PermissionRoll">
+              <MappingFragment StoreEntitySet="PermissionRoll">
+                <ScalarProperty Name="TimeStamp" ColumnName="TimeStamp" />
+                <ScalarProperty Name="ActionValue" ColumnName="ActionValue" />
+                <ScalarProperty Name="Action" ColumnName="Action" />
+                <ScalarProperty Name="IdForm" ColumnName="IdForm" />
+                <ScalarProperty Name="IdRoll" ColumnName="IdRoll" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PermissionUser">
+            <EntityTypeMapping TypeName="GENESISSECURITYModel.PermissionUser">
+              <MappingFragment StoreEntitySet="PermissionUser">
+                <ScalarProperty Name="TimeStamp" ColumnName="TimeStamp" />
+                <ScalarProperty Name="ActionValue" ColumnName="ActionValue" />
+                <ScalarProperty Name="Action" ColumnName="Action" />
+                <ScalarProperty Name="IdForm" ColumnName="IdForm" />
+                <ScalarProperty Name="IdUser" ColumnName="IdUser" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="User">
+            <EntityTypeMapping TypeName="GENESISSECURITYModel.User">
+              <MappingFragment StoreEntitySet="User">
+                <ScalarProperty Name="TenantId" ColumnName="TenantId" />
+                <ScalarProperty Name="FailedPasswordCount" ColumnName="FailedPasswordCount" />
+                <ScalarProperty Name="IsLockedOut" ColumnName="IsLockedOut" />
+                <ScalarProperty Name="CodeInterface" ColumnName="CodeInterface" />
+                <ScalarProperty Name="ViewForm" ColumnName="ViewForm" />
+                <ScalarProperty Name="PersonalNote" ColumnName="PersonalNote" />
+                <ScalarProperty Name="PasswordLync" ColumnName="PasswordLync" />
+                <ScalarProperty Name="AddressSingInLync" ColumnName="AddressSingInLync" />
+                <ScalarProperty Name="UserNameLync" ColumnName="UserNameLync" />
+                <ScalarProperty Name="State" ColumnName="State" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="TimeStamp" ColumnName="TimeStamp" />
+                <ScalarProperty Name="DateExpiryAccount" ColumnName="DateExpiryAccount" />
+                <ScalarProperty Name="DateLastChangePassword" ColumnName="DateLastChangePassword" />
+                <ScalarProperty Name="DaysChangePassword" ColumnName="DaysChangePassword" />
+                <ScalarProperty Name="ChangePassword" ColumnName="ChangePassword" />
+                <ScalarProperty Name="UserType" ColumnName="UserType" />
+                <ScalarProperty Name="Position" ColumnName="Position" />
+                <ScalarProperty Name="GroupCode" ColumnName="GroupCode" />
+                <ScalarProperty Name="RollCode" ColumnName="RollCode" />
+                <ScalarProperty Name="UserCode" ColumnName="UserCode" />
+                <ScalarProperty Name="IdPerson" ColumnName="IdPerson" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Machines">
+            <EntityTypeMapping TypeName="GENESISSECURITYModel.Machines">
+              <MappingFragment StoreEntitySet="Machines">
+                <ScalarProperty Name="LastUpDate" ColumnName="LastUpDate" />
+                <ScalarProperty Name="RegDate" ColumnName="RegDate" />
+                <ScalarProperty Name="MACs" ColumnName="MACs" />
+                <ScalarProperty Name="IPs" ColumnName="IPs" />
+                <ScalarProperty Name="Architecture" ColumnName="Architecture" />
+                <ScalarProperty Name="OSName" ColumnName="OSName" />
+                <ScalarProperty Name="ClientVersion" ColumnName="ClientVersion" />
+                <ScalarProperty Name="NickName" ColumnName="NickName" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="UID" ColumnName="UID" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UpdatePackage">
+            <EntityTypeMapping TypeName="GENESISSECURITYModel.UpdatePackage">
+              <MappingFragment StoreEntitySet="UpdatePackage">
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="PackageFileName" ColumnName="PackageFileName" />
+                <ScalarProperty Name="CreationDate" ColumnName="CreationDate" />
+                <ScalarProperty Name="BuildDate" ColumnName="BuildDate" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="PackageVersion" ColumnName="PackageVersion" />
+                <ScalarProperty Name="NumberVersion" ColumnName="NumberVersion" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MachineUpdatePackage">
+            <EntityTypeMapping TypeName="GENESISSECURITYModel.MachineUpdatePackage">
+              <MappingFragment StoreEntitySet="MachineUpdatePackage">
+                <ScalarProperty Name="Upgraded" ColumnName="Upgraded" />
+                <ScalarProperty Name="UpgradedDate" ColumnName="UpgradedDate" />
+                <ScalarProperty Name="UpgradeDate" ColumnName="UpgradeDate" />
+                <ScalarProperty Name="IdUpdatePackage" ColumnName="IdUpdatePackage" />
+                <ScalarProperty Name="IdMachine" ColumnName="IdMachine" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Containers">
+            <EntityTypeMapping TypeName="GENESISSECURITYModel.Containers">
+              <MappingFragment StoreEntitySet="Containers">
+                <ScalarProperty Name="ServiceConfigurationId" ColumnName="ServiceConfigurationId" />
+                <ScalarProperty Name="BranchOffices" ColumnName="BranchOffices" />
+                <ScalarProperty Name="SuscriptionID" ColumnName="SuscriptionID" />
+                <ScalarProperty Name="Multitenant" ColumnName="Multitenant" />
+                <ScalarProperty Name="CloudType" ColumnName="CloudType" />
+                <ScalarProperty Name="ArchitectureType" ColumnName="ArchitectureType" />
+                <ScalarProperty Name="VerificationDigitNit" ColumnName="VerificationDigitNit" />
+                <ScalarProperty Name="DispensingIntegration" ColumnName="DispensingIntegration" />
+                <ScalarProperty Name="State" ColumnName="State" />
+                <ScalarProperty Name="Version" ColumnName="Version" />
+                <ScalarProperty Name="LyncIntegration" ColumnName="LyncIntegration" />
+                <ScalarProperty Name="KeyCode" ColumnName="KeyCode" />
+                <ScalarProperty Name="ProductionCompany" ColumnName="ProductionCompany" />
+                <ScalarProperty Name="Telephone" ColumnName="Telephone" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="RepresentationLegal" ColumnName="RepresentationLegal" />
+                <ScalarProperty Name="CompanyNit" ColumnName="CompanyNit" />
+                <ScalarProperty Name="CompanyType" ColumnName="CompanyType" />
+                <ScalarProperty Name="HumanTalentIntegration" ColumnName="HumanTalentIntegration" />
+                <ScalarProperty Name="PayrollIntegration" ColumnName="PayrollIntegration" />
+                <ScalarProperty Name="GlossesIntegration" ColumnName="GlossesIntegration" />
+                <ScalarProperty Name="HISIntegration" ColumnName="HISIntegration" />
+                <ScalarProperty Name="InteropCostContainer" ColumnName="InteropCostContainer" />
+                <ScalarProperty Name="HISContainer" ColumnName="HISContainer" />
+                <ScalarProperty Name="VituelContainer" ColumnName="VituelContainer" />
+                <ScalarProperty Name="DocumentalContainer" ColumnName="DocumentalContainer" />
+                <ScalarProperty Name="TransactionalContainer" ColumnName="TransactionalContainer" />
+				<ScalarProperty Name="FoundationalContainer" ColumnName="FoundationalContainer" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ServiceConfiguration">
+            <EntityTypeMapping TypeName="GENESISSECURITYModel.ServiceConfiguration">
+              <MappingFragment StoreEntitySet="ServiceConfiguration">
+                <ScalarProperty Name="FunctionKey8" ColumnName="FunctionKey8" />
+                <ScalarProperty Name="FunctionKey7" ColumnName="FunctionKey7" />
+                <ScalarProperty Name="FunctionKey6" ColumnName="FunctionKey6" />
+                <ScalarProperty Name="FunctionKey5" ColumnName="FunctionKey5" />
+                <ScalarProperty Name="FunctionKey4" ColumnName="FunctionKey4" />
+                <ScalarProperty Name="FunctionKey3" ColumnName="FunctionKey3" />
+                <ScalarProperty Name="FunctionKey2" ColumnName="FunctionKey2" />
+                <ScalarProperty Name="FunctionKey1" ColumnName="FunctionKey1" />
+                <ScalarProperty Name="AppFunctionURL" ColumnName="AppFunctionURL" />
+                <ScalarProperty Name="EHREntityServiceURL" ColumnName="EHREntityServiceURL" />
+                <ScalarProperty Name="EHRWebServiceURL" ColumnName="EHRWebServiceURL" />
+                <ScalarProperty Name="EHREntityServiceProtocol" ColumnName="EHREntityServiceProtocol" />
+                <ScalarProperty Name="EHRWebServiceProtocol" ColumnName="EHRWebServiceProtocol" />
+                <ScalarProperty Name="NotificationServiceURL" ColumnName="NotificationServiceURL" />
+                <ScalarProperty Name="IndexingServiceURL" ColumnName="IndexingServiceURL" />
+                <ScalarProperty Name="DocumentServiceURL" ColumnName="DocumentServiceURL" />
+                <ScalarProperty Name="XPOServiceURL" ColumnName="XPOServiceURL" />
+                <ScalarProperty Name="EntityServiceURL" ColumnName="EntityServiceURL" />
+                <ScalarProperty Name="IndexingServiceProtocol" ColumnName="IndexingServiceProtocol" />
+                <ScalarProperty Name="DocumentServiceProtocol" ColumnName="DocumentServiceProtocol" />
+                <ScalarProperty Name="XPOServiceProtocol" ColumnName="XPOServiceProtocol" />
+                <ScalarProperty Name="EntityServiceProtocol" ColumnName="EntityServiceProtocol" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ApplicationSettings">
+            <EntityTypeMapping TypeName="GENESISSECURITYModel.ApplicationSettings">
+              <MappingFragment StoreEntitySet="ApplicationSettings">
+                <ScalarProperty Name="UrlServiceDispensing" ColumnName="UrlServiceDispensing" />
+                <ScalarProperty Name="ChangeMessageBox" ColumnName="ChangeMessageBox" />
+                <ScalarProperty Name="NewServices" ColumnName="NewServices" />
+                <ScalarProperty Name="CachedEnable" ColumnName="CachedEnable" />
+                <ScalarProperty Name="BaseDatosMongo" ColumnName="BaseDatosMongo" />
+                <ScalarProperty Name="ServidorMongo" ColumnName="ServidorMongo" />
+                <ScalarProperty Name="DuraccionCacheLarga" ColumnName="DuraccionCacheLarga" />
+                <ScalarProperty Name="DuraccionCacheMedia" ColumnName="DuraccionCacheMedia" />
+                <ScalarProperty Name="DuraccionCacheCorta" ColumnName="DuraccionCacheCorta" />
+                <ScalarProperty Name="NombreCache" ColumnName="NombreCache" />
+                <ScalarProperty Name="CachePort" ColumnName="CachePort" />
+                <ScalarProperty Name="CacheServerName" ColumnName="CacheServerName" />
+                <ScalarProperty Name="ContainerId" ColumnName="ContainerId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="GeneralConfiguration">
+            <EntityTypeMapping TypeName="GENESISSECURITYModel.GeneralConfiguration">
+              <MappingFragment StoreEntitySet="GeneralConfiguration">
+                <ScalarProperty Name="PasswordReset" ColumnName="PasswordReset" />
+                <ScalarProperty Name="FunctionKey2" ColumnName="FunctionKey2" />
+                <ScalarProperty Name="FunctionKey1" ColumnName="FunctionKey1" />
+                <ScalarProperty Name="AppFunctionURL" ColumnName="AppFunctionURL" />
+                <ScalarProperty Name="SessionLogoutUrl" ColumnName="SessionLogoutUrl" />
+                <ScalarProperty Name="RedirectUri" ColumnName="RedirectUri" />
+                <ScalarProperty Name="ClientId" ColumnName="ClientId" />
+                <ScalarProperty Name="SignUpSignIn" ColumnName="SignUpSignIn" />
+                <ScalarProperty Name="Tenant" ColumnName="Tenant" />
+                <ScalarProperty Name="HISAssemblyFileName" ColumnName="HISAssemblyFileName" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tenant">
+            <EntityTypeMapping TypeName="GENESISSECURITYModel.Tenant">
+              <MappingFragment StoreEntitySet="Tenant">
+                <ScalarProperty Name="TimeStamp" ColumnName="TimeStamp" />
+                <ScalarProperty Name="AuthenticationType" ColumnName="AuthenticationType" />
+                <ScalarProperty Name="CloudType" ColumnName="CloudType" />
+                <ScalarProperty Name="KeyCode" ColumnName="KeyCode" />
+                <ScalarProperty Name="Telephone" ColumnName="Telephone" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="RepresentationLegal" ColumnName="RepresentationLegal" />
+                <ScalarProperty Name="CompanyNit" ColumnName="CompanyNit" />
+                <ScalarProperty Name="CompanyType" ColumnName="CompanyType" />
+                <ScalarProperty Name="WorkFlowStatus" ColumnName="WorkFlowStatus" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TenantContainer">
+            <EntityTypeMapping TypeName="GENESISSECURITYModel.TenantContainer">
+              <MappingFragment StoreEntitySet="TenantContainer">
+                <ScalarProperty Name="State" ColumnName="State" />
+                <ScalarProperty Name="Principal" ColumnName="Principal" />
+                <ScalarProperty Name="ContainerId" ColumnName="ContainerId" />
+                <ScalarProperty Name="TenantId" ColumnName="TenantId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserConfiguration">
+            <EntityTypeMapping TypeName="GENESISSECURITYModel.UserConfiguration">
+              <MappingFragment StoreEntitySet="UserConfiguration">
+                <ScalarProperty Name="DefaultConfiguration" ColumnName="DefaultConfiguration" />
+                <ScalarProperty Name="GroupCode" ColumnName="GroupCode" />
+                <ScalarProperty Name="RoleCode" ColumnName="RoleCode" />
+                <ScalarProperty Name="TypeFunctionalUnit" ColumnName="TypeFunctionalUnit" />
+                <ScalarProperty Name="FunctionalUnitName" ColumnName="FunctionalUnitName" />
+                <ScalarProperty Name="NameCareCenter" ColumnName="NameCareCenter" />
+                <ScalarProperty Name="FunctionalUnit" ColumnName="FunctionalUnit" />
+                <ScalarProperty Name="CenterAttention" ColumnName="CenterAttention" />
+                <ScalarProperty Name="SideFace" ColumnName="SideFace" />
+                <ScalarProperty Name="Dashboard" ColumnName="Dashboard" />
+                <ScalarProperty Name="DefaultCompany" ColumnName="DefaultCompany" />
+                <ScalarProperty Name="LanguageCulture" ColumnName="LanguageCulture" />
+                <ScalarProperty Name="ActualCity" ColumnName="ActualCity" />
+                <ScalarProperty Name="CustomReportPath" ColumnName="CustomReportPath" />
+                <ScalarProperty Name="LightweightVersion" ColumnName="LightweightVersion" />
+                <ScalarProperty Name="ReporteadorActivo" ColumnName="ReporteadorActivo" />
+                <ScalarProperty Name="ShowThemeSkinSelector" ColumnName="ShowThemeSkinSelector" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="False" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />
+        <DesignerProperty Name="UseLegacyProvider" Value="False" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams>
+      <Diagram DiagramId="e842fadaa8404b5eba660df2989035c4" Name="Diagram1" ZoomLevel="101">
+        <EntityTypeShape EntityType="GENESISSECURITYModel.Group" Width="1.5" PointX="5.75" PointY="1.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="GENESISSECURITYModel.PhoneType" Width="1.5" PointX="3.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="GENESISSECURITYModel.Address" Width="1.5" PointX="3.125" PointY="27.25" />
+        <EntityTypeShape EntityType="GENESISSECURITYModel.Email" Width="1.5" PointX="7.0800640280731324" PointY="31.666431009614108" />
+        <EntityTypeShape EntityType="GENESISSECURITYModel.FilePerson" Width="1.5" PointX="3.875" PointY="31.125" />
+        <EntityTypeShape EntityType="GENESISSECURITYModel.Person" Width="1.5" PointX="9.6579138905079631" PointY="3.8685275185241026" />
+        <EntityTypeShape EntityType="GENESISSECURITYModel.Phone" Width="1.5" PointX="0.82354417109095679" PointY="2.0505432198059479" />
+        <AssociationConnector Association="GENESISSECURITYModel.FK_Address_Person" />
+        <AssociationConnector Association="GENESISSECURITYModel.FK_Email_Person" />
+        <AssociationConnector Association="GENESISSECURITYModel.FK_FilePerson_Person" />
+        <AssociationConnector Association="GENESISSECURITYModel.FK_Phone_Person" />
+        <AssociationConnector Association="GENESISSECURITYModel.FK_Phone_PhoneType" />
+        <EntityTypeShape EntityType="GENESISSECURITYModel.GroupUser" Width="1.5" PointX="9.3291472891947009" PointY="16.77982243186786" />
+        <EntityTypeShape EntityType="GENESISSECURITYModel.UsersGroupUser" Width="1.5" PointX="8.3021721543288649" PointY="26.546537158333948" />
+        <AssociationConnector Association="GENESISSECURITYModel.FK_UsersGroupUser_GroupUser" />
+        <EntityTypeShape EntityType="GENESISSECURITYModel.Roll" Width="1.5" PointX="0.75" PointY="11" />
+        <EntityTypeShape EntityType="GENESISSECURITYModel.PermissionCompany" Width="1.5" PointX="8.3619160579340139" PointY="20.4565675651918" />
+        <EntityTypeShape EntityType="GENESISSECURITYModel.UserOperatingUnit" Width="1.5" PointX="1.2409989746478383" PointY="26.353915822857019" />
+        <EntityTypeShape EntityType="GENESISSECURITYModel.PermissionRoll" Width="1.5" PointX="3" PointY="10.875" />
+        <EntityTypeShape EntityType="GENESISSECURITYModel.PermissionUser" Width="1.5" PointX="14.125" PointY="5.75" />
+        <AssociationConnector Association="GENESISSECURITYModel.FK_PermissionRoll_Roll" />
+        <EntityTypeShape EntityType="GENESISSECURITYModel.User" Width="1.5" PointX="11.875" PointY="1.75" />
+        <AssociationConnector Association="GENESISSECURITYModel.FK_GroupUser_User" />
+        <AssociationConnector Association="GENESISSECURITYModel.FK_UsersGroupUser_User" />
+        <AssociationConnector Association="GENESISSECURITYModel.FK_User_Group" />
+        <AssociationConnector Association="GENESISSECURITYModel.FK_PermissionCompany_User" />
+        <AssociationConnector Association="GENESISSECURITYModel.FK_PermissionUser_User" />
+        <AssociationConnector Association="GENESISSECURITYModel.FK_User_Person" />
+        <AssociationConnector Association="GENESISSECURITYModel.FK_User_Roll" />
+        <AssociationConnector Association="GENESISSECURITYModel.FK_UserOperatingUnit_User" />
+        <EntityTypeShape EntityType="GENESISSECURITYModel.Machines" Width="1.5" PointX="3.375" PointY="16.625" />
+        <EntityTypeShape EntityType="GENESISSECURITYModel.UpdatePackage" Width="1.5" PointX="3.375" PointY="4.875" />
+        <EntityTypeShape EntityType="GENESISSECURITYModel.MachineUpdatePackage" Width="1.5" PointX="7.625" PointY="11.125" />
+        <AssociationConnector Association="GENESISSECURITYModel.FK_MachineUpdatePackage_MachineUpdatePackage" />
+        <AssociationConnector Association="GENESISSECURITYModel.FK_MachineUpdatePackage_UpdatePackage" />
+        <EntityTypeShape EntityType="GENESISSECURITYModel.Containers" Width="1.5" PointX="11.375" PointY="10.125" />
+        <AssociationConnector Association="GENESISSECURITYModel.FK_PermissionCompany_Containers" />
+        <AssociationConnector Association="GENESISSECURITYModel.FK_UserOperatingUnit_Containers" />
+        <EntityTypeShape EntityType="GENESISSECURITYModel.ServiceConfiguration" Width="1.5" PointX="9.125" PointY="0.75" />
+        <AssociationConnector Association="GENESISSECURITYModel.FK_Containers_ServiceConfiguration" />
+        <EntityTypeShape EntityType="GENESISSECURITYModel.ApplicationSettings" Width="1.5" PointX="14" PointY="14.375" />
+        <EntityTypeShape EntityType="GENESISSECURITYModel.GeneralConfiguration" Width="1.5" PointX="0.75" PointY="5.75" />
+        <EntityTypeShape EntityType="GENESISSECURITYModel.Tenant" Width="1.5" PointX="14.75" PointY="19.625" />
+        <EntityTypeShape EntityType="GENESISSECURITYModel.TenantContainer" Width="1.5" PointX="17" PointY="13.25" />
+        <EntityTypeShape EntityType="GENESISSECURITYModel.UserConfiguration" Width="1.5" PointX="14.5" PointY="9.625" />
+        <AssociationConnector Association="GENESISSECURITYModel.FK_ApplicationSettings_Containers" />
+        <AssociationConnector Association="GENESISSECURITYModel.FK_TenantContainer_Container" />
+        <AssociationConnector Association="GENESISSECURITYModel.FK_UserConfiguration_Containers" />
+        <AssociationConnector Association="GENESISSECURITYModel.FK_TenantContainer_Tenant" />
+        <AssociationConnector Association="GENESISSECURITYModel.FK_UserConfiguration_User" />
+        <AssociationConnector Association="GENESISSECURITYModel.FK_User_Tenant" />
+      </Diagram>
+    </Diagrams>
+  </Designer>
+</edmx:Edmx>

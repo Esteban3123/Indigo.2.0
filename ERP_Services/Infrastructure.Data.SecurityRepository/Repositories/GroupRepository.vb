@@ -1,0 +1,108 @@
+﻿'***********************************************************************
+' Assembly         : Infrastructure.Data.SecurityRepository
+' Author           : OscarSierra
+' Created          : 03-08-2011
+'
+' Last Modified By : Juan F. Tamayo
+' Last Modified On : 2013-02-28
+' Description      : 
+'
+' Copyright        : (c) . All rights reserved.
+'***********************************************************************
+
+#Region "Imports"
+Imports Domain.Base
+Imports Domain.Security.Entities
+Imports Domain.Security
+Imports Infrastructure.Data.Base
+Imports System.Data.Entity
+
+#End Region
+
+''' <summary>
+''' Esta clase Repositorio Grupo hereda del repositorio generico para poder obtener los metodos
+''' comunes en todos los repositorios de manera que esta clase solo contiene los metodos y funciones no Comunes.
+''' </summary>
+Public Class GroupRepository
+    Inherits GenericRepository(Of Group)
+    Implements IGroupRepository
+
+
+    'Devuelve el contexto en este repositorio 
+    Private _context As ISeguridadUnitOfWork
+
+    ''' <summary>
+    '''inicializa la neva instancia de <see cref="GroupRepository" /> clase.
+    ''' </summary>
+    ''' <param name="contex">el contexto.</param>
+    Public Sub New(ByVal contex As ISeguridadUnitOfWork)
+        MyBase.New(contex)
+        _context = contex
+    End Sub
+
+    ''' <summary>
+    ''' metodo que develve los valores originales de la entidad {T}
+    ''' </summary>
+    ''' <typeparam name="TEntity">el tipo de la entidad.</typeparam>
+    ''' <param name="entity">el objeto de la entidad.</param>
+    ''' <returns></returns>
+    Public Function GetSourceValues(Of TEntity)(ByVal entity As TEntity) As TEntity
+        Return IndigoContext.GetSourceValues(entity, CType(_context, DbContext))
+    End Function
+
+    ''' <summary>
+    ''' Gets the group.	
+    ''' </summary>
+    ''' <param name="id">The id group.</param>
+    ''' <returns></returns>
+    ''' <remarks></remarks>
+    Public Function GetGroupById(id As Integer) As Group Implements IGroupRepository.GetGroupById
+        Dim group = (From e In _context.Group Where e.Id = id).FirstOrDefault()
+        If group IsNot Nothing Then
+            Return group
+        Else
+            Return New Group
+        End If
+    End Function
+
+    ''' <summary>
+    ''' Gets the group.	
+    ''' </summary>
+    ''' <param name="codeGroup">The code group.</param>
+    ''' <returns></returns>
+    ''' <remarks></remarks>
+    Public Function GetGroup(codeGroup As String) As Group Implements IGroupRepository.GetGroup
+        Dim group = (From e In _context.Group
+                     Where (e.Code = codeGroup.Trim)' And e.State = False) 'no permite activar o inactivar
+                     Select e).FirstOrDefault
+
+        If group IsNot Nothing Then
+            Dim tenantGroup = (From tr In _context.TenantGroup.Where(Function(tr) tr.GroupId = group.Id)
+                               Join t In _context.Tenant On t.Id Equals tr.TenantId
+                               Select tr, t.Name)
+            For Each ts In tenantGroup
+                ts.tr.TenantName = ts.Name
+                group.TenantGroup.Add(ts.tr)
+            Next
+            Return group
+        End If
+        Return New Group
+
+    End Function
+
+
+    ''' <summary>
+    ''' Lists the groups all.
+    ''' </summary>
+    ''' <returns></returns>
+    Public Function ListGroupsAll() As List(Of GroupAll) Implements IGroupRepository.ListGroupsAll
+
+        Dim Busqueda = From e In _context.Group
+                                              Select New GroupAll With
+                              {
+        .GroupCode = e.Code, .GroupName = e.Description, .GroupCodeName = e.Code + " - " + e.Description, .Auto = e.Id
+                                  }
+        Return Busqueda.ToList
+
+    End Function
+End Class

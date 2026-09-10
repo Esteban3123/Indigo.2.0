@@ -1,0 +1,831 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{F0FE946F-2BD9-4BB8-8741-51EA3D862237}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>Domain.Payroll.Entities</RootNamespace>
+    <AssemblyName>Domain.Payroll.Entities</AssemblyName>
+    <FileAlignment>512</FileAlignment>
+    <MyType>Windows</MyType>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DocumentationFile>Domain.Payroll.Entities.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DocumentationFile>Domain.Payroll.Entities.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionExplicit>On</OptionExplicit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionCompare>Binary</OptionCompare>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionStrict>Off</OptionStrict>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionInfer>On</OptionInfer>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debugcito|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\Debugcito\</OutputPath>
+    <DocumentationFile>Domain.Payroll.Entities.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DocumentationFile>Domain.Payroll.Entities.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DocumentationFile>Domain.Payroll.Entities.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debugcito|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x64\Debugcito\</OutputPath>
+    <DocumentationFile>Domain.Payroll.Entities.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\DLL\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Import Include="Microsoft.VisualBasic" />
+    <Import Include="System" />
+    <Import Include="System.Collections.Generic" />
+    <Import Include="System.Linq" />
+    <Import Include="System.Threading.Tasks" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AccountingStructure.vb">
+      <DependentUpon>PayrollUnitOfWork.tt</DependentUpon>
+    </Compile>
+    <Compile Include="AccountReceivable.vb">
+      <DependentUpon>PayrollUnitOfWork.tt</DependentUpon>
+    </Compile>
+    <Compile Include="AccountReceivableAccounting.vb">
+      <DependentUpon>PayrollUnitOfWork.tt</DependentUpon>
+    </Compile>
+    <Compile Include="AccountReceivableConcept.vb">
+      <DependentUpon>PayrollUnitOfWork.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Address.vb">
+      <DependentUpon>PayrollUnitOfWork.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ADTIPOIDENTIFICA.vb">
+      <DependentUpon>PayrollUnitOfWork.tt</DependentUpon>
+    </Compile>
+    <Compile Include="AgreementsC.vb">
+      <DependentUpon>PayrollUnitOfWork.tt</DependentUpon>
+    </Compile>
+    <Compile Include="AgreementsD.vb">
+      <DependentUpon>PayrollUnitOfWork.tt</DependentUpon>
+    </Compile>
+    <Compile Include="AuditoryBankFile.vb">
+      <DependentUpon>PayrollUnitOfWork.tt</DependentUpon>
+    </Compile>
+    <Compile Include="AuthorizationConcept.vb">
+      <DependentUpon>PayrollUnitOfWork.tt</DependentUpon>
+    </Compile>
+    <Compile Include="AuthorizationConceptEmployee.vb">
+      <DependentUpon>PayrollUnitOfWork.tt</DependentUpon>
+    </Compile>
+    <Compile Include="AuthorizationConceptGroup.vb">
+      <DependentUpon>PayrollUnitOfWork.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Autoliquidation.vb">
+      <DependentUpon>PayrollUnitOfWork.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Bank.vb">
+      <DependentUpon>PayrollUnitOfWork.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BankAutomaticRecognitionRules.vb">
+      <DependentUpon>PayrollUnitOfWork.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BankConciliationConcepts.vb">
+      <DependentUpon>PayrollUnitOfWork.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BankDetail.vb">
+      <DependentUpon>PayrollUnitOfWork.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BankFile.vb">
+      <DependentUpon>PayrollUnitOfWork.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BankFileDetail.vb">
+      <DependentUpon>PayrollUnitOfWork.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BlockSchedule.vb">
+      <DependentUpon>PayrollUnitOfWork.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BlockScheduleC.vb">
+      <DependentUpon>PayrollUnitOfWork.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BranchOffice.vb">
+      <DependentUpon>PayrollUnitOfWork.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CashFlowConcept.vb">
+      <DependentUpon>PayrollUnitOfWork.tt</DependentUpon>
+    </Compile>
+    <Compile Include="City.vb">
+      <DependentUpon>PayrollUnitOfWork.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Company.vb">
+      <DependentUpon>PayrollUnitOfWork.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Concept.vb">
+      <DependentUpon>PayrollUnitOfWork.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ConceptAccountingStructure.vb">
+      <DependentUpon>PayrollUnitOfWork.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ConceptGroup.vb">
+      <DependentUpon>PayrollUnitOfWork.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ConceptNoveltyAdjust.vb">
+      <DependentUpon>PayrollUnitOfWork.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Consecutive.vb">
+      <DependentUpon>PayrollUnitOfWork.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Contract.vb">
+      <DependentUpon>PayrollUnitOfWork.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ContractAudit.vb">
+      <DependentUpon>PayrollUnitOfWork.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ContractGroup.vb">
+      <DependentUpon>PayrollUnitOfWork.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ContractLiquidation.vb">
+      <DependentUpon>PayrollUnitOfWork.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ContractLiquidationDetail.vb">
+      <DependentUpon>PayrollUnitOfWork.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ContractModificationReason.vb">
+      <DependentUpon>PayrollUnitOfWork.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ContractTemplate.vb">
+      <DependentUpon>PayrollUnitOfWork.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ContractType.vb">
+      <DependentUpon>PayrollUnitOfWork.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ContributorSubtype.vb">
+      <DependentUpon>PayrollUnitOfWork.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ContributorType.vb">
+      <DependentUpon>PayrollUnitOfWork.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CostCenter.vb">
+      <DependentUpon>PayrollUnitOfWork.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CostDistributionCostCenter.vb" />
+    <Compile Include="CostDistributions.vb">
+      <DependentUpon>PayrollUnitOfWork.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Country.vb">
+      <DependentUpon>PayrollUnitOfWork.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Currency.vb">
+      <DependentUpon>PayrollUnitOfWork.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Customer.vb">
+      <DependentUpon>PayrollUnitOfWork.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Department.vb">
+      <DependentUpon>PayrollUnitOfWork.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DiagnosedDisease.vb">
+      <DependentUpon>PayrollUnitOfWork.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Disability.vb">
+      <DependentUpon>PayrollUnitOfWork.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EducationLevel.vb">
+      <DependentUpon>PayrollUnitOfWork.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ElectronicPayroll.vb">
+      <DependentUpon>PayrollUnitOfWork.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ElectronicPayrollConcepts.vb">
+      <DependentUpon>PayrollUnitOfWork.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ElectronicPayrollDetail.vb">
+      <DependentUpon>PayrollUnitOfWork.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ElectronicPayrollNotification.vb">
+      <DependentUpon>PayrollUnitOfWork.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ElectronicPayrollPaymentSupport.vb">
+      <DependentUpon>PayrollUnitOfWork.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ElectronicPayrollPaymentSupportDetail.vb">
+      <DependentUpon>PayrollUnitOfWork.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Email.vb">
+      <DependentUpon>PayrollUnitOfWork.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Employee.vb">
+      <DependentUpon>PayrollUnitOfWork.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EmployeeScheduleC.vb">
+      <DependentUpon>PayrollUnitOfWork.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EmployeeScheduleDetail.vb">
+      <DependentUpon>PayrollUnitOfWork.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EmployeeType.vb">
+      <DependentUpon>PayrollUnitOfWork.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityBankAccounts.vb">
+      <DependentUpon>PayrollUnitOfWork.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EthnicGroups.vb">
+      <DependentUpon>PayrollUnitOfWork.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ExpenseConcepts.vb">
+      <DependentUpon>PayrollUnitOfWork.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Extends\Address.vb" />
+    <Compile Include="Extends\AgreementsC.vb" />
+    <Compile Include="Extends\BankAutomaticRecognitionRules.vb" />
+    <Compile Include="Extends\BankDetail.vb" />
+    <Compile Include="Extends\BankFileDetail.vb" />
+    <Compile Include="Extends\Contract.vb" />
+    <Compile Include="Extends\CostCenter.vb" />
+    <Compile Include="Extends\ElectronicDocuments\ElectronicPayroll.vb" />
+    <Compile Include="Extends\ElectronicDocuments\ElectronicPayrollPaymentSupport.vb" />
+    <Compile Include="Extends\ElectronicDocuments\SP_GetElectronicPayrollPaymentSupportDetails_Result.vb" />
+    <Compile Include="Extends\FunctionalUnitUserAuthorizationRequest.vb" />
+    <Compile Include="Extends\GenericListEmployeeSchedule.vb" />
+    <Compile Include="Extends\GenericListNovelty.vb" />
+    <Compile Include="Extends\HumanTalentParametrization.vb" />
+    <Compile Include="Extends\LiquidationDetail.vb" />
+    <Compile Include="Extends\PersonStudy.vb" />
+    <Compile Include="Extends\PositionRoll.vb" />
+    <Compile Include="Extends\Concept.vb" />
+    <Compile Include="Extends\Company.vb" />
+    <Compile Include="Extends\FunctionalUnitResponsible.vb" />
+    <Compile Include="Extends\KindsAgreements.vb" />
+    <Compile Include="Extends\BankFile.vb" />
+    <Compile Include="Extends\AuthorizationConcept.vb" />
+    <Compile Include="Extends\Group.vb" />
+    <Compile Include="Extends\Person.vb" />
+    <Compile Include="Extends\PositionUser.vb" />
+    <Compile Include="Extends\Schedule.vb" />
+    <Compile Include="Extends\FunctionalUnit.vb" />
+    <Compile Include="Extends\ConceptGroup.vb" />
+    <Compile Include="Extends\ConceptNoveltyAdjust.vb" />
+    <Compile Include="Extends\ContractLiquidation.vb" />
+    <Compile Include="Extends\ConceptAccountingStructure.vb" />
+    <Compile Include="Extends\Employee.vb" />
+    <Compile Include="Extends\Foreclousure.vb" />
+    <Compile Include="Extends\FunctionalUnitUser.vb" />
+    <Compile Include="Extends\Fund.vb" />
+    <Compile Include="Extends\IncentivePayment.vb" />
+    <Compile Include="Extends\IncentivePaymentDetail.vb" />
+    <Compile Include="Extends\Liquidation.vb" />
+    <Compile Include="Extends\PayrollSettings.vb" />
+    <Compile Include="Extends\RetroactiveC.vb" />
+    <Compile Include="Extends\RetroactiveD.vb" />
+    <Compile Include="Extends\ScheduleDetail.vb" />
+    <Compile Include="Extends\ScheduleDetailConcept.vb" />
+    <Compile Include="Extends\ScheduleDetailHour.vb" />
+    <Compile Include="Extends\SP_BankFileIncentivePaymentWithoutConfirm_Result.vb" />
+    <Compile Include="Extends\UnemployedConcept.vb" />
+    <Compile Include="Extends\UnemployedLiquidation.vb" />
+    <Compile Include="Extends\Vacation.vb" />
+    <Compile Include="Extends\TradeUnion.vb" />
+    <Compile Include="Extends\TradeUnionEmployee.vb" />
+    <Compile Include="Extends\VerifyAutoliquidationFile.vb" />
+    <Compile Include="FixedPercentageRetention.vb">
+      <DependentUpon>PayrollUnitOfWork.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Foreclousure.vb">
+      <DependentUpon>PayrollUnitOfWork.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ForeclousureDetail.vb">
+      <DependentUpon>PayrollUnitOfWork.tt</DependentUpon>
+    </Compile>
+    <Compile Include="FreeTimeUse.vb">
+      <DependentUpon>PayrollUnitOfWork.tt</DependentUpon>
+    </Compile>
+    <Compile Include="FunctionalUnit.vb">
+      <DependentUpon>PayrollUnitOfWork.tt</DependentUpon>
+    </Compile>
+    <Compile Include="FunctionalUnitResponsible.vb">
+      <DependentUpon>PayrollUnitOfWork.tt</DependentUpon>
+    </Compile>
+    <Compile Include="FunctionalUnitUser.vb">
+      <DependentUpon>PayrollUnitOfWork.tt</DependentUpon>
+    </Compile>
+    <Compile Include="FunctionalUnitUserAuthorizationRequest.vb">
+      <DependentUpon>PayrollUnitOfWork.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Fund.vb">
+      <DependentUpon>PayrollUnitOfWork.tt</DependentUpon>
+    </Compile>
+    <Compile Include="FundContract.vb">
+      <DependentUpon>PayrollUnitOfWork.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Group.vb">
+      <DependentUpon>PayrollUnitOfWork.tt</DependentUpon>
+    </Compile>
+    <Compile Include="GroupAdjustConceptContractLiquidation.vb">
+      <DependentUpon>PayrollUnitOfWork.tt</DependentUpon>
+    </Compile>
+    <Compile Include="GroupEventConcept.vb">
+      <DependentUpon>PayrollUnitOfWork.tt</DependentUpon>
+    </Compile>
+    <Compile Include="HumanTalentParameterization.vb">
+      <DependentUpon>PayrollUnitOfWork.tt</DependentUpon>
+    </Compile>
+    <Compile Include="IncentivePayment.vb">
+      <DependentUpon>PayrollUnitOfWork.tt</DependentUpon>
+    </Compile>
+    <Compile Include="IncentivePaymentDetail.vb">
+      <DependentUpon>PayrollUnitOfWork.tt</DependentUpon>
+    </Compile>
+    <Compile Include="IncreaseSalary.vb">
+      <DependentUpon>PayrollUnitOfWork.tt</DependentUpon>
+    </Compile>
+    <Compile Include="JobBondingType.vb">
+      <DependentUpon>PayrollUnitOfWork.tt</DependentUpon>
+    </Compile>
+    <Compile Include="JournalVoucherDetails.vb">
+      <DependentUpon>PayrollUnitOfWork.tt</DependentUpon>
+    </Compile>
+    <Compile Include="JournalVouchers.vb">
+      <DependentUpon>PayrollUnitOfWork.tt</DependentUpon>
+    </Compile>
+    <Compile Include="JournalVoucherTypes.vb">
+      <DependentUpon>PayrollUnitOfWork.tt</DependentUpon>
+    </Compile>
+    <Compile Include="KindsAgreements.vb">
+      <DependentUpon>PayrollUnitOfWork.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Kinship.vb">
+      <DependentUpon>PayrollUnitOfWork.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Language.vb">
+      <DependentUpon>PayrollUnitOfWork.tt</DependentUpon>
+    </Compile>
+    <Compile Include="LegalBook.vb">
+      <DependentUpon>PayrollUnitOfWork.tt</DependentUpon>
+    </Compile>
+    <Compile Include="LicensingConcepts.vb">
+      <DependentUpon>PayrollUnitOfWork.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Liquidation.vb">
+      <DependentUpon>PayrollUnitOfWork.tt</DependentUpon>
+    </Compile>
+    <Compile Include="LiquidationDetail.vb">
+      <DependentUpon>PayrollUnitOfWork.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MainAccounts.vb">
+      <DependentUpon>PayrollUnitOfWork.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ManualConcepts.vb">
+      <DependentUpon>PayrollUnitOfWork.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ManualConceptsDetail.vb">
+      <DependentUpon>PayrollUnitOfWork.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MaritalStatus.vb">
+      <DependentUpon>PayrollUnitOfWork.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Message.vb">
+      <DependentUpon>PayrollUnitOfWork.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DataFormulateModel.vb" />
+    <Compile Include="Models\ElectronicPayroll\NominaConcepto.vb" />
+    <Compile Include="Models\ElectronicPayroll\NominaIndividual.vb" />
+    <Compile Include="Models\INEMPRESU.vb" />
+    <Compile Include="Models\NoveltyFormulaData.vb" />
+    <Compile Include="Models\ViewVerifyAutoliquidationFile.vb" />
+    <Compile Include="My Project\AssemblyInfo.vb" />
+    <Compile Include="My Project\Application.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Application.myapp</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="My Project\Resources.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="My Project\Settings.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="NoteConcepts.vb">
+      <DependentUpon>PayrollUnitOfWork.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Novelty.vb">
+      <DependentUpon>PayrollUnitOfWork.tt</DependentUpon>
+    </Compile>
+    <Compile Include="NoveltyIncentivePayment.vb">
+      <DependentUpon>PayrollUnitOfWork.tt</DependentUpon>
+    </Compile>
+    <Compile Include="NoveltyScheduleDetail.vb">
+      <DependentUpon>PayrollUnitOfWork.tt</DependentUpon>
+    </Compile>
+    <Compile Include="NoveltyScheduleDetailConcept.vb">
+      <DependentUpon>PayrollUnitOfWork.tt</DependentUpon>
+    </Compile>
+    <Compile Include="NoveltyScheduleDetailHour.vb">
+      <DependentUpon>PayrollUnitOfWork.tt</DependentUpon>
+    </Compile>
+    <Compile Include="OrganizationChartPosition.vb">
+      <DependentUpon>PayrollUnitOfWork.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PayrollParameter.vb">
+      <DependentUpon>PayrollUnitOfWork.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PayrollSettings.vb">
+      <DependentUpon>PayrollUnitOfWork.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PayrollUnitOfWork.vb">
+      <DependentUpon>PayrollUnitOfWork.tt</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
+    <Compile Include="PensionaryType.vb">
+      <DependentUpon>PayrollUnitOfWork.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Person.vb">
+      <DependentUpon>PayrollUnitOfWork.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PersonDiagnosedDisease.vb">
+      <DependentUpon>PayrollUnitOfWork.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PersonDisability.vb">
+      <DependentUpon>PayrollUnitOfWork.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PersonFreeTimeUse.vb">
+      <DependentUpon>PayrollUnitOfWork.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PersonLanguage.vb">
+      <DependentUpon>PayrollUnitOfWork.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PersonNationality.vb">
+      <DependentUpon>PayrollUnitOfWork.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PersonProfession.vb">
+      <DependentUpon>PayrollUnitOfWork.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PersonSportPractice.vb">
+      <DependentUpon>PayrollUnitOfWork.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PersonStudy.vb">
+      <DependentUpon>PayrollUnitOfWork.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Phone.vb">
+      <DependentUpon>PayrollUnitOfWork.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PhoneType.vb">
+      <DependentUpon>PayrollUnitOfWork.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PortfolioNoteConcept.vb">
+      <DependentUpon>PayrollUnitOfWork.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Position.vb">
+      <DependentUpon>PayrollUnitOfWork.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PositionLevel.vb">
+      <DependentUpon>PayrollUnitOfWork.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PositionRoll.vb">
+      <DependentUpon>PayrollUnitOfWork.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PositionUser.vb">
+      <DependentUpon>PayrollUnitOfWork.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ProductionCenter.vb">
+      <DependentUpon>PayrollUnitOfWork.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Profession.vb">
+      <DependentUpon>PayrollUnitOfWork.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ProfessionalRisk.vb">
+      <DependentUpon>PayrollUnitOfWork.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Relationship.vb">
+      <DependentUpon>PayrollUnitOfWork.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ReligiousBeliefs.vb">
+      <DependentUpon>PayrollUnitOfWork.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ResumptionHoliday.vb">
+      <DependentUpon>PayrollUnitOfWork.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ResumptionHolidayDetail.vb">
+      <DependentUpon>PayrollUnitOfWork.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Retention.vb">
+      <DependentUpon>PayrollUnitOfWork.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RetentionConceptRanges.vb">
+      <DependentUpon>PayrollUnitOfWork.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RetentionConcepts.vb">
+      <DependentUpon>PayrollUnitOfWork.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RetirementReason.vb">
+      <DependentUpon>PayrollUnitOfWork.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RetroactiveC.vb">
+      <DependentUpon>PayrollUnitOfWork.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RetroactiveD.vb">
+      <DependentUpon>PayrollUnitOfWork.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Schedule.vb">
+      <DependentUpon>PayrollUnitOfWork.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ScheduleDetail.vb">
+      <DependentUpon>PayrollUnitOfWork.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ScheduleDetailConcept.vb">
+      <DependentUpon>PayrollUnitOfWork.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ScheduleDetailHour.vb">
+      <DependentUpon>PayrollUnitOfWork.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ScheduleTemplate.vb">
+      <DependentUpon>PayrollUnitOfWork.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ScheduleTemplateConcept.vb">
+      <DependentUpon>PayrollUnitOfWork.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ScheduleTemplateConceptDetail.vb">
+      <DependentUpon>PayrollUnitOfWork.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ScheduleTemplateFunctionalUnit.vb">
+      <DependentUpon>PayrollUnitOfWork.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Services\Autoliquidation\AutoliquidationDomain.vb" />
+    <Compile Include="Services\Autoliquidation\IAutoliquidationDomain.vb" />
+    <Compile Include="Services\ExtemporaneousAdjustment\ExtemporaneousAdjustmentDomain.vb" />
+    <Compile Include="Services\ExtemporaneousAdjustment\IExtemporaneousAdjustmentDomain.vb" />
+    <Compile Include="Services\IncentivePayment\IIncentivePaymentDomain.vb" />
+    <Compile Include="Services\IncentivePayment\IncentivePaymentDomain.vb" />
+    <Compile Include="Services\Liquidation\ILiquidationDomain.vb" />
+    <Compile Include="Services\Liquidation\LiquidationDomain.vb" />
+    <Compile Include="Services\Novelty\INoveltyDomain.vb" />
+    <Compile Include="Services\Novelty\NoveltyDomain.vb" />
+    <Compile Include="SportPractice.vb">
+      <DependentUpon>PayrollUnitOfWork.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SP_AnalisEmployeeSchedule_Result.vb">
+      <DependentUpon>PayrollUnitOfWork.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SP_AutoliquidationFileCR.vb" />
+    <Compile Include="SP_AutoliquidationFile_Result.vb">
+      <DependentUpon>PayrollUnitOfWork.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SP_BankFileIncentivePaymentWithoutConfirm_Result.vb">
+      <DependentUpon>PayrollUnitOfWork.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SP_ConfirmBankFile_Result.vb">
+      <DependentUpon>PayrollUnitOfWork.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SP_ConfirmDisconfirmVerifyAutoliquidation_Result.vb">
+      <DependentUpon>PayrollUnitOfWork.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SP_ConfirmIncreaseEmployeSalary_Result.vb">
+      <DependentUpon>PayrollUnitOfWork.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SP_GenerateJournalVouchersIncentivePayment_Result.vb">
+      <DependentUpon>PayrollUnitOfWork.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SP_GenerateJournalVouchersUnemployment_Result.vb">
+      <DependentUpon>PayrollUnitOfWork.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SP_GenerateJournalVouchers_Result.vb">
+      <DependentUpon>PayrollUnitOfWork.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SP_GetElectronicPayrollPaymentSupportDetails_Result.vb">
+      <DependentUpon>PayrollUnitOfWork.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SP_GetElectronicPayrollPaymentSupport_Result.vb">
+      <DependentUpon>PayrollUnitOfWork.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SP_GetMassiveContractExtension_Result.vb">
+      <DependentUpon>PayrollUnitOfWork.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SP_GetMassiveContract_Result.vb">
+      <DependentUpon>PayrollUnitOfWork.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SP_GetMassiveManualConcepts_Result.vb">
+      <DependentUpon>PayrollUnitOfWork.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SP_IncreaseEmployeSalary_Result.vb">
+      <DependentUpon>PayrollUnitOfWork.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SP_ReportHumanTalent_Result.vb">
+      <DependentUpon>PayrollUnitOfWork.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SP_SaveAgreement_Result.vb">
+      <DependentUpon>PayrollUnitOfWork.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SP_SaveBankFile_Result.vb">
+      <DependentUpon>PayrollUnitOfWork.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SP_SaveExtraHours_Result.vb">
+      <DependentUpon>PayrollUnitOfWork.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SP_SaveMassiveVerifyAutoliquidation_Result.vb">
+      <DependentUpon>PayrollUnitOfWork.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SP_SetBankAutomaticRecognitionRules_Result.vb">
+      <DependentUpon>PayrollUnitOfWork.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SP_SetBankDetail_Result.vb">
+      <DependentUpon>PayrollUnitOfWork.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SP_SetIncreaseSalaryFromFile_Result.vb">
+      <DependentUpon>PayrollUnitOfWork.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SP_SummaryVacationLiquidation_Result.vb">
+      <DependentUpon>PayrollUnitOfWork.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SP_ValidateMassiveContractExtension_Result.vb">
+      <DependentUpon>PayrollUnitOfWork.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SP_ValidateMassiveContract_Result.vb">
+      <DependentUpon>PayrollUnitOfWork.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SP_ValidateMassiveDependentRelatives_Result.vb">
+      <DependentUpon>PayrollUnitOfWork.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SP_ValidateMassiveEmployeeSchedule_Result.vb">
+      <DependentUpon>PayrollUnitOfWork.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SP_ValidateMassiveExternalEntities_Result.vb">
+      <DependentUpon>PayrollUnitOfWork.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SP_ValidateMassiveManualConcepts_Result.vb">
+      <DependentUpon>PayrollUnitOfWork.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SP_ValidateMassiveNovelties_Result.vb">
+      <DependentUpon>PayrollUnitOfWork.tt</DependentUpon>
+    </Compile>
+    <Compile Include="StudyCenter.vb">
+      <DependentUpon>PayrollUnitOfWork.tt</DependentUpon>
+    </Compile>
+    <Compile Include="StudyType.vb">
+      <DependentUpon>PayrollUnitOfWork.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ThirdParty.vb">
+      <DependentUpon>PayrollUnitOfWork.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TimeUnit.vb">
+      <DependentUpon>PayrollUnitOfWork.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TradeUnion.vb">
+      <DependentUpon>PayrollUnitOfWork.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TradeUnionEmployee.vb">
+      <DependentUpon>PayrollUnitOfWork.tt</DependentUpon>
+    </Compile>
+    <Compile Include="UnemployedConcept.vb">
+      <DependentUpon>PayrollUnitOfWork.tt</DependentUpon>
+    </Compile>
+    <Compile Include="UnemployedLiquidation.vb">
+      <DependentUpon>PayrollUnitOfWork.tt</DependentUpon>
+    </Compile>
+    <Compile Include="UnemployedLiquidationDetail.vb">
+      <DependentUpon>PayrollUnitOfWork.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Vacation.vb">
+      <DependentUpon>PayrollUnitOfWork.tt</DependentUpon>
+    </Compile>
+    <Compile Include="VacationDetail.vb">
+      <DependentUpon>PayrollUnitOfWork.tt</DependentUpon>
+    </Compile>
+    <Compile Include="VacationPeriod.vb">
+      <DependentUpon>PayrollUnitOfWork.tt</DependentUpon>
+    </Compile>
+    <Compile Include="VacationRequest.vb">
+      <DependentUpon>PayrollUnitOfWork.tt</DependentUpon>
+    </Compile>
+    <Compile Include="VerifyAutoliquidationFile.vb">
+      <DependentUpon>PayrollUnitOfWork.tt</DependentUpon>
+    </Compile>
+    <Compile Include="VoucherTransaction.vb">
+      <DependentUpon>PayrollUnitOfWork.tt</DependentUpon>
+    </Compile>
+    <Compile Include="VoucherTransactionDetails.vb">
+      <DependentUpon>PayrollUnitOfWork.tt</DependentUpon>
+    </Compile>
+    <Compile Include="WorkCenter.vb">
+      <DependentUpon>PayrollUnitOfWork.tt</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="My Project\Resources.resx">
+      <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.vb</LastGenOutput>
+      <CustomToolNamespace>My.Resources</CustomToolNamespace>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="My Project\Application.myapp">
+      <Generator>MyApplicationCodeGenerator</Generator>
+      <LastGenOutput>Application.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="My Project\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <CustomToolNamespace>My</CustomToolNamespace>
+      <LastGenOutput>Settings.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="PayrollUnitOfWork.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>PayrollUnitOfWork.vb</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Domain.Base.Entities\Domain.Base.Entities.vbproj">
+      <Project>{78734d29-0073-4d48-9d0b-2362d0243e36}</Project>
+      <Name>Domain.Base.Entities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Domain.Entities\Domain.Entities.vbproj">
+      <Project>{0551aef4-ed84-4745-b00b-7475f26015cc}</Project>
+      <Name>Domain.Entities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastructure.CrossCutting.Base\Infrastructure.CrossCutting.Base.vbproj">
+      <Project>{2773d9f7-93bd-4520-9726-bce0d8875696}</Project>
+      <Name>Infrastructure.CrossCutting.Base</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastructure.CrossCutting.Root\Infrastructure.CrossCutting.Root.vbproj">
+      <Project>{ECEB8906-50D9-490C-B3F3-3CC1632B0FDE}</Project>
+      <Name>Infrastructure.CrossCutting.Root</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

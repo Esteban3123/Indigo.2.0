@@ -1,0 +1,89 @@
+﻿#Region "Librerias Importadas"
+Imports Infrastructure.CrossCutting.Base
+Imports Infrastructure.Data.Xpo.TreasuryRepository
+Imports Infrastructure.Data.Xpo
+Imports System.Globalization
+Imports DevExpress.XtraReports.UI
+#End Region
+
+Public Class rptReportListPaymentSchedule
+    Implements IReport
+
+    ''' <summary>
+    ''' Variable para inicializar los valores de sesion
+    ''' </summary>
+    Dim IndigoSessionValues As SessionValues = SessionValues.Instance
+
+    ''' <summary>
+    ''' lista de los detalles a imprimir
+    ''' </summary>
+    Private List As List(Of TreasurySchedulePaymentDetailXpo)
+
+    Public Sub CargarDataSource() Implements IReport.CargarDataSource
+
+        Dim filtroConsulta As String = "SchedulePaymentId.ScheduledDate >= #" & Format(ParametrosReporte(0), "yyyy-MM-dd") & "# AND SchedulePaymentId.ScheduledDate <= #" & Format(ParametrosReporte(1), "yyyy-MM-dd") & "#"
+        ' si filtra por proveedores
+        If ParametrosReporte(2) IsNot Nothing And ParametrosReporte(3) IsNot Nothing Then
+            filtroConsulta &= "AND SupplierId.IdThirdParty.Nit >= '" & ParametrosReporte(2) & "' AND SupplierId.IdThirdParty.Nit <= '" & ParametrosReporte(3) & "'"
+        End If
+        If ParametrosReporte(4) < 0 And ParametrosReporte(5) < 0 Then
+            filtroConsulta &= "AND SchedulePaymentId.Id >= '" & ParametrosReporte(4) & "' AND SchedulePaymentId.Id <= '" & ParametrosReporte(5) & "'"
+        End If
+
+        List = XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).TreasuryService.GetCollection(Of TreasurySchedulePaymentDetailXpo)(Nothing, filtroConsulta)
+        Me.DataSource = List
+    End Sub
+
+    Public Sub CargarImagenes() Implements IReport.CargarImagenes
+
+    End Sub
+
+    Public ReadOnly Property NameReport As String Implements IReport.NameReport
+        Get
+            Return ""
+        End Get
+    End Property
+
+    Public Property ParametrosReporte As Object() Implements IReport.ParametrosReporte
+
+    Private Sub rptReportListPaymentSchedule_BeforePrint(sender As Object, e As Printing.PrintEventArgs) Handles MyBase.BeforePrint
+        INDLblCompany.Text = IndigoSessionValues.IndigoCompanyName
+        INDLblNitCompany.Text = "Nit:" & IndigoSessionValues.IndigoCompanyNit
+        INDLblUserPrint.Text = "Usuario Impresión : " & IndigoSessionValues.UserIndigo & " - " & IndigoSessionValues.UserIndigoName
+        INDLblDate.Text = "Informe comprendido entre " & CDate(ParametrosReporte(0)).ToString("dd De MMMM Del yyyy") & " " & CDate(ParametrosReporte(1)).ToString("A dd De MMMM Del yyyy")
+    End Sub
+
+
+    Private Sub GroupFooter1_BeforePrint(sender As Object, e As Printing.PrintEventArgs) Handles GroupFooter1.BeforePrint
+
+        Dim GroupByCurrency = (From x In List
+                               Group By x.CurrencyAbbreviation Into Group
+                               Select CurrencyAbbreviation, SumCurrency = Group.Sum(Function(f) f.AmountPaid))
+        Dim row = 0
+        For Each ObjItem In GroupByCurrency
+            If row = 0 Then
+                XrTableCell15.Text = $"Valor Total {ObjItem.CurrencyAbbreviation} :"
+                XrTableCell16.Text = (ObjItem.SumCurrency).ToString("n2")
+                row += 1
+                Continue For
+            End If
+
+            XrTable4.InsertRowBelow(XrTable4.Rows.LastRow)
+            Dim irow = XrTable4.Rows.LastRow.Index
+            For Each Column As XRTableCell In XrTableRow4
+                Dim cell = XrTable4.Rows(irow).Cells.Item(Column.Index)
+                Select Case Column.Name
+                    Case NameOf(XrTableCell15)
+                        cell.Text = $"Valor Total {ObjItem.CurrencyAbbreviation} :"
+                    Case NameOf(XrTableCell16)
+                        cell.TextFormatString = "{0:n2}"
+                        cell.Text = (ObjItem.SumCurrency).ToString("n2")
+                End Select
+            Next
+        Next
+
+
+    End Sub
+
+
+End Class

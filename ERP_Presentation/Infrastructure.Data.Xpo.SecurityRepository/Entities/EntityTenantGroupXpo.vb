@@ -1,0 +1,74 @@
+﻿Imports System
+Imports DevExpress.Xpo
+Imports DevExpress.Data.Filtering
+Imports Infrastructure.CrossCutting.Base
+
+<Persistent("Security.TenantGroup")>
+Partial Public Class EntityTenantGroupXpo
+    Inherits XPLiteObject
+
+#Region "Members"
+    Dim fId As Integer
+    <Key(True)>
+    Public Property Id() As Integer
+        Get
+            Return fId
+        End Get
+        Set(ByVal value As Integer)
+            SetPropertyValue(Of Integer)("Id", fId, value)
+        End Set
+    End Property
+
+    <PersistentAlias("Tenant.Id")>
+    Public ReadOnly Property TenantId() As Integer
+        Get
+            Return Convert.ToInt32(EvaluateAlias("TenantId"))
+        End Get
+    End Property
+
+    <PersistentAlias("Group.Id")>
+    Public ReadOnly Property GroupId() As Integer
+        Get
+            Return Convert.ToInt32(EvaluateAlias("GroupId"))
+        End Get
+    End Property
+
+    Dim fGroup As Security_Group
+    <Persistent("GroupId")>
+    <Association("TenantGroupXpo_Group")>
+    Public Property Group() As Security_Group
+        Get
+            Return fGroup
+        End Get
+        Set(ByVal value As Security_Group)
+            SetPropertyValue("Group", fGroup, value)
+        End Set
+    End Property
+
+    Dim fTenant As TenantXpo
+    <Persistent("TenantId")>
+    <Association("TenantGroupXpo_Tenant")>
+    Public Property Tenant() As TenantXpo
+        Get
+            Return fTenant
+        End Get
+        Set(ByVal value As TenantXpo)
+            SetPropertyValue("Tenant", fTenant, value)
+        End Set
+    End Property
+
+#End Region
+
+
+
+    Public Sub New(ByVal session As Session)
+        MyBase.New(session)
+    End Sub
+    Public Sub New()
+        MyBase.New(Session.DefaultSession)
+    End Sub
+    Public Overrides Sub AfterConstruction()
+        MyBase.AfterConstruction()
+    End Sub
+
+End Class

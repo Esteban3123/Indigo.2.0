@@ -1,0 +1,687 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://tempuri.org/" elementFormDefault="qualified" targetNamespace="http://tempuri.org/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import schemaLocation="https://localhost:9001/ServiceEntity/MedicalFees.svc?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/Domain.Entities" />
+  <xs:import schemaLocation="https://localhost:9001/ServiceEntity/MedicalFees.svc?xsd=xsd3" namespace="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" />
+  <xs:import schemaLocation="https://localhost:9001/ServiceEntity/MedicalFees.svc?xsd=xsd5" namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
+  <xs:import schemaLocation="https://localhost:9001/ServiceEntity/MedicalFees.svc?xsd=xsd7" namespace="http://schemas.datacontract.org/2004/07/Infrastructure.CrossCutting.Base" />
+  <xs:import schemaLocation="https://localhost:9001/ServiceEntity/MedicalFees.svc?xsd=xsd8" namespace="http://schemas.datacontract.org/2004/07/System" />
+  <xs:element name="GetBlockRecordMedicalFeesByIdformAndIdRecord">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="IdForm" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="IdRecord" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetBlockRecordMedicalFeesByIdformAndIdRecordResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q1="http://schemas.datacontract.org/2004/07/Domain.Entities" minOccurs="0" name="GetBlockRecordMedicalFeesByIdformAndIdRecordResult" nillable="true" type="q1:BlockRecordMedicalFees" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SaveBlockRecordMedicalFees">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q2="http://schemas.datacontract.org/2004/07/Domain.Entities" minOccurs="0" name="BlockRecordMedicalFees" nillable="true" type="q2:BlockRecordMedicalFees" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SaveBlockRecordMedicalFeesResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q3="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="SaveBlockRecordMedicalFeesResult" nillable="true" type="q3:ActionResultOfBlockRecordMedicalFeesMbb067J0" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="DeleteBlockRecordMedicalFees">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q4="http://schemas.datacontract.org/2004/07/Domain.Entities" minOccurs="0" name="BlockRecordMedicalFees" nillable="true" type="q4:BlockRecordMedicalFees" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="DeleteBlockRecordMedicalFeesResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q5="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="DeleteBlockRecordMedicalFeesResult" nillable="true" type="q5:ActionResult" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetSequenseByIdForm">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="idForm" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetSequenseByIdFormResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q6="http://schemas.datacontract.org/2004/07/Domain.Entities" minOccurs="0" name="GetSequenseByIdFormResult" nillable="true" type="q6:MedicalFeesSecuence" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetNumericSequenseGroupById">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="id" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetNumericSequenseGroupByIdResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q7="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="GetNumericSequenseGroupByIdResult" nillable="true" type="q7:ArrayOfstring" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SaveSequence">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q8="http://schemas.datacontract.org/2004/07/Domain.Entities" minOccurs="0" name="seq" nillable="true" type="q8:MedicalFeesSecuence" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SaveSequenceResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q9="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="SaveSequenceResult" nillable="true" type="q9:ActionResult" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SaveMedicalFeesContract">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q10="http://schemas.datacontract.org/2004/07/Domain.Entities" minOccurs="0" name="MedicalFeesContract" nillable="true" type="q10:MedicalFeesContract" />
+        <xs:element minOccurs="0" name="idSequense" type="xs:long" />
+        <xs:element xmlns:q11="http://schemas.datacontract.org/2004/07/Infrastructure.CrossCutting.Base" minOccurs="0" name="audit" nillable="true" type="q11:AuditMessage" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SaveMedicalFeesContractResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q12="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="SaveMedicalFeesContractResult" nillable="true" type="q12:ActionResultOfMedicalFeesContractMbb067J0" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="DeleteMedicalFeesContract">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q13="http://schemas.datacontract.org/2004/07/Domain.Entities" minOccurs="0" name="MedicalFeesContract" nillable="true" type="q13:MedicalFeesContract" />
+        <xs:element xmlns:q14="http://schemas.datacontract.org/2004/07/Infrastructure.CrossCutting.Base" minOccurs="0" name="audit" nillable="true" type="q14:AuditMessage" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="DeleteMedicalFeesContractResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q15="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="DeleteMedicalFeesContractResult" nillable="true" type="q15:ActionResult" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetMedicalFeesContract">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="code" nillable="true" type="xs:string" />
+        <xs:element xmlns:q16="http://schemas.datacontract.org/2004/07/Infrastructure.CrossCutting.Base" minOccurs="0" name="audit" nillable="true" type="q16:AuditMessage" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetMedicalFeesContractResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q17="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="GetMedicalFeesContractResult" nillable="true" type="q17:ActionResultOfMedicalFeesContractMbb067J0" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetMedicalFeesContractById">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="id" type="xs:int" />
+        <xs:element xmlns:q18="http://schemas.datacontract.org/2004/07/Infrastructure.CrossCutting.Base" minOccurs="0" name="audit" nillable="true" type="q18:AuditMessage" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetMedicalFeesContractByIdResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q19="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="GetMedicalFeesContractByIdResult" nillable="true" type="q19:ActionResultOfMedicalFeesContractMbb067J0" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ChangeStateMedicalFeesContract">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="code" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="state" type="xs:int" />
+        <xs:element xmlns:q20="http://schemas.datacontract.org/2004/07/Infrastructure.CrossCutting.Base" minOccurs="0" name="audit" nillable="true" type="q20:AuditMessage" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ChangeStateMedicalFeesContractResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q21="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="ChangeStateMedicalFeesContractResult" nillable="true" type="q21:ActionResultOfMedicalFeesContractMbb067J0" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SaveMedicalFeesCausation">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q22="http://schemas.datacontract.org/2004/07/Domain.Entities" minOccurs="0" name="ListMedicalFeesCausation" nillable="true" type="q22:ArrayOfMedicalFeesCausation" />
+        <xs:element xmlns:q23="http://schemas.datacontract.org/2004/07/Domain.Entities" minOccurs="0" name="ListMedicalFeesNotes" nillable="true" type="q23:ArrayOfMedicalFeesNote" />
+        <xs:element xmlns:q24="http://schemas.datacontract.org/2004/07/Domain.Entities" minOccurs="0" name="ListDeleteMedicalFeesNotes" nillable="true" type="q24:ArrayOfMedicalFeesNote" />
+        <xs:element xmlns:q25="http://schemas.datacontract.org/2004/07/Infrastructure.CrossCutting.Base" minOccurs="0" name="audit" nillable="true" type="q25:AuditMessage" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SaveMedicalFeesCausationResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q26="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="SaveMedicalFeesCausationResult" nillable="true" type="q26:ActionResultOfArrayOfMedicalFeesCausationMbb067J0" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="DeleteMedicalFeesCausation">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q27="http://schemas.datacontract.org/2004/07/System" minOccurs="0" name="ListInfo" nillable="true" type="q27:ArrayOfTupleOfintint" />
+        <xs:element minOccurs="0" name="Company" nillable="true" type="xs:string" />
+        <xs:element xmlns:q28="http://schemas.datacontract.org/2004/07/Infrastructure.CrossCutting.Base" minOccurs="0" name="audit" nillable="true" type="q28:AuditMessage" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="DeleteMedicalFeesCausationResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q29="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="DeleteMedicalFeesCausationResult" nillable="true" type="q29:ActionResultOfArrayOfTupleOfstringintint5F2dSckg" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="DeleteMedicalFeesCausationFromRemoveFees">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="MedicalFeesCausationId" type="xs:int" />
+        <xs:element xmlns:q30="http://schemas.datacontract.org/2004/07/Infrastructure.CrossCutting.Base" minOccurs="0" name="audit" nillable="true" type="q30:AuditMessage" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="DeleteMedicalFeesCausationFromRemoveFeesResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q31="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="DeleteMedicalFeesCausationFromRemoveFeesResult" nillable="true" type="q31:ActionResult" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetMedicalFeesCausationById">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="id" type="xs:int" />
+        <xs:element xmlns:q32="http://schemas.datacontract.org/2004/07/Infrastructure.CrossCutting.Base" minOccurs="0" name="audit" nillable="true" type="q32:AuditMessage" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetMedicalFeesCausationByIdResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q33="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="GetMedicalFeesCausationByIdResult" nillable="true" type="q33:ActionResultOfMedicalFeesCausationMbb067J0" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="CausedValue">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="MedicalFeesCausationId" type="xs:int" />
+        <xs:element minOccurs="0" name="RateManualType" type="xs:int" />
+        <xs:element minOccurs="0" name="CupsEntityId" type="xs:int" />
+        <xs:element minOccurs="0" name="CareGroupId" type="xs:int" />
+        <xs:element minOccurs="0" name="RateManualId" type="xs:int" />
+        <xs:element minOccurs="0" name="ValueTotal" type="xs:decimal" />
+        <xs:element minOccurs="0" name="presentation" type="xs:int" />
+        <xs:element minOccurs="0" name="IPSServiceId" type="xs:int" />
+        <xs:element minOccurs="0" name="IPSServiceCodeName" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="healthProfessionalCode" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="thirdPartyDescription" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="IPSServiceIdParent" nillable="true" type="xs:int" />
+        <xs:element minOccurs="0" name="ServiceOrderDetailId" type="xs:int" />
+        <xs:element minOccurs="0" name="ServiceOrderDetailSurgicalId" type="xs:int" />
+        <xs:element minOccurs="0" name="MedicalFeesContractId" type="xs:int" />
+        <xs:element xmlns:q34="http://schemas.datacontract.org/2004/07/Domain.Entities" minOccurs="0" name="ListCupsHomologation" nillable="true" type="q34:ArrayOfCupsHomologation" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="CausedValueResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q35="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="CausedValueResult" nillable="true" type="q35:ActionResultOfArrayOfCupsHomologationMbb067J0" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="CauseMassively">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q36="http://schemas.datacontract.org/2004/07/Domain.Entities" minOccurs="0" name="ListNoSurgical" nillable="true" type="q36:ArrayOfNoQxEntity" />
+        <xs:element xmlns:q37="http://schemas.datacontract.org/2004/07/Domain.Entities" minOccurs="0" name="ListSurgical" nillable="true" type="q37:ArrayOfQxEntity" />
+        <xs:element xmlns:q38="http://schemas.datacontract.org/2004/07/Domain.Entities" minOccurs="0" name="ListCupsHomologation" nillable="true" type="q38:ArrayOfCupsHomologation" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="CauseMassivelyResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q39="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="CauseMassivelyResult" nillable="true" type="q39:ActionResultOfTupleOfArrayOfNoQxEntityArrayOfQxEntity2IiPpdpO5F2dSckg" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="CauseInvoice">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q40="http://schemas.datacontract.org/2004/07/Domain.Entities" minOccurs="0" name="invoiceDetail" nillable="true" type="q40:ViewListNoSurgical" />
+        <xs:element xmlns:q41="http://schemas.datacontract.org/2004/07/Infrastructure.CrossCutting.Base" minOccurs="0" name="audit" nillable="true" type="q41:AuditMessage" />
+        <xs:element xmlns:q42="http://schemas.datacontract.org/2004/07/Domain.Entities" minOccurs="0" name="listCupsHomologations" nillable="true" type="q42:ArrayOfCupsHomologation" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="CauseInvoiceResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q43="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="CauseInvoiceResult" nillable="true" type="q43:ActionResultOfArrayOfCupsHomologationMbb067J0" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="CauseInvoiceQx">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q44="http://schemas.datacontract.org/2004/07/Domain.Entities" minOccurs="0" name="invoiceDetail" nillable="true" type="q44:ViewListSurgicalAndPackage" />
+        <xs:element xmlns:q45="http://schemas.datacontract.org/2004/07/Infrastructure.CrossCutting.Base" minOccurs="0" name="audit" nillable="true" type="q45:AuditMessage" />
+        <xs:element xmlns:q46="http://schemas.datacontract.org/2004/07/Domain.Entities" minOccurs="0" name="listCupsHomologations" nillable="true" type="q46:ArrayOfCupsHomologation" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="CauseInvoiceQxResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q47="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="CauseInvoiceQxResult" nillable="true" type="q47:ActionResultOfArrayOfCupsHomologationMbb067J0" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SaveMedicalFeesSettings">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q48="http://schemas.datacontract.org/2004/07/Domain.Entities" minOccurs="0" name="MedicalFeesSettings" nillable="true" type="q48:SettingMedicalFees" />
+        <xs:element xmlns:q49="http://schemas.datacontract.org/2004/07/Infrastructure.CrossCutting.Base" minOccurs="0" name="audit" nillable="true" type="q49:AuditMessage" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SaveMedicalFeesSettingsResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q50="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="SaveMedicalFeesSettingsResult" nillable="true" type="q50:ActionResultOfSettingMedicalFeesMbb067J0" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetMedicalFeesSettings">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q51="http://schemas.datacontract.org/2004/07/Infrastructure.CrossCutting.Base" minOccurs="0" name="audit" nillable="true" type="q51:AuditMessage" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetMedicalFeesSettingsResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q52="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="GetMedicalFeesSettingsResult" nillable="true" type="q52:ActionResultOfSettingMedicalFeesMbb067J0" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SaveMedicalFeesLiquidation">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q53="http://schemas.datacontract.org/2004/07/Domain.Entities" minOccurs="0" name="MedicalFeesLiquidation" nillable="true" type="q53:MedicalFeesLiquidation" />
+        <xs:element minOccurs="0" name="idSequense" type="xs:long" />
+        <xs:element xmlns:q54="http://schemas.datacontract.org/2004/07/Infrastructure.CrossCutting.Base" minOccurs="0" name="audit" nillable="true" type="q54:AuditMessage" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SaveMedicalFeesLiquidationResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q55="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="SaveMedicalFeesLiquidationResult" nillable="true" type="q55:ActionResultOfMedicalFeesLiquidationMbb067J0" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="DeleteMedicalFeesLiquidation">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q56="http://schemas.datacontract.org/2004/07/Domain.Entities" minOccurs="0" name="MedicalFeesLiquidation" nillable="true" type="q56:MedicalFeesLiquidation" />
+        <xs:element xmlns:q57="http://schemas.datacontract.org/2004/07/Infrastructure.CrossCutting.Base" minOccurs="0" name="audit" nillable="true" type="q57:AuditMessage" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="DeleteMedicalFeesLiquidationResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q58="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="DeleteMedicalFeesLiquidationResult" nillable="true" type="q58:ActionResult" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetMedicalFeesLiquidation">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="code" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="medicalFeesContractId" type="xs:int" />
+        <xs:element xmlns:q59="http://schemas.datacontract.org/2004/07/Infrastructure.CrossCutting.Base" minOccurs="0" name="audit" nillable="true" type="q59:AuditMessage" />
+        <xs:element minOccurs="0" name="optionConsult" type="xs:int" />
+        <xs:element minOccurs="0" name="healthProfeesionalCode" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetMedicalFeesLiquidationResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q60="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="GetMedicalFeesLiquidationResult" nillable="true" type="q60:ActionResultOfMedicalFeesLiquidationMbb067J0" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetMedicalFeesLiquidationByMedicalFeesContractId">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="MedicalFeesContractId" type="xs:int" />
+        <xs:element xmlns:q61="http://schemas.datacontract.org/2004/07/Infrastructure.CrossCutting.Base" minOccurs="0" name="audit" nillable="true" type="q61:AuditMessage" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetMedicalFeesLiquidationByMedicalFeesContractIdResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q62="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="GetMedicalFeesLiquidationByMedicalFeesContractIdResult" nillable="true" type="q62:ActionResultOfMedicalFeesLiquidationMbb067J0" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetMedicalFeesLiquidationById">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="id" type="xs:int" />
+        <xs:element xmlns:q63="http://schemas.datacontract.org/2004/07/Infrastructure.CrossCutting.Base" minOccurs="0" name="audit" nillable="true" type="q63:AuditMessage" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetMedicalFeesLiquidationByIdResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q64="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="GetMedicalFeesLiquidationByIdResult" nillable="true" type="q64:ActionResultOfMedicalFeesLiquidationMbb067J0" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="AnnularMedicalFeesLiquidation">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q65="http://schemas.datacontract.org/2004/07/Domain.Entities" minOccurs="0" name="MedicalFeesLiquidation" nillable="true" type="q65:MedicalFeesLiquidation" />
+        <xs:element xmlns:q66="http://schemas.datacontract.org/2004/07/Infrastructure.CrossCutting.Base" minOccurs="0" name="audit" nillable="true" type="q66:AuditMessage" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="AnnularMedicalFeesLiquidationResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q67="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="AnnularMedicalFeesLiquidationResult" nillable="true" type="q67:ActionResultOfMedicalFeesLiquidationMbb067J0" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SaveAndConfirmMedicalFeesLiquidation">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q68="http://schemas.datacontract.org/2004/07/Domain.Entities" minOccurs="0" name="medicalFeesLiquidation" nillable="true" type="q68:MedicalFeesLiquidation" />
+        <xs:element minOccurs="0" name="idSequense" type="xs:long" />
+        <xs:element xmlns:q69="http://schemas.datacontract.org/2004/07/Infrastructure.CrossCutting.Base" minOccurs="0" name="audit" nillable="true" type="q69:AuditMessage" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SaveAndConfirmMedicalFeesLiquidationResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q70="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="SaveAndConfirmMedicalFeesLiquidationResult" nillable="true" type="q70:ActionResultOfMedicalFeesLiquidationMbb067J0" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ValidateCostCenterBySupplierDistributionLineId">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="supplierDistributionLineId" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ValidateCostCenterBySupplierDistributionLineIdResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q71="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="ValidateCostCenterBySupplierDistributionLineIdResult" nillable="true" type="q71:ActionResultOfMedicalFeesLiquidationMbb067J0" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetMedicalFeesNotesByAdmissionNumberAndInvoiceId">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="AdmissionNumber" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="InvoiceId" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetMedicalFeesNotesByAdmissionNumberAndInvoiceIdResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q72="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="GetMedicalFeesNotesByAdmissionNumberAndInvoiceIdResult" nillable="true" type="q72:ActionResultOfArrayOfMedicalFeesNoteMbb067J0" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetListHealthProfessionalContractByHealthProfessionalCode">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="healthProfessionalCode" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetListHealthProfessionalContractByHealthProfessionalCodeResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q73="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="GetListHealthProfessionalContractByHealthProfessionalCodeResult" nillable="true" type="q73:ActionResultOfArrayOfHealthProfessionalContractMbb067J0" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetHealthProfessionalContractById">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="id" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetHealthProfessionalContractByIdResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q74="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="GetHealthProfessionalContractByIdResult" nillable="true" type="q74:ActionResultOfHealthProfessionalContractMbb067J0" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ListHealthProfessionalContractWithTypeStandard">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="healthProfessionalCode" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ListHealthProfessionalContractWithTypeStandardResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q75="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="ListHealthProfessionalContractWithTypeStandardResult" nillable="true" type="q75:ActionResultOfArrayOfHealthProfessionalContractMbb067J0" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetGlosaMedicalFeesConceptsByCode">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="code" nillable="true" type="xs:string" />
+        <xs:element xmlns:q76="http://schemas.datacontract.org/2004/07/Infrastructure.CrossCutting.Base" minOccurs="0" name="audit" nillable="true" type="q76:AuditMessage" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetGlosaMedicalFeesConceptsByCodeResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q77="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="GetGlosaMedicalFeesConceptsByCodeResult" nillable="true" type="q77:ActionResultOfGlosaMedicalFeesConceptsMbb067J0" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetGlosaMedicalFeesConceptsById">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="Id" type="xs:int" />
+        <xs:element xmlns:q78="http://schemas.datacontract.org/2004/07/Infrastructure.CrossCutting.Base" minOccurs="0" name="audit" nillable="true" type="q78:AuditMessage" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetGlosaMedicalFeesConceptsByIdResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q79="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="GetGlosaMedicalFeesConceptsByIdResult" nillable="true" type="q79:ActionResultOfGlosaMedicalFeesConceptsMbb067J0" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SaveGlosaMedicalFeesConcepts">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q80="http://schemas.datacontract.org/2004/07/Domain.Entities" minOccurs="0" name="GlosaMedicalFeesConcepts" nillable="true" type="q80:GlosaMedicalFeesConcepts" />
+        <xs:element xmlns:q81="http://schemas.datacontract.org/2004/07/Infrastructure.CrossCutting.Base" minOccurs="0" name="audit" nillable="true" type="q81:AuditMessage" />
+        <xs:element minOccurs="0" name="idSequense" type="xs:long" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SaveGlosaMedicalFeesConceptsResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q82="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="SaveGlosaMedicalFeesConceptsResult" nillable="true" type="q82:ActionResultOfGlosaMedicalFeesConceptsMbb067J0" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ChangeStateGlosaMedicalFeesConcepts">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="code" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="state" type="xs:boolean" />
+        <xs:element xmlns:q83="http://schemas.datacontract.org/2004/07/Infrastructure.CrossCutting.Base" minOccurs="0" name="audit" nillable="true" type="q83:AuditMessage" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ChangeStateGlosaMedicalFeesConceptsResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q84="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="ChangeStateGlosaMedicalFeesConceptsResult" nillable="true" type="q84:ActionResultOfGlosaMedicalFeesConceptsMbb067J0" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="DeleteGlosaMedicalFeesConcepts">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q85="http://schemas.datacontract.org/2004/07/Domain.Entities" minOccurs="0" name="GlosaMedicalFeesConcepts" nillable="true" type="q85:GlosaMedicalFeesConcepts" />
+        <xs:element xmlns:q86="http://schemas.datacontract.org/2004/07/Infrastructure.CrossCutting.Base" minOccurs="0" name="audit" nillable="true" type="q86:AuditMessage" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="DeleteGlosaMedicalFeesConceptsResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q87="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="DeleteGlosaMedicalFeesConceptsResult" nillable="true" type="q87:ActionResultOfGlosaMedicalFeesConceptsMbb067J0" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ListAllGlosaMedicalFees">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q88="http://schemas.datacontract.org/2004/07/Infrastructure.CrossCutting.Base" minOccurs="0" name="audit" nillable="true" type="q88:AuditMessage" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ListAllGlosaMedicalFeesResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q89="http://schemas.datacontract.org/2004/07/Domain.Entities" minOccurs="0" name="ListAllGlosaMedicalFeesResult" nillable="true" type="q89:ArrayOfGlosaMedicalFees" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetGlosaMedicalFeesByCode">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="Id" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetGlosaMedicalFeesByCodeResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q90="http://schemas.datacontract.org/2004/07/Domain.Entities" minOccurs="0" name="GetGlosaMedicalFeesByCodeResult" nillable="true" type="q90:GlosaMedicalFees" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetAccountPayableById">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="Id" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetAccountPayableByIdResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q91="http://schemas.datacontract.org/2004/07/Domain.Entities" minOccurs="0" name="GetAccountPayableByIdResult" nillable="true" type="q91:AccountPayable" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SaveGlosaMedicalFees">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q92="http://schemas.datacontract.org/2004/07/Domain.Entities" minOccurs="0" name="GlosaMedicalFees" nillable="true" type="q92:GlosaMedicalFees" />
+        <xs:element minOccurs="0" name="idSequense" type="xs:long" />
+        <xs:element xmlns:q93="http://schemas.datacontract.org/2004/07/Infrastructure.CrossCutting.Base" minOccurs="0" name="audit" nillable="true" type="q93:AuditMessage" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SaveGlosaMedicalFeesResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q94="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="SaveGlosaMedicalFeesResult" nillable="true" type="q94:ActionResultOfGlosaMedicalFeesMbb067J0" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GenerateCausationRecognition">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="supplierId" type="xs:int" />
+        <xs:element minOccurs="0" name="operatingUnitId" type="xs:int" />
+        <xs:element minOccurs="0" name="recognitionDate" type="xs:dateTime" />
+        <xs:element minOccurs="0" name="userCode" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GenerateCausationRecognitionResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q95="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="GenerateCausationRecognitionResult" nillable="true" type="q95:ActionResult" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ReverseCausationRecognition">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="causationRecognitionId" type="xs:int" />
+        <xs:element minOccurs="0" name="userCode" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ReverseCausationRecognitionResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q96="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="ReverseCausationRecognitionResult" nillable="true" type="q96:ActionResult" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

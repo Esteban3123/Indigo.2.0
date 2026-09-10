@@ -1,0 +1,800 @@
+﻿'***********************************************************************
+' Assembly         : Application.Glosas
+' Author           : Daniel Eduardo Arévalo
+' Created          : 27-04-2015
+'
+' Copyright        : (c) . All rights reserved.
+'***********************************************************************
+#Region "Imports"
+
+Imports System.Transactions
+
+Imports Domain.Base
+Imports Domain.Base.Entities
+Imports Infrastructure.CrossCutting.Base
+Imports Infrastructure.CrossCutting.Exceptions
+Imports Domain.Entities
+Imports Domain.Common.Entities
+Imports Application.Base
+Imports System.Text
+
+#End Region
+Public Class RIPSPlaneAdminService
+    Implements IRIPSPlaneAdminService
+
+    Private _radicateInvoiceCRepository As IRadicateInvoiceCRepository
+    Private _IRIPSPlaneService As IRIPSPlane
+
+    ''' <summary>
+    ''' Initializa una nueva instancia de la clase <see cref="ObjectionsReceptionCAdminService" />.
+    ''' </summary>
+    ''' <param name="RIPSPlaneService">el repositorio para el manejo de Planos de RIPS</param>
+    Public Sub New(radicateInvoiceCRepository As IRadicateInvoiceCRepository,
+                   ByVal RIPSPlaneService As IRIPSPlane)
+        If RIPSPlaneService Is Nothing Then
+            Throw New ArgumentNullException("Repositorio de RIPSPlaneService Vacio")
+        End If
+
+        _radicateInvoiceCRepository = radicateInvoiceCRepository
+        _IRIPSPlaneService = RIPSPlaneService
+    End Sub
+
+    Public Function GenerateRIPSPlane(IdRadicateInvoice As Integer, ConsecutiveRadicateInvoice As String, CodificationType As String, ServiceCode As String, Session As SessionValues, DetailPackage As Boolean, Optional InvoicesList As List(Of Integer) = Nothing) As List(Of ActionMessageResult(Of StringBuilder)) Implements IRIPSPlaneAdminService.GenerateRIPSPlane
+        Try
+            Dim XmlInvoices = Me.ConvertToXmlInvoices(InvoicesList)
+            Dim ListPlaneRIPS As New List(Of ActionMessageResult(Of StringBuilder))
+            ConsecutiveRadicateInvoice = Utils.StringPad(ConsecutiveRadicateInvoice, 6, 0, Utils.PadType.STR_PAD_LEFT)
+
+            Me.AddToListPlaneRIPS(ListPlaneRIPS, Me.GenerateAFFile(IdRadicateInvoice, XmlInvoices, ConsecutiveRadicateInvoice, Session))
+            Me.AddToListPlaneRIPS(ListPlaneRIPS, Me.GenerateUSFile(IdRadicateInvoice, XmlInvoices, ConsecutiveRadicateInvoice, Session))
+            Me.AddToListPlaneRIPS(ListPlaneRIPS, Me.GenerateACFile(IdRadicateInvoice, XmlInvoices, ConsecutiveRadicateInvoice, DetailPackage, Session))
+            Me.AddToListPlaneRIPS(ListPlaneRIPS, Me.GenerateAPFile(IdRadicateInvoice, XmlInvoices, ConsecutiveRadicateInvoice, ServiceCode, DetailPackage, Session))
+            Me.AddToListPlaneRIPS(ListPlaneRIPS, Me.GenerateATFile(IdRadicateInvoice, XmlInvoices, ConsecutiveRadicateInvoice, ServiceCode, DetailPackage, Session))
+            Me.AddToListPlaneRIPS(ListPlaneRIPS, Me.GenerateANFile(IdRadicateInvoice, XmlInvoices, ConsecutiveRadicateInvoice, Session))
+            Me.AddToListPlaneRIPS(ListPlaneRIPS, Me.GenerateAUFile(IdRadicateInvoice, XmlInvoices, ConsecutiveRadicateInvoice, Session))
+            Me.AddToListPlaneRIPS(ListPlaneRIPS, Me.GenerateAHFile(IdRadicateInvoice, XmlInvoices, ConsecutiveRadicateInvoice, Session))
+            Me.AddToListPlaneRIPS(ListPlaneRIPS, Me.GenerateAMFile(IdRadicateInvoice, XmlInvoices, ConsecutiveRadicateInvoice, CodificationType, DetailPackage, Session))
+            Me.AddToListPlaneRIPS(ListPlaneRIPS, _IRIPSPlaneService.CTFile(ConsecutiveRadicateInvoice, ListPlaneRIPS))
+
+            Return ListPlaneRIPS
+        Catch ex As Exception
+            IndigoManagementExceptions.HandleException(ex, "ApplicationPolicy")
+            Return Nothing
+        End Try
+    End Function
+
+    ''' <summary>
+    ''' Genera el Archivo de FURIPS
+    ''' </summary>
+    ''' <param name="IdRadicateInvoice">IdRadicateInvoice</param>
+    ''' <param name="Session">Variable de Sesión</param>
+    ''' <returns>List(Of ActionMessageResult(Of StringBuilder))</returns>
+    ''' <remarks></remarks>
+    Public Function GenerateFURIPSPlane(IdRadicateInvoice As Integer, Session As SessionValues, Optional InvoicesList As List(Of RIPSBilling) = Nothing) As List(Of ActionMessageResult(Of StringBuilder)) Implements IRIPSPlaneAdminService.GenerateFURIPSPlane
+        Try
+            Dim fechaCorte As DateTime = DateTime.Now
+            Dim InvoiceIds As New List(Of Integer)
+            If InvoicesList IsNot Nothing AndAlso InvoicesList.Any() Then
+                InvoiceIds = InvoicesList.Select(Function(o) o.InvoiceId).ToList()
+                fechaCorte = InvoicesList.FirstOrDefault().FechaCorte
+            End If
+
+            Dim XmlParameters = Me.ConvertToXmlParameters(Session.IndigoCompanyNit, IdRadicateInvoice, 0, 0)
+            Dim XmlInvoices = Me.ConvertToXmlInvoices(InvoiceIds)
+            Dim ListPlaneRIPS As New List(Of ActionMessageResult(Of StringBuilder))
+
+            Me.AddToListPlaneRIPS(ListPlaneRIPS, Me.GenerateFURIPS1File(IdRadicateInvoice, XmlParameters, XmlInvoices, Session, fechaCorte))
+            Me.AddToListPlaneRIPS(ListPlaneRIPS, Me.GenerateFURIPS2File(IdRadicateInvoice, XmlParameters, XmlInvoices, Session, fechaCorte))
+
+            Return ListPlaneRIPS
+        Catch ex As Exception
+            IndigoManagementExceptions.HandleException(ex, "ApplicationPolicy")
+            Return Nothing
+        End Try
+    End Function
+
+    Public Function GetMegaRIPSByRadicateInvoiceId(radicateInvoiceId As Integer, companyCode As String, Optional InvoicesList As List(Of RIPSBilling) = Nothing) As ActionMessageResult(Of String) Implements IRIPSPlaneAdminService.GetMegaRIPSByRadicateInvoiceId
+        Try
+            Dim result As String = _IRIPSPlaneService.GetMegaRIPSByRadicateInvoiceId(radicateInvoiceId, companyCode, InvoicesList)
+            Return New ActionMessageResult(Of String)() With {.StateResult = True, .ObjectEmbbeded = result}
+        Catch ex As Exception
+            IndigoManagementExceptions.HandleException(ex, "ApplicationPolicy")
+            Return New ActionMessageResult(Of String)() With {.StateResult = False, .Message = IndigoManagementExceptions.GetExceptionDetails(ex)}
+        End Try
+    End Function
+
+    Public Function GenerateRIPSMegaPlane(IdRadicateInvoice As Integer, ConsecutiveRadicateInvoice As String, CodificationType As String, ServiceCode As String, Session As SessionValues, Optional InvoicesList As List(Of Integer) = Nothing) As List(Of ActionMessageResult(Of StringBuilder)) Implements IRIPSPlaneAdminService.GenerateRIPSMegaPlane
+        Try
+            Dim XmlParameters = Me.ConvertToXmlParameters(Session.IndigoCompanyNit, IdRadicateInvoice, CodificationType, ServiceCode)
+            Dim XmlInvoices = Me.ConvertToXmlInvoices(InvoicesList)
+            Dim ListPlaneRIPS As New List(Of ActionMessageResult(Of StringBuilder))
+            ConsecutiveRadicateInvoice = Utils.StringPad(ConsecutiveRadicateInvoice, 6, 0, Utils.PadType.STR_PAD_LEFT)
+
+            Me.AddToListPlaneRIPS(ListPlaneRIPS, Me.GenerateMegaPlaneFile(XmlParameters, XmlInvoices, ConsecutiveRadicateInvoice, Session))
+
+            Return ListPlaneRIPS
+        Catch ex As Exception
+            IndigoManagementExceptions.HandleException(ex, "ApplicationPolicy")
+            Return Nothing
+        End Try
+    End Function
+
+#Region "Function Privates"
+
+    Private Function ConvertToXmlParameters(IPSNit As String, RadicateInvoiceId As Integer, CodificationType As String, ServiceCode As String)
+        Dim builder As StringBuilder = New StringBuilder()
+        builder.Append("<Data>")
+        builder.Append("<IPSNit>" & IPSNit & "</IPSNit>")
+        builder.Append("<RadicateInvoiceId>" & RadicateInvoiceId & "</RadicateInvoiceId>")
+        builder.Append("<CodificationType>" & CodificationType & "</CodificationType>")
+        builder.Append("<ServiceCode>" & ServiceCode & "</ServiceCode>")
+        builder.Append("</Data>")
+        Return builder.ToString
+    End Function
+
+    Private Function ConvertToXmlInvoices(InvoicesList As List(Of Integer))
+        Dim builder As StringBuilder = New StringBuilder()
+        For Each InvoiceId In InvoicesList
+            builder.Append("<Data>")
+            builder.Append("<InvoiceId>" & InvoiceId & "</InvoiceId>")
+            builder.Append("</Data>")
+        Next
+        Return builder.ToString
+    End Function
+
+    Function GenerateAFFile(RadicateInvoiceId As Integer, XmlInvoices As String, ConsecutiveRadicateInvoice As String, session As SessionValues) As ActionMessageResult(Of StringBuilder)
+        Try
+            Dim ds = Me.SP_GenerateFileData("SP_GenerateAFFileData", RadicateInvoiceId, XmlInvoices, session)
+            If ds IsNot Nothing AndAlso ds.Tables.Count > 0 Then
+                Dim data As DataTable = ds.Tables(0)
+                Dim resultStore As List(Of SP_GenerateAFFileData_Result)
+                resultStore = (From dr In data.Rows
+                               Select New SP_GenerateAFFileData_Result With
+                                {
+                                   .IPSCode = dr("IPSCode").ToString(),
+                                   .IdentificationTypeCode = dr("IdentificationTypeCode").ToString(),
+                                   .InvoiceNumber = dr("InvoiceNumber").ToString(),
+                                   .AdmissionDate = dr("AdmissionDate").ToString(),
+                                   .InvoiceDate = dr("InvoiceDate").ToString(),
+                                   .OutputDate = dr("OutputDate").ToString(),
+                                   .HealthEntityCode = dr("HealthEntityCode").ToString(),
+                                   .ThirdPartyName = dr("ThirdPartyName").ToString(),
+                                   .ContractNumber = dr("ContractNumber").ToString(),
+                                   .CareGroupName = dr("CareGroupName").ToString(),
+                                   .PolicyNumber = dr("PolicyNumber").ToString(),
+                                   .TotalPatientSalesPrice = CDec(dr("TotalPatientSalesPrice")),
+                                   .CommissionValue = CDec(dr("CommissionValue")),
+                                   .PatientDiscount = CDec(dr("PatientDiscount")),
+                                   .ThirdPartySalesValue = CDec(dr("ThirdPartySalesValue"))
+                                }).ToList()
+
+                If resultStore.Count > 0 Then
+                    Dim StrBuilderData = _IRIPSPlaneService.AFStructure(resultStore, session)
+                    Return New ActionMessageResult(Of StringBuilder) With {.StateResult = True, .Message = String.Format("AF{0}", ConsecutiveRadicateInvoice), .ObjectEmbbeded = StrBuilderData}
+                End If
+            End If
+
+            Return New ActionMessageResult(Of StringBuilder) With {.StateResult = False}
+        Catch ex As Exception
+            Return New ActionMessageResult(Of StringBuilder) With {.StateResult = False, .Message = String.Format("Error al generar el Archivo AF: {0}", Utils.GetInnerExceptionMessageToString(ex))}
+        End Try
+    End Function
+
+    Function GenerateUSFile(RadicateInvoiceId As Integer, XmlInvoices As String, ConsecutiveRadicateInvoice As String, session As SessionValues) As ActionMessageResult(Of StringBuilder)
+        Try
+            Dim ds = Me.SP_GenerateFileData("SP_GenerateUSFileData", RadicateInvoiceId, XmlInvoices, session)
+            If ds IsNot Nothing AndAlso ds.Tables.Count > 0 Then
+                Dim data As DataTable = ds.Tables(0)
+                Dim resultStore As List(Of SP_GenerateUSFileData_Result)
+                resultStore = (From dr In data.Rows
+                               Select New SP_GenerateUSFileData_Result With
+                                {
+                                   .IdentificationTypeCode = dr("IdentificationTypeCode").ToString(),
+                                   .IdentificationNumber = dr("IdentificationNumber").ToString(),
+                                   .HealthEntityCode = dr("HealthEntityCode").ToString(),
+                                   .UserType = iif(CInt(dr("UserType")) = 3, 1, CInt(dr("UserType"))),
+                                   .FirstLastName = dr("FirstLastName").ToString(),
+                                   .SecondLastName = dr("SecondLastName").ToString(),
+                                   .FirstName = dr("FirstName").ToString(),
+                                   .SecondName = dr("SecondName").ToString(),
+                                   .Age = CInt(dr("Age")),
+                                   .UnitMeasureAge = CInt(dr("UnitMeasureAge")),
+                                   .Gender = dr("Gender").ToString(),
+                                   .Department = dr("Department").ToString(),
+                                   .City = dr("City").ToString(),
+                                   .ResidentialZone = dr("ResidentialZone").ToString()
+                                }).ToList()
+
+                If resultStore.Count > 0 Then
+                    Dim StrBuilderData = _IRIPSPlaneService.USStructure(resultStore)
+                    Return New ActionMessageResult(Of StringBuilder) With {.StateResult = True, .Message = String.Format("US{0}", ConsecutiveRadicateInvoice), .ObjectEmbbeded = StrBuilderData}
+                End If
+            End If
+
+            Return New ActionMessageResult(Of StringBuilder) With {.StateResult = False}
+        Catch ex As Exception
+            Return New ActionMessageResult(Of StringBuilder) With {.StateResult = False, .Message = String.Format("Error al generar el Archivo US: {0}", Utils.GetInnerExceptionMessageToString(ex))}
+        End Try
+    End Function
+
+    Function GenerateACFile(RadicateInvoiceId As Integer, XmlInvoices As String, ConsecutiveRadicateInvoice As String, DetailPackage As Boolean, session As SessionValues) As ActionMessageResult(Of StringBuilder)
+        Try
+            Dim ds = Me.SP_GenerateFileData("SP_GenerateACFileData", RadicateInvoiceId, XmlInvoices, DetailPackage, session)
+            If ds IsNot Nothing AndAlso ds.Tables.Count > 0 Then
+                Dim data As DataTable = ds.Tables(0)
+                Dim resultStore As List(Of SP_GenerateACFileData_Result)
+                resultStore = (From dr In data.Rows
+                               Select New SP_GenerateACFileData_Result With
+                                {
+                                   .InvoiceNumber = dr("InvoiceNumber").ToString(),
+                                   .IPSCode = dr("IPSCode").ToString(),
+                                   .IdentificationTypeCode = dr("IdentificationTypeCode").ToString(),
+                                   .IdentificationNumber = dr("IdentificationNumber").ToString(),
+                                   .ServiceDate = dr("ServiceDate").ToString(),
+                                   .AuthorizationNumber = dr("AuthorizationNumber").ToString(),
+                                   .RIPSCode = dr("RIPSCode").ToString(),
+                                   .ConsultationPurpose = dr("ConsultationPurpose").ToString(),
+                                   .ExternalCause = dr("ExternalCause").ToString(),
+                                   .MainDiagnosticCode = dr("MainDiagnosticCode").ToString(),
+                                   .DiagnosticType = CInt(dr("DiagnosticType")),
+                                   .TotalSalesPrice = CDec(dr("TotalSalesPrice")),
+                                   .ModeratorFee = CDec(dr("ModeratorFee")),
+                                   .NetToPay = CDec(dr("NetToPay")),
+                                   .DiagnosticCodeRel1 = dr("DiagnosticCodeRel1").ToString(),
+                                   .DiagnosticCodeRel2 = dr("DiagnosticCodeRel2").ToString(),
+                                   .DiagnosticCodeRel3 = dr("DiagnosticCodeRel3").ToString()
+                                }).ToList()
+
+                If resultStore.Count > 0 Then
+                    Dim StrBuilderData = _IRIPSPlaneService.ACStructure(resultStore)
+                    Return New ActionMessageResult(Of StringBuilder) With {.StateResult = True, .Message = String.Format("AC{0}", ConsecutiveRadicateInvoice), .ObjectEmbbeded = StrBuilderData}
+                End If
+            End If
+
+            Return New ActionMessageResult(Of StringBuilder) With {.StateResult = False}
+        Catch ex As Exception
+            Return New ActionMessageResult(Of StringBuilder) With {.StateResult = False, .Message = String.Format("Error al generar el Archivo AC: {0}", Utils.GetInnerExceptionMessageToString(ex))}
+        End Try
+    End Function
+
+    Function GenerateAPFile(RadicateInvoiceId As Integer, XmlInvoices As String, ConsecutiveRadicateInvoice As String, ServiceCode As String, DetailPackage As Boolean, session As SessionValues) As ActionMessageResult(Of StringBuilder)
+        Try
+            Dim ds = Me.SP_GenerateFileData("SP_GenerateAPFileData", RadicateInvoiceId, XmlInvoices, DetailPackage, session)
+            If ds IsNot Nothing AndAlso ds.Tables.Count > 0 Then
+                Dim data As DataTable = ds.Tables(0)
+                Dim resultStore As List(Of SP_GenerateAPFileData_Result)
+                resultStore = (From dr In data.Rows
+                               Select New SP_GenerateAPFileData_Result With
+                                {
+                                   .InvoiceNumber = dr("InvoiceNumber").ToString(),
+                                   .IPSCode = dr("IPSCode").ToString(),
+                                   .IdentificationTypeCode = dr("IdentificationTypeCode").ToString(),
+                                   .IdentificationNumber = dr("IdentificationNumber").ToString(),
+                                   .ServiceDate = dr("ServiceDate").ToString(),
+                                   .AuthorizationNumber = dr("AuthorizationNumber").ToString(),
+                                   .RIPSCode = dr("RIPSCode").ToString(),
+                                   .CUPSCode = dr("CUPSCode").ToString(),
+                                   .ManualRateCode = dr("ManualRateCode").ToString(),
+                                   .ScopeRealization = CInt(dr("ScopeRealization")),
+                                   .ProcedutePurpose = CInt(dr("ProcedutePurpose")),
+                                   .PersonalService = dr("PersonalService").ToString(),
+                                   .MainDiagnosticCode = dr("MainDiagnosticCode").ToString(),
+                                   .Complication = dr("Complication").ToString(),
+                                   .FormSurgicalAct = CInt(dr("FormSurgicalAct")),
+                                   .TotalSalesPrice = CDec(dr("TotalSalesPrice"))
+                                }).ToList()
+
+                If resultStore.Count > 0 Then
+                    Dim StrBuilderData = _IRIPSPlaneService.APStructure(resultStore, ServiceCode)
+                    Return New ActionMessageResult(Of StringBuilder) With {.StateResult = True, .Message = String.Format("AP{0}", ConsecutiveRadicateInvoice), .ObjectEmbbeded = StrBuilderData}
+                End If
+            End If
+
+            Return New ActionMessageResult(Of StringBuilder) With {.StateResult = False}
+        Catch ex As Exception
+            Return New ActionMessageResult(Of StringBuilder) With {.StateResult = False, .Message = String.Format("Error al generar el Archivo AP: {0}", Utils.GetInnerExceptionMessageToString(ex))}
+        End Try
+    End Function
+
+    Function GenerateATFile(RadicateInvoiceId As Integer, XmlInvoices As String, ConsecutiveRadicateInvoice As String, ServiceCode As String, DetailPackage As Boolean, session As SessionValues) As ActionMessageResult(Of StringBuilder)
+        Try
+            Dim ds = Me.SP_GenerateFileData("SP_GenerateATFileData", RadicateInvoiceId, XmlInvoices, DetailPackage, session)
+            If ds IsNot Nothing AndAlso ds.Tables.Count > 0 Then
+                Dim data As DataTable = ds.Tables(0)
+                Dim resultStore As List(Of SP_GenerateATFileData_Result)
+                resultStore = (From dr In data.Rows
+                               Select New SP_GenerateATFileData_Result With
+                                {
+                                   .InvoiceNumber = dr("InvoiceNumber").ToString(),
+                                   .IPSCode = dr("IPSCode").ToString(),
+                                   .IdentificationTypeCode = dr("IdentificationTypeCode").ToString(),
+                                   .IdentificationNumber = dr("IdentificationNumber").ToString(),
+                                   .AuthorizationNumber = dr("AuthorizationNumber").ToString(),
+                                   .TypeService = CInt(dr("TypeService")),
+                                   .RIPSCode = dr("RIPSCode").ToString(),
+                                   .CUPSCode = dr("CUPSCode").ToString(),
+                                   .CUPSDescription = dr("CUPSDescription").ToString(),
+                                   .ManualRateCode = dr("ManualRateCode").ToString(),
+                                   .ManualRateName = dr("ManualRateName").ToString(),
+                                   .InvoicedQuantity = CInt(dr("InvoicedQuantity")),
+                                   .TotalSalesPrice = CDec(dr("TotalSalesPrice")),
+                                   .GrandTotalSalesPrice = CDec(dr("GrandTotalSalesPrice"))
+                                }).ToList()
+
+                If resultStore.Count > 0 Then
+                    Dim StrBuilderData = _IRIPSPlaneService.ATStructure(resultStore, ServiceCode)
+                    Return New ActionMessageResult(Of StringBuilder) With {.StateResult = True, .Message = String.Format("AT{0}", ConsecutiveRadicateInvoice), .ObjectEmbbeded = StrBuilderData}
+                End If
+            End If
+
+            Return New ActionMessageResult(Of StringBuilder) With {.StateResult = False}
+        Catch ex As Exception
+            Return New ActionMessageResult(Of StringBuilder) With {.StateResult = False, .Message = String.Format("Error al generar el Archivo AT: {0}", Utils.GetInnerExceptionMessageToString(ex))}
+        End Try
+    End Function
+
+    Function GenerateANFile(RadicateInvoiceId As Integer, XmlInvoices As String, ConsecutiveRadicateInvoice As String, session As SessionValues) As ActionMessageResult(Of StringBuilder)
+        Try
+            Dim ds = Me.SP_GenerateFileData("SP_GenerateANFileData", RadicateInvoiceId, XmlInvoices, session)
+            If ds IsNot Nothing AndAlso ds.Tables.Count > 0 Then
+                Dim data As DataTable = ds.Tables(0)
+                Dim resultStore As List(Of SP_GenerateANFileData_Result)
+                resultStore = (From dr In data.Rows
+                               Select New SP_GenerateANFileData_Result With
+                                {
+                                   .InvoiceNumber = dr("InvoiceNumber").ToString(),
+                                   .IPSCode = dr("IPSCode").ToString(),
+                                   .IdentificationTypeCode = dr("IdentificationTypeCode").ToString(),
+                                   .IdentificationNumber = dr("IdentificationNumber").ToString(),
+                                   .BirthDate = dr("BirthDate").ToString(),
+                                   .BirthTime = dr("BirthTime").ToString(),
+                                   .GestationalAge = CInt(dr("GestationalAge")),
+                                   .AntenatalControl = CInt(dr("AntenatalControl")),
+                                   .Gender = dr("Gender").ToString(),
+                                   .Weight = CDec(dr("Weight")),
+                                   .DiagnosticCode = dr("DiagnosticCode").ToString(),
+                                   .CauseDeath = dr("CauseDeath").ToString(),
+                                   .DeathDate = dr("DeathDate").ToString(),
+                                   .DeathTime = dr("DeathTime").ToString()
+                                }).ToList()
+
+                If resultStore.Count > 0 Then
+                    Dim StrBuilderData = _IRIPSPlaneService.ANStructure(resultStore)
+                    Return New ActionMessageResult(Of StringBuilder) With {.StateResult = True, .Message = String.Format("AN{0}", ConsecutiveRadicateInvoice), .ObjectEmbbeded = StrBuilderData}
+                End If
+            End If
+
+            Return New ActionMessageResult(Of StringBuilder) With {.StateResult = False}
+        Catch ex As Exception
+            Return New ActionMessageResult(Of StringBuilder) With {.StateResult = False, .Message = String.Format("Error al generar el Archivo AN: {0}", Utils.GetInnerExceptionMessageToString(ex))}
+        End Try
+    End Function
+
+    Function GenerateAUFile(RadicateInvoiceId As Integer, XmlInvoices As String, ConsecutiveRadicateInvoice As String, session As SessionValues) As ActionMessageResult(Of StringBuilder)
+        Try
+            Dim ds = Me.SP_GenerateFileData("SP_GenerateAUFileData", RadicateInvoiceId, XmlInvoices, session)
+            If ds IsNot Nothing AndAlso ds.Tables.Count > 0 Then
+                Dim data As DataTable = ds.Tables(0)
+                Dim resultStore As List(Of SP_GenerateAUFileData_Result)
+                resultStore = (From dr In data.Rows
+                               Select New SP_GenerateAUFileData_Result With
+                                {
+                                   .InvoiceNumber = dr("InvoiceNumber").ToString(),
+                                   .IPSCode = dr("IPSCode").ToString(),
+                                   .IdentificationTypeCode = dr("IdentificationTypeCode").ToString(),
+                                   .IdentificationNumber = dr("IdentificationNumber").ToString(),
+                                   .AdmissionDate = dr("AdmissionDate").ToString(),
+                                   .AdmissionTime = dr("AdmissionTime").ToString(),
+                                   .AuthorizationNumber = dr("AuthorizationNumber").ToString(),
+                                   .ExternalCause = dr("ExternalCause").ToString(),
+                                   .Diagnostic = dr("Diagnostic").ToString(),
+                                   .UserDestination = dr("UserDestination").ToString(),
+                                   .OutputState = CInt(dr("OutputState")),
+                                   .CauseDeath = dr("CauseDeath").ToString(),
+                                   .OutDate = dr("OutDate").ToString(),
+                                   .OutTime = dr("OutTime").ToString()
+                                }).ToList()
+
+                If resultStore.Count > 0 Then
+                    Dim StrBuilderData = _IRIPSPlaneService.AUStructure(resultStore)
+                    Return New ActionMessageResult(Of StringBuilder) With {.StateResult = True, .Message = String.Format("AU{0}", ConsecutiveRadicateInvoice), .ObjectEmbbeded = StrBuilderData}
+                End If
+            End If
+
+            Return New ActionMessageResult(Of StringBuilder) With {.StateResult = False}
+        Catch ex As Exception
+            Return New ActionMessageResult(Of StringBuilder) With {.StateResult = False, .Message = String.Format("Error al generar el Archivo AU: {0}", Utils.GetInnerExceptionMessageToString(ex))}
+        End Try
+    End Function
+
+    Function GenerateAHFile(RadicateInvoiceId As Integer, XmlInvoices As String, ConsecutiveRadicateInvoice As String, session As SessionValues) As ActionMessageResult(Of StringBuilder)
+        Try
+            Dim ds = Me.SP_GenerateFileData("SP_GenerateAHFileData", RadicateInvoiceId, XmlInvoices, session)
+            If ds IsNot Nothing AndAlso ds.Tables.Count > 0 Then
+                Dim data As DataTable = ds.Tables(0)
+                Dim resultStore As List(Of SP_GenerateAHFileData_Result)
+                resultStore = (From dr In data.Rows
+                               Select New SP_GenerateAHFileData_Result With
+                                {
+                                   .InvoiceNumber = dr("InvoiceNumber").ToString(),
+                                   .IPSCode = dr("IPSCode").ToString(),
+                                   .IdentificationTypeCode = dr("IdentificationTypeCode").ToString(),
+                                   .IdentificationNumber = dr("IdentificationNumber").ToString(),
+                                   .ViaIncome = CInt(dr("ViaIncome")),
+                                   .AdmissionDate = dr("AdmissionDate").ToString(),
+                                   .AdmissionTime = dr("AdmissionTime").ToString(),
+                                   .AuthorizationNumber = dr("AuthorizationNumber").ToString(),
+                                   .ExternalCause = dr("ExternalCause").ToString(),
+                                   .DiagnosticAdmission = dr("DiagnosticAdmission").ToString(),
+                                   .DiagnosticEgress = dr("DiagnosticEgress").ToString(),
+                                   .DiagnosticComplication = dr("DiagnosticComplication").ToString(),
+                                   .OutputState = CInt(dr("OutputState")),
+                                   .CauseDeath = dr("CauseDeath").ToString(),
+                                   .OutDate = dr("OutDate").ToString(),
+                                   .OutTime = dr("OutTime").ToString()
+                                }).ToList()
+
+                If resultStore.Count > 0 Then
+                    Dim StrBuilderData = _IRIPSPlaneService.AHStructure(resultStore)
+                    Return New ActionMessageResult(Of StringBuilder) With {.StateResult = True, .Message = String.Format("AH{0}", ConsecutiveRadicateInvoice), .ObjectEmbbeded = StrBuilderData}
+                End If
+            End If
+
+            Return New ActionMessageResult(Of StringBuilder) With {.StateResult = False}
+        Catch ex As Exception
+            Return New ActionMessageResult(Of StringBuilder) With {.StateResult = False, .Message = String.Format("Error al generar el Archivo AH: {0}", Utils.GetInnerExceptionMessageToString(ex))}
+        End Try
+    End Function
+
+    Function GenerateAMFile(RadicateInvoiceId As Integer, XmlInvoices As String, ConsecutiveRadicateInvoice As String, CodificationType As String, DetailPackage As Boolean, session As SessionValues) As ActionMessageResult(Of StringBuilder)
+        Try
+            Dim ds = Me.SP_GenerateFileData("SP_GenerateAMFileData", RadicateInvoiceId, XmlInvoices, DetailPackage, session)
+            If ds IsNot Nothing AndAlso ds.Tables.Count > 0 Then
+                Dim data As DataTable = ds.Tables(0)
+                Dim resultStore As List(Of SP_GenerateAMFileData_Result)
+                resultStore = (From dr In data.Rows
+                               Select New SP_GenerateAMFileData_Result With
+                                {
+                                   .InvoiceNumber = dr("InvoiceNumber").ToString(),
+                                   .HealthEntityCode = dr("HealthEntityCode").ToString(),
+                                   .IPSCode = dr("IPSCode").ToString(),
+                                   .IdentificationTypeCode = dr("IdentificationTypeCode").ToString(),
+                                   .IdentificationNumber = dr("IdentificationNumber").ToString(),
+                                   .AuthorizationNumber = dr("AuthorizationNumber").ToString(),
+                                   .Code = dr("Code").ToString(),
+                                   .CodeCUM = dr("CodeCUM").ToString(),
+                                   .CodeAlternative = dr("CodeAlternative").ToString(),
+                                   .CodeAlternativeTwo = dr("CodeAlternativeTwo").ToString(),
+                                   .ProductId = CInt(dr("ProductId")),
+                                   .MedicationType = CInt(dr("MedicationType")),
+                                   .DrugName = dr("DrugName").ToString(),
+                                   .PharmaceuticalForm = dr("PharmaceuticalForm").ToString(),
+                                   .Concentration = dr("Concentration").ToString(),
+                                   .UnitMeasure = dr("UnitMeasure").ToString(),
+                                   .InvoicedQuantity = CInt(dr("InvoicedQuantity")),
+                                   .TotalSalesPrice = CDec(dr("TotalSalesPrice")),
+                                   .GrandTotalSalesPrice = CDec(dr("GrandTotalSalesPrice"))
+                                }).ToList()
+
+                If resultStore.Count > 0 Then
+                    Dim StrBuilderData = _IRIPSPlaneService.AMStructure(resultStore, CodificationType)
+                    Return New ActionMessageResult(Of StringBuilder) With {.StateResult = True, .Message = String.Format("AM{0}", ConsecutiveRadicateInvoice), .ObjectEmbbeded = StrBuilderData}
+                End If
+            End If
+
+            Return New ActionMessageResult(Of StringBuilder) With {.StateResult = False}
+        Catch ex As Exception
+            Return New ActionMessageResult(Of StringBuilder) With {.StateResult = False, .Message = String.Format("Error al generar el Archivo AM: {0}", Utils.GetInnerExceptionMessageToString(ex))}
+        End Try
+    End Function
+
+    Function GenerateFURIPS1File(RadicateInvoiceId As Integer, XmlParameters As String, XmlInvoices As String, session As SessionValues, Optional fechaCorte As DateTime? = Nothing) As ActionMessageResult(Of StringBuilder)
+        Try
+            Dim ds = Me.SP_GenerateFileData("SP_GenerateFURIPS1FileData", XmlParameters, XmlInvoices, session)
+            If ds IsNot Nothing AndAlso ds.Tables.Count > 0 Then
+                Dim data As DataTable = ds.Tables(0)
+                Dim resultStore As List(Of SP_GenerateFURIPS1FileData_Result)
+                resultStore = (From dr In data.Rows
+                               Select New SP_GenerateFURIPS1FileData_Result With
+                                {
+                                   .NumeroRadicadoAnterior = dr("NumeroRadicadoAnterior").ToString(),
+                                   .RespuestaGlosa = dr("RespuestaGlosa").ToString(),
+                                   .NumeroFactura = dr("NumeroFactura").ToString(),
+                                   .ConsecutivoReclamacion = dr("ConsecutivoReclamacion").ToString(),
+                                   .PrestadorServicioSalud = dr("PrestadorServicioSalud").ToString(),
+                                   .PrimerApellidoVictima = dr("PrimerApellidoVictima").ToString(),
+                                   .SegundoApellidoVictima = dr("SegundoApellidoVictima").ToString(),
+                                   .PrimerNombreVictima = dr("PrimerNombreVictima").ToString(),
+                                   .SegundoNombreVictima = dr("SegundoNombreVictima").ToString(),
+                                   .TipoDocumentoVictima = dr("TipoDocumentoVictima").ToString(),
+                                   .NumeroDocumentoVictima = dr("NumeroDocumentoVictima").ToString(),
+                                   .FechaNacimientoVictima = dr("FechaNacimientoVictima").ToString(),
+                                   .SexoVictima = dr("SexoVictima").ToString(),
+                                   .DireccionVictima = dr("DireccionVictima").ToString(),
+                                   .DepartamentoResidenciaVictima = dr("DepartamentoResidenciaVictima").ToString(),
+                                   .CodigoMunicipioVictima = dr("CodigoMunicipioVictima").ToString(),
+                                   .TelefonoVictima = dr("TelefonoVictima").ToString(),
+                                   .CondicionVictima = dr("CondicionVictima").ToString().ToString(),
+                                   .NaturalezaEvento = dr("NaturalezaEvento").ToString(),
+                                   .DescripcionEvento = dr("DescripcionEvento").ToString(),
+                                   .DireccionEvento = dr("DireccionEvento").ToString(),
+                                   .FechaEvento = dr("FechaEvento").ToString(),
+                                   .HoraEvento = dr("HoraEvento").ToString(),
+                                   .DepartamentoEvento = dr("DepartamentoEvento").ToString(),
+                                   .CiudadEvento = dr("CiudadEvento").ToString(),
+                                   .ZonaEvento = dr("ZonaEvento").ToString(),
+                                   .EstadoAsegurado = dr("EstadoAsegurado").ToString(),
+                                   .Marca = dr("Marca").ToString(),
+                                   .Placa = dr("Placa").ToString(),
+                                   .TipoVehiculo = dr("TipoVehiculo").ToString(),
+                                   .CodigoAseguradora = dr("CodigoAseguradora").ToString(),
+                                   .NumeroSOAT = dr("NumeroSOAT").ToString(),
+                                   .FechaInicioVigenciaPoliza = dr("FechaInicioVigenciaPoliza").ToString(),
+                                   .FechaFinVigenciaPoliza = dr("FechaFinVigenciaPoliza").ToString(),
+                                   .IntervencionAutoridad = dr("IntervencionAutoridad").ToString(),
+                                   .CobroExcedente = dr("CobroExcedente").ToString(),
+                                   .TipoDocumentoPropietario = dr("TipoDocumentoPropietario").ToString(),
+                                   .NumeroDocumentoPropietario = dr("NumeroDocumentoPropietario").ToString(),
+                                   .PrimerApellidoPropietario = dr("PrimerApellidoPropietario").ToString(),
+                                   .SegundoApellidoPropietario = dr("SegundoApellidoPropietario").ToString(),
+                                   .PrimerNombrePropietario = dr("PrimerNombrePropietario").ToString(),
+                                   .SegundoNombrePropietario = dr("SegundoNombrePropietario").ToString(),
+                                   .DireccionPropietario = dr("DireccionPropietario").ToString(),
+                                   .TelefonoPropietario = dr("TelefonoPropietario").ToString(),
+                                   .DepartamentoPropietario = dr("DepartamentoPropietario").ToString(),
+                                   .MunicipioPropietario = dr("MunicipioPropietario").ToString(),
+                                   .PrimerApellidoConductor = dr("PrimerApellidoConductor").ToString(),
+                                   .SegundoApellidoConductor = dr("SegundoApellidoConductor").ToString(),
+                                   .PrimerNombreConductor = dr("PrimerNombreConductor").ToString(),
+                                   .SegundoNombreConductor = dr("SegundoNombreConductor").ToString(),
+                                   .TipoDocumentoConductor = dr("TipoDocumentoConductor").ToString(),
+                                   .NumeroDocumentoConductor = dr("NumeroDocumentoConductor").ToString(),
+                                   .DireccionConductor = dr("DireccionConductor").ToString(),
+                                   .DepartamentoConductor = dr("DepartamentoConductor").ToString(),
+                                   .MunicipioConductor = dr("MunicipioConductor").ToString(),
+                                   .TelefonoConductor = dr("TelefonoConductor").ToString(),
+                                   .TipoReferencia = dr("TipoReferencia").ToString(),
+                                   .FechaRemison = dr("FechaRemison").ToString(),
+                                   .HoraSalida = dr("HoraSalida").ToString(),
+                                   .CodigoHabilitacionPrestador = dr("CodigoHabilitacionPrestador").ToString(),
+                                   .ProfesionalRemite = dr("ProfesionalRemite").ToString(),
+                                   .CargoProfesionalRemite = dr("CargoProfesionalRemite").ToString(),
+                                   .FechaIngreso = dr("FechaIngreso").ToString(),
+                                   .HoraIngreso = dr("HoraIngreso").ToString(),
+                                   .CodigoHabilitacionRecibe = dr("CodigoHabilitacionRecibe").ToString(),
+                                   .ProfesionalRecibe = dr("ProfesionalRecibe").ToString(),
+                                   .CargoProfesionalRecibe = dr("CargoProfesionalRecibe").ToString(),
+                                   .PlacaAmbulancia = dr("PlacaAmbulancia").ToString(),
+                                   .TransporteDesde = dr("TransporteDesde").ToString(),
+                                   .TransporteHasta = dr("TransporteHasta").ToString(),
+                                   .TipoServicioAmbulancia = dr("TipoServicioAmbulancia").ToString(),
+                                   .ZonaRecogeAmbulancia = dr("ZonaRecogeAmbulancia").ToString(),
+                                   .FechaIngresoVictima = dr("FechaIngresoVictima").ToString(),
+                                   .HoraIngresoVictima = dr("HoraIngresoVictima").ToString(),
+                                   .FechaEgresoVictima = dr("FechaEgresoVictima").ToString(),
+                                   .HoraEgresoVictima = dr("HoraEgresoVictima").ToString(),
+                                   .CodigoDiagnosticoIngresoPrincipal = dr("CodigoDiagnosticoIngresoPrincipal").ToString(),
+                                   .CodigoDiagnosticoIngresoUno = dr("CodigoDiagnosticoIngresoUno").ToString(),
+                                   .CodigoDiagnosticoIngresoDos = dr("CodigoDiagnosticoIngresoDos").ToString(),
+                                   .CodigoDiagnosticoEgresoPrincipal = dr("CodigoDiagnosticoEgresoPrincipal").ToString(),
+                                   .CodigoDiagnosticoEgresoUno = dr("CodigoDiagnosticoEgresoUno").ToString(),
+                                   .CodigoDiagnosticoEgresoDos = dr("CodigoDiagnosticoEgresoDos").ToString(),
+                                   .PrimerApellidoMedico = dr("PrimerApellidoMedico").ToString(),
+                                   .SegundoApellidoMedico = dr("SegundoApellidoMedico").ToString(),
+                                   .PrimerNombreMedico = dr("PrimerNombreMedico").ToString(),
+                                   .SegundoNombreMedico = dr("SegundoNombreMedico").ToString(),
+                                   .TipoDocumentoMedico = dr("TipoDocumentoMedico").ToString(),
+                                   .NumeroDocumentoMedico = dr("NumeroDocumentoMedico").ToString(),
+                                   .NumeroRegistroMedico = dr("NumeroRegistroMedico").ToString(),
+                                   .TotalFacturadoGastosMedicos = dr("TotalFacturadoGastosMedicos").ToString(),
+                                   .TotalReclamadoGastosMedicos = dr("TotalReclamadoGastosMedicos").ToString(),
+                                   .TotalFacturadoMovilizacion = dr("TotalFacturadoMovilizacion").ToString(),
+                                   .TotalReclamadoMovilizacion = dr("TotalReclamadoMovilizacion").ToString(),
+                                   .TotalFolios = dr("TotalFolios").ToString()
+                                }).ToList()
+
+                If resultStore.Count > 0 Then
+                    Dim fileName = String.Empty
+                    Dim row = resultStore.FirstOrDefault()
+                    If String.IsNullOrEmpty(XmlInvoices) Then
+                        fileName = "FURIPS1" & row.PrestadorServicioSalud & fechaCorte.Value.ToString("ddMMyyyy")
+                    Else
+                        fileName = "FURIPS1" & fechaCorte.Value.ToString("yyyyMM")
+                    End If
+
+                    Dim StrBuilderData = _IRIPSPlaneService.FURIPS1Structure(resultStore)
+                    Return New ActionMessageResult(Of StringBuilder) With {.StateResult = True, .Message = fileName, .ObjectEmbbeded = StrBuilderData}
+                End If
+            End If
+
+            Return New ActionMessageResult(Of StringBuilder) With {.StateResult = False}
+        Catch ex As Exception
+            Return New ActionMessageResult(Of StringBuilder) With {.StateResult = False, .Message = String.Format("Error al generar el Archivo FURIPS1: {0}", Utils.GetInnerExceptionMessageToString(ex))}
+        End Try
+    End Function
+
+    Function GenerateFURIPS2File(RadicateInvoiceId As Integer, XmlParameters As String, XmlInvoices As String, session As SessionValues, Optional fechaCorte As DateTime? = Nothing) As ActionMessageResult(Of StringBuilder)
+        Try
+            Dim ds = Me.SP_GenerateFileData("SP_GenerateFURIPS2FileData", XmlParameters, XmlInvoices, session)
+            If ds IsNot Nothing AndAlso ds.Tables.Count > 0 Then
+                Dim data As DataTable = ds.Tables(0)
+                Dim resultStore As List(Of SP_GenerateFURIPS2FileData_Result)
+                resultStore = (From dr In data.Rows
+                               Select New SP_GenerateFURIPS2FileData_Result With
+                                {
+                                   .PrestadorServicioSalud = dr("PrestadorServicioSalud").ToString(),
+                                   .NumeroFactura = dr("NumeroFactura").ToString(),
+                                   .Ingreso = dr("Ingreso").ToString(),
+                                   .Tipo = dr("Tipo").ToString(),
+                                   .CodigoCUM = dr("CodigoCUM").ToString(),
+                                   .Descripcion = dr("Descripcion").ToString(),
+                                   .Cantidad = CInt(dr("Cantidad")),
+                                   .ValorUnitario = CDec(dr("ValorUnitario")),
+                                   .SubTotal = CDec(dr("SubTotal")),
+                                   .Total = CDec(dr("Total"))
+                                }).ToList()
+
+                If resultStore.Count > 0 Then
+                    Dim fileName = String.Empty
+                    Dim row = resultStore.FirstOrDefault()
+                    If String.IsNullOrEmpty(XmlInvoices) Then
+                        fileName = "FURIPS2" & row.PrestadorServicioSalud & fechaCorte.Value.ToString("ddMMyyyy")
+                    Else
+                        fileName = "FURIPS2" & fechaCorte.Value.ToString("yyyyMM")
+                    End If
+
+                    Dim StrBuilderData = _IRIPSPlaneService.FURIPS2Structure(resultStore)
+                    Return New ActionMessageResult(Of StringBuilder) With {.StateResult = True, .Message = fileName, .ObjectEmbbeded = StrBuilderData}
+                End If
+            End If
+
+            Return New ActionMessageResult(Of StringBuilder) With {.StateResult = False}
+        Catch ex As Exception
+            Return New ActionMessageResult(Of StringBuilder) With {.StateResult = False, .Message = String.Format("Error al generar el Archivo FURIPS2: {0}", Utils.GetInnerExceptionMessageToString(ex))}
+        End Try
+    End Function
+
+    Function GenerateMegaPlaneFile(XmlParameters As String, XmlInvoices As String, ConsecutiveRadicateInvoice As String, session As SessionValues) As ActionMessageResult(Of StringBuilder)
+        Try
+            Dim ds = Me.SP_GenerateFileData("SP_GenerateMegaPlaneFileData", XmlParameters, XmlInvoices, session)
+            If ds IsNot Nothing AndAlso ds.Tables.Count > 0 Then
+                Dim data As DataTable = ds.Tables(0)
+                Dim resultStore As List(Of SP_GenerateMegaPlaneFileData_Result)
+                resultStore = (From dr In data.Rows
+                               Select New SP_GenerateMegaPlaneFileData_Result With
+                                {
+                                   .IPSCode = dr("IPSCode").ToString(),
+                                   .IPSDocumentType = dr("IPSDocumentType").ToString(),
+                                   .IPSNit = dr("IPSNit").ToString(),
+                                   .IPSDigitVerification = dr("IPSDigitVerification").ToString(),
+                                   .IPSName = dr("IPSName").ToString(),
+                                   .CustomerDocumentType = dr("CustomerDocumentType").ToString(),
+                                   .CustomerNit = dr("CustomerNit").ToString(),
+                                   .CustomerDigitVerification = dr("CustomerDigitVerification").ToString(),
+                                   .CustomerName = dr("CustomerName").ToString(),
+                                   .InvoiceId = CInt(dr("InvoiceId").ToString()),
+                                   .InvoiceDate = dr("InvoiceDate").ToString(),
+                                   .InvoicePrefix = dr("InvoicePrefix").ToString(),
+                                   .InvoiceNumber = dr("InvoiceNumber").ToString(),
+                                   .InvoiceGrossValue = CDec(dr("InvoiceGrossValue")),
+                                   .InvoiceModeratingFee = CDec(dr("InvoiceModeratingFee")),
+                                   .InvoiceCopay = CDec(dr("InvoiceCopay")),
+                                   .InvoiceNetValue = CDec(dr("InvoiceNetValue")),
+                                   .DetailId = CInt(dr("DetailId").ToString()),
+                                   .DetailInvoiceId = CInt(dr("DetailInvoiceId").ToString()),
+                                   .DetailInvoiceNumber = dr("DetailInvoiceNumber").ToString(),
+                                   .DetailAuthorizationNumber = dr("DetailAuthorizationNumber").ToString(),
+                                   .DetailDocumentType = dr("DetailDocumentType").ToString(),
+                                   .DetailDocumentNumber = dr("DetailDocumentNumber").ToString(),
+                                   .DetailLastName = dr("DetailLastName").ToString(),
+                                   .DetailFirstName = dr("DetailFirstName").ToString(),
+                                   .DetailAdmissionDate = dr("DetailAdmissionDate").ToString(),
+                                   .DetailOutputDate = dr("DetailOutputDate").ToString(),
+                                   .DetailAttentionType = dr("DetailAttentionType").ToString(),
+                                   .DetailCode = dr("DetailCode").ToString(),
+                                   .DetailDescription = dr("DetailDescription").ToString(),
+                                   .DetailQuantity = CInt(dr("DetailQuantity").ToString()),
+                                   .DetailUnitValue = CDec(dr("DetailUnitValue")),
+                                   .DetailTotalValue = CDec(dr("DetailTotalValue")),
+                                   .DetailDiagnostic = dr("DetailDiagnostic").ToString(),
+                                   .DetailModeratingFee = CDec(dr("DetailModeratingFee")),
+                                   .DetailCopay = CDec(dr("DetailCopay"))
+                                }).ToList()
+
+                If resultStore.Count > 0 Then
+                    Dim StrBuilderData = _IRIPSPlaneService.MegaPlaneStructure(resultStore)
+                    Return New ActionMessageResult(Of StringBuilder) With {.StateResult = True, .Message = String.Format("MegaPlano-{0}", ConsecutiveRadicateInvoice), .ObjectEmbbeded = StrBuilderData}
+                End If
+            End If
+
+            Return New ActionMessageResult(Of StringBuilder) With {.StateResult = False}
+        Catch ex As Exception
+            Return New ActionMessageResult(Of StringBuilder) With {.StateResult = False, .Message = String.Format("Error al generar el Archivo MegaPlano: {0}", Utils.GetInnerExceptionMessageToString(ex))}
+        End Try
+    End Function
+
+    Sub AddToListPlaneRIPS(ByRef ListPlaneRIPS As List(Of ActionMessageResult(Of StringBuilder)), VarFile As ActionMessageResult(Of StringBuilder))
+        If VarFile.StateResult OrElse (Not VarFile.StateResult AndAlso Not String.IsNullOrEmpty(VarFile.Message)) Then
+            ListPlaneRIPS.Add(VarFile)
+        End If
+    End Sub
+
+#End Region
+
+#Region "Datatables"
+
+    Private Function SP_GenerateFileData(SP_Name As String, RadicateInvoiceId As Integer, XmlInvoices As String, DetailPackage As Boolean, session As SessionValues) As DataSet
+        Try
+            Dim ds As New DataSet
+            Dim query As String = String.Format("EXEC [Glosas].[{0}] {1}, '{2}',{3}", SP_Name, RadicateInvoiceId, XmlInvoices, DetailPackage)
+            Dim dt = Me.GetDatatable(query, session, SP_Name)
+            ds.Tables.Add(dt.Copy())
+            Return ds
+        Catch ex As Exception
+            IndigoManagementExceptions.HandleException(ex, "ApplicationPolicy")
+            Return Nothing
+        End Try
+    End Function
+
+    Private Function SP_GenerateFileData(SP_Name As String, XmlParameters As String, XmlInvoices As String, session As SessionValues) As DataSet
+        Try
+            Dim ds As New DataSet
+            Dim query As String = String.Format("EXEC [Glosas].[{0}] '{1}', '{2}'", SP_Name, XmlParameters, XmlInvoices)
+            Dim dt = Me.GetDatatable(query, session, SP_Name)
+            ds.Tables.Add(dt.Copy())
+            Return ds
+        Catch ex As Exception
+            IndigoManagementExceptions.HandleException(ex, "ApplicationPolicy")
+            Return Nothing
+        End Try
+    End Function
+
+    Public Function GetDatatable(ByVal Comando As String, session As SessionValues, nameDt As String) As System.Data.DataTable
+        Dim conexion As New SqlClient.SqlConnection
+        Try
+            If conexion.State = ConnectionState.Closed Then
+                conexion = New SqlClient.SqlConnection(Utils.GetEntityConnectionString(Infrastructure.CrossCutting.Base.ConfigurationFile.CONX_GENESIS, String.Empty, session.TransactionalContainer, False))
+                conexion.Open()
+            End If
+            Dim da As SqlClient.SqlDataAdapter = New SqlClient.SqlDataAdapter(Comando, conexion)
+            da.SelectCommand.CommandTimeout = 36000
+            Dim ds As New DataSet
+            da.Fill(ds, nameDt)
+            GetDatatable = ds.Tables(nameDt)
+            da = Nothing
+            ds = Nothing
+            conexion.Close()
+            Return GetDatatable
+        Catch ex As Exception
+            IndigoManagementExceptions.HandleException(ex, "ApplicationPolicy")
+            Return Nothing
+        Finally
+            conexion.Close()
+        End Try
+    End Function
+
+#End Region
+
+#Region "IDisposable Support"
+    Private disposedValue As Boolean ' Para detectar llamadas redundantes
+
+    ' IDisposable
+    Protected Overridable Sub Dispose(disposing As Boolean)
+        If Not disposedValue Then
+            If disposing Then
+                _IRIPSPlaneService.Dispose()
+            End If
+            _IRIPSPlaneService = Nothing
+            IndigoGC.Execute()
+        End If
+        disposedValue = True
+    End Sub
+
+    ' Visual Basic agrega este código para implementar correctamente el patrón descartable.
+    Public Sub Dispose() Implements IDisposable.Dispose
+        Dispose(True)
+        GC.SuppressFinalize(Me)
+    End Sub
+#End Region
+
+End Class

@@ -1,0 +1,50 @@
+﻿#Region "Imports"
+Imports Infrastructure.Data.Xpo
+Imports Infrastructure.CrossCutting.Base
+
+#End Region
+Public Class rptPatrimonialChanges
+    Implements IReport
+
+    ''' <summary>
+    ''' Variable para inicializar los valores de sesion
+    ''' </summary>
+    Dim IndigoSessionValues As SessionValues = SessionValues.Instance
+
+    Public Sub CargarDataSource() Implements IReport.CargarDataSource
+        Me.DataSource = XpoServiceEx.Instance(IndigoSessionValues.TransactionalContainer).AccountingService.GetCollectionPatrimonialChanges(ParametrosReporte(1), ParametrosReporte(2), ParametrosReporte(0))
+    End Sub
+
+    Public Sub CargarImagenes() Implements IReport.CargarImagenes
+
+    End Sub
+
+    Public ReadOnly Property NameReport As String Implements IReport.NameReport
+        Get
+            Return ""
+        End Get
+    End Property
+
+    Public Property ParametrosReporte As Object() Implements IReport.ParametrosReporte
+
+    Private Sub rptPatrimonialChanges_BeforePrint(sender As Object, e As Printing.PrintEventArgs) Handles MyBase.BeforePrint
+
+        Dim DateEndReport As Date = DateAdd(DateInterval.Year, +1, CDate(ParametrosReporte(0)))
+        'Cargar los valores del titulo
+        INDLblDate.Text = "A " & DateEndReport.ToString("dd De MMMM Del yyyy")
+        Me.INDLblCompany.Text = IndigoSessionValues.IndigoCompanyName
+        Me.INDLblNitCompany.Text = "Nit : " & IndigoSessionValues.IndigoCompanyNit
+        Me.INDLblUserPrint.Text = "Usuario Impresión : " & IndigoSessionValues.UserIndigo & " - " & IndigoSessionValues.UserIndigoName
+
+        INDLblTittlePreviousBalance.Text = "SALDO PATRIMONIO A " & CDate(ParametrosReporte(0)).ToString("MMMM dd De yyyy")
+        INDLblTittlePreviousBalance.Text = UCase(INDLblTittlePreviousBalance.Text)
+        INDLblTittlePatrimonialVariations.Text = "VARIACIONES PATRIMONIALES DURANTE " & Year(DateEndReport)
+        INDLblTittlePatrimonialVariations.Text = UCase(INDLblTittlePatrimonialVariations.Text)
+        INDLblTittleNewBalance.Text = "SALDO PATRIMONIO A " & DateEndReport.ToString("MMMM dd De yyyy")
+        INDLblTittleNewBalance.Text = UCase(INDLblTittleNewBalance.Text)
+
+        INDLblTittleDateStart.Text = CDate(ParametrosReporte(0)).ToString("dd-MMM-yyyy")
+        INDLblTittleDateEnd.Text = DateEndReport.ToString("dd-MMM-yyyy")
+
+    End Sub
+End Class

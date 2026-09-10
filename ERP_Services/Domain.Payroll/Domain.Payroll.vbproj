@@ -1,0 +1,314 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{0B26CAFA-8DF4-49AB-8943-41A91D67694E}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>Domain.Payroll</RootNamespace>
+    <AssemblyName>Domain.Payroll</AssemblyName>
+    <FileAlignment>512</FileAlignment>
+    <MyType>Windows</MyType>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DocumentationFile>Domain.Payroll.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DocumentationFile>Domain.Payroll.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionExplicit>On</OptionExplicit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionCompare>Binary</OptionCompare>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionStrict>Off</OptionStrict>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionInfer>On</OptionInfer>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debugcito|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\Debugcito\</OutputPath>
+    <DocumentationFile>Domain.Payroll.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DocumentationFile>Domain.Payroll.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DocumentationFile>Domain.Payroll.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debugcito|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x64\Debugcito\</OutputPath>
+    <DocumentationFile>Domain.Payroll.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="DevExpress.Data.v20.1, Version=20.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <HintPath>..\packages\DevExpress.Data.20.1.8\lib\net452\DevExpress.Data.v20.1.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\DLL\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="Infrastructure.CrossCutting.Exceptions">
+      <HintPath>..\DLL\Infrastructure.CrossCutting.Exceptions.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Data.Entity" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Import Include="Microsoft.VisualBasic" />
+    <Import Include="System" />
+    <Import Include="System.Collections.Generic" />
+    <Import Include="System.Data" />
+    <Import Include="System.Linq" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Repositories\IVacationSummaryRepository.vb" />
+    <Compile Include="Repositories\IRetroactiveDRepository.vb" />
+    <Compile Include="Repositories\IContributorSubtypeRepository.vb" />
+    <Compile Include="Repositories\IAccountingStructureRepository.vb" />
+    <Compile Include="Repositories\IBankFileDetailRepository.vb" />
+    <Compile Include="Repositories\IBankFileRepository.vb" />
+    <Compile Include="Repositories\IBlockScheduleCRepository.vb" />
+    <Compile Include="Repositories\IElectronicPayrollConceptsRepository.vb" />
+    <Compile Include="Repositories\IElectronicPayrollDetailRepository.vb" />
+    <Compile Include="Repositories\IElectronicPayrollNotificationRepository.vb" />
+    <Compile Include="Repositories\IElectronicPayrollPaymentSupportRepository.vb" />
+    <Compile Include="Repositories\IElectronicPayrollRepository.vb" />
+    <Compile Include="Repositories\IEmployeeScheduleDetailRepository.vb" />
+    <Compile Include="Repositories\IForeclousureRepository.vb" />
+    <Compile Include="Repositories\IAuditoryBankFileRepository.vb" />
+    <Compile Include="Repositories\IBlockScheduleRepository.vb" />
+    <Compile Include="Repositories\IConceptAccountingStructureRepository.vb" />
+    <Compile Include="Repositories\IFixedPercentageRetentionRepository.vb" />
+    <Compile Include="Repositories\IDiagnosedDiseaseRepository.vb" />
+    <Compile Include="Repositories\IEthnicGroupsRepository.vb" />
+    <Compile Include="Repositories\IFunctionalUnitResponsibleRepository.vb" />
+    <Compile Include="Repositories\IHumanTalentParameterizationRepository.vb" />
+    <Compile Include="Repositories\IIncreaseSalaryRepository.vb" />
+    <Compile Include="Repositories\ILicensingConceptsRepository.vb" />
+    <Compile Include="Repositories\IManualConcepts.vb" />
+    <Compile Include="Repositories\IContractRepository.vb" />
+    <Compile Include="Repositories\ICostDistributionsRepository.vb" />
+    <Compile Include="Repositories\IMaritalStatusRepository.vb" />
+    <Compile Include="Repositories\INoveltyIncentivePaymentRepository.vb" />
+    <Compile Include="Repositories\IPayrollSettingsRepository.vb" />
+    <Compile Include="Repositories\IPositionRollRepository.vb" />
+    <Compile Include="Repositories\IPositionUserRepository.vb" />
+    <Compile Include="Repositories\IReligiousBeliefsRepository.vb" />
+    <Compile Include="Repositories\IRetroactiveCRepository.vb" />
+    <Compile Include="Repositories\IFreeTimeUseRepository.vb" />
+    <Compile Include="Repositories\ISportPracticeRepository.vb" />
+    <Compile Include="Repositories\ITradeUnionRepository.vb" />
+    <Compile Include="Repositories\IUnemployedLiquidationDetailRepository.vb" />
+    <Compile Include="Repositories\IAgreementsCRepository.vb" />
+    <Compile Include="Repositories\IContractLiquidationRepository.vb" />
+    <Compile Include="Repositories\IIncentivePaymentRepository.vb" />
+    <Compile Include="Repositories\IKindsAgreementsRepository.vb" />
+    <Compile Include="Repositories\ILiquidationDetailRepository.vb" />
+    <Compile Include="Repositories\IMessageLiquitadionRepository.vb" />
+    <Compile Include="Repositories\IUnemployedLiquidationRepository.vb" />
+    <Compile Include="Repositories\IAuthorizationConceptRepository.vb" />
+    <Compile Include="Repositories\IAutoliquidationRepository.vb" />
+    <Compile Include="Repositories\IBankRepository.vb" />
+    <Compile Include="Repositories\IBranchOfficeRepository.vb" />
+    <Compile Include="Repositories\ICompanyRepository.vb" />
+    <Compile Include="My Project\AssemblyInfo.vb" />
+    <Compile Include="My Project\Application.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Application.myapp</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="My Project\Resources.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="My Project\Settings.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="Repositories\IConceptRepository.vb" />
+    <Compile Include="Repositories\IContractAuditRepository.vb" />
+    <Compile Include="Repositories\IContractGroupRepository.vb" />
+    <Compile Include="Repositories\IContractModificationReasonRepository.vb" />
+    <Compile Include="Repositories\IContractTemplateRepository.vb" />
+    <Compile Include="Repositories\IContractTypeRepository.vb" />
+    <Compile Include="Repositories\IContributorTypeRepository.vb" />
+    <Compile Include="Repositories\ICostCenterRepository.vb" />
+    <Compile Include="Repositories\IEducationLevelsRepository.vb" />
+    <Compile Include="Repositories\IEmployeeRepository.vb" />
+    <Compile Include="Repositories\IEmployeeTypeRepository.vb" />
+    <Compile Include="Repositories\IFunctionalUnitRepository.vb" />
+    <Compile Include="Repositories\IFundsLevelRepository.vb" />
+    <Compile Include="Repositories\IGroupRepository.vb" />
+    <Compile Include="Repositories\INoveltyRepository.vb" />
+    <Compile Include="Repositories\IJobBondingTypeRepository.vb" />
+    <Compile Include="Repositories\IKinshipRepository.vb" />
+    <Compile Include="Repositories\ILanguageRepository.vb" />
+    <Compile Include="Repositories\INoveltyScheduleDetailConceptRepository.vb" />
+    <Compile Include="Repositories\INoveltyScheduleDetailHourRepository.vb" />
+    <Compile Include="Repositories\INoveltyScheduleDetailRepository.vb" />
+    <Compile Include="Repositories\IPayrollLiquidationRepository.vb" />
+    <Compile Include="Repositories\IPayrollParameterRepository.vb" />
+    <Compile Include="Repositories\IPensionaryTypeRepository.vb" />
+    <Compile Include="Repositories\IPositionLevelRepository.vb" />
+    <Compile Include="Repositories\IPositionRepository.vb" />
+    <Compile Include="Repositories\IProfessionalRiskRepository.vb" />
+    <Compile Include="Repositories\IProfessionsRepository.vb" />
+    <Compile Include="Repositories\IRetentionRepository.vb" />
+    <Compile Include="Repositories\IRetirementReasonRepository.vb" />
+    <Compile Include="Repositories\IScheduleDetailConceptRepository.vb" />
+    <Compile Include="Repositories\IScheduleDetailHourRepository.vb" />
+    <Compile Include="Repositories\IScheduleDetailRepository.vb" />
+    <Compile Include="Repositories\IScheduleRepository.vb" />
+    <Compile Include="Repositories\IScheduleTemplateRepository.vb" />
+    <Compile Include="Repositories\IStudyCenterRepository.vb" />
+    <Compile Include="Repositories\IVacationPeriodRepository.vb" />
+    <Compile Include="Repositories\IResumptionHolidayRepository.vb" />
+    <Compile Include="Repositories\IVacationRepository.vb" />
+    <Compile Include="Repositories\IVacationRequestRepository.vb" />
+    <Compile Include="Repositories\IVerifyAutoliquidationRepository.vb" />
+    <Compile Include="Repositories\IWorkCenterRepository.vb" />
+    <Compile Include="Repositories\IStudyTypeRepository.vb" />
+    <Compile Include="Services\Agreements\AgreementsDomain.vb" />
+    <Compile Include="Services\Agreements\IAgreementsDomain.vb" />
+    <Compile Include="Services\Autoliquidation\AutoliquidationDomain.vb" />
+    <Compile Include="Services\Autoliquidation\IAutoliquidationDomain.vb" />
+    <Compile Include="Services\BankFile\BankFileDomain.vb" />
+    <Compile Include="Services\BankFile\IBankFileDomain.vb" />
+    <Compile Include="Services\CostDistribution\CostDistributionDomain.vb" />
+    <Compile Include="Services\CostDistribution\ICostDistributionDomain.vb" />
+    <Compile Include="Services\Foreclousure\ForeclousureDomain.vb" />
+    <Compile Include="Services\Foreclousure\IForeclosureDomain.vb" />
+    <Compile Include="Services\IncentivePayment\IIncentivePaymentDomain.vb" />
+    <Compile Include="Services\IncentivePayment\IncentivePaymentDomain.vb" />
+    <Compile Include="Services\IncreaseSalary\IIncreaseSalaryDomain.vb" />
+    <Compile Include="Services\IncreaseSalary\IncreaseSalaryDomain.vb" />
+    <Compile Include="Services\Liquidation\ILiquidationDomain.vb" />
+    <Compile Include="Services\Liquidation\ILiquidationFunctions.vb" />
+    <Compile Include="Services\Liquidation\LiquidationDomain.vb" />
+    <Compile Include="Services\Liquidation\LiquidationFunctions.vb" />
+    <Compile Include="Services\NationalSavingsFund\INationalSavingsFundDomain.vb" />
+    <Compile Include="Services\NationalSavingsFund\NationalSavingsFundDomain.vb" />
+    <Compile Include="Services\Novelty\NoveltyDomain.vb" />
+    <Compile Include="Services\Schedule\IScheduleDomain.vb" />
+    <Compile Include="Services\Schedule\ScheduleDomain.vb" />
+    <Compile Include="Services\ContractLiquidation\ContractLiquidationDomain.vb" />
+    <Compile Include="Services\ContractLiquidation\IContractLiquidationDomain.vb" />
+    <Compile Include="Services\UnemployedLiquidation\IUnemployedLiquidationDomain.vb" />
+    <Compile Include="Services\UnemployedLiquidation\UnemployedLiquidationDomain.vb" />
+    <Compile Include="Services\VacationPeriod\IVacationPeriodDomain.vb" />
+    <Compile Include="Services\VacationPeriod\VacationPeriodDomain.vb" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="My Project\Resources.resx">
+      <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.vb</LastGenOutput>
+      <CustomToolNamespace>My.Resources</CustomToolNamespace>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="My Project\Application.myapp">
+      <Generator>MyApplicationCodeGenerator</Generator>
+      <LastGenOutput>Application.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="My Project\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <CustomToolNamespace>My</CustomToolNamespace>
+      <LastGenOutput>Settings.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Domain.Base.Entities\Domain.Base.Entities.vbproj">
+      <Project>{78734d29-0073-4d48-9d0b-2362d0243e36}</Project>
+      <Name>Domain.Base.Entities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Domain.Base\Domain.Base.vbproj">
+      <Project>{8157f242-6a69-44c1-a9ac-19f0ee5cb8a2}</Project>
+      <Name>Domain.Base</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Domain.Common.Entities\Domain.Common.Entities.vbproj">
+      <Project>{3d09a7e6-8638-45ad-b6c9-5496ae263ef0}</Project>
+      <Name>Domain.Common.Entities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Domain.Entities\Domain.Entities.vbproj">
+      <Project>{0551aef4-ed84-4745-b00b-7475f26015cc}</Project>
+      <Name>Domain.Entities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Domain.Payroll.Entities\Domain.Payroll.Entities.vbproj">
+      <Project>{f0fe946f-2bd9-4bb8-8741-51ea3d862237}</Project>
+      <Name>Domain.Payroll.Entities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastructure.CrossCutting.Base\Infrastructure.CrossCutting.Base.vbproj">
+      <Project>{2773d9f7-93bd-4520-9726-bce0d8875696}</Project>
+      <Name>Infrastructure.CrossCutting.Base</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

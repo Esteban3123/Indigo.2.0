@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:ser="http://schemas.microsoft.com/2003/10/Serialization/" xmlns:tns="http://schemas.datacontract.org/2004/07/Domain.DocumentalSystem.Entities" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/Domain.DocumentalSystem.Entities" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import schemaLocation="http://localhost:9000/DistributedService.DocumentalSystem.Deployment/DocumentalSystem.svc?xsd=xsd3" namespace="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" />
+  <xs:import schemaLocation="http://localhost:9000/DistributedService.DocumentalSystem.Deployment/DocumentalSystem.svc?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+  <xs:complexType name="SessionInfo">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Container" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="UserId" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="aux" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="SessionInfo" nillable="true" type="tns:SessionInfo" />
+  <xs:complexType name="ArrayOfDocumentsStore">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="DocumentsStore" nillable="true" type="tns:DocumentsStore" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfDocumentsStore" nillable="true" type="tns:ArrayOfDocumentsStore" />
+  <xs:complexType name="DocumentsStore">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="AttachDate" nillable="true" type="xs:dateTime" />
+      <xs:element xmlns:q1="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="ChangeTracker" nillable="true" type="q1:ObjectChangeTracker" />
+      <xs:element minOccurs="0" name="DocumentsStoreAux" nillable="true" type="tns:DocumentsStore" />
+      <xs:element minOccurs="0" name="Id" type="ser:guid" />
+      <xs:element minOccurs="0" name="IdEntity" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="IdFileContainer" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="IdForm" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="MetaData" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Name" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="State" type="xs:boolean" />
+      <xs:element minOccurs="0" name="TimeStamp" nillable="true" type="xs:base64Binary" />
+      <xs:element minOccurs="0" name="Type" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="UseFormMetadata" nillable="true" type="xs:boolean" />
+    </xs:sequence>
+    <xs:attribute ref="ser:Id" />
+    <xs:attribute ref="ser:Ref" />
+  </xs:complexType>
+  <xs:element name="DocumentsStore" nillable="true" type="tns:DocumentsStore" />
+  <xs:complexType name="ArrayOfFileContainer">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="FileContainer" nillable="true" type="tns:FileContainer" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfFileContainer" nillable="true" type="tns:ArrayOfFileContainer" />
+  <xs:complexType name="FileContainer">
+    <xs:sequence>
+      <xs:element xmlns:q2="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="ChangeTracker" nillable="true" type="q2:ObjectChangeTracker" />
+      <xs:element minOccurs="0" name="FileContainerAux" nillable="true" type="tns:FileContainer" />
+      <xs:element minOccurs="0" name="FileContainersForm" nillable="true" type="tns:ArrayOfFileContainersForm" />
+      <xs:element minOccurs="0" name="Id" type="xs:int" />
+      <xs:element minOccurs="0" name="Metadata" nillable="true" type="tns:ArrayOfMetadata" />
+      <xs:element minOccurs="0" name="Name" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="State" type="xs:boolean" />
+      <xs:element minOccurs="0" name="TimeStamp" nillable="true" type="xs:base64Binary" />
+      <xs:element minOccurs="0" name="UseFormMetada" nillable="true" type="xs:boolean" />
+    </xs:sequence>
+    <xs:attribute ref="ser:Id" />
+    <xs:attribute ref="ser:Ref" />
+  </xs:complexType>
+  <xs:element name="FileContainer" nillable="true" type="tns:FileContainer" />
+  <xs:complexType name="ArrayOfFileContainersForm">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="FileContainersForm" nillable="true" type="tns:FileContainersForm" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfFileContainersForm" nillable="true" type="tns:ArrayOfFileContainersForm" />
+  <xs:complexType name="FileContainersForm">
+    <xs:sequence>
+      <xs:element xmlns:q3="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="ChangeTracker" nillable="true" type="q3:ObjectChangeTracker" />
+      <xs:element minOccurs="0" name="FileContainer" nillable="true" type="tns:FileContainer" />
+      <xs:element minOccurs="0" name="FileContainersFormAux" nillable="true" type="tns:FileContainersForm" />
+      <xs:element minOccurs="0" name="FormName" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Id" type="xs:int" />
+      <xs:element minOccurs="0" name="IdFileContainer" type="xs:int" />
+      <xs:element minOccurs="0" name="IdForm" type="xs:int" />
+      <xs:element minOccurs="0" name="NameModule" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="ObjForm" nillable="true" type="xs:anyType" />
+    </xs:sequence>
+    <xs:attribute ref="ser:Id" />
+    <xs:attribute ref="ser:Ref" />
+  </xs:complexType>
+  <xs:element name="FileContainersForm" nillable="true" type="tns:FileContainersForm" />
+  <xs:complexType name="Metadata">
+    <xs:sequence>
+      <xs:element xmlns:q4="http://schemas.datacontract.org/2004/07/Domain.Base.Entities" minOccurs="0" name="ChangeTracker" nillable="true" type="q4:ObjectChangeTracker" />
+      <xs:element minOccurs="0" name="DataType" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="FileContainer" nillable="true" type="tns:FileContainer" />
+      <xs:element minOccurs="0" name="Id" type="xs:int" />
+      <xs:element minOccurs="0" name="IdFileContainer" type="xs:int" />
+      <xs:element minOccurs="0" name="Long" type="xs:int" />
+      <xs:element minOccurs="0" name="MetadataAux" nillable="true" type="tns:Metadata" />
+      <xs:element minOccurs="0" name="Name" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="State" type="xs:boolean" />
+      <xs:element minOccurs="0" name="TimeStamp" nillable="true" type="xs:base64Binary" />
+    </xs:sequence>
+    <xs:attribute ref="ser:Id" />
+    <xs:attribute ref="ser:Ref" />
+  </xs:complexType>
+  <xs:element name="Metadata" nillable="true" type="tns:Metadata" />
+  <xs:complexType name="ArrayOfMetadata">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="Metadata" nillable="true" type="tns:Metadata" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfMetadata" nillable="true" type="tns:ArrayOfMetadata" />
+</xs:schema>
