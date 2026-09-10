@@ -421,6 +421,8 @@ Public Class CrossingAccountAdminService
             Dim treasuryControl As TreasuryControl = _treasuryControlAdminService.GetTreasuryControlByDocumentNumber(crossingAccount.Code, 6)
             Using scope As New TransactionScope(TransactionScopeOption.Required, New TransactionOptions() With {.IsolationLevel = IsolationLevel.ReadCommitted})
                 Dim consecutive As String = String.Empty
+                Dim dictionaryMainAccount As New Dictionary(Of Integer, MainAccounts)
+                Dim mainAccount As MainAccounts = Nothing
 
                 If treasuryControl IsNot Nothing AndAlso treasuryControl.Id > 0 Then
                     treasuryControl.MarkAsDeleted()
@@ -556,7 +558,14 @@ Public Class CrossingAccountAdminService
                                     .IdThirdParty = accountPayable.IdThirdParty
                                 End If
 
-                                .IdCostCenter = accountPayable.IdCostCenter
+                                'Validar si la cuenta contable maneja centro de costo
+                                If dictionaryMainAccount.ContainsKey(detailCxP.MainAccountId) Then
+                                    mainAccount = dictionaryMainAccount(detailCxP.MainAccountId)
+                                Else
+                                    mainAccount = _pucRepository.GetAccountById(detailCxP.MainAccountId, False)
+                                    dictionaryMainAccount.Add(detailCxP.MainAccountId, mainAccount)
+                                End If
+                                .IdCostCenter = IIf(mainAccount IsNot Nothing AndAlso mainAccount.HandlesCostCenter, accountPayable.IdCostCenter, Nothing)
                                 .DebitValue = detailCxP.CrossingValue
                                 .Detail = detailCxP.Detail
                                 .IdRetention = Nothing
@@ -576,7 +585,14 @@ Public Class CrossingAccountAdminService
                                     'si el tipo es de cruce es de diferencte tercero
                                     .IdThirdParty = detailConcept.ThirdPartyId
                                 End If
-                                .IdCostCenter = detailConcept.CostCenterId
+                                'Validar si la cuenta contable maneja centro de costo
+                                If dictionaryMainAccount.ContainsKey(detailConcept.MainAccountId) Then
+                                    mainAccount = dictionaryMainAccount(detailConcept.MainAccountId)
+                                Else
+                                    mainAccount = _pucRepository.GetAccountById(detailConcept.MainAccountId, False)
+                                    dictionaryMainAccount.Add(detailConcept.MainAccountId, mainAccount)
+                                End If
+                                .IdCostCenter = IIf(mainAccount IsNot Nothing AndAlso mainAccount.HandlesCostCenter, detailConcept.CostCenterId, Nothing)
                                 .DebitValue = detailConcept.Value
                                 .Detail = detailConcept.Detail
                                 .IdRetention = Nothing
@@ -591,7 +607,14 @@ Public Class CrossingAccountAdminService
                             With accountDetail
                                 .IdMainAccount = detailCxC.IdMainAccount
                                 .IdThirdParty = detailCxC.IdThirdParty
-                                .IdCostCenter = detailCxC.IdCostCenter
+                                'Validar si la cuenta contable maneja centro de costo
+                                If dictionaryMainAccount.ContainsKey(detailCxC.IdMainAccount) Then
+                                    mainAccount = dictionaryMainAccount(detailCxC.IdMainAccount)
+                                Else
+                                    mainAccount = _pucRepository.GetAccountById(detailCxC.IdMainAccount, False)
+                                    dictionaryMainAccount.Add(detailCxC.IdMainAccount, mainAccount)
+                                End If
+                                .IdCostCenter = IIf(mainAccount IsNot Nothing AndAlso mainAccount.HandlesCostCenter, detailCxC.IdCostCenter, Nothing)
                                 .DebitValue = detailCxC.DebitValue
                                 .CreditValue = detailCxC.CreditValue
                                 .Detail = detailCxC.Detail
@@ -612,7 +635,14 @@ Public Class CrossingAccountAdminService
                                     'si el tipo es de cruce es de diferencte tercero
                                     .IdThirdParty = detailConcept.ThirdPartyId
                                 End If
-                                .IdCostCenter = detailConcept.CostCenterId
+                                'Validar si la cuenta contable maneja centro de costo
+                                If dictionaryMainAccount.ContainsKey(detailConcept.MainAccountId) Then
+                                    mainAccount = dictionaryMainAccount(detailConcept.MainAccountId)
+                                Else
+                                    mainAccount = _pucRepository.GetAccountById(detailConcept.MainAccountId, False)
+                                    dictionaryMainAccount.Add(detailConcept.MainAccountId, mainAccount)
+                                End If
+                                .IdCostCenter = IIf(mainAccount IsNot Nothing AndAlso mainAccount.HandlesCostCenter, detailConcept.CostCenterId, Nothing)
                                 .CreditValue = detailConcept.Value
                                 .Detail = detailConcept.Detail
                                 .IdRetention = Nothing

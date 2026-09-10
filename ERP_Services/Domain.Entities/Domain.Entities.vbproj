@@ -241,9 +241,6 @@
     <Compile Include="AccountSettingsNET_PublicMethod.vb">
       <DependentUpon>GlobalModel.Entities.tt</DependentUpon>
     </Compile>
-    <Compile Include="ADACOMPAN.vb">
-      <DependentUpon>GlobalModel.Entities.tt</DependentUpon>
-    </Compile>
     <Compile Include="Address.vb">
       <DependentUpon>GlobalModel.Entities.tt</DependentUpon>
     </Compile>
@@ -544,6 +541,14 @@
     <Compile Include="BillingSequenceDetail.vb">
       <DependentUpon>GlobalModel.Entities.tt</DependentUpon>
     </Compile>
+    <Compile Include="BillingSequenceCodeReservation.vb" />
+    <Compile Include="SP_GenerateAdresFurData_Result.vb">
+      <DependentUpon>GlobalModel.Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SP_GenerateAdresFurRgData_Result.vb">
+      <DependentUpon>GlobalModel.Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SP_ReserveBillingSequenceDetailNext_Result.vb" />
     <Compile Include="BlockRecord.vb">
       <DependentUpon>GlobalModel.Entities.tt</DependentUpon>
     </Compile>
@@ -1130,6 +1135,9 @@
       <DependentUpon>GlobalModel.Entities.tt</DependentUpon>
     </Compile>
     <Compile Include="CostIntermediateDistributionMeasurementUnit.vb">
+      <DependentUpon>GlobalModel.Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CostIntermediateDistributionServiceQuantity.vb">
       <DependentUpon>GlobalModel.Entities.tt</DependentUpon>
     </Compile>
     <Compile Include="CostInventoryGroup.vb">
@@ -2286,6 +2294,12 @@
     <Compile Include="InitialBalanceAdvance.vb">
       <DependentUpon>GlobalModel.Entities.tt</DependentUpon>
     </Compile>
+    <Compile Include="InitialBalanceInvoice.vb">
+      <DependentUpon>GlobalModel.Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="InitialBalanceInvoiceDetail.vb">
+      <DependentUpon>GlobalModel.Entities.tt</DependentUpon>
+    </Compile>
     <Compile Include="InputRemission.vb">
       <DependentUpon>GlobalModel.Entities.tt</DependentUpon>
     </Compile>
@@ -2687,6 +2701,7 @@
     <Compile Include="Models\FinishedProduct.vb" />
     <Compile Include="Models\GeneratePortfolioTransferResponse.vb" />
     <Compile Include="Models\DeliveriesByPharmacyProductTypeModel.vb" />
+    <Compile Include="Models\MedicalFees\UnrecognizedProcessingResult.vb" />
     <Compile Include="Models\Payments\DeferredCausationRevaluation.vb" />
     <Compile Include="Models\Payments\CxPDifferentialAdjustment.vb" />
     <Compile Include="Models\Portfolio\NoteTypeDetail.vb" />
@@ -3314,6 +3329,7 @@
     <Compile Include="Repositories\Billing\IElectronicsRIPSRepository.vb" />
     <Compile Include="Repositories\Billing\IFeeNotCollectedRepository.vb" />
     <Compile Include="Repositories\Billing\IElectronicsPropertiesRepository.vb" />
+    <Compile Include="Repositories\Billing\IInitialBalanceInvoiceRepository.vb" />
     <Compile Include="Repositories\Billing\ICustomTRMRepository.vb" />
     <Compile Include="Repositories\Billing\IInvoiceCopayRepository.vb" />
     <Compile Include="Repositories\Billing\IProductAndServiceFeeRepository.vb" />
@@ -3377,7 +3393,6 @@
     <Compile Include="Repositories\FixedAsset\IFixedAssetPurchaseOrderItemRepository.vb" />
     <Compile Include="Repositories\Glosas\IConceptGlosaRepository.vb" />
     <Compile Include="Repositories\Glosas\IGlosaMovementGlosaConciliationRepository.vb" />
-    <Compile Include="Repositories\Admissions\IAdacompanRepository.vb" />
     <Compile Include="Repositories\Integrations\IOutBoxRepository.vb" />
     <Compile Include="Repositories\Inventory\IClosedMonthHeaderRepository.vb" />
     <Compile Include="Repositories\Inventory\IClosedMonthInventoryRepository.vb" />
@@ -4716,6 +4731,9 @@
     <Compile Include="SP_CalculateDistributionSecondary_Result.vb">
       <DependentUpon>GlobalModel.Entities.tt</DependentUpon>
     </Compile>
+    <Compile Include="SP_CalculateDistributionIntermediate_Result.vb">
+      <DependentUpon>GlobalModel.Entities.tt</DependentUpon>
+    </Compile>
     <Compile Include="SP_CalculatePercentageByCostProductionCenter_Result.vb">
       <DependentUpon>GlobalModel.Entities.tt</DependentUpon>
     </Compile>
@@ -5073,6 +5091,10 @@
     <Compile Include="SP_GenerateFURTRANFileData_Result.vb">
       <DependentUpon>GlobalModel.Entities.tt</DependentUpon>
     </Compile>
+    <Compile Include="SP_GenerateAdresFurServiciosData_Result.vb">
+      <DependentUpon>GlobalModel.Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Adres\AdresClaimFile.vb" />
     <Compile Include="SP_GenerateJournalVoucherByConsignmentCostListDetail_Result.vb">
       <DependentUpon>GlobalModel.Entities.tt</DependentUpon>
     </Compile>
@@ -5131,6 +5153,9 @@
       <DependentUpon>GlobalModel.Entities.tt</DependentUpon>
     </Compile>
     <Compile Include="SP_GetBankReconciliationDetails_Result.vb">
+      <DependentUpon>GlobalModel.Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SP_GetCandidatesForAutoCausation_Result.vb">
       <DependentUpon>GlobalModel.Entities.tt</DependentUpon>
     </Compile>
     <Compile Include="SP_GetCheckNumber_Result.vb">
@@ -5383,6 +5408,9 @@
       <DependentUpon>GlobalModel.Entities.tt</DependentUpon>
     </Compile>
     <Compile Include="SP_ReportGeneralProfitabilityTotalCost_Result.vb">
+      <DependentUpon>GlobalModel.Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SP_ReportHumanTalent_Result.vb">
       <DependentUpon>GlobalModel.Entities.tt</DependentUpon>
     </Compile>
     <Compile Include="SP_ReportNIIFRealizableCost_Result.vb">
@@ -5734,9 +5762,6 @@
       <DependentUpon>GlobalModel.Entities.tt</DependentUpon>
     </Compile>
     <Compile Include="SP_SetBasicBillingDetailFromFile_Result.vb">
-      <DependentUpon>GlobalModel.Entities.tt</DependentUpon>
-    </Compile>
-    <Compile Include="SP_SetConsignmentTransferDetailFromFile_Result.vb">
       <DependentUpon>GlobalModel.Entities.tt</DependentUpon>
     </Compile>
     <Compile Include="SP_SetFixedAssetItemCatalogDetailFromFile_Result.vb">
@@ -6182,6 +6207,10 @@
     <ProjectReference Include="..\Domain.Base\Domain.Base.vbproj">
       <Project>{8157f242-6a69-44c1-a9ac-19f0ee5cb8a2}</Project>
       <Name>Domain.Base</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Domain.Billing\Domain.Billing.csproj">
+      <Project>{62ee8dea-13ff-406e-b8d2-43ce96499c40}</Project>
+      <Name>Domain.Billing</Name>
     </ProjectReference>
     <ProjectReference Include="..\Domain.Common.Entities\Domain.Common.Entities.vbproj">
       <Project>{3d09a7e6-8638-45ad-b6c9-5496ae263ef0}</Project>

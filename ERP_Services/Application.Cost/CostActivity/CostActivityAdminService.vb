@@ -1,4 +1,4 @@
-﻿#Region "Imports"
+#Region "Imports"
 
 Imports Domain.Entities
 Imports Domain.Base
@@ -341,6 +341,7 @@ Public Class CostActivityAdminService
         builder.Append("<InitialDate>" & costActivity.InitialDate.ToString("dd/MM/yyyy") & "</InitialDate>")
         builder.Append("<EndDate>" & costActivity.EndDate.ToString("dd/MM/yyyy") & "</EndDate>")
         builder.Append("<Description>" & costActivity.Description & "</Description>")
+        builder.Append("<ContractDescriptionId>" & If(costActivity.ContractDescriptionId.HasValue AndAlso costActivity.ContractDescriptionId.Value > 0, costActivity.ContractDescriptionId.Value.ToString(), "0") & "</ContractDescriptionId>")
 
         builder.Append("</CostActivity>")
 

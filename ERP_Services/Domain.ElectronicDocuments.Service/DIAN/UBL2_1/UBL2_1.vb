@@ -2,6 +2,7 @@ Imports System.IO
 Imports System.Xml
 Imports System.Xml.Serialization
 Imports Domain.Base.Entities
+Imports Domain.ElectronicDocuments.Entities.UBL2_1.common
 Imports Domain.ElectronicDocuments.Entities.UBL2_1.maindoc
 Imports Domain.Entities
 Imports Infrastructure.CrossCutting.AzureBlobStorage
@@ -71,6 +72,14 @@ Namespace DIAN.UBL2_1
         ''' Segmento de sector salud extraído del XML de la factura asociada (para notas crédito/débito)
         ''' </summary>
         Public HealthSegmentFromInvoice As CustomTagGeneralType
+
+        Public InvoicePeriodFromInvoice As List(Of PeriodType)
+
+        ''' <summary>
+        ''' Fecha final del período de la factura de capitación anterior.
+        ''' Se informa únicamente para facturas de capitación período.
+        ''' </summary>
+        Public PreviousCapitationPeriodEndDate As Nullable(Of Date)
 
         ''' <summary>
         ''' interfaz para usar el blobStorage
@@ -275,11 +284,11 @@ Namespace DIAN.UBL2_1
             Dim document As New Object
 
             If Me._documentType = TypeElectronicDocument.Invoice Then
-                document = (New v1_6.Invoice(Me._settingsAccount, Me._supplierThirdParty, Me._customerThirdParty, Me.Invoice, Me.BillingAuthorization, Me.PaymentMethods)).Populate()
+                document = (New v1_6.Invoice(Me._settingsAccount, Me._supplierThirdParty, Me._customerThirdParty, Me.Invoice, Me.BillingAuthorization, Me.PaymentMethods, Me.PreviousCapitationPeriodEndDate)).Populate()
             ElseIf Me._documentType = TypeElectronicDocument.DebitNote Then
-                document = (New v1_6.DebitNote(Me._settingsAccount, Me._supplierThirdParty, Me._customerThirdParty, Me.BillingNote, Me.HealthSegmentFromInvoice)).Populate()
+                document = (New v1_6.DebitNote(Me._settingsAccount, Me._supplierThirdParty, Me._customerThirdParty, Me.BillingNote, Me.HealthSegmentFromInvoice, Me.PaymentMethods, Me.InvoicePeriodFromInvoice)).Populate()
             ElseIf Me._documentType = TypeElectronicDocument.CreditNote Then
-                document = (New v1_6.CreditNote(Me._settingsAccount, Me._supplierThirdParty, Me._customerThirdParty, Me.BillingNote, Me.HealthSegmentFromInvoice)).Populate()
+                document = (New v1_6.CreditNote(Me._settingsAccount, Me._supplierThirdParty, Me._customerThirdParty, Me.BillingNote, Me.HealthSegmentFromInvoice, Me.PaymentMethods, Me.InvoicePeriodFromInvoice)).Populate()
             ElseIf Me._documentType = TypeElectronicDocument.NominaIndividual Then
                 document = (New v1_0.NominaIndividual(Me._settingsAccount, Me._supplierThirdParty, Me._customerThirdParty, Me.ElectronicPayroll)).Populate()
             ElseIf Me._documentType = TypeElectronicDocument.NominaIndividualDeAjuste Then

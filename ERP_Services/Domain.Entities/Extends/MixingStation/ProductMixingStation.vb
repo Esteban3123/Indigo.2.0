@@ -56,6 +56,10 @@ Partial Public Class ProductMixingStation
     Property ConfirmedFor As String
     <DataMember()>
     Property IsPackagePersonalized As Boolean  ' Indica si viene de un paquete personalizado
+    <DataMember()>
+    Property HasComplementaryMedicine As Boolean
+    <DataMember()>
+    Public Property Source As Byte
 
     Enum eTypeProduct
         Atc = 1
@@ -91,7 +95,6 @@ Public Class ProductCalculateMixingStation
     Public Property BatchCodes As List(Of String)
     Public Property MeasureUnitAbbreviation As String
     Public Property Thinner As Byte
-    Public Property QuantityBlister As Decimal
     Public Property PackageId As Integer?
     Public Property Vehicle As Byte
     Public Property NPTItemOrder As Byte?
@@ -99,6 +102,8 @@ Public Class ProductCalculateMixingStation
     Public Property VerifiedFor As String
     Public Property ConfirmedFor As String
     Public Property IsPackagePersonalized As Boolean  ' Indica si viene de un paquete personalizado
+    Public Property HasComplementaryMedicine As Boolean
+    Public Property Source As Byte
 End Class
 
 Public Class ProductCalculationCampaignDetail
@@ -107,5 +112,4 @@ Public Class ProductCalculationCampaignDetail
     Public Property ProductName As String
     Public Property ProductAbbreviationName As String
     Public Property Concentration As Decimal
-    Public Property BatchCode As String
 End Class

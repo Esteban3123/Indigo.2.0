@@ -374,10 +374,14 @@ Public Class DefinitionRateDetailAdminService
                                                      'se valida que el servicio IPS ya no este en otra linea, y si tiene qx valida contra registro que tenga qx o si es vacio valida contra registro que No tenga qx
                                                      flag = (x.Row.Item(1).ToString() = item.Row.Item(1).ToString()) _
                                                             AndAlso ((Not String.IsNullOrEmpty(item.Row.Item(2)) _
-                                                                                AndAlso Not String.IsNullOrEmpty(x.Row.Item(2)) _
-                                                                                AndAlso (x.Row.Item(2) = item.Row.Item(2))) _
-                                                                        OrElse (String.IsNullOrEmpty(x.Row.Item(2)) _
-                                                                                AndAlso String.IsNullOrEmpty(item.Row.Item(2))))
+                                                                        AndAlso Not String.IsNullOrEmpty(x.Row.Item(2)) _
+                                                                        AndAlso (x.Row.Item(2) = item.Row.Item(2))) _
+                                                            OrElse (String.IsNullOrEmpty(x.Row.Item(2)) _
+                                                                        AndAlso String.IsNullOrEmpty(item.Row.Item(2)) _
+                                                                        AndAlso ((String.IsNullOrEmpty(item.Row.Item(3)) _
+                                                                        AndAlso String.IsNullOrEmpty(x.Row.Item(3))) _
+                                                            OrElse (item.Row.Item(3).ToString() = x.Row.Item(3).ToString()))))
+
                                                  Case EDefinitionRateRuleType.CUPS
                                                      flag = x.Row.Item(3).ToString() = item.Row.Item(3).ToString()
                                                  Case EDefinitionRateRuleType.SubGroupsCUPS
@@ -539,7 +543,12 @@ Public Class DefinitionRateDetailAdminService
                                                      .CUPSEntityCodeDescription = $"{cups?.Code} - {cups?.Description}"
                                                      .CUPSSubGroupCodeName = $"{subGroupCUPS?.Code} - {subGroupCUPS?.Name}"
                                                      .CUPSGroupCodeName = $"{groupCUPS?.Code} - {groupCUPS?.Name}"
-                                                     .RuleDescription = .GetRuleDescription()
+                                                     Dim ruleDesc As String = .GetRuleDescription()
+                                                     Dim idx As Integer = If(ruleDesc?.IndexOf("-"), -1)
+                                                     .RuleDescription = If(ruleDesc?.Contains("-") AndAlso idx >= 0 _
+                                                                        AndAlso Not String.IsNullOrEmpty(cups?.Code),
+                                                                        ruleDesc.Substring(0, idx).Trim() & " - " & cups.Code & " - " &
+                                                                        ruleDesc.Substring(idx + 1).Trim(), ruleDesc)
                                                  End With
 
                                                  If serviceIPSQx IsNot Nothing Then

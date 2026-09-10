@@ -22,6 +22,9 @@ namespace Domain.Billing.POCO.E_RIPS
         public string IdentificacionAdquiriente { get; set; }
         public string CodigoPrestador { get; set; }
         public string ModalidadPago { get; set; }
+        public string Ambiente { get; set; }
+        public string Modulo { get; set; }
+        public PeriodoAtencionResultModel PeriodoAtencion { get; set; }
         public string NumDocumentoReferenciado { get; set; }
         public string UrlJson { get; set; }
         public string UrlXml { get; set; }

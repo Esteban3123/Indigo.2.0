@@ -348,6 +348,24 @@ Public Class PortfolioNoteRepository
                         item.Value = accountRecivableAccounting.Value
                         Dim accountReceivable = (From ar In _context.AccountReceivable.AsNoTracking() Where ar.Id = item.AccountReceivableId Select ar).FirstOrDefault()
                         item.InvoiceNumber = accountReceivable.InvoiceNumber
+                        ' Hidratar MainAccountNumberName + CostCenterCodeName del detail (contrapartida custom)
+                        ' para que el sub-grid muestre Number+Name al recargar nota confirmada.
+                        If item.PortfolioNoteAccountReceivableDetail IsNot Nothing AndAlso item.PortfolioNoteAccountReceivableDetail.Any() Then
+                            Dim detailMainAccountIds = item.PortfolioNoteAccountReceivableDetail.Where(Function(d) d.MainAccountId > 0).Select(Function(d) d.MainAccountId).Distinct().ToList()
+                            Dim detailCostCenterIds = item.PortfolioNoteAccountReceivableDetail.Where(Function(d) d.CostCenterId.HasValue AndAlso d.CostCenterId.Value > 0).Select(Function(d) d.CostCenterId.Value).Distinct().ToList()
+                            Dim mainAccountMap = (From ma In _context.MainAccounts.AsNoTracking() Where detailMainAccountIds.Contains(ma.Id) Select New With {ma.Id, ma.Number, ma.Name}).ToDictionary(Function(x) x.Id, Function(x) x.Number & " - " & x.Name)
+                            Dim costCenterMap = (From cc In _context.CostCenter.AsNoTracking() Where detailCostCenterIds.Contains(cc.Id) Select New With {cc.Id, cc.Code, cc.Name}).ToDictionary(Function(x) x.Id, Function(x) x.Code & " - " & x.Name)
+                            For Each detail In item.PortfolioNoteAccountReceivableDetail
+                                Dim maName As String = Nothing
+                                If detail.MainAccountId > 0 AndAlso mainAccountMap.TryGetValue(detail.MainAccountId, maName) Then
+                                    detail.MainAccountNumberName = maName
+                                End If
+                                Dim ccName As String = Nothing
+                                If detail.CostCenterId.HasValue AndAlso detail.CostCenterId.Value > 0 AndAlso costCenterMap.TryGetValue(detail.CostCenterId.Value, ccName) Then
+                                    detail.CostCenterCodeName = ccName
+                                End If
+                            Next
+                        End If
                 End Select
             Next
             Return res

@@ -25,5 +25,11 @@ Public Interface IBillingSequenceRepository
     ''' <returns>Secuencia numerica asignada al frontal</returns>
     Function GetSequenseByIdForm(ByVal idForm As String) As BillingSequence
 
+    ''' <summary>
+    ''' Reserva de forma atómica el siguiente código formateado para la secuencia del frontal indicado
+    ''' (incrementa BillingSequenceDetail.[Next] en base de datos con bloqueo de fila).
+    ''' </summary>
+    Function ReserveNextFormattedCodeByFormId(ByVal idForm As String) As BillingSequenceCodeReservation
+
 #End Region
 End Interface

@@ -316,19 +316,18 @@ namespace Application.Inventory.AdjustmentConcept
             {
                 Domain.Entities.AdjustmentConcept adjustmentConcept = _adjustmentConceptRepository.GetAdjustmentConcept(code);
 
-                if (adjustmentConcept.AdjustmentConceptUser != null && adjustmentConcept.AdjustmentConceptUser.Any()) {
+                if (adjustmentConcept != null && adjustmentConcept.AdjustmentConceptUser != null && adjustmentConcept.AdjustmentConceptUser.Any()) {
 
                     List<int> ListIds = adjustmentConcept.AdjustmentConceptUser.ToList().Select(x => x.UserId).ToList();
                     //Se saca el listado de ids de usuario para enviar
-                    List<Domain.Security.Entities.User> ListUsers = new List<Domain.Security.Entities.User>();
                     //Se obtiene el listado de usuarios
-                    ListUsers = _IUserAdminService.ListUsersByIds(ListIds);
+                    List<Domain.Security.Entities.User> ListUsers = _IUserAdminService.ListUsersByIds(ListIds) ?? new List<Domain.Security.Entities.User>();
 
                     foreach (Domain.Entities.AdjustmentConceptUser Item in adjustmentConcept.AdjustmentConceptUser.ToList() ) {
 
                         Domain.Security.Entities.User _User = ListUsers.Where(d => d.Id == Item.UserId).FirstOrDefault();
 
-                        Item.FullNameUser = _User.Person.Fullname;
+                        Item.FullNameUser = _User?.Person?.Fullname;
 
                     }
 

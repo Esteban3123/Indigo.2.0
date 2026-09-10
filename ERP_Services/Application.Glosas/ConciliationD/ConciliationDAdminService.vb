@@ -240,11 +240,14 @@ Public Class ConciliationDAdminService
                         If itemMov.ConciliationCId = ConciliacionD(j).ConciliationCId Then
                             itemMov.ConciliationCId = Nothing
                         End If
+                        Dim currentConciliationMovements As New List(Of GlosaMovementGlosaConciliation)
                         If itemMov.GlosaMovementGlosaConciliation IsNot Nothing Then
-                            For Each Conciliation In itemMov.GlosaMovementGlosaConciliation
-                                If Conciliation.ConciliationCId = ConciliacionD(j).ConciliationCId AndAlso Conciliation.State = 1 Then
-                                    _MovementGlosaConciliationRepository.DeleteEntity(Conciliation)
-                                End If
+                            currentConciliationMovements = itemMov.GlosaMovementGlosaConciliation.
+                                Where(Function(d) d.ConciliationCId = ConciliacionD(j).ConciliationCId AndAlso d.State = 1).
+                                ToList()
+
+                            For Each Conciliation In currentConciliationMovements
+                                _MovementGlosaConciliationRepository.DeleteEntity(Conciliation)
                             Next
                         End If
 
@@ -258,24 +261,32 @@ Public Class ConciliationDAdminService
                         itemMov.RationaleConciliation = Nothing
                         itemMov.RationaleDateConciliation = Nothing
 
-                        'Obtengo el valor de  GlosaMovementGlosaConciliation que se guardo 
-                        Dim valueAcceptedIPSconciliation = itemMov.GlosaMovementGlosaConciliation.Where(Function(d) d.State = 1).Sum(Function(d) d.ValueAcceptedIPSconciliation)
-                        Dim valueAcceptedEAPBconciliation = itemMov.GlosaMovementGlosaConciliation.Where(Function(d) d.State = 1).Sum(Function(d) d.ValueAcceptedEAPBconciliation)
+                        'Solo se reversan valores registrados para la conciliacion pendiente que se esta retirando.
+                        Dim valueAcceptedIPSconciliation = currentConciliationMovements.Sum(Function(d) d.ValueAcceptedIPSconciliation)
+                        Dim valueAcceptedEAPBconciliation = currentConciliationMovements.Sum(Function(d) d.ValueAcceptedEAPBconciliation)
 
-                        ' realizo la resta de GlosaMovementGlosaConciliation y del GlosaMovementGlosa para empalmar valores a devolver y que sea correcto.
-                        Dim RestValueIPSconciliation = valueAcceptedIPSconciliation - itemMov.ValueAcceptedIPSconciliation
-                        Dim RestValueEAPBconciliation = valueAcceptedEAPBconciliation - itemMov.ValueAcceptedEAPBconciliation
+                        Dim restValueIPSconciliation = If(itemMov.ValueAcceptedIPSconciliation, 0) - valueAcceptedIPSconciliation
+                        Dim restValueEAPBconciliation = If(itemMov.ValueAcceptedEAPBconciliation, 0) - valueAcceptedEAPBconciliation
 
-                        If RestValueIPSconciliation = 0 AndAlso RestValueEAPBconciliation = 0 Then
-                            itemMov.ValueAcceptedEAPBconciliation = Nothing
-                            itemMov.ValueAcceptedIPSconciliation = Nothing
-                        End If
-
-                        If RestValueIPSconciliation <> 0 OrElse RestValueEAPBconciliation <> 0 Then
+                        If restValueIPSconciliation < 0 OrElse restValueEAPBconciliation < 0 Then
                             unitOfWorkMovementGlosa.RollbackChanges()
                             unitOfWork.RollbackChanges()
                             unitOfWorkPortfolioGlosa.RollbackChanges()
                             Return New ActionResult With {.StateResult = False, .Message = "No se pudo eliminar la factura ya que los valores del movimiento a empalmar son negativos o diferentes a 0."}
+                        End If
+
+                        If currentConciliationMovements.Any() Then
+                            If restValueIPSconciliation = 0 Then
+                                itemMov.ValueAcceptedIPSconciliation = Nothing
+                            Else
+                                itemMov.ValueAcceptedIPSconciliation = restValueIPSconciliation
+                            End If
+
+                            If restValueEAPBconciliation = 0 Then
+                                itemMov.ValueAcceptedEAPBconciliation = Nothing
+                            Else
+                                itemMov.ValueAcceptedEAPBconciliation = restValueEAPBconciliation
+                            End If
                         End If
 
                         _MovementGlosaRepository.UpdateEntity(itemMov)
@@ -624,7 +635,12 @@ Public Class ConciliationDAdminService
                             _result.MessageResult = {"Estructura de cartera no existe para la cuenta por cobrar: " & _AccountReceivable.Code & " - cuenta contable de glosa subsanable "}.ToList()
                             Return _result
                         End If
-                        If accountingTmp.Balance < _AccepteEAPBConciliationReal Then
+                        'MEDILASER-52646: se aplica una tolerancia de redondeo ya que el pago parcial (Recibo de Caja)
+                        'puede afectar la cuenta con centavos que no se muestran en las pantallas de Conciliaciones/
+                        'Pagos Parciales (los valores se presentan en pesos enteros), dejando el saldo contable real
+                        'unos centavos por debajo del valor que el usuario percibe como conciliado.
+                        Dim toleranceValue As Decimal = 1D
+                        If accountingTmp.Balance < _AccepteEAPBConciliationReal - toleranceValue Then
                             _result.StateResult = False
                             _result.MessageResult = {"El saldo de la cuenta de glosas subsanable es menor a el valor aceptado por la EAPB"}.ToList()
                             Return _result

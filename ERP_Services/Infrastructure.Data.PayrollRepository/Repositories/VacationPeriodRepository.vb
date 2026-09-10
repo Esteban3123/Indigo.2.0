@@ -37,6 +37,7 @@ Public Class VacationPeriodRepository
     Public Function GetVacationPeriodByEmployee(employeeId As Integer) As List(Of VacationPeriod) Implements IVacationPeriodRepository.GetVacationPeriodByEmployee
         Dim query = From e In _context.VacationPeriod
                     Where e.EmployeeId = employeeId
+                    Order By e.InitialDatePeriod
                     Select e
         Return query.ToList()
     End Function

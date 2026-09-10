@@ -1,5 +1,4 @@
-﻿Imports System.Collections.Generic
-Imports Domain.Base.Entities
+﻿Imports Domain.Base.Entities
 Imports Domain.Entities
 Imports Infrastructure.CrossCutting.Base
 
@@ -27,7 +26,7 @@ Public Interface IInventoryService
 
     Function LoadJournalVoucherDevolution(pharmaceuticalDispensingDevolution As PharmaceuticalDispensingDevolution) As ActionResult(Of JournalVouchers)
 
-    Function ValidateStockProducts(productId As Integer, operatingUnitId As Integer, Optional warehouseId As Integer = 0, Optional quantity As Integer = 0, Optional movement As InventoryStaticServices.MovementType = 0, Optional product As InventoryProduct = Nothing, Optional settingInventory As SettingInventory = Nothing) As ActionResult(Of InventoryProduct)
+    Function ValidateStockProducts(productId As Integer, operatingUnitId As Integer, Optional warehouseId As Integer = 0, Optional quantiy As Integer = 0, Optional movement As InventoryStaticServices.MovementType = 0, Optional product As InventoryProduct = Nothing, Optional settingInventory As SettingInventory = Nothing) As ActionResult(Of InventoryProduct)
 
     ''' <summary>
     ''' validar la devolucion del suministro 
@@ -55,6 +54,7 @@ Public Interface IInventoryService
 
     Function SetProductsProductInvoiceImportFile(data As List(Of ImportFileRow), warehouseId As Integer, operatingUnitId As Integer, audit As AuditMessage) As ActionResult(Of List(Of DocumentInvoiceProductSalesDetail))
     Function GetMeasurementUnitByProductId(productId As Integer) As List(Of Tuple(Of Integer, Decimal))
+
     ''' <summary>
     ''' Obtiene la unidad de medida de acuerdo al ID del producto y el MSClass de la campaña.
     ''' Para NPT (MSClass = 2), siempre usa VolumeMeasureUnit.
@@ -69,6 +69,7 @@ Public Interface IInventoryService
     ''' <param name="productId"></param>
     ''' <returns></returns>
     Function GetMeasurementUnitAndConcentrationByProductId(productId As Integer) As (measurementUnitId As Integer, concentration As Decimal)
+
     ''' <summary>
     ''' Obtiene la unidad de medida y la concentración por id del producto
     ''' </summary>
@@ -77,13 +78,6 @@ Public Interface IInventoryService
     ''' <returns></returns>
     Function GetMeasurementUnitsAndConcentrationsByProductIds(productIds As List(Of Integer), Optional msClass As Integer = 0) As List(Of (ProductValidationId As Integer, MeasurementUnitId As Integer, Concentration As Decimal))
 
-    ''' <summary>
-    ''' Valida informacion extraida de Excel para ConsignmentTransfer
-    ''' </summary>
-    ''' <param name="dataImport">Datos del archivo Excel</param>
-    ''' <param name="sourceWarehouseId">Id del almacen origen</param>
-    ''' <returns></returns>
-    Function SetConsignmentTransferImportFile(dataimport As List(Of ImportFileRow), sourceWarehouseId As Integer) As ActionResult(Of List(Of ConsignmentTransferDetail))
 #End Region
 
 End Interface

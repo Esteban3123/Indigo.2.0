@@ -6,6 +6,7 @@
 ' Copyright        : (c) . All rights reserved.
 '***********************************************************************
 
+Imports System.Diagnostics
 Imports Domain.Base.Entities
 Imports Domain.Payroll.Entities
 Imports Infrastructure.CrossCutting.Base
@@ -269,6 +270,38 @@ Public Class VacationPeriodDomain
                 End If
             Next
 
+            ' Si el último período abierto quedó truncado al vencimiento de un contrato a
+            ' término fijo que se renovó al día siguiente sin solución de continuidad (caso
+            ' típico de Alto Riesgo), se extiende de vuelta al cierre natural del período en
+            ' vez de quedar truncado para siempre, ya que la generación de períodos nunca
+            ' revisita un período ya persistido.
+            If itemEmployee.VacationPeriod.Count > 0 Then
+                Dim lastPeriod = itemEmployee.VacationPeriod.OrderBy(Function(v) v.InitialDatePeriod).Last()
+                If lastPeriod.TakenDays = 0 AndAlso lastPeriod.PendingDays > 0 AndAlso
+                   DateDiff(DateInterval.Day, lastPeriod.EndDatePeriod, contractValid.ContractInitialDate) = 1 Then
+                    Dim naturalEndDate = lastPeriod.InitialDatePeriod.AddMonths(vacationByMonth).AddDays(-1)
+                    If lastPeriod.EndDatePeriod < naturalEndDate Then
+                        Dim correctedEndDate = If(contractValid.ContractEndingDate < naturalEndDate, contractValid.ContractEndingDate, naturalEndDate)
+                        If correctedEndDate > lastPeriod.EndDatePeriod Then
+                            Dim baseVacationDaysCorrection As Byte = contractValid.Group.PayrollParameter.VacationDays
+                            Dim newVacationDays As Byte
+                            If correctedEndDate = naturalEndDate Then
+                                newVacationDays = baseVacationDaysCorrection
+                            Else
+                                Dim periodDays = DateDiff(DateInterval.Day, lastPeriod.InitialDatePeriod, correctedEndDate)
+                                newVacationDays = CByte(Math.Truncate(periodDays * baseVacationDaysCorrection / 365))
+                            End If
+                            Dim addedDays = newVacationDays - lastPeriod.VacationDays
+                            lastPeriod.EndDatePeriod = correctedEndDate
+                            lastPeriod.VacationDays = newVacationDays
+                            lastPeriod.PendingDays += addedDays
+                            lastPeriod.ContractId = contractValid.Id
+                            lastPeriod.MarkAsModified()
+                        End If
+                    End If
+                End If
+            End If
+
             For index = 1 To numberPeriodsVacation Step 1
                 Dim vacation As VacationPeriod = New VacationPeriod()
                 'vacation.Employee = itemEmployee
@@ -278,7 +311,12 @@ Public Class VacationPeriodDomain
                 vacation.ContractId = contractValid.Id
                 If index = 1 Then
                     If _booleanVactationPeriod Then
-                        If itemEmployee.VacationPeriod.LastOrDefault.EndDatePeriod > contractValid.ContractInitialDate And itemEmployee.VacationPeriod.LastOrDefault.TakenDays = 0 And NumberVacationChanged Then
+                        ' El corte por cambio de grupo solo aplica si el último período realmente
+                        ' atraviesa la fecha de transición (empieza antes y termina después). Sin el
+                        ' chequeo de InitialDatePeriod, un período ya generado por completo bajo el
+                        ' grupo nuevo se recortaba y regeneraba cada vez que se volvía a consultar).
+                        If itemEmployee.VacationPeriod.LastOrDefault.InitialDatePeriod < contractValid.ContractInitialDate AndAlso
+                           itemEmployee.VacationPeriod.LastOrDefault.EndDatePeriod > contractValid.ContractInitialDate And itemEmployee.VacationPeriod.LastOrDefault.TakenDays = 0 And NumberVacationChanged Then
                             With itemEmployee.VacationPeriod.LastOrDefault
                                 .EndDatePeriod = contractValid.ContractInitialDate.AddDays(-1)
                             End With
@@ -300,23 +338,12 @@ Public Class VacationPeriodDomain
                 If DateDiff(DateInterval.Day, vacation.EndDatePeriod, contractValid.ContractEndingDate) < 0 Then
                     vacation.EndDatePeriod = contractValid.ContractEndingDate
                 End If
-                'La fecha de finalizacion del nuevo periodo es menor a la fecha inicial
+                'La fecha de finalizacion del nuevo periodo es menor a la fecha inicial: el contrato
+                'vigente no alcanza a cubrir ni un día de un período adicional (p.ej. termina el mismo
+                'día en que ya cierra el último período existente). No hay período nuevo que generar;
+                'se descarta el candidato sin tocar el último período ya persistido (antes este bloque
+                'le pisaba PendingDays con un cálculo de DateDiff sin relación con los días reales).
                 If DateDiff(DateInterval.Day, vacation.InitialDatePeriod, vacation.EndDatePeriod) < 0 Then
-                    Dim penultimatePeriod = itemEmployee.VacationPeriod _
-                    .OrderBy(Function(v) v.InitialDatePeriod) _
-                    .Skip(itemEmployee.VacationPeriod.Count - 2) _
-                    .FirstOrDefault()
-                    vacation.InitialDatePeriod = penultimatePeriod.EndDatePeriod
-                    Dim lastPendingDays = DateDiff(DateInterval.Month, vacation.InitialDatePeriod, vacation.EndDatePeriod)
-
-                    Dim lastPeriod = itemEmployee.VacationPeriod.Last()
-                    ' Modificas propiedades del último periodo
-                    If vacation.EndDatePeriod.Day < vacation.InitialDatePeriod.Day Then
-                        lastPeriod.PendingDays = lastPendingDays - 1
-                    Else
-                        lastPeriod.PendingDays = lastPendingDays
-                    End If
-
                     Exit For
                 End If
                 'La fecha de inicio es mayor a la fecha actual o 
@@ -474,18 +501,18 @@ Public Class VacationPeriodDomain
                                                          pendingDays += x.PendingDays
                                                      End Sub)
             If typeVacation = 2 Then 'Disfrutar
-                Dim vacationActive As Boolean = False
+                Dim vacationConflict As Vacation = Nothing
                 employee.VacationPeriod.ToList.ForEach(Sub(x)
-                                                           Dim listVacationActive = x.Vacation.Where(Function(v) (initialDateVacation >= v.VacationStartDate And initialDateVacation <= v.VacationEndDate) _
+                                                           Dim hit = x.Vacation.FirstOrDefault(Function(v) (initialDateVacation >= v.VacationStartDate And initialDateVacation <= v.VacationEndDate) _
                                                                                 Or (endDate >= v.VacationStartDate And endDate <= v.VacationEndDate))
-                                                           If listVacationActive.Count > 0 Then
-                                                               vacationActive = True
+                                                           If hit IsNot Nothing AndAlso vacationConflict Is Nothing Then
+                                                               vacationConflict = hit
                                                                Exit Sub
                                                            End If
                                                        End Sub)
-                If vacationActive = True Then 'El empleado esta en vacaciones
+                If vacationConflict IsNot Nothing Then 'El empleado esta en vacaciones
                     actionResult.StateResult = False
-                    actionResult.MessageResult.Add(New MessageResult("V003", employee.ThirdParty.Name, initialDateVacation, endDate))
+                    actionResult.MessageResult.Add(New MessageResult("V003", employee.ThirdParty.Name, vacationConflict.VacationStartDate, vacationConflict.VacationEndDate))
                     Continue For
                 End If
             End If
@@ -499,6 +526,17 @@ Public Class VacationPeriodDomain
                 Continue For
             End If
             Dim contract As Contract = employee.Contract.Where(Function(x) x.Valid = True).SingleOrDefault()
+
+            ' IBC del mes anterior para PreviousMonthIBC en vacaciones
+            Dim IBCLastPeriod As Nullable(Of Decimal) = Nothing
+            Dim listPrevLiqVacation = _liquidationRepository.LiquidationLastMonths(contract.InitialContractNumber, 1, contract.Group.NextDateLiquidation)
+            If listPrevLiqVacation IsNot Nothing AndAlso listPrevLiqVacation.Count > 0 Then
+                Dim prevLiqVacation = listPrevLiqVacation.Where(Function(x) x.RegisterStatus = "C").OrderByDescending(Function(x) x.PayrollDateLiquidated).FirstOrDefault()
+                If prevLiqVacation IsNot Nothing Then
+                    IBCLastPeriod = prevLiqVacation.PeriodJCB
+                End If
+            End If
+
             Dim valueBase As Decimal
             Dim valueVacation As Decimal
             Dim valueBaseDays As Decimal
@@ -549,7 +587,7 @@ Public Class VacationPeriodDomain
             total = valueVacation - health - pension - SolidarityFund
 
             Dim requestDaysTmp = requestDays
-            For Each vacationPeriod As VacationPeriod In employee.VacationPeriod
+            For Each vacationPeriod As VacationPeriod In employee.VacationPeriod.OrderBy(Function(x) x.InitialDatePeriod)
                 If vacationPeriod.PendingDays > 0 Then
                     Dim takenDaysTmp As Integer
                     If requestDaysTmp > vacationPeriod.PendingDays Then
@@ -588,6 +626,7 @@ Public Class VacationPeriodDomain
                     vacation.TakenDaysReal = takenDaysTmp
                     vacation.IncorporationDateReal = incorporationDate
                     vacation.StateIncorporation = 1 'Normal
+                    vacation.PreviousMonthIBC = IBCLastPeriod
                     If vacationPeriod.ChangeTracker.State = ObjectState.Unchanged Then
                         vacationPeriod.MarkAsModified()
                     End If
@@ -914,6 +953,16 @@ Public Class VacationPeriodDomain
 
                 Contract = employee.Contract.ToList().Find(Function(x) x.Valid = True)
 
+                ' IBC del mes anterior para PreviousMonthIBC en vacaciones
+                Dim IBCLastPeriodVac As Nullable(Of Decimal) = Nothing
+                Dim listPrevLiqVac = _liquidationRepository.LiquidationLastMonths(Contract.InitialContractNumber, 1, Contract.Group.NextDateLiquidation)
+                If listPrevLiqVac IsNot Nothing AndAlso listPrevLiqVac.Count > 0 Then
+                    Dim prevLiqVac = listPrevLiqVac.Where(Function(x) x.RegisterStatus = "C").OrderByDescending(Function(x) x.PayrollDateLiquidated).FirstOrDefault()
+                    If prevLiqVac IsNot Nothing Then
+                        IBCLastPeriodVac = prevLiqVac.PeriodJCB
+                    End If
+                End If
+
                 'Variables para Fórmulas:
                 Dim BasicSalary = Contract.BasicSalary
                 Dim LegalSalaryMinimun = Contract.Group.PayrollParameter.LegalSalaryMinimum
@@ -1033,18 +1082,18 @@ Public Class VacationPeriodDomain
                                                          End Sub)
                 employee.RemainingVacationDays = pendingDays - requestDays
                 If typeVacation = 2 Then 'Disfrutar
-                    Dim vacationActive As Boolean = False
+                    Dim vacationConflict As Vacation = Nothing
                     employee.VacationPeriod.ToList.ForEach(Sub(x)
-                                                               Dim listVacationActive = x.Vacation.Where(Function(v) (initialDateVacation >= v.VacationStartDate And initialDateVacation < If(v.ForceEntryResolutionDate Is Nothing, v.VacationEndDate, v.ForceEntryResolutionDate.Value)) _
+                                                               Dim hit = x.Vacation.FirstOrDefault(Function(v) (initialDateVacation >= v.VacationStartDate And initialDateVacation < If(v.ForceEntryResolutionDate Is Nothing, v.VacationEndDate, v.ForceEntryResolutionDate.Value)) _
                                                                                 Or (endDate >= v.VacationStartDate And endDate < If(v.ForceEntryResolutionDate Is Nothing, v.VacationEndDate, v.ForceEntryResolutionDate.Value)))
-                                                               If listVacationActive.Count > 0 Then
-                                                                   vacationActive = True
+                                                               If hit IsNot Nothing AndAlso vacationConflict Is Nothing Then
+                                                                   vacationConflict = hit
                                                                    Exit Sub
                                                                End If
                                                            End Sub)
-                    If vacationActive = True Then 'El empleado esta en vacaciones
+                    If vacationConflict IsNot Nothing Then 'El empleado esta en vacaciones
                         actionResult.StateResult = False
-                        actionResult.MessageResult.Add(New MessageResult("-003", employee.ThirdParty.Name, initialDateVacation, endDate))
+                        actionResult.MessageResult.Add(New MessageResult("-003", employee.ThirdParty.Name, vacationConflict.VacationStartDate, vacationConflict.VacationEndDate))
                         Continue For
                     End If
                 End If
@@ -1253,6 +1302,8 @@ Public Class VacationPeriodDomain
                 Dim ReplacePensionSolidarityFormulate As String
 
                 Dim SalaryType = Contract.ContractType.SalaryType
+                Dim BaseHealth As Decimal = 0
+                Dim BaseSolidarityFund As Decimal = If(SalaryType = 2, valueVacation * 0.7D, valueVacation)
 
                 If SalaryType <> 2 Then
                     health = (valueVacation * Contract.Group.PayrollParameter.EmployeeHealthContributionPercentage) / 100
@@ -1263,7 +1314,6 @@ Public Class VacationPeriodDomain
                     PensionFormulate = "(valueVacation * Contract.Group.PayrollParameter.EmployeePensionContributionPercentage) / 100"
                     ReplacePensionFormulate = "(" + valueVacation.ToString() + " * " + Contract.Group.PayrollParameter.EmployeePensionContributionPercentage.ToString() + ") / 100"
                 Else
-                    Dim BaseHealth As Decimal = 0
                     BaseHealth = valueVacation
 
                     If Contract.BasicSalary >= (Contract.Group.PayrollParameter.HealthContributionMaximunSalary * Contract.Group.PayrollParameter.LegalSalaryMinimum) Then
@@ -1283,10 +1333,42 @@ Public Class VacationPeriodDomain
                     ReplacePensionFormulate = "((" + BaseHealth.ToString() + " * 0.7) * " + Contract.Group.PayrollParameter.EmployeePensionContributionPercentage.ToString() + ") / 100"
                 End If
 
+                Dim SMLMV As Decimal = Contract.Group.PayrollParameter.LegalSalaryMinimum
+
+                If valueBase > SMLMV * 20 Then
+                    SolidarityFund = Math.Ceiling(BaseSolidarityFund * 0.02 / 100) * 100
+                    PensionSolidarityFormulate = "Ceiling(valueVacation * 0.02 / 100) * 100"
+                    ReplacePensionSolidarityFormulate = "Ceiling(" + valueVacation.ToString() + " * 0.02 / 100) * 100"
+                ElseIf valueBase > SMLMV * 19 Then
+                    SolidarityFund = Math.Ceiling(BaseSolidarityFund * 0.018 / 100) * 100
+                    PensionSolidarityFormulate = "Ceiling(valueVacation * 0.018 / 100) * 100"
+                    ReplacePensionSolidarityFormulate = "Ceiling(" + valueVacation.ToString() + " * 0.018 / 100) * 100"
+                ElseIf valueBase > SMLMV * 18 Then
+                    SolidarityFund = Math.Ceiling(BaseSolidarityFund * 0.016 / 100) * 100
+                    PensionSolidarityFormulate = "Ceiling(valueVacation * 0.016 / 100) * 100"
+                    ReplacePensionSolidarityFormulate = "Ceiling(" + valueVacation.ToString() + " * 0.016 / 100) * 100"
+                ElseIf valueBase > SMLMV * 17 Then
+                    SolidarityFund = Math.Ceiling(BaseSolidarityFund * 0.014 / 100) * 100
+                    PensionSolidarityFormulate = "Ceiling(valueVacation * 0.014 / 100) * 100"
+                    ReplacePensionSolidarityFormulate = "Ceiling(" + valueVacation.ToString() + " * 0.014 / 100) * 100"
+                ElseIf valueBase > SMLMV * 16 Then
+                    SolidarityFund = Math.Ceiling(BaseSolidarityFund * 0.012 / 100) * 100
+                    PensionSolidarityFormulate = "Ceiling(valueVacation * 0.012 / 100) * 100"
+                    ReplacePensionSolidarityFormulate = "Ceiling(" + valueVacation.ToString() + " * 0.012 / 100) * 100"
+                ElseIf valueBase > SMLMV * 4 Then
+                    SolidarityFund = Math.Ceiling(BaseSolidarityFund * 0.01 / 100) * 100
+                    PensionSolidarityFormulate = "Ceiling(valueVacation * 0.01 / 100) * 100"
+                    ReplacePensionSolidarityFormulate = "Ceiling(" + valueVacation.ToString() + " * 0.01 / 100) * 100"
+                Else
+                    SolidarityFund = 0
+                    PensionSolidarityFormulate = "0"
+                    ReplacePensionSolidarityFormulate = "0"
+                End If
+
                 Dim TarifaAprox As Integer = If(Contract?.Group?.PayrollParameter?.AproximationValue Is Nothing, 0, Contract?.Group?.PayrollParameter?.AproximationValue)
 
-                health = Utils.RoundValue(health, TarifaAprox)
-                pension = Utils.RoundValue(pension, TarifaAprox)
+                health = Math.Ceiling(health / 100) * 100
+                pension = Math.Ceiling(pension / 100) * 100
 
                 'Calcula la Salud y Pensión de Acuerdo al IBC del Mes Anterior
                 If PayrollSettings.HealthPensionIBCVacation = 2 Then
@@ -1358,6 +1440,12 @@ Public Class VacationPeriodDomain
                             Dim HealthAport = objVacation.HealthContribution
                             Dim HealthIBC = 0
 
+                            ' Sin aporte de salud o sin días disfrutados no hay IBC que prorratear
+                            ' (e.g. vacaciones interrumpidas/aplazadas con TakenDays = 0)
+                            If HealthAport = 0 OrElse objVacation.EnjoyDays <= 0 Then
+                                Continue For
+                            End If
+
                             If objVacation.VacationStartDate < LastMonthInitialDate And objVacation.IncorporationDateReal < LastMonthInitialDate Then
                                 'Es de hace dos meses, se deben tomar los días del mes anterior
 
@@ -1367,11 +1455,12 @@ Public Class VacationPeriodDomain
                                     tmpEnjoyDays = tmpEnjoyDays - 1
                                 End If
 
-                                HealthIBC = HealthAport * 30 / tmpEnjoyDays
-                                Dim CalculationDays = _liquidationDomain.Days360(LastMonthInitialDate, DateAdd(DateInterval.Day, -1, objVacation.IncorporationDateReal))
-                                Dim BaseLastMonth = HealthIBC * 100 / 4
-                                ValorBaseCalcularMesAnterior = ValorBaseCalcularMesAnterior + (BaseLastMonth / 30 * CalculationDays)
-
+                                If tmpEnjoyDays > 0 Then
+                                    HealthIBC = HealthAport * 30 / tmpEnjoyDays
+                                    Dim CalculationDays = _liquidationDomain.Days360(LastMonthInitialDate, DateAdd(DateInterval.Day, -1, objVacation.IncorporationDateReal))
+                                    Dim BaseLastMonth = HealthIBC * 100 / 4
+                                    ValorBaseCalcularMesAnterior = ValorBaseCalcularMesAnterior + (BaseLastMonth / 30 * CalculationDays)
+                                End If
 
                             End If
 
@@ -1384,10 +1473,12 @@ Public Class VacationPeriodDomain
                                     tmpEnjoyDays = tmpEnjoyDays - 1
                                 End If
 
-                                HealthIBC = HealthAport * 30 / tmpEnjoyDays
-                                Dim CalculationDays = tmpEnjoyDays
-                                Dim BaseLastMonth = HealthIBC * 100 / 4
-                                ValorBaseCalcularMesAnterior = ValorBaseCalcularMesAnterior + (BaseLastMonth / 30 * CalculationDays)
+                                If tmpEnjoyDays > 0 Then
+                                    HealthIBC = HealthAport * 30 / tmpEnjoyDays
+                                    Dim CalculationDays = tmpEnjoyDays
+                                    Dim BaseLastMonth = HealthIBC * 100 / 4
+                                    ValorBaseCalcularMesAnterior = ValorBaseCalcularMesAnterior + (BaseLastMonth / 30 * CalculationDays)
+                                End If
 
                             End If
 
@@ -1400,10 +1491,12 @@ Public Class VacationPeriodDomain
                                     tmpEnjoyDays = tmpEnjoyDays - 1
                                 End If
 
-                                HealthIBC = HealthAport * 30 / tmpEnjoyDays
-                                Dim CalculationDays = _liquidationDomain.Days360(objVacation.VacationStartDate, LastMonthEndDate)
-                                Dim BaseLastMonth = HealthIBC * 100 / 4
-                                ValorBaseCalcularMesAnterior = ValorBaseCalcularMesAnterior + (BaseLastMonth / 30 * CalculationDays)
+                                If tmpEnjoyDays > 0 Then
+                                    HealthIBC = HealthAport * 30 / tmpEnjoyDays
+                                    Dim CalculationDays = _liquidationDomain.Days360(objVacation.VacationStartDate, LastMonthEndDate)
+                                    Dim BaseLastMonth = HealthIBC * 100 / 4
+                                    ValorBaseCalcularMesAnterior = ValorBaseCalcularMesAnterior + (BaseLastMonth / 30 * CalculationDays)
+                                End If
 
                             End If
 
@@ -1420,11 +1513,13 @@ Public Class VacationPeriodDomain
                                     tmpEnjoyDays = tmpEnjoyDays - 1
                                 End If
 
-                                HealthIBC = HealthAport * 30 / tmpEnjoyDays
-                                Dim CalculationDays = 30
-                                Dim BaseLastMonth = HealthIBC * 100 / 4
-                                ValorBaseCalcularMesAnterior = ValorBaseCalcularMesAnterior + (BaseLastMonth / 30 * CalculationDays)
-                                valorBase = 0
+                                If tmpEnjoyDays > 0 Then
+                                    HealthIBC = HealthAport * 30 / tmpEnjoyDays
+                                    Dim CalculationDays = 30
+                                    Dim BaseLastMonth = HealthIBC * 100 / 4
+                                    ValorBaseCalcularMesAnterior = ValorBaseCalcularMesAnterior + (BaseLastMonth / 30 * CalculationDays)
+                                    valorBase = 0
+                                End If
 
                             End If
 
@@ -1473,8 +1568,38 @@ Public Class VacationPeriodDomain
                         End If
                     End If
 
-                    health = Utils.RoundValue(health, TarifaAprox)
-                    pension = Utils.RoundValue(pension, TarifaAprox)
+                    health = Math.Ceiling(health / 100) * 100
+                    pension = Math.Ceiling(pension / 100) * 100
+
+                    If valorBase > SMLMV * 20 Then
+                        SolidarityFund = Math.Ceiling(BaseSolidarityFund * 0.02 / 100) * 100
+                        PensionSolidarityFormulate = "Ceiling(valueVacation * 0.02 / 100) * 100"
+                        ReplacePensionSolidarityFormulate = "Ceiling(" + valueVacation.ToString() + " * 0.02 / 100) * 100"
+                    ElseIf valorBase > SMLMV * 19 Then
+                        SolidarityFund = Math.Ceiling(BaseSolidarityFund * 0.018 / 100) * 100
+                        PensionSolidarityFormulate = "Ceiling(valueVacation * 0.018 / 100) * 100"
+                        ReplacePensionSolidarityFormulate = "Ceiling(" + valueVacation.ToString() + " * 0.018 / 100) * 100"
+                    ElseIf valorBase > SMLMV * 18 Then
+                        SolidarityFund = Math.Ceiling(BaseSolidarityFund * 0.016 / 100) * 100
+                        PensionSolidarityFormulate = "Ceiling(valueVacation * 0.016 / 100) * 100"
+                        ReplacePensionSolidarityFormulate = "Ceiling(" + valueVacation.ToString() + " * 0.016 / 100) * 100"
+                    ElseIf valorBase > SMLMV * 17 Then
+                        SolidarityFund = Math.Ceiling(BaseSolidarityFund * 0.014 / 100) * 100
+                        PensionSolidarityFormulate = "Ceiling(valueVacation * 0.014 / 100) * 100"
+                        ReplacePensionSolidarityFormulate = "Ceiling(" + valueVacation.ToString() + " * 0.014 / 100) * 100"
+                    ElseIf valorBase > SMLMV * 16 Then
+                        SolidarityFund = Math.Ceiling(BaseSolidarityFund * 0.012 / 100) * 100
+                        PensionSolidarityFormulate = "Ceiling(valueVacation * 0.012 / 100) * 100"
+                        ReplacePensionSolidarityFormulate = "Ceiling(" + valueVacation.ToString() + " * 0.012 / 100) * 100"
+                    ElseIf valorBase > SMLMV * 4 Then
+                        SolidarityFund = Math.Ceiling(BaseSolidarityFund * 0.01 / 100) * 100
+                        PensionSolidarityFormulate = "Ceiling(valueVacation * 0.01 / 100) * 100"
+                        ReplacePensionSolidarityFormulate = "Ceiling(" + valueVacation.ToString() + " * 0.01 / 100) * 100"
+                    Else
+                        SolidarityFund = 0
+                        PensionSolidarityFormulate = "0"
+                        ReplacePensionSolidarityFormulate = "0"
+                    End If
 
                     If employee.Pensionary = True Then
                         pension = 0
@@ -1595,7 +1720,7 @@ Public Class VacationPeriodDomain
                 Dim CountVacation As Integer = 0
                 'Creo el objeto de Vacaciones
                 Dim requestDaysTmp = requestDays - VacationPlusDays
-                For Each vacationPeriod As VacationPeriod In employee.VacationPeriod
+                For Each vacationPeriod As VacationPeriod In employee.VacationPeriod.OrderBy(Function(x) x.InitialDatePeriod)
                     If vacationPeriod.PendingDays > 0 Then
                         CountVacation += 1
                         Dim takenDaysTmp As Integer
@@ -1642,6 +1767,7 @@ Public Class VacationPeriodDomain
                         vacation.TakenDaysReal = takenDaysTmp
                         vacation.IncorporationDateReal = incorporationDate
                         vacation.StateIncorporation = 1 'Normal
+                        vacation.PreviousMonthIBC = IBCLastPeriodVac
 
                         'Agrego el detalle de Vacaciones
                         If ListVacationDetail IsNot Nothing AndAlso ListVacationDetail.Count > 0 Then
@@ -1852,7 +1978,7 @@ Public Class VacationPeriodDomain
                 .IdConcept = IdHealthConcept
                 .Description = "Aporte Salud"
                 .Accrued = 0
-                .Deducted = Math.Round(CDec(HealthValue), 0)
+                .Deducted = Math.Ceiling(CDec(HealthValue))
                 .ConceptFormulate = HealthFormulate
                 .ReplaceConceptFormulate = HealthReplaceFormulate
             End With
@@ -1868,7 +1994,7 @@ Public Class VacationPeriodDomain
                 .IdConcept = IdPensionConcept
                 .Description = "Aporte Pensión"
                 .Accrued = 0
-                .Deducted = Math.Round(CDec(PensionValue), 0)
+                .Deducted = Math.Ceiling(CDec(PensionValue))
                 .ConceptFormulate = PensionFormulate
                 .ReplaceConceptFormulate = PensionReplaceFormulate
             End With
@@ -1884,7 +2010,7 @@ Public Class VacationPeriodDomain
                 .IdConcept = IdPensionSolidarityConcept
                 .Description = "Fondo de Solidaridad Pensional"
                 .Accrued = 0
-                .Deducted = Math.Round(CDec(PensionSolidarityFund), 0)
+                .Deducted = Math.Ceiling(CDec(PensionSolidarityFund))
                 .ConceptFormulate = PensionSolidarityFormulate
                 .ReplaceConceptFormulate = PensionSolidarityReplaceFormulate
             End With
@@ -2109,21 +2235,77 @@ Public Class VacationPeriodDomain
                     .JournalVoucherDetails.Add(NewObjJournalVoucherDetail)
                 Next
 
-                'Insertamos la Cuenta x Pagar de Nómina con el total Pagado
-                Dim NewPaidVoucherDetail As New Domain.Entities.JournalVoucherDetails
-
-                'Totalizo las Vacaciones
+                'Insertamos las líneas de pasivo discriminadas por concepto de devengo
                 Dim TotalPaid = .JournalVoucherDetails.Sum(Function(x) x.DebitValue) - .JournalVoucherDetails.Sum(Function(x) x.CreditValue)
 
-                With NewPaidVoucherDetail
-                    .IdMainAccount = group.PayrollParameter.IdLiquidationVacationAccount
-                    .IdThirdParty = Employee.ThirdPartyId
-                    .DebitValue = 0
-                    .CreditValue = TotalPaid
-                    .Detail = "Pago Generado desde Vacaciones"
-                End With
+                Dim AccruedDetails = ListVacationDetail.Where(Function(x) x.Accrued > 0D).ToList()
+                Dim LiabilityLines As New Dictionary(Of Integer, Tuple(Of Decimal, Domain.Payroll.Entities.MainAccounts))
+                Dim SumNonPrincipalAccrued As Decimal = 0D
 
-                .JournalVoucherDetails.Add(NewPaidVoucherDetail)
+                For Each detail In AccruedDetails
+                    Dim conceptAccount = ListConceptAccount.Where(Function(x) x.ConceptId = detail.IdConcept).FirstOrDefault()
+                    If conceptAccount Is Nothing OrElse conceptAccount.DeductedAccount Is Nothing Then
+                        Continue For
+                    End If
+
+                    Dim liabilityAccount = _CostDistributionRepository.GetMainAccountByNumber(conceptAccount.DeductedAccount)
+                    If liabilityAccount Is Nothing Then
+                        Continue For
+                    End If
+
+                    Dim concept = _conceptRepository.GetConceptId(detail.IdConcept)
+                    If concept.ConceptClass <> "030" Then
+                        SumNonPrincipalAccrued += detail.Accrued
+                        If LiabilityLines.ContainsKey(liabilityAccount.Id) Then
+                            LiabilityLines(liabilityAccount.Id) = Tuple.Create(LiabilityLines(liabilityAccount.Id).Item1 + detail.Accrued, liabilityAccount)
+                        Else
+                            LiabilityLines(liabilityAccount.Id) = Tuple.Create(detail.Accrued, liabilityAccount)
+                        End If
+                    End If
+                Next
+
+                ' Concepto principal 030 (Vacaciones) absorbe el residuo para garantizar balance
+                Dim principalDetail = AccruedDetails.FirstOrDefault(Function(x)
+                                                                        Dim c = _conceptRepository.GetConceptId(x.IdConcept)
+                                                                        Return c.ConceptClass = "030"
+                                                                    End Function)
+
+                If principalDetail IsNot Nothing Then
+                    Dim principalAccount = ListConceptAccount.Where(Function(x) x.ConceptId = principalDetail.IdConcept).FirstOrDefault()
+                    If principalAccount IsNot Nothing AndAlso principalAccount.DeductedAccount IsNot Nothing Then
+                        Dim principalLiabilityAccount = _CostDistributionRepository.GetMainAccountByNumber(principalAccount.DeductedAccount)
+                        If principalLiabilityAccount IsNot Nothing Then
+                            Dim principalValue As Decimal = TotalPaid - SumNonPrincipalAccrued
+                            If LiabilityLines.ContainsKey(principalLiabilityAccount.Id) Then
+                                LiabilityLines(principalLiabilityAccount.Id) = Tuple.Create(LiabilityLines(principalLiabilityAccount.Id).Item1 + principalValue, principalLiabilityAccount)
+                            Else
+                                LiabilityLines(principalLiabilityAccount.Id) = Tuple.Create(principalValue, principalLiabilityAccount)
+                            End If
+                        End If
+                    End If
+                End If
+
+                ' Fallback: si no se generaron líneas discriminadas, usar cuenta única parametrizada
+                If Not LiabilityLines.Any() Then
+                    Dim fallbackAccountId As Integer = If(group.PayrollParameter.IdLiquidationVacationAccount IsNot Nothing, CInt(group.PayrollParameter.IdLiquidationVacationAccount), 0)
+                    LiabilityLines(fallbackAccountId) = Tuple.Create(TotalPaid, DirectCast(Nothing, Domain.Payroll.Entities.MainAccounts))
+                End If
+
+                For Each liability In LiabilityLines
+                    Dim NewPaidVoucherDetail As New Domain.Entities.JournalVoucherDetails
+                    With NewPaidVoucherDetail
+                        .IdMainAccount = liability.Key
+                        .IdThirdParty = Employee.ThirdPartyId
+                        .DebitValue = 0
+                        .CreditValue = liability.Value.Item1
+                        .Detail = "Pago Generado desde Vacaciones"
+
+                        If liability.Value.Item2 IsNot Nothing AndAlso liability.Value.Item2.HandlesCostCenter = True Then
+                            .IdCostCenter = Contract.FunctionalUnit.CostCenterId
+                        End If
+                    End With
+                    .JournalVoucherDetails.Add(NewPaidVoucherDetail)
+                Next
                 'Insertamos la Cabecera
 
                 .LegalBookId = OfficialBook.Id

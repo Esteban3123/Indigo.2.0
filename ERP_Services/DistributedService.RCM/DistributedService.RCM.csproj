@@ -1,4 +1,4 @@
-<Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+﻿<Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="..\packages\Microsoft.VisualStudio.Azure.Containers.Tools.Targets.1.11.1\build\Microsoft.VisualStudio.Azure.Containers.Tools.Targets.props" Condition="Exists('..\packages\Microsoft.VisualStudio.Azure.Containers.Tools.Targets.1.11.1\build\Microsoft.VisualStudio.Azure.Containers.Tools.Targets.props')" />
   <Import Project="..\packages\EntityFramework.6.4.4\build\EntityFramework.props" Condition="Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.props')" />
   <Import Project="..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.0\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props" Condition="Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.0\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" />
@@ -57,24 +57,6 @@
       <HintPath>..\packages\Microsoft.Bcl.AsyncInterfaces.7.0.0\lib\net462\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="Microsoft.Extensions.Caching.Abstractions, Version=3.1.32.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Extensions.Caching.Abstractions.3.1.32\lib\netstandard2.0\Microsoft.Extensions.Caching.Abstractions.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Extensions.Caching.Memory, Version=3.1.32.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Extensions.Caching.Memory.3.1.32\lib\netstandard2.0\Microsoft.Extensions.Caching.Memory.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Extensions.DependencyInjection.Abstractions, Version=3.1.32.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Extensions.DependencyInjection.Abstractions.3.1.32\lib\netstandard2.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Extensions.Logging.Abstractions, Version=3.1.32.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Extensions.Logging.Abstractions.3.1.32\lib\netstandard2.0\Microsoft.Extensions.Logging.Abstractions.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Extensions.Options, Version=3.1.32.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Extensions.Options.3.1.32\lib\netstandard2.0\Microsoft.Extensions.Options.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Extensions.Primitives, Version=3.1.32.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Extensions.Primitives.3.1.32\lib\netstandard2.0\Microsoft.Extensions.Primitives.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.Practices.Unity, Version=2.0.414.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\DLL\Microsoft.Practices.Unity.dll</HintPath>
@@ -181,13 +163,12 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="App_Start\JwtAuthenticationFilter.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AccountManagementParametersController.cs" />
     <Compile Include="Controllers\BillingController.cs" />
-    <Compile Include="Controllers\HealthController.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\ElectronicRipsController.cs" />
+    <Compile Include="Controllers\InitialBalanceInvoiceXmlController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -238,10 +219,6 @@
       <Project>{A4CA5A36-4641-4226-A044-0499C1551EA3}</Project>
       <Name>Application.AccountManagement</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Application.Autentication\Application.Autentication.csproj">
-      <Project>{32b6e3b5-d876-42f3-ae66-89fe61a0fd70}</Project>
-      <Name>Application.Autentication</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Application.Billing\Application.Billing.vbproj">
       <Project>{22ec7c4c-0cab-46ad-8137-4ec5ebd42335}</Project>
       <Name>Application.Billing</Name>
@@ -278,12 +255,8 @@
       <Project>{2BC7AF65-B273-4611-AA4E-785A740A977E}</Project>
       <Name>DistributedServices.AccountManagement</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Domain.Autentication\Domain.Autentication.csproj">
-      <Project>{74cb83ac-044c-4fc2-ae66-80767dc8b027}</Project>
-      <Name>Domain.Autentication</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Domain.Base.Entities\Domain.Base.Entities.vbproj">
-      <Project>{78734d29-0073-4d48-9d0b-2362d0243e36}</Project>
+      <Project>{78734D29-0073-4D48-9D0B-2362D0243E36}</Project>
       <Name>Domain.Base.Entities</Name>
     </ProjectReference>
     <ProjectReference Include="..\Domain.Base\Domain.Base.vbproj">
@@ -321,10 +294,6 @@
     <ProjectReference Include="..\Domain.Security\Domain.Security.vbproj">
       <Project>{435b789a-be74-4f5a-932f-0a4900825d61}</Project>
       <Name>Domain.Security</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Infrastructure.CrossCutting.Autentication.Secrets\Infrastructure.CrossCutting.Autentication.Secrets.csproj">
-      <Project>{24da775e-9d04-412a-b41c-817b4e952eb5}</Project>
-      <Name>Infrastructure.CrossCutting.Autentication.Secrets</Name>
     </ProjectReference>
     <ProjectReference Include="..\Infrastructure.CrossCutting.AzureBlobStorage\Infrastructure.CrossCutting.Storage.csproj">
       <Project>{A660E715-269C-43F4-BFEF-8DEEBAA2BD17}</Project>

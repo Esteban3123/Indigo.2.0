@@ -1,4 +1,4 @@
-﻿Imports Infrastructure.CrossCutting.Base
+Imports Infrastructure.CrossCutting.Base
 
 Partial Public Class BillingNote
 
@@ -118,6 +118,12 @@ Partial Public Class BillingNote
     ''' </summary>
     ''' <returns></returns>
     Public Property NoteTypeDetail As Boolean
+
+    ''' <summary>
+    ''' Concepto de discrepancia para el DiscrepancyResponse (obtenido de PortfolioNoteAccountReceivableAdvance)
+    ''' </summary>
+    ''' <returns></returns>
+    Public Property DiscrepancyConceptId As Integer?
 #End Region
 
 #Region "Methods"

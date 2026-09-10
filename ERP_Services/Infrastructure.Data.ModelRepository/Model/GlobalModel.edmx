@@ -1144,6 +1144,7 @@
           <Property Name="TaxPercentage" Type="numeric" Precision="5" Scale="2" Nullable="false" />
           <Property Name="TaxValue" Type="numeric" Precision="20" Scale="2" Nullable="false" />
           <Property Name="BaseValue" Type="numeric" Precision="20" Scale="2" Nullable="false" />
+          <Property Name="IVAId" Type="int" Nullable="true" />
         </EntityType>
         <EntityType Name="BillingReversalReason">
           <Key>
@@ -2462,6 +2463,7 @@
           <Property Name="AccountingVoucherReversalId" Type="int"/>
           <Property Name="AccountingVoucherGenerationId" Type="int" />
           <Property Name="BillingAuthorizationId" Type="int" />
+          <Property Name="TaxInformation" Type="nvarchar" MaxLength="700" />
         </EntityType>
         <EntityType Name="SlipOut">
           <Key>
@@ -5486,6 +5488,8 @@
           <Property Name="RequestQuoteIntrahospitalServices" Type="bit" Nullable="false" />
           <Property Name="RequestQuoteOutpatientProducts" Type="bit" Nullable="false" />
           <Property Name="RequestQuoteIntrahospitalProducts" Type="bit" Nullable="false" />
+          <Property Name="SiifaEnabled" Type="bit" Nullable="false" />
+          <Property Name="SiifaStartDate" Type="datetime" />
         </EntityType>
         <EntityType Name="SurgeriesPercentageManual">
           <Key>
@@ -5598,6 +5602,7 @@
           <Property Name="CreationDate" Type="datetime" Nullable="false" />
           <Property Name="ModificationUser" Type="varchar" MaxLength="20" />
           <Property Name="ModificationDate" Type="datetime" />
+          <Property Name="ContractDescriptionId" Type="int" />
           <Property Name="TimeStamp" Type="timestamp" StoreGeneratedPattern="Computed" Nullable="false" />
         </EntityType>
         <EntityType Name="CostActivityProductionCenter">
@@ -5899,21 +5904,28 @@
           <Property Name="HoursQuantity" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="CostDistributionIntermediate">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Code" Type="varchar" MaxLength="20" Nullable="false" />
-          <Property Name="ProductionCenterId" Type="int" Nullable="false" />
-          <Property Name="Description" Type="varchar" MaxLength="300" Nullable="false" />
-          <Property Name="Year" Type="int" Nullable="false" />
-          <Property Name="Month" Type="int" Nullable="false" />
-          <Property Name="Status" Type="bit" Nullable="false" />
-          <Property Name="CreationUser" Type="varchar" MaxLength="20" Nullable="false" />
-          <Property Name="CreationDate" Type="datetime" Nullable="false" />
-          <Property Name="ModificationUser" Type="varchar" MaxLength="20" />
-          <Property Name="ModificationDate" Type="datetime" />
-          <Property Name="TimeStamp" Type="timestamp" StoreGeneratedPattern="Computed" Nullable="false" />
+              <Key>
+                <PropertyRef Name="Id" />
+              </Key>
+              <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+              <Property Name="Code" Type="varchar" MaxLength="20" Nullable="false" />
+              <Property Name="ProductionCenterId" Type="int" Nullable="false" />
+              <Property Name="Description" Type="varchar" MaxLength="300" Nullable="false" />
+              <Property Name="Year" Type="int" Nullable="false" />
+              <Property Name="Month" Type="int" Nullable="false" />
+              <Property Name="Status" Type="tinyint" Nullable="false" />
+              <Property Name="CreationUser" Type="varchar" MaxLength="20" Nullable="false" />
+              <Property Name="CreationDate" Type="datetime" Nullable="false" />
+              <Property Name="ModificationUser" Type="varchar" MaxLength="20" />
+              <Property Name="ModificationDate" Type="datetime" />
+              <Property Name="TimeStamp" Type="timestamp" StoreGeneratedPattern="Computed" Nullable="false" />
+              <Property Name="IntermediateDistributionElementId" Type="int" />
+              <Property Name="CostEstimationId" Type="int" />
+              <Property Name="ConfirmUser" Type="varchar" MaxLength="20" />
+              <Property Name="ConfirmDate" Type="datetime" />
+              <Property Name="AnnulmentUser" Type="varchar" MaxLength="20" />
+              <Property Name="AnnulmentDate" Type="datetime" />
+              <Property Name="Value" Type="decimal" Precision="18" Scale="2" Nullable="false" />
         </EntityType>
         <EntityType Name="CostDistributionIntermediateDetail">
           <Key>
@@ -5923,6 +5935,23 @@
           <Property Name="DistributionIntermediateId" Type="int" Nullable="false" />
           <Property Name="ProductionCenterId" Type="int" Nullable="false" />
           <Property Name="Proportion" Type="numeric" Precision="5" Scale="2" Nullable="false" />
+          <Property Name="Value" Type="numeric" Precision="18" Scale="2" Nullable="false" /> 
+        </EntityType>
+        <EntityType Name="CostIntermediateDistributionServiceQuantity">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DistributionIntermediateId" Type="int" Nullable="false" />
+          <Property Name="CostMonth" Type="int" Nullable="false" />
+          <Property Name="ServiceType" Type="tinyint" Nullable="false" />
+          <Property Name="ServiceId" Type="int" />
+          <Property Name="FunctionalUnitId" Type="int" />
+          <Property Name="ProductionCenterId" Type="int" Nullable="false" />
+          <Property Name="Quantity" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="SalesValue" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="CreationUser" Type="varchar" MaxLength="50" />
+          <Property Name="CreationDate" Type="datetime" />
         </EntityType>
         <EntityType Name="CostDistributionManpower">
           <Key>
@@ -6386,26 +6415,6 @@
           <Property Name="InitialDate" Type="date" Nullable="false" />
           <Property Name="EndDate" Type="date" Nullable="false" />
           <Property Name="Observations" Type="varchar" MaxLength="50" />
-        </EntityType>
-        <EntityType Name="ADACOMPAN">
-          <Key>
-            <PropertyRef Name="CONSEACOM" />
-          </Key>
-          <Property Name="CONSEACOM" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="IPCODPACI" Type="varchar" MaxLength="25" Nullable="false" />
-          <Property Name="IDACOMPAN" Type="varchar" MaxLength="15" />
-          <Property Name="TIPIDACOM" Type="char" MaxLength="2" />
-          <Property Name="PRINOMBRE" Type="varchar" MaxLength="60" />
-          <Property Name="SEGNOMBRE" Type="varchar" MaxLength="60" />
-          <Property Name="PRIAPELLI" Type="varchar" MaxLength="60" />
-          <Property Name="SEGAPELLI" Type="varchar" MaxLength="60" />
-          <Property Name="DIRACOMPA" Type="varchar" MaxLength="100" />
-          <Property Name="TELACOMPA" Type="varchar" MaxLength="50" />
-          <Property Name="PARACOMPA" Type="char" MaxLength="2" />
-          <Property Name="FECHAREGI" Type="datetime" Nullable="false" />
-          <Property Name="CODUSUREG" Type="char" MaxLength="20" Nullable="false" />
-          <Property Name="NUMINGRES" Type="char" MaxLength="10" />
-          <Property Name="RESPONSAB" Type="char" MaxLength="1" />
         </EntityType>
         <EntityType Name="ADTIPOIDENTIFICA">
           <Key>
@@ -8345,6 +8354,7 @@
           <Property Name="IdAccountCreditControlFiscal" Type="int" />
           <Property Name="ApplyTaxDevolution" Type="bit" Nullable="false" />
           <Property Name="PaymentMethodTypes" Type="varchar" MaxLength="500" />
+          <Property Name="TaxClassificationType" Type="tinyint" Nullable="false" />
         </EntityType>
         <EntityType Name="GeneralLedgerSequence">
           <Key>
@@ -9092,7 +9102,7 @@
           <Property Name="ConciliationCId" Type="int" />
           <Property Name="TimeStamp" Type="timestamp" StoreGeneratedPattern="Computed" Nullable="false" />
           <Property Name="IsNormative" Type="bit" Nullable="false" />
-          <Property Name="ResponsibleThirdPartyId" Type="int" />
+          <Property Name="ResponsibleThirdPartyId" Type="int" />          
         </EntityType>
         <EntityType Name="GlosaMovementGlosaConciliation">
           <Key>
@@ -9152,6 +9162,7 @@
           <Property Name="RadicatedDate" Type="datetime" />
           <Property Name="RadicatedReceiver" Type="varchar" MaxLength="100" />
           <Property Name="RadicatedObservation" Type="varchar" MaxLength="200" />
+          <Property Name="ADRESCode" Type="varchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="GlosaPortfolioGlosada">
           <Key>
@@ -13699,7 +13710,7 @@
           <Property Name="ThirdPartyId" Type="int" Nullable="false" />
           <Property Name="MedicalFeesContractId" Type="int" />
           <Property Name="CausationDate" Type="datetime" Nullable="false" />
-          <Property Name="InvoiceDetailId" Type="int" Nullable="false" />
+          <Property Name="InvoiceDetailId" Type="int" Nullable="true" />
           <Property Name="ServiceOrderId" Type="int" Nullable="false" />
           <Property Name="ServiceOrderDetailId" Type="int" Nullable="false" />
           <Property Name="ServiceOrderDetailSurgicalId" Type="int" />
@@ -14749,6 +14760,7 @@
           <Property Name="SupplieId" Type="int" />
           <Property Name="ComponentType" Type="tinyint" />
           <Property Name="MainMedicine" Type="bit" />
+          <Property Name="ComplementaryMedicine" Type="bit" />
           <Property Name="PreparationType" Type="tinyint" />
           <Property Name="Dilution" Type="decimal" Precision="18" Scale="2" />
           <Property Name="Concentration" Type="decimal" Precision="18" Scale="2" />
@@ -15900,6 +15912,43 @@
           <Property Name="AdvancePaymentsDescription" Type="varchar" MaxLength="200" Nullable="false" />
           <Property Name="Value" Type="decimal" Precision="18" Scale="0" Nullable="false" />
         </EntityType>
+        <EntityType Name="InitialBalanceInvoice">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="AccountReceivableId" Type="int" Nullable="false" />
+          <Property Name="InvoiceId" Type="int" />
+          <Property Name="ObligatedPartyDocument" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="InvoiceNumber" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="CosmosId" Type="varchar" MaxLength="100" />
+          <Property Name="CUV" Type="varchar(max)" />
+          <Property Name="Status" Type="tinyint" Nullable="false" />
+          <Property Name="CreationUser" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="CreationDate" Type="datetime" Nullable="false" />
+          <Property Name="ModificationUser" Type="varchar" MaxLength="20" />
+          <Property Name="ModificationDate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="InitialBalanceInvoiceDetail">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="InitialBalanceInvoiceId" Type="int" Nullable="false" />
+          <Property Name="UserConsecutive" Type="int" Nullable="false" />
+          <Property Name="ServiceType" Type="tinyint" Nullable="false" />
+          <Property Name="Consecutive" Type="int" Nullable="false" />
+          <Property Name="ServiceCode" Type="varchar" MaxLength="20" />
+          <Property Name="Quantity" Type="int" Nullable="false" />
+          <Property Name="UnitValue" Type="numeric" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="ServiceValue" Type="numeric" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="Balance" Type="numeric" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="AttentionStartDate" Type="datetime" />
+          <Property Name="CreationUser" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="CreationDate" Type="datetime" Nullable="false" />
+          <Property Name="ModificationUser" Type="varchar" MaxLength="20" />
+          <Property Name="ModificationDate" Type="datetime" />
+        </EntityType>
         <EntityType Name="LoadMassive">
           <Key>
             <PropertyRef Name="Id" />
@@ -16991,6 +17040,12 @@
           <Property Name="AccountLegalCollectionId" Type="int" />
           <Property Name="AccountDebtorOrder" Type="int" />
           <Property Name="AccountCreditorOrder" Type="int" />
+          <Property Name="AccountHardCollectionId" Type="int" />
+          <Property Name="DeteriorationBalance" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="DeteriorationBalanceCurrentYear" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="DeteriorationBalancePreviousYear" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="CurrentDeteriorationYear" Type="int" />
+          <Property Name="CUV" Type="varchar" MaxLength="200" />
           <Property Name="AffectBudget" Type="bit" Nullable="false" />
           <Property Name="BudgetId" Type="int" />
           <Property Name="IsElectronicInvoice" Type="bit" Nullable="false" />
@@ -17338,6 +17393,7 @@
           <Property Name="ModificationUser" Type="varchar" MaxLength="20" />
           <Property Name="ModificationDate" Type="datetime" />
           <Property Name="TimeStamp" Type="timestamp" StoreGeneratedPattern="Computed" Nullable="false" />
+          <Property Name="CustomerRadicateConsecutive" Type="varchar" MaxLength="100"/>
         </EntityType>
         <EntityType Name="RadicateInvoiceD">
           <Key>
@@ -18468,6 +18524,7 @@
           <Property Name="TransactionNumber" Type="varchar" MaxLength="30" />
           <Property Name="TransactionDate" Type="datetime" />
           <Property Name="RedemptionPoints" Type="int" />
+          <Property Name="CardType" Type="tinyint" />
         </EntityType>
         <EntityType Name="RefundDetail">
           <Key>
@@ -20638,18 +20695,6 @@ warning 6002: The table/view 'INDIGO999_1.Treasury.VReportConsignmentTransfer' d
             </Principal>
             <Dependent Role="AccountSettingsNET_PublicMethod">
               <PropertyRef Name="ParametersInterfaceId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_ADACOMPAN_ADACOMPAN">
-          <End Role="ADACOMPAN" Type="Self.ADACOMPAN" Multiplicity="1" />
-          <End Role="ADACOMPAN1" Type="Self.ADACOMPAN" Multiplicity="0..1" />
-          <ReferentialConstraint>
-            <Principal Role="ADACOMPAN">
-              <PropertyRef Name="CONSEACOM" />
-            </Principal>
-            <Dependent Role="ADACOMPAN1">
-              <PropertyRef Name="CONSEACOM" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -23148,6 +23193,18 @@ warning 6002: The table/view 'INDIGO999_1.Treasury.VReportConsignmentTransfer' d
             </Principal>
             <Dependent Role="BillingNoteDetailTax">
               <PropertyRef Name="BillingNoteDetailId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BillingNoteDetailTax_GeneralLedgerIVA">
+          <End Role="GeneralLedgerIVA" Type="Self.GeneralLedgerIVA" Multiplicity="0..1" />
+          <End Role="BillingNoteDetailTax" Type="Self.BillingNoteDetailTax" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GeneralLedgerIVA">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="BillingNoteDetailTax">
+              <PropertyRef Name="IVAId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -27446,6 +27503,42 @@ warning 6002: The table/view 'INDIGO999_1.Treasury.VReportConsignmentTransfer' d
             </Principal>
             <Dependent Role="CostDistributionIntermediateDetail">
               <PropertyRef Name="DistributionIntermediateId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CostIntermediateDistributionServiceQuantity_CostDistributionIntermediate">
+          <End Role="CostDistributionIntermediate" Type="Self.CostDistributionIntermediate" Multiplicity="1" />
+          <End Role="CostIntermediateDistributionServiceQuantity" Type="Self.CostIntermediateDistributionServiceQuantity" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CostDistributionIntermediate">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CostIntermediateDistributionServiceQuantity">
+              <PropertyRef Name="DistributionIntermediateId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CostIntermediateDistributionServiceQuantity_CostProductionCenter">
+          <End Role="CostProductionCenter" Type="Self.CostProductionCenter" Multiplicity="1" />
+          <End Role="CostIntermediateDistributionServiceQuantity" Type="Self.CostIntermediateDistributionServiceQuantity" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CostProductionCenter">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CostIntermediateDistributionServiceQuantity">
+              <PropertyRef Name="ProductionCenterId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CostIntermediateDistributionServiceQuantity_FunctionalUnit">
+          <End Role="FunctionalUnit" Type="Self.FunctionalUnit" Multiplicity="0..1" />
+          <End Role="CostIntermediateDistributionServiceQuantity" Type="Self.CostIntermediateDistributionServiceQuantity" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FunctionalUnit">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CostIntermediateDistributionServiceQuantity">
+              <PropertyRef Name="FunctionalUnitId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -35501,6 +35594,42 @@ warning 6002: The table/view 'INDIGO999_1.Treasury.VReportConsignmentTransfer' d
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_InitialBalanceInvoice_AccountReceivable">
+          <End Role="AccountReceivable" Type="Self.AccountReceivable" Multiplicity="1" />
+          <End Role="InitialBalanceInvoice" Type="Self.InitialBalanceInvoice" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AccountReceivable">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="InitialBalanceInvoice">
+              <PropertyRef Name="AccountReceivableId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_InitialBalanceInvoice_Invoice">
+          <End Role="Invoice" Type="Self.Invoice" Multiplicity="0..1" />
+          <End Role="InitialBalanceInvoice" Type="Self.InitialBalanceInvoice" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Invoice">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="InitialBalanceInvoice">
+              <PropertyRef Name="InvoiceId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_InitialBalanceInvoiceDetail_InitialBalanceInvoice">
+          <End Role="InitialBalanceInvoice" Type="Self.InitialBalanceInvoice" Multiplicity="1" />
+          <End Role="InitialBalanceInvoiceDetail" Type="Self.InitialBalanceInvoiceDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="InitialBalanceInvoice">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="InitialBalanceInvoiceDetail">
+              <PropertyRef Name="InitialBalanceInvoiceId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_InputRemission_Supplier">
           <End Role="SuppliersDistributionLines" Type="Self.SuppliersDistributionLines" Multiplicity="1" />
           <End Role="FixedAssetRemissionEntrance" Type="Self.FixedAssetRemissionEntrance" Multiplicity="*" />
@@ -38154,7 +38283,7 @@ warning 6002: The table/view 'INDIGO999_1.Treasury.VReportConsignmentTransfer' d
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_MedicalFeesCausation_InvoiceDetail">
-          <End Role="InvoiceDetail" Type="Self.InvoiceDetail" Multiplicity="1" />
+          <End Role="InvoiceDetail" Type="Self.InvoiceDetail" Multiplicity="0..1" />
           <End Role="MedicalFeesCausation" Type="Self.MedicalFeesCausation" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="InvoiceDetail">
@@ -41318,6 +41447,18 @@ warning 6002: The table/view 'INDIGO999_1.Treasury.VReportConsignmentTransfer' d
             </Principal>
             <Dependent Role="PortfolioInitialBalanceAccountReceivable">
               <PropertyRef Name="AccountCreditorOrder" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PortfolioInitialBalanceAccountReceivable_MainAccounts7">
+          <End Role="MainAccounts" Type="Self.MainAccounts" Multiplicity="0..1" />
+          <End Role="PortfolioInitialBalanceAccountReceivable" Type="Self.PortfolioInitialBalanceAccountReceivable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MainAccounts">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PortfolioInitialBalanceAccountReceivable">
+              <PropertyRef Name="AccountHardCollectionId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -52421,6 +52562,9 @@ warning 6035: The relationship 'FK_ProductSusceptibleMixingStation_ATC' has colu
           <Parameter Name="CausationRecognitionId" Type="int" Mode="In" />
           <Parameter Name="UserCode" Type="varchar" Mode="In" />
         </Function>
+        <Function Name="SP_GetCandidatesForAutoCausation" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="MedicalFees">
+          <Parameter Name="BatchSize" Type="int" Mode="In" />
+        </Function>
         <Function Name="SP_GenerateServiceOrder" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="Billing">
           <Parameter Name="ServiceOrderXml" Type="xml" Mode="In" />
           <Parameter Name="User" Type="varchar" Mode="In" />
@@ -52708,6 +52852,11 @@ warning 6035: The relationship 'FK_ProductSusceptibleMixingStation_ATC' has colu
         </Function>
         <Function Name="SP_CalculateDistributionSecondary" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="Cost">
           <Parameter Name="CostDistributionSecondaryId" Type="int" Mode="In" />
+          <Parameter Name="Year" Type="int" Mode="In" />
+          <Parameter Name="Month" Type="int" Mode="In" />
+        </Function>
+         <Function Name="SP_CalculateDistributionIntermediate" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="Cost">
+          <Parameter Name="CostIntermediateDistributionId" Type="int" Mode="In" />
           <Parameter Name="Year" Type="int" Mode="In" />
           <Parameter Name="Month" Type="int" Mode="In" />
         </Function>
@@ -53210,6 +53359,18 @@ warning 6035: The relationship 'FK_ProductSusceptibleMixingStation_ATC' has colu
           <Parameter Name="XmlInvoices" Type="xml" Mode="In" />
         </Function>
         <Function Name="SP_GenerateFURIPS2FileData" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="Glosas">
+          <Parameter Name="XmlParameters" Type="xml" Mode="In" />
+          <Parameter Name="XmlInvoices" Type="xml" Mode="In" />
+        </Function>
+        <Function Name="SP_GenerateAdresFurServiciosData" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="Glosas">
+          <Parameter Name="XmlParameters" Type="xml" Mode="In" />
+          <Parameter Name="XmlInvoices" Type="xml" Mode="In" />
+        </Function>
+        <Function Name="SP_GenerateAdresFurData" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="Glosas">
+          <Parameter Name="XmlParameters" Type="xml" Mode="In" />
+          <Parameter Name="XmlInvoices" Type="xml" Mode="In" />
+        </Function>
+        <Function Name="SP_GenerateAdresFurRgData" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="Glosas">
           <Parameter Name="XmlParameters" Type="xml" Mode="In" />
           <Parameter Name="XmlInvoices" Type="xml" Mode="In" />
         </Function>
@@ -53774,9 +53935,6 @@ warning 6035: The relationship 'FK_ProductSusceptibleMixingStation_ATC' has colu
           <Parameter Name="TransferOrderDevolutionXml" Type="xml" Mode="In" />
           <Parameter Name="CodeUser" Type="varchar" Mode="In" />
         </Function>
-        <Function Name="SP_SetConsignmentTransferDetailFromFile" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="Inventory">
-          <Parameter Name="XmlObject" Type="xml" Mode="In" />
-        </Function>
         <Function Name="SP_UpdateTheQuantityProductUsedInConsignmentInventoryRemission" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="Inventory">
           <Parameter Name="Remission" Type="xml" Mode="In" />
           <Parameter Name="EntityId" Type="int" Mode="In" />
@@ -53915,6 +54073,11 @@ warning 6035: The relationship 'FK_ProductSusceptibleMixingStation_ATC' has colu
         </Function>
         <Function Name="SP_ImportFileInitialBalancePayroll" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="Payroll">
           <Parameter Name="XmlObject" Type="xml" Mode="In" />
+        </Function>
+        <Function Name="SP_ReportHumanTalent" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="Payroll">
+          <Parameter Name="InitialDate" Type="date" Mode="In" />
+          <Parameter Name="FinalDate" Type="date" Mode="In" />
+          <Parameter Name="EmployeeId" Type="int" Mode="In" />
         </Function>
         <Function Name="SP_SaveAgreementsCMassive" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="Payroll">
           <Parameter Name="XmlObject" Type="xml" Mode="In" />
@@ -54361,7 +54524,7 @@ warning 6035: The relationship 'FK_ProductSusceptibleMixingStation_ATC' has colu
           <EntitySet Name="SupplierType" EntityType="Self.SupplierType" Schema="Common" store:Type="Tables" />
           <EntitySet Name="TaxExemptions" EntityType="Self.TaxExemptions" Schema="Common" store:Type="Tables" />
           <EntitySet Name="ThirdParty" EntityType="Self.ThirdParty" Schema="Common" store:Type="Tables" />
-		  <EntitySet Name="ThirdpartyAccumulatedExemptIncome" EntityType="Self.ThirdpartyAccumulatedExemptIncome" Schema="Common" store:Type="Tables" />
+		  <EntitySet Name="ThirdpartyAccumulatedExemptIncome" EntityType="Self.ThirdpartyAccumulatedExemptIncome" Schema="Common" store:Type="Tables" /> 
           <EntitySet Name="ThirdPartyBranchOffice" EntityType="Self.ThirdPartyBranchOffice" Schema="Common" store:Type="Tables" />
           <EntitySet Name="ThirdPartyEconomicActivities" EntityType="Self.ThirdPartyEconomicActivities" Schema="Common" store:Type="Tables" />
           <EntitySet Name="ThirdPartyFiscalResponsibility" EntityType="Self.ThirdPartyFiscalResponsibility" Schema="Common" store:Type="Tables" />
@@ -54458,6 +54621,7 @@ warning 6035: The relationship 'FK_ProductSusceptibleMixingStation_ATC' has colu
           <EntitySet Name="CostDistributionFixedAssetDetail" EntityType="Self.CostDistributionFixedAssetDetail" Schema="Cost" store:Type="Tables" />
           <EntitySet Name="CostDistributionIntermediate" EntityType="Self.CostDistributionIntermediate" Schema="Cost" store:Type="Tables" />
           <EntitySet Name="CostDistributionIntermediateDetail" EntityType="Self.CostDistributionIntermediateDetail" Schema="Cost" store:Type="Tables" />
+          <EntitySet Name="CostIntermediateDistributionServiceQuantity" EntityType="Self.CostIntermediateDistributionServiceQuantity" Schema="Cost" store:Type="Tables" />
           <EntitySet Name="CostDistributionManpower" EntityType="Self.CostDistributionManpower" Schema="Cost" store:Type="Tables" />
           <EntitySet Name="CostDistributionManpowerDetail" EntityType="Self.CostDistributionManpowerDetail" Schema="Cost" store:Type="Tables" />
           <EntitySet Name="CostDistributionSecondary" EntityType="Self.CostDistributionSecondary" Schema="Cost" store:Type="Tables" />
@@ -54489,7 +54653,6 @@ warning 6035: The relationship 'FK_ProductSusceptibleMixingStation_ATC' has colu
           <EntitySet Name="StandarCostDetails" EntityType="Self.StandarCostDetails" Schema="Cost" store:Type="Tables" />
           <EntitySet Name="StandardCostStructure" EntityType="Self.StandardCostStructure" Schema="Cost" store:Type="Tables" />
           <EntitySet Name="StandardCostStructureDetail" EntityType="Self.StandardCostStructureDetail" Schema="Cost" store:Type="Tables" />
-          <EntitySet Name="ADACOMPAN" EntityType="Self.ADACOMPAN" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ADTIPOIDENTIFICA" EntityType="Self.ADTIPOIDENTIFICA" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="IHPARAMDCI" EntityType="Self.IHPARAMDCI" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="RiskFactor" EntityType="Self.RiskFactor" Schema="dbo" store:Type="Tables" />
@@ -55101,6 +55264,8 @@ warning 6035: The relationship 'FK_ProductSusceptibleMixingStation_ATC' has colu
           <EntitySet Name="EconomicIndicator" EntityType="Self.EconomicIndicator" Schema="Portfolio" store:Type="Tables" />
           <EntitySet Name="HardCollection" EntityType="Self.HardCollection" Schema="Portfolio" store:Type="Tables" />
           <EntitySet Name="HardCollectionDetail" EntityType="Self.HardCollectionDetail" Schema="Portfolio" store:Type="Tables" />
+          <EntitySet Name="InitialBalanceInvoice" EntityType="Self.InitialBalanceInvoice" Schema="Portfolio" store:Type="Tables" />
+          <EntitySet Name="InitialBalanceInvoiceDetail" EntityType="Self.InitialBalanceInvoiceDetail" Schema="Portfolio" store:Type="Tables" />
           <EntitySet Name="Lawyer" EntityType="Self.Lawyer" Schema="Portfolio" store:Type="Tables" />
           <EntitySet Name="PortfolioAdvance" EntityType="Self.PortfolioAdvance" Schema="Portfolio" store:Type="Tables" />
           <EntitySet Name="PortfolioConcept" EntityType="Self.PortfolioConcept" Schema="Portfolio" store:Type="Tables" />
@@ -55977,10 +56142,6 @@ warning 6035: The relationship 'FK_ProductSusceptibleMixingStation_ATC' has colu
             <End Role="GlosasParametersInterface" EntitySet="GlosasParametersInterface" />
             <End Role="AccountSettingsNET_PublicMethod" EntitySet="AccountSettingsNET_PublicMethod" />
           </AssociationSet>
-          <AssociationSet Name="FK_ADACOMPAN_ADACOMPAN" Association="Self.FK_ADACOMPAN_ADACOMPAN">
-            <End Role="ADACOMPAN" EntitySet="ADACOMPAN" />
-            <End Role="ADACOMPAN1" EntitySet="ADACOMPAN" />
-          </AssociationSet>
           <AssociationSet Name="FK_Address_City" Association="Self.FK_Address_City">
             <End Role="City" EntitySet="City" />
             <End Role="Address" EntitySet="Address" />
@@ -56811,6 +56972,10 @@ warning 6035: The relationship 'FK_ProductSusceptibleMixingStation_ATC' has colu
           </AssociationSet>
           <AssociationSet Name="FK_BillingNoteDetailTax_BillingNoteDetail" Association="Self.FK_BillingNoteDetailTax_BillingNoteDetail">
             <End Role="BillingNoteDetail" EntitySet="BillingNoteDetail" />
+            <End Role="BillingNoteDetailTax" EntitySet="BillingNoteDetailTax" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BillingNoteDetailTax_GeneralLedgerIVA" Association="Self.FK_BillingNoteDetailTax_GeneralLedgerIVA">
+            <End Role="GeneralLedgerIVA" EntitySet="GeneralLedgerIVA" />
             <End Role="BillingNoteDetailTax" EntitySet="BillingNoteDetailTax" />
           </AssociationSet>
           <AssociationSet Name="FK_BranchOffice_City" Association="Self.FK_BranchOffice_City">
@@ -58244,6 +58409,18 @@ warning 6035: The relationship 'FK_ProductSusceptibleMixingStation_ATC' has colu
           <AssociationSet Name="FK_CostDistributionIntermediateDetail_CostDistributionIntermediate" Association="Self.FK_CostDistributionIntermediateDetail_CostDistributionIntermediate">
             <End Role="CostDistributionIntermediate" EntitySet="CostDistributionIntermediate" />
             <End Role="CostDistributionIntermediateDetail" EntitySet="CostDistributionIntermediateDetail" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CostIntermediateDistributionServiceQuantity_CostDistributionIntermediate" Association="Self.FK_CostIntermediateDistributionServiceQuantity_CostDistributionIntermediate">
+            <End Role="CostDistributionIntermediate" EntitySet="CostDistributionIntermediate" />
+            <End Role="CostIntermediateDistributionServiceQuantity" EntitySet="CostIntermediateDistributionServiceQuantity" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CostIntermediateDistributionServiceQuantity_CostProductionCenter" Association="Self.FK_CostIntermediateDistributionServiceQuantity_CostProductionCenter">
+            <End Role="CostProductionCenter" EntitySet="CostProductionCenter" />
+            <End Role="CostIntermediateDistributionServiceQuantity" EntitySet="CostIntermediateDistributionServiceQuantity" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CostIntermediateDistributionServiceQuantity_FunctionalUnit" Association="Self.FK_CostIntermediateDistributionServiceQuantity_FunctionalUnit">
+            <End Role="FunctionalUnit" EntitySet="FunctionalUnit" />
+            <End Role="CostIntermediateDistributionServiceQuantity" EntitySet="CostIntermediateDistributionServiceQuantity" />
           </AssociationSet>
           <AssociationSet Name="FK_CostDistributionIntermediateDetail_CostProductionCenter" Association="Self.FK_CostDistributionIntermediateDetail_CostProductionCenter">
             <End Role="CostProductionCenter" EntitySet="CostProductionCenter" />
@@ -60929,6 +61106,18 @@ warning 6035: The relationship 'FK_ProductSusceptibleMixingStation_ATC' has colu
             <End Role="ThirdParty" EntitySet="ThirdParty" />
             <End Role="InitialBalanceAdvance" EntitySet="InitialBalanceAdvance" />
           </AssociationSet>
+          <AssociationSet Name="FK_InitialBalanceInvoice_AccountReceivable" Association="Self.FK_InitialBalanceInvoice_AccountReceivable">
+            <End Role="AccountReceivable" EntitySet="AccountReceivable" />
+            <End Role="InitialBalanceInvoice" EntitySet="InitialBalanceInvoice" />
+          </AssociationSet>
+          <AssociationSet Name="FK_InitialBalanceInvoice_Invoice" Association="Self.FK_InitialBalanceInvoice_Invoice">
+            <End Role="Invoice" EntitySet="Invoice" />
+            <End Role="InitialBalanceInvoice" EntitySet="InitialBalanceInvoice" />
+          </AssociationSet>
+          <AssociationSet Name="FK_InitialBalanceInvoiceDetail_InitialBalanceInvoice" Association="Self.FK_InitialBalanceInvoiceDetail_InitialBalanceInvoice">
+            <End Role="InitialBalanceInvoice" EntitySet="InitialBalanceInvoice" />
+            <End Role="InitialBalanceInvoiceDetail" EntitySet="InitialBalanceInvoiceDetail" />
+          </AssociationSet>
           <AssociationSet Name="FK_InputRemission_Supplier" Association="Self.FK_InputRemission_Supplier">
             <End Role="SuppliersDistributionLines" EntitySet="SuppliersDistributionLines" />
             <End Role="FixedAssetRemissionEntrance" EntitySet="FixedAssetRemissionEntrance" />
@@ -62869,6 +63058,10 @@ warning 6035: The relationship 'FK_ProductSusceptibleMixingStation_ATC' has colu
             <End Role="MainAccounts" EntitySet="MainAccounts" />
             <End Role="PortfolioInitialBalanceAccountReceivable" EntitySet="PortfolioInitialBalanceAccountReceivable" />
           </AssociationSet>
+          <AssociationSet Name="FK_PortfolioInitialBalanceAccountReceivable_MainAccounts7" Association="Self.FK_PortfolioInitialBalanceAccountReceivable_MainAccounts7">
+            <End Role="MainAccounts" EntitySet="MainAccounts" />
+            <End Role="PortfolioInitialBalanceAccountReceivable" EntitySet="PortfolioInitialBalanceAccountReceivable" />
+          </AssociationSet>
           <AssociationSet Name="FK_PortfolioInitialBalanceAccountReceivableAccounting_CostCenter" Association="Self.FK_PortfolioInitialBalanceAccountReceivableAccounting_CostCenter">
             <End Role="CostCenter" EntitySet="CostCenter" />
             <End Role="PortfolioInitialBalanceAccountReceivableAccounting" EntitySet="PortfolioInitialBalanceAccountReceivableAccounting" />
@@ -64571,6 +64764,14 @@ warning 6035: The relationship 'FK_ProductSusceptibleMixingStation_ATC' has colu
           </AssociationSet>
           <AssociationSet Name="FK_RIPSSupportRecordDetail_ThirdParty" Association="Self.FK_RIPSSupportRecordDetail_ThirdParty">
             <End Role="ThirdParty" EntitySet="ThirdParty" />
+            <End Role="RIPSSupportRecordDetail" EntitySet="RIPSSupportRecordDetail" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RIPSSupportRecordDetail_CUPSEntity" Association="Self.FK_RIPSSupportRecordDetail_CUPSEntity">
+            <End Role="CUPSEntity" EntitySet="CUPSEntity" />
+            <End Role="RIPSSupportRecordDetail" EntitySet="RIPSSupportRecordDetail" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RIPSSupportRecordDetail_CUPSEntityContractDescriptions" Association="Self.FK_RIPSSupportRecordDetail_CUPSEntityContractDescriptions">
+            <End Role="CUPSEntityContractDescriptions" EntitySet="CUPSEntityContractDescriptions" />
             <End Role="RIPSSupportRecordDetail" EntitySet="RIPSSupportRecordDetail" />
           </AssociationSet>
           <AssociationSet Name="FK_RiskFactors_DciId" Association="Self.FK_RiskFactors_DciId">
@@ -68761,6 +68962,7 @@ warning 6035: The relationship 'FK_ProductSusceptibleMixingStation_ATC' has colu
           <EntitySet Name="CostAttentionCenter" EntityType="GlobalModel.CostAttentionCenter" />
           <EntitySet Name="CostDistributionIntermediate" EntityType="GlobalModel.CostDistributionIntermediate" />
           <EntitySet Name="CostDistributionIntermediateDetail" EntityType="GlobalModel.CostDistributionIntermediateDetail" />
+          <EntitySet Name="CostIntermediateDistributionServiceQuantity" EntityType="GlobalModel.CostIntermediateDistributionServiceQuantity" />
           <EntitySet Name="CostDistributionManpower" EntityType="GlobalModel.CostDistributionManpower" />
           <EntitySet Name="CostDistributionManpowerDetail" EntityType="GlobalModel.CostDistributionManpowerDetail" />
           <EntitySet Name="CostDistributionSecondaryBase" EntityType="GlobalModel.CostDistributionSecondaryBase" />
@@ -68775,6 +68977,18 @@ warning 6035: The relationship 'FK_ProductSusceptibleMixingStation_ATC' has colu
           <AssociationSet Name="FK_CostDistributionIntermediateDetail_CostDistributionIntermediate" Association="GlobalModel.FK_CostDistributionIntermediateDetail_CostDistributionIntermediate">
             <End Role="CostDistributionIntermediate" EntitySet="CostDistributionIntermediate" />
             <End Role="CostDistributionIntermediateDetail" EntitySet="CostDistributionIntermediateDetail" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CostIntermediateDistributionServiceQuantity_CostDistributionIntermediate" Association="GlobalModel.FK_CostIntermediateDistributionServiceQuantity_CostDistributionIntermediate">
+            <End Role="CostDistributionIntermediate" EntitySet="CostDistributionIntermediate" />
+            <End Role="CostIntermediateDistributionServiceQuantity" EntitySet="CostIntermediateDistributionServiceQuantity" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CostIntermediateDistributionServiceQuantity_CostProductionCenter" Association="GlobalModel.FK_CostIntermediateDistributionServiceQuantity_CostProductionCenter">
+            <End Role="CostProductionCenter" EntitySet="CostProductionCenter" />
+            <End Role="CostIntermediateDistributionServiceQuantity" EntitySet="CostIntermediateDistributionServiceQuantity" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CostIntermediateDistributionServiceQuantity_FunctionalUnit" Association="GlobalModel.FK_CostIntermediateDistributionServiceQuantity_FunctionalUnit">
+            <End Role="FunctionalUnit" EntitySet="FunctionalUnit" />
+            <End Role="CostIntermediateDistributionServiceQuantity" EntitySet="CostIntermediateDistributionServiceQuantity" />
           </AssociationSet>
           <AssociationSet Name="FK_CostDistributionManpower_Employee" Association="GlobalModel.FK_CostDistributionManpower_Employee">
             <End Role="Employee" EntitySet="Employee" />
@@ -70663,6 +70877,10 @@ warning 6035: The relationship 'FK_ProductSusceptibleMixingStation_ATC' has colu
             <End Role="MainAccounts" EntitySet="MainAccounts" />
             <End Role="PortfolioInitialBalanceAccountReceivable" EntitySet="PortfolioInitialBalanceAccountReceivable" />
           </AssociationSet>
+          <AssociationSet Name="FK_PortfolioInitialBalanceAccountReceivable_MainAccounts7" Association="GlobalModel.FK_PortfolioInitialBalanceAccountReceivable_MainAccounts7">
+            <End Role="MainAccounts" EntitySet="MainAccounts" />
+            <End Role="PortfolioInitialBalanceAccountReceivable" EntitySet="PortfolioInitialBalanceAccountReceivable" />
+          </AssociationSet>
           <AssociationSet Name="FK_PortfolioInitialBalanceAccountReceivableAccounting_MainAccounts" Association="GlobalModel.FK_PortfolioInitialBalanceAccountReceivableAccounting_MainAccounts">
             <End Role="MainAccounts" EntitySet="MainAccounts" />
             <End Role="PortfolioInitialBalanceAccountReceivableAccounting" EntitySet="PortfolioInitialBalanceAccountReceivableAccounting" />
@@ -71975,6 +72193,9 @@ warning 6035: The relationship 'FK_ProductSusceptibleMixingStation_ATC' has colu
           <FunctionImport Name="SP_ReverseCausationRecognition" ReturnType="Collection(GlobalModel.SP_ReverseCausationRecognition_Result)">
             <Parameter Name="CausationRecognitionId" Mode="In" Type="Int32" />
             <Parameter Name="UserCode" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="SP_GetCandidatesForAutoCausation" ReturnType="Collection(GlobalModel.SP_GetCandidatesForAutoCausation_Result)">
+            <Parameter Name="BatchSize" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="SP_AutoliquidationFile" ReturnType="Collection(GlobalModel.SP_AutoliquidationFile_Result)">
             <Parameter Name="PayrollDate" Mode="In" Type="DateTime" />
@@ -73931,6 +74152,10 @@ warning 6035: The relationship 'FK_ProductSusceptibleMixingStation_ATC' has colu
             <End Role="BillingNoteDetail" EntitySet="BillingNoteDetail" />
             <End Role="BillingNoteDetailTax" EntitySet="BillingNoteDetailTax" />
           </AssociationSet>
+          <AssociationSet Name="FK_BillingNoteDetailTax_GeneralLedgerIVA" Association="GlobalModel.FK_BillingNoteDetailTax_GeneralLedgerIVA">
+            <End Role="GeneralLedgerIVA" EntitySet="GeneralLedgerIVA" />
+            <End Role="BillingNoteDetailTax" EntitySet="BillingNoteDetailTax" />
+          </AssociationSet>
           <EntitySet Name="CupsGroup" EntityType="GlobalModel.CupsGroup" />
           <AssociationSet Name="FK_DefinitionRateDetail_CupsGroup" Association="GlobalModel.FK_DefinitionRateDetail_CupsGroup">
             <End Role="CupsGroup" EntitySet="CupsGroup" />
@@ -74959,6 +75184,11 @@ warning 6035: The relationship 'FK_ProductSusceptibleMixingStation_ATC' has colu
           </FunctionImport>
           <FunctionImport Name="SP_CalculateDistributionSecondary" ReturnType="Collection(GlobalModel.SP_CalculateDistributionSecondary_Result)">
             <Parameter Name="CostDistributionSecondaryId" Mode="In" Type="Int32" />
+            <Parameter Name="Year" Mode="In" Type="Int32" />
+            <Parameter Name="Month" Mode="In" Type="Int32" />
+          </FunctionImport>
+           <FunctionImport Name="SP_CalculateDistributionIntermediate" ReturnType="Collection(GlobalModel.SP_CalculateDistributionIntermediate_Result)">
+            <Parameter Name="CostIntermediateDistributionId" Mode="In" Type="Int32" />
             <Parameter Name="Year" Mode="In" Type="Int32" />
             <Parameter Name="Month" Mode="In" Type="Int32" />
           </FunctionImport>
@@ -76321,6 +76551,18 @@ warning 6035: The relationship 'FK_ProductSusceptibleMixingStation_ATC' has colu
           <EntitySet Name="CMConfigurationSchedule" EntityType="GlobalModel.CMConfigurationSchedule" />
           <EntitySet Name="CMConfigurationUsers" EntityType="GlobalModel.CMConfigurationUsers" />
           <FunctionImport Name="SP_GenerateFURIPS2FileData" ReturnType="Collection(GlobalModel.SP_GenerateFURIPS2FileData_Result)">
+            <Parameter Name="XmlParameters" Mode="In" Type="String" />
+            <Parameter Name="XmlInvoices" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="SP_GenerateAdresFurServiciosData" ReturnType="Collection(GlobalModel.SP_GenerateAdresFurServiciosData_Result)">
+            <Parameter Name="XmlParameters" Mode="In" Type="String" />
+            <Parameter Name="XmlInvoices" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="SP_GenerateAdresFurData" ReturnType="Collection(GlobalModel.SP_GenerateAdresFurData_Result)">
+            <Parameter Name="XmlParameters" Mode="In" Type="String" />
+            <Parameter Name="XmlInvoices" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="SP_GenerateAdresFurRgData" ReturnType="Collection(GlobalModel.SP_GenerateAdresFurRgData_Result)">
             <Parameter Name="XmlParameters" Mode="In" Type="String" />
             <Parameter Name="XmlInvoices" Mode="In" Type="String" />
           </FunctionImport>
@@ -80874,14 +81116,33 @@ warning 6035: The relationship 'FK_ProductSusceptibleMixingStation_ATC' has colu
             <Parameter Name="XmlCriterias" Mode="In" Type="String" />
             <Parameter Name="XmlFilters" Mode="In" Type="String" />
           </FunctionImport>
-          <EntitySet Name="ADACOMPAN" EntityType="GlobalModel.ADACOMPAN" />
-          <AssociationSet Name="FK_ADACOMPAN_ADACOMPAN" Association="GlobalModel.FK_ADACOMPAN_ADACOMPAN">
-            <End Role="ADACOMPAN" EntitySet="ADACOMPAN" />
-            <End Role="ADACOMPAN1" EntitySet="ADACOMPAN" />
+          <AssociationSet Name="FK_RIPSSupportRecordDetail_CUPSEntity" Association="GlobalModel.FK_RIPSSupportRecordDetail_CUPSEntity">
+            <End Role="CUPSEntity" EntitySet="CUPSEntity" />
+            <End Role="RIPSSupportRecordDetail" EntitySet="RIPSSupportRecordDetail" />
           </AssociationSet>
-          <FunctionImport Name="SP_SetConsignmentTransferDetailFromFile" ReturnType="Collection(GlobalModel.SP_SetConsignmentTransferDetailFromFile_Result)">
-            <Parameter Name="XmlObject" Mode="In" Type="String" />
+          <AssociationSet Name="FK_RIPSSupportRecordDetail_CUPSEntityContractDescriptions" Association="GlobalModel.FK_RIPSSupportRecordDetail_CUPSEntityContractDescriptions">
+            <End Role="CUPSEntityContractDescriptions" EntitySet="CUPSEntityContractDescriptions" />
+            <End Role="RIPSSupportRecordDetail" EntitySet="RIPSSupportRecordDetail" />
+          </AssociationSet>
+          <FunctionImport Name="SP_ReportHumanTalent" ReturnType="Collection(GlobalModel.SP_ReportHumanTalent_Result)">
+            <Parameter Name="InitialDate" Mode="In" Type="DateTime" />
+            <Parameter Name="FinalDate" Mode="In" Type="DateTime" />
+            <Parameter Name="EmployeeId" Mode="In" Type="Int32" />
           </FunctionImport>
+          <EntitySet Name="InitialBalanceInvoice" EntityType="GlobalModel.InitialBalanceInvoice" />
+          <EntitySet Name="InitialBalanceInvoiceDetail" EntityType="GlobalModel.InitialBalanceInvoiceDetail" />
+          <AssociationSet Name="FK_InitialBalanceInvoice_AccountReceivable" Association="GlobalModel.FK_InitialBalanceInvoice_AccountReceivable">
+            <End Role="AccountReceivable" EntitySet="AccountReceivable" />
+            <End Role="InitialBalanceInvoice" EntitySet="InitialBalanceInvoice" />
+          </AssociationSet>
+          <AssociationSet Name="FK_InitialBalanceInvoice_Invoice" Association="GlobalModel.FK_InitialBalanceInvoice_Invoice">
+            <End Role="Invoice" EntitySet="Invoice" />
+            <End Role="InitialBalanceInvoice" EntitySet="InitialBalanceInvoice" />
+          </AssociationSet>
+          <AssociationSet Name="FK_InitialBalanceInvoiceDetail_InitialBalanceInvoice" Association="GlobalModel.FK_InitialBalanceInvoiceDetail_InitialBalanceInvoice">
+            <End Role="InitialBalanceInvoice" EntitySet="InitialBalanceInvoice" />
+            <End Role="InitialBalanceInvoiceDetail" EntitySet="InitialBalanceInvoiceDetail" />
+          </AssociationSet>
           </EntityContainer>
         <ComplexType Name="DocumentAccounting">
           <Property Type="Int64" Name="idDocumentAccounting" Nullable="false" />
@@ -82977,6 +83238,7 @@ warning 6035: The relationship 'FK_ProductSusceptibleMixingStation_ATC' has colu
           <NavigationProperty Name="PaymentsNoteDetails" Relationship="GlobalModel.FK_PaymentsNoteDetails_IdGeneralLedgerIVA" FromRole="GeneralLedgerIVA" ToRole="PaymentsNoteDetails" />
           <Property Name="ApplyTaxDevolution" Type="Boolean" Nullable="false" />
           <Property Name="PaymentMethodTypes" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="TaxClassificationType" Type="Byte" Nullable="false" />
           <NavigationProperty Name="InvoiceDetail" Relationship="GlobalModel.FK_InvoiceDetail_GeneralLedgerIVA" FromRole="GeneralLedgerIVA" ToRole="InvoiceDetail" />
           <NavigationProperty Name="InvoiceTaxDevolution" Relationship="GlobalModel.FK_InvoiceTaxDevolution_Tax" FromRole="GeneralLedgerIVA" ToRole="InvoiceTaxDevolution" />
           <NavigationProperty Name="CostDistributionDirectCostDetailIva" Relationship="GlobalModel.FK_CostDistributionDirectCostDetailIva_GeneralLedgerIVA" FromRole="GeneralLedgerIVA" ToRole="CostDistributionDirectCostDetailIva" />
@@ -82985,6 +83247,7 @@ warning 6035: The relationship 'FK_ProductSusceptibleMixingStation_ATC' has colu
           <NavigationProperty Name="PortfolioNoteAccountReceivableDetail" Relationship="GlobalModel.FK_PortfolioNoteAccountReceivableDetail_TaxId" FromRole="GeneralLedgerIVA" ToRole="PortfolioNoteAccountReceivableDetail" />
           <NavigationProperty Name="FixedAssetCatalogOfPropertyandServices" Relationship="GlobalModel.FK_FixedAsset_FixedAssetCatalogOfPropertyandServices_GeneralLedgerIVA" FromRole="GeneralLedgerIVA" ToRole="FixedAssetCatalogOfPropertyandServices" />
           <NavigationProperty Name="ThirdPartyTaxExemptions" Relationship="GlobalModel.FK_ThirdPartyTaxExemptions_GeneralLedgerIVA" FromRole="GeneralLedgerIVA" ToRole="ThirdPartyTaxExemptions" />
+          <NavigationProperty Name="BillingNoteDetailTax" Relationship="GlobalModel.FK_BillingNoteDetailTax_GeneralLedgerIVA" FromRole="GeneralLedgerIVA" ToRole="BillingNoteDetailTax" />
         </EntityType>
         <EntityType Name="ProductHierarchy">
           <Key>
@@ -83370,6 +83633,7 @@ warning 6035: The relationship 'FK_ProductSusceptibleMixingStation_ATC' has colu
           <NavigationProperty Name="RequestParamAuthUser" Relationship="GlobalModel.FK_RequestParamAuthUser_FunctionalUnit" FromRole="FunctionalUnit" ToRole="RequestParamAuthUser" />
           <NavigationProperty Name="FunctionalUnitUserAuthorizationRequest" Relationship="GlobalModel.FK_FunctionalUnitUserAuthorizationRequest_FunctionalUnit" FromRole="FunctionalUnit" ToRole="FunctionalUnitUserAuthorizationRequest" />
 <NavigationProperty Name="RIPSSupportRecordDetail" Relationship="GlobalModel.FK_RIPSSupportRecordDetail_FunctionalUnit" FromRole="FunctionalUnit" ToRole="RIPSSupportRecordDetail" />
+          <NavigationProperty Name="CostIntermediateDistributionServiceQuantity" Relationship="GlobalModel.FK_CostIntermediateDistributionServiceQuantity_FunctionalUnit" FromRole="FunctionalUnit" ToRole="CostIntermediateDistributionServiceQuantity" />
           </EntityType>
         <Association Name="FK_FunctionalUnit_CostCenter">
           <End Type="GlobalModel.CostCenter" Role="CostCenter" Multiplicity="1" />
@@ -89806,7 +90070,7 @@ warning 6035: The relationship 'FK_ProductSusceptibleMixingStation_ATC' has colu
           <Property Name="ThirdPartyId" Type="Int32" Nullable="false" />
           <Property Name="MedicalFeesContractId" Type="Int32" />
           <Property Name="CausationDate" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="InvoiceDetailId" Type="Int32" Nullable="false" />
+          <Property Name="InvoiceDetailId" Type="Int32" Nullable="true" />
           <Property Name="ServiceOrderId" Type="Int32" Nullable="false" />
           <Property Name="ServiceOrderDetailId" Type="Int32" Nullable="false" />
           <Property Name="ServiceOrderDetailSurgicalId" Type="Int32" />
@@ -89843,7 +90107,7 @@ warning 6035: The relationship 'FK_ProductSusceptibleMixingStation_ATC' has colu
           <NavigationProperty Name="ServiceOrderDetail" Relationship="GlobalModel.FK_MedicalFeesCausation_ServiceOrderDetail" FromRole="MedicalFeesCausation" ToRole="ServiceOrderDetail" />
         </EntityType>
         <Association Name="FK_MedicalFeesCausation_InvoiceDetail">
-          <End Type="GlobalModel.InvoiceDetail" Role="InvoiceDetail" Multiplicity="1" />
+          <End Type="GlobalModel.InvoiceDetail" Role="InvoiceDetail" Multiplicity="0..1" />
           <End Type="GlobalModel.MedicalFeesCausation" Role="MedicalFeesCausation" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="InvoiceDetail">
@@ -90340,7 +90604,8 @@ warning 6035: The relationship 'FK_ProductSusceptibleMixingStation_ATC' has colu
           <Property Name="RadicatedDate" Type="DateTime" Precision="3" />
           <Property Name="RadicatedReceiver" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="RadicatedObservation" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="Responsible" Relationship="GlobalModel.FK_GlosaObjectionsReceptionD_Responsible" FromRole="GlosaObjectionsReceptionD" ToRole="Responsible" />
+          <NavigationProperty Name="Responsible" Relationship="GlobalModel.FK_GlosaObjectionsReceptionD_Responsible" FromRole="GlosaObjectionsReceptionD" ToRole="Responsible" />    
+          <Property Name="ADRESCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="GlosasParametersInterface">
           <Key>
@@ -90910,6 +91175,12 @@ warning 6035: The relationship 'FK_ProductSusceptibleMixingStation_ATC' has colu
           <Property Name="AccountLegalCollectionId" Type="Int32" />
           <Property Name="AccountDebtorOrder" Type="Int32" />
           <Property Name="AccountCreditorOrder" Type="Int32" />
+          <Property Name="AccountHardCollectionId" Type="Int32" />
+          <Property Name="DeteriorationBalance" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="DeteriorationBalanceCurrentYear" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="DeteriorationBalancePreviousYear" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="CurrentDeteriorationYear" Type="Int32" />
+          <Property Name="CUV" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
           <Property Name="AffectBudget" Type="Boolean" Nullable="false" />
           <Property Name="BudgetId" Type="Int32" />
           <NavigationProperty Name="InvoiceCategories" Relationship="GlobalModel.FK_PortfolioInitialBalanceAccountReceivable_InvoiceCategories" FromRole="PortfolioInitialBalanceAccountReceivable" ToRole="InvoiceCategories" />
@@ -90925,6 +91196,7 @@ warning 6035: The relationship 'FK_ProductSusceptibleMixingStation_ATC' has colu
           <NavigationProperty Name="MainAccounts4" Relationship="GlobalModel.FK_PortfolioInitialBalanceAccountReceivable_MainAccounts4" FromRole="PortfolioInitialBalanceAccountReceivable" ToRole="MainAccounts" />
           <NavigationProperty Name="MainAccounts5" Relationship="GlobalModel.FK_PortfolioInitialBalanceAccountReceivable_MainAccounts5" FromRole="PortfolioInitialBalanceAccountReceivable" ToRole="MainAccounts" />
           <NavigationProperty Name="MainAccounts6" Relationship="GlobalModel.FK_PortfolioInitialBalanceAccountReceivable_MainAccounts6" FromRole="PortfolioInitialBalanceAccountReceivable" ToRole="MainAccounts" />
+          <NavigationProperty Name="MainAccounts7" Relationship="GlobalModel.FK_PortfolioInitialBalanceAccountReceivable_MainAccounts7" FromRole="PortfolioInitialBalanceAccountReceivable" ToRole="MainAccounts" />
           <NavigationProperty Name="ThirdParty" Relationship="GlobalModel.FK_PortfolioAccountReceivable_ThirdParty" FromRole="PortfolioInitialBalanceAccountReceivable" ToRole="ThirdParty" />
           <NavigationProperty Name="Customer" Relationship="GlobalModel.FK_PortfolioAccountReceivable_Customer" FromRole="PortfolioInitialBalanceAccountReceivable" ToRole="Customer" />
           <Property Name="IsElectronicInvoice" Type="Boolean" Nullable="false" />
@@ -92070,23 +92342,31 @@ warning 6035: The relationship 'FK_ProductSusceptibleMixingStation_ATC' has colu
           <NavigationProperty Name="HealthProvider" Relationship="GlobalModel.FK_CostAttentionCenter_HealthProvider" FromRole="CostAttentionCenter" ToRole="HealthProvider" />
         </EntityType>
         <EntityType Name="CostDistributionIntermediate">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Code" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="ProductionCenterId" Type="Int32" Nullable="false" />
-          <Property Name="Description" Type="String" Nullable="false" MaxLength="300" FixedLength="false" Unicode="false" />
-          <Property Name="Year" Type="Int32" Nullable="false" />
-          <Property Name="Month" Type="Int32" Nullable="false" />
-          <Property Name="Status" Type="Boolean" Nullable="false" />
-          <Property Name="CreationUser" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="CreationDate" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="ModificationUser" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="ModificationDate" Type="DateTime" Precision="3" />
-          <Property Name="TimeStamp" Type="Binary" Nullable="false" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" ConcurrencyMode="Fixed" />
-          <NavigationProperty Name="CostDistributionIntermediateDetail" Relationship="GlobalModel.FK_CostDistributionIntermediateDetail_CostDistributionIntermediate" FromRole="CostDistributionIntermediate" ToRole="CostDistributionIntermediateDetail" />
-          <NavigationProperty Name="CostProductionCenter" Relationship="GlobalModel.FK_CostDistributionIntermediate_CostProductionCenter" FromRole="CostDistributionIntermediate" ToRole="CostProductionCenter" />
+              <Key>
+                <PropertyRef Name="Id" />
+              </Key>
+              <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+              <Property Name="Code" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+              <Property Name="ProductionCenterId" Type="Int32" Nullable="false" />
+              <Property Name="Description" Type="String" Nullable="false" MaxLength="300" FixedLength="false" Unicode="false" />
+              <Property Name="Year" Type="Int32" Nullable="false" />
+              <Property Name="Month" Type="Int32" Nullable="false" />
+              <Property Name="Status" Type="Byte" Nullable="false" />
+              <Property Name="CreationUser" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+              <Property Name="CreationDate" Type="DateTime" Nullable="false" Precision="3" />
+              <Property Name="ModificationUser" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+              <Property Name="ModificationDate" Type="DateTime" Precision="3" />
+              <Property Name="TimeStamp" Type="Binary" Nullable="false" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" ConcurrencyMode="Fixed" />
+              <Property Name="IntermediateDistributionElementId" Type="Int32" />
+              <Property Name="CostEstimationId" Type="Int32" />
+              <Property Name="ConfirmUser" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+              <Property Name="ConfirmDate" Type="DateTime" Precision="3" />
+              <Property Name="AnnulmentUser" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+              <Property Name="AnnulmentDate" Type="DateTime" Precision="3" />
+              <Property Name="Value" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
+              <NavigationProperty Name="CostDistributionIntermediateDetail" Relationship="GlobalModel.FK_CostDistributionIntermediateDetail_CostDistributionIntermediate" FromRole="CostDistributionIntermediate" ToRole="CostDistributionIntermediateDetail" />
+              <NavigationProperty Name="CostIntermediateDistributionServiceQuantity" Relationship="GlobalModel.FK_CostIntermediateDistributionServiceQuantity_CostDistributionIntermediate" FromRole="CostDistributionIntermediate" ToRole="CostIntermediateDistributionServiceQuantity" />
+              <NavigationProperty Name="CostProductionCenter" Relationship="GlobalModel.FK_CostDistributionIntermediate_CostProductionCenter" FromRole="CostDistributionIntermediate" ToRole="CostProductionCenter" />
         </EntityType>
         <EntityType Name="CostDistributionIntermediateDetail">
           <Key>
@@ -92096,8 +92376,28 @@ warning 6035: The relationship 'FK_ProductSusceptibleMixingStation_ATC' has colu
           <Property Name="DistributionIntermediateId" Type="Int32" Nullable="false" />
           <Property Name="ProductionCenterId" Type="Int32" Nullable="false" />
           <Property Name="Proportion" Type="Decimal" Nullable="false" Precision="5" Scale="2" />
+          <Property Name="Value" Type="Decimal" Precision="18" Scale="2" Nullable="false" /> 
           <NavigationProperty Name="CostDistributionIntermediate" Relationship="GlobalModel.FK_CostDistributionIntermediateDetail_CostDistributionIntermediate" FromRole="CostDistributionIntermediateDetail" ToRole="CostDistributionIntermediate" />
           <NavigationProperty Name="CostProductionCenter" Relationship="GlobalModel.FK_CostDistributionIntermediateDetail_CostProductionCenter" FromRole="CostDistributionIntermediateDetail" ToRole="CostProductionCenter" />
+        </EntityType>
+        <EntityType Name="CostIntermediateDistributionServiceQuantity">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DistributionIntermediateId" Type="Int32" Nullable="false" />
+          <Property Name="CostMonth" Type="Int32" Nullable="false" />
+          <Property Name="ServiceType" Type="Byte" Nullable="false" />
+          <Property Name="ServiceId" Type="Int32" />
+          <Property Name="FunctionalUnitId" Type="Int32" />
+          <Property Name="ProductionCenterId" Type="Int32" Nullable="false" />
+          <Property Name="Quantity" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="SalesValue" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="CreationUser" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CreationDate" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="CostDistributionIntermediate" Relationship="GlobalModel.FK_CostIntermediateDistributionServiceQuantity_CostDistributionIntermediate" FromRole="CostIntermediateDistributionServiceQuantity" ToRole="CostDistributionIntermediate" />
+          <NavigationProperty Name="CostProductionCenter" Relationship="GlobalModel.FK_CostIntermediateDistributionServiceQuantity_CostProductionCenter" FromRole="CostIntermediateDistributionServiceQuantity" ToRole="CostProductionCenter" />
+          <NavigationProperty Name="FunctionalUnit" Relationship="GlobalModel.FK_CostIntermediateDistributionServiceQuantity_FunctionalUnit" FromRole="CostIntermediateDistributionServiceQuantity" ToRole="FunctionalUnit" />
         </EntityType>
         <EntityType Name="CostDistributionManpower">
           <Key>
@@ -92248,6 +92548,42 @@ warning 6035: The relationship 'FK_ProductSusceptibleMixingStation_ATC' has colu
             </Principal>
             <Dependent Role="CostDistributionIntermediateDetail">
               <PropertyRef Name="DistributionIntermediateId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CostIntermediateDistributionServiceQuantity_CostDistributionIntermediate">
+          <End Type="GlobalModel.CostDistributionIntermediate" Role="CostDistributionIntermediate" Multiplicity="1" />
+          <End Type="GlobalModel.CostIntermediateDistributionServiceQuantity" Role="CostIntermediateDistributionServiceQuantity" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CostDistributionIntermediate">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CostIntermediateDistributionServiceQuantity">
+              <PropertyRef Name="DistributionIntermediateId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CostIntermediateDistributionServiceQuantity_CostProductionCenter">
+          <End Type="GlobalModel.CostProductionCenter" Role="CostProductionCenter" Multiplicity="1" />
+          <End Type="GlobalModel.CostIntermediateDistributionServiceQuantity" Role="CostIntermediateDistributionServiceQuantity" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CostProductionCenter">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CostIntermediateDistributionServiceQuantity">
+              <PropertyRef Name="ProductionCenterId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CostIntermediateDistributionServiceQuantity_FunctionalUnit">
+          <End Type="GlobalModel.FunctionalUnit" Role="FunctionalUnit" Multiplicity="0..1" />
+          <End Type="GlobalModel.CostIntermediateDistributionServiceQuantity" Role="CostIntermediateDistributionServiceQuantity" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FunctionalUnit">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CostIntermediateDistributionServiceQuantity">
+              <PropertyRef Name="FunctionalUnitId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -96461,6 +96797,7 @@ warning 6035: The relationship 'FK_ProductSusceptibleMixingStation_ATC' has colu
           <NavigationProperty Name="BasicBilling" Relationship="GlobalModel.FK_BasicBilling_Invoice" FromRole="Invoice" ToRole="BasicBilling" />
           <NavigationProperty Name="InvoiceCopay" Relationship="GlobalModel.FK_InvoiceCopay_Invoice" FromRole="Invoice" ToRole="InvoiceCopay" />
           <NavigationProperty Name="CareGroup" Relationship="GlobalModel.FK_Invoice_CareGroup" FromRole="Invoice" ToRole="CareGroup" />
+          <NavigationProperty Name="InitialBalanceInvoice" Relationship="GlobalModel.FK_InitialBalanceInvoice_Invoice" FromRole="Invoice" ToRole="InitialBalanceInvoice" />
           </EntityType>
         <Association Name="FK_Invoice_InvoiceCategories">
           <End Type="GlobalModel.InvoiceCategories" Role="InvoiceCategories" Multiplicity="0..1" />
@@ -97795,7 +98132,7 @@ warning 6035: The relationship 'FK_ProductSusceptibleMixingStation_ATC' has colu
           <NavigationProperty Name="Responsible" Relationship="GlobalModel.FK_GlosaMovementGlosa_ResponsibleReiteration" FromRole="GlosaMovementGlosa" ToRole="Responsible" />
           <NavigationProperty Name="GlosaMovementGlosaConciliation" Relationship="GlobalModel.FK_GlosaMovementGlosaConciliation_GlosaMovementGlosa" FromRole="GlosaMovementGlosa" ToRole="GlosaMovementGlosaConciliation" />
           <Property Name="ResponsibleThirdPartyId" Type="Int32" />
-          <NavigationProperty Name="ThirdParty" Relationship="GlobalModel.FK_GlosaMovementGlosa_ResponsibleThirdPartyId" FromRole="GlosaMovementGlosa" ToRole="ThirdParty" />          
+          <NavigationProperty Name="ThirdParty" Relationship="GlobalModel.FK_GlosaMovementGlosa_ResponsibleThirdPartyId" FromRole="GlosaMovementGlosa" ToRole="ThirdParty" />                    
         </EntityType>
         <Association Name="FK_GlosaMovementGlosa_ConceptEvaluation">
           <End Type="GlobalModel.ConceptGlosas" Role="ConceptGlosas" Multiplicity="0..1" />
@@ -97996,6 +98333,7 @@ warning 6035: The relationship 'FK_ProductSusceptibleMixingStation_ATC' has colu
           <NavigationProperty Name="CostDistributionFixedAssetDetail" Relationship="GlobalModel.FK_CostDistributionFixedAssetDetail_CostProductionCenter" FromRole="CostProductionCenter" ToRole="CostDistributionFixedAssetDetail" />
           <NavigationProperty Name="CostDistributionIntermediate" Relationship="GlobalModel.FK_CostDistributionIntermediate_CostProductionCenter" FromRole="CostProductionCenter" ToRole="CostDistributionIntermediate" />
           <NavigationProperty Name="CostDistributionIntermediateDetail" Relationship="GlobalModel.FK_CostDistributionIntermediateDetail_CostProductionCenter" FromRole="CostProductionCenter" ToRole="CostDistributionIntermediateDetail" />
+          <NavigationProperty Name="CostIntermediateDistributionServiceQuantity" Relationship="GlobalModel.FK_CostIntermediateDistributionServiceQuantity_CostProductionCenter" FromRole="CostProductionCenter" ToRole="CostIntermediateDistributionServiceQuantity" />
           <NavigationProperty Name="CostDistributionManpowerDetail" Relationship="GlobalModel.FK_CostDistributionManpowerDetail_CostProductionCenter" FromRole="CostProductionCenter" ToRole="CostDistributionManpowerDetail" />
           <NavigationProperty Name="CostDistributionSecondary" Relationship="GlobalModel.FK_CostDistributionSecondary_CostProductionCenter" FromRole="CostProductionCenter" ToRole="CostDistributionSecondary" />
           <NavigationProperty Name="CostDistributionSecondaryBaseDetail" Relationship="GlobalModel.FK_DistributionSecondaryBaseDetail_CostProductionCenter" FromRole="CostProductionCenter" ToRole="CostDistributionSecondaryBaseDetail" />
@@ -99757,6 +100095,7 @@ warning 6035: The relationship 'FK_ProductSusceptibleMixingStation_ATC' has colu
           <NavigationProperty Name="PortfolioInitialBalanceAccountReceivable4" Relationship="GlobalModel.FK_PortfolioInitialBalanceAccountReceivable_MainAccounts4" FromRole="MainAccounts" ToRole="PortfolioInitialBalanceAccountReceivable" />
           <NavigationProperty Name="PortfolioInitialBalanceAccountReceivable5" Relationship="GlobalModel.FK_PortfolioInitialBalanceAccountReceivable_MainAccounts5" FromRole="MainAccounts" ToRole="PortfolioInitialBalanceAccountReceivable" />
           <NavigationProperty Name="PortfolioInitialBalanceAccountReceivable6" Relationship="GlobalModel.FK_PortfolioInitialBalanceAccountReceivable_MainAccounts6" FromRole="MainAccounts" ToRole="PortfolioInitialBalanceAccountReceivable" />
+          <NavigationProperty Name="PortfolioInitialBalanceAccountReceivable7" Relationship="GlobalModel.FK_PortfolioInitialBalanceAccountReceivable_MainAccounts7" FromRole="MainAccounts" ToRole="PortfolioInitialBalanceAccountReceivable" />
           <NavigationProperty Name="PortfolioInitialBalanceAccountReceivableAccounting" Relationship="GlobalModel.FK_PortfolioInitialBalanceAccountReceivableAccounting_MainAccounts" FromRole="MainAccounts" ToRole="PortfolioInitialBalanceAccountReceivableAccounting" />
           <NavigationProperty Name="PortfolioInitialBalanceAdvance" Relationship="GlobalModel.FK_PortfolioInitialBalanceAdvance_MainAccounts" FromRole="MainAccounts" ToRole="PortfolioInitialBalanceAdvance" />
           <NavigationProperty Name="PortfolioNoteAccountReceivableAdvance" Relationship="GlobalModel.FK_PortfolioNoteAccountReceivableAdvance_MainAccounts" FromRole="MainAccounts" ToRole="PortfolioNoteAccountReceivableAdvance" />
@@ -100566,6 +100905,18 @@ warning 6035: The relationship 'FK_ProductSusceptibleMixingStation_ATC' has colu
             </Principal>
             <Dependent Role="PortfolioInitialBalanceAccountReceivable">
               <PropertyRef Name="AccountCreditorOrder" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PortfolioInitialBalanceAccountReceivable_MainAccounts7">
+          <End Type="GlobalModel.MainAccounts" Role="MainAccounts" Multiplicity="0..1" />
+          <End Type="GlobalModel.PortfolioInitialBalanceAccountReceivable" Role="PortfolioInitialBalanceAccountReceivable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MainAccounts">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PortfolioInitialBalanceAccountReceivable">
+              <PropertyRef Name="AccountHardCollectionId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -102673,6 +103024,7 @@ warning 6035: The relationship 'FK_ProductSusceptibleMixingStation_ATC' has colu
           <Property Name="TransactionDate" Type="DateTime" Precision="3" />
           <Property Name="RedemptionPoints" Type="Int32" />
           <NavigationProperty Name="AgreementsRedemptionPoints" Relationship="GlobalModel.FK_PaymentMethods_AgreementsRedemptionPoints" FromRole="PaymentMethods" ToRole="AgreementsRedemptionPoints" />
+          <Property Name="CardType" Type="Byte" />
         </EntityType>
         <Association Name="FK_PaymentMethods_Bank">
           <End Type="GlobalModel.Bank" Role="Bank" Multiplicity="0..1" />
@@ -103106,6 +103458,7 @@ warning 6035: The relationship 'FK_ProductSusceptibleMixingStation_ATC' has colu
           <Property Name="ModificationUser" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="ModificationDate" Type="DateTime" Precision="3" />
           <Property Name="TimeStamp" Type="Binary" Nullable="false" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" ConcurrencyMode="Fixed" />
+          <Property Name="CustomerRadicateConsecutive" Type="String" MaxLength="100" />
           <NavigationProperty Name="Recognition" Relationship="GlobalModel.FK_RadicateInvoiceC_Recognition" FromRole="RadicateInvoiceC" ToRole="Recognition" />
           <NavigationProperty Name="RadicateInvoiceD" Relationship="GlobalModel.FK_RadicateInvoiceD_RadicateInvoiceC" FromRole="RadicateInvoiceC" ToRole="RadicateInvoiceD" />
           <NavigationProperty Name="Customer" Relationship="GlobalModel.FK_RadicateInvoiceC_Customer" FromRole="RadicateInvoiceC" ToRole="Customer" />
@@ -103259,6 +103612,7 @@ warning 6035: The relationship 'FK_ProductSusceptibleMixingStation_ATC' has colu
           <Property Name="DateAccountBecomeZero" Type="DateTime" Precision="0" />
           <NavigationProperty Name="Customer" Relationship="GlobalModel.FK_AccountReceivable_Customer" FromRole="AccountReceivable" ToRole="Customer" />
           <NavigationProperty Name="CareGroup" Relationship="GlobalModel.FK_AccountReceivable_CareGroup" FromRole="AccountReceivable" ToRole="CareGroup" />
+          <NavigationProperty Name="InitialBalanceInvoice" Relationship="GlobalModel.FK_InitialBalanceInvoice_AccountReceivable" FromRole="AccountReceivable" ToRole="InitialBalanceInvoice" />
         </EntityType>
         <EntityType Name="AccountReceivableAccounting">
           <Key>
@@ -106040,6 +106394,31 @@ warning 6035: The relationship 'FK_ProductSusceptibleMixingStation_ATC' has colu
           <Property Type="String" Name="JournalVoucherConsecutive" Nullable="false" MaxLength="1" />
           <Property Type="String" Name="JournalVoucherCodeName" Nullable="false" MaxLength="1" />
           <Property Type="Int32" Name="CausationRecognitionId" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="SP_GetCandidatesForAutoCausation_Result">
+	      <Property Type="Int32" Name="ServiceOrderDetailId" Nullable="false" />
+	      <Property Type="Int32" Name="ServiceOrderId" Nullable="false" />
+	      <Property Type="String" Name="AdmissionNumber" Nullable="true" />
+	      <Property Type="String" Name="PatientCode" Nullable="true" />
+	      <Property Type="Int32" Name="CupsEntityId" Nullable="false" />
+	      <Property Type="Int32" Name="CareGroupId" Nullable="false" />
+	      <Property Type="Int32" Name="RateManualId" Nullable="true" />
+	      <Property Type="Byte" Name="RateManualType" Nullable="true" />
+	      <Property Type="Decimal" Name="TotalSalesPrice" Nullable="false" />
+	      <Property Type="Int32" Name="InvoicedQuantity" Nullable="false" />
+	      <Property Type="Int32" Name="IPSServiceId" Nullable="false" />
+	      <Property Type="String" Name="IPSServiceDescription" Nullable="true" />
+	      <Property Type="String" Name="PerformsHealthProfessionalCode" Nullable="true" />
+	      <Property Type="Int32" Name="ThirdPartyId" Nullable="true" />
+	      <Property Type="String" Name="ThirdPartyDescription" Nullable="true" />
+	      <Property Type="Byte" Name="Presentation" Nullable="true" />
+	      <Property Type="DateTime" Name="ServiceDate" Nullable="false" />
+	      <Property Type="Byte" Name="ServiceType" Nullable="false" />
+	      <Property Type="Int32" Name="CostCenterId" Nullable="false" />
+	      <Property Type="Int32" Name="PerformsFunctionalUnitId" Nullable="false" />
+	      <Property Type="Int32" Name="ServiceOrderDetailSurgicalId" Nullable="true" />
+	      <Property Type="String" Name="HealthProfessionalName" Nullable="true" />
+	      <Property Type="Int32" Name="SupplierThirdPartyId" Nullable="true" />
         </ComplexType>
         <ComplexType Name="SP_AutoliquidationFile_Result">
           <Property Type="Int32" Name="IdEmployee" Nullable="true" />
@@ -113817,6 +114196,8 @@ warning 6035: The relationship 'FK_ProductSusceptibleMixingStation_ATC' has colu
           <Property Name="TaxValue" Type="Decimal" Nullable="false" Precision="20" Scale="2" />
           <NavigationProperty Name="BillingNoteDetail" Relationship="GlobalModel.FK_BillingNoteDetailTax_BillingNoteDetail" FromRole="BillingNoteDetailTax" ToRole="BillingNoteDetail" />
           <Property Name="BaseValue" Type="Decimal" Nullable="false" Precision="20" Scale="2" />
+          <Property Name="IVAId" Type="Int32" Nullable="true"/>
+          <NavigationProperty Name="GeneralLedgerIVA" Relationship="GlobalModel.FK_BillingNoteDetailTax_GeneralLedgerIVA" FromRole="BillingNoteDetailTax" ToRole="GeneralLedgerIVA" />
         </EntityType>
         <Association Name="FK_BillingNoteDetailTax_BillingNoteDetail">
           <End Type="GlobalModel.BillingNoteDetail" Role="BillingNoteDetail" Multiplicity="1" />
@@ -113827,6 +114208,18 @@ warning 6035: The relationship 'FK_ProductSusceptibleMixingStation_ATC' has colu
             </Principal>
             <Dependent Role="BillingNoteDetailTax">
               <PropertyRef Name="BillingNoteDetailId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BillingNoteDetailTax_GeneralLedgerIVA">
+          <End Type="GlobalModel.GeneralLedgerIVA" Role="GeneralLedgerIVA" Multiplicity="0..1" />
+          <End Type="GlobalModel.BillingNoteDetailTax" Role="BillingNoteDetailTax" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GeneralLedgerIVA">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="BillingNoteDetailTax">
+              <PropertyRef Name="IVAId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -114862,6 +115255,7 @@ warning 6035: The relationship 'FK_ProductSusceptibleMixingStation_ATC' has colu
           <Property Name="CreationDate" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="ModificationUser" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="ModificationDate" Type="DateTime" Precision="3" />
+          <Property Name="ContractDescriptionId" Type="Int32" />
           <Property Name="TimeStamp" Type="Binary" Nullable="false" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" ConcurrencyMode="Fixed" />
           <NavigationProperty Name="OperatingUnit" Relationship="GlobalModel.FK_CostActivity_OperatingUnit" FromRole="CostActivity" ToRole="OperatingUnit" />
           <NavigationProperty Name="CUPSEntity" Relationship="GlobalModel.FK_CostActivity_CUPSEntity" FromRole="CostActivity" ToRole="CUPSEntity" />
@@ -117751,6 +118145,12 @@ warning 6035: The relationship 'FK_ProductSusceptibleMixingStation_ATC' has colu
           <Property Type="Decimal" Name="Percentage" Nullable="true" Precision="5" Scale="2" />
           <Property Type="Decimal" Name="Value" Nullable="true" Precision="20" Scale="4" />
         </ComplexType>
+        <ComplexType Name="SP_CalculateDistributionIntermediate_Result">
+          <Property Type="Int32" Name="ProductionCenterId" Nullable="true" />
+          <Property Type="String" Name="ProductionCenterCodeName" Nullable="true" MaxLength="200" />
+          <Property Type="Decimal" Name="Percentage" Nullable="true" Precision="5" Scale="2" />
+          <Property Type="Decimal" Name="Value" Nullable="true" Precision="20" Scale="4" />
+        </ComplexType>
         <ComplexType Name="SP_SaveDistributionSecondary_Result">
           <Property Type="Int32" Name="CodeMessage" Nullable="false" />
           <Property Type="String" Name="Message" Nullable="false" />
@@ -118545,6 +118945,7 @@ warning 6035: The relationship 'FK_ProductSusceptibleMixingStation_ATC' has colu
           <Property Type="Decimal" Name="WithholdingIVAValue" Nullable="true" Precision="18" Scale="2" />
           <Property Type="Decimal" Name="WithholdingICAPercentage" Nullable="true" Precision="6" Scale="3" />
           <Property Type="Decimal" Name="WithholdingICAValue" Nullable="true" Precision="18" Scale="2" />
+          <Property Type="Byte" Name="TaxClassificationType" Nullable="true" />
         </ComplexType>
 		<ComplexType Name="SP_GetDocumentSupportDetailsById_Result">
           <Property Name="StateResult" Type="Boolean" Nullable="false" />
@@ -120190,6 +120591,8 @@ warning 6035: The relationship 'FK_ProductSusceptibleMixingStation_ATC' has colu
           <Property Name="RequestQuoteIntrahospitalServices" Type="Boolean" Nullable="false" />
           <Property Name="RequestQuoteOutpatientProducts" Type="Boolean" Nullable="false" />
           <Property Name="RequestQuoteIntrahospitalProducts" Type="Boolean" Nullable="false" />
+          <Property Name="SiifaEnabled" Type="Boolean" Nullable="false" />
+          <Property Name="SiifaStartDate" Type="DateTime" Precision="3" />
           <Property Name="CreationUser" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="CreationDate" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="ModificationUser" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
@@ -123224,6 +123627,152 @@ warning 6035: The relationship 'FK_ProductSusceptibleMixingStation_ATC' has colu
           <Property Type="Decimal" Name="SubTotal" Nullable="true" Precision="38" Scale="2" />
           <Property Type="Decimal" Name="Total" Nullable="true" Precision="38" Scale="2" />
         </ComplexType>
+        <ComplexType Name="SP_GenerateAdresFurServiciosData_Result">
+          <Property Type="Int32" Name="InvoiceId" Nullable="false" />
+          <Property Type="String" Name="NUM_FACTURA" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="Tipo_de_servicio" Nullable="false" MaxLength="1" />
+          <Property Type="String" Name="Codigo_del_servicio" Nullable="true" MaxLength="30" />
+          <Property Type="String" Name="Codigo_general_del_procedimiento_quirurgico" Nullable="true" MaxLength="6" />
+          <Property Type="String" Name="Consecutivo_procedimiento_quirurgico" Nullable="true" MaxLength="2" />
+          <Property Type="String" Name="Codificacion_CUPS" Nullable="true" MaxLength="6" />
+          <Property Type="String" Name="Descripcion_del_servicio_o_elemento_reclamado" Nullable="true" MaxLength="200" />
+          <Property Type="Decimal" Name="Cantidad_de_servicios" Nullable="true" Precision="18" Scale="2" />
+          <Property Type="Decimal" Name="Valor_unitario_facturado" Nullable="true" Precision="20" Scale="2" />
+          <Property Type="Decimal" Name="Valor_unitario_reclamado" Nullable="true" Precision="20" Scale="2" />
+          <Property Type="Decimal" Name="Valor_total_facturado" Nullable="true" Precision="38" Scale="2" />
+          <Property Type="Decimal" Name="Valor_total_reclamado" Nullable="true" Precision="38" Scale="2" />
+        </ComplexType>
+        <ComplexType Name="SP_GenerateAdresFurData_Result">
+           <Property Type="Int32" Name="InvoiceId" Nullable="false" />
+           <Property Type="String" Name="NUM_FACTURA" Nullable="true" MaxLength="20" />
+           <Property Type="String" Name="Tipo_documento_identidad_victima" Nullable="true" MaxLength="2" />
+           <Property Type="String" Name="Numero_documento_identidad_victima" Nullable="true" MaxLength="25" />
+           <Property Type="String" Name="Tipo_de_poblacion_especial" Nullable="true" MaxLength="2" />
+           <Property Type="String" Name="Primer_nombre_victima" Nullable="true" MaxLength="50" />
+           <Property Type="String" Name="Segundo_nombre_victima" Nullable="true" MaxLength="50" />
+           <Property Type="String" Name="Primer_apellido_victima" Nullable="true" MaxLength="50" />
+           <Property Type="String" Name="Segundo_apellido_victima" Nullable="true" MaxLength="50" />
+           <Property Type="String" Name="Direccion_residencia_victima" Nullable="true" MaxLength="100" />
+           <Property Type="String" Name="Codigo_municipio_residencia_victima" Nullable="true" MaxLength="5" />
+           <Property Type="String" Name="Telefono_victima" Nullable="true" MaxLength="10" />
+           <Property Type="String" Name="Naturaleza_del_evento" Nullable="true" MaxLength="2" />
+           <Property Type="String" Name="Descripcion_del_otro_evento" Nullable="true" MaxLength="50" />
+           <Property Type="String" Name="Condicion_victima" Nullable="true" MaxLength="2" />
+           <Property Type="String" Name="Fecha_de_ocurrencia_evento" Nullable="true" MaxLength="10" />
+           <Property Type="String" Name="Zona_de_ocurrencia_evento" Nullable="true" MaxLength="2" />
+           <Property Type="String" Name="Codigo_municipio_ocurrencia_evento" Nullable="true" MaxLength="5" />
+           <Property Type="String" Name="Direccion_de_ocurrencia_evento" Nullable="true" MaxLength="100" />
+           <Property Type="String" Name="Descripcion_corta_de_lo_ocurrido_en_el_evento" Nullable="true" MaxLength="8000" />
+           <Property Type="String" Name="Estado_de_aseguramiento" Nullable="true" MaxLength="1" />
+           <Property Type="String" Name="Placa_vehiculo" Nullable="true" MaxLength="6" />
+           <Property Type="String" Name="Tipo_de_Vehiculo" Nullable="true" MaxLength="2" />
+           <Property Type="String" Name="Codigo_de_la_aseguradora" Nullable="true" MaxLength="12" />
+           <Property Type="String" Name="Numero_de_poliza_SOAT" Nullable="true" MaxLength="20" />
+           <Property Type="String" Name="Fecha_de_inicio_de_vigencia_de_la_poliza" Nullable="true" MaxLength="10" />
+           <Property Type="String" Name="Fecha_final_de_vigencia_de_la_poliza" Nullable="true" MaxLength="10" />
+           <Property Type="String" Name="Numero_de_radicado_SIRAS" Nullable="true" MaxLength="20" />
+           <Property Type="String" Name="Cobro_por_agotamiento_tope_Aseguradora" Nullable="true" MaxLength="2" />
+           <Property Type="String" Name="Tipo_de_documento_de_identidad_del_propietario" Nullable="true" MaxLength="2" />
+           <Property Type="String" Name="Numero_de_documento_de_identidad_del_propietario" Nullable="true" MaxLength="25" />
+           <Property Type="String" Name="Primer_nombre_del_propietario_o_razon_social" Nullable="true" MaxLength="20" />
+           <Property Type="String" Name="Segundo_nombre_del_propietario" Nullable="true" MaxLength="30" />
+           <Property Type="String" Name="Primer_apellido_del_propietario" Nullable="true" MaxLength="40" />
+           <Property Type="String" Name="Segundo_apellido_del_propietario" Nullable="true" MaxLength="30" />
+           <Property Type="String" Name="Direccion_de_residencia_del_propietario" Nullable="true" MaxLength="100" />
+           <Property Type="String" Name="Telefono_de_residencia_del_propietario" Nullable="true" MaxLength="10" />
+           <Property Type="String" Name="Codigo_del_municipio_de_residencia_del_propietario" Nullable="true" MaxLength="5" />
+           <Property Type="String" Name="Tipo_de_documento_de_identidad_del_conductor" Nullable="true" MaxLength="2" />
+           <Property Type="String" Name="Numero_de_documento_de_identidad_del_conductor" Nullable="true" MaxLength="25" />
+           <Property Type="String" Name="Primer_nombre_del_conductor" Nullable="true" MaxLength="20" />
+           <Property Type="String" Name="Segundo_nombre_del_conductor" Nullable="true" MaxLength="30" />
+           <Property Type="String" Name="Primer_apellido_del_conductor" Nullable="true" MaxLength="20" />
+           <Property Type="String" Name="Segundo_apellido_del_conductor" Nullable="true" MaxLength="30" />
+           <Property Type="String" Name="Codigo_del_municipio_de_residencia_del_conductor" Nullable="true" MaxLength="5" />
+           <Property Type="String" Name="Direccion_de_residencia_del_conductor" Nullable="true" MaxLength="100" />
+           <Property Type="String" Name="Telefono_de_residencia_del_conductor" Nullable="true" MaxLength="10" />
+           <Property Type="String" Name="Uso_material_de_osteosintesis_en_la_atencion" Nullable="true" MaxLength="2" />
+           <Property Type="String" Name="Es_atencion_inicial_paciente_remitido_o_control" Nullable="true" MaxLength="1" />
+           <Property Type="String" Name="Codigo_de_habilitacion_del_prestador_que_remite" Nullable="true" MaxLength="12" />
+           <Property Type="String" Name="TIPO_de_documento_Profesional_que_recibe" Nullable="true" MaxLength="2" />
+           <Property Type="String" Name="Numero_de_documento_Profesional_que_recibe" Nullable="true" MaxLength="20" />
+           <Property Type="String" Name="Codigo_de_habilitacion_del_prestador_que_recibe" Nullable="true" MaxLength="12" />
+           <Property Type="String" Name="Fecha_de_aceptacion" Nullable="true" MaxLength="10" />
+           <Property Type="String" Name="Hora_aceptacion" Nullable="true" MaxLength="5" />
+           <Property Type="String" Name="Placa_ambulancia_que_realiza_el_traslado_secundario" Nullable="true" MaxLength="6" />
+           <Property Type="String" Name="Tipo_de_servicio_del_transporte_secundario" Nullable="true" MaxLength="1" />
+           <Property Type="String" Name="Placa_ambulancia_que_realiza_el_traslado" Nullable="true" MaxLength="6" />
+           <Property Type="String" Name="Codigo_de_habilitacion_del_prestador_que_recibe_transporte_primario" Nullable="true" MaxLength="12" />
+           <Property Type="String" Name="Transporte_de_la_victima_desde_el_sitio_del_evento_Direccion" Nullable="true" MaxLength="100" />
+           <Property Type="String" Name="Transporte_de_la_victima_hasta_el_fin_del_recorrido_direccion_IPS" Nullable="true" MaxLength="100" />
+           <Property Type="String" Name="Tipo_de_servicio_del_transporte" Nullable="true" MaxLength="1" />
+         </ComplexType>
+        <ComplexType Name="SP_GenerateAdresFurRgData_Result">
+          <Property Type="Int32" Name="InvoiceId" Nullable="false" />
+          <Property Type="String" Name="NIT_PRESTADOR" Nullable="true" MaxLength="10" />
+          <Property Type="String" Name="NUM_FACTURA" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Num_factura_anterior" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Numero_radicacion" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="CreditNote_o_Debit_note" Nullable="true" MaxLength="20" />
+          <Property Type="Decimal" Name="Valor_reclamado" Nullable="true" Precision="19" />
+          <Property Type="String" Name="Direccion_residencia_victima" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="Telefono_victima" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="Condicion_victima" Nullable="true" MaxLength="5" />
+          <Property Type="String" Name="Fecha_de_ocurrencia_evento" Nullable="true" MaxLength="10" />
+          <Property Type="String" Name="Zona_de_ocurrencia_evento" Nullable="true" MaxLength="5" />
+          <Property Type="String" Name="Codigo_municipio_ocurrencia_evento" Nullable="true" MaxLength="10" />
+          <Property Type="String" Name="Direccion_de_ocurrencia_evento" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="Descripcion_corta_de_lo_ocurrido_en_el_evento" Nullable="true" MaxLength="1000" />
+          <Property Type="String" Name="Estado_de_aseguramiento" Nullable="true" MaxLength="5" />
+          <Property Type="String" Name="Placa_vehiculo" Nullable="true" MaxLength="10" />
+          <Property Type="String" Name="Tipo_de_Vehiculo" Nullable="true" MaxLength="5" />
+          <Property Type="String" Name="Codigo_de_la_aseguradora" Nullable="true" MaxLength="6" />
+          <Property Type="String" Name="Numero_de_poliza_SOAT" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="Fecha_de_inicio_de_vigencia_de_la_poliza" Nullable="true" MaxLength="10" />
+          <Property Type="String" Name="Fecha_final_de_vigencia_de_la_poliza" Nullable="true" MaxLength="10" />
+          <Property Type="String" Name="Numero_de_radicado_SIRAS" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="Cobro_por_agotamiento_tope_Aseguradora" Nullable="true" MaxLength="2" />
+          <Property Type="String" Name="Tipo_de_documento_de_identidad_del_propietario" Nullable="true" MaxLength="2" />
+          <Property Type="String" Name="Numero_de_documento_de_identidad_del_propietario" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="Primer_nombre_del_propietario_o_razon_social" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Segundo_nombre_del_propietario" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Primer_apellido_del_propietario" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Segundo_apellido_del_propietario" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Direccion_de_residencia_del_propietario" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="Telefono_de_residencia_del_propietario" Nullable="true" MaxLength="10" />
+          <Property Type="String" Name="Codigo_del_municipio_de_residencia_del_propietario" Nullable="true" MaxLength="10" />
+          <Property Type="String" Name="Tipo_de_documento_de_identidad_del_conductor" Nullable="true" MaxLength="2" />
+          <Property Type="String" Name="Numero_de_documento_de_identidad_del_conductor" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="Primer_nombre_del_conductor" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Segundo_nombre_del_conductor" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Primer_apellido_del_conductor" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Segundo_apellido_del_conductor" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Codigo_del_municipio_de_residencia_del_conductor" Nullable="true" MaxLength="10" />
+          <Property Type="String" Name="Direccion_de_residencia_del_conductor" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="Telefono_de_residencia_del_conductor" Nullable="true" MaxLength="10" />
+          <Property Type="String" Name="Uso_material_de_osteosintesis_en_la_atencion" Nullable="true" MaxLength="2" />
+          <Property Type="String" Name="Es_atencion_inicial_paciente_remitido_o_control" Nullable="true" MaxLength="5" />
+          <Property Type="String" Name="Placa_ambulancia_que_realiza_la_remision" Nullable="true" MaxLength="7" />
+          <Property Type="String" Name="Placa_ambulancia_que_realiza_el_traslado_secundario" Nullable="true" MaxLength="7" />
+          <Property Type="String" Name="Codigo_de_habilitacion_del_prestador_que_remite" Nullable="true" MaxLength="12" />
+          <Property Type="String" Name="TIPO_de_documento_Profesional_que_recibe" Nullable="true" MaxLength="2" />
+          <Property Type="String" Name="Numero_de_documento_Profesional_que_recibe" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="Codigo_de_habilitacion_del_prestador_que_recibe" Nullable="true" MaxLength="12" />
+          <Property Type="String" Name="Fecha_de_aceptacion" Nullable="true" MaxLength="10" />
+          <Property Type="String" Name="Hora_aceptacion" Nullable="true" MaxLength="5" />
+          <Property Type="String" Name="Placa_ambulancia_que_realiza_el_traslado" Nullable="true" MaxLength="7" />
+          <Property Type="String" Name="Transporte_de_la_victima_desde_el_sitio_del_evento_Direccion" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="Transporte_de_la_victima_hasta_el_fin_del_recorrido_direccion_IPS" Nullable="true" MaxLength="100" />
+          <Property Type="Int32" Name="GlosaId" Nullable="true" />
+          <Property Type="String" Name="ID_interno_Glosa" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="itemID_servicio_o_tecnologia_objetado" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Codigo_glosa" Nullable="true" MaxLength="10" />
+          <Property Type="String" Name="Tipo_respuesta_a_glosa" Nullable="true" MaxLength="4" />
+          <Property Type="String" Name="Respuesta_a_glosa" Nullable="true" MaxLength="Max" />
+          <Property Type="Int32" Name="Cantidad_aceptada" Nullable="true" />
+          <Property Type="Decimal" Name="Valor_aceptado" Nullable="true" Precision="19" />
+          <Property Type="String" Name="Primer_nombre_primer_apellido_auditor" Nullable="true" MaxLength="101" />
+          <Property Type="String" Name="Perfil_auditor" Nullable="true" MaxLength="150" />
+        </ComplexType>
         <EntityType Name="CauseReprocessingRejection">
           <Key>
             <PropertyRef Name="Id" />
@@ -125082,6 +125631,7 @@ warning 6035: The relationship 'FK_ProductSusceptibleMixingStation_ATC' has colu
           <Property Type="String" Name="MIPRESNumber" Nullable="false" MaxLength="1" />
           <Property Type="String" Name="MIPRESId" Nullable="false" MaxLength="1" />
           <Property Type="String" Name="ContractNumber" Nullable="true" MaxLength="30" />
+          <Property Type="String" Name="NoContractReason" Nullable="false" MaxLength="20" />
           <Property Type="String" Name="PolicyNumber" Nullable="false" MaxLength="1" />
           <Property Type="String" Name="PermanentObservationOfTheInvoice" Nullable="true" MaxLength="Max" />
           <Property Type="DateTime" Name="BillingInitialDate" Nullable="false" Precision="23" />
@@ -125641,6 +126191,7 @@ warning 6035: The relationship 'FK_ProductSusceptibleMixingStation_ATC' has colu
           <Property Name="SupplieId" Type="Int32" />
           <Property Name="ComponentType" Type="Byte" />
           <Property Name="MainMedicine" Type="Boolean" />
+          <Property Name="ComplementaryMedicine" Type="Boolean" />
           <NavigationProperty Name="ATC" Relationship="GlobalModel.FK_PackagePersonalizedDetail_ATC" FromRole="PackagePersonalizedDetail" ToRole="ATC" />
           <NavigationProperty Name="InventoryMeasurementUnit" Relationship="GlobalModel.FK_PackagePersonalizedDetail_MeasurementUnit" FromRole="PackagePersonalizedDetail" ToRole="InventoryMeasurementUnit" />
           <NavigationProperty Name="InventoryMeasurementUnit1" Relationship="GlobalModel.FK_PackagePersonalizedDetail_UnitMeasure_Volume" FromRole="PackagePersonalizedDetail" ToRole="InventoryMeasurementUnit" />
@@ -132300,6 +132851,7 @@ warning 6035: The relationship 'FK_ProductSusceptibleMixingStation_ATC' has colu
           <Property Name="AccountingPackageMainAccountId" Type="Int32" />
           <Property Name="ProjectedVariationPriceMainAccountId" Type="Int32" />
 		  <Property Name="GeneratePromissoryNote" Type="Boolean" Nullable="false" />
+          <Property Name="TaxInformation" Type="String" MaxLength="700" FixedLength="false"/>          
           <NavigationProperty Name="BillingAuthorization" Relationship="GlobalModel.FK_SettingsBilling_BillingAuthorization" FromRole="SettingsBilling" ToRole="BillingAuthorization" />
           <NavigationProperty Name="ConceptsCausesStatusFolio" Relationship="GlobalModel.FK_SettingsBilling_StatusFolioClosed" FromRole="SettingsBilling" ToRole="ConceptsCausesStatusFolio" />
           <NavigationProperty Name="ConceptsCausesStatusFolio1" Relationship="GlobalModel.FK_SettingsBilling_StatusFolioNew" FromRole="SettingsBilling" ToRole="ConceptsCausesStatusFolio" />
@@ -135841,9 +136393,9 @@ warning 6035: The relationship 'FK_ProductSusceptibleMixingStation_ATC' has colu
         </Association>
         <ComplexType Name="SP_ReportBillingStadistics_Result">
           <Property Type="Int32" Name="Id" Nullable="false" />
-		  <Property Type="String" Name="CareCenterCode" Nullable="true" MaxLength="10" />
-		  <Property Type="String" Name="CareCenterName" Nullable="true" MaxLength="100" />
-		  <Property Type="String" Name="InvoiceCategories" Nullable="false" MaxLength="250" />          
+          <Property Type="String" Name="CareCenterCode" Nullable="true" MaxLength="10" />
+          <Property Type="String" Name="CareCenterName" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="InvoiceCategories" Nullable="false" MaxLength="250" />          
           <Property Type="String" Name="CareCenterDescription" Nullable="true" MaxLength="113" />
           <Property Type="String" Name="ThirdPartyNit" Nullable="true" MaxLength="25" />
           <Property Type="String" Name="ThirdPartyName" Nullable="true" MaxLength="300" />
@@ -137526,44 +138078,44 @@ warning 6035: The relationship 'FK_ProductSusceptibleMixingStation_ATC' has colu
           <Property Type="String" Name="SegundoApellidoConductor" Nullable="false" MaxLength="20" />
           <Property Type="String" Name="PrimerNombreConductor" Nullable="false" MaxLength="20" />
           <Property Type="String" Name="SegundoNombreConductor" Nullable="false" MaxLength="20" />
-          <Property Type="Int32" Name="TipoDocumentoReclamante_o_ConductorAmbulancia" Nullable="false" />
+          <Property Type="String" Name="TipoDocumentoReclamante_o_ConductorAmbulancia" Nullable="false" MaxLength="2" />
           <Property Type="String" Name="NumeroDocumentoReclamante_o_ConductorAmbulancia" Nullable="false" MaxLength="25" />
-          <Property Type="Int32" Name="TipoVehiculo" Nullable="false" />
+          <Property Type="String" Name="TipoVehiculo" Nullable="false" MaxLength="1" />
           <Property Type="String" Name="PlacaVehiculo" Nullable="false" MaxLength="10" />
           <Property Type="String" Name="DireccionReclamante" Nullable="false" MaxLength="40" />
           <Property Type="String" Name="TelefonoReclamante" Nullable="false" MaxLength="10" />
           <Property Type="String" Name="CodigoDepartamento" Nullable="false" MaxLength="2" />
           <Property Type="String" Name="CodigoMunicipio" Nullable="false" MaxLength="5" />
-          <Property Type="Int32" Name="TipoDocumentoVictima" Nullable="false" />
+          <Property Type="String" Name="TipoDocumentoVictima" Nullable="false" MaxLength="2" />
           <Property Type="String" Name="NumeroDocumentoVictima" Nullable="false" MaxLength="25" />
           <Property Type="String" Name="PrimerNombreVictima" Nullable="false" MaxLength="20" />
           <Property Type="String" Name="SegundoNombreVictima" Nullable="false" MaxLength="20" />
           <Property Type="String" Name="PrimerApellidoVictima" Nullable="false" MaxLength="20" />
           <Property Type="String" Name="SegundoApellidoVictima" Nullable="false" MaxLength="20" />
-          <Property Type="DateTime" Name="FechaNacimientoVictima" Nullable="false" Precision="23" />
-          <Property Type="Int32" Name="SexoVictima" Nullable="false" />
-          <Property Type="Int32" Name="TipoEvento" Nullable="false" />
+          <Property Type="String" Name="FechaNacimientoVictima" Nullable="false" MaxLength="10" />
+          <Property Type="String" Name="SexoVictima" Nullable="false" MaxLength="1" />
+          <Property Type="String" Name="TipoEvento" Nullable="false" MaxLength="1" />
           <Property Type="String" Name="DireccionLugarVictima" Nullable="false" MaxLength="40" />
           <Property Type="String" Name="DepartamentoLugarVictima" Nullable="false" MaxLength="2" />
           <Property Type="String" Name="MunicipioLugarVictima" Nullable="false" MaxLength="5" />
-          <Property Type="Boolean" Name="ZonaRecogeVictima" Nullable="false" />
-          <Property Type="DateTime" Name="FechaTrasladoVictima" Nullable="false" />
+          <Property Type="String" Name="ZonaRecogeVictima" Nullable="false" MaxLength="1" />
+          <Property Type="String" Name="FechaTrasladoVictima" Nullable="false" MaxLength="10" />
           <Property Type="String" Name="HoraTrasladoVictima" Nullable="false" />
           <Property Type="String" Name="CodigoHabilitacionIPSVictima" Nullable="false" MaxLength="100" />
           <Property Type="String" Name="CodigoDepartamentoTrasladoVictima" Nullable="false" MaxLength="2" />
           <Property Type="String" Name="CodigoMunicipioTrasladoVictima" Nullable="false" MaxLength="5" />
-          <Property Type="Int32" Name="CondicionVictima" Nullable="false" />
-          <Property Type="Int32" Name="EstadoAseguradoraVictima" Nullable="false" />
-          <Property Type="Int32" Name="TipoVehiculoVictima" Nullable="false" />
+          <Property Type="String" Name="CondicionVictima" Nullable="false" MaxLength="1" />
+          <Property Type="String" Name="EstadoAseguradoraVictima" Nullable="false" MaxLength="1" />
+          <Property Type="String" Name="TipoVehiculoVictima" Nullable="false" MaxLength="2" />
           <Property Type="String" Name="PlacaVehiculoVictima" Nullable="false" MaxLength="10" />
           <Property Type="String" Name="CodigoAseguradoraVictima" Nullable="false" MaxLength="9" />
           <Property Type="String" Name="NumeroPolizaSOAT" Nullable="false" MaxLength="10" />
-          <Property Type="DateTime" Name="FechaInicioPoliza" Nullable="false" />
-          <Property Type="DateTime" Name="FechaFinalPoliza" Nullable="false" />
+          <Property Type="String" Name="FechaInicioPoliza" Nullable="false" MaxLength="10" />
+          <Property Type="String" Name="FechaFinalPoliza" Nullable="false" MaxLength="10" />
           <Property Type="String" Name="NumeroRadicadoSIRAS" Nullable="false" MaxLength="20" />
           <Property Type="Int64" Name="ValorFacturado" Nullable="false" />
           <Property Type="Int64" Name="ValorReclamado" Nullable="false" />
-          <Property Type="Boolean" Name="ManifestacionServiciosHabilitados" Nullable="false" />
+          <Property Type="String" Name="ManifestacionServiciosHabilitados" Nullable="false" MaxLength="1" />
         </ComplexType>
         <Association Name="FK_BillingItemsRestrictionDetail_IncludeCUPSEntity">
           <End Type="GlobalModel.CUPSEntity" Role="CUPSEntity" Multiplicity="1" />
@@ -141858,6 +142410,7 @@ warning 6035: The relationship 'FK_ProductSusceptibleMixingStation_ATC' has colu
           <Property Type="Int32" Name="Child" Nullable="true" />
           <Property Type="String" Name="AdmissionNumber" Nullable="false" MaxLength="10" />
           <Property Type="String" Name="BatchCode" Nullable="true" MaxLength="50" />
+          <Property Type="DateTime" Name="DispensingDate" Nullable="true" Precision="23" />
           <Property Type="Boolean" Name="Selected" Nullable="true" />
           <Property Type="Int32" Name="PackageId" Nullable="true" />
           <Property Type="Int32" Name="FunctionalUnitId" Nullable="true" />
@@ -141870,6 +142423,8 @@ warning 6035: The relationship 'FK_ProductSusceptibleMixingStation_ATC' has colu
           <Property Type="DateTime" Name="AppliedDateDose" Nullable="true" Precision="23" />
           <Property Type="Int32" Name="Father" Nullable="true" />
           <Property Type="Int32" Name="PaidToEndCampaign" Nullable="true" />
+          <Property Type="Int32" Name="PackagePersonalizedId" Nullable="true" />
+          <Property Type="Byte" Name="Source" Nullable="true" />
         </ComplexType>
         <EntityType Name="CostIntermediateDistribution">
           <Key>
@@ -142623,40 +143178,6 @@ warning 6035: The relationship 'FK_ProductSusceptibleMixingStation_ATC' has colu
           <Property Type="Boolean" Name="IsValid" Nullable="true" />
           <Property Type="String" Name="Message" Nullable="true" />
         </ComplexType>
-        <EntityType Name="ADACOMPAN">
-          <Key>
-            <PropertyRef Name="CONSEACOM" />
-          </Key>
-          <Property Name="CONSEACOM" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="IPCODPACI" Type="String" Nullable="false" MaxLength="25" FixedLength="false" Unicode="false" />
-          <Property Name="IDACOMPAN" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
-          <Property Name="TIPIDACOM" Type="String" MaxLength="2" FixedLength="true" Unicode="false" />
-          <Property Name="PRINOMBRE" Type="String" MaxLength="60" FixedLength="false" Unicode="false" />
-          <Property Name="SEGNOMBRE" Type="String" MaxLength="60" FixedLength="false" Unicode="false" />
-          <Property Name="PRIAPELLI" Type="String" MaxLength="60" FixedLength="false" Unicode="false" />
-          <Property Name="SEGAPELLI" Type="String" MaxLength="60" FixedLength="false" Unicode="false" />
-          <Property Name="DIRACOMPA" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="TELACOMPA" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="PARACOMPA" Type="String" MaxLength="2" FixedLength="true" Unicode="false" />
-          <Property Name="FECHAREGI" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="CODUSUREG" Type="String" Nullable="false" MaxLength="20" FixedLength="true" Unicode="false" />
-          <Property Name="NUMINGRES" Type="String" MaxLength="10" FixedLength="true" Unicode="false" />
-          <Property Name="RESPONSAB" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
-          <NavigationProperty Name="ADACOMPAN1" Relationship="GlobalModel.FK_ADACOMPAN_ADACOMPAN" FromRole="ADACOMPAN" ToRole="ADACOMPAN1" />
-          <NavigationProperty Name="ADACOMPAN2" Relationship="GlobalModel.FK_ADACOMPAN_ADACOMPAN" FromRole="ADACOMPAN1" ToRole="ADACOMPAN" />
-        </EntityType>
-        <Association Name="FK_ADACOMPAN_ADACOMPAN">
-          <End Type="GlobalModel.ADACOMPAN" Role="ADACOMPAN" Multiplicity="1" />
-          <End Type="GlobalModel.ADACOMPAN" Role="ADACOMPAN1" Multiplicity="0..1" />
-          <ReferentialConstraint>
-            <Principal Role="ADACOMPAN">
-              <PropertyRef Name="CONSEACOM" />
-            </Principal>
-            <Dependent Role="ADACOMPAN1">
-              <PropertyRef Name="CONSEACOM" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_CampaignRawMaterial_BatchSerial">
           <End Type="GlobalModel.BatchSerial" Role="BatchSerial" Multiplicity="0..1" />
           <End Type="GlobalModel.CampaignRawMaterial" Role="CampaignRawMaterial" Multiplicity="*" />
@@ -142669,20 +143190,28 @@ warning 6035: The relationship 'FK_ProductSusceptibleMixingStation_ATC' has colu
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <ComplexType Name="SP_SetConsignmentTransferDetailFromFile_Result">
-          <Property Type="Int32" Name="TargetWarehouseId" Nullable="true" />
-          <Property Type="Int32" Name="ProductId" Nullable="true" />
-          <Property Type="Int32" Name="Quantity" Nullable="true" />
-          <Property Type="String" Name="ProductCodeName" Nullable="true" MaxLength="500" />
-          <Property Type="String" Name="WarehouseCodeName" Nullable="true" MaxLength="500" />
-          <Property Type="Decimal" Name="ProductCost" Nullable="true" Precision="18" Scale="2" />
-          <Property Type="Int32" Name="BatchSerialId" Nullable="true" />
-          <Property Type="String" Name="BatchSerialCode" Nullable="true" MaxLength="500" />
-		  <Property Type="Int32" Name="PhysicalInventoryId" Nullable="true" />
-		  <Property Type="Int32" Name="PhysicalQuantity" Nullable="true" />
-          <Property Type="String" Name="Description" Nullable="true" MaxLength="500" />
-          <Property Type="Int32" Name="StatusField" Nullable="true" />
-          <Property Type="String" Name="MessageField" Nullable="true" />
+        <ComplexType Name="SP_ReportHumanTalent_Result">
+          <Property Type="String" Name="DocumentType" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="Nit" Nullable="false" MaxLength="25" />
+          <Property Type="String" Name="EmployeeName" Nullable="false" MaxLength="300" />
+          <Property Type="String" Name="ContractStatus" Nullable="true" MaxLength="21" />
+          <Property Type="String" Name="FunctionalUnitCode" Nullable="false" MaxLength="20" />
+          <Property Type="String" Name="FunctionalUnitName" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="PositionCode" Nullable="false" MaxLength="20" />
+          <Property Type="String" Name="PositionName" Nullable="false" MaxLength="80" />
+          <Property Type="Decimal" Name="BasicSalary" Nullable="false" Precision="18" Scale="0" />
+          <Property Type="DateTime" Name="ContractStartDate" Nullable="false" />
+          <Property Type="DateTime" Name="ContractEndDate" Nullable="false" />
+          <Property Type="DateTime" Name="BirthDate" Nullable="true" />
+          <Property Type="Int32" Name="Age" Nullable="true" />
+          <Property Type="String" Name="Gender" Nullable="false" MaxLength="1" />
+          <Property Type="String" Name="NationalityName" Nullable="false" MaxLength="80" />
+          <Property Type="String" Name="MaritalStatus" Nullable="true" MaxLength="10" />
+          <Property Type="String" Name="PaymentMethod" Nullable="true" MaxLength="12" />
+          <Property Type="String" Name="BankName" Nullable="true" MaxLength="320" />
+          <Property Type="String" Name="BankAccountNumber" Nullable="false" MaxLength="20" />
+          <Property Type="String" Name="EmailAddress" Nullable="true" MaxLength="100" />
+          <Property Type="Int32" Name="TotalPendingVacationDays" Nullable="true" />
         </ComplexType>
         <Association Name="FK_RIPSSupportRecordDetail_CUPSEntity">
           <End Type="GlobalModel.CUPSEntity" Role="CUPSEntity" Multiplicity="0..1" />
@@ -142705,6 +143234,83 @@ warning 6035: The relationship 'FK_ProductSusceptibleMixingStation_ATC' has colu
             </Principal>
             <Dependent Role="RIPSSupportRecordDetail">
               <PropertyRef Name="StayCUPSEntityContractDescriptionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="InitialBalanceInvoice">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="AccountReceivableId" Type="Int32" Nullable="false" />
+          <Property Name="InvoiceId" Type="Int32" />
+          <Property Name="ObligatedPartyDocument" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="InvoiceNumber" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="CosmosId" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="CUV" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Status" Type="Byte" Nullable="false" />
+          <Property Name="CreationUser" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="CreationDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ModificationUser" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="ModificationDate" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="AccountReceivable" Relationship="GlobalModel.FK_InitialBalanceInvoice_AccountReceivable" FromRole="InitialBalanceInvoice" ToRole="AccountReceivable" />
+          <NavigationProperty Name="Invoice" Relationship="GlobalModel.FK_InitialBalanceInvoice_Invoice" FromRole="InitialBalanceInvoice" ToRole="Invoice" />
+          <NavigationProperty Name="InitialBalanceInvoiceDetail" Relationship="GlobalModel.FK_InitialBalanceInvoiceDetail_InitialBalanceInvoice" FromRole="InitialBalanceInvoice" ToRole="InitialBalanceInvoiceDetail" />
+        </EntityType>
+        <EntityType Name="InitialBalanceInvoiceDetail">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="InitialBalanceInvoiceId" Type="Int32" Nullable="false" />
+          <Property Name="UserConsecutive" Type="Int32" Nullable="false" />
+          <Property Name="ServiceType" Type="Byte" Nullable="false" />
+          <Property Name="Consecutive" Type="Int32" Nullable="false" />
+          <Property Name="ServiceCode" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Quantity" Type="Int32" Nullable="false" />
+          <Property Name="UnitValue" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="ServiceValue" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="Balance" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="AttentionStartDate" Type="DateTime" Precision="3" />
+          <Property Name="CreationUser" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="CreationDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ModificationUser" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="ModificationDate" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="InitialBalanceInvoice" Relationship="GlobalModel.FK_InitialBalanceInvoiceDetail_InitialBalanceInvoice" FromRole="InitialBalanceInvoiceDetail" ToRole="InitialBalanceInvoice" />
+        </EntityType>
+        <Association Name="FK_InitialBalanceInvoice_AccountReceivable">
+          <End Type="GlobalModel.AccountReceivable" Role="AccountReceivable" Multiplicity="1" />
+          <End Type="GlobalModel.InitialBalanceInvoice" Role="InitialBalanceInvoice" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AccountReceivable">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="InitialBalanceInvoice">
+              <PropertyRef Name="AccountReceivableId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_InitialBalanceInvoice_Invoice">
+          <End Type="GlobalModel.Invoice" Role="Invoice" Multiplicity="0..1" />
+          <End Type="GlobalModel.InitialBalanceInvoice" Role="InitialBalanceInvoice" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Invoice">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="InitialBalanceInvoice">
+              <PropertyRef Name="InvoiceId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_InitialBalanceInvoiceDetail_InitialBalanceInvoice">
+          <End Type="GlobalModel.InitialBalanceInvoice" Role="InitialBalanceInvoice" Multiplicity="1" />
+          <End Type="GlobalModel.InitialBalanceInvoiceDetail" Role="InitialBalanceInvoiceDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="InitialBalanceInvoice">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="InitialBalanceInvoiceDetail">
+              <PropertyRef Name="InitialBalanceInvoiceId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -144350,6 +144956,7 @@ warning 6035: The relationship 'FK_ProductSusceptibleMixingStation_ATC' has colu
           <EntitySetMapping Name="GeneralLedgerIVA">
             <EntityTypeMapping TypeName="GlobalModel.GeneralLedgerIVA">
               <MappingFragment StoreEntitySet="GeneralLedgerIVA">
+                <ScalarProperty Name="TaxClassificationType" ColumnName="TaxClassificationType" />
                 <ScalarProperty Name="PaymentMethodTypes" ColumnName="PaymentMethodTypes" />
                 <ScalarProperty Name="ApplyTaxDevolution" ColumnName="ApplyTaxDevolution" />
                 <ScalarProperty Name="IdAccountCreditControlFiscal" ColumnName="IdAccountCreditControlFiscal" />
@@ -148008,7 +148615,8 @@ warning 6035: The relationship 'FK_ProductSusceptibleMixingStation_ATC' has colu
           </EntitySetMapping>
           <EntitySetMapping Name="GlosaObjectionsReceptionD">
             <EntityTypeMapping TypeName="GlobalModel.GlosaObjectionsReceptionD">
-              <MappingFragment StoreEntitySet="GlosaObjectionsReceptionD">
+              <MappingFragment StoreEntitySet="GlosaObjectionsReceptionD">          
+                <ScalarProperty Name="ADRESCode" ColumnName="ADRESCode" />
                 <ScalarProperty Name="RadicatedObservation" ColumnName="RadicatedObservation" />
                 <ScalarProperty Name="RadicatedReceiver" ColumnName="RadicatedReceiver" />
                 <ScalarProperty Name="RadicatedDate" ColumnName="RadicatedDate" />
@@ -148387,6 +148995,12 @@ warning 6035: The relationship 'FK_ProductSusceptibleMixingStation_ATC' has colu
           <EntitySetMapping Name="PortfolioInitialBalanceAccountReceivable">
             <EntityTypeMapping TypeName="GlobalModel.PortfolioInitialBalanceAccountReceivable">
               <MappingFragment StoreEntitySet="PortfolioInitialBalanceAccountReceivable">
+                <ScalarProperty Name="CUV" ColumnName="CUV" />
+                <ScalarProperty Name="CurrentDeteriorationYear" ColumnName="CurrentDeteriorationYear" />
+                <ScalarProperty Name="DeteriorationBalancePreviousYear" ColumnName="DeteriorationBalancePreviousYear" />
+                <ScalarProperty Name="DeteriorationBalanceCurrentYear" ColumnName="DeteriorationBalanceCurrentYear" />
+                <ScalarProperty Name="DeteriorationBalance" ColumnName="DeteriorationBalance" />
+                <ScalarProperty Name="AccountHardCollectionId" ColumnName="AccountHardCollectionId" />
                 <ScalarProperty Name="CUFE" ColumnName="CUFE" />
                 <ScalarProperty Name="IsElectronicInvoice" ColumnName="IsElectronicInvoice" />
                 <ScalarProperty Name="BudgetId" ColumnName="BudgetId" />
@@ -148991,6 +149605,45 @@ warning 6035: The relationship 'FK_ProductSusceptibleMixingStation_ATC' has colu
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="InitialBalanceInvoice">
+            <EntityTypeMapping TypeName="GlobalModel.InitialBalanceInvoice">
+              <MappingFragment StoreEntitySet="InitialBalanceInvoice">
+                <ScalarProperty Name="ModificationDate" ColumnName="ModificationDate" />
+                <ScalarProperty Name="ModificationUser" ColumnName="ModificationUser" />
+                <ScalarProperty Name="CreationDate" ColumnName="CreationDate" />
+                <ScalarProperty Name="CreationUser" ColumnName="CreationUser" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="CUV" ColumnName="CUV" />
+                <ScalarProperty Name="CosmosId" ColumnName="CosmosId" />
+                <ScalarProperty Name="InvoiceNumber" ColumnName="InvoiceNumber" />
+                <ScalarProperty Name="ObligatedPartyDocument" ColumnName="ObligatedPartyDocument" />
+                <ScalarProperty Name="InvoiceId" ColumnName="InvoiceId" />
+                <ScalarProperty Name="AccountReceivableId" ColumnName="AccountReceivableId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="InitialBalanceInvoiceDetail">
+            <EntityTypeMapping TypeName="GlobalModel.InitialBalanceInvoiceDetail">
+              <MappingFragment StoreEntitySet="InitialBalanceInvoiceDetail">
+                <ScalarProperty Name="ModificationDate" ColumnName="ModificationDate" />
+                <ScalarProperty Name="ModificationUser" ColumnName="ModificationUser" />
+                <ScalarProperty Name="CreationDate" ColumnName="CreationDate" />
+                <ScalarProperty Name="CreationUser" ColumnName="CreationUser" />
+                <ScalarProperty Name="AttentionStartDate" ColumnName="AttentionStartDate" />
+                <ScalarProperty Name="Balance" ColumnName="Balance" />
+                <ScalarProperty Name="ServiceValue" ColumnName="ServiceValue" />
+                <ScalarProperty Name="UnitValue" ColumnName="UnitValue" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="ServiceCode" ColumnName="ServiceCode" />
+                <ScalarProperty Name="Consecutive" ColumnName="Consecutive" />
+                <ScalarProperty Name="ServiceType" ColumnName="ServiceType" />
+                <ScalarProperty Name="UserConsecutive" ColumnName="UserConsecutive" />
+                <ScalarProperty Name="InitialBalanceInvoiceId" ColumnName="InitialBalanceInvoiceId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="PortfolioInitialBalanceAdvance">
             <EntityTypeMapping TypeName="GlobalModel.PortfolioInitialBalanceAdvance">
               <MappingFragment StoreEntitySet="PortfolioInitialBalanceAdvance">
@@ -149079,28 +149732,53 @@ warning 6035: The relationship 'FK_ProductSusceptibleMixingStation_ATC' has colu
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="CostDistributionIntermediate">
-            <EntityTypeMapping TypeName="GlobalModel.CostDistributionIntermediate">
-              <MappingFragment StoreEntitySet="CostDistributionIntermediate">
-                <ScalarProperty Name="TimeStamp" ColumnName="TimeStamp" />
-                <ScalarProperty Name="ModificationDate" ColumnName="ModificationDate" />
-                <ScalarProperty Name="ModificationUser" ColumnName="ModificationUser" />
-                <ScalarProperty Name="CreationDate" ColumnName="CreationDate" />
-                <ScalarProperty Name="CreationUser" ColumnName="CreationUser" />
-                <ScalarProperty Name="Status" ColumnName="Status" />
-                <ScalarProperty Name="Month" ColumnName="Month" />
-                <ScalarProperty Name="Year" ColumnName="Year" />
-                <ScalarProperty Name="Description" ColumnName="Description" />
+              <EntityTypeMapping TypeName="GlobalModel.CostDistributionIntermediate">
+                <MappingFragment StoreEntitySet="CostDistributionIntermediate">
+                  <ScalarProperty Name="Value" ColumnName="Value" />
+                  <ScalarProperty Name="AnnulmentDate" ColumnName="AnnulmentDate" />
+                  <ScalarProperty Name="AnnulmentUser" ColumnName="AnnulmentUser" />
+                  <ScalarProperty Name="ConfirmDate" ColumnName="ConfirmDate" />
+                  <ScalarProperty Name="ConfirmUser" ColumnName="ConfirmUser" />
+                  <ScalarProperty Name="CostEstimationId" ColumnName="CostEstimationId" />
+                  <ScalarProperty Name="IntermediateDistributionElementId" ColumnName="IntermediateDistributionElementId" />
+                  <ScalarProperty Name="TimeStamp" ColumnName="TimeStamp" />
+                  <ScalarProperty Name="ModificationDate" ColumnName="ModificationDate" />
+                  <ScalarProperty Name="ModificationUser" ColumnName="ModificationUser" />
+                  <ScalarProperty Name="CreationDate" ColumnName="CreationDate" />
+                  <ScalarProperty Name="CreationUser" ColumnName="CreationUser" />
+                  <ScalarProperty Name="Status" ColumnName="Status" />
+                  <ScalarProperty Name="Month" ColumnName="Month" />
+                  <ScalarProperty Name="Year" ColumnName="Year" />
+                  <ScalarProperty Name="Description" ColumnName="Description" />
+                  <ScalarProperty Name="ProductionCenterId" ColumnName="ProductionCenterId" />
+                  <ScalarProperty Name="Code" ColumnName="Code" />
+                  <ScalarProperty Name="Id" ColumnName="Id" />
+                </MappingFragment>
+              </EntityTypeMapping>
+            </EntitySetMapping>
+          <EntitySetMapping Name="CostDistributionIntermediateDetail">
+            <EntityTypeMapping TypeName="GlobalModel.CostDistributionIntermediateDetail">
+              <MappingFragment StoreEntitySet="CostDistributionIntermediateDetail">
+                <ScalarProperty Name="Value" ColumnName="Value" />
+                <ScalarProperty Name="Proportion" ColumnName="Proportion" />
                 <ScalarProperty Name="ProductionCenterId" ColumnName="ProductionCenterId" />
-                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="DistributionIntermediateId" ColumnName="DistributionIntermediateId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="CostDistributionIntermediateDetail">
-            <EntityTypeMapping TypeName="GlobalModel.CostDistributionIntermediateDetail">
-              <MappingFragment StoreEntitySet="CostDistributionIntermediateDetail">
-                <ScalarProperty Name="Proportion" ColumnName="Proportion" />
+          <EntitySetMapping Name="CostIntermediateDistributionServiceQuantity">
+            <EntityTypeMapping TypeName="GlobalModel.CostIntermediateDistributionServiceQuantity">
+              <MappingFragment StoreEntitySet="CostIntermediateDistributionServiceQuantity">
+                <ScalarProperty Name="CreationDate" ColumnName="CreationDate" />
+                <ScalarProperty Name="CreationUser" ColumnName="CreationUser" />
+                <ScalarProperty Name="SalesValue" ColumnName="SalesValue" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
                 <ScalarProperty Name="ProductionCenterId" ColumnName="ProductionCenterId" />
+                <ScalarProperty Name="FunctionalUnitId" ColumnName="FunctionalUnitId" />
+                <ScalarProperty Name="ServiceId" ColumnName="ServiceId" />
+                <ScalarProperty Name="ServiceType" ColumnName="ServiceType" />
+                <ScalarProperty Name="CostMonth" ColumnName="CostMonth" />
                 <ScalarProperty Name="DistributionIntermediateId" ColumnName="DistributionIntermediateId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
@@ -152224,7 +152902,7 @@ warning 6035: The relationship 'FK_ProductSusceptibleMixingStation_ATC' has colu
           </FunctionImportMapping>
           <EntitySetMapping Name="GlosaMovementGlosa">
             <EntityTypeMapping TypeName="GlobalModel.GlosaMovementGlosa">
-              <MappingFragment StoreEntitySet="GlosaMovementGlosa">                
+              <MappingFragment StoreEntitySet="GlosaMovementGlosa">                           
                 <ScalarProperty Name="ResponsibleThirdPartyId" ColumnName="ResponsibleThirdPartyId" />
                 <ScalarProperty Name="TimeStamp" ColumnName="TimeStamp" />
 				<ScalarProperty Name="IsNormative" ColumnName="IsNormative" />
@@ -153876,6 +154554,7 @@ warning 6035: The relationship 'FK_ProductSusceptibleMixingStation_ATC' has colu
           <EntitySetMapping Name="PaymentMethods">
             <EntityTypeMapping TypeName="GlobalModel.PaymentMethods">
               <MappingFragment StoreEntitySet="PaymentMethods">
+                <ScalarProperty Name="CardType" ColumnName="CardType" />
                 <ScalarProperty Name="RedemptionPoints" ColumnName="RedemptionPoints" />
                 <ScalarProperty Name="TransactionDate" ColumnName="TransactionDate" />
                 <ScalarProperty Name="TransactionNumber" ColumnName="TransactionNumber" />
@@ -154029,6 +154708,7 @@ warning 6035: The relationship 'FK_ProductSusceptibleMixingStation_ATC' has colu
           <EntitySetMapping Name="RadicateInvoiceC">
             <EntityTypeMapping TypeName="GlobalModel.RadicateInvoiceC">
               <MappingFragment StoreEntitySet="RadicateInvoiceC">
+                <ScalarProperty Name="CustomerRadicateConsecutive" ColumnName="CustomerRadicateConsecutive" />
                 <ScalarProperty Name="TimeStamp" ColumnName="TimeStamp" />
                 <ScalarProperty Name="ModificationDate" ColumnName="ModificationDate" />
                 <ScalarProperty Name="ModificationUser" ColumnName="ModificationUser" />
@@ -155002,6 +155682,35 @@ warning 6035: The relationship 'FK_ProductSusceptibleMixingStation_ATC' has colu
                 <ScalarProperty Name="CausationRecognitionId" ColumnName="CausationRecognitionId" />
               </ComplexTypeMapping>
             </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_GetCandidatesForAutoCausation" FunctionName="GlobalModel.Store.SP_GetCandidatesForAutoCausation">
+           <ResultMapping>
+             <ComplexTypeMapping TypeName="GlobalModel.SP_GetCandidatesForAutoCausation_Result">
+               <ScalarProperty Name="ServiceOrderDetailId" ColumnName="ServiceOrderDetailId" />
+               <ScalarProperty Name="ServiceOrderId" ColumnName="ServiceOrderId" />
+               <ScalarProperty Name="AdmissionNumber" ColumnName="AdmissionNumber" />
+               <ScalarProperty Name="PatientCode" ColumnName="PatientCode" />
+               <ScalarProperty Name="CupsEntityId" ColumnName="CupsEntityId" />
+               <ScalarProperty Name="CareGroupId" ColumnName="CareGroupId" />
+               <ScalarProperty Name="RateManualId" ColumnName="RateManualId" />
+               <ScalarProperty Name="RateManualType" ColumnName="RateManualType" />
+               <ScalarProperty Name="TotalSalesPrice" ColumnName="TotalSalesPrice" />
+               <ScalarProperty Name="InvoicedQuantity" ColumnName="InvoicedQuantity" />
+               <ScalarProperty Name="IPSServiceId" ColumnName="IPSServiceId" />
+               <ScalarProperty Name="IPSServiceDescription" ColumnName="IPSServiceDescription" />
+               <ScalarProperty Name="PerformsHealthProfessionalCode" ColumnName="PerformsHealthProfessionalCode" />
+               <ScalarProperty Name="ThirdPartyId" ColumnName="ThirdPartyId" />
+               <ScalarProperty Name="ThirdPartyDescription" ColumnName="ThirdPartyDescription" />
+               <ScalarProperty Name="Presentation" ColumnName="Presentation" />
+               <ScalarProperty Name="ServiceDate" ColumnName="ServiceDate" />
+               <ScalarProperty Name="ServiceType" ColumnName="ServiceType" />
+               <ScalarProperty Name="CostCenterId" ColumnName="CostCenterId" />
+               <ScalarProperty Name="PerformsFunctionalUnitId" ColumnName="PerformsFunctionalUnitId" />
+               <ScalarProperty Name="ServiceOrderDetailSurgicalId" ColumnName="ServiceOrderDetailSurgicalId" />
+               <ScalarProperty Name="HealthProfessionalName" ColumnName="HealthProfessionalName" />
+               <ScalarProperty Name="SupplierThirdPartyId" ColumnName="SupplierThirdPartyId" />
+             </ComplexTypeMapping>
+           </ResultMapping>
           </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="SP_AutoliquidationFile" FunctionName="GlobalModel.Store.SP_AutoliquidationFile">
             <ResultMapping>
@@ -157717,6 +158426,7 @@ warning 6035: The relationship 'FK_ProductSusceptibleMixingStation_ATC' has colu
           <EntitySetMapping Name="BillingNoteDetailTax">
             <EntityTypeMapping TypeName="GlobalModel.BillingNoteDetailTax">
               <MappingFragment StoreEntitySet="BillingNoteDetailTax">
+                <ScalarProperty Name="IVAId" ColumnName="IVAId" />
                 <ScalarProperty Name="BaseValue" ColumnName="BaseValue" />
                 <ScalarProperty Name="TaxValue" ColumnName="TaxValue" />
                 <ScalarProperty Name="TaxPercentage" ColumnName="TaxPercentage" />
@@ -158227,6 +158937,7 @@ warning 6035: The relationship 'FK_ProductSusceptibleMixingStation_ATC' has colu
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Code" ColumnName="Code" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="ContractDescriptionId" ColumnName="ContractDescriptionId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -159616,6 +160327,16 @@ warning 6035: The relationship 'FK_ProductSusceptibleMixingStation_ATC' has colu
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+            <FunctionImportMapping FunctionImportName="SP_CalculateDistributionIntermediate" FunctionName="GlobalModel.Store.SP_CalculateDistributionIntermediate">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="GlobalModel.SP_CalculateDistributionIntermediate_Result">
+                <ScalarProperty Name="ProductionCenterId" ColumnName="ProductionCenterId" />
+                <ScalarProperty Name="ProductionCenterCodeName" ColumnName="ProductionCenterCodeName" />
+                <ScalarProperty Name="Percentage" ColumnName="Percentage" />
+                <ScalarProperty Name="Value" ColumnName="Value" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="SP_SaveDistributionSecondary" FunctionName="GlobalModel.Store.SP_SaveDistributionSecondary">
             <ResultMapping>
               <ComplexTypeMapping TypeName="GlobalModel.SP_SaveDistributionSecondary_Result">
@@ -160020,6 +160741,7 @@ warning 6035: The relationship 'FK_ProductSusceptibleMixingStation_ATC' has colu
                 <ScalarProperty Name="WithholdingIVAValue" ColumnName="WithholdingIVAValue" />
                 <ScalarProperty Name="WithholdingICAPercentage" ColumnName="WithholdingICAPercentage" />
                 <ScalarProperty Name="WithholdingICAValue" ColumnName="WithholdingICAValue" />
+                <ScalarProperty Name="TaxClassificationType" ColumnName="TaxClassificationType" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
@@ -160605,6 +161327,8 @@ warning 6035: The relationship 'FK_ProductSusceptibleMixingStation_ATC' has colu
           <EntitySetMapping Name="SettingsContract">
             <EntityTypeMapping TypeName="GlobalModel.SettingsContract">
               <MappingFragment StoreEntitySet="SettingsContract">
+                <ScalarProperty Name="SiifaStartDate" ColumnName="SiifaStartDate" />
+                <ScalarProperty Name="SiifaEnabled" ColumnName="SiifaEnabled" />
                 <ScalarProperty Name="TimeStamp" ColumnName="TimeStamp" />
                 <ScalarProperty Name="ModificationDate" ColumnName="ModificationDate" />
                 <ScalarProperty Name="ModificationUser" ColumnName="ModificationUser" />
@@ -162071,6 +162795,164 @@ warning 6035: The relationship 'FK_ProductSusceptibleMixingStation_ATC' has colu
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_GenerateAdresFurServiciosData" FunctionName="GlobalModel.Store.SP_GenerateAdresFurServiciosData">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="GlobalModel.SP_GenerateAdresFurServiciosData_Result">
+                <ScalarProperty Name="InvoiceId" ColumnName="InvoiceId" />
+                <ScalarProperty Name="NUM_FACTURA" ColumnName="NUM_FACTURA" />
+                <ScalarProperty Name="Tipo_de_servicio" ColumnName="Tipo_de_servicio" />
+                <ScalarProperty Name="Codigo_del_servicio" ColumnName="Codigo_del_servicio" />
+                <ScalarProperty Name="Codigo_general_del_procedimiento_quirurgico" ColumnName="Codigo_general_del_procedimiento_quirurgico" />
+                <ScalarProperty Name="Consecutivo_procedimiento_quirurgico" ColumnName="Consecutivo_procedimiento_quirurgico" />
+                <ScalarProperty Name="Codificacion_CUPS" ColumnName="Codificacion_CUPS" />
+                <ScalarProperty Name="Descripcion_del_servicio_o_elemento_reclamado" ColumnName="Descripcion_del_servicio_o_elemento_reclamado" />
+                <ScalarProperty Name="Cantidad_de_servicios" ColumnName="Cantidad_de_servicios" />
+                <ScalarProperty Name="Valor_unitario_facturado" ColumnName="Valor_unitario_facturado" />
+                <ScalarProperty Name="Valor_unitario_reclamado" ColumnName="Valor_unitario_reclamado" />
+                <ScalarProperty Name="Valor_total_facturado" ColumnName="Valor_total_facturado" />
+                <ScalarProperty Name="Valor_total_reclamado" ColumnName="Valor_total_reclamado" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_GenerateAdresFurData" FunctionName="GlobalModel.Store.SP_GenerateAdresFurData">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="GlobalModel.SP_GenerateAdresFurData_Result">
+                <ScalarProperty Name="InvoiceId" ColumnName="InvoiceId" />
+                 <ScalarProperty Name="NUM_FACTURA" ColumnName="NUM_FACTURA" />
+                 <ScalarProperty Name="Tipo_documento_identidad_victima" ColumnName="Tipo_documento_identidad_victima" />
+                 <ScalarProperty Name="Numero_documento_identidad_victima" ColumnName="Numero_documento_identidad_victima" />
+                 <ScalarProperty Name="Tipo_de_poblacion_especial" ColumnName="Tipo_de_poblacion_especial" />
+                 <ScalarProperty Name="Primer_nombre_victima" ColumnName="Primer_nombre_victima" />
+                 <ScalarProperty Name="Segundo_nombre_victima" ColumnName="Segundo_nombre_victima" />
+                 <ScalarProperty Name="Primer_apellido_victima" ColumnName="Primer_apellido_victima" />
+                 <ScalarProperty Name="Segundo_apellido_victima" ColumnName="Segundo_apellido_victima" />
+                 <ScalarProperty Name="Direccion_residencia_victima" ColumnName="Direccion_residencia_victima" />
+                 <ScalarProperty Name="Codigo_municipio_residencia_victima" ColumnName="Codigo_municipio_residencia_victima" />
+                 <ScalarProperty Name="Telefono_victima" ColumnName="Telefono_victima" />
+                 <ScalarProperty Name="Naturaleza_del_evento" ColumnName="Naturaleza_del_evento" />
+                 <ScalarProperty Name="Descripcion_del_otro_evento" ColumnName="Descripcion_del_otro_evento" />
+                 <ScalarProperty Name="Condicion_victima" ColumnName="Condicion_victima" />
+                 <ScalarProperty Name="Fecha_de_ocurrencia_evento" ColumnName="Fecha_de_ocurrencia_evento" />
+                 <ScalarProperty Name="Zona_de_ocurrencia_evento" ColumnName="Zona_de_ocurrencia_evento" />
+                 <ScalarProperty Name="Codigo_municipio_ocurrencia_evento" ColumnName="Codigo_municipio_ocurrencia_evento" />
+                 <ScalarProperty Name="Direccion_de_ocurrencia_evento" ColumnName="Direccion_de_ocurrencia_evento" />
+                 <ScalarProperty Name="Descripcion_corta_de_lo_ocurrido_en_el_evento" ColumnName="Descripcion_corta_de_lo_ocurrido_en_el_evento" />
+                 <ScalarProperty Name="Estado_de_aseguramiento" ColumnName="Estado_de_aseguramiento" />
+                 <ScalarProperty Name="Placa_vehiculo" ColumnName="Placa_vehiculo" />
+                 <ScalarProperty Name="Tipo_de_Vehiculo" ColumnName="Tipo_de_Vehiculo" />
+                 <ScalarProperty Name="Codigo_de_la_aseguradora" ColumnName="Codigo_de_la_aseguradora" />
+                 <ScalarProperty Name="Numero_de_poliza_SOAT" ColumnName="Numero_de_poliza_SOAT" />
+                 <ScalarProperty Name="Fecha_de_inicio_de_vigencia_de_la_poliza" ColumnName="Fecha_de_inicio_de_vigencia_de_la_poliza" />
+                 <ScalarProperty Name="Fecha_final_de_vigencia_de_la_poliza" ColumnName="Fecha_final_de_vigencia_de_la_poliza" />
+                 <ScalarProperty Name="Numero_de_radicado_SIRAS" ColumnName="Numero_de_radicado_SIRAS" />
+                 <ScalarProperty Name="Cobro_por_agotamiento_tope_Aseguradora" ColumnName="Cobro_por_agotamiento_tope_Aseguradora" />
+                 <ScalarProperty Name="Tipo_de_documento_de_identidad_del_propietario" ColumnName="Tipo_de_documento_de_identidad_del_propietario" />
+                 <ScalarProperty Name="Numero_de_documento_de_identidad_del_propietario" ColumnName="Numero_de_documento_de_identidad_del_propietario" />
+                 <ScalarProperty Name="Primer_nombre_del_propietario_o_razon_social" ColumnName="Primer_nombre_del_propietario_o_razon_social" />
+                 <ScalarProperty Name="Segundo_nombre_del_propietario" ColumnName="Segundo_nombre_del_propietario" />
+                 <ScalarProperty Name="Primer_apellido_del_propietario" ColumnName="Primer_apellido_del_propietario" />
+                 <ScalarProperty Name="Segundo_apellido_del_propietario" ColumnName="Segundo_apellido_del_propietario" />
+                 <ScalarProperty Name="Direccion_de_residencia_del_propietario" ColumnName="Direccion_de_residencia_del_propietario" />
+                 <ScalarProperty Name="Telefono_de_residencia_del_propietario" ColumnName="Telefono_de_residencia_del_propietario" />
+                 <ScalarProperty Name="Codigo_del_municipio_de_residencia_del_propietario" ColumnName="Codigo_del_municipio_de_residencia_del_propietario" />
+                 <ScalarProperty Name="Tipo_de_documento_de_identidad_del_conductor" ColumnName="Tipo_de_documento_de_identidad_del_conductor" />
+                 <ScalarProperty Name="Numero_de_documento_de_identidad_del_conductor" ColumnName="Numero_de_documento_de_identidad_del_conductor" />
+                 <ScalarProperty Name="Primer_nombre_del_conductor" ColumnName="Primer_nombre_del_conductor" />
+                 <ScalarProperty Name="Segundo_nombre_del_conductor" ColumnName="Segundo_nombre_del_conductor" />
+                 <ScalarProperty Name="Primer_apellido_del_conductor" ColumnName="Primer_apellido_del_conductor" />
+                 <ScalarProperty Name="Segundo_apellido_del_conductor" ColumnName="Segundo_apellido_del_conductor" />
+                 <ScalarProperty Name="Codigo_del_municipio_de_residencia_del_conductor" ColumnName="Codigo_del_municipio_de_residencia_del_conductor" />
+                 <ScalarProperty Name="Direccion_de_residencia_del_conductor" ColumnName="Direccion_de_residencia_del_conductor" />
+                 <ScalarProperty Name="Telefono_de_residencia_del_conductor" ColumnName="Telefono_de_residencia_del_conductor" />
+                 <ScalarProperty Name="Uso_material_de_osteosintesis_en_la_atencion" ColumnName="Uso_material_de_osteosintesis_en_la_atencion" />
+                 <ScalarProperty Name="Es_atencion_inicial_paciente_remitido_o_control" ColumnName="Es_atencion_inicial_paciente_remitido_o_control" />
+                 <ScalarProperty Name="Codigo_de_habilitacion_del_prestador_que_remite" ColumnName="Codigo_de_habilitacion_del_prestador_que_remite" />
+                 <ScalarProperty Name="TIPO_de_documento_Profesional_que_recibe" ColumnName="TIPO_de_documento_Profesional_que_recibe" />
+                 <ScalarProperty Name="Numero_de_documento_Profesional_que_recibe" ColumnName="Numero_de_documento_Profesional_que_recibe" />
+                 <ScalarProperty Name="Codigo_de_habilitacion_del_prestador_que_recibe" ColumnName="Codigo_de_habilitacion_del_prestador_que_recibe" />
+                 <ScalarProperty Name="Fecha_de_aceptacion" ColumnName="Fecha_de_aceptacion" />
+                 <ScalarProperty Name="Hora_aceptacion" ColumnName="Hora_aceptacion" />
+                 <ScalarProperty Name="Placa_ambulancia_que_realiza_el_traslado_secundario" ColumnName="Placa_ambulancia_que_realiza_el_traslado_secundario" />
+                 <ScalarProperty Name="Tipo_de_servicio_del_transporte_secundario" ColumnName="Tipo_de_servicio_del_transporte_secundario" />
+                 <ScalarProperty Name="Placa_ambulancia_que_realiza_el_traslado" ColumnName="Placa_ambulancia_que_realiza_el_traslado" />
+                 <ScalarProperty Name="Codigo_de_habilitacion_del_prestador_que_recibe_transporte_primario" ColumnName="Codigo_de_habilitacion_del_prestador_que_recibe_transporte_primario" />
+                 <ScalarProperty Name="Transporte_de_la_victima_desde_el_sitio_del_evento_Direccion" ColumnName="Transporte_de_la_victima_desde_el_sitio_del_evento_Direccion" />
+                 <ScalarProperty Name="Transporte_de_la_victima_hasta_el_fin_del_recorrido_direccion_IPS" ColumnName="Transporte_de_la_victima_hasta_el_fin_del_recorrido_direccion_IPS" />
+                 <ScalarProperty Name="Tipo_de_servicio_del_transporte" ColumnName="Tipo_de_servicio_del_transporte" />
+                </ComplexTypeMapping>
+              </ResultMapping>
+            </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_GenerateAdresFurRgData" FunctionName="GlobalModel.Store.SP_GenerateAdresFurRgData">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="GlobalModel.SP_GenerateAdresFurRgData_Result">
+                <ScalarProperty Name="InvoiceId" ColumnName="InvoiceId" />
+                <ScalarProperty Name="NIT_PRESTADOR" ColumnName="NIT_PRESTADOR" />
+                <ScalarProperty Name="NUM_FACTURA" ColumnName="NUM_FACTURA" />
+                <ScalarProperty Name="Num_factura_anterior" ColumnName="Num_factura_anterior" />
+                <ScalarProperty Name="Numero_radicacion" ColumnName="Numero_radicacion" />
+                <ScalarProperty Name="CreditNote_o_Debit_note" ColumnName="CreditNote_o_Debit_note" />
+                <ScalarProperty Name="Valor_reclamado" ColumnName="Valor_reclamado" />
+                <ScalarProperty Name="Direccion_residencia_victima" ColumnName="Direccion_residencia_victima" />
+                <ScalarProperty Name="Telefono_victima" ColumnName="Telefono_victima" />
+                <ScalarProperty Name="Condicion_victima" ColumnName="Condicion_victima" />
+                <ScalarProperty Name="Fecha_de_ocurrencia_evento" ColumnName="Fecha_de_ocurrencia_evento" />
+                <ScalarProperty Name="Zona_de_ocurrencia_evento" ColumnName="Zona_de_ocurrencia_evento" />
+                <ScalarProperty Name="Codigo_municipio_ocurrencia_evento" ColumnName="Codigo_municipio_ocurrencia_evento" />
+                <ScalarProperty Name="Direccion_de_ocurrencia_evento" ColumnName="Direccion_de_ocurrencia_evento" />
+                <ScalarProperty Name="Descripcion_corta_de_lo_ocurrido_en_el_evento" ColumnName="Descripcion_corta_de_lo_ocurrido_en_el_evento" />
+                <ScalarProperty Name="Estado_de_aseguramiento" ColumnName="Estado_de_aseguramiento" />
+                <ScalarProperty Name="Placa_vehiculo" ColumnName="Placa_vehiculo" />
+                <ScalarProperty Name="Tipo_de_Vehiculo" ColumnName="Tipo_de_Vehiculo" />
+                <ScalarProperty Name="Codigo_de_la_aseguradora" ColumnName="Codigo_de_la_aseguradora" />
+                <ScalarProperty Name="Numero_de_poliza_SOAT" ColumnName="Numero_de_poliza_SOAT" />
+                <ScalarProperty Name="Fecha_de_inicio_de_vigencia_de_la_poliza" ColumnName="Fecha_de_inicio_de_vigencia_de_la_poliza" />
+                <ScalarProperty Name="Fecha_final_de_vigencia_de_la_poliza" ColumnName="Fecha_final_de_vigencia_de_la_poliza" />
+                <ScalarProperty Name="Numero_de_radicado_SIRAS" ColumnName="Numero_de_radicado_SIRAS" />
+                <ScalarProperty Name="Cobro_por_agotamiento_tope_Aseguradora" ColumnName="Cobro_por_agotamiento_tope_Aseguradora" />
+                <ScalarProperty Name="Tipo_de_documento_de_identidad_del_propietario" ColumnName="Tipo_de_documento_de_identidad_del_propietario" />
+                <ScalarProperty Name="Numero_de_documento_de_identidad_del_propietario" ColumnName="Numero_de_documento_de_identidad_del_propietario" />
+                <ScalarProperty Name="Primer_nombre_del_propietario_o_razon_social" ColumnName="Primer_nombre_del_propietario_o_razon_social" />
+                <ScalarProperty Name="Segundo_nombre_del_propietario" ColumnName="Segundo_nombre_del_propietario" />
+                <ScalarProperty Name="Primer_apellido_del_propietario" ColumnName="Primer_apellido_del_propietario" />
+                <ScalarProperty Name="Segundo_apellido_del_propietario" ColumnName="Segundo_apellido_del_propietario" />
+                <ScalarProperty Name="Direccion_de_residencia_del_propietario" ColumnName="Direccion_de_residencia_del_propietario" />
+                <ScalarProperty Name="Telefono_de_residencia_del_propietario" ColumnName="Telefono_de_residencia_del_propietario" />
+                <ScalarProperty Name="Codigo_del_municipio_de_residencia_del_propietario" ColumnName="Codigo_del_municipio_de_residencia_del_propietario" />
+                <ScalarProperty Name="Tipo_de_documento_de_identidad_del_conductor" ColumnName="Tipo_de_documento_de_identidad_del_conductor" />
+                <ScalarProperty Name="Numero_de_documento_de_identidad_del_conductor" ColumnName="Numero_de_documento_de_identidad_del_conductor" />
+                <ScalarProperty Name="Primer_nombre_del_conductor" ColumnName="Primer_nombre_del_conductor" />
+                <ScalarProperty Name="Segundo_nombre_del_conductor" ColumnName="Segundo_nombre_del_conductor" />
+                <ScalarProperty Name="Primer_apellido_del_conductor" ColumnName="Primer_apellido_del_conductor" />
+                <ScalarProperty Name="Segundo_apellido_del_conductor" ColumnName="Segundo_apellido_del_conductor" />
+                <ScalarProperty Name="Codigo_del_municipio_de_residencia_del_conductor" ColumnName="Codigo_del_municipio_de_residencia_del_conductor" />
+                <ScalarProperty Name="Direccion_de_residencia_del_conductor" ColumnName="Direccion_de_residencia_del_conductor" />
+                <ScalarProperty Name="Telefono_de_residencia_del_conductor" ColumnName="Telefono_de_residencia_del_conductor" />
+                <ScalarProperty Name="Uso_material_de_osteosintesis_en_la_atencion" ColumnName="Uso_material_de_osteosintesis_en_la_atencion" />
+                <ScalarProperty Name="Es_atencion_inicial_paciente_remitido_o_control" ColumnName="Es_atencion_inicial_paciente_remitido_o_control" />
+                <ScalarProperty Name="Placa_ambulancia_que_realiza_la_remision" ColumnName="Placa_ambulancia_que_realiza_la_remision" />
+                <ScalarProperty Name="Placa_ambulancia_que_realiza_el_traslado_secundario" ColumnName="Placa_ambulancia_que_realiza_el_traslado_secundario" />
+                <ScalarProperty Name="Codigo_de_habilitacion_del_prestador_que_remite" ColumnName="Codigo_de_habilitacion_del_prestador_que_remite" />
+                <ScalarProperty Name="TIPO_de_documento_Profesional_que_recibe" ColumnName="TIPO_de_documento_Profesional_que_recibe" />
+                <ScalarProperty Name="Numero_de_documento_Profesional_que_recibe" ColumnName="Numero_de_documento_Profesional_que_recibe" />
+                <ScalarProperty Name="Codigo_de_habilitacion_del_prestador_que_recibe" ColumnName="Codigo_de_habilitacion_del_prestador_que_recibe" />
+                <ScalarProperty Name="Fecha_de_aceptacion" ColumnName="Fecha_de_aceptacion" />
+                <ScalarProperty Name="Hora_aceptacion" ColumnName="Hora_aceptacion" />
+                <ScalarProperty Name="Placa_ambulancia_que_realiza_el_traslado" ColumnName="Placa_ambulancia_que_realiza_el_traslado" />
+                <ScalarProperty Name="Transporte_de_la_victima_desde_el_sitio_del_evento_Direccion" ColumnName="Transporte_de_la_victima_desde_el_sitio_del_evento_Direccion" />
+                <ScalarProperty Name="Transporte_de_la_victima_hasta_el_fin_del_recorrido_direccion_IPS" ColumnName="Transporte_de_la_victima_hasta_el_fin_del_recorrido_direccion_IPS" />
+                <ScalarProperty Name="GlosaId" ColumnName="GlosaId" />
+                <ScalarProperty Name="ID_interno_Glosa" ColumnName="ID_interno_Glosa" />
+                <ScalarProperty Name="itemID_servicio_o_tecnologia_objetado" ColumnName="itemID_servicio_o_tecnologia_objetado" />
+                <ScalarProperty Name="Codigo_glosa" ColumnName="Codigo_glosa" />
+                <ScalarProperty Name="Tipo_respuesta_a_glosa" ColumnName="Tipo_respuesta_a_glosa" />
+                <ScalarProperty Name="Respuesta_a_glosa" ColumnName="Respuesta_a_glosa" />
+                <ScalarProperty Name="Cantidad_aceptada" ColumnName="Cantidad_aceptada" />
+                <ScalarProperty Name="Valor_aceptado" ColumnName="Valor_aceptado" />
+                <ScalarProperty Name="Primer_nombre_primer_apellido_auditor" ColumnName="Primer_nombre_primer_apellido_auditor" />
+                <ScalarProperty Name="Perfil_auditor" ColumnName="Perfil_auditor" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
           <EntitySetMapping Name="CauseReprocessingRejection">
             <EntityTypeMapping TypeName="GlobalModel.CauseReprocessingRejection">
               <MappingFragment StoreEntitySet="CauseReprocessingRejection">
@@ -163091,6 +163973,7 @@ warning 6035: The relationship 'FK_ProductSusceptibleMixingStation_ATC' has colu
                 <ScalarProperty Name="MIPRESNumber" ColumnName="MIPRESNumber" />
                 <ScalarProperty Name="MIPRESId" ColumnName="MIPRESId" />
                 <ScalarProperty Name="ContractNumber" ColumnName="ContractNumber" />
+                <ScalarProperty Name="NoContractReason" ColumnName="NoContractReason" />
                 <ScalarProperty Name="PolicyNumber" ColumnName="PolicyNumber" />
                 <ScalarProperty Name="PermanentObservationOfTheInvoice" ColumnName="PermanentObservationOfTheInvoice" />
                 <ScalarProperty Name="BillingInitialDate" ColumnName="BillingInitialDate" />
@@ -163430,6 +164313,7 @@ warning 6035: The relationship 'FK_ProductSusceptibleMixingStation_ATC' has colu
                 <ScalarProperty Name="Concentration" ColumnName="Concentration" />
                 <ScalarProperty Name="Dilution" ColumnName="Dilution" />
                 <ScalarProperty Name="PreparationType" ColumnName="PreparationType" />
+                <ScalarProperty Name="ComplementaryMedicine" ColumnName="ComplementaryMedicine" />
                 <ScalarProperty Name="MainMedicine" ColumnName="MainMedicine" />
                 <ScalarProperty Name="ComponentType" ColumnName="ComponentType" />
                 <ScalarProperty Name="SupplieId" ColumnName="SupplieId" />
@@ -164816,7 +165700,7 @@ warning 6035: The relationship 'FK_ProductSusceptibleMixingStation_ATC' has colu
           <EntitySetMapping Name="RequestPackageDetailStatus">
             <EntityTypeMapping TypeName="GlobalModel.RequestPackageDetailStatus">
               <MappingFragment StoreEntitySet="RequestPackageDetailStatus">
-			  <ScalarProperty Name="BatchExpirationDate" ColumnName="BatchExpirationDate" />
+				<ScalarProperty Name="BatchExpirationDate" ColumnName="BatchExpirationDate" />
 				<ScalarProperty Name="PreparationTime" ColumnName="PreparationTime" />
                 <ScalarProperty Name="ProductCost" ColumnName="ProductCost" />
                 <ScalarProperty Name="ProductId" ColumnName="ProductId" />
@@ -165898,6 +166782,7 @@ warning 6035: The relationship 'FK_ProductSusceptibleMixingStation_ATC' has colu
           <EntitySetMapping Name="SettingsBilling">
             <EntityTypeMapping TypeName="GlobalModel.SettingsBilling">
               <MappingFragment StoreEntitySet="SettingsBilling">
+              	<ScalarProperty Name="TaxInformation" ColumnName="TaxInformation" />
 			    <ScalarProperty Name="BillingAuthorizationId" ColumnName="BillingAuthorizationId" />
 				<ScalarProperty Name="AccountingVoucherGenerationId" ColumnName="AccountingVoucherGenerationId" />
 				<ScalarProperty Name="AccountingVoucherReversalId" ColumnName="AccountingVoucherReversalId" />
@@ -166793,7 +167678,7 @@ warning 6035: The relationship 'FK_ProductSusceptibleMixingStation_ATC' has colu
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="CareCenterCode" ColumnName="CareCenterCode" />
                 <ScalarProperty Name="CareCenterName" ColumnName="CareCenterName" />
-				<ScalarProperty Name="InvoiceCategories" ColumnName="InvoiceCategories" />
+                <ScalarProperty Name="InvoiceCategories" ColumnName="InvoiceCategories" />
                 <ScalarProperty Name="CareCenterDescription" ColumnName="CareCenterDescription" />
                 <ScalarProperty Name="ThirdPartyNit" ColumnName="ThirdPartyNit" />
                 <ScalarProperty Name="ThirdPartyName" ColumnName="ThirdPartyName" />
@@ -168583,6 +169468,7 @@ warning 6035: The relationship 'FK_ProductSusceptibleMixingStation_ATC' has colu
                 <ScalarProperty Name="Child" ColumnName="Child" />
                 <ScalarProperty Name="AdmissionNumber" ColumnName="AdmissionNumber" />
                 <ScalarProperty Name="BatchCode" ColumnName="BatchCode" />
+                <ScalarProperty Name="DispensingDate" ColumnName="DispensingDate" />
                 <ScalarProperty Name="Selected" ColumnName="Selected" />
                 <ScalarProperty Name="PackageId" ColumnName="PackageId" />
                 <ScalarProperty Name="FunctionalUnitId" ColumnName="FunctionalUnitId" />
@@ -168595,6 +169481,8 @@ warning 6035: The relationship 'FK_ProductSusceptibleMixingStation_ATC' has colu
                 <ScalarProperty Name="AppliedDateDose" ColumnName="AppliedDateDose" />
                 <ScalarProperty Name="Father" ColumnName="Father" />
                 <ScalarProperty Name="PaidToEndCampaign" ColumnName="PaidToEndCampaign" />
+                <ScalarProperty Name="PackagePersonalizedId" ColumnName="PackagePersonalizedId" />
+                <ScalarProperty Name="Source" ColumnName="Source" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
@@ -168835,43 +169723,30 @@ warning 6035: The relationship 'FK_ProductSusceptibleMixingStation_ATC' has colu
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <EntitySetMapping Name="ADACOMPAN">
-            <EntityTypeMapping TypeName="GlobalModel.ADACOMPAN">
-              <MappingFragment StoreEntitySet="ADACOMPAN">
-                <ScalarProperty Name="RESPONSAB" ColumnName="RESPONSAB" />
-                <ScalarProperty Name="NUMINGRES" ColumnName="NUMINGRES" />
-                <ScalarProperty Name="CODUSUREG" ColumnName="CODUSUREG" />
-                <ScalarProperty Name="FECHAREGI" ColumnName="FECHAREGI" />
-                <ScalarProperty Name="PARACOMPA" ColumnName="PARACOMPA" />
-                <ScalarProperty Name="TELACOMPA" ColumnName="TELACOMPA" />
-                <ScalarProperty Name="DIRACOMPA" ColumnName="DIRACOMPA" />
-                <ScalarProperty Name="SEGAPELLI" ColumnName="SEGAPELLI" />
-                <ScalarProperty Name="PRIAPELLI" ColumnName="PRIAPELLI" />
-                <ScalarProperty Name="SEGNOMBRE" ColumnName="SEGNOMBRE" />
-                <ScalarProperty Name="PRINOMBRE" ColumnName="PRINOMBRE" />
-                <ScalarProperty Name="TIPIDACOM" ColumnName="TIPIDACOM" />
-                <ScalarProperty Name="IDACOMPAN" ColumnName="IDACOMPAN" />
-                <ScalarProperty Name="IPCODPACI" ColumnName="IPCODPACI" />
-                <ScalarProperty Name="CONSEACOM" ColumnName="CONSEACOM" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <FunctionImportMapping FunctionImportName="SP_SetConsignmentTransferDetailFromFile" FunctionName="GlobalModel.Store.SP_SetConsignmentTransferDetailFromFile">
+          <FunctionImportMapping FunctionImportName="SP_ReportHumanTalent" FunctionName="GlobalModel.Store.SP_ReportHumanTalent">
             <ResultMapping>
-              <ComplexTypeMapping TypeName="GlobalModel.SP_SetConsignmentTransferDetailFromFile_Result">
-                <ScalarProperty Name="TargetWarehouseId" ColumnName="TargetWarehouseId" />
-                <ScalarProperty Name="ProductId" ColumnName="ProductId" />
-                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
-                <ScalarProperty Name="ProductCodeName" ColumnName="ProductCodeName" />
-                <ScalarProperty Name="WarehouseCodeName" ColumnName="WarehouseCodeName" />
-                <ScalarProperty Name="ProductCost" ColumnName="ProductCost" />
-                <ScalarProperty Name="BatchSerialId" ColumnName="BatchSerialId" />
-                <ScalarProperty Name="BatchSerialCode" ColumnName="BatchSerialCode" />
-				<ScalarProperty Name="PhysicalInventoryId" ColumnName="PhysicalInventoryId" />
-				<ScalarProperty Name="PhysicalQuantity" ColumnName="PhysicalQuantity" />
-                <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="StatusField" ColumnName="StatusField" />
-                <ScalarProperty Name="MessageField" ColumnName="MessageField" />
+              <ComplexTypeMapping TypeName="GlobalModel.SP_ReportHumanTalent_Result">
+                <ScalarProperty Name="DocumentType" ColumnName="DocumentType" />
+                <ScalarProperty Name="Nit" ColumnName="Nit" />
+                <ScalarProperty Name="EmployeeName" ColumnName="EmployeeName" />
+                <ScalarProperty Name="ContractStatus" ColumnName="ContractStatus" />
+                <ScalarProperty Name="FunctionalUnitCode" ColumnName="FunctionalUnitCode" />
+                <ScalarProperty Name="FunctionalUnitName" ColumnName="FunctionalUnitName" />
+                <ScalarProperty Name="PositionCode" ColumnName="PositionCode" />
+                <ScalarProperty Name="PositionName" ColumnName="PositionName" />
+                <ScalarProperty Name="BasicSalary" ColumnName="BasicSalary" />
+                <ScalarProperty Name="ContractStartDate" ColumnName="ContractStartDate" />
+                <ScalarProperty Name="ContractEndDate" ColumnName="ContractEndDate" />
+                <ScalarProperty Name="BirthDate" ColumnName="BirthDate" />
+                <ScalarProperty Name="Age" ColumnName="Age" />
+                <ScalarProperty Name="Gender" ColumnName="Gender" />
+                <ScalarProperty Name="NationalityName" ColumnName="NationalityName" />
+                <ScalarProperty Name="MaritalStatus" ColumnName="MaritalStatus" />
+                <ScalarProperty Name="PaymentMethod" ColumnName="PaymentMethod" />
+                <ScalarProperty Name="BankName" ColumnName="BankName" />
+                <ScalarProperty Name="BankAccountNumber" ColumnName="BankAccountNumber" />
+                <ScalarProperty Name="EmailAddress" ColumnName="EmailAddress" />
+                <ScalarProperty Name="TotalPendingVacationDays" ColumnName="TotalPendingVacationDays" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

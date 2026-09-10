@@ -110,6 +110,16 @@ Public Class SettingAccountRepository
                 Where e.HandlesElectronicPayroll = True
                 Select e).FirstOrDefault
     End Function
+
+    ''' <summary>
+    ''' función para saber si el empleador maneja nómina electrónica en alguna unidad operativa
+    ''' </summary>
+    ''' <returns></returns>
+    Public Function EmployerHandlesElectronicPayroll(ByVal idDian As Integer) As Boolean Implements ISettingsAccountRepository.EmployerHandlesElectronicPayroll
+        Return (From e In _context.GeneralLedgerSettings.AsNoTracking()
+                Where e.IdDian = idDian AndAlso e.HandlesElectronicPayroll = True
+                Select e).Any()
+    End Function
 #End Region
 
 End Class

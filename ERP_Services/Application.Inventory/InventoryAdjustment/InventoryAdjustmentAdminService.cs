@@ -609,6 +609,11 @@ namespace Application.Inventory.InventoryAdjustment
                             return ActionError("Tipo de ajuste de inventario no reconocido");
                     }
 
+                    if (!journalVouchers.JournalVoucherDetails.Any())
+                    {
+                        generateJournal = false;
+                    }
+
                     Domain.Base.Entities.ActionMessageResult<Domain.Entities.JournalVouchers> resultVoucher = new ActionMessageResult<JournalVouchers>();
                     if (generateJournal)
                     {
@@ -857,6 +862,9 @@ namespace Application.Inventory.InventoryAdjustment
                         return ActionError($"El producto {product.Code} - {product.Name} tiene costo promedio en 0");
 
                     detail.UnitValue = detailConcept.AffectsAverageCost ? detail.UnitValue : product.ProductCost;
+
+                    if (detail.UnitValue == 0)
+                        return ActionError($"El producto {product.Code} - {product.Name} no tiene valor unitario registrado en el detalle del ajuste");
                 }
 
                 foreach (var batch in detail.InventoryAdjustmentDetailBatchSerial)
@@ -927,6 +935,7 @@ namespace Application.Inventory.InventoryAdjustment
             {
                 return ActionError("El almacén no puede ser virtual, consignación, custodia, tránsito ni control");
             }
+            var affectsAccounting = warehouse.WareHouseType == 0;
 
             var headerConcept = adjustment.AdjustmentConceptId != null
                 ? LoadConcept(adjustment.AdjustmentConceptId, conceptDict)
@@ -943,6 +952,9 @@ namespace Application.Inventory.InventoryAdjustment
 
                 detail.UnitValue = product.ProductCost;
 
+                if (detail.UnitValue == 0)
+                    return ActionError($"El producto {product.Code} - {product.Name} tiene costo promedio en 0");
+
                 var detailConcept = detail.AdjustmentConceptId != null
                     ? LoadConcept(detail.AdjustmentConceptId, conceptDict)
                     : headerConcept;
@@ -953,21 +965,27 @@ namespace Application.Inventory.InventoryAdjustment
                     int? batchId = batch.BatchSerialId ;
 
                     kardexList.Add(CreateKardex(detail.ProductId, warehouse.Id, batchId, 2, quantity, detail.UnitValue));
-                    journal.JournalVoucherDetails.Add(CreateJournalDetail(product, warehouse, quantity, detail.UnitValue,
+
+                    if (affectsAccounting) { 
+                        journal.JournalVoucherDetails.Add(CreateJournalDetail(product, warehouse, quantity, detail.UnitValue,
                         adjustment.ThirdPartyId ?? 0, isDebit: false));
+                    }
                 }
+                
+                if (affectsAccounting) 
+                { 
+                    if (detailConcept == null)
+                        return ActionError($"No se encontró el concepto contable para el detalle del producto {detail.ProductId}");
 
-                if (detailConcept == null)
-                    return ActionError($"No se encontró el concepto contable para el detalle del producto {detail.ProductId}");
-
-                journal.JournalVoucherDetails.Add(CreateContraEntry(
-                    detailConcept.AdjustmentAccountId,
-                    detailConcept.MainAccounts?.HandlesThirdParty ?? false,
-                    detailConcept.CostCenterId,
-                    detailConcept.MainAccounts?.HandlesCostCenter ?? false,
-                    adjustment.ThirdPartyId ?? 0,
-                    detail.UnitValue * (detail.InventoryAdjustmentDetailBatchSerial?.Sum(b => b.Quantity) ?? 0),
-                    isDebit: true));
+                    journal.JournalVoucherDetails.Add(CreateContraEntry(
+                        detailConcept.AdjustmentAccountId,
+                        detailConcept.MainAccounts?.HandlesThirdParty ?? false,
+                        detailConcept.CostCenterId,
+                        detailConcept.MainAccounts?.HandlesCostCenter ?? false,
+                        adjustment.ThirdPartyId ?? 0,
+                        detail.UnitValue * (detail.InventoryAdjustmentDetailBatchSerial?.Sum(b => b.Quantity) ?? 0),
+                        isDebit: true));
+                }
             }
 
             var inventoryResult = _physicalInventoryAdminService.SavePhysicalInventory(

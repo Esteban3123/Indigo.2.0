@@ -14,6 +14,8 @@ Partial Public Class ProductRateDetailPackage
     <DataMember()>
     Public Property TotalValue As Decimal
     <DataMember()>
+    Public Property DispensingDate As Date?
+    <DataMember()>
     Public Property FunctionalUnitId As Integer
     <DataMember()>
     Public Property SurchargeApply As Boolean

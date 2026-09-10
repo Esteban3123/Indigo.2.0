@@ -50,5 +50,8 @@ namespace Domain.Portfolio.Model
         // Clasificación de cartera
         public int? PortfolioClassificationId { get; set; } // null en error
         public string PortfolioClassification { get; set; }
+
+        // Paginación - Total de registros en el resultado completo
+        public int TotalRecords { get; set; }              // Total de registros (viene del SP)
     }
 }

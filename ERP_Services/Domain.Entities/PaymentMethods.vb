@@ -184,8 +184,8 @@ Partial Public Class PaymentMethods
     End Property
 
 	Private _depositType As Nullable(Of Byte)
-	<DataMember()>
-	Public Property DepositType() As Nullable(Of Byte)
+    <DataMember()>
+    Public Property DepositType() As Nullable(Of Byte)
         Get
             Return _depositType
         End Get
@@ -197,7 +197,21 @@ Partial Public Class PaymentMethods
         End Set
     End Property
 
-	Private _idCard As Nullable(Of Integer)
+    Private _cardType As Nullable(Of Byte)
+    <DataMember()>
+    Public Property CardType() As Nullable(Of Byte)
+        Get
+            Return _cardType
+        End Get
+        Set(ByVal value As Nullable(Of Byte))
+            If Not Equals(_cardType, value) Then
+                _cardType = value
+                OnPropertyChanged("CardType")
+            End If
+        End Set
+    End Property
+
+    Private _idCard As Nullable(Of Integer)
 	<DataMember()>
 	Public Property IdCard() As Nullable(Of Integer)
         Get

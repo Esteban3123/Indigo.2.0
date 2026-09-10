@@ -55,6 +55,14 @@ Public Interface IDashboardPharmacyDetailAdminService
     Function RouteToPharmacy(ListHCFARMEPD As List(Of ViewDashboardPharmacyDetail), GeneralRoutingLog As RoutingLog, Audit As AuditMessage) As ActionResult
 
     ''' <summary>
+    ''' Envía el medicamento a atención farmacéutica para enrutamiento (SENDTO = 0)
+    ''' </summary>
+    ''' <param name="ListHCFARMEPD"></param>
+    ''' <param name="Audit"></param>
+    ''' <returns></returns>
+    Function PharmaceuticalCareRouting(ListHCFARMEPD As List(Of ViewDashboardPharmacyDetail), Audit As AuditMessage) As ActionResult
+
+    ''' <summary>
     ''' Lista un detalle de farmacia
     ''' </summary>
     ''' <param name="entityId"></param>

@@ -55,7 +55,7 @@ namespace DistributedServices.Inventory
         }
 
         /// <summary>
-        /// Funcion para retornar dirrectamente el valor del producto independientemente si espor tarifa fija o por porcentaje 
+        /// Funcion para retornar dirrectamente el valor del producto independientemente si espor tarifa fija o por porcentaje
         /// </summary>
         /// <param name="CareGroupId"></param>
         /// <param name="ProductId"></param>
@@ -66,6 +66,30 @@ namespace DistributedServices.Inventory
             using (var service = Container.Current.Resolve<IProductRateDetailAdminService>())
             {
                 return service.GetProductRateDetailWithValue(CareGroupId, ProductId, ServiceDate);
+            }
+        }
+
+        /// <summary>
+        /// Calcula el precio de venta de un ítem de producción sumando las tarifas de los componentes reales usados como materia prima
+        /// </summary>
+        public ActionResult<decimal> GetPackageSalePriceByProductId(int CareGroupId, int ProductId, DateTime ServiceDate, string BatchCode)
+        {
+            using (var service = Container.Current.Resolve<IProductRateDetailAdminService>())
+            {
+                return service.GetPackageSalePriceByProductId(CareGroupId, ProductId, ServiceDate, BatchCode);
+            }
+        }
+
+        /// <summary>
+        /// Retorna los componentes tarifados del paquete estandar asociado a un producto terminado de dosis estandar.
+        /// Uso exclusivo del flujo de dispensacion farmaceutica para generar orden de servicio con DatasourceType = 11.
+        /// No debe usarse para paquetes personalizados ni para el flujo de control de cuentas hospitalario.
+        /// </summary>
+        public ActionResult<List<Domain.Entities.ProductRateDetailPackage>> GetPackageRateDetailListByProductId(int CareGroupId, int ProductId, int DispensedQuantity, DateTime ServiceDate, string BatchCode)
+        {
+            using (var service = Container.Current.Resolve<IProductRateDetailAdminService>())
+            {
+                return service.GetPackageRateDetailListByProductId(CareGroupId, ProductId, DispensedQuantity, ServiceDate, BatchCode);
             }
         }
     }

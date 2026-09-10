@@ -324,5 +324,11 @@ Partial Class PayrollService
         End Using
     End Function
 
+    Public Function GetReportPersonnelActions(initialDate As Date, endDate As Date, Optional initialCodeGroup As String = Nothing, Optional endCodeGroup As String = Nothing, Optional branchOfficeInitial As Integer? = Nothing, Optional branchOfficeFinal As Integer? = Nothing, Optional personnelActionTypes As String = Nothing, Optional pSession As SessionValues = Nothing) As DataTable Implements IPayrollLiquidation.GetReportPersonnelActions
+        Using liquidationPayroll As IPayrollLiquidationAdminService = IocFactory.Instance(pSession.TransactionalContainer).CurrentContainer.Resolve(Of IPayrollLiquidationAdminService)()
+            Return liquidationPayroll.GetReportPersonnelActions(initialDate, endDate, initialCodeGroup, endCodeGroup, branchOfficeInitial, branchOfficeFinal, personnelActionTypes, pSession)
+        End Using
+    End Function
+
 
 End Class

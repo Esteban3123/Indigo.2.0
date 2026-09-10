@@ -7,6 +7,7 @@
 '***********************************************************************
 #Region "Imports"
 
+Imports System.Collections.Generic
 Imports System.Text
 Imports System.Transactions
 Imports Application.Base
@@ -102,7 +103,15 @@ Public Class ConfirmationUnitDoseAdminService
             )
 
                 For Each item In confirmationUnitDoses
-                    Dim res = SaveConfirmationUnitDoseAndPackage(item, package.Clone(), audit)
+                    Dim routingCheck = ValidateHospitalRowStillRoutedToMixingStation(item)
+                    If Not routingCheck.StateResult Then
+                        scope.Dispose()
+                        Return New ActionResult(Of ConfirmationUnitDose) With {.StateResult = False, .Message = routingCheck.Message}
+                    End If
+
+                    Dim res = If(package Is Nothing,
+                                 SaveConfirmationUnitDose(item, audit),
+                                 SaveConfirmationUnitDoseAndPackage(item, package.Clone(), audit))
 
                     If Not res.StateResult Then
                         scope.Dispose()
@@ -123,6 +132,15 @@ Public Class ConfirmationUnitDoseAdminService
 
     Public Function SaveConfirmationUnitDoseAndPackage(confirmationUnitDose As ConfirmationUnitDose, package As Package, audit As AuditMessage) As ActionResult(Of ConfirmationUnitDose) Implements IConfirmationUnitDoseAdminService.SaveConfirmationUnitDoseAndPackage
         Try
+            Dim routingCheck = ValidateHospitalRowStillRoutedToMixingStation(confirmationUnitDose)
+            If Not routingCheck.StateResult Then
+                Return New ActionResult(Of ConfirmationUnitDose) With {.StateResult = False, .Message = routingCheck.Message}
+            End If
+
+            If package Is Nothing Then
+                Return SaveConfirmationUnitDose(confirmationUnitDose, audit)
+            End If
+
             Using scope As New TransactionScope(TransactionScopeOption.Required, New TransactionOptions() With {.Timeout = TransactionManager.MaximumTimeout, .IsolationLevel = IsolationLevel.ReadCommitted})
                 Dim resPackage = _packageAdminService.SavePackage(package, audit, 0)
 
@@ -150,6 +168,10 @@ Public Class ConfirmationUnitDoseAdminService
     Public Function SaveConfirmationUnitDose(ConfirmationUnitDose As ConfirmationUnitDose, audit As AuditMessage) As ActionResult(Of ConfirmationUnitDose) Implements IConfirmationUnitDoseAdminService.SaveConfirmationUnitDose
         If ConfirmationUnitDose Is Nothing Then
             Throw New ArgumentNullException("ConfirmationUnitDose")
+        End If
+        Dim routingCheck = ValidateHospitalRowStillRoutedToMixingStation(ConfirmationUnitDose)
+        If Not routingCheck.StateResult Then
+            Return New ActionResult(Of ConfirmationUnitDose) With {.StateResult = False, .Message = routingCheck.Message}
         End If
         Dim unitOfWork As IUnitWork = Me._confirmationUnitDoseRepository.UnitWork
         Try
@@ -405,6 +427,56 @@ Public Class ConfirmationUnitDoseAdminService
             IndigoManagementExceptions.HandleException(ex, "ApplicationPolicy")
             Return New ActionResult With {.StateResult = False, .Message = Utils.GetInnerExceptionMessageToString(ex)}
         End Try
+    End Function
+
+    ''' <summary>
+    ''' Origen hospitalario (Source = 1): exige que HCFARMEPD siga en SENDTO = 2 para el vínculo PharmaDose / producto (evita carrera con enrutamiento a farmacia).
+    ''' </summary>
+    Private Function ValidateHospitalRowStillRoutedToMixingStation(cud As ConfirmationUnitDose) As ActionResult
+        Const msg As String = "El enrutamiento cambió o la solicitud ya no está en central de mezclas. Actualice el listado e intente de nuevo."
+        If cud.Source <> 1 Then
+            Return New ActionResult With {.StateResult = True}
+        End If
+
+        If cud.GroupingCodeDose = Guid.Empty Then
+            Return New ActionResult With {.StateResult = True}
+        End If
+
+        If _confirmationUnitDoseRepository.Query(Function(c) c.GroupingCodeDose = cud.GroupingCodeDose AndAlso c.Id <> cud.Id).Any() Then
+            Return New ActionResult With {.StateResult = False, .Message = "Esta dosis ya fue procesada. Actualice el listado e intente de nuevo."}
+        End If
+
+        Dim doses = _pharmaDoseRepository.Query(Function(p) p.GroupingCodeDose = cud.GroupingCodeDose).ToList()
+        If Not doses.Any Then
+            Return New ActionResult With {.StateResult = False, .Message = msg}
+        End If
+
+        Dim productTrim = If(cud.ServiceCode, String.Empty).Trim()
+        If Not String.IsNullOrEmpty(productTrim) Then
+            Dim matchByProduct = doses.Where(Function(p) String.Equals(p.ProductCode.Trim(), productTrim, StringComparison.OrdinalIgnoreCase)).ToList()
+            If matchByProduct.Any Then
+                doses = matchByProduct
+            End If
+        End If
+
+        Dim processedKeys As New HashSet(Of String)(StringComparer.OrdinalIgnoreCase)
+        For Each pd In doses
+            Dim key = pd.CodeSusceptibleMixingStation.ToString() & "|" & pd.ProductCode.Trim()
+            If processedKeys.Contains(key) Then Continue For
+            processedKeys.Add(key)
+
+            Dim pdProductUpper = pd.ProductCode.Trim().ToUpper()
+            Dim rows = _hCFARMEPDRepository.Query(
+                Function(h) h.CodeSusceptibleMixingStation.HasValue AndAlso
+                    h.CodeSusceptibleMixingStation.Value = pd.CodeSusceptibleMixingStation AndAlso
+                    h.CODPRODUC.Trim().ToUpper() = pdProductUpper, tracking:=False).ToList()
+
+            If Not rows.Any OrElse rows.Any(Function(h) Not h.SENDTO.HasValue OrElse h.SENDTO.Value <> 2) Then
+                Return New ActionResult With {.StateResult = False, .Message = msg}
+            End If
+        Next
+
+        Return New ActionResult With {.StateResult = True}
     End Function
 
     Private Function ConvertEntityToXml(args As Object) As Object

@@ -302,27 +302,20 @@ Public Class IncentivePaymentAdminService
                         EndDate = PayrollSettings.EndDateChristmasIncentivePayment
                     End If
                 End If
-
-
                 Dim ArrayGroups() As String = Split(strGroupId, ",")
 
                 For G As Integer = 0 To (ArrayGroups.Count() - 1)
-
                     groupId = ArrayGroups.GetValue(G)
-
                     Dim group = _groupRepository.GetGroupById(groupId)
                     Dim PayrollNextDate = group.NextDateLiquidation
-
                     Dim ListIncentivePayment = _IncentivePaymentRepository.GetIncentivePaymentByPayrollDateGroupId(groupId, StarDate, EndDate, 2)
 
                     If ListIncentivePayment IsNot Nothing AndAlso ListIncentivePayment.Count > 0 Then
-
                         VarListMessageResult.Add(New MessageResult("-001"))
                         actionResult.MessageResult = VarListMessageResult
                         actionResult.StateResult = False
                         Return actionResult
                     Else
-
                         'Verificacion registros previos
                         Dim previousCount = _IncentivePaymentRepository.GetIncentivePaymentCountByDateGroup(
                             groupId,
@@ -331,6 +324,7 @@ Public Class IncentivePaymentAdminService
                             1,      ' Status = 1 (En liquidación - sin confirmar)
                             period
                         )
+                        ' Solo borrar si:
                         ' - Hay registros previos (previousCount > 0)
                         ' - offset = -1 (modo legacy) O offset = 0 (primer lote)
                         If previousCount > 0 AndAlso (offset = -1 OrElse offset = 0) Then
@@ -368,9 +362,8 @@ Public Class IncentivePaymentAdminService
                             Catch ex As Exception
                                 Throw
                             End Try
+
                         End If
-
-
                         ' Si viene employeeList desde Presentation, úsala (patrón nómina con lotes)
                         ' Si no, procesa todo el grupo (modo legacy)
                         actionResult = _incentivePaymentDomain.IncentivePaymentCalculate(group, PaymentType, period, StarDate, EndDate, SessionValues, Nothing, Nothing, False, "", "", 0, employeeList)
@@ -390,16 +383,10 @@ Public Class IncentivePaymentAdminService
                             ListConsultIncentivePayment.Item(i).ChangeTracker.State = ObjectState.Added
                             _IncentivePaymentRepository.SaveEntity(ListConsultIncentivePayment.Item(i))
                         Next
-
                         ' Commit único al final de este lote
                         unitWorkSave.Commit()
-
-
                         actionResult.ObjectEmbbeded = ArrListIncentivePayment
-
-
                     End If
-
                 Next
                 scope.Complete()
                 If actionResult.ObjectEmbbeded.Count() > 0 Then

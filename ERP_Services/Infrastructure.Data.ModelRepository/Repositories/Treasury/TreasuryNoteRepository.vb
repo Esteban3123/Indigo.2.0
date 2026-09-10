@@ -58,8 +58,8 @@ Public Class TreasuryNoteRepository
                 tnd.FullNameNature = If(tnd.Nature = 1, ResourceManager.GetString("AccountNatureDebit"), ResourceManager.GetString("AccountNatureCredit"))
                 tnd.FullNameThird = If(tnd.ThirdPartyId IsNot Nothing, (From cc In _context.ThirdParty Where cc.Id = tnd.ThirdPartyId Select String.Concat(cc.Nit, " - ", cc.Name)).FirstOrDefault(), String.Empty)
                 Dim concept As NoteConcepts = (From nc In _context.NoteConcepts Where nc.Id = tnd.NoteConceptId Select nc).FirstOrDefault()
-                tnd.NoteConceptCode = If(concept IsNot Nothing, concept.Code, String.Empty)
-                tnd.NoteConceptName = If(concept IsNot Nothing, concept.Description, String.Empty)
+                tnd.NoteConceptCode = concept.Code
+                tnd.NoteConceptName = concept.Description
                 _cashFlowConcept = (From cfc In _context.CashFlowConcept.AsNoTracking Where cfc.Id = tnd.IdCashFlowConcept).FirstOrDefault
                 If _cashFlowConcept IsNot Nothing Then
                     tnd.CodeNameCashFlowConcept = String.Format("{0} - {1}", _cashFlowConcept.Code, _cashFlowConcept.NameConcept)

@@ -199,8 +199,6 @@ Public NotInheritable Class Container
         newContainer.RegisterType(Of IBillingServices, BillingServices)()
         'terceros
         newContainer.RegisterType(Of IThirdPartyRepository, ThirdPartyRepository)()
-        'Acompañantes/Responsables de ingreso
-        newContainer.RegisterType(Of IAdacompanRepository, AdacompanRepository)()
         'IHCORDLABORepository
         newContainer.RegisterType(Of IHCORDLABORepository, HCORDLABORepository)()
         newContainer.RegisterType(Of IControlOutPatientServicesAdminService, ControlOutPatientServicesAdminService)()
@@ -437,6 +435,8 @@ Public NotInheritable Class Container
         newContainer.RegisterType(Of IElectronicDocumentNotificationRepository, ElectronicDocumentNotificationRepository)
         newContainer.RegisterType(Of IBillingNoteRepository, BillingNoteRepository)()
         newContainer.RegisterType(Of IBillingReversalReasonRepository, BillingReversalReasonRepository)()
+        ' Discriminador saldo inicial en GetHealthSegmentFromInvoiceXml (notas tipo 6).
+        newContainer.RegisterType(Of IInitialBalanceInvoiceRepository, InitialBalanceInvoiceRepository)()
 
         'Facturación Básica
         newContainer.RegisterType(Of IBasicBillingAdminService, BasicBillingAdminService)()
@@ -654,7 +654,6 @@ Public NotInheritable Class Container
         newContainer.RegisterType(Of IOutBoxRepository, OutBoxRepository)
         newContainer.RegisterType(Of IFactoryQueue, FactoryQueue)
         newContainer.RegisterType(Of IContainersRepository, ContainersRepository)(New TransientLifetimeManager)
-        newContainer.RegisterType(Of ILiquidationAgeValidationAdminService, LiquidationAgeValidationAdminService)(New TransientLifetimeManager)
 
         _currentContainer = newContainer
     End Sub

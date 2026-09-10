@@ -28,7 +28,7 @@ namespace DistributedServices.Inventory.Contracts
         /// <param name="inventoryRequest"></param>
         /// <returns></returns>
         [OperationContract]
-        ActionResult<Domain.Entities.InventoryRequest> SaveInventoryRequest(Domain.Entities.InventoryRequest inventoryRequest, long idSequense, AuditMessage audit, Domain.Entities.InventorySequence sequenceC);
+        Task<ActionResult<Domain.Entities.InventoryRequest>> SaveInventoryRequest(Domain.Entities.InventoryRequest inventoryRequest, long idSequense, AuditMessage audit, Domain.Entities.InventorySequence sequenceC);
 
         /// <summary>
         /// Elimina una solicitud de inventario
@@ -47,7 +47,7 @@ namespace DistributedServices.Inventory.Contracts
         /// <param name="audit"></param>
         /// <returns></returns>
         [OperationContract]
-        ActionResult<Domain.Entities.InventoryRequest> ChangeStateInventoryRequest(string code, byte state, AuditMessage audit);
+        Task<ActionResult<Domain.Entities.InventoryRequest>> ChangeStateInventoryRequest(string code, byte state, AuditMessage audit);
 
         /// <summary>
         /// Consulta una solicitud de inventario por codigo

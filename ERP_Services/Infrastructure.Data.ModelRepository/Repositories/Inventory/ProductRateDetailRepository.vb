@@ -66,8 +66,17 @@ Public Class ProductRateDetailRepository
                      Join d As ProductRateDetail In _context.ProductRateDetail On d.ProductRateId Equals p.Id
                      Where c.Id = CareGroupId AndAlso PackageIds.Contains(d.PackageId) AndAlso (d.InitialDate <= ServiceDate AndAlso d.EndDate >= ServiceDate)
                      Select d)
-        Return query.Include("ProductRateDetailPackage.PackageDetail").Include("ProductRateDetailPackage.InventoryProduct").ToList()
+        Return query.Include("ProductRateDetailPackage.PackageDetail.ATC").Include("ProductRateDetailPackage.InventoryProduct").ToList()
 
+    End Function
+
+    ''' <summary>
+    ''' Obtiene el PackageId asociado a un producto terminado consultando RequestPackageDetailStatus
+    ''' </summary>
+    Public Function GetPackageIdByProductId(productId As Integer) As Integer? Implements IProductRateDetailRepository.GetPackageIdByProductId
+        Return (From r In _context.RequestPackageDetailStatus.AsNoTracking()
+                Where r.ProductId = productId AndAlso r.PackageId IsNot Nothing
+                Select r.PackageId).FirstOrDefault()
     End Function
 
     ''' <summary>

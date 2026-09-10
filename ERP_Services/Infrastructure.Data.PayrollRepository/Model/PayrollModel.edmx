@@ -741,7 +741,7 @@
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="BankFileId" Type="int" Nullable="false" />
-          <Property Name="LiquidationId" Type="int" Nullable="false" />
+          <Property Name="LiquidationId" Type="int" Nullable="true" />
           <Property Name="GroupId" Type="int" Nullable="false" />
           <Property Name="PositionId" Type="int" Nullable="false" />
           <Property Name="FunctionalUnitId" Type="int" Nullable="false" />
@@ -1084,6 +1084,20 @@
           <Property Name="ModificationDate" Type="datetime" />
           <Property Name="TimeStamp" Type="timestamp" StoreGeneratedPattern="Computed" Nullable="false" />
         </EntityType>
+        <EntityType Name="ContributorTypeSubtype">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ContributorTypeId" Type="int" Nullable="false" />
+          <Property Name="ContributorSubtypeId" Type="int" Nullable="false" />
+          <Property Name="State" Type="bit" Nullable="false" />
+          <Property Name="CreationUser" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="CreationDate" Type="datetime" Nullable="false" />
+          <Property Name="ModificationUser" Type="varchar" MaxLength="100" />
+          <Property Name="ModificationDate" Type="datetime" />
+          <Property Name="TimeStamp" Type="timestamp" StoreGeneratedPattern="Computed" Nullable="false" />
+        </EntityType>
         <EntityType Name="CostCenter">
           <Key>
             <PropertyRef Name="Id" />
@@ -1281,6 +1295,7 @@
           <Property Name="InternalCode" Type="varchar" MaxLength="10" />
           <Property Name="RemainingVacationDays" Type="int" Nullable="false" />
           <Property Name="InsuredCCSSCode" Type="varchar" MaxLength="25" />
+          <Property Name="ContributorTypeSubtypeId" Type="int" />
         </EntityType>
         <EntityType Name="EmployeeScheduleC">
           <Key>
@@ -1895,6 +1910,7 @@ warning 6002: The table/view 'INDIGO999.Payroll.EmployeeScheduleDetail' does not
           <Property Name="ProcedureTypeRTF" Type="tinyint" Nullable="false" />
           <Property Name="DeductionsAndRentExents" Type="numeric" Precision="18" Scale="0" />
           <Property Name="DependentsSupplementary" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="PreviousMonthIBC" Type="numeric" Precision="18" Scale="0" />
         </EntityType>
         <EntityType Name="LiquidationDetail">
           <Key>
@@ -2793,6 +2809,7 @@ warning 6002: The table/view 'INDIGO999.Payroll.EmployeeScheduleDetail' does not
           <Property Name="ModificationDate" Type="datetime" />
           <Property Name="ConfirmationUser" Type="varchar" MaxLength="20" />
           <Property Name="ConfirmationDate" Type="datetime" />
+          <Property Name="PreviousMonthIBC" Type="numeric" Precision="18" Scale="0" />
         </EntityType>
         <EntityType Name="VacationDetail">
           <Key>
@@ -4020,7 +4037,7 @@ warning 6002: The table/view 'INDIGO999.Payroll.EmployeeScheduleDetail' does not
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_BankFileDetail_Liquidation">
-          <End Role="Liquidation" Type="Self.Liquidation" Multiplicity="1" />
+          <End Role="Liquidation" Type="Self.Liquidation" Multiplicity="0..1" />
           <End Role="BankFileDetail" Type="Self.BankFileDetail" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Liquidation">
@@ -4712,6 +4729,42 @@ warning 6002: The table/view 'INDIGO999.Payroll.EmployeeScheduleDetail' does not
             </Principal>
             <Dependent Role="Email">
               <PropertyRef Name="IdPerson" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CTS_ContributorSubtype">
+          <End Role="ContributorSubtype" Type="Self.ContributorSubtype" Multiplicity="1" />
+          <End Role="ContributorTypeSubtype" Type="Self.ContributorTypeSubtype" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ContributorSubtype">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ContributorTypeSubtype">
+              <PropertyRef Name="ContributorSubtypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CTS_ContributorType">
+          <End Role="ContributorType" Type="Self.ContributorType" Multiplicity="1" />
+          <End Role="ContributorTypeSubtype" Type="Self.ContributorTypeSubtype" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ContributorType">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ContributorTypeSubtype">
+              <PropertyRef Name="ContributorTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Employee_ContributorTypeSubtype">
+          <End Role="ContributorTypeSubtype" Type="Self.ContributorTypeSubtype" Multiplicity="0..1" />
+          <End Role="Employee" Type="Self.Employee" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ContributorTypeSubtype">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Employee">
+              <PropertyRef Name="ContributorTypeSubtypeId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -8123,6 +8176,7 @@ warning 6002: The table/view 'INDIGO999.Payroll.EmployeeScheduleDetail' does not
           <EntitySet Name="ContractType" EntityType="Self.ContractType" Schema="Payroll" store:Type="Tables" />
           <EntitySet Name="ContributorSubtype" EntityType="Self.ContributorSubtype" Schema="Payroll" store:Type="Tables" />
           <EntitySet Name="ContributorType" EntityType="Self.ContributorType" Schema="Payroll" store:Type="Tables" />
+          <EntitySet Name="ContributorTypeSubtype" EntityType="Self.ContributorTypeSubtype" Schema="Payroll" store:Type="Tables" />
           <EntitySet Name="CostCenter" EntityType="Self.CostCenter" Schema="Payroll" store:Type="Tables" />
           <EntitySet Name="CostDistributions" EntityType="Self.CostDistributions" Schema="Payroll" store:Type="Tables" />
           <EntitySet Name="DiagnosedDisease" EntityType="Self.DiagnosedDisease" Schema="Payroll" store:Type="Tables" />
@@ -8711,6 +8765,18 @@ warning 6002: The table/view 'INDIGO999.Payroll.EmployeeScheduleDetail' does not
           <AssociationSet Name="FK_Emails_Person" Association="Self.FK_Emails_Person">
             <End Role="Person" EntitySet="Person" />
             <End Role="Email" EntitySet="Email" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CTS_ContributorSubtype" Association="Self.FK_CTS_ContributorSubtype">
+            <End Role="ContributorSubtype" EntitySet="ContributorSubtype" />
+            <End Role="ContributorTypeSubtype" EntitySet="ContributorTypeSubtype" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CTS_ContributorType" Association="Self.FK_CTS_ContributorType">
+            <End Role="ContributorType" EntitySet="ContributorType" />
+            <End Role="ContributorTypeSubtype" EntitySet="ContributorTypeSubtype" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Employee_ContributorTypeSubtype" Association="Self.FK_Employee_ContributorTypeSubtype">
+            <End Role="ContributorTypeSubtype" EntitySet="ContributorTypeSubtype" />
+            <End Role="Employee" EntitySet="Employee" />
           </AssociationSet>
           <AssociationSet Name="FK_Employee_CostCenter" Association="Self.FK_Employee_CostCenter">
             <End Role="CostCenter" EntitySet="CostCenter" />
@@ -9876,6 +9942,7 @@ warning 6002: The table/view 'INDIGO999.Payroll.EmployeeScheduleDetail' does not
           <EntitySet Name="PhoneType" EntityType="GENESISModelPayroll.PhoneType" />
           <EntitySet Name="ContributorType" EntityType="GENESISModelPayroll.ContributorType" />
           <EntitySet Name="ContributorSubtype" EntityType="GENESISModelPayroll.ContributorSubtype" />
+          <EntitySet Name="ContributorTypeSubtype" EntityType="GENESISModelPayroll.ContributorTypeSubtype" />
           <EntitySet Name="Kinship" EntityType="GENESISModelPayroll.Kinship" />
           <EntitySet Name="Language" EntityType="GENESISModelPayroll.Language" />
           <EntitySet Name="PensionaryType" EntityType="GENESISModelPayroll.PensionaryType" />
@@ -10898,6 +10965,18 @@ warning 6002: The table/view 'INDIGO999.Payroll.EmployeeScheduleDetail' does not
           <AssociationSet Name="FK_ContractLiquidation_Employee" Association="GENESISModelPayroll.FK_ContractLiquidation_Employee">
             <End Role="Employee" EntitySet="Employee" />
             <End Role="ContractLiquidation" EntitySet="ContractLiquidation" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CTS_ContributorSubtype" Association="GENESISModelPayroll.FK_CTS_ContributorSubtype">
+            <End Role="ContributorSubtype" EntitySet="ContributorSubtype" />
+            <End Role="ContributorTypeSubtype" EntitySet="ContributorTypeSubtype" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CTS_ContributorType" Association="GENESISModelPayroll.FK_CTS_ContributorType">
+            <End Role="ContributorType" EntitySet="ContributorType" />
+            <End Role="ContributorTypeSubtype" EntitySet="ContributorTypeSubtype" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Employee_ContributorTypeSubtype" Association="GENESISModelPayroll.FK_Employee_ContributorTypeSubtype">
+            <End Role="ContributorTypeSubtype" EntitySet="ContributorTypeSubtype" />
+            <End Role="Employee" EntitySet="Employee" />
           </AssociationSet>
           <AssociationSet Name="FK_Employee_CostCenter" Association="GENESISModelPayroll.FK_Employee_CostCenter">
             <End Role="CostCenter" EntitySet="CostCenter" />
@@ -12452,6 +12531,23 @@ warning 6002: The table/view 'INDIGO999.Payroll.EmployeeScheduleDetail' does not
           <Property Type="String" Name="ModificationUser" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Type="DateTime" Name="ModificationDate" Precision="3" />
           <Property Type="Binary" Name="TimeStamp" Nullable="false" MaxLength="8" FixedLength="true" p1:StoreGeneratedPattern="Computed" ConcurrencyMode="Fixed" />
+        </EntityType>
+        <EntityType Name="ContributorTypeSubtype">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ContributorTypeId" Type="Int32" Nullable="false" />
+          <Property Name="ContributorSubtypeId" Type="Int32" Nullable="false" />
+          <Property Name="State" Type="Boolean" Nullable="false" />
+          <Property Name="CreationUser" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="CreationDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ModificationUser" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="ModificationDate" Type="DateTime" Precision="3" />
+          <Property Name="TimeStamp" Type="Binary" Nullable="false" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" />
+          <NavigationProperty Name="ContributorSubtype" Relationship="GENESISModelPayroll.FK_CTS_ContributorSubtype" FromRole="ContributorTypeSubtype" ToRole="ContributorSubtype" />
+          <NavigationProperty Name="ContributorType" Relationship="GENESISModelPayroll.FK_CTS_ContributorType" FromRole="ContributorTypeSubtype" ToRole="ContributorType" />
+          <NavigationProperty Name="Employee" Relationship="GENESISModelPayroll.FK_Employee_ContributorTypeSubtype" FromRole="ContributorTypeSubtype" ToRole="Employee" />
         </EntityType>
         <EntityType Name="Kinship">
           <Key>
@@ -14713,6 +14809,7 @@ warning 6002: The table/view 'INDIGO999.Payroll.EmployeeScheduleDetail' does not
           <Property Name="ModificationDate" Type="DateTime" Precision="3" />
           <Property Name="ConfirmationUser" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="ConfirmationDate" Type="DateTime" Precision="3" />
+          <Property Name="PreviousMonthIBC" Type="Decimal" Precision="18" Scale="0" />
         </EntityType>
         <Association Name="FK_ResumptionHolidayDetail_Vacation">
           <End Type="GENESISModelPayroll.Vacation" Role="Vacation" Multiplicity="1" />
@@ -15043,6 +15140,7 @@ warning 6002: The table/view 'INDIGO999.Payroll.EmployeeScheduleDetail' does not
           <NavigationProperty Name="Employee" Relationship="GENESISModelPayroll.FK_Liquidation_Employee" FromRole="Liquidation" ToRole="Employee" />
           <NavigationProperty Name="Contract" Relationship="GENESISModelPayroll.FK_Liquidation_Contract" FromRole="Liquidation" ToRole="Contract" />
           <Property Name="DependentsSupplementary" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="PreviousMonthIBC" Type="Decimal" Precision="18" Scale="0" />
         </EntityType>
         <Association Name="FK_Liquidation_Bank">
           <End Type="GENESISModelPayroll.Bank" Role="Bank" Multiplicity="0..1" />
@@ -16530,7 +16628,7 @@ warning 6002: The table/view 'INDIGO999.Payroll.EmployeeScheduleDetail' does not
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
           <Property Name="BankFileId" Type="Int32" Nullable="false" />
-          <Property Name="LiquidationId" Type="Int32" Nullable="false" />
+          <Property Name="LiquidationId" Type="Int32" Nullable="true" />
           <Property Name="GroupId" Type="Int32" Nullable="false" />
           <Property Name="PositionId" Type="Int32" Nullable="false" />
           <Property Name="FunctionalUnitId" Type="Int32" Nullable="false" />
@@ -16637,7 +16735,7 @@ warning 6002: The table/view 'INDIGO999.Payroll.EmployeeScheduleDetail' does not
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_BankFileDetail_Liquidation">
-          <End Type="GENESISModelPayroll.Liquidation" Role="Liquidation" Multiplicity="1" />
+          <End Type="GENESISModelPayroll.Liquidation" Role="Liquidation" Multiplicity="0..1" />
           <End Type="GENESISModelPayroll.BankFileDetail" Role="BankFileDetail" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Liquidation">
@@ -17596,6 +17694,8 @@ warning 6002: The table/view 'INDIGO999.Payroll.EmployeeScheduleDetail' does not
           <NavigationProperty Name="AgreementsC" Relationship="GENESISModelPayroll.FK_Agreements_Employee" FromRole="Employee" ToRole="AgreementsC" />
           <Property Name="InsuredCCSSCode" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Novelty" Relationship="GENESISModelPayroll.FK_Disability_Employee_EmployeId" FromRole="Employee" ToRole="Novelty" />
+          <Property Name="ContributorTypeSubtypeId" Type="Int32" />
+          <NavigationProperty Name="ContributorTypeSubtype" Relationship="GENESISModelPayroll.FK_Employee_ContributorTypeSubtype" FromRole="Employee" ToRole="ContributorTypeSubtype" />
         </EntityType>
         <Association Name="FK_Employee_ThirdParty">
           <End Type="GENESISModelPayroll.ThirdParty" Role="ThirdParty" Multiplicity="1" />
@@ -17654,6 +17754,42 @@ warning 6002: The table/view 'INDIGO999.Payroll.EmployeeScheduleDetail' does not
             </Principal>
             <Dependent Role="ContractLiquidation">
               <PropertyRef Name="EmployeeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CTS_ContributorSubtype">
+          <End Type="GENESISModelPayroll.ContributorSubtype" Role="ContributorSubtype" Multiplicity="1" />
+          <End Type="GENESISModelPayroll.ContributorTypeSubtype" Role="ContributorTypeSubtype" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ContributorSubtype">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ContributorTypeSubtype">
+              <PropertyRef Name="ContributorSubtypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CTS_ContributorType">
+          <End Type="GENESISModelPayroll.ContributorType" Role="ContributorType" Multiplicity="1" />
+          <End Type="GENESISModelPayroll.ContributorTypeSubtype" Role="ContributorTypeSubtype" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ContributorType">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ContributorTypeSubtype">
+              <PropertyRef Name="ContributorTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Employee_ContributorTypeSubtype">
+          <End Type="GENESISModelPayroll.ContributorTypeSubtype" Role="ContributorTypeSubtype" Multiplicity="0..1" />
+          <End Type="GENESISModelPayroll.Employee" Role="Employee" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ContributorTypeSubtype">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Employee">
+              <PropertyRef Name="ContributorTypeSubtypeId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -20694,6 +20830,8 @@ warning 6002: The table/view 'INDIGO999.Payroll.EmployeeScheduleDetail' does not
           <Property Type="String" Name="BankAccountNumber" Nullable="false" MaxLength="20" />
           <Property Type="String" Name="EmailAddress" Nullable="true" MaxLength="100" />
           <Property Type="Int32" Name="TotalPendingVacationDays" Nullable="true" />
+          <Property Type="Int32" Name="EmployeeId" Nullable="false" />
+          <Property Type="String" Name="PayrollDate" Nullable="true" MaxLength="13" />
         </ComplexType>
         <ComplexType Name="SP_SummaryVacationLiquidation_Result">
           <Property Type="String" Name="EmployeeNit" Nullable="false" MaxLength="25" />
@@ -22257,6 +22395,7 @@ warning 6002: The table/view 'INDIGO999.Payroll.EmployeeScheduleDetail' does not
           <EntitySetMapping Name="Vacation">
             <EntityTypeMapping TypeName="GENESISModelPayroll.Vacation">
               <MappingFragment StoreEntitySet="Vacation">
+                <ScalarProperty Name="PreviousMonthIBC" ColumnName="PreviousMonthIBC" />
                 <ScalarProperty Name="ConfirmationDate" ColumnName="ConfirmationDate" />
                 <ScalarProperty Name="ConfirmationUser" ColumnName="ConfirmationUser" />
                 <ScalarProperty Name="ModificationDate" ColumnName="ModificationDate" />
@@ -22365,6 +22504,7 @@ warning 6002: The table/view 'INDIGO999.Payroll.EmployeeScheduleDetail' does not
           <EntitySetMapping Name="Liquidation">
             <EntityTypeMapping TypeName="GENESISModelPayroll.Liquidation">
               <MappingFragment StoreEntitySet="Liquidation">
+                <ScalarProperty Name="PreviousMonthIBC" ColumnName="PreviousMonthIBC" />
                 <ScalarProperty Name="DependentsSupplementary" ColumnName="DependentsSupplementary" />
                 <ScalarProperty Name="ProcedureTypeRTF" ColumnName="ProcedureTypeRTF" />
                 <ScalarProperty Name="DependentsDeduction" ColumnName="DependentsDeduction" />
@@ -23551,6 +23691,7 @@ warning 6002: The table/view 'INDIGO999.Payroll.EmployeeScheduleDetail' does not
           <EntitySetMapping Name="Employee">
             <EntityTypeMapping TypeName="GENESISModelPayroll.Employee">
               <MappingFragment StoreEntitySet="Employee">
+                <ScalarProperty Name="ContributorTypeSubtypeId" ColumnName="ContributorTypeSubtypeId" />
                 <ScalarProperty Name="InsuredCCSSCode" ColumnName="InsuredCCSSCode" />
                 <ScalarProperty Name="CandidateSelectionProcessId" ColumnName="CandidateSelectionProcessId" />
                 <ScalarProperty Name="RemainingVacationDays" ColumnName="RemainingVacationDays" />
@@ -24639,6 +24780,8 @@ warning 6002: The table/view 'INDIGO999.Payroll.EmployeeScheduleDetail' does not
                 <ScalarProperty Name="BankAccountNumber" ColumnName="BankAccountNumber" />
                 <ScalarProperty Name="EmailAddress" ColumnName="EmailAddress" />
                 <ScalarProperty Name="TotalPendingVacationDays" ColumnName="TotalPendingVacationDays" />
+                <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
+                <ScalarProperty Name="PayrollDate" ColumnName="PayrollDate" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
@@ -24676,6 +24819,21 @@ warning 6002: The table/view 'INDIGO999.Payroll.EmployeeScheduleDetail' does not
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <EntitySetMapping Name="ContributorTypeSubtype">
+            <EntityTypeMapping TypeName="GENESISModelPayroll.ContributorTypeSubtype">
+              <MappingFragment StoreEntitySet="ContributorTypeSubtype">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="ContributorTypeId" ColumnName="ContributorTypeId" />
+                <ScalarProperty Name="ContributorSubtypeId" ColumnName="ContributorSubtypeId" />
+                <ScalarProperty Name="State" ColumnName="State" />
+                <ScalarProperty Name="CreationUser" ColumnName="CreationUser" />
+                <ScalarProperty Name="CreationDate" ColumnName="CreationDate" />
+                <ScalarProperty Name="ModificationUser" ColumnName="ModificationUser" />
+                <ScalarProperty Name="ModificationDate" ColumnName="ModificationDate" />
+                <ScalarProperty Name="TimeStamp" ColumnName="TimeStamp" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

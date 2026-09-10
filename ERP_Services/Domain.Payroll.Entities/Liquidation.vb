@@ -2175,6 +2175,20 @@ Partial Public Class Liquidation
         End Set
     End Property
 
+	Private _previousMonthIBC As Nullable(Of Decimal)
+	<DataMember()>
+	Public Property PreviousMonthIBC() As Nullable(Of Decimal)
+        Get
+            Return _previousMonthIBC
+        End Get
+        Set(ByVal value As Nullable(Of Decimal))
+            If Not Equals(_previousMonthIBC, value) Then
+                _previousMonthIBC = value
+                OnPropertyChanged("PreviousMonthIBC")
+            End If
+        End Set
+    End Property
+
 #End Region
 
 #Region "Navigation Properties"

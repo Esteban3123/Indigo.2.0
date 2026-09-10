@@ -1,4 +1,4 @@
-﻿'***********************************************************************
+'***********************************************************************
 ' Assembly         : Application.MedicalFees
 ' Author           : Carlos Mario Arias Rubiano
 ' Created          : 16/12/2014
@@ -14,6 +14,8 @@ Public Interface IMedicalFeesCausationAdminService
     Inherits IDisposable
 
     Function GetViewListNoSurgical(invoiceNumbers As List(Of String)) As List(Of ViewListNoSurgical)
+
+    Function GetCupsEntityIdsByServiceTypes(cupsEntityIds As List(Of Integer), serviceTypes As List(Of Byte)) As List(Of Integer)
 
     Function GetViewListDiagnosticImaging(serviceOrderDetailId As Integer) As List(Of ViewListDiagnosticImaging)
 
@@ -89,4 +91,15 @@ Public Interface IMedicalFeesCausationAdminService
     Function CauseInvoice(invoiceDetail As ViewListNoSurgical, audit As AuditMessage, Optional listCupsHomologations As List(Of CupsHomologation) = Nothing) As ActionResult(Of List(Of CupsHomologation))
     Function GetCausationInvoice(invoiceDetail As ViewListNoSurgical, audit As AuditMessage, Optional listCupsHomologations As List(Of CupsHomologation) = Nothing) As ActionResult(Of (causation As MedicalFeesCausation, homologations As List(Of CupsHomologation)))
     Function CauseInvoiceQx(invoiceDetail As ViewListSurgicalAndPackage, audit As AuditMessage, Optional listCupsHomologations As List(Of CupsHomologation) = Nothing) As ActionResult(Of List(Of CupsHomologation))
+    Function GetCausationInvoiceQx(invoiceDetail As ViewListSurgicalAndPackage, audit As AuditMessage, Optional listCupsHomologations As List(Of CupsHomologation) = Nothing) As ActionResult(Of (causation As MedicalFeesCausation, homologations As List(Of CupsHomologation)))
+
+    ''' <summary>
+    ''' Procesa causaciones automáticas para órdenes de servicio CUPS no reconocidas.
+    ''' Solo Registrado (sin factura), CUPS, sin causación activa. Excluye liquidados.
+    ''' Procesa todas las unidades operativas.
+    ''' </summary>
+    ''' <param name="audit">Información de auditoría</param>
+    ''' <param name="batchSize">Tamaño del batch por iteración (default 500 para ejecución manual)</param>
+    ''' <returns>Resultado con conteos y detalle por item procesado</returns>
+    Function ProcessUnrecognizedCausations(audit As AuditMessage, Optional batchSize As Integer = 500) As ActionResult(Of UnrecognizedProcessingResult)
 End Interface

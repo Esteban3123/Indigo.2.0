@@ -24,6 +24,7 @@ using Domain.Entities.Service;
 using System.Data.Entity.Infrastructure;
 using System.Data.Entity.Core;
 using System.Transactions;
+using Domain.Crystal.Entities;
 
 namespace Application.Inventory.ProductTemplate
 {
@@ -59,7 +60,7 @@ namespace Application.Inventory.ProductTemplate
         /// <summary>
         /// Guarda un cubrimiento de producto de forma asincrona
         /// </summary>
-        public async Task<ActionResult<ProductRate>> SaveProductTemplate(ProductRate productTemplate, AuditMessage audit, long idSecuence = 0)
+        public async Task<ActionResult<ProductRate>> SaveProductTemplate(ProductRate productTemplate, AuditMessage audit, long idSecuence = 0, bool updateHeaderAudit = true)
         {
             if (productTemplate == null)
             {
@@ -117,8 +118,11 @@ namespace Application.Inventory.ProductTemplate
                     {
                         MessageResult = ResourceManager.get_GetString("UpdateMessage");
                         auxObjEntity = productTemplate.OriginalValue;
-                        productTemplate.ModificationDate = DateTime.Now;
-                        productTemplate.ModificationUser = audit.CodeUser;
+                        if (updateHeaderAudit)
+                        {
+                            productTemplate.ModificationDate = DateTime.Now;
+                            productTemplate.ModificationUser = audit.CodeUser;
+                        }
                         status = Infrastructure.CrossCutting.Audit.Actions.Update;
                     }
 
@@ -153,9 +157,12 @@ namespace Application.Inventory.ProductTemplate
 
                     this._productTemplateRepository.SaveEntity(productTemplate);
                     await unitOfWork.CommitAsync();
+                    if (updateHeaderAudit)
+                    {
+                        auditProcess = new IndigoAuditSimpleEntity<Domain.Entities.ProductRate>(productTemplate, audit, status, auxObjEntity);
+                        auditProcess.Execute();
+                    }
                     
-                    auditProcess = new IndigoAuditSimpleEntity<Domain.Entities.ProductRate>(productTemplate, audit, status, auxObjEntity);
-                    auditProcess.Execute();
                     //Se marca la entidad como sin cambios
                     productTemplate.MarkAsUnchanged();
                     scope.Complete();

@@ -27,7 +27,7 @@ namespace Application.Inventory.InventoryRequest
         /// <param name="audit"></param>
         /// <param name="idSecuence"></param>
         /// <returns></returns>
-         ActionResult<Domain.Entities.InventoryRequest> SaveInventoryRequest(Domain.Entities.InventoryRequest inventoryRequest, AuditMessage audit, Int64 idSecuence = 0, InventorySequence sequenceC = null);
+        Task<ActionResult<Domain.Entities.InventoryRequest>> SaveInventoryRequestAsync(Domain.Entities.InventoryRequest inventoryRequest, AuditMessage audit, Int64 idSecuence = 0, InventorySequence sequenceC = null);
 
         /// <summary>
         /// Elimina una solicitud de inventario
@@ -44,7 +44,7 @@ namespace Application.Inventory.InventoryRequest
         /// <param name="state"></param>
         /// <param name="audit"></param>
         /// <returns></returns>
-        ActionResult<Domain.Entities.InventoryRequest> ChangeStateInventoryRequest(string code, byte state, AuditMessage audit);
+        Task<ActionResult<Domain.Entities.InventoryRequest>> ChangeStateInventoryRequestAsync(string code, byte state, AuditMessage audit);
 
         /// <summary>
         /// Consulta una solicitud de inventario por codigo

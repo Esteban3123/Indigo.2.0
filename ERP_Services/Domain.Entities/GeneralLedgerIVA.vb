@@ -48,6 +48,7 @@ Imports System.Data.Entity.ModelConfiguration
 <KnownType(GetType(PortfolioNoteAccountReceivableDetail))>
 <KnownType(GetType(FixedAssetCatalogOfPropertyandServices))>
 <KnownType(GetType(ThirdPartyTaxExemptions))>
+<KnownType(GetType(BillingNoteDetailTax))>
 Partial Public Class GeneralLedgerIVA
 	Inherits Entity(Of GeneralLedgerIVA)
     Implements IObjectWithChangeTracker
@@ -303,6 +304,20 @@ Partial Public Class GeneralLedgerIVA
             If Not Equals(_paymentMethodTypes, value) Then
                 _paymentMethodTypes = value
                 OnPropertyChanged("PaymentMethodTypes")
+            End If
+        End Set
+    End Property
+
+	Private _taxClassificationType As Byte
+	<DataMember()>
+	Public Property TaxClassificationType() As Byte
+        Get
+            Return _taxClassificationType
+        End Get
+        Set(ByVal value As Byte)
+            If Not Equals(_taxClassificationType, value) Then
+                _taxClassificationType = value
+                OnPropertyChanged("TaxClassificationType")
             End If
         End Set
     End Property
@@ -1083,6 +1098,34 @@ Partial Public Class GeneralLedgerIVA
 
     Private _thirdPartyTaxExemptions As TrackableCollection(Of ThirdPartyTaxExemptions)
 
+    <DataMember()>
+	Public Property BillingNoteDetailTax() As TrackableCollection(Of BillingNoteDetailTax)
+		Get
+            If _billingNoteDetailTax Is Nothing Then
+                _billingNoteDetailTax = New TrackableCollection(Of BillingNoteDetailTax)
+                AddHandler _billingNoteDetailTax.CollectionChanged, AddressOf FixupBillingNoteDetailTax
+            End If
+            Return _billingNoteDetailTax
+        End Get
+        Set(ByVal value As TrackableCollection(Of BillingNoteDetailTax))
+            If _billingNoteDetailTax IsNot value Then
+                If ChangeTracker.ChangeTrackingEnabled Then
+                    Throw New InvalidOperationException("Cannot set the FixupChangeTrackingCollection when ChangeTracking is enabled")
+                End If
+                If _billingNoteDetailTax IsNot Nothing Then
+                    RemoveHandler _billingNoteDetailTax.CollectionChanged, AddressOf FixupBillingNoteDetailTax
+                End If
+                _billingNoteDetailTax = value
+                If _billingNoteDetailTax IsNot Nothing Then
+                    AddHandler _billingNoteDetailTax.CollectionChanged, AddressOf FixupBillingNoteDetailTax
+                End If
+                OnNavigationPropertyChanged("BillingNoteDetailTax")
+            End If
+        End Set
+    End Property
+
+    Private _billingNoteDetailTax As TrackableCollection(Of BillingNoteDetailTax)
+
 #End Region
 
 #Region "ChangeTracking"
@@ -1178,6 +1221,7 @@ Partial Public Class GeneralLedgerIVA
         PortfolioNoteAccountReceivableDetail.Clear()
         FixedAssetCatalogOfPropertyandServices.Clear()
         ThirdPartyTaxExemptions.Clear()
+        BillingNoteDetailTax.Clear()
     End Sub
 
 #End Region
@@ -2020,6 +2064,35 @@ Partial Public Class GeneralLedgerIVA
                 End If
                 If ChangeTracker.ChangeTrackingEnabled Then
                     ChangeTracker.RecordRemovalFromCollectionProperties("ThirdPartyTaxExemptions", item)
+                End If
+            Next
+        End If
+    End Sub
+
+    Private Sub FixupBillingNoteDetailTax(ByVal sender As Object, ByVal e As NotifyCollectionChangedEventArgs)
+        If IsDeserializing Then
+            Return
+        End If
+
+        If e.NewItems IsNot Nothing Then
+            For Each item As BillingNoteDetailTax In e.NewItems
+                item.GeneralLedgerIVA = Me
+                If ChangeTracker.ChangeTrackingEnabled Then
+                    If Not item.ChangeTracker.ChangeTrackingEnabled Then
+                        item.StartTracking()
+                    End If
+                    ChangeTracker.RecordAdditionToCollectionProperties("BillingNoteDetailTax", item)
+                End If
+            Next
+        End If
+
+        If e.OldItems IsNot Nothing Then
+            For Each item As BillingNoteDetailTax In e.OldItems
+                If item.GeneralLedgerIVA Is Me Then
+                    item.GeneralLedgerIVA = Nothing
+                End If
+                If ChangeTracker.ChangeTrackingEnabled Then
+                    ChangeTracker.RecordRemovalFromCollectionProperties("BillingNoteDetailTax", item)
                 End If
             Next
         End If

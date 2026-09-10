@@ -10,6 +10,9 @@
 
 Imports Domain.Base
 Imports Domain.Entities
+Imports Domain.Billing.POCO
+Imports System.Threading.Tasks
+
 
 #End Region
 
@@ -59,6 +62,12 @@ Public Interface IInvoiceRepository
     Function GetInvoiceMoreInformationByInvoiceId(ByVal invoiceId As Integer) As SP_GetInvoiceMoreInformationByInvoiceId_Result
 
     ''' <summary>
+    ''' Obtiene la fecha final del período de la factura de capitación anterior.
+    ''' Solo aplica para facturas de período de capitación (InvoicePeriod = 2).
+    ''' </summary>
+    Function GetPreviousCapitationPeriodEndDateByInvoiceId(ByVal invoiceId As Integer) As Nullable(Of Date)
+
+    ''' <summary>
     ''' Obtiene los detalles de una factura
     ''' </summary>
     ''' <param name="invoiceId">id de la factura</param>
@@ -78,5 +87,26 @@ Public Interface IInvoiceRepository
     ''' <param name="invoiceId"></param>
     ''' <returns></returns>
     Function GetPrepaidPaymentHealth(invoiceId As Integer) As List(Of SP_GetPrepaidPaymentHealth)
+
+
+    ''' <summary>
+    ''' Lista registros de servicio paginados para facturas monto fijo.
+    ''' </summary>
+    Function ListFixedAmountServiceRecords(query As FixedAmountServiceRecordQuery) As Task(Of PagedResult(Of FixedAmountServiceRecordDto))
+
+    ''' <summary>
+    ''' Lista registros de servicio aptos para reconstruccion de JSON RIPS.
+    ''' </summary>
+    Function ListFixedAmountRebuildCandidates(query As FixedAmountServiceRecordQuery) As Task(Of List(Of FixedAmountRebuildCandidateDto))
+
+    ''' <summary>
+    ''' Consulta el avance de reconstruccion usando sendDate como frontera.
+    ''' </summary>
+    Function GetFixedAmountRebuildStatus(query As FixedAmountServiceRecordQuery) As Task(Of FixedAmountRebuildStatusDto)
+
+    ''' <summary>
+    ''' Obtiene la fecha actual del motor de base de datos.
+    ''' </summary>
+    Function GetDatabaseDate() As DateTime
 
 End Interface

@@ -364,6 +364,17 @@ Public Class IncreaseSalaryAdminService
                 unitWorkContractActual.Commit()
                 unitWorkContractNew.Commit()
 
+                Dim unitWorkEmployee As IUnitWork = _employeeRepository.UnitWork
+                Dim employee As Employee = _employeeRepository.GetEmployeeById(ActualContract.EmployeeId, True)
+                Dim activeContract = employee?.Contract?.FirstOrDefault(Function(c) c.PositionId = NewContract.PositionId AndAlso c.Valid)
+                If activeContract?.Position?.ProfessionalRisk IsNot Nothing Then
+                    employee.ProfessionalRiskPercentage = activeContract.Position.ProfessionalRisk.Percentage
+                    employee.UserModified = Indigo.UserIndigoId
+                    employee.DateModified = Date.Now
+                    _employeeRepository.SaveEntity(employee)
+                    unitWorkEmployee.Commit()
+                End If
+
                 Dim inta = NewContract.Id
 
             Next

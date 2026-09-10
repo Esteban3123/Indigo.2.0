@@ -427,6 +427,7 @@ namespace DistributedServices.Inventory.Unity
             newContainer.RegisterType<Domain.Entities.IKardexRepository, Infrastructure.Data.ModelRepository.KardexRepository>();
             //ProductRateDetail
             newContainer.RegisterType<IProductRateDetailRepository, ProductRateDetailRepository>();
+            newContainer.RegisterType<IPackagePersonalizedDetailRepository, PackagePersonalizedDetailRepository>();
             newContainer.RegisterType<IProductRateDetailAdminService, ProductRateDetailAdminService>();
             //RemissionOutput
             newContainer.RegisterType<IRemissionOutputAdminService, RemissionOutputAdminService>();

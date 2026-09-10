@@ -1,8 +1,11 @@
-﻿Imports System.Runtime.Serialization
+Imports System.Runtime.Serialization
 
 Public Class CostActivity
 
     <DataMember()> _
     Public Property CUPSEntityCodeName As String
+
+    <DataMember()>
+    Public Property ContractDesCodeName As String
 
 End Class

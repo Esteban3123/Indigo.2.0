@@ -1,4 +1,4 @@
-using Azure.Identity;
+﻿using Azure.Identity;
 using Azure.Security.KeyVault.Secrets;
 using Domain.Autentication.Interfaces;
 using System;
@@ -21,7 +21,7 @@ namespace Infrastructure.CrossCutting.Autentication.Secrets.AZKeyVault
 
         public async Task<string> GetSecretAsync(string secretName)
         {
-            var secret = await _secretClient.GetSecretAsync(secretName).ConfigureAwait(false);
+            var secret = await _secretClient.GetSecretAsync(secretName);
             return secret.Value.Value;
         }
     }

@@ -57,6 +57,30 @@ Partial Class GlosasService
     End Function
 
     ''' <summary>
+    ''' Genera el archivo FUR SERVICIOS de la Circular Externa 003 de 2026 ADRES.
+    ''' </summary>
+    Public Function GenerateAdresFurServiciosPlane(IdRadicateInvoice As Integer,
+                                                   Session As SessionValues,
+                                                   Optional InvoicesList As List(Of RIPSBilling) = Nothing) As ActionMessageResult(Of AdresClaimFile) _
+                                                   Implements IGlosasRIPSPlane.GenerateAdresFurServiciosPlane
+        Using RIPSPlaneAdmin As IRIPSPlaneAdminService = IocFactory.Instance(Session.TransactionalContainer).CurrentContainer.Resolve(Of IRIPSPlaneAdminService)()
+            Return RIPSPlaneAdmin.GenerateAdresFurServiciosPlane(IdRadicateInvoice, Session, InvoicesList)
+        End Using
+    End Function
+
+    ''' <summary>
+    ''' Genera el archivo FUR de la Circular Externa 003 de 2026 ADRES.
+    ''' </summary>
+    Public Function GenerateAdresFurPlane(IdRadicateInvoice As Integer,
+                                          Session As SessionValues,
+                                          Optional InvoicesList As List(Of RIPSBilling) = Nothing) As ActionMessageResult(Of AdresClaimFile) _
+                                          Implements IGlosasRIPSPlane.GenerateAdresFurPlane
+        Using RIPSPlaneAdmin As IRIPSPlaneAdminService = IocFactory.Instance(Session.TransactionalContainer).CurrentContainer.Resolve(Of IRIPSPlaneAdminService)()
+            Return RIPSPlaneAdmin.GenerateAdresFurPlane(IdRadicateInvoice, Session, InvoicesList)
+        End Using
+    End Function
+
+    ''' <summary>
     ''' Obtiene los registros para generar el archivo plano MegaRIPS
     ''' </summary>
     ''' <param name="radicateInvoiceId">Id del radicado de la factura</param>

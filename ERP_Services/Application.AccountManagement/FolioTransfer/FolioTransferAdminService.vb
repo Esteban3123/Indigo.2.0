@@ -19,17 +19,19 @@ Public Class FolioTransferAdminService
     Private _managementAreasAdminService As IManagementAreasAdminService
     Private _userAdminService As IUserAdminService
     Private _userRepository As IUserRepository
+    Private _IUserAdminService As IUserAdminService
 #End Region
 
 #Region "Builder"
 
-    Public Sub New(ByVal folioTransferRepository As IFolioTransferRepository, folioAlertRepository As IFolioAlertRepository, rejectionReasonRepository As IRejectionReasonRepository, managementAreasAdminService As IManagementAreasAdminService, userAdminService As IUserAdminService, userRepository As IUserRepository)
+    Public Sub New(ByVal folioTransferRepository As IFolioTransferRepository, folioAlertRepository As IFolioAlertRepository, rejectionReasonRepository As IRejectionReasonRepository, managementAreasAdminService As IManagementAreasAdminService, userAdminService As IUserAdminService, userRepository As IUserRepository, IUserAdminService As IUserAdminService)
         _folioTransferRepository = folioTransferRepository
         _folioAlertRepository = folioAlertRepository
         _rejectionReasonRepository = rejectionReasonRepository
         _managementAreasAdminService = managementAreasAdminService
         _userAdminService = userAdminService
         _userRepository = userRepository
+        _IUserAdminService = IUserAdminService
     End Sub
 #End Region
 
@@ -371,7 +373,25 @@ Public Class FolioTransferAdminService
                 Return New ActionResult(Of List(Of GetUserFolios)) With {.StateResult = False, .Message = "El código de usuario no puede estar vacío."}
             End If
             Dim folios = _folioTransferRepository.ExecuteStoredProcedure(Of GetUserFolios)("[AccountManagement].[SP_GetUserFolios]", {("@UserCode", userCode)})
+
             If folios IsNot Nothing AndAlso folios.Count > 0 Then
+                Dim ListUserCodes As New List(Of String)
+                For Each bu In folios
+                    ListUserCodes.Add(bu.AssignedUserCode)
+                Next
+                'Se saca el listado de ids de usuario para enviar
+                Dim ListUsers As New List(Of Domain.Security.Entities.User)
+                'Se obtiene el listado de usuarios
+                ListUsers = _IUserAdminService.ListUsersByCodes(ListUserCodes)
+                If ListUsers IsNot Nothing AndAlso ListUsers.Count > 0 Then
+                    'Se asigna el nombre completo del usuario al listado que se va a asignar al datasource de la rejilla
+                    For Each bu In folios
+                        Dim user = (From e In ListUsers Where e.UserCode = bu.AssignedUserCode Select e).FirstOrDefault
+                        If user IsNot Nothing AndAlso user.Id > 0 AndAlso user.Person IsNot Nothing Then
+                            bu.AssignedUserFullname = user.Person.Fullname
+                        End If
+                    Next
+                End If
                 Return New ActionResult(Of List(Of GetUserFolios)) With {.StateResult = True, .ObjectEmbbeded = folios}
             Else
                 Return New ActionResult(Of List(Of GetUserFolios)) With {.StateResult = False, .Message = "No se encontraron folios asociados al usuario."}

@@ -1,4 +1,4 @@
-﻿Imports Domain.Base
+Imports Domain.Base
 Imports Domain.Base.Entities
 
 Public Interface IAverageStandardCostRepository
@@ -18,5 +18,9 @@ Public Interface IAverageStandardCostRepository
     ''' <returns></returns>
     Function GetAverageStandardCostById(standarCostId As Integer) As StandarCost
 
+    ''' <summary>
+    ''' Obtiene los StandarCost cuyo rango de fechas se solapa con el rango dado, excluyendo el registro indicado
+    ''' </summary>
+    Function GetOverlappingStandarCosts(validity As Date, endDate As Date, excludeId As Integer) As List(Of StandarCost)
 
 End Interface

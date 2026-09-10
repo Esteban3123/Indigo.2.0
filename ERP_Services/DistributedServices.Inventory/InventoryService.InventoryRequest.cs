@@ -30,13 +30,12 @@ namespace DistributedServices.Inventory
         /// </summary>
         /// <param name="EntranceVoucher"></param>
         /// <returns></returns>
-        public Domain.Base.Entities.ActionResult<Domain.Entities.InventoryRequest> SaveInventoryRequest(Domain.Entities.InventoryRequest inventoryRequest, long idSequense, AuditMessage audit, Domain.Entities.InventorySequence sequenceC)
+        public async Task<Domain.Base.Entities.ActionResult<Domain.Entities.InventoryRequest>> SaveInventoryRequest(Domain.Entities.InventoryRequest inventoryRequest, long idSequense, AuditMessage audit, Domain.Entities.InventorySequence sequenceC)
         {
             using (var service = Container.Current.Resolve<IInventoryRequestAdminService>())
             {                
-                return service.SaveInventoryRequest(inventoryRequest, audit, idSequense, sequenceC);
+                return await service.SaveInventoryRequestAsync(inventoryRequest, audit, idSequense, sequenceC);
             }
-            //return _InventoryRequestAdminService.SaveInventoryRequest(inventoryRequest, audit, idSequense, sequenceC);
         }
 
         /// <summary>
@@ -50,7 +49,6 @@ namespace DistributedServices.Inventory
             {               
                 return service.DeleteInventoryRequest(inventoryRequest, audit);
             }
-            //return _InventoryRequestAdminService.DeleteInventoryRequest(inventoryRequest, audit);
         }
 
         /// <summary>
@@ -59,13 +57,12 @@ namespace DistributedServices.Inventory
         /// <param name="code"></param>
         /// <param name="state"></param>
         /// <returns></returns>
-        public Domain.Base.Entities.ActionResult<Domain.Entities.InventoryRequest> ChangeStateInventoryRequest(string code, byte state, AuditMessage audit)
+        public async Task<Domain.Base.Entities.ActionResult<Domain.Entities.InventoryRequest>> ChangeStateInventoryRequest(string code, byte state, AuditMessage audit)
         {
             using (var service = Container.Current.Resolve<IInventoryRequestAdminService>())
             {              
-                return service.ChangeStateInventoryRequest(code, state, audit);
+                return await service.ChangeStateInventoryRequestAsync(code, state, audit);
             }
-            //return _InventoryRequestAdminService.ChangeStateInventoryRequest(code, state, audit);
         }
 
         /// <summary>
@@ -79,7 +76,6 @@ namespace DistributedServices.Inventory
             {               
                 return service.GetInventoryRequestByCode(code, audit);
             }
-            //return _InventoryRequestAdminService.GetInventoryRequestByCode(code, audit);
         }
 
         /// <summary>
@@ -93,7 +89,6 @@ namespace DistributedServices.Inventory
             {
                 return service.GetInventoryRequestById(id);
             }
-            //return _InventoryRequestAdminService.GetInventoryRequestById(id);
         }
 
         /// <summary>

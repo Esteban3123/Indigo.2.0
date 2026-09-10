@@ -206,7 +206,7 @@ Public Class LiquidationDomain
                                 VacationIncentiveValue As Double, ValueForeclousure As Double, PercentageForeclousure As Decimal, codeWorkCenter As String, HolidaysHours As Decimal, BasicSalaryDaily As Decimal, AjusteDominical As Decimal, AjusteHorasExtrasDiurnas As Decimal, AjusteHorasExtrasNocturnas As Decimal, AjusteHorasExtrasDiurnasFestivas As Decimal, AjusteHorasExtrasNocturnasFestivas As Decimal, AjusteRecargoNocturnasFestivas As Decimal, VacationIBCValue As Decimal, VacationPaidValue As Decimal,
                                            PeriodVacationDays As Integer, BaseForeclousure As Decimal, PosesitionDate As Date, ValueRetroactivePaid As Decimal, TransportDays As Integer, HorasAjustesDominicalEvento As Decimal, HorasAjusteExtrasDiurnasFestivasEvento As Decimal, HorasAjusteExtrasNocturnasFestivasEvento As Decimal, HorasAjusteExtrasNocturnasEvento As Decimal, HorasAjusteExtrasDiurnasEvento As Decimal, QuarterFlag As Byte, RepresentationCostValue As Decimal, VacationIncentiveValueProvision As Decimal,
                                            SanctionDays As Integer, ContributorAbroad As Boolean, IBCLastPeriod As Decimal, AmbulatoryInabilityEmployeerDays As Integer, AmbulatoryInabilityERPDays As Integer, ValueAmbulatoryEmployeerInability As Decimal, ValueAmbulatoryERPInability As Decimal, HospitalInabilityEmployeerDays As Integer, HospitalInabilityERPDays As Integer, ValueHospitalEmployeerInability As Decimal, ValueHospitalERPInability As Decimal, DaysPermission As Decimal, PaidLeaveDays As Decimal, VacationDaysInCash As Decimal,
-                                           LutoDays As Decimal, EmployerOccupationalDisabilityDays As Decimal, EmployerOccupationalDisabilityAmount As Decimal, ERPOccupationalDisabilityDays As Decimal, ERPOccupationalDisabilityAmount As Decimal) As Dictionary(Of String, String) Implements ILiquidationDomain.ReplaceDataLiquidation
+                                           LutoDays As Decimal, EmployerOccupationalDisabilityDays As Decimal, EmployerOccupationalDisabilityAmount As Decimal, ERPOccupationalDisabilityDays As Decimal, ERPOccupationalDisabilityAmount As Decimal, ImmediateVacationValue As Decimal, ImmediateVacationBonificationValue As Decimal, ImmediateVacationIncentivePaymentValue As Decimal, ImmediateVacationalIncreaseValue As Decimal) As Dictionary(Of String, String) Implements ILiquidationDomain.ReplaceDataLiquidation
 
         Dim descriptions As Dictionary(Of String, String)
 
@@ -348,13 +348,15 @@ Public Class LiquidationDomain
         FormulaConcept = Replace(FormulaConcept, "[Dias Incapacidad Profesional ERP]", Replace(ERPOccupationalDisabilityDays.ToString, ",", "."))
         FormulaConcept = Replace(FormulaConcept, "[Valor Incapacidad Profesional Patrono]", Replace(EmployerOccupationalDisabilityAmount.ToString, ",", "."))
         FormulaConcept = Replace(FormulaConcept, "[Valor Incapacidad Profesional ERP]", Replace(ERPOccupationalDisabilityAmount.ToString, ",", "."))
+        FormulaConcept = Replace(FormulaConcept, "[Valor Vacaciones Pago Inmediato]", Format(ImmediateVacationValue, "0.00").Replace(",", "."))
+        FormulaConcept = Replace(FormulaConcept, "[Valor Bonificacion Recreacion Pago Inmediato]", Format(ImmediateVacationBonificationValue, "0.00").Replace(",", "."))
+        FormulaConcept = Replace(FormulaConcept, "[Valor Prima Vacaciones Pago Inmediato]", Format(ImmediateVacationIncentivePaymentValue, "0.00").Replace(",", "."))
+        FormulaConcept = Replace(FormulaConcept, "[Valor Incremento Vacacional Pago Inmediato]", Format(ImmediateVacationalIncreaseValue, "0.00").Replace(",", "."))
 
         Dim result = Utils.EvalExpression(FormulaConcept)
         Dim ConceptValue As Decimal
         If result.StateResult = True Then
             ConceptValue = CType(result.ObjectEmbbeded, Decimal)
-        Else
-
         End If
 
         descriptions = New Dictionary(Of String, String)
@@ -1912,6 +1914,11 @@ Public Class LiquidationDomain
 
         IBCRTF = Math.Round(IBCRTF)
 
+        ' Captura el aporte real de salud del mes ANTES del override por RtfHealthContribution = 2.
+        ' El override sobreescribe ObligatoryHealthEmployee con el promedio del año anterior
+        ' (para el cálculo de tasa en Procedimiento 2), pero el INCRNGO siempre debe
+        ' usar el valor real descontado al empleado ese mes (Art. 56 ET).
+        Dim HealthForINCRNGO As Double = ObligatoryHealthEmployee
 
         If PayrollSettings IsNot Nothing AndAlso PayrollSettings.RtfHealthContribution = 2 And flagIncentivePayment = False Then
 
@@ -1986,7 +1993,7 @@ Public Class LiquidationDomain
         If RetentionProcedure = 1 Then
             ' Ingresos No Constitutivos de Renta
 
-            Dim TotalIngresosNoConstituvos = ObligatoryPensionEmployee + PensionalSolidarityFund + ObligatoryHealthEmployee
+            Dim TotalIngresosNoConstituvos = ObligatoryPensionEmployee + PensionalSolidarityFund + HealthForINCRNGO
             Dim Subtotal1 = IBCRTF - TotalIngresosNoConstituvos
 
             'Deducciones
@@ -2059,6 +2066,8 @@ Public Class LiquidationDomain
             ListRetentionResult.Add(New Tuple(Of String, Double)("TotalRentasExentasyDeducciones", MaxDeductionsAndRentExents))
             ListRetentionResult.Add(New Tuple(Of String, Double)("BaseGrabable", BaseGravable))
             ListRetentionResult.Add(New Tuple(Of String, Double)("Retenciones", Retenciones))
+            ListRetentionResult.Add(New Tuple(Of String, Double)("AccumulatedExemptIncomeControl", CDbl(EmployeeAccumulatedExempIncome.AccumulatedValue)))
+            ListRetentionResult.Add(New Tuple(Of String, Double)("AccumulatedMaxDeductionsControl", CDbl(EmployeeAccumulatedExempIncome.AccumulatedMaxDeductionsAndRentExents)))
 
 
         Else
@@ -2108,7 +2117,7 @@ Public Class LiquidationDomain
 
             'ObligatoryHealthEmployee = ObligatoryPensionEmployee
 
-            Dim TotalIngresosNoConstituvos = ObligatoryPensionEmployee + PensionalSolidarityFund + ObligatoryHealthEmployee
+            Dim TotalIngresosNoConstituvos = ObligatoryPensionEmployee + PensionalSolidarityFund + HealthForINCRNGO
 
             Dim Subtotal1 = IBCRTF - TotalIngresosNoConstituvos
 
@@ -2172,6 +2181,8 @@ Public Class LiquidationDomain
             ListRetentionResult.Add(New Tuple(Of String, Double)("BaseGrabable", BaseGravable))
             ListRetentionResult.Add(New Tuple(Of String, Double)("Retenciones", Retenciones))
             ListRetentionResult.Add(New Tuple(Of String, Double)("PorcentajeRetencion", ObjFixedPercentageRetention.PercentageRetention))
+            ListRetentionResult.Add(New Tuple(Of String, Double)("AccumulatedExemptIncomeControl", CDbl(EmployeeAccumulatedExempIncome.AccumulatedValue)))
+            ListRetentionResult.Add(New Tuple(Of String, Double)("AccumulatedMaxDeductionsControl", CDbl(EmployeeAccumulatedExempIncome.AccumulatedMaxDeductionsAndRentExents)))
 
 
             If Employee.DeclarantType = 2 Then
@@ -2204,33 +2215,34 @@ Public Class LiquidationDomain
     ''' <remarks></remarks>
     Public Function CalculateLessRentsExentsPopup(subTotal As Decimal, UVT As Integer, IncomeControl As Boolean, AccumulatedExemptIncomeValue As Decimal, ExceptRTF As Decimal) As Decimal
         Dim valSubTotal As Decimal = subTotal * ExceptRTF / 100
-        Dim valUvt As Decimal
-        Dim differenceValueLimit As Decimal
-
-        If IncomeControl Then
-            valUvt = Math.Round(CDec((790 / 12) * UVT), 3)
-        Else
-            valUvt = CDec(790) * CDec(UVT)
-        End If
 
         If AccumulatedExemptIncomeValue = vbEmpty Then
             AccumulatedExemptIncomeValue = 0
         End If
 
-        If AccumulatedExemptIncomeValue > valUvt Then
-            valSubTotal = 0
-        Else
-            differenceValueLimit = valUvt - AccumulatedExemptIncomeValue
-            If valSubTotal > differenceValueLimit Then
-                valSubTotal = differenceValueLimit
-            Else
-                valSubTotal = valSubTotal
-            End If
-        End If
+        If IncomeControl Then
+            ' Control mensual: límite mensual para el mes actual, límite anual para el acumulado
+            Dim monthlyLimit As Decimal = Math.Round(CDec((790 / 12) * UVT), 3)
+            Dim annualLimit As Decimal = CDec(790) * CDec(UVT)
 
-        If valSubTotal > valUvt Then
-            Return valUvt
+            If AccumulatedExemptIncomeValue >= annualLimit Then Return 0
+
+            If valSubTotal > monthlyLimit Then valSubTotal = monthlyLimit
+
+            Dim remainingCapacity As Decimal = annualLimit - AccumulatedExemptIncomeValue
+            If valSubTotal > remainingCapacity Then valSubTotal = remainingCapacity
+
+            Return valSubTotal
         Else
+            ' Control anual: compara acumulado contra límite anual
+            Dim annualLimit As Decimal = CDec(790) * CDec(UVT)
+
+            If AccumulatedExemptIncomeValue >= annualLimit Then Return 0
+
+            Dim remainingCapacity As Decimal = annualLimit - AccumulatedExemptIncomeValue
+            If valSubTotal > remainingCapacity Then valSubTotal = remainingCapacity
+            If valSubTotal > annualLimit Then Return annualLimit
+
             Return valSubTotal
         End If
     End Function
@@ -2251,11 +2263,12 @@ Public Class LiquidationDomain
         If ListRange383 IsNot Nothing AndAlso ListRange383.Count > 0 Then
             Dim retentionConceptRange As Domain.Payroll.Entities.RetentionConceptRanges = (From item In ListRange383 Where UVTTaxBase >= item.ValueInitial AndAlso UVTTaxBase < item.ValueFinish Select item).FirstOrDefault
             If retentionConceptRange IsNot Nothing Then
-                ValueReturn = ((UVTTaxBase - retentionConceptRange.ValueInitial) * (retentionConceptRange.Percentage / 100.0)) + retentionConceptRange.UVTIncrement
+                'Art. 383 ET resta el umbral redondo del rango (95, 150, 360...), no el valor desplazado.
+                Dim RangeStartValue As Decimal = Math.Floor(retentionConceptRange.ValueInitial)
+                ValueReturn = ((UVTTaxBase - RangeStartValue) * (retentionConceptRange.Percentage / 100.0)) + retentionConceptRange.UVTIncrement
                 ValueReturn = CDec(Utils.RoundValue(ValueReturn * UVT, Utils.RoundLevel.Thousands))
-
                 'Para Retención por Fracción
-                ValueInitial = retentionConceptRange.ValueInitial
+                ValueInitial = RangeStartValue
                 Percentage = retentionConceptRange.Percentage
 
             End If
@@ -2400,7 +2413,10 @@ Public Class LiquidationDomain
             End If
         Else
 
-            Dim TopeMaximo = 32 * UVTValue
+            ' VarOption=2 se usa únicamente en FixedPercentageRetention() para el promedio anual
+            ' del % fijo (Procedimiento 2): "Value" ya es la suma de 12 meses de deducción por
+            ' dependientes, así que el tope de 32 UVT debe escalarse por esos 12 meses
+            Dim TopeMaximo = 32 * UVTValue * 12
 
             If TopeMaximo > Value Then
                 Return Value
@@ -2476,40 +2492,45 @@ Public Class LiquidationDomain
         End If
 
 
-        'Cargo los Datos de los Retroactivos
-        Dim ObjRetroactiveC = _retroactiveRepository.GetListRetroactiveByEmployeeId(2015, Employee.Id)
+        'Cargo los Datos de los Retroactivos y de los Incentivos (Primas) de la ventana de 12 meses.
+        'Se filtra por InitialDateTmp-EndDateTmp y no por año calendario: recorrer los años completos
+        'metía pagos posteriores al corte (p.ej. la prima de junio en una ventana que cierra en mayo).
+        Dim ListRetroactiveC = _retroactiveRepository.GetListRetroactiveByEmployeeIdBetweenDates(Employee.Id, InitialDateTmp, EndDateTmp)
 
-        If ObjRetroactiveC IsNot Nothing Then
+        If ListRetroactiveC IsNot Nothing Then
 
-            VarIBCRft = VarIBCRft + ObjRetroactiveC.RetroactiveD.Where(Function(x) x.Concept.AffectIBCRTF = True).Sum(Function(x) x.ValueConceptWithRetroactive)
+            For Each ObjRetroactiveC As RetroactiveC In ListRetroactiveC
 
-            'Salud Prepagada
-            VarPrepaidHealth = VarPrepaidHealth + ObjRetroactiveC.RetroactiveD.Where(Function(x) x.Concept.ConceptClass = "019").Sum(Function(x) x.ValueConceptWithRetroactive)
+                VarIBCRft = VarIBCRft + ObjRetroactiveC.RetroactiveD.Where(Function(x) x.Concept.AffectIBCRTF = True).Sum(Function(x) x.ValueConceptWithRetroactive)
 
-            'Salud Obligatoria
-            VarObligatoryHealth = VarObligatoryHealth + ObjRetroactiveC.RetroactiveD.Where(Function(x) x.Concept.ConceptClass = "017").Sum(Function(x) x.ValueConceptWithRetroactive)
+                'Salud Prepagada
+                VarPrepaidHealth = VarPrepaidHealth + ObjRetroactiveC.RetroactiveD.Where(Function(x) x.Concept.ConceptClass = "019").Sum(Function(x) x.ValueConceptWithRetroactive)
 
-            'Pensión Obligatoria
-            VarObligatoryPension = VarObligatoryPension + ObjRetroactiveC.RetroactiveD.Where(Function(x) x.Concept.ConceptClass = "014").Sum(Function(x) x.ValueConceptWithRetroactive)
+                'Salud Obligatoria
+                VarObligatoryHealth = VarObligatoryHealth + ObjRetroactiveC.RetroactiveD.Where(Function(x) x.Concept.ConceptClass = "017").Sum(Function(x) x.ValueConceptWithRetroactive)
 
-            'Pension Voluntaria
-            VarVoluntaryPension = VarVoluntaryPension + ObjRetroactiveC.RetroactiveD.Where(Function(x) x.Concept.ConceptClass = "016").Sum(Function(x) x.ValueConceptWithRetroactive)
+                'Pensión Obligatoria
+                VarObligatoryPension = VarObligatoryPension + ObjRetroactiveC.RetroactiveD.Where(Function(x) x.Concept.ConceptClass = "014").Sum(Function(x) x.ValueConceptWithRetroactive)
 
-            'Cuentas AFC
-            VarAFCAccount = VarAFCAccount + ObjRetroactiveC.RetroactiveD.Where(Function(x) x.Concept.ConceptClass = "045").Sum(Function(x) x.ValueConceptWithRetroactive)
+                'Pension Voluntaria
+                VarVoluntaryPension = VarVoluntaryPension + ObjRetroactiveC.RetroactiveD.Where(Function(x) x.Concept.ConceptClass = "016").Sum(Function(x) x.ValueConceptWithRetroactive)
 
-            'Gastos de Representación
-            VarRepresentationCost = VarRepresentationCost + ObjRetroactiveC.RetroactiveD.Where(Function(x) x.Concept.ConceptClass = "047").Sum(Function(x) x.ValueConceptWithRetroactive)
+                'Cuentas AFC
+                VarAFCAccount = VarAFCAccount + ObjRetroactiveC.RetroactiveD.Where(Function(x) x.Concept.ConceptClass = "045").Sum(Function(x) x.ValueConceptWithRetroactive)
 
-            'Fondo de Solidaridad Pensional
-            VarPensionSolidarityFund = VarPensionSolidarityFund + ObjRetroactiveC.RetroactiveD.Where(Function(x) x.Concept.ConceptClass = "038").Sum(Function(x) x.ValueConceptWithRetroactive)
+                'Gastos de Representación
+                VarRepresentationCost = VarRepresentationCost + ObjRetroactiveC.RetroactiveD.Where(Function(x) x.Concept.ConceptClass = "047").Sum(Function(x) x.ValueConceptWithRetroactive)
 
+                'Fondo de Solidaridad Pensional
+                VarPensionSolidarityFund = VarPensionSolidarityFund + ObjRetroactiveC.RetroactiveD.Where(Function(x) x.Concept.ConceptClass = "038").Sum(Function(x) x.ValueConceptWithRetroactive)
+
+            Next
 
         End If
 
-        Dim ListIncentivePayment = _incentivePaymentRepository.GetIncentivePaymentByEmployeeIdRetefuente(Employee.Id, 2015)
+        Dim ListIncentivePayment = _incentivePaymentRepository.GetIncentivePaymentByEmployeeIdRetefuenteBetweenDates(Employee.Id, InitialDateTmp, EndDateTmp)
 
-        If ListIncentivePayment IsNot Nothing And ListIncentivePayment.Count > 0 Then
+        If ListIncentivePayment IsNot Nothing AndAlso ListIncentivePayment.Count > 0 Then
             VarIBCRft = VarIBCRft + ListIncentivePayment.Sum(Function(x) x.TotalAccrued)
         End If
 
@@ -2534,6 +2555,14 @@ Public Class LiquidationDomain
         Dim SubTotal3 = Subtotal4 - RentasExcentas
 
         Dim RentaTrabajoExenta = SubTotal3 * (ExceptRTF / 100)
+
+        ' Tope legal de 790 UVT anuales para la renta exenta del 25% (Art. 206 num. 10 ET).
+        ' Este cálculo es siempre un agregado anual de los 12 meses que se promedian para el
+        ' % fijo
+        Dim TopeRentaExentaAnual As Double = 790 * UVTValue
+        If RentaTrabajoExenta > TopeRentaExentaAnual Then
+            RentaTrabajoExenta = TopeRentaExentaAnual
+        End If
 
         Dim SubTotal5 = SubTotal3 - RentaTrabajoExenta
 
@@ -2608,8 +2637,20 @@ Public Class LiquidationDomain
                 Retention = (UVTIngresoLaboral - 150) * (28 / 100) + 10
             End If
 
-            If UVTIngresoLaboral > 360 Then
+            If UVTIngresoLaboral > 360 And UVTIngresoLaboral <= 640 Then
                 Retention = (UVTIngresoLaboral - 360) * (33 / 100) + 69
+            End If
+
+            If UVTIngresoLaboral > 640 And UVTIngresoLaboral <= 945 Then
+                Retention = (UVTIngresoLaboral - 640) * (35 / 100) + 162
+            End If
+
+            If UVTIngresoLaboral > 945 And UVTIngresoLaboral <= 2300 Then
+                Retention = (UVTIngresoLaboral - 945) * (37 / 100) + 268
+            End If
+
+            If UVTIngresoLaboral > 2300 Then
+                Retention = (UVTIngresoLaboral - 2300) * (39 / 100) + 770
             End If
 
             Percentage = Retention / UVTIngresoLaboral
@@ -2641,7 +2682,11 @@ Public Class LiquidationDomain
         If AccumulatedTotalValue >= UvtLimitMax Then Return 0
 
         ' Ajustar el límite si la suma acumulada excede el tope anual
-        If tmpAccumulatedTotalValue > UvtLimitMax Then
+        If IncomeControl = False Then
+            If tmpAccumulatedTotalValue > UvtLimitMax Then
+                SubTotalLimit = UvtLimitMax - AccumulatedTotalValue
+            End If
+        Else
             SubTotalLimit = UvtLimitMax - AccumulatedTotalValue
         End If
 
@@ -2905,7 +2950,7 @@ Public Class LiquidationDomain
                 Dim CompareDate = New Date(1901, 1, 1)
 
                 If CompareDate <> RetirementDate Then
-                    ContractList = objEmployeeTmp.Contract.Where(Function(x) x.ContractEndingDate >= PayrollStarDate And x.ContractInitialDate <= PayrollEndDate And x.GroupId = groupEmployee.Id And x.LiquidationPayroll = "1" And (x.LastLiquidationDate Is Nothing Or x.LastLiquidationDate < PayrollStarDate) And x.ContractInitialDate <> x.ContractEndingDate).ToList()
+                    ContractList = objEmployeeTmp.Contract.Where(Function(x) x.ContractEndingDate >= PayrollStarDate And x.ContractInitialDate <= PayrollEndDate And x.GroupId = groupEmployee.Id And x.LiquidationPayroll = "1" And (x.LastLiquidationDate Is Nothing Or x.LastLiquidationDate < PayrollStarDate) And x.ContractInitialDate <> x.ContractEndingDate And (x.Valid = True Or (x.ContractEndingDate >= RetirementDate And x.ContractInitialDate <= RetirementDate And x.ContractEndingDate < New Date(9999, 12, 31)) Or (x.Status = 4 And x.ContractEndingDate < RetirementDate))).ToList()
                 Else
                     ContractList = objEmployeeTmp.Contract.Where(Function(x) x.ContractEndingDate >= PayrollStarDate And x.ContractInitialDate <= PayrollEndDate And x.LiquidationPayroll = "1" And ListStatusContract.Any(Function(y) y = x.Status) And x.ContractInitialDate <> x.ContractEndingDate And x.GroupId = groupEmployee.Id).ToList()
                 End If
@@ -3503,6 +3548,10 @@ Public Class LiquidationDomain
                 Dim VacationType As Byte
                 'Dias vacaciones en dinero
                 Dim VacationDaysInCash As Decimal = 0
+                Dim ImmediateVacationValue As Decimal = 0
+                Dim ImmediateVacationBonificationValue As Decimal = 0
+                Dim ImmediateVacationIncentivePaymentValue As Decimal = 0
+                Dim ImmediateVacationalIncreaseValue As Decimal = 0
                 'Se sube la variable para que calcule los dias totales de vacaciones
                 Dim TotalVacationDays As Integer = 0
 
@@ -3581,6 +3630,18 @@ Public Class LiquidationDomain
                         If ObjTuple.Item1 = "DiasVacacionesCompensadas" Then
                             VacationDaysInCash = ObjTuple.Item2
                         End If
+                        If ObjTuple.Item1 = "ValorVacacionesPagoInmediato" Then
+                            ImmediateVacationValue = ObjTuple.Item2
+                        End If
+                        If ObjTuple.Item1 = "BonificacionVacacionesPagoInmediato" Then
+                            ImmediateVacationBonificationValue = ObjTuple.Item2
+                        End If
+                        If ObjTuple.Item1 = "PrimaVacacionesPagoInmediato" Then
+                            ImmediateVacationIncentivePaymentValue = ObjTuple.Item2
+                        End If
+                        If ObjTuple.Item1 = "IncrementoVacacionesPagoInmediato" Then
+                            ImmediateVacationalIncreaseValue = ObjTuple.Item2
+                        End If
                     Next
 
                 End If
@@ -3652,9 +3713,6 @@ Public Class LiquidationDomain
                 Dim TotalSpendingInabilityAmbulatory As Decimal = 0
                 Dim TotalInabilityCollectAmbulatory As Decimal = 0
                 Dim ValueGeneralInability As Decimal = 0
-
-                ' Variable para manejar días trabajados proporcionales (Costa Rica)
-                Dim ProportionalWorkedDays As Integer = 0
 
                 'Hospitalaria
                 Dim HospitalInability As Decimal = 0
@@ -3766,14 +3824,11 @@ Public Class LiquidationDomain
                 Dim prevMonthEmployer As Decimal = 0
 
 
-                ' Bandera para excluir devengados y deducidos - se actualiza en AnalisisNovelty según condiciones específicas
-                Dim shouldExcludeAllAccruedDetails As Boolean = False
-
                 If employeeNovelty IsNot Nothing AndAlso employeeNovelty.Count > 0 Then
 
                     ActionMessageResult.MessageResult.Add(New MessageResult("002: Incapacidades", "El Empleado " & NitEmployee & " - " & NameEmployee & " tiene novedades registradas en el periodo"))
 
-                    Dim NoveltyTuple = _functionsLiquidation.AnalisisNovelty(Me, contractEmployee, PayrollStarDate, PayrollEndDate, employeeNovelty, PayrollDays, _noveltyRepository, VacationInitialModifiedDate, VacationEndModifiedDate, SessionValues, shouldExcludeAllAccruedDetails, Day31)
+                    Dim NoveltyTuple = _functionsLiquidation.AnalisisNovelty(Me, contractEmployee, PayrollStarDate, PayrollEndDate, employeeNovelty, PayrollDays, _noveltyRepository, VacationInitialModifiedDate, VacationEndModifiedDate, SessionValues, Day31, CDec(groupEmployee.PayrollParameter.LegalSalaryMinimum))
 
                     If NoveltyTuple.Count > 0 Then
                         ActionMessageResult.MessageResult.Add(New MessageResult("002: Incapacidades", "El Empleado " & NitEmployee & " - " & NameEmployee & " tiene novedades registradas en el periodo"))
@@ -3837,18 +3892,6 @@ Public Class LiquidationDomain
                             End If
                         End If
 
-                        ' Procesar concepto de salario proporcional (Costa Rica)
-                        If ObjTuple.Item1 = "SalarioProporcional" Then
-                            If ObjTuple.Item2 > 0 Then
-                                ' Capturar días trabajados proporcionales para ajustar DaysWorked
-                                ProportionalWorkedDays = ObjTuple.Item2
-
-                                ' Mensaje informativo sobre el salario proporcional
-                                MessageLiquitadion = CreateMessage("Se liquidó salario proporcional por " & ObjTuple.Item2 & " días trabajados en período con incapacidad", False, PayrollEndDate)
-                                EmployeeLiquidated.Message.Add(MessageLiquitadion)
-                            End If
-                        End If
-
                         If ObjTuple.Item1 = "Hospitalaria" Then
                             If ObjTuple.Item2 > 0 Then
                                 HospitalInabilityDays = HospitalInabilityDays + ObjTuple.Item2
@@ -3900,7 +3943,7 @@ Public Class LiquidationDomain
                         If ObjTuple.Item1 = "Paternidad" Then
                             If ObjTuple.Item2 > 0 Then
                                 PaternityInabilityDays = PaternityInabilityDays + ObjTuple.Item2
-                                LicensesDays = LicensesDays + PaternityInabilityDays
+                                LicensesDays = LicensesDays + ObjTuple.Item2
                                 ValuePaternity = ValuePaternity + (ObjTuple.Item3 + ObjTuple.Item4)
 
                                 PaternityInabilityInitialDate = ObjTuple.Item5
@@ -3947,9 +3990,7 @@ Public Class LiquidationDomain
 
                         If ObjTuple.Item1 = "LicenciasRemuneradas" Then
                             If ObjTuple.Item2 > 0 Then
-                                LicensesDays = LicensesDays + ObjTuple.Item2
                                 PaidLeaveDays = PaidLeaveDays + ObjTuple.Item2
-                                LicensesDays = LicensesDays - PaidLeaveDays
                                 LicencesesInitialDate = ObjTuple.Item5
                                 LicencesesEndDate = ObjTuple.Item6
 
@@ -4073,13 +4114,17 @@ Public Class LiquidationDomain
                 If ListVacationPastEmployee.Count < 1 AndAlso (ContractVacationDays > 0 AndAlso TotalEmployeeInabilityDays > 0 AndAlso VacationEndModifiedDate IsNot Nothing) Then
                     ContractVacationDays = _functionsLiquidation.VacationAdjustNovelty(Me, EnjoyDays, VacationInitialDate, PayrollStarDate, PayrollEndDate, VacationEndModifiedDate, AmbulatoryInabilityInitialDate, VacationInitialModifiedDate)
                 End If
-                ' Ajuste para Costa Rica: Si hay salario proporcional, usar días trabajados proporcionales
-                If ProportionalWorkedDays > 0 Then
-                    ' Costa Rica: Usar días trabajados calculados por salario proporcional
-                    DaysWorked = ProportionalWorkedDays
-                Else
-                    ' Lógica normal: restar días de incapacidades y licencias
-                    DaysWorked = DaysWorked - TotalEmployeeInabilityDays - ContractVacationDays - SanctionsDays - UnpaidLicensesDays - CalamidadDays - DaysPermission - PaidLeaveDays - LicensesDays - LutoDays
+                DaysWorked = DaysWorked - TotalEmployeeInabilityDays - ContractVacationDays - SanctionsDays - UnpaidLicensesDays - CalamidadDays - DaysPermission - PaidLeaveDays - LicensesDays - LutoDays
+
+                ' Solo aplica para incapacidades de 180 días (CalculationType = 7)
+                ' que cubran todos los días reales del mes (evita residuo por Feb 28 vs base 30)
+                If TotalEmployeeInabilityDays > 0 AndAlso DaysWorked > 0 AndAlso
+                   TotalEmployeeInabilityDays >= Day(PayrollEndDate) AndAlso
+                   employeeNovelty IsNot Nothing AndAlso
+                    employeeNovelty.Any(Function(x) x.CalculationType.HasValue AndAlso x.CalculationType.Value = 7) Then
+                    DaysWorked = 0
+                ElseIf Month(PayrollEndDate) = 2 AndAlso TotalEmployeeInabilityDays = 28 Then
+                    DaysWorked = 0
                 End If
 
                 If DaysWorked < 0 Then
@@ -4293,9 +4338,6 @@ Public Class LiquidationDomain
                 Dim IBCVacation As Decimal = 0
                 Dim IBCIncentivePayment As Decimal = 0
 
-                'Variable para Ley 1393 - Límite 40% Bonificaciones No Salariales
-                Dim NonSalaryBonification As Decimal = 0
-
                 Dim HourSchedule As Decimal = 0
 
                 Dim IncentivePaymentServices As Decimal = 0
@@ -4415,9 +4457,77 @@ Public Class LiquidationDomain
                 Dim PayrollAuthorizationConcepts = PayrollAuthorizationConcept _
                     .OrderBy(Function(x) IIf(x.Concept.ConceptClass = "020", 1, 0)) _
                     .ThenBy(Function(x) IIf(x.Concept.Formulates.Contains(ConceptFormulatePrefix), 1, 0)) _
-                    .ThenBy(Function(x) x.Concept.ConceptType) _
-                    .ThenBy(Function(x) If(x.Concept.ConceptType = 1, Not x.Concept.AffectIBC, False)) _
+                    .ThenBy(Function(x)
+                                ' ====================================================================
+                                ' ORDEN INTEGRADO: Corrección de IBC + Cumplimiento Ley 1393/2010
+                                ' ====================================================================
+                                ' PRIORIDAD 1: Deducciones que afectan IBC (Type 2)
+                                '   - Se procesan PRIMERO para corregir IBCs
+                                '   - Esto garantiza cálculos correctos en conceptos dependientes
+                                If x.Concept.ConceptType = 2 AndAlso (x.Concept.AffectIBCHealth OrElse x.Concept.AffectIBCPension OrElse x.Concept.AffectIBCARP) Then
+                                    Return 0  ' MÁXIMA PRIORIDAD
+
+                                    ' PRIORIDAD 2-5: Ingresos salariales (Type 1) - Ley 1393/2010
+                                    '   Se procesan DESPUÉS cuando IBCs ya están corregidos
+                                ElseIf x.Concept.ConceptType = 1 Then
+                                    ' 2 - Salariales normales (AffectIBC=True, AffectLimit40=False)
+                                    '     Estos construyen las bases IBC
+                                    If x.Concept.AffectIBC = True AndAlso x.Concept.AffectLimit40Law1393 = False Then
+                                        Return 1
+
+                                        ' 3 - Bonificaciones no salariales (AffectLimit40Law1393=True)
+                                        '     Estas consumen el límite del 40%
+                                    ElseIf x.Concept.AffectLimit40Law1393 = True Then
+                                        Return 2
+
+                                        ' 4 - Conceptos que consumen IBCs en fórmulas
+                                        '     IMPORTANTE: Se procesan DESPUÉS de tener IBCs correctos
+                                    ElseIf x.Concept.Formulates.Contains("[IBC Salud]") OrElse
+                                           x.Concept.Formulates.Contains("[IBC Pensión]") OrElse
+                                           x.Concept.Formulates.Contains("[IBC ARP]") OrElse
+                                           x.Concept.Formulates.Contains("[IBC Periodo]") Then
+                                        Return 3
+
+                                        ' 5 - Otros conceptos Type 1 (no salariales, no con límite 40%)
+                                    Else
+                                        Return 4
+                                    End If
+
+                                Else
+                                    Return 5
+                                End If
+                            End Function) _
                     .ToList()
+
+                ' IBC Primas, Cesantías, Vacaciones e Intereses cuando 0 días trabajados e incapacidades (para que conceptos patronales/provisiones usen la base)
+                If DaysWorked = 0 AndAlso TotalEmployeeInabilityDays > 0 Then
+                    If TotalPeriodDaysInabilities > 0 AndAlso ConceptoDevengadoSuma = 0 Then
+                        Dim baseIBC As Decimal = 0
+                        If BasicSalary > 0 Then
+                            baseIBC = Math.Round((BasicSalary / 30) * PayrollDays, 0)
+                        End If
+                        If baseIBC > 0 Then
+                            IBCSeverance = baseIBC
+                            IBCVacation = baseIBC
+                            IBCIncentivePayment = baseIBC
+                        End If
+                        If ContractVacationDays > 0 Then
+                            IBCCompensationFund = VacationValue
+                        End If
+                    End If
+                End If
+
+                '============================================================================
+                'LEY 1393/2010 - LÍMITE 40% BONIFICACIONES NO SALARIALES
+                'Acumuladores para detectar si las bonificaciones no salariales superan el
+                'límite del 40%. El ajuste se aplica JUSTO ANTES del primer concepto que
+                'use [IBC Salud], [IBC Pensión] o [IBC ARP] en su fórmula, garantizando
+                'que esos conceptos se calculen con los IBCs ya corregidos.
+                'No aplica para Costa Rica (es-CR).
+                '============================================================================
+                Dim NonSalaryBonification As Decimal = 0   ' AffectLimit40=True, AffectIBC=False
+                Dim valueAccrued As Decimal = 0             ' AffectIBC=True, AffectLimit40=False
+                Dim AlreadyAppliedLaw1393 As Decimal = 0   ' Acumula lo ya sumado a los IBCs por Ley 1393
 
                 For Each ConceptAuthorization As AuthorizationConcept In PayrollAuthorizationConcepts
 
@@ -4559,6 +4669,7 @@ Public Class LiquidationDomain
                     Dim ThirdPartyAgreementsName As String = String.Empty
                     Dim NumAgreement As Integer = 0
                     Dim AgreementsDId As Integer = 0
+                    Dim NumAgreementD As Integer = 0
 
                     'CONVENIOS
                     Dim StateAgreement = ""
@@ -4567,6 +4678,10 @@ Public Class LiquidationDomain
                             Dim AnalisiAgreements = AgreementsList.Where(Function(x) x.ConceptId = ConceptAuthorization.ConceptId).ToList()
                             If AnalisiAgreements IsNot Nothing AndAlso AnalisiAgreements.Count > 0 Then
                                 ManualConceptValue = _functionsLiquidation.AgreementsPaid(PayrollStarDate, PayrollEndDate, AnalisiAgreements, PaidCredit, VacationDays, NumAgreement, AgreementsDId, ThirdPartyAgreementsName, ThirdPartyAgreementsId, AgreementsId)
+                                Dim LiquidatedAgreement = AnalisiAgreements.FirstOrDefault(Function(x) x.Id = AgreementsId)
+                                If LiquidatedAgreement IsNot Nothing AndAlso LiquidatedAgreement.TermType = 1 Then
+                                    NumAgreementD = 1
+                                End If
                             End If
                         End If
                     End If
@@ -4796,7 +4911,8 @@ Public Class LiquidationDomain
                                     If objLiquidationTmp.LiquidationDetail.Any(Function(x) x.Concept.AffectIBCRTF = True) Then
 
                                         Dim AccruedLastQuarterIBC = objLiquidationTmp.LiquidationDetail.Where(Function(x) x.Concept.AffectIBCRTF = True And x.ConceptType = 1).Sum(Function(x) x.ConceptTotalValue)
-                                        Dim DeductedLastQuarterIBC = objLiquidationTmp.LiquidationDetail.Where(Function(x) x.Concept.AffectIBCRTF = True And x.ConceptType = 2).Sum(Function(x) x.ConceptTotalValue)
+                                        ' Excluir clase "038" (FSP) para no doble-descontar (ya entra como INCRNGO en Retention)
+                                        Dim DeductedLastQuarterIBC = objLiquidationTmp.LiquidationDetail.Where(Function(x) x.Concept.AffectIBCRTF = True And x.ConceptType = 2 And x.Concept.ConceptClass <> "038").Sum(Function(x) x.ConceptTotalValue)
 
                                         IBCRTFLastQuarter = AccruedLastQuarterIBC - DeductedLastQuarterIBC
                                     End If
@@ -4978,6 +5094,12 @@ Public Class LiquidationDomain
                                 If ObjTuple.Item1 = "AcumuladoRangos" Then
                                     AcumuladoRangos = ObjTuple.Item2
                                 End If
+                                If ObjTuple.Item1 = "AccumulatedExemptIncomeControl" Then
+                                    EmployeeLiquidated.ExemptIncomeControl = CDec(ObjTuple.Item2)
+                                End If
+                                If ObjTuple.Item1 = "AccumulatedMaxDeductionsControl" Then
+                                    EmployeeLiquidated.TotalExemptIncomeandDeductionsControl = CDec(ObjTuple.Item2)
+                                End If
 
                             Next
                         End If
@@ -5013,71 +5135,40 @@ Public Class LiquidationDomain
 
                     End If
 
+                    Dim OriginalFormulaConcept As String = FormulaConcept  ' ← GUARDAR ORIGINAL
+
                     If FormulaConcept.Contains(ConceptFormulatePrefix) Then
                         FormulaConcept = ReplaceConceptAsVariable(FormulaConcept, PayrollAuthorizationConcept)
                     End If
-                    Dim Limit40law1393 As Double = 0
-                    'Acumular bonificaciones no salariales para Ley 1393 (Colombia)
-                    'Solo aplica cuando la cultura NO es Costa Rica y el concepto tiene AffectLimit40Law1393=True pero AffectIBC=False
-                    If SessionValues.LanguageCulture <> "es-CR" Then
-                        If ConceptAuthorization.Concept.AffectLimit40Law1393 = True AndAlso ConceptAuthorization.Concept.AffectIBC = False Then
-                            Dim ConceptDataLimit40law1393 = Me.ReplaceDataLiquidation(groupEmployee.PayrollParameter, BasicSalary, WorkDays, WorkHours, PayrollDays, FormulaConcept, contractEmployee, BaseIBCPension, BaseIBCHealth, IBCHealth, BaseIBCHealthEmployer, BaseIBCHealthEmployerIntegral, BaseIBCPensionEmployer, BaseIBCPensionEmployerIntegral, IBCSENA, IBCICBF,
-                                                        IBCPeriod, IBCSeverance, IBCCompensationFund, IBCPension, IBCARP, ValueAmbulatoryInability, ValueHospitalInability, ValueMaternity, ValueSanction, TotalPeriodDaysInabilities, HospitalInabilityDays,
-                                                        LicensesDays, FamilyDay, UnpaidLicensesDays, ValueUnpaidLicenses, ValueProfesionalInabilities, HealthEmployee, PensionEmployee, BaseIBCArp, BaseIBCArpIntegral, BaseParafiscalCompensationFund, BaseParafiscalCompensationFundIntegral, BaseParafiscalICBF, BaseParafiscalICBFIntegral, RetentionValue, ProvisionDays,
-                                                        ProfessionalRiskPercentage, VacationValue, AdjustVacationValue, incentiePaymentValue, unemployedInterestValue, transportHelpValue, BaseIBCSENAIntegral, BaseIBCSENA, ConceptoDevengadoSuma, ConceptoDeducidoSuma, BaseIBCSecurityPensionalIntegralFound, CalamidadDays, VoluntaryPensionValue, VoluntaryHealthValue, IBCIncentivePayment,
-                                                        BonusServices, ManualConceptValue, SindicateFlag, PaidVacation, RepresentationCost, PaidValueAverageIncentiveServices, IBCHour, PayrollEndDate, contractEmployee.JobBondingDate, NumberContract, ValueGeneralInability, ValueLuto, ValuePaternity, TotalIBCSolidaridad, CodeEmployeeType, AnoLaborado, BonificationValue, TotalVacationDays, ContractVacationDays, ContractItem,
-                                                        ValueRetroactiveBonification, RecreationBonificationValue, VacationalIncrease, VacationIncentivePayment, VacationCompensationValue, PaidCredit, minHourAmount, maxHourAmount, IBCVacation, DecemberIncentivePaymentAverage, IncentivePaymentAverage, VacationIncentiveValue, ValueForeclousure, PercentageForeclousure, codeWorkCenter, HolidaysHours, DailyBasicSalary,
-                                                        AjusteDominical, AjusteHorasExtrasDiurnas, AjusteHorasExtrasNocturnas, AjusteHorasExtrasDiurnasFestivas, AjusteHorasExtrasNocturnasFestivas, AjusteRecargoNocturnasFestivas, VacationIBCValue, VacationPaidValue, ContractVacationDays, BaseForeclousure, PosesionDate, ValueRetroactivePaid, TransportDays, AjusteDominicalEventoPasado, AjusteHoraExtraFestivaDiurnaEventoPasado,
-                                                        AjusteHoraExtraFestivaNocturnaEventoPasado, AjusteHorasExtrasNocturnas, AjusteHorasExtrasDiurnas, QuarterFlag, ValueRepresentationCost, VacationIncentiveValueProvision, SanctionsDays, ContributorAbroad, IBCLastPeriod, AmbulatoryInabilityEmployeerDays, AmbulatoryInabilityERPDays, ValueAmbulatoryEmployeerInability, ValueAmbulatoryERPInability, HospitalInabilityEmployeerDays,
-                                                        HospitalInabilityERPDays, ValueHospitalEmployeerInability, ValueHospitalERPInability, DaysPermission, PaidLeaveDays, VacationDaysInCash,
-                                                        LutoDays, EmployerProfessionalDisabilityDays, EmployerProfessionalDisabilityAmount, ERPProfessionalDisabilityDays, ERPProfessionalDisabilityAmount)
-                            ReplaceFormula = ConceptDataLimit40law1393("Formula")
-                            Limit40law1393 = CDbl(ConceptDataLimit40law1393("Valor"))
-                            NonSalaryBonification = NonSalaryBonification + Limit40law1393
-                        End If
-                    End If
 
-                    '============================================================================
-                    'APLICACIÓN LEY 1393/2010 - LÍMITE 40% BONIFICACIONES NO SALARIALES (Colombia)
-                    '============================================================================
-                    'Cuando las bonificaciones no salariales superan el 40% del total (Salario + Bonificaciones),
-                    'el excedente debe ser considerado como salario y por ende afectar los IBC de Salud, Pensión y ARL.
-                    'Esta ley NO aplica para Costa Rica (es-CR).
-                    '============================================================================
-                    If SessionValues.LanguageCulture <> "es-CR" Then
-                        If NonSalaryBonification > 0 And Limit40law1393 > 0 Then
-                            ' 1. SUMATORIA = Salario Básico + Bonificación No Salarial
-                            Dim TotalSum As Decimal = BasicSalary + NonSalaryBonification
+                    '------------------------------------------------------------------------
+                    'LEY 1393/2010: Si este concepto usa IBCs en su fórmula, aplicar el
+                    'ajuste AHORA antes de calcularlo, sumando solo el DELTA respecto a lo
+                    'que ya se aplicó. Así funciona correctamente sin importar el orden:
+                    '  - Bonif. antes de Salud  - aplica aquí el total
+                    '  - Bonif. después de Salud - aplica el fallback post-loop
+                    '  - Bonif. parcial antes/después - aplica delta en cada paso
+                    '------------------------------------------------------------------------
+                    ' LEY 1393/2010: Si este concepto consume IBCs en su fórmula, ajustar
+                    ' los IBCs con el delta pendiente ANTES de calcularlo.
+                    ' El mensaje se emite una sola vez en el bloque post-loop.
+                    If SessionValues.LanguageCulture <> "es-CR" AndAlso NonSalaryBonification > 0 Then
+                        If FormulaConcept.Contains("[IBC Salud]") OrElse
+                           FormulaConcept.Contains("[IBC Pensión]") OrElse
+                           FormulaConcept.Contains("[IBC ARP]") OrElse
+                           FormulaConcept.Contains("[IBC Periodo]") Then
 
-                            ' 2. LÍMITE 40% = Sumatoria × 40%
-                            Dim Limit40Percent As Decimal = TotalSum * 0.4D
+                            Dim TotalSum1393 As Decimal = valueAccrued + NonSalaryBonification
+                            Dim Limit40Percent1393 As Decimal = TotalSum1393 * 0.4D
+                            Dim NewDifference1393 As Decimal = NonSalaryBonification - Limit40Percent1393
+                            Dim ToAdd1393 As Decimal = NewDifference1393 - AlreadyAppliedLaw1393
 
-                            ' 3. Calcular diferencia garantizando que nunca sea negativa
-                            Dim DifferenceToAdd As Decimal = NonSalaryBonification - Limit40Percent
-
-                            ' 4. Solo adicionar a los IBC si hay diferencia positiva
-                            If DifferenceToAdd > 0 Then
-                                IBCHealth = IBCHealth + DifferenceToAdd
-                                IBCPension = IBCPension + DifferenceToAdd
-                                IBCARP = IBCARP + DifferenceToAdd
-                                IBCPeriod = IBCPeriod + DifferenceToAdd
-                                ' Agregar mensaje informativo a ActionMessageResult
-                                Dim messageText As String = String.Format(
-                                    "El empleado {0} - {1} sobrepasa el límite 40% Ley 1393 de 2010",
-                                    NitEmployee,
-                                    NameEmployee
-                                )
-                                ' Agregar a EmployeeLiquidated.Message
-                                MessageLiquitadion = CreateMessage(messageText, False, PayrollEndDate)
-                                EmployeeLiquidated.Message.Add(MessageLiquitadion)
-
-                                ' Agregar a ActionMessageResult
-                                ActionMessageResult.MessageResult.Add(
-                                    New MessageResult(
-                                        "014: Ley 1393/2010 - Límite 40%",
-                                        messageText
-                                    )
-                                )
+                            If ToAdd1393 > 0 Then
+                                IBCHealth = IBCHealth + ToAdd1393
+                                IBCPension = IBCPension + ToAdd1393
+                                IBCARP = IBCARP + ToAdd1393
+                                IBCPeriod = IBCPeriod + ToAdd1393
+                                AlreadyAppliedLaw1393 = NewDifference1393
                             End If
                         End If
                     End If
@@ -5091,12 +5182,22 @@ Public Class LiquidationDomain
                                                         AjusteDominical, AjusteHorasExtrasDiurnas, AjusteHorasExtrasNocturnas, AjusteHorasExtrasDiurnasFestivas, AjusteHorasExtrasNocturnasFestivas, AjusteRecargoNocturnasFestivas, VacationIBCValue, VacationPaidValue, ContractVacationDays, BaseForeclousure, PosesionDate, ValueRetroactivePaid, TransportDays, AjusteDominicalEventoPasado, AjusteHoraExtraFestivaDiurnaEventoPasado,
                                                         AjusteHoraExtraFestivaNocturnaEventoPasado, AjusteHorasExtrasNocturnas, AjusteHorasExtrasDiurnas, QuarterFlag, ValueRepresentationCost, VacationIncentiveValueProvision, SanctionsDays, ContributorAbroad, IBCLastPeriod, AmbulatoryInabilityEmployeerDays, AmbulatoryInabilityERPDays, ValueAmbulatoryEmployeerInability, ValueAmbulatoryERPInability, HospitalInabilityEmployeerDays,
                                                         HospitalInabilityERPDays, ValueHospitalEmployeerInability, ValueHospitalERPInability, DaysPermission, PaidLeaveDays, VacationDaysInCash,
-                                                        LutoDays, EmployerProfessionalDisabilityDays, EmployerProfessionalDisabilityAmount, ERPProfessionalDisabilityDays, ERPProfessionalDisabilityAmount)
+                                                        LutoDays, EmployerProfessionalDisabilityDays, EmployerProfessionalDisabilityAmount, ERPProfessionalDisabilityDays, ERPProfessionalDisabilityAmount, ImmediateVacationValue, ImmediateVacationBonificationValue, ImmediateVacationIncentivePaymentValue, ImmediateVacationalIncreaseValue)
 
                     ReplaceFormula = ConceptData("Formula")
                     ConceptValue = CDbl(ConceptData("Valor"))
-
                     ConceptAuthorization.ConceptValue = ConceptValue
+
+                    ' Acumular para Ley 1393 con el valor real ya calculado
+                    If SessionValues.LanguageCulture <> "es-CR" Then
+                        If ConceptAuthorization.Concept.AffectLimit40Law1393 = True AndAlso
+                           ConceptAuthorization.Concept.AffectIBC = False Then
+                            NonSalaryBonification += CDec(ConceptValue)
+                        ElseIf ConceptAuthorization.Concept.AffectIBC = True AndAlso
+                               ConceptAuthorization.Concept.AffectLimit40Law1393 = False Then
+                            valueAccrued += CDec(ConceptValue)
+                        End If
+                    End If
 
 
                     If ConceptValue > 0 Then
@@ -5389,9 +5490,15 @@ Public Class LiquidationDomain
                                 If ConceptAuthorization.Concept.AffectIBCICBF = True Then IBCICBF = IBCICBF + ConceptValue
                                 If ConceptAuthorization.Concept.AffectIBCCompensationFund = True Then IBCCompensationFund = IBCCompensationFund + ConceptValue
                                 If ConceptAuthorization.Concept.AffectIBCSeverance = True Then IBCSeverance = IBCSeverance + ConceptValue
-                                If ConceptAuthorization.Concept.AffectIBCHealth = True Then IBCHealth = IBCHealth + ConceptValue
-                                If ConceptAuthorization.Concept.AffectIBCPension = True Then IBCPension = IBCPension + ConceptValue
-                                If ConceptAuthorization.Concept.AffectIBCARP = True Then IBCARP = IBCARP + ConceptValue
+
+                                Dim IBCMinValue = CDec(ConceptValue)
+                                If SessionValues.LanguageCulture <> "es-CR" AndAlso BasicSalary < minimimunSalary Then
+                                    IBCMinValue = RecalculateIBCWithMinimumSalary(OriginalFormulaConcept, minimimunSalary, DaysWorkedEmployee, PayrollDays)
+                                End If
+                                If ConceptAuthorization.Concept.AffectIBCHealth Then IBCHealth = IBCHealth + IBCMinValue
+                                If ConceptAuthorization.Concept.AffectIBCPension Then IBCPension = IBCPension + IBCMinValue
+                                If ConceptAuthorization.Concept.AffectIBCARP Then IBCARP = IBCARP + IBCMinValue
+
                                 If ConceptAuthorization.Concept.AffectIBCVacation = True Then IBCVacation = IBCVacation + ConceptValue
                                 If ConceptAuthorization.Concept.AffectIBCIncentivePayment = True Then IBCIncentivePayment = IBCIncentivePayment + ConceptValue
 
@@ -5400,13 +5507,21 @@ Public Class LiquidationDomain
                                 EmployeeLiquidatedDetail.IdThirdParty = EmployeeThirdPartyId
                             ElseIf ConceptAuthorization.Concept.ConceptType = 2 Then
 
-                                If ConceptAuthorization.Concept.AffectIBCRTF Then IBCRTF = IBCRTF - ConceptValue
+                                ' Conceptos clase "038" (FSP) siempre se incluyen como INCRNGO dentro de Retention(),
+                                ' se excluyen aquí para evitar doble descuento sin importar el valor de AffectIBCRTF.
+                                If ConceptAuthorization.Concept.AffectIBCRTF AndAlso
+                                   ConceptAuthorization.Concept.ConceptClass <> "038" Then
+                                    IBCRTF = IBCRTF - ConceptValue
+                                End If
                                 If ConceptAuthorization.Concept.AffectIBC = True Then IBCPeriod = IBCPeriod - ConceptValue
-                                If ConceptAuthorization.Concept.AffectIBCARP = True Then IBCARP = IBCARP - ConceptValue
 
-                                'Cargo los IBC's con des
-                                If ConceptAuthorization.Concept.AffectIBCHealth = True Then IBCHealth = IBCHealth - ConceptValue
-                                If ConceptAuthorization.Concept.AffectIBCPension = True Then IBCPension = IBCPension - ConceptValue
+                                Dim IBCMinValue = CDec(ConceptValue)
+                                If SessionValues.LanguageCulture <> "es-CR" AndAlso BasicSalary < minimimunSalary Then
+                                    IBCMinValue = RecalculateIBCWithMinimumSalary(OriginalFormulaConcept, minimimunSalary, DaysWorkedEmployee, PayrollDays)
+                                End If
+                                If ConceptAuthorization.Concept.AffectIBCHealth Then IBCHealth = IBCHealth - IBCMinValue
+                                If ConceptAuthorization.Concept.AffectIBCPension Then IBCPension = IBCPension - IBCMinValue
+                                If ConceptAuthorization.Concept.AffectIBCARP Then IBCARP = IBCARP - IBCMinValue
 
                                 'DEDUCIDO
                                 EmployeeLiquidatedDetail.AccruedValue = 0
@@ -5523,7 +5638,9 @@ Public Class LiquidationDomain
                             Select Case ConceptAuthorization.Concept.ConceptClass
                                 ' Conceptos por horas trabajadas
                                 Case "001", "012", "013", "042", "043", "050", "051" ' Horas extras y recargos
-                                    EmployeeLiquidatedDetail.Quantity = WorkHours
+                                    If Not ConceptAuthorization.Concept.Formulates = "[Valor Concepto Manual]" Then
+                                        EmployeeLiquidatedDetail.Quantity = WorkHours
+                                    End If
                                 Case "005", "006", "066"  'Sueldo Base - contrato aprendizaje
                                     EmployeeLiquidatedDetail.Quantity = DaysWorked
                                 Case "014" 'Pensión Empleado
@@ -5531,14 +5648,9 @@ Public Class LiquidationDomain
                                 Case "017" 'Salud Empleado
                                     EmployeeLiquidatedDetail.Quantity = HealthDays
                                 Case "021" ' Incapacidad Ambulatoria
-                                    If ConceptAuthorization.Concept.AffectIBCSeverance = True Then
-                                        ' Factor prestacional: sumatoria de patrono + ERP
-                                        EmployeeLiquidatedDetail.Quantity = AmbulatoryInabilityEmployeerDays + AmbulatoryInabilityERPDays
-                                    Else
-                                        EmployeeLiquidatedDetail.Quantity = AmbulatoryInabilityERPDays
-                                        EmployeeLiquidatedDetail.SpendingInability = TotalSpendingInabilityAmbulatory
-                                        EmployeeLiquidatedDetail.InabilityCollect = TotalInabilityCollectAmbulatory
-                                    End If
+                                    EmployeeLiquidatedDetail.Quantity = AmbulatoryInabilityEmployeerDays + AmbulatoryInabilityERPDays
+                                    EmployeeLiquidatedDetail.SpendingInability = TotalSpendingInabilityAmbulatory
+                                    EmployeeLiquidatedDetail.InabilityCollect = TotalInabilityCollectAmbulatory
                                 Case "022" ' Incapacidad Hospitalaria
                                     EmployeeLiquidatedDetail.Quantity = HospitalInabilityERPDays
                                     EmployeeLiquidatedDetail.SpendingInability = TotalSpendingInabilityHospital
@@ -5567,7 +5679,9 @@ Public Class LiquidationDomain
                                 Case "028" ' Permisos
                                     EmployeeLiquidatedDetail.Quantity = DaysPermission
                                 Case "030" ' Vacaciones
-                                    EmployeeLiquidatedDetail.Quantity = TotalVacationDays
+                                    EmployeeLiquidatedDetail.Quantity = ContractVacationDays
+                                Case "041" 'Convenios
+                                    EmployeeLiquidatedDetail.Quantity = NumAgreementD
                                 Case "067" 'Incapacidad Ambulatoria Patrono
                                     EmployeeLiquidatedDetail.Quantity = AmbulatoryInabilityEmployeerDays
                                     EmployeeLiquidatedDetail.SpendingInability = TotalSpendingInabilityAmbulatory
@@ -5608,21 +5722,50 @@ Public Class LiquidationDomain
                                     EmployeeLiquidatedDetail.SpendingInability = ERPProfessionalDisabilityAmount
                                     EmployeeLiquidatedDetail.InabilityCollect = TotalInabilityCollectProfessionalRisk
                             End Select
-                            ' Solo agregar el detalle si NO debe excluirse
-                            ' Si shouldExcludeAllAccruedDetails = True, solo se agregan los PATRONALES (tipo 3)
-                            If shouldExcludeAllAccruedDetails Then
-                                If ConceptAuthorization.Concept.ConceptType = 3 Then
-                                    EmployeeLiquidated.LiquidationDetail.Add(EmployeeLiquidatedDetail)
-                                End If
-                            Else
-                                EmployeeLiquidated.LiquidationDetail.Add(EmployeeLiquidatedDetail)
-                            End If
+                            EmployeeLiquidated.LiquidationDetail.Add(EmployeeLiquidatedDetail)
                         End If
                     End If
                 Next
 
-
                 '============================================================================
+                'LEY 1393/2010 - AJUSTE FINAL: Aplica el delta pendiente después del loop.
+                'Cubre dos casos:
+                '  1. Ningún concepto usó [IBC Salud]/[IBC Pensión]/[IBC ARP] - aplica total
+                '  2. La bonificación no salarial llegó DESPUÉS del último concepto que
+                '     usó IBCs - aplica el incremento pendiente (delta)
+                '============================================================================
+                If SessionValues.LanguageCulture <> "es-CR" AndAlso NonSalaryBonification > 0 Then
+
+                    Dim TotalSumFinal As Decimal = valueAccrued + NonSalaryBonification
+                    Dim Limit40PercentFinal As Decimal = TotalSumFinal * 0.4D
+                    Dim FinalDifference As Decimal = NonSalaryBonification - Limit40PercentFinal
+                    Dim ToAddFinal As Decimal = FinalDifference - AlreadyAppliedLaw1393
+
+                    If ToAddFinal > 0 Then
+                        IBCHealth = IBCHealth + ToAddFinal
+                        IBCPension = IBCPension + ToAddFinal
+                        IBCARP = IBCARP + ToAddFinal
+                        IBCPeriod = IBCPeriod + ToAddFinal
+                    End If
+                    ' Mensaje unico
+                    If AlreadyAppliedLaw1393 > 0 Then
+                        Dim messageTextFinal = String.Format("El empleado {0} - {1} sobrepasa el límite 40% Ley 1393 de 2010", NitEmployee, NameEmployee)
+                        MessageLiquitadion = CreateMessage(messageTextFinal, False, PayrollEndDate)
+                        ActionMessageResult.MessageResult.Add(
+                                    New MessageResult("014: Ley 1393/2010 - Límite 40%", messageTextFinal))
+
+                        ' Detalle del calculo
+                        MessageLiquitadion = CreateMessage(
+                        "LEY 1393/2010 - Se calculó así: " &
+                        "Devengados Salariales (IBC) = " & valueAccrued &
+                        " + Bonificaciones No Salariales = " & NonSalaryBonification &
+                        " = Total = " & (valueAccrued + NonSalaryBonification) &
+                        " | Límite 40% = " & ((valueAccrued + NonSalaryBonification) * 0.4D) &
+                        " | Excedente sumado al IBC = " & AlreadyAppliedLaw1393,
+                        False, PayrollEndDate)
+                        EmployeeLiquidated.Message.Add(MessageLiquitadion)
+                    End If
+                End If
 
                 If EmployeeLiquidated IsNot Nothing Then
                     EmployeeLiquidated.WorkCenterId = ObjEmployee.WorkCenterId
@@ -5645,7 +5788,7 @@ Public Class LiquidationDomain
                     EmployeeLiquidated.HoursHolidays = 0
                     EmployeeLiquidated.HolidaysEveningHours = 0 ' Revisar
                     EmployeeLiquidated.ValueTransportingRelief = AcumulatedHelpTransport
-                    EmployeeLiquidated.VacationDays = TotalVacationDays
+                    EmployeeLiquidated.VacationDays = ContractVacationDays
                     EmployeeLiquidated.VacationValueEnjoy = VacationValue
                     EmployeeLiquidated.VacationValueLiquidated = 0 ' Revisar
                     EmployeeLiquidated.BonusValueServices = 0 'TotalBonusServices
@@ -5691,12 +5834,13 @@ Public Class LiquidationDomain
                         EmployeeLiquidated.PensionJCB = IBCPension
                         EmployeeLiquidated.HealthJCB = IBCHealth
                     End If
+                    EmployeeLiquidated.PreviousMonthIBC = IBCLastPeriod
 
                     EmployeeLiquidated.AccumulatedBenefit = 0 ' Acumulado de Prestaciones
                     EmployeeLiquidated.AccumulatedDisabilityValue = TotalValuesInabilities
-                    EmployeeLiquidated.DisabilityDays = TotalEmployeeInabilityDays
+                    EmployeeLiquidated.DisabilityDays = Math.Max(0, TotalEmployeeInabilityDays)
 
-                    EmployeeLiquidated.AmbulatoryDisabilityDays = AmbulatoryInabilityDays
+                    EmployeeLiquidated.AmbulatoryDisabilityDays = Math.Max(0, AmbulatoryInabilityDays)
                     EmployeeLiquidated.AmbulatoryDisabilityInitialDate = AmbulatoryInabilityInitialDate
                     EmployeeLiquidated.AmbulatoryDisabilityEndDate = AmbulatoryInabilityEndDate
                     EmployeeLiquidated.AmbulatoryDisabilityAuthorizationNumber = AutorizationNumberAmbulatoryInability
@@ -5704,29 +5848,29 @@ Public Class LiquidationDomain
                     EmployeeLiquidated.DisabilityHospitalInitialDate = HospitalaryInabilityInitialDate
                     EmployeeLiquidated.DisabilityHospitalEndDate = HospitalaryInabilityEndDate
                     EmployeeLiquidated.DisabilityHospitalReleasedNumber = AutorizationNumberHospitalaryInability
-                    EmployeeLiquidated.DisabilityHospitalDays = HospitalInabilityDays
+                    EmployeeLiquidated.DisabilityHospitalDays = Math.Max(0, HospitalInabilityDays)
                     EmployeeLiquidated.DisabilityHospitalValue = ValueHospitalInability
-                    EmployeeLiquidated.MaternityLeaveDays = MaternityInabilityDays
+                    EmployeeLiquidated.MaternityLeaveDays = Math.Max(0, MaternityInabilityDays)
                     EmployeeLiquidated.MaternityLeaveInitialDate = MAternityInabilityInitialDate
                     EmployeeLiquidated.MaternityLeaveEndDate = MaternityInabilityEndDate
                     EmployeeLiquidated.MaternityLeaveAutorizationNumber = AutorizationNumberMaternityInability
                     EmployeeLiquidated.VacationInitialDate = VacationInitialDate
                     EmployeeLiquidated.MaternityLeaveValue = ValueMaternity
                     EmployeeLiquidated.VacationEndDate = VacationEndDate
-                    EmployeeLiquidated.LicenseDays = LicensesDays
+                    EmployeeLiquidated.LicenseDays = Math.Max(0, LicensesDays)
                     EmployeeLiquidated.LicenseValue = ValueRemuneratedLicenses
                     EmployeeLiquidated.UnpaidLicenseValue = UnpaidLicenses
                     EmployeeLiquidated.UnpaidLicenseAutorizarionNumber = AutorizationNumberUnpaidLicenses
-                    EmployeeLiquidated.UnpaidLicenseDays = UnpaidLicensesDays
+                    EmployeeLiquidated.UnpaidLicenseDays = Math.Max(0, UnpaidLicensesDays)
                     EmployeeLiquidated.UnpaidLicenseInitialDate = UnpaidLicencesesInitialDate
                     EmployeeLiquidated.UnpaidLicenseEndDate = UnpaidLicencesesEndDate
                     EmployeeLiquidated.SanctionInitialDate = SanctionInitialDate
                     EmployeeLiquidated.SanctionEndDate = SanctionEndDate
                     EmployeeLiquidated.SanctionValue = Sanctions
-                    EmployeeLiquidated.SanctionDays = SanctionsDays
+                    EmployeeLiquidated.SanctionDays = Math.Max(0, SanctionsDays)
                     EmployeeLiquidated.OccupationalRisksContributionValue = RiskContribution
                     EmployeeLiquidated.OccupationalRisksDisabilityValue = ValueProfesionalInabilities
-                    EmployeeLiquidated.OccupationalRisksDays = ProfesionalInabilitiesDays
+                    EmployeeLiquidated.OccupationalRisksDays = Math.Max(0, ProfesionalInabilitiesDays)
                     EmployeeLiquidated.OccupationalRisksDisabilityAutorizationNumber = AutorizationNumberProfessionalRisk
                     EmployeeLiquidated.OccupationalRisksDisabilityInitialDate = ProfessionalRiskInitialDate
                     EmployeeLiquidated.OccupationalRisksDisabilityEndDate = ProfessionalRiskEndDate
@@ -5742,10 +5886,12 @@ Public Class LiquidationDomain
                     EmployeeLiquidated.VacationPensionContributionValueEmployee = PensionVacation
                     EmployeeLiquidated.VacationPensionContributionValueEmployer = 0 'VacationPensionEmployer
                     EmployeeLiquidated.AccountingVouchersNumber = 0 ' Programa Antiguo así
-                    EmployeeLiquidated.TotalAccrued = Math.Round(ConceptoDevengadoSuma)
-                    EmployeeLiquidated.TotalDeducted = Math.Round(ConceptoDeducidoSuma)
-                    EmployeeLiquidated.TotalPaid = Math.Round(ConceptoDevengadoSuma - ConceptoDeducidoSuma)
-                    EmployeeLiquidated.PermissionDays = DaysPermission ' DayPermission
+                    Dim rawAccrued As Decimal = EmployeeLiquidated.LiquidationDetail.Where(Function(d) d.ConceptType = 1).Sum(Function(d) d.AccruedValue.GetValueOrDefault())
+                    Dim rawDeducted As Decimal = EmployeeLiquidated.LiquidationDetail.Where(Function(d) d.ConceptType = 2).Sum(Function(d) d.DeductedValue.GetValueOrDefault())
+                    EmployeeLiquidated.TotalAccrued = Math.Round(rawAccrued)
+                    EmployeeLiquidated.TotalDeducted = Math.Round(rawDeducted)
+                    EmployeeLiquidated.TotalPaid = EmployeeLiquidated.TotalAccrued - EmployeeLiquidated.TotalDeducted
+                    EmployeeLiquidated.PermissionDays = Math.Max(0, DaysPermission) ' DayPermission
                     EmployeeLiquidated.PermissionsValue = Permission
                     EmployeeLiquidated.SenaContributionValue = SenaProvision
                     EmployeeLiquidated.FamilyCompensationFundContributionValue = CompensationFundProvision
@@ -5779,7 +5925,6 @@ Public Class LiquidationDomain
                         EmployeeLiquidated.IBCIncentivePayment = IBCIncentivePayment
                         EmployeeLiquidated.IBCOccupationalRisks = IBCARP
                     End If
-
 
                     EmployeeLiquidated.QuotedOccupationalRisksDays = 0 'CompensationFundDays
                     EmployeeLiquidated.QuotedCompensationDays = 0 'CompensationFundDays
@@ -6268,7 +6413,7 @@ Public Class LiquidationDomain
                                                                         0, ManualConceptValue, 0, 0, ObjPosition.RepresentationCost, 0, 0, EndDate, ObjContract.JobBondingDate, 1, 0, 0, 0, 0, ObjContract.Employee.EmployeeType.Code, 0, 0, 0, 0, 1,
                                                                         0, 0, 0, 0, 0, 0, ObjPosition.MinHourAmount, ObjPosition.MaxHourAmount, 0, 0, 0, 0, 0, 0, ObjContract.Employee.WorkCenter.Code, 0, IncomingDailyBase,
                                                                                     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ObjContract.JobBondingDate, 0, 0, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                                                                        0, 0, 0, 0, 0)
+                                                                        0, 0, 0, 0, 0, 0, 0, 0, 0)
 
                     Dim ReplaceFormula = ConceptData("Formula")
                     Dim ConceptValue = CDbl(ConceptData("Valor"))
@@ -6530,6 +6675,41 @@ Public Class LiquidationDomain
         GC.SuppressFinalize(Me)
     End Sub
 #End Region
+
+    ''' <summary>
+    ''' Recalcula el IBC usando el salario mínimo como base, reemplazando las variables
+    ''' de la fórmula original y evaluando el resultado.
+    ''' </summary>
+    ''' <param name="OriginalFormula">Fórmula original del cálculo del IBC.</param>
+    ''' <param name="minimimunSalary">Salario mínimo legal vigente usado en el cálculo.</param>
+    ''' <param name="DaysWorkedEmployee">Días trabajados por el empleado.</param>
+    ''' <param name="PayrollDays">Días de nómina del periodo.</param>
+    ''' <returns>
+    ''' Valor del IBC recalculado y redondeado hacia arriba. Retorna 0 si la fórmula no se evalúa correctamente.
+    ''' </returns>
+    Private Function RecalculateIBCWithMinimumSalary(
+        OriginalFormula As String,
+        minimimunSalary As Decimal,
+        DaysWorkedEmployee As Integer,
+        PayrollDays As Integer
+    ) As Decimal
+
+        Dim TempFormula As String = OriginalFormula
+
+        If TempFormula.Trim().StartsWith("Round(") AndAlso TempFormula.Trim().EndsWith(")") Then
+            TempFormula = TempFormula.Trim().Substring(6, TempFormula.Trim().Length - 7)
+        End If
+        TempFormula = Replace(TempFormula, "[Sueldo Contrato]", Format(minimimunSalary, "0.00").Replace(",", "."))
+        TempFormula = Replace(TempFormula, "[Dias Trabajados]", DaysWorkedEmployee.ToString.Replace(",", "."))
+        TempFormula = Replace(TempFormula, "[Días Nómina]", PayrollDays.ToString.Replace(",", "."))
+
+        Dim TempResult = Utils.EvalExpression(TempFormula)
+        If TempResult.StateResult = True Then
+            Return Math.Ceiling(Convert.ToDecimal(TempResult.ObjectEmbbeded))
+        End If
+
+        Return 0
+    End Function
 
 End Class
 

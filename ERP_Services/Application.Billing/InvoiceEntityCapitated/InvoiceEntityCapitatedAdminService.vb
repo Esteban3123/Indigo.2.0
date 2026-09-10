@@ -32,6 +32,7 @@ Public Class InvoiceEntityCapitatedAdminService
     ''' repositorios
     ''' </summary>
     Private _invoiceEntityCapitatedRepository As IInvoiceEntityCapitedRepository
+    Private _invoiceRepository As IInvoiceRepository
     Private _outBoxRepository As IOutBoxRepository
     Private _factoryQueue As IFactoryQueue
 
@@ -41,9 +42,11 @@ Public Class InvoiceEntityCapitatedAdminService
 #Region "Builders"
 
     Public Sub New(ByVal invoiceEntityCapitatedRepository As IInvoiceEntityCapitedRepository,
+                    ByVal invoiceRepository As IInvoiceRepository,
                     ByVal outBoxRepository As IOutBoxRepository,
                     ByVal factoryQueue As IFactoryQueue)
         Me._invoiceEntityCapitatedRepository = invoiceEntityCapitatedRepository
+        Me._invoiceRepository = invoiceRepository
         Me._outBoxRepository = outBoxRepository
         Me._factoryQueue = factoryQueue
     End Sub
@@ -113,6 +116,8 @@ Public Class InvoiceEntityCapitatedAdminService
                                                Return ValidateEventConfiguration(DittoSourceType.InvoiceCapitated.ToString(), session.AuditMessageWcf.Company)
                                            End Function)
 
+
+
         Using scope As New TransactionScope(TransactionScopeOption.Required, txSettings, TransactionScopeAsyncFlowOption.Enabled)
             Try
                 Dim invoiceEntityCapitatedXml As String = invoiceEntityCapitated.ToXML(session)
@@ -180,14 +185,14 @@ Public Class InvoiceEntityCapitatedAdminService
     ''' <param name="finalDate">Fecha final</param>
     ''' <param name="careGroupId">Grupo de atención</param>
     ''' <returns></returns>
-    Public Async Function GetCollectionValuesAsync(initialDate As DateTime, finalDate As DateTime, careGroupId As Integer) As Task(Of CollectionValues) Implements IInvoiceEntityCapitatedAdminService.GetCollectionValuesAsync
+    Public Async Function GetCollectionValuesAsync(initialDate As DateTime, finalDate As DateTime, careGroupId As Integer, invoiceCategoryId As Integer) As Task(Of CollectionValues) Implements IInvoiceEntityCapitatedAdminService.GetCollectionValuesAsync
         Dim collectionValues = New CollectionValues() With {
             .CopaymentAmount = 0.0D,
             .ModeratingFeeAmount = 0.0D,
             .SharedPaymentAmount = 0.0D
         }
 
-        Dim query = Await _invoiceEntityCapitatedRepository.GetCapitationControlRegistry(initialDate, finalDate, careGroupId)
+        Dim query = Await _invoiceEntityCapitatedRepository.GetCapitationControlRegistry(initialDate, finalDate, careGroupId, invoiceCategoryId)
 
         If query IsNot Nothing AndAlso query.Any() Then
             Dim filteredQuery = From id In query
@@ -201,12 +206,75 @@ Public Class InvoiceEntityCapitatedAdminService
         Return collectionValues
     End Function
 
+
     ''' <summary>
-    ''' Valida si existe el evento para Factura Capitada
+    ''' Consulta registros de servicio paginados para facturas monto fijo.
     ''' </summary>
-    ''' <param name="eventName"></param>
-    ''' <param name="company"></param>
-    ''' <returns></returns>
+    Public Async Function GetFixedAmountServiceRecordsAsync(query As FixedAmountServiceRecordQuery) As Task(Of ActionResult(Of PagedResult(Of FixedAmountServiceRecordDto))) Implements IInvoiceEntityCapitatedAdminService.GetFixedAmountServiceRecordsAsync
+        Try
+            Dim records = Await _invoiceRepository.ListFixedAmountServiceRecords(ResolveFixedAmountServiceRecordQuery(query))
+            Return New ActionResult(Of PagedResult(Of FixedAmountServiceRecordDto)) With {.StateResult = True, .ObjectEmbbeded = records}
+        Catch ex As Exception
+            Return New ActionResult(Of PagedResult(Of FixedAmountServiceRecordDto)) With {.StateResult = False, .Message = Utils.GetInnerExceptionMessageToString(ex)}
+        End Try
+    End Function
+
+    ''' <summary>
+    ''' Obtiene registros de servicio candidatos para reconstruir JSON RIPS.
+    ''' </summary>
+    Public Async Function GetFixedAmountServiceRecordsToRebuildAsync(query As FixedAmountServiceRecordQuery) As Task(Of ActionResult(Of List(Of FixedAmountRebuildCandidateDto))) Implements IInvoiceEntityCapitatedAdminService.GetFixedAmountServiceRecordsToRebuildAsync
+        Try
+            Dim records = Await _invoiceRepository.ListFixedAmountRebuildCandidates(ResolveFixedAmountServiceRecordQuery(query))
+            Return New ActionResult(Of List(Of FixedAmountRebuildCandidateDto)) With {.StateResult = True, .ObjectEmbbeded = records}
+        Catch ex As Exception
+            Return New ActionResult(Of List(Of FixedAmountRebuildCandidateDto)) With {.StateResult = False, .Message = Utils.GetInnerExceptionMessageToString(ex)}
+        End Try
+    End Function
+
+    ''' <summary>
+    ''' Consulta el avance de reconstruccion de registros de servicio.
+    ''' </summary>
+    Public Async Function GetFixedAmountRIPSRebuildStatusAsync(query As FixedAmountServiceRecordQuery) As Task(Of ActionResult(Of FixedAmountRebuildStatusDto)) Implements IInvoiceEntityCapitatedAdminService.GetFixedAmountRIPSRebuildStatusAsync
+        Try
+            Dim status = Await _invoiceRepository.GetFixedAmountRebuildStatus(ResolveFixedAmountServiceRecordQuery(query))
+            Return New ActionResult(Of FixedAmountRebuildStatusDto) With {.StateResult = True, .ObjectEmbbeded = status}
+        Catch ex As Exception
+            Return New ActionResult(Of FixedAmountRebuildStatusDto) With {.StateResult = False, .Message = Utils.GetInnerExceptionMessageToString(ex)}
+        End Try
+    End Function
+
+    ''' <summary>
+    ''' Obtiene la fecha actual del motor de base de datos.
+    ''' </summary>
+    Public Function GetDatabaseDate() As DateTime Implements IInvoiceEntityCapitatedAdminService.GetDatabaseDate
+        Return _invoiceRepository.GetDatabaseDate()
+    End Function
+
+    ''' <summary>
+    ''' Completa filtros de servicio a partir de la factura monto fijo cuando aplica.
+    ''' </summary>
+    Private Function ResolveFixedAmountServiceRecordQuery(query As FixedAmountServiceRecordQuery) As FixedAmountServiceRecordQuery
+        If query Is Nothing Then Throw New ArgumentNullException(NameOf(query))
+        If query.CareGroupId > 0 AndAlso query.InvoiceCategoryId > 0 AndAlso query.InitialDate.HasValue AndAlso query.EndDate.HasValue Then Return query
+        If String.IsNullOrWhiteSpace(query.FixedAmountInvoiceNumber) Then Throw New ArgumentException("Factura monto fijo requerida")
+
+        Dim fixedAmountInvoice = _invoiceEntityCapitatedRepository.GetFixedAmountInvoiceContext(query.FixedAmountInvoiceNumber)
+        If fixedAmountInvoice Is Nothing OrElse fixedAmountInvoice.Id <= 0 Then Throw New ArgumentException("No se encontro la factura monto fijo")
+
+        query.CareGroupId = fixedAmountInvoice.CareGroupId
+        query.InvoiceCategoryId = fixedAmountInvoice.InvoiceCategoryId
+        query.InitialDate = fixedAmountInvoice.InitialDate
+        query.EndDate = fixedAmountInvoice.EndDate
+
+        If fixedAmountInvoice.CareGroup IsNot Nothing AndAlso fixedAmountInvoice.CareGroup.LiquidationType = 2 AndAlso fixedAmountInvoice.PreviousRIPSInvoice.HasValue Then
+            Dim previousInvoice = _invoiceEntityCapitatedRepository.GetInvoiceEntityCapitatedById(fixedAmountInvoice.PreviousRIPSInvoice.Value)
+            query.InitialDate = previousInvoice.InitialDate
+            query.EndDate = previousInvoice.EndDate
+        End If
+
+        Return query
+    End Function
+
     Private Function ValidateEventConfiguration(eventName As String, company As String) As Boolean
 
         Dim securityContainer = ConfigurationManager.AppSettings.Get("containerSecurity")

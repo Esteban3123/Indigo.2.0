@@ -87,15 +87,17 @@ Public Class ElectronicSignature
             Throw New Exception("Error Firmando: El certificado no esta vigente.")
         End If
 
-        parameters.Signer = New Signer(certificate, x509Chain)
-        Using input = New MemoryStream(bytesXml)
-            Dim xades = New XadesService()
-            Dim signatureDocument = xades.Sign(input, parameters)
+        Using signer As New Signer(certificate, x509Chain)
+            parameters.Signer = signer
+            Using input = New MemoryStream(bytesXml)
+                Dim xades = New XadesService()
+                Dim signatureDocument = xades.Sign(input, parameters)
 
-            Dim output = New MemoryStream()
-            signatureDocument.Save(output)
+                Dim output = New MemoryStream()
+                signatureDocument.Save(output)
 
-            Return output.ToArray()
+                Return output.ToArray()
+            End Using
         End Using
     End Function
 

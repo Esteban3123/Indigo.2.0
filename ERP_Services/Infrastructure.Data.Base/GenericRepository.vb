@@ -211,3 +211,19 @@ Public Class GenericRepository(Of TEntity As {Class, Domain.Base.Entities.IObjec
 #End Region
 
 End Class
+
+''' <summary>
+''' Punto de acceso acotado a BulkSaveChanges para contextos que requieren
+''' persistir un grafo previamente registrado en Entity Framework.
+''' </summary>
+Public NotInheritable Class BulkUnitWorkPersistence
+    Private Sub New()
+    End Sub
+
+    Public Shared Sub Commit(context As DbContext)
+        If context Is Nothing Then
+            Throw New ArgumentNullException("context")
+        End If
+        context.BulkSaveChanges()
+    End Sub
+End Class

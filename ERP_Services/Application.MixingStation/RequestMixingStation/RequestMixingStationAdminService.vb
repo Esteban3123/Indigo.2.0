@@ -220,6 +220,145 @@ Public Class RequestMixingStationAdminService
     End Function
 
     ''' <summary>
+    ''' Reversa solicitudes activas al dashboard de confirmación de dosis unitaria.
+    ''' </summary>
+    ''' <param name="requestMixingStationDetailIds">Identificadores de los detalles de solicitud de central de mezclas a reversar.</param>
+    ''' <param name="audit">Información de auditoría del usuario que ejecuta la acción.</param>
+    ''' <returns>Resultado de la operación de reversa.</returns>
+    Public Function ReverseRequestsToConfirmationUnitDose(requestMixingStationDetailIds As List(Of Integer), audit As AuditMessage) As ActionResult Implements IRequestMixingStationAdminService.ReverseRequestsToConfirmationUnitDose
+        Return ReverseRequestsFromDashboard(requestMixingStationDetailIds, audit, False)
+    End Function
+
+    ''' <summary>
+    ''' Devuelve solicitudes activas al flujo del servicio farmacéutico.
+    ''' </summary>
+    ''' <param name="requestMixingStationDetailIds">Identificadores de los detalles de solicitud de central de mezclas a devolver.</param>
+    ''' <param name="audit">Información de auditoría del usuario que ejecuta la acción.</param>
+    ''' <returns>Resultado de la operación de devolución al servicio farmacéutico.</returns>
+    Public Function ReturnRequestsToPharmacy(requestMixingStationDetailIds As List(Of Integer), audit As AuditMessage) As ActionResult Implements IRequestMixingStationAdminService.ReturnRequestsToPharmacy
+        Return ReverseRequestsFromDashboard(requestMixingStationDetailIds, audit, True)
+    End Function
+
+    ''' <summary>
+    ''' Ejecuta la reversa de solicitudes del dashboard de central de mezclas hacia confirmación o farmacia,
+    ''' restaurando el estado de la orden médica antes de desvincular la confirmación.
+    ''' </summary>
+    ''' <param name="requestMixingStationDetailIds">Identificadores de los detalles de solicitud de central de mezclas a reversar.</param>
+    ''' <param name="audit">Información de auditoría del usuario que ejecuta la acción.</param>
+    ''' <param name="returnToPharmacy">Indica si la reversa debe devolver la orden al servicio farmacéutico.</param>
+    ''' <returns>Resultado de la operación de reversa.</returns>
+    Private Function ReverseRequestsFromDashboard(requestMixingStationDetailIds As List(Of Integer), audit As AuditMessage, returnToPharmacy As Boolean) As ActionResult
+        Try
+            If requestMixingStationDetailIds Is Nothing OrElse Not requestMixingStationDetailIds.Any() Then
+                Throw New ArgumentNullException(NameOf(requestMixingStationDetailIds))
+            End If
+
+            If audit Is Nothing Then
+                Throw New ArgumentNullException(NameOf(audit))
+            End If
+
+            Dim ids = requestMixingStationDetailIds.Distinct().ToList()
+            Dim requestDetails = _requestMixingStationDetailRepository _
+                .GetByFilter(Function(m) ids.Contains(m.Id), True, {"ConfirmationUnitDose", "RequestMixingStationDetailPatients"}) _
+                .ToList()
+
+            Dim validation = ValidateDashboardReverse(ids, requestDetails, returnToPharmacy)
+            If Not validation.StateResult Then
+                Return validation
+            End If
+
+            Dim idPlaceholders = String.Join(",", ids.Select(Function(id, index) $"{{{index}}}"))
+            Dim sendToParameterIndex = ids.Count
+            Dim auditUserParameterIndex = ids.Count
+            Dim auditDateParameterIndex = ids.Count + 1
+            Dim operationDate = DateTime.Now
+            Using scope As New TransactionScope(TransactionScopeOption.Required, New TransactionOptions() With {.Timeout = TransactionManager.MaximumTimeout, .IsolationLevel = IsolationLevel.ReadCommitted})
+                Dim sendTo = If(returnToPharmacy, 1, 2)
+                Dim routeParameters = ids.Cast(Of Object)().Concat({CObj(sendTo)}).ToArray()
+
+                _requestMixingStationDetailRepository.ExecuteNonQuery($"
+                UPDATE d SET
+                    d.VIEPROCESSED = 0,
+                    d.SENDTO = {{{sendToParameterIndex}}},
+                    d.CodeSusceptibleMixingStation = CASE WHEN {{{sendToParameterIndex}}} = 1 THEN NULL ELSE d.CodeSusceptibleMixingStation END
+                FROM dbo.HCFARMEPD d
+                INNER JOIN MedicalHistory.PharmaDose pd ON pd.CodeSusceptibleMixingStation = d.CodeSusceptibleMixingStation
+                INNER JOIN MixingStation.ConfirmationUnitDose cud ON cud.GroupingCodeDose = pd.GroupingCodeDose
+                WHERE cud.RequestMixingStationDetailId IN ({idPlaceholders})", routeParameters)
+
+                Dim auditParameters = ids.Cast(Of Object)().Concat({CObj(audit.CodeUser), CObj(operationDate)}).ToArray()
+
+                _requestMixingStationDetailRepository.ExecuteNonQuery($"
+                UPDATE MixingStation.ConfirmationUnitDose
+                SET RequestMixingStationDetailId = NULL,
+                    ModificationUser = {{{auditUserParameterIndex}}},
+                    ModificationDate = {{{auditDateParameterIndex}}}
+                WHERE RequestMixingStationDetailId IN ({idPlaceholders})", auditParameters)
+
+                _requestMixingStationDetailRepository.ExecuteNonQuery($"
+                UPDATE MixingStation.RequestMixingStationDetailPatients
+                SET Status = 3,
+                    AnnulmentUser = {{{auditUserParameterIndex}}},
+                    AnnulmentDate = {{{auditDateParameterIndex}}}
+                WHERE RequestMixingStationDetailId IN ({idPlaceholders})
+                  AND Status <> 3", auditParameters)
+
+                _requestMixingStationDetailRepository.ExecuteNonQuery($"
+                UPDATE MixingStation.RequestMixingStationDetail
+                SET Status = 3
+                WHERE Id IN ({idPlaceholders})", ids.Cast(Of Object)().ToArray())
+
+                scope.Complete()
+            End Using
+
+            Return New ActionResult With {
+                .StateResult = True,
+                .Message = If(returnToPharmacy,
+                    "Solicitudes devueltas al Servicio Farmacéutico correctamente",
+                    "Solicitudes reversadas a Confirmación de Dosis Unitaria correctamente")
+            }
+        Catch ex As Exception
+            IndigoManagementExceptions.HandleException(ex, "ApplicationPolicy")
+            Return New ActionResult With {.StateResult = False, .Message = Utils.GetInnerExceptionMessageToString(ex)}
+        End Try
+    End Function
+
+    ''' <summary>
+    ''' Valida que las solicitudes seleccionadas puedan reversarse desde el dashboard de central de mezclas.
+    ''' </summary>
+    ''' <param name="ids">Identificadores solicitados para reversar.</param>
+    ''' <param name="requestDetails">Detalles de solicitud recuperados desde el repositorio.</param>
+    ''' <param name="returnToPharmacy">Indica si la validación corresponde al flujo de devolución a farmacia.</param>
+    ''' <returns>Resultado de la validación de reversa.</returns>
+    Private Function ValidateDashboardReverse(ids As List(Of Integer), requestDetails As List(Of RequestMixingStationDetail), returnToPharmacy As Boolean) As ActionResult
+        If requestDetails.Count <> ids.Count Then
+            Return New ActionResult With {.StateResult = False, .Message = "Una o más solicitudes seleccionadas no existen"}
+        End If
+
+        If requestDetails.Any(Function(m) m.CampaignDetailId.HasValue OrElse m.RequestMixingStationDetailPatients.Any(Function(p) p.CampaignDetailId.HasValue)) Then
+            Return New ActionResult With {.StateResult = False, .Message = "No se pueden reversar solicitudes que ya se encuentran asociadas a campañas"}
+        End If
+
+        If requestDetails.Any(Function(m) m.EntityName <> NameOf(ConfirmationUnitDose) OrElse Not m.ConfirmationUnitDose.Any()) Then
+            Return New ActionResult With {.StateResult = False, .Message = "Solo se pueden reversar solicitudes originadas desde Confirmación de Dosis Unitaria"}
+        End If
+
+        If requestDetails.Any(Function(m) m.Status = 3) Then
+            Return New ActionResult With {.StateResult = False, .Message = "Existen solicitudes seleccionadas que ya se encuentran anuladas"}
+        End If
+
+        If requestDetails.Any(Function(m) m.SendTo <> 0) Then
+            Return New ActionResult With {.StateResult = False, .Message = "Solo se pueden reversar solicitudes pendientes de procesamiento"}
+        End If
+
+        If returnToPharmacy AndAlso requestDetails.Any(Function(m) m.Source <> 1) Then
+            Return New ActionResult With {.StateResult = False, .Message = "Solo las órdenes médicas pueden devolverse directamente al Servicio Farmacéutico"}
+        End If
+
+        Return New ActionResult With {.StateResult = True}
+    End Function
+
+    ''' <summary>
     ''' Funcion para vincular una readecuacion con el detalle de una solicitud
     ''' </summary>
     ''' <param name="RequestMSDetailId"></param>

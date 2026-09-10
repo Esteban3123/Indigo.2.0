@@ -65,6 +65,15 @@ Partial Class CrystalService
     End Function
 
     ''' <summary>
+    ''' Envía el medicamento a atención farmacéutica para enrutamiento (SENDTO = 0)
+    ''' </summary>
+    Public Function PharmaceuticalCareRouting(ListViewDashboardPharmacyDetail As List(Of ViewDashboardPharmacyDetail), Audit As AuditMessage) As ActionResult Implements ICrystalServiceDashboardPharmacyDetail.PharmaceuticalCareRouting
+        Using service As IDashboardPharmacyDetailAdminService = Container.Current.Resolve(Of IDashboardPharmacyDetailAdminService)()
+            Return service.PharmaceuticalCareRouting(ListViewDashboardPharmacyDetail, Audit)
+        End Using
+    End Function
+
+    ''' <summary>
     ''' Lista un detalle de farmacia
     ''' </summary>
     ''' <param name="entityId"></param>

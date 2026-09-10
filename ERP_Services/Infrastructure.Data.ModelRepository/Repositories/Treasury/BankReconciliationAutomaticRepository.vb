@@ -81,6 +81,29 @@ Public Class BankReconciliationAutomaticRepository
         End If
     End Function
 
+    ''' <summary>
+    ''' Obtiene múltiples asociaciones de la tabla pivot de forma masiva (optimización N+1)
+    ''' </summary>
+    ''' <param name="pairs">Lista de tuplas (DetailId, ExtractId) a buscar</param>
+    ''' <returns>Diccionario con clave "DetailId_ExtractId" y valor el Id de la asociación</returns>
+    Public Function GetBankAssociationsBulk(pairs As List(Of Tuple(Of Integer, Integer))) As Dictionary(Of String, Integer) Implements IBankReconciliationAutomaticRepository.GetBankAssociationsBulk
+        If pairs Is Nothing OrElse Not pairs.Any() Then
+            Return New Dictionary(Of String, Integer)()
+        End If
+
+        Dim detailIds = pairs.Select(Function(p) p.Item1).Distinct().ToList()
+        Dim extractIds = pairs.Select(Function(p) p.Item2).Distinct().ToList()
+
+        Dim result = (From braa In _context.BankReconciliationAutomaticAssociation.AsNoTracking
+                      Where detailIds.Contains(braa.BankReconciliationAutomaticDetailId) AndAlso
+                            extractIds.Contains(braa.BankReconciliationAutomaticExtractId)
+                      Select braa).ToList()
+
+        Return result.ToDictionary(
+            Function(a) $"{a.BankReconciliationAutomaticDetailId}_{a.BankReconciliationAutomaticExtractId}",
+            Function(a) a.Id)
+    End Function
+
     Public Function SP_GetBankReconciliationAutomaticDetails(XmlCriterias As String) As List(Of SP_GetBankReconciliationAutomaticDetails_Result) Implements IBankReconciliationAutomaticRepository.SP_GetBankReconciliationAutomaticDetails
         DirectCast(_context, IObjectContextAdapter).ObjectContext.CommandTimeout = 3600
         Return _context.SP_GetBankReconciliationAutomaticDetails(XmlCriterias).ToList()
@@ -151,14 +174,33 @@ Public Class BankReconciliationAutomaticRepository
     ''' <param name="documentDate"></param>
     ''' <returns></returns>
     Public Function GetPendingItemsBankBook(entityBankAccountId As Integer, documentDate As Date) As List(Of BankReconciliationAutomaticDetail) Implements IBankReconciliationAutomaticRepository.GetPendingItemsBankBook
-        Dim result = (From brad In _context.BankReconciliationAutomaticDetail
-                      Let originalBraId = If(brad.BankReconciliationAutomaticOriginId.HasValue, brad.BankReconciliationAutomaticOriginId.Value, brad.BankReconciliationAutomaticId)
-                      Join bra In _context.BankReconciliationAutomatic On bra.Id Equals originalBraId
-                      Where bra.Status = 2 AndAlso bra.EntityBankAccountId = entityBankAccountId AndAlso bra.DocumentDate < documentDate AndAlso Not brad.Reconciled AndAlso brad.ReconciledStatus = 1
-                      Select New With {
+        Dim startDate As Date = New Date(documentDate.Year, documentDate.Month, 1)
+        Dim endDate As Date = startDate.AddMonths(1)
+
+        ' 1. Partidas aún pendientes (sin conciliar) de conciliaciones anteriores ya cerradas
+        Dim pending = (From brad In _context.BankReconciliationAutomaticDetail
+                       Let originalBraId = If(brad.BankReconciliationAutomaticOriginId.HasValue, brad.BankReconciliationAutomaticOriginId.Value, brad.BankReconciliationAutomaticId)
+                       Join bra In _context.BankReconciliationAutomatic On bra.Id Equals originalBraId
+                       Where bra.Status = 2 AndAlso bra.EntityBankAccountId = entityBankAccountId AndAlso bra.DocumentDate < documentDate AndAlso Not brad.Reconciled AndAlso brad.ReconciledStatus = 1
+                       Select New With {
                           .Detail = brad,
                           .OriginalDocumentDate = bra.DocumentDate
                       }).ToList()
+
+        ' 2. Partidas que ya se conciliaron dentro de la conciliación del mes actual, pero cuyo documento
+        ' de origen pertenece a un mes distinto (partidas pendientes ya resueltas). El SP de detalles solo
+        ' trae documentos nativos del mes consultado, así que deben seguir listándose aquí para conservar
+        ' su Period original.
+        Dim reconciled = (From brad In _context.BankReconciliationAutomaticDetail
+                          Join bra In _context.BankReconciliationAutomatic On bra.Id Equals brad.BankReconciliationAutomaticId
+                          Where bra.EntityBankAccountId = entityBankAccountId AndAlso bra.DocumentDate >= startDate AndAlso bra.DocumentDate < endDate AndAlso
+                            brad.BankReconciliationAutomaticOriginId.HasValue AndAlso brad.Reconciled
+                          Select New With {
+                          .Detail = brad,
+                          .OriginalDocumentDate = brad.DocumentDate
+                      }).ToList()
+
+        Dim result = pending.Concat(reconciled).ToList()
         If result IsNot Nothing Then
             Return result.Select(Function(x)
                                      x.Detail.Period = GetPeriodFromDate(x.OriginalDocumentDate)
@@ -177,14 +219,33 @@ Public Class BankReconciliationAutomaticRepository
     ''' <param name="documentDate"></param>
     ''' <returns></returns>
     Public Function GetPendingItemsExtract(entityBankAccountId As Integer, documentDate As Date) As List(Of BankReconciliationAutomaticExtractDetail) Implements IBankReconciliationAutomaticRepository.GetPendingItemsExtract
-        Dim result = (From braed In _context.BankReconciliationAutomaticExtractDetail
-                      Let originalBraId = If(braed.BankReconciliationAutomaticOriginId.HasValue, braed.BankReconciliationAutomaticOriginId.Value, braed.BankReconciliationAutomaticId)
-                      Join bra In _context.BankReconciliationAutomatic On bra.Id Equals originalBraId
-                      Where bra.Status = 2 AndAlso bra.EntityBankAccountId = entityBankAccountId AndAlso bra.DocumentDate < documentDate AndAlso Not braed.Reconciled
-                      Select New With {
+        Dim startDate As Date = New Date(documentDate.Year, documentDate.Month, 1)
+        Dim endDate As Date = startDate.AddMonths(1)
+
+        ' 1. Partidas aún pendientes (sin conciliar) de conciliaciones anteriores ya cerradas
+        Dim pending = (From braed In _context.BankReconciliationAutomaticExtractDetail
+                       Let originalBraId = If(braed.BankReconciliationAutomaticOriginId.HasValue, braed.BankReconciliationAutomaticOriginId.Value, braed.BankReconciliationAutomaticId)
+                       Join bra In _context.BankReconciliationAutomatic On bra.Id Equals originalBraId
+                       Where bra.Status = 2 AndAlso bra.EntityBankAccountId = entityBankAccountId AndAlso bra.DocumentDate < documentDate AndAlso Not braed.Reconciled
+                       Select New With {
                           .Detail = braed,
                           .OriginalDocumentDate = bra.DocumentDate
                           }).ToList()
+
+        ' 2. Partidas que ya se conciliaron dentro de la conciliación del mes actual, pero cuya carga de
+        ' extracto pertenece a un mes distinto (partidas pendientes ya resueltas). El SP de detalles solo
+        ' trae partidas de la carga del mes consultado, así que deben seguir listándose aquí para conservar
+        ' su Period original.
+        Dim reconciled = (From braed In _context.BankReconciliationAutomaticExtractDetail
+                          Join bra In _context.BankReconciliationAutomatic On bra.Id Equals braed.BankReconciliationAutomaticId
+                          Where bra.EntityBankAccountId = entityBankAccountId AndAlso bra.DocumentDate >= startDate AndAlso bra.DocumentDate < endDate AndAlso
+                            braed.BankReconciliationAutomaticOriginId.HasValue AndAlso braed.Reconciled
+                          Select New With {
+                          .Detail = braed,
+                          .OriginalDocumentDate = braed.DocumentDate
+                      }).ToList()
+
+        Dim result = pending.Concat(reconciled).ToList()
         If result IsNot Nothing Then
             Return result.Select(Function(x)
                                      x.Detail.Period = GetPeriodFromDate(x.OriginalDocumentDate)

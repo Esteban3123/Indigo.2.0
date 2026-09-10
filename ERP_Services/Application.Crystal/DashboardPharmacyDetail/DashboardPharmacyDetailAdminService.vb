@@ -179,8 +179,13 @@ Public Class DashboardPharmacyDetailAdminService
             If ListViewDashboardPharmacyDetail Is Nothing OrElse ListViewDashboardPharmacyDetail.Count = 0 Then
                 Throw New Exception("No existen datos para enrutar a Farmacia")
             End If
+
             Dim ListIDHCFARMEPD = ListViewDashboardPharmacyDetail.Select(Function(d) d.EntityId).ToList()
             Dim ListHCFARMEPD = Me._hCFARMEPDRepository.GetByFilter(Function(x) ListIDHCFARMEPD.Contains(x.ID)).ToList()
+            If ListHCFARMEPD.Any(Function(h) h.VIEPROCESSED = 1) Then
+                Throw New Exception("No se puede enviar a farmacia debido a que una o más dosis ya han sido procesadas por central de mezclas.")
+            End If
+
             Dim ListRoutingLog = New List(Of RoutingLog)
             For Each item In ListHCFARMEPD
                 Dim RoutingLog = New RoutingLog
@@ -205,6 +210,34 @@ Public Class DashboardPharmacyDetailAdminService
                                   End Sub)
             unitOfWork.Commit()
             Return New ActionResult() With {.StateResult = True, .Message = "Se enruto exitosamente el medicamento a farmacia"}
+        Catch ex As Exception
+            unitOfWork.RollbackChanges()
+            Return New ActionResult() With {.StateResult = False, .Message = ex.Message}
+        End Try
+    End Function
+
+    ''' <summary>
+    ''' Envía el medicamento a atención farmacéutica para enrutamiento estableciendo SENDTO = 0
+    ''' </summary>
+    ''' <param name="ListViewDashboardPharmacyDetail"></param>
+    ''' <param name="Audit"></param>
+    ''' <returns></returns>
+    Public Function PharmaceuticalCareRouting(ListViewDashboardPharmacyDetail As List(Of ViewDashboardPharmacyDetail), Audit As AuditMessage) As ActionResult Implements IDashboardPharmacyDetailAdminService.PharmaceuticalCareRouting
+        Dim unitOfWork As IUnitWork = Me._hCFARMEPDRepository.UnitWork
+        Try
+            If ListViewDashboardPharmacyDetail Is Nothing OrElse ListViewDashboardPharmacyDetail.Count = 0 Then
+                Throw New Exception("No existen datos para enviar a atención farmacéutica")
+            End If
+
+            Dim ListIDHCFARMEPD = ListViewDashboardPharmacyDetail.Select(Function(d) d.EntityId).ToList()
+            Dim ListHCFARMEPD = Me._hCFARMEPDRepository.GetByFilter(Function(x) ListIDHCFARMEPD.Contains(x.ID)).ToList()
+
+            ListHCFARMEPD.ForEach(Sub(h)
+                                      h.SENDTO = 0
+                                      _hCFARMEPDRepository.SaveEntity(h)
+                                  End Sub)
+            unitOfWork.Commit()
+            Return New ActionResult() With {.StateResult = True, .Message = "Se envió exitosamente el medicamento a atención farmacéutica para enrutamiento"}
         Catch ex As Exception
             unitOfWork.RollbackChanges()
             Return New ActionResult() With {.StateResult = False, .Message = ex.Message}

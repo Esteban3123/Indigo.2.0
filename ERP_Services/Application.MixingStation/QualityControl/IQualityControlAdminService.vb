@@ -51,7 +51,7 @@ Public Interface IQualityControlAdminService
     ''' <param name="lst"></param>
     ''' <param name="audit"></param>
     ''' <returns></returns>
-    Function SaveDefectClassificationByRequestPackageDetailStatus(isQuality As Boolean, requestPackageDetailStatusIds As List(Of Integer), DefectClassificationHeader As DefectClassificationHeaderModel, lst As List(Of DefectClassificationModel), audit As AuditMessage, Optional ForceSave As Boolean = False) As ActionResult
+    Function SaveDefectClassificationByRequestPackageDetailStatusAsync(isQuality As Boolean, requestPackageDetailStatusIds As List(Of Integer), DefectClassificationHeader As DefectClassificationHeaderModel, lst As List(Of DefectClassificationModel), audit As AuditMessage, Optional ForceSave As Boolean = False) As Task(Of ActionResult)
 
     ''' <summary>
     ''' funcion para validar si un producto puede ser rechazado, reprocesado o liberado

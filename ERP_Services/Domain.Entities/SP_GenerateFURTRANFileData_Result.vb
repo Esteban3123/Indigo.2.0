@@ -158,11 +158,11 @@ Partial Public Class SP_GenerateFURTRANFileData_Result
     Private _segundoNombreConductor As String
 
     <DataMember()>
-    Public Property TipoDocumentoReclamante_o_ConductorAmbulancia() As Integer
+    Public Property TipoDocumentoReclamante_o_ConductorAmbulancia() As String
         Get
             Return _tipoDocumentoReclamante_o_ConductorAmbulancia
         End Get
-        Set(ByVal value As Integer)
+        Set(ByVal value As String)
             If Not Equals(_tipoDocumentoReclamante_o_ConductorAmbulancia, value) Then
                 OnComplexPropertyChanging()
                 _tipoDocumentoReclamante_o_ConductorAmbulancia = value
@@ -171,7 +171,7 @@ Partial Public Class SP_GenerateFURTRANFileData_Result
         End Set
     End Property
 
-    Private _tipoDocumentoReclamante_o_ConductorAmbulancia As Integer
+    Private _tipoDocumentoReclamante_o_ConductorAmbulancia As String
 
     <DataMember()>
     Public Property NumeroDocumentoReclamante_o_ConductorAmbulancia() As String
@@ -190,11 +190,11 @@ Partial Public Class SP_GenerateFURTRANFileData_Result
     Private _numeroDocumentoReclamante_o_ConductorAmbulancia As String
 
     <DataMember()>
-    Public Property TipoVehiculo() As Integer
+    Public Property TipoVehiculo() As String
         Get
             Return _tipoVehiculo
         End Get
-        Set(ByVal value As Integer)
+        Set(ByVal value As String)
             If Not Equals(_tipoVehiculo, value) Then
                 OnComplexPropertyChanging()
                 _tipoVehiculo = value
@@ -203,7 +203,7 @@ Partial Public Class SP_GenerateFURTRANFileData_Result
         End Set
     End Property
 
-    Private _tipoVehiculo As Integer
+    Private _tipoVehiculo As String
 
     <DataMember()>
     Public Property PlacaVehiculo() As String
@@ -286,11 +286,11 @@ Partial Public Class SP_GenerateFURTRANFileData_Result
     Private _codigoMunicipio As String
 
     <DataMember()>
-    Public Property TipoDocumentoVictima() As Integer
+    Public Property TipoDocumentoVictima() As String
         Get
             Return _tipoDocumentoVictima
         End Get
-        Set(ByVal value As Integer)
+        Set(ByVal value As String)
             If Not Equals(_tipoDocumentoVictima, value) Then
                 OnComplexPropertyChanging()
                 _tipoDocumentoVictima = value
@@ -299,7 +299,7 @@ Partial Public Class SP_GenerateFURTRANFileData_Result
         End Set
     End Property
 
-    Private _tipoDocumentoVictima As Integer
+    Private _tipoDocumentoVictima As String
 
     <DataMember()>
     Public Property NumeroDocumentoVictima() As String
@@ -382,11 +382,11 @@ Partial Public Class SP_GenerateFURTRANFileData_Result
     Private _segundoApellidoVictima As String
 
     <DataMember()>
-    Public Property FechaNacimientoVictima() As Date
+    Public Property FechaNacimientoVictima() As String
         Get
             Return _fechaNacimientoVictima
         End Get
-        Set(ByVal value As Date)
+        Set(ByVal value As String)
             If Not Equals(_fechaNacimientoVictima, value) Then
                 OnComplexPropertyChanging()
                 _fechaNacimientoVictima = value
@@ -395,14 +395,14 @@ Partial Public Class SP_GenerateFURTRANFileData_Result
         End Set
     End Property
 
-    Private _fechaNacimientoVictima As Date
+    Private _fechaNacimientoVictima As String
 
     <DataMember()>
-    Public Property SexoVictima() As Integer
+    Public Property SexoVictima() As String
         Get
             Return _sexoVictima
         End Get
-        Set(ByVal value As Integer)
+        Set(ByVal value As String)
             If Not Equals(_sexoVictima, value) Then
                 OnComplexPropertyChanging()
                 _sexoVictima = value
@@ -411,14 +411,14 @@ Partial Public Class SP_GenerateFURTRANFileData_Result
         End Set
     End Property
 
-    Private _sexoVictima As Integer
+    Private _sexoVictima As String
 
     <DataMember()>
-    Public Property TipoEvento() As Integer
+    Public Property TipoEvento() As String
         Get
             Return _tipoEvento
         End Get
-        Set(ByVal value As Integer)
+        Set(ByVal value As String)
             If Not Equals(_tipoEvento, value) Then
                 OnComplexPropertyChanging()
                 _tipoEvento = value
@@ -427,7 +427,7 @@ Partial Public Class SP_GenerateFURTRANFileData_Result
         End Set
     End Property
 
-    Private _tipoEvento As Integer
+    Private _tipoEvento As String
 
     <DataMember()>
     Public Property DireccionLugarVictima() As String
@@ -478,11 +478,11 @@ Partial Public Class SP_GenerateFURTRANFileData_Result
     Private _municipioLugarVictima As String
 
     <DataMember()>
-    Public Property ZonaRecogeVictima() As Boolean
+    Public Property ZonaRecogeVictima() As String
         Get
             Return _zonaRecogeVictima
         End Get
-        Set(ByVal value As Boolean)
+        Set(ByVal value As String)
             If Not Equals(_zonaRecogeVictima, value) Then
                 OnComplexPropertyChanging()
                 _zonaRecogeVictima = value
@@ -491,14 +491,14 @@ Partial Public Class SP_GenerateFURTRANFileData_Result
         End Set
     End Property
 
-    Private _zonaRecogeVictima As Boolean
+    Private _zonaRecogeVictima As String
 
     <DataMember()>
-    Public Property FechaTrasladoVictima() As Date
+    Public Property FechaTrasladoVictima() As String
         Get
             Return _fechaTrasladoVictima
         End Get
-        Set(ByVal value As Date)
+        Set(ByVal value As String)
             If Not Equals(_fechaTrasladoVictima, value) Then
                 OnComplexPropertyChanging()
                 _fechaTrasladoVictima = value
@@ -507,7 +507,7 @@ Partial Public Class SP_GenerateFURTRANFileData_Result
         End Set
     End Property
 
-    Private _fechaTrasladoVictima As Date
+    Private _fechaTrasladoVictima As String
 
     <DataMember()>
     Public Property HoraTrasladoVictima() As String
@@ -574,11 +574,11 @@ Partial Public Class SP_GenerateFURTRANFileData_Result
     Private _codigoMunicipioTrasladoVictima As String
 
     <DataMember()>
-    Public Property CondicionVictima() As Integer
+    Public Property CondicionVictima() As String
         Get
             Return _condicionVictima
         End Get
-        Set(ByVal value As Integer)
+        Set(ByVal value As String)
             If Not Equals(_condicionVictima, value) Then
                 OnComplexPropertyChanging()
                 _condicionVictima = value
@@ -587,14 +587,14 @@ Partial Public Class SP_GenerateFURTRANFileData_Result
         End Set
     End Property
 
-    Private _condicionVictima As Integer
+    Private _condicionVictima As String
 
     <DataMember()>
-    Public Property EstadoAseguradoraVictima() As Integer
+    Public Property EstadoAseguradoraVictima() As String
         Get
             Return _estadoAseguradoraVictima
         End Get
-        Set(ByVal value As Integer)
+        Set(ByVal value As String)
             If Not Equals(_estadoAseguradoraVictima, value) Then
                 OnComplexPropertyChanging()
                 _estadoAseguradoraVictima = value
@@ -603,14 +603,14 @@ Partial Public Class SP_GenerateFURTRANFileData_Result
         End Set
     End Property
 
-    Private _estadoAseguradoraVictima As Integer
+    Private _estadoAseguradoraVictima As String
 
     <DataMember()>
-    Public Property TipoVehiculoVictima() As Integer
+    Public Property TipoVehiculoVictima() As String
         Get
             Return _tipoVehiculoVictima
         End Get
-        Set(ByVal value As Integer)
+        Set(ByVal value As String)
             If Not Equals(_tipoVehiculoVictima, value) Then
                 OnComplexPropertyChanging()
                 _tipoVehiculoVictima = value
@@ -619,7 +619,7 @@ Partial Public Class SP_GenerateFURTRANFileData_Result
         End Set
     End Property
 
-    Private _tipoVehiculoVictima As Integer
+    Private _tipoVehiculoVictima As String
 
     <DataMember()>
     Public Property PlacaVehiculoVictima() As String
@@ -670,11 +670,11 @@ Partial Public Class SP_GenerateFURTRANFileData_Result
     Private _numeroPolizaSOAT As String
 
     <DataMember()>
-    Public Property FechaInicioPoliza() As Date
+    Public Property FechaInicioPoliza() As String
         Get
             Return _fechaInicioPoliza
         End Get
-        Set(ByVal value As Date)
+        Set(ByVal value As String)
             If Not Equals(_fechaInicioPoliza, value) Then
                 OnComplexPropertyChanging()
                 _fechaInicioPoliza = value
@@ -683,14 +683,14 @@ Partial Public Class SP_GenerateFURTRANFileData_Result
         End Set
     End Property
 
-    Private _fechaInicioPoliza As Date
+    Private _fechaInicioPoliza As String
 
     <DataMember()>
-    Public Property FechaFinalPoliza() As Date
+    Public Property FechaFinalPoliza() As String
         Get
             Return _fechaFinalPoliza
         End Get
-        Set(ByVal value As Date)
+        Set(ByVal value As String)
             If Not Equals(_fechaFinalPoliza, value) Then
                 OnComplexPropertyChanging()
                 _fechaFinalPoliza = value
@@ -699,7 +699,7 @@ Partial Public Class SP_GenerateFURTRANFileData_Result
         End Set
     End Property
 
-    Private _fechaFinalPoliza As Date
+    Private _fechaFinalPoliza As String
 
     <DataMember()>
     Public Property NumeroRadicadoSIRAS() As String
@@ -750,11 +750,11 @@ Partial Public Class SP_GenerateFURTRANFileData_Result
     Private _valorReclamado As Long
 
     <DataMember()>
-    Public Property ManifestacionServiciosHabilitados() As Boolean
+    Public Property ManifestacionServiciosHabilitados() As String
         Get
             Return _manifestacionServiciosHabilitados
         End Get
-        Set(ByVal value As Boolean)
+        Set(ByVal value As String)
             If Not Equals(_manifestacionServiciosHabilitados, value) Then
                 OnComplexPropertyChanging()
                 _manifestacionServiciosHabilitados = value
@@ -763,7 +763,7 @@ Partial Public Class SP_GenerateFURTRANFileData_Result
         End Set
     End Property
 
-    Private _manifestacionServiciosHabilitados As Boolean
+    Private _manifestacionServiciosHabilitados As String
 
 #End Region
 

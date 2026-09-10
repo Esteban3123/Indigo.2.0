@@ -1,4 +1,4 @@
-﻿'***********************************************************************
+'***********************************************************************
 ' Assembly         : Application.MixingStation
 ' Author           : Juan David Patiño Cabrera
 ' Created          : 13/07/2021
@@ -192,6 +192,7 @@ Partial Public Class RawMaterialAdminService
 
             Dim sbErrors As New StringBuilder()
             Dim sbManualDeliveryErrors As New StringBuilder()
+            Dim sbInsufficientInventoryErrors As New StringBuilder()
             Dim sbDeliverSuccess As New StringBuilder()
 
             Dim campaignDetailId As Integer = campaignDetailItems(0).CampaignDetailId
@@ -203,7 +204,6 @@ Partial Public Class RawMaterialAdminService
 
             campaignDetailValidations.ForEach(Sub(i) i.DeliveredQuantityTmp = i.DeliveredQuantity)
             Dim campaignValidationToSave As New List(Of CampaignDetailValidation)()
-            Dim itemsToSave As New List(Of CampaignDetailItems)()
 
             Dim getItemCode = Function(item As CampaignDetailItems)
                                   If item.AtcId.HasValue Then Return item.AtcCodeName
@@ -239,19 +239,6 @@ Partial Public Class RawMaterialAdminService
                     .ThenBy(Function(m) If(m.BatchSerialExpiredDate, Date.MaxValue)) _
                     .ToList()
 
-                    If unitDoseClassCampaign = EUnitDoseTypeClass.Repackaging Then
-                        Dim loteOK = physicalInventory _
-                        .Where(Function(m) physicalInventory _
-                                    .Where(Function(o) o.BatchSerialId = m.BatchSerialId AndAlso o.ProductId = m.ProductId) _
-                                    .Sum(Function(o) o.Quantity) >= outstandingQuantity).ToList()
-                        If Not loteOK.Any() Then
-                            sbErrors.AppendLine($"- {itemName}")
-                            Continue For
-                        End If
-                        Dim mainLote = loteOK(0)
-                        physicalInventory = loteOK.Where(Function(m) m.BatchSerialId = mainLote.BatchSerialId AndAlso m.ProductId = mainLote.ProductId).ToList()
-                    End If
-
                     For Each physical In physicalInventory
                         Dim finded = campaignDetailValidations.Find(Function(m) _
                         m.ProductId = physical.ProductId _
@@ -272,6 +259,7 @@ Partial Public Class RawMaterialAdminService
                                 .CreationDate = Date.Now
                             }
                         Else
+                            finded.MarkAsModified()
                             finded.TypeProcess = 1
                             finded.ModificationUser = session.AuditMessageWcf.CodeUser
                             finded.ModificationDate = Date.Now
@@ -291,20 +279,20 @@ Partial Public Class RawMaterialAdminService
 
                         Try
                             campaignValidationToSave.Add(finded)
-                            itemsToSave.Add(item)
-                            sbDeliverSuccess.AppendLine($"- {itemName}")
                         Catch ex As Exception
                             sbManualDeliveryErrors.AppendLine($"- {itemName}")
                         End Try
 
                         If outstandingQuantity = 0 Then Exit For
                     Next
+
+                    If outstandingQuantity > 0 Then
+                        sbInsufficientInventoryErrors.AppendLine($"- {itemName}. Cantidad pendiente: {outstandingQuantity}")
+                    Else
+                        sbDeliverSuccess.AppendLine($"- {itemName}")
+                    End If
                 Next
 
-                ' Guardado masivo asincrónico
-                If itemsToSave?.Any() Then
-                    Await _CampaignDetailItemsRepository.SaveEntityMassiveAsync(itemsToSave)
-                End If
                 If campaignValidationToSave?.Any() Then
                     Await _campaignDetailValidationRepository.SaveEntityMassiveAsync(campaignValidationToSave)
                 End If
@@ -336,7 +324,13 @@ Partial Public Class RawMaterialAdminService
                 msg.AppendLine(sbErrors.ToString())
             End If
 
-            Return New ActionResult With {.StateResult = True, .Message = msg.ToString()}
+            If sbInsufficientInventoryErrors.Length > 0 Then
+                msg.AppendLine("* El inventario disponible no cubre la cantidad requerida de los siguientes productos: ")
+                msg.AppendLine(sbInsufficientInventoryErrors.ToString())
+            End If
+
+            Dim stateResult = sbManualDeliveryErrors.Length = 0 AndAlso sbErrors.Length = 0 AndAlso sbInsufficientInventoryErrors.Length = 0
+            Return New ActionResult With {.StateResult = stateResult, .Message = msg.ToString()}
         Catch ex As IndigoValidationException
             Return New ActionResult With {.StateResult = False, .Message = ex.Message}
         Catch ex As Exception
@@ -356,12 +350,36 @@ Partial Public Class RawMaterialAdminService
             Dim result As New List(Of ProductMixingStation)
             Dim unitDoseTypeClass = CType(Await GetUnitDoseTypeClass(CampaignDetailId), EUnitDoseTypeClass)
             Dim campaignDosisData = GetCampaignDosisData(CampaignDetailId, Type)
+            If campaignDosisData Is Nothing OrElse Not campaignDosisData.Any() Then
+                Return result
+            End If
+
             Dim RawMaterialLeftovers = AggregateRawMaterialLeftovers(campaignDosisData)
+
+            ' Para Type=2 (mL): usar datos de Type=1 (mg) en el cálculo de viales para que "Cantidad requerida (en unidades)" coincida
+            ' Clave compuesta (DetailId, ItemId): un RequestMixingStationDetailId puede tener varios medicamentos (Principal + Otro)
+            Dim lookupMgByDetailItem As Dictionary(Of (Integer?, Integer), ProductCalculateMixingStation) = Nothing
+            If Type = 2 Then
+                Dim campaignDosisDataMg = GetCampaignDosisData(CampaignDetailId, 1)
+                lookupMgByDetailItem = (If(campaignDosisDataMg, New List(Of ProductCalculateMixingStation))).
+                    Where(Function(x) x.RequestMixingStationDetailId > 0 AndAlso x.ItemId > 0).
+                    GroupBy(Function(x) (x.RequestMixingStationDetailId, x.ItemId)).
+                    ToDictionary(Function(g) g.Key, Function(g) g.First())
+            End If
+
+            Dim personalizedVehicleUseByDetail As Dictionary(Of Integer, Decimal) = Nothing
+            If campaignDosisData IsNot Nothing AndAlso campaignDosisData.Any(Function(x) x.IsPackagePersonalized AndAlso x.HasComplementaryMedicine) Then
+                Dim campaignDosisDataMl = If(Type = 2, campaignDosisData, GetCampaignDosisData(CampaignDetailId, 2))
+                personalizedVehicleUseByDetail = BuildPersonalizedComplementaryVehicleUseByDetail(campaignDosisDataMl)
+            End If
 
             ' Procesamos cada producto o componente
             For Each item As ProductCalculateMixingStation In campaignDosisData
 
-                Dim QuantityThinner As Decimal = GetThinnerQuantity(item, Type, campaignDosisData)
+                Dim itemMg As ProductCalculateMixingStation = Nothing
+                If Type = 2 AndAlso lookupMgByDetailItem IsNot Nothing AndAlso item.RequestMixingStationDetailId > 0 AndAlso item.ItemId > 0 Then
+                    lookupMgByDetailItem.TryGetValue((item.RequestMixingStationDetailId, item.ItemId), itemMg)
+                End If
 
                 If Not item.ATCEntityId.HasValue Then
                     'Son insumos ó productos (No tienen ATC)
@@ -371,6 +389,28 @@ Partial Public Class RawMaterialAdminService
                     Continue For
                 End If
 
+                item.Concentration = If(item.Concentration = 0D, 1D, item.Concentration) 'NPT-Maquila
+
+                ' Los componentes de materia prima y los paquetes personalizados ya traen del SP
+                ' la dosis total normalizada. Se conservan como fracciones hasta consolidar la campaña.
+                If item.ItemType = 3 OrElse item.IsPackagePersonalized Then
+                    Dim hasComplementaryPersonalized = item.IsPackagePersonalized AndAlso item.HasComplementaryMedicine
+                    Dim personalizedVehicleUse As Decimal = 0D
+                    Dim useCalculatedVehicleQuantity = hasComplementaryPersonalized AndAlso
+                                                       item.Vehicle > 0 AndAlso
+                                                       item.RequestMixingStationDetailId.HasValue AndAlso
+                                                       personalizedVehicleUseByDetail IsNot Nothing AndAlso
+                                                       personalizedVehicleUseByDetail.TryGetValue(item.RequestMixingStationDetailId.Value, personalizedVehicleUse)
+                    Dim dosisForPackage As Decimal = If(hasComplementaryPersonalized,
+                                                         If(useCalculatedVehicleQuantity, personalizedVehicleUse, item.DosisRequerida),
+                                                         If(Type = 2, item.DosisRequerida, item.QuantityPackage))
+                    Dim requiredDose = CalculatePackageRequiredDose(item, itemMg, Type)
+                    AddProductMixingStation(result, item, requiredDose, dosisForPackage, unitDoseTypeClass)
+                    Continue For
+                End If
+
+                ' Para Type=2: usar unidad mg en el SP de inventario y datos mg para cantidadAtc (viales)
+                Dim unitCodeForInventario = If(Type = 2 AndAlso itemMg IsNot Nothing, itemMg.CodigoUnidadPeso, item.CodigoUnidadPeso)
                 'Consultamos los Productos asociados por el ATCEntityId
                 Dim inventario = _RawMaterialRepository _
                     .ExecuteStoredProcedure(Of ProductCalculationCampaignDetail)("MixingStation.[SP_ProductListCampaingDetails]", {
@@ -379,30 +419,32 @@ Partial Public Class RawMaterialAdminService
                         ("@StockId", StockId),
                         ("@warehouseId", warehouseId),
                         ("@PharmaceuticalFormId", item.PharmaceuticalFormId.Value),
-                        ("@RequestMeasurementUnitCode", item.CodigoUnidadPeso), ' CodigoUnidadPeso Contiene la unidad de medida tanto de peso como de volumen dependiendo del formulationtype
+                        ("@RequestMeasurementUnitCode", unitCodeForInventario),
                         ("@Type", Type),
                         ("@MSClass", unitDoseTypeClass)
                     })?.ToList()
 
                 If unitDoseTypeClass = EUnitDoseTypeClass.Repackaging Then 'Reempaque
-                    AddProductMixingStation(result, item, item.DosisRequerida / item.Concentration, item.Concentration, unitDoseTypeClass)
+                    Dim reqDosisReempaque = If(Type = 2 AndAlso itemMg IsNot Nothing, itemMg.DosisRequerida / If(itemMg.Concentration = 0D, 1D, itemMg.Concentration), item.DosisRequerida / item.Concentration)
+                    AddProductMixingStation(result, item, reqDosisReempaque, item.Concentration, unitDoseTypeClass)
                     Continue For
                 End If
 
                 'Recorremos los Hijos para bucar la mejor opción que cumpla mi dosis requerida.  
-                item.Concentration = If(item.Concentration = 0D, 1D, item.Concentration) 'NPT-Maquila
-                ' Para paquetes personalizados (IsPackagePersonalized = True), los valores ya vienen calculados del SP
-                ' No se debe procesar el inventario adicional para evitar duplicación de cantidades
-                If Not inventario.Any() OrElse item.ItemType = 4 OrElse item.IsPackagePersonalized Then
-                    ' Para @Type = 2 (ml), el SP ya retorna DosisRequerida convertida a ml
-                    ' Para @Type = 1 (mg), usar QuantityPackage que está en mg
-                    Dim dosisForPackage As Decimal = If(Type = 2 AndAlso item.IsPackagePersonalized, item.DosisRequerida, item.QuantityPackage)
-                    Dim requiredDose As Decimal = If(Type = 2 AndAlso item.IsPackagePersonalized, 1, item.DosisRequerida / item.Concentration)
+                If inventario Is Nothing OrElse Not inventario.Any() OrElse item.ItemType = 4 Then
+                    Dim dosisForPackage As Decimal = item.QuantityPackage
+                    Dim requiredDose As Decimal
+                    If Type = 2 AndAlso itemMg IsNot Nothing Then
+                        requiredDose = itemMg.DosisRequerida / If(itemMg.Concentration = 0D, 1D, itemMg.Concentration)
+                    Else
+                        requiredDose = item.DosisRequerida / item.Concentration
+                    End If
                     AddProductMixingStation(result, item, requiredDose, dosisForPackage, unitDoseTypeClass)
                     Continue For
                 End If
 
-                Dim restante As Decimal = item.DosisRequerida
+                ' Para Type=2: usar DosisRequerida en mg para que cantidadAtc (viales) coincida con Type=1
+                Dim restante As Decimal = If(Type = 2 AndAlso itemMg IsNot Nothing, itemMg.DosisRequerida, item.DosisRequerida)
 
                 For Each atc In inventario
                     Dim cantidadAtc = Math.Floor(restante / atc.Concentration)
@@ -419,13 +461,8 @@ Partial Public Class RawMaterialAdminService
                         restante = 0
                     End If
 
-                    If Type = 2 And item.ItemType = 1 And QuantityThinner > 0 And item.FormulationType = 1 Then
-                        cantidadAtc = item.DosisRequerida / QuantityThinner
-                    End If
-
-                    If Type = 2 And item.ItemType = 1 And item.QuantityBlister > 0 And item.FormulationType = 3 Then
-                        cantidadAtc = item.DosisRequerida / item.QuantityBlister
-                    End If
+                    ' Eliminado: estos overrides sobrescribían el cantidadAtc correcto del inventario
+                    ' y mezclaban unidades (mg vs mL). La lógica base del inventario ya calcula correctamente.
 
                     If cantidadAtc >= 0 Then
                         result.Add(New ProductMixingStation With {
@@ -453,7 +490,9 @@ Partial Public Class RawMaterialAdminService
                             .PackageId = item.PackageId,
                             .MSClass = unitDoseTypeClass,
                             .VerifiedFor = item.VerifiedFor,
-                            .ConfirmedFor = item.ConfirmedFor
+                            .ConfirmedFor = item.ConfirmedFor,
+                            .HasComplementaryMedicine = item.HasComplementaryMedicine,
+                            .Source = item.Source
                         })
 
                     End If
@@ -462,53 +501,68 @@ Partial Public Class RawMaterialAdminService
                 Next
             Next
 
-            ' Se agrupa por tipo de producto (Principal|Otro|Canasta) y por Id de producto (ItemId)
-            ' Agrupando también por la presencia de vehículo y diluyente
+            ' Agrupar por ItemId (ATC) e ItemType; para solicitudes de inventario separar por preparación.
             Dim res = result.
-            GroupBy(Function(m) New With {Key .ItemId = m.ItemId, Key .ItemType = m.ItemType}).
-            Select(Function(m)
-                       Dim bd As List(Of BatchData) = BuildBatchDataByType(m, Type) 'Cálculo de lotes
-                       Dim isPersonalized = m(0).IsPackagePersonalized ' Verificar si es paquete personalizado
+            GroupBy(Function(r) New With {
+                Key .ItemId = If(r.ItemId.HasValue, r.ItemId.Value, 0),
+                Key .ItemType = r.ItemType,
+                Key .Source = If(r.Source = CByte(4), r.Source, CByte(0)),
+                Key .RequestMixingStationDetailId = If(r.Source = CByte(4) AndAlso r.RequestMixingStationDetailId.HasValue, r.RequestMixingStationDetailId.Value, 0)
+            }).
+            Select(Function(grp)
+                       Dim m = grp.AsEnumerable()
+                       ' BuildBatchDataByType: excluir Thinner SOLO cuando Thinner y Vehicle son el mismo medicamento (mismo ItemId).
+                       ' Si son medicamentos distintos, se mantiene el comportamiento normal (sumar ambos).
+                       Dim bd As List(Of BatchData) = BuildBatchDataByType(m, Type)
+                       Dim isPersonalized = m(0).IsPackagePersonalized
+                       Dim hasComplementaryPersonalized = isPersonalized AndAlso m.Any(Function(x) x.HasComplementaryMedicine)
                        Dim batchQuantitySum = bd.Sum(Function(o) o.Quantity)
                        Dim reqDosis = Math.Ceiling(m.Sum(Function(o) o.RequiredDosis))
+                       Dim totalToUseQuantity = If(hasComplementaryPersonalized,
+                                                    CustomRound(m.Sum(Function(o) o.DosisRequeridaPaquete)),
+                                                    If(isPersonalized, batchQuantitySum, batchQuantitySum * reqDosis))
 
                        Return New ProductMixingStation With {
-                       .ItemId = m.Key.ItemId,
-                       .ProductCode = m(0).ProductCode,
-                       .ProductName = m(0).ProductName,
-                       .ProductShortName = m(0).ProductShortName,
-                       .OnlyNameProduct = m(0).OnlyNameProduct,
-                       .QuantityMaterialRaw = m.Sum(Function(o) o.QuantityMaterialRaw),
-                       .Dosis = m.Sum(Function(o) o.Dosis),
-                       .ItemType = m.Key.ItemType,
-                       .GroupName = m(0).GroupName,
-                       .TypeProduct = m(0).TypeProduct,
-                       .FormulationType = m(0).FormulationType,
-                       .NPTItemOrder = m(0).NPTItemOrder,
-                       .NameTypeProduct = m(0).NameTypeProduct,
-                       .RequiredDosis = reqDosis,
-                       .BatchData = bd,
-                       .TotalToUseQuantity = If(isPersonalized, batchQuantitySum, batchQuantitySum * reqDosis), ' Para paquetes personalizados, la cantidad ya está calculada, no multiplicar por RequiredDosis
-                           .MeasureUnitAbbreviation = m(0).MeasureUnitAbbreviation,
-                           .Concentration =
-                                If(unitDoseTypeClass <> EUnitDoseTypeClass.ParenteralNutrition,
-                                   If(Type = 2 AndAlso .ItemType = CByte(1),
-                                      If(Math.Ceiling(batchQuantitySum) > m(0).Concentration,
-                                         Convert.ToDecimal(m(0).Concentration),
-                                         Convert.ToDecimal(Math.Ceiling(batchQuantitySum))),
-                                      Convert.ToDecimal(m(0).Concentration)),
-                                   Convert.ToDecimal(m(0).Concentration)),
-                           .Vehicle = m(0).Vehicle,
-                           .Thinner = m(0).Thinner,
-                           .RequestMixingStationDetailId = m(0).RequestMixingStationDetailId,
-                           .PackageId = m(0).PackageId,
-                           .MSClass = unitDoseTypeClass,
-                           .VerifiedFor = m(0).VerifiedFor,
-                           .ConfirmedFor = m(0).ConfirmedFor,
-                           .IsPackagePersonalized = isPersonalized
-                       }
+                            .ItemId = grp.Key.ItemId,
+                            .ProductCode = m(0).ProductCode,
+                            .ProductName = m(0).ProductName,
+                            .ProductShortName = m(0).ProductShortName,
+                            .OnlyNameProduct = m(0).OnlyNameProduct,
+                            .QuantityMaterialRaw = m.Sum(Function(o) o.QuantityMaterialRaw),
+                            .Dosis = If(m.Any(Function(x) x.Thinner > 0) AndAlso m.Any(Function(x) x.Vehicle > 0), m.Where(Function(x) x.Thinner = 0).Sum(Function(o) o.Dosis), m.Sum(Function(o) o.Dosis)), ' Solo excluir Thinner cuando son mismo ItemId
+                            .ItemType = grp.Key.ItemType,
+                            .GroupName = m(0).GroupName,
+                            .TypeProduct = m(0).TypeProduct,
+                            .FormulationType = m(0).FormulationType,
+                            .NPTItemOrder = m(0).NPTItemOrder,
+                            .NameTypeProduct = m(0).NameTypeProduct,
+                            .RequiredDosis = reqDosis,
+                            .BatchData = bd,
+                            .TotalToUseQuantity = totalToUseQuantity, ' Para paquetes personalizados, la cantidad ya está calculada, no multiplicar por RequiredDosis
+                            .MeasureUnitAbbreviation = m(0).MeasureUnitAbbreviation,
+                            .Concentration =
+                                 If(unitDoseTypeClass <> EUnitDoseTypeClass.ParenteralNutrition,
+                                    If(Type = 2 AndAlso .ItemType = CByte(1),
+                                       If(Math.Ceiling(batchQuantitySum) > m(0).Concentration,
+                                          Convert.ToDecimal(m(0).Concentration),
+                                          Convert.ToDecimal(Math.Ceiling(batchQuantitySum))),
+                                       Convert.ToDecimal(m(0).Concentration)),
+                                    Convert.ToDecimal(m(0).Concentration)),
+                            .Vehicle = m(0).Vehicle,
+                            .Thinner = m(0).Thinner,
+                            .RequestMixingStationDetailId = m(0).RequestMixingStationDetailId,
+                            .PackageId = m(0).PackageId,
+                            .MSClass = unitDoseTypeClass,
+                            .VerifiedFor = m(0).VerifiedFor,
+                            .ConfirmedFor = m(0).ConfirmedFor,
+                            .IsPackagePersonalized = isPersonalized,
+                            .HasComplementaryMedicine = hasComplementaryPersonalized,
+                            .Source = m(0).Source
+                        }
                    End Function).
             ToList()
+
+            ValidatePackageRawMaterialCoverage(campaignDosisData, res, Type, lookupMgByDetailItem)
 
             If unitDoseTypeClass = EUnitDoseTypeClass.ParenteralNutrition Then
                 Return res.OrderBy(Function(x) x.NPTItemOrder).ToList()
@@ -522,18 +576,69 @@ Partial Public Class RawMaterialAdminService
     End Function
 
     ''' <summary>
+    ''' Calcula las unidades fraccionarias requeridas por un componente de paquete.
+    ''' La dosis ya normalizada por el SP se divide por la capacidad de la presentación del ATC.
+    ''' </summary>
+    ''' <param name="item">Componente calculado para la preparación.</param>
+    ''' <param name="itemMg">Componente equivalente en unidad de peso cuando el documento se consulta en mL.</param>
+    ''' <param name="documentType">Tipo de cálculo solicitado: peso o volumen.</param>
+    ''' <returns>Unidades fraccionarias necesarias antes de consolidar y redondear la campaña.</returns>
+    Private Function CalculatePackageRequiredDose(item As ProductCalculateMixingStation, itemMg As ProductCalculateMixingStation, documentType As Integer) As Decimal
+        Dim dose = If(documentType = 2 AndAlso itemMg IsNot Nothing, itemMg.DosisRequerida, item.DosisRequerida)
+        Dim concentration = If(documentType = 2 AndAlso itemMg IsNot Nothing, itemMg.Concentration, item.Concentration)
+        Return dose / If(concentration = 0D, 1D, concentration)
+    End Function
+
+    ''' <summary>
+    ''' Verifica que la consolidación final cubra la dosis completa de todas las preparaciones de la campaña.
+    ''' </summary>
+    ''' <param name="campaignDosisData">Componentes de todas las preparaciones retornados por el SP.</param>
+    ''' <param name="calculatedProducts">Productos consolidados que serán mostrados y enviados al picking.</param>
+    ''' <param name="documentType">Tipo de cálculo solicitado: peso o volumen.</param>
+    ''' <param name="lookupMgByDetailItem">Equivalencias en peso utilizadas para consultas en mL.</param>
+    Private Sub ValidatePackageRawMaterialCoverage(campaignDosisData As IEnumerable(Of ProductCalculateMixingStation), calculatedProducts As IEnumerable(Of ProductMixingStation), documentType As Integer, lookupMgByDetailItem As Dictionary(Of (Integer?, Integer), ProductCalculateMixingStation))
+        Dim requirements = campaignDosisData.
+            Where(Function(x) x.ItemType = 3 OrElse x.IsPackagePersonalized).
+            GroupBy(Function(x) New With {Key .ItemId = x.ItemId, Key .ItemType = x.ItemType})
+
+        For Each requirement In requirements
+            Dim requiredUnits = Math.Ceiling(requirement.Sum(Function(item)
+                                                                 Dim itemMg As ProductCalculateMixingStation = Nothing
+                                                                 If documentType = 2 AndAlso lookupMgByDetailItem IsNot Nothing Then
+                                                                     lookupMgByDetailItem.TryGetValue((item.RequestMixingStationDetailId, item.ItemId), itemMg)
+                                                                 End If
+                                                                 Return CalculatePackageRequiredDose(item, itemMg, documentType)
+                                                             End Function))
+            Dim calculatedUnits = calculatedProducts.
+                Where(Function(x) x.ItemId = requirement.Key.ItemId AndAlso x.ItemType = requirement.Key.ItemType).
+                Sum(Function(x) x.RequiredDosis)
+
+            If calculatedUnits < requiredUnits Then
+                Dim component = requirement.First()
+                Throw New IndigoValidationException($"La cantidad calculada para {component.Code} - {component.Name} no cubre la dosis total requerida por las preparaciones de la campaña. Requerida: {requiredUnits}; calculada: {calculatedUnits}.")
+            End If
+        Next
+    End Sub
+
+    ''' <summary>
     ''' Calcula BatchData por lote
     ''' </summary>
     ''' <returns>Lista de Lotes con cantidad y unidad de medida</returns>
     Private Function BuildBatchDataByType(m As IEnumerable(Of ProductMixingStation), docType As Integer) As List(Of BatchData)
         Dim list As New List(Of BatchData)
+        Dim mList = m.AsEnumerable().ToList()
+
+        ' SOLO cuando Thinner y Vehicle son el mismo medicamento (mismo ItemId en el grupo): usar solo Vehicle.
+        ' Si son medicamentos distintos, hasThinner AndAlso hasVehicle no se cumple y se mantiene comportamiento normal.
+        Dim hasThinner As Boolean = mList.Any(Function(x) x.Thinner > 0)
+        Dim hasVehicle As Boolean = mList.Any(Function(x) x.Vehicle > 0)
 
         ' Obtener todos los BatchCodes y separarlos si vienen concatenados con comas
         Dim allBatchCodes As New HashSet(Of String)()
 
-        For Each item In m
+        For Each item In mList
             ' Separar los lotes si vienen concatenados con comas (STRING_AGG del SP)
-            Dim batchCodesArray = item.BatchCode.Split(New String() {", ", ","}, StringSplitOptions.RemoveEmptyEntries)
+            Dim batchCodesArray = If(item.BatchCode, "").Split(New String() {", ", ","}, StringSplitOptions.RemoveEmptyEntries)
             For Each Batch In batchCodesArray
                 allBatchCodes.Add(Batch.Trim()) 'HashSet auto-elimina duplicados
             Next
@@ -544,7 +649,7 @@ Partial Public Class RawMaterialAdminService
             allBatchCodes.Add(String.Empty)
         End If
 
-        Dim itemBatches = m.ToDictionary(
+        Dim itemBatches = mList.ToDictionary(
             Function(x) x,
             Function(x) x.BatchCode?.Split(New String() {", ", ","}, StringSplitOptions.RemoveEmptyEntries).Select(Function(b) b.Trim()).ToArray())
 
@@ -553,27 +658,23 @@ Partial Public Class RawMaterialAdminService
             Dim matches As IEnumerable(Of ProductMixingStation)
 
             If String.IsNullOrEmpty(Batch) Then
-                matches = m.Where(Function(x) String.IsNullOrEmpty(x.BatchCode))
+                matches = mList.Where(Function(x) String.IsNullOrEmpty(x.BatchCode))
             Else
-                matches = itemBatches.Where(Function(kvp) kvp.Value.Contains(Batch)).Select(Function(x) x.Key)
+                matches = itemBatches.Where(Function(kvp) kvp.Value IsNot Nothing AndAlso kvp.Value.Contains(Batch)).Select(Function(x) x.Key)
             End If
+
+            ' Solo cuando Thinner+Vehicle mismo ItemId: excluir Thinner. Si medicamentos distintos, sumar todos.
+            Dim matchesForQty = If(hasThinner AndAlso hasVehicle, matches.Where(Function(x) x.Thinner = 0), matches)
 
             Dim quantity As Decimal
             Dim mu As String
 
-            If docType = 1 Then
-                ' Para docType = 1: Suma todas las DosisRequeridaPaquete
-                quantity = CustomRound(matches.Sum(Function(x) x.DosisRequeridaPaquete))
-                mu = matches.Select(Function(x) x.MeasureUnitAbbreviation).FirstOrDefault()
-            Else
-                ' Para docType = 2: Tomar la cantidad individual de cada lote
-                ' Seleccionar el item con Vehicle > 0; si no hay, el primero
-                Dim selected As ProductMixingStation = matches.FirstOrDefault(Function(x) x.Vehicle > 0)
-                If selected Is Nothing Then selected = matches.FirstOrDefault()
-
-                quantity = CustomRound(If(selected IsNot Nothing, selected.DosisRequeridaPaquete, 0D))
-                mu = If(selected IsNot Nothing, selected.MeasureUnitAbbreviation, Nothing)
-            End If
+            ' Paquetes personalizados: usar Dosis (CantidadDosis del SP) = cantidad ya en los paquetes
+            ' Otros: usar DosisRequeridaPaquete
+            Dim firstItem = mList.FirstOrDefault()
+            Dim isPersonalized As Boolean = firstItem IsNot Nothing AndAlso firstItem.IsPackagePersonalized
+            quantity = CustomRound(If(isPersonalized, matchesForQty.Sum(Function(x) x.Dosis), matchesForQty.Sum(Function(x) x.DosisRequeridaPaquete)))
+            mu = matches.Select(Function(x) x.MeasureUnitAbbreviation).FirstOrDefault()
 
             ' Agregar el lote solo si tiene cantidad
             If quantity > 0 OrElse String.IsNullOrEmpty(Batch) Then
@@ -586,6 +687,37 @@ Partial Public Class RawMaterialAdminService
         Next
 
         Return list
+    End Function
+
+    ''' <summary>
+    ''' Calcula el volumen real de vehículo a utilizar para paquetes personalizados con medicamento complementario.
+    ''' El valor se obtiene restando del volumen final del vehículo el volumen en mL de los medicamentos principales y complementarios.
+    ''' </summary>
+    ''' <param name="campaignDosisDataMl">Datos de la campaña calculados en mL.</param>
+    ''' <returns>Diccionario por RequestMixingStationDetailId con el volumen neto del vehículo a utilizar.</returns>
+    Private Function BuildPersonalizedComplementaryVehicleUseByDetail(campaignDosisDataMl As List(Of ProductCalculateMixingStation)) As Dictionary(Of Integer, Decimal)
+        Dim result As New Dictionary(Of Integer, Decimal)
+        If campaignDosisDataMl Is Nothing Then Return result
+
+        Dim detailGroups = campaignDosisDataMl.
+            Where(Function(x) x.IsPackagePersonalized AndAlso x.HasComplementaryMedicine AndAlso x.RequestMixingStationDetailId.HasValue).
+            GroupBy(Function(x) x.RequestMixingStationDetailId.Value)
+
+        For Each detailGroup In detailGroups
+            Dim vehicleItems = detailGroup.Where(Function(x) x.Vehicle > 0).ToList()
+            If Not vehicleItems.Any() Then Continue For
+
+            Dim finalVehicleVolume = vehicleItems.Max(Function(x) If(x.DosisRequerida > 0D, x.DosisRequerida, x.Concentration))
+            If finalVehicleVolume <= 0D Then Continue For
+
+            Dim medicineVolume = detailGroup.
+                Where(Function(x) x.ItemType = CByte(1) AndAlso x.Vehicle = 0 AndAlso x.Thinner = 0).
+                Sum(Function(x) x.CantidadDosis)
+
+            result(detailGroup.Key) = CustomRound(Math.Max(0D, finalVehicleVolume - medicineVolume))
+        Next
+
+        Return result
     End Function
 
     ''' <summary>
@@ -669,7 +801,11 @@ Partial Public Class RawMaterialAdminService
             .MSClass = unitDoseTypeClass,
             .VerifiedFor = item.VerifiedFor,
             .ConfirmedFor = item.ConfirmedFor,
-            .IsPackagePersonalized = item.IsPackagePersonalized
+            .IsPackagePersonalized = item.IsPackagePersonalized,
+            .HasComplementaryMedicine = item.HasComplementaryMedicine,
+            .Thinner = item.Thinner,
+            .Vehicle = item.Vehicle,
+            .Source = item.Source
         })
     End Sub
 
@@ -817,16 +953,18 @@ Partial Public Class RawMaterialAdminService
 
 #Region "Picking Dosis Unitarias"
     ''' <summary>
-    ''' Proceso de Consultar la Materia Prima en los Almacenes
+    ''' Calcula el picking de materia prima consultando disponibilidad en almacenes (Stock, Warehouse, Maquila).
+    ''' Para tipo reempaque/reenvase con solicitud de inventario (Source=4), consulta únicamente el almacén de RequestUnitDoseInventory.
     ''' </summary>
-    ''' <param name="productsMixing"></param>
-    ''' <param name="campaignDetailId"></param>
-    ''' <param name="stockWarehouseId"></param>
-    ''' <param name="warehouseId"></param>
-    ''' <param name="maquilaWareHouseId"></param>
-    ''' <param name="audit"></param>
-    ''' <param name="session"></param>
-    ''' <returns></returns>
+    ''' <param name="productsMixing">Lista de productos de la central de mezclas a preparar.</param>
+    ''' <param name="campaignDetailId">Id del detalle de campaña.</param>
+    ''' <param name="stockWarehouseId">Id del almacén de stock de la central de mezclas.</param>
+    ''' <param name="warehouseId">Id del almacén adicional (opcional).</param>
+    ''' <param name="maquilaWareHouseId">Id del almacén maquila (opcional, para centros que aplican excepción).</param>
+    ''' <param name="RemnantWarehouseId">Id del almacén de remanentes.</param>
+    ''' <param name="audit">Información de auditoría.</param>
+    ''' <param name="session">Valores de sesión del usuario.</param>
+    ''' <returns>ActionResult con los detalles de campaña generados o mensaje de error.</returns>
     Private Async Function CalculatePickingAsync(
         ByVal productsMixing As List(Of ProductMixingStation),
         campaignDetailId As Integer,
@@ -842,6 +980,20 @@ Partial Public Class RawMaterialAdminService
                 TransactionScopeOption.Required,
                 New TransactionOptions() With {.Timeout = TransactionManager.MaximumTimeout, .IsolationLevel = IsolationLevel.ReadCommitted},
                 TransactionScopeAsyncFlowOption.Enabled)
+                ' Validación de parámetros
+                If productsMixing Is Nothing OrElse Not productsMixing.Any() Then
+                    Return New ActionResult(Of CampaignDetailItems) With {
+                        .StateResult = False,
+                        .Message = "No se han proporcionado productos para calcular el picking"
+                    }
+                End If
+                If audit Is Nothing Then
+                    Return New ActionResult(Of CampaignDetailItems) With {
+                        .StateResult = False,
+                        .Message = "No se ha proporcionado la información de auditoría"
+                    }
+                End If
+
                 ' Validación de almacenes críticos
                 If stockWarehouseId = 0 OrElse RemnantWarehouseId = 0 Then
                     Return New ActionResult(Of CampaignDetailItems) With {
@@ -899,65 +1051,85 @@ Partial Public Class RawMaterialAdminService
                     Dim stockInventory As List(Of PhysicalInventory) = Nothing
                     Dim warehouseInventory As List(Of PhysicalInventory) = Nothing
 
-                    ' Excepción: Maquila
-                    If maquilaWareHouseId.HasValue AndAlso applyExceptions IsNot Nothing Then
-                        warehouseInventory = Await _PickingRepository.GetProductsByAtcAndWarehouseAsync(detailItem.AtcId, detailItem.ProductId, detailItem.SupplyId, maquilaWareHouseId)
-                        Dim pickingWareList = processInventory(eWareHouseType.Maquila, campaignDetailId, warehouseInventory, pendingQuantity, detailItem, productMixing.ItemType, audit.CodeUser)
-                        detailsPicking.AddRange(pickingWareList)
+                    ' Solicitud de inventario (Source=4): toma primero del stock; si no cubre la cantidad requerida,
+                    ' completa las unidades restantes con el almacén asignado en la solicitud. No cae al flujo estándar.
+                    If productMixing.Source = 4 Then
 
-                        ' Si el centro maneja almacén maquila y aplica excepción
-                        If applyExceptions.SuppliedBy = 1 Then
+                        stockInventory = Await _PickingRepository.GetProductsByAtcAndWarehouseAsync(detailItem.AtcId, detailItem.SupplyId, detailItem.ProductId, stockWarehouseId)
+                        Dim pickingList = processInventory(eWareHouseType.Stock, campaignDetailId, stockInventory, pendingQuantity, detailItem, productMixing.ItemType, audit.CodeUser, detailsPicking)
+                        detailsPicking.AddRange(pickingList)
+
+                        If pendingQuantity = 0 Then
                             detailsItems.Add(detailItem)
-                            If warehouseInventory Is Nothing OrElse warehouseInventory.Count = 0 Then
-                                notfound.AppendLine($"- {productMixing.ProductName}")
-                            End If
                             Continue For
                         End If
-                    End If
 
-                    ' Inventario principal stock
-                    stockInventory = Await _PickingRepository.GetProductsByAtcAndWarehouseAsync(detailItem.AtcId, detailItem.SupplyId, detailItem.ProductId, stockWarehouseId)
-                    If unitDoseTypeClass <> 5 Then
+                        Dim requestMixingStationDetailId As Integer = If(productMixing.RequestMixingStationDetailId.HasValue, productMixing.RequestMixingStationDetailId.Value, 0)
+                        If requestMixingStationDetailId = 0 Then
+                            notfound.AppendLine($"- {productMixing.ProductName}")
+                            Continue For
+                        End If
+
+                        ' Cantidades restantes: consulta el almacén asignado a esta preparación desde RequestMixingStationDetail
+                        Dim warehouseRequestInventoryId As Integer = Await _PickingRepository.GetInventoryRequestWarehouseIdByMixingStationDetailAsync(requestMixingStationDetailId)
+
+                        If warehouseRequestInventoryId > 0 Then
+                            Dim solicitudWarehouse = Await _wareHouseRepository.GetWarehouseByIdAsync(warehouseRequestInventoryId)
+                            Dim almacenOrigenLabel As String = String.Empty
+                            If solicitudWarehouse IsNot Nothing AndAlso Not String.IsNullOrWhiteSpace(solicitudWarehouse.Name) Then
+                                almacenOrigenLabel = $"{solicitudWarehouse.Code} - {solicitudWarehouse.Name}"
+                            End If
+
+                            warehouseInventory = Await _PickingRepository.GetProductsByAtcAndWarehouseAsync(detailItem.AtcId, detailItem.SupplyId, detailItem.ProductId, warehouseRequestInventoryId)
+                            If warehouseInventory IsNot Nothing AndAlso warehouseInventory.Any() Then
+                                Dim pickingListInv = processInventory(eWareHouseType.WareHouse, campaignDetailId, warehouseInventory, pendingQuantity, detailItem, productMixing.ItemType, audit.CodeUser, detailsPicking)
+                                detailsPicking.AddRange(pickingListInv)
+                                detailsItems.Add(detailItem)
+                            End If
+
+                            If pendingQuantity > 0 Then
+                                notfound.AppendLine($"- {productMixing.ProductName} ({almacenOrigenLabel}).")
+                            End If
+                        Else
+                            notfound.AppendLine($"- {productMixing.ProductName}")
+                        End If
+                        Continue For ' No caer al flujo estándar bajo ninguna circunstancia
+
+                    Else
+
+                        ' Excepción: Maquila
+                        If maquilaWareHouseId.HasValue AndAlso applyExceptions IsNot Nothing Then
+                            warehouseInventory = Await _PickingRepository.GetProductsByAtcAndWarehouseAsync(detailItem.AtcId, detailItem.ProductId, detailItem.SupplyId, maquilaWareHouseId)
+                            Dim pickingWareList = processInventory(eWareHouseType.Maquila, campaignDetailId, warehouseInventory, pendingQuantity, detailItem, productMixing.ItemType, audit.CodeUser)
+                            detailsPicking.AddRange(pickingWareList)
+
+                            ' Si el centro maneja almacén maquila y aplica excepción
+                            If applyExceptions.SuppliedBy = 1 Then
+                                detailsItems.Add(detailItem)
+                                If warehouseInventory Is Nothing OrElse warehouseInventory.Count = 0 Then
+                                    notfound.AppendLine($"- {productMixing.ProductName}")
+                                End If
+                                Continue For
+                            End If
+                        End If
+
+                        ' Inventario principal stock
+                        stockInventory = Await _PickingRepository.GetProductsByAtcAndWarehouseAsync(detailItem.AtcId, detailItem.SupplyId, detailItem.ProductId, stockWarehouseId)
                         Dim pickingList = processInventory(eWareHouseType.Stock, campaignDetailId, stockInventory, pendingQuantity, detailItem, productMixing.ItemType, audit.CodeUser)
                         detailsPicking.AddRange(pickingList)
-                    End If
 
-                    If pendingQuantity = 0 Then
-                        detailsItems.Add(detailItem)
-                        Continue For
-                    End If
+                        If pendingQuantity = 0 Then
+                            detailsItems.Add(detailItem)
+                            Continue For
+                        End If
 
-                    ' Inventario warehouse adicional
-                    If warehouseId.HasValue Then
-                        warehouseInventory = Await _PickingRepository.GetProductsByAtcAndWarehouseAsync(detailItem.AtcId, detailItem.SupplyId, detailItem.ProductId, warehouseId)
-                        If unitDoseTypeClass <> 5 Then
+                        ' Inventario warehouse adicional
+                        If warehouseId.HasValue Then
+                            warehouseInventory = Await _PickingRepository.GetProductsByAtcAndWarehouseAsync(detailItem.AtcId, detailItem.SupplyId, detailItem.ProductId, warehouseId)
                             Dim pickingWareList = processInventory(eWareHouseType.WareHouse, campaignDetailId, warehouseInventory, pendingQuantity, detailItem, productMixing.ItemType, audit.CodeUser)
                             detailsPicking.AddRange(pickingWareList)
                         End If
-                    End If
 
-                    If unitDoseTypeClass = EUnitDoseTypeClass.Repackaging Then
-                        Dim WarehouseUnion = (If(stockInventory, New List(Of PhysicalInventory)())).Union(If(warehouseInventory, New List(Of PhysicalInventory)())).ToList()
-                        Dim eligible = WarehouseUnion.Where(Function(m) m.Quantity >= pendingQuantity).ToList()
-                        If Not eligible.Any() Then
-                            eligible = WarehouseUnion.GroupBy(Function(m) New With {Key m.ProductId, Key m.BatchSerialId}) _
-                            .Where(Function(g) g.Sum(Function(o) o.Quantity) >= pendingQuantity) _
-                            .SelectMany(Function(g) g).ToList()
-                        End If
-
-                        Dim firstProductBatchGroup = eligible.GroupBy(Function(m) New With {Key m.ProductId, Key m.BatchSerialId}) _
-                        .Where(Function(g) g.Sum(Function(o) o.Quantity) >= pendingQuantity) _
-                        .SelectMany(Function(g) g) _
-                        .OrderBy(Function(d) If(d.Covered, 0, 1)) _
-                        .ThenBy(Function(d) If(d.BatchSerial Is Nothing OrElse d.BatchSerial.ExpirationDate Is Nothing, Date.MaxValue, d.BatchSerial.ExpirationDate)).FirstOrDefault()
-
-                        If firstProductBatchGroup IsNot Nothing Then
-                            For Each warehouse In eligible.Where(Function(i) i.ProductId = firstProductBatchGroup.ProductId AndAlso i.BatchSerialId.HasValue AndAlso i.BatchSerialId.Value = firstProductBatchGroup.BatchSerialId.Value)
-                                Dim typeWarehouse = If(warehouse.WarehouseId = warehouseId, eWareHouseType.WareHouse, eWareHouseType.Stock)
-                                Dim pickingList = processInventory(typeWarehouse, campaignDetailId, New List(Of PhysicalInventory) From {warehouse}, pendingQuantity, detailItem, productMixing.ItemType, audit.CodeUser)
-                                detailsPicking.AddRange(pickingList)
-                            Next
-                        End If
                     End If
 
                     detailsItems.Add(detailItem)
@@ -1064,15 +1236,18 @@ Partial Public Class RawMaterialAdminService
     End Function
 
     ''' <summary>
-    ''' Proceso Consulta Materia Prima en Almacenes
+    ''' Procesa el inventario físico y genera los registros de picking para el detalle de campaña.
+    ''' Distribuye las cantidades según el tipo de almacén (Stock, Warehouse, Maquila, Remnant).
     ''' </summary>
-    ''' <param name="typeWarehouse"> 1 - Stock, 2 - Warehouse, 3 -maquila, 4- remanentes</param>
-    ''' <param name="listInventory"></param>
-    ''' <param name="pendingQuantity"></param>
-    ''' <param name="detailItem"></param>
-    ''' <param name="itemType"></param>
-    ''' <param name="codeUser"></param>
-    ''' <returns></returns>
+    ''' <param name="typeWarehouse">Tipo de almacén: 1-Stock, 2-Warehouse, 3-Maquila, 4-Remanentes</param>
+    ''' <param name="campaignDetailId">Identificador del detalle de campaña</param>
+    ''' <param name="listInventory">Lista de inventario físico disponible. Si es Nothing o vacía, retorna lista vacía</param>
+    ''' <param name="pendingQuantity">Cantidad pendiente por cubrir (ByRef: se reduce conforme se asigna)</param>
+    ''' <param name="detailItem">Detalle del ítem de campaña donde se actualizan las cantidades por tipo de almacén</param>
+    ''' <param name="itemType">Tipo de ítem (ATC, Supply, Product)</param>
+    ''' <param name="codeUser">Código del usuario que realiza el proceso</param>
+    ''' <param name="currentPicking">Picking generado previamente en la misma ejecución para descontarlo del inventario disponible</param>
+    ''' <returns>Lista de registros CampaignDetailPicking generados</returns>
     Private Function processInventory(
         typeWarehouse As eWareHouseType,
         campaignDetailId As Integer,
@@ -1080,11 +1255,22 @@ Partial Public Class RawMaterialAdminService
         ByRef pendingQuantity As Integer,
         ByRef detailItem As CampaignDetailItems,
         itemType As Integer,
-        codeUser As String
+        codeUser As String,
+        Optional currentPicking As List(Of CampaignDetailPicking) = Nothing
     ) As List(Of CampaignDetailPicking)
         Dim pickingList As New List(Of CampaignDetailPicking)()
 
-        For Each physicalProduct As PhysicalInventory In listInventory
+        If listInventory Is Nothing OrElse Not listInventory.Any() OrElse pendingQuantity <= 0 Then
+            Return pickingList
+        End If
+
+        If detailItem Is Nothing Then
+            Return pickingList
+        End If
+
+        DiscountAlreadyPickedInventory(listInventory, currentPicking)
+
+        For Each physicalProduct As PhysicalInventory In listInventory.Where(Function(x) x.Quantity > 0)
             Dim quantity As Integer = 0
 
             If physicalProduct.Quantity > pendingQuantity Then
@@ -1114,6 +1300,29 @@ Partial Public Class RawMaterialAdminService
 
         Return pickingList
     End Function
+
+    ''' <summary>
+    ''' Descuenta del inventario disponible las cantidades ya asignadas en el picking calculado durante la ejecución actual.
+    ''' </summary>
+    ''' <param name="listInventory">Inventario disponible consultado para el producto, almacén y lote que se está procesando</param>
+    ''' <param name="currentPicking">Picking acumulado en memoria durante el cálculo actual</param>
+    Private Sub DiscountAlreadyPickedInventory(listInventory As List(Of PhysicalInventory), currentPicking As List(Of CampaignDetailPicking))
+        If listInventory Is Nothing OrElse currentPicking Is Nothing OrElse Not currentPicking.Any() Then
+            Return
+        End If
+
+        Dim pickedByInventory = currentPicking.
+            GroupBy(Function(x) New With {Key .ProductId = x.ProductId, Key .WarehouseId = x.WarehouseId, Key .BatchSerialId = x.BatchSerialId}).
+            ToDictionary(Function(g) g.Key, Function(g) g.Sum(Function(x) x.Quantity))
+
+        For Each physicalProduct In listInventory
+            Dim key = New With {Key .ProductId = physicalProduct.ProductId, Key .WarehouseId = physicalProduct.WarehouseId, Key .BatchSerialId = physicalProduct.BatchSerialId}
+            Dim pickedQuantity As Integer = 0
+            If pickedByInventory.TryGetValue(key, pickedQuantity) Then
+                physicalProduct.Quantity = Math.Max(physicalProduct.Quantity - pickedQuantity, 0)
+            End If
+        Next
+    End Sub
 
     ''' <summary>
     ''' Funcion que Guardar los Objetos del Picking
@@ -1471,16 +1680,16 @@ Partial Public Class RawMaterialAdminService
 
 #Region "Solicitud traslado de Inventario"
     ''' <summary>
-    ''' Crea y Guarda una Solicitud de Inventario
+    ''' Crea y Guarda una Solicitud de Inventario.
+    ''' Para preparaciones de tipo reempaque/reenvase que provienen de solicitud de inventario (Source=4),
+    ''' utiliza el WarehouseId de RequestUnitDoseInventory en lugar del almacén parametrizado por la CM.
     ''' </summary>
-    ''' <param name="inventoryRequest"></param>
-    ''' <param name="audit"></param>
-    ''' <param name="session"></param>
-    ''' <returns></returns>
-    Private Function SaveInventoryRequest(inventoryRequest As InventoryRequest, audit As AuditMessage, session As SessionValues) As ActionResult Implements IRawMaterialAdminService.SaveInventoryRequest
+    ''' <param name="inventoryRequest">Solicitud de inventario con SourceWarehouseId (origen), TargetWarehouseId (destino) y datos de campaña.</param>
+    ''' <param name="audit">Información de auditoría.</param>
+    ''' <param name="session">Valores de sesión.</param>
+    ''' <returns>ActionResult con el código generado o mensaje de error.</returns>
+    Private Async Function SaveInventoryRequestAsync(inventoryRequest As InventoryRequest, audit As AuditMessage, session As SessionValues) As Task(Of ActionResult) Implements IRawMaterialAdminService.SaveInventoryRequestAsync
         Try
-            If Not inventoryRequest.SourceWarehouseId.HasValue Then Throw New IndigoValidationException("No se ha enviado el Almacén de Origen")
-
             If inventoryRequest.CMConfigurationId = 0 Then Throw New IndigoValidationException("Central de Mezclas no existe")
 
             If audit Is Nothing Then Throw New IndigoValidationException("audit")
@@ -1491,17 +1700,25 @@ Partial Public Class RawMaterialAdminService
 
             Dim detailsPicking = _PickingRepository.GetCampaignPickingDetail(inventoryRequest.CampaignDetailId)
 
-            If Not detailsPicking.Any() Then Throw New IndigoValidationException("Detalles no encontrados")
+            If detailsPicking Is Nothing OrElse Not detailsPicking.Any() Then Throw New IndigoValidationException("Detalles no encontrados")
+
+            Dim itemsCampaign = _CampaignDetailItemsRepository.GetProductsItems(inventoryRequest.CampaignDetailId)
+
+            Dim effectiveSourceWarehouseId As Integer? = inventoryRequest.SourceWarehouseId
+
+            If Not effectiveSourceWarehouseId.HasValue Then
+                Throw New IndigoValidationException("No se ha enviado el Almacén de Origen")
+            End If
+
+            inventoryRequest.SourceWarehouseId = effectiveSourceWarehouseId
 
             'Filtro solo tipo almacén
-            Dim warehouseId = inventoryRequest.SourceWarehouseId
+            Dim warehouseId = effectiveSourceWarehouseId
             Dim campaignDetailPickingByWarehouse = (From x In detailsPicking Where x.WarehouseId = warehouseId).ToList()
             Dim inventoryRequestDetail = CreateInventoryRequestDetail(campaignDetailPickingByWarehouse)
 
             '===========================================================================================================
             ' Obtener ítems de campaña con cantidades en 0
-            Dim itemsCampaign = _CampaignDetailItemsRepository.GetProductsItems(inventoryRequest.CampaignDetailId)
-
             Dim itemsWithoutQuantities = (From x In itemsCampaign
                                           Where x.QuantityStock = 0 AndAlso
                                               x.QuantityWarehouse = 0 AndAlso
@@ -1513,12 +1730,11 @@ Partial Public Class RawMaterialAdminService
             Dim inventoryRequestDetailOther = CreateInventoryRequestDetailOther(itemsWithoutQuantities)
 
             '===========================================================================================================
-
             Dim _idCurrentSequence = 1673 'Inventario
             Dim inventoryRequestC = CreateInventoryRequest(inventoryRequest, CMConfiguration, inventoryRequestDetail, inventoryRequestDetailOther, audit.CodeUser)
             'save 
-            Using scope As New TransactionScope(TransactionScopeOption.Required, New TransactionOptions() With {.Timeout = TransactionManager.MaximumTimeout, .IsolationLevel = IsolationLevel.ReadCommitted})
-                Dim result = _InventoryRequestAdminService.SaveInventoryRequest(inventoryRequestC, audit, _idCurrentSequence)
+            Using scope As New TransactionScope(TransactionScopeOption.Required, New TransactionOptions() With {.Timeout = TransactionManager.MaximumTimeout, .IsolationLevel = IsolationLevel.ReadCommitted}, TransactionScopeAsyncFlowOption.Enabled)
+                Dim result = Await _InventoryRequestAdminService.SaveInventoryRequestAsync(inventoryRequestC, audit, _idCurrentSequence)
                 If result.StateResult = True Then
                     _campaignReports.SaveReports(Of InventoryRequest)(
                                    inventoryRequest.CampaignDetailId,

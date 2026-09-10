@@ -37,4 +37,11 @@ Public Class PortfolioInitialBalanceAccountReceivableRepository
     Public Function GetPortgolioInitialBalanceWithOutBudget(initialBalanceId As Integer) As List(Of PortfolioInitialBalanceAccountReceivable) Implements IPortfolioInitialBalanceAccountReceivableRepository.GetPortgolioInitialBalanceWithOutBudget
         Return (From pibar In _context.PortfolioInitialBalanceAccountReceivable.AsNoTracking() Where pibar.PortfolioInitialBalanceId = initialBalanceId And pibar.AffectBudget = False Select pibar).ToList()
     End Function
+
+    Public Function GetByInvoiceNumberAndInitialBalanceId(initialBalanceId As Integer, invoiceNumber As String) As PortfolioInitialBalanceAccountReceivable Implements IPortfolioInitialBalanceAccountReceivableRepository.GetByInvoiceNumberAndInitialBalanceId
+        If String.IsNullOrWhiteSpace(invoiceNumber) Then Return Nothing
+        Return (From pibar In _context.PortfolioInitialBalanceAccountReceivable.AsNoTracking()
+                Where pibar.PortfolioInitialBalanceId = initialBalanceId AndAlso pibar.InvoiceNumber = invoiceNumber
+                Select pibar).FirstOrDefault()
+    End Function
 End Class

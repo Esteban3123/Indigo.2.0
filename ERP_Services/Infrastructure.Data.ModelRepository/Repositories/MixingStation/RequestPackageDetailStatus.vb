@@ -1,4 +1,4 @@
-﻿'***********************************************************************
+'***********************************************************************
 ' Assembly         : Infrastructure.Data.MixinStationRepository
 ' Author           : Duván Mejia Cortes 
 ' Created          : 17/08/2021
@@ -6,6 +6,7 @@
 ' Copyright        : (c) . All rights reserved.
 '***********************************************************************
 
+Imports System.Collections.Generic
 Imports Infrastructure.Data.Base
 Imports Domain.Entities
 Imports System.Data.Entity.Infrastructure
@@ -46,6 +47,91 @@ Public Class RequestPackageDetailStatusRepository
             Return Res
         End If
         Return (From x In _context.RequestPackageDetailStatus.AsNoTracking() Where Ids.Contains(x.Id) Select x).ToList()
+    End Function
+
+    ''' <summary>
+    ''' IDs entre los solicitados que tienen defecto crítico activo en checklist (producción o calidad).
+    ''' Consulta única por joins; no materializa colecciones navegación por fila.
+    ''' </summary>
+    Public Function GetRequestPackageDetailStatusIdsWithCriticalDefect(ids As List(Of Integer)) As HashSet(Of Integer) Implements IRequestPackageDetailStatusRepository.GetRequestPackageDetailStatusIdsWithCriticalDefect
+        If ids Is Nothing OrElse Not ids.Any() Then
+            Return New HashSet(Of Integer)()
+        End If
+
+        Dim query =
+            From dc In _context.RequestPackageDetailStatusDefectClassification.AsNoTracking()
+            Join dcd In _context.RequestPackageDetailStatusDefectClassificationDetail.AsNoTracking()
+                On dc.Id Equals dcd.RequestPackageDetailStatusDefectClassificationId
+            Join dci In _context.DefectClassificationItem.AsNoTracking()
+                On dcd.DefectClassificationItemId Equals dci.Id
+            Where ids.Contains(dc.RequestPackageDetailStatusId) AndAlso dci.Critical AndAlso
+                ((dcd.Quality.HasValue AndAlso dcd.Quality.Value) OrElse (dcd.Production.HasValue AndAlso dcd.Production.Value))
+            Select dc.RequestPackageDetailStatusId
+
+        Return New HashSet(Of Integer)(query.Distinct().ToList())
+    End Function
+
+    ''' <summary>
+    ''' UPDATE directo que evalúa defecto crítico en la misma sentencia — sin cargar entidades en memoria.
+    ''' Procesa en lotes de 500 IDs para evitar IN clauses masivos.
+    ''' </summary>
+    Public Function BulkUpdateQualityRelease(ids As List(Of Integer), releaseStatus As Byte) As Integer Implements IRequestPackageDetailStatusRepository.BulkUpdateQualityRelease
+        If ids Is Nothing OrElse Not ids.Any() Then Return 0
+
+        Const CHUNK As Integer = 500
+        Dim totalAffected As Integer = 0
+        Dim offset As Integer = 0
+
+        While offset < ids.Count
+            Dim idList = String.Join(",", ids.Skip(offset).Take(CHUNK))
+
+            ' CTE calcula los IDs críticos UNA sola vez; el LEFT JOIN los aplica en el UPDATE.
+            ' Evita el EXISTS correlacionado que se evalúa fila por fila (N ejecuciones del JOIN de 3 tablas).
+            Dim sql = "
+            WITH CriticalIds AS (
+                SELECT DISTINCT dc.RequestPackageDetailStatusId
+                FROM MixingStation.RequestPackageDetailStatusDefectClassification dc
+                INNER JOIN MixingStation.RequestPackageDetailStatusDefectClassificationDetail dcd
+                    ON dc.Id = dcd.RequestPackageDetailStatusDefectClassificationId
+                INNER JOIN MixingStation.DefectClassificationItem dci
+                    ON dcd.DefectClassificationItemId = dci.Id
+                WHERE dc.RequestPackageDetailStatusId IN (" & idList & ")
+                  AND dci.Critical = 1
+                  AND (dcd.Quality = 1 OR dcd.Production = 1)
+            )
+            UPDATE rpds
+            SET
+                [Status]       = CASE WHEN ci.RequestPackageDetailStatusId IS NOT NULL THEN 5 ELSE {0} END,
+                QualityStatus  = CASE WHEN ci.RequestPackageDetailStatusId IS NOT NULL THEN 2 ELSE 1 END
+            FROM MixingStation.RequestPackageDetailStatus rpds
+            LEFT JOIN CriticalIds ci ON rpds.Id = ci.RequestPackageDetailStatusId
+            WHERE rpds.Id IN (" & idList & ")"
+
+            totalAffected += ExecuteNonQuery(sql, CInt(releaseStatus))
+            offset += CHUNK
+        End While
+
+        Return totalAffected
+    End Function
+
+    ''' <summary>
+    ''' UPDATE directo de Status y QualityStatus sin cargar entidades en memoria.
+    ''' </summary>
+    Public Function BulkUpdateStatus(ids As List(Of Integer), status As Byte, qualityStatus As Byte) As Integer Implements IRequestPackageDetailStatusRepository.BulkUpdateStatus
+        If ids Is Nothing OrElse Not ids.Any() Then Return 0
+
+        Const CHUNK As Integer = 500
+        Dim totalAffected As Integer = 0
+        Dim offset As Integer = 0
+
+        While offset < ids.Count
+            Dim idList = String.Join(",", ids.Skip(offset).Take(CHUNK))
+            Dim sql = "UPDATE MixingStation.RequestPackageDetailStatus SET [Status] = {0}, QualityStatus = {1} WHERE Id IN (" & idList & ")"
+            totalAffected += ExecuteNonQuery(sql, CInt(status), CInt(qualityStatus))
+            offset += CHUNK
+        End While
+
+        Return totalAffected
     End Function
 
     ''' <summary>
@@ -159,5 +245,24 @@ Public Class RequestPackageDetailStatusRepository
         Else
             Return New RequestPackageDetailStatus
         End If
+    End Function
+
+    ''' <summary>
+    ''' Obtiene la materia prima validada usada para preparar un medicamento complementario.
+    ''' </summary>
+    ''' <param name="batchCode"></param>
+    ''' <param name="packageProductId"></param>
+    ''' <param name="atcId"></param>
+    ''' <returns></returns>
+    Public Function GetComplementaryRawMaterialByBatchProductAndAtc(batchCode As String, packageProductId As Integer, atcId As Integer) As CampaignRawMaterial Implements IRequestPackageDetailStatusRepository.GetComplementaryRawMaterialByBatchProductAndAtc
+        If String.IsNullOrWhiteSpace(batchCode) OrElse packageProductId = 0 OrElse atcId = 0 Then
+            Return Nothing
+        End If
+
+        Return _context.CampaignRawMaterial.AsNoTracking() _
+            .Include("InventoryProduct") _
+            .FirstOrDefault(Function(m) m.AtcId = atcId _
+                AndAlso m.RequestPackageDetailStatus.BatchCode = batchCode _
+                AndAlso m.RequestPackageDetailStatus.ProductId = packageProductId)
     End Function
 End Class

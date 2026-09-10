@@ -50,4 +50,16 @@ Partial Class ContractService
         'Return Me._contractAccountingStructureAdminService.SaveContractAccountingStructure(ContractAccountingStructure, audit, idSequense)
     End Function
 
+    Public Function GetActiveListContractAccountingStructure(audit As AuditMessage) As Domain.Base.Entities.ActionResult(Of List(Of Domain.Entities.ContractAccountingStructure)) Implements IContractContractAccountingStructure.GetActiveListContractAccountingStructure
+        Using service As IContractAccountingStructureAdminService = Container.Current.Resolve(Of IContractAccountingStructureAdminService)()
+            Return service.GetActiveList(audit)
+        End Using
+    End Function
+
+    Public Function GetListByCodesContractAccountingStructure(codes As List(Of String), audit As AuditMessage) As Domain.Base.Entities.ActionResult(Of List(Of Domain.Entities.ContractAccountingStructure)) Implements IContractContractAccountingStructure.GetListByCodesContractAccountingStructure
+        Using service As IContractAccountingStructureAdminService = Container.Current.Resolve(Of IContractAccountingStructureAdminService)()
+            Return service.GetListByCodes(codes, audit)
+        End Using
+    End Function
+
 End Class

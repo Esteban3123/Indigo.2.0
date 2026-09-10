@@ -10,12 +10,13 @@ using Unity;
 using Domain.Entities;
 using Domain.Base.Entities;
 using Infrastructure.CrossCutting.Base;
-using Domain.Billing.POCO;
 using NewRelic.Api.Agent;
 using DistribuitedServices.Billing;
 using System.IO;
 using System.Web;
+
 using Application.Crystal;
+using Domain.Billing.POCO;
 
 namespace DistributedService.Rest.Controllers
 {

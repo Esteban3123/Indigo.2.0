@@ -1,5 +1,6 @@
 ﻿using Infrastructure.CrossCutting.Base;
 using System.IO;
+using System.Linq;
 
 namespace Infrastructure.CrossCutting.AzureBlobStorage.Storage
 {
@@ -93,6 +94,22 @@ namespace Infrastructure.CrossCutting.AzureBlobStorage.Storage
                 fileByte = Infrastructure.CrossCutting.Base.Utils.FileReadAllBytes(filePath, fileName);
             }
             return fileByte;
+        }
+
+        public string FindFirstFileName(string filePath, string prefix, string extension)
+        {
+            try
+            {
+                if (!Directory.Exists(filePath)) return null;
+
+                var searchPattern = string.Concat(prefix ?? string.Empty, "*", extension ?? string.Empty);
+                var file = Directory.GetFiles(filePath, searchPattern).FirstOrDefault();
+                return string.IsNullOrEmpty(file) ? null : Path.GetFileName(file);
+            }
+            catch
+            {
+                return null;
+            }
         }
 
         public string ReadFileFromBlobUrl(string blobUrl)

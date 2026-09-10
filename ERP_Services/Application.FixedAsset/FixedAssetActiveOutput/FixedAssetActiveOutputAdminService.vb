@@ -1,4 +1,4 @@
-﻿#Region "Imports"
+#Region "Imports"
 Imports Domain.Base
 Imports Infrastructure.CrossCutting.Base
 Imports Application.Base
@@ -149,6 +149,16 @@ Public Class FixedAssetActiveOutputAdminService
                 'Se construye el mensaje que se devuelve al confirmar la salida de activos
                 Dim message As New StringBuilder
                 message.AppendLine("El registro se guardó con código: " + resultSave.ObjectEmbbeded.Code)
+
+                'Se recalcula la clasificación real de cada activo desde su catálogo (fuente de verdad en BD),
+                'ya que ClassificationFixedAsset puede llegar sin diligenciar desde el cliente cuando el objeto
+                'no pasó antes por GetFixedAssetActiveOutput, lo que anulaba silenciosamente esta validación
+                For Each item In FixedAssetActiveOutput.FixedAssetActiveOutputDetail
+                    If item.PhysicalAssetId IsNot Nothing Then
+                        Dim physicalForClassification = _FixedAssetActiveOutputRepository.GetFixedAssetPhysicalAssetById(item.PhysicalAssetId.Value)
+                        item.ClassificationFixedAsset = physicalForClassification.FixedAssetItem.FixedAssetItemCatalog.Classification
+                    End If
+                Next
 
                 Dim ThereUncontrollableAssets As Boolean = FixedAssetActiveOutput.FixedAssetActiveOutputDetail.Any(Function(item) item.ClassificationFixedAsset = 3)
                 If ThereUncontrollableAssets Then
@@ -517,121 +527,35 @@ Public Class FixedAssetActiveOutputAdminService
 
                         'Se recorren los libros que tenga el activo
                         For Each physicalAssetDetailBook In physicalAsset.FixedAssetPhysicalAssetDetailBook
-
-                            'Se valida que el libro que se va recorriendo este en el listado de permiso para realizar el comprobante
-                            If ListLegalBookId.Contains(physicalAssetDetailBook.LegalBookId) = False Then
-                                Continue For
+                            'Si el libro tiene todos los valores en cero (activo subido por saldos iniciales
+                            'marcado como que deprecia pero sin valores de depreciación), se trata como activo
+                            'que no deprecia para garantizar la correcta contrapartida contable
+                            If physicalAssetDetailBook.HistoricalValue = 0 AndAlso
+                               physicalAssetDetailBook.DepreciatedValue = 0 AndAlso
+                               physicalAssetDetailBook.ResidualValue = 0 AndAlso
+                               physicalAssetDetailBook.Devaluation = 0 Then
+                                ProcessBookWithoutDepreciation(FixedAssetActiveOutput, physicalAsset, physicalAssetDetailBook.LegalBookId, SettingGeneralLedger, settingsFixedAsset, DictionaryJournalVoucher, balanceTracker, ListLegalBookId)
+                            Else
+                                'Usar la función auxiliar para procesar el libro con depreciación
+                                ProcessBookWithDepreciation(FixedAssetActiveOutput, physicalAsset, physicalAssetDetailBook, activeOutputDetail, SettingGeneralLedger, settingsFixedAsset, DictionaryJournalVoucher, balanceTracker, ListLegalBookId)
                             End If
-
-                            If Not DictionaryJournalVoucher.ContainsKey(physicalAssetDetailBook.LegalBookId) Then 'Si el libro no existe en el diccionario se crea la cabecera del comprobante para cierto libro
-                                book = _legalBookRepository.GetBookById(physicalAssetDetailBook.LegalBookId)
-                                DictionaryJournalVoucher.Add(physicalAssetDetailBook.LegalBookId, New Tuple(Of Boolean, JournalVouchers)(book.OfficialBook, GenerateHeader(FixedAssetActiveOutput, physicalAssetDetailBook.LegalBookId, settingsFixedAsset)))
-                            End If
-
-                            'Siempre creo un detalle de comprobante a la cuenta de ingreso del catalogo y el valor es el valor historico y se va al credito
-                            Dim JournalVoucher As JournalVouchers = DictionaryJournalVoucher(physicalAssetDetailBook.LegalBookId).Item2 'Obtengo la cabecera correspondiente al libro que voy recorriendo para agregarle los detalles
-                            If JournalVoucher.JournalVoucherDetails Is Nothing Then
-                                JournalVoucher.JournalVoucherDetails = New Domain.Entities.TrackableCollection(Of JournalVoucherDetails)
-                            End If
-
-                            Dim det1 = GenerateDetail(SettingGeneralLedger.IdDian, DictionaryJournalVoucher(physicalAssetDetailBook.LegalBookId).Item1, physicalAsset, 1, physicalAssetDetailBook)
-                            AddDetailIfValid(JournalVoucher.JournalVoucherDetails, det1)
-                            AddAndTrack(det1, balanceTracker, physicalAsset.Plate, physicalAssetDetailBook.LegalBookId)
-                            'Si el residualValue esta encero es porque se deprecio totalmente y creo un detalle de comprobante con la cuenta del catalogo cuenta depreciacion y el valor es el campo depreciatedValue y
-                            'se lleva al debito
-                            'ó
-                            'Si el residualValue no esta en cero es porque no se ha depreciado totalmente y creo un detalle de comprobante con la cuenta del catalogo cuenta depreciacion y el valor es el campo 
-                            'depreciatedValue y se lleva al debito
-
-                            'Dado a que al correr la última depreciación en valor residial queda en decimales negativos, ejemplo -0.04, se deja la condicion de que el valor residual sea menor o igual a 0
-                            'Porque se sobre entiende que ya esta depreciado
-                            If (physicalAssetDetailBook.ResidualValue <= 0 OrElse physicalAssetDetailBook.ResidualValue > 0) AndAlso physicalAssetDetailBook.DepreciatedValue > 0 Then
-                                Dim det2 = GenerateDetail(SettingGeneralLedger.IdDian, DictionaryJournalVoucher(physicalAssetDetailBook.LegalBookId).Item1, physicalAsset, 2, physicalAssetDetailBook)
-                                AddDetailIfValid(JournalVoucher.JournalVoucherDetails, det2)
-                                AddAndTrack(det2, balanceTracker, physicalAsset.Plate, physicalAssetDetailBook.LegalBookId)
-                            End If
-
-                            'La valorización no se genera como asiento separado en la salida
-                            'porque está incluida en el valor del activo que se da de baja en Case 1
-
-                            'Si el detalle de la salida es venta se adicionan dos cuentas con el valor de venta
-                            If activeOutputDetail.OutputType = 2 Then
-                                'Calcular el valor total en libros (residual + valorización)
-                                Dim valorTotalLibros As Decimal = physicalAssetDetailBook.ResidualValue
-                                If physicalAssetDetailBook.Valorization > 0 Then
-                                    valorTotalLibros = valorTotalLibros + physicalAssetDetailBook.Valorization
-                                End If
-                                
-                                If activeOutputDetail.SalesValue > valorTotalLibros Then
-                                    'Al crédito la cuenta ganancia del ejercicio del catalogo y el valor es el valor de venta
-                                    Dim det4 = GenerateDetail(SettingGeneralLedger.IdDian, DictionaryJournalVoucher(physicalAssetDetailBook.LegalBookId).Item1, physicalAsset, 4, physicalAssetDetailBook, Nothing, activeOutputDetail)
-                                    AddDetailIfValid(JournalVoucher.JournalVoucherDetails, det4)
-                                    AddAndTrack(det4, balanceTracker, physicalAsset.Plate, physicalAssetDetailBook.LegalBookId)
-
-                                ElseIf activeOutputDetail.SalesValue < valorTotalLibros Then
-                                    Dim det5 = GenerateDetail(SettingGeneralLedger.IdDian, DictionaryJournalVoucher(physicalAssetDetailBook.LegalBookId).Item1, physicalAsset, 3, physicalAssetDetailBook, Nothing, activeOutputDetail)
-                                    AddDetailIfValid(JournalVoucher.JournalVoucherDetails, det5)
-                                    AddAndTrack(det5, balanceTracker, physicalAsset.Plate, physicalAssetDetailBook.LegalBookId)
-                                End If
-                                'Al débito la cuenta CxC y ventas de parámetros y el valor es el valor de venta
-                                Dim det6 = GenerateDetail(SettingGeneralLedger.IdDian, DictionaryJournalVoucher(physicalAssetDetailBook.LegalBookId).Item1, physicalAsset, 5, Nothing, settingsFixedAsset, activeOutputDetail)
-                                AddDetailIfValid(JournalVoucher.JournalVoucherDetails, det6)
-                                AddAndTrack(det6, balanceTracker, physicalAsset.Plate, physicalAssetDetailBook.LegalBookId)
-
-
-                            Else 'Si no se vende y si hay saldo pendiente por depreciar entonces de lleva a la perdida
-                                'Además creo otro detalle de comprobante por el valor del campo residualValue 
-                                If physicalAssetDetailBook.ResidualValue > 0 Then
-                                    If activeOutputDetail.LowType = 5 Then
-                                        'Si el tipo de baja es por obsolescencia, se llega a la cuenta de gasto por depreciacion de acuerdo con la ubicación actual del activo
-                                        Dim det7 = GenerateDetail(SettingGeneralLedger.IdDian, DictionaryJournalVoucher(physicalAssetDetailBook.LegalBookId).Item1, physicalAsset, 9, physicalAssetDetailBook, Nothing, activeOutputDetail)
-                                        AddDetailIfValid(JournalVoucher.JournalVoucherDetails, det7)
-                                        AddAndTrack(det7, balanceTracker, physicalAsset.Plate, physicalAssetDetailBook.LegalBookId)
-                                    Else
-                                        'De lo contrario lo llevo a la cuenta perdida del ejercicio del catalogo y se lleva al debito
-                                        Dim det8 = GenerateDetail(SettingGeneralLedger.IdDian, DictionaryJournalVoucher(physicalAssetDetailBook.LegalBookId).Item1, physicalAsset, 3, physicalAssetDetailBook, Nothing, activeOutputDetail)
-                                        AddDetailIfValid(JournalVoucher.JournalVoucherDetails, det8)
-                                        AddAndTrack(det8, balanceTracker, physicalAsset.Plate, physicalAssetDetailBook.LegalBookId)
-                                    End If
-                                End If
-                                ''Si el activo presenta un valor en el campo Devaluation, se genera un asiento contable 
-                                'que representa la pérdida por desvalorización del activo, utilizando la cuenta  'parametrizada en el catálogo de artículos
-                                If physicalAssetDetailBook.Devaluation > 0 AndAlso physicalAssetDetailBook.HistoricalValue = 0 Then
-
-                                    Dim det9 = GenerateDetail(SettingGeneralLedger.IdDian,
-                                                       DictionaryJournalVoucher(physicalAssetDetailBook.LegalBookId).Item1,
-                                                       physicalAsset, 11, physicalAssetDetailBook)
-
-                                    AddDetailIfValid(JournalVoucher.JournalVoucherDetails, det9)
-                                    AddAndTrack(det9, balanceTracker, physicalAsset.Plate, physicalAssetDetailBook.LegalBookId)
-
-
-                                    If physicalAssetDetailBook.ResidualValue > 0 Then
-                                        Dim det16 = GenerateDetail(SettingGeneralLedger.IdDian,
-                                                       DictionaryJournalVoucher(physicalAssetDetailBook.LegalBookId).Item1,
-                                                       physicalAsset, 12, physicalAssetDetailBook)
-                                        AddDetailIfValid(JournalVoucher.JournalVoucherDetails, det16)
-                                        AddAndTrack(det16, balanceTracker, physicalAsset.Plate, physicalAssetDetailBook.LegalBookId)
-                                    End If
-                                End If
-                            End If
-
-                            'Si el detalle es de reposición se adicionan dos cuentas con el valor de reposición
-                            If activeOutputDetail.OutputType = 1 AndAlso activeOutputDetail.LowType = 3 Then
-                                'Al crédito la cuenta crédito de reposición del catalogo y el valor es el valor de reposición
-                                Dim det10 = GenerateDetail(SettingGeneralLedger.IdDian, DictionaryJournalVoucher(physicalAssetDetailBook.LegalBookId).Item1, physicalAsset, 6, Nothing, Nothing, activeOutputDetail)
-                                AddDetailIfValid(JournalVoucher.JournalVoucherDetails, det10)
-                                AddAndTrack(det10, balanceTracker, physicalAsset.Plate, physicalAssetDetailBook.LegalBookId)
-
-
-                                'Al débito la cuenta reposición no responsabilidades y el valor es el valor de reposicion
-                                Dim det11 = GenerateDetail(SettingGeneralLedger.IdDian, DictionaryJournalVoucher(physicalAssetDetailBook.LegalBookId).Item1, physicalAsset, 7, Nothing, settingsFixedAsset, activeOutputDetail)
-                                AddDetailIfValid(JournalVoucher.JournalVoucherDetails, det11)
-                                AddAndTrack(det11, balanceTracker, physicalAsset.Plate, physicalAssetDetailBook.LegalBookId)
-                            End If
-
                         Next
-                    Else 'Si el Activo no deprecia
+                    ElseIf physicalAsset.FixedAssetPhysicalAssetDetailBook IsNot Nothing AndAlso physicalAsset.FixedAssetPhysicalAssetDetailBook.Count > 0 Then
+                        'Si el parámetro Depreciate es False pero el activo tiene libros contables, evaluar libro por libro
+                        'según si tienen valor depreciado o no
+                        For Each physicalAssetDetailBook In physicalAsset.FixedAssetPhysicalAssetDetailBook
+
+                            'Si el libro tiene valor depreciado, procesarlo como activo que deprecia
+                            If physicalAssetDetailBook.DepreciatedValue > 0 Then
+                                'Usar la función auxiliar para procesar libro con depreciación
+                                ProcessBookWithDepreciation(FixedAssetActiveOutput, physicalAsset, physicalAssetDetailBook, activeOutputDetail, SettingGeneralLedger, settingsFixedAsset, DictionaryJournalVoucher, balanceTracker, ListLegalBookId)
+                            Else
+                                'Si el libro NO tiene valor depreciado, procesarlo como activo que no deprecia
+                                'Usar la función auxiliar para procesar libro sin depreciación
+                                ProcessBookWithoutDepreciation(FixedAssetActiveOutput, physicalAsset, physicalAssetDetailBook.LegalBookId, SettingGeneralLedger, settingsFixedAsset, DictionaryJournalVoucher, balanceTracker, ListLegalBookId)
+                            End If
+                        Next
+                    Else 'Si el Activo no deprecia y no tiene libros de activo
                         'Si tiene detalles de libros contables y es diferente a comodato
                         If physicalAsset.FixedAssetItem.FixedAssetItemDetail.Count > 0 AndAlso physicalAsset.AdquisitionType <> 3 Then
                             For Each detail In physicalAsset.FixedAssetItem.FixedAssetItemDetail
@@ -779,20 +703,11 @@ Public Class FixedAssetActiveOutputAdminService
                         .IdMainAccount = physicalAsset.MainAccountId
                     End If
                     .DebitValue = 0
-                    If physicalAssetDetailBook Is Nothing Then
-                        'Si no hay detalle de libro, usar el valor del activo físico
-                        .CreditValue = physicalAsset.HistoricalValue
-                    ElseIf physicalAssetDetailBook.HistoricalValue = 0 Then
-                        'Si el valor del libro es 0, usar el valor del activo físico
-                        .CreditValue = physicalAsset.HistoricalValue
+                    ' En cualquier escenario se debe contemplar el Descuento Financiero
+                    If physicalAssetDetailBook Is Nothing Or (physicalAssetDetailBook IsNot Nothing AndAlso physicalAssetDetailBook.HistoricalValue = 0) Then
+                        .CreditValue = physicalAsset.HistoricalValue - physicalAsset.FinancialDiscount
                     Else
-                        'Siempre usar el valor del libro cuando existe detalle de libro
-                        .CreditValue = physicalAssetDetailBook.HistoricalValue
-                        
-                        'Incluir la valorización en el crédito, ya que está en la misma cuenta del activo
-                        If physicalAssetDetailBook.Valorization > 0 Then
-                            .CreditValue = .CreditValue + physicalAssetDetailBook.Valorization
-                        End If
+                        .CreditValue = physicalAssetDetailBook.HistoricalValue - physicalAsset.FinancialDiscount ' Si existe valor Historico del libro, debe contabilizar ese valor
                     End If
                 Case 2
                     'La cuenta depende del tipo de adquisicion, si es leasing financiero usar la cuenta del catalogo
@@ -810,22 +725,13 @@ Public Class FixedAssetActiveOutputAdminService
                     If activeOutputDetail.SalesValue > 0 Then
                         .DebitValue = physicalAssetDetailBook.ResidualValue - activeOutputDetail.SalesValue
                     Else
-                        .DebitValue = physicalAssetDetailBook.ResidualValue
-                    End If
-                    'Incluir la valorización en la pérdida si existe
-                    If physicalAssetDetailBook IsNot Nothing AndAlso physicalAssetDetailBook.Valorization > 0 Then
-                        .DebitValue = .DebitValue + physicalAssetDetailBook.Valorization
+                        .DebitValue = GetBookValueForRetirement(physicalAsset, physicalAssetDetailBook)
                     End If
                     .CreditValue = 0
                 Case 4
                     .IdMainAccount = physicalAsset.FixedAssetItem.FixedAssetItemCatalog.NetIncomeAccountId
                     .DebitValue = 0
-                    'Calcular ganancia considerando también la valorización si existe
-                    Dim valorLibros As Decimal = physicalAssetDetailBook.ResidualValue
-                    If physicalAssetDetailBook.Valorization > 0 Then
-                        valorLibros = valorLibros + physicalAssetDetailBook.Valorization
-                    End If
-                    .CreditValue = activeOutputDetail.SalesValue - valorLibros
+                    .CreditValue = activeOutputDetail.SalesValue - physicalAssetDetailBook.ResidualValue
                 Case 5
                     .IdMainAccount = settingFixedAsset.SalesMainAccountId
                     .DebitValue = activeOutputDetail.SalesValue
@@ -844,7 +750,8 @@ Public Class FixedAssetActiveOutputAdminService
                     Else
                         .IdMainAccount = physicalAsset.FixedAssetItem.FixedAssetItemCatalog.LossMainAccountId
                     End If
-                    .DebitValue = IIf(isLegalBook = True, physicalAsset.HistoricalValue, IIf(physicalAsset.FairValue = 0, physicalAsset.HistoricalValue, physicalAsset.FairValue))
+                    ' Se contempla el descuento financiero en la contrapartida
+                    .DebitValue = IIf(isLegalBook = True, physicalAsset.HistoricalValue - physicalAsset.FinancialDiscount, IIf(physicalAsset.FairValue = 0, physicalAsset.HistoricalValue - physicalAsset.FinancialDiscount, physicalAsset.FairValue - physicalAsset.FinancialDiscount))
                     .CreditValue = 0
                 Case 9
                     Dim catalogDetail As FixedAssetItemCatalogDetail
@@ -862,13 +769,9 @@ Public Class FixedAssetActiveOutputAdminService
                     Else
                         .IdMainAccount = catalogDetail.LoanSpendAccountId
                     End If
-                    .DebitValue = physicalAssetDetailBook.ResidualValue
-                    'Incluir la valorización en el gasto si existe
-                    If physicalAssetDetailBook IsNot Nothing AndAlso physicalAssetDetailBook.Valorization > 0 Then
-                        .DebitValue = .DebitValue + physicalAssetDetailBook.Valorization
-                    End If
+                    .DebitValue = GetBookValueForRetirement(physicalAsset, physicalAssetDetailBook)
                     .CreditValue = 0
-                Case 10 'caso para crear el detalle del comprobante contable de valorizacion 
+                Case 10 'caso para crear el detalle del comprobante contable de valorizacion
                     'La cuenta depende del tipo de adquisicion, si es leasing financiero usar la cuenta del catalogo
                     If physicalAsset.AdquisitionType = 7 Then
                         .IdMainAccount = physicalAsset.FixedAssetItem.FixedAssetItemCatalog.IncomeLeasingAccountId
@@ -887,12 +790,31 @@ Public Class FixedAssetActiveOutputAdminService
                     .IdMainAccount = physicalAsset.FixedAssetItem.FixedAssetItemCatalog.LossMainAccountId
                     .CreditValue = physicalAssetDetailBook.Devaluation
                     .DebitValue = 0
+                Case 13 'Activo sobre-depreciado (depreciacion acumulada mayor al valor historico).
+                    .IdMainAccount = physicalAsset.FixedAssetItem.FixedAssetItemCatalog.NetIncomeAccountId
+                    .DebitValue = 0
+                    .CreditValue = Math.Abs(GetBookValueForRetirement(physicalAsset, physicalAssetDetailBook))
             End Select
             .IdThirdParty = If(_pucAdminService.MainAccountHandlesThirdParty(.IdMainAccount), thirdPartyId, Nothing)
             .IdCostCenter = If(_pucAdminService.MainAccountHandlesCostCenter(.IdMainAccount), idCostCenter, Nothing)
             .Detail = "Detalle generado desde salida de activos"
         End With
         Return JournalVoucherDetails
+    End Function
+
+    ''' <summary>
+    ''' garantizar que el comprobante de salida cuadre. Se usa en lugar de ResidualValue porque el proceso de
+    ''' depreciacion puede cerrar el activo con ResidualValue = 0 dejando la depreciacion incompleta.
+    ''' </summary>
+    Private Function GetBookValueForRetirement(physicalAsset As FixedAssetPhysicalAsset, physicalAssetDetailBook As FixedAssetPhysicalAssetDetailBook) As Decimal
+        Dim historical As Decimal
+        If physicalAssetDetailBook Is Nothing OrElse physicalAssetDetailBook.HistoricalValue = 0 Then
+            historical = physicalAsset.HistoricalValue
+        Else
+            historical = physicalAssetDetailBook.HistoricalValue
+        End If
+        Dim depreciated As Decimal = If(physicalAssetDetailBook Is Nothing, 0D, physicalAssetDetailBook.DepreciatedValue)
+        Return historical - physicalAsset.FinancialDiscount - depreciated
     End Function
 
     ''' <summary>
@@ -1115,6 +1037,155 @@ Public Class FixedAssetActiveOutputAdminService
                         plate As String,
                         bookId As Integer)
         TrackBalance(tracker, plate, bookId, det)
+    End Sub
+
+    ''' <summary>
+    ''' Procesa un libro contable con depreciación acumulada
+    ''' </summary>
+    Private Sub ProcessBookWithDepreciation(
+                        FixedAssetActiveOutput As FixedAssetActiveOutput,
+                        physicalAsset As FixedAssetPhysicalAsset,
+                        physicalAssetDetailBook As FixedAssetPhysicalAssetDetailBook,
+                        activeOutputDetail As FixedAssetActiveOutputDetail,
+                        SettingGeneralLedger As GeneralLedgerSettings,
+                        settingsFixedAsset As SettingFixedAsset,
+                        DictionaryJournalVoucher As Dictionary(Of Integer, Tuple(Of Boolean, JournalVouchers)),
+                        balanceTracker As Dictionary(Of String, BalanceAcc),
+                        ListLegalBookId As List(Of Integer))
+
+        'Se valida que el libro esté en el listado de permiso para realizar el comprobante
+        If Not ListLegalBookId.Contains(physicalAssetDetailBook.LegalBookId) Then
+            Return
+        End If
+
+        'Crear o recuperar el comprobante del diccionario
+        If Not DictionaryJournalVoucher.ContainsKey(physicalAssetDetailBook.LegalBookId) Then
+            Dim book = _legalBookRepository.GetBookById(physicalAssetDetailBook.LegalBookId)
+            DictionaryJournalVoucher.Add(physicalAssetDetailBook.LegalBookId, New Tuple(Of Boolean, JournalVouchers)(book.OfficialBook, GenerateHeader(FixedAssetActiveOutput, physicalAssetDetailBook.LegalBookId, settingsFixedAsset)))
+        End If
+
+        Dim JournalVoucher As JournalVouchers = DictionaryJournalVoucher(physicalAssetDetailBook.LegalBookId).Item2
+        If JournalVoucher.JournalVoucherDetails Is Nothing Then
+            JournalVoucher.JournalVoucherDetails = New Domain.Entities.TrackableCollection(Of JournalVoucherDetails)
+        End If
+
+        'Cuenta de ingreso al crédito
+        Dim det1 = GenerateDetail(SettingGeneralLedger.IdDian, DictionaryJournalVoucher(physicalAssetDetailBook.LegalBookId).Item1, physicalAsset, 1, physicalAssetDetailBook)
+        AddDetailIfValid(JournalVoucher.JournalVoucherDetails, det1)
+        AddAndTrack(det1, balanceTracker, physicalAsset.Plate, physicalAssetDetailBook.LegalBookId)
+
+        'Depreciación al débito
+        If (physicalAssetDetailBook.ResidualValue <= 0 OrElse physicalAssetDetailBook.ResidualValue > 0) AndAlso physicalAssetDetailBook.DepreciatedValue > 0 Then
+            Dim det2 = GenerateDetail(SettingGeneralLedger.IdDian, DictionaryJournalVoucher(physicalAssetDetailBook.LegalBookId).Item1, physicalAsset, 2, physicalAssetDetailBook)
+            AddDetailIfValid(JournalVoucher.JournalVoucherDetails, det2)
+            AddAndTrack(det2, balanceTracker, physicalAsset.Plate, physicalAssetDetailBook.LegalBookId)
+        End If
+
+        'Valorización
+        If physicalAssetDetailBook.Valorization > 0 Then
+            Dim det3 = GenerateDetail(SettingGeneralLedger.IdDian, DictionaryJournalVoucher(physicalAssetDetailBook.LegalBookId).Item1, physicalAsset, 10, physicalAssetDetailBook)
+            AddDetailIfValid(JournalVoucher.JournalVoucherDetails, det3)
+            AddAndTrack(det3, balanceTracker, physicalAsset.Plate, physicalAssetDetailBook.LegalBookId)
+        End If
+
+        'Validaciones según tipo de salida
+        If activeOutputDetail.OutputType = 2 Then
+            'Venta
+            If activeOutputDetail.SalesValue > physicalAssetDetailBook.ResidualValue Then
+                Dim det4 = GenerateDetail(SettingGeneralLedger.IdDian, DictionaryJournalVoucher(physicalAssetDetailBook.LegalBookId).Item1, physicalAsset, 4, physicalAssetDetailBook, Nothing, activeOutputDetail)
+                AddDetailIfValid(JournalVoucher.JournalVoucherDetails, det4)
+                AddAndTrack(det4, balanceTracker, physicalAsset.Plate, physicalAssetDetailBook.LegalBookId)
+            ElseIf activeOutputDetail.SalesValue < physicalAssetDetailBook.ResidualValue Then
+                Dim det5 = GenerateDetail(SettingGeneralLedger.IdDian, DictionaryJournalVoucher(physicalAssetDetailBook.LegalBookId).Item1, physicalAsset, 3, physicalAssetDetailBook, Nothing, activeOutputDetail)
+                AddDetailIfValid(JournalVoucher.JournalVoucherDetails, det5)
+                AddAndTrack(det5, balanceTracker, physicalAsset.Plate, physicalAssetDetailBook.LegalBookId)
+            End If
+            Dim det6 = GenerateDetail(SettingGeneralLedger.IdDian, DictionaryJournalVoucher(physicalAssetDetailBook.LegalBookId).Item1, physicalAsset, 5, Nothing, settingsFixedAsset, activeOutputDetail)
+            AddDetailIfValid(JournalVoucher.JournalVoucherDetails, det6)
+            AddAndTrack(det6, balanceTracker, physicalAsset.Plate, physicalAssetDetailBook.LegalBookId)
+        Else
+            'No es venta
+            If GetBookValueForRetirement(physicalAsset, physicalAssetDetailBook) > 0 Then
+                If activeOutputDetail.LowType = 5 Then
+                    Dim det7 = GenerateDetail(SettingGeneralLedger.IdDian, DictionaryJournalVoucher(physicalAssetDetailBook.LegalBookId).Item1, physicalAsset, 9, physicalAssetDetailBook, Nothing, activeOutputDetail)
+                    AddDetailIfValid(JournalVoucher.JournalVoucherDetails, det7)
+                    AddAndTrack(det7, balanceTracker, physicalAsset.Plate, physicalAssetDetailBook.LegalBookId)
+                Else
+                    Dim det8 = GenerateDetail(SettingGeneralLedger.IdDian, DictionaryJournalVoucher(physicalAssetDetailBook.LegalBookId).Item1, physicalAsset, 3, physicalAssetDetailBook, Nothing, activeOutputDetail)
+                    AddDetailIfValid(JournalVoucher.JournalVoucherDetails, det8)
+                    AddAndTrack(det8, balanceTracker, physicalAsset.Plate, physicalAssetDetailBook.LegalBookId)
+                End If
+            ElseIf GetBookValueForRetirement(physicalAsset, physicalAssetDetailBook) < 0 AndAlso
+                   If(physicalAsset.FixedAssetItem.FixedAssetItemCatalog.NetIncomeAccountId, 0) > 0 Then
+                Dim det17 = GenerateDetail(SettingGeneralLedger.IdDian, DictionaryJournalVoucher(physicalAssetDetailBook.LegalBookId).Item1, physicalAsset, 13, physicalAssetDetailBook, Nothing, activeOutputDetail)
+                AddDetailIfValid(JournalVoucher.JournalVoucherDetails, det17)
+                AddAndTrack(det17, balanceTracker, physicalAsset.Plate, physicalAssetDetailBook.LegalBookId)
+            End If
+
+            'Desvalorización
+            If physicalAssetDetailBook.Devaluation > 0 AndAlso physicalAssetDetailBook.HistoricalValue = 0 Then
+                Dim det9 = GenerateDetail(SettingGeneralLedger.IdDian, DictionaryJournalVoucher(physicalAssetDetailBook.LegalBookId).Item1, physicalAsset, 11, physicalAssetDetailBook)
+                AddDetailIfValid(JournalVoucher.JournalVoucherDetails, det9)
+                AddAndTrack(det9, balanceTracker, physicalAsset.Plate, physicalAssetDetailBook.LegalBookId)
+
+                If physicalAssetDetailBook.ResidualValue > 0 Then
+                    Dim det16 = GenerateDetail(SettingGeneralLedger.IdDian, DictionaryJournalVoucher(physicalAssetDetailBook.LegalBookId).Item1, physicalAsset, 12, physicalAssetDetailBook)
+                    AddDetailIfValid(JournalVoucher.JournalVoucherDetails, det16)
+                    AddAndTrack(det16, balanceTracker, physicalAsset.Plate, physicalAssetDetailBook.LegalBookId)
+                End If
+            End If
+        End If
+
+        'Reposición
+        If activeOutputDetail.OutputType = 1 AndAlso activeOutputDetail.LowType = 3 Then
+            Dim det10 = GenerateDetail(SettingGeneralLedger.IdDian, DictionaryJournalVoucher(physicalAssetDetailBook.LegalBookId).Item1, physicalAsset, 6, Nothing, Nothing, activeOutputDetail)
+            AddDetailIfValid(JournalVoucher.JournalVoucherDetails, det10)
+            AddAndTrack(det10, balanceTracker, physicalAsset.Plate, physicalAssetDetailBook.LegalBookId)
+
+            Dim det11 = GenerateDetail(SettingGeneralLedger.IdDian, DictionaryJournalVoucher(physicalAssetDetailBook.LegalBookId).Item1, physicalAsset, 7, Nothing, settingsFixedAsset, activeOutputDetail)
+            AddDetailIfValid(JournalVoucher.JournalVoucherDetails, det11)
+            AddAndTrack(det11, balanceTracker, physicalAsset.Plate, physicalAssetDetailBook.LegalBookId)
+        End If
+    End Sub
+
+    ''' <summary>
+    ''' Procesa un libro contable sin depreciación acumulada
+    ''' </summary>
+    Private Sub ProcessBookWithoutDepreciation(
+                        FixedAssetActiveOutput As FixedAssetActiveOutput,
+                        physicalAsset As FixedAssetPhysicalAsset,
+                        legalBookId As Integer,
+                        SettingGeneralLedger As GeneralLedgerSettings,
+                        settingsFixedAsset As SettingFixedAsset,
+                        DictionaryJournalVoucher As Dictionary(Of Integer, Tuple(Of Boolean, JournalVouchers)),
+                        balanceTracker As Dictionary(Of String, BalanceAcc),
+                        ListLegalBookId As List(Of Integer))
+
+        'Se valida que el libro esté en el listado de permiso
+        If Not ListLegalBookId.Contains(legalBookId) Then
+            Return
+        End If
+
+        'Crear o recuperar el comprobante del diccionario
+        If Not DictionaryJournalVoucher.ContainsKey(legalBookId) Then
+            Dim book = _legalBookRepository.GetBookById(legalBookId)
+            DictionaryJournalVoucher.Add(legalBookId, New Tuple(Of Boolean, JournalVouchers)(book.OfficialBook, GenerateHeader(FixedAssetActiveOutput, legalBookId, settingsFixedAsset)))
+        End If
+
+        Dim JournalVoucher As JournalVouchers = DictionaryJournalVoucher(legalBookId).Item2
+        If JournalVoucher.JournalVoucherDetails Is Nothing Then
+            JournalVoucher.JournalVoucherDetails = New Domain.Entities.TrackableCollection(Of JournalVoucherDetails)
+        End If
+
+        'Cuenta de ingreso al crédito
+        Dim det12 = GenerateDetail(SettingGeneralLedger.IdDian, DictionaryJournalVoucher(legalBookId).Item1, physicalAsset, 1)
+        AddDetailIfValid(JournalVoucher.JournalVoucherDetails, det12)
+        AddAndTrack(det12, balanceTracker, physicalAsset.Plate, legalBookId)
+
+        'Todo a pérdida al débito
+        Dim det13 = GenerateDetail(SettingGeneralLedger.IdDian, DictionaryJournalVoucher(legalBookId).Item1, physicalAsset, 8)
+        AddDetailIfValid(JournalVoucher.JournalVoucherDetails, det13)
+        AddAndTrack(det13, balanceTracker, physicalAsset.Plate, legalBookId)
     End Sub
 
 #Region "IDisposable Support"

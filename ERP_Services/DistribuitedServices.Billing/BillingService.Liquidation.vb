@@ -12,7 +12,6 @@ Imports Application.Billing
 Imports Infrastructure.CrossCutting.Base
 Imports System.ServiceModel
 Imports Domain.Base
-Imports Domain.Billing.POCO
 Imports Domain.Entities
 Imports System.Data.SqlClient
 Imports System.Configuration
@@ -438,29 +437,4 @@ Partial Class BillingService
 			Return service.GetListUnifiedAdmissions(listFoliosIds, admissionNumber)
 		End Using
 	End Function
-
-    ''' <summary>
-    ''' Valida si el tercero cumple con la mayoría de edad para facturación
-    ''' </summary>
-    ''' <param name="thirdPartyId">Id del tercero a validar</param>
-    ''' <param name="operativeUnitId">Id de la unidad operativa</param>
-    ''' <param name="admissionNumber">Número de ingreso para buscar responsable sugerido</param>
-    ''' <returns>Resultado de la validación con información del responsable sugerido si aplica</returns>
-    Public Async Function ValidateAgeOfMajorityForLiquidation(thirdPartyId As Integer, operativeUnitId As Integer, admissionNumber As String) As Task(Of ActionResult(Of Domain.Billing.POCO.AgeValidationResult)) Implements IBillingServiceLiquidation.ValidateAgeOfMajorityForLiquidation
-        Using service As ILiquidationAdminService = Container.Current.Resolve(Of ILiquidationAdminService)()
-            Return Await service.ValidateAgeOfMajorityForLiquidation(thirdPartyId, operativeUnitId, admissionNumber)
-        End Using
-    End Function
-
-    ''' <summary>
-    ''' Verifica si el parámetro de validación de mayoría de edad está activo
-    ''' </summary>
-    ''' <param name="operativeUnitId">Id de la unidad operativa</param>
-    ''' <returns>True si el parámetro está activo</returns>
-    Public Function IsAgeValidationEnabled(operativeUnitId As Integer) As Boolean Implements IBillingServiceLiquidation.IsAgeValidationEnabled
-        Using service As ILiquidationAdminService = Container.Current.Resolve(Of ILiquidationAdminService)()
-            Return service.IsAgeValidationEnabled(operativeUnitId)
-        End Using
-    End Function
-
 End Class

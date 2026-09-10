@@ -57,7 +57,7 @@ namespace DistributedServices.Inventory.Contracts
         ActionResult<List<Domain.Entities.ProductRateDetailPackage>> GetPackageValuePerProduct(int CareGroupId, List<int> PackageIds, DateTime ServiceDate, List<Domain.Entities.ViewPharmaDoseMixingStation> ListviewPharmaDoseMixingStations);
 
         /// <summary>
-        /// Funcion para retornar dirrectamente el valor del producto independientemente si espor tarifa fija o por porcentaje 
+        /// Funcion para retornar dirrectamente el valor del producto independientemente si espor tarifa fija o por porcentaje
         /// </summary>
         /// <param name="CareGroupId"></param>
         /// <param name="ProductId"></param>
@@ -65,5 +65,30 @@ namespace DistributedServices.Inventory.Contracts
         /// <returns></returns>
         [OperationContract]
         ActionResult<Domain.Entities.ProductRateDetail> GetProductRateDetailWithValue(int CareGroupId, int ProductId, DateTime ServiceDate);
+
+        /// <summary>
+        /// Calcula el precio de venta de un ítem de producción (producto terminado de central de mezclas)
+        /// sumando las tarifas de cada componente real usado como materia prima para el lote.
+        /// </summary>
+        /// <param name="CareGroupId">Id del grupo de atención</param>
+        /// <param name="ProductId">Id del producto terminado (ProductType.Class = 5)</param>
+        /// <param name="ServiceDate">Fecha del servicio</param>
+        /// <param name="BatchCode">Lote del producto terminado dispensado</param>
+        /// <returns>Precio de venta total calculado desde los componentes reales del paquete</returns>
+        [OperationContract]
+        ActionResult<decimal> GetPackageSalePriceByProductId(int CareGroupId, int ProductId, DateTime ServiceDate, string BatchCode);
+
+        /// <summary>
+        /// Retorna los componentes tarifados del paquete estandar asociado a un producto terminado de dosis estandar.
+        /// Uso exclusivo del flujo de dispensacion farmaceutica para generar orden de servicio con DatasourceType = 11.
+        /// No debe usarse para paquetes personalizados ni para el flujo de control de cuentas hospitalario.
+        /// </summary>
+        /// <param name="CareGroupId">Id del grupo de atención</param>
+        /// <param name="ProductId">Id del producto terminado (ProductType.Class = 5)</param>
+        /// <param name="DispensedQuantity">Cantidad dispensada del producto terminado</param>
+        /// <param name="ServiceDate">Fecha del servicio</param>
+        /// <param name="BatchCode">Lote del producto terminado dispensado</param>
+        [OperationContract]
+        ActionResult<List<Domain.Entities.ProductRateDetailPackage>> GetPackageRateDetailListByProductId(int CareGroupId, int ProductId, int DispensedQuantity, DateTime ServiceDate, string BatchCode);
     }
 }

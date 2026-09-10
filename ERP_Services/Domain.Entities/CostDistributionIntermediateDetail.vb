@@ -102,6 +102,20 @@ Partial Public Class CostDistributionIntermediateDetail
         End Set
     End Property
 
+	Private _value As Decimal
+	<DataMember()>
+	Public Property Value() As Decimal
+        Get
+            Return _value
+        End Get
+        Set(ByVal value As Decimal)
+            If Not Equals(_value, value) Then
+                _value = value
+                OnPropertyChanged("Value")
+            End If
+        End Set
+    End Property
+
 #End Region
 
 #Region "Navigation Properties"

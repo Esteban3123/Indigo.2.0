@@ -24,17 +24,21 @@ Namespace DIAN.UBL2_1.v1_6
         ReadOnly _customerThirdParty As ThirdParty
         ReadOnly _billingNote As BillingNote
         ReadOnly _healthSegmentFromInvoice As CustomTagGeneralType
+        ReadOnly _paymentMethods As List(Of SP_GetPaymentMethodsByInvoiceId_Result)
+        ReadOnly _invoicePeriodFromInvoice As List(Of PeriodType)
 
 #End Region
 
 #Region "Buldier"
 
-        Public Sub New(ByVal settingsAccount As GeneralLedgerSettings, ByVal supplierThirdParty As ThirdParty, ByVal customerThirdParty As ThirdParty, ByVal billingNote As BillingNote, Optional healthSegmentFromInvoice As CustomTagGeneralType = Nothing)
+        Public Sub New(ByVal settingsAccount As GeneralLedgerSettings, ByVal supplierThirdParty As ThirdParty, ByVal customerThirdParty As ThirdParty, ByVal billingNote As BillingNote, Optional healthSegmentFromInvoice As CustomTagGeneralType = Nothing, Optional paymentMethods As List(Of SP_GetPaymentMethodsByInvoiceId_Result) = Nothing, Optional invoicePeriodFromInvoice As List(Of PeriodType) = Nothing)
             Me._settingsAccount = settingsAccount
             Me._supplierThirdParty = supplierThirdParty
             Me._customerThirdParty = customerThirdParty
             Me._billingNote = billingNote
             Me._healthSegmentFromInvoice = healthSegmentFromInvoice
+            Me._paymentMethods = paymentMethods
+            Me._invoicePeriodFromInvoice = invoicePeriodFromInvoice
 
             AmountType.TlsDefaultCurrencyID = CurrencyCode.COP
             Me._customizationID = New CustomizationIDType With {.Value = Me._billingNote.GetCustomizationID()}
@@ -69,6 +73,7 @@ Namespace DIAN.UBL2_1.v1_6
                                                                                                 Me._billingNote.BillingNoteDetail.SelectMany(Function(f) f.NoteTypeDetails).Count(),
                                                                                                 Me._billingNote.BillingNoteDetail.Count())}
             documentType.InvoicePeriod = GetInvoicePeriodInformation(invoiceMoreInformation)
+            documentType.DiscrepancyResponse = GetDiscrepancyResponseInformation()
             documentType.BillingReference = GetBillingReferencenformation()
             documentType.AccountingSupplierParty = GetAccountingSupplierPartyInformation()
             documentType.AccountingCustomerParty = GetAccountingCustomerPartyInformation()
@@ -88,6 +93,10 @@ Namespace DIAN.UBL2_1.v1_6
         ''' <param name="invoiceMoreInformation"></param>
         ''' <returns></returns>
         Private Function GetInvoicePeriodInformation(Optional invoiceMoreInformation As SP_GetInvoiceMoreInformationByInvoiceId_Result = Nothing) As List(Of PeriodType)
+
+            If Me._invoicePeriodFromInvoice IsNot Nothing AndAlso Me._invoicePeriodFromInvoice.Any() Then
+                Return Me._invoicePeriodFromInvoice
+            End If
 
             If Me._billingNote?.BillingNoteDetail?.FirstOrDefault?.Invoice?.InvoiceDate Is Nothing Then
                 Return Nothing
@@ -110,16 +119,15 @@ Namespace DIAN.UBL2_1.v1_6
                     }
             End If
 
-            If invoiceMoreInformation?.FirstServiceDate Is Nothing Then
-                Return Nothing
-            End If
+            Dim invoiceDate = Me._billingNote.BillingNoteDetail.FirstOrDefault.Invoice.InvoiceDate
+            Dim startDate = If(invoiceMoreInformation?.FirstServiceDate, invoiceDate)
 
             Return New List(Of PeriodType) From
                 {
                     New PeriodType With
                     {
-                        .StartDate = New StartDateType With {.Value = invoiceMoreInformation.FirstServiceDate.Value.ToString("yyyy-MM-dd")},
-                        .EndDate = New EndDateType With {.Value = Me._billingNote.BillingNoteDetail.FirstOrDefault.Invoice.InvoiceDate.ToString("yyyy-MM-dd")}
+                        .StartDate = New StartDateType With {.Value = startDate.ToString("yyyy-MM-dd")},
+                        .EndDate = New EndDateType With {.Value = invoiceDate.ToString("yyyy-MM-dd")}
                     }
                 }
         End Function
@@ -249,6 +257,12 @@ Namespace DIAN.UBL2_1.v1_6
                 .Value = Nothing
             })
 
+            listAdditionalInformation.Add(New AdditionalInformationTypeHealth With
+            {
+                .Name = "FACTURA_SIN_CONTRATO",
+                .Value = HealthNoContractReasonHelper.BuildValue(invoiceMoreInformation.ContractNumber, invoiceMoreInformation.NoContractReason)
+            })
+
             Return listAdditionalInformation
         End Function
 
@@ -293,7 +307,8 @@ Namespace DIAN.UBL2_1.v1_6
                                 New AdditionalInformationTypeHealth With {.Name = "COPAGO", .Value = Nothing},
                                 New AdditionalInformationTypeHealth With {.Name = "CUOTA_MODERADORA", .Value = Nothing},
                                 New AdditionalInformationTypeHealth With {.Name = "CUOTA_RECUPERACION", .Value = Nothing},
-                                New AdditionalInformationTypeHealth With {.Name = "PAGOS_COMPARTIDOS", .Value = Nothing}
+                                New AdditionalInformationTypeHealth With {.Name = "PAGOS_COMPARTIDOS", .Value = Nothing},
+                                New AdditionalInformationTypeHealth With {.Name = "FACTURA_SIN_CONTRATO", .Value = Nothing}
                             }
                         }
                     }
@@ -372,6 +387,31 @@ Namespace DIAN.UBL2_1.v1_6
                     .Value = Me._dianInformation.Nit
                 }
             }
+        End Function
+
+        ''' <summary>
+        ''' Genera el elemento DiscrepancyResponse requerido por DIAN para notas crédito
+        ''' </summary>
+        ''' <returns></returns>
+        Private Function GetDiscrepancyResponseInformation() As List(Of ResponseType)
+            If Not Me._billingNote.DiscrepancyConceptId.HasValue Then
+                Return Nothing
+            End If
+
+            Dim listResponseType As New List(Of ResponseType)
+            Dim firstDetail = Me._billingNote.BillingNoteDetail.FirstOrDefault()
+
+            listResponseType.Add(New ResponseType With
+            {
+                .ReferenceID = New ReferenceIDType With {.Value = If(firstDetail IsNot Nothing AndAlso Me._billingNote.DiscrepancyConceptId <> 7, Replace(firstDetail.InvoiceNumber, " ", ""), "")}, 'Si el concepto es "Sin Referencia a una Factura" se deja en blanco
+                .ResponseCode = New ResponseCodeType With {.Value = Me._billingNote.DiscrepancyConceptId.Value.ToString()},
+                .Description = New List(Of DescriptionType) From
+                {
+                    New DescriptionType(If(String.IsNullOrEmpty(Me._billingNote.Observations), "Nota Crédito", Me._billingNote.Observations))
+                }
+            })
+
+            Return listResponseType
         End Function
 
         Private Function GetBillingReferencenformation() As List(Of BillingReferenceType)
@@ -532,20 +572,40 @@ Namespace DIAN.UBL2_1.v1_6
 
         Private Function GetPaymentsMeansInformation() As List(Of PaymentMeansType)
             Dim listPaymentMeansType As New List(Of PaymentMeansType)
+            Dim firstInvoice = Me._billingNote?.BillingNoteDetail?.FirstOrDefault()?.Invoice
+            Dim dueDate As String = CType(Me._billingNote.NoteDate, DateTime).ToString("yyyy-MM-dd")
+
             Dim paymentMethod = Base.Entities.Enums.ElectronicDocuments.v1_6.PaymentMethods.Credit
-            If Me._billingNote.Nature = 2 Then
-                'Si la naturaleza es crédito y el concepto es por reversión total de factura, ponemos el identificador a contado
-                Dim conceptCounted = Me._billingNote.BillingNoteDetail.Where(Function(m) {2, 3}.Contains(m.ConceptId)).Select(Function(f) f.ConceptId).Distinct.ToList()
-                If conceptCounted.Count > 0 Then
+            If Me._paymentMethods IsNot Nothing AndAlso Me._paymentMethods.Any() AndAlso firstInvoice IsNot Nothing Then
+                Dim paymentSum = Me._paymentMethods.Where(Function(d) Not {4}.Contains(d.AccountReceivableType)).Sum(Function(d) d.Value)
+
+                ' Calcular el valor neto a pagar (valor factura + IVA - retenciones)
+                Dim netPayableValue = firstInvoice.InvoiceValue + firstInvoice.ValueTax - firstInvoice.RTFValue - firstInvoice.WithholdingTax - firstInvoice.WithholdingICA
+
+                If paymentSum = netPayableValue OrElse paymentSum = firstInvoice.InvoiceValue Then
                     paymentMethod = Base.Entities.Enums.ElectronicDocuments.v1_6.PaymentMethods.Counted
                 End If
+
+                For Each detail In Me._paymentMethods
+                    listPaymentMeansType.Add(New PaymentMeansType With
+                    {
+                        .ID = New IDType With {.Value = Utils.GetXmlEnumToString(Of Base.Entities.Enums.ElectronicDocuments.v1_6.PaymentMethods)(paymentMethod)},
+                        .PaymentMeansCode = New PaymentMeansCodeType With {.Value = detail.MethodTypeCode},
+                        .PaymentID = New List(Of PaymentIDType) From {New PaymentIDType With {.Value = detail.Code}},
+                        .PaymentDueDate = If(paymentMethod = Base.Entities.Enums.ElectronicDocuments.v1_6.PaymentMethods.Credit,
+                                     New PaymentDueDateType With {.Value = CType(dueDate, DateTime).ToString("yyyy-MM-dd")},
+                                     Nothing)
+                    })
+                Next
+            Else
+                ' Solo cuando no hay métodos de pago, usar ZZZ genérico
+                listPaymentMeansType.Add(New PaymentMeansType With
+                {
+                    .ID = New IDType With {.Value = Utils.GetXmlEnumToString(Of Base.Entities.Enums.ElectronicDocuments.v1_6.PaymentMethods)(Base.Entities.Enums.ElectronicDocuments.v1_6.PaymentMethods.Credit)},
+                    .PaymentMeansCode = New PaymentMeansCodeType With {.Value = "ZZZ"},
+                    .PaymentDueDate = New PaymentDueDateType With {.Value = dueDate}
+                })
             End If
-            listPaymentMeansType.Add(New PaymentMeansType With
-            {
-                .ID = New IDType With {.Value = Utils.GetXmlEnumToString(Of Base.Entities.Enums.ElectronicDocuments.v1_6.PaymentMethods)(paymentMethod)},
-                .PaymentMeansCode = New PaymentMeansCodeType With {.Value = "ZZZ"},
-                .PaymentDueDate = New PaymentDueDateType With {.Value = CType(Me._billingNote.NoteDate, DateTime).ToString("yyyy-MM-dd")}
-            })
             Return listPaymentMeansType
         End Function
 
@@ -559,9 +619,10 @@ Namespace DIAN.UBL2_1.v1_6
                 Dim TaxAmount As Decimal = 0
                 Dim TaxableAmount As Decimal = 0
 
-                For Each tax In details.GroupBy(Function(t) t.TaxPercentage)
-                    TaxableAmount = details.Where(Function(d) d.TaxPercentage = tax.Key).Sum(Function(d) d.BaseValue)
-                    TaxAmount = details.Where(Function(d) d.TaxPercentage = tax.Key).Sum(Function(d) d.TaxValue)
+                ' Gravados (TaxClassificationType = 1): porcentaje > 0, agrupados por porcentaje
+                For Each tax In details.Where(Function(t) t.TaxPercentage > 0).GroupBy(Function(t) t.TaxPercentage)
+                    TaxableAmount = tax.Sum(Function(d) d.BaseValue)
+                    TaxAmount = tax.Sum(Function(d) d.TaxValue)
                     listTaxSubtotal.Add(New TaxSubtotalType With
                     {
                         .TaxableAmount = New TaxableAmountType With {.Value = TaxableAmount},
@@ -569,6 +630,26 @@ Namespace DIAN.UBL2_1.v1_6
                         .TaxCategory = New TaxCategoryType() With
                         {
                             .Percent = New PercentType1 With {.Value = tax.Key},
+                            .TaxScheme = New TaxSchemeType() With
+                            {
+                                .ID = New IDType With {.Value = "01"},
+                                .Name = New NameType1 With {.Value = "IVA"}
+                            }
+                        }
+                    })
+                Next
+
+                ' Exentos (TaxClassificationType = 3): porcentaje = 0, valor impuesto = 0, agrupados por IVAId
+                ' Solo pct=0 llega aquí porque excluidos (tipo 2) son filtrados en la capa de servicio
+                For Each exent In details.Where(Function(t) t.TaxPercentage = 0 AndAlso t.IVAId.HasValue).GroupBy(Function(t) t.IVAId)
+                    TaxableAmount = exent.Sum(Function(d) d.BaseValue)
+                    listTaxSubtotal.Add(New TaxSubtotalType With
+                    {
+                        .TaxableAmount = New TaxableAmountType With {.Value = TaxableAmount},
+                        .TaxAmount = New TaxAmountType With {.Value = 0},
+                        .TaxCategory = New TaxCategoryType() With
+                        {
+                            .Percent = New PercentType1 With {.Value = 0},
                             .TaxScheme = New TaxSchemeType() With
                             {
                                 .ID = New IDType With {.Value = "01"},
@@ -664,7 +745,8 @@ Namespace DIAN.UBL2_1.v1_6
                                       .LineExtensionAmount = New LineExtensionAmountType With {.Value = detail.BaseValue}
                                    }
 
-                If detail.TaxValue > 0 Then
+                If detail.TaxClassificationType.HasValue AndAlso (detail.TaxClassificationType = 1 OrElse detail.TaxClassificationType = 3) _
+                    AndAlso billingNoteDetail.BillingNoteDetailTax IsNot Nothing AndAlso billingNoteDetail.BillingNoteDetailTax.Any() Then
                     creditNoteLineType.TaxTotal = Me.CreditNoteLineTaxTotalInformation(New List(Of BillingNoteDetailTax) _
                                                                                  From {New BillingNoteDetailTax() With {.BaseValue = detail.BaseValue,
                                                                                                                         .TaxPercentage = detail.TaxPercentage,

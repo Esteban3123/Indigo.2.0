@@ -1,4 +1,4 @@
-﻿'***********************************************************************
+'***********************************************************************
 ' Assembly         : Application.MixingStation
 ' Author           : Duván Albeiro Mejia Cortes 
 ' Created          : 2021-10-05
@@ -98,13 +98,13 @@ Public Class QualityControlAdminService
     ''' <param name="lst"></param>
     ''' <param name="audit"></param>
     ''' <returns></returns>
-    Public Function SaveDefectClassificationByRequestPackageDetailStatus(
+    Public Async Function SaveDefectClassificationByRequestPackageDetailStatusAsync(
     isQuality As Boolean,
     requestPackageDetailStatusIds As List(Of Integer),
     DefectClassificationHeader As DefectClassificationHeaderModel,
     lst As List(Of DefectClassificationModel),
     audit As AuditMessage,
-    Optional ForceSave As Boolean = False) As ActionResult Implements IQualityControlAdminService.SaveDefectClassificationByRequestPackageDetailStatus
+    Optional ForceSave As Boolean = False) As Task(Of ActionResult) Implements IQualityControlAdminService.SaveDefectClassificationByRequestPackageDetailStatusAsync
 
         Try
             If Not lst.Any() Then
@@ -117,36 +117,47 @@ Public Class QualityControlAdminService
                                             New TransactionOptions With {
                                                 .Timeout = TransactionManager.MaximumTimeout,
                                                 .IsolationLevel = IsolationLevel.ReadCommitted
-                                            })
+                                            }, TransactionScopeAsyncFlowOption.Enabled)
 
                 ' Validación de tipo de dosis
                 Dim IdBase As Integer = requestPackageDetailStatusIds(0)
-                Dim unitDoseType = _requestPackageDetailStatusRepository _
-                .FirstOrDefault(Function(m) m.Id = IdBase,
-                                includes:={"RequestMixingStationDetail.UnitDoseType"}) _
-                ?.RequestMixingStationDetail?.UnitDoseType?.MSClass
+                Dim unitDoseType = CType(_requestPackageDetailStatusRepository _
+                                    .FirstOrDefault(Function(m) m.Id = IdBase, tracking:=False,
+                                    includes:={"RequestMixingStationDetail.UnitDoseType"}) _
+                                    ?.RequestMixingStationDetail?.UnitDoseType?.MSClass, EUnitDoseTypeClass)
 
-                If Not {EUnitDoseTypeClass.Repackaging, EUnitDoseTypeClass.Refilling}.Contains(If(unitDoseType, 0)) Then
+                If Not {EUnitDoseTypeClass.Repackaging, EUnitDoseTypeClass.Refilling}.Contains(unitDoseType) Then
+
+                    ' Índice de ítems entrantes: evita FirstOrDefault sobre lst en cada detalle (ValidateChanges).
+                    Dim lstByDefectItemId = lst.
+                        GroupBy(Function(m) m.DefectClassificationItemId).
+                        ToDictionary(Function(g) g.Key, Function(g) g.First())
+
+                    ' Una sola lectura de clasificaciones existentes para todos los IDs (antes: N consultas FirstOrDefault).
+                    Dim defectIncludes = {
+                        "RequestPackageDetailStatusDefectClassificationDetail.DefectClassificationItem",
+                        "RequestPackageDetailStatus"
+                    }
+                    Dim existingByDetailStatusId = _requestPackageDetailStatusDefectClassificationRepository _
+                        .GetByFilter(
+                            Function(m) requestPackageDetailStatusIds.Contains(m.RequestPackageDetailStatusId),
+                            tracking:=True,
+                            includes:=defectIncludes) _
+                        .GroupBy(Function(m) m.RequestPackageDetailStatusId) _
+                        .ToDictionary(Function(g) g.Key, Function(g) g.First())
+
+                    Dim updateHeaderInfo As Boolean = (requestPackageDetailStatusIds.Count > 1)
 
                     For Each requestPackageDetailStatusId In requestPackageDetailStatusIds
-                        Dim oldData = _requestPackageDetailStatusDefectClassificationRepository _
-                        .FirstOrDefault(Function(m) m.RequestPackageDetailStatusId = requestPackageDetailStatusId,
-                            includes:={
-                                "RequestPackageDetailStatusDefectClassificationDetail.DefectClassificationItem",
-                                "RequestPackageDetailStatus"
-                            })
-
-                        If oldData IsNot Nothing Then
-                            If Not ValidateChanges(isQuality, ForceSave, oldData, lst) Then
+                        Dim oldData As RequestPackageDetailStatusDefectClassification = Nothing
+                        If existingByDetailStatusId.TryGetValue(requestPackageDetailStatusId, oldData) Then
+                            If Not ValidateChanges(isQuality, ForceSave, oldData, lstByDefectItemId) Then
                                 _validations.Add(oldData?.RequestPackageDetailStatus?.BatchCode)
                                 Continue For
                             End If
 
-                            Dim updateHeaderInfo As Boolean = (requestPackageDetailStatusIds.Count > 1)
                             UpdateClassificationEntity(oldData, DefectClassificationHeader, lst, audit, isQuality, updateHeaderInfo)
-
                             _requestPackageDetailStatusDefectClassificationRepository.SaveEntity(oldData)
-
                         Else
                             Dim newEntity = CreateClassificationEntity(requestPackageDetailStatusId, DefectClassificationHeader, lst, audit, isQuality)
                             _requestPackageDetailStatusDefectClassificationRepository.SaveEntity(newEntity)
@@ -154,11 +165,11 @@ Public Class QualityControlAdminService
                     Next
 
                 Else
-                    SaveDefectClasificationByRefillingAndRepackaging(requestPackageDetailStatusIds, lst, audit, DefectClassificationHeader, isQuality)
+                    Await SaveDefectClasificationByRefillingAndRepackaging(requestPackageDetailStatusIds, lst, audit, DefectClassificationHeader, isQuality)
                 End If
 
                 If _validations.Count = 0 OrElse ForceSave Then
-                    _requestPackageDetailStatusDefectClassificationRepository.UnitWork.Commit()
+                    Await _requestPackageDetailStatusDefectClassificationRepository.UnitWork.CommitAsync()
                     scope.Complete()
                 Else
                     _requestPackageDetailStatusDefectClassificationRepository.UnitWork.Dispose()
@@ -190,25 +201,26 @@ Public Class QualityControlAdminService
     ''' <param name="isQuality">Indica si la validación corresponde al proceso de calidad (True) o producción (False).</param>
     ''' <param name="forceSave">Indica si se debe forzar el guardado, incluso si no hay cambios detectados.</param>
     ''' <param name="oldData">Lista de detalles existentes ya almacenados en la base de datos.</param>
-    ''' <param name="lst">Lista de detalles nuevos recibidos como entrada del usuario.</param>
+    ''' <param name="lstByDefectItemId">Detalles entrantes indexados por DefectClassificationItemId.</param>
     ''' <returns>True si se permite continuar con la actualización (hay cambios o guardado forzado); False en caso contrario.</returns>
     Private Function ValidateChanges(
     isQuality As Boolean,
     ForceSave As Boolean,
     oldData As RequestPackageDetailStatusDefectClassification,
-    lst As List(Of DefectClassificationModel)) As Boolean
+    lstByDefectItemId As Dictionary(Of Integer, DefectClassificationModel)) As Boolean
         If ForceSave Then Return True
 
         For Each s In oldData.RequestPackageDetailStatusDefectClassificationDetail
-            Dim inputItem = lst.FirstOrDefault(Function(m) m.DefectClassificationItemId = s.DefectClassificationItemId)
+            Dim inputItem As DefectClassificationModel = Nothing
+            If Not lstByDefectItemId.TryGetValue(s.DefectClassificationItemId, inputItem) Then
+                Continue For
+            End If
 
-            If inputItem IsNot Nothing Then
-                If isQuality AndAlso s.Production.HasValue AndAlso s.Production.Value AndAlso inputItem.Quality.HasValue AndAlso s.Production.Value <> inputItem.Quality.Value Then
-                    Return False
-                End If
-                If Not isQuality AndAlso s.DefectClassificationItem IsNot Nothing AndAlso s.DefectClassificationItem.Critical Then
-                    Return False
-                End If
+            If isQuality AndAlso s.Production.HasValue AndAlso s.Production.Value AndAlso inputItem.Quality.HasValue AndAlso s.Production.Value <> inputItem.Quality.Value Then
+                Return False
+            End If
+            If Not isQuality AndAlso s.DefectClassificationItem IsNot Nothing AndAlso s.DefectClassificationItem.Critical Then
+                Return False
             End If
         Next
 
@@ -240,22 +252,26 @@ Public Class QualityControlAdminService
         oldData.ValidateWeigthNPT = DefectClassificationHeader.ValidateWeigthNPT
         oldData.ActualWeight = DefectClassificationHeader.ActualWeight
 
-        For Each item In lst
-            Dim existing = oldData.RequestPackageDetailStatusDefectClassificationDetail _
-            .FirstOrDefault(Function(m) m.DefectClassificationItemId = item.DefectClassificationItemId)
+        Dim existingDetailsMap = oldData.RequestPackageDetailStatusDefectClassificationDetail _
+            .GroupBy(Function(d) d.DefectClassificationItemId) _
+            .ToDictionary(Function(g) g.Key, Function(g) g.First())
 
-            If existing IsNot Nothing Then
+        For Each item In lst
+            Dim existing As RequestPackageDetailStatusDefectClassificationDetail = Nothing
+            If existingDetailsMap.TryGetValue(item.DefectClassificationItemId, existing) Then
                 If isQuality Then
                     existing.Quality = item.Quality
                 Else
                     existing.Production = item.Production
                 End If
             Else
-                oldData.RequestPackageDetailStatusDefectClassificationDetail.Add(New RequestPackageDetailStatusDefectClassificationDetail With {
-                .DefectClassificationItemId = item.DefectClassificationItemId,
-                .Production = If(isQuality, Nothing, item.Production),
-                .Quality = If(isQuality, item.Quality, Nothing)
-            })
+                Dim newDetail = New RequestPackageDetailStatusDefectClassificationDetail With {
+                    .DefectClassificationItemId = item.DefectClassificationItemId,
+                    .Production = If(isQuality, Nothing, item.Production),
+                    .Quality = If(isQuality, item.Quality, Nothing)
+                }
+                oldData.RequestPackageDetailStatusDefectClassificationDetail.Add(newDetail)
+                existingDetailsMap(item.DefectClassificationItemId) = newDetail
             End If
         Next
 
@@ -307,36 +323,48 @@ Public Class QualityControlAdminService
     ''' <param name="_audit">Información de auditoría</param>
     ''' <param name="_DefectClassificationHeaderModelTmp">Datos generales de encabezado</param>
     ''' <param name="_isQuality">Indica si la asignación es para calidad o producción</param>
-    Public Sub SaveDefectClasificationByRefillingAndRepackaging(
+    Public Async Function SaveDefectClasificationByRefillingAndRepackaging(
     _requestPackageDetailStatusIdsTmp As List(Of Integer),
     _lstTmp As List(Of DefectClassificationModel),
     _audit As AuditMessage,
     _DefectClassificationHeaderModelTmp As DefectClassificationHeaderModel,
-    _isQuality As Boolean)
+    _isQuality As Boolean) As Task
 
         Try
-            Dim ListDefectClassification As New List(Of RequestPackageDetailStatusDefectClassification)
+            If _requestPackageDetailStatusIdsTmp Is Nothing OrElse Not _requestPackageDetailStatusIdsTmp.Any() Then
+                Return
+            End If
+
+            ' Una sola lectura para todos los IDs. Tracking solo para las que ya existen
+            ' (se actualizan via CommitAsync). Las nuevas se insertan vía BulkInsert al final.
+            Dim repackIncludes = {"RequestPackageDetailStatusDefectClassificationDetail"}
+            Dim existingByDetailStatusId = _requestPackageDetailStatusDefectClassificationRepository _
+                .GetByFilter(
+                    Function(m) _requestPackageDetailStatusIdsTmp.Contains(m.RequestPackageDetailStatusId),
+                    tracking:=True,
+                    includes:=repackIncludes) _
+                .GroupBy(Function(m) m.RequestPackageDetailStatusId) _
+                .ToDictionary(Function(g) g.Key, Function(g) g.First())
+
             Dim usedIds As New HashSet(Of Integer)()
+            Dim newClassifications As New List(Of RequestPackageDetailStatusDefectClassification)()
 
             ' 1. Distribuir los defectos con cantidad específica
             For Each defect In _lstTmp.Where(Function(q) q.Quantity > 0)
-
-                ' Tomar tantos IDs como la cantidad del defecto y que no hayan sido asignados aún
                 Dim availableIds = _requestPackageDetailStatusIdsTmp.
                 Where(Function(id) Not usedIds.Contains(id)).
                 Take(defect.Quantity).ToList()
 
                 For Each id In availableIds
-                    ListDefectClassification.Add(
-                    GetDetailsRequestPackageDetailStatusDefectClassification(
+                    ApplyRepackagingDefectClassification(
                         id,
+                        existingByDetailStatusId,
                         _DefectClassificationHeaderModelTmp,
                         _audit.CodeUser,
                         _lstTmp,
                         _isQuality,
-                        defect
-                    )
-                )
+                        newClassifications,
+                        defect)
                     usedIds.Add(id)
                 Next
             Next
@@ -344,59 +372,72 @@ Public Class QualityControlAdminService
             ' 2. Rellenar los faltantes (sin cantidad específica de defecto)
             Dim remainingIds = _requestPackageDetailStatusIdsTmp.Except(usedIds).ToList()
             For Each id In remainingIds
-                ListDefectClassification.Add(
-                GetDetailsRequestPackageDetailStatusDefectClassification(
+                ApplyRepackagingDefectClassification(
                     id,
+                    existingByDetailStatusId,
                     _DefectClassificationHeaderModelTmp,
                     _audit.CodeUser,
                     _lstTmp,
-                    _isQuality
-                )
-            )
+                    _isQuality,
+                    newClassifications,
+                    Nothing)
             Next
+
+            ' 3. Bulk insert de las clasificaciones NUEVAS (evita N CommitAsync individuales).
+            '    Las existentes ya están en el EF context (tracking:=True) y se escriben vía CommitAsync del llamador.
+            If newClassifications.Any() Then
+                newClassifications.ForEach(Sub(e) e.MarkAsAdded())
+                Await _requestPackageDetailStatusDefectClassificationRepository.SaveEntityMassiveAsync(newClassifications)
+
+                ' Tras el BulkInsert los headers tienen Id asignado; enlazar y persistir los detalles.
+                Dim allNewDetails As New List(Of RequestPackageDetailStatusDefectClassificationDetail)()
+                For Each EntityTmp In newClassifications
+                    For Each detail In EntityTmp.RequestPackageDetailStatusDefectClassificationDetail
+                        detail.RequestPackageDetailStatusDefectClassificationId = EntityTmp.Id
+                        detail.MarkAsAdded()
+                        allNewDetails.Add(detail)
+                    Next
+                Next
+
+                If allNewDetails.Any() Then
+                    Await _requestPackageDetailStatusDefectClassificationDetailRepository.SaveEntityMassiveAsync(allNewDetails)
+                End If
+            End If
+
         Catch ex As Exception
             Throw ' Delegar manejo de errores al contexto llamador
         End Try
-    End Sub
+    End Function
 
     ''' <summary>
-    ''' Crea o actualiza la entidad de clasificación de defectos para un item de reempaque/reenvase.
+    ''' Aplica clasificación para reempaque/reenvase usando cabeceras precargadas (sin consultar BD por id).
+    ''' Las cabeceras nuevas se registran en <paramref name="existingByDetailStatusId"/> para reutilizar la misma instancia si el mismo id aparece más de una vez en la lista de entrada.
     ''' </summary>
-    ''' <param name="requestPackageDetailStatusIdTmp">ID del RequestPackageDetailStatus</param>
-    ''' <param name="defectClassificationHeader">Modelo de encabezado con observación e indicaciones</param>
-    ''' <param name="codeUser">Usuario actual</param>
-    ''' <param name="listDefects">Lista completa de defectos a aplicar</param>
-    ''' <param name="isQuality">True para calidad, False para producción</param>
-    ''' <param name="defectClassification">Defecto específico actual (opcional)</param>
-    ''' <returns>Entidad de clasificación creada o actualizada</returns>
-    Public Function GetDetailsRequestPackageDetailStatusDefectClassification(
-        requestPackageDetailStatusIdTmp As Integer,
+    Private Sub ApplyRepackagingDefectClassification(
+        requestPackageDetailStatusId As Integer,
+        existingByDetailStatusId As Dictionary(Of Integer, RequestPackageDetailStatusDefectClassification),
         defectClassificationHeader As DefectClassificationHeaderModel,
         codeUser As String,
         listDefects As List(Of DefectClassificationModel),
         isQuality As Boolean,
-        Optional defectClassification As DefectClassificationModel = Nothing
-    ) As RequestPackageDetailStatusDefectClassification
+        newClassifications As List(Of RequestPackageDetailStatusDefectClassification),
+        Optional defectClassification As DefectClassificationModel = Nothing)
 
-        Dim classification = _requestPackageDetailStatusDefectClassificationRepository.FirstOrDefault(
-            Function(m) m.RequestPackageDetailStatusId = requestPackageDetailStatusIdTmp,
-            True,
-            includes:={"RequestPackageDetailStatusDefectClassificationDetail"}
-        )
-
-        If classification Is Nothing Then
-            classification = CreateNewClassification(requestPackageDetailStatusIdTmp, defectClassificationHeader, codeUser)
+        Dim classification As RequestPackageDetailStatusDefectClassification = Nothing
+        If Not existingByDetailStatusId.TryGetValue(requestPackageDetailStatusId, classification) Then
+            ' Nueva clasificación: acumular para BulkInsert masivo al final del llamador.
+            classification = CreateNewClassification(requestPackageDetailStatusId, defectClassificationHeader, codeUser)
+            existingByDetailStatusId(requestPackageDetailStatusId) = classification
+            newClassifications.Add(classification)
         Else
+            ' Clasificación existente: actualizar en contexto EF (se escribe vía CommitAsync del llamador).
             UpdateClassificationHeader(classification, defectClassificationHeader, codeUser)
             classification.MarkAsModified()
+            _requestPackageDetailStatusDefectClassificationRepository.SaveEntity(classification)
         End If
 
-        ' Procesa los detalles (crear o actualizar)
         ProcessClassificationDetails(classification, listDefects, isQuality, defectClassification)
-
-        _requestPackageDetailStatusDefectClassificationRepository.SaveEntity(classification)
-        Return classification
-    End Function
+    End Sub
 
     ''' <summary>
     ''' Crea la entidad principal RequestPackageDetailStatusDefectClassification
@@ -441,7 +482,8 @@ Public Class QualityControlAdminService
         defectClassification As DefectClassificationModel
     )
         Dim existingDetailsMap = classification.RequestPackageDetailStatusDefectClassificationDetail _
-                            .ToDictionary(Function(d) d.DefectClassificationItemId)
+                            .GroupBy(Function(d) d.DefectClassificationItemId) _
+                            .ToDictionary(Function(g) g.Key, Function(g) g.First())
 
         For Each defect In listDefects
             Dim existingDetail As RequestPackageDetailStatusDefectClassificationDetail = Nothing
@@ -450,6 +492,7 @@ Public Class QualityControlAdminService
             Else
                 Dim newDetail = CreateNewDetailItem(defect, isQuality, defectClassification)
                 classification.RequestPackageDetailStatusDefectClassificationDetail.Add(newDetail)
+                existingDetailsMap(defect.DefectClassificationItemId) = newDetail
             End If
         Next
     End Sub
@@ -476,8 +519,8 @@ Public Class QualityControlAdminService
         Return New RequestPackageDetailStatusDefectClassificationDetail With {
         .DefectClassificationItemId = defect.DefectClassificationItemId,
         .Production = productionValue,
-        .Quality = qualityValue
-    }
+        .Quality = qualityValue}
+
     End Function
 
     ''' <summary>
@@ -523,44 +566,16 @@ Public Class QualityControlAdminService
             Using scope As New TransactionScope(TransactionScopeOption.Required, New TransactionOptions() With {
             .Timeout = TransactionManager.MaximumTimeout,
             .IsolationLevel = IsolationLevel.ReadCommitted}, TransactionScopeAsyncFlowOption.Enabled)
-                Dim uow = _requestPackageDetailStatusRepository.UnitWork
 
-                ' Lógica para Liberar o Rechazar con validación de defectos críticos
                 If qualityStatus = 4 Then
-                    Dim listWithDefects = _requestPackageDetailStatusRepository.GetByFilter(
-                    Function(x) requestPackageDetailStatusIds.Contains(x.Id),
-                    True,
-                    {"RequestPackageDetailStatusDefectClassification.RequestPackageDetailStatusDefectClassificationDetail.DefectClassificationItem"}).ToList()
-
-                    For Each item In listWithDefects
-                        Dim hasCriticalDefect = item.RequestPackageDetailStatusDefectClassification.
-                        FirstOrDefault()?.
-                        RequestPackageDetailStatusDefectClassificationDetail?.
-                        Any(Function(d) (d.Quality.GetValueOrDefault() AndAlso d.DefectClassificationItem.Critical) OrElse
-                                         (d.Production.GetValueOrDefault() AndAlso d.DefectClassificationItem.Critical)) = True
-
-                        item.Status = If(hasCriticalDefect, 5, status) ' 5 = Rechazado por defecto crítico
-                        item.QualityStatus = If(hasCriticalDefect, 2, 1)
-                        item.MarkAsModified()
-                        _requestPackageDetailStatusRepository.SaveEntity(item)
-                    Next
+                    _requestPackageDetailStatusRepository.BulkUpdateQualityRelease(requestPackageDetailStatusIds, status)
                 Else
-                    ' Lógica general de actualización de estado sin validación de defectos
-                    Dim listStatus = _requestPackageDetailStatusRepository.GetListPackageDetailStatus(requestPackageDetailStatusIds, Nothing)
-
-                    If listStatus Is Nothing OrElse listStatus.Count = 0 Then
+                    Dim affected = _requestPackageDetailStatusRepository.BulkUpdateStatus(requestPackageDetailStatusIds, status, qualityStatus)
+                    If affected = 0 Then
                         Throw New ArgumentException("Productos no encontrados")
                     End If
-
-                    For Each item In listStatus
-                        item.Status = status
-                        item.QualityStatus = qualityStatus
-                        item.MarkAsModified()
-                        _requestPackageDetailStatusRepository.SaveEntity(item)
-                    Next
                 End If
 
-                Await uow.CommitAsync()
                 scope.Complete()
             End Using
 
@@ -638,18 +653,26 @@ Public Class QualityControlAdminService
             .Message = "No están llegando elementos para validar"}
         End If
 
+        ' Validación anticipada: evita consulta a BD con un TypeAction inválido
+        If TypeAction <> 3 AndAlso Not {1, 2, 4}.Contains(TypeAction) Then
+            Return New ActionResult(Of List(Of Integer)) With {
+            .StateResult = False,
+            .Message = "La acción no se puede validar"}
+        End If
+
         Try
             Dim result = New ActionResult(Of List(Of Integer))()
             Dim query = _requestPackageDetailStatusDefectClassificationRepository.
             GetByFilter(Function(x) requestPackageStatusIds.Contains(x.RequestPackageDetailStatusId), False,
                         {"RequestPackageDetailStatusDefectClassificationDetail.DefectClassificationItem"}).ToList()
 
-            ' Validación de existencia de clasificaciones
-            Dim missingIds = requestPackageStatusIds.Except(query.Select(Function(f) f.RequestPackageDetailStatusId)).ToList()
-            If missingIds.Any() OrElse Not query.Any() Then
+            ' Validación de existencia: HashSet O(1) vs Except O(N×M)
+            Dim classifiedIds = New HashSet(Of Integer)(query.Select(Function(f) f.RequestPackageDetailStatusId))
+            Dim missingIds = requestPackageStatusIds.Where(Function(id) Not classifiedIds.Contains(id)).ToList()
+            If missingIds.Any() Then
+                ' Solo los IDs faltantes; Package es suficiente (Package.Name no requiere InventoryProduct)
                 Dim failedItems = _requestPackageDetailStatusRepository.
-                GetByFilter(Function(g) requestPackageStatusIds.Contains(g.Id), False,
-                            {"Package.InventoryProduct"}).ToList()
+                GetByFilter(Function(g) missingIds.Contains(g.Id), False, {"Package"}).ToList()
 
                 result.StateResult = False
                 result.Message = "Los siguientes productos no poseen clasificación de defectos:"
@@ -657,17 +680,14 @@ Public Class QualityControlAdminService
                 Return result
             End If
 
-            ' Validación de defectos críticos si aplica
+            ' Validación de defectos críticos (TypeAction = 3) — LINQ secuencial, datos ya están en memoria
             If TypeAction = 3 Then
-                Dim criticalDefectIds As New Concurrent.ConcurrentBag(Of Integer)
-
-                Parallel.ForEach(query, Sub(p)
-                                            If p.RequestPackageDetailStatusDefectClassificationDetail.Any(Function(x) x.Quality = True AndAlso
-                                                x.DefectClassificationItem?.Critical = True AndAlso
-                                                x.DefectClassificationItem?.State = True) Then
-                                                criticalDefectIds.Add(p.RequestPackageDetailStatusId)
-                                            End If
-                                        End Sub)
+                Dim criticalDefectIds = query.
+                    Where(Function(p) p.RequestPackageDetailStatusDefectClassificationDetail.Any(
+                        Function(x) x.Quality = True AndAlso
+                                    x.DefectClassificationItem?.Critical = True AndAlso
+                                    x.DefectClassificationItem?.State = True)).
+                    Select(Function(p) p.RequestPackageDetailStatusId).ToList()
 
                 If criticalDefectIds.Any() Then
                     Dim criticalItems = _requestPackageDetailStatusRepository.
@@ -680,11 +700,6 @@ Public Class QualityControlAdminService
                     Select(Function(h) $"{h.Package?.InventoryProduct?.Name} - N° Lote: {h.BatchCode}").ToList()
                     Return result
                 End If
-
-            ElseIf Not {1, 2, 4}.Contains(TypeAction) Then
-                Return New ActionResult(Of List(Of Integer)) With {
-                .StateResult = False,
-                .Message = "La acción no se puede validar"}
             End If
 
             ' Validación exitosa

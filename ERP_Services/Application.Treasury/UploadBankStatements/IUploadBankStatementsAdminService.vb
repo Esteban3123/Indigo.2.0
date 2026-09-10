@@ -32,5 +32,14 @@ Public Interface IUploadBankStatementsAdminService
     ''' <param name="UploadBankStatementDetails"></param>
     ''' <returns></returns>
     Function MatchConciliationConceptsWithDescriptionTransaction(ConciliationConcepts As List(Of BankConciliationConcepts), UploadBankStatementDetails As List(Of UploadBankStatementsDetail)) As ActionResult(Of List(Of UploadBankStatementsDetail))
+    ''' <summary>
+    ''' Función para invocar la API de Cargue de Extracto Bancario
+    ''' </summary>
+    ''' <param name="fileBytes"></param>
+    ''' <param name="fileName"></param>
+    ''' <param name="year"></param>
+    ''' <param name="endpointUrl"></param>
+    ''' <returns></returns>
+    Function ExtractBankStatementDetail(fileBytes As Byte(), fileName As String, year As String, endpointUrl As String) As ActionResult(Of String)
 
 End Interface

@@ -1,4 +1,4 @@
-﻿'***********************************************************************
+'***********************************************************************
 ' Assembly         : Infrastructure.Data.PayrollRepository
 ' Author           : Cristhian Mauricio Salazar
 ' Created          : 09-08-2013
@@ -68,6 +68,22 @@ Public Class AuthorizationConceptRepository
 
         'Dim authoTodo = authoConcept.Union(fff).Distinct()
 
+        Return authoConcept.ToList()
+    End Function
+
+    ''' <summary>
+    ''' Obtiene las autorizaciones de concepto de un grupo filtradas por ConceptClass
+    ''' </summary>
+    ''' <param name="groupId">Codigo del Grupo</param>
+    ''' <param name="ConceptClass">Clase del concepto a filtrar (ej: "036" para Caja de Compensación)</param>
+    ''' <returns>Lista de AuthorizationConcept ordenada por ConceptType</returns>
+    Public Function GetAuthorizationConceptByGroupId(groupId As Integer, ConceptClass As String) As List(Of AuthorizationConcept) Implements IAuthorizationConceptRepository.GetAuthorizationConceptByGroupId
+        Dim authoConcept = (From e In _context.AuthorizationConcept.Include("AuthorizationConceptGroup") _
+                            .Include("AuthorizationConceptEmployee").Include("Concept")
+                            Where e.AuthorizationConceptGroup.Any(
+                                Function(x) x.GroupId = groupId And x.AuthorizationConcept.Concept.ConceptClass = ConceptClass)
+                            Order By e.Concept.ConceptType
+                            Select e).ToList()
         Return authoConcept.ToList()
     End Function
 

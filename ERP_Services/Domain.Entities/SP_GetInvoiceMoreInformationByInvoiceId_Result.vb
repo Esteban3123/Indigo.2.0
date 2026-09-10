@@ -318,6 +318,22 @@ Partial Public Class SP_GetInvoiceMoreInformationByInvoiceId_Result
     Private _contractNumber As String
 
     <DataMember()>
+    Public Property NoContractReason() As String
+        Get
+            Return _noContractReason
+        End Get
+        Set(ByVal value As String)
+            If Not Equals(_noContractReason, value) Then
+                OnComplexPropertyChanging()
+                _noContractReason = value
+                OnPropertyChanged("NoContractReason")
+            End If
+        End Set
+    End Property
+
+    Private _noContractReason As String
+
+    <DataMember()>
     Public Property PolicyNumber() As String
         Get
             Return _policyNumber
@@ -535,6 +551,7 @@ Partial Public Class SP_GetInvoiceMoreInformationByInvoiceId_Result
         changeTracker.RecordOriginalValue(String.Format(CultureInfo.InvariantCulture, "{0}.MIPRESNumber", parentPropertyName), If(complexObject Is Nothing, Nothing, complexObject.MIPRESNumber))
         changeTracker.RecordOriginalValue(String.Format(CultureInfo.InvariantCulture, "{0}.MIPRESId", parentPropertyName), If(complexObject Is Nothing, Nothing, complexObject.MIPRESId))
         changeTracker.RecordOriginalValue(String.Format(CultureInfo.InvariantCulture, "{0}.ContractNumber", parentPropertyName), If(complexObject Is Nothing, Nothing, complexObject.ContractNumber))
+        changeTracker.RecordOriginalValue(String.Format(CultureInfo.InvariantCulture, "{0}.NoContractReason", parentPropertyName), If(complexObject Is Nothing, Nothing, complexObject.NoContractReason))
         changeTracker.RecordOriginalValue(String.Format(CultureInfo.InvariantCulture, "{0}.PolicyNumber", parentPropertyName), If(complexObject Is Nothing, Nothing, complexObject.PolicyNumber))
         changeTracker.RecordOriginalValue(String.Format(CultureInfo.InvariantCulture, "{0}.PermanentObservationOfTheInvoice", parentPropertyName), If(complexObject Is Nothing, Nothing, complexObject.PermanentObservationOfTheInvoice))
         changeTracker.RecordOriginalValue(String.Format(CultureInfo.InvariantCulture, "{0}.BillingInitialDate", parentPropertyName), If(complexObject Is Nothing, Nothing, complexObject.BillingInitialDate))

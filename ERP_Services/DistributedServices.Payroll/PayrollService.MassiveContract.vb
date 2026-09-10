@@ -1,4 +1,4 @@
-﻿'***********************************************************************
+'***********************************************************************
 ' Assembly         : DistributedServices.Payroll
 ' Author           : Cristhian Mauricio Salazar
 ' Created          : 02-07-2013
@@ -10,6 +10,7 @@ Imports Application.Payroll
 Imports Infrastructure.CrossCutting.IOC
 Imports Infrastructure.CrossCutting.Base
 Imports Domain.Base.Entities
+Imports Domain.Payroll
 Imports Domain.Payroll.Entities
 
 Partial Class PayrollService
@@ -26,11 +27,11 @@ Partial Class PayrollService
         End Using
     End Function
 
-    Public Sub SaveMassiveContract(pData As List(Of ImportFileRow), pSession As SessionValues) Implements IPayrollMassiveContract.SaveMassiveContract
+    Public Function SaveMassiveContract(pData As List(Of ImportFileRow), pSession As SessionValues) As SP_SaveMassiveContract_DTO Implements IPayrollMassiveContract.SaveMassiveContract
         Using mc As IMassiveContractAdminService = IocFactory.Instance(pSession.TransactionalContainer).CurrentContainer.Resolve(Of IMassiveContractAdminService)()
-            mc.SaveMassiveContract(pData, pSession.UserIndigo, pSession.UserIndigoId)
+            Return mc.SaveMassiveContract(pData, pSession.UserIndigo, pSession.UserIndigoId)
         End Using
-    End Sub
+    End Function
 
     Public Sub SaveMassiveContractExtension(pData As List(Of ImportFileRow), pSession As SessionValues) Implements IPayrollMassiveContract.SaveMassiveContractExtension
         Using mc As IMassiveContractAdminService = IocFactory.Instance(pSession.TransactionalContainer).CurrentContainer.Resolve(Of IMassiveContractAdminService)()

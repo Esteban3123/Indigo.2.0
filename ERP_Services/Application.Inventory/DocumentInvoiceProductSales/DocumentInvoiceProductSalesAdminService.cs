@@ -925,7 +925,6 @@ namespace Application.Inventory.DocumentInvoiceProductSales
         {
             IUnitWork unitOfWorkInvoiceProduct = _documentInvoiceProductSalesRepository.UnitWork;
             IUnitWork unitOfWorkInvoice = _invoiceRepository.UnitWork;
-            IUnitWork unitOfWorkSequence = _sequenseRepository.UnitWork;
 
             try
             {
@@ -965,24 +964,12 @@ namespace Application.Inventory.DocumentInvoiceProductSales
                     //Aqui validamos, si es una factura electronica para realizar el registro de la nota Credito por la anulacion
                     if (String.IsNullOrEmpty(invoice.CUFE) == false)
                     {
-                        //Secuencia de la Nota para los Documentos Electronicos
-                        BillingSequence sequence = _sequenseRepository.GetSequenseByIdForm("2037");
-                        if (sequence != null && sequence.Id > 0 && sequence.Sequential && sequence.BillingSequenceDetail != null && sequence.BillingSequenceDetail.Count > 0)
+                        var reservation = _sequenseRepository.ReserveNextFormattedCodeByFormId("2037");
+                        if (!reservation.Success)
                         {
-                            codeNote = Infrastructure.CrossCutting.Base.Sequense.GetSequense(sequence.BillingSequenceDetail.First().Sequense.Pattern, sequence.BillingSequenceDetail.First().Next);
-                            if (codeNote == null || codeNote.Equals(Infrastructure.CrossCutting.Base.Sequense.ERROR_MAXVALUE))
-                            {
-                                return new ActionResult(false, "La secuencia para las Notas Crédito de Facturacion Electronica alcanzo su valor maximo.");
-                            }
-
-                            sequence.BillingSequenceDetail.First().Next += 1;
-                            _sequenseRepository.SaveEntity(sequence);
-                            unitOfWorkSequence.Commit();
+                            return new ActionResult(false, reservation.Message);
                         }
-                        else
-                        {
-                            return new ActionResult(false, "La secuencia para las Notas Crédito de Facturacion Electronica no esta parametrizada o no es secuencial.");
-                        }
+                        codeNote = reservation.Code;
                     }
 
                     //afecto el inventario fisico
@@ -1152,7 +1139,8 @@ namespace Application.Inventory.DocumentInvoiceProductSales
                             Detail = jvDetail.Detail,
                             IdRetention = jvDetail.IdRetention,
                             RetentionRate = jvDetail.RetentionRate,
-                            BaseValue = jvDetail.BaseValue
+                            BaseValue = jvDetail.BaseValue,
+                            BillingValue = jvDetail.BillingValue
 
                         };
                         jvAnullate.JournalVoucherDetails.Add(jvDetailAnullate);
@@ -1253,19 +1241,73 @@ namespace Application.Inventory.DocumentInvoiceProductSales
                             ConceptId = 2
                         };
 
-                        if (invoice.ValueTax > 0)
+                        // Un solo recorrido: acumula gravados (pct > 0) y exentos (pct = 0, tipo 3)
+                        var gravadoBase = new Dictionary<decimal, decimal>();
+                        var gravadoTax  = new Dictionary<decimal, decimal>();
+                        var gravadoIvaId = new Dictionary<decimal, int?>();
+                        var exentBase   = new Dictionary<int, decimal>();
+                        var ivaTypeCache = new Dictionary<int, byte>();
+
+                        foreach (var detail in documentInvoiceProductSales.DocumentInvoiceProductSalesDetail)
                         {
-                            foreach (var tax in documentInvoiceProductSales.DocumentInvoiceProductSalesDetail.GroupBy(d => d.IvaPercentage))
+                            int? detailIvaId = detail.InventoryProduct?.IVAId;
+                            decimal lineBase = detail.Quantity * detail.SalePrice - detail.DiscountValue;
+
+                            if (detail.IvaPercentage > 0)
                             {
-                                billingNoteDetail.BillingNoteDetailTax.Add(
-                                    new BillingNoteDetailTax()
-                                    {
-                                        TaxPercentage = tax.Key,
-                                        TaxValue = documentInvoiceProductSales.DocumentInvoiceProductSalesDetail.Where(d => d.IvaPercentage == tax.Key).Sum(d => d.IvaValue),
-                                        BaseValue = documentInvoiceProductSales.DocumentInvoiceProductSalesDetail.Where(d => d.IvaPercentage == tax.Key).Sum(d => d.Quantity * d.SalePrice - d.DiscountValue)
-                                    }
-                                );
+                                decimal pct = detail.IvaPercentage;
+                                if (gravadoBase.ContainsKey(pct))
+                                {
+                                    gravadoBase[pct] += lineBase;
+                                    gravadoTax[pct]  += detail.IvaValue;
+                                    if (!gravadoIvaId[pct].HasValue) gravadoIvaId[pct] = detailIvaId;
+                                }
+                                else
+                                {
+                                    gravadoBase[pct]  = lineBase;
+                                    gravadoTax[pct]   = detail.IvaValue;
+                                    gravadoIvaId[pct] = detailIvaId;
+                                }
                             }
+                            else if (detailIvaId.HasValue)
+                            {
+                                // pct = 0: verificar si es exento (tipo 3) o excluido (tipo 2)
+                                byte taxClassification;
+                                if (!ivaTypeCache.TryGetValue(detailIvaId.Value, out taxClassification))
+                                {
+                                    var generalLedgerIva = detail.InventoryProduct?.GeneralLedgerIVA;
+                                    taxClassification = generalLedgerIva != null ? generalLedgerIva.TaxClassificationType : (byte)0;
+                                    ivaTypeCache[detailIvaId.Value] = taxClassification;
+                                }
+                                if (taxClassification == 3)
+                                {
+                                    if (exentBase.ContainsKey(detailIvaId.Value))
+                                        exentBase[detailIvaId.Value] += lineBase;
+                                    else
+                                        exentBase[detailIvaId.Value] = lineBase;
+                                }
+                            }
+                        }
+
+                        foreach (var pct in gravadoBase.Keys)
+                        {
+                            billingNoteDetail.BillingNoteDetailTax.Add(new BillingNoteDetailTax()
+                            {
+                                TaxPercentage = pct,
+                                TaxValue      = gravadoTax[pct],
+                                BaseValue     = gravadoBase[pct],
+                                IVAId         = gravadoIvaId[pct]
+                            });
+                        }
+                        foreach (var kvp in exentBase)
+                        {
+                            billingNoteDetail.BillingNoteDetailTax.Add(new BillingNoteDetailTax()
+                            {
+                                TaxPercentage = 0,
+                                TaxValue      = 0,
+                                BaseValue     = kvp.Value,
+                                IVAId         = kvp.Key
+                            });
                         }
                         billingNote.BillingNoteDetail.Add(billingNoteDetail);
 
@@ -1597,9 +1639,10 @@ namespace Application.Inventory.DocumentInvoiceProductSales
                 }
                 jvd.IdRetention = billingSettings.ReteIVAConceptId;
                 if (jvd.IdRetention != null && jvd.IdRetention != 0)
-                {                
+                {
                     jvd.RetentionRate = _retentionRepository.GetRetentionById(jvd.IdRetention.Value, true).Rate;
                 }
+                jvd.BillingValue = productInvoice.DocumentInvoiceProductSalesDetail.Sum(d => d.SubTotalValue - d.DiscountValue);
                 jvd.BaseValue = productInvoice.ValueTax;
                 jvd.DebitValue = productInvoice.WithholdingTax;
                 journalVoucher.JournalVoucherDetails.Add(jvd);

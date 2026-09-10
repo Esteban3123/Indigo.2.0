@@ -14,9 +14,12 @@ Imports Infrastructure.CrossCutting.Exceptions
 Imports Infrastructure.CrossCutting.Base
 Imports Application.Base
 Imports System.Text
+Imports System.Net.Http
 Imports System.Data.SqlClient
 Imports System.Transactions
 Imports System.Data.Entity.Core
+Imports System.Configuration
+Imports Newtonsoft.Json
 
 Public Class AutoliquidationAdminService
     Implements IAutoliquidationAdminService
@@ -54,6 +57,8 @@ Public Class AutoliquidationAdminService
 
     Private _autoliquidationNewDomain As Domain.Payroll.IAutoliquidationDomain
 
+    Private _endpointsRepository As Domain.Security.IEndpointsRepository
+
     ''' <summary>
     ''' inicia el repositorio de Conceptos
     ''' </summary>
@@ -61,7 +66,8 @@ Public Class AutoliquidationAdminService
     ''' <remarks></remarks>
     Public Sub New(ByVal autoliquidationRepository As IAutoliquidationRepository, companyRepository As ICompanyRepository,
                    workCenterRepository As IWorkCenterRepository, liquidationRepository As IPayrollLiquidationRepository,
-                   autoliquidationDomain As Domain.Payroll.Entities.IAutoliquidationDomain, autoliquidationNewDomain As Domain.Payroll.IAutoliquidationDomain, verifyAutoliquidationRepository As Domain.Payroll.IVerifyAutoliquidationRepository)
+                   autoliquidationDomain As Domain.Payroll.Entities.IAutoliquidationDomain, autoliquidationNewDomain As Domain.Payroll.IAutoliquidationDomain, verifyAutoliquidationRepository As Domain.Payroll.IVerifyAutoliquidationRepository,
+                   endpointsRepository As Domain.Security.IEndpointsRepository)
         If (autoliquidationRepository Is Nothing) Then
             Throw New ArgumentNullException("Repositorio de Autoliquidación vacio")
         End If
@@ -72,6 +78,7 @@ Public Class AutoliquidationAdminService
         _autoliquidationDomain = autoliquidationDomain
         _autoliquidationNewDomain = autoliquidationNewDomain
         _verifyAutoliquidationRepository = verifyAutoliquidationRepository
+        _endpointsRepository = endpointsRepository
     End Sub
 
     ''' <summary>
@@ -266,10 +273,10 @@ Public Class AutoliquidationAdminService
         connectionString = Infrastructure.CrossCutting.Base.Utils.GetEntityConnectionString(Infrastructure.CrossCutting.Base.ConfigurationFile.CONX_GENESIS, String.Empty, session.TransactionalContainer, False)
         Using conexion As New SqlConnection
             Try
-            If conexion.State = ConnectionState.Closed Then
-                conexion.Open()
-            End If
-            Dim da As SqlDataAdapter = New SqlDataAdapter(Comando, conexion)
+                If conexion.State = ConnectionState.Closed Then
+                    conexion.Open()
+                End If
+                Dim da As SqlDataAdapter = New SqlDataAdapter(Comando, conexion)
                 da.SelectCommand.CommandTimeout = 30000
                 Dim ds As New DataSet
                 da.Fill(ds, nameDt)
@@ -538,6 +545,131 @@ Public Class AutoliquidationAdminService
     End Function
 
 
+
+    ''' <summary>
+    ''' Genera el archivo plano PILA AT2 invocando el microservicio de seguridad social.
+    ''' </summary>
+    ''' <param name="companyId">Id de la empresa</param>
+    ''' <param name="periodLiquidation">Periodo de liquidación en formato YYYY-MM</param>
+    ''' <returns>Resultado con el contenido del archivo plano como StringBuilder</returns>
+    Public Function GeneratePilaFile(companyId As Integer, periodLiquidation As String) As ActionMessageResult(Of StringBuilder) Implements IAutoliquidationAdminService.GeneratePilaFile
+        Dim result As New ActionMessageResult(Of StringBuilder)
+        Dim errorMessage As String = Nothing
+        Dim bytes = ExecutePilaRequest(companyId, periodLiquidation, "api/v1/pila/generate", errorMessage)
+        If bytes IsNot Nothing Then
+            result.StateResult = True
+            result.ObjectEmbbeded = New StringBuilder(Encoding.GetEncoding(1252).GetString(bytes))
+        Else
+            result.StateResult = False
+            result.Message = errorMessage
+        End If
+        Return result
+    End Function
+
+    ''' <summary>
+    ''' Genera el reporte Excel PILA invocando el microservicio de seguridad social.
+    ''' </summary>
+    ''' <param name="companyId">Id de la empresa</param>
+    ''' <param name="periodLiquidation">Periodo de liquidación en formato YYYY-MM</param>
+    ''' <returns>Resultado con el contenido del archivo Excel como arreglo de bytes</returns>
+    Public Function GeneratePilaExcel(companyId As Integer, periodLiquidation As String) As ActionMessageResult(Of Byte()) Implements IAutoliquidationAdminService.GeneratePilaExcel
+        Dim result As New ActionMessageResult(Of Byte())
+        Dim errorMessage As String = Nothing
+        Dim bytes = ExecutePilaRequest(companyId, periodLiquidation, "api/v1/pila/excel", errorMessage)
+        If bytes IsNot Nothing Then
+            result.StateResult = True
+            result.ObjectEmbbeded = bytes
+        Else
+            result.StateResult = False
+            result.Message = errorMessage
+        End If
+        Return result
+    End Function
+
+    ''' <summary>
+    ''' Método privado que centraliza la llamada al microservicio PILA.
+    ''' Construye el request, obtiene la URL desde Security.Endpoints y retorna los bytes de la respuesta.
+    ''' </summary>
+    ''' <param name="companyId">Id de la empresa</param>
+    ''' <param name="periodLiquidation">Periodo de liquidación en formato YYYY-MM</param>
+    ''' <param name="path">Path del endpoint a invocar (ej: api/v1/pila/generate)</param>
+    ''' <param name="errorMessage">Mensaje de error en caso de fallo</param>
+    ''' <returns>Bytes de la respuesta, o Nothing si ocurrió un error</returns>
+    Private Function ExecutePilaRequest(companyId As Integer, periodLiquidation As String, path As String, ByRef errorMessage As String) As Byte()
+        Try
+            Dim company As Company = _companyRepository.GetCompanyById(companyId)
+            If company Is Nothing Then
+                errorMessage = "No se encontró la empresa con Id: " & companyId
+                Return Nothing
+            End If
+
+            Dim endpoint = _endpointsRepository.GetEndpointsByContainerCode(ServerSessionValues.Current.CurrentContainer, "social-security")
+            If endpoint Is Nothing OrElse String.IsNullOrEmpty(endpoint.UrlBase) Then
+                errorMessage = "No se encontró el endpoint 'social-security' para el container actual"
+                Return Nothing
+            End If
+
+            Dim parts = periodLiquidation.Split("-"c)
+            Dim requestBody = New With {
+                .year = Integer.Parse(parts(0)),
+                .month = Integer.Parse(parts(1)),
+                .contributor_name = company.Name,
+                .contributor_document_number = company.Nit,
+                .contributor_document_type = If(company.ThirdParty IsNot Nothing AndAlso company.ThirdParty.Person IsNot Nothing, GetPilaDocumentType(company.ThirdParty.Person.IdentificationType), "NIT"),
+                .verification_digit = If(company.ThirdParty IsNot Nothing AndAlso Not String.IsNullOrEmpty(company.ThirdParty.DigitVerification), company.ThirdParty.DigitVerification, "0"),
+                .planilla_type = "E",
+                .occupational_risk_insurance_code = If(company.Fund IsNot Nothing, company.Fund.Code, ""),
+                .payment_period = periodLiquidation,
+                .presentation_mode = "U",
+                .contributor_type = "01",
+                .operator_code = ""
+            }
+
+            Dim jsonContent As String = JsonConvert.SerializeObject(requestBody)
+            Net.ServicePointManager.SecurityProtocol = Net.SecurityProtocolType.Tls12
+            Net.ServicePointManager.ServerCertificateValidationCallback = Function(s, cert, chain, errors) True
+
+            Using client As New HttpClient()
+                Dim content = New StringContent(jsonContent, Encoding.UTF8, "application/json")
+                client.DefaultRequestHeaders.Add("x-container", ServerSessionValues.Current.CurrentContainer)
+                Dim response = client.PostAsync($"{endpoint.UrlBase}/{path}", content).GetAwaiter().GetResult()
+
+                If Not response.IsSuccessStatusCode Then
+                    errorMessage = $"Error microservicio PILA: {CInt(response.StatusCode)} {response.StatusCode}"
+                    Return Nothing
+                End If
+
+                Return response.Content.ReadAsByteArrayAsync().GetAwaiter().GetResult()
+            End Using
+
+        Catch ex As HttpRequestException
+            IndigoManagementExceptions.HandleException(ex, "ApplicationPolicy")
+            errorMessage = "Error de conexión con microservicio PILA: " & ex.Message
+        Catch ex As Exception
+            IndigoManagementExceptions.HandleException(ex, "ApplicationPolicy")
+            errorMessage = ex.Message
+        End Try
+        Return Nothing
+    End Function
+
+    ''' <summary>
+    ''' Mapea el tipo de identificación del ERP (0-15) al código PILA correspondiente.
+    ''' </summary>
+    ''' <param name="identificationType">Valor entero de Person.IdentificationType</param>
+    ''' <returns>Código de tipo de documento para PILA (CC, CE, NIT, etc.)</returns>
+    Private Shared Function GetPilaDocumentType(identificationType As Integer) As String
+        Select Case identificationType
+            Case 0 : Return "CC"
+            Case 1 : Return "CE"
+            Case 2 : Return "TI"
+            Case 3 : Return "RC"
+            Case 4 : Return "PA"
+            Case 5 : Return "AS"
+            Case 6 : Return "MS"
+            Case 7 : Return "NIT"
+            Case Else : Return "NIT"
+        End Select
+    End Function
 
 #Region "IDisposable Support"
     Private disposedValue As Boolean ' Para detectar llamadas redundantes

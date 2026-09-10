@@ -1,4 +1,4 @@
-﻿'***********************************************************************
+'***********************************************************************
 ' Assembly         : Application.Portfolio
 ' Author           : Carlos Mario Arias Rubiano
 ' Created          : 21/10/2016
@@ -226,6 +226,10 @@ Public Class PortfolioProvisionAdminService
             Throw New ArgumentNullException("PortfolioProvision")
         End If
 
+        If PortfolioProvision.DocumentType = 2 AndAlso PortfolioProvision.ApplyDeterioration = 3 Then
+            Return ConfirmPortfolioDeteriorationByClassification(PortfolioProvision, audit, operativeUnitId)
+        End If
+
         Dim unitOfWork As IUnitWork = Me._portfolioProvisionRepository.UnitWork
 
         Dim txSettings As New TransactionOptions()
@@ -273,10 +277,12 @@ Public Class PortfolioProvisionAdminService
     ''' </summary>
     ''' <param name="closingDate"></param>
     ''' <param name="operativeUnitId"></param>
+    ''' <param name="pageNumber"></param>
+    ''' <param name="pageSize"></param>
     ''' <returns></returns>
-    Public Function GetPortfolioDeteriorationByClassification(closingDate As Date, operativeUnitId As Integer) As ActionResult(Of List(Of PortfolioDeteriorationByClassificationDTO)) Implements IPortfolioProvisionAdminService.GetPortfolioDeteriorationByClassification
+    Public Function GetPortfolioDeteriorationByClassification(closingDate As Date, operativeUnitId As Integer, Optional pageNumber As Integer = 1, Optional pageSize As Integer = 50000) As ActionResult(Of List(Of PortfolioDeteriorationByClassificationDTO)) Implements IPortfolioProvisionAdminService.GetPortfolioDeteriorationByClassification
         Try
-            Dim result = _portfolioProvisionRepository.SP_GetPortfolioDeteriorationByClassification(closingDate, operativeUnitId)
+            Dim result = _portfolioProvisionRepository.SP_GetPortfolioDeteriorationByClassification(closingDate, operativeUnitId, pageNumber, pageSize)
             Return New ActionResult(Of List(Of PortfolioDeteriorationByClassificationDTO)) With {.ObjectEmbbeded = result, .StateResult = True, .StatusCode = eStatusResult.SUCCESS}
         Catch ex As Exception
             Return New ActionResult(Of List(Of PortfolioDeteriorationByClassificationDTO)) With {.StateResult = False, .StatusCode = eStatusResult.EXCEPTION, .Message = ex.Message}
@@ -286,6 +292,82 @@ Public Class PortfolioProvisionAdminService
 #End Region
 
 #Region "Private Methods"
+
+    ''' <summary>
+    ''' Función que confirma el Deterioro por Clasificación
+    ''' </summary>
+    ''' <param name="PortfolioProvision"></param>
+    ''' <param name="audit"></param>
+    ''' <param name="operativeUnitId"></param>
+    ''' <returns></returns>
+    Private Function ConfirmPortfolioDeteriorationByClassification(PortfolioProvision As PortfolioProvision, audit As AuditMessage, Optional operativeUnitId As Integer? = Nothing) As ActionResult(Of PortfolioProvision)
+        Dim unitOfWork As IUnitWork = Me._portfolioProvisionRepository.UnitWork
+
+        Dim txSettings As New TransactionOptions()
+        txSettings.Timeout = TransactionManager.MaximumTimeout
+        txSettings.IsolationLevel = System.Transactions.IsolationLevel.ReadCommitted
+        Using transaction As New TransactionScope(TransactionScopeOption.Required, txSettings)
+            Try
+                Dim auditStatus As Infrastructure.CrossCutting.Audit.Actions = Utils.GetAuditStatus(PortfolioProvision.Id, 2)
+                Dim opUnitId As Integer = If(operativeUnitId, PortfolioProvision.OperatingUnitId)
+
+                Dim prepareResult = _portfolioProvisionRepository.SP_PrepareConfirmPortfolioDeteriorationByClassification(PortfolioProvision.Id, audit.CodeUser, opUnitId)
+                If prepareResult.PrepareResult.CodeMessage <> 0 Then
+                    transaction.Dispose()
+                    Return New ActionResult(Of PortfolioProvision) With {.StateResult = False, .StatusCode = eStatusResult.WARNING, .Message = prepareResult.PrepareResult.Message}
+                End If
+
+                Dim batchResults As List(Of ConfirmDeteriorationByClassificationDTO) = _portfolioProvisionRepository.SP_ConfirmPortfolioDeteriorationByClassificationBatch(PortfolioProvision.Id, audit.CodeUser, opUnitId, prepareResult.ThirdPartyGroups)
+
+                Dim errors As New StringBuilder()
+                Dim allConsecutives As New StringBuilder()
+                Dim hasErrors As Boolean = False
+
+                For Each batchResult In batchResults
+                    If batchResult.CodeMessage = 999 Then
+                        hasErrors = True
+                        errors.AppendLine(batchResult.Message)
+                    Else
+                        If Not String.IsNullOrEmpty(batchResult.Consecutive) Then
+                            If allConsecutives.Length > 0 Then allConsecutives.Append(", ")
+                            allConsecutives.Append(batchResult.Consecutive)
+                        End If
+                    End If
+                Next
+
+                If hasErrors Then
+                    transaction.Dispose()
+                    Return New ActionResult(Of PortfolioProvision) With {
+                        .StateResult = False,
+                        .StatusCode = eStatusResult.WARNING,
+                        .Message = "No se pudo confirmar. Se revirtió toda la operación por los siguientes errores:" & vbCrLf & errors.ToString().Trim()
+                    }
+                End If
+
+                Dim auditProcess = New IndigoAuditSimpleEntity(Of PortfolioProvision)(PortfolioProvision, audit, auditStatus, PortfolioProvision.OriginalValue)
+                auditProcess.Execute()
+
+                Dim message As New StringBuilder()
+                Dim successResult = batchResults.FirstOrDefault(Function(r) r.CodeMessage = 0)
+                If successResult IsNot Nothing AndAlso Not String.IsNullOrEmpty(successResult.Message) Then
+                    message.AppendLine(successResult.Message)
+                Else
+                    message.AppendLine("Se confirmó correctamente")
+                End If
+
+                If allConsecutives.Length > 0 Then
+                    message.AppendLine("Consecutivos generados: " & allConsecutives.ToString())
+                End If
+
+                transaction.Complete()
+                Return New ActionResult(Of PortfolioProvision) With {.StateResult = True, .Message = message.ToString().Trim()}
+            Catch ex As Exception
+                transaction.Dispose()
+                IndigoManagementExceptions.HandleException(ex, "ApplicationPolicy")
+                Return New ActionResult(Of PortfolioProvision) With {.StateResult = False, .Message = Utils.GetInnerExceptionMessageToString(ex)}
+            End Try
+        End Using
+    End Function
 
     Private Function ConvertToXmlCopyPaste(data As List(Of List(Of String)))
         Dim builder As StringBuilder = New StringBuilder()

@@ -158,30 +158,6 @@ Public Class UserAdminService
         End Try
     End Function
 
-    ''' <summary>
-    ''' Gets the password user.	
-    ''' </summary>
-    ''' <param name="codeUser">se envia id de usario.</param>
-    ''' <returns></returns>
-    ''' <remarks></remarks>
-    Public Function GetPasswordUser(codeUser As String) As String Implements IUserAdminService.GetPasswordUser
-        If String.IsNullOrEmpty(codeUser) = True Then
-            Throw New ArgumentNullException("codeUser Vacio")
-        End If
-        Try
-            'Return _userMembershipRepository.GetPasswordUser(codeUser)
-            'Dim User = _userRepository.GetUser(codeUser)
-            Dim User = _userRepository.GetUserById(CInt(codeUser))
-            If User IsNot Nothing Then
-                Return User.Password
-            Else
-                Return String.Empty
-            End If
-        Catch ex As Exception
-            IndigoManagementExceptions.HandleException(ex, "ApplicationPolicy")
-            Return Nothing
-        End Try
-    End Function
 
     ''' <summary>
     ''' Gets the person.	

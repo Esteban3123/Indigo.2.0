@@ -115,6 +115,7 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Transactions" />
     <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
     <Import Include="Microsoft.VisualBasic" />
@@ -128,6 +129,8 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Adres\AdresFurRgHelper.vb" />
+    <Compile Include="Adres\Dtos\FurRgDtos.vb" />
     <Compile Include="ConceptGlosas\ConceptGlosaAdminService.vb" />
     <Compile Include="ConceptGlosas\IConceptGlosaAdminService.vb" />
     <Compile Include="ConciliationC\ConciliationCAdminService.vb" />
@@ -200,6 +203,13 @@
     <Compile Include="Responsible\IResponsibleAdminService.vb" />
     <Compile Include="RIPS\IRIPSPlaneAdminService.vb" />
     <Compile Include="RIPS\RIPSPlaneAdminService.vb" />
+    <Compile Include="Adres\AdresFurServiciosHelper.vb" />
+    <Compile Include="Adres\AdresFurHelper.vb" />
+    <Compile Include="Adres\Dtos\FurServiciosRootDto.vb" />
+    <Compile Include="Adres\Dtos\FurServiciosDatosIpsDto.vb" />
+    <Compile Include="Adres\Dtos\FurServiciosReclamacionDto.vb" />
+    <Compile Include="Adres\Dtos\FurServiciosServicioDto.vb" />
+    <Compile Include="Adres\Dtos\FurDtos.vb" />
     <Compile Include="Sequence\GlosaSequenseAdminService.vb" />
     <Compile Include="Sequence\IGlosaSequenseAdminService.vb" />
     <Compile Include="TimeParameters\ITimeParametersAdminService.vb" />
@@ -296,6 +306,10 @@
     <ProjectReference Include="..\Infrastructure.CrossCutting.Audit\Infrastructure.CrossCutting.Audit.vbproj">
       <Project>{d2b2306d-6404-46cd-8a22-f827f3e1b75c}</Project>
       <Name>Infrastructure.CrossCutting.Audit</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastructure.CrossCutting.AzureBlobStorage\Infrastructure.CrossCutting.Storage.csproj">
+      <Project>{A660E715-269C-43F4-BFEF-8DEEBAA2BD17}</Project>
+      <Name>Infrastructure.CrossCutting.Storage</Name>
     </ProjectReference>
     <ProjectReference Include="..\Infrastructure.CrossCutting.Base\Infrastructure.CrossCutting.Base.vbproj">
       <Project>{2773d9f7-93bd-4520-9726-bce0d8875696}</Project>

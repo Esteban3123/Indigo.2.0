@@ -10,10 +10,9 @@ Imports Application.Payroll
 Imports Infrastructure.CrossCutting.IOC
 Imports Infrastructure.CrossCutting.Base
 Imports Domain.Payroll.Entities
-Imports Domain.Base.Entities
 Imports Domain.Payroll
+Imports Domain.Base.Entities
 Imports System.Text
-
 
 Partial Class PayrollService
 
@@ -47,12 +46,11 @@ Partial Class PayrollService
 
     ''' <summary>
     ''' Calcula las Primas de un Grupo o Grupos
-    ''' </summary> 
+    ''' </summary>
     ''' <param name="strGroupId">String de ID's de Grupos</param>
     ''' <param name="period">Periodo o Semestre de la Prima</param>
     ''' <param name="MaxPremiumByYear"># de Primas por Año del Grupo</param>
     ''' <param name="employeeNit">Nit del Empleado</param>
-    ''' <param name="valueExtraIncentivePayment">Valor de Prima Extra</param>
     ''' <param name="offset">Índice inicial para paginación (-1 = modo legacy, >=0 = modo batch)</param>
     ''' <param name="pageSize">Tamaño del lote (50 por defecto)</param>
     ''' <returns>Action Result de Primas (Lista)</returns>
@@ -158,8 +156,6 @@ Partial Class PayrollService
         If dates Is Nothing OrElse dates.Item1 Is Nothing OrElse dates.Item2 Is Nothing Then
             Return 0
         End If
-
-        ' Obtener empleados y contar
         Dim count = liquidationRepository.GetEmployesIncentivePaymentCount(strGroupId, dates.Item2.Value, dates.Item1.Value)
         Return count
     End Function

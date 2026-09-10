@@ -222,6 +222,7 @@ Public Class EmployeeRepository
 
         Dim VacationPeriod = (From vp In _context.VacationPeriod.Include("Vacation.VacationDetail")
                               Where contractListIds.Contains(vp.ContractId)
+                              Order By vp.InitialDatePeriod
                               Select vp)
 
         If Not tracking Then

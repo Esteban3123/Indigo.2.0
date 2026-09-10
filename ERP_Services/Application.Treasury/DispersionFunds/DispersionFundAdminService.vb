@@ -1,4 +1,4 @@
-﻿'***********************************************************************
+'***********************************************************************
 ' Assembly         : Application.Treasury
 ' Author           : Diego Andrés Roldán Lozano
 ' Created          : 02-04-2014
@@ -254,7 +254,7 @@ Public Class DispersionFundAdminService
                                         ''Logica para generar la nota debito por cxp siempre y cuando tenga aplicado descuento
                                         If scheduleDetail.DiscountValue > 0 Then
                                             Dim NoteDebitCxP = CreateNote(scheduleDetail, ListAccountPayables.Find(Function(e) e.Id = scheduleDetail.AccountPayableId), listDistributionLines.Where(Function(r) r.Id = scheduleDetail.DistributionLineId).FirstOrDefault,
-                                                            schedulePayment.OperativeUnitId, audit, SettingCxP, headerDetail)
+                                                            schedulePayment.OperativeUnitId, audit, SettingCxP, schedulePayment.Id, schedulePayment.Code, headerDetail)
                                             If NoteDebitCxP Is Nothing OrElse Not NoteDebitCxP.StateResult Then
                                                 messageList.Add(New Tuple(Of String, Integer)(NoteDebitCxP?.Message, eMessageType.Errors))
                                                 Continue For
@@ -507,7 +507,7 @@ Public Class DispersionFundAdminService
     ''' <param name="Comment">Comentario</param>
     ''' <returns></returns>
     Private Function CreateNote(SchedulePaymentDetail As SchedulePaymentDetail, AccountPayable As AccountPayable, DistributionLine As DistributionLines, OperativeUnitId As Integer, audit As AuditMessage,
-            SettingCxP As SettingPayments, Optional Comment As String = "") As ActionResult
+            SettingCxP As SettingPayments, SchedulePaymentId As Integer, SchedulePaymentCode As String, Optional Comment As String = "") As ActionResult
         Try
             Dim StringBuilder = New StringBuilder
             Dim IdSequense As Integer = 0
@@ -576,11 +576,14 @@ Public Class DispersionFundAdminService
                 .BudgetInterface = SettingCxP.BudgetInterface
                 .IdOperatingUnit = OperativeUnitId
                 .Status = 1
+                .EntityName = "SchedulePayment"
+                .EntityId = SchedulePaymentId
+                .EntityCode = SchedulePaymentCode
                 'Se guarda moneda oficial por el momento, pero se necesita agregar multimoneda al proceso'
                 .CurrencyId = officialCurrency.Id
 
 
-                '''Si la cxp proviene desde inventario sus detalles se crean como estaba antiguamente
+                'Si la cxp proviene desde inventario sus detalles se crean como estaba antiguamente
                 If AccountPayable.EntityName = "EntranceVoucher" Then
                     Dim PaymentNoteDetails = New PaymentsNoteDetails
                     With PaymentNoteDetails
@@ -720,11 +723,11 @@ Public Class DispersionFundAdminService
                                                           .CreationUser = voucherTransaction.CreationUser,
                                                           .CreationDate = DateTime.Now,
                                                           .PaymentDate = voucherTransaction.DocumentDate}
+            Dim supplier = _supplierRepository.GetSupplierByIdThirdParty(voucherTransaction.IdThirdParty)
+            If supplier Is Nothing Then
+                Return New ActionResult(Of SchedulePayment) With {.StateResult = False, .Message = ($"No se encontro el proveedor {voucherTransaction.FullNameThird}")}
+            End If
             For Each details In voucherTransaction.VoucherTransactionDetails
-                Dim supplier = _supplierRepository.GetSupplierByIdThirdParty(details.IdThirdParty)
-                If supplier Is Nothing Then
-                    Return New ActionResult(Of SchedulePayment) With {.StateResult = False, .Message = ($"No se encontro el proveedor {details.FullNameThirdParty}")}
-                End If
                 If details.SupplierBankAccountId IsNot Nothing Then
                     _schedulePayment.SchedulePaymentBankAccount.Add(New SchedulePaymentBankAccount With
                                                                 {.SupplierId = supplier.Id,

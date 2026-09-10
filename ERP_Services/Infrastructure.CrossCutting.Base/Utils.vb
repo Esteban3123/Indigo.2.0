@@ -852,6 +852,7 @@ Public Class Utils
         Using memoryStream As New MemoryStream()
             Using archive As New ZipArchive(memoryStream, ZipArchiveMode.Create, True)
                 For Each item In filesBytes
+                    If item.Value Is Nothing Then Continue For
                     Dim entry As ZipArchiveEntry = archive.CreateEntry(item.Key, CompressionLevel.Optimal)
                     Using entryStream As Stream = entry.Open()
                         entryStream.Write(item.Value, 0, item.Value.Length)

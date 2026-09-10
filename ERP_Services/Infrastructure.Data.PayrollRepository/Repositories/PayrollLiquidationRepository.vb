@@ -499,6 +499,17 @@ Public Class PayrollLiquidationRepository
         Return payrollLiquidated.ToList()
     End Function
 
+    Public Function GetLiquidationPendingByEmployeeAndMonth(employeeId As Integer, periodDate As Date) As List(Of Liquidation) Implements IPayrollLiquidationRepository.GetLiquidationPendingByEmployeeAndMonth
+        Dim startOfMonth = New Date(periodDate.Year, periodDate.Month, 1)
+        Dim endOfMonth = New Date(periodDate.Year, periodDate.Month, Date.DaysInMonth(periodDate.Year, periodDate.Month))
+        Dim payrollLiquidated = From e In _context.Liquidation _
+                                    .Include("LiquidationDetail.Concept")
+                                Where e.EmployeeId = employeeId And
+                                      e.PayrollDateLiquidated >= startOfMonth And
+                                      e.PayrollDateLiquidated <= endOfMonth
+        Return payrollLiquidated.ToList()
+    End Function
+
     ''' <summary>
     ''' Liquidaciones por empleado para contrato en determinados estados
     ''' </summary>
@@ -903,6 +914,7 @@ Public Class PayrollLiquidationRepository
         End If
 
     End Function
+
     ''' <summary>
     ''' Obtiene el conteo de empleados para liquidar primas (optimizado, sin cargar entidades completas)
     ''' </summary>
@@ -1014,7 +1026,6 @@ Public Class PayrollLiquidationRepository
                             Dim effectiveDays As Integer = (endDate - startDate).Days + 1
                             totalEPSDays += effectiveDays
                         End If
-                        totalEmployerDays += ObjNovelty.EmployerDays
                     Else
                         totalEPSDays += ObjNovelty.EPSDays
                         totalEmployerDays += ObjNovelty.EmployerDays
@@ -1411,6 +1422,20 @@ Public Class PayrollLiquidationRepository
     End Function
 
     ''' <summary>
+    ''' Obtiene el reporte de talento humano
+    ''' </summary>
+    ''' <param name="initialDate">Fecha inicial</param>
+    ''' <param name="finalDate">Fecha final</param>
+    ''' <param name="employeeId">Id del empleado (opcional)</param>
+    ''' <returns>Lista de información de empleados</returns>
+    Public Function GetReportHumanTalent(initialDate As Date, finalDate As Date, Optional employeeId As Integer? = Nothing) As List(Of SP_ReportHumanTalent_Result) Implements IPayrollLiquidationRepository.GetReportHumanTalent
+        DirectCast(_context, IObjectContextAdapter).ObjectContext.CommandTimeout = 3600
+        Dim employeeIdParam As Integer? = If(employeeId.HasValue AndAlso employeeId.Value > 0, employeeId, Nothing)
+
+        Return _context.SP_ReportHumanTalent(initialDate, finalDate, employeeIdParam).ToList()
+    End Function
+
+    ''' <summary>
     ''' Obtiene el reporte de detalle de liquidación con conceptos dinámicos como columnas
     ''' </summary>
     ''' <param name="initialDate">Fecha inicial del período</param>
@@ -1516,17 +1541,108 @@ Public Class PayrollLiquidationRepository
     End Function
 
     ''' <summary>
-    ''' Obtiene el reporte de talento humano
+    ''' Obtiene el reporte consolidado de novedades de Talento Humano con impacto en nómina
     ''' </summary>
-    ''' <param name="initialDate">Fecha inicial</param>
-    ''' <param name="finalDate">Fecha final</param>
-    ''' <param name="employeeId">Id del empleado (opcional)</param>
-    ''' <returns>Lista de información de empleados</returns>
-    Public Function GetReportHumanTalent(initialDate As Date, finalDate As Date, Optional employeeId As Integer? = Nothing) As List(Of SP_ReportHumanTalent_Result) Implements IPayrollLiquidationRepository.GetReportHumanTalent
-        DirectCast(_context, IObjectContextAdapter).ObjectContext.CommandTimeout = 3600
-        Dim employeeIdParam As Integer? = If(employeeId.HasValue AndAlso employeeId.Value > 0, employeeId, Nothing)
+    ''' <param name="initialDate">Fecha inicial del rango</param>
+    ''' <param name="endDate">Fecha final del rango</param>
+    ''' <param name="initialCodeGroup">Código del grupo de nómina inicial (opcional)</param>
+    ''' <param name="endCodeGroup">Código del grupo de nómina final (opcional)</param>
+    ''' <param name="branchOfficeInitial">Id de la sucursal inicial para filtrar (opcional)</param>
+    ''' <param name="branchOfficeFinal">Id de la sucursal final para filtrar (opcional)</param>
+    ''' <param name="personnelActionTypes">Códigos numéricos de tipo de novedad separados por coma (opcional)</param>
+    ''' <param name="session">Valores de sesión para obtener la conexión</param>
+    ''' <returns>DataTable con las acciones de personal del rango</returns>
+    Public Function GetReportPersonnelActions(initialDate As Date, endDate As Date, Optional initialCodeGroup As String = Nothing, Optional endCodeGroup As String = Nothing, Optional branchOfficeInitial As Integer? = Nothing, Optional branchOfficeFinal As Integer? = Nothing, Optional personnelActionTypes As String = Nothing, Optional session As Infrastructure.CrossCutting.Base.SessionValues = Nothing) As System.Data.DataTable Implements IPayrollLiquidationRepository.GetReportPersonnelActions
+        Dim dtPersonnelActions As New System.Data.DataTable("PersonnelActions")
 
-        Return _context.SP_ReportHumanTalent(initialDate, finalDate, employeeIdParam).ToList()
+        Using sqlCnn As New System.Data.SqlClient.SqlConnection(Infrastructure.CrossCutting.Base.Utils.GetEntityConnectionString(
+            Infrastructure.CrossCutting.Base.ConfigurationFile.CONX_GENESIS_REPORTS,
+            String.Empty,
+            session.TransactionalContainer,
+            False))
+
+            Using sqlCmd As New System.Data.SqlClient.SqlCommand("Payroll.SP_ReportPersonnelActions", sqlCnn)
+                sqlCmd.CommandType = System.Data.CommandType.StoredProcedure
+                sqlCmd.CommandTimeout = 3600
+
+                Dim sqlPrm As System.Data.SqlClient.SqlParameter
+
+                ' Los parámetros de texto se tipan como VarChar: el SP los declara VARCHAR y la
+                ' inferencia por defecto de ADO.NET los enviaría como NVARCHAR, forzando una
+                ' conversión implícita en los predicados de rango sobre Group.Code.
+                sqlPrm = New System.Data.SqlClient.SqlParameter
+                sqlPrm.ParameterName = "@InitialDate"
+                sqlPrm.SqlDbType = System.Data.SqlDbType.Date
+                sqlPrm.Value = initialDate
+                sqlCmd.Parameters.Add(sqlPrm)
+
+                sqlPrm = New System.Data.SqlClient.SqlParameter
+                sqlPrm.ParameterName = "@EndDate"
+                sqlPrm.SqlDbType = System.Data.SqlDbType.Date
+                sqlPrm.Value = endDate
+                sqlCmd.Parameters.Add(sqlPrm)
+
+                sqlPrm = New System.Data.SqlClient.SqlParameter
+                sqlPrm.ParameterName = "@InitialCodeGroup"
+                sqlPrm.SqlDbType = System.Data.SqlDbType.VarChar
+                sqlPrm.Size = 20
+                If String.IsNullOrWhiteSpace(initialCodeGroup) Then
+                    sqlPrm.Value = DBNull.Value
+                Else
+                    sqlPrm.Value = initialCodeGroup
+                End If
+                sqlCmd.Parameters.Add(sqlPrm)
+
+                sqlPrm = New System.Data.SqlClient.SqlParameter
+                sqlPrm.ParameterName = "@EndCodeGroup"
+                sqlPrm.SqlDbType = System.Data.SqlDbType.VarChar
+                sqlPrm.Size = 20
+                If String.IsNullOrWhiteSpace(endCodeGroup) Then
+                    sqlPrm.Value = DBNull.Value
+                Else
+                    sqlPrm.Value = endCodeGroup
+                End If
+                sqlCmd.Parameters.Add(sqlPrm)
+
+                sqlPrm = New System.Data.SqlClient.SqlParameter
+                sqlPrm.ParameterName = "@pBranchOfficeIdStart"
+                sqlPrm.SqlDbType = System.Data.SqlDbType.Int
+                If branchOfficeInitial.HasValue Then
+                    sqlPrm.Value = branchOfficeInitial.Value
+                Else
+                    sqlPrm.Value = DBNull.Value
+                End If
+                sqlCmd.Parameters.Add(sqlPrm)
+
+                sqlPrm = New System.Data.SqlClient.SqlParameter
+                sqlPrm.ParameterName = "@pBranchOfficeIdEnd"
+                sqlPrm.SqlDbType = System.Data.SqlDbType.Int
+                If branchOfficeFinal.HasValue Then
+                    sqlPrm.Value = branchOfficeFinal.Value
+                Else
+                    sqlPrm.Value = DBNull.Value
+                End If
+                sqlCmd.Parameters.Add(sqlPrm)
+
+                sqlPrm = New System.Data.SqlClient.SqlParameter
+                sqlPrm.ParameterName = "@PersonnelActionTypes"
+                sqlPrm.SqlDbType = System.Data.SqlDbType.VarChar
+                sqlPrm.Size = -1
+                If String.IsNullOrWhiteSpace(personnelActionTypes) Then
+                    sqlPrm.Value = DBNull.Value
+                Else
+                    sqlPrm.Value = personnelActionTypes
+                End If
+                sqlCmd.Parameters.Add(sqlPrm)
+
+                sqlCnn.Open()
+
+                Using sqlDR As System.Data.SqlClient.SqlDataReader = sqlCmd.ExecuteReader
+                    dtPersonnelActions.Load(sqlDR)
+                End Using
+            End Using
+        End Using
+
+        Return dtPersonnelActions
     End Function
-
 End Class

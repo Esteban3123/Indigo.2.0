@@ -88,6 +88,9 @@ Public Interface IMixingStationServiceCampaign
     <OperationContract()>
     Function GetCampaignDetailValidationByCampaignDetailId(campaignDetailId As Integer) As ActionResult(Of List(Of CampaignDetailValidation))
 
+    <OperationContract()>
+    Function GetCampaignDetailValidationForDevolution(campaignDetailId As Integer) As ActionResult(Of List(Of CampaignDetailValidation))
+
 
     ''' <summary>
     ''' Guarda un listado de detalle de picking

@@ -85,7 +85,7 @@ Public Interface IMixingStationServiceRawMaterial
     ''' <param name="session"></param>
     ''' <returns></returns>
     <OperationContract()>
-    Function SaveInventoryRequest(inventoryRequest As InventoryRequest, audit As AuditMessage, session As SessionValues) As ActionResult
+    Function SaveInventoryRequest(inventoryRequest As InventoryRequest, audit As AuditMessage, session As SessionValues) As Task(Of ActionResult)
 
     ''' <summary>
     ''' GActualiza estado de la campaña

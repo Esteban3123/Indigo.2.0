@@ -117,6 +117,12 @@ Public Interface IPUCRepository
     Function GetListAccountByCodePOCO(listCode As List(Of String)) As List(Of MainAccounts)
 
     ''' <summary>
+    ''' Devuelve cuentas contables por lista de IDs. Usado para resolver descripciones (Number, Name)
+    ''' cuando se conocen los IDs (ej: cuentas que provienen de una Estructura Contable de Contratos).
+    ''' </summary>
+    Function GetListAccountByIdPOCO(listId As List(Of Integer)) As List(Of MainAccounts)
+
+    ''' <summary>
     ''' Valida que la clase contable no tenga asociada una cuenta contable
     ''' </summary>
     ''' <param name="idAccountClass"></param>

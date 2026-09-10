@@ -1,11 +1,10 @@
 Imports Domain.Base
 Imports Domain.Entities
 Imports Infrastructure.Data.Base
-Imports System.Data.Entity.Infrastructure
 
 Public Class InventoryConsignmentTransferRepository
     Inherits GenericRepository(Of ConsignmentTransfer)
-    Implements IInventoryConsignmentTransferRepository
+    Implements IInventoryConsignmentTransferRepository, Inject
 
 #Region "Builder"
 
@@ -56,19 +55,6 @@ Public Class InventoryConsignmentTransferRepository
         End If
 
         Return query
-    End Function
-
-    '''' <summary>
-    '''' Valida los datos importados desde Excel o Copy/Paste mediante SP
-    '''' </summary>
-    '''' <param name="xmlObject">XML con los datos a validar (incluye SourceWarehouseId automáticamente)</param>
-    '''' <returns>Lista de resultados con las validaciones</returns>
-    Public Function SetConsignmentTransferDetailFromFile(xmlObject As String) As List(Of SP_SetConsignmentTransferDetailFromFile_Result) Implements IInventoryConsignmentTransferRepository.SetConsignmentTransferDetailFromFile
-        DirectCast(_context, IObjectContextAdapter).ObjectContext.CommandTimeout = 3600
-        Dim parameters = New List(Of (String, Object)) From {
-            ("@XmlObject", xmlObject)
-        }
-        Return Me.ExecuteStoredProcedure(Of SP_SetConsignmentTransferDetailFromFile_Result)("[Inventory].[SP_SetConsignmentTransferDetailFromFile]", parameters).ToList()
     End Function
 
 #End Region

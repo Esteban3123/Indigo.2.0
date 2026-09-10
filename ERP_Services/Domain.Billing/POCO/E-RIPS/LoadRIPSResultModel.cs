@@ -14,7 +14,17 @@ namespace Domain.Billing.POCO.E_RIPS
         public string CodigoUnicoValidacion { get; set; }
         public string FechaRadicacion { get; set; }
         public string RutaArchivos { get; set; }
+        public string Ambiente { get; set; }
+        public string Modulo { get; set; }
+        public string ModalidadPago { get; set; }
+        public PeriodoAtencionResultModel PeriodoAtencion { get; set; }
         public List<ResultValidation> ResultadosValidacion { get; set; }
+    }
+
+    public class PeriodoAtencionResultModel
+    {
+        public string FechaInicio { get; set; }
+        public string FechaFin { get; set; }
     }
 
     public class ResultValidation

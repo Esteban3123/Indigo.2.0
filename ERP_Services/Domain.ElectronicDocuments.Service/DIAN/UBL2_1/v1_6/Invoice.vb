@@ -1,4 +1,4 @@
-﻿Imports Domain.Base.Entities.Enums.ElectronicDocuments.v1_6
+Imports Domain.Base.Entities.Enums.ElectronicDocuments.v1_6
 Imports Domain.ElectronicDocuments.Entities.UBL2_1.common
 Imports Domain.ElectronicDocuments.Entities.UBL2_1.maindoc
 Imports Domain.Entities
@@ -25,18 +25,20 @@ Namespace DIAN.UBL2_1.v1_6
         ReadOnly _customerThirdParty As ThirdParty
         ReadOnly _invoice As Domain.Entities.Invoice
         ReadOnly _paymentMethods As List(Of SP_GetPaymentMethodsByInvoiceId_Result)
+        ReadOnly _previousCapitationPeriodEndDate As Nullable(Of Date)
 
 #End Region
 
 #Region "Buldier"
 
-        Public Sub New(ByVal settingsAccount As GeneralLedgerSettings, ByVal supplierThirdParty As ThirdParty, ByVal customerThirdParty As ThirdParty, ByVal invoice As Domain.Entities.Invoice, ByVal billingAuthorization As BillingAuthorization, ByVal paymentMethods As List(Of SP_GetPaymentMethodsByInvoiceId_Result))
+        Public Sub New(ByVal settingsAccount As GeneralLedgerSettings, ByVal supplierThirdParty As ThirdParty, ByVal customerThirdParty As ThirdParty, ByVal invoice As Domain.Entities.Invoice, ByVal billingAuthorization As BillingAuthorization, ByVal paymentMethods As List(Of SP_GetPaymentMethodsByInvoiceId_Result), Optional ByVal previousCapitationPeriodEndDate As Nullable(Of Date) = Nothing)
             Me._settingsAccount = settingsAccount
             Me._billingAuthorization = billingAuthorization
             Me._supplierThirdParty = supplierThirdParty
             Me._customerThirdParty = customerThirdParty
             Me._invoice = invoice
             Me._paymentMethods = paymentMethods
+            Me._previousCapitationPeriodEndDate = previousCapitationPeriodEndDate
 
             AmountType.TlsDefaultCurrencyID = CurrencyCode.COP
             If Me._invoice.InvoiceMoreInformation IsNot Nothing Then
@@ -55,6 +57,20 @@ Namespace DIAN.UBL2_1.v1_6
 #End Region
 
 #Region "Methods"
+
+        Private Function GetLineExtensionAmountValue(detail As SP_GetInvoiceDetailsByInvoiceId_Result) As Decimal
+            If Me._invoice.DocumentType = 4 Then
+                Return detail.LineExtensionAmountValueCapitation
+            End If
+            Return detail.LineExtensionAmountValue
+        End Function
+
+        Private Function GetWithholdingIVATaxableAmount(detail As SP_GetInvoiceDetailsByInvoiceId_Result) As Decimal
+            If Me._invoice.DocumentType = 6 Then
+                Return If(detail.IVAValue.HasValue, detail.IVAValue.Value, 0D)
+            End If
+            Return GetLineExtensionAmountValue(detail)
+        End Function
 
         Public Function Populate() As InvoiceType
             Dim documentType As New InvoiceType
@@ -205,6 +221,12 @@ Namespace DIAN.UBL2_1.v1_6
             {
                 .Name = "PAGOS_COMPARTIDOS",
                 .Value = If(Me._invoice.InvoiceMoreInformation.DistributedValue > 0, New List(Of ValueTypeHealth) From {New ValueTypeHealth With {.Value = Me._invoice.InvoiceMoreInformation.DistributedValue.ToString("0.00", Globalization.CultureInfo.InvariantCulture)}}, Nothing)
+            })
+
+            listAdditionalInformation.Add(New AdditionalInformationTypeHealth With
+            {
+                .Name = "FACTURA_SIN_CONTRATO",
+                .Value = HealthNoContractReasonHelper.BuildValue(Me._invoice.InvoiceMoreInformation.ContractNumber, Me._invoice.InvoiceMoreInformation.NoContractReason)
             })
 
             Return listAdditionalInformation
@@ -369,10 +391,15 @@ Namespace DIAN.UBL2_1.v1_6
 
                 Return New List(Of PeriodType) From {periodType}
             ElseIf Me._invoice.DocumentType = 4 Then
-                periodType.EndDate = New EndDateType With {.Value = CType(Me._invoice.CapitationEndDate, DateTime).ToString("yyyy-MM-dd")}
-                periodType.EndTime = New EndTimeType With {.Value = New DateTime(Me._invoice.CapitationEndDate?.Year,
-                                                                                   Me._invoice.CapitationEndDate?.Month,
-                                                                                   Me._invoice.CapitationEndDate?.Day).AddDays(1).AddSeconds(-1).ToString("HH:mm:ss-05:00")}
+                Dim endDate As DateTime
+                If Me._previousCapitationPeriodEndDate.HasValue Then
+                    endDate = Me._previousCapitationPeriodEndDate.Value
+                Else
+                    endDate = CType(Me._invoice.CapitationEndDate, DateTime)
+                End If
+
+                periodType.EndDate = New EndDateType With {.Value = endDate.ToString("yyyy-MM-dd")}
+                periodType.EndTime = New EndTimeType With {.Value = endDate.AddDays(1).AddSeconds(-1).ToString("HH:mm:ss-05:00")}
                 Return New List(Of PeriodType) From {periodType}
             End If
 
@@ -515,20 +542,27 @@ Namespace DIAN.UBL2_1.v1_6
             Dim listPaymentMeansType As New List(Of PaymentMeansType)
 
             Dim paymentMethod = Base.Entities.Enums.ElectronicDocuments.v1_6.PaymentMethods.Credit
-            If Me._paymentMethods IsNot Nothing AndAlso Me._paymentMethods.Any() AndAlso Me._paymentMethods.Where(Function(d) Not {4, 6}.Contains(d.AccountReceivableType)).Sum(Function(d) d.Value) = Me._invoice.InvoiceValue Then
-                paymentMethod = Base.Entities.Enums.ElectronicDocuments.v1_6.PaymentMethods.Counted
-            End If
+            If Me._paymentMethods IsNot Nothing AndAlso Me._paymentMethods.Any() Then
+                Dim paymentSum = Me._paymentMethods.Where(Function(d) Not {4}.Contains(d.AccountReceivableType)).Sum(Function(d) d.Value)
 
-            If paymentMethod = Base.Entities.Enums.ElectronicDocuments.v1_6.PaymentMethods.Counted Then
+                Dim netPayableValue = Me._invoice.InvoiceValue + Me._invoice.ValueTax - Me._invoice.RTFValue - Me._invoice.WithholdingTax - Me._invoice.WithholdingICA
+                If paymentSum = netPayableValue OrElse paymentSum = Me._invoice.InvoiceValue Then
+                    paymentMethod = Base.Entities.Enums.ElectronicDocuments.v1_6.PaymentMethods.Counted
+                End If
+                ' Si hay métodos de pago, registrarlos con sus datos (ya sea Contado o Crédito)
                 For Each detail In Me._paymentMethods
                     listPaymentMeansType.Add(New PaymentMeansType With
                     {
                         .ID = New IDType With {.Value = Utils.GetXmlEnumToString(Of Base.Entities.Enums.ElectronicDocuments.v1_6.PaymentMethods)(paymentMethod)},
                         .PaymentMeansCode = New PaymentMeansCodeType With {.Value = detail.MethodTypeCode},
-                        .PaymentID = New List(Of PaymentIDType) From {New PaymentIDType With {.Value = detail.Code}}
+                        .PaymentID = New List(Of PaymentIDType) From {New PaymentIDType With {.Value = detail.Code}},
+                        .PaymentDueDate = If(paymentMethod = Base.Entities.Enums.ElectronicDocuments.v1_6.PaymentMethods.Credit,
+                                             New PaymentDueDateType With {.Value = CType(Me._invoice.InvoiceExpirationDate, DateTime).ToString("yyyy-MM-dd")},
+                                             Nothing)
                     })
                 Next
             Else
+                ' Solo cuando no hay métodos de pago, usar ZZZ genérico
                 listPaymentMeansType.Add(New PaymentMeansType With
                 {
                     .ID = New IDType With {.Value = Utils.GetXmlEnumToString(Of Base.Entities.Enums.ElectronicDocuments.v1_6.PaymentMethods)(paymentMethod)},
@@ -580,32 +614,34 @@ Namespace DIAN.UBL2_1.v1_6
         Private Function GetTaxTotalInformation() As List(Of TaxTotalType)
             Dim listTaxTotalTypes As New List(Of TaxTotalType)
 
-            'IVA
-            If Me._invoice.InvoiceDetails.Any(Function(d) d.IVAPercentage > 0) Then
+            'IVA - incluye Gravado y Exento, excluye Excluido
+            Dim ivaDetails = Me._invoice.InvoiceDetails.Where(Function(d) d.IVAPercentage > 0 OrElse
+               (d.TaxClassificationType.HasValue AndAlso d.TaxClassificationType.Value = 3))
+
+            If ivaDetails.Any() Then
                 Dim listTaxSubtotal As New List(Of TaxSubtotalType)
                 Dim TaxAmount As Decimal = 0
-                Dim TaxableAmount As Decimal = 0
 
-                For Each tax In Me._invoice.InvoiceDetails.Where(Function(d) d.IVAPercentage > 0).GroupBy(Function(d) d.IVAPercentage)
-                    TaxableAmount = Me._invoice.InvoiceDetails.Where(Function(d) d.IVAPercentage = tax.Key).Sum(Function(d) d.LineExtensionAmountValue)
-                    TaxAmount = Me._invoice.InvoiceDetails.Where(Function(d) d.IVAPercentage = tax.Key).Sum(Function(d) d.IVAValue)
+                For Each tax In ivaDetails.GroupBy(Function(d) d.IVAPercentage)
+                    Dim TaxableAmount = ivaDetails.Where(Function(d) d.IVAPercentage = tax.Key).Sum(Function(d) GetLineExtensionAmountValue(d))
+                    Dim groupTaxAmount = ivaDetails.Where(Function(d) d.IVAPercentage = tax.Key).Sum(Function(d) d.IVAValue)
                     listTaxSubtotal.Add(New TaxSubtotalType With
                     {
                         .TaxableAmount = New TaxableAmountType With {.Value = TaxableAmount},
-                        .TaxAmount = New TaxAmountType With {.Value = TaxAmount},
+                        .TaxAmount = New TaxAmountType With {.Value = groupTaxAmount},
                         .TaxCategory = New TaxCategoryType() With
-                        {
-                            .Percent = New PercentType1 With {.Value = tax.Key},
-                            .TaxScheme = New TaxSchemeType() With
-                            {
-                                .ID = New IDType With {.Value = "01"},
-                                .Name = New NameType1 With {.Value = "IVA"}
-                            }
-                        }
+                                {
+                                    .Percent = New PercentType1 With {.Value = tax.Key},
+                                    .TaxScheme = New TaxSchemeType() With
+                                    {
+                                        .ID = New IDType With {.Value = "01"},
+                                        .Name = New NameType1 With {.Value = "IVA"}
+                                    }
+                                }
                     })
                 Next
 
-                TaxAmount = Me._invoice.InvoiceDetails.Where(Function(d) d.IVAPercentage > 0).Sum(Function(d) d.IVAValue)
+                TaxAmount = ivaDetails.Sum(Function(d) d.IVAValue)
                 listTaxTotalTypes.Add(New TaxTotalType With
                 {
                     .TaxAmount = New TaxAmountType With {.Value = TaxAmount},
@@ -620,7 +656,7 @@ Namespace DIAN.UBL2_1.v1_6
                 Dim TaxableAmount As Decimal = 0
 
                 For Each tax In Me._invoice.InvoiceDetails.Where(Function(d) d.ICAPercentage > 0).GroupBy(Function(d) d.ICAPercentage)
-                    TaxableAmount = Me._invoice.InvoiceDetails.Where(Function(d) d.ICAPercentage = tax.Key).Sum(Function(d) d.LineExtensionAmountValue)
+                    TaxableAmount = Me._invoice.InvoiceDetails.Where(Function(d) d.ICAPercentage = tax.Key).Sum(Function(d) GetLineExtensionAmountValue(d))
                     TaxAmount = Me._invoice.InvoiceDetails.Where(Function(d) d.ICAPercentage = tax.Key).Sum(Function(d) d.ICAValue)
                     listTaxSubtotal.Add(New TaxSubtotalType With
                     {
@@ -659,7 +695,7 @@ Namespace DIAN.UBL2_1.v1_6
                 Dim TaxableAmount As Decimal = 0
 
                 For Each tax In Me._invoice.InvoiceDetails.Where(Function(d) d.WithholdingIVAPercentage > 0).GroupBy(Function(d) d.WithholdingIVAPercentage)
-                    TaxableAmount = Me._invoice.InvoiceDetails.Where(Function(d) d.WithholdingIVAPercentage = tax.Key).Sum(Function(d) d.LineExtensionAmountValue)
+                    TaxableAmount = Me._invoice.InvoiceDetails.Where(Function(d) d.WithholdingIVAPercentage = tax.Key).Sum(Function(d) GetWithholdingIVATaxableAmount(d))
                     TaxAmount = Me._invoice.InvoiceDetails.Where(Function(d) d.WithholdingIVAPercentage = tax.Key).Sum(Function(d) d.WithholdingIVAValue)
                     listTaxSubtotal.Add(New TaxSubtotalType With
                     {
@@ -692,7 +728,7 @@ Namespace DIAN.UBL2_1.v1_6
                 Dim TaxableAmount As Decimal = 0
 
                 For Each tax In Me._invoice.InvoiceDetails.Where(Function(d) d.WithholdingPercentage > 0).GroupBy(Function(d) d.WithholdingPercentage)
-                    TaxableAmount = Me._invoice.InvoiceDetails.Where(Function(d) d.WithholdingPercentage = tax.Key).Sum(Function(d) d.LineExtensionAmountValue)
+                    TaxableAmount = Me._invoice.InvoiceDetails.Where(Function(d) d.WithholdingPercentage = tax.Key).Sum(Function(d) GetLineExtensionAmountValue(d))
                     TaxAmount = Me._invoice.InvoiceDetails.Where(Function(d) d.WithholdingPercentage = tax.Key).Sum(Function(d) d.WithholdingValue)
                     listTaxSubtotal.Add(New TaxSubtotalType With
                     {
@@ -725,7 +761,7 @@ Namespace DIAN.UBL2_1.v1_6
                 Dim TaxableAmount As Decimal = 0
 
                 For Each tax In Me._invoice.InvoiceDetails.Where(Function(d) d.WithholdingICAPercentage > 0).GroupBy(Function(d) d.WithholdingICAPercentage)
-                    TaxableAmount = Me._invoice.InvoiceDetails.Where(Function(d) d.WithholdingICAPercentage = tax.Key).Sum(Function(d) d.LineExtensionAmountValue)
+                    TaxableAmount = Me._invoice.InvoiceDetails.Where(Function(d) d.WithholdingICAPercentage = tax.Key).Sum(Function(d) GetLineExtensionAmountValue(d))
                     TaxAmount = Me._invoice.InvoiceDetails.Where(Function(d) d.WithholdingICAPercentage = tax.Key).Sum(Function(d) d.WithholdingICAValue)
                     listTaxSubtotal.Add(New TaxSubtotalType With
                     {
@@ -755,14 +791,17 @@ Namespace DIAN.UBL2_1.v1_6
         End Function
 
         Private Function GetLegalMonetaryTotalInformation() As MonetaryTotalType
-            Dim LineExtensionAmount = Me._invoice.InvoiceDetails.Sum(Function(d) d.LineExtensionAmountValue)
-            Dim TaxExclusiveAmount = Me._invoice.InvoiceDetails.Where(Function(d) d.IVAPercentage > 0).Sum(Function(d) d.LineExtensionAmountValue)
-            Dim TaxInclusiveAmount = Me._invoice.InvoiceDetails.Sum(Function(d) d.LineExtensionAmountValue + d.IVAValue)
+            Dim LineExtensionAmount = Me._invoice.InvoiceDetails.Sum(Function(d) GetLineExtensionAmountValue(d))
+            Dim TaxExclusiveAmount = Me._invoice.InvoiceDetails.Where(Function(x) x.TaxClassificationType <> 2).Sum(Function(d) GetLineExtensionAmountValue(d))
+            Dim TaxInclusiveAmount = Me._invoice.InvoiceDetails.Sum(Function(d) GetLineExtensionAmountValue(d) + d.IVAValue)
             Dim ThirdPartyPortfolioAdvanceAmount = Me._invoice.InvoicePrepaidPayment.Where(Function(y) y.ConceptCollection = "04").Sum(Function(d) d.PatientValue)
             Dim PrepaidAmount As Decimal = 0
             Dim PayableAmount As Decimal = 0
+            Dim DiscountAmount As Decimal = Me._invoice.InvoiceDetails.Sum(Function(d) d.DiscountValue)
 
-            If Me._invoice.DocumentType = 4 Then
+            If Me._invoice.InvoicePrepaidPayment IsNot Nothing AndAlso Me._invoice.InvoicePrepaidPayment.Any() Then
+                PrepaidAmount = Me._invoice.InvoicePrepaidPayment.Sum(Function(d) d.PatientValue)
+            ElseIf Me._invoice.DocumentType = 4 Then
                 PrepaidAmount = Me._invoice.InvoicePrepaidPayment.Where(Function(y) {"01", "02", "03"}.Contains(y.ConceptCollection)).Sum(Function(d) d.PatientValue)
             ElseIf ThirdPartyPortfolioAdvanceAmount > 0 Then
                 PrepaidAmount = ThirdPartyPortfolioAdvanceAmount
@@ -770,15 +809,18 @@ Namespace DIAN.UBL2_1.v1_6
                 PrepaidAmount = Me._paymentMethods.Sum(Function(d) d.Value)
             End If
 
-
-            PayableAmount = TaxInclusiveAmount - PrepaidAmount
+            If Me._invoice.DocumentType = 4 Then
+                PayableAmount = TaxInclusiveAmount - PrepaidAmount - DiscountAmount
+            Else
+                PayableAmount = TaxInclusiveAmount - PrepaidAmount
+            End If
 
             Return New MonetaryTotalType With
             {
                 .LineExtensionAmount = New LineExtensionAmountType With {.Value = LineExtensionAmount},
                 .TaxExclusiveAmount = New TaxExclusiveAmountType With {.Value = TaxExclusiveAmount},
                 .TaxInclusiveAmount = New TaxInclusiveAmountType With {.Value = TaxInclusiveAmount},
-                .PrepaidAmount = IIf(PrepaidAmount = 0, Nothing, New PrepaidAmountType With {.Value = PrepaidAmount}),
+                .PrepaidAmount = New PrepaidAmountType With {.Value = PrepaidAmount},
                 .PayableAmount = New PayableAmountType With {.Value = PayableAmount}
             }
         End Function
@@ -800,7 +842,7 @@ Namespace DIAN.UBL2_1.v1_6
                         .unitCode = Utils.GetXmlEnumToString(Of UnitCode)(UnitCode.Unit),
                         .Value = invoiceDetail.InvoiceQuantity
                     },
-                    .LineExtensionAmount = New LineExtensionAmountType With {.Value = invoiceDetail.LineExtensionAmountValue}
+                    .LineExtensionAmount = New LineExtensionAmountType With {.Value = GetLineExtensionAmountValue(invoiceDetail)}
                 }
 
                 invoiceLineType.AllowanceCharge = Me.GetInvoiceLineAllowanceChargeInformation(invoiceDetail)
@@ -836,7 +878,7 @@ Namespace DIAN.UBL2_1.v1_6
                     }
                 }
 
-                If invoiceDetail.LineExtensionAmountValue = 0 Then
+                If GetLineExtensionAmountValue(invoiceDetail) = 0 Then
                     invoiceLineType.PricingReference = New PricingReferenceType With
                     {
                         .AlternativeConditionPrice = New List(Of PriceType) From
@@ -895,9 +937,9 @@ Namespace DIAN.UBL2_1.v1_6
 
         Private Function GetInvoiceLineTaxTotalInformation(invoiceDetail As SP_GetInvoiceDetailsByInvoiceId_Result) As List(Of TaxTotalType)
             Dim listTaxTotalTypes As New List(Of TaxTotalType)
-
             'IVA
             If invoiceDetail.IVAPercentage > 0 Then
+                ' Gravado: comportamiento existente sin cambios
                 listTaxTotalTypes.Add(New TaxTotalType With
                 {
                     .TaxAmount = New TaxAmountType With {.Value = invoiceDetail.IVAValue},
@@ -905,7 +947,7 @@ Namespace DIAN.UBL2_1.v1_6
                     {
                         New TaxSubtotalType With
                         {
-                            .TaxableAmount = New TaxableAmountType With {.Value = invoiceDetail.LineExtensionAmountValue},
+                            .TaxableAmount = New TaxableAmountType With {.Value = GetLineExtensionAmountValue(invoiceDetail)},
                             .TaxAmount = New TaxAmountType With {.Value = invoiceDetail.IVAValue},
                             .TaxCategory = New TaxCategoryType() With
                             {
@@ -919,7 +961,31 @@ Namespace DIAN.UBL2_1.v1_6
                         }
                     }
                 })
+            ElseIf invoiceDetail.TaxClassificationType.HasValue AndAlso invoiceDetail.TaxClassificationType.Value = 3 Then
+                ' Exento: TaxTotal con Percent=0 y TaxAmount=0
+                listTaxTotalTypes.Add(New TaxTotalType With
+                {
+                    .TaxAmount = New TaxAmountType With {.Value = 0},
+                    .TaxSubtotal = New List(Of TaxSubtotalType) From
+                    {
+                        New TaxSubtotalType With
+                        {
+                            .TaxableAmount = New TaxableAmountType With {.Value = GetLineExtensionAmountValue(invoiceDetail)},
+                            .TaxAmount = New TaxAmountType With {.Value = 0},
+                            .TaxCategory = New TaxCategoryType() With
+                            {
+                                .Percent = New PercentType1 With {.Value = 0},
+                                .TaxScheme = New TaxSchemeType() With
+                                {
+                                    .ID = New IDType With {.Value = "01"},
+                                    .Name = New NameType1 With {.Value = "IVA"}
+                                }
+                            }
+                        }
+                    }
+                })
             End If
+            ' Excluido (TaxClassificationType=2): no genera TaxTotal — nada que agregar
 
             'ICA
             If invoiceDetail.ICAPercentage > 0 Then
@@ -930,7 +996,7 @@ Namespace DIAN.UBL2_1.v1_6
                     {
                         New TaxSubtotalType With
                         {
-                            .TaxableAmount = New TaxableAmountType With {.Value = invoiceDetail.LineExtensionAmountValue},
+                            .TaxableAmount = New TaxableAmountType With {.Value = GetLineExtensionAmountValue(invoiceDetail)},
                             .TaxAmount = New TaxAmountType With {.Value = invoiceDetail.ICAValue},
                             .TaxCategory = New TaxCategoryType() With
                             {
@@ -961,7 +1027,7 @@ Namespace DIAN.UBL2_1.v1_6
                     {
                         New TaxSubtotalType With
                         {
-                            .TaxableAmount = New TaxableAmountType With {.Value = invoiceDetail.LineExtensionAmountValue},
+                            .TaxableAmount = New TaxableAmountType With {.Value = GetWithholdingIVATaxableAmount(invoiceDetail)},
                             .TaxAmount = New TaxAmountType With {.Value = invoiceDetail.WithholdingIVAValue},
                             .TaxCategory = New TaxCategoryType() With
                             {
@@ -986,7 +1052,7 @@ Namespace DIAN.UBL2_1.v1_6
                     {
                         New TaxSubtotalType With
                         {
-                            .TaxableAmount = New TaxableAmountType With {.Value = invoiceDetail.LineExtensionAmountValue},
+                            .TaxableAmount = New TaxableAmountType With {.Value = GetLineExtensionAmountValue(invoiceDetail)},
                             .TaxAmount = New TaxAmountType With {.Value = invoiceDetail.WithholdingValue},
                             .TaxCategory = New TaxCategoryType() With
                             {
@@ -1011,7 +1077,7 @@ Namespace DIAN.UBL2_1.v1_6
                     {
                         New TaxSubtotalType With
                         {
-                            .TaxableAmount = New TaxableAmountType With {.Value = invoiceDetail.LineExtensionAmountValue},
+                            .TaxableAmount = New TaxableAmountType With {.Value = GetLineExtensionAmountValue(invoiceDetail)},
                             .TaxAmount = New TaxAmountType With {.Value = invoiceDetail.WithholdingICAValue},
                             .TaxCategory = New TaxCategoryType() With
                             {

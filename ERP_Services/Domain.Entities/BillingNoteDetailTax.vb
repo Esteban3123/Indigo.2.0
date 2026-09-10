@@ -23,6 +23,7 @@ Imports System.Data.Entity.ModelConfiguration
 
 <DataContract(IsReference:=True), Serializable(), KnownType(GetType(BillingNoteDetailTax))>
 <KnownType(GetType(BillingNoteDetail))>
+<KnownType(GetType(GeneralLedgerIVA))>
 Partial Public Class BillingNoteDetailTax
 	Inherits Entity(Of BillingNoteDetailTax)
     Implements IObjectWithChangeTracker
@@ -109,6 +110,26 @@ Partial Public Class BillingNoteDetailTax
         End Set
     End Property
 
+	Private _iVAId As Nullable(Of Integer)
+	<DataMember()>
+	Public Property IVAId() As Nullable(Of Integer)
+        Get
+            Return _iVAId
+        End Get
+        Set(ByVal value As Nullable(Of Integer))
+            If Not Equals(_iVAId, value) Then
+                ChangeTracker.RecordOriginalValue("IVAId", _iVAId)
+                If Not IsDeserializing Then
+                    If GeneralLedgerIVA IsNot Nothing AndAlso Not Equals(GeneralLedgerIVA.Id, value) Then
+                        GeneralLedgerIVA = Nothing
+                    End If
+                End If
+                _iVAId = value
+                OnPropertyChanged("IVAId")
+            End If
+        End Set
+    End Property
+
 #End Region
 
 #Region "Navigation Properties"
@@ -129,6 +150,24 @@ Partial Public Class BillingNoteDetailTax
     End Property
 
     Private _billingNoteDetail As BillingNoteDetail
+
+
+    <DataMember()>
+    Public Property GeneralLedgerIVA() As GeneralLedgerIVA
+        Get
+            Return _generalLedgerIVA
+        End Get
+        Set(ByVal value As GeneralLedgerIVA)
+            If _generalLedgerIVA IsNot value Then
+                Dim previousValue As GeneralLedgerIVA = _generalLedgerIVA
+                _generalLedgerIVA = value
+                FixupGeneralLedgerIVA(previousValue)
+                OnNavigationPropertyChanged("GeneralLedgerIVA")
+            End If
+        End Set
+    End Property
+
+    Private _generalLedgerIVA As GeneralLedgerIVA
 
 
 #End Region
@@ -198,6 +237,7 @@ Partial Public Class BillingNoteDetailTax
 
     Protected Overridable Sub ClearNavigationProperties()
         BillingNoteDetail = Nothing
+        GeneralLedgerIVA = Nothing
     End Sub
 
 #End Region
@@ -227,6 +267,35 @@ Partial Public Class BillingNoteDetailTax
             End If
             If BillingNoteDetail IsNot Nothing AndAlso Not BillingNoteDetail.ChangeTracker.ChangeTrackingEnabled Then
                 BillingNoteDetail.StartTracking()
+            End If
+        End If
+    End Sub
+
+    Private Sub FixupGeneralLedgerIVA(ByVal previousValue As GeneralLedgerIVA, Optional ByVal skipKeys As Boolean = False)
+        If IsDeserializing Then
+            Return
+        End If
+
+        If previousValue IsNot Nothing AndAlso previousValue.BillingNoteDetailTax.Contains(Me) Then
+            previousValue.BillingNoteDetailTax.Remove(Me)
+        End If
+
+        If GeneralLedgerIVA IsNot Nothing Then
+            GeneralLedgerIVA.BillingNoteDetailTax.Add(Me)
+
+            IVAId = GeneralLedgerIVA.Id
+        ElseIf Not skipKeys Then
+            IVAId = Nothing
+        End If
+        If ChangeTracker.ChangeTrackingEnabled Then
+            If ChangeTracker.OriginalValues.ContainsKey("GeneralLedgerIVA") AndAlso
+                ChangeTracker.OriginalValues("GeneralLedgerIVA") Is GeneralLedgerIVA Then
+                ChangeTracker.OriginalValues.Remove("GeneralLedgerIVA")
+            Else
+                ChangeTracker.RecordOriginalValue("GeneralLedgerIVA", previousValue)
+            End If
+            If GeneralLedgerIVA IsNot Nothing AndAlso Not GeneralLedgerIVA.ChangeTracker.ChangeTrackingEnabled Then
+                GeneralLedgerIVA.StartTracking()
             End If
         End If
     End Sub

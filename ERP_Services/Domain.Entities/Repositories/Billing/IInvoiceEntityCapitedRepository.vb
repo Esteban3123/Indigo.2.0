@@ -30,13 +30,19 @@ Public Interface IInvoiceEntityCapitedRepository
     Function GetInvoiceEntityCapitated(code As String) As InvoiceEntityCapitated
 
     ''' <summary>
+    ''' Obtiene contexto de factura monto fijo por codigo o numero de factura.
+    ''' </summary>
+    Function GetFixedAmountInvoiceContext(fixedAmountInvoiceNumber As String) As InvoiceEntityCapitated
+
+
+    ''' <summary>
     ''' Obtiene los registros de control de facturas capitadas
     ''' </summary>
     ''' <param name="initialDate">Fecha inicial de busqueda</param>
     ''' <param name="finalDate">Fecha final de busqueda</param>
     ''' <param name="careGroupId">Id del grupo de atención</param>
     ''' <returns></returns>
-    Function GetCapitationControlRegistry(initialDate As DateTime, finalDate As DateTime, careGroupId As Integer) As Task(Of List(Of InvoiceDetail))
+    Function GetCapitationControlRegistry(initialDate As DateTime, finalDate As DateTime, careGroupId As Integer, invoiceCategoryId As Integer) As Task(Of List(Of InvoiceDetail))
 
     ''' <summary>
     ''' Guarda, Actualiza o Confirma una factura de monto fijo

@@ -149,13 +149,13 @@ Partial Public Class MedicalFeesCausation
         End Set
     End Property
 
-	Private _invoiceDetailId As Integer
+	Private _invoiceDetailId As Nullable(Of Integer)
 	<DataMember()>
-	Public Property InvoiceDetailId() As Integer
+	Public Property InvoiceDetailId() As Nullable(Of Integer)
         Get
             Return _invoiceDetailId
         End Get
-        Set(ByVal value As Integer)
+        Set(ByVal value As Nullable(Of Integer))
             If Not Equals(_invoiceDetailId, value) Then
                 ChangeTracker.RecordOriginalValue("InvoiceDetailId", _invoiceDetailId)
                 If Not IsDeserializing Then
@@ -785,7 +785,7 @@ Partial Public Class MedicalFeesCausation
 
 #Region "Association Fixup"
 
-    Private Sub FixupInvoiceDetail(ByVal previousValue As InvoiceDetail)
+    Private Sub FixupInvoiceDetail(ByVal previousValue As InvoiceDetail, Optional ByVal skipKeys As Boolean = False)
         If IsDeserializing Then
             Return
         End If
@@ -798,6 +798,8 @@ Partial Public Class MedicalFeesCausation
             InvoiceDetail.MedicalFeesCausation.Add(Me)
 
             InvoiceDetailId = InvoiceDetail.Id
+        ElseIf Not skipKeys Then
+            InvoiceDetailId = Nothing
         End If
         If ChangeTracker.ChangeTrackingEnabled Then
             If ChangeTracker.OriginalValues.ContainsKey("InvoiceDetail") AndAlso

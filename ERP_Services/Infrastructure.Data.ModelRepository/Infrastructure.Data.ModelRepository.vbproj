@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="..\packages\EntityFramework.6.4.4\build\EntityFramework.props" Condition="Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
@@ -222,6 +222,7 @@
     <Compile Include="Repositories\Billing\ElectronicsRIPSRepository.vb" />
     <Compile Include="Repositories\Billing\FeeNotCollectedRepository.vb" />
     <Compile Include="Repositories\Billing\ElectronicsPropertiesRepository.vb" />
+    <Compile Include="Repositories\Billing\InitialBalanceInvoiceRepository.vb" />
     <Compile Include="Repositories\Billing\CustomTRMRepository.vb" />
     <Compile Include="Repositories\Billing\InvoiceCopayRepository.vb" />
     <Compile Include="Repositories\Billing\ProductAndServiceFeeRepository.vb" />
@@ -249,7 +250,6 @@
     <Compile Include="Repositories\Budget\CPCCatalogRepository.vb" />
     <Compile Include="Repositories\Budget\CCPETRepository.vb" />
     <Compile Include="Repositories\Budget\PublicPolicyRepository.vb" />
-    <Compile Include="Repositories\Admissions\AdacompanRepository.vb" />
     <Compile Include="Repositories\Common\AttachmentRepository.vb" />
     <Compile Include="Repositories\Accounting\MainAccountLevelsRepository.vb" />
     <Compile Include="Repositories\Common\CommonHealthProfessionalRepository.vb" />
@@ -930,6 +930,10 @@
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Application.EventHandlers\Application.EventHandlers.csproj">
+      <Project>{BC7DB3BE-4B97-49D3-92B1-DBAC5AA3021B}</Project>
+      <Name>Application.EventHandlers</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Domain.AccountManagement\Domain.AccountManagement.csproj">
       <Project>{7b551ebd-428a-4e51-80c2-25a2bfcf7e8e}</Project>
       <Name>Domain.AccountManagement</Name>
@@ -941,6 +945,10 @@
     <ProjectReference Include="..\Domain.Base\Domain.Base.vbproj">
       <Project>{8157f242-6a69-44c1-a9ac-19f0ee5cb8a2}</Project>
       <Name>Domain.Base</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Domain.Billing\Domain.Billing.csproj">
+      <Project>{62ee8dea-13ff-406e-b8d2-43ce96499c40}</Project>
+      <Name>Domain.Billing</Name>
     </ProjectReference>
     <ProjectReference Include="..\Domain.Common.Entities\Domain.Common.Entities.vbproj">
       <Project>{3D09A7E6-8638-45AD-B6C9-5496AE263EF0}</Project>

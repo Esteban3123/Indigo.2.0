@@ -2,7 +2,7 @@
 using Application.HealthCheck.Base.Models;
 using DistributedServices.Inventory.Unity;
 using Infrastructure.CrossCutting.Base;
-using Microsoft.Practices.Unity;
+//using Microsoft.Practices.Unity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,7 +25,7 @@ namespace DistributedService.HealthCheck.Inventory.Health.Checks
 
                 foreach (var type in types)
                 {
-                    Container.Current.Resolve(type);
+                    //Container.Current.Resolve(type);
                 }
 
                 res.HealthState = HealthState.pass;

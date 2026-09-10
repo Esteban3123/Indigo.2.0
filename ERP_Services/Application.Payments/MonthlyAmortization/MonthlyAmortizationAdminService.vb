@@ -167,11 +167,9 @@ Public Class MonthlyAmortizationAdminService
                     _deferredCausationShare.SaveEntity(itemDeferredCausationShare)
                     UnitOfWork.Commit()
 
-                    If listConsecutiveAccounting.Length = 0 Then
-                        listConsecutiveAccounting.Append(resultSaveAccounting.ObjectEmbbeded.Consecutive.ToString)
-                    Else
-                        listConsecutiveAccounting.Append(", " + resultSaveAccounting.ObjectEmbbeded.Consecutive.ToString)
-                    End If
+                    ''Retorno de ultimo mensaje
+                    listConsecutiveAccounting.Clear()
+                    listConsecutiveAccounting.Append(resultSaveAccounting.Message)
                 Next
 
                 'Genero el ajuste diferencial de los diferidos a amortizar

@@ -90,6 +90,13 @@ Public Interface ICupsEntityRepository
     Function GetListCupsEntityBycodes(ListCode As List(Of String)) As List(Of CUPSEntity)
 
     ''' <summary>
+    ''' Obtiene los identificadores CUPS cuyo tipo de servicio se encuentra permitido.
+    ''' </summary>
+    ''' <param name="cupsEntityIds">Identificadores CUPS que participan en la causación.</param>
+    ''' <param name="serviceTypes">Tipos de servicio permitidos.</param>
+    Function GetCupsEntityIdsByServiceTypes(cupsEntityIds As List(Of Integer), serviceTypes As List(Of Byte)) As List(Of Integer)
+
+    ''' <summary>
     ''' Obtiene  la descripción relacionada
     ''' </summary>
     ''' <param name="CupsCode"></param>

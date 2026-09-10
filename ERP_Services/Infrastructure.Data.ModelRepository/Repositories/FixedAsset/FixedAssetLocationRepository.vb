@@ -58,30 +58,19 @@ Public Class FixedAssetLocationRepository
 
         Dim res = (From d As FixedAssetLocation In Me._context.FixedAssetLocation Select d).ToList()
 
-        If res IsNot Nothing AndAlso res.Any() Then
-
-            Dim functionalUnitIds = res.Where(Function(x) x.FunctionalUnitId > 0).Select(Function(x) x.FunctionalUnitId).Distinct().ToList()
-            Dim locationTypeIds = res.Where(Function(x) x.LocationTypeId > 0).Select(Function(x) x.LocationTypeId).Distinct().ToList()
-
-            Dim functionalUnits = (From a In _context.FunctionalUnit.AsNoTracking()
-                                   Where functionalUnitIds.Contains(a.Id)
-                                   Select a).ToDictionary(Function(x) x.Id)
-
-            Dim locationTypes = (From b In _context.FixedAssetLocationType.AsNoTracking()
-                                 Where locationTypeIds.Contains(b.Id)
-                                 Select b).ToDictionary(Function(x) x.Id)
+        If res IsNot Nothing Then
 
             For Each ObjLocation As FixedAssetLocation In res
-                If ObjLocation.FunctionalUnitId > 0 AndAlso functionalUnits.ContainsKey(ObjLocation.FunctionalUnitId) Then
-                    ObjLocation.NameFunctionalUnit = functionalUnits(ObjLocation.FunctionalUnitId).Name
-                End If
+                Dim FunctionalUnit = (From a In _context.FunctionalUnit.AsNoTracking Where a.Id = ObjLocation.FunctionalUnitId Select a).FirstOrDefault()
+                Dim LocationType = (From b In _context.FixedAssetLocationType.AsNoTracking Where b.Id = ObjLocation.LocationTypeId Select b).FirstOrDefault()
 
-                If ObjLocation.LocationTypeId > 0 AndAlso locationTypes.ContainsKey(ObjLocation.LocationTypeId) Then
-                    ObjLocation.NameLocationType = locationTypes(ObjLocation.LocationTypeId).Name
-                End If
+                ObjLocation.NameFunctionalUnit = FunctionalUnit.Name
+
+                ObjLocation.NameLocationType = LocationType.Name
+
             Next
 
-            Return res
+            Return res.ToList
         Else
             Return Nothing
         End If

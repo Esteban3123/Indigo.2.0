@@ -116,6 +116,9 @@ Partial Class ViewDashboardPharmacyDetail
     Public Property TotalDoseMeasurement As String
 
     <DataMember()>
+    Public Property AllowPharmaceuticalCareRouting As Boolean
+
+    <DataMember()>
     Public Property FinishedProductCodeNPT As String
 
     <DataMember>

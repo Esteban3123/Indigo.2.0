@@ -46,8 +46,6 @@ Public Class Company
     <DataMember()>
     Property State As Boolean
     <DataMember()>
-    Property IndigoConnectionString As String
-    <DataMember()>
     Property SecurityContainer As String
     <DataMember()>
     Property InteropCostContainer As String

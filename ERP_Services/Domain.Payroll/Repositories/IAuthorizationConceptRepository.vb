@@ -1,4 +1,4 @@
-﻿'***********************************************************************
+'***********************************************************************
 ' Assembly         : Domain.Payroll
 ' Author           : Cristhian Mauricio Salazar
 ' Created          : 09-08-2013
@@ -25,6 +25,14 @@ Public Interface IAuthorizationConceptRepository
     ''' <returns>Lista de AuthorizationConcept</returns>
     ''' <remarks></remarks>
     Function GetAuthorizationConceptByGroupId(ByVal groupId As Integer) As List(Of AuthorizationConcept)
+
+    ''' <summary>
+    ''' Obtiene las autorizaciones de concepto que tenga un grupo filtradas por ConceptClass
+    ''' </summary>
+    ''' <param name="groupId">Codigo del Grupo</param>
+    ''' <param name="ConceptClass">Clase del concepto a filtrar</param>
+    ''' <returns>Lista de AuthorizationConcept filtrada por ConceptClass</returns>
+    Function GetAuthorizationConceptByGroupId(ByVal groupId As Integer, ByVal ConceptClass As String) As List(Of AuthorizationConcept)
 
     ''' <summary>
     ''' Obtiene las autorizaciones de concepto que tenga un empleado

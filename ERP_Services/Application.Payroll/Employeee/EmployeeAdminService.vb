@@ -124,9 +124,14 @@ Public Class EmployeeAdminService
     Private _contractAuditRepository As IContractAuditRepository
 
     ''' <summary>
-    ''' Repositorio de Configuración de Nómina (Global)
+    ''' Dominio de Auditoría de cambios no contractuales del empleado
     ''' </summary>
-    Private _PayrollSettingsRepository As IPayrollSettingsRepository
+    Private _employeeAuditDomain As IEmployeeAuditDomain
+
+    ''' <summary>
+    ''' Traductor de identificadores de catálogo para la bitácora de auditoría
+    ''' </summary>
+    Private _auditCatalogResolver As IAuditCatalogResolver
 
     ''' <summary>
     ''' inicia el repositorio de empleados
@@ -153,7 +158,8 @@ Public Class EmployeeAdminService
                    exemptIncomeRepository As Domain.Entities.IExemptIncomeRepository,
                    ThirdPartyRepository As Domain.Entities.IThirdPartyRepository,
                    contractAuditRepository As IContractAuditRepository,
-                   payrollSettingsRepository As IPayrollSettingsRepository)
+                   employeeAuditDomain As IEmployeeAuditDomain,
+                   auditCatalogResolver As IAuditCatalogResolver)
 
         If (employeeRepository Is Nothing) Then
             Throw New ArgumentNullException("Repositorio de empleados vacio")
@@ -178,7 +184,8 @@ Public Class EmployeeAdminService
         _ExemptIncomeRepository = exemptIncomeRepository
         _ThirdPartyRepository = ThirdPartyRepository
         _contractAuditRepository = contractAuditRepository
-        _PayrollSettingsRepository = payrollSettingsRepository
+        _employeeAuditDomain = employeeAuditDomain
+        _auditCatalogResolver = auditCatalogResolver
 
     End Sub
 
@@ -318,7 +325,7 @@ Public Class EmployeeAdminService
             Dim ContractDelete As Boolean = False
             Dim employeeAux As Employee = Nothing
             Using scope As New TransactionScope(TransactionScopeOption.Required, New TransactionOptions() With {.Timeout = TransactionManager.MaximumTimeout, .IsolationLevel = IsolationLevel.ReadCommitted})
-                If employee.ChangeTracker.State = ObjectState.Modified Then
+                If employee.Id > 0 AndAlso (employee.ChangeTracker.State = ObjectState.Modified OrElse HasModifiedContract(employee)) Then
                     employeeAux = _EmployeeRepository.GetEmployeeById(employee.Id, False)
                 End If
 
@@ -414,86 +421,7 @@ Public Class EmployeeAdminService
 
                 If employee.Contract?.Any() And Not ContractDelete Then
 
-                    ' ANTES: No se validaba ni se manejaban ajustes extemporáneos
-                    ' DESPUÉS: Se obtienen los parámetros GLOBALES de nómina (PayrollSettings) para validar ajustes extemporáneos
-                    Dim payrollSettings As PayrollSettings = _PayrollSettingsRepository.GetSettingPayroll()
-                    Dim allowedMonths As Byte = If(payrollSettings IsNot Nothing,
-                                                    payrollSettings.AllowedMonthsForExtemporaneousAdjustments,
-                                                    CByte(0))
-
                     For Each ObjContractAdd As Contract In employee.Contract
-
-                        ' VALIDACIÓN DE AJUSTES EXTEMPORÁNEOS
-                        ' Se aplica solo para contratos nuevos (Otro Sí) que son RowType = 2
-                        If ObjContractAdd.ChangeTracker.State = ObjectState.Added AndAlso ObjContractAdd.RowType = 2 Then
-
-                            ' Obtener el contrato original para comparación
-                            Dim originalContract As Contract = Nothing
-                            If ObjContractAdd.InitialContractNumber > 0 Then
-                                originalContract = employee.Contract.FirstOrDefault(Function(c) c.Id = ObjContractAdd.InitialContractNumber)
-                            End If
-
-                            If originalContract IsNot Nothing Then
-                                ' Validar si es un ajuste extemporáneo
-                                Using extemporaneousService As IExtemporaneousAdjustmentDomain = New ExtemporaneousAdjustmentDomain()
-                                    Dim errorMessage As String = String.Empty
-                                    Dim isValidDate As Boolean = extemporaneousService.ValidateExtemporaneousDate(
-                                        ObjContractAdd.ContractInitialDate,
-                                        allowedMonths,
-                                        errorMessage)
-
-                                    If Not isValidDate Then
-                                        ' La fecha no es válida para ajuste extemporáneo
-                                        result.MessageResult.Add(New MessageResult("-999", errorMessage))
-                                        result.StateResult = False
-                                        Return result
-                                    End If
-
-                                    ' Si la fecha es extemporánea, validar campos modificados
-                                    If extemporaneousService.IsExtemporaneousDate(ObjContractAdd.ContractInitialDate) Then
-
-                                        Dim invalidFields As New List(Of String)()
-                                        Dim onlyAllowedFieldsChanged As Boolean = extemporaneousService.ValidateOnlyAllowedFieldsChanged(
-                                            originalContract,
-                                            ObjContractAdd,
-                                            invalidFields)
-
-                                        If Not onlyAllowedFieldsChanged OrElse invalidFields.Count > 0 Then
-                                            ' Se intentaron modificar campos no permitidos
-                                            Dim fieldsMessage As String = String.Join(", ", invalidFields)
-                                            result.MessageResult.Add(New MessageResult("-999",
-                                                "Solo es posible registrar cambios extemporáneos para cargo o salario básico. " &
-                                                "Los siguientes campos no pueden modificarse: " & fieldsMessage))
-                                            result.StateResult = False
-                                            Return result
-                                        End If
-
-                                        ' Marcar como ajuste extemporáneo
-                                        ' ANTES: IsExtemporaneousChange siempre era False por defecto
-                                        ' DESPUÉS: Se marca como True cuando cumple todas las condiciones
-                                        ObjContractAdd.IsExtemporaneousChange = True
-                                    Else
-                                        ' Es un cambio normal (fecha del mes actual o futuro)
-                                        ObjContractAdd.IsExtemporaneousChange = False
-                                    End If
-                                End Using
-
-                                ' IMPORTANTE: En ajustes extemporáneos NO se deben ejecutar:
-                                ' - Recálculos de nómina de meses anteriores
-                                ' - Generación de retroactivos automáticos
-                                ' - Alteración de provisiones o contabilidad
-                                ' Esto se maneja en los procesos de liquidación verificando el flag IsExtemporaneousChange
-
-                            Else
-                                ' Es un contrato base nuevo, no es ajuste extemporáneo
-                                ObjContractAdd.IsExtemporaneousChange = False
-                            End If
-                        Else
-                            ' Contratos base (RowType = 1) o modificaciones, no son ajustes extemporáneos
-                            If ObjContractAdd.ChangeTracker.State = ObjectState.Added Then
-                                ObjContractAdd.IsExtemporaneousChange = False
-                            End If
-                        End If
 
                         '' Se validan columnas de Auditoría Simple en la Tabla de fondos de Contratos
                         If ObjContractAdd.FundContract IsNot Nothing And ObjContractAdd.FundContract.Any() Then
@@ -518,36 +446,10 @@ Public Class EmployeeAdminService
                         End If
                     Next
 
-                    '' Se guarda auditoría cuando se modifica la unidad funcional del contrato
-                    If employee.ChangeTracker.State = ObjectState.Modified Then
-                        ' Obtener el contrato original para comparar
-                        Dim originalContract As Contract = Nothing
-                        If employeeAux IsNot Nothing AndAlso employeeAux.Contract IsNot Nothing Then
-                            originalContract = employeeAux.Contract.FirstOrDefault(Function(c) c.Status = 1)
-                        End If
-                        Dim ObjeContractModified = employee.Contract.FirstOrDefault(Function(c) c.Status = 1)
-                        ' Verificar si cambió la unidad funcional
-                        If originalContract IsNot Nothing Then
-
-                            Dim oldValue As Integer = originalContract.FunctionalUnitId
-                            Dim newValue As Integer = ObjeContractModified.FunctionalUnitId
-
-                            If oldValue <> newValue Then
-                                Dim contractAudit As New ContractAudit()
-                                contractAudit.ContractId = ObjeContractModified.Id
-                                contractAudit.Type = "Unidad Funcional"
-                                contractAudit.FieldName = "FunctionalUnitId"
-                                contractAudit.ValueOld = oldValue
-                                contractAudit.ValueNew = newValue
-                                contractAudit.UserCode = audit.CodeUser
-                                contractAudit.Date = Date.Now()
-                                contractAudit.MarkAsAdded()
-                                _contractAuditRepository.SaveEntity(contractAudit)
-                            End If
-                        End If
-                    End If
-
                 End If
+
+                '' Se guarda la bitácora de los cambios no contractuales del empleado
+                RegisterEmployeeAudit(employeeAux, employee, audit.CodeUser)
 
                 'Eliminar datos personales direccion
                 Dim addressDetail As List(Of Address)
@@ -622,20 +524,25 @@ Public Class EmployeeAdminService
                     If employee.Contract?.Any() Then
                         Dim EmployeeActivate = _EmployeeRepository.GetEmployeeSimpleById(employee.Id)
 
-                        Dim ContractActivate = EmployeeActivate.Contract.OrderByDescending(Function(x) x.Id).FirstOrDefault()
+                        ' No se debe reactivar un contrato que ya fue liquidado/anulado/retirado, aunque tenga el Id más alto
+                        Dim ContractActivate = EmployeeActivate.Contract.
+                            Where(Function(x) x.RetirementDate Is Nothing AndAlso x.Status <> 2 AndAlso x.Status <> 3).
+                            OrderByDescending(Function(x) x.Id).FirstOrDefault()
 
-                        For Each ObjContract As Contract In EmployeeActivate.Contract
-                            If ObjContract.Id = ContractActivate.Id Then
-                                ObjContract.Status = 1
-                                ObjContract.Valid = True
-                                ObjContract.MarkAsModified()
-                            End If
-                        Next
+                        If ContractActivate IsNot Nothing Then
+                            For Each ObjContract As Contract In EmployeeActivate.Contract
+                                If ObjContract.Id = ContractActivate.Id Then
+                                    ObjContract.Status = 1
+                                    ObjContract.Valid = True
+                                    ObjContract.MarkAsModified()
+                                End If
+                            Next
 
-                        EmployeeActivate.MarkAsModified()
+                            EmployeeActivate.MarkAsModified()
 
-                        _contractRepositoryCommit.SaveEntity(EmployeeActivate)
-                        contractUnitWork.Commit()
+                            _contractRepositoryCommit.SaveEntity(EmployeeActivate)
+                            contractUnitWork.Commit()
+                        End If
 
                     End If
                 End If
@@ -686,7 +593,72 @@ Public Class EmployeeAdminService
         End Try
     End Function
 
+    ''' <summary>
+    ''' Registra la bitácora de cambios no contractuales detectados entre la foto original del
+    ''' empleado y el grafo que llega del cliente. Un fallo aquí no revierte el guardado.
+    ''' </summary>
+    ''' <param name="originalEmployee">Empleado tal como estaba almacenado</param>
+    ''' <param name="modifiedEmployee">Empleado con los cambios del guardado en curso</param>
+    ''' <param name="userCode">Código del usuario que realiza la modificación</param>
+    Private Sub RegisterEmployeeAudit(originalEmployee As Employee, modifiedEmployee As Employee, userCode As String)
 
+        Try
+
+            If originalEmployee Is Nothing Then
+                Exit Sub
+            End If
+
+            Dim anchorContract As Contract = GetAnchorContract(originalEmployee)
+
+            If anchorContract Is Nothing Then
+                Exit Sub
+            End If
+
+            For Each auditEntry As ContractAudit In _employeeAuditDomain.BuildAuditEntries(originalEmployee, modifiedEmployee, userCode, anchorContract.Id, _auditCatalogResolver)
+                _contractAuditRepository.SaveEntity(auditEntry)
+            Next
+
+        Catch ex As Exception
+            IndigoManagementExceptions.HandleException(ex, "ApplicationPolicy")
+        End Try
+
+    End Sub
+
+    ''' <summary>
+    ''' Contrato al que se asocian los cambios del empleado y de sus datos personales.
+    ''' La vista de consulta une por contrato, de modo que sin contrato no hay bitácora.
+    ''' </summary>
+    ''' <param name="employee">Empleado del que se toma el contrato de referencia</param>
+    Private Shared Function GetAnchorContract(employee As Employee) As Contract
+
+        If employee Is Nothing OrElse employee.Contract Is Nothing Then
+            Return Nothing
+        End If
+
+        Dim currentContract As Contract = employee.Contract.FirstOrDefault(Function(c) c.Status = 1)
+
+        If currentContract IsNot Nothing Then
+            Return currentContract
+        End If
+
+        Return employee.Contract.OrderByDescending(Function(c) c.Id).FirstOrDefault()
+
+    End Function
+
+    ''' <summary>
+    ''' Indica si el grafo trae algún contrato existente con cambios, caso en el que se
+    ''' requiere la foto original aunque el empleado no haya sido tocado.
+    ''' </summary>
+    ''' <param name="employee">Empleado que llega del cliente</param>
+    Private Shared Function HasModifiedContract(employee As Employee) As Boolean
+
+        If employee Is Nothing OrElse employee.Contract Is Nothing Then
+            Return False
+        End If
+
+        Return employee.Contract.Any(Function(c) c.Id > 0 AndAlso c.ChangeTracker IsNot Nothing AndAlso c.ChangeTracker.State = ObjectState.Modified)
+
+    End Function
 
     ''' <summary>
     ''' Obtiene un empleado y los agregaos de contratos y fondos de contratos atraves del nit del tercero

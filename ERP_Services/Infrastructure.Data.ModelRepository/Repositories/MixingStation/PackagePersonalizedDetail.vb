@@ -67,7 +67,7 @@ Public Class PackagePersonalizedDetailRepository
     ''' <param name="packageId"></param>
     ''' <returns></returns>
     Public Function GetPackageDetailListByPackageId(packageId As Integer) As List(Of PackagePersonalizedDetail) Implements IPackagePersonalizedDetailRepository.GetPackageDetailListByPackageId
-        Return (From e In _context.PackagePersonalizedDetail.Include("InventoryProduct").Include("ATC").Include("InventorySupplie")
+        Return (From e In _context.PackagePersonalizedDetail.Include("InventoryProduct").Include("ATC").Include("InventorySupplie").Include("PackagePersonalized.UnitDoseType")
                 Where e.PackagePersonalizedId = packageId
                 Select e).ToList()
     End Function

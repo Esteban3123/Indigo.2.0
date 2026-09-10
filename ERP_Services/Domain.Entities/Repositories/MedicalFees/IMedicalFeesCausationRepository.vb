@@ -1,4 +1,4 @@
-﻿'************************************************************
+'************************************************************
 ' Assembly         : Domain.MedicalFees
 ' Author           : Carlos Mario Arias Rubiano
 ' Created          : 16/12/2014
@@ -59,4 +59,20 @@ Public Interface IMedicalFeesCausationRepository
     '' Este método llamará al SP MedicalFees.SP_ReverseCausationRecognition
     '' </remarks>
     Function SP_ReverseCausationRecognition(causationRecognitionId As Integer, userCode As String) As SP_ReverseCausationRecognition_Result
+
+    ''' <summary>
+    ''' Obtiene candidatos elegibles para auto-causación via SP_GetCandidatesForAutoCausation.
+    ''' Retorna todas las unidades operativas.
+    ''' </summary>
+    ''' <returns>Lista de candidatos CUPS sin causación activa</returns>
+    Function GetCandidatesForAutoCausation() As List(Of SP_GetCandidatesForAutoCausation_Result)
+
+    ''' <summary>
+    ''' Obtiene candidatos con batching via SP_GetCandidatesForAutoCausation.
+    ''' Retorna todas las unidades operativas.
+    ''' </summary>
+    ''' <param name="batchSize">Cantidad máxima de candidatos a retornar</param>
+    ''' <returns>Lista acotada de candidatos</returns>
+    Function GetCandidatesForAutoCausationBatched(batchSize As Integer) As List(Of SP_GetCandidatesForAutoCausation_Result)
+
 End Interface

@@ -1,4 +1,4 @@
-﻿'***********************************************************************
+'***********************************************************************
 ' Assembly         : DistributedService.Security
 ' Author           : WalterSierra
 ' Created          : 11-03-2011
@@ -14,6 +14,10 @@ Imports Application.Security
 Imports Domain.Security.Entities
 Imports Infrastructure.CrossCutting.Base
 Imports Infrastructure.CrossCutting.IOC
+Imports System.ServiceModel
+Imports System.ServiceModel.Channels
+Imports Microsoft.IdentityModel.Tokens
+Imports DistributedServices.Authentication
 #End Region
 
 Partial Public Class SecurityService
@@ -64,7 +68,7 @@ Partial Public Class SecurityService
     ''' <returns>Lista de Contenedores</returns>
     Public Function getContainers(session As SessionValues) As List(Of Containers) Implements ISecurityService.getContainers
         Using loginAdmin As ILoginAdminService = IocFactory.Instance().CurrentContainer.Resolve(Of ILoginAdminService)()
-            Return loginAdmin.getContainers
+            Return loginAdmin.getContainers()
         End Using
     End Function
 
@@ -95,23 +99,12 @@ Partial Public Class SecurityService
         End Using
     End Function
 
-    ' ''' <summary>
-    ' ''' Obtiene el nombre del contenedor de Indigo Vie Cloud Platform
-    ' ''' </summary>
-    ' ''' <returns>Nombre del contenedor de Indigo Vie Cloud Platform</returns>
-    'Public Function getInteropCostContainerName() As String Implements ISecurityService.getInteropCostContainerName
-    '    Using loginAdmin As ILoginAdminService = IocFactory.Instance().CurrentContainer.Resolve(Of ILoginAdminService)()
-    '    Return loginAdmin.getInteropCostContainerName()
-    'End Function
-
     ''' <summary>
-    ''' Obtiene el nombre del contenedor de Indigo Vie Cloud Platform
+    ''' Obtiene la cadena de conexión
     ''' </summary>
-    ''' <returns>Nombre del contenedor de Indigo Vie Cloud Platform</returns>
+    ''' <returns>Cadena de conexión vacía por seguridad</returns>
     Public Function getIndigoConnectionString() As String Implements ISecurityService.getIndigoConnectionString
-        Using loginAdmin As ILoginAdminService = IocFactory.Instance().CurrentContainer.Resolve(Of ILoginAdminService)()
-            Return loginAdmin.getIndigoConnectionString()
-        End Using
+        Return String.Empty
     End Function
 
     ''' <summary>

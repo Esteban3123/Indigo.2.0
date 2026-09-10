@@ -858,7 +858,9 @@ Public Class FixedAssetValorizationAdminService
                                                                                          If BaseIvaValue > 0 Then
                                                                                              If Not DictionaryIVA.ContainsKey(entryItem.IVAId) Then
                                                                                                  GeneralLedgerIVA = _generalLedgerIVARepository.GetGeneralLedgerIVAById(entryItem.IVAId)
-                                                                                                 ValidateIvaAccountsForTaxReg(.TaxRegistration, GeneralLedgerIVA)
+                                                                                                 If .TaxRegistration <> 4 Then 'Se omiten validaciones de Cuentas Contables para el IVA al Costo ya que no se requiere cuentas especiales
+                                                                                                     ValidateIvaAccountsForTaxReg(.TaxRegistration, GeneralLedgerIVA)
+                                                                                                 End If
                                                                                                  DictionaryIVA.Add(entryItem.IVAId, GeneralLedgerIVA)
                                                                                              Else
                                                                                                  GeneralLedgerIVA = DictionaryIVA(entryItem.IVAId)
@@ -881,13 +883,25 @@ Public Class FixedAssetValorizationAdminService
                                                                                      End If
 
                                                                                      'Contabilizacion excepto la opción Bienes controlables del catalogo de articulos
-                                                                                     If FixedAssetItemCatalog.Classification <> 3 Then
+                                                                                     If FixedAssetItemCatalog.Classification <> 3 AndAlso BaseIvaValue > 0 Then
+                                                                                         'Asegura que exista la tarifa IVA cuando el registro la requiere
+                                                                                         If .TaxRegistration = 1 OrElse .TaxRegistration = 2 Then
+                                                                                             If Not DictionaryIVA.ContainsKey(entryItem.IVAId) Then
+                                                                                                 GeneralLedgerIVA = _generalLedgerIVARepository.GetGeneralLedgerIVAById(entryItem.IVAId)
+                                                                                                 ValidateIvaAccountsForTaxReg(.TaxRegistration, GeneralLedgerIVA)
+                                                                                                 DictionaryIVA.Add(entryItem.IVAId, GeneralLedgerIVA)
+                                                                                             Else
+                                                                                                 GeneralLedgerIVA = DictionaryIVA(entryItem.IVAId)
+                                                                                             End If
+                                                                                         End If
+
                                                                                          Dim oldIdAccount = AccountPayableDetailConcept.IdAccount
                                                                                          AccountPayableDetailConcept = New AccountPayableDetailConcept
+
                                                                                          If .TaxRegistration = 1 Then ''IVA al costo control fiscal
-                                                                                             AccountPayableDetailConcept.IdAccount = GeneralLedgerIVA?.IdAccountDebitControlFiscal
+                                                                                             AccountPayableDetailConcept.IdAccount = GeneralLedgerIVA.IdAccountDebitControlFiscal
                                                                                          ElseIf .TaxRegistration = 2 Then ''IVA Descontable
-                                                                                             AccountPayableDetailConcept.IdAccount = GeneralLedgerIVA?.IdAccountPurchaseService
+                                                                                             AccountPayableDetailConcept.IdAccount = GeneralLedgerIVA.IdAccountPurchaseService
                                                                                          ElseIf .TaxRegistration = 4 Then ''IVA al costo
                                                                                              AccountPayableDetailConcept.IdAccount = oldIdAccount
                                                                                          End If
@@ -1038,7 +1052,7 @@ Public Class FixedAssetValorizationAdminService
                                 Dim MainAccountId As Integer = item.DictionaryConfigurationBooks(itemVieBot.LegalBookId)
                                 item.IdAccount = MainAccountId
                             End If
-                            If .TaxRegistration = 1 Then
+                            If .TaxRegistration = 1 Then ''IVA al costo control fiscal
                                 item.Value = item.Value + If(item.IvaValue, 0)
                             End If
                             AccountPayableDetailConceptOthersNotHomologatedBooks.Add(item)

@@ -778,7 +778,14 @@ Public Class ElectronicPayrollAdminService
                         End If
 
                         currentStatus = If(documentResponse.IsValid, 3, If(errorMessage.Length = 0 OrElse statusCodeErrors.Contains(documentResponse.StatusCode), currentStatus, 4))
-                        If errorMessage.ToString.Contains("procesado anteriormente.") Then
+
+                        Dim cuneFromDian As String = String.Empty
+                        Dim cuneMatch = System.Text.RegularExpressions.Regex.Match(If(documentResponse.StatusDescription, String.Empty), "CUNE\s+([a-fA-F0-9]+)")
+                        If cuneMatch.Success Then
+                            cuneFromDian = cuneMatch.Groups(1).Value
+                        End If
+
+                        If errorMessage.ToString.Contains("procesado anteriormente.") AndAlso cuneFromDian = electronicPayroll.CUNE Then
                             currentStatus = 3
 
                             Dim fileNameElectronicDocument = electronicPayroll.GetFileName(electronicPayroll.getDocumentType())
@@ -835,7 +842,7 @@ Public Class ElectronicPayrollAdminService
                     End If
 
                     currentStatus = If(documentResponse.IsValid, 3, If(errorMessage.Length = 0 OrElse statusCodeErrors.Contains(documentResponse.StatusCode), currentStatus, 4))
-                    If errorMessage.ToString.Contains("Documento procesado anteriormente") Then
+                    If errorMessage.ToString.Contains("procesado anteriormente.") Then
                         currentStatus = 3
 
                         Dim fileNameElectronicDocument = electronicPayroll.GetFileName(electronicPayroll.getDocumentType())

@@ -85,6 +85,26 @@ Public Class ContractAccountingStructureAdminService
         End Try
     End Function
 
+    Public Function GetActiveList(audit As AuditMessage) As ActionResult(Of List(Of ContractAccountingStructure)) Implements IContractAccountingStructureAdminService.GetActiveList
+        Try
+            Dim list = Me._contractAccountingStructureRepository.GetActiveList()
+            Return New ActionResult(Of List(Of ContractAccountingStructure)) With {.StateResult = True, .ObjectEmbbeded = list}
+        Catch ex As Exception
+            IndigoManagementExceptions.HandleException(ex, "ApplicationPolicy")
+            Return New ActionResult(Of List(Of ContractAccountingStructure)) With {.StateResult = False, .MessageResult = {ex.Message}.ToList}
+        End Try
+    End Function
+
+    Public Function GetListByCodes(codes As List(Of String), audit As AuditMessage) As ActionResult(Of List(Of ContractAccountingStructure)) Implements IContractAccountingStructureAdminService.GetListByCodes
+        Try
+            Dim list = Me._contractAccountingStructureRepository.GetListByCodes(codes)
+            Return New ActionResult(Of List(Of ContractAccountingStructure)) With {.StateResult = True, .ObjectEmbbeded = list}
+        Catch ex As Exception
+            IndigoManagementExceptions.HandleException(ex, "ApplicationPolicy")
+            Return New ActionResult(Of List(Of ContractAccountingStructure)) With {.StateResult = False, .MessageResult = {ex.Message}.ToList}
+        End Try
+    End Function
+
     Public Function GetContractAccountingStructure(code As String, audit As AuditMessage) As ActionResult(Of ContractAccountingStructure) Implements IContractAccountingStructureAdminService.GetContractAccountingStructure
         If String.IsNullOrEmpty(code) Then
             Throw New ArgumentNullException("code")

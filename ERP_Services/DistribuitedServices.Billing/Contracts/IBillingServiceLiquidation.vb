@@ -14,7 +14,6 @@
 Imports System.ServiceModel
 Imports Infrastructure.CrossCutting.Base
 Imports Domain.Base.Entities
-Imports Domain.Billing.POCO
 Imports Domain.Entities
 Imports Domain.Crystal.Entities
 
@@ -259,23 +258,4 @@ Public Interface IBillingServiceLiquidation
 	''' <returns>Lista de ingresos unificados</returns>
 	<OperationContract()>
 	Function GetListUnifiedAdmissions(listFoliosIds As List(Of Integer), admissionNumber As String) As ActionResult(Of List(Of ADINGRESO))
-
-    ''' <summary>
-    ''' Valida si el tercero cumple con la mayoría de edad para facturación
-    ''' </summary>
-    ''' <param name="thirdPartyId">Id del tercero a validar</param>
-    ''' <param name="operativeUnitId">Id de la unidad operativa</param>
-    ''' <param name="admissionNumber">Número de ingreso para buscar responsable sugerido</param>
-    ''' <returns>Resultado de la validación con información del responsable sugerido si aplica</returns>
-    <OperationContract()>
-    Function ValidateAgeOfMajorityForLiquidation(thirdPartyId As Integer, operativeUnitId As Integer, admissionNumber As String) As Task(Of ActionResult(Of AgeValidationResult))
-
-    ''' <summary>
-    ''' Verifica si el parámetro de validación de mayoría de edad está activo
-    ''' </summary>
-    ''' <param name="operativeUnitId">Id de la unidad operativa</param>
-    ''' <returns>True si el parámetro está activo</returns>
-    <OperationContract()>
-    Function IsAgeValidationEnabled(operativeUnitId As Integer) As Boolean
-
 End Interface

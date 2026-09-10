@@ -4,6 +4,7 @@ using Microsoft.Azure.Cosmos;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Infrastructure.Data.CosmosModelRepository
@@ -162,6 +163,103 @@ namespace Infrastructure.Data.CosmosModelRepository
                 // Maneja la excepción de inserción fallida según tus necesidades
                 throw;
             }
+        }
+
+        public async Task<BulkUpsertResult<T>> SaveBulkAsync(
+            IEnumerable<(T item, string partitionKey)> items,
+            IProgress<BulkProgress> progress = null,
+            CancellationToken cancellationToken = default)
+        {
+            this._unitOfWork.VerifyConnectionCosmoDBContainerBulk();
+
+            var itemList = items?.ToList() ?? new List<(T item, string partitionKey)>();
+            var result = new BulkUpsertResult<T>();
+
+            if (itemList.Count == 0)
+            {
+                progress?.Report(new BulkProgress { Total = 0, Sent = 0, Succeeded = 0, Failed = 0 });
+                return result;
+            }
+
+            int succeeded = 0;
+            int failed = 0;
+            object reportLock = new object();
+
+            var tasks = itemList.Select(pair =>
+                _unitOfWork.ContainerBulkDB
+                    .UpsertItemAsync(pair.item, new PartitionKey(pair.partitionKey), cancellationToken: cancellationToken)
+                    .ContinueWith(t =>
+                    {
+                        BulkUpsertItemResult<T> itemResult;
+
+                        if (t.IsCanceled)
+                        {
+                            itemResult = new BulkUpsertItemResult<T>
+                            {
+                                Item = pair.item,
+                                PartitionKey = pair.partitionKey,
+                                IsSuccess = false,
+                                ErrorMessage = "Operación cancelada"
+                            };
+                        }
+                        else if (t.IsFaulted)
+                        {
+                            var ex = t.Exception?.GetBaseException();
+                            int? statusCode = null;
+                            string message = ex?.Message;
+
+                            if (ex is CosmosException cex)
+                            {
+                                statusCode = (int)cex.StatusCode;
+                            }
+
+                            itemResult = new BulkUpsertItemResult<T>
+                            {
+                                Item = pair.item,
+                                PartitionKey = pair.partitionKey,
+                                IsSuccess = false,
+                                ErrorMessage = message,
+                                StatusCode = statusCode
+                            };
+                        }
+                        else
+                        {
+                            itemResult = new BulkUpsertItemResult<T>
+                            {
+                                Item = pair.item,
+                                PartitionKey = pair.partitionKey,
+                                IsSuccess = true,
+                                StatusCode = (int)t.Result.StatusCode
+                            };
+                        }
+
+                        lock (reportLock)
+                        {
+                            if (itemResult.IsSuccess) succeeded++;
+                            else failed++;
+
+                            progress?.Report(new BulkProgress
+                            {
+                                Total = itemList.Count,
+                                Sent = succeeded + failed,
+                                Succeeded = succeeded,
+                                Failed = failed
+                            });
+                        }
+
+                        return itemResult;
+                    })
+            ).ToList();
+
+            var completed = await Task.WhenAll(tasks).ConfigureAwait(false);
+
+            foreach (var r in completed)
+            {
+                if (r.IsSuccess) result.Succeeded.Add(r);
+                else result.Failed.Add(r);
+            }
+
+            return result;
         }
     }
 }

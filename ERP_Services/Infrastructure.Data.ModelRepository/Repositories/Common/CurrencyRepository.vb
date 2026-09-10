@@ -110,17 +110,12 @@ Public Class CurrencyRepository
         If DateTrm Is Nothing Then
             DateTrm = DateTime.Now
         End If
-
         DateTrm = DateTrm?.ToString("d", CultureInfo.CurrentCulture)
         Dim customTRM = (From e In _context.CustomTRM
                          Join c In _context.CompanySettings On e.OfficialCurrencyId Equals (c.OfficialCurrencyId)
                          Where e.CurrencyId = CurrencyId AndAlso DateTrm >= e.InitialMeasurementDate AndAlso DateTrm <= e.FinalMeasurementDate
                          Order By e.Id Descending
                          Select e)?.FirstOrDefault()
-
-        If customTRM Is Nothing Then
-            Return Nothing
-        End If
 
         Return New TRM With {.MeasurementDate = DateTrm,
                                 .CurrencyId = customTRM.CurrencyId,

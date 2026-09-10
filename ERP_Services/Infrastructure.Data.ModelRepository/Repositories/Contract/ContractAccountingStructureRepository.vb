@@ -113,6 +113,23 @@ Public Class ContractAccountingStructureRepository
         End If
     End Function
 
+    Public Function GetActiveList() As List(Of ContractAccountingStructure) Implements IContractAccountingStructureRepository.GetActiveList
+        Return (From d In Me._context.ContractAccountingStructure.AsNoTracking()
+                Where d.Status = True
+                Order By d.Code
+                Select d).ToList()
+    End Function
+
+    Public Function GetListByCodes(codes As List(Of String)) As List(Of ContractAccountingStructure) Implements IContractAccountingStructureRepository.GetListByCodes
+        If codes Is Nothing OrElse codes.Count = 0 Then
+            Return New List(Of ContractAccountingStructure)()
+        End If
+        Dim trimmed = codes.Where(Function(c) Not String.IsNullOrWhiteSpace(c)).Select(Function(c) c.Trim()).Distinct().ToList()
+        Return (From d In Me._context.ContractAccountingStructure.AsNoTracking()
+                Where trimmed.Contains(d.Code) AndAlso d.Status = True
+                Select d).ToList()
+    End Function
+
     Public Function GetContractAccountingStructureById(id As Integer) As ContractAccountingStructure Implements IContractAccountingStructureRepository.GetContractAccountingStructureById
         If id = 0 Then
             Throw New ArgumentNullException("id")

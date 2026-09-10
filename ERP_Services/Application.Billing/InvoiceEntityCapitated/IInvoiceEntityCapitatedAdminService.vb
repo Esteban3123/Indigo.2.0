@@ -39,6 +39,27 @@ Public Interface IInvoiceEntityCapitatedAdminService
     ''' <param name="finalDate">Fecha final</param>
     ''' <param name="careGroupId">Grupo de atención</param>
     ''' <returns></returns>
-    Function GetCollectionValuesAsync(initialDate As DateTime, finalDate As DateTime, careGroupId As Integer) As Task(Of CollectionValues)
+    Function GetCollectionValuesAsync(initialDate As DateTime, finalDate As DateTime, careGroupId As Integer, invoiceCategoryId As Integer) As Task(Of CollectionValues)
+
+
+    ''' <summary>
+    ''' Consulta registros de servicio paginados para facturas monto fijo.
+    ''' </summary>
+    Function GetFixedAmountServiceRecordsAsync(query As FixedAmountServiceRecordQuery) As Task(Of ActionResult(Of PagedResult(Of FixedAmountServiceRecordDto)))
+
+    ''' <summary>
+    ''' Obtiene registros de servicio candidatos para reconstruir JSON RIPS.
+    ''' </summary>
+    Function GetFixedAmountServiceRecordsToRebuildAsync(query As FixedAmountServiceRecordQuery) As Task(Of ActionResult(Of List(Of FixedAmountRebuildCandidateDto)))
+
+    ''' <summary>
+    ''' Consulta el avance de reconstruccion de registros de servicio.
+    ''' </summary>
+    Function GetFixedAmountRIPSRebuildStatusAsync(query As FixedAmountServiceRecordQuery) As Task(Of ActionResult(Of FixedAmountRebuildStatusDto))
+
+    ''' <summary>
+    ''' Obtiene la fecha actual del motor de base de datos.
+    ''' </summary>
+    Function GetDatabaseDate() As DateTime
 
 End Interface

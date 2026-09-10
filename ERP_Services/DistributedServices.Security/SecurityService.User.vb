@@ -1,4 +1,4 @@
-﻿'***********************************************************************
+'***********************************************************************
 ' Assembly         : DistributedService.Security
 ' Author           : WalterSierra
 ' Created          : 11-03-2011
@@ -18,6 +18,10 @@ Imports Infrastructure.CrossCutting.Base
 Imports Domain.Base.Entities
 Imports System.Configuration
 Imports Domain.Crystal.Entities
+Imports System.ServiceModel
+Imports System.ServiceModel.Channels
+Imports Microsoft.IdentityModel.Tokens
+Imports DistributedServices.Authentication
 #End Region
 
 Partial Public Class SecurityService
@@ -348,12 +352,9 @@ Partial Public Class SecurityService
     ''' Gets the password user.	
     ''' </summary>
     ''' <param name="codeUser">se envia id de usario.</param>
-    ''' <returns></returns>
-    ''' <remarks></remarks>
+    ''' <returns>Cadena vacía por seguridad</returns>
     Public Function GetPasswordUser(codeUser As String, session As SessionValues) As String Implements ISecurityService.GetPasswordUser
-        Using userAdmin As IUserAdminService = IocFactory.Instance().CurrentContainer.Resolve(Of IUserAdminService)()
-            Return userAdmin.GetPasswordUser(codeUser)
-        End Using
+        Return String.Empty
     End Function
 
     ''' <summary>
@@ -401,8 +402,44 @@ Partial Public Class SecurityService
     ''' <returns></returns>
     ''' <remarks></remarks>
     Public Function ListAllUsers(session As SessionValues) As IEnumerable(Of User) Implements ISecurityService.ListAllUsers
+        Try
+            Dim authorizationHeader As String = Nothing
+            Dim raw As Object = Nothing
+
+            If OperationContext.Current IsNot Nothing AndAlso
+               OperationContext.Current.IncomingMessageProperties.TryGetValue(HttpRequestMessageProperty.Name, raw) Then
+                Dim httpProp As HttpRequestMessageProperty = TryCast(raw, HttpRequestMessageProperty)
+                If httpProp IsNot Nothing Then
+                    authorizationHeader = httpProp.Headers("Authorization")
+                End If
+            End If
+
+            If String.IsNullOrEmpty(authorizationHeader) OrElse Not authorizationHeader.StartsWith("Bearer ") Then
+                Throw New FaultException(String.Format("Acceso no autorizado. Código de incidencia: {0}", Guid.NewGuid().ToString("N").Substring(0, 8).ToUpper()))
+            End If
+
+            Dim token As String = authorizationHeader.Substring("Bearer ".Length).Trim()
+            Task.Run(Function() JwtFactory.ValidateToken(token)).Wait()
+
+        Catch ex As FaultException
+            Throw
+
+        Catch ex As AggregateException
+            Throw New FaultException(String.Format("Acceso no autorizado. Código de incidencia: {0}", Guid.NewGuid().ToString("N").Substring(0, 8).ToUpper()))
+
+        Catch ex As Exception
+            Throw New FaultException(String.Format("Error interno del servicio. Código de incidencia: {0}", Guid.NewGuid().ToString("N").Substring(0, 8).ToUpper()))
+        End Try
+
         Using userAdmin As IUserAdminService = IocFactory.Instance().CurrentContainer.Resolve(Of IUserAdminService)()
-            Return userAdmin.ListAllUsers()
+            Dim users = userAdmin.ListAllUsers()
+            If users IsNot Nothing Then
+                For Each u In users
+                    u.Password = Nothing
+                    u.PasswordLync = Nothing
+                Next
+            End If
+            Return users
         End Using
     End Function
 

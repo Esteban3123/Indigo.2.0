@@ -332,8 +332,8 @@ Public Class ControlOutPatientServicesAdminService
                 End If
 
                 'Validación FOMAG para el cliente JERSALUD
-                Dim fomagValidation = _fomagValidator.ValidatePatientAsync(controlOutPatientServices.Ingreso.IPCODPACI, companyNit).GetAwaiter().GetResult()
-                If Not fomagValidation.StateResult Then Return New ActionResult(Of String) With {.StateResult = False, .Message = fomagValidation.Message}
+                'Dim fomagValidation = _fomagValidator.ValidatePatientAsync(controlOutPatientServices.Ingreso.IPCODPACI, companyNit).GetAwaiter().GetResult()
+                'If Not fomagValidation.StateResult Then Return New ActionResult(Of String) With {.StateResult = False, .Message = fomagValidation.Message}
 
                 Dim xmlDocuments As New StringBuilder()
                 xmlDocuments.AppendLine("<ControlOutPatientServices>")

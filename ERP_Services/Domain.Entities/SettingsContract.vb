@@ -138,6 +138,34 @@ Partial Public Class SettingsContract
         End Set
     End Property
 
+	Private _siifaEnabled As Boolean
+	<DataMember()>
+	Public Property SiifaEnabled() As Boolean
+        Get
+            Return _siifaEnabled
+        End Get
+        Set(ByVal value As Boolean)
+            If Not Equals(_siifaEnabled, value) Then
+                _siifaEnabled = value
+                OnPropertyChanged("SiifaEnabled")
+            End If
+        End Set
+    End Property
+
+	Private _siifaStartDate As Nullable(Of Date)
+	<DataMember()>
+	Public Property SiifaStartDate() As Nullable(Of Date)
+        Get
+            Return _siifaStartDate
+        End Get
+        Set(ByVal value As Nullable(Of Date))
+            If Not Equals(_siifaStartDate, value) Then
+                _siifaStartDate = value
+                OnPropertyChanged("SiifaStartDate")
+            End If
+        End Set
+    End Property
+
 	Private _creationUser As String
 	<DataMember()>
 	Public Property CreationUser() As String

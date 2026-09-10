@@ -1,4 +1,4 @@
-using Domain.Autentication.Interfaces;
+﻿using Domain.Autentication.Interfaces;
 using Microsoft.Extensions.Caching.Memory;
 using System;
 using System.Threading.Tasks;
@@ -23,8 +23,8 @@ namespace Infrastructure.CrossCutting.Autentication.Secrets.CacheSecrect
             return await _cache.GetOrCreateAsync(secretName, async entry =>
             {
                 entry.AbsoluteExpirationRelativeToNow = _cacheDuration;
-                return await _innerSecretProvider.GetSecretAsync(secretName).ConfigureAwait(false);
-            }).ConfigureAwait(false);
+                return await _innerSecretProvider.GetSecretAsync(secretName);
+            });
         }
     }
 }

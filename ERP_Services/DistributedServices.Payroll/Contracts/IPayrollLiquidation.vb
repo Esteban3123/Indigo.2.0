@@ -240,4 +240,19 @@ Public Interface IPayrollLiquidation
 
     <OperationContract()>
     Function GetReportHumanTalent(initialDate As Date, finalDate As Date, session As SessionValues, Optional employeeId As Integer? = Nothing) As ActionResult(Of List(Of SP_ReportHumanTalent_Result))
+
+    ''' <summary>
+    ''' Metodo que ejecuta el storeProcedure [Payroll].[SP_ReportPersonnelActions].
+    ''' </summary>
+    ''' <param name="initialDate">Fecha inicial del rango</param>
+    ''' <param name="endDate">Fecha final del rango</param>
+    ''' <param name="initialCodeGroup">Código del grupo de nómina inicial (opcional)</param>
+    ''' <param name="endCodeGroup">Código del grupo de nómina final (opcional)</param>
+    ''' <param name="branchOfficeInitial">Id de la sucursal inicial para filtrar (opcional)</param>
+    ''' <param name="branchOfficeFinal">Id de la sucursal final para filtrar (opcional)</param>
+    ''' <param name="personnelActionTypes">Códigos numéricos de tipo de novedad separados por coma (opcional)</param>
+    ''' <param name="pSession">Valores de sesión</param>
+    ''' <returns>DataTable con las acciones de personal del rango</returns>
+    <OperationContract()>
+    Function GetReportPersonnelActions(initialDate As Date, endDate As Date, Optional initialCodeGroup As String = Nothing, Optional endCodeGroup As String = Nothing, Optional branchOfficeInitial As Integer? = Nothing, Optional branchOfficeFinal As Integer? = Nothing, Optional personnelActionTypes As String = Nothing, Optional pSession As SessionValues = Nothing) As DataTable
 End Interface

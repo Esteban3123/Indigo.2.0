@@ -1,6 +1,7 @@
-﻿
+
 
 Imports Domain.Base.Entities
+Imports Domain.Payroll
 Imports Domain.Payroll.Entities
 Imports Infrastructure.CrossCutting.Base
 
@@ -11,7 +12,7 @@ Public Interface IMassiveContractAdminService
 
     Function GetMassiveContract(pData As List(Of ImportFileRow)) As List(Of SP_GetMassiveContract_Result)
 
-    Sub SaveMassiveContract(pData As List(Of ImportFileRow), pCodeUser As String, pIdUser As Integer)
+    Function SaveMassiveContract(pData As List(Of ImportFileRow), pCodeUser As String, pIdUser As Integer) As SP_SaveMassiveContract_DTO
 
     Function ValidateMassiveContractExtension(pData As List(Of ImportFileRow)) As List(Of SP_ValidateMassiveContractExtension_Result)
 

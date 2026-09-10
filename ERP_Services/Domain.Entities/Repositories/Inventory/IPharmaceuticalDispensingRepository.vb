@@ -13,7 +13,7 @@ Public Interface IPharmaceuticalDispensingRepository
     Inherits IRepository(Of PharmaceuticalDispensing)
     Inherits IRepositoryRollbackStrategy
 
-    Function GeneratePharmaceuticalDispensingSP(PharmaceuticalDispensingXml As String, AnnulationXml As String, UserCode As String) As Entity.Core.Objects.ObjectResult(Of SP_GeneratePharmaceuticalDispensing_Result)
+    Function GeneratePharmaceuticalDispensingSP(PharmaceuticalDispensingXml As String, AnnulationXml As String, UserCode As String) As List(Of SP_GeneratePharmaceuticalDispensing_Result)
 
     Function ListPharmaceuticalDispensingMassiveConfirm(listDocuments As List(Of String)) As List(Of PharmaceuticalDispensing)
 

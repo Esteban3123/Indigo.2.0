@@ -26,9 +26,20 @@ Public Class OutstandingChecksRepository
     ''' </summary>
     ''' <returns></returns>
     Public Function GetFirstOutstandingChecks(IdCheckBook As Integer) As OutstandingChecks Implements IOutstandingChecksRepository.GetFirstOutstandingChecks
-        Dim res = (From d As OutstandingChecks In Me._context.OutstandingChecks.AsNoTracking() Where d.IdCheckBook = IdCheckBook Select d Order By d.CheckNumber Ascending).ToList()
-        If res IsNot Nothing AndAlso res.Count > 0 Then
-            Return res(0)
+        Dim res = (From oc As OutstandingChecks In Me._context.OutstandingChecks.AsNoTracking()
+                   Join c As Checkbooks In Me._context.Checkbooks.AsNoTracking() On oc.IdCheckBook Equals c.Id
+                   Where oc.IdCheckBook = IdCheckBook AndAlso
+                         Not Me._context.VoucherTransaction.Any(Function(vt) _
+                             vt.IdEntityBankAccount.HasValue AndAlso
+                             vt.IdEntityBankAccount.Value = c.IdEntityBanckAccount AndAlso
+                             vt.CheckNumber.HasValue AndAlso
+                             vt.CheckNumber.Value = oc.CheckNumber AndAlso
+                             (vt.Status = 1 OrElse vt.Status = 2))
+                   Order By oc.CheckNumber Ascending
+                   Select oc).FirstOrDefault()
+
+        If res IsNot Nothing Then
+            Return res
         Else
             Return New OutstandingChecks()
         End If

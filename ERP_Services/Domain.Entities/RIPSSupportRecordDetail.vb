@@ -301,6 +301,7 @@ Partial Public Class RIPSSupportRecordDetail
         End Get
         Set(ByVal value As Nullable(Of Integer))
             If Not Equals(_stayCUPSEntityContractDescriptionId, value) Then
+                ChangeTracker.RecordOriginalValue("StayCUPSEntityContractDescriptionId", _stayCUPSEntityContractDescriptionId)
                 If Not IsDeserializing Then
                     If CUPSEntityContractDescriptions IsNot Nothing AndAlso Not Equals(CUPSEntityContractDescriptions.Id, value) Then
                         CUPSEntityContractDescriptions = Nothing
@@ -312,14 +313,15 @@ Partial Public Class RIPSSupportRecordDetail
         End Set
     End Property
 
-	Private _stayCUPSEntityId As Nullable(Of Integer)
-	<DataMember()>
-	Public Property StayCUPSEntityId() As Nullable(Of Integer)
+    Private _stayCUPSEntityId As Nullable(Of Integer)
+    <DataMember()>
+    Public Property StayCUPSEntityId() As Nullable(Of Integer)
         Get
             Return _stayCUPSEntityId
         End Get
         Set(ByVal value As Nullable(Of Integer))
             If Not Equals(_stayCUPSEntityId, value) Then
+                ChangeTracker.RecordOriginalValue("StayCUPSEntityId", _stayCUPSEntityId)
                 If Not IsDeserializing Then
                     If CUPSEntity IsNot Nothing AndAlso Not Equals(CUPSEntity.Id, value) Then
                         CUPSEntity = Nothing

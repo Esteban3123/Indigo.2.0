@@ -55,9 +55,7 @@ Partial Public Class AutomaticEntryDistribution
         End Get
         Set(ByVal value As Integer)
             If Not Equals(_assignedUserId, value) Then
-                If ChangeTracker.ChangeTrackingEnabled AndAlso ChangeTracker.State <> ObjectState.Added Then
-                    Throw New InvalidOperationException("The property 'AssignedUserId' is part of the object's key and cannot be changed. Changes to key properties can only be made when the object is not being tracked or is in the Added state.")
-                End If
+                ChangeTracker.RecordOriginalValue("AssignedUserId", _assignedUserId)
                 If Not IsDeserializing Then
                     If UsersAssignment IsNot Nothing AndAlso Not Equals(UsersAssignment.Id, value) Then
                         UsersAssignment = Nothing
@@ -77,9 +75,6 @@ Partial Public Class AutomaticEntryDistribution
         End Get
         Set(ByVal value As String)
             If Not Equals(_admissionNumber, value) Then
-                If ChangeTracker.ChangeTrackingEnabled AndAlso ChangeTracker.State <> ObjectState.Added Then
-                    Throw New InvalidOperationException("The property 'AdmissionNumber' is part of the object's key and cannot be changed. Changes to key properties can only be made when the object is not being tracked or is in the Added state.")
-                End If
                 _admissionNumber = value
                 OnPropertyChanged("AdmissionNumber")
             End If
@@ -108,9 +103,6 @@ Partial Public Class AutomaticEntryDistribution
         End Get
         Set(ByVal value As Date)
             If Not Equals(_assignmentDate, value) Then
-                If ChangeTracker.ChangeTrackingEnabled AndAlso ChangeTracker.State <> ObjectState.Added Then
-                    Throw New InvalidOperationException("The property 'AssignmentDate' is part of the object's key and cannot be changed. Changes to key properties can only be made when the object is not being tracked or is in the Added state.")
-                End If
                 _assignmentDate = value
                 OnPropertyChanged("AssignmentDate")
             End If
@@ -142,13 +134,6 @@ Partial Public Class AutomaticEntryDistribution
         End Get
         Set(ByVal value As UsersAssignment)
             If _usersAssignment IsNot value Then
-                If ChangeTracker.ChangeTrackingEnabled AndAlso ChangeTracker.State <> ObjectState.Added AndAlso value IsNot Nothing Then
-                    ' This the dependent end of an identifying relationship, so the principal end cannot be changed if it is already set,
-                    ' otherwise it can only be set to an entity with a primary key that is the same value as the dependent's foreign key.
-                    If Not Equals(AssignedUserId, value.Id) Then
-                        Throw New InvalidOperationException("The principal end of an identifying relationship can only be changed when the dependent end is in the Added state.")
-                    End If
-                End If
                 Dim previousValue As UsersAssignment = _usersAssignment
                 _usersAssignment = value
                 FixupUsersAssignment(previousValue)
@@ -223,14 +208,6 @@ Partial Public Class AutomaticEntryDistribution
     Public Sub OnDeserializedMethod(ByVal context As StreamingContext)
         IsDeserializing = False
         ChangeTracker.ChangeTrackingEnabled = True
-    End Sub
-
-    ' This entity type is the dependent end in at least one association that performs cascade deletes.
-    ' This event handler will process notifications that occur when the principal end is deleted.
-    Friend Sub HandleCascadeDelete(ByVal sender As Object, ByVal e As ObjectStateChangingEventArgs)
-        If e.NewState = ObjectState.Deleted Then
-            Me.MarkAsDeleted()
-        End If
     End Sub
 
     Protected Overridable Sub ClearNavigationProperties()

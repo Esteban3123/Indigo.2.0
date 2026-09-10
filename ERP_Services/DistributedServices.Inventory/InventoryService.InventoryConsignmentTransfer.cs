@@ -5,7 +5,6 @@ using Domain.Base.Entities;
 using Domain.Entities;
 using Infrastructure.CrossCutting.Base;
 using Microsoft.Practices.Unity;
-using System.Collections.Generic;
 
 namespace DistributedServices.Inventory
 {
@@ -58,21 +57,5 @@ namespace DistributedServices.Inventory
                 return service.SaveConsignmentTransfer(consignmentTransfer, audit, idSequence);
             }
         }
-
-        public ActionResult<List<ConsignmentTransferDetail>> SetConsignmentTransferImportFile(List<ImportFileRow> listRows, int sourceWarehouseId, AuditMessage audit)
-        {
-            using (var service = Container.Current.Resolve<IConsignmentTransferAdminService>())
-            {
-                return service.SetConsignmentTransferImportFile(listRows, sourceWarehouseId);
-            }
-        }
-        public ActionResult<List<ConsignmentTransferDetail>> SetConsignmentTransferDetailFromCopyPaste(List<List<string>> dataImport, int sourceWarehouseId, AuditMessage audit)
-        {
-            using (var service = Container.Current.Resolve<IConsignmentTransferAdminService>())
-            {
-                return service.SetConsignmentTransferDetailFromCopyPaste(dataImport, sourceWarehouseId);
-            }
-        }
     }
-
 }

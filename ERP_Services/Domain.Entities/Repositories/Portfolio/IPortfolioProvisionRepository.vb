@@ -1,4 +1,4 @@
-﻿'***********************************************************************
+'***********************************************************************
 ' Assembly         : Domain.Portfolio
 ' Author           : Carlos Mario Arias Rubiano
 ' Created          : 20/10/2016
@@ -53,7 +53,26 @@ Public Interface IPortfolioProvisionRepository
     ''' </summary>
     ''' <param name="closingDate"></param>
     ''' <param name="operativeUnitId"></param>
+    ''' <param name="pageNumber"></param>
+    ''' <param name="pageSize"></param>
     ''' <returns></returns>
-    Function SP_GetPortfolioDeteriorationByClassification(closingDate As DateTime, operativeUnitId As Integer) As List(Of PortfolioDeteriorationByClassificationDTO)
+    Function SP_GetPortfolioDeteriorationByClassification(closingDate As DateTime, operativeUnitId As Integer, Optional pageNumber As Integer = 1, Optional pageSize As Integer = 50000) As List(Of PortfolioDeteriorationByClassificationDTO)
+
+    ''' <summary>
+    ''' Prepara y valida la confirmación de deterioro por clasificación.
+    ''' Confirma la cabecera y retorna los grupos de ThirdPartyId para procesamiento paralelo.
+    ''' </summary>
+    Function SP_PrepareConfirmPortfolioDeteriorationByClassification(portfolioProvisionId As Integer, codeUser As String, operativeUnitId As Integer) As (PrepareResult As PrepareConfirmDeteriorationByClassificationDTO, ThirdPartyGroups As List(Of ThirdPartyGroupDTO))
+
+    ''' <summary>
+    ''' Ejecuta la confirmación de deterioro por clasificación para cada ThirdPartyId.
+    ''' </summary>
+    Function SP_ConfirmPortfolioDeteriorationByClassificationBatch(portfolioProvisionId As Integer, codeUser As String, operativeUnitId As Integer, thirdPartyGroups As List(Of ThirdPartyGroupDTO)) As List(Of ConfirmDeteriorationByClassificationDTO)
+
+    ''' <summary>
+    ''' Ejecuta la confirmación completa del deterioro por clasificación de forma atómica
+    ''' usando una sola SqlConnection con SqlTransaction ADO.NET, sin límite de tiempo de TransactionManager.
+    ''' </summary>
+    Function SP_ConfirmPortfolioDeteriorationByClassificationAtomic(portfolioProvisionId As Integer, codeUser As String, operativeUnitId As Integer) As (PrepareResult As PrepareConfirmDeteriorationByClassificationDTO, BatchResults As List(Of ConfirmDeteriorationByClassificationDTO))
 
 End Interface

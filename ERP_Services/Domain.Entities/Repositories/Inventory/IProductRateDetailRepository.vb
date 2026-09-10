@@ -22,12 +22,20 @@ Public Interface IProductRateDetailRepository
     Function GetListProductRateDetailByContractExternalClientIdProductIdServiceDate(ContractExternalClientId As Integer, ProductId As Integer, ServiceDate As Date) As ProductRateDetail
 
     ''' <summary>
-    ''' Trae la definicion de la tarifa en base a paquetes de central de mezclas 
+    ''' Trae la definicion de la tarifa en base a paquetes de central de mezclas
     ''' </summary>
     ''' <param name="CareGroupId"></param>
     ''' <param name="PackageIds"></param>
     ''' <param name="ServiceDate"></param>
     ''' <returns></returns>
     Function GetListProductRateDetailByCareGroupIdPackageServiceDate(CareGroupId As Integer, PackageIds As List(Of Integer), ServiceDate As Date) As List(Of ProductRateDetail)
+
+    ''' <summary>
+    ''' Obtiene el PackageId asociado a un producto terminado (ítem producción)
+    ''' consultando la tabla RequestPackageDetailStatus por ProductId
+    ''' </summary>
+    ''' <param name="productId">Id del producto terminado</param>
+    ''' <returns>PackageId si existe, Nothing si no</returns>
+    Function GetPackageIdByProductId(productId As Integer) As Integer?
 
 End Interface

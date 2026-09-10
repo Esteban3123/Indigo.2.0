@@ -1,4 +1,4 @@
-﻿'***********************************************************************
+'***********************************************************************
 ' Assembly         : Infrastructure.Data.MixinStationRepository
 ' Author           : Duván Mejía Cortes
 ' Created          : 22/07/2021
@@ -30,6 +30,28 @@ Public Class PickingRepository
     End Sub
 
     ''' <summary>
+    ''' Obtiene el WarehouseId de la solicitud de inventario asociada al RequestMixingStationDetail indicado.
+    ''' </summary>
+    ''' <param name="requestMixingStationDetailId">Identificador del detalle de preparación generado desde solicitud de inventario</param>
+    ''' <returns>WarehouseId de la solicitud de inventario, o 0 cuando no existe una relación válida</returns>
+    Public Async Function GetInventoryRequestWarehouseIdByMixingStationDetailAsync(requestMixingStationDetailId As Integer) As Task(Of Integer) Implements IPickingRepository.GetInventoryRequestWarehouseIdByMixingStationDetailAsync
+        Dim RequestInventoryDetailId As Integer = Await (
+            From a In _context.RequestMixingStationDetail.AsNoTracking()
+            Where a.Id = requestMixingStationDetailId AndAlso a.Source = 4
+            Select a.EntityId).FirstOrDefaultAsync()
+
+        If RequestInventoryDetailId = 0 Then
+            Return 0
+        End If
+
+        Return Await (
+            From w In _context.RequestUnitDoseInventoryDetail.Include("RequestUnitDoseInventory").AsNoTracking()
+            Where w.Id = RequestInventoryDetailId
+            Select w.RequestUnitDoseInventory.WarehouseId).FirstOrDefaultAsync()
+    End Function
+
+
+    ''' <summary>
     ''' Listar los productos en el Almacén
     ''' </summary>
     ''' <param name="atcId"></param>
@@ -39,17 +61,17 @@ Public Class PickingRepository
     ''' <returns></returns>
     Public Async Function GetProductsByAtcAndWarehouseAsync(atcId As Integer?, supplyId As Integer?, productId As Integer?, warehouseId As Integer?) As Task(Of List(Of PhysicalInventory)) Implements IPickingRepository.GetProductsByAtcAndWarehouseAsync
         If atcId IsNot Nothing Then
-            Return Await (From a In _context.PhysicalInventory.Include("InventoryProduct.ProductType").Include("BatchSerial").OrderBy(Function(t) t.BatchSerial.ExpirationDate)
+            Return Await (From a In _context.PhysicalInventory.AsNoTracking().Include("InventoryProduct.ProductType").Include("BatchSerial").OrderBy(Function(t) t.BatchSerial.ExpirationDate)
                           Where a.WarehouseId = warehouseId And a.InventoryProduct.ATCId = atcId And a.Quantity > 0 And a.InventoryProduct.ProductType.Class <> 5 And a.InventoryProduct.Status = True
                           Select a).ToListAsync()
         End If
         If supplyId IsNot Nothing Then
-            Return Await (From a In _context.PhysicalInventory.Include("InventoryProduct.ProductType").Include("BatchSerial").OrderBy(Function(t) t.BatchSerial.ExpirationDate)
+            Return Await (From a In _context.PhysicalInventory.AsNoTracking().Include("InventoryProduct.ProductType").Include("BatchSerial").OrderBy(Function(t) t.BatchSerial.ExpirationDate)
                           Where a.WarehouseId = warehouseId And a.InventoryProduct.SupplieId = supplyId And a.Quantity > 0 And a.InventoryProduct.ProductType.Class <> 5 And a.InventoryProduct.Status = True
                           Select a).ToListAsync()
         End If
         If productId IsNot Nothing Then
-            Return Await (From a In _context.PhysicalInventory.Include("InventoryProduct.ProductType").Include("BatchSerial").OrderBy(Function(t) t.BatchSerial.ExpirationDate)
+            Return Await (From a In _context.PhysicalInventory.AsNoTracking().Include("InventoryProduct.ProductType").Include("BatchSerial").OrderBy(Function(t) t.BatchSerial.ExpirationDate)
                           Where a.WarehouseId = warehouseId And a.InventoryProduct.Id = productId And a.Quantity > 0 And a.InventoryProduct.ProductType.Class <> 5 And a.InventoryProduct.Status = True
                           Select a).ToListAsync()
         End If

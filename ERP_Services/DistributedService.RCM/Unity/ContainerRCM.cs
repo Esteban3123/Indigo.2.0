@@ -1,15 +1,13 @@
-using Application.AccountManagement;
-using Application.Autentication.JwtService;
+﻿using Application.AccountManagement;
 using Application.Billing;
 using Application.Common;
 using Application.Crystal;
 using Application.EventHandlers;
 using Application.EventHandlers.Proxies;
 using Application.Glosas;
+using Application.Portfolio;
 using DistribuitedServices.Billing;
 using DistributedServices.AccountManagement;
-using Domain.Autentication;
-using Domain.Autentication.Interfaces;
 using Domain.Billing.Repositories;
 using Domain.Crystal;
 using Domain.Crystal.Service;
@@ -17,8 +15,6 @@ using Domain.Entities;
 using Domain.Entities.Service;
 using Domain.Payroll;
 using Domain.Security;
-using Infrastructure.CrossCutting.Autentication.Secrets.AZKeyVault;
-using Infrastructure.CrossCutting.Autentication.Secrets.CacheSecrect;
 using Infrastructure.CrossCutting.AzureBlobStorage.Factory;
 using Infrastructure.CrossCutting.AzureBlobStorage.Storage;
 using Infrastructure.CrossCutting.Base;
@@ -30,27 +26,25 @@ using Infrastructure.Data.ModelRepository;
 using Infrastructure.Data.PayrollRepository;
 using Infrastructure.Data.SecurityRepository;
 using System;
-using System.Configuration;
-using System.Diagnostics;
-using Microsoft.Extensions.Caching.Memory;
 using Unity;
-using Unity.Injection;
 using Unity.Lifetime;
 
 namespace DistributedService.Rest.Unity
 {
     public sealed class ContainerRCM
     {
+        private const string LegacyCosmosContainer = "INDIGO101";
+        private const string LegacySqlContainer = "INDIGO051";
         private static IUnityContainer _currentContainer;
 
         /// <summary>
         /// Obtiene la unica instancia del contenedor
         /// </summary>
         /// <returns>Contenedor configurado</returns>
-        public static IUnityContainer Current(string container,
+        public static IUnityContainer Current(string container, 
                                               string hisContainer,
                                               string securityContainer = null,
-                                              bool obligatoryCosmos = false)
+                                              bool obligatoryCosmos =false)
         {
             if (_currentContainer != null)
             {
@@ -66,10 +60,10 @@ namespace DistributedService.Rest.Unity
 
             ConfigureContainer(container, hisContainer, obligatoryCosmos, securityContainer, blobContainerName);
 
-            return _currentContainer;
+                return _currentContainer;
         }
 
-        private static void ConfigureContainer(string container,
+        private static void ConfigureContainer( string container, 
                                                 string hisContainer,
                                                 bool obligatoryCosmos,
                                                 string securityContainer,
@@ -77,6 +71,7 @@ namespace DistributedService.Rest.Unity
         {
 
             var newContainer = new UnityContainer();
+            var sqlContainer = ResolveSqlContainer(container);
 
             newContainer.RegisterFactory<ICommonVariables>((uc) =>
             {
@@ -86,7 +81,7 @@ namespace DistributedService.Rest.Unity
             ////Inyectamos el contexto de Billing
             newContainer.RegisterFactory<IGlobalModelUnitOfWork>((uc) =>
             {
-                var dd = new GlobalModelUnitOfWork(container);
+                var dd = new GlobalModelUnitOfWork(sqlContainer);
                 dd.Database.Log = s => System.Diagnostics.Debug.WriteLine(s);
                 return dd;
             }, new PerResolveLifetimeManager());
@@ -102,7 +97,7 @@ namespace DistributedService.Rest.Unity
             ////Inyectamos el contexto de Payroll
             newContainer.RegisterFactory<IPayrollUnitOfWork>((uc) =>
             {
-                var dd = new PayrollUnitOfWork(container);
+                var dd = new PayrollUnitOfWork(sqlContainer);
                 dd.Database.Log = s => System.Diagnostics.Debug.WriteLine(s);
                 return dd;
             }, new PerResolveLifetimeManager());
@@ -128,7 +123,7 @@ namespace DistributedService.Rest.Unity
                 var dd = new FactoryStorage(blobContainerName);
                 return dd;
             }, new PerResolveLifetimeManager());
-
+           
             newContainer.RegisterType<IRevenueControlDetailRepository, RevenueControlDetailRepository>();
             newContainer.RegisterType<IServiceOrderDetailDistributionRepository, ServiceOrderDetailDistributionRepository>();
             newContainer.RegisterType<ICareGroupRepository, CareGroupRepository>();
@@ -195,80 +190,45 @@ namespace DistributedService.Rest.Unity
             newContainer.RegisterType<ICupsEntityContractDescriptionsRepository, CUPSEntityContractDescriptionsRepository>();
             newContainer.RegisterType<ICurrencyAdminService, CurrencyAdminService>();
             newContainer.RegisterType<ICurrencyRepository, CurrencyRepository>();
-            newContainer.RegisterType<ISequenseAccountingDRepository, SequenseAccountingDRepository>();
+            newContainer.RegisterType<ISequenseAccountingDRepository, SequenseAccountingDRepository>();          
             newContainer.RegisterType<IRateManualValidityDetailRepository, RateManualValidityDetailRepository>();
             newContainer.RegisterType<IGeneralLedgerIVARepository, GeneralLedgerIVARepository>();
             newContainer.RegisterType<IRIPSPlaneAdminService, RIPSPlaneAdminService>();
             newContainer.RegisterType<IRadicateInvoiceCRepository, RadicateInvoiceCRepository>();
-            newContainer.RegisterType<IRadicateInvoiceDRepository, RadicateInvoiceDRepository>();
+            newContainer.RegisterType<IRadicateInvoiceDRepository, RadicateInvoiceDRepository>();            
             newContainer.RegisterType<IRIPSPlane, RIPSPlane>();
             newContainer.RegisterType<IFactoryQueue, FactoryQueue>();
             newContainer.RegisterType<IBillingNoteRepository, BillingNoteRepository>();
-            newContainer.RegisterType<IContainersRepository, ContainersRepository>();
+            newContainer.RegisterType< IContainersRepository, ContainersRepository>();
             newContainer.RegisterType<IRIPSCosmosDbModelRepository, RIPSCosmosDbModelRepository>();
             newContainer.RegisterType<IElectronicsRIPSRepository, ElectronicsRIPSRepository>();
             newContainer.RegisterType<IDocumentsAssociatedRIPSRepository, DocumentsAssociatedRIPSRepository>();
+            // Header InitialBalanceInvoice + detail (carga RIPS desde Cosmos para saldos iniciales).
+            newContainer.RegisterType<IInitialBalanceInvoiceRepository, InitialBalanceInvoiceRepository>();
+            // XMLs DIAN de facturas saldo inicial (upload a blob storage para hereda segmento Salud en notas CN/DN).
+            newContainer.RegisterType<IElectronicDocumentRepository, ElectronicDocumentRepository>();
+            newContainer.RegisterType<ISettingsAccountRepository, SettingAccountRepository>();
+            newContainer.RegisterType<IPortfolioInitialBalanceRepository, PortfolioInitialBalanceRepository>();
+            newContainer.RegisterType<IPortfolioInitialBalanceAccountReceivableRepository, PortfolioInitialBalanceAccountReceivableRepository>();
+            newContainer.RegisterType<IInvoiceXmlBulkAdminService, InvoiceXmlBulkAdminService>();
             newContainer.RegisterType<Infrastructure.CrossCutting.AzureBlobStorage.IStorage, AzureBlobStorateService>();
             newContainer.RegisterType<Infrastructure.CrossCutting.AzureBlobStorage.IStorage, LocalStorateService>();
             newContainer.RegisterType<IAccountManagementParametersRepository, AccountManagementParametersRepository>();
             newContainer.RegisterType<IUsersAssignmentRepository, UsersAssignmentRepository>();
             newContainer.RegisterType<IUserNoveltiesRepository, UserNoveltiesRepository>();
             newContainer.RegisterType<IAccountManagementParametersAdminService, AccountManagementParametersAdminService>();
+            // Facturas Monto Fijo
+            newContainer.RegisterType<IInvoiceEntityCapitatedAdminService, InvoiceEntityCapitatedAdminService>();
+            newContainer.RegisterType<IInvoiceEntityCapitedRepository, InvoiceEntityCapitedRepository>();
+            newContainer.RegisterType<IOutBoxRepository, OutBoxRepository>();
             _currentContainer = newContainer;
-
-            try
-            {
-                
-                var jwtSettings = new JwtSettings
-                {
-                    SecretName = ConfigurationManager.AppSettings["MySecretJwt"] ?? "JwtSettings--SecretKey",
-                    IssuerSecretName = ConfigurationManager.AppSettings["JwtIssuer"] ?? "JwtSettings--Issuer",
-                    AudienceSecretName = ConfigurationManager.AppSettings["JwtAudience"] ?? "JwtSettings--Audience",
-                    ExpiresInMinutes = ConfigurationManager.AppSettings["JwtExpiresInMinutes"] ?? "JwtSettings--ExpirationMinutes"
-                };
-                newContainer.RegisterInstance<JwtSettings>(jwtSettings);
-
-                var keyVaultUrl = ConfigurationManager.AppSettings["KeyVaultUrl"];
-                var tenantId = ConfigurationManager.AppSettings["TenantId"];
-                var clientId = ConfigurationManager.AppSettings["ClientId"];
-                var clientSecret = ConfigurationManager.AppSettings["ClientSecretId"];
-                if (string.IsNullOrEmpty(keyVaultUrl) || string.IsNullOrEmpty(tenantId) || string.IsNullOrEmpty(clientId) || string.IsNullOrEmpty(clientSecret))
-                {
-                    Debug.WriteLine("JWT: KeyVaultUrl, TenantId, ClientId o ClientSecretId no configurados en appSettings. No se registrará ISecretProvider.");
-                }
-                else
-                {
-                    
-
-                    // 1. IMemoryCache singleton
-                    newContainer.RegisterFactory<IMemoryCache>((uc) => new MemoryCache(new MemoryCacheOptions()), new ContainerControlledLifetimeManager());
-
-                    // 2. KeyVaultSecretProvider singleton
-                    newContainer.RegisterFactory<KeyVaultSecretProvider>((uc) => new KeyVaultSecretProvider(keyVaultUrl, tenantId, clientId, clientSecret), new ContainerControlledLifetimeManager());
-
-                    // 3. ISecretProvider = CachedSecretProvider (caché 10 min)
-                    newContainer.RegisterFactory<ISecretProvider>((uc) =>
-                    {
-                        var memoryCache = uc.Resolve<IMemoryCache>();
-                        var keyVaultProvider = uc.Resolve<KeyVaultSecretProvider>();
-                        return new CachedSecretProvider(keyVaultProvider, memoryCache, TimeSpan.FromMinutes(10));
-                    }, new ContainerControlledLifetimeManager());
-
-                    // 4. IJwtTokenService
-                    newContainer.RegisterFactory<IJwtTokenService>((uc) =>
-                    {
-                        var secretProvider = uc.Resolve<ISecretProvider>();
-                        return new JwtTokenService(secretProvider, jwtSettings);
-                    }, new ContainerControlledLifetimeManager());
-                }
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine($"Error configurando JWT: {ex.Message}");
-                throw;
-            }
-
         }
 
+        private static string ResolveSqlContainer(string container)
+        {
+            return string.Equals(container, LegacyCosmosContainer, StringComparison.OrdinalIgnoreCase)
+                ? LegacySqlContainer
+                : container;
+        }
     }
 }

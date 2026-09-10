@@ -1,4 +1,4 @@
-﻿#Region "Imports"
+#Region "Imports"
 
 Imports Application.Base
 Imports Domain.Base
@@ -129,6 +129,32 @@ Public Class BankReconciliationAutomaticAdminService
                     bankReconciliationAutomatic.ModificationDate = DateTime.Now
                     status = Infrastructure.CrossCutting.Audit.Actions.Update
                 End If
+
+                ' Limpiar colecciones de asociaciones en los detalles para evitar
+                ' que ApplyChanges recorra el grafo a través de las asociaciones.
+                ' Las asociaciones se guardan en la segunda transacción.
+                For Each detail In bankReconciliationAutomatic.BankReconciliationAutomaticDetail
+                    detail.StopTracking()
+                    detail.BankReconciliationAutomaticAssociation = New Domain.Entities.TrackableCollection(Of BankReconciliationAutomaticAssociation)()
+                    If detail.Id > 0 Then
+                        detail.MarkAsModified()
+                    Else
+                        detail.MarkAsAdded()
+                    End If
+                Next
+
+                For Each extractDetail In bankReconciliationAutomatic.BankReconciliationAutomaticExtractDetail
+                    extractDetail.StopTracking()
+                    extractDetail.BankReconciliationAutomaticAssociation = New Domain.Entities.TrackableCollection(Of BankReconciliationAutomaticAssociation)()
+                    If extractDetail.BankReconciliationAutomaticId = 0 Then
+                        extractDetail.BankReconciliationAutomaticId = bankReconciliationAutomatic.Id
+                    End If
+                    If extractDetail.Id > 0 Then
+                        extractDetail.MarkAsModified()
+                    Else
+                        extractDetail.MarkAsAdded()
+                    End If
+                Next
 
                 Me._BankReconciliationAutomaticRepository.SaveEntity(bankReconciliationAutomatic)
                 Await unitOfWork.CommitAsync()
@@ -672,6 +698,9 @@ Public Class BankReconciliationAutomaticAdminService
         If bankAutomaticDetail IsNot Nothing Then
             'Agregamos los Documentos pendientes por conciliar de Libro de Bancos
             For Each document In bankAutomaticDetail.Where(Function(x) Not x.Reconciled).ToList()
+                If document.ReconciledStatus Is Nothing Then
+                    document.ReconciledStatus = 1 ' Se asigna el estado de Pendiente al documento original
+                End If
                 Dim newItemPendingToReconciled1 As New PendingItemsToReconciled
                 With newItemPendingToReconciled1
                     .Origin = 1
@@ -679,7 +708,7 @@ Public Class BankReconciliationAutomaticAdminService
                     .DocumentType = document.DocumentType
                     .Nature = document.Nature
                     .Value = document.Value
-                    .ReconciledStatus = If(document.ReconciledStatus, 1)
+                    .ReconciledStatus = document.ReconciledStatus
                     .DocumentDetail = document
                 End With
                 listPendingItemsToReconciled.Add(newItemPendingToReconciled1)
@@ -984,30 +1013,6 @@ Public Class BankReconciliationAutomaticAdminService
             Dim messageValidation As String = String.Join(", ", invalidCriteria)
             Return New ActionResult With {.StatusCode = eStatusResult.SUCCESS, .StateResult = False, .Message = messageValidation}
         End If
-    End Function
-
-    ''' <summary>
-    ''' Busca coincidencias entre extractos bancarios y documentos de tesorería para conciliación automática
-    ''' </summary>
-    ''' <param name="extractList">Lista de extractos bancarios</param>
-    ''' <param name="documentList">Lista de documentos de tesorería</param>
-    ''' <param name="existingAssociations">Lista de asociaciones existentes (opcional)</param>
-    ''' <returns>Resultado con las listas actualizadas y las asociaciones (existentes y nuevas)</returns>
-    Public Async Function FindCoincidencesAsync(extractList As List(Of BankReconciliationAutomaticExtractDetail), documentList As List(Of BankReconciliationAutomaticDetail), Optional existingAssociations As List(Of BankReconciliationAutomaticAssociation) = Nothing) As Task(Of ActionResult(Of BankReconciliationCoincidencesResult)) Implements IBankReconciliationAutomaticAdminService.FindCoincidencesAsync
-        Try
-            If extractList Is Nothing Then
-                extractList = New List(Of BankReconciliationAutomaticExtractDetail)
-            End If
-            If documentList Is Nothing Then
-                documentList = New List(Of BankReconciliationAutomaticDetail)
-            End If
-
-            Dim result = Await FindCoincidencesInternalAsync(extractList, documentList, existingAssociations)
-            Return New ActionResult(Of BankReconciliationCoincidencesResult) With {.StateResult = True, .ObjectEmbbeded = result}
-        Catch ex As Exception
-            IndigoManagementExceptions.HandleException(ex, "ApplicationPolicy")
-            Return New ActionResult(Of BankReconciliationCoincidencesResult) With {.StateResult = False, .Message = Utils.GetInnerExceptionMessageToString(ex)}
-        End Try
     End Function
 
 

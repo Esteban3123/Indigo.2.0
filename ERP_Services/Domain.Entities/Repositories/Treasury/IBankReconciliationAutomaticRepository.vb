@@ -36,6 +36,13 @@ Public Interface IBankReconciliationAutomaticRepository
     Function GetBankAssociation(DetailId As Integer, DetailExtractId As Integer) As BankReconciliationAutomaticAssociation
 
     ''' <summary>
+    ''' Obtiene múltiples asociaciones de la tabla pivot de forma masiva (optimización N+1)
+    ''' </summary>
+    ''' <param name="pairs">Lista de tuplas (DetailId, ExtractId) a buscar</param>
+    ''' <returns>Diccionario con clave "DetailId_ExtractId" y valor el Id de la asociación</returns>
+    Function GetBankAssociationsBulk(pairs As List(Of Tuple(Of Integer, Integer))) As Dictionary(Of String, Integer)
+
+    ''' <summary>
     ''' Obtienes las partidas pendientes por conciliar de la cuenta bancaria del segmento libro de bancos acorde al periodo
     ''' </summary>
     ''' <param name="entityBankAccountId"></param>

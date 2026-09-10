@@ -182,12 +182,6 @@ Public Interface IUserAdminService
     ''' <returns></returns>
     Function GetEmailUser(ByVal codeUser As String) As String
 
-    ''' <summary>
-    ''' Lista la contraseña del Usuario.
-    ''' </summary>
-    ''' <param name="codeUser">se envia id de usario.</param>
-    ''' <returns></returns>
-    Function GetPasswordUser(ByVal codeUser As String) As String
 
     ''' <summary>
     ''' consultar persona especifica

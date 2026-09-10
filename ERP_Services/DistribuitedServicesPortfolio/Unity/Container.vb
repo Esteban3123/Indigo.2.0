@@ -7,9 +7,11 @@ Imports Application.EventHandlers.Proxies
 Imports Application.FileManager
 Imports Application.Portfolio
 Imports DistributedServices.Authentication
+Imports Domain.Crystal
 Imports Domain.Entities
 Imports Domain.Payroll
 Imports Infrastructure.CrossCutting.Base
+Imports Infrastructure.Data.CrystalRepository
 Imports Infrastructure.Data.ModelRepository
 Imports Infrastructure.Data.PayrollRepository
 Imports Microsoft.Practices.Unity
@@ -67,6 +69,10 @@ Public NotInheritable Class Container
                                                                                                                        Return New GlobalModelUnitOfWork(container)
                                                                                                                    End Function))
 
+        'Inyectamos el contexto de Crystal
+        newContainer.RegisterType(Of ICrystalModelUnitOfWork)(New PerResolveLifetimeManager(), New InjectionFactory(Function(c)
+                                                                                                                        Return New CrystalModelUnitOfWork(hisContainer)
+                                                                                                                    End Function))
 
 
         newContainer.RegisterType(Of IEventProxy, AzureServiceBusProxy)()
@@ -140,6 +146,8 @@ Public NotInheritable Class Container
         'saldos iniciales
         newContainer.RegisterType(Of IPortfolioInitialBalanceAdminService, PortfolioInitialBalanceAdminService)()
         newContainer.RegisterType(Of IPortfolioInitialBalanceRepository, PortfolioInitialBalanceRepository)()
+        ' estructura contable de contratos (resuelve cuentas de saldos iniciales por code)
+        newContainer.RegisterType(Of IContractAccountingStructureRepository, ContractAccountingStructureRepository)()
         'saldos iniciales
         newContainer.RegisterType(Of IPortfolioTransfersAdminService, PortfolioTransfersAdminService)()
         newContainer.RegisterType(Of IPortfolioTransferRepository, PortfolioTransferRepository)()
@@ -204,6 +212,9 @@ Public NotInheritable Class Container
         newContainer.RegisterType(Of IPortfolioReclassificationAdminService, PortfolioReclassificationAdminService)()
         newContainer.RegisterType(Of IReclassificationRepository, ReclassificationRepository)()
 
+        'Paciente
+        newContainer.RegisterType(Of IPatientRepository, PatientRepository)()
+
         'demand status
         newContainer.RegisterType(Of IPortfolioDemandStatusAdminService, PortfolioDemandStatusAdminService)()
         newContainer.RegisterType(Of IPortfolioDemandStatusRepository, PortfolioDemandStatusRepository)()
@@ -234,7 +245,16 @@ Public NotInheritable Class Container
         newContainer.RegisterType(Of IBillingSequenceRepository, BillingSequenceRepository)()
         newContainer.RegisterType(Of IBillingNoteRepository, BillingNoteRepository)()
         newContainer.RegisterType(Of IElectronicDocumentRepository, ElectronicDocumentRepository)()
+        newContainer.RegisterType(Of IElectronicsPropertiesRepository, ElectronicsPropertiesRepository)()
+        newContainer.RegisterType(Of IElectronicsRIPSRepository, ElectronicsRIPSRepository)()
+        newContainer.RegisterType(Of IInitialBalanceInvoiceRepository, InitialBalanceInvoiceRepository)()
         newContainer.RegisterType(Of IOperatingUnitRepository, OperatingUnitRepository)()
+
+        'NOTA: lookup Cosmos + carga InitialBalanceInvoiceDetail vive en RCM (DistributedService.RCM), no aquí.
+        'Portfolio Confirm sólo crea AR + Invoice + ED + EP + ERIPS + InitialBalanceInvoice header (CosmosId NULL,
+        'Status=1 = DetailPending). El frontend, tras Confirm exitoso, dispara endpoint RCM
+        'POST /electronicRIPS/PopulateInitialBalanceDetail que hidrata Cosmos + inserta detail rows + UPDATE
+        'IBI.Status=2 + IBI.CosmosId.
 
         'Conciliacion de cartera
         newContainer.RegisterType(Of IPortfolioConciliationAdminService, PortfolioConciliationAdminService)()

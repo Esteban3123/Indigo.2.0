@@ -12,17 +12,22 @@ Imports System.Configuration
 Imports System.Globalization
 Imports System.IO
 Imports System.Text
+Imports System.Threading
 Imports System.Transactions
+Imports System.Xml.Linq
 Imports Application.Events.Models
 Imports Domain.Base
 Imports Domain.Base.Entities
 Imports Domain.Billing.POCO
 Imports Domain.Billing.POCO.E_RIPS
 Imports Domain.Entities
+Imports Infrastructure.CrossCutting.AzureBlobStorage
+Imports Infrastructure.CrossCutting.AzureBlobStorage.Factory
 Imports Infrastructure.CrossCutting.Base
 Imports Infrastructure.CrossCutting.Exceptions
 Imports Infrastructure.CrossCutting.Queue
 Imports Infrastructure.Data.CosmosModelRepository.Repositories.Billing
+Imports Infrastructure.Data.CosmosModelRepository.Repositories.Generic
 Imports Newtonsoft.Json
 
 #End Region
@@ -37,6 +42,10 @@ Public Class RIPSPlaneAdminService
     Private _documentsAssociatedRIPSRepository As IDocumentsAssociatedRIPSRepository
     Private _electronicsRIPSRepository As IElectronicsRIPSRepository
     Private _rIPSCosmosDbModelRepository As IRIPSCosmosDbModelRepository
+    Private _initialBalanceInvoiceRepository As IInitialBalanceInvoiceRepository
+    Private _portfolioInitialBalanceRepository As IPortfolioInitialBalanceRepository
+    Private _electronicDocumentRepository As IElectronicDocumentRepository
+    Private _storage As IStorage
     ''' <summary>
     ''' Initializa una nueva instancia de la clase <see cref="RIPSPlaneAdminService" />.
     ''' </summary>
@@ -48,7 +57,11 @@ Public Class RIPSPlaneAdminService
                    ByVal billingNoteRepository As IBillingNoteRepository,
                    ByVal electronicsRIPSRepository As IElectronicsRIPSRepository,
                    Optional ByVal rIPSCosmosDbModelRepository As IRIPSCosmosDbModelRepository = Nothing,
-                   Optional ByVal documentsAssociatedRIPSRepository As IDocumentsAssociatedRIPSRepository = Nothing)
+                   Optional ByVal documentsAssociatedRIPSRepository As IDocumentsAssociatedRIPSRepository = Nothing,
+                   Optional ByVal initialBalanceInvoiceRepository As IInitialBalanceInvoiceRepository = Nothing,
+                   Optional ByVal portfolioInitialBalanceRepository As IPortfolioInitialBalanceRepository = Nothing,
+                   Optional ByVal electronicDocumentRepository As IElectronicDocumentRepository = Nothing,
+                   Optional ByVal factoryStorage As IFactoryStorage = Nothing)
 
         If RIPSPlaneService Is Nothing Then
             Throw New ArgumentNullException("Repositorio de RIPSPlaneService Vacio")
@@ -62,6 +75,10 @@ Public Class RIPSPlaneAdminService
         Me._rIPSCosmosDbModelRepository = rIPSCosmosDbModelRepository
         Me._electronicsRIPSRepository = electronicsRIPSRepository
         Me._documentsAssociatedRIPSRepository = documentsAssociatedRIPSRepository
+        Me._initialBalanceInvoiceRepository = initialBalanceInvoiceRepository
+        Me._portfolioInitialBalanceRepository = portfolioInitialBalanceRepository
+        Me._electronicDocumentRepository = electronicDocumentRepository
+        Me._storage = factoryStorage?.CreateStorageControl()
     End Sub
 
     ''' <summary>
@@ -133,7 +150,7 @@ Public Class RIPSPlaneAdminService
             Me.AddToListPlaneRIPS(ListPlaneRIPS, _ripsPlaneService.CTFile(ConsecutiveRadicateInvoice, ListPlaneRIPS))
             Return ListPlaneRIPS
         Catch ex As Exception
-            IndigoManagementExceptions.HandleException(ex, "ApplicationPolicy", Session)
+            IndigoManagementExceptions.HandleException(ex, "ApplicationPolicy")
             Return Nothing
         End Try
     End Function
@@ -170,7 +187,7 @@ Public Class RIPSPlaneAdminService
             Task.WaitAll(tFURIPS1, tFURIPS2)
             Return ListPlaneRIPS
         Catch ex As Exception
-            IndigoManagementExceptions.HandleException(ex, "ApplicationPolicy", Session)
+            IndigoManagementExceptions.HandleException(ex, "ApplicationPolicy")
             Return Nothing
         End Try
     End Function
@@ -201,8 +218,167 @@ Public Class RIPSPlaneAdminService
             Task.WaitAll(tFURTRAN)
             Return ListPlaneRIPS
         Catch ex As Exception
-            IndigoManagementExceptions.HandleException(ex, "ApplicationPolicy", Session)
+            IndigoManagementExceptions.HandleException(ex, "ApplicationPolicy")
             Return Nothing
+        End Try
+    End Function
+
+    ''' <summary>
+    ''' Genera el archivo FUR SERVICIOS de la Circular Externa 003 de 2026 de
+    ''' ADRES a partir de las facturas seleccionadas. Aplica el tope de 100
+    ''' facturas, valida longitudes/catálogos y devuelve el JSON ya serializado
+    ''' junto con un DataSet plano listo para exportarse a XLSX desde la UI.
+    ''' </summary>
+    Public Function GenerateAdresFurServiciosPlane(IdRadicateInvoice As Integer,
+                                                   Session As SessionValues,
+                                                   Optional InvoicesList As List(Of RIPSBilling) = Nothing) As ActionMessageResult(Of AdresClaimFile) _
+                                                   Implements IRIPSPlaneAdminService.GenerateAdresFurServiciosPlane
+
+        Const SinDatos As String = "No se encontraron datos para la generación del archivo"
+
+        Try
+            Dim InvoiceIds As New List(Of Integer)
+            If InvoicesList IsNot Nothing AndAlso InvoicesList.Any() Then
+                InvoiceIds = InvoicesList.Select(Function(o) o.InvoiceId).ToList()
+            End If
+
+            Dim warnings As New List(Of String)
+            If InvoiceIds.Count > AdresFurServiciosHelper.MAX_FACTURAS_JSON Then
+                Dim omitted = InvoiceIds.Count - AdresFurServiciosHelper.MAX_FACTURAS_JSON
+                warnings.Add($"Se procesaron las primeras {AdresFurServiciosHelper.MAX_FACTURAS_JSON} facturas; " &
+                             $"se omitieron {omitted} adicionales por la restricción de máximo 100 facturas por JSON FUR SERVICIOS.")
+                InvoiceIds = InvoiceIds.Take(AdresFurServiciosHelper.MAX_FACTURAS_JSON).ToList()
+            End If
+
+            Dim XmlParameters = Me.ConvertToXmlParameters(Session.IndigoCompanyNit, IdRadicateInvoice, 0, 0)
+            Dim XmlInvoices = Me.ConvertToXmlInvoices(InvoiceIds)
+
+            Dim spResult = Me.SP_GenerateFileData("SP_GenerateAdresFurServiciosData", XmlParameters, XmlInvoices, Session)
+            If spResult Is Nothing OrElse spResult.Tables.Count = 0 Then
+                Return New ActionMessageResult(Of AdresClaimFile) With {.StateResult = False, .Message = SinDatos}
+            End If
+
+            Dim rows = AdresFurServiciosHelper.MapDataTableToRows(spResult.Tables(0))
+            If rows.Count = 0 Then
+                Return New ActionMessageResult(Of AdresClaimFile) With {.StateResult = False, .Message = SinDatos}
+            End If
+
+            Dim validRows = AdresFurServiciosHelper.FilterValidRows(rows, warnings)
+            If validRows.Count = 0 Then
+                Return New ActionMessageResult(Of AdresClaimFile) With {.StateResult = False, .Message = SinDatos}
+            End If
+
+            Dim nit = GetCompanyNit(Session)
+            Dim fileName As String = "SER" & nit
+            Dim json = AdresFurServiciosHelper.BuildJson(validRows, nit)
+            Dim excelData = AdresFurServiciosHelper.BuildExcelData(validRows, nit)
+
+            Dim claimFile As New AdresClaimFile With {
+                .FileName = fileName,
+                .JsonContent = json,
+                .ExcelData = excelData,
+                .RecordCount = validRows.Count,
+                .Warnings = warnings
+            }
+
+            Return New ActionMessageResult(Of AdresClaimFile) With {
+                .StateResult = True,
+                .Message = fileName,
+                .ObjectEmbbeded = claimFile
+            }
+        Catch ex As Exception
+            IndigoManagementExceptions.HandleException(ex, "ApplicationPolicy", Session)
+            Return New ActionMessageResult(Of AdresClaimFile) With {
+                .StateResult = False,
+                .Message = String.Format("Error al generar FUR SERVICIOS: {0}", Utils.GetInnerExceptionMessageToString(ex))
+            }
+        End Try
+    End Function
+
+    ''' <summary>
+    ''' Genera el archivo FUR (Formulario Único de Reclamaciones) de la Circular Externa 003 de 2026 de ADRES a partir de las facturas seleccionadas
+    ''' </summary>
+    Public Function GenerateAdresFurPlane(IdRadicateInvoice As Integer,
+                                          Session As SessionValues,
+                                          Optional InvoicesList As List(Of RIPSBilling) = Nothing) As ActionMessageResult(Of AdresClaimFile) _
+                                          Implements IRIPSPlaneAdminService.GenerateAdresFurPlane
+
+        Const SinDatos As String = "No se encontraron datos para la generación del archivo"
+
+        Try
+            Dim InvoiceIds As New List(Of Integer)
+            If InvoicesList IsNot Nothing AndAlso InvoicesList.Any() Then
+                InvoiceIds = InvoicesList.Select(Function(o) o.InvoiceId).ToList()
+            End If
+
+            Dim warnings As New List(Of String)
+            If InvoiceIds.Count > AdresFurHelper.MAX_FACTURAS_JSON Then
+                Dim omitted = InvoiceIds.Count - AdresFurHelper.MAX_FACTURAS_JSON
+                warnings.Add($"Se procesaron las primeras {AdresFurHelper.MAX_FACTURAS_JSON} facturas; " &
+                             $"se omitieron {omitted} adicionales por la restricción de máximo 100 facturas por JSON FUR.")
+                InvoiceIds = InvoiceIds.Take(AdresFurHelper.MAX_FACTURAS_JSON).ToList()
+            End If
+
+            Dim XmlParameters = Me.ConvertToXmlParameters(Session.IndigoCompanyNit, IdRadicateInvoice, 0, 0)
+            Dim XmlInvoices = Me.ConvertToXmlInvoices(InvoiceIds)
+
+            Dim spResult = Me.SP_GenerateFileData("SP_GenerateAdresFurData", XmlParameters, XmlInvoices, Session)
+            If spResult Is Nothing OrElse spResult.Tables.Count = 0 Then
+                Return New ActionMessageResult(Of AdresClaimFile) With {.StateResult = False, .Message = SinDatos}
+            End If
+
+            Dim rows = AdresFurHelper.MapDataTableToRows(spResult.Tables(0))
+            If rows.Count = 0 Then
+                Return New ActionMessageResult(Of AdresClaimFile) With {.StateResult = False, .Message = SinDatos}
+            End If
+
+            Dim validRows = AdresFurHelper.FilterValidRows(rows, warnings)
+            If validRows.Count = 0 Then
+                Return New ActionMessageResult(Of AdresClaimFile) With {.StateResult = False, .Message = SinDatos}
+            End If
+
+            Dim nit = GetCompanyNit(Session)
+            Dim fileName As String = "FUR" & nit
+            Dim json = AdresFurHelper.BuildJson(validRows, nit)
+            Dim excelData = AdresFurHelper.BuildExcelData(validRows, nit)
+
+            Dim claimFile As New AdresClaimFile With {
+                .FileName = fileName,
+                .JsonContent = json,
+                .ExcelData = excelData,
+                .RecordCount = validRows.Count,
+                .Warnings = warnings
+            }
+
+            Return New ActionMessageResult(Of AdresClaimFile) With {
+                .StateResult = True,
+                .Message = fileName,
+                .ObjectEmbbeded = claimFile
+            }
+        Catch ex As Exception
+            IndigoManagementExceptions.HandleException(ex, "ApplicationPolicy", Session)
+            Return New ActionMessageResult(Of AdresClaimFile) With {
+                .StateResult = False,
+                .Message = String.Format("Error al generar FUR: {0}", Utils.GetInnerExceptionMessageToString(ex))
+            }
+        End Try
+    End Function
+
+    ''' <summary>
+    ''' Obtiene el NIT del prestador desde INEMPRESU.INDNUMIDE.
+    ''' Mismo enfoque que [dbo].[SP_ADM_ExportarDatosFur].
+    ''' </summary>
+    Private Function GetCompanyNit(Session As SessionValues) As String
+        Try
+            Dim dt = Me.GetDatatable(
+                "SELECT TOP 1 LTRIM(RTRIM(INDNUMIDE)) AS Nit FROM dbo.INEMPRESU",
+                Session,
+                "INEMPRESU_Nit")
+            If dt Is Nothing OrElse dt.Rows.Count = 0 Then Return String.Empty
+            Return Convert.ToString(dt.Rows(0)("Nit")).Trim()
+        Catch ex As Exception
+            IndigoManagementExceptions.HandleException(ex, "ApplicationPolicy", Session)
+            Return String.Empty
         End Try
     End Function
 
@@ -244,7 +420,7 @@ Public Class RIPSPlaneAdminService
 
             Return ListPlaneRIPS
         Catch ex As Exception
-            IndigoManagementExceptions.HandleException(ex, "ApplicationPolicy", Session)
+            IndigoManagementExceptions.HandleException(ex, "ApplicationPolicy")
             Return Nothing
         End Try
     End Function
@@ -425,13 +601,35 @@ Public Class RIPSPlaneAdminService
 #End Region
 
     ''' <summary>
-    ''' Reencola los RIPS electrónicos desde trazabilidad para reintentar su procesamiento
+    ''' Valida y encola registros de servicio para reconstruir JSON RIPS.
     ''' </summary>
-    ''' <param name="entityName">Nombre de la entidad a reenviar</param>
-    ''' <param name="listDocumentNumber">Lista de números de documento a reenviar</param>
-    ''' <param name="audit">Información de auditoría con el usuario que ejecuta la acción</param>
-    ''' <param name="entityId">Identificador opcional de la entidad</param>
-    ''' <returns>Resultado de la operación indicando éxito o fallo con mensaje descriptivo</returns>
+    Public Function RebuildFixedAmountRIPSToQueue(listDocumentNumber As List(Of String), audit As AuditMessage) As ActionResult Implements IRIPSPlaneAdminService.RebuildFixedAmountRIPSToQueue
+        Try
+            If listDocumentNumber Is Nothing OrElse Not listDocumentNumber.Any() Then Throw New ArgumentNullException("Lista de registros vacia")
+            If String.IsNullOrEmpty(audit?.CodeUser) Then Throw New ArgumentNullException("Codigo de usuario vacio")
+
+            Dim requested = listDocumentNumber.Where(Function(x) Not String.IsNullOrWhiteSpace(x)).Select(Function(x) x.Trim()).Distinct().ToList()
+            Dim invoices = _invoiceRepository.GetByFilter(Function(x) requested.Contains(x.InvoiceNumber) AndAlso x.DocumentType = 5 AndAlso x.Status = 1, False)?.ToList()
+            If invoices Is Nothing OrElse Not invoices.Any() Then Return New ActionResult With {.StateResult = False, .Message = "No se encontraron registros de servicio validos para reconstruir"}
+
+            Dim validNumbers = invoices.Select(Function(x) x.InvoiceNumber).Distinct().ToList()
+            Dim invalidNumbers = requested.Except(validNumbers).ToList()
+            Dim chunkSize = 100
+            Integer.TryParse(ConfigurationManager.AppSettings("RipsRebuildChunkSize"), chunkSize)
+            If chunkSize <= 0 Then chunkSize = 100
+
+            For index = 0 To validNumbers.Count - 1 Step chunkSize
+                TriggerEvent(CreateObjectEventRIPS(validNumbers.Skip(index).Take(chunkSize).ToList(), EEntityNameERIPS.Invoice), "modified", audit)
+            Next
+
+            Dim message = "Proceso exitoso"
+            If invalidNumbers.Any() Then message = String.Concat("Se reconstruyeron los registros validos, excepto: ", String.Join(",", invalidNumbers))
+            Return New ActionResult With {.StateResult = True, .Message = message}
+        Catch ex As Exception
+            Return New ActionResult With {.StateResult = False, .Message = Utils.GetInnerExceptionMessageToString(ex)}
+        End Try
+    End Function
+
     Public Function ReSendElectronicRIPSToQueue(entityName As String, listDocumentNumber As List(Of String), audit As AuditMessage, Optional entityId As Integer? = Nothing) As ActionResult Implements IRIPSPlaneAdminService.ReSendElectronicRIPSToQueue
         Try
 
@@ -640,7 +838,8 @@ Public Class RIPSPlaneAdminService
                 Return New ActionResult(Of String) With {.StateResult = False, .Message = $"No se encontró el Json @{idCosmosDb}"}
             End If
 
-            Query.DocumentsAssociatedRIPS = Await AssociatedRIPSResponse(Query.JsonRIPS.rips, idCosmosDb)
+            Await EnsureXmlFevFileForInitialBalanceAsync(Query)
+            Query.DocumentsAssociatedRIPS = Await AssociatedRIPSResponse(Query.JsonRIPS.rips, idCosmosDb, Query.EntityName)
 
             Dim jsonRIPS = JsonConvert.SerializeObject(Query, Formatting.None)
             Return New ActionResult(Of String) With {.StateResult = True, .ObjectEmbbeded = jsonRIPS, .Message = "Proceso exitoso"}
@@ -680,6 +879,7 @@ Public Class RIPSPlaneAdminService
                 Return New ActionResult(Of String) With {.StateResult = False, .Message = $"No se encontró el Json para el documento: {docNumber}"}
             End If
 
+            Await EnsureXmlFevFileForInitialBalanceAsync(Query)
             Query.DocumentsAssociatedRIPS = Await AssociatedRIPSResponse(Query.JsonRIPS.rips, Query.id)
 
             Dim jsonRIPS = JsonConvert.SerializeObject(Query, Formatting.None)
@@ -695,13 +895,26 @@ Public Class RIPSPlaneAdminService
     ''' <param name="jsonRIPS">Modelo de RIPS electrónico con la información del documento</param>
     ''' <param name="idCosmosDb">Identificador único del documento en Cosmos DB</param>
     ''' <returns>Objeto DocumentsAssociatedRIPS con la información de respuesta y validación</returns>
-    Private Async Function AssociatedRIPSResponse(jsonRIPS As ElectronicRIPSModel, idCosmosDb As String) As Task(Of DocumentsAssociatedRIPS)
+    Private Async Function AssociatedRIPSResponse(jsonRIPS As ElectronicRIPSModel, idCosmosDb As String, Optional queryEntityName As String = Nothing) As Task(Of DocumentsAssociatedRIPS)
         Dim documentNumber As String
         Dim entityName As String
 
+
         If jsonRIPS Is Nothing Then
             jsonRIPS = New ElectronicRIPSModel()
-            jsonRIPS.numFactura = idCosmosDb.Split("-").First
+
+            Dim documentId As String = idCosmosDb.Split("-"c).First()
+
+            Select Case queryEntityName
+                Case "BillingNote"
+                    jsonRIPS.numNota = documentId
+
+                Case "Invoice", Nothing, ""
+                    jsonRIPS.numFactura = documentId
+
+                Case Else
+                    jsonRIPS.numFactura = documentId
+            End Select
         End If
 
         If (Not String.IsNullOrEmpty(jsonRIPS.tipoNota) And jsonRIPS.tipoNota = "NA") Then
@@ -743,6 +956,35 @@ Public Class RIPSPlaneAdminService
                 numFacturaValue = jsonRIPS.numFactura
         End Select
 
+        Dim defaultValidationResults = New List(Of ResultValidation) From {
+                                New ResultValidation With {
+                                    .Clase = "NOTIFICACION",
+                                    .Codigo = "FED131",
+                                    .Descripcion = "[Interoperabilidad.Group.Collection.AdditionalInformation.NUMERO_POLIZA.Value] El apartado no existe o no tiene valor en el XML del documento electrónico. Por favor verifique que la etiqueta Xml use mayúsculas y minúsculas según resolución",
+                                    .Fuente = "FacturaElectronica",
+                                    .Observaciones = "",
+                                    .PathFuente = ""
+                                },
+                                New ResultValidation With {
+                                    .Clase = "NOTIFICACION",
+                                    .Codigo = "RVC019",
+                                    .Descripcion = "El código de CUPS se puede validar con el diagnóstico principal.",
+                                    .Fuente = "Rips",
+                                    .Observaciones = "",
+                                    .PathFuente = ""
+                                },
+                                New ResultValidation With {
+                                    .Clase = "NOTIFICACION",
+                                    .Codigo = "RVC059",
+                                    .Descripcion = "El código de CUPS puede ser validado con el grupo de servicio, servicio, finalidad o causa.",
+                                    .Fuente = "Rips",
+                                    .Observaciones = "",
+                                    .PathFuente = ""
+                                }
+        }
+
+        Dim validationResults = If(queryCUV?.ResultadosValidacion IsNot Nothing AndAlso queryCUV.ResultadosValidacion.Any(), queryCUV.ResultadosValidacion, defaultValidationResults)
+
         ' Construir la respuesta a retornar
         Dim responseResult As New LoadRIPSResultModel With {
             .ResultState = True,
@@ -751,32 +993,11 @@ Public Class RIPSPlaneAdminService
             .CodigoUnicoValidacion = If(String.IsNullOrEmpty(electronicRIPS?.CUV), queryCUV?.CodigoUnicoValidacion, electronicRIPS.CUV),
             .FechaRadicacion = dateUtc.ToString("o"),
             .RutaArchivos = Nothing,
-            .ResultadosValidacion = New List(Of ResultValidation) From {
-                                    New ResultValidation With {
-                                        .Clase = "NOTIFICACION",
-                                        .Codigo = "FED131",
-                                        .Descripcion = "[Interoperabilidad.Group.Collection.AdditionalInformation.NUMERO_POLIZA.Value] El apartado no existe o no tiene valor en el XML del documento electrónico. Por favor verifique que la etiqueta Xml use mayúsculas y minúsculas según resolución",
-                                        .Fuente = "FacturaElectronica",
-                                        .Observaciones = "",
-                                        .PathFuente = ""
-                                    },
-                                    New ResultValidation With {
-                                        .Clase = "NOTIFICACION",
-                                        .Codigo = "RVC019",
-                                        .Descripcion = "El código de CUPS se puede validar con el diagnóstico principal.",
-                                        .Fuente = "Rips",
-                                        .Observaciones = "",
-                                        .PathFuente = ""
-                                    },
-                                    New ResultValidation With {
-                                        .Clase = "NOTIFICACION",
-                                        .Codigo = "RVC059",
-                                        .Descripcion = "El código de CUPS puede ser validado con el grupo de servicio, servicio, finalidad o causa.",
-                                        .Fuente = "Rips",
-                                        .Observaciones = "",
-                                        .PathFuente = ""
-                                    }
-            }
+            .Ambiente = queryCUV?.Ambiente,
+            .Modulo = queryCUV?.Modulo,
+            .ModalidadPago = queryCUV?.ModalidadPago,
+            .PeriodoAtencion = queryCUV?.PeriodoAtencion,
+            .ResultadosValidacion = validationResults
         }
 
         associatedDocument.Data = responseResult
@@ -1619,7 +1840,7 @@ Public Class RIPSPlaneAdminService
             ds.Tables.Add(dt.Copy())
             Return ds
         Catch ex As Exception
-            IndigoManagementExceptions.HandleException(ex, "ApplicationPolicy", session)
+            IndigoManagementExceptions.HandleException(ex, "ApplicationPolicy")
             Return Nothing
         End Try
     End Function
@@ -1637,10 +1858,15 @@ Public Class RIPSPlaneAdminService
             Dim ds As New DataSet
             Dim query As String = String.Format("EXEC [Glosas].[{0}] '{1}', '{2}'", SP_Name, XmlParameters, XmlInvoices)
             Dim dt = Me.GetDatatable(query, session, SP_Name)
+            If dt Is Nothing Then
+                Return ds
+            End If
             ds.Tables.Add(dt.Copy())
             Return ds
         Catch ex As Exception
-            IndigoManagementExceptions.HandleException(ex, "ApplicationPolicy", session)
+            IndigoManagementExceptions.HandleException(
+                New Exception(String.Format("SP_GenerateFileData falló para [Glosas].[{0}]: {1}", SP_Name, ex.Message), ex),
+                "ApplicationPolicy")
             Return Nothing
         End Try
     End Function
@@ -1660,7 +1886,7 @@ Public Class RIPSPlaneAdminService
             ds.Tables.Add(dt.Copy())
             Return ds
         Catch ex As Exception
-            IndigoManagementExceptions.HandleException(ex, "ApplicationPolicy", session)
+            IndigoManagementExceptions.HandleException(ex, "ApplicationPolicy")
             Return Nothing
         End Try
     End Function
@@ -1699,6 +1925,336 @@ Public Class RIPSPlaneAdminService
 
 #End Region
 
+#Region "Upload RIPS to CosmosDB"
+
+    Private Const OPENING_BALANCE_ENTITY_NAME As String = "InitialBalance"
+    Private Const ONE_DAY_SECONDS As Long = 86400
+
+    ''' <summary>
+    ''' Cargue pequeño (≤ threshold). Internamente delega en UploadRipsBulkAsync.
+    ''' </summary>
+    Public Async Function UploadRipsSmallAsync(items As List(Of RipsUploadRequest),
+                                                audit As AuditMessage) As Task(Of ActionResult(Of RipsBulkResponse)) Implements IRIPSPlaneAdminService.UploadRipsSmallAsync
+        Return Await UploadRipsBulkAsync(Guid.NewGuid().ToString(), items, audit, CancellationToken.None)
+    End Function
+
+    ''' <summary>
+    ''' Cargue masivo de RIPS. Política duplicados:
+    '''   - Existente con _ts ≤ 24h → Skipped
+    '''   - Existente con _ts > 24h → Overwritten (UPSERT con id existente)
+    '''   - No existente → Created (UPSERT con id = numFactura-GUID)
+    ''' </summary>
+    Public Async Function UploadRipsBulkAsync(batchId As String,
+                                               items As List(Of RipsUploadRequest),
+                                               audit As AuditMessage,
+                                               Optional cancellationToken As CancellationToken = Nothing) As Task(Of ActionResult(Of RipsBulkResponse)) Implements IRIPSPlaneAdminService.UploadRipsBulkAsync
+        Try
+            If _rIPSCosmosDbModelRepository Is Nothing Then
+                Return New ActionResult(Of RipsBulkResponse) With {
+                    .StateResult = False,
+                    .Message = "RIPSCosmosDbModelRepository no resuelto"
+                }
+            End If
+
+            If items Is Nothing OrElse items.Count = 0 Then
+                Return New ActionResult(Of RipsBulkResponse) With {
+                    .StateResult = False,
+                    .Message = "Lista de items vacía"
+                }
+            End If
+
+            Dim response As New RipsBulkResponse With {
+                .BatchId = If(String.IsNullOrEmpty(batchId), Guid.NewGuid().ToString(), batchId),
+                .TotalReceived = items.Count
+            }
+
+            Dim container As String = audit?.Company
+
+            ' 1. Validar JSON + numFactura coincide
+            ' El JSON que sube el usuario tiene shape ElectronicRIPSModel directo (sin wrapper rips).
+            ' Aquí lo envolvemos en RIPSModel { rips = ... } para guardar en Cosmos.
+            Dim valid As New List(Of Tuple(Of RipsUploadRequest, RIPSCosmosDbModel))
+            For Each it In items
+                Dim ripsModel As ElectronicRIPSModel = Nothing
+                Try
+                    ripsModel = JsonConvert.DeserializeObject(Of ElectronicRIPSModel)(it.JsonRipsRaw)
+                Catch
+                    response.Results.Add(New RipsUploadResult With {
+                        .NumFactura = it.NumFactura,
+                        .Status = RipsUploadStatus.Failed,
+                        .Message = "Formato incorrecto"
+                    })
+                    Continue For
+                End Try
+
+                If ripsModel Is Nothing OrElse
+                   String.IsNullOrEmpty(ripsModel.numFactura) OrElse
+                   String.IsNullOrEmpty(ripsModel.numDocumentoIdObligado) OrElse
+                   ripsModel.usuarios Is Nothing OrElse
+                   ripsModel.usuarios.Count = 0 Then
+                    response.Results.Add(New RipsUploadResult With {
+                        .NumFactura = it.NumFactura,
+                        .Status = RipsUploadStatus.Failed,
+                        .Message = "Formato incorrecto"
+                    })
+                    Continue For
+                End If
+
+                If Not String.Equals(ripsModel.numFactura, it.NumFactura, StringComparison.OrdinalIgnoreCase) Then
+                    response.Results.Add(New RipsUploadResult With {
+                        .NumFactura = it.NumFactura,
+                        .Status = RipsUploadStatus.Failed,
+                        .Message = String.Format("numFactura del JSON ({0}) no coincide con archivo ({1})", ripsModel.numFactura, it.NumFactura)
+                    })
+                    Continue For
+                End If
+
+                Dim xmlFevFile As String = Nothing
+                Try
+                    xmlFevFile = GetInitialBalanceAttachedDocumentBase64(it.InitialBalanceId, it.NumFactura)
+                Catch ex As Exception
+                    response.Results.Add(New RipsUploadResult With {
+                        .NumFactura = it.NumFactura,
+                        .Status = RipsUploadStatus.Failed,
+                        .Message = ex.Message
+                    })
+                    Continue For
+                End Try
+
+                If String.IsNullOrWhiteSpace(xmlFevFile) Then
+                    response.Results.Add(New RipsUploadResult With {
+                        .NumFactura = it.NumFactura,
+                        .Status = RipsUploadStatus.Failed,
+                        .Message = "No se encontró el AttachedDocument XML de la factura en blob storage."
+                    })
+                    Continue For
+                End If
+
+                Dim envelope As New RIPSCosmosDbModel With {
+                    .Container = container,
+                    .Retry = 0,
+                    .EntityName = OPENING_BALANCE_ENTITY_NAME,
+                    .JsonRIPS = New RIPSModel With {.rips = ripsModel, .xmlFevFile = xmlFevFile}
+                }
+                valid.Add(Tuple.Create(it, envelope))
+            Next
+
+            If valid.Count = 0 Then
+                response.Failed = response.Results.Where(Function(r) r.Status = RipsUploadStatus.Failed).Count()
+                Return New ActionResult(Of RipsBulkResponse) With {
+                    .StateResult = True,
+                    .ObjectEmbbeded = response,
+                    .Message = "Ningún item válido para subir"
+                }
+            End If
+
+            ' 2. Query existentes para política duplicados
+            Dim numFacturas = valid.Select(Function(p) p.Item1.NumFactura).ToList()
+            Dim existing = Await _rIPSCosmosDbModelRepository.GetExistingByNumFacturaAsync(numFacturas, container)
+
+            Dim nowSeconds = DateTimeOffset.UtcNow.ToUnixTimeSeconds()
+
+            Dim toUpsert As New List(Of RIPSCosmosDbModel)
+            Dim numFacturaToStatus As New Dictionary(Of String, RipsUploadStatus)(StringComparer.OrdinalIgnoreCase)
+
+            For Each p In valid
+                Dim numF = p.Item1.NumFactura
+                Dim env = p.Item2
+
+                Dim info As RipsExistsInfo = Nothing
+                If existing.TryGetValue(numF, info) Then
+                    Dim ageSec = nowSeconds - info.Ts
+                    If ageSec <= ONE_DAY_SECONDS Then
+                        response.Results.Add(New RipsUploadResult With {
+                            .NumFactura = numF,
+                            .CosmosId = info.Id,
+                            .Status = RipsUploadStatus.Skipped,
+                            .Message = "El RIPS ya fue cargado previamente."
+                        })
+                        Continue For
+                    Else
+                        env.id = info.Id
+                        numFacturaToStatus(numF) = RipsUploadStatus.Overwritten
+                    End If
+                Else
+                    env.id = numF & "-" & Guid.NewGuid().ToString()
+                    numFacturaToStatus(numF) = RipsUploadStatus.Created
+                End If
+
+                toUpsert.Add(env)
+            Next
+
+            ' 3. Upsert masivo
+            If toUpsert.Count > 0 Then
+                Dim bulkResult = Await _rIPSCosmosDbModelRepository.UpsertManyAsync(toUpsert, Nothing, cancellationToken)
+
+                For Each ok In bulkResult.Succeeded
+                    Dim env = ok.Item
+                    Dim numF = If(env.JsonRIPS?.rips?.numFactura, String.Empty)
+                    Dim status As RipsUploadStatus = RipsUploadStatus.Created
+                    If numFacturaToStatus.ContainsKey(numF) Then
+                        status = numFacturaToStatus(numF)
+                    End If
+                    response.Results.Add(New RipsUploadResult With {
+                        .NumFactura = numF,
+                        .CosmosId = env.id,
+                        .Status = status
+                    })
+                Next
+
+                For Each fail In bulkResult.Failed
+                    Dim env = fail.Item
+                    Dim numF = If(env.JsonRIPS?.rips?.numFactura, String.Empty)
+                    response.Results.Add(New RipsUploadResult With {
+                        .NumFactura = numF,
+                        .CosmosId = env.id,
+                        .Status = RipsUploadStatus.Failed,
+                        .Message = fail.ErrorMessage
+                    })
+                Next
+            End If
+
+            ' 4. Aggregates
+            response.Succeeded = response.Results.Where(Function(r) r.Status = RipsUploadStatus.Created OrElse r.Status = RipsUploadStatus.Overwritten).Count()
+            response.Skipped = response.Results.Where(Function(r) r.Status = RipsUploadStatus.Skipped).Count()
+            response.Failed = response.Results.Where(Function(r) r.Status = RipsUploadStatus.Failed).Count()
+
+            Return New ActionResult(Of RipsBulkResponse) With {
+                .StateResult = True,
+                .ObjectEmbbeded = response
+            }
+
+        Catch ex As Exception
+            Return New ActionResult(Of RipsBulkResponse) With {
+                .StateResult = False,
+                .Message = Utils.GetInnerExceptionMessageToString(ex)
+            }
+        End Try
+    End Function
+
+    Private Function GetInitialBalanceAttachedDocumentBase64(initialBalanceId As Integer, invoiceNumber As String) As String
+        If initialBalanceId <= 0 Then
+            Throw New ArgumentException("InitialBalanceId no especificado para cargar xmlFevFile.")
+        End If
+
+        If String.IsNullOrWhiteSpace(invoiceNumber) Then
+            Throw New ArgumentException("Número de factura vacío para cargar xmlFevFile.")
+        End If
+
+        If _portfolioInitialBalanceRepository Is Nothing Then
+            Throw New InvalidOperationException("PortfolioInitialBalanceRepository no resuelto para cargar xmlFevFile.")
+        End If
+
+        If _storage Is Nothing Then
+            Throw New InvalidOperationException("Storage no resuelto para cargar xmlFevFile.")
+        End If
+
+        Dim header = _portfolioInitialBalanceRepository.GetPortfolioInitialBalanceById(initialBalanceId)
+        If header Is Nothing OrElse header.Id = 0 Then
+            Throw New InvalidOperationException("Saldo inicial no encontrado para cargar xmlFevFile.")
+        End If
+
+        Dim filePath = BuildInitialBalanceInvoiceXmlFilePath(header, invoiceNumber)
+        Dim fileBytes = ReadAttachedDocumentBytesWithFallback(filePath, invoiceNumber)
+
+        If fileBytes Is Nothing Then
+            Throw New InvalidOperationException("El XML encontrado en blob no es un AttachedDocument válido.")
+        End If
+
+        Return Convert.ToBase64String(fileBytes)
+    End Function
+
+    Private Function ReadAttachedDocumentBytesWithFallback(filePath As String, invoiceNumber As String) As Byte()
+        Dim preferredFileName = invoiceNumber & ".xml"
+        Dim preferredBytes = ReadFileIfExists(filePath, preferredFileName)
+        If IsAttachedDocumentXml(preferredBytes) Then Return preferredBytes
+
+        For Each fallbackPrefix In New String() {"fv", "FV", "ad", "AD"}
+            Dim fallbackFileName = _storage.FindFirstFileName(filePath, fallbackPrefix, ".xml")
+            If String.IsNullOrWhiteSpace(fallbackFileName) OrElse
+                String.Equals(fallbackFileName, preferredFileName, StringComparison.OrdinalIgnoreCase) Then
+                Continue For
+            End If
+
+            Dim fallbackBytes = ReadFileIfExists(filePath, fallbackFileName)
+            If IsAttachedDocumentXml(fallbackBytes) Then Return fallbackBytes
+        Next
+
+        Return Nothing
+    End Function
+
+    Private Function ReadFileIfExists(filePath As String, fileName As String) As Byte()
+        If String.IsNullOrWhiteSpace(fileName) OrElse _storage.ValidateIfNotExists(filePath, fileName) Then Return Nothing
+        Return _storage.ReadFile(filePath, fileName)
+    End Function
+
+    Private Function IsAttachedDocumentXml(fileBytes As Byte()) As Boolean
+        If fileBytes Is Nothing OrElse fileBytes.Length = 0 Then Return False
+
+        Try
+            Dim xmlString = Encoding.UTF8.GetString(fileBytes)
+            Dim doc = XDocument.Parse(xmlString)
+            Return doc.Root IsNot Nothing AndAlso String.Equals(doc.Root.Name.LocalName, "AttachedDocument", StringComparison.OrdinalIgnoreCase)
+        Catch
+            Return False
+        End Try
+    End Function
+
+    Private Function BuildInitialBalanceInvoiceXmlFilePath(header As PortfolioInitialBalance, invoiceNumber As String) As String
+        Dim container As String = ServerSessionValues.Current.CurrentContainer
+        Return String.Format("E:\ProgramData\Indigo Technologies\ElectronicDocuments\{0}\001\{1}\{2}\Saldos Iniciales\{3}",
+                             container, header.CreationDate.Year, header.CreationDate.Month, invoiceNumber)
+    End Function
+
+    ''' <summary>
+    ''' Pre-check existencia RIPS en CosmosDB. Devuelve Existing/Missing por numFactura.
+    ''' Reusa GetExistingByNumFacturaAsync (chunks 100 internamente).
+    ''' </summary>
+    Public Async Function CheckRipsExistAsync(invoiceNumbers As List(Of String),
+                                              audit As AuditMessage) As Task(Of ActionResult(Of RipsCheckExistResponse)) Implements IRIPSPlaneAdminService.CheckRipsExistAsync
+        Try
+            Dim resp As New RipsCheckExistResponse
+            If invoiceNumbers Is Nothing OrElse invoiceNumbers.Count = 0 Then
+                Return New ActionResult(Of RipsCheckExistResponse) With {.StateResult = True, .ObjectEmbbeded = resp}
+            End If
+            If _rIPSCosmosDbModelRepository Is Nothing Then
+                Return New ActionResult(Of RipsCheckExistResponse) With {
+                    .StateResult = False,
+                    .Message = "RIPSCosmosDbModelRepository no resuelto"
+                }
+            End If
+
+            Dim container As String = audit?.Company
+            Dim distinct = invoiceNumbers.
+                Where(Function(n) Not String.IsNullOrWhiteSpace(n)).
+                Select(Function(n) n.Trim()).
+                Distinct(StringComparer.OrdinalIgnoreCase).
+                ToList()
+
+            Dim existing = Await _rIPSCosmosDbModelRepository.GetExistingByNumFacturaAsync(distinct, container)
+
+            For Each numF In distinct
+                If existing.ContainsKey(numF) Then
+                    resp.Existing.Add(numF)
+                Else
+                    resp.Missing.Add(numF)
+                End If
+            Next
+
+            Return New ActionResult(Of RipsCheckExistResponse) With {
+                .StateResult = True,
+                .ObjectEmbbeded = resp
+            }
+        Catch ex As Exception
+            Return New ActionResult(Of RipsCheckExistResponse) With {
+                .StateResult = False,
+                .Message = Utils.GetInnerExceptionMessageToString(ex)
+            }
+        End Try
+    End Function
+
+#End Region
+
 #Region "IDisposable Support"
     Private disposedValue As Boolean ' Para detectar llamadas redundantes
 
@@ -1719,6 +2275,215 @@ Public Class RIPSPlaneAdminService
         Dispose(True)
         GC.SuppressFinalize(Me)
     End Sub
+#End Region
+
+#Region "Populate InitialBalanceInvoiceDetail (Saldos Iniciales)"
+
+    ''' <summary>
+    ''' Hidrata Cosmos por número de factura, parsea usuarios.servicios y carga InitialBalanceInvoiceDetail
+    ''' (snapshot 9 cols por ServiceType, ADR-005/D26). Idempotente: DELETE detail rows existentes antes de INSERT.
+    ''' Actualiza InitialBalanceInvoice.CosmosId + ObligatedPartyDocument + Status=2 (Confirmado).
+    ''' Items sin consecutivo se descartan (D21).
+    ''' </summary>
+    Public Async Function PopulateInitialBalanceDetail(invoiceNumbers As List(Of String), audit As AuditMessage) As Task(Of ActionResult(Of List(Of RipsUploadResult))) Implements IRIPSPlaneAdminService.PopulateInitialBalanceDetail
+        Dim results As New List(Of RipsUploadResult)
+        If invoiceNumbers Is Nothing OrElse invoiceNumbers.Count = 0 Then
+            Return New ActionResult(Of List(Of RipsUploadResult)) With {.StateResult = True, .ObjectEmbbeded = results}
+        End If
+        If _rIPSCosmosDbModelRepository Is Nothing OrElse _initialBalanceInvoiceRepository Is Nothing Then
+            Return New ActionResult(Of List(Of RipsUploadResult)) With {
+                .StateResult = False,
+                .Message = "Servicio Cosmos o repositorio InitialBalanceInvoice no disponibles."
+            }
+        End If
+
+        For Each invoiceNumber In invoiceNumbers
+            Dim r As New RipsUploadResult With {.NumFactura = invoiceNumber}
+            Try
+                If String.IsNullOrWhiteSpace(invoiceNumber) Then
+                    r.Status = RipsUploadStatus.Skipped
+                    r.Message = "Número de factura vacío."
+                    results.Add(r)
+                    Continue For
+                End If
+
+                Dim ibi As InitialBalanceInvoice = _initialBalanceInvoiceRepository.GetByInvoiceNumber(invoiceNumber)
+                If ibi Is Nothing OrElse ibi.Id = 0 Then
+                    r.Status = RipsUploadStatus.Skipped
+                    r.Message = "InitialBalanceInvoice header no encontrado para esta factura. Confirme primero el saldo inicial."
+                    results.Add(r)
+                    Continue For
+                End If
+
+                Dim cosmosDoc As RIPSCosmosDbModel = Await _rIPSCosmosDbModelRepository.GetJsonRIPSByDocNumber(invoiceNumber)
+                If cosmosDoc Is Nothing OrElse cosmosDoc.JsonRIPS Is Nothing OrElse cosmosDoc.JsonRIPS.rips Is Nothing Then
+                    r.Status = RipsUploadStatus.Skipped
+                    r.Message = "Documento Cosmos no encontrado para esta factura."
+                    results.Add(r)
+                    Continue For
+                End If
+
+                ' Idempotencia: borrar detail previo (reupload, ADR-007).
+                _initialBalanceInvoiceRepository.DeleteDetailsByInitialBalanceInvoiceId(ibi.Id)
+
+                Dim usuarios = cosmosDoc.JsonRIPS.rips.usuarios
+                If usuarios IsNot Nothing Then
+                    For Each usuario In usuarios
+                        If usuario.servicios Is Nothing Then Continue For
+                        SaveConsultas(ibi.Id, usuario.consecutivo, usuario.servicios.consultas, audit)
+                        SaveProcedimientos(ibi.Id, usuario.consecutivo, usuario.servicios.procedimientos, audit)
+                        SaveUrgencias(ibi.Id, usuario.consecutivo, usuario.servicios.urgencias, audit)
+                        SaveRecienNacidos(ibi.Id, usuario.consecutivo, usuario.servicios.recienNacidos, audit)
+                        SaveMedicamentos(ibi.Id, usuario.consecutivo, usuario.servicios.medicamentos, audit)
+                        SaveOtrosServicios(ibi.Id, usuario.consecutivo, usuario.servicios.otrosServicios, audit)
+                        SaveHospitalizacion(ibi.Id, usuario.consecutivo, usuario.servicios.hospitalizacion, audit)
+                    Next
+                End If
+
+                ibi.CosmosId = cosmosDoc.id
+                ibi.ObligatedPartyDocument = If(cosmosDoc.JsonRIPS.rips.numDocumentoIdObligado, String.Empty)
+                ibi.Status = 2
+                ibi.ModificationUser = audit.CodeUser
+                ibi.ModificationDate = DateTime.Now
+                ibi.MarkAsModified()
+                _initialBalanceInvoiceRepository.SaveEntity(ibi)
+                _initialBalanceInvoiceRepository.UnitWork.Commit()
+
+                r.Status = RipsUploadStatus.Created
+                r.CosmosId = cosmosDoc.id
+                r.Message = "Detail rows poblados correctamente."
+            Catch ex As Exception
+                IndigoManagementExceptions.HandleException(ex, "ApplicationPolicy")
+                r.Status = RipsUploadStatus.Failed
+                r.Message = ex.Message
+            End Try
+            results.Add(r)
+        Next
+
+        Return New ActionResult(Of List(Of RipsUploadResult)) With {.StateResult = True, .ObjectEmbbeded = results}
+    End Function
+
+    Private Async Function EnsureXmlFevFileForInitialBalanceAsync(query As RIPSCosmosDbModel) As Task
+        If query Is Nothing OrElse query.JsonRIPS Is Nothing OrElse query.JsonRIPS.rips Is Nothing Then Return
+        If Not String.IsNullOrWhiteSpace(query.JsonRIPS.xmlFevFile) Then Return
+        If Not String.Equals(query.EntityName, OPENING_BALANCE_ENTITY_NAME, StringComparison.OrdinalIgnoreCase) Then Return
+
+        Dim invoiceNumber = query.JsonRIPS.rips.numFactura
+        If String.IsNullOrWhiteSpace(invoiceNumber) Then Return
+
+        Dim xmlFevFile = GetInitialBalanceAttachedDocumentBase64ByInvoiceNumber(invoiceNumber)
+        If String.IsNullOrWhiteSpace(xmlFevFile) Then Return
+
+        query.JsonRIPS.xmlFevFile = xmlFevFile
+
+        If _rIPSCosmosDbModelRepository IsNot Nothing AndAlso Not String.IsNullOrWhiteSpace(query.id) Then
+            Await _rIPSCosmosDbModelRepository.UpsertManyAsync(New List(Of RIPSCosmosDbModel) From {query}, Nothing, CancellationToken.None)
+        End If
+    End Function
+
+    Private Function GetInitialBalanceAttachedDocumentBase64ByInvoiceNumber(invoiceNumber As String) As String
+        If String.IsNullOrWhiteSpace(invoiceNumber) Then Return Nothing
+        If _initialBalanceInvoiceRepository Is Nothing OrElse _electronicDocumentRepository Is Nothing OrElse _storage Is Nothing Then Return Nothing
+
+        Dim ibi = _initialBalanceInvoiceRepository.GetByInvoiceNumber(invoiceNumber)
+        If ibi Is Nothing OrElse ibi.InvoiceId <= 0 Then Return Nothing
+
+        Dim electronicDocument = _electronicDocumentRepository.GetElectronicDocumentByInvoiceId(ibi.InvoiceId, False)
+        If electronicDocument Is Nothing OrElse String.IsNullOrWhiteSpace(electronicDocument.FilePath) Then Return Nothing
+
+        Dim fileBytes = ReadAttachedDocumentBytesWithFallback(electronicDocument.FilePath, invoiceNumber)
+        If fileBytes Is Nothing Then Return Nothing
+
+        Return Convert.ToBase64String(fileBytes)
+    End Function
+
+    Private Sub SaveConsultas(ibiId As Integer, userConsecutive As Integer, items As List(Of ConsultaModel), audit As AuditMessage)
+        If items Is Nothing Then Return
+        For Each c In items
+            Dim vr As Decimal = If(c.vrServicio, 0)
+            _initialBalanceInvoiceRepository.SaveDetail(BuildDetailRow(ibiId, userConsecutive, 1, c.consecutivo, c.codConsulta, 1, vr, vr, ParseDate(c.fechaInicioAtencion), audit))
+        Next
+    End Sub
+
+    Private Sub SaveProcedimientos(ibiId As Integer, userConsecutive As Integer, items As List(Of ProcedimientoModel), audit As AuditMessage)
+        If items Is Nothing Then Return
+        For Each p In items
+            Dim vr As Decimal = If(p.vrServicio, 0)
+            _initialBalanceInvoiceRepository.SaveDetail(BuildDetailRow(ibiId, userConsecutive, 2, p.consecutivo, p.codProcedimiento, 1, vr, vr, ParseDate(p.fechaInicioAtencion), audit))
+        Next
+    End Sub
+
+    Private Sub SaveUrgencias(ibiId As Integer, userConsecutive As Integer, items As List(Of UrgenciaModel), audit As AuditMessage)
+        If items Is Nothing Then Return
+        For Each u In items
+            _initialBalanceInvoiceRepository.SaveDetail(BuildDetailRow(ibiId, userConsecutive, 3, u.consecutivo, Nothing, 1, 0D, 0D, ParseDate(u.fechaInicioAtencion), audit))
+        Next
+    End Sub
+
+    Private Sub SaveRecienNacidos(ibiId As Integer, userConsecutive As Integer, items As List(Of RecienNacidosModel), audit As AuditMessage)
+        If items Is Nothing Then Return
+        For Each rn In items
+            If Not rn.consecutivo.HasValue Then Continue For
+            _initialBalanceInvoiceRepository.SaveDetail(BuildDetailRow(ibiId, userConsecutive, 4, rn.consecutivo.Value, Nothing, 1, 0D, 0D, ParseDate(rn.fechaNacimiento), audit))
+        Next
+    End Sub
+
+    Private Sub SaveMedicamentos(ibiId As Integer, userConsecutive As Integer, items As List(Of MedicamentosModel), audit As AuditMessage)
+        If items Is Nothing Then Return
+        For Each m In items
+            If Not m.consecutivo.HasValue Then Continue For
+            Dim qty As Integer = If(m.cantidadMedicamento, 1)
+            Dim uv As Decimal = If(m.vrUnitMedicamento, 0)
+            Dim sv As Decimal = If(m.vrServicio, 0)
+            _initialBalanceInvoiceRepository.SaveDetail(BuildDetailRow(ibiId, userConsecutive, 5, m.consecutivo.Value, m.codTecnologiaSalud, qty, uv, sv, ParseDate(m.fechaDispensAdmon), audit))
+        Next
+    End Sub
+
+    Private Sub SaveOtrosServicios(ibiId As Integer, userConsecutive As Integer, items As List(Of OtrosServiciosModel), audit As AuditMessage)
+        If items Is Nothing Then Return
+        For Each o In items
+            If Not o.consecutivo.HasValue Then Continue For
+            Dim qty As Integer = If(o.cantidadOS, 1)
+            Dim uv As Decimal = If(o.vrUnitOS, 0)
+            Dim sv As Decimal = If(o.vrServicio, 0)
+            _initialBalanceInvoiceRepository.SaveDetail(BuildDetailRow(ibiId, userConsecutive, 6, o.consecutivo.Value, o.codTecnologiaSalud, qty, uv, sv, ParseDate(o.fechaSuministroTecnologia), audit))
+        Next
+    End Sub
+
+    Private Sub SaveHospitalizacion(ibiId As Integer, userConsecutive As Integer, items As List(Of HospitalizacionModel), audit As AuditMessage)
+        If items Is Nothing Then Return
+        For Each h In items
+            If Not h.consecutivo.HasValue Then Continue For
+            _initialBalanceInvoiceRepository.SaveDetail(BuildDetailRow(ibiId, userConsecutive, 7, h.consecutivo.Value, Nothing, 1, 0D, 0D, ParseDate(h.fechaInicioAtencion), audit))
+        Next
+    End Sub
+
+    Private Function BuildDetailRow(ibiId As Integer, userConsecutive As Integer, serviceType As Byte, consecutive As Integer, serviceCode As String,
+                                     quantity As Integer, unitValue As Decimal, serviceValue As Decimal,
+                                     attentionStart As Date?, audit As AuditMessage) As InitialBalanceInvoiceDetail
+        Return New InitialBalanceInvoiceDetail With {
+            .InitialBalanceInvoiceId = ibiId,
+            .UserConsecutive = userConsecutive,
+            .ServiceType = serviceType,
+            .Consecutive = consecutive,
+            .ServiceCode = serviceCode,
+            .Quantity = quantity,
+            .UnitValue = unitValue,
+            .ServiceValue = serviceValue,
+            .Balance = serviceValue,
+            .AttentionStartDate = attentionStart,
+            .CreationUser = audit.CodeUser,
+            .CreationDate = DateTime.Now
+        }
+    End Function
+
+    Private Function ParseDate(value As String) As Date?
+        Dim parsed As Date
+        If String.IsNullOrWhiteSpace(value) Then Return Nothing
+        If Date.TryParse(value, parsed) Then Return parsed
+        Return Nothing
+    End Function
+
 #End Region
 
 End Class

@@ -73,9 +73,9 @@ Partial Class MixingStationService
     ''' <param name="lst"></param>
     ''' <param name="audit"></param>
     ''' <returns></returns>
-    Public Function SaveDefectClassificationByRequestPackageDetailStatus(isQuality As Boolean, requestPackageDetailStatusIds As List(Of Integer), DefectClassificationHeader As DefectClassificationHeaderModel, lst As List(Of DefectClassificationModel), audit As AuditMessage, Optional ForceSave As Boolean = False) As ActionResult Implements IMixingStationServiceQualityControl.SaveDefectClassificationByRequestPackageDetailStatus
+    Public Async Function SaveDefectClassificationByRequestPackageDetailStatus(isQuality As Boolean, requestPackageDetailStatusIds As List(Of Integer), DefectClassificationHeader As DefectClassificationHeaderModel, lst As List(Of DefectClassificationModel), audit As AuditMessage, Optional ForceSave As Boolean = False) As Task(Of ActionResult) Implements IMixingStationServiceQualityControl.SaveDefectClassificationByRequestPackageDetailStatus
         Using service As IQualityControlAdminService = Container.Current.Resolve(Of IQualityControlAdminService)()
-            Return service.SaveDefectClassificationByRequestPackageDetailStatus(isQuality, requestPackageDetailStatusIds, DefectClassificationHeader, lst, audit, ForceSave)
+            Return Await service.SaveDefectClassificationByRequestPackageDetailStatusAsync(isQuality, requestPackageDetailStatusIds, DefectClassificationHeader, lst, audit, ForceSave)
         End Using
     End Function
 

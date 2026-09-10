@@ -83,4 +83,10 @@ Public Interface IPayrollAutoliquidation
 
     <OperationContract()>
     Function GenerateINS(companyId As Integer, policyNumber As String, workCenterId As Integer?, periodLiquidation As String, session As SessionValues) As ActionMessageResult(Of StringBuilder)
+
+    <OperationContract()>
+    Function GeneratePilaFile(companyId As Integer, periodLiquidation As String, session As SessionValues) As ActionMessageResult(Of StringBuilder)
+
+    <OperationContract()>
+    Function GeneratePilaExcel(companyId As Integer, periodLiquidation As String, session As SessionValues) As ActionMessageResult(Of Byte())
 End Interface

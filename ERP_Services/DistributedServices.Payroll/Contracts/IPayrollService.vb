@@ -30,4 +30,5 @@ Public Interface IPayrollService
     Inherits IPayrollResumptionHoliday, IPayrollInitialBalancePayroll, IPayrollBlockSchedule, IPayrollIAgreementsMassive, IPayrollSportPractice, IPayrollFreeTimeUse, IPayrollDiagnosedDisease, IPayrollForeclousure, IPayrollFileForeclousure
     Inherits IPayrollReligiousBeliefs, IPayrollEthnicGroups, IPayrollPermissionSchedule, IPayrollMassiveContract, IPayrollElectronicPayroll, IPayrollMinimumSalary, IPayrollContributorSubtype, IPayrollLicensingConcepts, IPayrollMaritalStatus, IPayrollHumanTalentParameterization
     Inherits IPayrollElectronicPayrollConcepts, IPayrollIVacationSummary
+    Inherits IPayrollContributorTypeSubtype
 End Interface

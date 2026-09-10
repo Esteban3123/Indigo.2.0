@@ -695,7 +695,7 @@ Public Class AccountPayableRepository
         End If
         Dim res = (From d As AccountPayable In Me._context.AccountPayable Where d.BillNumber.Equals(BillNumber.Trim()) Select d).ToList()
         If res IsNot Nothing AndAlso res.Count > 0 Then
-            res(0).OriginalValue = (From d As AccountPayable In Me._context.AccountPayable.AsNoTracking() Where d.BillNumber.Equals(BillNumber.Trim()) Select d).SingleOrDefault()
+            res(0).OriginalValue = (From d As AccountPayable In Me._context.AccountPayable.AsNoTracking() Where d.BillNumber.Equals(BillNumber.Trim()) Select d).FirstOrDefault()
             Return res(0)
         Else
             Return New AccountPayable()

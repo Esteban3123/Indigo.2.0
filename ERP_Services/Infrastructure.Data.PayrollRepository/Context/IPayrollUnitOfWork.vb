@@ -103,8 +103,10 @@ Imports Domain.Payroll.Entities
 	ReadOnly Property PhoneType() As DbSet(Of PhoneType)
 	
 	ReadOnly Property ContributorType() As DbSet(Of ContributorType)
-	
+
 	ReadOnly Property ContributorSubtype() As DbSet(Of ContributorSubtype)
+
+	ReadOnly Property ContributorTypeSubtype() As DbSet(Of ContributorTypeSubtype)
 	
 	ReadOnly Property Kinship() As DbSet(Of Kinship)
 	

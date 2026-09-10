@@ -30,4 +30,13 @@ Public Interface ISettingsAccountRepository
     ''' </summary>
     ''' <returns></returns>
     Function GetSettingElectronicPayrollInformation() As GeneralLedgerSettings
+
+    ''' <summary>
+    ''' Indica si el empleador maneja nómina electrónica en alguna de sus unidades operativas.
+    ''' La nómina electrónica se parametriza por empleador (mismo NIT, mismo software ante la
+    ''' DIAN), aunque el parámetro viva en una fila por unidad operativa. Se filtra por IdDian
+    ''' para que en bases con varios empleadores no se mezclen sus configuraciones.
+    ''' </summary>
+    ''' <param name="idDian">Tercero empleador que reporta ante la DIAN.</param>
+    Function EmployerHandlesElectronicPayroll(ByVal idDian As Integer) As Boolean
 End Interface

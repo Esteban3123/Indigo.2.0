@@ -9,7 +9,6 @@
 Imports Domain.Entities
 Imports Infrastructure.CrossCutting.Base
 Imports Domain.Base.Entities
-Imports Domain.Billing.POCO
 Imports System.Dynamic
 Imports Domain.Crystal.Entities
 Imports System.Threading.Tasks
@@ -235,21 +234,6 @@ Public Interface ILiquidationAdminService
     ''' <returns></returns>
     Function DeleteMipresCode(mipresCodeId As Integer) As ActionResult
 
-    ''' <summary>
-    ''' Valida si el tercero cumple con la mayoría de edad para facturación
-    ''' </summary>
-    ''' <param name="thirdPartyId">Id del tercero a validar</param>
-    ''' <param name="operativeUnitId">Id de la unidad operativa</param>
-    ''' <param name="admissionNumber">Número de ingreso para buscar responsable sugerido</param>
-    ''' <returns>Resultado de la validación con información del responsable sugerido si aplica</returns>
-    Function ValidateAgeOfMajorityForLiquidation(thirdPartyId As Integer, operativeUnitId As Integer, admissionNumber As String) As Task(Of ActionResult(Of AgeValidationResult))
-
-    ''' <summary>
-    ''' Verifica si el parámetro de validación de mayoría de edad está activo
-    ''' </summary>
-    ''' <param name="operativeUnitId">Id de la unidad operativa</param>
-    ''' <returns>True si el parámetro está activo</returns>
-    Function IsAgeValidationEnabled(operativeUnitId As Integer) As Boolean
 
 #End Region
 

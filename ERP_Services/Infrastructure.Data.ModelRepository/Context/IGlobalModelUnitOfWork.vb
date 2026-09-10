@@ -730,6 +730,8 @@ Imports Domain.Entities
 	
 	ReadOnly Property CostDistributionIntermediateDetail() As DbSet(Of CostDistributionIntermediateDetail)
 	
+	ReadOnly Property CostIntermediateDistributionServiceQuantity() As DbSet(Of CostIntermediateDistributionServiceQuantity)
+	
 	ReadOnly Property CostDistributionManpower() As DbSet(Of CostDistributionManpower)
 	
 	ReadOnly Property CostDistributionManpowerDetail() As DbSet(Of CostDistributionManpowerDetail)
@@ -2278,7 +2280,9 @@ Imports Domain.Entities
 	
 	ReadOnly Property RIPSSupportRecordDetail() As DbSet(Of RIPSSupportRecordDetail)
 	
-	ReadOnly Property ADACOMPAN() As DbSet(Of ADACOMPAN)
+	ReadOnly Property InitialBalanceInvoice() As DbSet(Of InitialBalanceInvoice)
+	
+	ReadOnly Property InitialBalanceInvoiceDetail() As DbSet(Of InitialBalanceInvoiceDetail)
 
 	Function SP_ChangeStatusJournalVouchers(ByVal statusJournalVouchers As Nullable(Of Integer), ByVal idDocuments As String, ByVal month As Nullable(Of Integer)) As ObjectResult(Of SP_ChangeStatusJournalVouchers_Result)
 
@@ -2550,6 +2554,8 @@ Imports Domain.Entities
 
 	Function SP_ReverseCausationRecognition(ByVal causationRecognitionId As Nullable(Of Integer), ByVal userCode As String) As ObjectResult(Of SP_ReverseCausationRecognition_Result)
 
+	Function SP_GetCandidatesForAutoCausation(ByVal batchSize As Nullable(Of Integer)) As ObjectResult(Of SP_GetCandidatesForAutoCausation_Result)
+
 	Function SP_AutoliquidationFile(ByVal payrollDate As Nullable(Of Date), ByVal workCenterCode As String) As ObjectResult(Of SP_AutoliquidationFile_Result)
 
 	Function SP_EstimateCostNative(ByVal year As Nullable(Of Integer), ByVal month As Nullable(Of Integer), ByVal distributionType As Nullable(Of Byte), ByVal onlySimulate As Nullable(Of Boolean), ByVal containPayroll As Nullable(Of Boolean), ByVal dataXML As String, ByVal userCode As String) As ObjectResult(Of SP_EstimateCostNative_Result)
@@ -2582,9 +2588,9 @@ Imports Domain.Entities
 
 	Function SP_GenerateJournalVoucherByReclassificationRemissionEntrance(ByVal id As Nullable(Of Integer), ByVal codeUser As String) As ObjectResult(Of SP_GenerateJournalVoucherByReclassificationRemissionEntrance_Result)
 
-    Function SP_ConfirmProvisionAndDeterioration(ByVal portfolioProvisionId As Nullable(Of Integer), ByVal codeUser As String, ByVal operativeUnitId As Nullable(Of Integer)) As ObjectResult(Of SP_ConfirmProvisionAndDeterioration_Result)
+	Function SP_ConfirmProvisionAndDeterioration(ByVal portfolioProvisionId As Nullable(Of Integer), ByVal codeUser As String, ByVal operativeUnitId As Nullable(Of Integer)) As ObjectResult(Of SP_ConfirmProvisionAndDeterioration_Result)
 
-    Function SP_ClosedMonthInventory(ByVal monthClosed As Nullable(Of Integer), ByVal yearClosed As Nullable(Of Integer), ByVal codeUser As String) As ObjectResult(Of SP_ClosedMonthInventory_Result)
+	Function SP_ClosedMonthInventory(ByVal monthClosed As Nullable(Of Integer), ByVal yearClosed As Nullable(Of Integer), ByVal codeUser As String) As ObjectResult(Of SP_ClosedMonthInventory_Result)
 
 	Function SP_GenerateJournalVoucherByRemissionDevolution(ByVal id As Nullable(Of Integer), ByVal codeUser As String) As ObjectResult(Of SP_GenerateJournalVoucherByRemissionDevolution_Result)
 
@@ -2796,6 +2802,8 @@ Imports Domain.Entities
 
 	Function SP_CalculateDistributionSecondary(ByVal costDistributionSecondaryId As Nullable(Of Integer), ByVal year As Nullable(Of Integer), ByVal month As Nullable(Of Integer)) As ObjectResult(Of SP_CalculateDistributionSecondary_Result)
 
+	Function SP_CalculateDistributionIntermediate(ByVal costIntermediateDistributionId As Nullable(Of Integer), ByVal year As Nullable(Of Integer), ByVal month As Nullable(Of Integer)) As ObjectResult(Of SP_CalculateDistributionIntermediate_Result)
+
 	Function SP_SaveDistributionSecondary(ByVal distributionSecondaryXml As String, ByVal distributionSecondaryDetailForDeleteXml As String, ByVal costLogisticsProductionCenterDetail As String, ByVal codeUser As String) As ObjectResult(Of SP_SaveDistributionSecondary_Result)
 
 	Function SP_GenerateDistributionSecondary(ByVal year As Nullable(Of Integer), ByVal month As Nullable(Of Integer), ByVal operatingUnitId As Nullable(Of Integer), ByVal codeUser As String) As ObjectResult(Of SP_GenerateDistributionSecondary_Result)
@@ -2920,6 +2928,12 @@ Imports Domain.Entities
 
 	Function SP_GenerateFURIPS2FileData(ByVal xmlParameters As String, ByVal xmlInvoices As String) As ObjectResult(Of SP_GenerateFURIPS2FileData_Result)
 
+	Function SP_GenerateAdresFurServiciosData(ByVal xmlParameters As String, ByVal xmlInvoices As String) As ObjectResult(Of SP_GenerateAdresFurServiciosData_Result)
+
+	Function SP_GenerateAdresFurData(ByVal xmlParameters As String, ByVal xmlInvoices As String) As ObjectResult(Of SP_GenerateAdresFurData_Result)
+
+	Function SP_GenerateAdresFurRgData(ByVal xmlParameters As String, ByVal xmlInvoices As String) As ObjectResult(Of SP_GenerateAdresFurRgData_Result)
+
 	Function SP_RecalculateBalancesExpense(ByVal validityId As Nullable(Of Integer), ByVal userCode As String) As ObjectResult(Of SP_RecalculateBalancesExpense_Result)
 
 	Function SP_RecalculateBalancesIncome(ByVal validityId As Nullable(Of Integer), ByVal userCode As String) As ObjectResult(Of SP_RecalculateBalancesIncome_Result)
@@ -2952,9 +2966,9 @@ Imports Domain.Entities
 
 	Function SP_SaveAccountReceivableDocument(ByVal accountReceivableDocumentXml As String, ByVal codeUser As String) As ObjectResult(Of SP_SaveAccountReceivableDocument_Result)
 
-    Function SP_SavePatientExternalCareCenter(ByVal xml As String, ByVal userCode As String) As ObjectResult(Of SP_SavePatientExternalCareCenter_Result)
+	Function SP_SavePatientExternalCareCenter(ByVal xml As String, ByVal userCode As String) As ObjectResult(Of SP_SavePatientExternalCareCenter_Result)
 
-    Function SP_GetInvoiceMoreInformationByInvoiceId(ByVal invoiceId As Nullable(Of Integer)) As ObjectResult(Of SP_GetInvoiceMoreInformationByInvoiceId_Result)
+	Function SP_GetInvoiceMoreInformationByInvoiceId(ByVal invoiceId As Nullable(Of Integer)) As ObjectResult(Of SP_GetInvoiceMoreInformationByInvoiceId_Result)
 
 	Function SP_SaveWorkOrder(ByVal workOrderXml As String, ByVal userCode As String) As ObjectResult(Of SP_SaveWorkOrder_Result)
 
@@ -3024,13 +3038,13 @@ Imports Domain.Entities
 
 	Function SP_GetProcessedMedicationItemsForBilling(ByVal admissionNumber As String, ByVal isChild As Nullable(Of Boolean)) As ObjectResult(Of SP_GetProcessedMedicationItemsForBilling_Result)
 
-    Function SP_CreateAndValidateJournalVoucherMovementAsync(ByVal journalVoucherXml As String, codeUser As String) As Task(Of SP_CreateAndValidateJournalVoucherMovement_Result)
+	Function SP_CreateAndValidateJournalVoucherMovementAsync(ByVal journalVoucherXml As String, codeUser As String) As Task(Of SP_CreateAndValidateJournalVoucherMovement_Result)
 
-    Function SP_UnconfirmOrAnnulJournalVoucherAsync(ByVal journalVoucherXml As String, ByVal codeUser As String) As Task(Of SP_UnconfirmOrAnnulJournalVoucher_Result)
+	Function SP_UnconfirmOrAnnulJournalVoucherAsync(ByVal journalVoucherXml As String, ByVal codeUser As String) As Task(Of SP_UnconfirmOrAnnulJournalVoucher_Result)
 
-    Function SP_ReportBillingStadistics_Count(ByVal xmlCriterias As String, ByVal xmlFilters As String) As ObjectResult(Of SP_ReportBillingStadistics_Count_Result)
+	Function SP_ReportBillingStadistics_Count(ByVal xmlCriterias As String, ByVal xmlFilters As String) As ObjectResult(Of SP_ReportBillingStadistics_Count_Result)
 
-	Function SP_SetConsignmentTransferDetailFromFile(ByVal xmlObject As String) As ObjectResult(Of SP_SetConsignmentTransferDetailFromFile_Result)
+	Function SP_ReportHumanTalent(ByVal initialDate As Nullable(Of Date), ByVal finalDate As Nullable(Of Date), ByVal employeeId As Nullable(Of Integer)) As ObjectResult(Of SP_ReportHumanTalent_Result)
 
 #End Region
 

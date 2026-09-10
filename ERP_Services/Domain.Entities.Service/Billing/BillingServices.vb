@@ -739,7 +739,20 @@ Public Class BillingServices
                     ContractDescriptionId = _cupsRepository.GetContractDescriptionIdByCupsEntityContractDescription(CUPSEntityContractDescriptionId)
                 End If
 
-                Dim rate = _contractServices.GetRateValue(0, cupsId, caregroupId, functionalUnitId, Nothing, stay.FECINIEST.Date, ERateOptions.IPSSERVICE, Nothing, ContractDescriptionId)
+                '' para que pueda encontrar reglas tipo "Servicio IPS" además de las tipo "CUPS".
+                Dim rate As ActionResult(Of DefinitionRateDetail, DefinitionRateDetailCondition) = Nothing
+                Dim listCupsHomologation = _cupsHomologation.ListCupsHomologationByCupsId(cupsId, 0)
+                If listCupsHomologation IsNot Nothing AndAlso listCupsHomologation.Any() Then
+                    For Each homol In listCupsHomologation
+                        rate = _contractServices.GetRateValue(homol.IPSServiceId, cupsId, caregroupId, functionalUnitId, Nothing, stay.FECINIEST.Date, ERateOptions.IPSSERVICE, Nothing, ContractDescriptionId)
+                        If rate IsNot Nothing AndAlso rate.StateResult Then
+                            Exit For
+                        End If
+                    Next
+                End If
+                If rate Is Nothing OrElse Not rate.StateResult Then
+                    rate = _contractServices.GetRateValue(0, cupsId, caregroupId, functionalUnitId, Nothing, stay.FECINIEST.Date, ERateOptions.IPSSERVICE, Nothing, ContractDescriptionId)
+                End If
                 Dim liquidationType As Integer = 0
                 Dim manualType As Integer = 0 'Solo se llena si es fija
                 Dim salesValue As Decimal = 0 'Solo se llena si es fija

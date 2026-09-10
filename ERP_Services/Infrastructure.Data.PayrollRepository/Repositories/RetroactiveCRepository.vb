@@ -109,6 +109,21 @@ Public Class RetroactiveCRepository
         End If
     End Function
 
+    Public Function GetListRetroactiveByEmployeeIdBetweenDates(EmployeeId As Integer, InitialDate As Date, EndDate As Date) As List(Of RetroactiveC) Implements IRetroactiveCRepository.GetListRetroactiveByEmployeeIdBetweenDates
+        'Solo retroactivos confirmados (Status = 2) que inician dentro de la ventana.
+        Dim RetroactiveList = From e In _context.RetroactiveC.Include("RetroactiveD").Include("RetroactiveD.Concept")
+                              Where e.IdEmployee = EmployeeId _
+                                    And e.InitialDateRetroactive >= InitialDate And e.InitialDateRetroactive <= EndDate _
+                                    And e.Status = 2
+                              Select e
+
+        If RetroactiveList.Count > 0 Then
+            Return RetroactiveList.ToList()
+        Else
+            Return Nothing
+        End If
+    End Function
+
     Public Function GetListRetroactiveByContractId(ContractId As Integer) As List(Of RetroactiveC) Implements IRetroactiveCRepository.GetListRetroactiveByContractId
         Dim RetroactiveC = From e In _context.RetroactiveC
                            Where e.IdContract = ContractId

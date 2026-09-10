@@ -111,48 +111,61 @@ Public Class PayrollNoveltyDomain
 
     Public Function CalculateNoveltyConcept(employeeContract As Contract, noveltyDays As Integer, session As SessionValues) As ActionResult(Of Decimal) Implements IPayrollNoveltyDomain.CalculateNoveltyConcept
         Dim integralSalaryConceptNoveltyId = _payrollSettingsRepository.GetSettingPayroll().ConceptBenefitFactortId.AsDecimal
-        'Dim integralSalaryConceptNoveltyId = settings.ConceptBenefitFactortId
         If integralSalaryConceptNoveltyId Is Nothing Then
             Return New ActionResult(Of Decimal) With {
                 .StateResult = False,
                 .ObjectEmbbeded = 0,
-                .Message = "No se encuentra concepto asoaciado a los Párametros de Nómina"
+                .Message = "No se encuentra concepto asociado a los Parámetros de Nómina"
             }
         End If
+
         Dim integralSalaryConceptNovelty = _payrollConceptRepository.GetConceptId(integralSalaryConceptNoveltyId)
         If integralSalaryConceptNovelty Is Nothing OrElse String.IsNullOrWhiteSpace(integralSalaryConceptNovelty.Formulates) Then
             Return New ActionResult(Of Decimal) With {
-            .StateResult = False,
-            .ObjectEmbbeded = 0,
-            .Message = "El concepto con la fórmula no está definido correctamente."
-        }
+                .StateResult = False,
+                .ObjectEmbbeded = 0,
+                .Message = "El concepto con la fórmula no está definido correctamente."
+            }
         End If
-        Dim formulate As String = integralSalaryConceptNovelty.Formulates
-        formulate = formulate.Replace("[Sueldo Contrato]", employeeContract.BasicSalary.ToString(System.Globalization.CultureInfo.InvariantCulture))
-        formulate = formulate.Replace("[Días Incapacidad]", noveltyDays.ToString(System.Globalization.CultureInfo.InvariantCulture))
+
+        Dim formulate As String = ReplaceNoveltyFormula(integralSalaryConceptNovelty.Formulates, employeeContract.BasicSalary, noveltyDays)
 
         Dim resultValue As Decimal
         Try
             Dim table As New DataTable()
-            ' Creamos una columna "expression" cuyo Expression es la fórmula resultante
             table.Columns.Add("expression", GetType(Double), formulate)
             Dim row As DataRow = table.NewRow()
             table.Rows.Add(row)
-
-            ' El valor calculado queda en row("expression")
             resultValue = Convert.ToDecimal(row("expression"))
         Catch ex As Exception
             Return New ActionResult(Of Decimal) With {
-            .StateResult = False,
-            .ObjectEmbbeded = 0,
-            .Message = "Error al evaluar la fórmula: " & ex.Message
-        }
+                .StateResult = False,
+                .ObjectEmbbeded = 0,
+                .Message = "Error al evaluar la fórmula: " & ex.Message
+            }
         End Try
 
         Return New ActionResult(Of Decimal) With {
-        .StateResult = True,
-        .ObjectEmbbeded = resultValue
-         }
+            .StateResult = True,
+            .ObjectEmbbeded = resultValue
+        }
+    End Function
 
+    ''' <summary>
+    ''' Reemplaza todos los placeholders conocidos de la fórmula de un concepto de novedad,
+    ''' siguiendo el mismo patrón que ReplaceData en LiquidationDomain.
+    ''' Para el factor prestacional de salario integral, todos los tipos de días
+    ''' corresponden a los días de la novedad (el concepto aplica sobre sus propios días).
+    ''' </summary>
+    Private Function ReplaceNoveltyFormula(formula As String, basicSalary As Decimal, noveltyDays As Integer) As String
+        Dim cultureFormat = Globalization.CultureInfo.InvariantCulture
+        Dim salary As String = basicSalary.ToString(cultureFormat)
+        Dim days As String = noveltyDays.ToString(cultureFormat)
+
+        formula = formula.Replace("[Sueldo Contrato]", salary)
+        formula = formula.Replace("[Días Incapacidad]", days)
+        formula = formula.Replace("[Días Licencia]", days)
+        formula = formula.Replace("[Días licencia no Remunerada]", days)
+        Return formula
     End Function
 End Class

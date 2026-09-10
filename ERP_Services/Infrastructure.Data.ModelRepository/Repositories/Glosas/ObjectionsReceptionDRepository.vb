@@ -181,6 +181,9 @@ Public Class ObjectionsReceptionDRepository
                 item.RadicateResponsibleCodeName = String.Format("{0} - {1}", responsible.Code, responsible.Name)
             End If
 
+            Dim customerConsecutive = _context.RadicateInvoiceC.Where(Function(o) o.RadicatedConsecutive = item.GlosaPortfolioGlosada.RadicatedNumber).Select(Function(m) m.CustomerRadicateConsecutive).FirstOrDefault()
+            item.CustomerRadicateConsecutive = customerConsecutive
+
             item.OriginalValue = (From a In _context.GlosaObjectionsReceptionD.AsNoTracking Where a.Id = item.Id Select a).FirstOrDefault
         Next
         Return Busqueda.ToList()

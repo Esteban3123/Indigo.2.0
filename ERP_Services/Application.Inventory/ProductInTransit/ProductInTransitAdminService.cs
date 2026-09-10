@@ -396,25 +396,10 @@ namespace Application.Inventory.ProductInTransit
                 IndigoAuditSimpleEntity<Domain.Entities.ProductInTransit> auditProcess;
                 try
                 {
-                    int currentItem = 0;
-                    var productRates = _productTemplateRepository.GetProductTemplateAll();
-                    
-                    // Cache de condiciones por tarifa para evitar consultas repetitivas
-                    var conditionsCache = new Dictionary<int, List<ProductRateGeneral>>();
-                    var rateDetailsCache = new Dictionary<int, List<Domain.Entities.ProductRateDetail>>();
-                    
-                    foreach (var rate in productRates)
-                    {
-                        conditionsCache[rate.Id] = _productTemplateRepository.GetProductRateGeneralConditionByTemplateById(rate.Id);
-                       
-                        rateDetailsCache[rate.Id] = rate.ProductRateDetail.ToEntityList<Domain.Entities.ProductRateDetail>();
-                    }
-                   
-                    
+                    //Logica para que en caso de que no exista el producto - insumo, este se cree
+
                     foreach (var item in ProductInTransit.ProductInTransitDetail)
                     {
-                        currentItem++;
-                        
                         //se valida que exista el producto
                         Domain.Entities.InventoryProduct product = _inventoryProductAdminService.GetInventoryProduct(item.ProductCode, audit)?.ObjectEmbbeded;
 
@@ -577,26 +562,24 @@ namespace Application.Inventory.ProductInTransit
                             item.ProductId = product.Id;
                         }
 
-                    
-                        
-                        
-                        int rateCount = 0;
+                        //Se genera una tarifa detalle de producto (SE DEBE CAMBIAR MAS ADELANTE )
+                        var productRates = _productTemplateRepository.GetProductTemplateAll();
                         if (productRates.Count > 0)
                         {
                             foreach (var itemProdu in productRates)
                             {
-                                rateCount++;
+                                if (!itemProdu.Status) continue;
+
                                 Domain.Entities.ProductRateDetail _productRateDetail;
 
-                                
-                                var rateDetailsList = rateDetailsCache.ContainsKey(itemProdu.Id) ? rateDetailsCache[itemProdu.Id] : new List<Domain.Entities.ProductRateDetail>();
-                                _productRateDetail = rateDetailsList.Find(x => x.ProductId == item.ProductId);
-                                if(_productRateDetail == null)
-                                {
-                                    _productRateDetail = new Domain.Entities.ProductRateDetail();
-                                }
-                                //se consulta las tarifas con condiciones desde el cache
-                                var conditionsRate = conditionsCache.ContainsKey(itemProdu.Id) ? conditionsCache[itemProdu.Id] : new List<ProductRateGeneral>();
+                                 _productRateDetail = itemProdu.ProductRateDetail.ToEntityList<Domain.Entities.ProductRateDetail>().Find(x => x.ProductId == item.ProductId);
+
+                                if (_productRateDetail != null) continue;
+
+                                _productRateDetail = new Domain.Entities.ProductRateDetail();
+                                //se consulta las tarifas con condiciones para actualizar los valores
+
+                                var conditionsRate = _productTemplateRepository.GetProductRateGeneralConditionByTemplateById(itemProdu.Id);
                                 var valueWithTRM = Math.Round((item.UnitValue / tRMValue.Value),2);
                                 foreach(var conditions in conditionsRate)
                                 {
@@ -674,18 +657,15 @@ namespace Application.Inventory.ProductInTransit
                                 _productRateDetail.Status = 1;
                                 
                                 itemProdu.ProductRateDetail.Add(_productRateDetail);
-                               
-                            }
-                        }
-                    }
 
-                   
-                    foreach (var itemProdu in productRates)
-                    {
-                        var saveRate = await _productTemplateAdminService.SaveProductTemplate(itemProdu, audit);
-                        if (saveRate?.StateResult is null || !saveRate.StateResult)
-                        {
-                            errors.AppendLine($"No se pudo guardar la tarifa {itemProdu.Code}");
+                                var saveRate = await _productTemplateAdminService.SaveProductTemplate(itemProdu, audit, updateHeaderAudit: false);
+                                if (saveRate?.StateResult is null || !saveRate.StateResult)
+                                {
+                                    transaction.Dispose();
+                                    errors.AppendLine($"No se pudo agregar o editar un detalle de tarifa al producto {item.ProductCode}");
+                                    continue;
+                                }
+                            }
                         }
                     }
 
@@ -777,7 +757,6 @@ namespace Application.Inventory.ProductInTransit
                     {
                         remissionDetailSequenceId = sequenceRemission.InventorySequenceDetail[0].Id;
                     }
-                    
                     var remissionEntranceResult = _remissionEntranceAdminService.SaveAndConfirmbRemissionEntrance(newRemission, audit, remissionDetailSequenceId, Infrastructure.CrossCutting.Audit.Actions.Insert, sequenceRemission, false);
 
                     if (remissionEntranceResult?.StateResult is null || !remissionEntranceResult.StateResult)
@@ -793,7 +772,6 @@ namespace Application.Inventory.ProductInTransit
                     ProductInTransit.MarkAsModified();
                     _ProductInTransitRepository.SaveEntity(ProductInTransit);
                     ProductInTransitUnitWork.Commit();
-                    
                     auditProcess = new IndigoAuditSimpleEntity<Domain.Entities.ProductInTransit>(ProductInTransit, audit, Infrastructure.CrossCutting.Audit.Actions.Confirm, ProductInTransit.OriginalValue);
                     auditProcess.Execute();
                     transaction.Complete();

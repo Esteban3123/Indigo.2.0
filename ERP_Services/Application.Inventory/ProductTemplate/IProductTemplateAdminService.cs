@@ -22,7 +22,7 @@ namespace Application.Inventory.ProductTemplate
         /// <summary>
         /// Guarda un cubrimiento de producto de forma asincrona
         /// </summary>
-        Task<ActionResult<Domain.Entities.ProductRate>> SaveProductTemplate(Domain.Entities.ProductRate productTemplate, AuditMessage audit, Int64 idSecuence = 0);
+        Task<ActionResult<Domain.Entities.ProductRate>> SaveProductTemplate(Domain.Entities.ProductRate productTemplate, AuditMessage audit, Int64 idSecuence = 0, bool updateHeaderAudit = true);
 
         /// <summary>
         /// Elimina un cubrimiento de producto

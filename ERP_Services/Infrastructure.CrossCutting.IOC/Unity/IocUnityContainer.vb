@@ -13,7 +13,6 @@
 
 Imports System.Configuration
 Imports Application.Accounting
-Imports Application.Billing
 Imports Application.Budget
 Imports Application.Common
 Imports Application.DocumentalSystem
@@ -35,6 +34,7 @@ Imports Domain.Maintenance
 Imports Domain.Payroll
 Imports Domain.Security
 Imports Domain.Security.Entities
+Imports Infrastructure.CrossCutting.AzureBlobStorage.Factory
 Imports Infrastructure.CrossCutting.Base
 Imports Infrastructure.CrossCutting.IOC.My.Resources
 Imports Infrastructure.CrossCutting.Queue
@@ -98,10 +98,10 @@ Partial Public NotInheritable Class IocUnityContainer
 
         '**********************************COMMON************************
         container.RegisterType(Of IConceptGlosaRepository, ConceptGlosaRepository)(New TransientLifetimeManager)
-		container.RegisterType(Of IConceptGlosaAdminService, ConceptGlosaAdminService)(New TransientLifetimeManager)
-		container.RegisterType(Of IGlosaMovementGlosaConciliationRepository, GlosaMovementGlosaConciliationRepository)(New TransientLifetimeManager)
+        container.RegisterType(Of IConceptGlosaAdminService, ConceptGlosaAdminService)(New TransientLifetimeManager)
+        container.RegisterType(Of IGlosaMovementGlosaConciliationRepository, GlosaMovementGlosaConciliationRepository)(New TransientLifetimeManager)
 
-		container.RegisterType(Of IPersonMaintenanceRepository, PersonMaintenanceRepository)(New TransientLifetimeManager)
+        container.RegisterType(Of IPersonMaintenanceRepository, PersonMaintenanceRepository)(New TransientLifetimeManager)
 
         container.RegisterType(Of ISuppliersDistributionLinesRepository, SuppliersDistributionLinesRepository)(New TransientLifetimeManager)
         container.RegisterType(Of ISuppliersDistributionLinesAdminService, SuppliersDistributionLinesAdminService)(New TransientLifetimeManager)
@@ -605,7 +605,6 @@ Partial Public NotInheritable Class IocUnityContainer
 
         container.RegisterType(Of IThirdPartyAdminService, ThirdPartyAdminService)(New TransientLifetimeManager)
         container.RegisterType(Of IThirdPartyRepository, ThirdPartyRepository)(New TransientLifetimeManager)
-        container.RegisterType(Of IAdacompanRepository, AdacompanRepository)(New TransientLifetimeManager)
         container.RegisterType(Of Domain.Entities.IPersonRepository, Infrastructure.Data.ModelRepository.PersonRepository)(New TransientLifetimeManager)
 
         container.RegisterType(Of IDisabilityAdminService, DisabilityAdminService)(New TransientLifetimeManager)
@@ -698,6 +697,9 @@ Partial Public NotInheritable Class IocUnityContainer
         container.RegisterType(Of Application.Payroll.IContributorTypeAdminService, Application.Payroll.ContributorTypeAdminService)(New TransientLifetimeManager)
         container.RegisterType(Of Domain.Payroll.IContributorTypeRepository, Infrastructure.Data.PayrollRepository.ContributorTypeRepository)(New TransientLifetimeManager)
 
+        container.RegisterType(Of Application.Payroll.IContributorTypeSubtypeAdminService, Application.Payroll.ContributorTypeSubtypeAdminService)(New TransientLifetimeManager)
+        container.RegisterType(Of Domain.Payroll.IContributorTypeSubtypeRepository, Infrastructure.Data.PayrollRepository.ContributorTypeSubtypeRepository)(New TransientLifetimeManager)
+
         container.RegisterType(Of Application.Payroll.IContractTypeAdminService, Application.Payroll.ContractTypeAdminService)(New TransientLifetimeManager)
         container.RegisterType(Of Domain.Payroll.IContractTypeRepository, Infrastructure.Data.PayrollRepository.ContractTypeRepository)(New TransientLifetimeManager)
 
@@ -718,6 +720,8 @@ Partial Public NotInheritable Class IocUnityContainer
         container.RegisterType(Of Domain.Payroll.IConceptRepository, Infrastructure.Data.PayrollRepository.ConceptRepository)(New TransientLifetimeManager)
 
         container.RegisterType(Of Domain.Payroll.IContractAuditRepository, Infrastructure.Data.PayrollRepository.ContractAuditRepository)(New TransientLifetimeManager)
+        container.RegisterType(Of Domain.Payroll.Entities.IEmployeeAuditDomain, Domain.Payroll.Entities.EmployeeAuditDomain)(New TransientLifetimeManager)
+        container.RegisterType(Of Domain.Payroll.Entities.IAuditCatalogResolver, Infrastructure.Data.PayrollRepository.AuditCatalogResolver)(New TransientLifetimeManager)
         container.RegisterType(Of Application.Payroll.IEmployeeAdminService, Application.Payroll.EmployeeAdminService)(New TransientLifetimeManager)
         container.RegisterType(Of Domain.Payroll.IEmployeeRepository, Infrastructure.Data.PayrollRepository.EmployeeRepository)(New TransientLifetimeManager)
 
@@ -798,6 +802,7 @@ Partial Public NotInheritable Class IocUnityContainer
         container.RegisterType(Of Application.Payroll.IAutoliquidationAdminService, Application.Payroll.AutoliquidationAdminService)(New TransientLifetimeManager)
         container.RegisterType(Of Domain.Payroll.IAutoliquidationRepository, Infrastructure.Data.PayrollRepository.AutoliquidationRepository)(New TransientLifetimeManager)
         container.RegisterType(Of Domain.Payroll.IVerifyAutoliquidationRepository, Infrastructure.Data.PayrollRepository.VerifyAutoliquidationRepository)(New TransientLifetimeManager)
+        container.RegisterType(Of IEndpointsRepository, EndPointsRepository)(New TransientLifetimeManager)
 
         container.RegisterType(Of Application.Payroll.IContractLiquidationAdminService, Application.Payroll.ContractLiquidationAdminService)(New TransientLifetimeManager)
         container.RegisterType(Of Domain.Payroll.IContractLiquidationRepository, Infrastructure.Data.PayrollRepository.ContractLiquidationRepository)(New TransientLifetimeManager)
@@ -1053,6 +1058,8 @@ Partial Public NotInheritable Class IocUnityContainer
         container.RegisterType(Of Domain.Entities.IRIPSPlane, Domain.Entities.RIPSPlane)(New TransientLifetimeManager)
         container.RegisterType(Of Application.Glosas.IRIPSPlaneAdminService, Application.Glosas.RIPSPlaneAdminService)(New TransientLifetimeManager)
         container.RegisterType(Of IInvoiceRepository, InvoiceRepository)(New TransientLifetimeManager)
+        ' Repos para PopulateInitialBalanceDetail (carga detail RIPS desde Cosmos en confirmación de saldos iniciales).
+        container.RegisterType(Of IInitialBalanceInvoiceRepository, InitialBalanceInvoiceRepository)(New TransientLifetimeManager)
 
         container.RegisterType(Of IMeasurementUnitAdminService, MeasurementUnitAdminService)(New TransientLifetimeManager)
         'container.RegisterType(Of IMeasurementUnitRepository, MeasurementUnitRepository)(New TransientLifetimeManager)
@@ -1252,15 +1259,16 @@ Partial Public NotInheritable Class IocUnityContainer
         container.RegisterType(Of IPositionRollRepository, PositionRollRepository)()
         container.RegisterType(Of IPositionUserRepository, PositionUserRepository)()
         container.RegisterType(Of IFunctionalUnitResponsibleRepository, FunctionalUnitResponsibleRepository)()
+        container.RegisterType(Of IPortfolioInitialBalanceRepository, PortfolioInitialBalanceRepository)()
 
         container.RegisterType(Of IEmployeeScheduleDetailRepository, EmployeeScheduleDetailRepository)()
 
         container.RegisterType(Of IElectronicSupportDocumentRepository, ElectronicSupportDocumentRepository)()
 
         container.RegisterType(Of ISettingsBillingRepository, SettingsBillingRepository)()
-
-        'Age Validation Service
-        container.RegisterType(Of Application.Billing.ILiquidationAgeValidationAdminService, Application.Billing.LiquidationAgeValidationAdminService)(New TransientLifetimeManager)
+        container.RegisterType(Of IFactoryStorage)(New PerResolveLifetimeManager(), New InjectionFactory(Function(c)
+                                                                                                             Return New FactoryStorage()
+                                                                                                         End Function))
 
         'Exogena Format
         container.RegisterType(Of IFormatosExogena, FormatosExogena)()
@@ -1283,6 +1291,7 @@ Partial Public NotInheritable Class IocUnityContainer
     Private Sub ConfigureEHRDependencies(container As IUnityContainer)
         'Inyectamos el contexto de Crystal
         container.RegisterType(Of ICrystalModelUnitOfWork, CrystalModelUnitOfWork)(New InjectionConstructor(ServerSessionValues.Current.CurrentHISContainer))
+        container.RegisterType(Of IPatientRepository, PatientRepository)(New TransientLifetimeManager)
 
         container.RegisterType(Of ISEGrolesuRepository, SEGrolesuRepository)(New TransientLifetimeManager)
         container.RegisterType(Of ISEGgruusuRepository, SEGgruusuRepository)(New TransientLifetimeManager)

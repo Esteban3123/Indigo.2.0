@@ -435,6 +435,96 @@ Partial Public Class PortfolioInitialBalanceAccountReceivable
         End Set
     End Property
 
+	Private _accountHardCollectionId As Nullable(Of Integer)
+	<DataMember()>
+	Public Property AccountHardCollectionId() As Nullable(Of Integer)
+        Get
+            Return _accountHardCollectionId
+        End Get
+        Set(ByVal value As Nullable(Of Integer))
+            If Not Equals(_accountHardCollectionId, value) Then
+                ChangeTracker.RecordOriginalValue("AccountHardCollectionId", _accountHardCollectionId)
+                If Not IsDeserializing Then
+                    If MainAccounts7 IsNot Nothing AndAlso Not Equals(MainAccounts7.Id, value) Then
+                        MainAccounts7 = Nothing
+                    End If
+                End If
+                _accountHardCollectionId = value
+                OnPropertyChanged("AccountHardCollectionId")
+            End If
+        End Set
+    End Property
+
+	Private _deteriorationBalance As Decimal
+	<DataMember()>
+	Public Property DeteriorationBalance() As Decimal
+        Get
+            Return _deteriorationBalance
+        End Get
+        Set(ByVal value As Decimal)
+            If Not Equals(_deteriorationBalance, value) Then
+                _deteriorationBalance = value
+                OnPropertyChanged("DeteriorationBalance")
+            End If
+        End Set
+    End Property
+
+	Private _deteriorationBalanceCurrentYear As Decimal
+	<DataMember()>
+	Public Property DeteriorationBalanceCurrentYear() As Decimal
+        Get
+            Return _deteriorationBalanceCurrentYear
+        End Get
+        Set(ByVal value As Decimal)
+            If Not Equals(_deteriorationBalanceCurrentYear, value) Then
+                _deteriorationBalanceCurrentYear = value
+                OnPropertyChanged("DeteriorationBalanceCurrentYear")
+            End If
+        End Set
+    End Property
+
+	Private _deteriorationBalancePreviousYear As Decimal
+	<DataMember()>
+	Public Property DeteriorationBalancePreviousYear() As Decimal
+        Get
+            Return _deteriorationBalancePreviousYear
+        End Get
+        Set(ByVal value As Decimal)
+            If Not Equals(_deteriorationBalancePreviousYear, value) Then
+                _deteriorationBalancePreviousYear = value
+                OnPropertyChanged("DeteriorationBalancePreviousYear")
+            End If
+        End Set
+    End Property
+
+	Private _currentDeteriorationYear As Nullable(Of Integer)
+	<DataMember()>
+	Public Property CurrentDeteriorationYear() As Nullable(Of Integer)
+        Get
+            Return _currentDeteriorationYear
+        End Get
+        Set(ByVal value As Nullable(Of Integer))
+            If Not Equals(_currentDeteriorationYear, value) Then
+                _currentDeteriorationYear = value
+                OnPropertyChanged("CurrentDeteriorationYear")
+            End If
+        End Set
+    End Property
+
+	Private _cUV As String
+	<DataMember()>
+	Public Property CUV() As String
+        Get
+            Return _cUV
+        End Get
+        Set(ByVal value As String)
+            If Not Equals(_cUV, value) Then
+                _cUV = value
+                OnPropertyChanged("CUV")
+            End If
+        End Set
+    End Property
+
 	Private _affectBudget As Boolean
 	<DataMember()>
 	Public Property AffectBudget() As Boolean
@@ -756,6 +846,24 @@ Partial Public Class PortfolioInitialBalanceAccountReceivable
 
 
     <DataMember()>
+    Public Property MainAccounts7() As MainAccounts
+        Get
+            Return _mainAccounts7
+        End Get
+        Set(ByVal value As MainAccounts)
+            If _mainAccounts7 IsNot value Then
+                Dim previousValue As MainAccounts = _mainAccounts7
+                _mainAccounts7 = value
+                FixupMainAccounts7(previousValue)
+                OnNavigationPropertyChanged("MainAccounts7")
+            End If
+        End Set
+    End Property
+
+    Private _mainAccounts7 As MainAccounts
+
+
+    <DataMember()>
     Public Property ThirdParty() As ThirdParty
         Get
             Return _thirdParty
@@ -870,6 +978,7 @@ Partial Public Class PortfolioInitialBalanceAccountReceivable
         MainAccounts4 = Nothing
         MainAccounts5 = Nothing
         MainAccounts6 = Nothing
+        MainAccounts7 = Nothing
         ThirdParty = Nothing
         Customer = Nothing
     End Sub
@@ -1191,6 +1300,35 @@ Partial Public Class PortfolioInitialBalanceAccountReceivable
             End If
             If MainAccounts6 IsNot Nothing AndAlso Not MainAccounts6.ChangeTracker.ChangeTrackingEnabled Then
                 MainAccounts6.StartTracking()
+            End If
+        End If
+    End Sub
+
+    Private Sub FixupMainAccounts7(ByVal previousValue As MainAccounts, Optional ByVal skipKeys As Boolean = False)
+        If IsDeserializing Then
+            Return
+        End If
+
+        If previousValue IsNot Nothing AndAlso previousValue.PortfolioInitialBalanceAccountReceivable7.Contains(Me) Then
+            previousValue.PortfolioInitialBalanceAccountReceivable7.Remove(Me)
+        End If
+
+        If MainAccounts7 IsNot Nothing Then
+            MainAccounts7.PortfolioInitialBalanceAccountReceivable7.Add(Me)
+
+            AccountHardCollectionId = MainAccounts7.Id
+        ElseIf Not skipKeys Then
+            AccountHardCollectionId = Nothing
+        End If
+        If ChangeTracker.ChangeTrackingEnabled Then
+            If ChangeTracker.OriginalValues.ContainsKey("MainAccounts7") AndAlso
+                ChangeTracker.OriginalValues("MainAccounts7") Is MainAccounts7 Then
+                ChangeTracker.OriginalValues.Remove("MainAccounts7")
+            Else
+                ChangeTracker.RecordOriginalValue("MainAccounts7", previousValue)
+            End If
+            If MainAccounts7 IsNot Nothing AndAlso Not MainAccounts7.ChangeTracker.ChangeTrackingEnabled Then
+                MainAccounts7.StartTracking()
             End If
         End If
     End Sub

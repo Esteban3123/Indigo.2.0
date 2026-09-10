@@ -64,28 +64,20 @@ Public Class DocumentTypeRepository
         Dim res = (From d As JournalVoucherTypes In Me._context.JournalVoucherTypes.Include("JournalVoucherTypeConsecutive") Where d.Code.Equals(code.Trim()) Select d).ToList()
         If res.Count() > 0 Then
 
-            If res(0).JournalVoucherTypeConsecutive IsNot Nothing AndAlso res(0).JournalVoucherTypeConsecutive.Count > 0 Then
-                ' 1. Obtener los Ids únicos de libros
-                Dim legalBookIds = res(0).JournalVoucherTypeConsecutive.
-                    Select(Function(c) c.LegalBookId).Distinct().ToList()
+            ' Obtener todas las secuencias SQL existentes para este tipo de documento
+            Dim sequenceItems As List(Of JournalVoucherTypeConsecutive) = Await _secuenseDRepository.GetAllSequencesForDocumentTypeAsync(res(0).Id)
 
-                ' 2. Consultar todos los libros necesarios en una sola consulta
-                Dim books = (From x In _context.LegalBook.AsNoTracking()
-                             Where legalBookIds.Contains(x.Id)
-                             Select x.Id, Description = String.Concat(x.Code, " - ", x.Name)).ToList()
-
-                ' 3. Crear un diccionario para acceso rápido
-                Dim bookDescriptions = books.ToDictionary(Function(b) b.Id, Function(b) b.Description)
-
-                ' 4. Asignar la descripción a cada consecutivo usando el diccionario
-                For Each item In res(0).JournalVoucherTypeConsecutive
-                    If bookDescriptions.ContainsKey(item.LegalBookId) Then
-                        item.LegalBookDescription = bookDescriptions(item.LegalBookId)
-                    End If
-                    Dim Sequense = $"Seq_JV_T{item.JournalVoucherTypeId}_L{item.LegalBookId}_Y{item.Year}"
-                    item.Consecutive = Await _secuenseDRepository.GetCurrentSequenceValueAsync(Sequense)
-                Next
-            End If
+            ' Merge: enriquecer registros de tabla existentes y agregar secuencias auto-creadas (sin registro en tabla)
+            Dim tableRecords As List(Of JournalVoucherTypeConsecutive) = res(0).JournalVoucherTypeConsecutive.ToList()
+            For Each seqItem In sequenceItems
+                Dim tableMatch As JournalVoucherTypeConsecutive = tableRecords.FirstOrDefault(Function(t) t.LegalBookId = seqItem.LegalBookId AndAlso t.Year = seqItem.Year)
+                If tableMatch IsNot Nothing Then
+                    tableMatch.Consecutive = seqItem.Consecutive
+                    tableMatch.LegalBookDescription = seqItem.LegalBookDescription
+                Else
+                    res(0).JournalVoucherTypeConsecutive.Add(seqItem)
+                End If
+            Next
 
             res(0).OriginalValue = (From d As JournalVoucherTypes In Me._context.JournalVoucherTypes.AsNoTracking() Where d.Code.Equals(code.Trim()) Select d).SingleOrDefault()
             Return res(0)

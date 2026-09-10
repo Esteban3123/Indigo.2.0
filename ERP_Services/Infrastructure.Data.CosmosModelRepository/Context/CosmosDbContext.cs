@@ -15,10 +15,14 @@ namespace Infrastructure.Data.CosmosModelRepository.Context
     {
         private static readonly object _lock = new object();
         private static Lazy<CosmosClient> _lazyClient = new Lazy<CosmosClient>(
-            () => CreateCosmosClient(),
-            LazyThreadSafetyMode.ExecutionAndPublication 
+            () => CreateCosmosClient(allowBulkExecution: false),
+            LazyThreadSafetyMode.ExecutionAndPublication
         );
 
+        private static Lazy<CosmosClient> _lazyClientBulk = new Lazy<CosmosClient>(
+            () => CreateCosmosClient(allowBulkExecution: true),
+            LazyThreadSafetyMode.ExecutionAndPublication
+        );
 
         public CosmosDbContext()
         {
@@ -26,7 +30,9 @@ namespace Infrastructure.Data.CosmosModelRepository.Context
 
         public static CosmosClient CosmosClient => _lazyClient.Value;
 
-        private static CosmosClient CreateCosmosClient()
+        public static CosmosClient CosmosClientBulk => _lazyClientBulk.Value;
+
+        private static CosmosClient CreateCosmosClient(bool allowBulkExecution)
         {
             string endpoint = Environment.GetEnvironmentVariable(ConfigurationFile.CONX_DB_URI_AZCOS);
             string key = Environment.GetEnvironmentVariable(ConfigurationFile.CONX_DB_KEY_AZCOS);
@@ -43,7 +49,8 @@ namespace Infrastructure.Data.CosmosModelRepository.Context
                     ConnectionMode = ConnectionMode.Direct,
                     MaxRetryAttemptsOnRateLimitedRequests = 5,
                     MaxRetryWaitTimeOnRateLimitedRequests = TimeSpan.FromSeconds(10),
-                    EnableTcpConnectionEndpointRediscovery = true // 🔹 Mejora la resiliencia en fallos de conexión
+                    EnableTcpConnectionEndpointRediscovery = true,
+                    AllowBulkExecution = allowBulkExecution
                 });
             }
             catch (Exception ex)
@@ -62,16 +69,32 @@ namespace Infrastructure.Data.CosmosModelRepository.Context
                                              ex.StatusCode == System.Net.HttpStatusCode.RequestTimeout ||
                                              (int)ex.StatusCode == 429)
             {
-                //_logger?.LogWarning("Fallo en la conexión con Cosmos DB. Reintentando...");
-
-                // 🔹 Intentar re-inicializar el cliente en caso de error crítico
                 ReinitializeClient();
 
                 return CosmosClient.GetDatabase(databaseId);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                //_logger?.LogError(ex, "Error inesperado al obtener la base de datos de Cosmos DB.");
+                throw;
+            }
+        }
+
+        public Database GetDatabaseBulk(string databaseId)
+        {
+            try
+            {
+                return CosmosClientBulk.GetDatabase(databaseId);
+            }
+            catch (CosmosException ex) when (ex.StatusCode == System.Net.HttpStatusCode.ServiceUnavailable ||
+                                             ex.StatusCode == System.Net.HttpStatusCode.RequestTimeout ||
+                                             (int)ex.StatusCode == 429)
+            {
+                ReinitializeClientBulk();
+
+                return CosmosClientBulk.GetDatabase(databaseId);
+            }
+            catch (Exception)
+            {
                 throw;
             }
         }
@@ -82,11 +105,23 @@ namespace Infrastructure.Data.CosmosModelRepository.Context
             {
                 if (_lazyClient.IsValueCreated)
                 {
-                    //_logger?.LogWarning("Reiniciando CosmosClient...");
                     _lazyClient.Value.Dispose();
                 }
 
-                _lazyClient = new Lazy<CosmosClient>(() => CreateCosmosClient(), LazyThreadSafetyMode.ExecutionAndPublication);
+                _lazyClient = new Lazy<CosmosClient>(() => CreateCosmosClient(allowBulkExecution: false), LazyThreadSafetyMode.ExecutionAndPublication);
+            }
+        }
+
+        private void ReinitializeClientBulk()
+        {
+            lock (_lock)
+            {
+                if (_lazyClientBulk.IsValueCreated)
+                {
+                    _lazyClientBulk.Value.Dispose();
+                }
+
+                _lazyClientBulk = new Lazy<CosmosClient>(() => CreateCosmosClient(allowBulkExecution: true), LazyThreadSafetyMode.ExecutionAndPublication);
             }
         }
     }

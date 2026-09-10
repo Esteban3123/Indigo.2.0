@@ -33,12 +33,6 @@ Public Interface IContainersRepository
     Function getInteropCostContainerName() As String
 
     ''' <summary>
-    ''' Obtiene el nombre del contenedor de la interaccion con costos
-    ''' </summary>
-    ''' <returns>Nombre del contenedor de Indigo Vie Cloud Platform</returns>
-    Function getIndigoConnectionString() As String
-
-    ''' <summary>
     ''' Función para obtener un contenedor
     ''' </summary>
     ''' <returns>Objeto Contenedor</returns>

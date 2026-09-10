@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -109,6 +109,15 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ServiceModel" />
+    <Reference Include="Microsoft.IdentityModel.Abstractions, Version=8.3.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.IdentityModel.Abstractions.8.3.0\lib\net472\Microsoft.IdentityModel.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.IdentityModel.Logging, Version=8.3.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.IdentityModel.Logging.8.3.0\lib\net472\Microsoft.IdentityModel.Logging.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.IdentityModel.Tokens, Version=7.6.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.IdentityModel.Tokens.7.6.3\lib\net472\Microsoft.IdentityModel.Tokens.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Import Include="Microsoft.VisualBasic" />
@@ -175,6 +184,10 @@
     <Compile Include="SecurityService.Menu.vb" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\DistributedServices.Authentication\DistributedServices.Authentication.vbproj">
+      <Project>{EBFDECA0-D6B3-470B-99AB-2CEE3C356117}</Project>
+      <Name>DistributedServices.Authentication</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Application.Base\Application.Base.vbproj">
       <Project>{0e700653-1525-4d34-aa89-bfb243f6515c}</Project>
       <Name>Application.Base</Name>

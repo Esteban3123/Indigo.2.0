@@ -45,7 +45,7 @@ Public Interface IPayrollIncentivePayment
     ''' <param name="offset">Índice inicial para paginación (-1 = modo legacy, >=0 = modo batch)</param>
     ''' <param name="pageSize">Tamaño del lote (50 por defecto)</param>
     ''' <returns>Action Result de Primas (Lista)</returns>
-    <OperationContract()> _
+    <OperationContract()>
     Function CalculateIncentivePayment(strGroupId As String, period As Char, MaxPremiumByYear As Byte, VarYear As Integer, PaymentType As Char, session As SessionValues, Optional employeeNit As String = "", Optional valueExtraIncentivePayment As Double = 0, Optional offset As Integer = -1, Optional pageSize As Integer = 50) As ActionMessageResult(Of List(Of IncentivePayment))
 
     ''' <summary>
@@ -91,7 +91,7 @@ Public Interface IPayrollIncentivePayment
     ''' <param name="period">Periodo (1=Primer semestre, 2=Segundo semestre)</param>
     ''' <param name="session">Sesión</param>
     ''' <returns>Cantidad de empleados a liquidar</returns>
-    <OperationContract> _
+    <OperationContract>
     Function GetEmployeeCountForIncentivePayment(strGroupId As String, period As Char, session As SessionValues) As Integer
 
 End Interface

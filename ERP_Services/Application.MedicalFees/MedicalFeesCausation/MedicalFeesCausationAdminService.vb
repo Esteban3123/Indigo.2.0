@@ -1,4 +1,4 @@
-﻿'***********************************************************************
+'***********************************************************************
 ' Assembly         : Application.MedicalFees
 ' Author           : Carlos Mario Arias Rubiano
 ' Created          : 16/12/2014
@@ -240,12 +240,117 @@ Public Class MedicalFeesCausationAdminService
         Return query?.ToList()
     End Function
 
+    Public Function GetCupsEntityIdsByServiceTypes(cupsEntityIds As List(Of Integer), serviceTypes As List(Of Byte)) As List(Of Integer) Implements IMedicalFeesCausationAdminService.GetCupsEntityIdsByServiceTypes
+        Return _cupsEntityRepository.GetCupsEntityIdsByServiceTypes(cupsEntityIds, serviceTypes)
+    End Function
+
     Public Function GetViewListDiagnosticImaging(serviceOrderDetailId As Integer) As List(Of ViewListDiagnosticImaging) Implements IMedicalFeesCausationAdminService.GetViewListDiagnosticImaging
         Return _viewListDiagnosticImagingRepository.GetByFilter(Function(m) m.ServiceOrderDetailId = serviceOrderDetailId, tracking:=False)?.ToList()
     End Function
 
     Public Function GetViewListDiagnosticImagingAmbulatory(serviceOrderDetailId As Integer) As List(Of ViewListDiagnosticImagingAmbulatory) Implements IMedicalFeesCausationAdminService.GetViewListDiagnosticImagingAmbulatory
         Return _viewListDiagnosticImagingAmbulatoryRepository.GetByFilter(Function(m) m.ServiceOrderDetailId = serviceOrderDetailId, tracking:=False)?.ToList()
+    End Function
+
+    ''' <summary>
+    ''' Genera una clave única para un candidato de auto-causación.
+    ''' Wrapper sobre BuildCausationKey para el tipo SP_GetCandidatesForAutoCausation_Result.
+    ''' </summary>
+    Private Function BuildCandidateKey(candidate As SP_GetCandidatesForAutoCausation_Result) As String
+        Return BuildCausationKey(candidate.ServiceOrderDetailId, candidate.ServiceOrderDetailSurgicalId)
+    End Function
+
+    ''' <summary>
+    ''' Genera una clave única con formato "{ServiceOrderDetailId}_{ServiceOrderDetailSurgicalId}".
+    ''' Usado para identificar unívocamente un candidato o causación en lookups y HashSets.
+    ''' </summary>
+    Private Function BuildCausationKey(serviceOrderDetailId As Integer, serviceOrderDetailSurgicalId As Integer?) As String
+        Return $"{serviceOrderDetailId}_{If(serviceOrderDetailSurgicalId.HasValue AndAlso serviceOrderDetailSurgicalId.Value > 0, serviceOrderDetailSurgicalId.Value, 0)}"
+    End Function
+
+    ''' <summary>
+    ''' Crea una entidad MedicalFeesCausation a partir de un candidato de auto-causación.
+    ''' Usado exclusivamente en ProcessUnrecognizedCausations para causaciones sin factura.
+    ''' </summary>
+    Private Function CreateMedicalFeesCausationFromCandidate(
+        candidate As SP_GetCandidatesForAutoCausation_Result,
+        amountPayable As Decimal,
+        medicalFeesContractId As Integer) As MedicalFeesCausation
+
+        Return New MedicalFeesCausation With {
+            .AdmissionNumber = candidate.AdmissionNumber,
+            .PatientCode = candidate.PatientCode,
+            .HealthProfessionalCode = If(candidate.PerformsHealthProfessionalCode, String.Empty).Trim(),
+            .ThirdPartyId = candidate.ThirdPartyId.Value,
+            .MedicalFeesContractId = medicalFeesContractId,
+            .ServiceOrderId = candidate.ServiceOrderId,
+            .ServiceOrderDetailId = candidate.ServiceOrderDetailId,
+            .ServiceOrderDetailSurgicalId = If(candidate.ServiceOrderDetailSurgicalId.HasValue AndAlso candidate.ServiceOrderDetailSurgicalId.Value > 0,
+                                               candidate.ServiceOrderDetailSurgicalId.Value, CType(Nothing, Integer?)),
+            .AmountPayable = amountPayable,
+            .MedicalFeesContractValue = amountPayable,
+            .InvoiceQuantity = candidate.InvoicedQuantity,
+            .TotalAmountPayable = amountPayable * candidate.InvoicedQuantity,
+            .PercentageCashed = 100,
+            .MedicalFeePaid = False,
+            .InvoiceDetailId = Nothing,
+            .CausationDate = Date.Now
+        }
+    End Function
+
+    ''' <summary>
+    ''' Extrae y valida los valores de causación desde el resultado de CausedValue.
+    ''' Parsea el monto (Decimal) y el Id del contrato (Integer).
+    ''' Retorna False con mensaje de error si algún valor es inválido o está ausente.
+    ''' </summary>
+    Private Function TryGetAutoCausationValues(
+        causedValueResult As ActionResult(Of List(Of CupsHomologation)),
+        ByRef amountPayable As Decimal,
+        ByRef medicalFeesContractId As Integer,
+        ByRef errorMessage As String) As Boolean
+
+        If causedValueResult Is Nothing Then
+            errorMessage = "No se recibió respuesta al calcular el valor de causación."
+            Return False
+        End If
+
+        If causedValueResult.MessageResult Is Nothing OrElse causedValueResult.MessageResult.Count = 0 OrElse String.IsNullOrWhiteSpace(causedValueResult.MessageResult(0)) Then
+            errorMessage = "La respuesta del cálculo no contiene el valor causado."
+            Return False
+        End If
+
+        If Not Decimal.TryParse(causedValueResult.MessageResult(0), Globalization.NumberStyles.Any, Globalization.CultureInfo.CurrentCulture, amountPayable) _
+           AndAlso Not Decimal.TryParse(causedValueResult.MessageResult(0), Globalization.NumberStyles.Any, Globalization.CultureInfo.InvariantCulture, amountPayable) Then
+            errorMessage = $"No fue posible interpretar el valor causado ({causedValueResult.MessageResult(0)})."
+            Return False
+        End If
+
+        If String.IsNullOrWhiteSpace(causedValueResult.Message) OrElse Not Integer.TryParse(causedValueResult.Message, medicalFeesContractId) Then
+            errorMessage = $"No fue posible interpretar el contrato de honorarios ({causedValueResult.Message})."
+            Return False
+        End If
+
+        Return True
+    End Function
+
+    ''' <summary>
+    ''' Obtiene el mensaje de error de un ActionResult, buscando en Message y MessageResult.
+    ''' Retorna el fallbackMessage si no encuentra ningún mensaje válido.
+    ''' </summary>
+    Private Function GetActionResultMessage(result As ActionResult(Of List(Of MedicalFeesCausation)), fallbackMessage As String) As String
+        If result Is Nothing Then
+            Return fallbackMessage
+        End If
+
+        If Not String.IsNullOrWhiteSpace(result.Message) Then
+            Return result.Message
+        End If
+
+        If result.MessageResult IsNot Nothing AndAlso result.MessageResult.Any() AndAlso Not String.IsNullOrWhiteSpace(result.MessageResult(0)) Then
+            Return result.MessageResult(0)
+        End If
+
+        Return fallbackMessage
     End Function
 
     ''' <summary>
@@ -407,6 +512,40 @@ Public Class MedicalFeesCausationAdminService
         Dim unitOfWorkMedicalFeesNotes As IUnitWork = Me._medicalFeesNotesRepository.UnitWork
         Using Transaction As New TransactionScope(TransactionScopeOption.Required, New TransactionOptions() With {.Timeout = TransactionManager.MaximumTimeout, .IsolationLevel = IsolationLevel.ReadCommitted})
             Try
+                ' ⚠️ VALIDACIÓN DEFENSIVA: valida en una sola consulta que TODOS los MedicalFeesContractId
+                ' referenciados por la lista existan antes de intentar guardar/commitear cualquier registro.
+                ' Esto intercepta el problema ANTES del unitOfWork.Commit() (línea donde EF ejecuta el INSERT real
+                ' y donde ocurre hoy la excepción reportada como línea 550 por el mapeo de sequence points del PDB).
+                Dim distinctContractIds = ListMedicalFeesCausation _
+                .Where(Function(x) x.MedicalFeesContractId.HasValue) _
+                .Select(Function(x) x.MedicalFeesContractId.Value) _
+                .Distinct() _
+                .ToList()
+
+                If distinctContractIds.Any() Then
+                    Dim existingContractIds = _medicalFeesContractRepository _
+                    .Query(Function(c) distinctContractIds.Contains(c.Id), tracking:=False) _
+                    ?.Select(Function(c) c.Id) _
+                    .ToList()
+
+                    If existingContractIds Is Nothing Then existingContractIds = New List(Of Integer)()
+
+                    Dim missingContractIds = distinctContractIds.Except(existingContractIds).ToList()
+
+                    If missingContractIds.Any() Then
+                        Dim affectedItems = ListMedicalFeesCausation _
+                        .Where(Function(x) x.MedicalFeesContractId.HasValue AndAlso missingContractIds.Contains(x.MedicalFeesContractId.Value)) _
+                        .Select(Function(x) $"ServiceOrderDetailId: {x.ServiceOrderDetailId} (ContratoId: {x.MedicalFeesContractId})") _
+                        .ToList()
+
+                        Transaction.Dispose()
+                        Return New ActionResult(Of List(Of MedicalFeesCausation)) With {
+                        .StateResult = False,
+                        .MessageResult = {$"No se puede guardar la causación: el/los contrato(s) de honorarios ({String.Join(", ", missingContractIds)}) no existe(n). Items afectados: {String.Join("; ", affectedItems)}"}.ToList()
+                    }
+                    End If
+                End If
+
                 'Guardo las causaciones de honorarios medicos
                 For Each itemMedicalFeesCausation As MedicalFeesCausation In ListMedicalFeesCausation
                     Dim auxMedicalFeesCausation As MedicalFeesCausation = Nothing
@@ -493,7 +632,6 @@ Public Class MedicalFeesCausationAdminService
             End Try
         End Using
     End Function
-
     ''' <summary>
     ''' Guarda o actualiza la entidad MedicalFeesCausation de forma asincrona
     ''' </summary>
@@ -617,21 +755,6 @@ Public Class MedicalFeesCausationAdminService
                         Throw New IndigoValidationException(resSave.Message)
                     End If
 
-                    Dim causationPending = _causationPendignRepository.GetByFilter(Function(m) m.IsQx AndAlso m.PerformsHealthProfessionalCode = invoiceDetail.PerformsHealthProfessionalCode)?.ToList()
-
-                    If causationPending IsNot Nothing AndAlso causationPending.Any() Then
-                        For Each item In causationPending
-
-                            Dim obj = Utils.DeserializeJsonToEntity(Of ViewListSurgicalAndPackage)(item.Data)
-
-                            If obj IsNot Nothing AndAlso obj.ServiceOrderDetailId = invoiceDetail.ServiceOrderDetailId Then
-                                _causationPendignRepository.DeleteEntity(item)
-                                _causationPendignRepository.UnitWork.Commit()
-                                Exit For
-                            End If
-                        Next
-                    End If
-
                     scope.Complete()
                     Return New ActionResult(Of List(Of CupsHomologation)) With {.StateResult = True}
                 End Using
@@ -658,21 +781,16 @@ Public Class MedicalFeesCausationAdminService
     ''' <param name="invoiceDetail"></param>
     ''' <param name="audit"></param>
     ''' <returns></returns>
-    Private Function GetCausationInvoiceQx(invoiceDetail As ViewListSurgicalAndPackage, audit As AuditMessage, Optional listCupsHomologations As List(Of CupsHomologation) = Nothing) As ActionResult(Of (causation As MedicalFeesCausation, homologations As List(Of CupsHomologation)))
+    Public Function GetCausationInvoiceQx(invoiceDetail As ViewListSurgicalAndPackage, audit As AuditMessage, Optional listCupsHomologations As List(Of CupsHomologation) = Nothing) As ActionResult(Of (causation As MedicalFeesCausation, homologations As List(Of CupsHomologation))) Implements IMedicalFeesCausationAdminService.GetCausationInvoiceQx
         Try
-            Dim causationExists = _medicalFeesCausationRepository.FirstOrDefault(Function(m) m.ServiceOrderDetailId = invoiceDetail.ServiceOrderDetailId _
-                                                                                 AndAlso m.Status <> 4 _
-                                                                                 AndAlso m.ServiceOrderDetailSurgicalId = invoiceDetail.ServiceOrderDetailSurgicalId, tracking:=False)
-
-            If causationExists IsNot Nothing Then
-                Dim pending = _causationPendignRepository.FirstOrDefault(Function(m) m.Id = invoiceDetail.CausationPendingId)
-                _causationPendignRepository.DeleteEntity(pending)
-                _causationPendignRepository.UnitWork.Commit()
-
-                Return New ActionResult(Of (causation As MedicalFeesCausation, homologations As List(Of CupsHomologation))) With {.StateResult = False, .StatusCode = eStatusResult.WARNING, .Message = "Ya existe una causación para el ítem seleccionado."}
+            Dim validateResult = ValidateCausationExistsQx(invoiceDetail)
+            If validateResult IsNot Nothing AndAlso Not validateResult.StateResult Then
+                Return New ActionResult(Of (causation As MedicalFeesCausation, homologations As List(Of CupsHomologation))) With {
+                    .StateResult = False,
+                    .StatusCode = validateResult.StatusCode,
+                    .Message = validateResult.Message
+                }
             End If
-
-            'ValidateCausationExists(invoiceDetail)
             ValidateMedicalFeesContract(invoiceDetail)
 
             Dim res = CausedValue(
@@ -748,21 +866,6 @@ Public Class MedicalFeesCausationAdminService
 
                     If Not resSave.StateResult Then
                         Throw New IndigoValidationException(resSave.Message)
-                    End If
-
-                    Dim causationPending = _causationPendignRepository.GetByFilter(Function(m) Not m.IsQx AndAlso m.PerformsHealthProfessionalCode = invoiceDetail.PerformsHealthProfessionalCode)?.ToList()
-
-                    If causationPending IsNot Nothing AndAlso causationPending.Any() Then
-                        For Each item In causationPending
-
-                            Dim obj = Utils.DeserializeJsonToEntity(Of ViewListNoSurgical)(item.Data)
-
-                            If obj IsNot Nothing AndAlso obj.ServiceOrderDetailId = invoiceDetail.ServiceOrderDetailId Then
-                                _causationPendignRepository.DeleteEntity(item)
-                                _causationPendignRepository.UnitWork.Commit()
-                                Exit For
-                            End If
-                        Next
                     End If
 
                     scope.Complete()
@@ -853,24 +956,82 @@ Public Class MedicalFeesCausationAdminService
         End Try
     End Function
 
-    Private Sub ValidateCausationExists(invoiceDetail As ViewListSurgicalAndPackage)
-        Dim causationExists = _medicalFeesCausationRepository.Query(Function(m) m.ServiceOrderDetailId = invoiceDetail.ServiceOrderDetailId AndAlso m.Status <> 4 AndAlso m.ServiceOrderDetailSurgicalId = invoiceDetail.ServiceOrderDetailSurgicalId, tracking:=False).Any()
+    ''' <summary>
+    ''' Valida si ya existe causación Qx para el detalle quirúrgico.
+    ''' Si es provisional (InvoiceDetailId=0, Status=1), la elimina para permitir la causación real.
+    ''' </summary>
+    Public Function ValidateCausationExistsQx(invoiceDetail As ViewListSurgicalAndPackage) As ActionResult(Of Boolean)
+        Dim causationExists = _medicalFeesCausationRepository.FirstOrDefault(Function(m) m.ServiceOrderDetailId = invoiceDetail.ServiceOrderDetailId _
+                                                                                 AndAlso m.Status <> 4 _
+                                                                                 AndAlso m.ServiceOrderDetailSurgicalId = invoiceDetail.ServiceOrderDetailSurgicalId, tracking:=False)
 
-        If causationExists Then
+        If causationExists IsNot Nothing Then
+            ' Si es provisional (auto-causada sin factura), eliminarla para permitir la causación real
+            If (Not causationExists.InvoiceDetailId.HasValue OrElse causationExists.InvoiceDetailId = 0) AndAlso causationExists.Status = 1 Then
+                _medicalFeesCausationRepository.DeleteEntity(causationExists)
+                _medicalFeesCausationRepository.UnitWork.Commit()
+                CleanupRelatedPending(invoiceDetail.ServiceOrderDetailId, invoiceDetail.ServiceOrderDetailSurgicalId)
+                Return Nothing
+            End If
+
+            Return New ActionResult(Of Boolean) With {.StateResult = False, .StatusCode = eStatusResult.WARNING, .Message = "Ya existe una causación para el ítem seleccionado."}
+        End If
+
+        Return Nothing
+    End Function
+
+    ''' <summary>
+    ''' Valida si ya existe el registro de causación.
+    ''' Si la causación existente es provisional (InvoiceDetailId IS NULL o 0, Status=1),
+    ''' la elimina para permitir que el flujo de facturación cree la causación real.
+    ''' </summary>
+    ''' <param name="invoiceDetail"></param>
+    Private Sub ValidateCausationExists(invoiceDetail As ViewListNoSurgical)
+        Dim causationExists = _medicalFeesCausationRepository.FirstOrDefault(Function(m) m.ServiceOrderDetailId = invoiceDetail.ServiceOrderDetailId _
+                                                                                 AndAlso m.Status <> 4 _
+                                                                                 , tracking:=False)
+
+        If causationExists IsNot Nothing Then
+            ' Si es provisional (auto-causada sin factura), eliminarla para permitir la causación real
+            If (Not causationExists.InvoiceDetailId.HasValue OrElse causationExists.InvoiceDetailId = 0) AndAlso causationExists.Status = 1 Then
+                _medicalFeesCausationRepository.DeleteEntity(causationExists)
+                _medicalFeesCausationRepository.UnitWork.Commit()
+                CleanupRelatedPending(invoiceDetail.ServiceOrderDetailId, Nothing)
+                Return
+            End If
+
             Throw New IndigoValidationException("Ya existe una causación para el ítem seleccionado.")
         End If
     End Sub
 
     ''' <summary>
-    ''' Valida si ya existe el registro de causación pendiente
+    ''' Elimina CausationPending asociados a un ServiceOrderDetailId al limpiar una causación provisional.
+    ''' Busca por ServiceOrderDetailId en el JSON Data deserializado.
     ''' </summary>
-    ''' <param name="invoiceDetail"></param>
-    Private Sub ValidateCausationExists(invoiceDetail As ViewListNoSurgical)
-        Dim causationExists = _medicalFeesCausationRepository.Query(Function(m) m.ServiceOrderDetailId = invoiceDetail.ServiceOrderDetailId AndAlso m.Status <> 4, tracking:=False).Any()
-
-        If causationExists Then
-            Throw New IndigoValidationException("Ya existe una causación para el ítem seleccionado.")
-        End If
+    Private Sub CleanupRelatedPending(serviceOrderDetailId As Integer, serviceOrderDetailSurgicalId As Integer?)
+        Try
+            Dim pendings = _causationPendignRepository.GetByFilter(Function(m) True)?.ToList()
+            If pendings IsNot Nothing AndAlso pendings.Any() Then
+                For Each item In pendings
+                    Try
+                        Dim obj = Utils.DeserializeJsonToEntity(Of ViewListNoSurgical)(item.Data)
+                        If obj IsNot Nothing AndAlso obj.ServiceOrderDetailId = serviceOrderDetailId Then
+                            ' Para NoQx (surgicalId Nothing): match si obj.ServiceOrderDetailSurgicalId = 0
+                            ' Para Qx (surgicalId tiene valor): match si coinciden
+                            If (Not serviceOrderDetailSurgicalId.HasValue AndAlso obj.ServiceOrderDetailSurgicalId = 0) _
+                               OrElse (serviceOrderDetailSurgicalId.HasValue AndAlso obj.ServiceOrderDetailSurgicalId = serviceOrderDetailSurgicalId.Value) Then
+                                _causationPendignRepository.DeleteEntity(item)
+                                _causationPendignRepository.UnitWork.Commit()
+                                Exit For
+                            End If
+                        End If
+                    Catch
+                    End Try
+                Next
+            End If
+        Catch ex As Exception
+            Debug.WriteLine($"Error limpiando pending para ServiceOrderDetailId {serviceOrderDetailId}: {ex.Message}")
+        End Try
     End Sub
 
     ''' <summary>
@@ -994,7 +1155,7 @@ Public Class MedicalFeesCausationAdminService
             .TotalAmountPayable = amountPayable * invoiceDetail.InvoicedQuantity,
             .PercentageCashed = 100,
             .MedicalFeePaid = False,
-            .InvoiceDetailId = invoiceDetail.InvoiceDetailId,
+            .InvoiceDetailId = If(invoiceDetail.InvoiceDetailId > 0, invoiceDetail.InvoiceDetailId, CType(Nothing, Integer?)),
             .CausationDate = Date.Now
         }
 
@@ -1056,7 +1217,7 @@ Public Class MedicalFeesCausationAdminService
             .TotalAmountPayable = amountPayable * invoiceDetail.InvoicedQuantity,
             .PercentageCashed = 100,
             .MedicalFeePaid = False,
-            .InvoiceDetailId = invoiceDetail.InvoiceDetailId,
+            .InvoiceDetailId = If(invoiceDetail.InvoiceDetailId > 0, invoiceDetail.InvoiceDetailId, CType(Nothing, Integer?)),
             .CausationDate = Date.Now
         }
 
@@ -1093,6 +1254,382 @@ Public Class MedicalFeesCausationAdminService
                 Throw New IndigoValidationException($"El item ({invoiceDetail.IPSServiceDescription}) ya se encuentra en una liquidación confirmada.")
             End If
         End If
+    End Sub
+
+    ''' <summary>
+    ''' Procesa causaciones automáticas para órdenes de servicio CUPS no reconocidas.
+    ''' Itera en batches hasta agotar todos los candidatos o alcanzar el timeout (75 min).
+    ''' ALCANCE: Solo Registrado (sin factura), CUPS, sin causación activa. Excluye liquidados.
+    ''' Procesa todas las unidades operativas.
+    ''' OPTIMIZADO: Pre-fetch de ThirdPartyIds y cache de contratos para evitar N+1 queries.
+    ''' </summary>
+    ''' <param name="audit">Información de auditoría</param>
+    ''' <param name="batchSize">Tamaño de cada batch (default 500 para ejecución manual)</param>
+    Public Function ProcessUnrecognizedCausations(audit As AuditMessage, Optional batchSize As Integer = 500) As ActionResult(Of UnrecognizedProcessingResult) Implements IMedicalFeesCausationAdminService.ProcessUnrecognizedCausations
+        If audit Is Nothing Then
+            Throw New ArgumentNullException("audit")
+        End If
+
+        Dim result As New UnrecognizedProcessingResult()
+        Dim effectiveBatchSize = If(batchSize > 0, batchSize, 500)
+        Dim maxMinutes = 75
+        Dim startTime = DateTime.Now
+        Dim batchNumber = 0
+        Dim contractCache As New Dictionary(Of Integer, MedicalFeesContract)()
+        Dim processedCandidateKeys As New HashSet(Of String)(StringComparer.Ordinal)
+
+        Try
+            Do
+                ' Verificar timeout
+                If DateTime.Now.Subtract(startTime).TotalMinutes >= maxMinutes Then
+                    result.Details.Add(New ProcessingDetail() With {
+                        .ServiceOrderDetailId = 0,
+                        .Status = "Timeout",
+                        .Message = $"Timeout alcanzado ({maxMinutes} min). Procesados hasta ahora: {result.SuccessCount} OK, {result.FailedCount} pendientes."
+                    })
+                    Exit Do
+                End If
+
+                ' Obtener siguiente batch de candidatos
+                Dim candidates = _medicalFeesCausationRepository.GetCandidatesForAutoCausationBatched(effectiveBatchSize)
+                If candidates Is Nothing OrElse Not candidates.Any() Then
+                    Exit Do
+                End If
+
+                Dim freshCandidates = candidates _
+                    .Where(Function(candidate) processedCandidateKeys.Add(BuildCandidateKey(candidate))) _
+                    .ToList()
+
+                If Not freshCandidates.Any() Then
+                    result.Details.Add(New ProcessingDetail() With {
+                        .ServiceOrderDetailId = 0,
+                        .Status = "Stopped",
+                        .Message = "El repositorio devolvió nuevamente los mismos candidatos sin progreso. Se detiene el proceso para evitar reprocesos en bucle."
+                    })
+                    Exit Do
+                End If
+
+                batchNumber += 1
+                result.TotalCandidates += freshCandidates.Count
+
+                ' Pre-fetch de ThirdPartyIds válidos fuera del TransactionScope (lectura pura, no necesita locks)
+                Dim allThirdPartyIds = freshCandidates _
+                    .Where(Function(c) c.ThirdPartyId.HasValue AndAlso c.ThirdPartyId.Value > 0) _
+                    .Select(Function(c) c.ThirdPartyId.Value) _
+                    .Distinct() _
+                    .ToList()
+                Dim validThirdPartyIds = GetValidThirdPartyIds(allThirdPartyIds)
+                Dim validThirdPartySet = New HashSet(Of Integer)(validThirdPartyIds)
+
+                ' Candidatos que fallaron y deben registrarse como pending FUERA del TransactionScope
+                Dim deferredPendings As New List(Of (candidate As SP_GetCandidatesForAutoCausation_Result, message As String))()
+                Dim candidateLookup As New Dictionary(Of String, SP_GetCandidatesForAutoCausation_Result)(StringComparer.Ordinal)
+                For Each candidate In freshCandidates
+                    candidateLookup(BuildCandidateKey(candidate)) = candidate
+                Next
+
+                ' Procesar el batch dentro de su propia transacción
+                Dim batchSaveOk = False
+                Using Transaction As New TransactionScope(TransactionScopeOption.Required,
+                    New TransactionOptions() With {
+                        .Timeout = TransactionManager.MaximumTimeout,
+                        .IsolationLevel = IsolationLevel.ReadCommitted
+                    })
+
+                    Dim causationsToSave As New List(Of MedicalFeesCausation)()
+                    Dim detailLookup As New Dictionary(Of String, ProcessingDetail)(StringComparer.Ordinal)
+
+                    For Each candidate In freshCandidates
+                        Dim candidateKey = BuildCandidateKey(candidate)
+                        Dim detail As New ProcessingDetail() With {
+                            .ServiceOrderDetailId = candidate.ServiceOrderDetailId
+                        }
+                        detailLookup(candidateKey) = detail
+
+                        Try
+                            ' Verificar ThirdPartyId válido (en memoria, sin query)
+                            If Not candidate.ThirdPartyId.HasValue OrElse candidate.ThirdPartyId.Value <= 0 Then
+                                detail.Status = "Failed"
+                                detail.Message = $"ThirdPartyId no válido ({If(candidate.ThirdPartyId, 0)}) para profesional {candidate.PerformsHealthProfessionalCode}"
+                                result.FailedCount += 1
+                                result.Details.Add(detail)
+                                deferredPendings.Add((candidate, detail.Message))
+                                Continue For
+                            End If
+
+                            ' Verificar ThirdParty existe (lookup en HashSet, O(1))
+                            If Not validThirdPartySet.Contains(candidate.ThirdPartyId.Value) Then
+                                detail.Status = "Failed"
+                                detail.Message = $"ThirdPartyId ({candidate.ThirdPartyId.Value}) no existe en la base de datos."
+                                result.FailedCount += 1
+                                result.Details.Add(detail)
+                                deferredPendings.Add((candidate, detail.Message))
+                                Continue For
+                            End If
+
+                            ' Calcular valor a causar
+                            Dim causedValueResult = CausedValue(
+                                0,
+                                If(candidate.RateManualType, 0),
+                                candidate.CupsEntityId,
+                                candidate.CareGroupId,
+                                If(candidate.RateManualId, 0),
+                                candidate.TotalSalesPrice,
+                                If(candidate.Presentation, 0),
+                                candidate.IPSServiceId,
+                                If(candidate.IPSServiceDescription, String.Empty),
+                                candidate.PerformsHealthProfessionalCode,
+                                If(candidate.ThirdPartyDescription, String.Empty),
+                                Nothing,
+                                candidate.ServiceOrderDetailId,
+                                If(candidate.ServiceOrderDetailSurgicalId.HasValue, candidate.ServiceOrderDetailSurgicalId.Value, 0),
+                                0
+                            )
+
+                            If causedValueResult.StateResult Then
+                                Dim amountPayable As Decimal
+                                Dim medicalFeesContractId As Integer
+                                Dim parseErrorMessage As String = Nothing
+                                If Not TryGetAutoCausationValues(causedValueResult, amountPayable, medicalFeesContractId, parseErrorMessage) Then
+                                    detail.Status = "Failed"
+                                    detail.Message = parseErrorMessage
+                                    result.FailedCount += 1
+                                    result.Details.Add(detail)
+                                    deferredPendings.Add((candidate, detail.Message))
+                                    Continue For
+                                End If
+
+                                ' Validar contrato activo (con cache)
+                                Dim medicalFeesContract As MedicalFeesContract = Nothing
+                                If Not contractCache.TryGetValue(medicalFeesContractId, medicalFeesContract) Then
+                                    medicalFeesContract = _medicalFeesContractRepository.GetMedicalFeesContractById(medicalFeesContractId)
+                                    If medicalFeesContract IsNot Nothing AndAlso medicalFeesContract.Id > 0 Then
+                                        contractCache(medicalFeesContractId) = medicalFeesContract
+                                    Else
+                                        medicalFeesContract = Nothing
+                                    End If
+                                End If
+
+                                If medicalFeesContract Is Nothing OrElse medicalFeesContract.Status <> 1 Then
+                                    detail.Status = "Failed"
+                                    detail.Message = $"Contrato {If(medicalFeesContract?.Code, "?")} terminado o suspendido."
+                                    result.FailedCount += 1
+                                    result.Details.Add(detail)
+                                    deferredPendings.Add((candidate, detail.Message))
+                                    Continue For
+                                End If
+
+                                Dim causation = CreateMedicalFeesCausationFromCandidate(candidate, amountPayable, medicalFeesContractId)
+
+                                causationsToSave.Add(causation)
+
+                                detail.Status = "OK"
+                                detail.Message = $"Causación calculada: ${amountPayable:N2} x {candidate.InvoicedQuantity} = ${causation.TotalAmountPayable:N2}"
+                                result.SuccessCount += 1
+
+                            ElseIf causedValueResult.ObjectEmbbeded IsNot Nothing AndAlso causedValueResult.ObjectEmbbeded.Any() Then
+                                detail.Status = "Failed"
+                                detail.Message = "Existen homólogos CUPS pendientes de resolver."
+                                result.FailedCount += 1
+                                deferredPendings.Add((candidate, detail.Message))
+                            Else
+                                detail.Status = "Failed"
+                                detail.Message = If(causedValueResult.Message, "Error calculando valor de causación.")
+                                result.FailedCount += 1
+                                deferredPendings.Add((candidate, detail.Message))
+                            End If
+
+                            result.Details.Add(detail)
+
+                        Catch ex As IndigoValidationException
+                            If ex.Message.Contains("liquidación registrada") OrElse ex.Message.Contains("liquidación confirmada") Then
+                                detail.Status = "ExcludedByLiquidation"
+                                detail.Message = ex.Message
+                                result.ExcludedByLiquidation += 1
+                            Else
+                                detail.Status = "Failed"
+                                detail.Message = ex.Message
+                                result.FailedCount += 1
+                                deferredPendings.Add((candidate, ex.Message))
+                            End If
+                            result.Details.Add(detail)
+
+                        Catch ex As Exception
+                            detail.Status = "Failed"
+                            detail.Message = ex.Message
+                            result.FailedCount += 1
+                            result.Details.Add(detail)
+                            deferredPendings.Add((candidate, ex.Message))
+                        End Try
+                    Next
+
+                    ' Guardar causaciones exitosas del batch
+                    If causationsToSave.Any() Then
+                        Dim saveResult = SaveMedicalFeesCausation(causationsToSave, Nothing, Nothing, audit)
+                        If Not saveResult.StateResult Then
+                            Dim saveErrorMessage = GetActionResultMessage(saveResult, "No fue posible guardar las causaciones del batch.")
+                            For Each causation In causationsToSave
+                                Dim saveKey = BuildCausationKey(causation.ServiceOrderDetailId, causation.ServiceOrderDetailSurgicalId)
+                                Dim candidateForPending As SP_GetCandidatesForAutoCausation_Result = Nothing
+                                candidateLookup.TryGetValue(saveKey, candidateForPending)
+                                If candidateForPending IsNot Nothing Then
+                                    deferredPendings.Add((candidateForPending, $"Error guardando: {saveErrorMessage}"))
+                                End If
+
+                                Dim detail As ProcessingDetail = Nothing
+                                If detailLookup.TryGetValue(saveKey, detail) Then
+                                    detail.Status = "Failed"
+                                    detail.Message = $"Error guardando: {saveErrorMessage}"
+                                End If
+                            Next
+                            result.FailedCount += causationsToSave.Count
+                            result.SuccessCount -= causationsToSave.Count
+                        Else
+                            batchSaveOk = True
+                        End If
+                    End If
+
+                    If batchSaveOk OrElse Not causationsToSave.Any() Then
+                        Transaction.Complete()
+                    End If
+                End Using
+
+                ' Registrar pendings FUERA del TransactionScope (evita "operación no válida para el estado de la transacción")
+                If deferredPendings.Any() Then
+                    RegisterCandidatesAsPendingBatch(deferredPendings, audit.CodeUser)
+                    _causationPendignRepository.UnitWork.Commit()
+                End If
+
+                ' Si el batch trajo menos que el tamaño solicitado, ya no hay más candidatos
+                If candidates.Count < effectiveBatchSize Then
+                    Exit Do
+                End If
+            Loop
+
+            Return New ActionResult(Of UnrecognizedProcessingResult) With {
+                .StateResult = True,
+                .ObjectEmbbeded = result,
+                .Message = $"Proceso completado ({batchNumber} batches): {result.SuccessCount} causados, {result.FailedCount} pendientes, {result.ExcludedByLiquidation} excluidos."
+            }
+
+        Catch ex As Exception
+            IndigoManagementExceptions.HandleException(ex, "ApplicationPolicy")
+            Return New ActionResult(Of UnrecognizedProcessingResult) With {
+                .StateResult = False,
+                .ObjectEmbbeded = result,
+                .Message = ex.Message
+            }
+        End Try
+    End Function
+
+    ''' <summary>
+    ''' Registra multiples candidatos fallidos como CausationPending en batch.
+    ''' 1 query para pre-fetch de pendings existentes + 1 deserializacion por pending (no por candidato).
+    ''' Evita el patron N+1 del metodo individual.
+    ''' </summary>
+    Private Sub RegisterCandidatesAsPendingBatch(
+        deferredPendings As List(Of (candidate As SP_GetCandidatesForAutoCausation_Result, message As String)),
+        userCode As String)
+
+        Try
+            Dim pendingLookup As New Dictionary(Of String, (candidate As SP_GetCandidatesForAutoCausation_Result, message As String))(StringComparer.Ordinal)
+            For Each pending In deferredPendings
+                pendingLookup(BuildCandidateKey(pending.candidate)) = pending
+            Next
+
+            ' 1 sola query: traer todos los pendings SIN-FACTURA existentes
+            Dim allExistingPendings = _causationPendignRepository.GetByFilter(
+                Function(m) m.InvoiceNumber = "SIN-FACTURA"
+            )?.ToList()
+
+            ' Deserializar UNA vez y construir lookup: (ServiceOrderDetailId, SurgicalId) -> CausationPending
+            Dim existingLookup As New Dictionary(Of String, CausationPending)()
+            If allExistingPendings IsNot Nothing Then
+                For Each item In allExistingPendings
+                    Try
+                        Dim obj = Utils.DeserializeJsonToEntity(Of ViewListNoSurgical)(item.Data)
+                        If obj IsNot Nothing Then
+                            Dim key = $"{obj.ServiceOrderDetailId}_{obj.ServiceOrderDetailSurgicalId}"
+                            If Not existingLookup.ContainsKey(key) Then
+                                existingLookup(key) = item
+                            End If
+                        End If
+                    Catch
+                    End Try
+                Next
+            End If
+
+            ' Procesar cada candidato con lookup O(1) en lugar de query + deserializacion
+            For Each pending In pendingLookup.Values
+                Try
+                    Dim candidate = pending.candidate
+                    Dim errorMessage = pending.message
+                    Dim isQx = candidate.ServiceOrderDetailSurgicalId.HasValue AndAlso candidate.ServiceOrderDetailSurgicalId.Value > 0
+                    Dim surgicalId = If(isQx, candidate.ServiceOrderDetailSurgicalId.Value, 0)
+                    Dim lookupKey = $"{candidate.ServiceOrderDetailId}_{surgicalId}"
+
+                    ' O(1) lookup: si ya existe, solo actualizar el error
+                    If existingLookup.ContainsKey(lookupKey) Then
+                        Dim existingItem = existingLookup(lookupKey)
+                        existingItem.Error = If(String.IsNullOrWhiteSpace(errorMessage), "Error no especificado", errorMessage)
+                        _causationPendignRepository.SaveEntity(existingItem)
+                        Continue For
+                    End If
+
+                    ' No existe: crear nuevo pending
+                    Dim viewListItem As New ViewListNoSurgical() With {
+                        .ServiceOrderDetailId = candidate.ServiceOrderDetailId,
+                        .ServiceOrderId = candidate.ServiceOrderId,
+                        .AdmissionNumber = candidate.AdmissionNumber,
+                        .PatientCode = candidate.PatientCode,
+                        .CupsEntityId = candidate.CupsEntityId,
+                        .CareGroupId = candidate.CareGroupId,
+                        .RateManualId = If(candidate.RateManualId, 0),
+                        .RateManualType = candidate.RateManualType,
+                        .TotalSalesPrice = candidate.TotalSalesPrice,
+                        .InvoicedQuantity = candidate.InvoicedQuantity,
+                        .IPSServiceId = candidate.IPSServiceId,
+                        .IPSServiceDescription = candidate.IPSServiceDescription,
+                        .PerformsHealthProfessionalCode = candidate.PerformsHealthProfessionalCode,
+                        .ThirdPartyId = candidate.ThirdPartyId,
+                        .ThirdPartyDescription = candidate.ThirdPartyDescription,
+                        .Presentation = candidate.Presentation,
+                        .ServiceDate = candidate.ServiceDate,
+                        .ServiceType = candidate.ServiceType,
+                        .ServiceOrderDetailSurgicalId = surgicalId,
+                        .InvoiceDetailId = 0,
+                        .InvoiceNumber = "SIN-FACTURA"
+                    }
+
+                    Dim jsonData = Utils.SerializeObjectToJson(viewListItem)
+
+                    Dim newPending = New CausationPending() With {
+                        .InvoiceNumber = "SIN-FACTURA",
+                        .PatientCode = candidate.PatientCode,
+                        .PatientName = If(candidate.HealthProfessionalName, "N/A"),
+                        .PerformsHealthProfessionalCode = candidate.PerformsHealthProfessionalCode,
+                        .AdmissionNumber = candidate.AdmissionNumber,
+                        .InvoiceDate = candidate.ServiceDate,
+                        .Error = If(String.IsNullOrWhiteSpace(errorMessage), "Error no especificado", errorMessage),
+                        .IsQx = isQx,
+                        .Data = jsonData,
+                        .CreationDate = DateTime.Now,
+                        .Retry = True
+                    }
+
+                    _causationPendignRepository.SaveEntity(newPending)
+
+                    ' Agregar al lookup para evitar duplicados dentro del mismo batch
+                    existingLookup(lookupKey) = newPending
+
+                Catch ex As Exception
+                    Debug.WriteLine($"Error registrando pending para ServiceOrderDetailId {pending.candidate.ServiceOrderDetailId}: {ex.Message}")
+                End Try
+            Next
+
+        Catch ex As Exception
+            Debug.WriteLine($"Error en RegisterCandidatesAsPendingBatch: {ex.Message}")
+        End Try
     End Sub
 
     ''' <summary>

@@ -1,4 +1,5 @@
 Imports System.Data.SqlClient
+Imports System.Diagnostics
 Imports System.IO
 Imports System.IO.Compression
 Imports System.Net
@@ -8,6 +9,7 @@ Imports System.Xml.Linq
 Imports DevExpress.XtraPrinting.Preview
 Imports DistributedServices.DIAN.WcfDianCustomerServices
 Imports Domain.Base.Entities
+Imports Domain.ElectronicDocuments.Entities.UBL2_1.common
 Imports Domain.ElectronicDocuments.Entities.UBL2_1.maindoc
 Imports Domain.ElectronicDocuments.Service
 Imports Domain.Entities
@@ -43,6 +45,7 @@ Public Class ElectronicDocumentsAdminService
     Private ReadOnly _factoryStorage As IFactoryStorage
     Private ReadOnly _storage As IStorage
     Private _invoiceCopayRepository As IInvoiceCopayRepository
+    Private _initialBalanceInvoiceRepository As IInitialBalanceInvoiceRepository
 #End Region
 
 #Region "Properties"
@@ -79,6 +82,7 @@ Public Class ElectronicDocumentsAdminService
     ''' Constante que establece el mensaje inicial desde el servicio DIAN
     ''' </summary>
     Private Const MESSAGE_ERIPS As String = "Mensaje Disparado desde servicio DIAN"
+    Private Const EVENT_LOG_SOURCE As String = "Indigo Vie"
 
 #End Region
 
@@ -100,7 +104,8 @@ Public Class ElectronicDocumentsAdminService
                    electronicsPropertiesRepository As IElectronicsPropertiesRepository,
                    endpointsRepository As IEndpointsRepository,
                    factoryStorage As IFactoryStorage,
-                   invoiceCopayRepository As IInvoiceCopayRepository)
+                   invoiceCopayRepository As IInvoiceCopayRepository,
+                   initialBalanceInvoiceRepository As IInitialBalanceInvoiceRepository)
         Me._billingAuthorizationRepository = billingAuthorizationRepository
         Me._billingNoteRepository = billingNoteRepository
         Me._electronicDocumentRepository = electronicDocumentRepository
@@ -116,6 +121,7 @@ Public Class ElectronicDocumentsAdminService
         Me._factoryStorage = factoryStorage
         Me._storage = Me._factoryStorage.CreateStorageControl()
         Me._invoiceCopayRepository = invoiceCopayRepository
+        Me._initialBalanceInvoiceRepository = initialBalanceInvoiceRepository
         ' Setting TLS 1.2 protocol '
         ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12
         ServicePointManager.ServerCertificateValidationCallback = Function(sender1, certificate, chain, sslPolicyErrors)
@@ -305,23 +311,45 @@ Public Class ElectronicDocumentsAdminService
         Return New ActionResult(Of String) With {.StateResult = (errors.Length = 0), .Message = errors.ToString()}
     End Function
 
+    <Transaction>
     Private Async Function ExecuteSendMailProcessAsync() As Task(Of ActionResult(Of String))
         Dim errors As New StringBuilder
 
-        Dim electronicDocumentNotificationIds = _electronicDocumentNotificationRepository.GetElectronicDocumentNotificationIdsByStatus(False)
+        Dim electronicDocumentNotificationIdsByElectronicDocumentId = _electronicDocumentNotificationRepository.GetElectronicDocumentNotificationIdsByStatus(False)
 
-        For Each electronicDocumentNotificationId In electronicDocumentNotificationIds
-            Dim message = Await SendMailToClientAsync(electronicDocumentNotificationId)
-            If message IsNot Nothing Then
-                errors.Append(message)
+        For Each electronicDocumentNotificationGroup In electronicDocumentNotificationIdsByElectronicDocumentId
+            Dim electronicDocumentNotifications = electronicDocumentNotificationGroup.Value _
+                .Select(Function(electronicDocumentNotificationId) _electronicDocumentNotificationRepository.GetElectronicDocumentNotificationById(electronicDocumentNotificationId)) _
+                .Where(Function(electronicDocumentNotification) electronicDocumentNotification IsNot Nothing AndAlso
+                                                            electronicDocumentNotification.Id > 0 AndAlso
+                                                            Not electronicDocumentNotification.Status AndAlso
+                                                            electronicDocumentNotification.ElectronicDocument IsNot Nothing) _
+                .ToList()
+
+            If Not electronicDocumentNotifications.Any() Then
+                Continue For
             End If
+
+            Dim preparedMailResult = Await PrepareMailToClientAsync(electronicDocumentNotifications.First())
+            If preparedMailResult Is Nothing OrElse Not preparedMailResult.StateResult Then
+                If preparedMailResult IsNot Nothing AndAlso preparedMailResult.Message IsNot Nothing Then
+                    errors.Append(preparedMailResult.Message)
+                End If
+                Continue For
+            End If
+
+            For Each electronicDocumentNotification In electronicDocumentNotifications
+                Dim message = SendPreparedMailToClient(electronicDocumentNotification, preparedMailResult.ObjectEmbbeded)
+                If message IsNot Nothing Then
+                    errors.Append(message)
+                End If
+            Next
         Next
 
         Return New ActionResult(Of String) With {.StateResult = (errors.Length = 0), .Message = errors.ToString()}
     End Function
 
-    <Transaction>
-    Private Async Function SendMailToClientAsync(electronicDocumentNotificationId As Integer) As Task(Of String)
+    Private Async Function PrepareMailToClientAsync(electronicDocumentNotification As ElectronicDocumentNotification) As Task(Of ActionResult(Of SendMailToClientData))
 
         'entorno para monitoreo
         Dim apm As ApmHandler = New NewRelicAPM()
@@ -337,13 +365,11 @@ Public Class ElectronicDocumentsAdminService
         Dim customerThirdParty As ThirdParty
 
 
-        Dim electronicDocumentNotification = _electronicDocumentNotificationRepository.GetElectronicDocumentNotificationById(electronicDocumentNotificationId)
         Dim electronicDocument = electronicDocumentNotification.ElectronicDocument
 
         If Not electronicDocumentNotification.Status Then
             'UnitWorks
             Dim electronicDocumentDetailUnitWork = _electronicDocumentDetailRepository.UnitWork
-            Dim electronicDocumentNotificationUnitWork = _electronicDocumentNotificationRepository.UnitWork
 
             Try
                 'Cargamos parametros de contabilidad para la unidad operativa
@@ -398,8 +424,10 @@ Public Class ElectronicDocumentsAdminService
                     'Obtenemos el documento de la DIAN
                     Using client As New DistributedServices.DIAN.ServiceClient(settingsAccount.GetElectronicDocumentUrl(), settingsAccount.DigitalCertificate, settingsAccount.DigitalCertificateKey, _storage)
                         If Not client.GetElectronicDocument(electronicDocument.CUFE, electronicDocument.FilePath, fileNameElectronicDocument) Then
-                            apm.NoticeError(String.Format("No se encontro el documento con CUFE {0} en los servicios de la DIAN", electronicDocument.CUFE))
-                            Return Nothing
+                            Dim errorMessage = String.Format("No se encontro el documento con CUFE {0} en los servicios de la DIAN", electronicDocument.CUFE)
+                            apm.NoticeError(errorMessage)
+                            WriteSendMailToClientEventLog(errorMessage, electronicDocumentNotification, electronicDocument)
+                            Return New ActionResult(Of SendMailToClientData) With {.StateResult = False, .Message = errorMessage}
                         End If
                     End Using
                 End If
@@ -409,30 +437,36 @@ Public Class ElectronicDocumentsAdminService
                     'Validamos el envio realizado a la DIAN
                     Dim electronictDocumentStatus = Await Me.ValidateDIAN(electronicDocument, settingsAccount, supplierThirdParty, customerThirdParty, 4, True)
                     If electronictDocumentStatus <> 3 Then
-                        apm.NoticeError(String.Format("El documento con CUFE {0} no se encuentra validado", electronicDocument.CUFE))
-                        Return Nothing
+                        Dim errorMessage = String.Format("El documento con CUFE {0} no se encuentra validado. Estado DIAN: {1}", electronicDocument.CUFE, electronictDocumentStatus)
+                        apm.NoticeError(errorMessage)
+                        WriteSendMailToClientEventLog(errorMessage, electronicDocumentNotification, electronicDocument)
+                        Return New ActionResult(Of SendMailToClientData) With {.StateResult = False, .Message = errorMessage}
                     End If
                 End If
 
                 'Generamos El AttachedDocument
-                Dim ubl = New DIAN.UBL2_1.UBL2_1(customerThirdParty, Infrastructure.CrossCutting.Root.TypeElectronicDocument.AttachedDocument, settingsAccount, supplierThirdParty, _storage)
-                ubl.ElectronicDocument = electronicDocument
-                Dim response = ubl.GenerateXML()
-                If Not response.StateResult Then
-                    'No se generó el AttachedDocument, deben revisarse los detalles
-                    _electronicDocumentDetailRepository.SaveEntity(New ElectronicDocumentDetail With
-                            {
-                                .ElectronicDocumentId = electronicDocument.Id,
-                                .Destination = 3, 'Envío al Cliente
-                                .CreationDate = DateTime.Now,
-                                .Status = False,
-                                .Response = Enums.ElectronicDocuments.StatusCode.BadRequest,
-                                .Comments = "No se generó el AttachedDocument",
-                                .ResponseData = response.Message
-                            })
+                If Me._storage.ValidateIfNotExists(electronicDocument.FilePath, fileNameAttachedDocument) Then
+                    Dim ubl = New DIAN.UBL2_1.UBL2_1(customerThirdParty, Infrastructure.CrossCutting.Root.TypeElectronicDocument.AttachedDocument, settingsAccount, supplierThirdParty, _storage)
+                    ubl.ElectronicDocument = electronicDocument
+                    Dim response = ubl.GenerateXML()
+                    If Not response.StateResult Then
+                        'No se generó el AttachedDocument, deben revisarse los detalles
+                        _electronicDocumentDetailRepository.SaveEntity(New ElectronicDocumentDetail With
+                                {
+                                    .ElectronicDocumentId = electronicDocument.Id,
+                                    .Destination = 3, 'Envío al Cliente
+                                    .CreationDate = DateTime.Now,
+                                    .Status = False,
+                                    .Response = Enums.ElectronicDocuments.StatusCode.BadRequest,
+                                    .Comments = "No se generó el AttachedDocument",
+                                    .ResponseData = response.Message
+                                })
 
-                    apm.NoticeError(response.Message)
-                    Return Nothing
+                        apm.NoticeError(response.Message)
+                        WriteSendMailToClientEventLog("No se genero el AttachedDocument. " & response.Message, electronicDocumentNotification, electronicDocument)
+                        electronicDocumentDetailUnitWork.Commit()
+                        Return New ActionResult(Of SendMailToClientData) With {.StateResult = False, .Message = response.Message}
+                    End If
                 End If
 
                 'Valores de session
@@ -440,13 +474,13 @@ Public Class ElectronicDocumentsAdminService
                 SessionValues.Instance.IndigoCompanyName = supplierThirdParty.Name
 
                 'Validamos si existe un pdf ya creado
-                Dim resultGeneratePDF = Me.GeneratePDF(electronicDocument, fileNamePDF)
-                If Not resultGeneratePDF.StateResult Then
-                    apm.NoticeError(resultGeneratePDF.Message)
-                    Dim eventLog As New EventLog
-                    eventLog.Source = "Indigo Vie"
-                    eventLog.WriteEntry($"Error generando el PDF: {resultGeneratePDF.Message}", EventLogEntryType.Error)
-                    Return resultGeneratePDF.Message
+                If Me._storage.ValidateIfNotExists(electronicDocument.FilePath, fileNamePDF) Then
+                    Dim resultGeneratePDF = Me.GeneratePDF(electronicDocument, fileNamePDF)
+                    If Not resultGeneratePDF.StateResult Then
+                        apm.NoticeError(resultGeneratePDF.Message)
+                        WriteSendMailToClientEventLog("Error generando el PDF: " & resultGeneratePDF.Message, electronicDocumentNotification, electronicDocument)
+                        Return New ActionResult(Of SendMailToClientData) With {.StateResult = False, .Message = resultGeneratePDF.Message}
+                    End If
                 End If
 
                 'Lectura de los archivos para armar el zip
@@ -463,39 +497,16 @@ Public Class ElectronicDocumentsAdminService
                 Dim subject As String = String.Format("{0};{1};{2};{3};{1}", supplierThirdParty.Nit, supplierThirdParty.Name, String.Concat(electronicDocument.Prefix, electronicDocument.DocumentNumber), electronicDocument.getDocumentTypeCode())
                 Dim body As String = String.Format(EmailService.GetFormat(), customerThirdParty.Nit, customerThirdParty.Name, supplierThirdParty.Nit, supplierThirdParty.Name, electronicDocument.DocumentDate.ToString("yyyy-MM-dd"), electronicDocument.getDocumentTypeName(), String.Concat(electronicDocument.Prefix, electronicDocument.DocumentNumber))
                 Dim misByte As Byte() = Me._storage.ReadFile(electronicDocument.FilePath, fileNameZip)
-                Dim message As New MessageNotification With
-                    {
-                        .From = Utils.GetAppSettingValueByKey("FromEmailNotification"),
-                        .To = electronicDocumentNotification.Email,
+                Return New ActionResult(Of SendMailToClientData) With {
+                    .StateResult = True,
+                    .ObjectEmbbeded = New SendMailToClientData With {
+                        .ElectronicDocument = electronicDocument,
                         .Subject = subject,
-                        .Message = body,
-                        .Attach = True,
-                        .FileName = fileNameZip,
-                        .File = Convert.ToBase64String(misByte)
+                        .Body = body,
+                        .FileNameZip = fileNameZip,
+                        .FileBase64 = Convert.ToBase64String(misByte)
                     }
-
-                Using manager As New MessageManager(Utils.GetAppSettingValueByKey("FxGetUrlNotification"), Utils.GetAppSettingValueByKey("FxEmailNotification"))
-                    response = Task.Run(Function() manager.Send(message)).Result
-                    If response.StateResult Then
-                        electronicDocumentNotification.Status = True
-                        electronicDocumentNotification.ShippingDate = DateTime.Now
-                        electronicDocumentNotification.ChangeTracker.State = ObjectState.Modified
-                        _electronicDocumentNotificationRepository.SaveEntity(electronicDocumentNotification)
-                    Else
-                        'Si ocurre un error en el proceso almacenamos el error
-                        _electronicDocumentDetailRepository.SaveEntity(New ElectronicDocumentDetail With
-                            {
-                                .ElectronicDocumentId = electronicDocumentNotification.ElectronicDocument.Id,
-                                .Destination = 3, 'Envío de Email
-                                .CreationDate = DateTime.Now,
-                                .Status = False,
-                                .Response = Enums.ElectronicDocuments.StatusCode.NotImplemented,
-                                .Comments = "Error al enviar el correo electrónico",
-                                .ResponseData = response.Message
-                            })
-                        apm.NoticeError(response.Message)
-                    End If
-                End Using
+                }
             Catch ex As Exception
                 'Si ocurre un error en el proceso almacenamos el error
                 _electronicDocumentDetailRepository.SaveEntity(New ElectronicDocumentDetail With
@@ -509,12 +520,155 @@ Public Class ElectronicDocumentsAdminService
                         .ResponseData = Utils.GetInnerExceptionMessageToString(ex)
                     })
                 apm.NoticeError(ex)
-                Return Utils.GetInnerExceptionMessageToString(ex)
+                WriteSendMailToClientEventLog("Error ejecutando el proceso de envio correo electronico.", electronicDocumentNotification, electronicDocument, ex)
+                electronicDocumentDetailUnitWork.Commit()
+                Return New ActionResult(Of SendMailToClientData) With {.StateResult = False, .Message = Utils.GetInnerExceptionMessageToString(ex)}
             End Try
 
             electronicDocumentDetailUnitWork.Commit()
-            electronicDocumentNotificationUnitWork.Commit()
         End If
+
+        Return New ActionResult(Of SendMailToClientData) With {.StateResult = False, .Message = Nothing}
+    End Function
+
+    Private Function SendPreparedMailToClient(electronicDocumentNotification As ElectronicDocumentNotification, preparedMail As SendMailToClientData) As String
+        If electronicDocumentNotification Is Nothing OrElse electronicDocumentNotification.Id = 0 OrElse electronicDocumentNotification.Status Then
+            Return Nothing
+        End If
+
+        If preparedMail Is Nothing OrElse preparedMail.ElectronicDocument Is Nothing Then
+            Return Nothing
+        End If
+
+        Dim apm As ApmHandler = New NewRelicAPM()
+        Dim electronicDocument = preparedMail.ElectronicDocument
+        Dim electronicDocumentDetailUnitWork = _electronicDocumentDetailRepository.UnitWork
+        Dim electronicDocumentNotificationUnitWork = _electronicDocumentNotificationRepository.UnitWork
+
+        Try
+            Dim message As New MessageNotification With
+                {
+                    .From = Utils.GetAppSettingValueByKey("FromEmailNotification"),
+                    .To = electronicDocumentNotification.Email,
+                    .Subject = preparedMail.Subject,
+                    .Message = preparedMail.Body,
+                    .Attach = True,
+                    .FileName = preparedMail.FileNameZip,
+                    .File = preparedMail.FileBase64
+                }
+
+            Using manager As New MessageManager(Utils.GetAppSettingValueByKey("FxGetUrlNotification"), Utils.GetAppSettingValueByKey("FxEmailNotification"))
+                Dim response = Task.Run(Function() manager.Send(message)).Result
+                If response.StateResult Then
+                    electronicDocumentNotification.Status = True
+                    electronicDocumentNotification.ShippingDate = DateTime.Now
+                    electronicDocumentNotification.ChangeTracker.State = ObjectState.Modified
+                    _electronicDocumentNotificationRepository.SaveEntity(electronicDocumentNotification)
+                Else
+                    _electronicDocumentDetailRepository.SaveEntity(New ElectronicDocumentDetail With
+                        {
+                            .ElectronicDocumentId = electronicDocumentNotification.ElectronicDocument.Id,
+                            .Destination = 3,
+                            .CreationDate = DateTime.Now,
+                            .Status = False,
+                            .Response = Enums.ElectronicDocuments.StatusCode.NotImplemented,
+                            .Comments = "Error al enviar el correo electronico",
+                            .ResponseData = response.Message
+                        })
+                    apm.NoticeError(response.Message)
+                    WriteSendMailToClientEventLog("Error al enviar el correo electronico: " & response.Message, electronicDocumentNotification, electronicDocument)
+                    electronicDocumentDetailUnitWork.Commit()
+                    Return response.Message
+                End If
+            End Using
+        Catch ex As Exception
+            _electronicDocumentDetailRepository.SaveEntity(New ElectronicDocumentDetail With
+                {
+                    .ElectronicDocumentId = electronicDocumentNotification.ElectronicDocument.Id,
+                    .Destination = 3,
+                    .CreationDate = DateTime.Now,
+                    .Status = False,
+                    .Response = Enums.ElectronicDocuments.StatusCode.NotImplemented,
+                    .Comments = "Error ejecutando el proceso de envio correo electronico",
+                    .ResponseData = Utils.GetInnerExceptionMessageToString(ex)
+                })
+            apm.NoticeError(ex)
+            WriteSendMailToClientEventLog("Error ejecutando el proceso de envio correo electronico.", electronicDocumentNotification, electronicDocument, ex)
+            electronicDocumentDetailUnitWork.Commit()
+            Return Utils.GetInnerExceptionMessageToString(ex)
+        End Try
+
+        electronicDocumentNotificationUnitWork.Commit()
+        Return Nothing
+    End Function
+
+    Private Class SendMailToClientData
+        Public Property ElectronicDocument As ElectronicDocument
+        Public Property Subject As String
+        Public Property Body As String
+        Public Property FileNameZip As String
+        Public Property FileBase64 As String
+    End Class
+
+    Private Sub WriteSendMailToClientEventLog(message As String,
+                                              electronicDocumentNotification As ElectronicDocumentNotification,
+                                              electronicDocument As ElectronicDocument,
+                                              Optional ex As Exception = Nothing)
+        Try
+            If Not EventLog.SourceExists(EVENT_LOG_SOURCE) Then
+                EventLog.CreateEventSource(EVENT_LOG_SOURCE, "Application")
+            End If
+
+            Using eventLog As New EventLog("Application")
+                eventLog.Source = EVENT_LOG_SOURCE
+                eventLog.WriteEntry(BuildSendMailToClientEventLogMessage(message, electronicDocumentNotification, electronicDocument, ex), EventLogEntryType.Error)
+            End Using
+        Catch eventLogException As Exception
+            Try
+                Using eventLog As New EventLog("Application")
+                    eventLog.Source = "Application"
+                    eventLog.WriteEntry("No fue posible escribir el detalle del error de ExecuteSendMailProcessAsync con el origen '" & EVENT_LOG_SOURCE & "'. " & eventLogException.ToString(), EventLogEntryType.Warning)
+                    eventLog.WriteEntry(BuildSendMailToClientEventLogMessage(message, electronicDocumentNotification, electronicDocument, ex), EventLogEntryType.Error)
+                End Using
+            Catch
+            End Try
+        End Try
+    End Sub
+
+    Private Function BuildSendMailToClientEventLogMessage(message As String,
+                                                          electronicDocumentNotification As ElectronicDocumentNotification,
+                                                          electronicDocument As ElectronicDocument,
+                                                          ex As Exception) As String
+        Dim details As New StringBuilder()
+
+        details.AppendLine("Error en ElectronicDocumentsAdminService.ExecuteSendMailProcessAsync")
+        details.AppendLine("Fecha: " & DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"))
+        details.AppendLine("Mensaje: " & message)
+
+        If electronicDocumentNotification IsNot Nothing Then
+            details.AppendLine("ElectronicDocumentNotificationId: " & electronicDocumentNotification.Id)
+            details.AppendLine("Email destino: " & electronicDocumentNotification.Email)
+            details.AppendLine("Notificacion enviada: " & electronicDocumentNotification.Status)
+        End If
+
+        If electronicDocument IsNot Nothing Then
+            details.AppendLine("ElectronicDocumentId: " & electronicDocument.Id)
+            details.AppendLine("Documento: " & String.Concat(electronicDocument.Prefix, electronicDocument.DocumentNumber))
+            details.AppendLine("Entidad: " & electronicDocument.EntityName)
+            details.AppendLine("EntityId: " & electronicDocument.EntityId)
+            details.AppendLine("OperatingUnitId: " & electronicDocument.OperatingUnitId)
+            details.AppendLine("CustomerPartyId: " & electronicDocument.CustomerPartyId)
+            details.AppendLine("Estado documento: " & electronicDocument.Status)
+            details.AppendLine("CUFE: " & electronicDocument.CUFE)
+            details.AppendLine("FilePath: " & electronicDocument.FilePath)
+        End If
+
+        If ex IsNot Nothing Then
+            details.AppendLine("Excepcion:")
+            details.AppendLine(ex.ToString())
+        End If
+
+        Return details.ToString()
     End Function
 
     ''' <summary>
@@ -531,6 +685,7 @@ Public Class ElectronicDocumentsAdminService
             Dim billingAuthorization As BillingAuthorization = Nothing
             Dim paymentMethods As List(Of SP_GetPaymentMethodsByInvoiceId_Result) = Nothing
             Dim billingNote As BillingNote = Nothing
+            Dim previousCapitationPeriodEndDate As Nullable(Of Date) = Nothing
 
             Dim errors As New StringBuilder
 
@@ -585,8 +740,12 @@ Public Class ElectronicDocumentsAdminService
                     If (invoice.InvoiceDetails Is Nothing OrElse invoice.InvoiceDetails.Count = 0) Then
                         errors.AppendLine("Factura sin detalles")
                     Else
-                        If invoice.ValFac <> invoice.InvoiceDetails.Sum(Function(d) d.LineExtensionAmountValue) Then
-                            errors.AppendLine(String.Format("El valor de los detalles ({0}) no coincide con el Valor Total Facturado ({1})", invoice.InvoiceDetails.Sum(Function(d) d.LineExtensionAmountValue), invoice.ValFac))
+                        Dim sumLineExtension As Decimal = If(invoice.DocumentType = 4,
+                            invoice.InvoiceDetails.Sum(Function(d) d.LineExtensionAmountValueCapitation),
+                            invoice.InvoiceDetails.Sum(Function(d) d.LineExtensionAmountValue))
+
+                        If invoice.ValFac <> sumLineExtension Then
+                            errors.AppendLine(String.Format("El valor de los detalles ({0}) no coincide con el Valor Total Facturado ({1})", sumLineExtension, invoice.ValFac))
                         End If
 
                         If invoice.ValImp1 <> invoice.InvoiceDetails.Sum(Function(d) d.IVAValue) Then
@@ -617,7 +776,9 @@ Public Class ElectronicDocumentsAdminService
                                 End If
                             End If
                             Dim TotalWithholdings = (invoice.WithholdingTax + invoice.RTFValue + invoice.WithholdingICA)
-                            invoice.TotalValue = valFac - valPag + TotalWithholdings
+                            If invoice.DocumentType <> 4 Then
+                                invoice.TotalValue = valFac - valPag + TotalWithholdings
+                            End If
                         End If
                     End If
                 End If
@@ -628,6 +789,9 @@ Public Class ElectronicDocumentsAdminService
 
                 'Si no hay errores
                 invoice.InvoiceMoreInformation = _invoiceRepository.GetInvoiceMoreInformationByInvoiceId(invoice.Id)
+                If invoice.DocumentType = 4 AndAlso invoice.InvoiceMoreInformation?.LiquidationTypeCode = "03" Then
+                    previousCapitationPeriodEndDate = _invoiceRepository.GetPreviousCapitationPeriodEndDateByInvoiceId(invoice.Id)
+                End If
                 billingAuthorization = _billingAuthorizationRepository.GetBillingAuthorizationById(invoice.BillingAuthorizationId)
 
                 invoice.DianVersion = electronicDocument.DianVersion
@@ -650,7 +814,7 @@ Public Class ElectronicDocumentsAdminService
                     End If
                 End If
             ElseIf electronicDocument.getDocumentType() = Infrastructure.CrossCutting.Root.TypeElectronicDocument.DebitNote OrElse electronicDocument.getDocumentType() = Infrastructure.CrossCutting.Root.TypeElectronicDocument.CreditNote Then
-                billingNote = _billingNoteRepository.GetBillingNoteByIdWithAggregates(electronicDocument.EntityId)
+                billingNote = _billingNoteRepository.GetBillingNoteByIdWithAggregates(electronicDocument.EntityId, True)
                 If billingNote Is Nothing OrElse billingNote.Id = 0 Then
                     errors.AppendLine("La nota no fue encontrada")
                 Else
@@ -705,7 +869,11 @@ Public Class ElectronicDocumentsAdminService
                 billingNote.NumAdq = customerThirdParty.Person.IdentificationNumber
                 billingNote.SoftwarePin = settingsAccount.SoftwarePin
                 billingNote.Environment = settingsAccount.Environment
-
+                billingNote.DiscrepancyConceptId = _billingNoteRepository.GetDiscrepancyConceptIdByBillingNoteId(billingNote.Id)
+                Dim firstInvoice = billingNote.BillingNoteDetail?.FirstOrDefault()?.Invoice
+                If firstInvoice IsNot Nothing Then
+                    paymentMethods = _invoiceRepository.GetPaymentMethodsByInvoiceId(firstInvoice.Id)
+                End If
                 If billingNote.CUDE <> billingNote.getCUDE() Then
                     billingNote.CUDE = billingNote.getCUDE()
                     billingNote.QR = billingNote.GetQRCode()
@@ -719,12 +887,16 @@ Public Class ElectronicDocumentsAdminService
             End If
 
             Dim healthSegmentFromInvoice As CustomTagGeneralType = Nothing
+            Dim invoicePeriodFromInvoice As List(Of PeriodType) = Nothing
             If electronicDocument.getDocumentType() = TypeElectronicDocument.CreditNote OrElse electronicDocument.getDocumentType() = TypeElectronicDocument.DebitNote Then
                 Dim firstDetail = billingNote?.BillingNoteDetail?.FirstOrDefault
                 If firstDetail IsNot Nothing AndAlso firstDetail.InvoiceId > 0 Then
                     Dim invoiceEd = _electronicDocumentRepository.GetElectronicDocumentByInvoiceId(firstDetail.InvoiceId)
                     If invoiceEd IsNot Nothing AndAlso invoiceEd.Id > 0 AndAlso Not String.IsNullOrEmpty(invoiceEd.FilePath) AndAlso _storage IsNot Nothing Then
                         healthSegmentFromInvoice = GetHealthSegmentFromInvoiceXml(invoiceEd, supplierThirdParty)
+                        If IsInitialBalanceInvoice(invoiceEd) Then
+                            invoicePeriodFromInvoice = GetInvoicePeriodFromInvoiceXml(invoiceEd, supplierThirdParty)
+                        End If
                     End If
                 End If
             End If
@@ -739,6 +911,8 @@ Public Class ElectronicDocumentsAdminService
                 ubl.Invoice = invoice
                 ubl.PaymentMethods = paymentMethods
                 ubl.HealthSegmentFromInvoice = healthSegmentFromInvoice
+                ubl.InvoicePeriodFromInvoice = invoicePeriodFromInvoice
+                ubl.PreviousCapitationPeriodEndDate = previousCapitationPeriodEndDate
             End If
 
             Return ubl.GenerateXML()
@@ -933,22 +1107,24 @@ Public Class ElectronicDocumentsAdminService
                 ' 3) Generar AttachedDocument solo si el ApplicationResponse ya es visible
                 If created Then
                     Dim fileNameAttachedDocument = electronicDocument.GetFileName(supplierThirdParty, TypeElectronicDocument.AttachedDocument)
-                    Dim ubl = New DIAN.UBL2_1.UBL2_1(customerThirdParty,
-                                                 Infrastructure.CrossCutting.Root.TypeElectronicDocument.AttachedDocument,
-                                                 settingsAccount, supplierThirdParty, _storage)
-                    ubl.ElectronicDocument = electronicDocument
-                    Dim response = ubl.GenerateXML()
-                    If Not response.StateResult Then
-                        'No se generó el AttachedDocument, deben revisarse los detalles
-                        _electronicDocumentDetailRepository.SaveEntity(New ElectronicDocumentDetail With {
-                        .ElectronicDocumentId = electronicDocument.Id,
-                        .Destination = 3, 'Envío al Cliente
-                        .CreationDate = DateTime.Now,
-                        .Status = False,
-                        .Response = Enums.ElectronicDocuments.StatusCode.BadRequest,
-                        .Comments = "No se generó el AttachedDocument",
-                        .ResponseData = response.Message
-                    })
+                    If Me._storage.ValidateIfNotExists(electronicDocument.FilePath, fileNameAttachedDocument) Then
+                        Dim ubl = New DIAN.UBL2_1.UBL2_1(customerThirdParty,
+                                                     Infrastructure.CrossCutting.Root.TypeElectronicDocument.AttachedDocument,
+                                                     settingsAccount, supplierThirdParty, _storage)
+                        ubl.ElectronicDocument = electronicDocument
+                        Dim response = ubl.GenerateXML()
+                        If Not response.StateResult Then
+                            'No se generó el AttachedDocument, deben revisarse los detalles
+                            _electronicDocumentDetailRepository.SaveEntity(New ElectronicDocumentDetail With {
+                            .ElectronicDocumentId = electronicDocument.Id,
+                            .Destination = 3, 'Envío al Cliente
+                            .CreationDate = DateTime.Now,
+                            .Status = False,
+                            .Response = Enums.ElectronicDocuments.StatusCode.BadRequest,
+                            .Comments = "No se generó el AttachedDocument",
+                            .ResponseData = response.Message
+                        })
+                        End If
                     End If
                     Dim attachedReady As Boolean = Await WaitForFileExistsAsync(electronicDocument.FilePath, fileNameAttachedDocument, timeout:=TimeSpan.FromSeconds(60),
                                                                                 pollInterval:=TimeSpan.FromMilliseconds(400),
@@ -1257,12 +1433,26 @@ Public Class ElectronicDocumentsAdminService
     Private Function GetHealthSegmentFromInvoiceXml(invoiceElectronicDocument As ElectronicDocument, supplierThirdParty As ThirdParty) As CustomTagGeneralType
         Try
             Dim filePath = invoiceElectronicDocument.FilePath
-            Dim fileName = invoiceElectronicDocument.GetFileName(supplierThirdParty, TypeElectronicDocument.Invoice)
+            Dim isInitialBalance As Boolean = IsInitialBalanceInvoice(invoiceElectronicDocument)
+            Dim fileName As String
+            If isInitialBalance Then
+                ' Saldo inicial: el XML padre se subió pre-confirm con naming { numFactura }.xml por
+                ' InvoiceXmlBulkAdminService (consecutivo DIAN no disponible en upload — trigger lo
+                ' asigna post-INSERT del shadow ED). Una sola carpeta = un solo XML, sin colisión.
+                fileName = invoiceElectronicDocument.DocumentNumber & ".xml"
+            Else
+                fileName = invoiceElectronicDocument.GetFileName(supplierThirdParty, TypeElectronicDocument.Invoice)
+            End If
             Dim xmlString As String = String.Empty
 
             Dim xmlExists As Boolean = Not _storage.ValidateIfNotExists(filePath, fileName)
 
             If Not xmlExists Then
+                ' Para saldo inicial nunca hay ZIP — el XML se sube directo y único en la carpeta.
+                If isInitialBalance Then
+                    Return Nothing
+                End If
+
                 Dim zipName = fileName
                 If zipName.StartsWith("fv", StringComparison.OrdinalIgnoreCase) Then
                     zipName = "z" & zipName.Substring(2)
@@ -1297,7 +1487,16 @@ Public Class ElectronicDocumentsAdminService
                 Return Nothing
             End If
 
-            Dim invoiceType = Utils.Deserialize(Of InvoiceType)(XDocument.Parse(xmlString))
+            Dim invoiceDoc = XDocument.Parse(xmlString)
+            If invoiceDoc.Root IsNot Nothing AndAlso String.Equals(invoiceDoc.Root.Name.LocalName, "AttachedDocument", StringComparison.OrdinalIgnoreCase) Then
+                xmlString = ExtractInvoiceXmlFromAttachedDocument(invoiceDoc)
+                If String.IsNullOrEmpty(xmlString) Then
+                    Return Nothing
+                End If
+                invoiceDoc = XDocument.Parse(xmlString)
+            End If
+
+            Dim invoiceType = Utils.Deserialize(Of InvoiceType)(invoiceDoc)
             If invoiceType?.UBLExtensions Is Nothing Then
                 Return Nothing
             End If
@@ -1309,6 +1508,126 @@ Public Class ElectronicDocumentsAdminService
             Return healthExtension?.ExtensionContent?.CustomTagGeneral
         Catch ex As Exception
             Return Nothing
+        End Try
+    End Function
+
+    ''' <summary>
+    ''' Obtiene el periodo de facturacion reportado en el XML de la factura asociada.
+    ''' Soporta XML directo de Invoice y AttachedDocument con el Invoice embebido.
+    ''' </summary>
+    Private Function GetInvoicePeriodFromInvoiceXml(invoiceElectronicDocument As ElectronicDocument, supplierThirdParty As ThirdParty) As List(Of PeriodType)
+        Try
+            Dim xmlString = GetInvoiceXmlString(invoiceElectronicDocument, supplierThirdParty)
+            If String.IsNullOrEmpty(xmlString) Then
+                Return Nothing
+            End If
+
+            Dim invoiceDoc = XDocument.Parse(xmlString)
+            Dim invoiceType = Utils.Deserialize(Of InvoiceType)(invoiceDoc)
+            If invoiceType?.InvoicePeriod Is Nothing OrElse invoiceType.InvoicePeriod.Count = 0 Then
+                Return Nothing
+            End If
+
+            Return invoiceType.InvoicePeriod
+        Catch ex As Exception
+            Return Nothing
+        End Try
+    End Function
+
+    ''' <summary>
+    ''' Lee el XML de la factura asociada y siempre retorna el contenido como Invoice.
+    ''' Si el archivo esta en formato AttachedDocument extrae el Invoice embebido.
+    ''' </summary>
+    Private Function GetInvoiceXmlString(invoiceElectronicDocument As ElectronicDocument, supplierThirdParty As ThirdParty) As String
+        Dim filePath = invoiceElectronicDocument.FilePath
+        Dim isInitialBalance As Boolean = IsInitialBalanceInvoice(invoiceElectronicDocument)
+        Dim fileName As String
+        If isInitialBalance Then
+            fileName = invoiceElectronicDocument.DocumentNumber & ".xml"
+        Else
+            fileName = invoiceElectronicDocument.GetFileName(supplierThirdParty, TypeElectronicDocument.Invoice)
+        End If
+
+        Dim xmlString As String = String.Empty
+        Dim xmlExists As Boolean = Not _storage.ValidateIfNotExists(filePath, fileName)
+
+        If Not xmlExists Then
+            If isInitialBalance Then
+                Return Nothing
+            End If
+
+            Dim zipName = fileName
+            If zipName.StartsWith("fv", StringComparison.OrdinalIgnoreCase) Then
+                zipName = "z" & zipName.Substring(2)
+            End If
+            zipName = Path.ChangeExtension(zipName, ".zip")
+
+            Dim zipExists As Boolean = Not _storage.ValidateIfNotExists(filePath, zipName)
+            If Not zipExists Then
+                Return Nothing
+            End If
+
+            Dim zipBytes = _storage.ReadFile(filePath, zipName)
+            Using zipStream As New MemoryStream(zipBytes)
+                Using zip As New ZipArchive(zipStream, ZipArchiveMode.Read)
+                    Dim xmlEntry = zip.Entries.FirstOrDefault(Function(e) e.FullName.EndsWith(".xml", StringComparison.OrdinalIgnoreCase))
+                    If xmlEntry Is Nothing Then
+                        Return Nothing
+                    End If
+                    Using entryStream = xmlEntry.Open()
+                        Using reader As New StreamReader(entryStream, Encoding.UTF8)
+                            xmlString = reader.ReadToEnd()
+                        End Using
+                    End Using
+                End Using
+            End Using
+        Else
+            Dim fileBytes = _storage.ReadFile(filePath, fileName)
+            xmlString = Encoding.UTF8.GetString(fileBytes)
+        End If
+
+        If String.IsNullOrEmpty(xmlString) Then
+            Return Nothing
+        End If
+
+        Dim invoiceDoc = XDocument.Parse(xmlString)
+        If invoiceDoc.Root IsNot Nothing AndAlso String.Equals(invoiceDoc.Root.Name.LocalName, "AttachedDocument", StringComparison.OrdinalIgnoreCase) Then
+            Return ExtractInvoiceXmlFromAttachedDocument(invoiceDoc)
+        End If
+
+        If invoiceDoc.Root IsNot Nothing AndAlso String.Equals(invoiceDoc.Root.Name.LocalName, "Invoice", StringComparison.OrdinalIgnoreCase) Then
+            Return xmlString
+        End If
+
+        Return Nothing
+    End Function
+
+    Private Function ExtractInvoiceXmlFromAttachedDocument(attachedDocument As XDocument) As String
+        If attachedDocument?.Root Is Nothing Then Return Nothing
+
+        Dim cac As XNamespace = "urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2"
+        Dim cbc As XNamespace = "urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2"
+
+        Dim attachment = attachedDocument.Root.Element(cac + "Attachment")
+        Dim externalReference = attachment?.Element(cac + "ExternalReference")
+        Dim description = externalReference?.Element(cbc + "Description")
+
+        Return description?.Value
+    End Function
+
+    ''' <summary>
+    ''' Discrimina si un ElectronicDocument shadow corresponde a una factura de saldo inicial,
+    ''' chequeando la existencia del header InitialBalanceInvoice asociado al Invoice
+    ''' (chain: ElectronicDocument.EntityName='Invoice' + EntityId → InitialBalanceInvoice.InvoiceId).
+    ''' </summary>
+    Private Function IsInitialBalanceInvoice(ed As ElectronicDocument) As Boolean
+        If ed Is Nothing OrElse _initialBalanceInvoiceRepository Is Nothing Then Return False
+        If Not String.Equals(ed.EntityName, "Invoice", StringComparison.OrdinalIgnoreCase) Then Return False
+        If ed.EntityId <= 0 Then Return False
+        Try
+            Return _initialBalanceInvoiceRepository.GetByInvoiceId(ed.EntityId) IsNot Nothing
+        Catch
+            Return False
         End Try
     End Function
 

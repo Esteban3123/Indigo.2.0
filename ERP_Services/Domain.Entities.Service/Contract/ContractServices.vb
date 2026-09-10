@@ -1396,7 +1396,13 @@ Public Class ContractServices
                     If liquidationTypeSurgical = 1 Then ''Fija
                         totalSalesPriceItem = salesValueSurgical
                     Else 'Estandar o Por Vigencia
+                        rateManualSurgical = _rateManualRepository.GetRateManualById(rateManualId)
                         Dim salesValueItem As Decimal = 0
+
+                        If rateManualSurgical Is Nothing Then
+                            errorsSurgical.AppendLine($"No se encontró manual tarifario para {ipsTmp.Code} - {ipsTmp.Name}")
+                            Continue For
+                        End If
 
                         If listISSManualType.Contains(IPSService.ServiceManual) Then
                             Dim resultISS = Me.LogicUVRRateManualISS(New RateManual With {.Id = rateManualId, .Type = IPSService.ServiceManual},
@@ -1666,148 +1672,150 @@ Public Class ContractServices
 
 
         For Each h In cupsHomologations
-            ' se consulta las definiciones
-            Dim listRateManualDetail = _definitionRateDetailRepository.GetRateManualDetailByCupsHomologation(definitionRate.DefinitionRateId, cups, h)
-            ' se establece la bandera en false
-            Dim FlagValidate As Boolean = False
+            If h.IPSService.Status = True Then
+                ' se consulta las definiciones
+                Dim listRateManualDetail = _definitionRateDetailRepository.GetRateManualDetailByCupsHomologation(definitionRate.DefinitionRateId, cups, h)
+                ' se establece la bandera en false
+                Dim FlagValidate As Boolean = False
 
-            For Each rateManualDetail In listRateManualDetail
+                For Each rateManualDetail In listRateManualDetail
 
-                'se valida si ya fue validado osea agregado en lista de homologos para saltarlo 
-                'y no agregar posiblemente otro homologo del mismo servicio ips de forma inecesaria
-                If FlagValidate Then
-                    Continue For
-                End If
-
-                If rateManualDetail IsNot Nothing Then
-                    h.RuleType = rateManualDetail?.RuleType
-                    Dim rateManualId As Integer? = rateManualDetail?.RateManualId
-                    Dim manualTtype As Byte? = rateManualDetail?.Type
-
-                    If rateManualDetail.LiquidationType = 3 Then
-                        ' Tipo de liquidación por vigencia: Busamos la vigencia y con este el manual de tarifas
-                        Dim rateManualValidityDetail = _rateManualValidityDetailRepository _
-                            .Query(Function(m) m.RateManualValidityId = rateManualDetail.RateManualValidityId AndAlso m.InitialDate <= ServiceDate AndAlso m.EndDate >= ServiceDate) _
-                            .Select(Function(m) New With {Key m.RateManualId, Key m.RateManual.Type}) _
-                            .FirstOrDefault()
-
-                        If rateManualValidityDetail IsNot Nothing Then
-                            rateManualId = rateManualValidityDetail.RateManualId
-                            manualTtype = rateManualValidityDetail.Type
-                        End If
+                    'se valida si ya fue validado osea agregado en lista de homologos para saltarlo 
+                    'y no agregar posiblemente otro homologo del mismo servicio ips de forma inecesaria
+                    If FlagValidate Then
+                        Continue For
                     End If
 
-                    'si el tipo de condicion es por Descripcion y el tipo de liquidacion No esta definida en la cabecera
-                    If {3, 7}.Contains(rateManualDetail.ConditionType) AndAlso rateManualDetail.LiquidationType Is Nothing Then
+                    If rateManualDetail IsNot Nothing Then
+                        h.RuleType = rateManualDetail?.RuleType
+                        Dim rateManualId As Integer? = rateManualDetail?.RateManualId
+                        Dim manualTtype As Byte? = rateManualDetail?.Type
 
-                        'valido que el tipo del servicio  sea igual (IIS Soat) a los parametrizados
-                        Dim DefinitionRateDetailCondition As DefinitionRateDetailCondition
-                        Select Case rateManualDetail.ConditionType
-                            Case 7
-                                'si la regal esta por descripcion Pero no viene una descripcion relacionada salta al siguiente homologo
-                                If ContractDescriptionId Is Nothing Then
-                                    Continue For
-                                End If
+                        If rateManualDetail.LiquidationType = 3 Then
+                            ' Tipo de liquidación por vigencia: Busamos la vigencia y con este el manual de tarifas
+                            Dim rateManualValidityDetail = _rateManualValidityDetailRepository _
+                                .Query(Function(m) m.RateManualValidityId = rateManualDetail.RateManualValidityId AndAlso m.InitialDate <= ServiceDate AndAlso m.EndDate >= ServiceDate) _
+                                .Select(Function(m) New With {Key m.RateManualId, Key m.RateManual.Type}) _
+                                .FirstOrDefault()
 
-                                DefinitionRateDetailCondition = _definitionRateDetailConditionRepository.FirstOrDefault(Function(x) x.DefinitionRateDetailId = rateManualDetail.DefinitionRateDetailId AndAlso x.ContractDescriptionId = ContractDescriptionId, False, {"RateManual"})
-                            Case 3
-
-                                If FunctionalUnitId = 0 Then
-                                    Continue For
-                                End If
-
-                                DefinitionRateDetailCondition = _definitionRateDetailConditionRepository.FirstOrDefault(Function(x) x.DefinitionRateDetailId = rateManualDetail.DefinitionRateDetailId AndAlso x.FunctionalUnitId = FunctionalUnitId, False, {"RateManual"})
-                            Case Else
-                                DefinitionRateDetailCondition = Nothing
-                        End Select
-
-                        If DefinitionRateDetailCondition Is Nothing Then
-                            Continue For
+                            If rateManualValidityDetail IsNot Nothing Then
+                                rateManualId = rateManualValidityDetail.RateManualId
+                                manualTtype = rateManualValidityDetail.Type
+                            End If
                         End If
 
-                        'se verifica el tipo de liquidacion Fija, Manual, o por vigencia
-                        Select Case DefinitionRateDetailCondition.LiquidationType
-                            Case 1
+                        'si el tipo de condicion es por Descripcion y el tipo de liquidacion No esta definida en la cabecera
+                        If {3, 7}.Contains(rateManualDetail.ConditionType) AndAlso rateManualDetail.LiquidationType Is Nothing Then
 
-                                If DefinitionRateDetailCondition?.ManualType = h?.IPSService?.ServiceManual Then
+                            'valido que el tipo del servicio  sea igual (IIS Soat) a los parametrizados
+                            Dim DefinitionRateDetailCondition As DefinitionRateDetailCondition
+                            Select Case rateManualDetail.ConditionType
+                                Case 7
+                                    'si la regal esta por descripcion Pero no viene una descripcion relacionada salta al siguiente homologo
+                                    If ContractDescriptionId Is Nothing Then
+                                        Continue For
+                                    End If
+
+                                    DefinitionRateDetailCondition = _definitionRateDetailConditionRepository.FirstOrDefault(Function(x) x.DefinitionRateDetailId = rateManualDetail.DefinitionRateDetailId AndAlso x.ContractDescriptionId = ContractDescriptionId, False, {"RateManual"})
+                                Case 3
+
+                                    If FunctionalUnitId = 0 Then
+                                        Continue For
+                                    End If
+
+                                    DefinitionRateDetailCondition = _definitionRateDetailConditionRepository.FirstOrDefault(Function(x) x.DefinitionRateDetailId = rateManualDetail.DefinitionRateDetailId AndAlso x.FunctionalUnitId = FunctionalUnitId, False, {"RateManual"})
+                                Case Else
+                                    DefinitionRateDetailCondition = Nothing
+                            End Select
+
+                            If DefinitionRateDetailCondition Is Nothing Then
+                                Continue For
+                            End If
+
+                            'se verifica el tipo de liquidacion Fija, Manual, o por vigencia
+                            Select Case DefinitionRateDetailCondition.LiquidationType
+                                Case 1
+
+                                    If DefinitionRateDetailCondition?.ManualType = h?.IPSService?.ServiceManual Then
+                                        FlagValidate = True
+                                        listHomologation.Add(h)
+                                        Continue For
+                                    Else
+                                        Continue For
+                                    End If
+
+                                Case 2
+                                    rateManualId = DefinitionRateDetailCondition?.RateManualId
+                                    manualTtype = DefinitionRateDetailCondition?.RateManual?.Type
+                                Case 3
+                                    Dim Rate = _rateManualValidityDetailRepository.GetRateManualTypeAndRateManualId(DefinitionRateDetailCondition.RateManualValidityId, ServiceDate)
+
+                                    If Rate Is Nothing Then
+                                        Continue For
+                                    Else
+                                        rateManualId = Rate.RateManualId
+                                        manualTtype = Rate.Type
+                                    End If
+
+                            End Select
+                            'si pasa por tipo manual o vigencia, actualizamos el tipo de liquidacion para reutilizar validacion de mas abajo
+                            rateManualDetail.LiquidationType = DefinitionRateDetailCondition?.LiquidationType
+                        End If
+
+                        If h.IPSService.Presentation = 2 Then
+                            If manualTtype = h.IPSService.ServiceManual Then
+                                'Se valida si el servicio ips qx que se recorre esta parametrizado dentro de la tabla DefinitionRateDetailSurgicalProcedures
+                                Dim procedures = _surgicalProcedureServiceRepository.Query(Function(m) m.IPSServiceParentId = h.IPSServiceId, includes:={"IPSService"}).ToList()
+                                Dim cupsEntityContractDescriptionId As Integer? = Nothing
+                                If ContractDescriptionId.HasValue Then
+                                    cupsEntityContractDescriptionId = _cupsEntityContractDescriptionRepository.Query(Function(m) m.CUPSEntityId = h.CupsEntityId AndAlso m.ContractDescriptionId = ContractDescriptionId) _
+                                .Select(Function(m) m.Id).FirstOrDefault()
+                                End If
+
+                                Dim sod As New ServiceOrderDetail With {
+                                .IPSServiceId = h.IPSServiceId,
+                                .CUPSEntityId = CupsId,
+                                .CareGroupId = CareGroupId,
+                                .PerformsFunctionalUnitId = FunctionalUnitId,
+                                .PerformsProfessionalSpecialty = Specialty,
+                                .ServiceDate = ServiceDate,
+                                .SurchargeApply = False,
+                                .SurgicalInterventionType = 0,
+                                .CUPSEntityContractDescriptionId = cupsEntityContractDescriptionId
+                            }
+                                'se mandan a validar solo los qx por defecto
+                                Dim res = GetServiceValueBySurgicalProcedureService(sod, procedures.FindAll(Function(x) x.DefaultService))
+
+                                If res.StateResult Then
                                     FlagValidate = True
                                     listHomologation.Add(h)
-                                    Continue For
                                 Else
-                                    Continue For
+                                    errors.Add(res.Message)
                                 End If
+                            End If
+                        Else
+                            If rateManualId.HasValue Then
+                                If rateManualDetail.LiquidationType.HasValue AndAlso {2, 3}.Contains(rateManualDetail.LiquidationType) Then
+                                    ' Tipo de liquidación Estandar: Buscamos el servicio en el manual de tarifas
+                                    Dim existsRateManual = _rateManualDetailRepository.Any(Function(m) m.RateManualId = rateManualId AndAlso m.IPSServiceId = h.IPSServiceId)
 
-                            Case 2
-                                rateManualId = DefinitionRateDetailCondition?.RateManualId
-                                manualTtype = DefinitionRateDetailCondition?.RateManual?.Type
-                            Case 3
-                                Dim Rate = _rateManualValidityDetailRepository.GetRateManualTypeAndRateManualId(DefinitionRateDetailCondition.RateManualValidityId, ServiceDate)
-
-                                If Rate Is Nothing Then
-                                    Continue For
+                                    If existsRateManual Then
+                                        FlagValidate = True
+                                        listHomologation.Add(h)
+                                    End If
                                 Else
-                                    rateManualId = Rate.RateManualId
-                                    manualTtype = Rate.Type
-                                End If
-
-                        End Select
-                        'si pasa por tipo manual o vigencia, actualizamos el tipo de liquidacion para reutilizar validacion de mas abajo
-                        rateManualDetail.LiquidationType = DefinitionRateDetailCondition?.LiquidationType
-                    End If
-
-                    If h.IPSService.Presentation = 2 Then
-                        If manualTtype = h.IPSService.ServiceManual Then
-                            'Se valida si el servicio ips qx que se recorre esta parametrizado dentro de la tabla DefinitionRateDetailSurgicalProcedures
-                            Dim procedures = _surgicalProcedureServiceRepository.Query(Function(m) m.IPSServiceParentId = h.IPSServiceId, includes:={"IPSService"}).ToList()
-                            Dim cupsEntityContractDescriptionId As Integer? = Nothing
-                            If ContractDescriptionId.HasValue Then
-                                cupsEntityContractDescriptionId = _cupsEntityContractDescriptionRepository.Query(Function(m) m.CUPSEntityId = h.CupsEntityId AndAlso m.ContractDescriptionId = ContractDescriptionId) _
-                            .Select(Function(m) m.Id).FirstOrDefault()
-                            End If
-
-                            Dim sod As New ServiceOrderDetail With {
-                            .IPSServiceId = h.IPSServiceId,
-                            .CUPSEntityId = CupsId,
-                            .CareGroupId = CareGroupId,
-                            .PerformsFunctionalUnitId = FunctionalUnitId,
-                            .PerformsProfessionalSpecialty = Specialty,
-                            .ServiceDate = ServiceDate,
-                            .SurchargeApply = False,
-                            .SurgicalInterventionType = 0,
-                            .CUPSEntityContractDescriptionId = cupsEntityContractDescriptionId
-                        }
-                            'se mandan a validar solo los qx por defecto
-                            Dim res = GetServiceValueBySurgicalProcedureService(sod, procedures.FindAll(Function(x) x.DefaultService))
-
-                            If res.StateResult Then
-                                FlagValidate = True
-                                listHomologation.Add(h)
-                            Else
-                                errors.Add(res.Message)
-                            End If
-                        End If
-                    Else
-                        If rateManualId.HasValue Then
-                            If rateManualDetail.LiquidationType.HasValue AndAlso {2, 3}.Contains(rateManualDetail.LiquidationType) Then
-                                ' Tipo de liquidación Estandar: Buscamos el servicio en el manual de tarifas
-                                Dim existsRateManual = _rateManualDetailRepository.Any(Function(m) m.RateManualId = rateManualId AndAlso m.IPSServiceId = h.IPSServiceId)
-
-                                If existsRateManual Then
                                     FlagValidate = True
                                     listHomologation.Add(h)
                                 End If
-                            Else
+                            ElseIf rateManualDetail.ConditionType <> 5 Then
                                 FlagValidate = True
                                 listHomologation.Add(h)
                             End If
-                        ElseIf rateManualDetail.ConditionType <> 5 Then
-                            FlagValidate = True
-                            listHomologation.Add(h)
                         End If
                     End If
-                End If
 
-            Next
+                Next
+            End If
         Next
 
         Dim result As New ActionResult(Of List(Of CupsHomologation)) With {.StateResult = True, .ObjectEmbbeded = listHomologation}

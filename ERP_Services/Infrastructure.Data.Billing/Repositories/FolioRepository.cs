@@ -286,8 +286,8 @@ namespace Infrastructure.Data.Billing.Repositories
                 inp.Code as ProductCode,
                 inp.Name as ProductName,
                 isnull(inp.POSProduct, 0) as IsPOSProduct,
-                CONCAT(bg.Code, ' - ', bg.Name) as ServiceBillingGroupCodeName,
-                CONCAT(bg.Code, ' - ', bg.Name) as ProductBillingGroupCodeName,
+                CONCAT(IIF(isnull(pos.HasPathologies, 0) = 1, ISNULL(bgpos.Code, bg.Code), bg.Code), ' - ', IIF(isnull(pos.HasPathologies, 0) = 1, ISNULL(bgpos.Name, bg.Name), bg.Name)) as ServiceBillingGroupCodeName,
+                CONCAT(IIF(isnull(pos.HasPathologies, 0) = 1, ISNULL(bgpos.Code, bg.Code), bg.Code), ' - ', IIF(isnull(pos.HasPathologies, 0) = 1, ISNULL(bgpos.Name, bg.Name), bg.Name)) as ProductBillingGroupCodeName,
                 ISNULL(atc.Code, '') as ProductATCCode,
                 cast(isnull(pos.HasPathologies, 0) as bit) as HasPathologies
                 from Billing.Invoice i
@@ -298,14 +298,43 @@ namespace Infrastructure.Data.Billing.Repositories
                 inner join Payroll.FunctionalUnit fu on fu.Id = sod.PerformsFunctionalUnitId
                 inner join Payroll.CostCenter cc on cc.Id = sod.CostCenterId
                 inner join Inventory.InventoryProduct inp on inp.Id = sod.ProductId
-                left join Billing.BillingGroup bg on bg.Id = inp.BillingGroupNoPosId
                 left join Inventory.ATC atc on atc.Id = inp.ATCId
+                left join Billing.BillingGroup bg on bg.Id = inp.BillingGroupId
+                left join Billing.BillingGroup bgpos on bgpos.Id = coalesce(inp.BillingGroupNoPosId, atc.BillingGroupNoPosId, inp.BillingGroupId)
                 left join Billing.BillingConcept bc on bc.Id = sod.BillingConceptId
-                left join (
-	                SELECT PP.ProductId, 1 as HasPathologies
-	                FROM Inventory.POSPathologies PP
-	                WHERE PP.ProductId IS NOT NULL
-                ) pos on pos.ProductId = inp.Id
+                left join dbo.INPACIENT pac on pac.IPCODPACI = i.PatientCode
+                outer apply (
+                    SELECT TOP 1 POSRuleRow.HasMatch
+                    FROM (
+                        SELECT CASE
+                            WHEN DP.CODDIAGNO IS NOT NULL
+                                AND ISNULL(sod.ServiceDate, Common.GETDATE()) >=
+                                    CASE ISNULL(PP.AgeMeasure, 1)
+                                        WHEN 3 THEN DATEADD(DAY, ISNULL(PP.MinimumAge, 0), pac.IPFECNACI)
+                                        WHEN 2 THEN DATEADD(MONTH, ISNULL(PP.MinimumAge, 0), pac.IPFECNACI)
+                                        ELSE DATEADD(YEAR, ISNULL(PP.MinimumAge, 0), pac.IPFECNACI)
+                                    END
+                                AND ISNULL(sod.ServiceDate, Common.GETDATE()) <
+                                    CASE ISNULL(PP.AgeMeasure, 1)
+                                        WHEN 3 THEN DATEADD(DAY, ISNULL(PP.MaximumAge, 255) + 1, pac.IPFECNACI)
+                                        WHEN 2 THEN DATEADD(MONTH, ISNULL(PP.MaximumAge, 255) + 1, pac.IPFECNACI)
+                                        ELSE DATEADD(YEAR, ISNULL(PP.MaximumAge, 255) + 1, pac.IPFECNACI)
+                                    END
+                            THEN 1 ELSE 0 END as HasMatch
+                        FROM Inventory.POSPathologies PP
+                        LEFT JOIN Inventory.Diagnostic D ON PP.DiagnosticId = D.Id
+                        LEFT JOIN dbo.INDIAGNOP DP ON DP.NUMINGRES = i.AdmissionNumber AND DP.IPCODPACI = i.PatientCode AND RTRIM(DP.CODDIAGNO) = RTRIM(D.Code)
+                        WHERE PP.ProductId = inp.Id OR PP.MedicamentId = atc.Id
+                    ) POSRuleRow
+                    ORDER BY POSRuleRow.HasMatch DESC
+                ) POSRule
+                outer apply (
+                    SELECT CAST(CASE
+                        WHEN POSRule.HasMatch = 1 THEN 1
+                        WHEN POSRule.HasMatch IS NULL AND (ISNULL(inp.AllPOSPathologies, 0) = 1 OR ISNULL(atc.AllPOSPathologies, 0) = 1) THEN 1
+                        ELSE 0
+                    END AS BIT) as HasPathologies
+                ) pos
                 where sodd.RevenueControlDetailId = @invoiceId"
                 , parmas);
         }
@@ -439,8 +468,8 @@ namespace Infrastructure.Data.Billing.Repositories
                 inp.Code as ProductCode,
                 inp.Name as ProductName,
                 isnull(inp.POSProduct, 0) as IsPOSProduct,
-                CONCAT(bg.Code, ' - ', bg.Name) as ServiceBillingGroupCodeName,
-                CONCAT(bg.Code, ' - ', bg.Name) as ProductBillingGroupCodeName,
+                CONCAT(IIF(isnull(pos.HasPathologies, 0) = 1, ISNULL(bgpos.Code, bg.Code), bg.Code), ' - ', IIF(isnull(pos.HasPathologies, 0) = 1, ISNULL(bgpos.Name, bg.Name), bg.Name)) as ServiceBillingGroupCodeName,
+                CONCAT(IIF(isnull(pos.HasPathologies, 0) = 1, ISNULL(bgpos.Code, bg.Code), bg.Code), ' - ', IIF(isnull(pos.HasPathologies, 0) = 1, ISNULL(bgpos.Name, bg.Name), bg.Name)) as ProductBillingGroupCodeName,
                 ISNULL(atc.Code, '') as ProductATCCode,
                 cast(isnull(pos.HasPathologies, 0) as bit) as HasPathologies,
                 SUBSTRING((SELECT ',' + code  AS [text()] FROM Billing.MipresCode mc WHERE mc.ServiceOrderDetailId = sod.Id FOR XML PATH ('')), 2, 1000) AS Mipres,
@@ -457,12 +486,43 @@ namespace Infrastructure.Data.Billing.Repositories
                 inner join Inventory.ProductType pt on inp.ProductTypeId = pt.Id
                 left join Billing.BillingGroup bg on bg.Id = inp.BillingGroupId
                 left join Inventory.ATC atc on atc.Id = inp.ATCId
+                left join Billing.BillingGroup bgpos on bgpos.Id = coalesce(inp.BillingGroupNoPosId, atc.BillingGroupNoPosId, inp.BillingGroupId)
                 left join Billing.BillingConcept bc on bc.Id = sod.BillingConceptId
-                left join (
-	                SELECT PP.ProductId, 1 as HasPathologies
-	                FROM Inventory.POSPathologies PP
-	                WHERE PP.ProductId IS NOT NULL
-                ) pos on pos.ProductId = inp.Id
+                inner join Billing.RevenueControlDetail rcd on rcd.Id = sodd.RevenueControlDetailId
+                inner join Billing.RevenueControl rc on rc.Id = rcd.RevenueControlId
+                left join dbo.INPACIENT pac on pac.IPCODPACI = rc.PatientCode
+                outer apply (
+                    SELECT TOP 1 POSRuleRow.HasMatch
+                    FROM (
+                        SELECT CASE
+                            WHEN DP.CODDIAGNO IS NOT NULL
+                                AND ISNULL(sod.ServiceDate, Common.GETDATE()) >=
+                                    CASE ISNULL(PP.AgeMeasure, 1)
+                                        WHEN 3 THEN DATEADD(DAY, ISNULL(PP.MinimumAge, 0), pac.IPFECNACI)
+                                        WHEN 2 THEN DATEADD(MONTH, ISNULL(PP.MinimumAge, 0), pac.IPFECNACI)
+                                        ELSE DATEADD(YEAR, ISNULL(PP.MinimumAge, 0), pac.IPFECNACI)
+                                    END
+                                AND ISNULL(sod.ServiceDate, Common.GETDATE()) <
+                                    CASE ISNULL(PP.AgeMeasure, 1)
+                                        WHEN 3 THEN DATEADD(DAY, ISNULL(PP.MaximumAge, 255) + 1, pac.IPFECNACI)
+                                        WHEN 2 THEN DATEADD(MONTH, ISNULL(PP.MaximumAge, 255) + 1, pac.IPFECNACI)
+                                        ELSE DATEADD(YEAR, ISNULL(PP.MaximumAge, 255) + 1, pac.IPFECNACI)
+                                    END
+                            THEN 1 ELSE 0 END as HasMatch
+                        FROM Inventory.POSPathologies PP
+                        LEFT JOIN Inventory.Diagnostic D ON PP.DiagnosticId = D.Id
+                        LEFT JOIN dbo.INDIAGNOP DP ON DP.NUMINGRES = rc.AdmissionNumber AND DP.IPCODPACI = rc.PatientCode AND RTRIM(DP.CODDIAGNO) = RTRIM(D.Code)
+                        WHERE PP.ProductId = inp.Id OR PP.MedicamentId = atc.Id
+                    ) POSRuleRow
+                    ORDER BY POSRuleRow.HasMatch DESC
+                ) POSRule
+                outer apply (
+                    SELECT CAST(CASE
+                        WHEN POSRule.HasMatch = 1 THEN 1
+                        WHEN POSRule.HasMatch IS NULL AND (ISNULL(inp.AllPOSPathologies, 0) = 1 OR ISNULL(atc.AllPOSPathologies, 0) = 1) THEN 1
+                        ELSE 0
+                    END AS BIT) as HasPathologies
+                ) pos
                 where sodd.RevenueControlDetailId = @idFolio"
                 , parmas);
         }

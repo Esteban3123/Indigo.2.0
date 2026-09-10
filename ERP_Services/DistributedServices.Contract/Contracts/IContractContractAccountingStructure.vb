@@ -55,4 +55,18 @@ Public Interface IContractContractAccountingStructure
     <OperationContract()>
     Function ChangeStateContractAccountingStructure(code As String, state As Boolean, audit As AuditMessage) As Domain.Base.Entities.ActionResult(Of Domain.Entities.ContractAccountingStructure)
 
+    ''' <summary>
+    ''' Lista de estructuras contables activas para alimentar selectores en cliente
+    ''' (ej: dropdown del Excel template de saldos iniciales).
+    ''' </summary>
+    <OperationContract()>
+    Function GetActiveListContractAccountingStructure(audit As AuditMessage) As Domain.Base.Entities.ActionResult(Of List(Of Domain.Entities.ContractAccountingStructure))
+
+    ''' <summary>
+    ''' Resuelve un batch de Codes de estructuras contables activas.
+    ''' Pensado para validación de Excel masivo.
+    ''' </summary>
+    <OperationContract()>
+    Function GetListByCodesContractAccountingStructure(codes As List(Of String), audit As AuditMessage) As Domain.Base.Entities.ActionResult(Of List(Of Domain.Entities.ContractAccountingStructure))
+
 End Interface

@@ -58,6 +58,13 @@ Public Interface IIncentivePaymentRepository
 
     Function GetIncentivePaymentByEmployeeIdRetefuente(EmployeeId As Integer, Year As Integer) As List(Of IncentivePayment)
 
+    ''' <summary>
+    ''' Primas confirmadas de un empleado cuyo período de causación termina dentro del rango indicado.
+    ''' Se usa para el porcentaje fijo del Procedimiento 2, donde la ventana son los 12 meses
+    ''' anteriores al corte y no el año calendario.
+    ''' </summary>
+    Function GetIncentivePaymentByEmployeeIdRetefuenteBetweenDates(EmployeeId As Integer, InitialDate As Date, EndDate As Date) As List(Of IncentivePayment)
+
     Function GetHeadIncentivePayment(GroupId As Integer, ByVal PeriodEndDate As Date, Period As Integer) As List(Of IncentivePayment)
 
     Function GetDetailIncentivePaymentDetail(GroupId As Integer, ByVal PeriodEndDate As Date, Period As Integer) As List(Of IncentivePayment)
@@ -72,8 +79,6 @@ Public Interface IIncentivePaymentRepository
     ''' <returns></returns>
     Function GetIncentivePaymentBankFileProcess(BankFile As BankFile) As List(Of IncentivePayment)
 
-
-
     ''' <summary>
     ''' Obtiene el conteo de liquidaciones de primas (optimizado, sin cargar relaciones)
     ''' </summary>
@@ -84,4 +89,5 @@ Public Interface IIncentivePaymentRepository
     ''' <param name="period">Periodo (1=Junio, 2=Diciembre)</param>
     ''' <returns>Cantidad de registros</returns>
     Function GetIncentivePaymentCountByDateGroup(groupId As String, initialDate As Date, endDate As Date, status As Byte, period As Char) As Integer
+
 End Interface

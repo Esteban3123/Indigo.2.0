@@ -354,6 +354,14 @@ Public Class MovementDevolutionsAdminService
                                 _accountReceivableRepository.UnitWork.Commit()
                             End If
 
+                            'pongo en estado sin radicar el pagare (tipo 4) asociado a la factura
+                            Dim accountReceivablePromissory = _accountReceivableRepository.GetAccountReceivableByAdminssionNumberAndAccountReceivableType(itemD.InvoiceNumber, 4)
+                            If accountReceivablePromissory IsNot Nothing Then
+                                accountReceivablePromissory.PortfolioStatus = 1 'sin radicar
+                                _accountReceivableRepository.SaveEntity(accountReceivablePromissory)
+                                _accountReceivableRepository.UnitWork.Commit()
+                            End If
+
                             Dim _AccountReceivable As AccountReceivable = _accountReceivableRepository.GetAccountReceivableByInvoiceNumberGloss(itemD.InvoiceNumber) 'consultamos factura en cartera
                             'Actualizamos estado en cartera
                             With _AccountReceivable

@@ -193,6 +193,11 @@ Public Class IncreaseSalaryDomain
 
                         For Each ObjConcept As Concept In ListConceptAffectRetroactive
 
+                            ' Salud y pensión empleado se recalculan por fórmula sobre IBC (bloque inferior)
+                            If ObjConcept.ConceptClass = "014" OrElse ObjConcept.ConceptClass = "017" Then
+                                Continue For
+                            End If
+
                             Dim ValueConcept As Double = 0
                             Dim ObjRetroactiveDetail As New RetroactiveD
 

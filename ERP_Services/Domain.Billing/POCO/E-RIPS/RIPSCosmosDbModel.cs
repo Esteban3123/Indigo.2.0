@@ -14,5 +14,6 @@ namespace Domain.Billing.POCO.E_RIPS
         public RIPSModel JsonRIPS { get; set; }
         public DocumentsAssociatedRIPS DocumentsAssociatedRIPS { get; set; }
         public string BlobUrl { get; set; }
+        public string EntityName { get; set; }
     }
 }

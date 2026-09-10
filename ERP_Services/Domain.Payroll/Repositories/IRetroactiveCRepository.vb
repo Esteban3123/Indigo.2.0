@@ -27,6 +27,14 @@ Public Interface IRetroactiveCRepository
 
     Function GetListRetroactiveByEmployeeId(VarYear As Integer, EmployeeId As Integer) As RetroactiveC
 
+    ''' <summary>
+    ''' Retroactivos confirmados de un empleado que inician dentro del rango indicado.
+    ''' Se usa para el porcentaje fijo del Procedimiento 2, donde la ventana son los 12 meses
+    ''' anteriores al corte y no el año calendario. A diferencia de
+    ''' <see cref="GetListRetroactiveByEmployeeId"/>, devuelve todos los del rango y no solo el primero.
+    ''' </summary>
+    Function GetListRetroactiveByEmployeeIdBetweenDates(EmployeeId As Integer, InitialDate As Date, EndDate As Date) As List(Of RetroactiveC)
+
     Function GetListRetroactiveByContractId(ContractId As Integer) As List(Of RetroactiveC)
 
     Function GetListRetroactiveByPayrollDate(PayrollDate As Date, GroupId As Integer) As List(Of RetroactiveC)

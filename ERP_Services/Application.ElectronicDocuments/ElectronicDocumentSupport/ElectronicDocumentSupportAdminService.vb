@@ -9,6 +9,8 @@ Imports Domain.ElectronicDocuments.Service
 Imports Domain.Entities
 Imports Domain.Notification
 Imports NewRelic.Api.Agent
+Imports Infrastructure.CrossCutting.AzureBlobStorage
+Imports Infrastructure.CrossCutting.AzureBlobStorage.Factory
 Imports Infrastructure.CrossCutting.Base
 Imports Infrastructure.CrossCutting.Root
 Imports Infrastructure.CrossCutting.Signature
@@ -26,6 +28,8 @@ Public Class ElectronicDocumentSupportAdminService
     Private _settingsAccountRepository As ISettingsAccountRepository
     Private _electronicSupportDocumentAdjustmentNoteRepository As IElectronicSupportDocumentAdjustmentNoteRepository
     Private _electronicSupportDocumentAdjustmentNoteDetailRepository As IElectronicSupportDocumentAdjustmentNoteDetailRepository
+    Private ReadOnly _factoryStorage As IFactoryStorage
+    Private ReadOnly _storage As IStorage
 #End Region
 #Region "Properties"
 
@@ -52,7 +56,8 @@ Public Class ElectronicDocumentSupportAdminService
                    thirdPartyRepository As IThirdPartyRepository,
                    settingsAccountRepository As ISettingsAccountRepository,
                    electronicSupportDocumentAdjustmentNoteRepository As IElectronicSupportDocumentAdjustmentNoteRepository,
-                   electronicSupportDocumentAdjustmentNoteDetailRepository As IElectronicSupportDocumentAdjustmentNoteDetailRepository)
+                   electronicSupportDocumentAdjustmentNoteDetailRepository As IElectronicSupportDocumentAdjustmentNoteDetailRepository,
+                   factoryStorage As IFactoryStorage)
 
         Me._billingAuthorizationRepository = billingAuthorizationRepository
         Me._electronicSupportDocumentRepository = electronicSupportDocumentRepository
@@ -62,6 +67,8 @@ Public Class ElectronicDocumentSupportAdminService
         Me._settingsAccountRepository = settingsAccountRepository
         Me._electronicSupportDocumentAdjustmentNoteRepository = electronicSupportDocumentAdjustmentNoteRepository
         Me._electronicSupportDocumentAdjustmentNoteDetailRepository = electronicSupportDocumentAdjustmentNoteDetailRepository
+        Me._factoryStorage = factoryStorage
+        Me._storage = Me._factoryStorage.CreateStorageControl()
 
         ' Setting TLS 1.2 protocol '
         ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12
@@ -505,7 +512,7 @@ Public Class ElectronicDocumentSupportAdminService
                 End If
             End If
 
-            Dim ubl As New DIAN.UBL2_1.UBL2_1(customerThirdParty, typeDocument, settingsAccount, supplierThirdParty)
+            Dim ubl As New DIAN.UBL2_1.UBL2_1(customerThirdParty, typeDocument, settingsAccount, supplierThirdParty, _storage)
             ubl.ElectronicSupportDocument = electronicSupportDocument
             ubl.SupportDocumentAdjustmentNote = electronicSupportDocumentAdjustmentNote
             ubl.BillingAuthorization = billingAuthorization
@@ -521,7 +528,7 @@ Public Class ElectronicDocumentSupportAdminService
 
     Private Function SendToDIAN(typeDocument As TypeElectronicDocument, settingsAccount As GeneralLedgerSettings, supplierThirdParty As ThirdParty, customerThirdParty As ThirdParty, fileName As String, currentStatus As Byte,
                                 Optional electronicSupportDocument As ElectronicSupportDocument = Nothing, Optional electronicSupportDocumentAdjustmentNote As ElectronicSupportDocumentAdjustmentNote = Nothing) As Byte
-        Using client As New DistributedServices.DIAN.ServiceClient(settingsAccount.GetElectronicDocumentUrl(), settingsAccount.DigitalCertificate, settingsAccount.DigitalCertificateKey)
+        Using client As New DistributedServices.DIAN.ServiceClient(settingsAccount.GetElectronicDocumentUrl(), settingsAccount.DigitalCertificate, settingsAccount.DigitalCertificateKey, _storage)
             Dim responseSend As ActionResult(Of DianResponse)
             If typeDocument = TypeElectronicDocument.DocumentoSoporte Then
                 If settingsAccount.SupportDocumentEnvironment Then
@@ -554,10 +561,10 @@ Public Class ElectronicDocumentSupportAdminService
                             Dim fileNameElectronicDocument = String.Empty
                             If typeDocument = TypeElectronicDocument.DocumentoSoporte Then
                                 fileNameElectronicDocument = electronicSupportDocument.GetFileName(customerThirdParty, typeDocument)
-                                Utils.DeleteFile(electronicSupportDocument.FilePath, fileNameElectronicDocument)
+                                _storage.DeleteFile(electronicSupportDocument.FilePath, fileNameElectronicDocument)
                             Else 'nota de ajuste
                                 fileNameElectronicDocument = electronicSupportDocumentAdjustmentNote.GetFileName(customerThirdParty, typeDocument)
-                                Utils.DeleteFile(electronicSupportDocumentAdjustmentNote.FilePath, fileNameElectronicDocument)
+                                _storage.DeleteFile(electronicSupportDocumentAdjustmentNote.FilePath, fileNameElectronicDocument)
                             End If
                         End If
                     Else
@@ -637,7 +644,7 @@ Public Class ElectronicDocumentSupportAdminService
     Private Function ValidateDIAN(TypeDocument As TypeElectronicDocument, settingsAccount As GeneralLedgerSettings, customerThirdParty As ThirdParty, currentStatus As Byte,
                                   Optional electronicDocumentSupport As ElectronicSupportDocument = Nothing, Optional electronicSupportDocumentAdjustmentNote As ElectronicSupportDocumentAdjustmentNote = Nothing,
                                   Optional beforeSend As Boolean = False)
-        Using client As New DistributedServices.DIAN.ServiceClient(settingsAccount.GetElectronicDocumentUrl(), settingsAccount.DigitalCertificate, settingsAccount.DigitalCertificateKey)
+        Using client As New DistributedServices.DIAN.ServiceClient(settingsAccount.GetElectronicDocumentUrl(), settingsAccount.DigitalCertificate, settingsAccount.DigitalCertificateKey, _storage)
             Dim responseValidate As ActionResult(Of DianResponse)
             If TypeDocument = TypeElectronicDocument.DocumentoSoporte Then
                 'Enviamos documento soporte
@@ -676,10 +683,10 @@ Public Class ElectronicDocumentSupportAdminService
                         Dim fileNameElectronicDocument = String.Empty
                         If TypeDocument = TypeElectronicDocument.DocumentoSoporte Then
                             fileNameElectronicDocument = electronicDocumentSupport.GetFileName(customerThirdParty, TypeDocument)
-                            Utils.DeleteFile(electronicDocumentSupport.FilePath, fileNameElectronicDocument)
+                            _storage.DeleteFile(electronicDocumentSupport.FilePath, fileNameElectronicDocument)
                         Else
                             fileNameElectronicDocument = electronicSupportDocumentAdjustmentNote.GetFileName(customerThirdParty, TypeDocument)
-                            Utils.DeleteFile(electronicSupportDocumentAdjustmentNote.FilePath, fileNameElectronicDocument)
+                            _storage.DeleteFile(electronicSupportDocumentAdjustmentNote.FilePath, fileNameElectronicDocument)
                         End If
 
                         If String.IsNullOrEmpty(documentResponse.StatusCode) OrElse documentResponse.StatusCode <> "66" Then
@@ -736,17 +743,17 @@ Public Class ElectronicDocumentSupportAdminService
                         'Guardamos el ApplicationResponse
                         FileNameApplicationResponse = electronicSupportDocument.GetFileName(customerThirdParty, TypeElectronicDocument.ApplicationResponse)
                         'Eliminamos el archivo anterior
-                        Utils.DeleteFile(electronicSupportDocument.FilePath, FileNameApplicationResponse)
-                        If Utils.ValidateFileExists(electronicSupportDocument.FilePath, FileNameApplicationResponse) Then
+                        _storage.DeleteFile(electronicSupportDocument.FilePath, FileNameApplicationResponse)
+                        If _storage.ValidateIfNotExists(electronicSupportDocument.FilePath, FileNameApplicationResponse) Then
                             'Aqui se crea el archivo recibido
-                            File.WriteAllBytes(System.IO.Path.Combine(electronicSupportDocument.FilePath, FileNameApplicationResponse), documentResponse.XmlBase64Bytes)
+                            _storage.WriteFile(electronicSupportDocument.FilePath, FileNameApplicationResponse, documentResponse.XmlBase64Bytes)
                         End If
                     Else
                         FileNameApplicationResponse = electronicSupportDocumentAdjusment.GetFileName(customerThirdParty, TypeElectronicDocument.ApplicationResponse)
                         'Eliminamos el archivo anterior
-                        Utils.DeleteFile(electronicSupportDocumentAdjusment.FilePath, FileNameApplicationResponse)
-                        If Utils.ValidateFileExists(electronicSupportDocumentAdjusment.FilePath, FileNameApplicationResponse) Then
-                            File.WriteAllBytes(System.IO.Path.Combine(electronicSupportDocumentAdjusment.FilePath, FileNameApplicationResponse), documentResponse.XmlBase64Bytes)
+                        _storage.DeleteFile(electronicSupportDocumentAdjusment.FilePath, FileNameApplicationResponse)
+                        If _storage.ValidateIfNotExists(electronicSupportDocumentAdjusment.FilePath, FileNameApplicationResponse) Then
+                            _storage.WriteFile(electronicSupportDocumentAdjusment.FilePath, FileNameApplicationResponse, documentResponse.XmlBase64Bytes)
                         End If
                     End If
                 End If

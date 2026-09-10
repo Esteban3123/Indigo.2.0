@@ -70,7 +70,7 @@ Public Class ProductTemplateRepository
         If id = 0 Then
             Throw New ArgumentNullException("Id")
         End If
-        Dim query = (From p In _context.ProductRateGeneral.Include("ProductRateGeneralCondition").AsNoTracking() Where p.ProductRateId = id Select p).ToList()
+        Dim query = (From p In _context.ProductRateGeneral.Include("ProductRateGeneralCondition") Where p.ProductRateId = id Select p).ToList()
         If query IsNot Nothing AndAlso query.Count > 0 Then
             Return query
         Else

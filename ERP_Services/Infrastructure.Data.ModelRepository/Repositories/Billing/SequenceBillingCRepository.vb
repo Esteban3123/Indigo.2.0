@@ -17,6 +17,8 @@ Public Class BillingSequenceRepository
     Inherits GenericRepository(Of BillingSequence)
     Implements IBillingSequenceRepository
 
+    Private Const SpReserveBillingSequenceDetailNext As String = "[Billing].[SP_ReserveBillingSequenceDetailNext]"
+
 #Region "Fields"
 
     ''' <summary>
@@ -64,6 +66,40 @@ Public Class BillingSequenceRepository
         Else
             Return New BillingSequence()
         End If
+    End Function
+
+    ''' <inheritdoc />
+    Public Function ReserveNextFormattedCodeByFormId(idForm As String) As BillingSequenceCodeReservation Implements IBillingSequenceRepository.ReserveNextFormattedCodeByFormId
+        If idForm Is Nothing OrElse idForm.Trim().Equals(String.Empty) Then
+            Throw New ArgumentNullException(NameOf(idForm))
+        End If
+
+        Dim rows = ExecuteStoredProcedure(Of SP_ReserveBillingSequenceDetailNext_Result)(SpReserveBillingSequenceDetailNext, {("@IdForm", idForm.Trim())})
+        Dim raw = rows?.FirstOrDefault()
+        If raw Is Nothing Then
+            Return New BillingSequenceCodeReservation With {.Success = False, .Message = "No se obtuvo respuesta al reservar la secuencia numérica."}
+        End If
+
+        If raw.CodeResult <> 1 Then
+            Return New BillingSequenceCodeReservation With {
+                .Success = False,
+                .Message = If(String.IsNullOrEmpty(raw.MessageResult), "La secuencia para las Notas Crédito de Facturacion Electronica no esta parametrizada o no es secuencial.", raw.MessageResult)
+            }
+        End If
+
+        If Not raw.ReservedNext.HasValue OrElse String.IsNullOrEmpty(raw.Pattern) Then
+            Return New BillingSequenceCodeReservation With {.Success = False, .Message = "La secuencia para las Notas Crédito de Facturacion Electronica no esta parametrizada o no es secuencial."}
+        End If
+
+        Dim codeNote = Infrastructure.CrossCutting.Base.Sequense.GetSequense(raw.Pattern, raw.ReservedNext.Value)
+        If String.IsNullOrEmpty(codeNote) OrElse codeNote.Equals(Infrastructure.CrossCutting.Base.Sequense.ERROR_MAXVALUE) Then
+            If raw.DetailId.HasValue AndAlso raw.DetailId.Value > 0 Then
+                ExecuteNonQuery("UPDATE Billing.BillingSequenceDetail SET [Next] = [Next] - 1 WHERE Id = {0}", raw.DetailId.Value)
+            End If
+            Return New BillingSequenceCodeReservation With {.Success = False, .Message = "La secuencia para las Notas Crédito de Facturacion Electronica alcanzo su valor maximo."}
+        End If
+
+        Return New BillingSequenceCodeReservation With {.Success = True, .Code = codeNote}
     End Function
 
 #End Region

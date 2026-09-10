@@ -51,6 +51,6 @@ Public Interface IBillingServiceInvoiceEntityCapitated
     ''' <param name="careGroupId">Grupo de atención</param>
     ''' <returns></returns>
     <OperationContract()>
-    Function GetCollectionValuesAsync(initialDate As DateTime, finalDate As DateTime, careGroupId As Integer) As Task(Of CollectionValues)
+    Function GetCollectionValuesAsync(initialDate As DateTime, finalDate As DateTime, careGroupId As Integer, invoiceCategoryId As Integer) As Task(Of CollectionValues)
 
 End Interface

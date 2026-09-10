@@ -451,6 +451,16 @@ Partial Public Class PayrollUnitOfWork
         End Get
     End Property
 
+    Private _contributorTypeSubtype As DbSet(Of ContributorTypeSubtype)
+    Public ReadOnly Property ContributorTypeSubtype() As DbSet(Of ContributorTypeSubtype) Implements IPayrollUnitOfWork.ContributorTypeSubtype
+        Get
+            If _contributorTypeSubtype Is Nothing Then
+                _contributorTypeSubtype = [Set](Of ContributorTypeSubtype)()
+            End If
+            Return _contributorTypeSubtype
+        End Get
+    End Property
+
     Private _kinship As DbSet(Of Kinship)
     Public ReadOnly Property Kinship() As DbSet(Of Kinship) Implements IPayrollUnitOfWork.Kinship
         Get

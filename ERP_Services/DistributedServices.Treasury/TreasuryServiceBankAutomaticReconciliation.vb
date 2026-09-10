@@ -167,17 +167,4 @@ Partial Class TreasuryService
             Return service.CalculateRealValueAndNature(detail)
         End Using
     End Function
-
-    ''' <summary>
-    ''' Busca coincidencias entre extractos bancarios y documentos de tesorería para conciliación automática
-    ''' </summary>
-    ''' <param name="extractList">Lista de extractos bancarios</param>
-    ''' <param name="documentList">Lista de documentos de tesorería</param>
-    ''' <param name="existingAssociations">Lista de asociaciones existentes (opcional)</param>
-    ''' <returns>Resultado con las listas actualizadas y las asociaciones (existentes y nuevas)</returns>
-    Public Function FindCoincidencesAsync(extractList As List(Of BankReconciliationAutomaticExtractDetail), documentList As List(Of BankReconciliationAutomaticDetail), Optional existingAssociations As List(Of BankReconciliationAutomaticAssociation) = Nothing) As Task(Of ActionResult(Of BankReconciliationCoincidencesResult)) Implements ITreasuryServiceBankReconciliationAutomatic.FindCoincidencesAsync
-        Using service As IBankReconciliationAutomaticAdminService = Container.Current.Resolve(Of IBankReconciliationAutomaticAdminService)()
-            Return service.FindCoincidencesAsync(extractList, documentList, existingAssociations)
-        End Using
-    End Function
 End Class

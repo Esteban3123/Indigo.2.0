@@ -20,6 +20,8 @@ namespace Infrastructure.CrossCutting.AzureBlobStorage
         bool ValidateIfNotExists(string filePath, string fileName);
         byte[] ReadFile(string filePath, string fileName);
 
+        string FindFirstFileName(string filePath, string prefix, string extension);
+
         string ReadFileFromBlobUrl(string blobUrl);
 
     }

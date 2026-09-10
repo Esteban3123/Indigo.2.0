@@ -200,12 +200,6 @@ Public Class FolioAdminService
 
                 Dim ErrorString = New StringBuilder
                 Dim _sumFolio = ListServiceODD.Sum(Function(s) s.SubTotalSalesPrice)
-
-                'Validación: el valor de copago no puede exceder el valor total del folio
-                If LiquidationData?.CopaymentValue > _sumFolio AndAlso RevenueControlD?.IsMasterAccount = eMasterAccount.MasterAccount Then
-                    Return New ActionResult With {.StateResult = False, .Message = $"No se logró recalcular ya que el valor de copago ({LiquidationData.CopaymentValue:N2}) excede el valor del Folio ({_sumFolio:N2})"}
-                End If
-
                 Parallel.ForEach((ListServiceODD), Sub(x)
                                                        x.ApportionmentPercent = If(_sumFolio = 0, 0, (x.SubTotalSalesPrice / _sumFolio))
                                                        Dim discountValueorPercentage As Decimal = 0
@@ -1308,33 +1302,40 @@ Public Class FolioAdminService
                 Dim tRMValue = result.ObjectEmbbeded.Value
                 Dim currency = _currencyAdminService.GetCurrencyById(CurrencyId, New AuditMessage)
 
-                '**** se convierten directamente los valores calculados (subtotal, descuento, IVA, total) a la nueva moneda ****
+
+                '****se convierte el valor bruto total y descuento total  para obtener la base para que apartir de esta el resto de valores se recalculen en base a la moneda ****
                 Parallel.ForEach(invoicePartial.InvoicePartialDetail, Sub(x)
-                                                                          'subtotal total (multiplicado por cantidades)
-                                                                          x.SubTotalSalesPrice = Math.Round(x.SubTotalSalesPrice / tRMValue, 2, MidpointRounding.AwayFromZero)
-                                                                          'descuento total
+                                                                          'valor bruto total (multiplicado por cantidades)
+                                                                          Dim convertedValue As Decimal = x.SubTotalSalesPrice / tRMValue
+                                                                          Dim roundedValue5 As Decimal = Math.Round(convertedValue, 5, MidpointRounding.AwayFromZero)
+                                                                          x.SubTotalSalesPrice = Math.Round(roundedValue5, 2, MidpointRounding.AwayFromZero)
+                                                                          'valor descuento total
                                                                           x.GrandTotalDiscount = Math.Round(x.GrandTotalDiscount / tRMValue, 2, MidpointRounding.AwayFromZero)
-                                                                          'valor neto total (bruto - descuento) ya existe: NetWorth
-                                                                          x.NetWorth = Math.Round(x.NetWorth / tRMValue, 2, MidpointRounding.AwayFromZero)
-                                                                          'IVA total: no se recalcula, solo se convierte
-                                                                          x.IvaTotalValue = Math.Round(x.IvaTotalValue / tRMValue, 2, MidpointRounding.AwayFromZero)
-                                                                          'valor total (con IVA)
-                                                                          x.GrandTotalSalesPrice = Math.Round(x.GrandTotalSalesPrice / tRMValue, 2, MidpointRounding.AwayFromZero)
-                                                                          x.ThirdPartySalesPrice = x.GrandTotalSalesPrice
-
-                                                                          'recalculo de valores unitarios a partir de los totales convertidos
-                                                                          If x.InvoicedQuantity > 0 Then
-                                                                              x.GrossValue = Math.Round(x.SubTotalSalesPrice / x.InvoicedQuantity, 2, MidpointRounding.AwayFromZero)
-                                                                              x.NetUnitValue = Math.Round(x.NetWorth / x.InvoicedQuantity, 2, MidpointRounding.AwayFromZero)
-                                                                              x.TotalSalesPrice = Math.Round(x.GrandTotalSalesPrice / x.InvoicedQuantity, 2, MidpointRounding.AwayFromZero)
+                                                                          'valor bruto unitatio
+                                                                          x.GrossValue = x.SubTotalSalesPrice / x.InvoicedQuantity
+                                                                          'si el iva esta en cero establecemos el porcentaje del mismo en 0, si no se toma el porcentaje de la vista
+                                                                          If x.IvaTotalValue = 0 Then
+                                                                              x.TaxPercentage = 0
                                                                           End If
-
+                                                                          'se usa funcion que tiene los calculos de los valores
+                                                                          Dim dictionaryValues = Utils.SetValueSalesPriceWithNet(Utils.eTypeValue.GrossValue, x.SubTotalSalesPrice, x.TaxPercentage, x.GrandTotalDiscount, True)
+                                                                          'valor NETO total (bruto-descuento)
+                                                                          x.NetWorth = Math.Round(dictionaryValues(Utils.eTypeValue.NetValue), 2, MidpointRounding.AwayFromZero)
+                                                                          'valor neto unitario
+                                                                          x.NetUnitValue = x.NetWorth / x.InvoicedQuantity
+                                                                          'valor del IVA
+                                                                          x.IvaTotalValue = Math.Round(dictionaryValues(Utils.eTypeValue.TaxValue), 2, MidpointRounding.AwayFromZero)
+                                                                          'Valor Total (en colombia hay campos de totales de demás que no se usan en CR se manda el grantotalsalesprice)
+                                                                          x.GrandTotalSalesPrice = Math.Round(dictionaryValues(Utils.eTypeValue.TotalValue), 2, MidpointRounding.AwayFromZero)
+                                                                          x.ThirdPartySalesPrice = x.GrandTotalSalesPrice
+                                                                          'valor Total Unitario
+                                                                          x.TotalSalesPrice = x.GrandTotalSalesPrice / x.InvoicedQuantity
                                                                           'campos que en CR definitivamente No aplican
                                                                           x.ThirdPartyDiscount = 0
                                                                           x.SubTotalPatientSalesPrice = 0
                                                                       End Sub)
 
-                '****ahora a partir de los detalles vamos a establecer los valores de la cabecera***
+                '****ahora apartir de los detalles vamos a establecer los valores de la cabecera***
                 With invoicePartial
                     'valor bruto
                     .SubTotalService = .InvoicePartialDetail.Sum(Function(d) d.SubTotalSalesPrice)

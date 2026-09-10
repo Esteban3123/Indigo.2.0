@@ -24,11 +24,11 @@ Public Interface IElectronicDocumentNotificationRepository
     Function GetElectronicDocumentNotificationById(ByVal Id As Integer) As ElectronicDocumentNotification
 
     ''' <summary>
-    ''' Obtiene una notificación de un listado de documento electronico de acuerdo con el estado en que se encuentren
+    ''' Obtiene los ids de notificación agrupados por documento electrónico de acuerdo con el estado en que se encuentren
     ''' </summary>
     ''' <param name="status">The identifier.</param>
     ''' <returns></returns>
-    Function GetElectronicDocumentNotificationIdsByStatus(ByVal status As Boolean) As List(Of Integer)
+    Function GetElectronicDocumentNotificationIdsByStatus(ByVal status As Boolean) As Dictionary(Of Integer, List(Of Integer))
 
     ''' <summary>
     ''' Obtiene el tipo de nota asociado al documento electrónico

@@ -48,6 +48,26 @@ Public Interface IGlosasRIPSPlane
     Function GenerateFURTRANPlane(InvoicesList As List(Of RIPSBilling), Session As SessionValues) As List(Of ActionMessageResult(Of StringBuilder))
 
     ''' <summary>
+    ''' Genera el archivo FUR SERVICIOS de la Circular Externa 003 de 2026
+    ''' de ADRES. Devuelve un único <see cref="AdresClaimFile"/> con JSON y
+    ''' DataSet plano listo para exportar a XLSX desde la UI.
+    ''' </summary>
+    <OperationContract>
+    Function GenerateAdresFurServiciosPlane(IdRadicateInvoice As Integer,
+                                            Session As SessionValues,
+                                            Optional InvoicesList As List(Of RIPSBilling) = Nothing) As ActionMessageResult(Of AdresClaimFile)
+
+    ''' <summary>
+    ''' Genera el archivo FUR de la Circular Externa 003 de 2026 de ADRES.
+    ''' Devuelve un único <see cref="AdresClaimFile"/> con JSON y DataSet
+    ''' plano listo para exportar a XLSX desde la UI.
+    ''' </summary>
+    <OperationContract>
+    Function GenerateAdresFurPlane(IdRadicateInvoice As Integer,
+                                    Session As SessionValues,
+                                    Optional InvoicesList As List(Of RIPSBilling) = Nothing) As ActionMessageResult(Of AdresClaimFile)
+
+    ''' <summary>
     ''' Obtiene los registros para generar el archivo plano MegaRIPS
     ''' </summary>
     ''' <param name="radicateInvoiceId">Id del radicado de la factura</param>

@@ -134,6 +134,7 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Transactions" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
     <Import Include="Microsoft.VisualBasic" />
@@ -197,6 +198,8 @@
     <Compile Include="PortfolioDeteriorationClassification\PortfolioDeteriorationClassificationAdminService.vb" />
     <Compile Include="PortfolioInitialBalance\IPortfolioInitialBalanceAdminService.vb" />
     <Compile Include="PortfolioInitialBalance\PortfolioInitialBalanceAdminService.vb" />
+    <Compile Include="PortfolioInitialBalance\IInvoiceXmlBulkAdminService.vb" />
+    <Compile Include="PortfolioInitialBalance\InvoiceXmlBulkAdminService.vb" />
     <Compile Include="PortfolioMassiveConfirm\IPortfolioMassiveConfirmAdminService.vb" />
     <Compile Include="PortfolioMassiveConfirm\PortfolioMassiveConfirmAdminService.vb" />
     <Compile Include="PortfolioNoteConcept\IPortfolioNoteConceptAdminService.vb" />
@@ -301,6 +304,18 @@
     <ProjectReference Include="..\Infrastructure.CrossCutting.Resources\Infrastructure.CrossCutting.Resources.vbproj">
       <Project>{134f5b02-eba4-4414-bb62-bf5d55e2b906}</Project>
       <Name>Infrastructure.CrossCutting.Resources</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Domain.Billing\Domain.Billing.csproj">
+      <Project>{62EE8DEA-13FF-406E-B8D2-43CE96499C40}</Project>
+      <Name>Domain.Billing</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastructure.CrossCutting.AzureBlobStorage\Infrastructure.CrossCutting.Storage.csproj">
+      <Project>{A660E715-269C-43F4-BFEF-8DEEBAA2BD17}</Project>
+      <Name>Infrastructure.CrossCutting.Storage</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastructure.CrossCutting.Root\Infrastructure.CrossCutting.Root.vbproj">
+      <Project>{ECEB8906-50D9-490C-B3F3-3CC1632B0FDE}</Project>
+      <Name>Infrastructure.CrossCutting.Root</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />

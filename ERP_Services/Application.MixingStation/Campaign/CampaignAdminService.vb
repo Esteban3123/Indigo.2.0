@@ -302,77 +302,86 @@ Public Class CampaignAdminService
         Dim listErrors As New List(Of Tuple(Of String, Integer))()
 
         Try
-            ' Obtener detalles pendientes
-            Dim requestPackageDetailStatus = _RequestPackageDetailStatusRepository.Query(
-            Function(m) requestMixingStationDetailIds.Contains(m.RequestMixingStationDetailId) AndAlso {1, 4}.Contains(m.Status),
-            False,
-            includes:={"CampaignRawMaterial"}
-        ).ToList()
-
-            If Not requestPackageDetailStatus.Any() Then
-                Throw New IndigoValidationException("No se encontraron detalles de solicitud pendientes a ser procesados.")
-            End If
-
             ' Obtener solicitudes
             Dim requests = _requestMixingStationDetailRepository.Query(
-            Function(m) requestMixingStationDetailIds.Contains(m.Id),
+            Function(m) requestMixingStationDetailIds.Contains(m.Id) AndAlso m.Status <> 3,
             False,
-            {"CampaignDetail", "RequestMixingStation"}
-        ).ToList()
+            {"CampaignDetail", "RequestMixingStation"}).ToList()
 
             ValidateRequest(requests)
 
-            ' Procesar cada solicitud
-            For Each request In requests
-                Try
-                    Dim relatedStatus = requestPackageDetailStatus.Where(Function(x) x.RequestMixingStationDetailId = request.Id).ToList()
-
-                    If Not relatedStatus.Any() Then
-                        Dim msg = $"La Solicitud {request.RequestMixingStation.Code} ya fue terminada los productos"
-                        listErrors.Add(Tuple.Create(msg, 1))
-                        My.Application.Log.WriteEntry(msg)
-                        Continue For
-                    End If
-
-                    Using scope As New TransactionScope(TransactionScopeOption.RequiresNew,
+            Using processScope As New TransactionScope(TransactionScopeOption.RequiresNew,
                                                    New TransactionOptions With {.Timeout = TransactionManager.MaximumTimeout, .IsolationLevel = IsolationLevel.ReadCommitted},
                                                    TransactionScopeAsyncFlowOption.Enabled)
 
-                        ' Procesar productos
-                        Dim productsToProcess = relatedStatus.Where(Function(x) x.Status <> 4).ToList()
-                        If productsToProcess.Any() Then
-                            Dim AutomaticRawMaterial = Await AutomaticManageRawMaterial(productsToProcess, request, audit)
+                AcquireProcessFinishedProductLocks(requests)
 
-                            If Not AutomaticRawMaterial.StateResult Then
-                                Throw New IndigoValidationException(AutomaticRawMaterial.Message)
+                ' Obtener detalles pendientes despues de tomar el bloqueo de campaña.
+                Dim activeRequestIds = requests.Select(Function(m) m.Id).ToList()
+                Dim requestPackageDetailStatus = _RequestPackageDetailStatusRepository.Query(
+                Function(m) activeRequestIds.Contains(m.RequestMixingStationDetailId) AndAlso {1, 4}.Contains(m.Status),
+                False,
+                includes:={"CampaignRawMaterial"}
+            ).ToList()
+
+                If Not requestPackageDetailStatus.Any() Then
+                    Throw New IndigoValidationException("No se encontraron detalles de solicitud pendientes a ser procesados.")
+                End If
+
+                ' Procesar cada solicitud
+                For Each request In requests
+                    Try
+                        Dim relatedStatus = requestPackageDetailStatus.Where(Function(x) x.RequestMixingStationDetailId = request.Id).ToList()
+
+                        If Not relatedStatus.Any() Then
+                            Dim msg = $"La Solicitud {request.RequestMixingStation.Code} ya fue terminada los productos"
+                            listErrors.Add(Tuple.Create(msg, 1))
+                            My.Application.Log.WriteEntry(msg)
+                            Continue For
+                        End If
+
+                        Using scope As New TransactionScope(TransactionScopeOption.RequiresNew,
+                                                   New TransactionOptions With {.Timeout = TransactionManager.MaximumTimeout, .IsolationLevel = IsolationLevel.ReadCommitted},
+                                                   TransactionScopeAsyncFlowOption.Enabled)
+
+                            ' Procesar productos
+                            Dim productsToProcess = relatedStatus.Where(Function(x) x.Status <> 4).ToList()
+                            If productsToProcess.Any() Then
+                                Dim AutomaticRawMaterial = Await AutomaticManageRawMaterial(productsToProcess, request, audit)
+
+                                If Not AutomaticRawMaterial.StateResult Then
+                                    Throw New IndigoValidationException(AutomaticRawMaterial.Message)
+                                End If
                             End If
-                        End If
 
-                        ' Asignar campos y guardar
-                        AssignFieldsToRequestStatus(relatedStatus, audit)
-                        Dim resSaveStatus = Await SavePackageDetailStatusAsync(audit, Nothing, relatedStatus)
+                            ' Asignar campos y guardar
+                            AssignFieldsToRequestStatus(relatedStatus, audit)
+                            Dim resSaveStatus = Await SavePackageDetailStatusAsync(audit, Nothing, relatedStatus)
 
-                        If Not resSaveStatus.StateResult Then
-                            Throw New IndigoValidationException(resSaveStatus.Message)
-                        End If
+                            If Not resSaveStatus.StateResult Then
+                                Throw New IndigoValidationException(resSaveStatus.Message)
+                            End If
 
-                        scope.Complete()
+                            scope.Complete()
 
-                        Dim msgSuccess = $"La Solicitud {request.RequestMixingStation.Code} ejecutada correctamente"
-                        listErrors.Add(Tuple.Create(msgSuccess, 1))
-                        My.Application.Log.WriteEntry(msgSuccess)
-                    End Using
+                            Dim msgSuccess = $"La Solicitud {request.RequestMixingStation.Code} ejecutada correctamente"
+                            listErrors.Add(Tuple.Create(msgSuccess, 1))
+                            My.Application.Log.WriteEntry(msgSuccess)
+                        End Using
 
-                Catch ex As IndigoValidationException
-                    Dim msg = $"Solicitud {request.RequestMixingStation.Code}: {ex.Message}"
-                    listErrors.Add(Tuple.Create(msg, 2))
-                    My.Application.Log.WriteEntry(msg)
-                Catch ex As Exception
-                    Dim msg = $"Solicitud {request.RequestMixingStation.Code}: {ex.Message}"
-                    listErrors.Add(Tuple.Create(msg, 2))
-                    IndigoManagementExceptions.HandleException(ex, "ApplicationPolicy")
-                End Try
-            Next
+                    Catch ex As IndigoValidationException
+                        Dim msg = $"Solicitud {request.RequestMixingStation.Code}: {ex.Message}"
+                        listErrors.Add(Tuple.Create(msg, 2))
+                        My.Application.Log.WriteEntry(msg)
+                    Catch ex As Exception
+                        Dim msg = $"Solicitud {request.RequestMixingStation.Code}: {ex.Message}"
+                        listErrors.Add(Tuple.Create(msg, 2))
+                        IndigoManagementExceptions.HandleException(ex, "ApplicationPolicy")
+                    End Try
+                Next
+
+                processScope.Complete()
+            End Using
 
             Return New ActionResult(Of List(Of Tuple(Of String, Integer))) With {
                 .ObjectEmbbeded = listErrors,
@@ -402,6 +411,36 @@ Public Class CampaignAdminService
     End Function
 
     ''' <summary>
+    ''' Toma un bloqueo exclusivo de aplicacion por cada campaña que se va a procesar como producto terminado.
+    ''' </summary>
+    ''' <param name="requests">Solicitudes de mezcla que pertenecen al proceso de producto terminado.</param>
+    ''' <remarks>
+    ''' El bloqueo se asocia a la transaccion activa. Mientras esa transaccion no termine, otra ejecucion
+    ''' concurrente no puede procesar la misma campaña y se evita generar materias primas duplicadas.
+    ''' </remarks>
+    Private Sub AcquireProcessFinishedProductLocks(requests As List(Of RequestMixingStationDetail))
+        Dim campaignDetailIds = requests _
+            .Where(Function(m) m.CampaignDetailId.HasValue) _
+            .Select(Function(m) m.CampaignDetailId.Value) _
+            .Distinct() _
+            .OrderBy(Function(m) m) _
+            .ToList()
+
+        For Each campaignDetailId In campaignDetailIds
+            _RequestPackageDetailStatusRepository.ExecuteNonQuery("
+            DECLARE @Result int;
+            EXEC @Result = sys.sp_getapplock
+                @Resource = {0},
+                @LockMode = 'Exclusive',
+                @LockOwner = 'Transaction',
+                @LockTimeout = 0;
+            IF @Result < 0
+                RAISERROR('El proceso de producto terminado de esta campaña ya se encuentra en ejecución.', 16, 1);",
+                            $"MixingStation.ProcessFinishedProduct.CampaignDetail:{campaignDetailId}")
+        Next
+    End Sub
+
+    ''' <summary>
     ''' Asigna campos al status
     ''' </summary>
     ''' <param name="requestPackageDetailStatus"></param>
@@ -426,7 +465,7 @@ Public Class CampaignAdminService
     ''' </summary>
     ''' <param name="request"></param>
     Private Sub ValidateRequest(request As List(Of RequestMixingStationDetail))
-        If request Is Nothing Then
+        If request Is Nothing OrElse Not request.Any() Then
             Throw New IndigoValidationException("Solicitud no encontrada")
         End If
 
@@ -788,7 +827,10 @@ Public Class CampaignAdminService
 
                     ' La lógica de negocio condicional se conserva intacta.
                     If isMagistral Then
-                        UpdateMainDrugCodeByNPTandMagistral(physical.InventoryProduct.ATC.Code, status.GroupingCodeDose)
+                        Dim mainDrugCodeResult = UpdateMainDrugCodeByNPTandMagistral(physical.InventoryProduct.ATC.Code, status.GroupingCodeDose)
+                        If Not mainDrugCodeResult.StateResult Then
+                            Return mainDrugCodeResult
+                        End If
                     End If
 
                     status.MarkAsModified()
@@ -809,7 +851,7 @@ Public Class CampaignAdminService
     ''' <summary>
     ''' Actualizamos el MainDrugCode para la campaña de tipo 'NPT' o 'Magistrales' que se esta terminando
     ''' </summary>
-    Private Sub UpdateMainDrugCodeByNPTandMagistral(_MainDrugCode As String, _GroupingCodeDose As Guid)
+    Private Function UpdateMainDrugCodeByNPTandMagistral(_MainDrugCode As String, _GroupingCodeDose As Guid) As ActionResult
         Using cnx As New System.Data.SqlClient.SqlConnection(Utils.GetEntityConnectionString(ConfigurationFile.CONX_GENESIS, String.Empty, ServerSessionValues.Current.CurrentContainer, False))
             cnx.Open()
             Dim tx As System.Data.SqlClient.SqlTransaction = cnx.BeginTransaction()
@@ -818,23 +860,35 @@ Public Class CampaignAdminService
             command.CommandType = CommandType.Text
 
             Try
-                Dim CodeSusceptibleMixingStation = _pharmaDoseRepository.GetByFilter(Function(x) _GroupingCodeDose = x.GroupingCodeDose).FirstOrDefault().CodeSusceptibleMixingStation
+                Dim CodeSusceptibleMixingStation = _pharmaDoseRepository.Query(
+                    Function(x) _GroupingCodeDose = x.GroupingCodeDose,
+                    tracking:=False).
+                    Select(Function(x) x.CodeSusceptibleMixingStation).
+                    FirstOrDefault()
+
+                If CodeSusceptibleMixingStation = Guid.Empty Then
+                    Throw New IndigoValidationException("No se encontró la dosis farmacéutica asociada al grupo de dosificación.")
+                End If
 
                 'Se actualizan las solicitudes
-                command.CommandText = "update MedicalHistory.ProductSusceptibleMixingStation 
-                                    set MainDrugCode =  '" + _MainDrugCode + "'
-                                    where CodeSusceptibleMixingStation = '" + CodeSusceptibleMixingStation.ToString() + "'"
+                command.CommandText = "update MedicalHistory.ProductSusceptibleMixingStation
+                                        set MainDrugCode = @MainDrugCode
+                                        where CodeSusceptibleMixingStation = @CodeSusceptibleMixingStation"
+                command.Parameters.Add("@MainDrugCode", System.Data.SqlDbType.VarChar, 20).Value = _MainDrugCode
+                command.Parameters.Add("@CodeSusceptibleMixingStation", System.Data.SqlDbType.UniqueIdentifier).Value = CodeSusceptibleMixingStation
 
                 command.ExecuteNonQuery()
                 tx.Commit()
+                Return New ActionResult With {.StateResult = True}
             Catch ex As Exception
                 tx.Rollback()
                 IndigoManagementExceptions.HandleException(ex, "ApplicationPolicy")
+                Return New ActionResult With {.StateResult = False, .Message = Utils.GetInnerExceptionMessageToString(ex)}
             Finally
                 cnx.Close()
             End Try
         End Using
-    End Sub
+    End Function
 
     ''' <summary>
     ''' Genera un producto por cada paquete si no tiene asociado uno, y lo registra automáticamente si es válido.
@@ -984,9 +1038,9 @@ Public Class CampaignAdminService
             .Code = packagePersonalized.Code,
             .Name = packagePersonalized.Name,
             .Description = packagePersonalized.Description,
-            .atcId = atcId,
+            .AtcId = atcId,
             .UnitDoseType = packagePersonalized.UnitDoseType,
-            .setting = setting
+            .Setting = setting
         }
 
         Dim res = Await Me.CreateFinishedProductAsync(finishedProduct, audit)
@@ -1243,7 +1297,8 @@ Public Class CampaignAdminService
                 Dim totalInput = Math.Round(packageCostModel.Sum(Function(m) m.Cost), 2)
 
                 If totalOutput <> totalInput Then
-                    Throw New IndigoValidationException("El valor total de Movimiento de Entrada es diferente al valor Total de ajuste de Salida")
+                    Dim difference = Math.Abs(totalOutput - totalInput)
+                    Throw New IndigoValidationException($"El valor total de Movimiento de Entrada es diferente al valor Total de ajuste de Salida. Salida: {totalOutput:N2}. Entrada: {totalInput:N2}. Diferencia: {difference:N2}")
                 End If
             End If
 
@@ -1322,7 +1377,7 @@ Public Class CampaignAdminService
 
             For Each packageGroup In packageCostModels.GroupBy(Function(m) New With {Key m.PackageId, Key m.PackagePersonalizedId, Key m.ProductId})
                 Dim groupItems = packageGroup.ToList()
-                Dim quantity = groupItems.Count()
+                Dim quantity As Integer = groupItems.Count()
                 Dim totalCost = groupItems.Sum(Function(m) m.Cost)
 
                 ' Determinar producto asociado
@@ -1359,7 +1414,7 @@ Public Class CampaignAdminService
                             .Type = 1,
                             .ProductId = productId,
                             .BatchCode = firstStatus.BatchCode,
-                            .ExpirationDate = Date.Now.AddDays(mixingStationSetting.ExpirationDays),
+                            .ExpirationDate = firstStatus.BatchExpirationDate,
                             .CreationUser = audit.CodeUser,
                             .CreationDate = Date.Now
                         }
@@ -1392,7 +1447,7 @@ Public Class CampaignAdminService
                                     .Type = 1,
                                     .ProductId = productId,
                                     .BatchCode = status.BatchCode,
-                                    .ExpirationDate = Date.Now.AddDays(mixingStationSetting.ExpirationDays),
+                                    .ExpirationDate = status.BatchExpirationDate,
                                     .CreationUser = audit.CodeUser,
                                     .CreationDate = Date.Now
                                 }
@@ -1654,9 +1709,9 @@ Public Class CampaignAdminService
     Public Function LoadAndValidateCampaign(campaignDetailId As Integer) As ActionResult(Of CampaignDetail)
         Try
             Dim campaign = _campaingDetailRepository.FirstOrDefault(
-        Function(m) m.Id = campaignDetailId,
-        True,
-        {"Campaign", "CampaignDetailValidation.Warehouse", "RequestMixingStationDetail.RequestPackageDetailStatus", "RequestMixingStationDetail.Package"})
+            Function(m) m.Id = campaignDetailId,
+            True,
+            {"Campaign", "CampaignDetailValidation.Warehouse", "RequestMixingStationDetail.RequestPackageDetailStatus", "RequestMixingStationDetail.Package"})
 
             If campaign Is Nothing Then
                 Throw New IndigoValidationException("Campaña no encontrada")
@@ -1690,21 +1745,14 @@ Public Class CampaignAdminService
 
             ' 7. Validar devoluciones pendientes
             Dim devolucionesPendientes = _rawMaterialDevolutionRepository.Query(
-        Function(m) m.CampaignDetailId = campaign.Id AndAlso m.State = 1, False).Select(Function(m) m.Code).ToList()
+            Function(m) m.CampaignDetailId = campaign.Id AndAlso m.State = 1, False).Select(Function(m) m.Code).ToList()
 
             If devolucionesPendientes.Any() Then
                 Throw New IndigoValidationException($"La Campaña #{campaign.CampaignNumber} tiene devoluciones pendientes por Confirmar: {String.Join(",", devolucionesPendientes)}")
             End If
 
             ' 8. Validar que no existan saldos de materia prima
-            Dim kardex = _campaignKardexRepository.GetByFilter(Function(m) m.CampaignDetailId = campaign.Id, False)
-            Dim haySaldo As Boolean = False
-            If kardex IsNot Nothing AndAlso kardex.Any() Then
-                haySaldo = kardex.
-                        GroupBy(Function(m) m.ProductId).
-                        Any(Function(g) g.Sum(Function(o) If(o.MovementType = 1, o.Quantity, 0D)) -
-                                        g.Sum(Function(o) If(o.MovementType = 2, o.Quantity, 0D)) <> 0D)
-            End If
+            Dim haySaldo = HasRawMaterialInventoryBalance(campaign.Id)
 
             If haySaldo Then
                 Throw New IndigoValidationException($"La Campaña #{campaign.CampaignNumber} Tiene saldos de Inventario de Materia Prima.")
@@ -1714,6 +1762,57 @@ Public Class CampaignAdminService
         Catch ex As Exception
             Return New ActionResult(Of CampaignDetail) With {.StateResult = False, .Message = Utils.GetInnerExceptionMessageToString(ex)}
         End Try
+    End Function
+
+    ''' <summary>
+    ''' Consulta materia prima teniendo en cuenta el balacen entre adecuaciones activas y anuladas
+    ''' </summary>
+    ''' <param name="campaignDetailId"></param>
+    ''' <returns></returns>
+    Private Function HasRawMaterialInventoryBalance(campaignDetailId As Integer) As Boolean
+        Dim kardexRows = _campaignKardexRepository.GetByFilter(Function(m) m.CampaignDetailId = campaignDetailId, False)
+        If kardexRows Is Nothing Then Return False
+
+        Dim kardex = kardexRows.ToList()
+        If Not kardex.Any() Then Return False
+
+        Dim rawMaterialEntityName = GetType(CampaignRawMaterial).Name
+        Dim activeRawMaterialRows = _campaignRawMaterialRepository.Query(
+            Function(m) m.RequestPackageDetailStatus.RequestMixingStationDetail.CampaignDetailId = campaignDetailId _
+                        AndAlso m.RequestPackageDetailStatus.RequestMixingStationDetail.Status <> 3 _
+                        AndAlso m.RequestPackageDetailStatus.Status <> 6,
+            False
+        ).Select(Function(m) New With {
+            .ProductId = m.ProductValidationId,
+            .Quantity = m.ExpendQuantity
+        }).ToList()
+
+        Dim activeRawMaterialByProduct = activeRawMaterialRows _
+            .GroupBy(Function(m) m.ProductId) _
+            .ToDictionary(Function(g) g.Key, Function(g) g.Sum(Function(m) m.Quantity))
+
+        Dim productIds = kardex.Select(Function(m) m.ProductId) _
+            .Union(activeRawMaterialByProduct.Keys) _
+            .Distinct() _
+            .ToList()
+
+        For Each productId In productIds
+            Dim inputQuantity = kardex _
+                .Where(Function(m) m.ProductId = productId AndAlso m.MovementType = CInt(eMovementType.Input)) _
+                .Sum(Function(m) m.Quantity)
+            Dim outputQuantity = kardex _
+                .Where(Function(m) m.ProductId = productId _
+                                   AndAlso m.MovementType = CInt(eMovementType.Output) _
+                                   AndAlso m.EntityName <> rawMaterialEntityName) _
+                .Sum(Function(m) m.Quantity)
+            Dim activeRawMaterialQuantity = If(activeRawMaterialByProduct.ContainsKey(productId), activeRawMaterialByProduct(productId), 0D)
+
+            If inputQuantity - outputQuantity - activeRawMaterialQuantity <> 0D Then
+                Return True
+            End If
+        Next
+
+        Return False
     End Function
 
     ''' <summary>
@@ -2031,6 +2130,17 @@ Public Class CampaignAdminService
     Public Function GetCampaignDetailValidationByCampaignDetailId(campaignDetailId As Integer) As ActionResult(Of List(Of CampaignDetailValidation)) Implements ICampaignAdminService.GetCampaignDetailValidationByCampaignDetailId
         Try
             Dim data = _CampaignDetailValidationRepository.GetCampaignDetailValidationByCampaignDetailId(campaignDetailId)
+
+            Return New ActionResult(Of List(Of CampaignDetailValidation)) With {.StateResult = True, .ObjectEmbbeded = data}
+        Catch ex As Exception
+            IndigoManagementExceptions.HandleException(ex, "ApplicationPolicy")
+            Return New ActionResult(Of List(Of CampaignDetailValidation)) With {.StateResult = False, .MessageResult = {ex.Message}.ToList, .Message = IndigoManagementExceptions.GetExceptionDetails(ex)}
+        End Try
+    End Function
+
+    Public Function GetCampaignDetailValidationForDevolution(campaignDetailId As Integer) As ActionResult(Of List(Of CampaignDetailValidation)) Implements ICampaignAdminService.GetCampaignDetailValidationForDevolution
+        Try
+            Dim data = _CampaignDetailValidationRepository.GetCampaignDetailValidationForDevolution(campaignDetailId)
 
             Return New ActionResult(Of List(Of CampaignDetailValidation)) With {.StateResult = True, .ObjectEmbbeded = data}
         Catch ex As Exception
@@ -2798,8 +2908,12 @@ Public Class CampaignAdminService
                 Throw New IndigoValidationException("RequestPackageDetailStatus")
             End If
 
+            ValidateRawMaterialAssignment(myListCampaignRawMaterial, RequestPackageDetailStatus.Count)
+
             ' Crear entidades a guardar
             Dim CampaingRawMaterial = CreateCampaingRawMaterial(myListCampaignRawMaterial, RequestPackageDetailStatus, audit)
+            ValidateGeneratedRawMaterialAssignment(CampaingRawMaterial, myListCampaignRawMaterial, RequestPackageDetailStatus)
+
             Dim CampaignKardex = CreateCampaignKardex(myListCampaignRawMaterial, RequestPackageDetailStatus, RequestMixingStationDetail.CampaignDetailId, audit)
 
             Using scope As New TransactionScope(TransactionScopeOption.Required,
@@ -2842,6 +2956,101 @@ Public Class CampaignAdminService
     End Function
 
     ''' <summary>
+    ''' Valida que la materia prima disponible cubra todos los componentes requeridos por las preparaciones seleccionadas.
+    ''' </summary>
+    ''' <param name="myListCampaignRawMaterial">Componentes de materia prima calculados para la gestion de la solicitud.</param>
+    ''' <param name="requestStatusCount">Cantidad de preparaciones que se intentan gestionar.</param>
+    Private Sub ValidateRawMaterialAssignment(myListCampaignRawMaterial As List(Of ManageRawMaterialModel), requestStatusCount As Integer)
+        Dim errors As New StringBuilder()
+        Const tolerance As Decimal = 0.000001D
+
+        For Each item In myListCampaignRawMaterial.Where(Function(m) m.RequiredQuantity.HasValue AndAlso m.RequiredQuantity.Value > 0D)
+            Dim componentName = If(String.IsNullOrWhiteSpace(item.ProductFullName), GetRawMaterialComponentName(item), item.ProductFullName)
+            Dim usedQuantity = item.UsedQuantity.GetValueOrDefault(0D)
+            Dim pendingQuantity = item.RequiredQuantity.Value - usedQuantity
+
+            If item.CampaignDetailValidation Is Nothing OrElse Not item.CampaignDetailValidation.Any() Then
+                errors.AppendLine($"No se encontró materia prima validada para el componente {componentName}. Cantidad requerida: {item.RequiredQuantity.Value}.")
+                Continue For
+            End If
+
+            If usedQuantity <= tolerance OrElse pendingQuantity > tolerance Then
+                errors.AppendLine($"La materia prima validada para el componente {componentName} no cubre las {requestStatusCount} preparación(es) seleccionada(s). Requerido: {item.RequiredQuantity.Value}, disponible para asignar: {usedQuantity}.")
+            End If
+        Next
+
+        If errors.Length > 0 Then
+            Throw New IndigoValidationException($"No se puede guardar la gestión de materia prima porque no es congruente con los componentes del paquete.{Environment.NewLine}{errors.ToString().Trim()}")
+        End If
+    End Sub
+
+    ''' <summary>
+    ''' Obtiene un nombre descriptivo de respaldo para el componente de materia prima cuando no se cargo el nombre completo.
+    ''' </summary>
+    ''' <param name="item">Componente de materia prima a describir.</param>
+    ''' <returns>Nombre descriptivo del componente.</returns>
+    Private Function GetRawMaterialComponentName(item As ManageRawMaterialModel) As String
+        If item.AtcId.HasValue Then Return $"ATC {item.AtcId.Value}"
+        If item.SuppliedId.HasValue Then Return $"Insumo {item.SuppliedId.Value}"
+        If item.ProductId.HasValue Then Return $"Producto {item.ProductId.Value}"
+        Return "sin identificar"
+    End Function
+
+    ''' <summary>
+    ''' Valida que la asignacion generada incluya todos los componentes requeridos para cada preparacion.
+    ''' </summary>
+    ''' <param name="campaignRawMaterials">Registros de materia prima generados antes de guardar.</param>
+    ''' <param name="myListCampaignRawMaterial">Componentes requeridos por el paquete gestionado.</param>
+    ''' <param name="requestPackageDetailStatus">Preparaciones seleccionadas para la gestion de materia prima.</param>
+    Private Sub ValidateGeneratedRawMaterialAssignment(campaignRawMaterials As List(Of CampaignRawMaterial),
+                                                       myListCampaignRawMaterial As List(Of ManageRawMaterialModel),
+                                                       requestPackageDetailStatus As List(Of RequestPackageDetailStatus))
+        Dim errors As New StringBuilder()
+        Dim requiredComponents = myListCampaignRawMaterial _
+            .Where(Function(m) m.RequiredQuantity.HasValue AndAlso m.RequiredQuantity.Value > 0D) _
+            .ToList()
+
+        For Each status In requestPackageDetailStatus
+            For Each item In requiredComponents
+                Dim existsRawMaterial = campaignRawMaterials.Any(Function(m) m.RequestPackageDetailStatusId = status.Id AndAlso
+                                                                     m.ExpendQuantity > 0D AndAlso
+                                                                     HasSameRawMaterialComponent(m, item))
+
+                If Not existsRawMaterial Then
+                    Dim componentName = If(String.IsNullOrWhiteSpace(item.ProductFullName), GetRawMaterialComponentName(item), item.ProductFullName)
+                    errors.AppendLine($"La preparación {status.BatchCode} no tiene materia prima asignada para el componente {componentName}.")
+                End If
+            Next
+        Next
+
+        If errors.Length > 0 Then
+            Throw New IndigoValidationException($"No se puede guardar la gestión de materia prima porque la asignación generada no coincide con los componentes del paquete.{Environment.NewLine}{errors.ToString().Trim()}")
+        End If
+    End Sub
+
+    ''' <summary>
+    ''' Determina si un registro generado corresponde al mismo componente requerido por el paquete.
+    ''' </summary>
+    ''' <param name="rawMaterial">Registro de materia prima generado.</param>
+    ''' <param name="item">Componente requerido por el paquete.</param>
+    ''' <returns>True si ambos representan el mismo ATC, insumo o producto.</returns>
+    Private Function HasSameRawMaterialComponent(rawMaterial As CampaignRawMaterial, item As ManageRawMaterialModel) As Boolean
+        If item.AtcId.HasValue Then
+            Return rawMaterial.AtcId.HasValue AndAlso rawMaterial.AtcId.Value = item.AtcId.Value
+        End If
+
+        If item.SuppliedId.HasValue Then
+            Return rawMaterial.SupplieId.HasValue AndAlso rawMaterial.SupplieId.Value = item.SuppliedId.Value
+        End If
+
+        If item.ProductId.HasValue Then
+            Return rawMaterial.ProductId.HasValue AndAlso rawMaterial.ProductId.Value = item.ProductId.Value
+        End If
+
+        Return False
+    End Function
+
+    ''' <summary>
     '''  Asignamos los valores a la Entidad  CampaingRawMaterial
     ''' </summary>
     ''' <param name="myListCampaignRawMaterial"></param>
@@ -2872,7 +3081,8 @@ Public Class CampaignAdminService
                     End If
 
                     Dim measurementUnit = measurementUnitCache(itemValidation.MeasureUnitId)
-                    Dim conversion = Utils.MeasureUnitConvert(model.MeasureUnitAbreviation, measurementUnit.Abbreviation)
+                    ' Los insumos medicos se gestionan por cantidad unitaria del suplido, no por conversion farmacologica.
+                    Dim conversion = If(model.SuppliedId.HasValue, 1D, Utils.MeasureUnitConvert(model.MeasureUnitAbreviation, measurementUnit.Abbreviation))
 
                     itemValidation.totalProductQuantity = model.TotalProducts
                     Dim quantityPerItem = model.RequiredQuantity / model.TotalProductsProcess
@@ -2900,6 +3110,8 @@ Public Class CampaignAdminService
                     End If
 
                     itemValidation.Conversion = conversion
+
+                    If expendQuantity <= 0D Then Continue For
 
                     campaignRawMaterials.Add(New CampaignRawMaterial With {
                         .RequestPackageDetailStatusId = status.Id,

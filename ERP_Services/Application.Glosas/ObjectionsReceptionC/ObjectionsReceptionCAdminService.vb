@@ -10,6 +10,7 @@
 '***********************************************************************
 
 Imports Domain.Entities
+Imports System.Text
 Imports System.Transactions
 
 Imports Domain.Base
@@ -1545,7 +1546,7 @@ Public Class ObjectionsReceptionCAdminService
             result.MessageResult = New List(Of String)
             'configuro la transaccion
             Dim txSettings As New TransactionOptions()
-            txSettings.Timeout = TransactionManager.MaximumTimeout
+            txSettings.Timeout = TransactionManager.DefaultTimeout
             txSettings.IsolationLevel = IsolationLevel.ReadCommitted
             'cargamos informacion del reponsable que confirma
             Dim _objResposible As Responsible = _IResponsibleRepository.GetResponsibleByCodeERP(Session.UserIndigo)
@@ -1691,6 +1692,267 @@ Public Class ObjectionsReceptionCAdminService
             Return Nothing
         End Try
     End Function
+    ''' <summary>
+    ''' Genera el archivo FUR RG (Respuesta a Glosa) de la Circular Externa 003
+    ''' de 2026 de ADRES a partir de un radicado de objeciones, incluyendo
+    ''' TODAS las facturas elegibles del radicado (filtro Aseguradora/Fosyga +
+    ''' <c>GlosaPortfolioGlosada.State IN (11,12)</c>).
+    ''' </summary>
+    Public Function GenerateAdresFurRgPlane(IdObjectionsReception As Integer,
+                                            Session As SessionValues) As ActionMessageResult(Of AdresClaimFile) _
+                                            Implements IObjectionsReceptionCAdminService.GenerateAdresFurRgPlane
+        Return GenerateFurRgInternal(IdObjectionsReception, Nothing, Session)
+    End Function
+
+    ''' <summary>
+    ''' Genera el archivo FUR RG (Respuesta a Glosa) a partir de un radicado de
+    ''' objeciones, filtrando adicionalmente por la lista de
+    ''' <paramref name="InvoiceNumbers"/> (selección parcial desde el menú
+    ''' contextual de la rejilla, multi-select con <see cref="SelectorCache"/>).
+    ''' </summary>
+    ''' <param name="InvoiceNumbers">Lista de InvoiceNumber a incluir. Debe contener al menos un elemento.</param>
+    Public Function GenerateAdresFurRgPlaneByInvoices(IdObjectionsReception As Integer,
+                                                      InvoiceNumbers As List(Of String),
+                                                      Session As SessionValues) As ActionMessageResult(Of AdresClaimFile) _
+                                                      Implements IObjectionsReceptionCAdminService.GenerateAdresFurRgPlaneByInvoices
+        If InvoiceNumbers Is Nothing OrElse InvoiceNumbers.Count = 0 Then
+            Return New ActionMessageResult(Of AdresClaimFile) With {
+                .StateResult = False,
+                .Message = "Debe seleccionar al menos una factura."
+            }
+        End If
+        Return GenerateFurRgInternal(IdObjectionsReception, InvoiceNumbers, Session)
+    End Function
+
+    ''' <summary>
+    ''' Lógica común de generación FUR RG. Cuando <paramref name="InvoiceFilter"/>
+    ''' es Nothing/vacío procesa TODAS las facturas elegibles del radicado;
+    ''' cuando trae elementos restringe a ese subconjunto.
+    ''' </summary>
+    Private Function GenerateFurRgInternal(IdObjectionsReception As Integer,
+                                           InvoiceFilter As List(Of String),
+                                           Session As SessionValues) As ActionMessageResult(Of AdresClaimFile)
+
+        Const SinDatosCareGroup As String = "No se encontraron datos para la generación del archivo"
+        Const SinEvalCoord As String = "No es posible generar archivo porque las facturas se encuentran sin confirmar en proceso de Evaluación y Coordinación"
+
+        Try
+            If IdObjectionsReception <= 0 Then
+                Return New ActionMessageResult(Of AdresClaimFile) With {
+                    .StateResult = False,
+                    .Message = "Identificador del radicado de objeciones no válido."
+                }
+            End If
+
+            Dim warnings As New List(Of String)
+
+            ' --- Pre-check: facturas del scope que NO completaron Evaluación + Coordinación ---
+            ' Cada inelegible genera un warning textual exacto pedido por el PO.
+            Dim ineligible = Me.GetIneligibleInvoiceNumbers(IdObjectionsReception, InvoiceFilter, Session)
+            For Each invNumber In ineligible
+                warnings.Add("No se puede generar el archivo de la factura " & invNumber &
+                             " porque no ha completado el proceso de aceptación y justificación de la glosa")
+            Next
+
+            ' --- Ejecutar SP (aplica filtros CareGroup, State IN (11,12) y opcional InvoiceNumber) ---
+            Dim XmlParameters = Me.ConvertToXmlParametersForFurRg(IdObjectionsReception)
+            Dim XmlInvoices = Me.ConvertToXmlInvoicesForFurRg(InvoiceFilter)
+
+            Dim spResult = Me.SP_GenerateFurRgFileData("SP_GenerateAdresFurRgData", XmlParameters, XmlInvoices, Session)
+
+            Dim noRowsMessage As String = If(ineligible.Count > 0, SinEvalCoord, SinDatosCareGroup)
+
+            If spResult Is Nothing OrElse spResult.Tables.Count = 0 OrElse spResult.Tables(0).Rows.Count = 0 Then
+                Return New ActionMessageResult(Of AdresClaimFile) With {
+                    .StateResult = False,
+                    .Message = noRowsMessage,
+                    .ObjectEmbbeded = New AdresClaimFile With {.Warnings = warnings, .RecordCount = 0}
+                }
+            End If
+
+            Dim rows = AdresFurRgHelper.MapDataTableToRows(spResult.Tables(0))
+            If rows.Count = 0 Then
+                Return New ActionMessageResult(Of AdresClaimFile) With {
+                    .StateResult = False,
+                    .Message = noRowsMessage,
+                    .ObjectEmbbeded = New AdresClaimFile With {.Warnings = warnings, .RecordCount = 0}
+                }
+            End If
+
+            ' Tope de 100 facturas (DISTINCT InvoiceId) — recorta y advierte.
+            Dim distinctInvoices = rows.Select(Function(r) r.InvoiceId).Distinct().ToList()
+            If distinctInvoices.Count > AdresFurRgHelper.MAX_FACTURAS_JSON Then
+                Dim allowed = New HashSet(Of Integer)(distinctInvoices.Take(AdresFurRgHelper.MAX_FACTURAS_JSON))
+                Dim omitted = distinctInvoices.Count - AdresFurRgHelper.MAX_FACTURAS_JSON
+                warnings.Add("Se procesaron las primeras " & AdresFurRgHelper.MAX_FACTURAS_JSON & " facturas; " &
+                             "se omitieron " & omitted & " adicionales por la restricción de máximo 100 facturas por JSON FUR RG.")
+                rows = rows.Where(Function(r) allowed.Contains(r.InvoiceId)).ToList()
+            End If
+
+            Dim validRows = AdresFurRgHelper.FilterValidRows(rows, warnings)
+            If validRows.Count = 0 Then
+                Return New ActionMessageResult(Of AdresClaimFile) With {
+                    .StateResult = False,
+                    .Message = noRowsMessage,
+                    .ObjectEmbbeded = New AdresClaimFile With {.Warnings = warnings, .RecordCount = 0}
+                }
+            End If
+
+            Dim nit = Me.GetCompanyNit(Session)
+            Dim fileName As String = "FRG" & nit
+            Dim json = AdresFurRgHelper.BuildJson(validRows, nit)
+            Dim excelData = AdresFurRgHelper.BuildExcelData(validRows, nit)
+
+            ' Cuenta de facturas únicas reportadas (no filas).
+            Dim recordCount = validRows.Select(Function(r) r.InvoiceId).Distinct().Count()
+
+            Dim claimFile As New AdresClaimFile With {
+                .FileName = fileName,
+                .JsonContent = json,
+                .ExcelData = excelData,
+                .RecordCount = recordCount,
+                .Warnings = warnings
+            }
+
+            Return New ActionMessageResult(Of AdresClaimFile) With {
+                .StateResult = True,
+                .Message = fileName,
+                .ObjectEmbbeded = claimFile
+            }
+        Catch ex As Exception
+            IndigoManagementExceptions.HandleException(ex, "ApplicationPolicy", Session)
+            Return New ActionMessageResult(Of AdresClaimFile) With {
+                .StateResult = False,
+                .Message = String.Format("Error al generar FUR RG: {0}", Utils.GetInnerExceptionMessageToString(ex))
+            }
+        End Try
+    End Function
+
+    ''' <summary>
+    ''' Construye el XmlParameters específico para FUR RG: contiene el Id
+    ''' del radicado de objeciones (Glosas.GlosaObjectionsReceptionC).
+    ''' </summary>
+    Private Function ConvertToXmlParametersForFurRg(IdObjectionsReception As Integer) As String
+        Dim builder As StringBuilder = New StringBuilder()
+        builder.Append("<Data>")
+        builder.Append("<ObjectionsReceptionId>" & IdObjectionsReception & "</ObjectionsReceptionId>")
+        builder.Append("</Data>")
+        Return builder.ToString
+    End Function
+
+    ''' <summary>
+    ''' Construye el XmlInvoices con un nodo <c>&lt;Data&gt;&lt;InvoiceNumber&gt;...&lt;/InvoiceNumber&gt;&lt;/Data&gt;</c>
+    ''' por cada factura del filtro. Retorna cadena vacía cuando no hay filtro
+    ''' (el SP entonces procesa todas las facturas elegibles del radicado).
+    ''' </summary>
+    Private Function ConvertToXmlInvoicesForFurRg(invoiceNumbers As List(Of String)) As String
+        If invoiceNumbers Is Nothing OrElse invoiceNumbers.Count = 0 Then Return String.Empty
+        Dim builder As New StringBuilder()
+        For Each inv In invoiceNumbers
+            If String.IsNullOrWhiteSpace(inv) Then Continue For
+            builder.Append("<Data><InvoiceNumber>")
+            builder.Append(EscapeXml(inv.Trim()))
+            builder.Append("</InvoiceNumber></Data>")
+        Next
+        Return builder.ToString()
+    End Function
+
+    Private Function EscapeXml(value As String) As String
+        If String.IsNullOrEmpty(value) Then Return value
+        Return value.Replace("&", "&amp;") _
+                    .Replace("<", "&lt;") _
+                    .Replace(">", "&gt;") _
+                    .Replace("'", "&apos;") _
+                    .Replace("""", "&quot;")
+    End Function
+
+    ''' <summary>
+    ''' Devuelve los InvoiceNumber del radicado (opcionalmente filtrados por
+    ''' <paramref name="invoiceFilter"/>) cuyo
+    ''' <c>GlosaPortfolioGlosada.State NOT IN (11, 12)</c>, es decir, que NO
+    ''' completaron el proceso de Evaluación + Coordinación. Cada uno genera
+    ''' un warning textual hacia el usuario.
+    ''' </summary>
+    Private Function GetIneligibleInvoiceNumbers(IdObjectionsReception As Integer,
+                                                 invoiceFilter As List(Of String),
+                                                 session As SessionValues) As List(Of String)
+        Try
+            Dim sb As New StringBuilder()
+            sb.Append("SELECT DISTINCT LTRIM(RTRIM(orD.InvoiceNumber)) AS InvoiceNumber ")
+            sb.Append("FROM Glosas.GlosaObjectionsReceptionD orD ")
+            sb.Append("INNER JOIN Glosas.GlosaPortfolioGlosada gpg ON gpg.Id = orD.PortfolioGlosaId ")
+            sb.Append("WHERE orD.GlosaObjectionsReceptionCId = ")
+            sb.Append(IdObjectionsReception)
+            sb.Append(" AND gpg.State NOT IN (11, 12) ")
+
+            If invoiceFilter IsNot Nothing AndAlso invoiceFilter.Count > 0 Then
+                Dim items = invoiceFilter.Where(Function(x) Not String.IsNullOrWhiteSpace(x)) _
+                                          .Select(Function(x) "'" & x.Trim().Replace("'", "''") & "'") _
+                                          .ToList()
+                If items.Count > 0 Then
+                    sb.Append("AND orD.InvoiceNumber IN (")
+                    sb.Append(String.Join(",", items))
+                    sb.Append(") ")
+                End If
+            End If
+
+            Dim dt = Me.GetDatatable(sb.ToString(), session, "FurRgIneligibleInvoices")
+            If dt Is Nothing OrElse dt.Rows.Count = 0 Then Return New List(Of String)()
+
+            Dim list As New List(Of String)()
+            For Each row As DataRow In dt.Rows
+                Dim s = Convert.ToString(row("InvoiceNumber"))
+                If Not String.IsNullOrWhiteSpace(s) Then list.Add(s)
+            Next
+            Return list
+        Catch ex As Exception
+            IndigoManagementExceptions.HandleException(ex, "ApplicationPolicy", session)
+            Return New List(Of String)()
+        End Try
+    End Function
+
+    ''' <summary>
+    ''' Ejecuta un SP del schema Glosas con dos parámetros XML
+    ''' (XmlParameters + XmlInvoices) y devuelve el primer result set como
+    ''' un DataSet de una sola tabla. Análogo al helper interno usado en
+    ''' RIPSPlaneAdminService para FUR / FUR SERVICIOS.
+    ''' </summary>
+    Private Function SP_GenerateFurRgFileData(SP_Name As String, XmlParameters As String, XmlInvoices As String, session As SessionValues) As DataSet
+        Try
+            Dim ds As New DataSet
+            Dim query As String = String.Format("EXEC [Glosas].[{0}] '{1}', '{2}'", SP_Name, XmlParameters, XmlInvoices)
+            Dim dt = Me.GetDatatable(query, session, SP_Name)
+            If dt Is Nothing Then
+                Return ds
+            End If
+            ds.Tables.Add(dt.Copy())
+            Return ds
+        Catch ex As Exception
+            IndigoManagementExceptions.HandleException(
+                New Exception(String.Format("SP_GenerateFurRgFileData falló para [Glosas].[{0}]: {1}", SP_Name, ex.Message), ex),
+                "ApplicationPolicy", session)
+            Return Nothing
+        End Try
+    End Function
+
+    ''' <summary>
+    ''' Obtiene el NIT del prestador desde INEMPRESU.INDNUMIDE.
+    ''' Mismo enfoque que [dbo].[SP_ADM_ExportarDatosFur].
+    ''' </summary>
+    Private Function GetCompanyNit(session As SessionValues) As String
+        Try
+            Dim dt = Me.GetDatatable(
+                "SELECT TOP 1 LTRIM(RTRIM(INDNUMIDE)) AS Nit FROM dbo.INEMPRESU",
+                session,
+                "INEMPRESU_Nit")
+            If dt Is Nothing OrElse dt.Rows.Count = 0 Then Return String.Empty
+            Return Convert.ToString(dt.Rows(0)("Nit")).Trim()
+        Catch ex As Exception
+            IndigoManagementExceptions.HandleException(ex, "ApplicationPolicy", session)
+            Return String.Empty
+        End Try
+    End Function
+
     ''' <summary>
     ''' Metodo para obtener datatable.
     ''' </summary>

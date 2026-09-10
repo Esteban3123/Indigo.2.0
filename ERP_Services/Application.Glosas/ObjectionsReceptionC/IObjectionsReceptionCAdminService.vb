@@ -175,6 +175,38 @@ Public Interface IObjectionsReceptionCAdminService
     ''' <remarks></remarks>
     Function ReceptionExcelExportFull(ByVal IdRecepcion As Integer, session As SessionValues) As DataTable
 
+    ''' <summary>
+    ''' Genera el archivo FUR RG (Respuesta a Glosa) de la Circular Externa 003
+    ''' de 2026 de ADRES, a partir de un radicado de objeciones e incluyendo
+    ''' TODAS las facturas elegibles del radicado. Aplica internamente los
+    ''' filtros Aseguradora/Fosyga (CareGroupType=4 AND EntityType=11) y
+    ''' <c>GlosaPortfolioGlosada.State IN (11=Glosa con Respuesta, 12=Reiteración
+    ''' con Respuesta)</c>. Las facturas del radicado que no completaron el
+    ''' proceso de Evaluación + Coordinación se reportan como warnings.
+    ''' Devuelve un único <see cref="AdresClaimFile"/> con JSON ya serializado
+    ''' y un DataSet plano listo para exportarse a XLSX desde la UI.
+    ''' </summary>
+    ''' <param name="IdObjectionsReception">Id de Glosas.GlosaObjectionsReceptionC.</param>
+    ''' <param name="Session">Variable de sesión.</param>
+    Function GenerateAdresFurRgPlane(IdObjectionsReception As Integer,
+                                     Session As SessionValues) As ActionMessageResult(Of AdresClaimFile)
+
+    ''' <summary>
+    ''' Genera el archivo FUR RG (Respuesta a Glosa) a partir de un radicado
+    ''' de objeciones, restringido al subconjunto de facturas indicadas en
+    ''' <paramref name="InvoiceNumbers"/>. Aplica los mismos filtros internos
+    ''' que <see cref="GenerateAdresFurRgPlane"/> (Aseguradora/Fosyga y
+    ''' <c>State IN (11,12)</c>) y emite warning textual por cada factura
+    ''' seleccionada que no completó el proceso de Evaluación + Coordinación.
+    ''' Pensado para el flujo de menú contextual con multi-select en la
+    ''' rejilla de <c>FrmObjectionsReception</c>.
+    ''' </summary>
+    ''' <param name="IdObjectionsReception">Id de Glosas.GlosaObjectionsReceptionC.</param>
+    ''' <param name="InvoiceNumbers">Lista de InvoiceNumber a incluir (debe contener al menos uno).</param>
+    ''' <param name="Session">Variable de sesión.</param>
+    Function GenerateAdresFurRgPlaneByInvoices(IdObjectionsReception As Integer,
+                                               InvoiceNumbers As List(Of String),
+                                               Session As SessionValues) As ActionMessageResult(Of AdresClaimFile)
 
 
 End Interface

@@ -149,6 +149,33 @@ Public Class CupsEntityRepository
     End Function
 
     ''' <summary>
+    ''' Obtiene los identificadores CUPS cuyo tipo de servicio se encuentra permitido.
+    ''' La consulta se divide en lotes para no superar el límite de parámetros de SQL Server.
+    ''' </summary>
+    Public Function GetCupsEntityIdsByServiceTypes(cupsEntityIds As List(Of Integer), serviceTypes As List(Of Byte)) As List(Of Integer) Implements ICupsEntityRepository.GetCupsEntityIdsByServiceTypes
+        If cupsEntityIds Is Nothing OrElse cupsEntityIds.Count = 0 OrElse serviceTypes Is Nothing OrElse serviceTypes.Count = 0 Then
+            Return New List(Of Integer)()
+        End If
+
+        Const queryBatchSize As Integer = 1000
+        Dim normalizedCupsEntityIds = cupsEntityIds.Distinct().ToList()
+        Dim normalizedServiceTypes = serviceTypes.Distinct().ToList()
+        Dim allowedCupsEntityIds As New List(Of Integer)()
+
+        For batchStart = 0 To normalizedCupsEntityIds.Count - 1 Step queryBatchSize
+            Dim cupsEntityIdsBatch = normalizedCupsEntityIds.Skip(batchStart).Take(queryBatchSize).ToList()
+            Dim batchResult = (From cupsEntity In _context.CUPSEntity.AsNoTracking()
+                               Where cupsEntityIdsBatch.Contains(cupsEntity.Id) AndAlso
+                                     normalizedServiceTypes.Contains(cupsEntity.ServiceType)
+                               Select cupsEntity.Id).ToList()
+
+            allowedCupsEntityIds.AddRange(batchResult)
+        Next
+
+        Return allowedCupsEntityIds
+    End Function
+
+    ''' <summary>
     ''' Permite guardar y actualizar los cups
     ''' </summary>
     ''' <param name="Xml"></param>

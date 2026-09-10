@@ -1,4 +1,4 @@
-﻿using Application.MedicalFees;
+using Application.MedicalFees;
 using DistributedService.Causation.Exceptions;
 using DistributedService.Causation.Models;
 using DistributedService.Causation.Unity;
@@ -73,7 +73,7 @@ namespace DistributedService.Causation.Services
         /// <param name="container"></param>
         /// <returns></returns>
         /// <exception cref="System.Exception"></exception>
-        public async Task<ActionResult> CausateInvoicesAsync(List<InvoiceEvent> invoices, string container, string usercode)
+        public async Task<ActionResult> CausateInvoicesAsync(List<InvoiceEvent> invoices, string container, string usercode, List<byte> allowedServiceTypes = null)
         {
             var actionResult = new ActionResult()
             {
@@ -90,7 +90,25 @@ namespace DistributedService.Causation.Services
 
                 if (!details.Any() && !detailsQx.Any()) throw new IndigoValidationException("Factura no encontrada");
 
+                var totalCandidateDetails = details.Count + detailsQx.Count;
+                var excludedDetailsCount = 0;
+                if (allowedServiceTypes != null && allowedServiceTypes.Any())
+                {
+                    var cupsEntityIds = details.Select(detail => detail.CupsEntityId)
+                        .Concat(detailsQx.Select(detail => detail.CupsEntityId))
+                        .Distinct()
+                        .ToList();
+
+                    var allowedCupsEntityIds = new HashSet<int>(
+                        _medicalFeesCausationAdminService.GetCupsEntityIdsByServiceTypes(cupsEntityIds, allowedServiceTypes));
+
+                    details = details.Where(detail => allowedCupsEntityIds.Contains(detail.CupsEntityId)).ToList();
+                    detailsQx = detailsQx.Where(detail => allowedCupsEntityIds.Contains(detail.CupsEntityId)).ToList();
+                    excludedDetailsCount = totalCandidateDetails - details.Count - detailsQx.Count;
+                }
+
                 var causationList = new List<MedicalFeesCausation>();
+                var savedCausationsCount = 0;
 
                 foreach (var invoice in invoices)
                 {
@@ -105,7 +123,7 @@ namespace DistributedService.Causation.Services
 
                     if (ivoiceDetailsQx != null && ivoiceDetailsQx.Any())
                     {
-                        var causations = CauseInvoiceQX(ivoiceDetailsQx); // Versión optimizada sin commits internos  
+                        var causations = CauseInvoiceQX(ivoiceDetailsQx, usercode); // Versión optimizada sin commits internos  
                         causationList.AddRange(causations);
                     }
                 }
@@ -121,11 +139,24 @@ namespace DistributedService.Causation.Services
                     {
                         StatusCode = res.StatusCode,
                         StateResult = res.StateResult,
-                        MessageResult= res.MessageResult,
+                        MessageResult = res.MessageResult,
+                        Message = !string.IsNullOrWhiteSpace(res.Message)
+                            ? res.Message
+                            : res.MessageResult != null ? string.Join(" ", res.MessageResult) : null,
                     };
+
+                    if (res.StateResult)
+                    {
+                        savedCausationsCount = causationList.Count;
+                    }
                 }
 
                 await _causationPendingRepository.UnitWork.CommitAsync();
+
+                var processingSummary = $"Resultado de causación: {savedCausationsCount} causaciones generadas, {excludedDetailsCount} detalles excluidos por tipo de servicio.";
+                actionResult.Message = string.IsNullOrWhiteSpace(actionResult.Message)
+                    ? processingSummary
+                    : $"{actionResult.Message} {processingSummary}";
             }
             catch (IndigoValidationException ex)
             {
@@ -172,7 +203,7 @@ namespace DistributedService.Causation.Services
         /// <summary>
         /// Versión optimizada de CauseInvoiceQX para contexto asíncrono (sin commits internos)
         /// </summary>
-        private List<MedicalFeesCausation> CauseInvoiceQX(List<ViewListSurgicalAndPackage> ivoiceDetailsQx)
+        private List<MedicalFeesCausation> CauseInvoiceQX(List<ViewListSurgicalAndPackage> ivoiceDetailsQx, string usercode)
         {
             var medicalList = new List<MedicalFeesCausation>();
 
@@ -183,42 +214,19 @@ namespace DistributedService.Causation.Services
                     ValidatePackage(detail, ivoiceDetailsQx);
                     ValidateMedicalFeesContract(detail);
 
-                    var res = _medicalFeesCausationAdminService.CausedValue(
-                        detail.MedicalFeesCausationId ?? 0,
-                        detail.RateManualType ?? 0,
-                        detail.CupsEntityId,
-                        detail.CareGroupId,
-                        detail.RateManualId ?? 0,
-                        detail.TotalSalesPrice,
-                        detail.Presentation ?? 0,
-                        detail.IPSServiceId,
-                        detail.IPSServiceDescription,
-                        detail.PerformsHealthProfessionalCode,
-                        detail.ThirdPartyDescription,
-                        null,
-                        detail.ServiceOrderDetailId,
-                        0,
-                        detail.MedicalFeesContractId
-                    );
 
-                    if (res.StateResult && res.ObjectEmbbeded == null)
+                    var res = _medicalFeesCausationAdminService.GetCausationInvoiceQx(detail, new AuditMessage { CodeUser = usercode });
+
+
+                    if (res.StateResult)
                     {
-                        detail.AmountPayable = decimal.Parse(res.MessageResult[0]);
-                        detail.MedicalFeesContractId = int.Parse(res.Message);
+                        var causation = res.ObjectEmbbeded.Item1;
+                        if (causation == null)
+                            throw new IndigoValidationException("No se obtuvo la causación del item quirúrgico.");
 
-                        // Validacion
-                        var medicalFeesContract = _medicalFeesContractAdminService.GetMedicalFeesContractById(detail.MedicalFeesContractId, audit: new AuditMessage { });
-                        if (medicalFeesContract.ObjectEmbbeded.Status != 1)
-                            throw new IndigoValidationException($"No se puede causar el Item seleccionado porque el contrato {medicalFeesContract.ObjectEmbbeded.Code} esta terminado o suspendido");
-
-                        detail.TotalAmountPayable = detail.AmountPayable * detail.InvoicedQuantity;
-                        detail.MedicalFeesContractCodeName = res.MessageResult[1];
-                        detail.TotalAmountPayableReal = detail.TotalAmountPayable;
-                        detail.PercentageCashed = 100;
-
-                        medicalList.Add(CreateMedicalFeesCausationQx(detail));
+                        medicalList.Add(causation);
                     }
-                    else if (res.ObjectEmbbeded != null && res.ObjectEmbbeded.Any())
+                    else if (res.ObjectEmbbeded.Item2 != null && res.ObjectEmbbeded.Item2.Any())
                     {
                         throw new IndigoValidationException("Existen homólogos");
                     }
@@ -278,7 +286,7 @@ namespace DistributedService.Causation.Services
                     AdmissionNumber = detail.AdmissionNumber,
                     InvoiceDate = detail.ServiceDate,
                     Error = exception.Message,
-                        IsQx = false,
+                        IsQx = true,
                     Data = JsonConvert.SerializeObject(detail),
                     CreationDate = DateTime.Now
                 });
@@ -1148,7 +1156,7 @@ namespace DistributedService.Causation.Services
                     try
                     {
                         var batch = qxItems.Skip(i).Take(BATCH_SIZE).ToList();
-                        var causations = CauseInvoiceQX(batch); // Versión sin commits internos
+                        var causations = CauseInvoiceQX(batch, usercode); // Versión sin commits internos
                         
                         if (causations?.Any() == true)
                         {
@@ -1297,6 +1305,53 @@ namespace DistributedService.Causation.Services
             return actionResult;
         }
 
+
+        /// <summary>
+        /// Ejecuta auto-causación de servicios no facturados (OS Registrada) con batching.
+        /// Usado por el timer semanal de Stella y el endpoint HTTP.
+        /// Procesa todas las unidades operativas.
+        /// </summary>
+        public Task<ActionResult> AutoCausateUnbilledAsync(int batchSize, string container, string usercode)
+        {
+            var actionResult = new ActionResult()
+            {
+                StatusCode = eStatusResult.SUCCESS,
+                StateResult = true
+            };
+
+            try
+            {
+                EnsureServicesInitialized(container);
+
+                var result = _medicalFeesCausationAdminService.ProcessUnrecognizedCausations(
+                    new AuditMessage { CodeUser = usercode },
+                    batchSize
+                );
+
+                actionResult = new ActionResult
+                {
+                    StatusCode = result.StateResult ? eStatusResult.SUCCESS : eStatusResult.EXCEPTION,
+                    StateResult = result.StateResult,
+                    Message = result.Message
+                };
+            }
+            catch (Exception ex)
+            {
+                IndigoManagementExceptions.HandleException(ex, "ApplicationPolicy");
+                actionResult = new ActionResult
+                {
+                    StatusCode = eStatusResult.EXCEPTION,
+                    StateResult = false,
+                    Message = ex.Message
+                };
+            }
+            finally
+            {
+                DisposeServices();
+            }
+
+            return Task.FromResult(actionResult);
+        }
 
         /// <summary>
         /// Dispose optimizado para todos los servicios

@@ -349,10 +349,33 @@ Public Class PayrollLiquidationAdminService
         End If
 
         Dim PayrollSequenseDetailId As Integer = 0
-        Dim accountingSettings = _settingsAccountRepository.GetSettingAccount(operatingUnitId)
+
+        'La nómina electrónica se parametriza por empleador, no por la unidad operativa que el
+        'usuario tenga seleccionada en la barra del formulario. Se resuelve con la unidad
+        'operativa de la sesión, igual que ContractLiquidationAdminService, para que ambos
+        'procesos decidan lo mismo. La unidad operativa del formulario (operatingUnitId) se
+        'sigue usando para contabilidad y tesorería, que sí son dimensiones por unidad.
+        'Se usa GetSettingAccountSimple y no GetSettingAccount: aquí solo se necesitan Id, IdDian y
+        'HandlesElectronicPayroll (escalares). GetSettingAccount agrega includes y ~11 consultas para
+        'armar descripciones, y desreferencia esos resultados sin validar nulos, por lo que lanza
+        'NullReferenceException si la unidad operativa tiene una cuenta contable sin parametrizar.
+        Dim electronicPayrollUnitId As Integer = session.IndigoOperatingUnitId
+        Dim accountingSettings = _settingsAccountRepository.GetSettingAccountSimple(electronicPayrollUnitId)
         If accountingSettings Is Nothing OrElse accountingSettings.Id = 0 Then
-            Return New ActionMessageResult(Of List(Of Liquidation)) With {.StateResult = False, .Message = "No existe parámetros de contabilidad para la unidad operativa."}
+            Return New ActionMessageResult(Of List(Of Liquidation)) With {.StateResult = False, .Message = "No existen parámetros de contabilidad para la unidad operativa de la sesión."}
         End If
+
+        'Si el empleador maneja nómina electrónica pero la unidad operativa de la sesión no la
+        'tiene habilitada, la parametrización es inconsistente. Se aborta en lugar de omitir los
+        'soportes en silencio: ese fallo silencioso dejó 248 empleados sin documento en julio 2026.
+        If Not accountingSettings.HandlesElectronicPayroll _
+           AndAlso _settingsAccountRepository.EmployerHandlesElectronicPayroll(accountingSettings.IdDian) Then
+            Return New ActionMessageResult(Of List(Of Liquidation)) With {.StateResult = False,
+                .Message = "La unidad operativa de la sesión no tiene habilitada la nómina electrónica, " &
+                           "pero el empleador sí la maneja. Inicie sesión con una unidad operativa " &
+                           "habilitada, o solicite la parametrización, antes de confirmar la nómina."}
+        End If
+
         If accountingSettings.HandlesElectronicPayroll Then
             Dim payrollSequense = _secuenseCRepository.GetSequenseByIdForm("2635")
             If payrollSequense.Id = 0 Then
@@ -364,10 +387,10 @@ Public Class PayrollLiquidationAdminService
             If payrollSequense.Scope = "O" Then 'Si la secuencia es por organización
                 PayrollSequenseDetailId = (From x In payrollSequense.PayrollSequenceDetail Select x.Id).FirstOrDefault()
             Else 'Si la secuencia es por unidad operativa
-                If (From x In payrollSequense.PayrollSequenceDetail Where x.IdOperatingUnit = operatingUnitId Select x).Count = 0 Then
-                    Return New ActionMessageResult(Of List(Of Liquidation)) With {.StateResult = False, .Message = "No existe la unidad operativa seleccionada en la secuencia de soportes de pago de nómina electrónica."}
+                If (From x In payrollSequense.PayrollSequenceDetail Where x.IdOperatingUnit = electronicPayrollUnitId Select x).Count = 0 Then
+                    Return New ActionMessageResult(Of List(Of Liquidation)) With {.StateResult = False, .Message = "No existe la unidad operativa de la sesión en la secuencia de soportes de pago de nómina electrónica."}
                 End If
-                PayrollSequenseDetailId = (From x In payrollSequense.PayrollSequenceDetail Where x.IdOperatingUnit = operatingUnitId Select x.Id).FirstOrDefault()
+                PayrollSequenseDetailId = (From x In payrollSequense.PayrollSequenceDetail Where x.IdOperatingUnit = electronicPayrollUnitId Select x.Id).FirstOrDefault()
             End If
         End If
 
@@ -568,13 +591,10 @@ Public Class PayrollLiquidationAdminService
                                 }
 
                                 Dim seq = Me._secuenseDRepository.GetSequenseDById(PayrollSequenseDetailId)
+
                                 If seq IsNot Nothing AndAlso seq.Id > 0 AndAlso seq.PayrollSequence.Sequential Then
                                     support.Prefix = seq.Sequense.Pattern.Replace("#", "")
-                                    support.Consecutive = seq.Next
-
-                                    seq.Next += 1
-                                    Me._secuenseDRepository.SaveEntity(seq)
-                                    Me._secuenseDRepository.UnitWork.Commit()
+                                    support.Consecutive = Me._secuenseDRepository.IncrementSequenceAndGetNext(PayrollSequenseDetailId).ToString()
                                 Else
                                     Return New ActionMessageResult(Of List(Of Liquidation)) With {.StateResult = False, .Message = "_Seq01_"}
                                 End If
@@ -1630,18 +1650,6 @@ Public Class PayrollLiquidationAdminService
     End Function
 
     ''' <summary>
-    ''' Obtiene el reporte de detalle de liquidación con conceptos dinámicos
-    ''' </summary>
-    ''' <param name="initialDate">Fecha inicial del período</param>
-    ''' <param name="endDate">Fecha final del período</param>
-    ''' <param name="employeeId">Id del empleado (opcional)</param>
-    ''' <param name="pSession">Valores de sesión</param>
-    ''' <returns>DataTable con el reporte de liquidación detallado</returns>
-    Public Function GetLiquidationDetailReport(initialDate As Date, endDate As Date, Optional employeeId As Integer? = Nothing, Optional groupInitial As Integer? = Nothing, Optional groupFinal As Integer? = Nothing, Optional branchOfficeInitial As Integer? = Nothing, Optional branchOfficeFinal As Integer? = Nothing, Optional registerStatus As Char? = Nothing, Optional pSession As SessionValues = Nothing) As DataTable Implements IPayrollLiquidationAdminService.GetLiquidationDetailReport
-        Return _liquitationRepository.GetLiquidationDetailReport(initialDate, endDate, employeeId, groupInitial, groupFinal, branchOfficeInitial, branchOfficeFinal, registerStatus, pSession)
-    End Function
-
-    ''' <summary>
     ''' Funcion que obtiene el reporte de talento humano
     ''' </summary>
     ''' <param name="initialDate">Fecha inicial</param>
@@ -1666,6 +1674,39 @@ Public Class PayrollLiquidationAdminService
         End Try
     End Function
 
+
+    ''' <summary>
+    ''' Obtiene el reporte de detalle de liquidación con conceptos dinámicos
+    ''' </summary>
+    ''' <param name="initialDate">Fecha inicial del período</param>
+    ''' <param name="endDate">Fecha final del período</param>
+    ''' <param name="employeeId">Id del empleado (opcional)</param>
+    ''' <param name="pSession">Valores de sesión</param>
+    ''' <returns>DataTable con el reporte de liquidación detallado</returns>
+    Public Function GetLiquidationDetailReport(initialDate As Date, endDate As Date, Optional employeeId As Integer? = Nothing, Optional groupInitial As Integer? = Nothing, Optional groupFinal As Integer? = Nothing, Optional branchOfficeInitial As Integer? = Nothing, Optional branchOfficeFinal As Integer? = Nothing, Optional registerStatus As Char? = Nothing, Optional pSession As SessionValues = Nothing) As DataTable Implements IPayrollLiquidationAdminService.GetLiquidationDetailReport
+        Return _liquitationRepository.GetLiquidationDetailReport(initialDate, endDate, employeeId, groupInitial, groupFinal, branchOfficeInitial, branchOfficeFinal, registerStatus, pSession)
+    End Function
+
+    ''' <summary>
+    ''' Metodo que ejecuta el storeProcedure [Payroll].[SP_ReportPersonnelActions].
+    ''' </summary>
+    ''' <param name="initialDate">Fecha inicial del rango</param>
+    ''' <param name="endDate">Fecha final del rango</param>
+    ''' <param name="initialCodeGroup">Código del grupo de nómina inicial (opcional)</param>
+    ''' <param name="endCodeGroup">Código del grupo de nómina final (opcional)</param>
+    ''' <param name="branchOfficeInitial">Id de la sucursal inicial para filtrar (opcional)</param>
+    ''' <param name="branchOfficeFinal">Id de la sucursal final para filtrar (opcional)</param>
+    ''' <param name="personnelActionTypes">Códigos numéricos de tipo de novedad separados por coma (opcional)</param>
+    ''' <param name="pSession">Valores de sesión</param>
+    ''' <returns>DataTable con las acciones de personal del rango</returns>
+    Public Function GetReportPersonnelActions(initialDate As Date, endDate As Date, Optional initialCodeGroup As String = Nothing, Optional endCodeGroup As String = Nothing, Optional branchOfficeInitial As Integer? = Nothing, Optional branchOfficeFinal As Integer? = Nothing, Optional personnelActionTypes As String = Nothing, Optional pSession As SessionValues = Nothing) As DataTable Implements IPayrollLiquidationAdminService.GetReportPersonnelActions
+        Try
+            Return _liquitationRepository.GetReportPersonnelActions(initialDate, endDate, initialCodeGroup, endCodeGroup, branchOfficeInitial, branchOfficeFinal, personnelActionTypes, pSession)
+        Catch ex As Exception
+            IndigoManagementExceptions.HandleException(ex, "ApplicationPolicy", pSession)
+            Return Nothing
+        End Try
+    End Function
 #End Region
 
 #Region "IDisposable Support"

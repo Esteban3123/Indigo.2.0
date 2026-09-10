@@ -1,4 +1,4 @@
-﻿'***********************************************************************
+'***********************************************************************
 ' Assembly         : Infrastructure.Data.InventoryRepository
 ' Author           : Carlos Mario Arias Rubiano
 ' Created          : 11/12/2014
@@ -111,6 +111,29 @@ Public Class MedicalFeesCausationRepository
         DirectCast(_context, System.Data.Entity.Infrastructure.IObjectContextAdapter).ObjectContext.CommandTimeout = 3600
         Return _context.SP_ReverseCausationRecognition(causationRecognitionId, userCode).FirstOrDefault()
     End Function
+
+    ''' <summary>
+    ''' Obtiene candidatos elegibles para auto-causación via SP_GetCandidatesForAutoCausation.
+    ''' Sin límite de batch (usa 100000 como máximo práctico).
+    ''' Retorna todas las unidades operativas.
+    ''' </summary>
+    Public Function GetCandidatesForAutoCausation() As List(Of SP_GetCandidatesForAutoCausation_Result) Implements IMedicalFeesCausationRepository.GetCandidatesForAutoCausation
+        Return GetCandidatesForAutoCausationBatched(100000)
+    End Function
+
+    ''' <summary>
+    ''' Obtiene candidatos elegibles para auto-causación via SP_GetCandidatesForAutoCausation con batching.
+    ''' Retorna todas las unidades operativas.
+    ''' </summary>
+    Public Function GetCandidatesForAutoCausationBatched(batchSize As Integer) As List(Of SP_GetCandidatesForAutoCausation_Result) Implements IMedicalFeesCausationRepository.GetCandidatesForAutoCausationBatched
+        Try
+            DirectCast(_context, System.Data.Entity.Infrastructure.IObjectContextAdapter).ObjectContext.CommandTimeout = 3600
+            Return _context.SP_GetCandidatesForAutoCausation(batchSize)?.ToList()
+        Catch ex As Exception
+            Return New List(Of SP_GetCandidatesForAutoCausation_Result)()
+        End Try
+    End Function
+
 
 #End Region
 

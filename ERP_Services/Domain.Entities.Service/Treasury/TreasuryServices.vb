@@ -1276,7 +1276,7 @@ Public Class TreasuryServices
         If (treasuryNote.EntityBankAccountId IsNot Nothing AndAlso treasuryNote.EntityBankAccountId <> 0 AndAlso treasuryNote.Nature = eNature.Credit) AndAlso treasuryNote.NoteType <> 7 Then
             Dim _entityBankAccount As EntityBankAccounts = _entityBankAccountRepository.GetEntityBankAccountById(treasuryNote.EntityBankAccountId)
             If _entityBankAccount IsNot Nothing AndAlso _entityBankAccount.Id > 0 Then
-                If _entityBankAccount.CurrentBalance < treasuryNote.Value Then
+                If _entityBankAccount.CurrentBalance + _entityBankAccount.Quota < treasuryNote.Value Then
                     errorList.AppendLine(String.Format(ResourceManager.GetString("EntityAccountInsufficientBalanceParameter", MODULE_NAME), _entityBankAccount.Code))
                 End If
             End If
@@ -1853,7 +1853,7 @@ Public Class TreasuryServices
                     listErrorsDetails.Add("El Proveedor " & supplier.Code & " - " & supplier.Name & " no tiene especificado un Tipo de persona correcto: 1-Natural 2-Juridico")
                 End If
                 'banco cuenta del beneficiario
-                lineDetail += Utils.StringPad(bank.Code, 4, 0, Utils.PadType.STR_PAD_LEFT)
+                lineDetail += Utils.StringPad(bank.CenitCode, 4, 0, Utils.PadType.STR_PAD_LEFT)
                 'fecha
                 lineDetail += Utils.StringPad(DateTime.Now.ToString("yyyyMMdd"), 8, 0, Utils.PadType.STR_PAD_LEFT)
                 'codigo forma de pago

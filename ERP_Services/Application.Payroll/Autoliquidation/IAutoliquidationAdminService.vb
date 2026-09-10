@@ -108,5 +108,10 @@ Public Interface IAutoliquidationAdminService
     ''' <returns></returns>
     Function GenerateINSFile(companyId As Integer, policyNumber As String, workCenterId As Integer, periodLiquidation As String) As ActionMessageResult(Of StringBuilder)
 
+    ''' <summary>
+    ''' Llama al microservicio de seguridad social para generar el archivo plano PILA AT2
+    ''' </summary>
+    Function GeneratePilaFile(companyId As Integer, periodLiquidation As String) As ActionMessageResult(Of StringBuilder)
+    Function GeneratePilaExcel(companyId As Integer, periodLiquidation As String) As ActionMessageResult(Of Byte())
 
 End Interface

@@ -24,4 +24,11 @@ Public Interface IPortfolioInitialBalanceAccountReceivableRepository
     ''' <returns></returns>
     ''' <remarks></remarks>
     Function GetPortgolioInitialBalanceWithOutBudget(initialBalanceId As Integer) As List(Of PortfolioInitialBalanceAccountReceivable)
+
+    ''' <summary>
+    ''' Obtiene la staging row (PortfolioInitialBalanceAccountReceivable) de una factura
+    ''' identificada por (PortfolioInitialBalanceId, InvoiceNumber). Utilizado para localizar
+    ''' los datos de la factura antes del confirm, cuando aún no existen shadow Invoice/ED.
+    ''' </summary>
+    Function GetByInvoiceNumberAndInitialBalanceId(initialBalanceId As Integer, invoiceNumber As String) As PortfolioInitialBalanceAccountReceivable
 End Interface

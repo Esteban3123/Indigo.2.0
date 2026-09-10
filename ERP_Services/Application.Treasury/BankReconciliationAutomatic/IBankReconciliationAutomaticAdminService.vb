@@ -134,13 +134,4 @@ Public Interface IBankReconciliationAutomaticAdminService
     ''' <returns>Tupla con (valor calculado, naturaleza resultante)</returns>
     Function CalculateRealValueAndNature(detail As BankReconciliationAutomaticDetail) As Tuple(Of Decimal, Byte)
 
-    ''' <summary>
-    ''' Busca coincidencias entre extractos bancarios y documentos de tesorería para conciliación automática
-    ''' </summary>
-    ''' <param name="extractList">Lista de extractos bancarios</param>
-    ''' <param name="documentList">Lista de documentos de tesorería</param>
-    ''' <param name="existingAssociations">Lista de asociaciones existentes (opcional)</param>
-    ''' <returns>Resultado con las listas actualizadas y las asociaciones (existentes y nuevas)</returns>
-    Function FindCoincidencesAsync(extractList As List(Of BankReconciliationAutomaticExtractDetail), documentList As List(Of BankReconciliationAutomaticDetail), Optional existingAssociations As List(Of BankReconciliationAutomaticAssociation) = Nothing) As Task(Of ActionResult(Of BankReconciliationCoincidencesResult))
-
 End Interface

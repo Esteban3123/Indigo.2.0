@@ -924,7 +924,7 @@ namespace Application.Inventory.EntranceVoucher
 
                 if (ConsignmentCostListTemp == null)
                 {
-                    return new ActionResult<AccountPayable> { StateResult = false, Message = "El proovedor no tiene ningun listado de costos activo" };
+                    return new ActionResult<AccountPayable> { StateResult = false, MessageResult = new List<string> { "El proveedor no tiene ningún listado de costos activo" } };
                 }
 
                 foreach (var item in entranceVoucher.EntranceVoucherDetail)
@@ -1100,7 +1100,8 @@ namespace Application.Inventory.EntranceVoucher
                                                                                 ref dictionarySettings,
                                                                                 functionalListConsigment,
                                                                                 _costCenterId,
-                                                                                Supplier.ConsignmentInventoryCosting);
+                                                                                Supplier.ConsignmentInventoryCosting,
+                                                                                _taxRegistration);
 
                         if (result is null || !result.StateResult)
                         {
@@ -1118,16 +1119,18 @@ namespace Application.Inventory.EntranceVoucher
                     if (product?.IVAId is null) { return new ActionResult<AccountPayable> { StateResult = false, MessageResult = new List<string> { "El producto no tiene asignado un IVA asociado" } }; };
                     accountPayableDetail = new AccountPayableDetailConcept();
                     accountPayableDetail.IdConceptAccountPayable = settings.IVAAccountPayableConceptId;
+
                     switch (_taxRegistration)
                     {
                         case 1:
                             int? AccountId;
-                            if (item.EntranceSource == 5) 
-                            { 
-                                AccountId = productGroup.CounterpartCostConsignedInventoryId; 
-                            } else 
-                            { 
-                                AccountId = productGroup.AccountInventoryId; 
+                            if (item.EntranceSource == 5)
+                            {
+                                AccountId = productGroup.CounterpartCostConsignedInventoryId;
+                            }
+                            else
+                            {
+                                AccountId = productGroup.AccountInventoryId;
                             }
                             accountPayableDetail.IdAccount = Convert.ToInt32(AccountId);
                             break;
@@ -1140,6 +1143,7 @@ namespace Application.Inventory.EntranceVoucher
                             accountPayableDetail.IdAccount = _idAccount.Value;
                             break;
                     }
+
                     accountPayableDetail.IdThirdParty = Convert.ToInt32(accountPayable.IdThirdParty);
                     accountPayableDetail.IdCostCenter = _pucAdminService.MainAccountHandlesCostCenter(accountPayableDetail.IdAccount) ? _costCenterId : (int?)null;
                     accountPayableDetail.Nature = 1; //Debito
@@ -1570,7 +1574,8 @@ namespace Application.Inventory.EntranceVoucher
                                                                     ref Dictionary<int, Domain.Entities.SettingInventory> dictionarySettings,
                                                                     List<Domain.Payroll.Entities.FunctionalUnit> functionalListConsigment,
                                                                     int? costCenterId,
-                                                                    byte ApplyConsignmentInventoryCosting)
+                                                                    byte ApplyConsignmentInventoryCosting,
+                                                                    byte? taxRegistration)
         {
 
             var consignmentInventoryRemissionDetailBatchSerial = consignmentRelationControl?
@@ -1595,6 +1600,7 @@ namespace Application.Inventory.EntranceVoucher
             decimal totalItemsValue = 0;
             decimal totalWithIva = 0;
             decimal itemValueIva = (item.IvaValue / item.Quantity);
+            bool ivaAtCost = taxRegistration == 1;
 
             if ((consignmentInventoryRemissionDetailBatchSerial.UsedQuantity - consignmentInventoryRemissionDetailBatchSerial.LegalizedQuantity) < item.Quantity)
             {
@@ -1628,7 +1634,7 @@ namespace Application.Inventory.EntranceVoucher
                 quantityLegalized = (quantity > quantityLegalized) ? quantityLegalized : quantity;
                 decimal value = Math.Round((ValueTemp / tRM) * quantityLegalized, MidpointRounding.AwayFromZero);
                 decimal valueIva = Math.Round((itemValueIva * quantityLegalized), 2, MidpointRounding.AwayFromZero);
-                decimal valueAccountPayable = value - valueIva;//se resta el iva dependiendo de las cantidades que se estan legalizando
+                decimal valueAccountPayable = ivaAtCost ? (value - valueIva) : value;
 
                 //Valor inventario
                 AccountPayableDetailConcept accountPayableDetail = new AccountPayableDetailConcept();
@@ -1657,9 +1663,13 @@ namespace Application.Inventory.EntranceVoucher
 
             }
 
-            //El valor base se calcula restandole al total del item el valor de la sumatoria de cada item que se registra en consignmentInventoryRemissionDetailControl
-            baseValue = (item.SubTotalValue - item.DiscountValue + item.IvaValue) - totalItemsValue;
-            totalWithIva += item.IvaValue;
+            baseValue = ivaAtCost
+                ? ((item.SubTotalValue - item.DiscountValue + item.IvaValue) - totalItemsValue)
+                : ((item.SubTotalValue - item.DiscountValue) - totalItemsValue);
+            if (ivaAtCost)
+            {
+                totalWithIva += item.IvaValue;
+            }
             if (totalWithIva != totalItemsValue)
             {
                 var dif = totalItemsValue - totalWithIva;
@@ -1716,12 +1726,23 @@ namespace Application.Inventory.EntranceVoucher
                     }
                     else if (settingsTemp.AssociateCostMainAccount == 2)
                     {
-                        if (productGroup.ProductGroupFunctionalUnit == null || !productGroup.ProductGroupFunctionalUnit.Any(f => f.FunctionalUnitId == consignmentInventoryRemissionDetailControl.FunctionalUnitId))
+                        // CIMA-52985: movimientos como la devolucion de remision al proveedor
+                        // (RemissionDevolution) no tienen Unidad Funcional de negocio real, ya que
+                        // la mercancia nunca fue consumida por ningun servicio. En ese caso se usa
+                        // la cuenta de contrapartida de inventario en consignacion del grupo en vez
+                        // de exigir el cruce por Unidad Funcional.
+                        if (consignmentInventoryRemissionDetailControl.FunctionalUnitId == null)
+                        {
+                            CostAccountId = Convert.ToInt32(productGroup.CounterpartCostConsignedInventoryId);
+                        }
+                        else if (productGroup.ProductGroupFunctionalUnit == null || !productGroup.ProductGroupFunctionalUnit.Any(f => f.FunctionalUnitId == consignmentInventoryRemissionDetailControl.FunctionalUnitId))
                         {
                             return new ActionResult { StateResult = false, Message = String.Format("No se encuentró la unidad funcional parametrizada en el grupo {0} - {1} para realizar la legalización del producto {2} con cantidad {3}", productGroup.Code, productGroup.Name, item.ProductCodeName, quantity) };
                         }
-
-                        CostAccountId = productGroup.ProductGroupFunctionalUnit.Where(f => f.FunctionalUnitId == consignmentInventoryRemissionDetailControl.FunctionalUnitId).FirstOrDefault().CostAccountId;
+                        else
+                        {
+                            CostAccountId = productGroup.ProductGroupFunctionalUnit.Where(f => f.FunctionalUnitId == consignmentInventoryRemissionDetailControl.FunctionalUnitId).FirstOrDefault().CostAccountId;
+                        }
                     }
 
                     var value = Math.Round(baseValue * consignmentInventoryRemissionDetailControl.QuantityLegalized / item.Quantity, 2, MidpointRounding.AwayFromZero);

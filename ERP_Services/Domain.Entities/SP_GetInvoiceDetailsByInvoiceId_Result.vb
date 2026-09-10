@@ -525,6 +525,22 @@ Partial Public Class SP_GetInvoiceDetailsByInvoiceId_Result
 
     Private _withholdingICAValue As Nullable(Of Decimal)
 
+    <DataMember()>
+    Public Property TaxClassificationType() As Nullable(Of Byte)
+        Get
+            Return _taxClassificationType
+        End Get
+        Set(ByVal value As Nullable(Of Byte))
+            If Not Equals(_taxClassificationType, value) Then
+                OnComplexPropertyChanging()
+                _taxClassificationType = value
+                OnPropertyChanged("TaxClassificationType")
+            End If
+        End Set
+    End Property
+
+    Private _taxClassificationType As Nullable(Of Byte)
+
 #End Region
 
 #Region "ChangeTracking"

@@ -28,6 +28,7 @@ Public Class PortfolioServices
     Private _billingInvoiceCategoriesRepository As IBillingInvoiceCategories
     Private _portfolioTransfersRepository As IPortfolioTransferRepository
     Private _portfolioNoteRepository As IPortfolioNoteRepository
+    Private _contractAccountingStructureRepository As IContractAccountingStructureRepository
 
 #End Region
 
@@ -77,6 +78,24 @@ Public Class PortfolioServices
         _portfolioNoteConceptRepository = portfolioNoteConceptRepository
         _documentTypeRepository = documentTypeRepository
         _billingInvoiceCategoriesRepository = billingInvoiceCategoriesRepository
+    End Sub
+
+    ''' <summary>
+    ''' Constructor para SetBillsImportFile con resolución de Estructura Contable de Contratos.
+    ''' </summary>
+    Public Sub New(accountReceivableRepository As IAccountReceivableRepository, repositoryMainAccounts As IPUCRepository, thirdPartyRepository As IThirdPartyRepository, customerRepository As ICustomerRepository,
+                   costCenterRepository As ICostCenterRepository, portfolioNoteConceptRepository As IPortfolioNoteConceptRepository, documentTypeRepository As IDocumentTypeRepository,
+                   billingInvoiceCategoriesRepository As IBillingInvoiceCategories,
+                   contractAccountingStructureRepository As IContractAccountingStructureRepository)
+        _accountReceivableRepository = accountReceivableRepository
+        _repositoryMainAccounts = repositoryMainAccounts
+        _thirdPartyRepository = thirdPartyRepository
+        _customerRepository = customerRepository
+        _costCenterRepository = costCenterRepository
+        _portfolioNoteConceptRepository = portfolioNoteConceptRepository
+        _documentTypeRepository = documentTypeRepository
+        _billingInvoiceCategoriesRepository = billingInvoiceCategoriesRepository
+        _contractAccountingStructureRepository = contractAccountingStructureRepository
     End Sub
 
     ''' <summary>
@@ -148,7 +167,7 @@ Public Class PortfolioServices
 
             'valido que el numero de la factura no pueda ser mas grande de 20 caracteres
             If data.Item(i).Item(1).Length > 20 Then
-                listErrors.Add("El número de factura del item " + (i + 1).ToString() + " tiene una lonitud mayor a 20")
+                listErrors.Add("El número de factura del item " + (i + 1).ToString() + " tiene una longitud mayor a 20")
                 Continue For
             End If
 
@@ -562,407 +581,524 @@ Public Class PortfolioServices
         Try
             Dim listFilterErrors As New List(Of String)
 
-            'Validar que los registros cuenten con una estructura valida
-            listFilterErrors = data.Where(Function(d) d.Row.Count < 12).Select(Function(d) String.Format("El registro {0} no tiene una estructura válida", (d.IndexRow).ToString())).ToList()
+            ' ============================================================================
+            ' Layout v2 (22 cols, ADR-010 + D32-D47 — analisis-feature-initial-balance.md):
+            ' 0  Tipo Factura       1  Cliente               2  Nº Factura         3  Electrónica
+            ' 4  CUFE               5  Estado Factura        6  Categoría          7  Fecha
+            ' 8  Plazo              9  Numero Cuota          10 Estructura CC      11 Cuenta Saldo
+            ' 12 Cta Difícil Rec    13 Cta Cobro Jurídico    14 Centro Costo       15 Observación
+            ' 16 Valor Factura      17 Saldo Cuenta          18 CC Glosas          19 CUV
+            ' 20 Valor Deterioro    21 Última Fecha Deterioro
+            '
+            ' Tipo Factura: 1=Básica / 2=Salud / 7=Producto. Discriminador del flujo (D43).
+            ' Multi-línea Salud: mismo Nº Factura repetido, cuenta y saldo distintos por línea (D41).
+            ' Validación cruzada: SUM(Saldo Cuenta) por Nº Factura ≤ Valor Factura (D42).
+            ' Felipe automation por contenido del row (CUFE/CUV), no por tipo (D46) — aplicado en confirm path.
+            ' ============================================================================
+
+            ' Validar estructura mínima (al menos hasta col 17 Saldo Cuenta)
+            listFilterErrors = data.Where(Function(d) d.Row.Count < 18).Select(Function(d) String.Format("El registro {0} no tiene una estructura válida", (d.IndexRow).ToString())).ToList()
             If listFilterErrors IsNot Nothing AndAlso listFilterErrors.Any Then
-                data.RemoveAll(Function(d) d.Row.Count < 12)
+                data.RemoveAll(Function(d) d.Row.Count < 18)
+                listErrors.AddRange(listFilterErrors)
+            End If
+
+            ' Helper común — parse "Code - Name" → Code (también funciona si solo viene "Code")
+            Dim parsePrefix As Func(Of Object, String) =
+                Function(raw)
+                    Dim s = If(raw?.ToString(), String.Empty).Trim()
+                    Dim sepIndex = s.IndexOf(" - ", StringComparison.Ordinal)
+                    Return If(sepIndex > 0, s.Substring(0, sepIndex).Trim(), s)
+                End Function
+
+            ' Validar Tipo Factura (col 0): 1, 2 o 7 (D43)
+            listFilterErrors = data.Where(Function(d) Not {"1", "2", "7"}.Contains(parsePrefix(d.Row.Item(0)))).Select(Function(d) String.Format("El Tipo de Factura del item {0} es inválido. Valores permitidos: 1 (Básica), 2 (Salud), 7 (Producto)", (d.IndexRow).ToString())).ToList()
+            If listFilterErrors IsNot Nothing AndAlso listFilterErrors.Any Then
+                data.RemoveAll(Function(d) Not {"1", "2", "7"}.Contains(parsePrefix(d.Row.Item(0))))
                 listErrors.AddRange(listFilterErrors)
             End If
 
             'Validar que la factura no tenga mas de 20 caracteres
-            listFilterErrors = data.Where(Function(d) d.Row.Item(1).ToString().Trim().Length > 20).Select(Function(d) String.Format("El número de factura del item {0} tiene una longitud mayor a 20", (d.IndexRow).ToString())).ToList()
+            listFilterErrors = data.Where(Function(d) d.Row.Item(2).ToString().Trim().Length > 20).Select(Function(d) String.Format("El número de factura del item {0} tiene una longitud mayor a 20", (d.IndexRow).ToString())).ToList()
             If listFilterErrors IsNot Nothing AndAlso listFilterErrors.Any Then
-                data.RemoveAll(Function(d) d.Row.Item(1).ToString().Trim().Length > 20)
+                data.RemoveAll(Function(d) d.Row.Item(2).ToString().Trim().Length > 20)
                 listErrors.AddRange(listFilterErrors)
             End If
 
             'Validar que el estado de la cartera sea un número
-            listFilterErrors = data.Where(Function(d) Not IsNumeric(d.Row.Item(4))).Select(Function(d) String.Format("El estado de factura del item {0} no es numerico", (d.IndexRow).ToString())).ToList()
+            listFilterErrors = data.Where(Function(d) Not IsNumeric(d.Row.Item(5))).Select(Function(d) String.Format("El estado de factura del item {0} no es numerico", (d.IndexRow).ToString())).ToList()
             If listFilterErrors IsNot Nothing AndAlso listFilterErrors.Any Then
-                data.RemoveAll(Function(d) Not IsNumeric(d.Row.Item(4)))
+                data.RemoveAll(Function(d) Not IsNumeric(d.Row.Item(5)))
                 listErrors.AddRange(listFilterErrors)
             End If
 
             'Validar que el estado de la cartera sea un número válido
-            listFilterErrors = data.Where(Function(d) Not {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16}.Contains(d.Row.Item(4))).Select(Function(d) String.Format("El estado de factura del item {0} no es valor válido", (d.IndexRow).ToString())).ToList()
+            listFilterErrors = data.Where(Function(d) Not {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16}.Contains(d.Row.Item(5))).Select(Function(d) String.Format("El estado de factura del item {0} no es valor válido", (d.IndexRow).ToString())).ToList()
             If listFilterErrors IsNot Nothing AndAlso listFilterErrors.Any Then
-                data.RemoveAll(Function(d) Not {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16}.Contains(d.Row.Item(4)))
+                data.RemoveAll(Function(d) Not {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16}.Contains(d.Row.Item(5)))
                 listErrors.AddRange(listFilterErrors)
             End If
 
             'Validar fecha sea valida
-            listFilterErrors = data.Where(Function(d) Not IsDate(d.Row.Item(6))).Select(Function(d) String.Format(ResourceManager.GetString("IncorrectDate", "Portfolio"), (d.IndexRow).ToString())).ToList()
+            listFilterErrors = data.Where(Function(d) Not IsDate(d.Row.Item(7))).Select(Function(d) String.Format(ResourceManager.GetString("IncorrectDate", "Portfolio"), (d.IndexRow).ToString())).ToList()
             If listFilterErrors IsNot Nothing AndAlso listFilterErrors.Any Then
-                data.RemoveAll(Function(d) Not IsDate(d.Row.Item(6)))
+                data.RemoveAll(Function(d) Not IsDate(d.Row.Item(7)))
                 listErrors.AddRange(listFilterErrors)
             End If
 
             'Validar plazo sea numerico
-            listFilterErrors = data.Where(Function(d) Not IsNumeric(d.Row.Item(7))).Select(Function(d) String.Format(ResourceManager.GetString("IncorrectTerm", "Portfolio"), (d.IndexRow).ToString())).ToList()
-            If listFilterErrors IsNot Nothing AndAlso listFilterErrors.Any Then
-                data.RemoveAll(Function(d) Not IsNumeric(d.Row.Item(7)))
-                listErrors.AddRange(listFilterErrors)
-            End If
-
-            'Validar numero de cuotas sea numerico
-            listFilterErrors = data.Where(Function(d) Not IsNumeric(d.Row.Item(8))).Select(Function(d) String.Format(ResourceManager.GetString("IncorrectShare", "Portfolio"), (d.IndexRow).ToString())).ToList()
+            listFilterErrors = data.Where(Function(d) Not IsNumeric(d.Row.Item(8))).Select(Function(d) String.Format(ResourceManager.GetString("IncorrectTerm", "Portfolio"), (d.IndexRow).ToString())).ToList()
             If listFilterErrors IsNot Nothing AndAlso listFilterErrors.Any Then
                 data.RemoveAll(Function(d) Not IsNumeric(d.Row.Item(8)))
                 listErrors.AddRange(listFilterErrors)
             End If
 
-            'Validar que se escriba una observacion
-            listFilterErrors = data.Where(Function(d) String.IsNullOrEmpty(d.Row.Item(11))).Select(Function(d) String.Format("La observación del item {0} esta vacia", (d.IndexRow).ToString())).ToList()
+            'Validar numero de cuotas sea numerico
+            listFilterErrors = data.Where(Function(d) Not IsNumeric(d.Row.Item(9))).Select(Function(d) String.Format(ResourceManager.GetString("IncorrectShare", "Portfolio"), (d.IndexRow).ToString())).ToList()
             If listFilterErrors IsNot Nothing AndAlso listFilterErrors.Any Then
-                data.RemoveAll(Function(d) String.IsNullOrEmpty(d.Row.Item(11)))
+                data.RemoveAll(Function(d) Not IsNumeric(d.Row.Item(9)))
+                listErrors.AddRange(listFilterErrors)
+            End If
+
+            'Validar que se escriba una observacion
+            listFilterErrors = data.Where(Function(d) String.IsNullOrEmpty(d.Row.Item(15)?.ToString())).Select(Function(d) String.Format("La observación del item {0} esta vacia", (d.IndexRow).ToString())).ToList()
+            If listFilterErrors IsNot Nothing AndAlso listFilterErrors.Any Then
+                data.RemoveAll(Function(d) String.IsNullOrEmpty(d.Row.Item(15)?.ToString()))
                 listErrors.AddRange(listFilterErrors)
             End If
 
             'Validar valor sea numerico
-            listFilterErrors = data.Where(Function(d) Not IsNumeric(d.Row.Item(12))).Select(Function(d) String.Format(ResourceManager.GetString("ValueNotNumeric", "Portfolio"), (d.IndexRow).ToString())).ToList()
+            listFilterErrors = data.Where(Function(d) Not IsNumeric(d.Row.Item(16))).Select(Function(d) String.Format(ResourceManager.GetString("ValueNotNumeric", "Portfolio"), (d.IndexRow).ToString())).ToList()
             If listFilterErrors IsNot Nothing AndAlso listFilterErrors.Any Then
-                data.RemoveAll(Function(d) Not IsNumeric(d.Row.Item(12)))
+                data.RemoveAll(Function(d) Not IsNumeric(d.Row.Item(16)))
                 listErrors.AddRange(listFilterErrors)
             End If
 
             'Validar que el valor no sea cero o negativo
-            listFilterErrors = data.Where(Function(d) CDec(d.Row.Item(12)) <= 0).Select(Function(d) String.Format(ResourceManager.GetString("ValueEmpty", "Portfolio"), (d.IndexRow).ToString())).ToList()
+            listFilterErrors = data.Where(Function(d) CDec(d.Row.Item(16)) <= 0).Select(Function(d) String.Format(ResourceManager.GetString("ValueEmpty", "Portfolio"), (d.IndexRow).ToString())).ToList()
             If listFilterErrors IsNot Nothing AndAlso listFilterErrors.Any Then
-                data.RemoveAll(Function(d) CDec(d.Row.Item(12)) < 0)
+                data.RemoveAll(Function(d) CDec(d.Row.Item(16)) < 0)
                 listErrors.AddRange(listFilterErrors)
             End If
 
             'Validar saldo sea numerico
-            listFilterErrors = data.Where(Function(d) Not IsNumeric(d.Row.Item(13))).Select(Function(d) String.Format("El saldo del item {0} no es numerico", (d.IndexRow).ToString())).ToList()
+            listFilterErrors = data.Where(Function(d) Not IsNumeric(d.Row.Item(17))).Select(Function(d) String.Format("El saldo del item {0} no es numerico", (d.IndexRow).ToString())).ToList()
             If listFilterErrors IsNot Nothing AndAlso listFilterErrors.Any Then
-                data.RemoveAll(Function(d) Not IsNumeric(d.Row.Item(13)))
+                data.RemoveAll(Function(d) Not IsNumeric(d.Row.Item(17)))
                 listErrors.AddRange(listFilterErrors)
             End If
 
             'Validar saldo no sea cero o negativo
-            listFilterErrors = data.Where(Function(d) CDec(d.Row.Item(13)) <= 0).Select(Function(d) String.Format("El saldo del item {0} esta vacio", (d.IndexRow).ToString())).ToList()
+            listFilterErrors = data.Where(Function(d) CDec(d.Row.Item(17)) <= 0).Select(Function(d) String.Format("El saldo del item {0} esta vacio", (d.IndexRow).ToString())).ToList()
             If listFilterErrors IsNot Nothing AndAlso listFilterErrors.Any Then
-                data.RemoveAll(Function(d) CDec(d.Row.Item(13)) <= 0)
+                data.RemoveAll(Function(d) CDec(d.Row.Item(17)) <= 0)
                 listErrors.AddRange(listFilterErrors)
             End If
 
-            'Validar saldo no sea mayor al valor de la factura
-            listFilterErrors = data.Where(Function(d) CDec(d.Row.Item(13)) > CDec(d.Row.Item(12))).Select(Function(d) String.Format("El saldo del item {0} es mayor al valor de la factura", (d.IndexRow).ToString())).ToList()
+            'Validar saldo por línea no sea mayor al valor de la factura
+            listFilterErrors = data.Where(Function(d) CDec(d.Row.Item(17)) > CDec(d.Row.Item(16))).Select(Function(d) String.Format("El saldo del item {0} es mayor al valor de la factura", (d.IndexRow).ToString())).ToList()
             If listFilterErrors IsNot Nothing AndAlso listFilterErrors.Any Then
-                data.RemoveAll(Function(d) CDec(d.Row.Item(13)) > CDec(d.Row.Item(12)))
+                data.RemoveAll(Function(d) CDec(d.Row.Item(17)) > CDec(d.Row.Item(16)))
                 listErrors.AddRange(listFilterErrors)
+            End If
+
+            ' Validación cruzada: SUM(saldo) por Nº Factura ≤ Valor Factura (D42 — multi-línea Salud)
+            Dim sumByInvoice = data.GroupBy(Function(d) d.Row.Item(2)?.ToString()).
+                ToDictionary(Function(g) g.Key, Function(g) g.Sum(Function(d) CDec(d.Row.Item(17))))
+            Dim valueByInvoice = data.GroupBy(Function(d) d.Row.Item(2)?.ToString()).
+                ToDictionary(Function(g) g.Key, Function(g) CDec(g.First().Row.Item(16)))
+            Dim invoicesExceed = sumByInvoice.Where(Function(kv) kv.Value > valueByInvoice(kv.Key)).Select(Function(kv) kv.Key).ToList()
+            If invoicesExceed.Any() Then
+                For Each inv In invoicesExceed
+                    listErrors.Add(String.Format("La suma de saldos de la factura {0} ({1:N2}) excede el Valor Factura ({2:N2})", inv, sumByInvoice(inv), valueByInvoice(inv)))
+                Next
+                data.RemoveAll(Function(d) invoicesExceed.Contains(d.Row.Item(2)?.ToString()))
             End If
 
             'Validar si el cliente no existe
-            Dim listCustomerCode = data.Select(Function(d) d.Row.Item(0).ToString()).Distinct().ToList()
+            Dim listCustomerCode = data.Select(Function(d) d.Row.Item(1).ToString()).Distinct().ToList()
             Dim listCustomers = _customerRepository.GetListCustomerPOCO(listCustomerCode)
-            listFilterErrors = data.Where(Function(d) Not listCustomers.Any(Function(c) c.Nit = d.Row.Item(0))).Select(Function(d) String.Format(ResourceManager.GetString("CustomerNotExists", "Portfolio"), (d.IndexRow).ToString())).ToList()
+            Dim customersByNit = listCustomers.Where(Function(c) c.Nit IsNot Nothing).
+                GroupBy(Function(c) c.Nit).
+                ToDictionary(Function(group) group.Key, Function(group) group.First())
+            listFilterErrors = data.Where(Function(d) Not customersByNit.ContainsKey(d.Row.Item(1).ToString())).Select(Function(d) String.Format(ResourceManager.GetString("CustomerNotExists", "Portfolio"), (d.IndexRow).ToString())).ToList()
             If listFilterErrors IsNot Nothing AndAlso listFilterErrors.Any Then
-                data.RemoveAll(Function(d) Not listCustomers.Any(Function(c) c.Nit = d.Row.Item(0)))
+                data.RemoveAll(Function(d) Not customersByNit.ContainsKey(d.Row.Item(1).ToString()))
                 listErrors.AddRange(listFilterErrors)
             End If
 
             'Validar si la factura existe
-            Dim listInvoiceNumber = data.Select(Function(d) d.Row.Item(1).ToString()).Distinct().ToList()
+            Dim listInvoiceNumber = data.Select(Function(d) d.Row.Item(2).ToString()).Distinct().ToList()
             Dim listAccountReceivables = _accountReceivableRepository.GetListAccountReceivable(listInvoiceNumber)
-            listFilterErrors = data.Where(Function(d) listAccountReceivables.Any(Function(c) c.InvoiceNumber = d.Row.Item(1))).Select(Function(d) String.Format(ResourceManager.GetString("BillExists", "Portfolio"), d.Row.Item(1))).ToList()
+            Dim existingInvoiceNumbers = New HashSet(Of String)(listAccountReceivables.Select(Function(c) c.InvoiceNumber))
+            listFilterErrors = data.Where(Function(d) existingInvoiceNumbers.Contains(d.Row.Item(2).ToString())).Select(Function(d) String.Format(ResourceManager.GetString("BillExists", "Portfolio"), d.Row.Item(2))).ToList()
             If listFilterErrors IsNot Nothing AndAlso listFilterErrors.Any Then
-                data.RemoveAll(Function(d) listAccountReceivables.Any(Function(c) c.InvoiceNumber = d.Row.Item(1)))
+                data.RemoveAll(Function(d) existingInvoiceNumbers.Contains(d.Row.Item(2).ToString()))
                 listErrors.AddRange(listFilterErrors)
             End If
 
-            'Validar si la categoria no existe
-            Dim listInvoiceCategoryCode = data.Where(Function(d) d.Row.Item(5) IsNot Nothing).Select(Function(d) d.Row.Item(5).ToString()).Distinct().ToList()
+            'Validar si la categoria no existe — solo Salud (Tipo=2). Otros tipos: ignorar (D37)
+            Dim listInvoiceCategoryCode = data.Where(Function(d) parsePrefix(d.Row.Item(0)) = "2" AndAlso d.Row.Item(6) IsNot Nothing).Select(Function(d) d.Row.Item(6).ToString()).Distinct().ToList()
             Dim listInvoiceCategories = _billingInvoiceCategoriesRepository.GetListInvoiceCategoryPOCO(listInvoiceCategoryCode)
-            listFilterErrors = data.Where(Function(d) d.Row.Item(5) IsNot Nothing AndAlso Not listInvoiceCategories.Any(Function(c) c.Code = d.Row.Item(5))).Select(Function(d) String.Format("La categoria de factura del item {0} no existe", (d.IndexRow).ToString())).ToList()
+            Dim invoiceCategoriesByCode = listInvoiceCategories.Where(Function(c) c.Code IsNot Nothing).
+                GroupBy(Function(c) c.Code).
+                ToDictionary(Function(group) group.Key, Function(group) group.First())
+            listFilterErrors = data.Where(Function(d) parsePrefix(d.Row.Item(0)) = "2" AndAlso d.Row.Item(6) IsNot Nothing AndAlso Not invoiceCategoriesByCode.ContainsKey(d.Row.Item(6).ToString())).Select(Function(d) String.Format("La categoria de factura del item {0} no existe", (d.IndexRow).ToString())).ToList()
             If listFilterErrors IsNot Nothing AndAlso listFilterErrors.Any Then
-                data.RemoveAll(Function(d) d.Row.Item(5) IsNot Nothing AndAlso Not listInvoiceCategories.Any(Function(c) c.Code = d.Row.Item(5)))
+                data.RemoveAll(Function(d) parsePrefix(d.Row.Item(0)) = "2" AndAlso d.Row.Item(6) IsNot Nothing AndAlso Not invoiceCategoriesByCode.ContainsKey(d.Row.Item(6).ToString()))
                 listErrors.AddRange(listFilterErrors)
             End If
 
-            'Validar que se haya agregado una cuenta contable de saldos
-            listFilterErrors = data.Where(Function(d) String.IsNullOrEmpty(d.Row.Item(9))).Select(Function(d) String.Format("La cuenta contable de saldos del item {0} esta vacia", (d.IndexRow).ToString())).ToList()
+            ' ============================================================================
+            ' Estructura Cuenta Contable (col 10) — solo Salud (Tipo=2)
+            ' Provee cuentas del AR header: Sin Radicar, Radicada, Glosa, Conciliación, etc.
+            ' ============================================================================
+            listFilterErrors = data.Where(Function(d) parsePrefix(d.Row.Item(0)) = "2" AndAlso String.IsNullOrWhiteSpace(d.Row.Item(10)?.ToString())).
+                Select(Function(d) String.Format("La Estructura Cuenta Contable del item {0} esta vacia (Salud)", (d.IndexRow).ToString())).ToList()
             If listFilterErrors IsNot Nothing AndAlso listFilterErrors.Any Then
-                data.RemoveAll(Function(d) String.IsNullOrEmpty(d.Row.Item(9)))
+                data.RemoveAll(Function(d) parsePrefix(d.Row.Item(0)) = "2" AndAlso String.IsNullOrWhiteSpace(d.Row.Item(10)?.ToString()))
                 listErrors.AddRange(listFilterErrors)
             End If
 
-            'Listados bases
-            Dim listAccountNumber = data.Select(Function(d) d.Row.Item(9).ToString()).Distinct().ToList()
-            Dim listCostCenterCodes = data.Select(Function(d) d.Row.Item(10)?.ToString()).Distinct().ToList()
+            ' Resolver estructuras contables en batch (solo Salud)
+            Dim listStructureCodes = data.Where(Function(d) parsePrefix(d.Row.Item(0)) = "2").
+                Select(Function(d) parsePrefix(d.Row.Item(10))).
+                Where(Function(c) Not String.IsNullOrWhiteSpace(c)).
+                Distinct().ToList()
+            Dim resolvedStructures As List(Of ContractAccountingStructure) = If(_contractAccountingStructureRepository IsNot Nothing AndAlso listStructureCodes.Any(),
+                _contractAccountingStructureRepository.GetListByCodes(listStructureCodes),
+                New List(Of ContractAccountingStructure)())
+            Dim accountingStructuresByCode = resolvedStructures.GroupBy(Function(s) s.Code).ToDictionary(Function(g) g.Key, Function(g) g.First())
 
-            If data.Where(Function(d) d.Row.Count > 12).Any() Then
-                'Validar que se haya agregado un centro de costo de glosas
-                listFilterErrors = data.Where(Function(d) String.IsNullOrEmpty(d.Row.Item(14))).Select(Function(d) String.Format("El centro de costo de glosas del item {0} esta vacia", (d.IndexRow).ToString())).ToList()
-                If listFilterErrors IsNot Nothing AndAlso listFilterErrors.Any Then
-                    data.RemoveAll(Function(d) String.IsNullOrEmpty(d.Row.Item(14)))
-                    listErrors.AddRange(listFilterErrors)
-                End If
-
-                'Validar que se haya agregado una cuenta contable sin radicar
-                listFilterErrors = data.Where(Function(d) String.IsNullOrEmpty(d.Row.Item(15))).Select(Function(d) String.Format("La cuenta contable sin radicar del item {0} esta vacia", (d.IndexRow).ToString())).ToList()
-                If listFilterErrors IsNot Nothing AndAlso listFilterErrors.Any Then
-                    data.RemoveAll(Function(d) String.IsNullOrEmpty(d.Row.Item(15)))
-                    listErrors.AddRange(listFilterErrors)
-                End If
-
-                'Validar que se haya agregado una cuenta contable radicada
-                listFilterErrors = data.Where(Function(d) String.IsNullOrEmpty(d.Row.Item(16))).Select(Function(d) String.Format("La cuenta contable radicada del item {0} esta vacia", (d.IndexRow).ToString())).ToList()
-                If listFilterErrors IsNot Nothing AndAlso listFilterErrors.Any Then
-                    data.RemoveAll(Function(d) String.IsNullOrEmpty(d.Row.Item(16)))
-                    listErrors.AddRange(listFilterErrors)
-                End If
-
-                'Validar que se haya agregado una cuenta contable glosa subsanable
-                If companyType = 1 Then
-                    listFilterErrors = data.Where(Function(d) String.IsNullOrEmpty(d.Row.Item(17))).Select(Function(d) String.Format("La cuenta contable glosa subsanable del item {0} esta vacia", (d.IndexRow).ToString())).ToList()
-                    If listFilterErrors IsNot Nothing AndAlso listFilterErrors.Any Then
-                        data.RemoveAll(Function(d) String.IsNullOrEmpty(d.Row.Item(17)))
-                        listErrors.AddRange(listFilterErrors)
-                    End If
-
-                    'Validar que se haya agregado una cuenta contable conciliacion
-                    listFilterErrors = data.Where(Function(d) String.IsNullOrEmpty(d.Row.Item(18))).Select(Function(d) String.Format("La cuenta contable conciliacion del item {0} esta vacia", (d.IndexRow).ToString())).ToList()
-                    If listFilterErrors IsNot Nothing AndAlso listFilterErrors.Any Then
-                        data.RemoveAll(Function(d) String.IsNullOrEmpty(d.Row.Item(18)))
-                        listErrors.AddRange(listFilterErrors)
-                    End If
-
-                    'Validar que se haya agregado una cuenta contable cobro juridico
-                    listFilterErrors = data.Where(Function(d) String.IsNullOrEmpty(d.Row.Item(19))).Select(Function(d) String.Format("La cuenta contable cobro juridico del item {0} esta vacia", (d.IndexRow).ToString())).ToList()
-                    If listFilterErrors IsNot Nothing AndAlso listFilterErrors.Any Then
-                        data.RemoveAll(Function(d) String.IsNullOrEmpty(d.Row.Item(19)))
-                        listErrors.AddRange(listFilterErrors)
-                    End If
-                Else
-                    'Validar que se haya agregado una cuenta contable de orden de glosa
-                    listFilterErrors = data.Where(Function(d) String.IsNullOrEmpty(d.Row.Item(20))).Select(Function(d) String.Format("La cuenta contable de orden de glosa del item {0} esta vacia", (d.IndexRow).ToString())).ToList()
-                    If listFilterErrors IsNot Nothing AndAlso listFilterErrors.Any Then
-                        data.RemoveAll(Function(d) String.IsNullOrEmpty(d.Row.Item(20)))
-                        listErrors.AddRange(listFilterErrors)
-                    End If
-
-                    'Validar que se haya agregado una cuenta contable acreedores glosa
-                    listFilterErrors = data.Where(Function(d) String.IsNullOrEmpty(d.Row.Item(21))).Select(Function(d) String.Format("La cuenta contable acreedores glosa del item {0} esta vacia", (d.IndexRow).ToString())).ToList()
-                    If listFilterErrors IsNot Nothing AndAlso listFilterErrors.Any Then
-                        data.RemoveAll(Function(d) String.IsNullOrEmpty(d.Row.Item(21)))
-                        listErrors.AddRange(listFilterErrors)
-                    End If
-                End If
-
-                'Incluir datos al Listado base
-                listCostCenterCodes = listCostCenterCodes.Union(data.Select(Function(d) d.Row.Item(14).ToString()).Distinct().ToList()).ToList()
-                listAccountNumber = listAccountNumber.Union(data.Select(Function(d) d.Row.Item(15).ToString()).Distinct().ToList()).ToList()
-                listAccountNumber = listAccountNumber.Union(data.Select(Function(d) d.Row.Item(16).ToString()).Distinct().ToList()).ToList()
-                If companyType = 1 Then
-                    listAccountNumber = listAccountNumber.Union(data.Select(Function(d) d.Row.Item(17).ToString()).Distinct().ToList()).ToList()
-                    listAccountNumber = listAccountNumber.Union(data.Select(Function(d) d.Row.Item(18).ToString()).Distinct().ToList()).ToList()
-                    listAccountNumber = listAccountNumber.Union(data.Select(Function(d) d.Row.Item(19).ToString()).Distinct().ToList()).ToList()
-                Else
-                    listAccountNumber = listAccountNumber.Union(data.Select(Function(d) d.Row.Item(20).ToString()).Distinct().ToList()).ToList()
-                    listAccountNumber = listAccountNumber.Union(data.Select(Function(d) d.Row.Item(21).ToString()).Distinct().ToList()).ToList()
-                End If
+            ' Estructura inexistente o inactiva
+            listFilterErrors = data.Where(Function(d) parsePrefix(d.Row.Item(0)) = "2" AndAlso Not accountingStructuresByCode.ContainsKey(parsePrefix(d.Row.Item(10)))).
+                Select(Function(d) String.Format("La Estructura Cuenta Contable '{0}' del item {1} no existe o no esta activa", parsePrefix(d.Row.Item(10)), (d.IndexRow).ToString())).ToList()
+            If listFilterErrors IsNot Nothing AndAlso listFilterErrors.Any Then
+                data.RemoveAll(Function(d) parsePrefix(d.Row.Item(0)) = "2" AndAlso Not accountingStructuresByCode.ContainsKey(parsePrefix(d.Row.Item(10))))
+                listErrors.AddRange(listFilterErrors)
             End If
 
-            'Se obtienen la información de los listados
-            Dim listMainAccounts = _repositoryMainAccounts.GetListAccountByCodePOCO(listAccountNumber)
+            ' Validar cuentas requeridas en la estructura (Sin Radicar / Radicada / Glosa / Conciliación / etc según companyType)
+            Dim getMissingAccounts = Function(struct As ContractAccountingStructure) As List(Of String)
+                                         Dim missing As New List(Of String)
+                                         If Not struct.AccountWithoutRadicateId.HasValue Then missing.Add("Sin Radicar")
+                                         If Not struct.AccountRadicateId.HasValue Then missing.Add("Radicada")
+                                         If companyType = 1 Then
+                                             If Not struct.AccountObjectionRemediedId.HasValue Then missing.Add("Glosa Subsanable")
+                                             If Not struct.AccountConciliationId.HasValue Then missing.Add("Conciliación")
+                                             If Not struct.AccountLegalCollectionId.HasValue Then missing.Add("Cobro Jurídico")
+                                         Else
+                                             If Not struct.AccountDebitOrderId.HasValue Then missing.Add("Orden de Glosa")
+                                             If Not struct.AccountCreditOrderId.HasValue Then missing.Add("Acreedores Glosas")
+                                         End If
+                                         Return missing
+                                     End Function
+            listFilterErrors = data.
+                Where(Function(d) parsePrefix(d.Row.Item(0)) = "2" AndAlso accountingStructuresByCode.ContainsKey(parsePrefix(d.Row.Item(10))) AndAlso getMissingAccounts(accountingStructuresByCode(parsePrefix(d.Row.Item(10)))).Any()).
+                Select(Function(d)
+                           Dim struct = accountingStructuresByCode(parsePrefix(d.Row.Item(10)))
+                           Return String.Format("La Estructura Cuenta Contable '{0}' del item {1} no tiene parametrizadas las cuentas: {2}",
+                                                struct.Code, d.IndexRow, String.Join(", ", getMissingAccounts(struct)))
+                       End Function).ToList()
+            If listFilterErrors IsNot Nothing AndAlso listFilterErrors.Any Then
+                data.RemoveAll(Function(d) parsePrefix(d.Row.Item(0)) = "2" AndAlso accountingStructuresByCode.ContainsKey(parsePrefix(d.Row.Item(10))) AndAlso getMissingAccounts(accountingStructuresByCode(parsePrefix(d.Row.Item(10)))).Any())
+                listErrors.AddRange(listFilterErrors)
+            End If
+
+            ' ============================================================================
+            ' Cuentas contables directas (cols 11/12/13)
+            ' col 11 Cuenta Saldo: TODOS los tipos. Para Salud = cuenta de la línea (multi-línea).
+            ' Para Básica/Producto = cuenta principal (rol Sin Radicar).
+            ' col 12 Difícil Recaudo + col 13 Cobro Jurídico: solo Básica/Producto (Tipo=1 o 7).
+            ' ============================================================================
+            listFilterErrors = data.Where(Function(d) String.IsNullOrWhiteSpace(d.Row.Item(11)?.ToString())).
+                Select(Function(d) String.Format("La Cuenta Contable Saldo del item {0} esta vacia", (d.IndexRow).ToString())).ToList()
+            If listFilterErrors IsNot Nothing AndAlso listFilterErrors.Any Then
+                data.RemoveAll(Function(d) String.IsNullOrWhiteSpace(d.Row.Item(11)?.ToString()))
+                listErrors.AddRange(listFilterErrors)
+            End If
+
+            listFilterErrors = data.Where(Function(d) {"1", "7"}.Contains(parsePrefix(d.Row.Item(0))) AndAlso String.IsNullOrWhiteSpace(d.Row.Item(12)?.ToString())).
+                Select(Function(d) String.Format("La Cuenta Contable Difícil Recaudo del item {0} esta vacia (Básica/Producto)", (d.IndexRow).ToString())).ToList()
+            If listFilterErrors IsNot Nothing AndAlso listFilterErrors.Any Then
+                data.RemoveAll(Function(d) {"1", "7"}.Contains(parsePrefix(d.Row.Item(0))) AndAlso String.IsNullOrWhiteSpace(d.Row.Item(12)?.ToString()))
+                listErrors.AddRange(listFilterErrors)
+            End If
+
+            listFilterErrors = data.Where(Function(d) {"1", "7"}.Contains(parsePrefix(d.Row.Item(0))) AndAlso String.IsNullOrWhiteSpace(d.Row.Item(13)?.ToString())).
+                Select(Function(d) String.Format("La Cuenta Contable Cobro Jurídico del item {0} esta vacia (Básica/Producto)", (d.IndexRow).ToString())).ToList()
+            If listFilterErrors IsNot Nothing AndAlso listFilterErrors.Any Then
+                data.RemoveAll(Function(d) {"1", "7"}.Contains(parsePrefix(d.Row.Item(0))) AndAlso String.IsNullOrWhiteSpace(d.Row.Item(13)?.ToString()))
+                listErrors.AddRange(listFilterErrors)
+            End If
+
+            ' Lookup MainAccounts por Number (cuentas directas del Excel — cols 11/12/13)
+            Dim listAccountNumbersDirect = New HashSet(Of String)()
+            For Each d In data
+                If Not String.IsNullOrWhiteSpace(d.Row.Item(11)?.ToString()) Then listAccountNumbersDirect.Add(d.Row.Item(11).ToString())
+                If {"1", "7"}.Contains(parsePrefix(d.Row.Item(0))) Then
+                    If Not String.IsNullOrWhiteSpace(d.Row.Item(12)?.ToString()) Then listAccountNumbersDirect.Add(d.Row.Item(12).ToString())
+                    If Not String.IsNullOrWhiteSpace(d.Row.Item(13)?.ToString()) Then listAccountNumbersDirect.Add(d.Row.Item(13).ToString())
+                End If
+            Next
+            Dim listMainAccountsByNumber = _repositoryMainAccounts.GetListAccountByCodePOCO(listAccountNumbersDirect.ToList())
+            Dim mainAccountsByNumber = listMainAccountsByNumber.Where(Function(c) c.Number IsNot Nothing).
+                GroupBy(Function(c) c.Number).
+                ToDictionary(Function(group) group.Key, Function(group) group.First())
+
+            ' Validar cuenta col 11 existe + AllowsMovement
+            listFilterErrors = data.Where(Function(d) Not mainAccountsByNumber.ContainsKey(d.Row.Item(11).ToString())).
+                Select(Function(d) String.Format("La cuenta contable '{0}' del item {1} no existe", d.Row.Item(11), (d.IndexRow).ToString())).ToList()
+            If listFilterErrors IsNot Nothing AndAlso listFilterErrors.Any Then
+                data.RemoveAll(Function(d) Not mainAccountsByNumber.ContainsKey(d.Row.Item(11).ToString()))
+                listErrors.AddRange(listFilterErrors)
+            End If
+            listFilterErrors = data.Where(Function(d) Not mainAccountsByNumber.ContainsKey(d.Row.Item(11).ToString()) OrElse Not mainAccountsByNumber(d.Row.Item(11).ToString()).AllowsMovement).
+                Select(Function(d) String.Format("La cuenta contable '{0}' del item {1} no permite movimientos", d.Row.Item(11), (d.IndexRow).ToString())).ToList()
+            If listFilterErrors IsNot Nothing AndAlso listFilterErrors.Any Then
+                data.RemoveAll(Function(d) Not mainAccountsByNumber.ContainsKey(d.Row.Item(11).ToString()) OrElse Not mainAccountsByNumber(d.Row.Item(11).ToString()).AllowsMovement)
+                listErrors.AddRange(listFilterErrors)
+            End If
+
+            ' Validar cuentas col 12 / 13 (solo Básica/Producto)
+            listFilterErrors = data.Where(Function(d) {"1", "7"}.Contains(parsePrefix(d.Row.Item(0))) AndAlso (Not mainAccountsByNumber.ContainsKey(d.Row.Item(12).ToString()) OrElse Not mainAccountsByNumber(d.Row.Item(12).ToString()).AllowsMovement)).
+                Select(Function(d) String.Format("La cuenta contable Difícil Recaudo '{0}' del item {1} no existe o no permite movimientos", d.Row.Item(12), (d.IndexRow).ToString())).ToList()
+            If listFilterErrors IsNot Nothing AndAlso listFilterErrors.Any Then
+                data.RemoveAll(Function(d) {"1", "7"}.Contains(parsePrefix(d.Row.Item(0))) AndAlso (Not mainAccountsByNumber.ContainsKey(d.Row.Item(12).ToString()) OrElse Not mainAccountsByNumber(d.Row.Item(12).ToString()).AllowsMovement))
+                listErrors.AddRange(listFilterErrors)
+            End If
+            listFilterErrors = data.Where(Function(d) {"1", "7"}.Contains(parsePrefix(d.Row.Item(0))) AndAlso (Not mainAccountsByNumber.ContainsKey(d.Row.Item(13).ToString()) OrElse Not mainAccountsByNumber(d.Row.Item(13).ToString()).AllowsMovement)).
+                Select(Function(d) String.Format("La cuenta contable Cobro Jurídico '{0}' del item {1} no existe o no permite movimientos", d.Row.Item(13), (d.IndexRow).ToString())).ToList()
+            If listFilterErrors IsNot Nothing AndAlso listFilterErrors.Any Then
+                data.RemoveAll(Function(d) {"1", "7"}.Contains(parsePrefix(d.Row.Item(0))) AndAlso (Not mainAccountsByNumber.ContainsKey(d.Row.Item(13).ToString()) OrElse Not mainAccountsByNumber(d.Row.Item(13).ToString()).AllowsMovement))
+                listErrors.AddRange(listFilterErrors)
+            End If
+
+            ' ============================================================================
+            ' Centros de costo (col 14 + col 18 Glosas) y MainAccounts por ID desde estructura
+            ' ============================================================================
+            Dim listCostCenterCodes = data.Select(Function(d) d.Row.Item(14)?.ToString()).Distinct().ToList()
+            listCostCenterCodes = listCostCenterCodes.Union(data.Select(Function(d) d.Row.Item(18)?.ToString()).Distinct()).ToList()
+
+            Dim allAccountIdsFromStruct = New HashSet(Of Integer)()
+            For Each s In resolvedStructures
+                If s.AccountWithoutRadicateId.HasValue Then allAccountIdsFromStruct.Add(s.AccountWithoutRadicateId.Value)
+                If s.AccountRadicateId.HasValue Then allAccountIdsFromStruct.Add(s.AccountRadicateId.Value)
+                If s.AccountObjectionRemediedId.HasValue Then allAccountIdsFromStruct.Add(s.AccountObjectionRemediedId.Value)
+                If s.AccountConciliationId.HasValue Then allAccountIdsFromStruct.Add(s.AccountConciliationId.Value)
+                If s.AccountLegalCollectionId.HasValue Then allAccountIdsFromStruct.Add(s.AccountLegalCollectionId.Value)
+                If s.AccountDebitOrderId.HasValue Then allAccountIdsFromStruct.Add(s.AccountDebitOrderId.Value)
+                If s.AccountCreditOrderId.HasValue Then allAccountIdsFromStruct.Add(s.AccountCreditOrderId.Value)
+            Next
+            Dim listMainAccountsById = _repositoryMainAccounts.GetListAccountByIdPOCO(allAccountIdsFromStruct.ToList())
             Dim listCostCenters = _costCenterRepository.GetListCostCenterByCodePOCO(listCostCenterCodes)
+            Dim mainAccountsById = listMainAccountsById.GroupBy(Function(c) c.Id).
+                ToDictionary(Function(group) group.Key, Function(group) group.First())
+            Dim costCentersByCode = listCostCenters.Where(Function(c) c.Code IsNot Nothing).
+                GroupBy(Function(c) c.Code).
+                ToDictionary(Function(group) group.Key, Function(group) group.First())
 
-            'Validar las cuentas contables
-            listFilterErrors = data.Where(Function(d) Not listMainAccounts.Any(Function(c) c.Number = d.Row.Item(9))).Select(Function(d) String.Format(ResourceManager.GetString("AccountNotExists", "Portfolio"), d.Row.Item(9), (d.IndexRow).ToString())).ToList()
+            ' Centro de Costo (col 14) — string lookup. Forzar ?.ToString() en ambos lados de la
+            ' comparación para evitar que VB con Option Strict Off intente CDate(c.Code) cuando
+            ' Excel almacenó la celda como tipo Date/Number (ej: usuario puso fecha o número en col).
+            listFilterErrors = data.Where(Function(d) Not String.IsNullOrEmpty(d.Row.Item(14)?.ToString()) AndAlso Not costCentersByCode.ContainsKey(d.Row.Item(14).ToString())).
+                Select(Function(d) String.Format(ResourceManager.GetString("CostCenterNotExists", "Portfolio"), d.Row.Item(14)?.ToString(), (d.IndexRow).ToString())).ToList()
             If listFilterErrors IsNot Nothing AndAlso listFilterErrors.Any Then
-                data.RemoveAll(Function(d) Not listMainAccounts.Any(Function(c) c.Number = d.Row.Item(9)))
+                data.RemoveAll(Function(d) Not String.IsNullOrEmpty(d.Row.Item(14)?.ToString()) AndAlso Not costCentersByCode.ContainsKey(d.Row.Item(14).ToString()))
                 listErrors.AddRange(listFilterErrors)
             End If
 
-            'Validar cuentas contables manejen movimiento
-            listFilterErrors = data.Where(Function(d) Not listMainAccounts.Any(Function(c) c.Number = d.Row.Item(9) AndAlso c.AllowsMovement)).Select(Function(d) String.Format("La cuenta contable {0} del registro {1} no permite movimientos", d.Row.Item(9), (d.IndexRow).ToString())).ToList()
+            ' Centro de Costos Glosas (col 18) — solo Salud, opcional. Si trae valor debe existir como CC code.
+            ' Bug previo: el predicado del Where comparaba contra col 14 en vez de col 18. Corregido.
+            ' Misma defensa con ?.ToString() porque Excel suele almacenar dates en formato fecha.
+            listFilterErrors = data.Where(Function(d) parsePrefix(d.Row.Item(0)) = "2" AndAlso Not String.IsNullOrEmpty(d.Row.Item(18)?.ToString()) AndAlso Not costCentersByCode.ContainsKey(d.Row.Item(18).ToString())).
+                Select(Function(d) String.Format("El centro de costos de glosas {0} del registro {1} no existe", d.Row.Item(18)?.ToString(), (d.IndexRow).ToString())).ToList()
             If listFilterErrors IsNot Nothing AndAlso listFilterErrors.Any Then
-                data.RemoveAll(Function(d) Not listMainAccounts.Any(Function(c) c.Number = d.Row.Item(9) AndAlso c.AllowsMovement))
+                data.RemoveAll(Function(d) parsePrefix(d.Row.Item(0)) = "2" AndAlso Not String.IsNullOrEmpty(d.Row.Item(18)?.ToString()) AndAlso Not costCentersByCode.ContainsKey(d.Row.Item(18).ToString()))
                 listErrors.AddRange(listFilterErrors)
             End If
 
-            'Se validar los centros de costos
-            listFilterErrors = data.Where(Function(d) Not listCostCenters.Any(Function(c) d.Row.Item(10) Is Nothing Or c.Code = d.Row.Item(10))).Select(Function(d) String.Format(ResourceManager.GetString("CostCenterNotExists", "Portfolio"), d.Row.Item(10), (d.IndexRow).ToString())).ToList()
+            ' ============================================================================
+            ' Deterioro Salud (cols 20-21): si Valor > 0 → Última Fecha obligatoria (D45)
+            ' ============================================================================
+            listFilterErrors = data.Where(Function(d) parsePrefix(d.Row.Item(0)) = "2" AndAlso d.Row.Count > 20 AndAlso IsNumeric(d.Row.Item(20)) AndAlso CDec(d.Row.Item(20)) > 0 AndAlso (d.Row.Count <= 21 OrElse Not IsDate(d.Row.Item(21)))).
+                Select(Function(d) String.Format("El item {0} tiene Valor Deterioro Acumulado > 0 pero la Última Fecha Deterioro está vacía o es inválida (Salud)", (d.IndexRow).ToString())).ToList()
             If listFilterErrors IsNot Nothing AndAlso listFilterErrors.Any Then
-                data.RemoveAll(Function(d) Not listCostCenters.Any(Function(c) c.Code = d.Row.Item(10)))
+                data.RemoveAll(Function(d) parsePrefix(d.Row.Item(0)) = "2" AndAlso d.Row.Count > 20 AndAlso IsNumeric(d.Row.Item(20)) AndAlso CDec(d.Row.Item(20)) > 0 AndAlso (d.Row.Count <= 21 OrElse Not IsDate(d.Row.Item(21))))
                 listErrors.AddRange(listFilterErrors)
             End If
 
-            If data.Where(Function(d) d.Row.Count > 14).Any() Then
-                'Se validar los centros de costos de glosas
-                listFilterErrors = data.Where(Function(d) Not listCostCenters.Any(Function(c) c.Code = d.Row.Item(14))).Select(Function(d) String.Format("El centro de costos de glosas {0} del registro {1} no existe", d.Row.Item(14), (d.IndexRow).ToString())).ToList()
-                If listFilterErrors IsNot Nothing AndAlso listFilterErrors.Any Then
-                    data.RemoveAll(Function(d) Not listCostCenters.Any(Function(c) c.Code = d.Row.Item(14)))
-                    listErrors.AddRange(listFilterErrors)
-                End If
-
-                'Validar las cuentas contables sin radicar
-                listFilterErrors = data.Where(Function(d) Not listMainAccounts.Any(Function(c) c.Number = d.Row.Item(15))).Select(Function(d) String.Format("La cuenta contable sin radicar {0} del registro {1} no existe", d.Row.Item(15), (d.IndexRow).ToString())).ToList()
-                If listFilterErrors IsNot Nothing AndAlso listFilterErrors.Any Then
-                    data.RemoveAll(Function(d) Not listMainAccounts.Any(Function(c) c.Number = d.Row.Item(15)))
-                    listErrors.AddRange(listFilterErrors)
-                End If
-
-                'Validar cuentas contables manejen movimiento sin radicar
-                listFilterErrors = data.Where(Function(d) Not listMainAccounts.Any(Function(c) c.Number = d.Row.Item(16) AndAlso c.AllowsMovement)).Select(Function(d) String.Format("La cuenta contable sin radicar {0} del registro {1} no permite movimientos", d.Row.Item(16), (d.IndexRow).ToString())).ToList()
-                If listFilterErrors IsNot Nothing AndAlso listFilterErrors.Any Then
-                    data.RemoveAll(Function(d) Not listMainAccounts.Any(Function(c) c.Number = d.Row.Item(16) AndAlso c.AllowsMovement))
-                    listErrors.AddRange(listFilterErrors)
-                End If
-
-                'Validar las cuentas contables radicada
-                listFilterErrors = data.Where(Function(d) Not listMainAccounts.Any(Function(c) c.Number = d.Row.Item(16))).Select(Function(d) String.Format("La cuenta contable radicada {0} del registro {1} no existe", d.Row.Item(16), (d.IndexRow).ToString())).ToList()
-                If listFilterErrors IsNot Nothing AndAlso listFilterErrors.Any Then
-                    data.RemoveAll(Function(d) Not listMainAccounts.Any(Function(c) c.Number = d.Row.Item(16)))
-                    listErrors.AddRange(listFilterErrors)
-                End If
-
-                'Validar cuentas contables radicada manejen movimiento
-                listFilterErrors = data.Where(Function(d) Not listMainAccounts.Any(Function(c) c.Number = d.Row.Item(16) AndAlso c.AllowsMovement)).Select(Function(d) String.Format("La cuenta contable radicada {0} del registro {1} no permite movimientos", d.Row.Item(16), (d.IndexRow).ToString())).ToList()
-                If listFilterErrors IsNot Nothing AndAlso listFilterErrors.Any Then
-                    data.RemoveAll(Function(d) Not listMainAccounts.Any(Function(c) c.Number = d.Row.Item(16) AndAlso c.AllowsMovement))
-                    listErrors.AddRange(listFilterErrors)
-                End If
-
-                If companyType = 1 Then
-                    'Validar las cuentas contables glosa subsanable
-                    listFilterErrors = data.Where(Function(d) Not listMainAccounts.Any(Function(c) c.Number = d.Row.Item(17))).Select(Function(d) String.Format("La cuenta contable glosa subsanable {0} del registro {1} no existe", d.Row.Item(17), (d.IndexRow).ToString())).ToList()
-                    If listFilterErrors IsNot Nothing AndAlso listFilterErrors.Any Then
-                        data.RemoveAll(Function(d) Not listMainAccounts.Any(Function(c) c.Number = d.Row.Item(17)))
-                        listErrors.AddRange(listFilterErrors)
-                    End If
-
-                    'Validar cuentas contables manejen movimiento glosa subsanable
-                    listFilterErrors = data.Where(Function(d) Not listMainAccounts.Any(Function(c) c.Number = d.Row.Item(17) AndAlso c.AllowsMovement)).Select(Function(d) String.Format("La cuenta contable glosa subsanable {0} del registro {1} no permite movimientos", d.Row.Item(17), (d.IndexRow).ToString())).ToList()
-                    If listFilterErrors IsNot Nothing AndAlso listFilterErrors.Any Then
-                        data.RemoveAll(Function(d) Not listMainAccounts.Any(Function(c) c.Number = d.Row.Item(17) AndAlso c.AllowsMovement))
-                        listErrors.AddRange(listFilterErrors)
-                    End If
-
-                    'Validar las cuentas contables conciliacion
-                    listFilterErrors = data.Where(Function(d) Not listMainAccounts.Any(Function(c) c.Number = d.Row.Item(18))).Select(Function(d) String.Format("La cuenta contable conciliacion {0} del registro {1} no existe", d.Row.Item(18), (d.IndexRow).ToString())).ToList()
-                    If listFilterErrors IsNot Nothing AndAlso listFilterErrors.Any Then
-                        data.RemoveAll(Function(d) Not listMainAccounts.Any(Function(c) c.Number = d.Row.Item(18)))
-                        listErrors.AddRange(listFilterErrors)
-                    End If
-
-                    'Validar cuentas contables conciliacion manejen movimiento
-                    listFilterErrors = data.Where(Function(d) Not listMainAccounts.Any(Function(c) c.Number = d.Row.Item(18) AndAlso c.AllowsMovement)).Select(Function(d) String.Format("La cuenta contable conciliacion {0} del registro {1} no permite movimientos", d.Row.Item(18), (d.IndexRow).ToString())).ToList()
-                    If listFilterErrors IsNot Nothing AndAlso listFilterErrors.Any Then
-                        data.RemoveAll(Function(d) Not listMainAccounts.Any(Function(c) c.Number = d.Row.Item(18) AndAlso c.AllowsMovement))
-                        listErrors.AddRange(listFilterErrors)
-                    End If
-
-                    'Validar las cuentas contables cobro juridico
-                    listFilterErrors = data.Where(Function(d) Not listMainAccounts.Any(Function(c) c.Number = d.Row.Item(19))).Select(Function(d) String.Format("La cuenta contable cobro juridico {0} del registro {1} no existe", d.Row.Item(19), (d.IndexRow).ToString())).ToList()
-                    If listFilterErrors IsNot Nothing AndAlso listFilterErrors.Any Then
-                        data.RemoveAll(Function(d) Not listMainAccounts.Any(Function(c) c.Number = d.Row.Item(19)))
-                        listErrors.AddRange(listFilterErrors)
-                    End If
-
-                    'Validar cuentas contables cobro juridico manejen movimiento
-                    listFilterErrors = data.Where(Function(d) Not listMainAccounts.Any(Function(c) c.Number = d.Row.Item(19) AndAlso c.AllowsMovement)).Select(Function(d) String.Format("La cuenta contable cobro juridico {0} del registro {1} no permite movimientos", d.Row.Item(19), (d.IndexRow).ToString())).ToList()
-                    If listFilterErrors IsNot Nothing AndAlso listFilterErrors.Any Then
-                        data.RemoveAll(Function(d) Not listMainAccounts.Any(Function(c) c.Number = d.Row.Item(19) AndAlso c.AllowsMovement))
-                        listErrors.AddRange(listFilterErrors)
-                    End If
-                Else
-                    'Validar las cuentas contables orden de glosa
-                    listFilterErrors = data.Where(Function(d) Not listMainAccounts.Any(Function(c) c.Number = d.Row.Item(20))).Select(Function(d) String.Format("La cuenta contable orden de glosa {0} del registro {1} no existe", d.Row.Item(20), (d.IndexRow).ToString())).ToList()
-                    If listFilterErrors IsNot Nothing AndAlso listFilterErrors.Any Then
-                        data.RemoveAll(Function(d) Not listMainAccounts.Any(Function(c) c.Number = d.Row.Item(20)))
-                        listErrors.AddRange(listFilterErrors)
-                    End If
-
-                    'Validar cuentas contables orden de glosa manejen movimiento
-                    listFilterErrors = data.Where(Function(d) Not listMainAccounts.Any(Function(c) c.Number = d.Row.Item(20) AndAlso c.AllowsMovement)).Select(Function(d) String.Format("La cuenta contable orden de glosa {0} del registro {1} no permite movimientos", d.Row.Item(20), (d.IndexRow).ToString())).ToList()
-                    If listFilterErrors IsNot Nothing AndAlso listFilterErrors.Any Then
-                        data.RemoveAll(Function(d) Not listMainAccounts.Any(Function(c) c.Number = d.Row.Item(20) AndAlso c.AllowsMovement))
-                        listErrors.AddRange(listFilterErrors)
-                    End If
-
-                    'Validar las cuentas contables acreedores glosa
-                    listFilterErrors = data.Where(Function(d) Not listMainAccounts.Any(Function(c) c.Number = d.Row.Item(21))).Select(Function(d) String.Format("La cuenta contable acreedores glosa {0} del registro {1} no existe", d.Row.Item(21), (d.IndexRow).ToString())).ToList()
-                    If listFilterErrors IsNot Nothing AndAlso listFilterErrors.Any Then
-                        data.RemoveAll(Function(d) Not listMainAccounts.Any(Function(c) c.Number = d.Row.Item(21)))
-                        listErrors.AddRange(listFilterErrors)
-                    End If
-
-                    'Validar cuentas contables acreedores glosa manejen movimiento
-                    listFilterErrors = data.Where(Function(d) Not listMainAccounts.Any(Function(c) c.Number = d.Row.Item(21) AndAlso c.AllowsMovement)).Select(Function(d) String.Format("La cuenta contable acreedores glosa {0} del registro {1} no permite movimientos", d.Row.Item(21), (d.IndexRow).ToString())).ToList()
-                    If listFilterErrors IsNot Nothing AndAlso listFilterErrors.Any Then
-                        data.RemoveAll(Function(d) Not listMainAccounts.Any(Function(c) c.Number = d.Row.Item(21) AndAlso c.AllowsMovement))
-                        listErrors.AddRange(listFilterErrors)
-                    End If
-                End If
-            End If
-
+            ' ============================================================================
+            ' Mapping: AR header + accounting (per row) + share
+            ' ============================================================================
+            Dim billsByInvoiceNumber = listBills.GroupBy(Function(bill) bill.InvoiceNumber).
+                ToDictionary(Function(group) group.Key, Function(group) group.First())
             If data.Any() Then
                 For Each row In data
                     Dim indexRow = row.IndexRow
-                    Dim invoiceNumber = row.Row.Item(1).ToString()
+                        Dim invoiceNumber = row.Row.Item(2).ToString()
+                        Dim invoiceTypeStr = parsePrefix(row.Row.Item(0))
+                        Dim invoiceType As Byte = CByte(invoiceTypeStr) ' 1=Básica / 2=Salud / 7=Producto (D43)
+                        Dim invoiceDate = CDate(row.Row.Item(7))
 
-                    Dim portfolioInitialBalanceAccountReceivable = listBills.Where(Function(d) d.InvoiceNumber = invoiceNumber).FirstOrDefault()
-                    If portfolioInitialBalanceAccountReceivable Is Nothing Then
-                        portfolioInitialBalanceAccountReceivable = New PortfolioInitialBalanceAccountReceivable
-                        portfolioInitialBalanceAccountReceivable.AccountReceivableType = 1
-                        portfolioInitialBalanceAccountReceivable.ThirdPartyId = listCustomers.FirstOrDefault(Function(d) d.Nit = row.Row.Item(0)).ThirdPartyId
-                        portfolioInitialBalanceAccountReceivable.CustomerId = listCustomers.FirstOrDefault(Function(d) d.Nit = row.Row.Item(0)).Id
-                        portfolioInitialBalanceAccountReceivable.CodeNameCustomer = listCustomers.FirstOrDefault(Function(d) d.Nit = row.Row.Item(0)).Nit + " - " + listCustomers.FirstOrDefault(Function(d) d.Nit = row.Row.Item(0)).Name
-                        If row.Row.Item(5) IsNot Nothing Then
-                            portfolioInitialBalanceAccountReceivable.InvoiceCategoryId = listInvoiceCategories.FirstOrDefault(Function(c) c.Code = row.Row.Item(5)).Id
-                        End If
-                        portfolioInitialBalanceAccountReceivable.InvoiceNumber = row.Row.Item(1)
-                        portfolioInitialBalanceAccountReceivable.AccountReceivableDate = row.Row.Item(6)
-                        portfolioInitialBalanceAccountReceivable.Term = row.Row.Item(7)
-                        portfolioInitialBalanceAccountReceivable.ExpiredDate = portfolioInitialBalanceAccountReceivable.AccountReceivableDate.AddDays(portfolioInitialBalanceAccountReceivable.Term)
-                        portfolioInitialBalanceAccountReceivable.Observations = row.Row.Item(11)
-                        portfolioInitialBalanceAccountReceivable.PortfolioStatus = row.Row.Item(4)
-                        portfolioInitialBalanceAccountReceivable.NumberShares = 1 'row.Row.Item(6)
-                        portfolioInitialBalanceAccountReceivable.Value = row.Row.Item(12)
-                        portfolioInitialBalanceAccountReceivable.Balance = row.Row.Item(13)
-                        If row.Row.Count > 12 Then
-                            portfolioInitialBalanceAccountReceivable.CostCenterId = listCostCenters.FirstOrDefault(Function(c) c.Code = row.Row.Item(14)).Id
-                            portfolioInitialBalanceAccountReceivable.CodeNameGlosasCostCenter = listCostCenters.FirstOrDefault(Function(c) c.Code = row.Row.Item(14)).Code + " - " + listCostCenters.FirstOrDefault(Function(c) c.Code = row.Row.Item(14)).Name
-                            portfolioInitialBalanceAccountReceivable.AccountWithoutRadicateId = listMainAccounts.FirstOrDefault(Function(c) c.Number = row.Row.Item(15)).Id
-                            portfolioInitialBalanceAccountReceivable.CodeNameAccountWithoutRadicate = listMainAccounts.FirstOrDefault(Function(c) c.Number = row.Row.Item(15)).Number + " - " + listMainAccounts.FirstOrDefault(Function(c) c.Number = row.Row.Item(15)).Name
-                            portfolioInitialBalanceAccountReceivable.AccountRadicateId = listMainAccounts.FirstOrDefault(Function(c) c.Number = row.Row.Item(16)).Id
-                            portfolioInitialBalanceAccountReceivable.CodeNameAccountRadicate = listMainAccounts.FirstOrDefault(Function(c) c.Number = row.Row.Item(16)).Number + " - " + listMainAccounts.FirstOrDefault(Function(c) c.Number = row.Row.Item(16)).Name
-                            If companyType = 1 Then
-                                portfolioInitialBalanceAccountReceivable.AccountObjectionRemediedId = listMainAccounts.FirstOrDefault(Function(c) c.Number = row.Row.Item(17)).Id
-                                portfolioInitialBalanceAccountReceivable.CodeNameAccountObjectionRemedied = listMainAccounts.FirstOrDefault(Function(c) c.Number = row.Row.Item(17)).Number + " - " + listMainAccounts.FirstOrDefault(Function(c) c.Number = row.Row.Item(17)).Name
-                                portfolioInitialBalanceAccountReceivable.AccountConciliationId = listMainAccounts.FirstOrDefault(Function(c) c.Number = row.Row.Item(18)).Id
-                                portfolioInitialBalanceAccountReceivable.CodeNameAccountConciliation = listMainAccounts.FirstOrDefault(Function(c) c.Number = row.Row.Item(18)).Number + " - " + listMainAccounts.FirstOrDefault(Function(c) c.Number = row.Row.Item(18)).Name
-                                portfolioInitialBalanceAccountReceivable.AccountLegalCollectionId = listMainAccounts.FirstOrDefault(Function(c) c.Number = row.Row.Item(19)).Id
-                                portfolioInitialBalanceAccountReceivable.CodeNameAccountLegalCollection = listMainAccounts.FirstOrDefault(Function(c) c.Number = row.Row.Item(19)).Number + " - " + listMainAccounts.FirstOrDefault(Function(c) c.Number = row.Row.Item(19)).Name
+                        Dim portfolioInitialBalanceAccountReceivable As PortfolioInitialBalanceAccountReceivable = Nothing
+                        Dim isHeaderNew As Boolean = Not billsByInvoiceNumber.TryGetValue(invoiceNumber, portfolioInitialBalanceAccountReceivable)
+
+                        If isHeaderNew Then
+                            portfolioInitialBalanceAccountReceivable = New PortfolioInitialBalanceAccountReceivable
+                            portfolioInitialBalanceAccountReceivable.AccountReceivableType = invoiceType
+                            Dim customer = customersByNit(row.Row.Item(1).ToString())
+                            portfolioInitialBalanceAccountReceivable.ThirdPartyId = customer.ThirdPartyId
+                            portfolioInitialBalanceAccountReceivable.CustomerId = customer.Id
+                            portfolioInitialBalanceAccountReceivable.CodeNameCustomer = customer.Nit + " - " + customer.Name
+                            ' Categoría solo Salud (D37)
+                            If invoiceType = 2 AndAlso row.Row.Item(6) IsNot Nothing AndAlso Not String.IsNullOrWhiteSpace(row.Row.Item(6)?.ToString()) Then
+                                Dim categoryCode = row.Row.Item(6).ToString()
+                                If invoiceCategoriesByCode.ContainsKey(categoryCode) Then
+                                    portfolioInitialBalanceAccountReceivable.InvoiceCategoryId = invoiceCategoriesByCode(categoryCode).Id
+                                End If
+                            End If
+                            portfolioInitialBalanceAccountReceivable.InvoiceNumber = row.Row.Item(2)
+                            portfolioInitialBalanceAccountReceivable.AccountReceivableDate = invoiceDate
+                            portfolioInitialBalanceAccountReceivable.Term = CInt(row.Row.Item(8))
+                            portfolioInitialBalanceAccountReceivable.ExpiredDate = invoiceDate.AddDays(portfolioInitialBalanceAccountReceivable.Term)
+                            portfolioInitialBalanceAccountReceivable.Observations = row.Row.Item(15)
+                            portfolioInitialBalanceAccountReceivable.PortfolioStatus = CByte(row.Row.Item(5))
+                            portfolioInitialBalanceAccountReceivable.NumberShares = 1
+                            portfolioInitialBalanceAccountReceivable.Value = CDec(row.Row.Item(16))
+                            portfolioInitialBalanceAccountReceivable.Balance = 0 ' acumulado por línea (multi-línea Salud)
+
+                            Dim resolveAccountCodeName = Function(idOpt As Integer?) As String
+                                                             If Not idOpt.HasValue Then Return Nothing
+                                                             If Not mainAccountsById.ContainsKey(idOpt.Value) Then Return Nothing
+                                                             Dim ma = mainAccountsById(idOpt.Value)
+                                                             Return ma.Number & " - " & ma.Name
+                                                         End Function
+
+                            If invoiceType = 2 Then
+                                ' Salud: cuentas del AR header desde Estructura Contable (col 10)
+                                Dim structureCode = parsePrefix(row.Row.Item(10))
+                                Dim accountingStructure = accountingStructuresByCode(structureCode)
+                                Dim glosaCostCenterCode = row.Row.Item(18)?.ToString()
+                                If Not String.IsNullOrEmpty(glosaCostCenterCode) AndAlso costCentersByCode.ContainsKey(glosaCostCenterCode) Then
+                                    Dim ccGlosa = costCentersByCode(glosaCostCenterCode)
+                                    portfolioInitialBalanceAccountReceivable.CostCenterId = ccGlosa.Id
+                                    portfolioInitialBalanceAccountReceivable.CodeNameGlosasCostCenter = ccGlosa.Code & " - " & ccGlosa.Name
+                                End If
+                                portfolioInitialBalanceAccountReceivable.AccountWithoutRadicateId = accountingStructure.AccountWithoutRadicateId.GetValueOrDefault()
+                                portfolioInitialBalanceAccountReceivable.CodeNameAccountWithoutRadicate = resolveAccountCodeName(accountingStructure.AccountWithoutRadicateId)
+                                portfolioInitialBalanceAccountReceivable.AccountRadicateId = accountingStructure.AccountRadicateId.GetValueOrDefault()
+                                portfolioInitialBalanceAccountReceivable.CodeNameAccountRadicate = resolveAccountCodeName(accountingStructure.AccountRadicateId)
+                                If companyType = 1 Then
+                                    portfolioInitialBalanceAccountReceivable.AccountObjectionRemediedId = accountingStructure.AccountObjectionRemediedId.GetValueOrDefault()
+                                    portfolioInitialBalanceAccountReceivable.CodeNameAccountObjectionRemedied = resolveAccountCodeName(accountingStructure.AccountObjectionRemediedId)
+                                    portfolioInitialBalanceAccountReceivable.AccountConciliationId = accountingStructure.AccountConciliationId.GetValueOrDefault()
+                                    portfolioInitialBalanceAccountReceivable.CodeNameAccountConciliation = resolveAccountCodeName(accountingStructure.AccountConciliationId)
+                                    portfolioInitialBalanceAccountReceivable.AccountLegalCollectionId = accountingStructure.AccountLegalCollectionId.GetValueOrDefault()
+                                    portfolioInitialBalanceAccountReceivable.CodeNameAccountLegalCollection = resolveAccountCodeName(accountingStructure.AccountLegalCollectionId)
+                                Else
+                                    portfolioInitialBalanceAccountReceivable.AccountDebtorOrder = accountingStructure.AccountDebitOrderId.GetValueOrDefault()
+                                    portfolioInitialBalanceAccountReceivable.CodeNameAccountDebtorOrder = resolveAccountCodeName(accountingStructure.AccountDebitOrderId)
+                                    portfolioInitialBalanceAccountReceivable.AccountCreditorOrder = accountingStructure.AccountCreditOrderId.GetValueOrDefault()
+                                    portfolioInitialBalanceAccountReceivable.CodeNameAccountCreditorOrder = resolveAccountCodeName(accountingStructure.AccountCreditOrderId)
+                                End If
                             Else
-                                portfolioInitialBalanceAccountReceivable.AccountDebtorOrder = listMainAccounts.FirstOrDefault(Function(c) c.Number = row.Row.Item(20)).Id
-                                portfolioInitialBalanceAccountReceivable.CodeNameAccountDebtorOrder = listMainAccounts.FirstOrDefault(Function(c) c.Number = row.Row.Item(20)).Number + " - " + listMainAccounts.FirstOrDefault(Function(c) c.Number = row.Row.Item(20)).Name
-                                portfolioInitialBalanceAccountReceivable.AccountCreditorOrder = listMainAccounts.FirstOrDefault(Function(c) c.Number = row.Row.Item(21)).Id
-                                portfolioInitialBalanceAccountReceivable.CodeNameAccountCreditorOrder = listMainAccounts.FirstOrDefault(Function(c) c.Number = row.Row.Item(21)).Number + " - " + listMainAccounts.FirstOrDefault(Function(c) c.Number = row.Row.Item(21)).Name
+                                ' Básica/Producto: cuentas directas del Excel (cols 11/12/13)
+                                Dim accountBalanceCode = row.Row.Item(11).ToString()
+                                Dim hardCollectionAccountCode = row.Row.Item(12).ToString()
+                                Dim legalCollectionAccountCode = row.Row.Item(13).ToString()
+                                If mainAccountsByNumber.ContainsKey(accountBalanceCode) Then
+                                    Dim accSaldo = mainAccountsByNumber(accountBalanceCode)
+                                    portfolioInitialBalanceAccountReceivable.AccountWithoutRadicateId = accSaldo.Id
+                                    portfolioInitialBalanceAccountReceivable.CodeNameAccountWithoutRadicate = accSaldo.Number & " - " & accSaldo.Name
+                                End If
+                                If mainAccountsByNumber.ContainsKey(hardCollectionAccountCode) Then
+                                    Dim accDR = mainAccountsByNumber(hardCollectionAccountCode)
+                                    portfolioInitialBalanceAccountReceivable.AccountHardCollectionId = accDR.Id
+                                End If
+                                If mainAccountsByNumber.ContainsKey(legalCollectionAccountCode) Then
+                                    Dim accCJ = mainAccountsByNumber(legalCollectionAccountCode)
+                                    portfolioInitialBalanceAccountReceivable.AccountLegalCollectionId = accCJ.Id
+                                    portfolioInitialBalanceAccountReceivable.CodeNameAccountLegalCollection = accCJ.Number & " - " & accCJ.Name
+                                End If
+                                ' Centro de costo del header (col 14)
+                                Dim costCenterCode = row.Row.Item(14)?.ToString()
+                                If Not String.IsNullOrEmpty(costCenterCode) AndAlso costCentersByCode.ContainsKey(costCenterCode) Then
+                                    portfolioInitialBalanceAccountReceivable.CostCenterId = costCentersByCode(costCenterCode).Id
+                                End If
+                            End If
+
+                            ' IsElectronicInvoice (col 3) + CUFE (col 4) — switch para Felipe ED chain en confirm path (D46).
+                            Dim isElectronic As Boolean = False
+                            If row.Row.Count > 3 AndAlso row.Row.Item(3) IsNot Nothing Then
+                                Dim rawElec = row.Row.Item(3).ToString().Trim()
+                                If Not Boolean.TryParse(rawElec, isElectronic) Then
+                                    isElectronic = (rawElec = "1" OrElse rawElec.Equals("Sí", StringComparison.OrdinalIgnoreCase) OrElse rawElec.Equals("Si", StringComparison.OrdinalIgnoreCase))
+                                End If
+                            End If
+                            portfolioInitialBalanceAccountReceivable.IsElectronicInvoice = isElectronic
+                            If row.Row.Count > 4 AndAlso Not String.IsNullOrWhiteSpace(row.Row.Item(4)?.ToString()) Then
+                                portfolioInitialBalanceAccountReceivable.CUFE = row.Row.Item(4).ToString().Trim()
+                            End If
+
+                            ' CUV (col 19) — persist always; solo Salud lo llenará en la práctica.
+                            ' Switch para Felipe RIPS chain en confirm path (D46).
+                            If row.Row.Count > 19 AndAlso Not String.IsNullOrWhiteSpace(row.Row.Item(19)?.ToString()) Then
+                                portfolioInitialBalanceAccountReceivable.CUV = row.Row.Item(19).ToString().Trim()
+                            End If
+
+                            listBills.Add(portfolioInitialBalanceAccountReceivable)
+                            billsByInvoiceNumber(invoiceNumber) = portfolioInitialBalanceAccountReceivable
+                        End If
+
+                        ' Acumular Balance (multi-línea Salud)
+                        portfolioInitialBalanceAccountReceivable.Balance += CDec(row.Row.Item(17))
+
+                        ' Deterioro Salud (cols 20-21) — D45: branching por año fecha factura vs año actual.
+                        ' En multi-línea Salud, los valores se acumulan por línea (CSV ejemplo trae Valor Deterioro per row).
+                        ' Constraint BD: DeteriorationBalance = CurrentYear + PreviousYear (validado al persistir).
+                        If invoiceType = 2 AndAlso row.Row.Count > 20 AndAlso IsNumeric(row.Row.Item(20)) Then
+                            Dim deteriorationValue = CDec(row.Row.Item(20))
+                            If deteriorationValue > 0 Then
+                                If invoiceDate.Year = DateTime.Now.Year Then
+                                    portfolioInitialBalanceAccountReceivable.DeteriorationBalanceCurrentYear += deteriorationValue
+                                Else
+                                    portfolioInitialBalanceAccountReceivable.DeteriorationBalancePreviousYear += deteriorationValue
+                                End If
+                                portfolioInitialBalanceAccountReceivable.DeteriorationBalance += deteriorationValue
+                                If row.Row.Count > 21 AndAlso IsDate(row.Row.Item(21)) Then
+                                    portfolioInitialBalanceAccountReceivable.CurrentDeteriorationYear = CDate(row.Row.Item(21)).Year
+                                End If
                             End If
                         End If
-                        listBills.Add(portfolioInitialBalanceAccountReceivable)
-                    End If
 
-                    Dim accounting As New PortfolioInitialBalanceAccountReceivableAccounting
-                    Dim account = listMainAccounts.FirstOrDefault(Function(c) c.Number = row.Row.Item(9))
-                    accounting.MainAccountId = account.Id
-                    accounting.CodeNameMainAccount = account.Number + " - " + account.Name
-                    If account.HandlesCostCenter Then
-                        accounting.CostCenterId = listCostCenters.FirstOrDefault(Function(c) c.Code = row.Row.Item(10)).Id
-                        accounting.CodeNameCostCenter = listCostCenters.FirstOrDefault(Function(c) c.Code = row.Row.Item(10)).Code + " - " + listCostCenters.FirstOrDefault(Function(c) c.Code = row.Row.Item(10)).Name
-                    End If
-                    accounting.ThirdPartyId = portfolioInitialBalanceAccountReceivable.ThirdPartyId
-                    accounting.Value = row.Row.Item(12)
-                    portfolioInitialBalanceAccountReceivable.PortfolioInitialBalanceAccountReceivableAccounting.Add(accounting)
+                        ' Accounting line per row — cuenta = col 11 (Saldo) directa
+                        Dim accountLineCode = row.Row.Item(11).ToString()
+                        If mainAccountsByNumber.ContainsKey(accountLineCode) Then
+                            Dim accLine = mainAccountsByNumber(accountLineCode)
+                            Dim accounting As New PortfolioInitialBalanceAccountReceivableAccounting
+                            accounting.MainAccountId = accLine.Id
+                            accounting.CodeNameMainAccount = accLine.Number + " - " + accLine.Name
+                            If accLine.HandlesCostCenter Then
+                                Dim accountingCostCenterCode = row.Row.Item(14)?.ToString()
+                                If Not String.IsNullOrEmpty(accountingCostCenterCode) AndAlso costCentersByCode.ContainsKey(accountingCostCenterCode) Then
+                                    Dim cc = costCentersByCode(accountingCostCenterCode)
+                                    accounting.CostCenterId = cc.Id
+                                    accounting.CodeNameCostCenter = cc.Code + " - " + cc.Name
+                                End If
+                            End If
+                            accounting.ThirdPartyId = portfolioInitialBalanceAccountReceivable.ThirdPartyId
+                            accounting.Value = CDec(row.Row.Item(17)) ' Saldo de la línea (no Valor Factura)
+                            portfolioInitialBalanceAccountReceivable.PortfolioInitialBalanceAccountReceivableAccounting.Add(accounting)
+                        End If
 
-                    Dim share As New PortfolioInitialBalanceAccountReceivableShare
-                    share.ExpiredDate = portfolioInitialBalanceAccountReceivable.ExpiredDate
-                    share.Number = row.Row.Item(8)
-                    share.Value = row.Row.Item(13)
-                    portfolioInitialBalanceAccountReceivable.PortfolioInitialBalanceAccountReceivableShare.Add(share)
+                        ' Share record
+                        Dim share As New PortfolioInitialBalanceAccountReceivableShare
+                        share.ExpiredDate = portfolioInitialBalanceAccountReceivable.ExpiredDate
+                        share.Number = CInt(row.Row.Item(9))
+                        share.Value = CDec(row.Row.Item(17))
+                        portfolioInitialBalanceAccountReceivable.PortfolioInitialBalanceAccountReceivableShare.Add(share)
+
                 Next
             End If
 

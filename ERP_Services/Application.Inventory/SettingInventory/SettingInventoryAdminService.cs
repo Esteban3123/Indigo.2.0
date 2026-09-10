@@ -499,28 +499,39 @@ namespace Application.Inventory.SettingInventory
                     {
                         Parallel.ForEach(result.ObjectEmbbeded, new ParallelOptions { CancellationToken = token }, movement =>
                         {
+                            token.ThrowIfCancellationRequested();
                             try
                             {
                                 var response = executeMovementsPending(movement.Id, token);
                                 if (!response.StateResult)
                                 {
+                                    var errorMessage = string.IsNullOrWhiteSpace(response.Message) ? "No se obtuvo detalle del error." : response.Message;
+                                    errors.Add($"Movimiento contable {movement.Id}: {errorMessage}");
                                     cts.Cancel(); // Cancelar tareas paralelas
                                 }
                             }
+                            catch (OperationCanceledException)
+                            {
+                                throw;
+                            }
                             catch (Exception ex)
                             {
-                                errors.Add(ex.Message);
+                                errors.Add($"Movimiento contable {movement.Id}: {ex.Message}");
+                                cts.Cancel();
                             }
                         });
                     }
                     catch (OperationCanceledException)
                     {
-                        // Manejo específico para cancelación de operaciones
+                        var message = errors.Any()
+                            ? "El proceso de cierre mensual ha sido cancelado." + Environment.NewLine + string.Join(Environment.NewLine, errors.Where(error => !string.IsNullOrWhiteSpace(error)).Distinct())
+                            : "El proceso de cierre mensual ha sido cancelado.";
+
                         return new ActionResult<string>
                         {
                             StateResult = false,
                             ObjectEmbbeded = null,
-                            Message = "El proceso de cierre mensual ha sido cancelado."
+                            Message = message
                         };
                     }
                 }
@@ -529,7 +540,7 @@ namespace Application.Inventory.SettingInventory
                 {
                     if (errors.Any())
                     {
-                        return new ActionResult<string> { StateResult = false, ObjectEmbbeded = null, Message = "" };
+                        return new ActionResult<string> { StateResult = false, ObjectEmbbeded = null, Message = string.Join(Environment.NewLine, errors.Where(error => !string.IsNullOrWhiteSpace(error)).Distinct()) };
                     }
                     transaction.Complete(); // Confirmar la transacción
                     return new ActionResult<string> { StateResult = true, ObjectEmbbeded = null, Message = "" };
@@ -584,6 +595,11 @@ namespace Application.Inventory.SettingInventory
                 var result = _settingInventoryRepository.ExecuteStoredProcedure<SP_SaveJournalVoucherOffline_ByMovementID_Result>("[GeneralLedger].[SP_ProcessJournalVoucherMovement]", new List<(string, object)> {
                     ("@MovementId", movementId)
                 }).FirstOrDefault();
+
+                if (result == null)
+                {
+                    return new ActionResult<SP_SaveJournalVoucherOffline_ByMovementID_Result> { StateResult = false, ObjectEmbbeded = null, Message = "El procedimiento no retornó resultado." };
+                }
 
                 if (result.CodeMessage == 999)
                 {

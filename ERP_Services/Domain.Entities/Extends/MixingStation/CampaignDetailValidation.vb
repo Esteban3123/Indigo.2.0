@@ -104,6 +104,16 @@ Partial Public Class CampaignDetailValidation
     <DataMember()>
     Public Property RemnantFullName As String
 
+    ''' Cantidad consumida durante la ejecución de la campaña (en unidades de campaña).
+    ''' Poblado por GetCampaignDetailValidationForDevolution; no persiste en BD.
+    <DataMember()>
+    Public Property ConsumedQuantity As Integer
+
+    ''' Cantidad aprovechada durante la ejecución de la campaña (en unidad de medida del Kardex).
+    ''' Poblado por GetCampaignDetailValidationForDevolution; no persiste en BD.
+    <DataMember()>
+    Public Property HarnessedQuantity As Decimal
+
     Public Function Key() As String
         If Me.InventoryProduct IsNot Nothing Then
             If Me.InventoryProduct.ATCId IsNot Nothing Then

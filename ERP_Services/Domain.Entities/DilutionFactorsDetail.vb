@@ -165,9 +165,9 @@ Partial Public Class DilutionFactorsDetail
         End Set
     End Property
 
-    Private _byDefault As Nullable(Of Boolean)
-    <DataMember()>
-    Public Property ByDefault() As Nullable(Of Boolean)
+	Private _byDefault As Nullable(Of Boolean)
+	<DataMember()>
+	Public Property ByDefault() As Nullable(Of Boolean)
         Get
             Return _byDefault
         End Get

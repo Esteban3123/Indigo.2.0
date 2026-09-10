@@ -1,4 +1,4 @@
-﻿Imports System.Transactions
+Imports System.Transactions
 Imports Application.Base
 Imports Domain.Base.Entities
 Imports Domain.Base.Entities.Enums.ElectronicDocuments
@@ -64,6 +64,13 @@ Public Class AverageStandardCostAdminService
 
                 Else
                     MessageResult = ResourceManager.GetString("SaveMessage")
+                End If
+
+                ' Validamos que no exista otro Costo Estándar con la misma actividad en ese rango de fechas
+                Dim overlapValidation = ValidateOverlappingActivities(standarCost)
+                If Not overlapValidation.StateResult Then
+                    scope.Dispose()
+                    Return overlapValidation
                 End If
 
                 Dim auxObjEntity As StandarCost = Nothing
@@ -158,6 +165,41 @@ Public Class AverageStandardCostAdminService
         Catch ex As Exception
             Return New ActionResult(Of List(Of StandarCostDetails)) With {.StateResult = False, .StatusCode = eStatusResult.EXCEPTION, .Message = Utils.GetInnerExceptionMessageToString(ex)}
         End Try
+    End Function
+
+    ''' <summary>
+    ''' Función que valida las Actividades de otros Costo Estándar y su vigencia
+    ''' </summary>
+    ''' <param name="standarCost"></param>
+    ''' <returns></returns>
+    Private Function ValidateOverlappingActivities(standarCost As StandarCost) As ActionResult(Of StandarCost)
+        Dim currentActivityIds = standarCost.StandarCostDetails _
+            .Where(Function(d) d.CostActivityId.HasValue) _
+            .Select(Function(d) d.CostActivityId.Value) _
+            .Distinct().ToList()
+
+        If Not currentActivityIds.Any() Then
+            Return New ActionResult(Of StandarCost) With {.StateResult = True}
+        End If
+
+        Dim overlappingCosts = _averageStandardCostReposotory.GetOverlappingStandarCosts(standarCost.Validity, standarCost.EndDate, standarCost.Id)
+        For Each existing In overlappingCosts
+            Dim duplicateDetail = existing.StandarCostDetails _
+                .FirstOrDefault(Function(d) d.CostActivityId.HasValue AndAlso currentActivityIds.Contains(d.CostActivityId.Value))
+            If duplicateDetail IsNot Nothing Then
+                Dim activityInfo = If(String.IsNullOrEmpty(duplicateDetail.CodeNameActivity), duplicateDetail.CostActivityId.ToString(), duplicateDetail.CodeNameActivity)
+                Return New ActionResult(Of StandarCost) With {
+                    .StateResult = False,
+                    .StatusCode = eStatusResult.WARNING,
+                    .Message = String.Format(ResourceManager.GetString("StandarCostActivityOverlap", "Cost"),
+                        activityInfo,
+                        existing.Validity.ToString("dd/MM/yyyy"),
+                        existing.EndDate.ToString("dd/MM/yyyy"))
+                }
+            End If
+        Next
+
+        Return New ActionResult(Of StandarCost) With {.StateResult = True}
     End Function
 
 #Region "IDisposable Support"

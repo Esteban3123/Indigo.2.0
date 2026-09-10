@@ -238,6 +238,17 @@ Public Class CMConfigRepository
                 Dim udt = (From x In _context.UnitDoseType.AsNoTracking() Where x.Id = MedicinesProduction.UnitDoseTypeId Select x).FirstOrDefault()
                 Return String.Concat("No se puede agregar el item porque el medicamento ", atc.Code, " - ", atc.Name, " con tipo de dosis unitaria ", udt.Code, " - ", udt.Description, " ya se encuentra asignado a centro de atención seleccionado ", If(cm IsNot Nothing, cm.Code, ad.CODCENATE).Trim(), " - " + If(cm IsNot Nothing, cm.Description, ad.NOMCENATE))
             End If
+
+            ' Valida que la combinación medicamento + tipo de dosis unitaria + centro de atención no esté asignada en otra central de mezclas
+            Dim crossResult = (From mp In _context.MedicinesProduction.AsNoTracking() Where mp.ATCId = MedicinesProduction.ATCId AndAlso mp.UnitDoseTypeId = MedicinesProduction.UnitDoseTypeId AndAlso mp.CenterAttentionId = MedicinesProduction.CenterAttentionId AndAlso mp.CMConfigurationId <> MedicinesProduction.CMConfigurationId).FirstOrDefault()
+            If crossResult IsNot Nothing Then
+                Dim crossCM = (From x In _context.CMConfiguration.AsNoTracking() Where x.Id = crossResult.CMConfigurationId Select x).FirstOrDefault()
+                Dim atcX = (From x In _context.ATC.AsNoTracking() Where x.Id = MedicinesProduction.ATCId Select x).FirstOrDefault()
+                Dim udtX = (From x In _context.UnitDoseType.AsNoTracking() Where x.Id = MedicinesProduction.UnitDoseTypeId Select x).FirstOrDefault()
+                Dim cmX = (From x In _context.ExternalCareCenter.AsNoTracking() Where x.Id = MedicinesProduction.CenterAttentionId Select x).FirstOrDefault()
+                Dim adX = (From x In _crystalContext.ADCENATEN.AsNoTracking() Where x.CODCENATE = MedicinesProduction.CenterAttentionId).FirstOrDefault()
+                Return String.Concat("No se puede agregar el item porque el medicamento ", atcX.Code, " - ", atcX.Name, " con tipo de dosis unitaria ", udtX.Code, " - ", udtX.Description, " y centro de atención ", If(cmX IsNot Nothing, cmX.Code, adX.CODCENATE).Trim(), " - ", If(cmX IsNot Nothing, cmX.Description, adX.NOMCENATE).Trim(), " ya se encuentra asignado a la central de mezclas ", crossCM.Code, " - ", crossCM.Name)
+            End If
         End If
 
         Return String.Empty

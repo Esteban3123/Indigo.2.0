@@ -465,7 +465,7 @@ Public Class NoteConceptAdminService
                     Continue For
                 End If
                 'Validar el valor 
-                If Not IsNumeric(Data.Item(i).Item(4)) OrElse Not Regex.IsMatch(Data.Item(i).Item(4).ToString(), "^-?\d{1,16}(\.\d{1,2})?$") Then
+                If Not IsNumeric(Data.Item(i).Item(4)) OrElse Not Regex.IsMatch(Data.Item(i).Item(4).ToString(), "^-?\d{1,16}(\,\d{1,2})?$") Then
                     errorList.Add("El valor " + (i + 1).ToString() + " no es un número válido")
                     Continue For
                 End If

@@ -124,13 +124,13 @@ Partial Public Class CostDistributionIntermediate
         End Set
     End Property
 
-	Private _status As Boolean
+	Private _status As Byte
 	<DataMember()>
-	Public Property Status() As Boolean
+	Public Property Status() As Byte
         Get
             Return _status
         End Get
-        Set(ByVal value As Boolean)
+        Set(ByVal value As Byte)
             If Not Equals(_status, value) Then
                 _status = value
                 OnPropertyChanged("Status")
@@ -209,6 +209,104 @@ Partial Public Class CostDistributionIntermediate
         End Set
     End Property
 
+	Private _intermediateDistributionElementId As Nullable(Of Integer)
+	<DataMember()>
+	Public Property IntermediateDistributionElementId() As Nullable(Of Integer)
+        Get
+            Return _intermediateDistributionElementId
+        End Get
+        Set(ByVal value As Nullable(Of Integer))
+            If Not Equals(_intermediateDistributionElementId, value) Then
+                _intermediateDistributionElementId = value
+                OnPropertyChanged("IntermediateDistributionElementId")
+            End If
+        End Set
+    End Property
+
+	Private _costEstimationId As Nullable(Of Integer)
+	<DataMember()>
+	Public Property CostEstimationId() As Nullable(Of Integer)
+        Get
+            Return _costEstimationId
+        End Get
+        Set(ByVal value As Nullable(Of Integer))
+            If Not Equals(_costEstimationId, value) Then
+                _costEstimationId = value
+                OnPropertyChanged("CostEstimationId")
+            End If
+        End Set
+    End Property
+
+	Private _confirmUser As String
+	<DataMember()>
+	Public Property ConfirmUser() As String
+        Get
+            Return _confirmUser
+        End Get
+        Set(ByVal value As String)
+            If Not Equals(_confirmUser, value) Then
+                _confirmUser = value
+                OnPropertyChanged("ConfirmUser")
+            End If
+        End Set
+    End Property
+
+	Private _confirmDate As Nullable(Of Date)
+	<DataMember()>
+	Public Property ConfirmDate() As Nullable(Of Date)
+        Get
+            Return _confirmDate
+        End Get
+        Set(ByVal value As Nullable(Of Date))
+            If Not Equals(_confirmDate, value) Then
+                _confirmDate = value
+                OnPropertyChanged("ConfirmDate")
+            End If
+        End Set
+    End Property
+
+	Private _annulmentUser As String
+	<DataMember()>
+	Public Property AnnulmentUser() As String
+        Get
+            Return _annulmentUser
+        End Get
+        Set(ByVal value As String)
+            If Not Equals(_annulmentUser, value) Then
+                _annulmentUser = value
+                OnPropertyChanged("AnnulmentUser")
+            End If
+        End Set
+    End Property
+
+	Private _annulmentDate As Nullable(Of Date)
+	<DataMember()>
+	Public Property AnnulmentDate() As Nullable(Of Date)
+        Get
+            Return _annulmentDate
+        End Get
+        Set(ByVal value As Nullable(Of Date))
+            If Not Equals(_annulmentDate, value) Then
+                _annulmentDate = value
+                OnPropertyChanged("AnnulmentDate")
+            End If
+        End Set
+    End Property
+
+	Private _value As Decimal
+	<DataMember()>
+	Public Property Value() As Decimal
+        Get
+            Return _value
+        End Get
+        Set(ByVal value As Decimal)
+            If Not Equals(_value, value) Then
+                _value = value
+                OnPropertyChanged("Value")
+            End If
+        End Set
+    End Property
+
 #End Region
 
 #Region "Navigation Properties"
@@ -240,6 +338,34 @@ Partial Public Class CostDistributionIntermediate
     End Property
 
     Private _costDistributionIntermediateDetail As TrackableCollection(Of CostDistributionIntermediateDetail)
+
+    ' ⚠️ NO exponer a WCF: Es una tabla de uso interno, no se consume desde cliente
+	Public Property CostIntermediateDistributionServiceQuantity() As TrackableCollection(Of CostIntermediateDistributionServiceQuantity)
+		Get
+            If _costIntermediateDistributionServiceQuantity Is Nothing Then
+                _costIntermediateDistributionServiceQuantity = New TrackableCollection(Of CostIntermediateDistributionServiceQuantity)
+                AddHandler _costIntermediateDistributionServiceQuantity.CollectionChanged, AddressOf FixupCostIntermediateDistributionServiceQuantity
+            End If
+            Return _costIntermediateDistributionServiceQuantity
+        End Get
+        Set(ByVal value As TrackableCollection(Of CostIntermediateDistributionServiceQuantity))
+            If _costIntermediateDistributionServiceQuantity IsNot value Then
+                If ChangeTracker.ChangeTrackingEnabled Then
+                    Throw New InvalidOperationException("Cannot set the FixupChangeTrackingCollection when ChangeTracking is enabled")
+                End If
+                If _costIntermediateDistributionServiceQuantity IsNot Nothing Then
+                    RemoveHandler _costIntermediateDistributionServiceQuantity.CollectionChanged, AddressOf FixupCostIntermediateDistributionServiceQuantity
+                End If
+                _costIntermediateDistributionServiceQuantity = value
+                If _costIntermediateDistributionServiceQuantity IsNot Nothing Then
+                    AddHandler _costIntermediateDistributionServiceQuantity.CollectionChanged, AddressOf FixupCostIntermediateDistributionServiceQuantity
+                End If
+                OnNavigationPropertyChanged("CostIntermediateDistributionServiceQuantity")
+            End If
+        End Set
+    End Property
+
+    Private _costIntermediateDistributionServiceQuantity As TrackableCollection(Of CostIntermediateDistributionServiceQuantity)
 
     <DataMember()>
     Public Property CostProductionCenter() As CostProductionCenter
@@ -326,6 +452,7 @@ Partial Public Class CostDistributionIntermediate
 
     Protected Overridable Sub ClearNavigationProperties()
         CostDistributionIntermediateDetail.Clear()
+        CostIntermediateDistributionServiceQuantity.Clear()
         CostProductionCenter = Nothing
     End Sub
 
@@ -384,6 +511,35 @@ Partial Public Class CostDistributionIntermediate
                 End If
                 If ChangeTracker.ChangeTrackingEnabled Then
                     ChangeTracker.RecordRemovalFromCollectionProperties("CostDistributionIntermediateDetail", item)
+                End If
+            Next
+        End If
+    End Sub
+
+    Private Sub FixupCostIntermediateDistributionServiceQuantity(ByVal sender As Object, ByVal e As NotifyCollectionChangedEventArgs)
+        If IsDeserializing Then
+            Return
+        End If
+
+        If e.NewItems IsNot Nothing Then
+            For Each item As CostIntermediateDistributionServiceQuantity In e.NewItems
+                item.CostDistributionIntermediate = Me
+                If ChangeTracker.ChangeTrackingEnabled Then
+                    If Not item.ChangeTracker.ChangeTrackingEnabled Then
+                        item.StartTracking()
+                    End If
+                    ChangeTracker.RecordAdditionToCollectionProperties("CostIntermediateDistributionServiceQuantity", item)
+                End If
+            Next
+        End If
+
+        If e.OldItems IsNot Nothing Then
+            For Each item As CostIntermediateDistributionServiceQuantity In e.OldItems
+                If item.CostDistributionIntermediate Is Me Then
+                    item.CostDistributionIntermediate = Nothing
+                End If
+                If ChangeTracker.ChangeTrackingEnabled Then
+                    ChangeTracker.RecordRemovalFromCollectionProperties("CostIntermediateDistributionServiceQuantity", item)
                 End If
             Next
         End If

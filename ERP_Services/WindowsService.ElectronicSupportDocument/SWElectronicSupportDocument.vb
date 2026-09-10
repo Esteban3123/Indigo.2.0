@@ -5,6 +5,9 @@ Public Class SWElectronicSupportDocument
 
     Public timer As New Timers.Timer
     Private containers() As String
+    Private electronicBlobContainerName As String
+    Private currentBlobConnectionString As String
+    Private _securityContainer As String
 
     Protected Overrides Sub OnStart(ByVal args() As String)
         Try
@@ -26,6 +29,9 @@ Public Class SWElectronicSupportDocument
             End If
 
             containers = Split(appSettings("_Containers_"), ",")
+            currentBlobConnectionString = appSettings("AzureBlobConnectionString")
+            electronicBlobContainerName = appSettings("BlobContainerName")
+            _securityContainer = appSettings("_ContainerSecurity_")
 
             Timer = New Timers.Timer()
             AddHandler Timer.Elapsed, AddressOf OnElapsedTime
@@ -53,6 +59,12 @@ Public Class SWElectronicSupportDocument
             For Each container As String In containers
                 If Not String.IsNullOrEmpty(container) Then
                     ServerSessionValues.Current.CurrentContainer = container.Trim()
+                    ServerSessionValues.Current.CurrentBlobConnectionString = currentBlobConnectionString
+                    ServerSessionValues.Current.BlobContainerName = electronicBlobContainerName
+                    SessionValues.Instance.TransactionalContainer = container.Trim()
+                    If Not String.IsNullOrEmpty(_securityContainer) Then
+                        SessionValues.Instance.SecurityContainer = _securityContainer.Trim()
+                    End If
                     Using service As IElectronicDocumentsService = New ElectronicDocumentsService
                         Try
                             Dim response = Await service.ExecuteProcessDocumentSupport

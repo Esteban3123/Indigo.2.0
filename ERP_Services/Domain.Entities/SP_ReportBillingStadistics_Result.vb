@@ -78,6 +78,22 @@ Partial Public Class SP_ReportBillingStadistics_Result
     Private _careCenterName As String
 
     <DataMember()>
+    Public Property InvoiceCategories() As String
+        Get
+            Return _invoiceCategories
+        End Get
+        Set(ByVal value As String)
+            If Not Equals(_invoiceCategories, value) Then
+                OnComplexPropertyChanging()
+                _invoiceCategories = value
+                OnPropertyChanged("InvoiceCategories")
+            End If
+        End Set
+    End Property
+
+    Private _invoiceCategories As String
+
+    <DataMember()>
     Public Property CareCenterDescription() As String
         Get
             Return _careCenterDescription
@@ -909,22 +925,6 @@ Partial Public Class SP_ReportBillingStadistics_Result
 
     Private _currencyName As String
 
-    <DataMember()>
-    Public Property InvoiceCategories() As String
-        Get
-            Return _invoiceCategories
-        End Get
-        Set(ByVal value As String)
-            If Not Equals(_invoiceCategories, value) Then
-                OnComplexPropertyChanging()
-                _invoiceCategories = value
-                OnPropertyChanged("InvoiceCategories")
-            End If
-        End Set
-    End Property
-
-    Private _invoiceCategories As String
-
 #End Region
 
 #Region "ChangeTracking"
@@ -952,6 +952,7 @@ Partial Public Class SP_ReportBillingStadistics_Result
         changeTracker.RecordOriginalValue(String.Format(CultureInfo.InvariantCulture, "{0}.Id", parentPropertyName), If(complexObject Is Nothing, Nothing, complexObject.Id))
         changeTracker.RecordOriginalValue(String.Format(CultureInfo.InvariantCulture, "{0}.CareCenterCode", parentPropertyName), If(complexObject Is Nothing, Nothing, complexObject.CareCenterCode))
         changeTracker.RecordOriginalValue(String.Format(CultureInfo.InvariantCulture, "{0}.CareCenterName", parentPropertyName), If(complexObject Is Nothing, Nothing, complexObject.CareCenterName))
+        changeTracker.RecordOriginalValue(String.Format(CultureInfo.InvariantCulture, "{0}.InvoiceCategories", parentPropertyName), If(complexObject Is Nothing, Nothing, complexObject.InvoiceCategories))
         changeTracker.RecordOriginalValue(String.Format(CultureInfo.InvariantCulture, "{0}.CareCenterDescription", parentPropertyName), If(complexObject Is Nothing, Nothing, complexObject.CareCenterDescription))
         changeTracker.RecordOriginalValue(String.Format(CultureInfo.InvariantCulture, "{0}.ThirdPartyNit", parentPropertyName), If(complexObject Is Nothing, Nothing, complexObject.ThirdPartyNit))
         changeTracker.RecordOriginalValue(String.Format(CultureInfo.InvariantCulture, "{0}.ThirdPartyName", parentPropertyName), If(complexObject Is Nothing, Nothing, complexObject.ThirdPartyName))
@@ -1004,7 +1005,6 @@ Partial Public Class SP_ReportBillingStadistics_Result
         changeTracker.RecordOriginalValue(String.Format(CultureInfo.InvariantCulture, "{0}.CurrencyId", parentPropertyName), If(complexObject Is Nothing, Nothing, complexObject.CurrencyId))
         changeTracker.RecordOriginalValue(String.Format(CultureInfo.InvariantCulture, "{0}.Abbreviation", parentPropertyName), If(complexObject Is Nothing, Nothing, complexObject.Abbreviation))
         changeTracker.RecordOriginalValue(String.Format(CultureInfo.InvariantCulture, "{0}.CurrencyName", parentPropertyName), If(complexObject Is Nothing, Nothing, complexObject.CurrencyName))
-        changeTracker.RecordOriginalValue(String.Format(CultureInfo.InvariantCulture, "{0}.InvoiceCategories", parentPropertyName), If(complexObject Is Nothing, Nothing, complexObject.InvoiceCategories))
     End Sub
 
 #End Region

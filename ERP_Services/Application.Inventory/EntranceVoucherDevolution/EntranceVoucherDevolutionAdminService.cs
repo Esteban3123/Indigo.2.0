@@ -851,7 +851,7 @@ namespace Application.Inventory.AppEntranceVoucherDevolution
                 paymentNotesDetail.IdCostCenter = warehouse.CostCenterId;
                 paymentNotesDetail.Nature = 1; //Debito
                 paymentNotesDetail.BaseValue = entranceDevolution.ValueTax;
-                paymentNotesDetail.BillingValue = entranceDevolution.TotalValue;
+                paymentNotesDetail.BillingValue = entranceDevolution.Value - entranceDevolution.ValueDiscount + entranceDevolution.ValueTax;
                 paymentNotesDetail.Value = entranceDevolution.WithholdingTax;
                 paymentNotesDetail.TotalConceptValue = entranceDevolution.WithholdingTax;
                 paymentNotesDetail.Comments = "Detalle Nota Debito generada por Devolución de Comprobante de Entrada 'Retencion IVA'";
@@ -870,7 +870,7 @@ namespace Application.Inventory.AppEntranceVoucherDevolution
                 paymentNotesDetail.IdCostCenter = warehouse.CostCenterId;
                 paymentNotesDetail.Nature = 1; //Debito
                 paymentNotesDetail.BaseValue = entranceDevolution.Value - entranceDevolution.ValueDiscount;
-                paymentNotesDetail.BillingValue = entranceDevolution.TotalValue;
+                paymentNotesDetail.BillingValue = entranceDevolution.Value - entranceDevolution.ValueDiscount + entranceDevolution.ValueTax;
                 paymentNotesDetail.Value = Convert.ToDecimal(entranceDevolution.WithholdingICA);
                 paymentNotesDetail.TotalConceptValue = Convert.ToDecimal(entranceDevolution.WithholdingICA);
                 paymentNotesDetail.Percentage = entranceDevolution.WithholdingIcaPercentage;

@@ -1,4 +1,4 @@
-﻿'***********************************************************************
+'***********************************************************************
 ' Assembly         : DistributedServices.Portfolio
 ' Author           : Carlos Ernesto Cordoba
 ' Created          : 04-04-2014
@@ -61,10 +61,12 @@ Partial Class PortfolioService
     ''' </summary>
     ''' <param name="closingDate"></param>
     ''' <param name="operativeUnitId"></param>
+    ''' <param name="pageNumber"></param>
+    ''' <param name="pageSize"></param>
     ''' <returns></returns>
-    Public Function GetPortfolioDeteriorationByClassification(closingDate As Date, operativeUnitId As Integer) As ActionResult(Of List(Of PortfolioDeteriorationByClassificationDTO)) Implements IPortfolioServicePortfolioProvision.GetPortfolioDeteriorationByClassification
+    Public Function GetPortfolioDeteriorationByClassification(closingDate As Date, operativeUnitId As Integer, Optional pageNumber As Integer = 1, Optional pageSize As Integer = 50000) As ActionResult(Of List(Of PortfolioDeteriorationByClassificationDTO)) Implements IPortfolioServicePortfolioProvision.GetPortfolioDeteriorationByClassification
         Using service As IPortfolioProvisionAdminService = Container.Current.Resolve(Of IPortfolioProvisionAdminService)()
-            Return service.GetPortfolioDeteriorationByClassification(closingDate, operativeUnitId)
+            Return service.GetPortfolioDeteriorationByClassification(closingDate, operativeUnitId, pageNumber, pageSize)
         End Using
     End Function
 

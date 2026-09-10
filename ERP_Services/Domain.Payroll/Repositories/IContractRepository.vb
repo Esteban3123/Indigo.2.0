@@ -1,4 +1,4 @@
-﻿'***********************************************************************
+'***********************************************************************
 ' Assembly         : Domain.Payroll
 ' Author           : Daniel Eduardo Arévalo 
 ' Created          : 18-02-2014
@@ -34,7 +34,7 @@ Public Interface IContractRepository
 
     Function GetMassiveContract(pXMLObj As String) As List(Of SP_GetMassiveContract_Result)
 
-    Sub SaveMassiveContract(pXMLObj As String, pCodeUser As String, pIdUser As Integer)
+    Function SaveMassiveContract(pXMLObj As String, pCodeUser As String, pIdUser As Integer) As SP_SaveMassiveContract_DTO
 
     Function GetMassiveContractExtension(pXMLObj As String) As List(Of SP_GetMassiveContractExtension_Result)
 

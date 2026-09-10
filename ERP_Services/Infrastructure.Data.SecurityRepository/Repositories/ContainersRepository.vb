@@ -38,29 +38,30 @@ Public Class ContainersRepository
     ''' </summary>
     ''' <returns>Lista de Contenedores</returns>
     Public Function getContainers() As List(Of Containers) Implements IContainersRepository.getContainers
-        'Dim result = (From a In _context.Containers.Include("UserOperatingUnit").Include("PermissionCompany")
-        '             Select a).ToList
-        Dim result = (From a In _context.Containers
+        Dim source = (From a In _context.Containers
                       Select a).ToList
 
-        If result IsNot Nothing AndAlso result.Count > 0 Then
-            Dim ctc = From r In result
-                      Join tc In _context.TenantContainer '.Where(Function(tc) tc.State = True)
-                        On r.Id Equals tc.ContainerId
-                      Join t In _context.Tenant
-                          On tc.TenantId Equals t.Id
-                      Select r, tc, t
-            If ctc.Count > 0 Then
-                For Each reg In ctc
-                    reg.r.TenantId = reg.tc.TenantId
-                    reg.r.TenantName = reg.t.Name
-                Next
-            End If
-
-            Return result
-        Else
+        If source Is Nothing OrElse source.Count = 0 Then
             Return New List(Of Containers)()
         End If
+
+        Dim tenantInfo = (From tc In _context.TenantContainer
+                          Join t In _context.Tenant On tc.TenantId Equals t.Id
+                          Select tc.ContainerId, tc.TenantId, TenantName = t.Name).ToList
+        Dim result = From c In source
+                     Group Join ti In tenantInfo On c.Id Equals ti.ContainerId Into matches = Group
+                     From ti In matches.DefaultIfEmpty()
+                     Select New Containers() With {
+                        .Id = c.Id,
+                        .Code = c.Code,
+                        .Name = c.Name,
+                        .TransactionalContainer = c.TransactionalContainer,
+                        .ProductionCompany = c.ProductionCompany,
+                        .TenantId = If(ti Is Nothing, CShort(0), ti.TenantId),
+                        .TenantName = If(ti Is Nothing, String.Empty, ti.TenantName)
+                     }
+
+        Return result.ToList
     End Function
 
     ''' <summary>
@@ -144,14 +145,6 @@ Public Class ContainersRepository
     ''' </summary>
     ''' <returns></returns>
     ''' <remarks></remarks>
-    Public Function getIndigoConnectionString() As String Implements IContainersRepository.getIndigoConnectionString
-        Dim containerName = System.Configuration.ConfigurationManager.ConnectionStrings(Infrastructure.CrossCutting.Base.ConfigurationFile.CONX_GENESIS)
-        If containerName IsNot Nothing Then
-            Return containerName.ToString()
-        Else
-            Return String.Empty
-        End If
-    End Function
 
 	Public Function ListCompanies() As List(Of Company) Implements IContainersRepository.ListCompanies
 		Using conx As New ConectionSQL(ConfigurationManager.AppSettings(Infrastructure.CrossCutting.Base.ConfigurationFile.SECURITY_CONTAINER_PARAMETER_NAME))
@@ -190,7 +183,6 @@ Public Class ContainersRepository
 				company.ProductionCompany = CBool(r("ProductionCompany"))
 				company.State = CBool(r("State"))
 				company.Version = r("Version").ToString()
-				company.IndigoConnectionString = Me.getIndigoConnectionString()
 				company.SecurityContainer = Me.getSecurityContainerName()
 				company.TenantId = If(r("TenantId") Is DBNull.Value, CShort(0), CShort(r("TenantId")))
 				company.ServiceConfigurationId = If(r("ServiceConfigurationId") Is DBNull.Value, CByte(0), CByte(r("ServiceConfigurationId")))
@@ -209,7 +201,6 @@ Public Class ContainersRepository
 	''' <param name="idUser"></param>
 	''' <returns></returns>
 	Public Function getCompaniesByUser(ByVal idUser As Integer) As List(Of Company) Implements IContainersRepository.getCompaniesByUser
-		Dim ics As String = Me.getIndigoConnectionString()
 		Dim scn As String = Me.getSecurityContainerName()
 		Dim _User = (From u In _context.User
 					 Where u.Id = idUser
@@ -249,7 +240,6 @@ Public Class ContainersRepository
                                 .ProductionCompany = c.ProductionCompany,
                                 .State = c.State,
                                 .Version = c.Version,
-                                .IndigoConnectionString = ics,
                                 .SecurityContainer = scn,
                                 .TenantId = If(tc Is Nothing, CShort(0), tc.TenantId),
                                 .TenantName = If(t Is Nothing, "", t.Name),
@@ -302,7 +292,6 @@ Public Class ContainersRepository
                                 .ProductionCompany = c.ProductionCompany,
                                 .State = c.State,
                                 .Version = c.Version,
-                                .IndigoConnectionString = ics,
                                 .SecurityContainer = scn,
                                 .TenantId = If(tc Is Nothing, CShort(0), tc.TenantId),
                                 .TenantName = If(t Is Nothing, "", t.Name),
@@ -355,7 +344,6 @@ Public Class ContainersRepository
                                 .ProductionCompany = c.ProductionCompany,
                                 .State = c.State,
                                 .Version = c.Version,
-                                .IndigoConnectionString = ics,
                                 .SecurityContainer = scn,
                                 .TenantId = If(tc Is Nothing, CShort(0), tc.TenantId),
                                 .TenantName = If(t Is Nothing, "", t.Name),
@@ -409,7 +397,6 @@ Public Class ContainersRepository
                                 .ProductionCompany = c.ProductionCompany,
                                 .State = c.State,
                                 .Version = c.Version,
-                                .IndigoConnectionString = ics,
                                 .SecurityContainer = scn,
                                 .TenantId = If(tc Is Nothing, CShort(0), tc.TenantId),
                                 .TenantName = If(t Is Nothing, "", t.Name),
@@ -477,7 +464,6 @@ Public Class ContainersRepository
 				company.ProductionCompany = CBool(r("ProductionCompany"))
 				company.State = CBool(r("State"))
 				company.Version = r("Version").ToString()
-				company.IndigoConnectionString = Me.getIndigoConnectionString()
 				company.SecurityContainer = Me.getSecurityContainerName()
 				company.TenantId = If(r("TenantId") Is DBNull.Value, CShort(0), CShort(r("TenantId")))
 				company.ServiceConfigurationId = If(r("ServiceConfigurationId") Is DBNull.Value, CByte(0), CByte(r("ServiceConfigurationId")))

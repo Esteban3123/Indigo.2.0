@@ -69,6 +69,8 @@ Public Interface ICampaignAdminService
     ''' <returns></returns>
     Function GetCampaignDetailValidationByCampaignDetailId(campaignDetailId As Integer) As ActionResult(Of List(Of CampaignDetailValidation))
 
+    Function GetCampaignDetailValidationForDevolution(campaignDetailId As Integer) As ActionResult(Of List(Of CampaignDetailValidation))
+
     ''' <summary>
     ''' guarda un listado de detalles de picking
     ''' </summary>

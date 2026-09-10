@@ -104,9 +104,9 @@ Public Class PharmaceuticalDispensingRepository
     ''' <summary>
     ''' Metodo para crear la dispensacion
     ''' </summary>
-    Public Function GeneratePharmaceuticalDispensingSP(PharmaceuticalDispensingXml As String, AnnulationXml As String, UserCode As String) As ObjectResult(Of SP_GeneratePharmaceuticalDispensing_Result) Implements IPharmaceuticalDispensingRepository.GeneratePharmaceuticalDispensingSP
+    Public Function GeneratePharmaceuticalDispensingSP(PharmaceuticalDispensingXml As String, AnnulationXml As String, UserCode As String) As List(Of SP_GeneratePharmaceuticalDispensing_Result) Implements IPharmaceuticalDispensingRepository.GeneratePharmaceuticalDispensingSP
         DirectCast(_context, IObjectContextAdapter).ObjectContext.CommandTimeout = 3600
-        Return _context.SP_GeneratePharmaceuticalDispensing(PharmaceuticalDispensingXml, AnnulationXml, UserCode, "")
+        Return _context.SP_GeneratePharmaceuticalDispensing(PharmaceuticalDispensingXml, AnnulationXml, UserCode, "").ToList()
     End Function
 
     ''' <summary>

@@ -67,7 +67,7 @@ Public Interface IRawMaterialAdminService
     ''' <param name="audit"></param>
     ''' <param name="session"></param>
     ''' <returns></returns>
-    Function SaveInventoryRequest(inventoryRequest As InventoryRequest, audit As AuditMessage, session As SessionValues) As ActionResult
+    Function SaveInventoryRequestAsync(inventoryRequest As InventoryRequest, audit As AuditMessage, session As SessionValues) As Task(Of ActionResult)
 
     ''' <summary>
     ''' Actualiza estado de la campaña 

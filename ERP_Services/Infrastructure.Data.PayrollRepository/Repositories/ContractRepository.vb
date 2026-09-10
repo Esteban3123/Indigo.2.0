@@ -1,4 +1,4 @@
-﻿'***********************************************************************
+'***********************************************************************
 ' Assembly         : Infrastructure.Data.PayrollRepository
 ' Author           : Daniel Eduardo Arévalo Bonilla
 ' Created          : 18-02-2013
@@ -29,9 +29,13 @@ Public Class ContractRepository
         _context = contex
     End Sub
 
-    Public Sub SaveMassiveContract(pXMLObj As String, pCodeUser As String, pIdUser As Integer) Implements IContractRepository.SaveMassiveContract
-        _context.SP_SaveMassiveContract(pXMLObj, pCodeUser, pIdUser)
-    End Sub
+    Public Function SaveMassiveContract(pXMLObj As String, pCodeUser As String, pIdUser As Integer) As SP_SaveMassiveContract_DTO Implements IContractRepository.SaveMassiveContract
+        Return ExecuteStoredProcedure(Of SP_SaveMassiveContract_DTO)("[Payroll].[SP_SaveMassiveContract]", {
+            ("@pXMLObj", pXMLObj),
+            ("@pCodeUser", pCodeUser),
+            ("@pIdUser", pIdUser)
+        }).FirstOrDefault()
+    End Function
 
     Public Sub SaveMassiveContractExtension(pXMLObj As String) Implements IContractRepository.SaveMassiveContractExtension
         _context.SP_SaveMassiveContractExtension(pXMLObj)

@@ -940,17 +940,6 @@ Public Class BasicBillingAdminService
                 .PortfolioNoteAccountReceivableAdvance.Clear()
                 .PortfolioNoteDetail.Clear()
 
-                ' Factura
-                .PortfolioNoteAccountReceivableAdvance.Add(New PortfolioNoteAccountReceivableAdvance With {
-                                                                .AccountReceivableId = accountReceivable.Id,
-                                                                .AccountReceivableShareId = accountShares.Id,
-                                                                .MainAccountId = accountAccounting.MainAccountId,
-                                                                .AccountReceivableAccountingId = accountAccounting.Id,
-                                                                .PortfolioAdvanceId = Nothing,
-                                                                .AdjusmentValue = accountAccounting.Balance,
-                                                                .PercentageValue = 0
-                                                           })
-
                 'Concepto de la nota de acuerdo al tipo ' tipo producto = 1 | tipo servicio = 2
                 For Each detail In basicBillingDetail
                     detail.RoundLevel = basicBilling.RoundLevel
@@ -1063,7 +1052,7 @@ Public Class BasicBillingAdminService
                                                      .PortfolioNoteConceptId = portfolioNoteConcept.Id, 'Concepto de nota
                                                      .MainAccountId = generalLedgerIVAResult.IdAccountSale,    'Cuenta contable de Cuenta IVA por pagar
                                                      .CostCenterId = detail.CostCenterId, 'Centro de costo
-                                                     .Value = detail.CalculateValueIVA,
+                                                     .Value = detail.CalculateValueIVAWithOutRound,
                                                      .ThirdPartyId = customer.ThirdPartyId,
                                                      .Nature = 1, 'Debito
                                                      .Observations = reversalReasonDescription})
@@ -1139,6 +1128,32 @@ Public Class BasicBillingAdminService
                                                  .Observations = reversalReasonDescription})
                     End If
                 Next
+
+                ' AdjusmentValue debe ser accountAccounting.Balance para que el SP pueda validar
+                ' que no supera el saldo ni el valor original de la factura.
+                ' Si la suma de los detalles difiere de ese saldo por redondeo acumulado de la
+                ' facturacion original, se absorbe la diferencia en el detalle de mayor valor de
+                ' naturaleza debito, dejando todos los valores exactos.
+                Dim totalDebitDetails As Decimal = .PortfolioNoteDetail.Where(Function(d) d.Nature = 1).Sum(Function(d) d.Value)
+                Dim totalCreditDetails As Decimal = .PortfolioNoteDetail.Where(Function(d) d.Nature = 2).Sum(Function(d) d.Value)
+                Dim roundingDiff As Decimal = accountAccounting.Balance - (totalDebitDetails - totalCreditDetails)
+                If roundingDiff <> 0D Then
+                    Dim largestDebitDetail = .PortfolioNoteDetail.Where(Function(d) d.Nature = 1).OrderByDescending(Function(d) d.Value).FirstOrDefault()
+                    If largestDebitDetail IsNot Nothing Then
+                        largestDebitDetail.Value += roundingDiff
+                    End If
+                End If
+
+                .PortfolioNoteAccountReceivableAdvance.Add(New PortfolioNoteAccountReceivableAdvance With {
+                                                                .AccountReceivableId = accountReceivable.Id,
+                                                                .AccountReceivableShareId = accountShares.Id,
+                                                                .MainAccountId = accountAccounting.MainAccountId,
+                                                                .AccountReceivableAccountingId = accountAccounting.Id,
+                                                                .PortfolioAdvanceId = Nothing,
+                                                                .AdjusmentValue = accountAccounting.Balance,
+                                                                .ConceptId = Nothing,
+                                                                .PercentageValue = 0
+                                                           })
             End With
             Return New ActionResult(Of PortfolioNote) With {.StateResult = True, .Message = "OK", .ObjectEmbbeded = portfolioNote}
         Catch ex As Exception
@@ -1581,114 +1596,158 @@ Public Class BasicBillingAdminService
     ''' <returns></returns>
     Private Function GenerateElectronicNoteByReverseInvoice(basicBilling As BasicBilling, portFolioNote As PortfolioNote, session As SessionValues) As ActionResult
         Dim codeNote As String = String.Empty
-        Dim sequence = Me._sequenseRepository.GetSequenseByIdForm("2037")
-        If sequence?.Scope?.Equals("O") Then
-            If sequence.BillingSequenceDetail IsNot Nothing AndAlso sequence.BillingSequenceDetail.Count > 0 Then
-                codeNote = Infrastructure.CrossCutting.Base.Sequense.GetSequense(sequence.BillingSequenceDetail.First().Sequense.Pattern, sequence.BillingSequenceDetail.First().[Next])
-                If codeNote Is Nothing OrElse codeNote.Equals(Infrastructure.CrossCutting.Base.Sequense.ERROR_MAXVALUE) Then
-                    Return New ActionResult With {.StateResult = False, .Message = "La secuencia para las Notas Crédito de Facturacion Electronica alcanzo su valor maximo."}
-                End If
-                sequence.BillingSequenceDetail.First().[Next] += 1
-                _sequenseRepository.SaveEntity(sequence)
-                _sequenseRepository.UnitWork.Commit()
+        Dim invoice = _invoiceRepository.GetInvoiceById(basicBilling.InvoiceId)
+        If String.IsNullOrEmpty(invoice.CUFE) Then
+            Return New ActionResult With {.StateResult = False, .Message = "La factura no corresponde a una factura electrónica."}
+        End If
+        Dim reservation = Me._sequenseRepository.ReserveNextFormattedCodeByFormId("2037")
+        If Not reservation.Success Then
+            Return New ActionResult With {.StateResult = False, .Message = reservation.Message}
+        End If
+        codeNote = reservation.Code
+        Dim BillingNote As New BillingNote With
+        {
+            .Code = codeNote,
+            .NoteDate = DateTime.Now,
+            .CustomerPartyId = invoice.ThirdPartyId,
+            .Observations = portFolioNote.Observations,
+            .Nature = 2,
+            .OperatingUnitId = basicBilling.OperatingUnitId,
+            .EntityId = portFolioNote.Id,
+            .EntityName = portFolioNote.GetType().Name
+        }
+        Dim billingNoteDetail As New BillingNoteDetail With
+        {
+            .InvoiceId = invoice.Id,
+            .InvoiceNumber = invoice.InvoiceNumber,
+            .CUFE = invoice.CUFE,
+            .DocumentDate = invoice.InvoiceDate,
+            .AdjusmentValue = (invoice.InvoiceValue + invoice.ValueTax),
+            .BillingValue = invoice.InvoiceValue,
+            .DiscountValue = invoice.ThirdPartyDiscountValue,
+            .ConceptId = 2
+        }
+        ' Un solo recorrido: acumula gravados (pct > 0) y exentos (pct = 0, tipo 3) en paralelo
+        Dim gravadoBase As New Dictionary(Of Decimal, Decimal)
+        Dim gravadoTax As New Dictionary(Of Decimal, Decimal)
+        Dim gravadoIvaId As New Dictionary(Of Decimal, Integer?)
+        Dim exentBase As New Dictionary(Of Integer, Decimal)
+        Dim ivaTypeCache As New Dictionary(Of Integer, Byte)
+
+        For Each detail In basicBilling.BasicBillingDetail
+            Dim detailIvaId As Integer? = detail.InventoryProduct?.IVAId
+            If detailIvaId Is Nothing Then
+                detailIvaId = If(detail.FixedAssetPhysicalAsset?.FixedAssetItem IsNot Nothing,
+                                 CType(detail.FixedAssetPhysicalAsset.FixedAssetItem.IVAId, Integer?), Nothing)
             End If
-        ElseIf sequence.Scope.Equals("OU") Then
-            Return New ActionResult With {.StateResult = False, .Message = "El ámbito para la secuencia de Notas Crédito de Facturacion Electronica no debe ser por unidad operativa."}
-        Else
-            Return New ActionResult With {.StateResult = False, .Message = "La secuencia para las Notas Crédito de Facturacion Electronica no esta parametrizada o no es secuencial."}
-        End If
+            If detailIvaId Is Nothing AndAlso detail.BillingConceptId IsNot Nothing Then
+                detailIvaId = _billingConceptRepository.GetBillingConceptById(detail.BillingConceptId.Value, tracking:=False)?.IVAId
+            End If
 
-        If String.IsNullOrEmpty(codeNote) Then
-            Return New ActionResult With {.StateResult = True, .Message = "No se pudo encontrar la secuencia para las Notas Crédito de Facturacion Electronica"}
-        Else
-            Dim invoice = _invoiceRepository.GetInvoiceById(basicBilling.InvoiceId)
-            Dim BillingNote As New BillingNote With
-            {
-                .Code = codeNote,
-                .NoteDate = DateTime.Now,
-                .CustomerPartyId = invoice.ThirdPartyId,
-                .Observations = portFolioNote.Observations,
-                .Nature = 2,
-                .OperatingUnitId = basicBilling.OperatingUnitId,
-                .EntityId = portFolioNote.Id,
-                .EntityName = portFolioNote.GetType().Name
-            }
-            Dim billingNoteDetail As New BillingNoteDetail With
-            {
-                .InvoiceId = invoice.Id,
-                .InvoiceNumber = invoice.InvoiceNumber,
-                .CUFE = invoice.CUFE,
-                .DocumentDate = invoice.InvoiceDate,
-                .AdjusmentValue = (invoice.InvoiceValue + invoice.ValueTax),
-                .BillingValue = invoice.InvoiceValue,
-                .DiscountValue = invoice.ThirdPartyDiscountValue,
-                .ConceptId = 2
-            }
-            For Each tax In basicBilling.BasicBillingDetail.Where(Function(w) w.PercentageIVA > 0).GroupBy(Function(g) g.PercentageIVA)
-                Dim baseAmount = basicBilling.BasicBillingDetail.Where(Function(w) w.PercentageIVA = tax.Key).Sum(Function(s) s.Value - s.ValueDiscount)
-                Dim taxAmount = basicBilling.BasicBillingDetail.Where(Function(w) w.PercentageIVA = tax.Key).Sum(Function(s) s.CalculateValueIVA())
-                billingNoteDetail.BillingNoteDetailTax.Add(
-                    New BillingNoteDetailTax With
-                    {
-                    .TaxPercentage = tax.Key,
-                    .TaxValue = taxAmount,
-                    .BaseValue = baseAmount
-                    })
-            Next
-            BillingNote.BillingNoteDetail.Add(billingNoteDetail)
-
-            Dim unitWorkBillingNote = _billingNoteRepository.UnitWork
-            BillingNote.CUDE = BillingNote.getCUDE()
-            _billingNoteRepository.SaveEntity(BillingNote)
-            unitWorkBillingNote.Commit()
-
-            Dim operatingUnit = _operatingUnitRepository.GetOperatingUnitById(basicBilling.OperatingUnitId)
-            Dim accountingSettings = _settingsAccountRepository.GetSettingAccountSimple(basicBilling.OperatingUnitId)
-
-            ' Preparamos dos StringBuilder con capacidad estimada
-            Dim prefixSb As New Text.StringBuilder(codeNote.Length)
-            Dim numberSb As New Text.StringBuilder(codeNote.Length)
-
-            For Each c As Char In codeNote
-                If Char.IsDigit(c) Then
-                    numberSb.Append(c)
+            If detail.PercentageIVA > 0 Then
+                Dim pct = detail.PercentageIVA
+                Dim lineBase = detail.Value - detail.ValueDiscount
+                If gravadoBase.ContainsKey(pct) Then
+                    gravadoBase(pct) += lineBase
+                    gravadoTax(pct) += detail.CalculateValueIVA()
+                    If Not gravadoIvaId(pct).HasValue Then gravadoIvaId(pct) = detailIvaId
                 Else
-                    prefixSb.Append(c)
+                    gravadoBase(pct) = lineBase
+                    gravadoTax(pct) = detail.CalculateValueIVA()
+                    gravadoIvaId(pct) = detailIvaId
                 End If
-            Next
+            ElseIf detailIvaId.HasValue Then
+                ' pct = 0: verificar si es exento (tipo 3) o excluido (tipo 2)
+                Dim taxClassification As Byte
+                If Not ivaTypeCache.TryGetValue(detailIvaId.Value, taxClassification) Then
+                    Dim iva = _generalLedgerIVARepository.GetGeneralLedgerIVAById(detailIvaId.Value)
+                    taxClassification = If(iva IsNot Nothing, iva.TaxClassificationType, CByte(0))
+                    ivaTypeCache(detailIvaId.Value) = taxClassification
+                End If
+                If taxClassification = 3 Then
+                    Dim lineBase = detail.Value - detail.ValueDiscount
+                    If exentBase.ContainsKey(detailIvaId.Value) Then
+                        exentBase(detailIvaId.Value) += lineBase
+                    Else
+                        exentBase(detailIvaId.Value) = lineBase
+                    End If
+                End If
+            End If
+        Next
 
-            Dim electronicDocument As New ElectronicDocument With
-            {
-                .DianVersion = accountingSettings.DianVersion,
-                .OperatingUnitId = basicBilling.OperatingUnitId,
-                .CustomerPartyId = invoice.ThirdPartyId,
-                .EntityId = BillingNote.Id,
-                .EntityName = BillingNote.GetType().Name,
-                .DocumentDate = BillingNote.NoteDate,
-                .DocumentType = BillingNote.GetDocumentType(),
-                .Status = 1,
-                .CreationDate = DateTime.Now,
-                .Container = session.TransactionalContainer,
-                .Prefix = prefixSb.ToString(),
-                .DocumentNumber = numberSb.ToString(),
-                .CUFE = BillingNote.CUDE,
-                .Year = DateTime.Now.Year
-            }
-            electronicDocument.FilePath = System.IO.Path.Combine(
-                    Utils.GetPathElectronicDocuments(),
-                    electronicDocument.Container,
-                    operatingUnit.UnitCode,
-                    electronicDocument.DocumentDate.Year.ToString(),
-                    electronicDocument.DocumentDate.Month.ToString(),
-                    electronicDocument.getDocumentTypeName(),
-                    String.Concat(electronicDocument.Prefix, electronicDocument.DocumentNumber)
-                    )
+        For Each pct In gravadoBase.Keys
+            billingNoteDetail.BillingNoteDetailTax.Add(
+                New BillingNoteDetailTax With
+                {
+                .TaxPercentage = pct,
+                .TaxValue = gravadoTax(pct),
+                .BaseValue = gravadoBase(pct),
+                .IVAId = gravadoIvaId(pct)
+                })
+        Next
+        For Each kvp In exentBase
+            billingNoteDetail.BillingNoteDetailTax.Add(
+                New BillingNoteDetailTax With
+                {
+                .TaxPercentage = 0,
+                .TaxValue = 0,
+                .BaseValue = kvp.Value,
+                .IVAId = kvp.Key
+                })
+        Next
+        BillingNote.BillingNoteDetail.Add(billingNoteDetail)
 
-            Dim unitOfWorkElectronicDocument = _electronicDocumentRepository.UnitWork
-            _electronicDocumentRepository.SaveEntity(electronicDocument)
-            unitOfWorkElectronicDocument.Commit()
-            Return New ActionResult With {.StateResult = True, .Message = "OK"}
-        End If
+        Dim unitWorkBillingNote = _billingNoteRepository.UnitWork
+        BillingNote.CUDE = BillingNote.getCUDE()
+        _billingNoteRepository.SaveEntity(BillingNote)
+        unitWorkBillingNote.Commit()
+
+        Dim operatingUnit = _operatingUnitRepository.GetOperatingUnitById(basicBilling.OperatingUnitId)
+        Dim accountingSettings = _settingsAccountRepository.GetSettingAccountSimple(basicBilling.OperatingUnitId)
+
+        ' Preparamos dos StringBuilder con capacidad estimada
+        Dim prefixSb As New Text.StringBuilder(codeNote.Length)
+        Dim numberSb As New Text.StringBuilder(codeNote.Length)
+
+        For Each c As Char In codeNote
+            If Char.IsDigit(c) Then
+                numberSb.Append(c)
+            Else
+                prefixSb.Append(c)
+            End If
+        Next
+
+        Dim electronicDocument As New ElectronicDocument With
+        {
+            .DianVersion = accountingSettings.DianVersion,
+            .OperatingUnitId = basicBilling.OperatingUnitId,
+            .CustomerPartyId = invoice.ThirdPartyId,
+            .EntityId = BillingNote.Id,
+            .EntityName = BillingNote.GetType().Name,
+            .DocumentDate = BillingNote.NoteDate,
+            .DocumentType = BillingNote.GetDocumentType(),
+            .Status = 1,
+            .CreationDate = DateTime.Now,
+            .Container = session.TransactionalContainer,
+            .Prefix = prefixSb.ToString(),
+            .DocumentNumber = numberSb.ToString(),
+            .CUFE = BillingNote.CUDE,
+            .Year = DateTime.Now.Year
+        }
+        electronicDocument.FilePath = System.IO.Path.Combine(
+                Utils.GetPathElectronicDocuments(),
+                electronicDocument.Container,
+                operatingUnit.UnitCode,
+                electronicDocument.DocumentDate.Year.ToString(),
+                electronicDocument.DocumentDate.Month.ToString(),
+                electronicDocument.getDocumentTypeName(),
+                String.Concat(electronicDocument.Prefix, electronicDocument.DocumentNumber)
+                )
+
+        Dim unitOfWorkElectronicDocument = _electronicDocumentRepository.UnitWork
+        _electronicDocumentRepository.SaveEntity(electronicDocument)
+        unitOfWorkElectronicDocument.Commit()
+        Return New ActionResult With {.StateResult = True, .Message = "OK"}
     End Function
 
 #End Region

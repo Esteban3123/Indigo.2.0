@@ -15,9 +15,13 @@ namespace Infrastructure.Data.CosmosModelRepository.UnitOfWork
 
         Container ContainerDB { get; }
 
+        Container ContainerBulkDB { get; }
+
         Task<int> CompleteAsync();
 
         void VerifyConnectionCosmoDBContainer();
+
+        void VerifyConnectionCosmoDBContainerBulk();
 
     }
 }

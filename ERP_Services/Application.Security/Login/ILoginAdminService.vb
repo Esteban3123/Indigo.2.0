@@ -72,12 +72,6 @@ Public Interface ILoginAdminService
     'Function getInteropCostContainerName() As String
 
     ''' <summary>
-    ''' Obtiene el nombre del contenedor de la interaccion con costos
-    ''' </summary>
-    ''' <returns>Nombre del contenedor de HIS</returns>
-    Function getIndigoConnectionString() As String
-
-    ''' <summary>
     ''' Función para obtener un contenedores
     ''' </summary>
     ''' <param name="Name">Nombre del Contenedor</param>

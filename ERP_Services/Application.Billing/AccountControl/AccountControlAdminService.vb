@@ -1,4 +1,4 @@
-﻿'***********************************************************************
+'***********************************************************************
 ' Assembly         : Application.InteropCost
 ' Author           : Diego Andrés Roldán Lozano
 ' Created          : 30-12-2014
@@ -162,6 +162,38 @@ Public Class AccountControlAdminService
     End Function
 
     ''' <summary>
+    ''' Resultado de validar NIT único y tercero (médico) parametrizado.
+    ''' </summary>
+    Private Enum ThirdPartyValidationKind
+        Success = 0
+        DuplicateNit = 1
+        NotParametrized = 2
+    End Enum
+
+    ''' <summary>
+    ''' Valida que no haya varios terceros con el mismo NIT y que el médico exista como tercero.
+    ''' </summary>
+    ''' <param name="nitMedico">NIT ya normalizado (p. ej. ToString().TrimStart("0")).</param>
+    ''' <param name="thirdPartyOut">Tercero encontrado; Nothing si hay duplicado o no parametrizado.</param>
+    ''' <param name="errorMessage">Mensaje cuando el resultado no es Success.</param>
+    Private Function ValidateThirdParty(nitMedico As String, ByRef thirdPartyOut As ThirdParty, ByRef errorMessage As String) As ThirdPartyValidationKind
+        thirdPartyOut = Nothing
+        errorMessage = Nothing
+        Dim totalThirdParties = _thidPartyRepository.ListAllThirdParty(New List(Of String) From {nitMedico}).Count()
+        If totalThirdParties > 1 Then
+            errorMessage = "No es posible continuar porque existe más de un tercero registrado con el mismo NIT (" & nitMedico.Trim() & ")."
+            Return ThirdPartyValidationKind.DuplicateNit
+        End If
+        Dim tp As ThirdParty = _thidPartyRepository.GetThirdPartyByNit(nitMedico, False)
+        If tp Is Nothing OrElse tp.Id = 0 Then
+            errorMessage = String.Format("El Médico con Nit {0} no está parametrizado en Indigo Vie", nitMedico)
+            Return ThirdPartyValidationKind.NotParametrized
+        End If
+        thirdPartyOut = tp
+        Return ThirdPartyValidationKind.Success
+    End Function
+
+    ''' <summary>
     ''' Gets the homologations cups.
     ''' </summary>
     ''' <param name="details">The details.</param>
@@ -205,10 +237,17 @@ Public Class AccountControlAdminService
             End If
 
 
-            Dim thirdPartyMedico As Domain.Entities.ThirdParty = _thidPartyRepository.GetThirdPartyByNit(itemDetail.NitMedico.ToString().TrimStart("0"), False)
-            If thirdPartyMedico Is Nothing OrElse thirdPartyMedico.Id = 0 Then
-                errors.AppendLine(String.Format("El Médico con Nit {0} no está parametrizado en Indigo Vie", itemDetail.NitMedico.ToString().TrimStart("0")))
-            End If
+            Dim nitMedico As String = itemDetail.NitMedico.ToString().TrimStart("0")
+            Dim thirdPartyMedico As ThirdParty = Nothing
+            Dim tpValidationMsg As String = Nothing
+            Select Case ValidateThirdParty(nitMedico, thirdPartyMedico, tpValidationMsg)
+                Case ThirdPartyValidationKind.DuplicateNit
+                    errors.AppendLine(tpValidationMsg)
+                    Continue For
+                Case ThirdPartyValidationKind.NotParametrized
+                    errors.AppendLine(tpValidationMsg)
+                Case ThirdPartyValidationKind.Success
+            End Select
 
             Dim RiasId As Integer? = Nothing
             Dim ContractDescriptionId As Integer? = Nothing
@@ -654,7 +693,7 @@ Public Class AccountControlAdminService
                         _aMBORDIMARepository.UnitWork.Commit()
                         _aMBORDLABRepository.UnitWork.Commit()
 
-                    ElseIf CType(args, IDictionary(Of String, Object)).ContainsKey("ListIdDose") And CType(args.ListIdDose, List(Of Object)).Count > 0 Then
+                    ElseIf CType(args, IDictionary(Of String, Object)).ContainsKey("ListIdDose") AndAlso CType(args.ListIdDose, List(Of Object)).Count > 0 Then
                         Dim ListGroupingCodeDose = New List(Of Guid)
                         CType(args.ListIdDose, List(Of Object)).ForEach(Sub(c)
                                                                             Dim GuidX = New Guid(c.ToString())
@@ -795,8 +834,8 @@ Public Class AccountControlAdminService
             End If
 
         Else 'Si se arma el xml solo con los detalles es porque ya paso el proceso de validación o creación de ingreso y va a realizar la lógica para el check en la rejilla
-                'Se envia al sp la identificación de la rejilla desde donde se estan generando los detalles
-                builder.Append("<TypeGrid>" & args.TypeGrid & "</TypeGrid>")
+            'Se envia al sp la identificación de la rejilla desde donde se estan generando los detalles
+            builder.Append("<TypeGrid>" & args.TypeGrid & "</TypeGrid>")
 
             For Each infoDetail As Object In CType(args.Details, List(Of Object)).ToList()
                 builder.Append("<Details>")
@@ -1075,9 +1114,12 @@ Public Class AccountControlAdminService
                     End If
 
                     'Validar que el medico este creado como tercero
-                    Dim thirdPartyMedico As Domain.Entities.ThirdParty = _thidPartyRepository.GetThirdPartyByNit(d.NitMedico.ToString().TrimStart("0"), False)
-                    If thirdPartyMedico Is Nothing OrElse thirdPartyMedico.Id = 0 Then
-                        Return New ActionResult(Of ServiceOrder) With {.StateResult = False, .Message = String.Format("El Médico con Nit {0} no está parametrizado en Indigo Vie", d.NitMedico.ToString().TrimStart("0"))}
+                    Dim nitMedico As String = d.NitMedico.ToString().TrimStart("0")
+                    Dim thirdPartyMedico As ThirdParty = Nothing
+                    Dim tpValidationMsg As String = Nothing
+                    Dim tpKind = ValidateThirdParty(nitMedico, thirdPartyMedico, tpValidationMsg)
+                    If tpKind <> ThirdPartyValidationKind.Success Then
+                        Return New ActionResult(Of ServiceOrder) With {.StateResult = False, .Message = tpValidationMsg}
                     End If
 
                     Dim RiasId As Integer? = Nothing
@@ -1324,7 +1366,13 @@ Public Class AccountControlAdminService
                     .DevolutionQuantity = 0
                     .RateManualSalePrice = Convert.ToDecimal(d.UnitValue)
                     .CostValue = Convert.ToDecimal(d.ProductCost)
-                    .ServiceDate = DateTime.Now()
+                    Dim detailDictionary = TryCast(d, IDictionary(Of String, Object))
+                    Dim dispensingDateValue As Object = Nothing
+                    If detailDictionary IsNot Nothing AndAlso detailDictionary.TryGetValue("DispensingDate", dispensingDateValue) AndAlso dispensingDateValue IsNot Nothing Then
+                        .ServiceDate = Convert.ToDateTime(dispensingDateValue)
+                    Else
+                        .ServiceDate = DateTime.Now()
+                    End If
                     If CType(args, IDictionary(Of String, Object)).ContainsKey("AutorizationNumber") Then
                         .AuthorizationNumber = args.AutorizationNumber.ToString()
                     End If

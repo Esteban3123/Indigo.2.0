@@ -353,6 +353,20 @@ Partial Public Class PackagePersonalizedDetail
         End Set
     End Property
 
+	Private _complementaryMedicine As Nullable(Of Boolean)
+	<DataMember()>
+	Public Property ComplementaryMedicine() As Nullable(Of Boolean)
+        Get
+            Return _complementaryMedicine
+        End Get
+        Set(ByVal value As Nullable(Of Boolean))
+            If Not Equals(_complementaryMedicine, value) Then
+                _complementaryMedicine = value
+                OnPropertyChanged("ComplementaryMedicine")
+            End If
+        End Set
+    End Property
+
 	Private _preparationType As Nullable(Of Byte)
 	<DataMember()>
 	Public Property PreparationType() As Nullable(Of Byte)

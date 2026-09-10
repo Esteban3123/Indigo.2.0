@@ -387,6 +387,13 @@ Public Class NotesDebitCreditAdminService
             Throw New ArgumentNullException("paymentsNote")
         End If
 
+        If paymentsNote.IndicatesBillAdvance = 2 AndAlso Not paymentsNote.IdAccountPayable.HasValue Then
+            Return New ActionResult(Of PaymentNotes) With {
+                .StateResult = False,
+                .MessageResult = {"La reversión de CxP requiere una cuenta por pagar asociada."}.ToList()
+            }
+        End If
+
         If paymentsNote.IndicatesBillAdvance <> 2 Then
             Dim validations = paymentsNote.ValidateIfBalanced()
             If Not validations.Item1 Then
@@ -706,6 +713,13 @@ Public Class NotesDebitCreditAdminService
     Public Function ConfirmPaymentNotes(paymentNotes As PaymentNotes, audit As AuditMessage, Optional isMassiveConfirm As Boolean = False) As ActionResult(Of PaymentNotes) Implements INotesDebitCreditAdminService.ConfirmPaymentNotes
         If paymentNotes Is Nothing Then
             Throw New ArgumentNullException("paymentNotes")
+        End If
+
+        If paymentNotes.IndicatesBillAdvance = 2 AndAlso Not paymentNotes.IdAccountPayable.HasValue Then
+            Return New ActionResult(Of PaymentNotes) With {
+                .StateResult = False,
+                .MessageResult = {"La reversión de CxP requiere una cuenta por pagar asociada."}.ToList()
+            }
         End If
 
         Dim UnitOfWork As IUnitWork = _paymentsNoteRepository.UnitWork

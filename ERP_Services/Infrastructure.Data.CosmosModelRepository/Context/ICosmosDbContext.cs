@@ -10,5 +10,6 @@ namespace Infrastructure.Data.CosmosModelRepository.Context
    public interface ICosmosDbContext
     {
         Database GetDatabase(string databaseId);
+        Database GetDatabaseBulk(string databaseId);
     }
 }

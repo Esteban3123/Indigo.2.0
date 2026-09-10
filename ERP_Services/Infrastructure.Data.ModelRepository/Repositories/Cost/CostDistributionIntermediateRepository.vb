@@ -1,14 +1,14 @@
-﻿'***********************************************************************
+'***********************************************************************
 ' Assembly         : Infrastructure.Data.TreasuryRepositiry
 ' Author           : Diego Andrés Roldán Lozano
 ' Created          : 11-12-2014
 '
 ' Copyright        : (c) . All rights reserved.
 '***********************************************************************
-
 Imports Infrastructure.Data.Base
 Imports Domain.Entities
 Imports Infrastructure.CrossCutting.Resources
+Imports System.Data.Entity.Infrastructure
 
 Public Class CostDistributionIntermediateRepository
     Inherits GenericRepository(Of CostDistributionIntermediate)
@@ -113,5 +113,131 @@ Public Class CostDistributionIntermediateRepository
             Return New CostDistributionIntermediate()
         End If
     End Function
+
+    ''' <summary>
+    ''' Calcula la distribución intermedia basándose en las bases de distribución configuradas
+    ''' </summary>
+    ''' <param name="costIntermediateDistributionId">Id del elemento de distribución intermedia</param>
+    ''' <param name="year">Año del periodo</param>
+    ''' <param name="month">Mes del periodo</param>
+    ''' <returns>Lista de detalles de distribución calculados</returns>
+    Public Function CalculateDistributionIntermediate(costIntermediateDistributionId As Integer, year As Integer, month As Integer) As List(Of SP_CalculateDistributionIntermediate_Result) Implements ICostDistributionIntermediateRepository.CalculateDistributionIntermediate
+        DirectCast(_context, IObjectContextAdapter).ObjectContext.CommandTimeout = 3600
+        Return _context.SP_CalculateDistributionIntermediate(costIntermediateDistributionId, year, month).ToList()
+    End Function
+
+    ''' <summary>
+    ''' Guarda las cantidades de servicios agrupadas para distribución de tipo "Cantidades Procesadas"
+    ''' </summary>
+    Public Sub SaveServiceQuantitiesForDistribution(distributionIntermediateId As Integer, intermediateDistributionElementId As Integer, year As Integer, month As Integer, userCode As String) Implements ICostDistributionIntermediateRepository.SaveServiceQuantitiesForDistribution
+        Try
+            ' 1. Obtener las bases de distribución configuradas para el elemento de tipo "Cantidades Producidas"
+            ' DistributionType = 3 (Buscada) y QuantitiesProduced = True
+            Dim distributionBases = (From db In _context.CostIntermediateDistributionBase
+                                     Where db.IntermediateDistributionId = intermediateDistributionElementId AndAlso
+                                           db.DistributionType = 3 AndAlso
+                                           db.QuantitiesProduced = True
+                                     Select db).ToList()
+
+            ' Si no hay bases de tipo "Buscada/Cantidades Procesadas", salir
+            If distributionBases Is Nothing OrElse distributionBases.Count = 0 Then
+                Return
+            End If
+
+            ' 2. Obtener los tipos de servicio configurados en las bases de distribución (desde la Base, no desde BaseDetail)
+            Dim serviceTypes = (From db In distributionBases
+                                Where db.ServiceType > 0
+                                Select db.ServiceType).Distinct().ToList()
+
+            If serviceTypes.Count = 0 Then
+                Return
+            End If
+
+            ' 3. Configurar timeout para consultas pesadas
+            DirectCast(_context, IObjectContextAdapter).ObjectContext.CommandTimeout = 3600
+
+            ' 4. ELIMINAR registros antiguos si existen (evitar duplicados al re-guardar)
+            Dim existingRecords = (From sq In _context.CostIntermediateDistributionServiceQuantity
+                                   Where sq.DistributionIntermediateId = distributionIntermediateId
+                                   Select sq).ToList()
+
+            If existingRecords IsNot Nothing AndAlso existingRecords.Count > 0 Then
+                System.Diagnostics.Debug.WriteLine($"[DEBUG SaveServiceQuantities] Eliminando {existingRecords.Count} registros antiguos para DistributionIntermediateId={distributionIntermediateId}")
+                For Each oldRecord In existingRecords
+                    _context.CostIntermediateDistributionServiceQuantity.Remove(oldRecord)
+                Next
+            End If
+
+            ' 5. Calcular fechas del mes
+            Dim firstDayOfMonth As DateTime = New DateTime(year, month, 1)
+            Dim lastDayOfMonth As DateTime = firstDayOfMonth.AddMonths(1).AddDays(-1)
+
+            ' Constantes para tipos de servicio
+            Const SERVICE_TYPE_PHARMACEUTICAL As Byte = 10
+            Const SERVICE_ORDER_STATUS_CANCELLED As Integer = 3
+
+            ' 6. Agregar datos de órdenes de servicio según especificaciones del PBI
+            ' Primero consultar con tipo anónimo y materializar
+            Dim queryResults = (From sod In _context.ServiceOrderDetail
+                                Where sod.ServiceDate >= firstDayOfMonth AndAlso
+                                       sod.ServiceDate <= lastDayOfMonth AndAlso
+                                       sod.IsDelete = False AndAlso
+                                       (sod.CUPSEntityId.HasValue OrElse sod.ProductId.HasValue)
+                                Join so In _context.ServiceOrder On sod.ServiceOrderId Equals so.Id
+                                Where so.Status <> SERVICE_ORDER_STATUS_CANCELLED
+                                Join fu In _context.FunctionalUnit On sod.PerformsFunctionalUnitId Equals fu.Id
+                                Where fu.ProductionCenterId.HasValue
+                                Group Join ce In _context.CUPSEntity On sod.CUPSEntityId Equals ce.Id Into cupsGroup = Group
+                                From ce In cupsGroup.DefaultIfEmpty()
+                                Let serviceType = If(sod.CUPSEntityId.HasValue, ce.ServiceType, SERVICE_TYPE_PHARMACEUTICAL)
+                                Where serviceTypes.Contains(serviceType)
+                                Let serviceId = If(sod.CUPSEntityId.HasValue, sod.CUPSEntityId.Value, sod.ProductId.Value)
+                                Group New With {sod.InvoicedQuantity, sod.GrandTotalSalesPrice} By Key = New With {
+                                     Key .ServiceType = serviceType,
+                                     Key .ServiceId = serviceId,
+                                     Key .FunctionalUnitId = sod.PerformsFunctionalUnitId,
+                                     Key .ProductionCenterId = fu.ProductionCenterId.Value
+                                 } Into grouped = Group
+                                Let totalQuantity = grouped.Sum(Function(x) x.InvoicedQuantity)
+                                Let totalSalesValue = grouped.Sum(Function(x) x.GrandTotalSalesPrice)
+                                Where totalQuantity > 0
+                                Select New With {
+                                     .ServiceType = Key.ServiceType,
+                                     .ServiceId = Key.ServiceId,
+                                     .FunctionalUnitId = Key.FunctionalUnitId,
+                                     .ProductionCenterId = Key.ProductionCenterId,
+                                     .Quantity = totalQuantity,
+                                     .SalesValue = totalSalesValue
+                                 }).ToList()
+
+            ' Ahora crear las entidades en memoria
+            Dim aggregatedData As New List(Of CostIntermediateDistributionServiceQuantity)()
+            For Each item In queryResults
+                Dim entity As New CostIntermediateDistributionServiceQuantity With {
+                    .DistributionIntermediateId = distributionIntermediateId,
+                    .CostMonth = (year * 100) + month,
+                    .ServiceType = item.ServiceType,
+                    .ServiceId = item.ServiceId,
+                    .FunctionalUnitId = item.FunctionalUnitId,
+                    .ProductionCenterId = item.ProductionCenterId,
+                    .Quantity = item.Quantity,
+                    .SalesValue = item.SalesValue,
+                    .CreationUser = userCode,
+                    .CreationDate = DateTime.Now
+                }
+                aggregatedData.Add(entity)
+            Next
+
+            ' 7. Guardar en base de datos si hay registros
+            If aggregatedData IsNot Nothing AndAlso aggregatedData.Count > 0 Then
+                For Each item In aggregatedData
+                    _context.CostIntermediateDistributionServiceQuantity.Add(item)
+                Next
+            End If
+
+        Catch ex As Exception
+            Throw New Exception($"Error al guardar cantidades de servicios: {ex.Message}", ex)
+        End Try
+    End Sub
 
 End Class

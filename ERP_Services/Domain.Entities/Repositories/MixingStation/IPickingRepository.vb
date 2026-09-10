@@ -1,4 +1,4 @@
-﻿'***********************************************************************
+'***********************************************************************
 ' Assembly         : Domain.MixingStation
 ' Author           : Duván Mejía Cortes
 ' Created          : 22/07/2021
@@ -38,4 +38,10 @@ Public Interface IPickingRepository
     ''' <returns></returns>
     Function GetQuantityByWarehouseProductAndBatchSerial(productId As Integer, batchSerial As Integer, WarehouseId As Integer) As PhysicalInventory
 
+    ''' <summary>
+    ''' Obtiene el WarehouseId de la solicitud de inventario asociada al RequestMixingStationDetail indicado.
+    ''' </summary>
+    ''' <param name="requestMixingStationDetailId">Identificador del detalle de preparación generado desde solicitud de inventario</param>
+    ''' <returns>WarehouseId de la solicitud de inventario, o 0 cuando no existe una relación válida</returns>
+    Function GetInventoryRequestWarehouseIdByMixingStationDetailAsync(requestMixingStationDetailId As Integer) As Task(Of Integer)
 End Interface

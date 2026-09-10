@@ -1,4 +1,4 @@
-﻿'***********************************************************************
+'***********************************************************************
 ' Assembly         : Application.Portfolio
 ' Author           : Carlos Mario Arias Rubiano
 ' Created          : 20/10/2016
@@ -74,7 +74,9 @@ Public Interface IPortfolioProvisionAdminService
     ''' </summary>
     ''' <param name="closingDate"></param>
     ''' <param name="operativeUnitId"></param>
+    ''' <param name="pageNumber"></param>
+    ''' <param name="pageSize"></param>
     ''' <returns></returns>
-    Function GetPortfolioDeteriorationByClassification(closingDate As DateTime, operativeUnitId As Integer) As ActionResult(Of List(Of PortfolioDeteriorationByClassificationDTO))
+    Function GetPortfolioDeteriorationByClassification(closingDate As DateTime, operativeUnitId As Integer, Optional pageNumber As Integer = 1, Optional pageSize As Integer = 50000) As ActionResult(Of List(Of PortfolioDeteriorationByClassificationDTO))
 
 End Interface

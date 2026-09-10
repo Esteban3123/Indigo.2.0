@@ -96,6 +96,9 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.13.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.4.4\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
@@ -107,8 +110,10 @@
       <HintPath>..\DLL\Infrastructure.CrossCutting.Exceptions.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
     <Reference Include="System.Transactions" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
@@ -173,6 +178,8 @@
     <Compile Include="ContributorSubtype\IContributorSubtypeAdminService.vb" />
     <Compile Include="ContributorType\ContributorTypeAdminService.vb" />
     <Compile Include="ContributorType\IContributorTypeAdminService.vb" />
+    <Compile Include="ContributorTypeSubtype\ContributorTypeSubtypeAdminService.vb" />
+    <Compile Include="ContributorTypeSubtype\IContributorTypeSubtypeAdminService.vb" />
     <Compile Include="CostCenter\CostCenterAdminService.vb" />
     <Compile Include="CostCenter\ICostCenterAdminService.vb" />
     <Compile Include="CostDistribution\CostDistributionAdminService.vb" />
@@ -319,7 +326,9 @@
       <CustomToolNamespace>My</CustomToolNamespace>
       <LastGenOutput>Settings.Designer.vb</LastGenOutput>
     </None>
-    <None Include="packages.config" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Application.Accounting\Application.Accounting.vbproj">

@@ -156,6 +156,7 @@ Public NotInheritable Class Container
         'Security.User
         newContainer.RegisterType(Of IUserAdminService, UserAdminService)()
         newContainer.RegisterType(Of IUserRepository, UserRepository)()
+        newContainer.RegisterType(Of IEndpointsRepository, EndPointsRepository)()
 
         newContainer.RegisterType(Of IUserMembershipRepository, IndigoAutentication)(New TransientLifetimeManager)
 

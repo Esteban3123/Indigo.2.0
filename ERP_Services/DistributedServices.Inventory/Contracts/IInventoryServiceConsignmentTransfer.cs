@@ -9,7 +9,6 @@
 using Domain.Base.Entities;
 using Domain.Entities;
 using Infrastructure.CrossCutting.Base;
-using System.Collections.Generic;
 using System.ServiceModel;
 
 namespace DistributedServices.Inventory.Contracts
@@ -77,23 +76,5 @@ namespace DistributedServices.Inventory.Contracts
         /// <returns></returns>
         [OperationContract]
         ConsignmentMovementInventory GetConsignmentInventoryQuantities(int warehouseId, int productId);
-        /// <summary>
-        /// Valida información extraída de Excel para ConsignmentTransfer
-        /// </summary>
-        /// <param name="listRows">Lista de filas del archivo Excel</param>
-        /// <param name="sourceWarehouseId">ID del almacén de origen</param>
-        /// <param name="audit">Mensaje de auditoría</param>
-        /// <returns>Resultado de la validación</returns>
-        [OperationContract]
-        ActionResult<List<ConsignmentTransferDetail>> SetConsignmentTransferImportFile(List<ImportFileRow> listRows, int sourceWarehouseId, AuditMessage audit);
-        /// <summary>
-        /// Valida información pegada desde Excel (Copy/Paste) para ConsignmentTransfer
-        /// </summary>
-        /// <param name="dataImport">Lista de listas de strings con los datos pegados</param>
-        /// <param name="sourceWarehouseId">ID del almacén de origen</param>
-        /// <param name="audit">Mensaje de auditoría</param>
-        /// <returns>Resultado de la validación</returns>
-        [OperationContract]
-        ActionResult<List<ConsignmentTransferDetail>> SetConsignmentTransferDetailFromCopyPaste(List<List<string>> dataImport, int sourceWarehouseId, AuditMessage audit);
     }
 }

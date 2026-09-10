@@ -108,9 +108,9 @@ Partial Class MixingStationService
     ''' <param name="audit"></param>
     ''' <param name="session"></param>
     ''' <returns></returns>
-    Function SaveInventoryRequest(inventoryRequest As InventoryRequest, audit As AuditMessage, session As SessionValues) As ActionResult Implements IMixingStationServiceRawMaterial.SaveInventoryRequest
+    Async Function SaveInventoryRequest(inventoryRequest As InventoryRequest, audit As AuditMessage, session As SessionValues) As Task(Of ActionResult) Implements IMixingStationServiceRawMaterial.SaveInventoryRequest
         Using service As IRawMaterialAdminService = Container.Current.Resolve(Of IRawMaterialAdminService)()
-            Return service.SaveInventoryRequest(inventoryRequest, audit, session)
+            Return Await service.SaveInventoryRequestAsync(inventoryRequest, audit, session)
         End Using
     End Function
 

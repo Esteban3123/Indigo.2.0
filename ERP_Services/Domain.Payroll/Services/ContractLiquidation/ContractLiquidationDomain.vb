@@ -1,4 +1,4 @@
-﻿Imports Domain.Payroll.Entities
+Imports Domain.Payroll.Entities
 Imports Domain.Base.Entities
 Imports Infrastructure.CrossCutting.Base
 Imports Domain.Entities
@@ -377,17 +377,8 @@ Public Class ContractLiquidationDomain
             Dim ListLiquidationLastYear = _payrollLiquidationRepository.GetConfirmLiquidationByStarEndDateRetroactive(NewInitialDate, NewEndDate, validContract.GroupId)
 
             '--------------------------------------------------------------------- Liquidacion de Nomina
-            'Fecha minima de liquidacion de nomina pendiente - ajustada según tipo de nómina
-            Dim liqMinDate As Date
-
-            ' Calcular fecha inicial según tipo de nómina
-            If validContract.Group.Liquidation = 2 AndAlso retirementDate.Day > 15 Then
-                ' Nómina quincenal - segunda quincena
-                liqMinDate = New Date(retirementDate.Year, retirementDate.Month, 16)
-            Else
-                ' Nómina mensual o quincenal primera quincena
-                liqMinDate = New Date(retirementDate.Year, retirementDate.Month, 1)
-            End If
+            'Fecha minima de liquidacion de nomina pendiente
+            Dim liqMinDate As Date = New Date(retirementDate.Year, retirementDate.Month, 1)
 
             If jobBondingDate > liqMinDate Then
                 liqMinDate = jobBondingDate
@@ -406,7 +397,41 @@ Public Class ContractLiquidationDomain
 
             If (validContract.LastLiquidationDate Is Nothing) Or validContract.LastLiquidationDate <= retirementDate Then
                 xtraLiquidation = LiquidatePayroll(employee, liqMinDate, retirementDate, session)
-                If xtraLiquidation IsNot Nothing Then
+
+                'Cuando la re-liquidación de nómina falla (retorna Nothing) pero el empleado ya tiene nómina confirmada,
+                'se activa el modo preview para usar la liquidación confirmada existente como base de cálculo.
+                'Esto ocurre cuando el grupo no ha avanzado su NextDateLiquidation y el periodo ya fue pagado.
+                If xtraLiquidation Is Nothing AndAlso validContract.LastLiquidationDate.HasValue Then
+                    FlagPreviewLiquidation = True
+                    Dim TransportHealthValue = validContract.Group.PayrollParameter.TransportHelpValue
+                    Dim LegalSalaryMinimun = validContract.Group.PayrollParameter.LegalSalaryMinimum
+                    If validContract.BasicSalary > (2 * LegalSalaryMinimun) Then
+                        TransportHealthValue = 0
+                    End If
+                    Dim InitialRetirementDate = New Date(retirementDate.Year, retirementDate.Month, 1)
+                    Dim EndRetirementDate = _liquidationDomain.GetEndPayrollDate(validContract.Group.Liquidation, InitialRetirementDate)
+                    If validContract.ContractEndingDate > retirementDate Then
+                        Dim ListAdjustSalaryValue = AdjustBasicSalary(validContract.BasicSalary, retirementDate, InitialRetirementDate, EndRetirementDate, TransportHealthValue, LegalSalaryMinimun, ObjGroup)
+                        If ListAdjustSalaryValue.StateResult = True Then
+                            If ListAdjustSalaryValue.ObjectEmbbeded IsNot Nothing AndAlso ListAdjustSalaryValue.ObjectEmbbeded.Count > 0 Then
+                                For Each objContractDetail As ContractLiquidationDetail In ListAdjustSalaryValue.ObjectEmbbeded
+                                    objContractDetail.Accrued = Utils.RoundValue(objContractDetail.Accrued, TarifaAprox)
+                                    objContractDetail.Deducted = Utils.RoundValue(objContractDetail.Deducted, TarifaAprox)
+                                    contractLiquidation.ContractLiquidationDetail.Add(objContractDetail)
+                                Next
+                            End If
+                        End If
+                    End If
+
+                    'Intenta cargar la liquidación confirmada del mes de retiro; si no existe, usa el último mes pagado
+                    xtraLiquidation = _payrollLiquidationRepository.GetLiquidationByEmployeeIdYearMonth(validContract.EmployeeId, retirementDate.Year, retirementDate.Month)
+                    If xtraLiquidation Is Nothing Then
+                        xtraLiquidation = _payrollLiquidationRepository.GetLiquidationByEmployeeIdYearMonth(validContract.EmployeeId, validContract.LastLiquidationDate.Value.Year, validContract.LastLiquidationDate.Value.Month)
+                    End If
+                    ListAgreements = _AgreementsCRepository.GetAgreementsByEmployeeLiquidationContract(validContract.EmployeeId, "2")
+                End If
+
+                If xtraLiquidation IsNot Nothing AndAlso FlagPreviewLiquidation = False Then
                     xtraLiquidation.Contract = validContract
                     xtraLiquidation.Group = validContract.Group
 
@@ -474,11 +499,8 @@ Public Class ContractLiquidationDomain
                 If validContract.BasicSalary > (2 * LegalSalaryMinimun) Then
                     TransportHealthValue = 0
                 End If
-
-                'Calcular el período correcto de liquidación según tipo de nómina y fecha de retiro
-                Dim InitialRetirementDate As Date
-                Dim EndRetirementDate As Date
-                GetPayrollPeriodDates(retirementDate, validContract.Group.Liquidation, InitialRetirementDate, EndRetirementDate)
+                Dim InitialRetirementDate = New Date(retirementDate.Year, retirementDate.Month, 1)
+                Dim EndRetirementDate = _liquidationDomain.GetEndPayrollDate(validContract.Group.Liquidation, InitialRetirementDate)
 
                 If validContract.ContractEndingDate > retirementDate Then
 
@@ -876,15 +898,40 @@ Public Class ContractLiquidationDomain
                 End If
 
 
-                Dim ConceptCaja = _conceptRepository.GetConceptByClass("036")
+                'Obtiene el concepto de Caja de Compensación autorizado para el grupo, diferenciando
+                'entre salario regular (SalaryType=1) e integral (SalaryType=2) mediante el índice de la lista
+                Dim ListAuthCajaConcepts = _authorizationConceptRepository.GetAuthorizationConceptByGroupId(validContract.GroupId, "036")
+                Dim ConceptCaja As Domain.Payroll.Entities.Concept = Nothing
+
+                If ListAuthCajaConcepts IsNot Nothing AndAlso ListAuthCajaConcepts.Count > 0 Then
+                    Dim idx As Integer = Math.Min(validContract.ContractType.SalaryType - 1, ListAuthCajaConcepts.Count - 1)
+                    ConceptCaja = ListAuthCajaConcepts(idx).Concept
+                End If
 
                 If ConceptCaja IsNot Nothing Then
+                    'Si el concepto de caja ya existe en el detalle (generado por nómina), suma el 4% sobre vacaciones
                     If contractLiquidation.ContractLiquidationDetail.Any(Function(x) x.IdConcept = ConceptCaja.Id) Then
                         Dim ObjCaja = contractLiquidation.ContractLiquidationDetail.Where(Function(x) x.IdConcept = ConceptCaja.Id).FirstOrDefault()
                         ObjCaja.Accrued = ObjCaja.Accrued + (vacationTotalPaid * validContract.Group.PayrollParameter.CompensationFundContributionPercentage / 100)
                         ObjCaja.Accrued = Utils.RoundValue(ObjCaja.Accrued, TarifaAprox)
                         ObjCaja.ConceptFormulate = ObjCaja.ReplaceConceptFormulate + " + ([Valor Vacaciones] * [% Caja] / 100)"
                         ObjCaja.ReplaceConceptFormulate = ObjCaja.ReplaceConceptFormulate + " + (" + vacationTotalPaid.ToString + ") * " + validContract.Group.PayrollParameter.CompensationFundContributionPercentage.ToString + " / 100)"
+                    Else
+                        'Si no existe (nómina no generó patronales), crea el concepto de caja con el aporte sobre vacaciones
+                        Dim CajaVacValue As Decimal = vacationTotalPaid * validContract.Group.PayrollParameter.CompensationFundContributionPercentage / 100
+                        CajaVacValue = Utils.RoundValue(CajaVacValue, TarifaAprox)
+                        Dim detailCajaVac As New ContractLiquidationDetail() With {
+                            .IdConcept = ConceptCaja.Id,
+                            .ConceptType = 3,
+                            .Description = ConceptCaja.Name,
+                            .InitialDate = New Date(retirementDate.Year, retirementDate.Month, 1),
+                            .EndingDate = retirementDate,
+                            .Accrued = CajaVacValue,
+                            .Deducted = 0,
+                            .ConceptFormulate = "[Valor Vacaciones] * [% Caja] / 100",
+                            .ReplaceConceptFormulate = "(" + vacationTotalPaid.ToString + ") * " + validContract.Group.PayrollParameter.CompensationFundContributionPercentage.ToString + " / 100)"
+                        }
+                        contractLiquidation.ContractLiquidationDetail.Add(detailCajaVac)
                     End If
                 End If
             End If
@@ -1051,7 +1098,6 @@ Public Class ContractLiquidationDomain
 
         'Averiguo la Fecha Fin de la Nómina
         Dim PayrollEndDate = _liquidationDomain.GetEndPayrollDate(PayrollLiquidation, PayrollStarDate)
-
 
         Dim employees As New List(Of Domain.Payroll.Entities.Employee)
         employees.Add(validContract)
@@ -1772,25 +1818,12 @@ Public Class ContractLiquidationDomain
             End If
 
             '--------------------------------------------------------------------- Liquidacion de Nomina
-            'Fecha minima de liquidacion de nomina pendiente - ajustada según tipo de nómina
-            Dim liqMinDate As Date
-
-            ' Calcular fecha inicial según tipo de nómina
-            If validContract.Group.Liquidation = 2 AndAlso retirementDate.Day > 15 Then
-                ' Nómina quincenal - segunda quincena
-                liqMinDate = New Date(retirementDate.Year, retirementDate.Month, 16)
-            Else
-                ' Nómina mensual o quincenal primera quincena
-                liqMinDate = New Date(retirementDate.Year, retirementDate.Month, 1)
-            End If
-
+            'Fecha minima de liquidacion de nomina pendiente
+            Dim liqMinDate As Date = New Date(retirementDate.Year, retirementDate.Month, 1)
             Dim ContractLiquidation As New ContractLiquidation()
 
-            'Calcular el período correcto de liquidación según tipo de nómina y fecha de retiro
-            Dim InitialRetirementDate As Date
-            Dim EndRetirementDate As Date
-            GetPayrollPeriodDates(retirementDate, validContract.Group.Liquidation, InitialRetirementDate, EndRetirementDate)
-
+            Dim InitialRetirementDate = New Date(retirementDate.Year, retirementDate.Month, 1)
+            Dim EndRetirementDate = _liquidationDomain.GetEndPayrollDate(validContract.Group.Liquidation, InitialRetirementDate)
             Dim LiquidationPast = _payrollLiquidationRepository.LiquidationEmployeeByDate(employee.Id, InitialRetirementDate, EndRetirementDate)
 
 
@@ -2347,7 +2380,6 @@ Public Class ContractLiquidationDomain
     ''' <param name="InitialPayrollDate"></param>
     ''' <param name="EndPayrollDate"></param>
     ''' <param name="Group"></param>
-    ''' <param name="contractId"></param>
     ''' <returns></returns>
     Public Function AdjustBasicSalaryCR(BasicSalary As Decimal, retirementDate As Date, InitialPayrollDate As Date, EndPayrollDate As Date, Group As Group, contractId As Integer) As ActionMessageResult(Of List(Of ContractLiquidationDetail))
 
@@ -2367,14 +2399,22 @@ Public Class ContractLiquidationDomain
             Return ListReturn
         End If
 
-        'Validar los dias trabajados de la ulima  liquidacion
+        'Validar los dias efectivamente cubiertos en la ultima liquidacion.
+        'Se compara contra los dias calendario desde el inicio del periodo hasta la fecha de retiro (inclusivo).
+        'Se suman todos los tipos de dias cubiertos: salario, incapacidad, licencia maternidad,
+        'licencias remuneradas y vacaciones, para evitar falsos positivos cuando el empleado
+        'tiene dias no salariales (ej: incapacidad) en el periodo de retiro.
         Dim lastLiquidations = _contractLiquidationRepository.GetPaymentsByContractId(contractId)
         If lastLiquidations IsNot Nothing AndAlso lastLiquidations.Count > 0 Then
             Dim lastLiquidation = lastLiquidations.OrderByDescending(Function(x) x.PayrollDateLiquidated).FirstOrDefault()
-            If lastLiquidation IsNot Nothing AndAlso lastLiquidation.DaysWorked > 0 Then
-                'Calcular los dias de retiro entre InitialPayrollDate y retirementDate (incluyendo ambos dias)
+            If lastLiquidation IsNot Nothing Then
                 Dim retirementDays = DateDiff(DateInterval.Day, InitialPayrollDate, retirementDate) + 1
-                If retirementDays = lastLiquidation.DaysWorked Then
+                Dim totalEffectiveDays As Integer = lastLiquidation.DaysWorked +
+                                                    If(lastLiquidation.DisabilityDays.HasValue, CInt(lastLiquidation.DisabilityDays.Value), 0) +
+                                                    If(lastLiquidation.MaternityLeaveDays.HasValue, CInt(lastLiquidation.MaternityLeaveDays.Value), 0) +
+                                                    If(lastLiquidation.LicenseDays.HasValue, CInt(lastLiquidation.LicenseDays.Value), 0) +
+                                                    If(lastLiquidation.VacationDays.HasValue, CInt(lastLiquidation.VacationDays.Value), 0)
+                If retirementDays = totalEffectiveDays Then
                     ListReturn.StateResult = False
                     Return ListReturn
                 End If
@@ -2780,7 +2820,7 @@ Public Class ContractLiquidationDomain
 
                         ElseIf ObjConcept.ConceptClass = "037" Then ' ICBF
                             If _thirdPartyRepository.GetThirdPartyByNit("899999239") IsNot Nothing Then
-                                thirdPartyId = _thirdPartyRepository.GetThirdPartyByNit("899999034").Id
+                                thirdPartyId = _thirdPartyRepository.GetThirdPartyByNit("899999239").Id
                             End If
 
 
@@ -2834,6 +2874,11 @@ Public Class ContractLiquidationDomain
 
                             Dim AcruedAccount As String = tmpAccount.AccruedAccount
                             Dim ValidateAccountAccrued = _CostDistributionRepository.GetMainAccountByNumber(AcruedAccount)
+
+                            If ValidateAccountAccrued Is Nothing Then
+                                Return New ActionResult(Of List(Of Domain.Entities.JournalVouchers)) With {.StateResult = False, .Message = "La cuenta Contable " + AcruedAccount + " del Concepto " + ObjConcept.Code + " - " + ObjConcept.Name + " no existe"}
+                            End If
+
                             Dim IdMainAccount As Integer = ValidateAccountAccrued.Id
 
                             'DEVENGADO
@@ -2855,6 +2900,11 @@ Public Class ContractLiquidationDomain
 
                             Dim DeductedAccount As String = tmpAccount.DeductedAccount
                             Dim ValidateAccountDeducted = _CostDistributionRepository.GetMainAccountByNumber(DeductedAccount)
+
+                            If ValidateAccountDeducted Is Nothing Then
+                                Return New ActionResult(Of List(Of Domain.Entities.JournalVouchers)) With {.StateResult = False, .Message = "La cuenta Contable " + DeductedAccount + " del Concepto " + ObjConcept.Code + " - " + ObjConcept.Name + " no existe"}
+                            End If
+
                             Dim IdMainAccount As Integer = ValidateAccountDeducted.Id
 
                             With NewPaidVoucherDetail
@@ -3304,17 +3354,7 @@ Public Class ContractLiquidationDomain
 
             Dim xtraLiquidation As Liquidation
 
-            'Fecha minima de liquidacion de nomina pendiente - ajustada según tipo de nómina
-            Dim liqMinDate As Date
-
-            ' Calcular fecha inicial según tipo de nómina
-            If validContract.Group.Liquidation = 2 AndAlso retirementDate.Day > 15 Then
-                ' Nómina quincenal - segunda quincena
-                liqMinDate = New Date(retirementDate.Year, retirementDate.Month, 16)
-            Else
-                ' Nómina mensual o quincenal primera quincena
-                liqMinDate = New Date(retirementDate.Year, retirementDate.Month, 1)
-            End If
+            Dim liqMinDate = New Date(retirementDate.Year, retirementDate.Month, 1)
 
             Dim ListTmpConcept = _conceptRepository.ListAllConcept()
 
@@ -3388,10 +3428,9 @@ Public Class ContractLiquidationDomain
 
                 Dim ObjGroup = _groupRepository.GetGroupById(validContract.GroupId)
 
-                'Calcular el período correcto de liquidación según tipo de nómina y fecha de retiro
-                Dim InitialRetirementDate As Date
-                Dim EndRetirementDate As Date
-                GetPayrollPeriodDates(retirementDate, validContract.Group.Liquidation, InitialRetirementDate, EndRetirementDate)
+
+                Dim InitialRetirementDate = New Date(retirementDate.Year, retirementDate.Month, 1)
+                Dim EndRetirementDate = _liquidationDomain.GetEndPayrollDate(validContract.Group.Liquidation, InitialRetirementDate)
 
                 If validContract.ContractEndingDate > retirementDate Then 'Se evalua si la fecha de terminacion del contrato es mayor a la fecha de retiro
 
@@ -3403,6 +3442,16 @@ Public Class ContractLiquidationDomain
                             For Each objContractDetail As ContractLiquidationDetail In ListAdjustSalaryValue.ObjectEmbbeded
                                 objContractDetail.Accrued = Utils.RoundValue(objContractDetail.Accrued, TarifaAprox)
                                 objContractDetail.Deducted = Utils.RoundValue(objContractDetail.Deducted, TarifaAprox)
+
+                                'Los totales de esta rutina se llevan en acumuladores, no se recalculan del detalle.
+                                'El ajuste de salario debe acumularse igual que los demás conceptos para que quede
+                                'reflejado en el Total a Pagar. Los conceptos patronales (tipo 3) no afectan el total.
+                                If objContractDetail.ConceptType = 1 Then
+                                    TotalAccrued = TotalAccrued + objContractDetail.Accrued
+                                ElseIf objContractDetail.ConceptType = 2 Then
+                                    TotalDeducted = TotalDeducted + objContractDetail.Deducted
+                                End If
+
                                 contractLiquidation.ContractLiquidationDetail.Add(objContractDetail)
                             Next
                         End If
@@ -3421,6 +3470,9 @@ Public Class ContractLiquidationDomain
             'Cargo los Conceptos Manuales del Empleado
             Dim ListManualConcepts = _ManualConceptsRepository.GetManualConceptsByEmployeeIdInitialDate(employee.Id, retirementDate, 1, 5)
 
+            'Base que acumulan los conceptos manuales del finiquito que afectan el Valor Acumulado Aguinaldo Retiro
+            Dim ManualConceptsAguinaldoBase As Decimal = 0
+
             'Conceptos Manuales
             If ListManualConcepts IsNot Nothing AndAlso ListManualConcepts.Count > 0 Then
                 For Each objManualConcept As ManualConcepts In ListManualConcepts
@@ -3428,9 +3480,17 @@ Public Class ContractLiquidationDomain
                     If objManualConcept.Concept.ConceptType = 1 Then
                         DetailLiquidaionContract = New ContractLiquidationDetail() With {.IdConcept = objManualConcept.Concept.Id, .ConceptType = objManualConcept.Concept.ConceptType, .Description = objManualConcept.Concept.Name, .InitialDate = liqMinDate, .EndingDate = retirementDate, .ConceptFormulate = objManualConcept.Concept.Formulates, .ReplaceConceptFormulate = objManualConcept.QuoteValue.ToString(), .Accrued = objManualConcept.QuoteValue, .Deducted = 0}
                         TotalAccrued = TotalAccrued + objManualConcept.QuoteValue
+                        contractLiquidation.ContractLiquidationDetail.Add(DetailLiquidaionContract)
+                        If objManualConcept.Concept.AffectIBC = True Then
+                            ManualConceptsAguinaldoBase = ManualConceptsAguinaldoBase + objManualConcept.QuoteValue
+                        End If
                     ElseIf objManualConcept.Concept.ConceptType = 2 Then
                         DetailLiquidaionContract = New ContractLiquidationDetail() With {.IdConcept = objManualConcept.Concept.Id, .ConceptType = objManualConcept.Concept.ConceptType, .Description = objManualConcept.Concept.Name, .InitialDate = liqMinDate, .EndingDate = retirementDate, .ConceptFormulate = objManualConcept.Concept.Formulates, .ReplaceConceptFormulate = objManualConcept.QuoteValue.ToString(), .Accrued = 0, .Deducted = objManualConcept.QuoteValue}
                         TotalDeducted = TotalDeducted + objManualConcept.QuoteValue
+                        contractLiquidation.ContractLiquidationDetail.Add(DetailLiquidaionContract)
+                        If objManualConcept.Concept.AffectIBC = True Then
+                            ManualConceptsAguinaldoBase = ManualConceptsAguinaldoBase - objManualConcept.QuoteValue
+                        End If
                     End If
                 Next
             End If
@@ -3586,7 +3646,7 @@ Public Class ContractLiquidationDomain
             Dim VariableSalaryServiceIncentive As Decimal = Me.VariableSalaryIncentivePayment(validContract, PayrollSettings, 1, Nothing, retirementDate)
             Dim ValueServiceIncentivePayment As Decimal = 0
 
-            Dim salaryServiceIncentiveAguinaldo = VariableSalaryServiceIncentiveAguinaldo(validContract, PayrollSettings, retirementDate, xtraLiquidation) 'VariableSalaryServiceIncentive
+            Dim salaryServiceIncentiveAguinaldo = VariableSalaryServiceIncentiveAguinaldo(validContract, PayrollSettings, retirementDate, xtraLiquidation) + ManualConceptsAguinaldoBase 'VariableSalaryServiceIncentive
             'Valido si la empresa es privada, y la fecha de retiro es en el segundo semestre del año, no se debe pagar esta prima
             If session.IndigoCompanyType = 1 And retirementDate >= PayrollSettings.EndDateServicesIncentivePayment Then
                 Dim ObjConcept = ListObjConcept.Where(Function(x) x.Id = PayrollSettings.ChristmasIncentivePaymentConceptId).FirstOrDefault()
@@ -3667,7 +3727,18 @@ Public Class ContractLiquidationDomain
                 Dim ObjContractLiquidationDetailIndemnization = Me.CalculateRetentionIndemnization(validContract, IndemnizationValue, retirementDate)
 
                 If ObjContractLiquidationDetailIndemnization.StateResult = True And ObjContractLiquidationDetailIndemnization.ObjectEmbbeded IsNot Nothing Then
-                    contractLiquidation.ContractLiquidationDetail.Add(ObjContractLiquidationDetailIndemnization.ObjectEmbbeded)
+
+                    Dim detailRetentionIndemnization = ObjContractLiquidationDetailIndemnization.ObjectEmbbeded
+
+                    'La retención por indemnización es una deducción y debe acumularse en el total,
+                    'igual que el resto de los conceptos de esta rutina
+                    If detailRetentionIndemnization.ConceptType = 1 Then
+                        TotalAccrued = TotalAccrued + detailRetentionIndemnization.Accrued
+                    ElseIf detailRetentionIndemnization.ConceptType = 2 Then
+                        TotalDeducted = TotalDeducted + detailRetentionIndemnization.Deducted
+                    End If
+
+                    contractLiquidation.ContractLiquidationDetail.Add(detailRetentionIndemnization)
                 ElseIf ObjContractLiquidationDetailIndemnization.StateResult = False Then
                     result.Message = ObjContractLiquidationDetailIndemnization.Message.ToString
                     result.StateResult = False
@@ -3789,9 +3860,7 @@ Public Class ContractLiquidationDomain
     Private Function CalculateAccumulatedValueAguinaldoBase(contract As Entities.Contract, payrollSettings As PayrollSettings, retirementDate As Date) As Decimal
         Dim initialDate = payrollSettings.InitialDateServicesIncentivePayment
         Dim variableSalary As Decimal = 0
-        Dim endDate As Date = New Date(retirementDate.Year, retirementDate.Month,
-                                    Date.DaysInMonth(retirementDate.Year, retirementDate.Month))
-        Dim liquidations = _payrollLiquidationRepository.LiquidationEmployeeByDateAndContractStatus(contract.EmployeeId, initialDate, endDate, {CByte(1), CByte(4), CByte(5)}.ToList())
+        Dim liquidations = _payrollLiquidationRepository.LiquidationEmployeeByDateAndContractStatus(contract.EmployeeId, initialDate, retirementDate, {CByte(1), CByte(4), CByte(5)}.ToList())
         For Each liquidation In liquidations
             Dim csum = liquidation.LiquidationDetail.Where(Function(m) m.ConceptType = 1 _
                         AndAlso m.Concept.AffectIBCIncentivePayment).Sum(Function(m) m.AccruedValue)
@@ -3802,49 +3871,141 @@ Public Class ContractLiquidationDomain
     End Function
 
     ''' <summary>
-    ''' Calcula el valor de la variable "Valor Promedio Base CIMA"
+    ''' Calcula el valor de la variable "Valor Promedio Base CIMA".
+    ''' Busca hasta 6 meses completos hacia atrás desde el mes anterior al retiro,
+    ''' excluyendo meses con incapacidades de enfermedad general o riesgos laborales (clases 021, 022, 027).
+    ''' Mes completo: la nómina cubre desde el día 1 al 30 (contrato inició antes o el 1 del mes).
+    ''' Si no encuentra meses completos, aplica fórmula de promedio diario ponderado:
+    ''' valor_día = devengado_mes / 30, acumulado = valor_día × días_laborados,
+    ''' promedio_diario = Σ(acumulado) / Σ(días_laborados), promedio_mensual = promedio_diario × 30.
     ''' </summary>
-    ''' <param name="contract"></param>
-    ''' <param name="retirementDate"></param>
-    ''' <returns></returns>
+    ''' <param name="contract">Contrato del empleado</param>
+    ''' <param name="retirementDate">Fecha de retiro</param>
+    ''' <returns>Valor promedio base CIMA mensual</returns>
     Private Function CalculateBaseAverageValueCIMA(contract As Entities.Contract, retirementDate As Date) As Decimal
-        Dim variableSalary As Decimal = 0
-        ' Le sumamos 1 día y luego lo posicionamos a inicio del mes
-        ' de esta manera sabemos que si es el último día del mes mas 1 entonces toma el mes completo
-        ' sino al sumarle un día igual ignora el mes
+        ' Si es el último día del mes + 1 toma el mes completo, sino lo ignora
         Dim flagDate = retirementDate.Date.AddDays(1)
         Dim endDate = New Date(flagDate.Year, flagDate.Month, 1).AddDays(-1)
-        Dim validMonths = 0
-        While validMonths < 6
-            Dim startDate = New Date(endDate.Year, endDate.Month, 1)
-            Dim liquidations = _payrollLiquidationRepository.LiquidationEmployeeByDateAndContractStatus(contract.EmployeeId, startDate, endDate, {CByte(1), CByte(4), CByte(5)}.ToList())
-            If liquidations.Any() Then
-                Dim isValidMonth = True
-                For Each liquidation In liquidations
-                    If liquidation.LiquidationDetail.Any(Function(m) {"021", "022", "027"}.Contains(m.ConceptClass)) Then
-                        isValidMonth = False
-                        Exit For
-                    End If
-                    Dim csum = liquidation.LiquidationDetail.Where(Function(m) m.ConceptType = 1 _
-                        AndAlso m.Concept.AffectIBC).Sum(Function(m) m.AccruedValue)
-                    variableSalary = variableSalary + csum
-                Next
+        Dim completeMonthsSalary As Decimal = 0
+        Dim completeMonthsCount As Integer = 0
+        Dim safetyLimit As Integer = 12
+        Dim iteration As Integer = 0
 
-                If isValidMonth Then
-                    validMonths += 1
-                End If
-            Else
+        While completeMonthsCount < 6 AndAlso iteration < safetyLimit
+            iteration += 1
+            Dim startDate = New Date(endDate.Year, endDate.Month, 1)
+
+            If endDate < contract.JobBondingDate.Date Then
                 Exit While
+            End If
+
+            Dim liquidations = _payrollLiquidationRepository.LiquidationEmployeeByDateAndContractStatus(
+                contract.EmployeeId, startDate, endDate, {CByte(1), CByte(4), CByte(5)}.ToList())
+
+            If Not liquidations.Any() Then
+                Exit While
+            End If
+
+            ' Se descarta el mes si el PRIMER período tiene incapacidad (021/022/027)
+            ' Si la incapacidad está solo en el segundo período, el mes sigue siendo válido
+            Dim firstLiquidation = liquidations.OrderBy(Function(l) l.PayrollDateLiquidated).First()
+            Dim firstPeriodHasIncapacity = firstLiquidation.LiquidationDetail.Any(Function(m) _
+                {"021", "022", "027"}.Contains(m.ConceptClass))
+            If firstPeriodHasIncapacity Then
+                endDate = startDate.AddDays(-1)
+                Continue While
+            End If
+
+            ' Se descarta el mes si no tiene todos los días laborados (mes con ausencias)
+            Dim totalDaysWorked = liquidations.Sum(Function(l) CInt(l.DaysWorked))
+            Dim totalPayrollDays = liquidations.Sum(Function(l) CInt(l.PayrollDays))
+            If totalDaysWorked < totalPayrollDays Then
+                endDate = startDate.AddDays(-1)
+                Continue While
+            End If
+
+            Dim isCompleteMonth = (contract.JobBondingDate.Date <= startDate)
+
+            If isCompleteMonth Then
+                Dim monthSalary As Decimal = 0
+                For Each liquidation In liquidations
+                    monthSalary += liquidation.LiquidationDetail _
+                        .Where(Function(m) (m.ConceptType = 1 OrElse m.ConceptType = 2) AndAlso m.Concept.AffectIBC) _
+                        .Sum(Function(m) If(m.ConceptType = 1, m.AccruedValue, -m.DeductedValue))
+                Next
+                completeMonthsSalary += monthSalary
+                completeMonthsCount += 1
             End If
 
             endDate = startDate.AddDays(-1)
         End While
 
-        If validMonths = 0 Then
+        If completeMonthsCount > 0 Then
+            Return completeMonthsSalary / completeMonthsCount
+        End If
+
+        ' Variable que me va a contener la fecha temporal para poder consultar la liquidación en la que se retira
+        Dim retirementDateTemp As Date
+        If retirementDate.Day > 15 Then
+            retirementDateTemp = New Date(retirementDate.Year, retirementDate.Month, DateTime.DaysInMonth(retirementDate.Year, retirementDate.Month))
+        Else
+            retirementDateTemp = New Date(retirementDate.Year, retirementDate.Month, 15)
+        End If
+        ' Fallback: sin meses completos → promedio diario ponderado con todos los períodos
+        Dim allLiquidations = _payrollLiquidationRepository.LiquidationEmployeeByDateAndContractStatus(
+            contract.EmployeeId, contract.JobBondingDate.Date, retirementDateTemp, {CByte(1), CByte(4), CByte(5)}.ToList())
+
+        If Not allLiquidations.Any() Then
             Return 0
         End If
 
-        Return variableSalary / validMonths
+        Dim fallbackAccumulated As Decimal = 0
+        Dim fallbackTotalDays As Integer = 0
+
+        Dim monthGroups = allLiquidations.GroupBy(Function(l) l.PayrollDateLiquidated.ToString("yyyy-MM"))
+
+        Dim monthGroupIndex As Integer = 0
+
+        For Each monthGroup In monthGroups
+            Dim monthHasIncapacity = monthGroup.Any(Function(l) _
+                l.LiquidationDetail.Any(Function(m) {"021", "022", "027"}.Contains(m.ConceptClass)))
+
+            If monthHasIncapacity Then
+                Continue For
+            End If
+
+            Dim monthSalary As Decimal = 0
+            Dim monthDays As Integer = 0
+            Dim monthDaysWorked As Integer = 0
+
+            For Each liq In monthGroup
+                monthSalary += liq.LiquidationDetail _
+                    .Where(Function(m) (m.ConceptType = 1 OrElse m.ConceptType = 2) AndAlso m.Concept.AffectIBC) _
+                    .Sum(Function(m) If(m.ConceptType = 1, m.AccruedValue, -m.DeductedValue))
+                If liq Is monthGroup.Last() AndAlso monthGroupIndex = monthGroups.Count - 1 Then
+                    monthDays += CInt(Math.Abs(monthDays - retirementDate.Day))
+                    monthDaysWorked += CInt(liq.DaysWorked)
+                Else
+                    monthDays += CInt(liq.DaysWorked)
+                    monthDaysWorked += CInt(liq.DaysWorked)
+                End If
+            Next
+
+            If monthDaysWorked > 0 Then
+                Dim dailyValue As Decimal = monthSalary / monthDaysWorked
+                fallbackAccumulated += dailyValue * monthDays
+                fallbackTotalDays += monthDays
+            End If
+
+            monthGroupIndex += 1
+        Next
+
+        If fallbackTotalDays = 0 Then
+            Return 0
+        End If
+
+        Dim dailyAverage As Decimal = fallbackAccumulated / fallbackTotalDays
+        Return dailyAverage * 30D
     End Function
 
     Public Function ReplaceDataFormulates(
@@ -3946,17 +4107,14 @@ Public Class ContractLiquidationDomain
 
     Private Function VariableSalaryServiceIncentiveAguinaldo(Contract As Entities.Contract, PayrollSettings As PayrollSettings, RetirementDate As Date, pendingLiquidation As Liquidation) As Decimal
         Dim initialDate = PayrollSettings.InitialDateServicesIncentivePayment
-        Dim endDate As Date = New Date(RetirementDate.Year, RetirementDate.Month,
-                                    Date.DaysInMonth(RetirementDate.Year, RetirementDate.Month))
-
-        Dim liquidations = _payrollLiquidationRepository.LiquidationEmployeeByDate(Contract.EmployeeId, initialDate, endDate)
+        Dim liquidations = _payrollLiquidationRepository.LiquidationEmployeeByDate(Contract.EmployeeId, initialDate, RetirementDate)
         If pendingLiquidation IsNot Nothing Then
             liquidations.Add(pendingLiquidation)
         End If
 
         Return liquidations.Sum(Function(m) m.LiquidationDetail _
-                    .Where(Function(o) o.Concept.AffectIBCIncentivePayment AndAlso (o.Concept.ConceptType = 1 OrElse o.Concept.ConceptType = 2)) _
-                .Sum(Function(o) IIf(o.Concept.ConceptType = 1, 1, -1) * o.AccruedValue))
+                    .Where(Function(o) o.Concept.AffectIBC AndAlso (o.Concept.ConceptType = 1 OrElse o.Concept.ConceptType = 2)) _
+                .Sum(Function(o) IIf(o.Concept.ConceptType = 1, o.AccruedValue, -o.DeductedValue)))
     End Function
 
     Private Function IncentivePaymentDays(Contract As Domain.Payroll.Entities.Contract, PayrollSettings As Domain.Payroll.Entities.PayrollSettings, IncentivePaymentType As Integer, retirementDate As Date) As Integer
@@ -4169,34 +4327,6 @@ Public Class ContractLiquidationDomain
         Return VariableSalary
 
     End Function
-
-    ''' <summary>
-    ''' Calcula el periodo de liquidación correcto según el tipo de nómina y la fecha de retiro
-    ''' </summary>
-    ''' <param name="retirementDate">Fecha de retiro del empleado</param>
-    ''' <param name="liquidationType">Tipo de liquidacuon (1=Mensual, 2=Quincenal)</param>
-    ''' <param name="initialDate">Fecha inicial del período (ByRef)</param>
-    ''' <param name="endDate">Fecha final del período (ByRef)</param>
-    Private Sub GetPayrollPeriodDates(retirementDate As Date, liquidationType As Integer, ByRef initialDate As Date, ByRef endDate As Date)
-        If liquidationType = 1 Then ''mensual
-            initialDate = New Date(retirementDate.Year, retirementDate.Month, 1)
-            endDate = New Date(retirementDate.Year, retirementDate.Month, DateTime.DaysInMonth(retirementDate.Year, retirementDate.Month))
-
-        ElseIf liquidationType = 2 Then ''quincenal
-            If retirementDate.Day <= 15 Then
-                ' Primera quincena (1-15)
-                initialDate = New Date(retirementDate.Year, retirementDate.Month, 1)
-                endDate = New Date(retirementDate.Year, retirementDate.Month, 15)
-            Else
-                ' Segunda quincena (16 al ultimo dia del mes)
-                initialDate = New Date(retirementDate.Year, retirementDate.Month, 16)
-                endDate = New Date(retirementDate.Year, retirementDate.Month, DateTime.DaysInMonth(retirementDate.Year, retirementDate.Month))
-            End If
-        Else
-            initialDate = New Date(retirementDate.Year, retirementDate.Month, 1)
-            endDate = _liquidationDomain.GetEndPayrollDate(liquidationType, initialDate)
-        End If
-    End Sub
 
 #End Region
 

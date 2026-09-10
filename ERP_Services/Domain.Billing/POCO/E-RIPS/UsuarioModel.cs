@@ -31,6 +31,8 @@ namespace Domain.Billing.POCO.E_RIPS
 
         public string codPaisOrigen { get; set; }
 
+        public string registroSIRAS { get; set; }
+
         public ServicioModel servicios { get; set; }
 
     }

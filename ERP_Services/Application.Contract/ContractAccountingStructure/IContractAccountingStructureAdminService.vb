@@ -51,4 +51,16 @@ Public Interface IContractAccountingStructureAdminService
     ''' <remarks></remarks>
     Function ChangeStateContractAccountingStructure(ByVal code As String, ByVal state As Boolean, ByVal audit As AuditMessage) As ActionResult(Of ContractAccountingStructure)
 
+    ''' <summary>
+    ''' Devuelve la lista de estructuras contables activas (Status=1) para llenar selectores en formularios
+    ''' (ej: dropdown del Excel template de saldos iniciales).
+    ''' </summary>
+    Function GetActiveList(audit As AuditMessage) As ActionResult(Of List(Of ContractAccountingStructure))
+
+    ''' <summary>
+    ''' Resuelve un batch de Codes contra ContractAccountingStructure activas.
+    ''' Usado para validar Excel de saldos iniciales y poblar las cuentas del AccountReceivable.
+    ''' </summary>
+    Function GetListByCodes(codes As List(Of String), audit As AuditMessage) As ActionResult(Of List(Of ContractAccountingStructure))
+
 End Interface

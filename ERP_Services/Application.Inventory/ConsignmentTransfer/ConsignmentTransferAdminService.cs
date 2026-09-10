@@ -16,7 +16,6 @@ using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data.Entity.Core;
-using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Transactions;
@@ -363,35 +362,16 @@ namespace Application.Inventory.ConsignmentTransfer
 
                     var sequenceId = GetSequenceIdByFormId("1977", consignmentTransfer.OperatingUnitId);
                     
-                    // Variable para controlar si hay error dentro del suppressScope
-                    bool hasError = false;
-                    ActionResult<Domain.Entities.ConsignmentTransfer> errorResult = null;
-                    
-                    using (TransactionScope suppressScope = new TransactionScope(TransactionScopeOption.Suppress))
+
+                    foreach (var item in resRemission.ObjectEmbbeded)
                     {
-                        foreach (var item in resRemission.ObjectEmbbeded)
+                        var res = _consignmentInventoryRemissionAdminService.SaveAndConfirmbConsignmentInventoryRemission(item, audit, sequenceId, Infrastructure.CrossCutting.Audit.Actions.Insert, null, true);
+                        if (!res.StateResult || !res.StateResultAux)
                         {
-                            var res = _consignmentInventoryRemissionAdminService.SaveAndConfirmbConsignmentInventoryRemission(item, audit, sequenceId, Infrastructure.CrossCutting.Audit.Actions.Insert, null, true);
-                            if (!res.StateResult)
-                            {
-                                hasError = true;
-                                errorResult = new ActionResult<Domain.Entities.ConsignmentTransfer> { StateResult = false, Message = res.Message };
-                                break; // Salir del foreach, no llamar a scope.Dispose()
-                            }
-                            generatedDocuments.Add(res.ObjectEmbbeded.Code);
+                            scope.Dispose();
+                            return new ActionResult<Domain.Entities.ConsignmentTransfer> { StateResult = false, Message = res.Message };
                         }
-                        
-                        if (!hasError)
-                        {
-                            suppressScope.Complete();
-                        }
-                    }
-                    
-                    // Verificar si hubo error después de salir del suppressScope
-                    if (hasError)
-                    {
-                        // Salir sin llamar a scope.Complete(), la transacción se revertirá automáticamente
-                        return errorResult;
+                        generatedDocuments.Add(res.ObjectEmbbeded.Code);
                     }
 
                     generatedDocuments.Add(resJournalVoucher.Message);
@@ -414,167 +394,6 @@ namespace Application.Inventory.ConsignmentTransfer
                 return new ActionResult<Domain.Entities.ConsignmentTransfer> { StateResult = false, StatusCode = eStatusResult.EXCEPTION, Message = ex.ToDetailString() };
             }
         }
-
-        /// <summary>
-        /// Valida informacion extraida del excel mediante SP
-        /// </summary>
-        /// <param name="Datos del archivo Excel importado"></param>
-        /// <param name="sourceWarehouseId"></param>
-        /// <returns></returns>
-        public ActionResult<List<ConsignmentTransferDetail>> SetConsignmentTransferImportFile(List<ImportFileRow> dataimport, int sourceWarehouseId)
-        {
-            try
-            {
-                string xmlObject = string.Empty;
-                List<ConsignmentTransferDetail> listConsignmentTransferDetail = new List<ConsignmentTransferDetail>();
-                List<string[]> listRecordsErrors = new List<string[]>();
-                List<string> listErrors = new List<string>();
-
-                //convertir a XML para el procedimiento almacenado (incluye sourceWarehouseId automáticamente)
-                xmlObject = ConvertToXmlImportFileConsignmentTransfer(dataimport, sourceWarehouseId);
-
-                //se consume el procedimiento almacenado que realiza las validaciones del archivo excel
-                var resultStore = _consignmentTransferRepository.SetConsignmentTransferDetailFromFile(xmlObject);
-
-                //se crean los objetos para devolver y pegar en la rejilla
-                if (resultStore != null && resultStore.Count > 0)
-                {
-                    foreach (var itemXml in resultStore)
-                    {
-                        if (itemXml.StatusField == 0)
-                        {
-                            var detail = new ConsignmentTransferDetail
-                            {
-                                ProductId = itemXml.ProductId ?? 0,
-                                ProductCodeName = itemXml.ProductCodeName ?? string.Empty,
-                                WarehouseId = itemXml.TargetWarehouseId ?? 0,
-                                WarehouseCodeName = itemXml.WarehouseCodeName ?? string.Empty,
-                                Quantity = itemXml.Quantity ?? 0,
-                                ProductCost = itemXml.ProductCost ?? 0,  
-                                Description = itemXml.Description ?? string.Empty,
-                                HandlesBatch = itemXml.BatchSerialId.HasValue && itemXml.BatchSerialId.Value > 0,
-                                PhysicalQuantity = itemXml.PhysicalQuantity ?? 0
-                            };
-
-                            if (itemXml.BatchSerialId.HasValue && itemXml.BatchSerialId.Value > 0)
-                            {
-                                detail.ConsignmentTransferDetailBatchSerial.Add(new ConsignmentTransferDetailBatchSerial
-                                {
-                                    PhysicalInventoryId = itemXml.PhysicalInventoryId ?? 0,
-                                    Quantity = itemXml.Quantity ?? 0,
-                                    CodeBatchSerial = itemXml.BatchSerialCode ?? string.Empty
-                                });
-                                
-                            }
-
-                            listConsignmentTransferDetail.Add(detail);
-                        }
-                        else 
-                        {
-                             string warehouseCode = string.Empty;
-                            string productCode = string.Empty;
-
-                            int index = resultStore.IndexOf(itemXml);
-                            if (index >= 0 && index < dataimport.Count)
-                            {
-                                var originalRow = dataimport[index];
-                                if (originalRow?.Row != null && originalRow.Row.Count > 0)
-                                {
-                                    warehouseCode = originalRow.Row.Count > 0 ? originalRow.Row[0]?.ToString() ?? string.Empty : string.Empty;
-                                    productCode = originalRow.Row.Count > 1 ? originalRow.Row[1]?.ToString() ?? string.Empty : string.Empty;
-                                }
-                            }
-
-                            string[] datos = {
-                        warehouseCode,
-                        productCode,
-                        itemXml.Quantity?.ToString() ?? string.Empty,
-                        itemXml.Description ?? string.Empty,
-                        itemXml.MessageField ?? string.Empty
-                    };
-                            listRecordsErrors.Add(datos);
-                            listErrors.Add(itemXml.MessageField ?? string.Empty);
-                        }
-                    }
-                }
-
-                //se devuelve el mensaje
-                return new ActionResult<List<ConsignmentTransferDetail>>
-                {
-                    StateResult = true,
-                    ObjectEmbbeded = listConsignmentTransferDetail,
-                    MessageResult = listErrors,
-                    ListMessageResult = listRecordsErrors
-                };
-            }
-            catch (SqlException ex)
-            {
-                if (ex.ErrorCode == -2146232060)
-                {
-                    return new ActionResult<List<ConsignmentTransferDetail>>
-                    {
-                        StateResult = false,
-                        StatusCode = eStatusResult.EXCEPTION,
-                        Message = ex.Message
-                    };
-                }
-                throw;
-            }
-            catch (Exception ex)
-            {
-                IndigoManagementExceptions.HandleException(ex, "ApplicationPolicy");
-                return new ActionResult<List<ConsignmentTransferDetail>>
-                {
-                    StateResult = false,
-                    StatusCode = eStatusResult.EXCEPTION,
-                    Message = ex.ToDetailString()
-                };
-            }
-        }
-
-        ///<summary>
-        /// Convierte Xml archivo importado para ConsignmentTransfer
-        /// </summary>
-        /// <param name="Datos del archivo Excel"></param>
-        /// <param name="sourceWarehouseId"></param>
-        /// <returns></returns>
-        private string ConvertToXmlImportFileConsignmentTransfer(List<ImportFileRow> data, int sourceWarehouseId)
-        {
-            StringBuilder builder = new StringBuilder();
-            builder.Append("<Data>");
-            // Incluir el almacén origen automáticamente en el XML (no lo escribe el usuario)
-            builder.Append($"<SourceWarehouseId>{sourceWarehouseId}</SourceWarehouseId>");
-
-            foreach (var item in data)
-            {
-                int indexRow = item.IndexRow;
-                int columns = item.Row?.Count ?? 0;
-
-                builder.Append("<Row>");
-                builder.Append($"<RowIndex>{indexRow}</RowIndex>");
-                builder.Append($"<RowColumns>{columns}</RowColumns>");
-                //columna 0: Almacén Destino
-                string targetWarehouse = columns > 0 && item.Row != null && item.Row[0] != null ?
-                System.Security.SecurityElement.Escape(item.Row[0].ToString()) : string.Empty;
-                builder.Append($"<TargetWarehouseId>{targetWarehouse}</TargetWarehouseId>");
-                //columna 1: Producto
-                string product = columns > 1 && item.Row != null && item.Row[1] != null ?
-                System.Security.SecurityElement.Escape(item.Row[1].ToString()) : string.Empty;
-                builder.Append($"<Product>{product}</Product>");
-                //columna 2: Cantidad (sin decimales)
-                string quantity = columns > 2 && item.Row != null && item.Row[2] != null ?
-                item.Row[2].ToString().Replace(",", ".") : string.Empty;
-                builder.Append($"<Quantity>{quantity}</Quantity>");
-                //columna 3: Observación
-                string description = columns > 3 && item.Row != null && item.Row[3] != null ?
-                System.Security.SecurityElement.Escape(item.Row[3].ToString()) : string.Empty;
-                builder.Append($"<Description>{description}</Description>");
-                builder.Append("</Row>");
-            }
-            builder.Append("</Data>");
-            return builder.ToString();
-        }
-
 
         /// <summary>
         /// Genera el comprobante contable de salida para los productos en el almacén de origen
@@ -820,32 +639,6 @@ namespace Application.Inventory.ConsignmentTransfer
                 _consignmentTransferRepository.UnitWork.RollbackChanges();
                 IndigoManagementExceptions.HandleException(ex, "ApplicationPolicy");
                 return new ActionResult<Domain.Entities.ConsignmentTransfer> { StateResult = false, StatusCode = eStatusResult.EXCEPTION, MessageResult = new List<string> { ex.Message }, Message = IndigoManagementExceptions.GetExceptionDetails(ex) };
-            }
-        }
-
-        public ActionResult<List<ConsignmentTransferDetail>> SetConsignmentTransferDetailFromCopyPaste(List<List<string>> dataImport, int sourceWarehouseId)
-        {
-            try
-            {
-                var listRows = new List<ImportFileRow>();
-                int rowIndex = 1;
-                foreach (var row in dataImport)
-                {
-                    listRows.Add(new ImportFileRow
-                    {
-                        IndexRow = rowIndex++,
-                        Row = row.Cast<object>().ToList(),
-                    });
-                }
-                return SetConsignmentTransferImportFile(listRows, sourceWarehouseId);
-            }
-            catch (Exception ex)
-            {
-                return new ActionResult<List<ConsignmentTransferDetail>>
-                {
-                    StateResult = false,
-                    Message = Utils.GetInnerExceptionMessageToString(ex)
-                };
             }
         }
 

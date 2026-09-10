@@ -18,6 +18,7 @@ Imports Domain.Common.Entities
 Imports Infrastructure.CrossCutting.Base
 Imports Application.Base
 Imports System.Data.Entity.Core
+Imports System.Data.Entity.Infrastructure
 Imports Domain.InterfaceERPGlosa
 Imports Application.Accounting
 Imports Domain.Entities.Service
@@ -206,15 +207,27 @@ Public Class ObjectionsReceptionDAdminService
         If ObjectionsReceptionD Is Nothing Then
             Throw New ArgumentNullException("Repositorio de Recepción Detalle de Objeciones Vacio")
         End If
-        Dim unitworkPortfolioGlosada As IUnitWork = _PortfolioGlosadaRepository.UnitWork
-        Dim unitWorkObjectionsReceptionD As IUnitWork = _ObjectionsReceptionDRepository.UnitWork
+
+        'RECARGA / REVALIDACION: se recarga el detalle desde la BD para trabajar con el TimeStamp (rowversion)
+        'vigente del registro y de su cartera (el objeto llega desde el cliente y puede venir desfasado, lo que
+        'dispara la DbUpdateConcurrencyException al actualizar la cartera). Ademas, si el detalle ya fue eliminado
+        'por otra ejecucion (doble clic / doble envio), la operacion se considera exitosa por idempotencia.
+        Dim freshItem As GlosaObjectionsReceptionD = _ObjectionsReceptionDRepository.getObjectionReceptionDByIdWithoutObjC(ObjectionsReceptionD.Id)
+        If freshItem Is Nothing OrElse freshItem.Id = 0 Then
+            Return True
+        End If
+        ObjectionsReceptionD = freshItem
 
         'Creamos la conexion
-        Dim tx As System.Data.SqlClient.SqlTransaction
+        Dim tx As System.Data.SqlClient.SqlTransaction = Nothing
+        Dim committed As Boolean = False
         Using cnx As New System.Data.SqlClient.SqlConnection(Infrastructure.CrossCutting.Base.Utils.GetEntityConnectionString(Infrastructure.CrossCutting.Base.ConfigurationFile.CONX_GENESIS, String.Empty, company, False))
             cnx.Open()
 
             Try
+                'Toda la eliminacion se realiza sobre UNA sola transaccion (tx) para que sea atomica (todo-o-nada).
+                'Ambas rutas (DocumentType 1 y 2) usan SQL crudo sobre esta misma conexion/transaccion; asi se evita
+                'mezclar el SqlTransaction con los contextos EF (que abririan otra conexion y promoverian a MSDTC).
                 tx = cnx.BeginTransaction()
                 Dim command As New System.Data.SqlClient.SqlCommand("", cnx, tx)
                 command.CommandTimeout = 30000
@@ -222,21 +235,21 @@ Public Class ObjectionsReceptionDAdminService
 
                 'valido que la factura a eliminar no tenga movimienos en conciliacion detalle
                 If _ConciliationDRepository.CountConciliationD(ObjectionsReceptionD.GlosaPortfolioGlosada.Id) > 0 Then
+                    tx.Rollback()
                     Return False
                 End If
-                Dim ListObjInvoiceDetailDelete As New List(Of GlosaInvoiceDetail)
-                ListObjInvoiceDetailDelete = _InvoiceDetailRepository.ListGlosaInvoiceDetail(ObjectionsReceptionD.InvoiceNumber)
 
-
-                Dim validate As Boolean
-                For Each invoiceDetail As GlosaInvoiceDetail In ListObjInvoiceDetailDelete
-                    command.CommandText = "DELETE  FROM [Glosas].[GlosaMovementGlosa] WHERE [InvoiceDetailId]=" & invoiceDetail.Id
-                    command.ExecuteNonQuery()
-                    'Aqui eliminamos los detalles Qx
-                    command.CommandText = "DELETE FROM [Glosas].[GlosaInvoiceDetailQX] WHERE [InvoiceDetailId]=" & invoiceDetail.Id
-                    command.ExecuteNonQuery()
-                Next
+                Dim validate As Boolean = False
                 If ObjectionsReceptionD.DocumentType = 1 Then
+                    'eliminamos movimientos y detalles Qx de cada detalle de la factura
+                    Dim ListObjInvoiceDetailDelete As List(Of GlosaInvoiceDetail) = _InvoiceDetailRepository.ListGlosaInvoiceDetail(ObjectionsReceptionD.InvoiceNumber)
+                    For Each invoiceDetail As GlosaInvoiceDetail In ListObjInvoiceDetailDelete
+                        command.CommandText = "DELETE  FROM [Glosas].[GlosaMovementGlosa] WHERE [InvoiceDetailId]=" & invoiceDetail.Id
+                        command.ExecuteNonQuery()
+                        'Aqui eliminamos los detalles Qx
+                        command.CommandText = "DELETE FROM [Glosas].[GlosaInvoiceDetailQX] WHERE [InvoiceDetailId]=" & invoiceDetail.Id
+                        command.ExecuteNonQuery()
+                    Next
                     'Aqui eliminamos los detalles
                     command.CommandText = "DELETE FROM [Glosas].[GlosaInvoiceDetail] WHERE [ObjectionsReceptionDId]=" & ObjectionsReceptionD.Id
                     command.ExecuteNonQuery()
@@ -245,38 +258,41 @@ Public Class ObjectionsReceptionDAdminService
                     command.ExecuteNonQuery()
                     command.CommandText = "select count(*) from glosas.GlosaObjectionsReceptionD WHERE [InvoiceNumber]='" & ObjectionsReceptionD.InvoiceNumber.Trim() & "'"
                     Dim intCount As Integer = command.ExecuteScalar()
-                    ' si la factura no esta en la tabla ObjD procedemos a eliminar informacion de cartera 
+                    ' si la factura no esta en la tabla ObjD procedemos a eliminar informacion de cartera
                     If intCount = 0 Then
                         'Aqui eliminamos la cartera
                         command.CommandText = "DELETE FROM [Glosas].[GlosaPortfolioGlosada] WHERE [InvoiceNumber]='" & ObjectionsReceptionD.InvoiceNumber.Trim() & "'"
                         command.ExecuteNonQuery()
                     End If
-                    tx.Commit()
                     validate = True
-                Else
-                    'si es una reiteracion y esta en estado 4 -pendiente confirmar reiteracion procedo realizar eliminacion
-                    If ObjectionsReceptionD.DocumentType = 2 Then
-                        ObjectionsReceptionD.GlosaPortfolioGlosada.State = 11 '11-Glosa con Respuesta
-                        _PortfolioGlosadaRepository.SaveEntity(ObjectionsReceptionD.GlosaPortfolioGlosada)
-                        unitworkPortfolioGlosada.Commit()
-
-                        _ObjectionsReceptionDRepository.DeleteEntity(ObjectionsReceptionD)
-                        unitWorkObjectionsReceptionD.Commit()
-                        validate = True
-                    Else
-                        validate = False
-                    End If
+                ElseIf ObjectionsReceptionD.DocumentType = 2 Then
+                    'reiteracion: se revierte el estado de la cartera y se elimina el detalle de reiteracion. No se borran
+                    'los movimientos de glosa (pertenecen a la glosa original). Se hace por SQL sobre la misma tx -> atomico.
+                    command.CommandText = "UPDATE [Glosas].[GlosaPortfolioGlosada] SET [State]=11 WHERE [Id]=" & ObjectionsReceptionD.GlosaPortfolioGlosada.Id  '11-Glosa con Respuesta
+                    command.ExecuteNonQuery()
+                    command.CommandText = "DELETE FROM [Glosas].[GlosaObjectionsReceptionD] WHERE [Id]=" & ObjectionsReceptionD.Id
+                    command.ExecuteNonQuery()
+                    validate = True
                 End If
-                '/***** Auditoria Basica ********/
-                IndigoAuditBasic.Execute("GlosaObjectionsReceptionD", audit.Functional, ObjectionsReceptionD.Id, audit.NameUser, audit.CodeUser, audit.WindowsUser, DateTime.Now, ActionsAudit.Eliminar, audit.Company, audit.ContainerSecurity)
-                '/***** Auditoria Avanzada *****/
-                Dim auditObject As New IndigoAuditSimpleEntity(Of GlosaObjectionsReceptionD)(ObjectionsReceptionD, audit, Infrastructure.CrossCutting.Audit.Actions.Delete)
-                auditObject.Execute()
+
+                If validate Then
+                    'confirmo la unica transaccion -> operacion atomica
+                    tx.Commit()
+                    committed = True
+                    '/***** Auditoria Basica ********/
+                    IndigoAuditBasic.Execute("GlosaObjectionsReceptionD", audit.Functional, ObjectionsReceptionD.Id, audit.NameUser, audit.CodeUser, audit.WindowsUser, DateTime.Now, ActionsAudit.Eliminar, audit.Company, audit.ContainerSecurity)
+                    '/***** Auditoria Avanzada *****/
+                    Dim auditObject As New IndigoAuditSimpleEntity(Of GlosaObjectionsReceptionD)(ObjectionsReceptionD, audit, Infrastructure.CrossCutting.Audit.Actions.Delete)
+                    auditObject.Execute()
+                Else
+                    tx.Rollback()
+                End If
                 Return validate
             Catch ex As Exception
-                'descarto los cambios en la eliminacion del detalle
-                unitWorkObjectionsReceptionD.RollbackChanges()
-                tx.Rollback()
+                'descarto todos los cambios: al ser una unica transaccion, el rollback deja la BD intacta
+                If tx IsNot Nothing AndAlso Not committed Then
+                    tx.Rollback()
+                End If
                 IndigoManagementExceptions.HandleException(ex, "ApplicationPolicy")
                 Return False
             Finally
@@ -398,17 +414,26 @@ Public Class ObjectionsReceptionDAdminService
         Try
             Dim ObjectionsReceptionD As GlosaObjectionsReceptionD = _ObjectionsReceptionDRepositoryCommit.getObjectionReceptionDByIdWithoutObjC(ObjectionsReceptionDId)
 
-            If ObjectionsReceptionD IsNot Nothing Then
-                Dim _accountReceivable As AccountReceivable = _accountReceivableRepository.GetAccountReceivableByInvoiceNumber(ObjectionsReceptionD.InvoiceNumber)
-                If _accountReceivable IsNot Nothing AndAlso (_accountReceivable.PortfolioStatus = 15 OrElse _accountReceivable.PortfolioStatus = 16) Then
-                    Dim message = String.Empty
-                    If _accountReceivable.PortfolioStatus = 15 Then
-                        message = "No se puede confirmar la objeción, la factura es una cuenta de dificil recaudo"
-                    Else
-                        message = "No se puede confirmar la objeción, la factura esta en un proceso de cobro jurídico"
-                    End If
-                    Return New ActionResult With {.StateResult = False, .MessageResult = {message}.ToList()}
+            If ObjectionsReceptionD Is Nothing OrElse ObjectionsReceptionD.Id = 0 Then
+                Return New ActionResult With {.StateResult = False, .MessageResult = {"No se encontró el detalle de la objeción a confirmar"}.ToList()}
+            End If
+
+            'REVALIDACION DE ESTADO: si el detalle ya quedo confirmado (State = 2) no se vuelve a procesar.
+            'Neutraliza la causa mas comun de concurrencia: doble clic / doble envio / reintento en cola,
+            'donde una segunda ejecucion intenta confirmar un registro que otra ya confirmo (rowversion desfasado).
+            If ObjectionsReceptionD.State = 2 Then
+                Return New ActionResult With {.StateResult = False, .MessageResult = {"La objeción ya fue confirmada previamente"}.ToList()}
+            End If
+
+            Dim _accountReceivable As AccountReceivable = _accountReceivableRepository.GetAccountReceivableByInvoiceNumber(ObjectionsReceptionD.InvoiceNumber)
+            If _accountReceivable IsNot Nothing AndAlso (_accountReceivable.PortfolioStatus = 15 OrElse _accountReceivable.PortfolioStatus = 16) Then
+                Dim message = String.Empty
+                If _accountReceivable.PortfolioStatus = 15 Then
+                    message = "No se puede confirmar la objeción, la factura es una cuenta de dificil recaudo"
+                Else
+                    message = "No se puede confirmar la objeción, la factura esta en un proceso de cobro jurídico"
                 End If
+                Return New ActionResult With {.StateResult = False, .MessageResult = {message}.ToList()}
             End If
 
             If valueGlosa > ObjectionsReceptionD.GlosaPortfolioGlosada.InvoiceValueEntity Then
@@ -442,6 +467,10 @@ Public Class ObjectionsReceptionDAdminService
                 End If
             End If
             Return _resultConfirm
+        Catch ex As DbUpdateConcurrencyException
+            'SaveChanges lanza DbUpdateConcurrencyException (Infrastructure), cuyo inner es OptimisticConcurrencyException (Core).
+            'Se atrapa aca explicitamente para devolver el codigo de concurrencia "-999" en vez del stack trace crudo.
+            Return New ActionResult With {.StateResult = False, .MessageResult = {"-999"}.ToList()}
         Catch ex As OptimisticConcurrencyException
             Return New ActionResult With {.StateResult = False, .MessageResult = {"-999"}.ToList()}
         Catch ex As Exception
@@ -508,17 +537,30 @@ Public Class ObjectionsReceptionDAdminService
                         'Si la cuenta radicada es diferente a la cuenta glosa subsanable se realiza registro de lo contrario no, 
                         'esto se realiza ya que en Medilaser solo manejan dos cuentas para glosa(Radicada y Sin Radicar)
                         If _AccountReceivable.AccountRadicateId <> _AccountReceivable.AccountObjectionRemediedId Then
-                            Dim _AccountReceivableAccountingRemedied As New AccountReceivableAccounting
-                            'generamos nueva estructura de cuenta de cobro de glosa subsanable
-                            With _AccountReceivableAccountingRemedied
-                                .AccountReceivableId = _AccountReceivable.Id
-                                .MainAccountId = _AccountReceivable.AccountObjectionRemediedId 'Id Cuenta subsanable
-                                .ThirdPartyId = _AccountReceivable.ThirdPartyId
-                                .CostCenterId = _AccountReceivable.CostCenterId
-                                .Value = valueGlosa
-                                .Balance = valueGlosa
-                            End With
-                            _AccountReceivableAccountingRepository.SaveEntity(_AccountReceivableAccountingRemedied)
+                            'Se valida si ya existe estructura de cartera para la cuenta subsanable,
+                            'ya que pudo haberse creado previamente en otra objeción/glosa de la misma factura.
+                            'Evita el error de llave duplicada en UQ_AccountReceivableAccounting__AccountReceivableId__MainAccountId__INC__Id
+                            Dim _AccountReceivableAccountingRemedied As AccountReceivableAccounting = _AccountReceivableAccountingRepository.GetAccountReceivableAccounting(_AccountReceivable.Id, _AccountReceivable.AccountObjectionRemediedId)
+                            If _AccountReceivableAccountingRemedied IsNot Nothing AndAlso _AccountReceivableAccountingRemedied.Id > 0 Then
+                                'Ya existe estructura para la cuenta subsanable: se actualiza en lugar de crear una nueva
+                                With _AccountReceivableAccountingRemedied
+                                    .Value += valueGlosa
+                                    .Balance += valueGlosa
+                                End With
+                                _AccountReceivableAccountingRepository.SaveEntity(_AccountReceivableAccountingRemedied)
+                            Else
+                                'No existe: se crea por primera vez
+                                _AccountReceivableAccountingRemedied = New AccountReceivableAccounting
+                                With _AccountReceivableAccountingRemedied
+                                    .AccountReceivableId = _AccountReceivable.Id
+                                    .MainAccountId = _AccountReceivable.AccountObjectionRemediedId 'Id Cuenta subsanable
+                                    .ThirdPartyId = _AccountReceivable.ThirdPartyId
+                                    .CostCenterId = _AccountReceivable.CostCenterId
+                                    .Value = valueGlosa
+                                    .Balance = valueGlosa
+                                End With
+                                _AccountReceivableAccountingRepository.SaveEntity(_AccountReceivableAccountingRemedied)
+                            End If
                         End If
 
                         'creamos documento de reclasificacion
@@ -608,6 +650,9 @@ Public Class ObjectionsReceptionDAdminService
                 End If
             End Using
 
+        Catch ex As DbUpdateConcurrencyException
+            unitWorkObjectionsReceptionD.RollbackChanges()
+            Return New ActionResult With {.StateResult = False, .MessageResult = {"-999"}.ToList()}
         Catch ex As OptimisticConcurrencyException
             unitWorkObjectionsReceptionD.RollbackChanges()
             Return New ActionResult With {.StateResult = False, .MessageResult = {"-999"}.ToList()}
@@ -619,7 +664,6 @@ Public Class ObjectionsReceptionDAdminService
             Return New ActionResult With {.StateResult = False, .MessageResult = Mensaje}
         End Try
     End Function
-
     ''' <summary>
     ''' Funcion para reclasificar el saldo de reiteraciones para empresas privadas e integracion nativa.
     ''' se genera doc. de reclasificacion llevando el saldo de la reiteraciones a la cuenta conciliada.
@@ -854,6 +898,10 @@ Public Class ObjectionsReceptionDAdminService
                 scope.Complete()
             End Using
             Return _resultConfirm
+        Catch ex As DbUpdateConcurrencyException
+            unitWorkObjectionsReceptionD.RollbackChanges()
+            unitworkPortfolioGlosada.RollbackChanges()
+            Return New ActionResult With {.StateResult = False, .MessageResult = {"-999"}.ToList()}
         Catch ex As OptimisticConcurrencyException
             unitWorkObjectionsReceptionD.RollbackChanges()
             unitworkPortfolioGlosada.RollbackChanges()

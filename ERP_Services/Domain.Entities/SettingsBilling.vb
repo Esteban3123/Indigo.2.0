@@ -1307,6 +1307,20 @@ Partial Public Class SettingsBilling
         End Set
     End Property
 
+	Private _taxInformation As String
+	<DataMember()>
+	Public Property TaxInformation() As String
+        Get
+            Return _taxInformation
+        End Get
+        Set(ByVal value As String)
+            If Not Equals(_taxInformation, value) Then
+                _taxInformation = value
+                OnPropertyChanged("TaxInformation")
+            End If
+        End Set
+    End Property
+
 	Private _consignmentSalereCognition As Nullable(Of Integer)
 	<DataMember()>
 	Public Property ConsignmentSalereCognition() As Nullable(Of Integer)

@@ -56,11 +56,18 @@ Public Class InvoiceEntityCapitedRepository
     End Function
 
     ''' <summary>
-    ''' Obtiene una factura por id
+    ''' Obtiene contexto de factura monto fijo por codigo o numero de factura.
     ''' </summary>
-    ''' <param name="Id"></param>
-    ''' <returns></returns>
-    ''' <exception cref="System.ArgumentNullException">Id</exception>
+    Public Function GetFixedAmountInvoiceContext(fixedAmountInvoiceNumber As String) As InvoiceEntityCapitated Implements IInvoiceEntityCapitedRepository.GetFixedAmountInvoiceContext
+        If String.IsNullOrWhiteSpace(fixedAmountInvoiceNumber) Then
+            Return New InvoiceEntityCapitated()
+        End If
+
+        Dim documentNumber = fixedAmountInvoiceNumber.Trim()
+        Return (From i In _context.InvoiceEntityCapitated.AsNoTracking().Include("Invoice").Include("CareGroup")
+                Where i.Code = documentNumber OrElse i.Invoice.InvoiceNumber = documentNumber Select i).FirstOrDefault()
+    End Function
+
     Public Function GetInvoiceEntityCapitatedById(Id As Integer) As InvoiceEntityCapitated Implements IInvoiceEntityCapitedRepository.GetInvoiceEntityCapitatedById
         If Id = 0 Then
             Throw New ArgumentNullException("Id")
@@ -81,11 +88,11 @@ Public Class InvoiceEntityCapitedRepository
     ''' <param name="finalDate">Fecha final</param>
     ''' <param name="careGroupId">Grupo de atención</param>
     ''' <returns></returns>
-    Public Async Function GetCapitationControlRegistry(initialDate As DateTime, finalDate As DateTime, careGroupId As Integer) As Task(Of List(Of InvoiceDetail)) Implements IInvoiceEntityCapitedRepository.GetCapitationControlRegistry
+    Public Async Function GetCapitationControlRegistry(initialDate As DateTime, finalDate As DateTime, careGroupId As Integer, invoiceCategoryId As Integer) As Task(Of List(Of InvoiceDetail)) Implements IInvoiceEntityCapitedRepository.GetCapitationControlRegistry
         Dim query = Await (From id In _context.InvoiceDetail.AsNoTracking()
                            Join i In _context.Invoice.AsNoTracking() On id.InvoiceId Equals i.Id
                            Join cg In _context.CareGroup.AsNoTracking() On cg.Id Equals i.CareGroupId
-                           Where i.CareGroupId = careGroupId And i.InvoiceDate >= initialDate And i.InvoiceDate <= finalDate And i.DocumentType = 5 And i.Status = 1
+                           Where i.CareGroupId = careGroupId And i.InvoiceDate >= initialDate And i.InvoiceDate <= finalDate And i.DocumentType = 5 And i.Status = 1 And i.InvoiceCategoryId = invoiceCategoryId
                            Select id).ToListAsync()
         Return query
     End Function

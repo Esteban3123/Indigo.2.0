@@ -58,19 +58,19 @@ Public Class ElectronicDocumentNotificationRepository
     End Function
 
     ''' <summary>
-    ''' Obtiene una notificación de un listado de documento electronico de acuerdo con el estado en que se encuentren
+    ''' Obtiene los ids de notificación agrupados por documento electrónico de acuerdo con el estado en que se encuentren
     ''' </summary>
     ''' <param name="status">The identifier.</param>
     ''' <returns></returns>
-    Public Function GetElectronicDocumentNotificationIdsByStatus(ByVal status As Boolean) As List(Of Integer) Implements IElectronicDocumentNotificationRepository.GetElectronicDocumentNotificationIdsByStatus
+    Public Function GetElectronicDocumentNotificationIdsByStatus(ByVal status As Boolean) As Dictionary(Of Integer, List(Of Integer)) Implements IElectronicDocumentNotificationRepository.GetElectronicDocumentNotificationIdsByStatus
         Dim res = (From ed As ElectronicDocumentNotification _
                        In Me._context.ElectronicDocumentNotification
                    Where ed.Status = status
-                   Select ed.Id).Take(500).ToList()
+                   Select New With {ed.ElectronicDocumentId, ed.Id}).Take(500).ToList()
         If res IsNot Nothing AndAlso res.Count > 0 Then
-            Return res
+            Return res.GroupBy(Function(ed) ed.ElectronicDocumentId).ToDictionary(Function(electronicDocumentNotificationGroup) electronicDocumentNotificationGroup.Key, Function(electronicDocumentNotificationGroup) electronicDocumentNotificationGroup.Select(Function(ed) ed.Id).ToList())
         Else
-            Return New List(Of Integer)
+            Return New Dictionary(Of Integer, List(Of Integer))
         End If
     End Function
 

@@ -231,6 +231,21 @@ Partial Public Class CostActivity
         End Set
     End Property
 
+	Private _contractDescriptionId As Nullable(Of Integer)
+	<DataMember()>
+	Public Property ContractDescriptionId() As Nullable(Of Integer)
+        Get
+            Return _contractDescriptionId
+        End Get
+        Set(ByVal value As Nullable(Of Integer))
+            If Not Equals(_contractDescriptionId, value) Then
+                ChangeTracker.RecordOriginalValue("ContractDescriptionId", _contractDescriptionId)
+                _contractDescriptionId = value
+                OnPropertyChanged("ContractDescriptionId")
+            End If
+        End Set
+    End Property
+
 	Private _timeStamp As Byte()
 	<DataMember()>
 	Public Property TimeStamp() As Byte()

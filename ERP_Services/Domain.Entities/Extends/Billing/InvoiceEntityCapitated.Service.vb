@@ -1,4 +1,4 @@
-﻿Imports System.Runtime.Serialization
+Imports System.Runtime.Serialization
 Imports System.Text
 Imports Infrastructure.CrossCutting.Base
 
@@ -36,7 +36,8 @@ Partial Public Class InvoiceEntityCapitated
         Dim builder As New StringBuilder()
         builder.Append("<" & Me.GetType().Name & ">")
 
-        For Each entityProperty As System.Reflection.PropertyInfo In Me.GetType().GetProperties().Where(Function(o) o.PropertyType.Namespace.Equals("System"))
+        Dim tiposRecaudoProps As String() = {"CopaymentAmount", "ModeratingFeeAmount", "SharedPaymentAmount"}
+        For Each entityProperty As System.Reflection.PropertyInfo In Me.GetType().GetProperties().Where(Function(o) o.PropertyType.Namespace.Equals("System") AndAlso Not tiposRecaudoProps.Contains(o.Name))
             If entityProperty.GetValue(Me) Is Nothing Then
                 Continue For
             End If
@@ -54,6 +55,11 @@ Partial Public Class InvoiceEntityCapitated
 
             Next
         End If
+
+        'Tipos de recaudo: Copago, Cuota Moderadora, Pagos Compartidos
+        builder.Append(String.Format(formatXml, "CopaymentAmount", Utils.CleanFields(Me.CopaymentAmount.ToString(System.Globalization.CultureInfo.InvariantCulture))))
+        builder.Append(String.Format(formatXml, "ModeratingFeeAmount", Utils.CleanFields(Me.ModeratingFeeAmount.ToString(System.Globalization.CultureInfo.InvariantCulture))))
+        builder.Append(String.Format(formatXml, "SharedPaymentAmount", Utils.CleanFields(Me.SharedPaymentAmount.ToString(System.Globalization.CultureInfo.InvariantCulture))))
 
         builder.Append(String.Format(formatXml, "FilePath", System.IO.Path.Combine(Utils.GetPathElectronicDocuments(), session.TransactionalContainer)))
         builder.Append(String.Format(formatXml, "ChangeTracker", Me.ChangeTracker.State.ToString()))

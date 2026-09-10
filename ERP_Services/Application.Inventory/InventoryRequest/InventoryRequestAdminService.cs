@@ -67,7 +67,7 @@ namespace Application.Inventory.InventoryRequest
         /// <param name="audit"></param>
         /// <param name="idSecuence"></param>
         /// <returns></returns>
-        public ActionResult<Domain.Entities.InventoryRequest> SaveInventoryRequest(Domain.Entities.InventoryRequest inventoryRequest, AuditMessage audit, Int64 idSecuence = 0, InventorySequence sequenceC = null)
+        public async Task<ActionResult<Domain.Entities.InventoryRequest>> SaveInventoryRequestAsync(Domain.Entities.InventoryRequest inventoryRequest, AuditMessage audit, Int64 idSecuence = 0, InventorySequence sequenceC = null)
         {
             if (inventoryRequest == null)
             {
@@ -78,7 +78,7 @@ namespace Application.Inventory.InventoryRequest
 
             try
             {
-                InventorySequenceDetail seq = (idSecuence == 0 ? new InventorySequenceDetail() : this._sequenseRepository.GetSequenseDById(Convert.ToInt32(idSecuence)));
+                InventorySequenceDetail seq = (idSecuence == 0 ? new InventorySequenceDetail() : await this._sequenseRepository.GetSequenseDByIdAsync(Convert.ToInt32(idSecuence)));
                 if (inventoryRequest.Code == null || inventoryRequest.Code.Trim().Equals(string.Empty))
                 {
                     if (seq != null)
@@ -304,11 +304,11 @@ namespace Application.Inventory.InventoryRequest
         /// <param name="state"></param>
         /// <param name="audit"></param>
         /// <returns></returns>
-        public ActionResult<Domain.Entities.InventoryRequest> ChangeStateInventoryRequest(string code, byte state, AuditMessage audit)
+        public async Task<ActionResult<Domain.Entities.InventoryRequest>> ChangeStateInventoryRequestAsync(string code, byte state, AuditMessage audit)
         {
             Domain.Entities.InventoryRequest inventoryRequest = _InventoryRequestRepository.GetInventoryRequestByCode(code);
             inventoryRequest.Status = state;
-            return SaveInventoryRequest(inventoryRequest, audit);
+            return await SaveInventoryRequestAsync(inventoryRequest, audit);
         }
 
         /// <summary>

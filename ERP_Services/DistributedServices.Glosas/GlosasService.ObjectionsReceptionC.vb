@@ -217,6 +217,33 @@ Partial Class GlosasService
         End Using
     End Function
 
+    ''' <summary>
+    ''' Genera el archivo FUR RG (Respuesta a Glosa) de la Circular Externa 003
+    ''' de 2026 de ADRES a partir de un radicado de objeciones (todas las
+    ''' facturas elegibles).
+    ''' </summary>
+    Public Function GenerateAdresFurRgPlane(IdObjectionsReception As Integer,
+                                            Session As SessionValues) As ActionMessageResult(Of AdresClaimFile) _
+                                            Implements IGlosasObjectionsReceptionC.GenerateAdresFurRgPlane
+        Using ObjectionsReceptionAdmin As IObjectionsReceptionCAdminService = IocFactory.Instance(Session.TransactionalContainer).CurrentContainer.Resolve(Of IObjectionsReceptionCAdminService)()
+            Return ObjectionsReceptionAdmin.GenerateAdresFurRgPlane(IdObjectionsReception, Session)
+        End Using
+    End Function
+
+    ''' <summary>
+    ''' Genera el archivo FUR RG (Respuesta a Glosa) restringido al
+    ''' subconjunto de facturas indicadas (flujo de menú contextual con
+    ''' multi-select).
+    ''' </summary>
+    Public Function GenerateAdresFurRgPlaneByInvoices(IdObjectionsReception As Integer,
+                                                      InvoiceNumbers As List(Of String),
+                                                      Session As SessionValues) As ActionMessageResult(Of AdresClaimFile) _
+                                                      Implements IGlosasObjectionsReceptionC.GenerateAdresFurRgPlaneByInvoices
+        Using ObjectionsReceptionAdmin As IObjectionsReceptionCAdminService = IocFactory.Instance(Session.TransactionalContainer).CurrentContainer.Resolve(Of IObjectionsReceptionCAdminService)()
+            Return ObjectionsReceptionAdmin.GenerateAdresFurRgPlaneByInvoices(IdObjectionsReception, InvoiceNumbers, Session)
+        End Using
+    End Function
+
 #End Region
 
 End Class

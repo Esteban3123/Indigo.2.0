@@ -176,6 +176,8 @@ Public Interface IPayrollLiquidationRepository
     ''' <remarks></remarks>
     Function LiquidationEmployeeByDate(employeeId As Integer, initialDate As Date, endDate As Date) As List(Of Liquidation)
 
+    Function GetLiquidationPendingByEmployeeAndMonth(employeeId As Integer, periodDate As Date) As List(Of Liquidation)
+
     ''' <summary>
     ''' Consulta liquidaciones por estado del contrato
     ''' </summary>
@@ -308,7 +310,6 @@ Public Interface IPayrollLiquidationRepository
     Function SaveListLiquidation(ListLiquidation As List(Of Liquidation)) As Boolean
 
     Function GetEmployesIncentivePayment(groupId As String, ByVal endDatePayroll As Date, ByVal initialDatePayroll As Date, Optional ByVal EmployeeNit As String = "") As List(Of Employee)
-
     ''' <summary>
     ''' Obtiene SOLO el conteo de empleados para liquidar primas (optimizado, sin cargar entidades completas)
     ''' </summary>
@@ -376,6 +377,15 @@ Public Interface IPayrollLiquidationRepository
     Function SP_DeleteLiquidationNoConfirm(payrollEndDate As Date, groupId As String, employeeNit As String) As Integer
 
     ''' <summary>
+    ''' Funcion que obtiene el reporte de talento humano
+    ''' </summary>
+    ''' <param name="initialDate">Fecha inicial</param>
+    ''' <param name="finalDate">Fecha final</param>
+    ''' <param name="employeeId">Id del empleado (opcional)</param>
+    ''' <returns>Lista de información de empleados</returns>
+    Function GetReportHumanTalent(initialDate As Date, finalDate As Date, Optional employeeId As Integer? = Nothing) As List(Of SP_ReportHumanTalent_Result)
+
+    ''' <summary>
     ''' Obtiene el reporte de detalle de liquidación con conceptos dinámicos
     ''' </summary>
     ''' <param name="initialDate">Fecha inicial del período</param>
@@ -391,12 +401,18 @@ Public Interface IPayrollLiquidationRepository
     Function GetLiquidationDetailReport(initialDate As Date, endDate As Date, Optional employeeId As Integer? = Nothing, Optional groupInitial As Integer? = Nothing, Optional groupFinal As Integer? = Nothing, Optional branchOfficeInitial As Integer? = Nothing, Optional branchOfficeFinal As Integer? = Nothing, Optional registerStatus As Char? = Nothing, Optional session As Infrastructure.CrossCutting.Base.SessionValues = Nothing) As System.Data.DataTable
 
     ''' <summary>
-    ''' Funcion que obtiene el reporte de talento humano
+    ''' Obtiene el reporte consolidado de novedades de Talento Humano con impacto en nómina
     ''' </summary>
-    ''' <param name="initialDate">Fecha inicial</param>
-    ''' <param name="finalDate">Fecha final</param>
-    ''' <param name="employeeId">Id del empleado (opcional)</param>
-    ''' <returns>Lista de información de empleados</returns>
-    Function GetReportHumanTalent(initialDate As Date, finalDate As Date, Optional employeeId As Integer? = Nothing) As List(Of SP_ReportHumanTalent_Result)
+    ''' <param name="initialDate">Fecha inicial del rango</param>
+    ''' <param name="endDate">Fecha final del rango</param>
+    ''' <param name="initialCodeGroup">Código del grupo de nómina inicial (opcional)</param>
+    ''' <param name="endCodeGroup">Código del grupo de nómina final (opcional)</param>
+    ''' <param name="branchOfficeInitial">Id de la sucursal inicial para filtrar (opcional)</param>
+    ''' <param name="branchOfficeFinal">Id de la sucursal final para filtrar (opcional)</param>
+    ''' <param name="personnelActionTypes">Códigos numéricos de tipo de novedad separados por coma (opcional)</param>
+    ''' <param name="session">Valores de sesión para obtener la conexión</param>
+    ''' <returns>DataTable con las acciones de personal del rango</returns>
+    Function GetReportPersonnelActions(initialDate As Date, endDate As Date, Optional initialCodeGroup As String = Nothing, Optional endCodeGroup As String = Nothing, Optional branchOfficeInitial As Integer? = Nothing, Optional branchOfficeFinal As Integer? = Nothing, Optional personnelActionTypes As String = Nothing, Optional session As Infrastructure.CrossCutting.Base.SessionValues = Nothing) As System.Data.DataTable
+
 
 End Interface

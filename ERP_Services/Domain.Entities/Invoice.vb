@@ -46,6 +46,7 @@ Imports System.Data.Entity.ModelConfiguration
 <KnownType(GetType(BasicBilling))>
 <KnownType(GetType(InvoiceCopay))>
 <KnownType(GetType(CareGroup))>
+<KnownType(GetType(InitialBalanceInvoice))>
 Partial Public Class Invoice
 	Inherits Entity(Of Invoice)
     Implements IObjectWithChangeTracker
@@ -1627,6 +1628,34 @@ Partial Public Class Invoice
     Private _careGroup As CareGroup
 
 
+    <DataMember()>
+	Public Property InitialBalanceInvoice() As TrackableCollection(Of InitialBalanceInvoice)
+		Get
+            If _initialBalanceInvoice Is Nothing Then
+                _initialBalanceInvoice = New TrackableCollection(Of InitialBalanceInvoice)
+                AddHandler _initialBalanceInvoice.CollectionChanged, AddressOf FixupInitialBalanceInvoice
+            End If
+            Return _initialBalanceInvoice
+        End Get
+        Set(ByVal value As TrackableCollection(Of InitialBalanceInvoice))
+            If _initialBalanceInvoice IsNot value Then
+                If ChangeTracker.ChangeTrackingEnabled Then
+                    Throw New InvalidOperationException("Cannot set the FixupChangeTrackingCollection when ChangeTracking is enabled")
+                End If
+                If _initialBalanceInvoice IsNot Nothing Then
+                    RemoveHandler _initialBalanceInvoice.CollectionChanged, AddressOf FixupInitialBalanceInvoice
+                End If
+                _initialBalanceInvoice = value
+                If _initialBalanceInvoice IsNot Nothing Then
+                    AddHandler _initialBalanceInvoice.CollectionChanged, AddressOf FixupInitialBalanceInvoice
+                End If
+                OnNavigationPropertyChanged("InitialBalanceInvoice")
+            End If
+        End Set
+    End Property
+
+    Private _initialBalanceInvoice As TrackableCollection(Of InitialBalanceInvoice)
+
 #End Region
 
 #Region "ChangeTracking"
@@ -1718,6 +1747,7 @@ Partial Public Class Invoice
         BasicBilling.Clear()
         InvoiceCopay.Clear()
         CareGroup = Nothing
+        InitialBalanceInvoice.Clear()
     End Sub
 
 #End Region
@@ -2440,6 +2470,35 @@ Partial Public Class Invoice
                 End If
                 If ChangeTracker.ChangeTrackingEnabled Then
                     ChangeTracker.RecordRemovalFromCollectionProperties("InvoiceCopay", item)
+                End If
+            Next
+        End If
+    End Sub
+
+    Private Sub FixupInitialBalanceInvoice(ByVal sender As Object, ByVal e As NotifyCollectionChangedEventArgs)
+        If IsDeserializing Then
+            Return
+        End If
+
+        If e.NewItems IsNot Nothing Then
+            For Each item As InitialBalanceInvoice In e.NewItems
+                item.Invoice = Me
+                If ChangeTracker.ChangeTrackingEnabled Then
+                    If Not item.ChangeTracker.ChangeTrackingEnabled Then
+                        item.StartTracking()
+                    End If
+                    ChangeTracker.RecordAdditionToCollectionProperties("InitialBalanceInvoice", item)
+                End If
+            Next
+        End If
+
+        If e.OldItems IsNot Nothing Then
+            For Each item As InitialBalanceInvoice In e.OldItems
+                If item.Invoice Is Me Then
+                    item.Invoice = Nothing
+                End If
+                If ChangeTracker.ChangeTrackingEnabled Then
+                    ChangeTracker.RecordRemovalFromCollectionProperties("InitialBalanceInvoice", item)
                 End If
             Next
         End If

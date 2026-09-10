@@ -53,9 +53,9 @@ Partial Public Class BillingService
     ''' <param name="finalDate">Fecha final</param>
     ''' <param name="careGroupId">Grupo de atención</param>
     ''' <returns></returns>
-    Public Async Function GetCollectionValuesAsync(initialDate As DateTime, finalDate As DateTime, careGroupId As Integer) As Task(Of CollectionValues) Implements IBillingServiceInvoiceEntityCapitated.GetCollectionValuesAsync
+    Public Async Function GetCollectionValuesAsync(initialDate As DateTime, finalDate As DateTime, careGroupId As Integer, invoiceCategoryId As Integer) As Task(Of CollectionValues) Implements IBillingServiceInvoiceEntityCapitated.GetCollectionValuesAsync
         Using service As IInvoiceEntityCapitatedAdminService = Container.Current.Resolve(Of IInvoiceEntityCapitatedAdminService)()
-            Return Await service.GetCollectionValuesAsync(initialDate, finalDate, careGroupId)
+            Return Await service.GetCollectionValuesAsync(initialDate, finalDate, careGroupId, invoiceCategoryId)
         End Using
     End Function
 End Class

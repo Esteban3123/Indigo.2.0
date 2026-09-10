@@ -10,7 +10,9 @@ Imports Domain.Entities
 Imports Infrastructure.CrossCutting.Base
 Imports Domain.Base.Entities
 Imports System.Text
+Imports System.Threading
 Imports Domain.Billing.POCO
+Imports Domain.Billing.POCO.E_RIPS
 
 Public Interface IRIPSPlaneAdminService
     Inherits IDisposable
@@ -40,6 +42,27 @@ Public Interface IRIPSPlaneAdminService
     ''' </summary>
     ''' <param name="Session">Variable de Sesión</param>
     Function GenerateFURTRANPlane(InvoicesList As List(Of RIPSBilling), Session As SessionValues) As List(Of ActionMessageResult(Of StringBuilder))
+
+    ''' <summary>
+    ''' Genera el archivo FUR SERVICIOS de la Circular Externa 003 de 2026 de
+    ''' ADRES. Devuelve un único <see cref="AdresClaimFile"/> con el JSON ya
+    ''' serializado y un DataSet plano listo para exportarse a XLSX desde la UI.
+    ''' </summary>
+    ''' <param name="IdRadicateInvoice">Id del radicado de cuentas confirmado (0 si se envía solo lista de facturas).</param>
+    ''' <param name="Session">Variable de sesión.</param>
+    ''' <param name="InvoicesList">Facturas seleccionadas en el grid del radicado.</param>
+    Function GenerateAdresFurServiciosPlane(IdRadicateInvoice As Integer,
+                                            Session As SessionValues,
+                                            Optional InvoicesList As List(Of RIPSBilling) = Nothing) As ActionMessageResult(Of AdresClaimFile)
+
+    ''' <summary>
+    ''' Genera el archivo FUR (Formulario Único de Reclamaciones) de la Circular Externa 003 de 2026 de ADRES. Devuelve un único
+    ''' <see cref="AdresClaimFile"/> con el JSON ya serializado y un DataSet
+    ''' plano listo para exportarse a XLSX desde la UI.
+    ''' </summary>
+    Function GenerateAdresFurPlane(IdRadicateInvoice As Integer,
+                                    Session As SessionValues,
+                                    Optional InvoicesList As List(Of RIPSBilling) = Nothing) As ActionMessageResult(Of AdresClaimFile)
 
 
     ''' <summary>
@@ -76,6 +99,12 @@ Public Interface IRIPSPlaneAdminService
     ''' </summary>
     ''' <param name="id"></param>
     ''' <returns></returns>
+
+    ''' <summary>
+    ''' Valida y encola registros de servicio para reconstruir JSON RIPS.
+    ''' </summary>
+    Function RebuildFixedAmountRIPSToQueue(listDocumentNumber As List(Of String), audit As AuditMessage) As ActionResult
+
     Function GetJsonRIPSById(id As String) As Task(Of ActionResult(Of String))
 
     ''' <summary>
@@ -99,4 +128,35 @@ Public Interface IRIPSPlaneAdminService
     ''' <param name="audit"></param>
     ''' <returns></returns>
     Function MassiveResendWithPolicies(take As Integer, audit As AuditMessage) As ActionResult
+
+    ''' <summary>
+    ''' Cargue pequeño de RIPS (≤ threshold). Procesa síncronamente y retorna resultado por item.
+    ''' </summary>
+    Function UploadRipsSmallAsync(items As List(Of RipsUploadRequest),
+                                  audit As AuditMessage) As Task(Of ActionResult(Of RipsBulkResponse))
+
+    ''' <summary>
+    ''' Cargue masivo de RIPS. Usa Cosmos AllowBulkExecution. Aplica política de duplicados por _ts.
+    ''' </summary>
+    Function UploadRipsBulkAsync(batchId As String,
+                                 items As List(Of RipsUploadRequest),
+                                 audit As AuditMessage,
+                                 Optional cancellationToken As CancellationToken = Nothing) As Task(Of ActionResult(Of RipsBulkResponse))
+
+    ''' <summary>
+    ''' Hidrata Cosmos por número de factura y carga InitialBalanceInvoiceDetail (snapshot 9 cols por ServiceType,
+    ''' ADR-005 / D26). Idempotente: DELETE detail rows existentes antes de INSERT. Actualiza
+    ''' InitialBalanceInvoice.CosmosId + ObligatedPartyDocument + Status=2 (Confirmado).
+    ''' </summary>
+    ''' <param name="invoiceNumbers">Lista de números de factura (saldos iniciales con CUV).</param>
+    ''' <param name="audit">Audit user/company.</param>
+    ''' <returns>Resumen por factura: OK / Skipped / Failed + error message.</returns>
+    Function PopulateInitialBalanceDetail(invoiceNumbers As List(Of String), audit As AuditMessage) As Task(Of ActionResult(Of List(Of RipsUploadResult)))
+
+    ''' <summary>
+    ''' Pre-check de existencia de RIPS en CosmosDB antes de confirmar saldo inicial.
+    ''' Recibe lista de numFactura y devuelve Existing/Missing. Usado por Portfolio Confirm + frontend
+    ''' SaveAndConfirm para bloquear confirmación si faltan JSON RIPS para alguna factura con CUV.
+    ''' </summary>
+    Function CheckRipsExistAsync(invoiceNumbers As List(Of String), audit As AuditMessage) As Task(Of ActionResult(Of RipsCheckExistResponse))
 End Interface

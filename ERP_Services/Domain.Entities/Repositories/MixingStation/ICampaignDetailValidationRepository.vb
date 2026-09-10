@@ -13,4 +13,6 @@ Public Interface ICampaignDetailValidationRepository
 
     Function GetCampaignDetailValidationByCampaignDetailId(campaignDetailId As Integer, Optional tracking As Boolean = True) As List(Of CampaignDetailValidation)
 
+    Function GetCampaignDetailValidationForDevolution(campaignDetailId As Integer) As List(Of CampaignDetailValidation)
+
 End Interface

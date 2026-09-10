@@ -259,7 +259,6 @@ Public Class PhysicalInventoryRepository
                 For Each item In ListphysicalInventory
                     item.CodeNameWarehouse = (From wh In _context.Warehouse.AsNoTracking() Where wh.Id = item.WarehouseId Select String.Concat(wh.Code, " - ", wh.Name)).FirstOrDefault()
                     item.CodeNameProduct = (From p In _context.InventoryProduct.AsNoTracking() Where p.Id = item.ProductId Select String.Concat(p.Code, " - ", p.Name)).FirstOrDefault()
-                    item.BatchSerialExpiredDate = (From bs In _context.BatchSerial.AsNoTracking() Where bs.Id = item.BatchSerialId Select bs.ExpirationDate).FirstOrDefault()
                 Next
 
                 Return New ActionResult(Of List(Of PhysicalInventory)) With {.StateResult = True, .ObjectEmbbeded = ListphysicalInventory}

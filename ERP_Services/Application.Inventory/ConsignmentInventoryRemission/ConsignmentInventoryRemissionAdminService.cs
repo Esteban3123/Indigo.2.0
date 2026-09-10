@@ -178,85 +178,21 @@ namespace Application.Inventory.ConsignmentInventoryRemission
         /// <returns></returns>
         public ActionResult<Domain.Entities.ConsignmentInventoryRemission> SaveConsignmentInventoryRemission(Domain.Entities.ConsignmentInventoryRemission consignmentInventoryRemission, AuditMessage audit, long idSequence = 0, InventorySequence sequenceC = null)
         {
+            //Se realizan las validaciones si no se va a anular
+            var validationResult = ValidateConsignmentInventoryRemission(consignmentInventoryRemission);
+            if (validationResult != null)
+            {
+                return validationResult;
+            }
+
             TransactionOptions txSettings = new TransactionOptions();
             txSettings.Timeout = TransactionManager.MaximumTimeout;
             txSettings.IsolationLevel = System.Transactions.IsolationLevel.ReadCommitted;
             using (TransactionScope transaction = new TransactionScope(TransactionScopeOption.Required, txSettings))
             {
                 IUnitWork unitOfWork = _consignmentInventoryRemissionRepository.UnitWork;
-                IUnitWork unitOfWorkSequense = _sequenseRepository.UnitWork;
-                IUnitWork unitOfWorkControlDocuments = _InventoryControlDocumentRepository.UnitWork;
                 try
                 {
-                    //Se realizan las validaciones si no se va a anular
-                    if (consignmentInventoryRemission.Status != 3)
-                    {
-                        var warehouse = _warehouseRepository.GetWarehouseById(consignmentInventoryRemission.WarehouseId);
-                        if (warehouse == null)
-                        {
-                            return new ActionResult<Domain.Entities.ConsignmentInventoryRemission> { StateResult = false, StateResultAux = false, Message = "El almacén seleccionado no existe." };
-                        }
-                        if (warehouse.WarehouseConsignment == false)
-                        {
-                            return new ActionResult<Domain.Entities.ConsignmentInventoryRemission> { StateResult = false, StateResultAux = false, Message = "La remisión de inventario en consignación sólo se pueden realizar con un almacén de consignación." };
-                        }
-                        if (warehouse.SupplierId != consignmentInventoryRemission.SupplierId)
-                        {
-                            return new ActionResult<Domain.Entities.ConsignmentInventoryRemission> { StateResult = false, StateResultAux = false, Message = "El proveedor del almacén es diferente del proveedor de la remisión." };
-                        }
-
-                        var inventoryServices = new InventoryServices(_settingInventoryRepository);
-                        var resultValidatePeriod = inventoryServices.ValidateInventoryPeriod(consignmentInventoryRemission.RemissionDate, consignmentInventoryRemission.OperatingUnitId);
-                        if (resultValidatePeriod.StateResult == false)
-                        {
-                            transaction.Dispose();
-                            return new ActionResult<Domain.Entities.ConsignmentInventoryRemission> { StateResult = false, StateResultAux = true, Message = resultValidatePeriod.Message };
-                        }
-
-                        //Se valida que tenga registros
-                        if (consignmentInventoryRemission.ConsignmentInventoryRemissionDetail == null || consignmentInventoryRemission.ConsignmentInventoryRemissionDetail.Where(d => d.ChangeTracker.State != ObjectState.Deleted).Count() == 0)
-                        {
-                            transaction.Dispose();
-                            return new ActionResult<Domain.Entities.ConsignmentInventoryRemission> { StateResult = false, StateResultAux = false, Message = "La remisión no tiene detalles" };
-                        }
-
-                        StringBuilder errors = new StringBuilder();
-                        //Validación por tipo de movimiento
-                        if (consignmentInventoryRemission.MovementType == 3)
-                        {
-                            //Movimiento de reposición solo puede tener registros de inventario en consignación
-                            if (consignmentInventoryRemission.ConsignmentInventoryRemissionDetail.Where(d => d.ChangeTracker.State != ObjectState.Deleted && d.RemissionSource != 4).Count() > 0)
-                            {
-                                errors.AppendLine("La remisión es de tipo reposición, no puede tener detalles que no sean de Remisiones de inventario en consignación.");
-                            }
-
-                            //Los registros deben estar enlazados a sus detalles
-                            foreach (Domain.Entities.ConsignmentInventoryRemissionDetail detail in consignmentInventoryRemission.ConsignmentInventoryRemissionDetail.Where(d => d.ChangeTracker.State != ObjectState.Deleted))
-                            {
-                                //Movimiento de reposición solo puede tener registros de inventario en consignación
-                                if (detail.ConsignmentInventoryRemissionDetailBatchSerial == null || detail.ConsignmentInventoryRemissionDetailBatchSerial.Where(d => d.ChangeTracker.State != ObjectState.Deleted).Count() == 0)
-                                {
-                                    errors.AppendLine(String.Format("El producto {0} no posee detalle.", detail.CodeNameProduct));
-                                }
-                                else
-                                {
-                                    foreach (Domain.Entities.ConsignmentInventoryRemissionDetailBatchSerial detailBatch in detail.ConsignmentInventoryRemissionDetailBatchSerial.Where(d => d.ChangeTracker.State != ObjectState.Deleted))
-                                    {
-                                        if (detail.ConsignmentInventoryRemissionDetailId == null || detailBatch.ConsignmentInventoryRemissionDetailBatchSerialId == null)
-                                        {
-                                            errors.AppendLine(String.Format("El producto {0} no esta relacionado con ninguna remisión de inventario en consignación.", detail.CodeNameProduct));
-                                        }
-                                    }
-                                }
-                            }
-                        }
-
-                        if (!String.IsNullOrEmpty(errors.ToString()))
-                        {
-                            transaction.Dispose();
-                            return new ActionResult<Domain.Entities.ConsignmentInventoryRemission> { StateResult = false, StateResultAux = false, Message = errors.ToString() };
-                        }
-                    }
 
                     InventorySequenceDetail seq = (idSequence == 0 ? new InventorySequenceDetail() : this._sequenseRepository.GetSequenseDById(Convert.ToInt32(idSequence)));
                     if (consignmentInventoryRemission.Code == null || consignmentInventoryRemission.Code.Trim().Equals(string.Empty))
@@ -325,7 +261,6 @@ namespace Application.Inventory.ConsignmentInventoryRemission
                             {
                                 documentControl.MarkAsDeleted();
                                 _InventoryControlDocumentRepository.DeleteEntity(documentControl);
-                                _InventoryControlDocumentRepository.UnitWork.Commit();
                             }
                         }
                         else
@@ -355,11 +290,9 @@ namespace Application.Inventory.ConsignmentInventoryRemission
                         }
                     }
                     _consignmentInventoryRemissionRepository.SaveEntity(consignmentInventoryRemission);
-                    unitOfWork.Commit();
-                    unitOfWorkSequense.Commit();
-                    unitOfWorkControlDocuments.Commit();
                     auditProcess = new IndigoAuditSimpleEntity<Domain.Entities.ConsignmentInventoryRemission>(consignmentInventoryRemission, audit, status, auxConsignmentInventoryRemission);
                     auditProcess.Execute();
+                    unitOfWork.Commit();
                     transaction.Complete();
                     return new ActionResult<Domain.Entities.ConsignmentInventoryRemission> { StateResult = true, ObjectEmbbeded = consignmentInventoryRemission };
                 }
@@ -629,6 +562,83 @@ namespace Application.Inventory.ConsignmentInventoryRemission
             actionResultReturn.StateResultAux = true;
             actionResultReturn.StatusCode = eStatusResult.SUCCESS;
             return actionResultReturn;
+        }
+
+        /// <summary>
+        /// Valida la remisión de inventario en consignación antes de guardarla
+        /// </summary>
+        /// <param name="consignmentInventoryRemission">Remisión a validar</param>
+        /// <returns>ActionResult con error si la validación falla, null si es válida</returns>
+        private ActionResult<Domain.Entities.ConsignmentInventoryRemission> ValidateConsignmentInventoryRemission(Domain.Entities.ConsignmentInventoryRemission consignmentInventoryRemission)
+        {
+            //Se realizan las validaciones si no se va a anular
+            if (consignmentInventoryRemission.Status != 3)
+            {
+                var warehouse = _warehouseRepository.GetWarehouseById(consignmentInventoryRemission.WarehouseId);
+                if (warehouse == null)
+                {
+                    return new ActionResult<Domain.Entities.ConsignmentInventoryRemission> { StateResult = false, StateResultAux = false, Message = "El almacén seleccionado no existe." };
+                }
+                if (warehouse.WarehouseConsignment == false)
+                {
+                    return new ActionResult<Domain.Entities.ConsignmentInventoryRemission> { StateResult = false, StateResultAux = false, Message = "La remisión de inventario en consignación sólo se pueden realizar con un almacén de consignación." };
+                }
+                if (warehouse.SupplierId != consignmentInventoryRemission.SupplierId)
+                {
+                    return new ActionResult<Domain.Entities.ConsignmentInventoryRemission> { StateResult = false, StateResultAux = false, Message = "El proveedor del almacén es diferente del proveedor de la remisión." };
+                }
+
+                var inventoryServices = new InventoryServices(_settingInventoryRepository);
+                var resultValidatePeriod = inventoryServices.ValidateInventoryPeriod(consignmentInventoryRemission.RemissionDate, consignmentInventoryRemission.OperatingUnitId);
+                if (resultValidatePeriod.StateResult == false)
+                {
+                    return new ActionResult<Domain.Entities.ConsignmentInventoryRemission> { StateResult = false, StateResultAux = true, Message = resultValidatePeriod.Message };
+                }
+
+                //Se valida que tenga registros
+                if (consignmentInventoryRemission.ConsignmentInventoryRemissionDetail == null || consignmentInventoryRemission.ConsignmentInventoryRemissionDetail.Where(d => d.ChangeTracker.State != ObjectState.Deleted).Count() == 0)
+                {
+                    return new ActionResult<Domain.Entities.ConsignmentInventoryRemission> { StateResult = false, StateResultAux = false, Message = "La remisión no tiene detalles" };
+                }
+
+                StringBuilder errors = new StringBuilder();
+                //Validación por tipo de movimiento
+                if (consignmentInventoryRemission.MovementType == 3)
+                {
+                    //Movimiento de reposición solo puede tener registros de inventario en consignación
+                    if (consignmentInventoryRemission.ConsignmentInventoryRemissionDetail.Where(d => d.ChangeTracker.State != ObjectState.Deleted && d.RemissionSource != 4).Count() > 0)
+                    {
+                        errors.AppendLine("La remisión es de tipo reposición, no puede tener detalles que no sean de Remisiones de inventario en consignación.");
+                    }
+
+                    //Los registros deben estar enlazados a sus detalles
+                    foreach (Domain.Entities.ConsignmentInventoryRemissionDetail detail in consignmentInventoryRemission.ConsignmentInventoryRemissionDetail.Where(d => d.ChangeTracker.State != ObjectState.Deleted))
+                    {
+                        //Movimiento de reposición solo puede tener registros de inventario en consignación
+                        if (detail.ConsignmentInventoryRemissionDetailBatchSerial == null || detail.ConsignmentInventoryRemissionDetailBatchSerial.Where(d => d.ChangeTracker.State != ObjectState.Deleted).Count() == 0)
+                        {
+                            errors.AppendLine(String.Format("El producto {0} no posee detalle.", detail.CodeNameProduct));
+                        }
+                        else
+                        {
+                            foreach (Domain.Entities.ConsignmentInventoryRemissionDetailBatchSerial detailBatch in detail.ConsignmentInventoryRemissionDetailBatchSerial.Where(d => d.ChangeTracker.State != ObjectState.Deleted))
+                            {
+                                if (detail.ConsignmentInventoryRemissionDetailId == null || detailBatch.ConsignmentInventoryRemissionDetailBatchSerialId == null)
+                                {
+                                    errors.AppendLine(String.Format("El producto {0} no esta relacionado con ninguna remisión de inventario en consignación.", detail.CodeNameProduct));
+                                }
+                            }
+                        }
+                    }
+                }
+
+                if (!String.IsNullOrEmpty(errors.ToString()))
+                {
+                    return new ActionResult<Domain.Entities.ConsignmentInventoryRemission> { StateResult = false, StateResultAux = false, Message = errors.ToString() };
+                }
+            }
+
+            return null;
         }
 
         /// <summary>

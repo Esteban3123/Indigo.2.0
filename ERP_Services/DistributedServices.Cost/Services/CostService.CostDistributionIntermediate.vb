@@ -1,4 +1,4 @@
-﻿'***********************************************************************
+'***********************************************************************
 ' Assembly         : DistributedServices.InteropCost
 ' Author           : Diego Andrés Roldán lozano
 ' Created          : 15-01-2015
@@ -84,6 +84,33 @@ Partial Class CostService
             Return service.UpdateStateDistributionIntermediate(code, state, audit)
         End Using
         'Return Me._distributionIntermediateAdminService.UpdateStateDistributionIntermediate(code, state, audit)
+    End Function
+
+    ''' <summary>
+    ''' Confirma una distribución intermedia
+    ''' </summary>
+    Public Function ConfirmDistributionIntermediate(code As String, audit As AuditMessage) As ActionResult(Of CostDistributionIntermediate) Implements ICostServiceCostDistributionIntermediate.ConfirmDistributionIntermediate
+        Using service As ICostDistributionIntermediateAdminService = Container.Current.Resolve(Of ICostDistributionIntermediateAdminService)()
+            Return service.ConfirmDistributionIntermediate(code, audit)
+        End Using
+    End Function
+
+    ''' <summary>
+    ''' Anula una distribución intermedia
+    ''' </summary>
+    Public Function AnnulDistributionIntermediate(code As String, audit As AuditMessage) As ActionResult(Of CostDistributionIntermediate) Implements ICostServiceCostDistributionIntermediate.AnnulDistributionIntermediate
+        Using service As ICostDistributionIntermediateAdminService = Container.Current.Resolve(Of ICostDistributionIntermediateAdminService)()
+            Return service.AnnulDistributionIntermediate(code, audit)
+        End Using
+    End Function
+
+    ''' <summary>
+    ''' Calcula la distribución intermedia basándose en las bases de distribución configuradas
+    ''' </summary>
+    Public Function CalculateDistributionIntermediate(costIntermediateDistributionId As Integer, year As Integer, month As Integer) As ActionResult(Of List(Of CostDistributionIntermediateDetail)) Implements ICostServiceCostDistributionIntermediate.CalculateDistributionIntermediate
+        Using service As ICostDistributionIntermediateAdminService = Container.Current.Resolve(Of ICostDistributionIntermediateAdminService)()
+            Return service.CalculateDistributionIntermediate(costIntermediateDistributionId, year, month)
+        End Using
     End Function
 
 End Class

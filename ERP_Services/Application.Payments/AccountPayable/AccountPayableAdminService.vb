@@ -2205,8 +2205,11 @@ Public Class AccountPayableAdminService
             End If
 
             Dim costCenter As CostCenter = Nothing
-            ''saco el id del centro de costo si no llega nulo
-            If costcenterItem IsNot Nothing AndAlso Not costcenterItem Is String.Empty Then
+
+            If MainAccount.HandlesCostCenter = 0 AndAlso costcenterItem IsNot Nothing AndAlso Not costcenterItem Is String.Empty Then
+                listErrors.Add(String.Format("La cuenta contable del item {0} no maneja centro de costo", (indexRow).ToString()))
+                Continue For
+            ElseIf (costcenterItem IsNot Nothing AndAlso Not costcenterItem Is String.Empty) Then
                 costCenter = _accountPayableRepository.GetCostCenterByCode(costcenterItem.ToString())
             End If
 
@@ -2281,8 +2284,11 @@ Public Class AccountPayableAdminService
             End If
 
             Dim costCenter As CostCenter = Nothing
-            ''saco el id del centro de costo si no llega nulo
-            If costcenterItem IsNot Nothing AndAlso Not costcenterItem Is String.Empty Then
+
+            If MainAccount.HandlesCostCenter = 0 AndAlso costcenterItem IsNot Nothing AndAlso Not costcenterItem Is String.Empty Then
+                listErrors.Add(String.Format("La cuenta contable del item {0} no maneja centro de costo", (i + 1).ToString()))
+                Continue For
+            ElseIf (costcenterItem IsNot Nothing AndAlso Not costcenterItem Is String.Empty) Then
                 costCenter = _accountPayableRepository.GetCostCenterByCode(costcenterItem.ToString())
             End If
 

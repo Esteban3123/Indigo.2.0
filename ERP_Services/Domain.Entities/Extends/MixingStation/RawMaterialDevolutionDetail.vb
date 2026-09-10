@@ -15,7 +15,7 @@ Partial Public Class RawMaterialDevolutionDetail
     <DataMember>
     Public Property PendingQuantity As Integer
         Get
-            _pendingQuantity = DeliveredQuantity - DevolutionQuantity
+            _pendingQuantity = DeliveredQuantity - ConsumedQuantity - DevolutionQuantity
             Return _pendingQuantity
         End Get
         Set(value As Integer)
@@ -24,6 +24,8 @@ Partial Public Class RawMaterialDevolutionDetail
     End Property
     <DataMember>
     Public Property DeliveredQuantity As Integer
+    <DataMember>
+    Public Property ConsumedQuantity As Integer
     <DataMember>
     Public Property DevolutionQuantity As Integer
 

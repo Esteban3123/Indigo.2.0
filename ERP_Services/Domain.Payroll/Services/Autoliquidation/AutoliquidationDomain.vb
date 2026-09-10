@@ -706,75 +706,87 @@ Public Class AutoliquidationDomain
             'Detalle
             Dim listObjAutoliquidation = GenerateViewVerifyAutoliquidationFile(workCenter, periodLiquidation)
             listObjAutoliquidation = listObjAutoliquidation _
-            .OrderByDescending(Function(x) x.EmployeeId) _
-            .ThenBy(Function(x) If(String.IsNullOrEmpty(x.ChangeCode), 0, 1)) _
+            .OrderBy(Function(x) x.FirstLastName) _
+            .ThenBy(Function(x) x.SecondLastName) _
+            .ThenBy(Function(x) x.CompleteName) _
+            .ThenBy(Function(x) If(x.ChangeType = "SA", 0, If(x.ChangeType = "IC", 1, If(x.ChangeType = "OC", 2, If(x.ChangeType = "PE", 3, If(x.ChangeType = "IN", 4, If(x.ChangeType = "EX", 5, 6))))))) _
             .ThenBy(Function(x) x.ChangeCode) _
-            .ThenBy(Function(x) x.Id) _
+            .ThenBy(Function(x) x.InitialDate) _
             .ToList()
+
+            Dim icIds = listObjAutoliquidation.Where(Function(r) r.ChangeType = "IC").Select(Function(r) r.EmployeeId)
+            Dim employeesWithIC As New HashSet(Of Integer)(icIds)
+
             For Each detail As ViewVerifyAutoliquidationFile In listObjAutoliquidation
+                If detail.ChangeType = "SA" AndAlso String.IsNullOrEmpty(detail.ChangeCode) AndAlso employeesWithIC.Contains(detail.EmployeeId) Then
+                    Continue For
+                End If
                 Dim lineDet As String = "35"
-                Select Case detail.IdentificationType
-                    Case "CC", "CF"
-                        detail.IdentificationType = "0"
-                        lineDet &= Utils.StringPad(detail.IdentificationType, 1, " ", Utils.PadType.STR_PAD_RIGHT)
-                    Case "DM", "PA"
-                        detail.IdentificationType = "7"
-                        lineDet &= Utils.StringPad(detail.IdentificationType, 1, " ", Utils.PadType.STR_PAD_RIGHT)
-                    Case Else
-                        lineDet &= " "
-                End Select
+                            Select Case detail.IdentificationType
+                                Case "CC", "CF"
+                                    detail.IdentificationType = "0"
+                                    lineDet &= Utils.StringPad(detail.IdentificationType, 1, " ", Utils.PadType.STR_PAD_RIGHT)
+                                Case "DM", "PA"
+                                    detail.IdentificationType = "7"
+                                    lineDet &= Utils.StringPad(detail.IdentificationType, 1, " ", Utils.PadType.STR_PAD_RIGHT)
+                                Case Else
+                                    lineDet &= " "
+                            End Select
 
-                If (detail.IdentificationType = "7") Then 'Se valida que sea cédula fisica si no lo es coloca el codigo asegurado 
-                    lineDet &= Utils.StringPad(detail.InsuredCCSSCode, 25, "0", Utils.PadType.STR_PAD_LEFT)
-                Else
-                    lineDet &= Utils.StringPad(detail.Nit, 25, "0", Utils.PadType.STR_PAD_LEFT)
-                End If
-                lineDet &= Utils.StringPad(detail.FirstLastName, 20, " ", Utils.PadType.STR_PAD_RIGHT)
-                lineDet &= Utils.StringPad(detail.SecondLastName, 20, " ", Utils.PadType.STR_PAD_RIGHT)
-                lineDet &= Utils.StringPad(detail.CompleteName, 60, " ", Utils.PadType.STR_PAD_RIGHT)
-                lineDet &= Utils.StringPad(detail.CCSSCode, 4, " ", Utils.PadType.STR_PAD_RIGHT)
-                lineDet &= Utils.StringPad(detail.IBCHealth & "00", 15, "0", Utils.PadType.STR_PAD_LEFT) 'Salario Basico IBCSalud
-                Select Case detail.Pensionary
-                    Case "Si"
-                        detail.Pensionary = "A"
-                        lineDet &= Utils.StringPad(detail.Pensionary, 1, " ", Utils.PadType.STR_PAD_RIGHT)
-                    Case "No"
-                        detail.Pensionary = "C"
-                        lineDet &= Utils.StringPad(detail.Pensionary, 1, " ", Utils.PadType.STR_PAD_RIGHT)
-                    Case Else
-                        lineDet &= " "
-                End Select
-                lineDet &= Utils.StringPad(detail.ChangeType, 2, " ", Utils.PadType.STR_PAD_RIGHT) 'Tipo de Cambio
-                lineDet &= If(detail.ChangeType = "IC", Utils.StringPad(detail.HoursDaily.ToString, 2, " ", Utils.PadType.STR_PAD_RIGHT), "  ") 'Horas Jornada
-                lineDet &= If(detail.ChangeType = "IC", "DIU", "   ")
+                            If (detail.IdentificationType = "7") Then 'Se valida que sea cédula fisica si no lo es coloca el codigo asegurado 
+                                lineDet &= Utils.StringPad(detail.InsuredCCSSCode, 25, "0", Utils.PadType.STR_PAD_LEFT)
+                            Else
+                                lineDet &= Utils.StringPad(detail.Nit, 25, "0", Utils.PadType.STR_PAD_LEFT)
+                            End If
+                            lineDet &= Utils.StringPad(detail.FirstLastName, 20, " ", Utils.PadType.STR_PAD_RIGHT)
+                            lineDet &= Utils.StringPad(detail.SecondLastName, 20, " ", Utils.PadType.STR_PAD_RIGHT)
+                            lineDet &= Utils.StringPad(detail.CompleteName, 60, " ", Utils.PadType.STR_PAD_RIGHT)
+                            lineDet &= Utils.StringPad(detail.CCSSCode, 4, " ", Utils.PadType.STR_PAD_RIGHT)
+                            lineDet &= Utils.StringPad(detail.IBCHealth & "00", 15, "0", Utils.PadType.STR_PAD_LEFT) 'Salario Basico IBCSalud
+                            Select Case detail.Pensionary
+                                Case "Si"
+                                    detail.Pensionary = "A"
+                                    lineDet &= Utils.StringPad(detail.Pensionary, 1, " ", Utils.PadType.STR_PAD_RIGHT)
+                                Case "No"
+                                    detail.Pensionary = "C"
+                                    lineDet &= Utils.StringPad(detail.Pensionary, 1, " ", Utils.PadType.STR_PAD_RIGHT)
+                                Case Else
+                                    lineDet &= " "
+                            End Select
+                            lineDet &= Utils.StringPad(detail.ChangeType, 2, " ", Utils.PadType.STR_PAD_RIGHT) 'Tipo de Cambio
+                            lineDet &= If(detail.ChangeType = "IC", Utils.StringPad(detail.HoursDaily.ToString, 2, " ", Utils.PadType.STR_PAD_RIGHT), "  ") 'Horas Jornada
+                            lineDet &= If(detail.ChangeType = "IC", "DIU", "   ")
 
-                Select Case detail.ChangeType 'Codigo de cambio
-                    Case "IC"
-                        lineDet &= "GEN"
-                    Case Else
-                        lineDet &= If(detail.ChangeCode IsNot Nothing, Utils.StringPad(detail.ChangeCode, 3, " ", Utils.PadType.STR_PAD_RIGHT), "   ")
-                End Select
-                If detail.ChangeType = "IN" Or detail.ChangeType = "PE" Or detail.ChangeType = "EX" Then
-                    lineDet &= Utils.StringPad(detail.FinalDate.ToString("yyyMMdd"), 8, " ", Utils.PadType.STR_PAD_RIGHT)
-                Else
-                    lineDet &= Utils.StringPad(detail.InitialDate.ToString("yyyMMdd"), 8, " ", Utils.PadType.STR_PAD_RIGHT)
-                End If
-                WorkerInformationCount += 1
-                result.Append(lineDet & Environment.NewLine)
-            Next
+                            Select Case detail.ChangeType 'Codigo de cambio
+                                Case "IC"
+                                    lineDet &= "GEN"
+                                Case Else
+                                    lineDet &= If(detail.ChangeCode IsNot Nothing, Utils.StringPad(detail.ChangeCode, 3, " ", Utils.PadType.STR_PAD_RIGHT), "   ")
+                            End Select
+                            If detail.ChangeType = "EX" Then
+                                lineDet &= Utils.StringPad(detail.FinalDate.ToString("yyyMMdd"), 8, " ", Utils.PadType.STR_PAD_RIGHT)
+                            ElseIf Not String.IsNullOrEmpty(detail.ChangeCode) Then
+                                lineDet &= Utils.StringPad(detail.InitialDate.ToString("yyyMMdd"), 8, " ", Utils.PadType.STR_PAD_RIGHT)
+                                lineDet &= Utils.StringPad(If(detail.FinalDate <> Date.MinValue, detail.FinalDate.ToString("yyyMMdd"), "        "), 8, " ", Utils.PadType.STR_PAD_RIGHT)
+                            Else
+                                lineDet &= Utils.StringPad(detail.InitialDate.ToString("yyyMMdd"), 8, " ", Utils.PadType.STR_PAD_RIGHT)
+                            End If
+                            WorkerInformationCount += 1
+                            result.Append(lineDet & Environment.NewLine)
+                        Next
 
-            'pie de pagina 
-            Dim footerLine As String = "15"
-            footerLine &= "PAT"
-            footerLine &= Utils.StringPad(DateTime.Now.ToString("yyyMMdd"), 8, "0", Utils.PadType.STR_PAD_LEFT)
-            footerLine &= Utils.StringPad("1", 10, "0", Utils.PadType.STR_PAD_LEFT)
-            footerLine &= Utils.StringPad(WorkerInformationCount, 10, "0", Utils.PadType.STR_PAD_LEFT)
-            result.Append(footerLine)
-            'Fin Footer
-            resultActionMessage.ObjectEmbbeded = result
-            resultActionMessage.StateResult = True
+                        'pie de pagina 
+                        Dim footerLine As String = "15"
+                        footerLine &= "PAT"
+                        footerLine &= Utils.StringPad(DateTime.Now.ToString("yyyMMdd"), 8, "0", Utils.PadType.STR_PAD_LEFT)
+                        footerLine &= Utils.StringPad("1", 10, "0", Utils.PadType.STR_PAD_LEFT)
+                        footerLine &= Utils.StringPad(WorkerInformationCount, 10, "0", Utils.PadType.STR_PAD_LEFT)
+                        result.Append(footerLine)
+                        'Fin Footer
+                        resultActionMessage.ObjectEmbbeded = result
+                        resultActionMessage.StateResult = True
 
-            Return resultActionMessage
+                        Return resultActionMessage
 
         Catch ex As Exception
             resultActionMessage.ObjectEmbbeded = Nothing

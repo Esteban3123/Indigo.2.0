@@ -574,6 +574,11 @@ Public Class RawMaterialDevolutionAdminService
     ''' <returns></returns>
     Private Function SaveCampaignKardex(campaignDetailId As Integer, rawMaterialDevolutionDetails As List(Of RawMaterialDevolutionDetail), audit As AuditMessage) As ActionResult
         ' Registrar movimiento de salida del kardex  de mezclas
+        Dim msClass As Integer = _campaignDetailRepository _
+            .Query(Function(m) m.Id = campaignDetailId, includes:={"UnitDoseType"}) _
+            .Select(Function(m) m.UnitDoseType.MSClass) _
+            .FirstOrDefault()
+
         For Each devolutionDetail In rawMaterialDevolutionDetails
             ' Consultar el validation
             Dim campaignDetailValidation = devolutionDetail.CampaignDetailValidation
@@ -593,7 +598,7 @@ Public Class RawMaterialDevolutionAdminService
                 campaignDetailValidation.InventoryProduct.ProductType = productType ' Esto ni siquiera es necesario porque al consultarlo con tracking se agrega al producto
             End If
 
-            Dim measurementUnitId = _inventoryService.GetMeasurementUnitByProductId(campaignDetailValidation.ProductId)
+            Dim measurementUnitId = _inventoryService.GetMeasurementUnitByProductId(campaignDetailValidation.ProductId, msClass)
 
             Dim reskardex = _campaignKardexAdminService.Savekardex(Of RawMaterialDevolution)(
                         campaignDetailId:=campaignDetailId,

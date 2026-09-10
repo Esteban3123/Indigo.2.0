@@ -1,4 +1,4 @@
-﻿Imports Domain.Payroll.Entities
+Imports Domain.Payroll.Entities
 Imports Domain.Payroll
 Imports Domain.Base
 Imports Infrastructure.CrossCutting.Exceptions
@@ -125,10 +125,10 @@ Public Class MassiveContractAdminService
         Return _ContractRepository.GetMassiveContract(xmlObj)
     End Function
 
-    Public Sub SaveMassiveContract(pData As List(Of ImportFileRow), pCodeUser As String, pIdUser As Integer) Implements IMassiveContractAdminService.SaveMassiveContract
+    Public Function SaveMassiveContract(pData As List(Of ImportFileRow), pCodeUser As String, pIdUser As Integer) As SP_SaveMassiveContract_DTO Implements IMassiveContractAdminService.SaveMassiveContract
         Dim xmlObj As String = ConvertImportFileRowToXML(pData)
-        _ContractRepository.SaveMassiveContract(xmlObj, pCodeUser, pIdUser)
-    End Sub
+        Return _ContractRepository.SaveMassiveContract(xmlObj, pCodeUser, pIdUser)
+    End Function
 
     Public Function ValidateMassiveContractExtension(pData As List(Of ImportFileRow)) As List(Of SP_ValidateMassiveContractExtension_Result) Implements IMassiveContractAdminService.ValidateMassiveContractExtension
         Dim xmlObj As String = ConvertImportFileRowToXMLContractExtension(pData)

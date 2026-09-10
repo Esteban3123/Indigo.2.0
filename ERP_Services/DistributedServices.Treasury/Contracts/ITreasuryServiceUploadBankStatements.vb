@@ -38,5 +38,11 @@ Public Interface ITreasuryServiceUploadBankStatements
     ''' <returns></returns>
     <OperationContract()>
     Function MatchConciliationConceptsWithDescriptionTransaction(ConciliationConcepts As List(Of BankConciliationConcepts), UploadBankStatementDetails As List(Of UploadBankStatementsDetail)) As ActionResult(Of List(Of UploadBankStatementsDetail))
+    ''' <summary>
+    ''' Función que envía el archivo del extracto bancario a la API de extracción y retorna el resultado.
+    ''' La URL de la API se resuelve server-side desde la BD; el cliente nunca la recibe.
+    ''' </summary>
+    <OperationContract()>
+    Function ExtractBankStatementDetail(fileBytes As Byte(), fileName As String, year As String, audit As AuditMessage) As ActionResult(Of String)
 
 End Interface

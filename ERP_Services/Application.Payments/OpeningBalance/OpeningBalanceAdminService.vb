@@ -86,6 +86,11 @@ Public Class OpeningBalanceAdminService
     Private _currencyRepository As ICurrencyRepository
 
     ''' <summary>
+    ''' Repositorio de parámetros de la empresa (para obtener la moneda oficial)
+    ''' </summary>
+    Private _companySettingsRepository As ICompanySettingsRepository
+
+    ''' <summary>
     ''' Constructor de la clase
     ''' </summary>
     ''' <remarks></remarks>
@@ -93,7 +98,7 @@ Public Class OpeningBalanceAdminService
                    ByVal accountPayableAdminService As IAccountPayableAdminService, ByVal moneyAdvanceAdminService As IMoneyAdvanceAdminService,
                    ByVal supplierRepository As Domain.Maintenance.ISupplierRepository, ByVal distributionLinesRepository As IDistributionLinesRepository, ByVal supplierDistributionLines As ISuppliersDistributionLinesRepository,
                    ByVal pucRepository As IPUCRepository, ByVal costCenterRepository As ICostCenterRepository, ByVal secuenseCRepository As ISequensePaymentsCRepository,
-                   moneyAdvanceRepository As IMoneyAdvanceRepository, currencyRepository As ICurrencyRepository)
+                   moneyAdvanceRepository As IMoneyAdvanceRepository, currencyRepository As ICurrencyRepository, companySettingsRepository As ICompanySettingsRepository)
         If openingBalanceRepository Is Nothing Then
             Throw New ArgumentNullException("openingBalanceRepository Vacio")
         End If
@@ -122,6 +127,7 @@ Public Class OpeningBalanceAdminService
         _costCenterRepository = costCenterRepository
         _secuenseCRepository = secuenseCRepository
         _currencyRepository = currencyRepository
+        _companySettingsRepository = companySettingsRepository
     End Sub
 
     ''' <summary>
@@ -350,6 +356,7 @@ Public Class OpeningBalanceAdminService
                         Return New ActionResult(Of InitialBalance) With {.StateResult = False, .MessageResult = {"No existe secuencia numérica para Anticipos de CxP con la unidad operativa escogida"}.ToList()}
                     End If
                     Dim advancePaymentsList As New List(Of AdvancePayments)()
+                    Dim officialCurrencyId As Integer? = _companySettingsRepository.GetCompanySettings(True)?.OfficialCurrencyId
                     For Each itemAdvance As InitialBalanceAdvance In openingBalance.InitialBalanceAdvance
                         Dim res = Infrastructure.CrossCutting.Base.Sequense.GetSequense(seqPayments.Sequense.Pattern, sequenceNext)
                         If res IsNot Nothing AndAlso Not res.Equals(Infrastructure.CrossCutting.Base.Sequense.ERROR_MAXVALUE) Then
@@ -364,6 +371,8 @@ Public Class OpeningBalanceAdminService
                                 .Balance = itemAdvance.Value
                                 .DocumentDate = itemAdvance.AdvancePaymentsDate
                                 .Status = 2
+                                .StateAdvancePayments = 1
+                                .CurrencyId = officialCurrencyId
                                 .CreationUser = audit.CodeUser
                                 .CreationDate = DateTime.Now
                             End With

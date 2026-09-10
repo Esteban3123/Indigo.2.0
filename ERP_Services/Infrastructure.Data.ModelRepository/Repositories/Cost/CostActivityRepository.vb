@@ -1,4 +1,4 @@
-﻿#Region "Imports"
+#Region "Imports"
 
 Imports System.Data.Entity.Infrastructure
 Imports Domain.Entities
@@ -47,6 +47,13 @@ Public Class CostActivityRepository
 
         If entity IsNot Nothing Then
             entity.CUPSEntityCodeName = _context.CUPSEntity.AsNoTracking().Where(Function(d) d.Id = entity.CUPSEntityId).Select(Function(d) d.Code + " - " + d.Description).FirstOrDefault()
+
+            If entity.ContractDescriptionId.HasValue AndAlso entity.ContractDescriptionId.Value > 0 Then
+                Dim cupsContractDesc = _context.CUPSEntityContractDescriptions.AsNoTracking().Where(Function(d) d.Id = entity.ContractDescriptionId.Value).FirstOrDefault()
+                If cupsContractDesc IsNot Nothing Then
+                    entity.ContractDesCodeName = _context.ContractDescriptions.AsNoTracking().Where(Function(d) d.Id = cupsContractDesc.ContractDescriptionId).Select(Function(d) d.Code + " - " + d.Name).FirstOrDefault()
+                End If
+            End If
 
             For Each item In entity.CostActivityStep
                 item.OrderDescription = String.Concat(item.Order, " - ", item.Description)
@@ -99,6 +106,13 @@ Public Class CostActivityRepository
 
         If entity IsNot Nothing Then
             entity.CUPSEntityCodeName = _context.CUPSEntity.AsNoTracking().Where(Function(d) d.Id = entity.CUPSEntityId).Select(Function(d) d.Code + " - " + d.Description).FirstOrDefault()
+
+            If entity.ContractDescriptionId.HasValue AndAlso entity.ContractDescriptionId.Value > 0 Then
+                Dim cupsContractDesc = _context.CUPSEntityContractDescriptions.AsNoTracking().Where(Function(d) d.Id = entity.ContractDescriptionId.Value).FirstOrDefault()
+                If cupsContractDesc IsNot Nothing Then
+                    entity.ContractDesCodeName = _context.ContractDescriptions.AsNoTracking().Where(Function(d) d.Id = cupsContractDesc.ContractDescriptionId).Select(Function(d) d.Code + " - " + d.Name).FirstOrDefault()
+                End If
+            End If
 
             For Each item In entity.CostActivityProductionCenter
                 item.CostProductionCenterCodeName = _context.CostProductionCenter.AsNoTracking().Where(Function(d) d.Id = item.CostProductionCenterId).Select(Function(d) d.Code + " - " + d.Name).FirstOrDefault()

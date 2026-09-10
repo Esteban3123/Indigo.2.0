@@ -247,7 +247,7 @@ Public Interface ILiquidationFunctions
 
     Function ValueForeclousure(PayrollStarDate As Date, PayrollEndingDate As Date, ListForeclousure As List(Of Foreclousure), ByRef PercentageForeclousure As Decimal) As Decimal
 
-    Function AnalisisNovelty(liquidationPayrollDomain As ILiquidationDomain, ContractEmployee As Entities.Contract, PayrollStarDate As Date, PayrollEndingDate As Date, ListNovelties As List(Of Novelty), PayrollDays As Integer, noveltyRepository As INoveltyRepository, ByRef VacationInitialModifiedDate As Date?, ByRef VacationEndModifiedDate As Date?, ByVal SessionValues As SessionValues, ByRef shouldExcludeAccruedDeducted As Boolean, Optional Day31 As Boolean = False) As List(Of Tuple(Of String, Integer, Decimal, Decimal, Date, Date, String, Tuple(Of Integer, Decimal, Decimal, Integer, Integer, Byte)))
+    Function AnalisisNovelty(liquidationPayrollDomain As ILiquidationDomain, ContractEmployee As Entities.Contract, PayrollStarDate As Date, PayrollEndingDate As Date, ListNovelties As List(Of Novelty), PayrollDays As Integer, noveltyRepository As INoveltyRepository, ByRef VacationInitialModifiedDate As Date?, ByRef VacationEndModifiedDate As Date?, ByVal SessionValues As SessionValues, Optional Day31 As Boolean = False, Optional LegalSalaryMinimum As Decimal = 0) As List(Of Tuple(Of String, Integer, Decimal, Decimal, Date, Date, String, Tuple(Of Integer, Decimal, Decimal, Integer, Integer, Byte)))
 
     Function VacationAdjustNovelty(LiquidationDomain As LiquidationDomain, enjoyDays As Integer, VacationInitialDate As Date, PayrollStarDate As Date, PayrollEndDate As Date, VacationEndModifiedDate As Date?, InitialDateInability As Date?, VacationInitialModifiedDate As Date) As Integer
 

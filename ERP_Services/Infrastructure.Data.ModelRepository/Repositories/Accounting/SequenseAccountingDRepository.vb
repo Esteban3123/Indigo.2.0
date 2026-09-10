@@ -218,6 +218,66 @@ Public Class SequenseAccountingDRepository
     End Function
 
     ''' <summary>
+    ''' Obtiene todas las secuencias SQL para un tipo de documento como lista de JournalVoucherTypeConsecutive
+    ''' </summary>
+    ''' <param name="typeId">Id del JournalVoucherType</param>
+    Public Async Function GetAllSequencesForDocumentTypeAsync(typeId As Integer) As Task(Of List(Of JournalVoucherTypeConsecutive)) Implements ISequenseAccountingDRepository.GetAllSequencesForDocumentTypeAsync
+        Dim result As New List(Of JournalVoucherTypeConsecutive)
+        Dim connectionString As String = String.Format(ConfigurationManager.ConnectionStrings(Infrastructure.CrossCutting.Base.ConfigurationFile.CONX_GENESIS).ConnectionString, "", ServerSessionValues.Current.CurrentContainer)
+        Using conn As New SqlConnection(connectionString)
+            Await conn.OpenAsync()
+
+            Dim pattern As String = $"Seq_JV_T{typeId}_L%_Y%"
+            Dim sql As String = "
+                SELECT s.name, s.current_value
+                FROM sys.sequences s
+                JOIN sys.schemas sc ON sc.schema_id = s.schema_id
+                WHERE sc.name = 'GeneralLedger' AND s.name LIKE @Pattern"
+
+            Using cmd As New SqlCommand(sql, conn)
+                cmd.Parameters.AddWithValue("@Pattern", pattern)
+                Using reader = Await cmd.ExecuteReaderAsync()
+                    While Await reader.ReadAsync()
+                        Dim seqName As String = reader.GetString(0)
+                        Dim currentValue As Long = Convert.ToInt64(reader.GetValue(1))
+                        Dim parts() As String = seqName.Split("_"c)
+                        ' Formato: Seq_JV_T{typeId}_L{legalBookId}_Y{year}
+                        ' parts: [0]=Seq [1]=JV [2]=T{n} [3]=L{n} [4]=Y{n}
+                        Dim legalBookId As Integer = Integer.Parse(parts(3).Substring(1))
+                        Dim year As Integer = Integer.Parse(parts(4).Substring(1))
+                        Dim item As New JournalVoucherTypeConsecutive
+                        item.JournalVoucherTypeId = typeId
+                        item.LegalBookId = legalBookId
+                        item.Year = year
+                        item.Consecutive = currentValue
+                        item.MarkAsUnchanged()
+                        result.Add(item)
+                    End While
+                End Using
+            End Using
+
+            If result.Count > 0 Then
+                Dim legalBookIds As List(Of Integer) = result.Select(Function(x) x.LegalBookId).Distinct().ToList()
+                Dim bookSql As String = "SELECT Id, CONCAT(Code, ' - ', Name) AS Description FROM GeneralLedger.LegalBook WHERE Id IN (" & String.Join(",", legalBookIds) & ")"
+                Dim bookDescriptions As New Dictionary(Of Integer, String)
+                Using bookCmd As New SqlCommand(bookSql, conn)
+                    Using bookReader = Await bookCmd.ExecuteReaderAsync()
+                        While Await bookReader.ReadAsync()
+                            bookDescriptions(bookReader.GetInt32(0)) = bookReader.GetString(1)
+                        End While
+                    End Using
+                End Using
+                For Each item In result
+                    If bookDescriptions.ContainsKey(item.LegalBookId) Then
+                        item.LegalBookDescription = bookDescriptions(item.LegalBookId)
+                    End If
+                Next
+            End If
+        End Using
+        Return result
+    End Function
+
+    ''' <summary>
     ''' Elimina todas las secuencuas para JournalVoucherTypes
     ''' </summary>
     ''' <param name="documentType">Tipo de documento</param>

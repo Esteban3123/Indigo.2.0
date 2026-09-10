@@ -287,12 +287,16 @@ Public Class DefinitionRateAdminService
                 Dim messageDelete As String = String.Empty
                 'Elimino los detalles que se marcaron en el formulario para eliminar
                 Dim listIds = listDeleteDefinitionRateDetailCondition?.FindAll(Function(f) f.Id > 0)?.Select(Function(s) s.Id)?.ToList()
+                'valida que si tiene reglas eliminadas y cuenta con un orden de servicio
+                If listIds IsNot Nothing AndAlso listIds.Any() Then
+                    Dim relatedDetails = _serviceOrderDetailRepository?.GetByFilter(Function(x) x.DefinitionRateDetailConditionId.HasValue AndAlso listIds.Contains(x.DefinitionRateDetailConditionId.Value))
+                    If relatedDetails IsNot Nothing AndAlso relatedDetails.Any() Then
+                        Dim serviceOrderIds = String.Join(", ", relatedDetails.Select(Function(x) x.ServiceOrderId).Distinct())
+                        Return New ActionResult(Of DefinitionRate) With {.StateResult = False, .MessageResult = {$"No se puede actualizar el registro porque tiene órdenes de servicios asociadas con los siguientes Id's: {serviceOrderIds}"}.ToList()}
+                    End If
+                End If
 
                 If ListDeleteDefinitionRateDetail IsNot Nothing AndAlso ListDeleteDefinitionRateDetail.Count > 0 Then
-                    'valida que si tiene reglas eliminadas y cuenta con un orden de servicio 
-                    If listIds IsNot Nothing AndAlso listIds?.Any() AndAlso _serviceOrderDetailRepository?.Any(Function(x) listIds.Contains(x.DefinitionRateDetailConditionId)) Then
-                        Return New ActionResult(Of DefinitionRate) With {.StateResult = False, .MessageResult = {"No se puede actualizar el registro porque tiene una orden de servicios asociada!"}.ToList()}
-                    End If
                     Dim result As ActionResult = DeleteList(ListDeleteDefinitionRateDetail, Company)
                     If result.StateResult = False Then
                         unitOfWork.RollbackChanges()
@@ -319,15 +323,15 @@ Public Class DefinitionRateAdminService
 
                 Me._definitionRateRepository.SaveEntity(DefinitionRate)
                 unitOfWork.Commit()
-                sequenseUnitOfWork.Commit()
-                auditProcess = New IndigoAuditSimpleEntity(Of DefinitionRate)(DefinitionRate, audit, status, auxDefinitionRate)
-                auditProcess.Execute()
+                    sequenseUnitOfWork.Commit()
+                    auditProcess = New IndigoAuditSimpleEntity(Of DefinitionRate)(DefinitionRate, audit, status, auxDefinitionRate)
+                    auditProcess.Execute()
 
-                'Se marca la entidad como sin cambios
-                DefinitionRate.MarkAsUnchanged()
+                    'Se marca la entidad como sin cambios
+                    DefinitionRate.MarkAsUnchanged()
 
-                scope.Complete()
-                Return New ActionResult(Of DefinitionRate) With {.StateResult = True, .ObjectEmbbeded = DefinitionRate, .Message = messageDelete}
+                    scope.Complete()
+                    Return New ActionResult(Of DefinitionRate) With {.StateResult = True, .ObjectEmbbeded = DefinitionRate, .Message = messageDelete}
             Catch ex As OptimisticConcurrencyException
                 unitOfWork.RollbackChanges()
                 scope.Dispose()

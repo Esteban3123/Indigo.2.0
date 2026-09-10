@@ -62,6 +62,30 @@ Partial Class MixingStationService
     End Function
 
     ''' <summary>
+    ''' Reversa solicitudes activas al dashboard de confirmación de dosis unitaria.
+    ''' </summary>
+    ''' <param name="requestMixingStationDetailIds">Identificadores de los detalles de solicitud de central de mezclas a reversar.</param>
+    ''' <param name="audit">Información de auditoría del usuario que ejecuta la acción.</param>
+    ''' <returns>Resultado de la operación de reversa.</returns>
+    Public Function ReverseRequestsToConfirmationUnitDose(requestMixingStationDetailIds As List(Of Integer), audit As AuditMessage) As ActionResult Implements IMixingStationServiceRequestMixingStation.ReverseRequestsToConfirmationUnitDose
+        Using service As IRequestMixingStationAdminService = Container.Current.Resolve(Of IRequestMixingStationAdminService)()
+            Return service.ReverseRequestsToConfirmationUnitDose(requestMixingStationDetailIds, audit)
+        End Using
+    End Function
+
+    ''' <summary>
+    ''' Devuelve solicitudes activas al flujo del servicio farmacéutico.
+    ''' </summary>
+    ''' <param name="requestMixingStationDetailIds">Identificadores de los detalles de solicitud de central de mezclas a devolver.</param>
+    ''' <param name="audit">Información de auditoría del usuario que ejecuta la acción.</param>
+    ''' <returns>Resultado de la operación de devolución al servicio farmacéutico.</returns>
+    Public Function ReturnRequestsToPharmacy(requestMixingStationDetailIds As List(Of Integer), audit As AuditMessage) As ActionResult Implements IMixingStationServiceRequestMixingStation.ReturnRequestsToPharmacy
+        Using service As IRequestMixingStationAdminService = Container.Current.Resolve(Of IRequestMixingStationAdminService)()
+            Return service.ReturnRequestsToPharmacy(requestMixingStationDetailIds, audit)
+        End Using
+    End Function
+
+    ''' <summary>
     ''' vincula readecuacion con detalle de solicitud
     ''' </summary>
     ''' <param name="RequestMSDetailId"></param>

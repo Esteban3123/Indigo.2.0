@@ -14,6 +14,7 @@ namespace Infrastructure.Data.CosmosModelRepository.UnitOfWork
     {
         #region Private
         private Container _containerDB;
+        private Container _containerBulkDB;
         private readonly CosmosDbContext _dbContext;
         private readonly string _cosmosDbDatabase;
         private readonly string _cosmosDbContainer;
@@ -25,6 +26,11 @@ namespace Infrastructure.Data.CosmosModelRepository.UnitOfWork
         /// Obtiene el contenedor
         /// </summary>
         public Container ContainerDB { get => _containerDB; }
+
+        /// <summary>
+        /// Obtiene el contenedor con cliente bulk (AllowBulkExecution=true)
+        /// </summary>
+        public Container ContainerBulkDB { get => _containerBulkDB; }
 
         /// <summary>
         /// Obtiene el contexto
@@ -69,6 +75,20 @@ namespace Infrastructure.Data.CosmosModelRepository.UnitOfWork
         }
 
         /// <summary>
+        /// verifica el contenedor bulk asociado a la cosmos para reintentar conexion sino lanzar argument null exception
+        /// </summary>
+        public void VerifyConnectionCosmoDBContainerBulk()
+        {
+            if (this.ContainerBulkDB != null) { return; }
+
+            this.InitializeContainerBulkWithRetries(_cosmosDbDatabase, _cosmosDbContainer);
+
+            if (this.ContainerBulkDB is null) { throw new ArgumentNullException(nameof(this.ContainerBulkDB), "No se logro establecer conexion con la Cosmos DB (bulk)"); }
+
+            return;
+        }
+
+        /// <summary>
         /// Inicializador del container con reintento
         /// </summary>
         /// <param name="cosmosDbDatabase"></param>
@@ -85,20 +105,51 @@ namespace Infrastructure.Data.CosmosModelRepository.UnitOfWork
 
                     if (_containerDB != null)
                     {
-                        //Logger.LogInfo($"Conexión a CosmosDB establecida en intento {attempt + 1}");
                         break;
                     }
                 }
                 catch (Exception ex)
                 {
-                    //Logger.LogError($"Error al inicializar el contenedor en intento {attempt + 1}: {ex.Message}");
-
                     if (attempt == _maxRetries - 1)
                     {
                         throw new InvalidOperationException("No se pudo inicializar el contenedor de Cosmos DB después de varios intentos.", ex);
                     }
 
-                    Thread.Sleep(_retryDelay); // Esperar antes de reintentar
+                    Thread.Sleep(_retryDelay);
+                }
+
+                attempt++;
+            }
+        }
+
+        /// <summary>
+        /// Inicializador del container bulk con reintento
+        /// </summary>
+        /// <param name="cosmosDbDatabase"></param>
+        /// <param name="cosmosDbContainer"></param>
+        private void InitializeContainerBulkWithRetries(string cosmosDbDatabase, string cosmosDbContainer)
+        {
+            int attempt = 0;
+            while (attempt < _maxRetries)
+            {
+                try
+                {
+                    var database = DbContext.GetDatabaseBulk(cosmosDbDatabase);
+                    _containerBulkDB = database.GetContainer(cosmosDbContainer);
+
+                    if (_containerBulkDB != null)
+                    {
+                        break;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    if (attempt == _maxRetries - 1)
+                    {
+                        throw new InvalidOperationException("No se pudo inicializar el contenedor bulk de Cosmos DB después de varios intentos.", ex);
+                    }
+
+                    Thread.Sleep(_retryDelay);
                 }
 
                 attempt++;

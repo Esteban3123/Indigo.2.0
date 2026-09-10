@@ -196,6 +196,39 @@ Public Class UploadBankStatementsAdminService
         End Try
     End Function
     ''' <summary>
+    ''' Función que invoca la API para extraer datos de los extractos bancarios
+    ''' </summary>
+    ''' <param name="fileBytes"></param>
+    ''' <param name="fileName"></param>
+    ''' <param name="year"></param>
+    ''' <param name="endpointUrl"></param>
+    ''' <returns></returns>
+    Public Function ExtractBankStatementDetail(fileBytes As Byte(), fileName As String, year As String, endpointUrl As String) As ActionResult(Of String) Implements IUploadBankStatementsAdminService.ExtractBankStatementDetail
+        Try
+            Using client As New System.Net.Http.HttpClient()
+                Using content As New System.Net.Http.MultipartFormDataContent()
+                    Dim fileContent = New System.Net.Http.ByteArrayContent(fileBytes)
+                    fileContent.Headers.ContentDisposition = New System.Net.Http.Headers.ContentDispositionHeaderValue("form-data") With {
+                        .Name = """file""",
+                        .FileName = """" & fileName & """"
+                    }
+                    content.Add(fileContent, "file", fileName)
+                    content.Add(New System.Net.Http.StringContent(year), "Year")
+                    Dim response = client.PostAsync(String.Format("{0}/groupby_items", endpointUrl), content).GetAwaiter().GetResult()
+                    Dim responseContent = response.Content.ReadAsStringAsync().GetAwaiter().GetResult()
+                    If Not response.IsSuccessStatusCode Then
+                        Return New ActionResult(Of String) With {.StateResult = False, .Message = response.ReasonPhrase}
+                    End If
+                    Return New ActionResult(Of String) With {.StateResult = True, .Message = responseContent}
+                End Using
+            End Using
+        Catch ex As Exception
+            IndigoManagementExceptions.HandleException(ex, "ApplicationPolicy")
+            Return New ActionResult(Of String) With {.StateResult = False, .Message = IndigoManagementExceptions.GetExceptionDetails(ex)}
+        End Try
+    End Function
+
+    ''' <summary>
     ''' Asigna los consecutivos del banco que vienen vacios
     ''' </summary>
     ''' <param name="UploadBankStatementDetails"></param>

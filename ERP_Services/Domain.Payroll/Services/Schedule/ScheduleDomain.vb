@@ -503,6 +503,15 @@ Public Class ScheduleDomain
             Exit Function
         End If
 
+        ' Valido que no exista ya un ScheduleDetail para este día en la misma unidad funcional, sin importar si las horas se cruzan.
+        ' Antes solo se validaba el cruce de horario (-006/-007 más abajo), lo que permitía crear un segundo ScheduleDetail para un día
+        ' que ya tenía turno cuando el horario nuevo no chocaba con el existente, dejando el turno viejo huérfano (Schedule.Dxx pasaba
+        ' a apuntar solo al nuevo, sin borrar el anterior).
+        If ScheduleInPeriod IsNot Nothing AndAlso ScheduleInPeriod.Any(Function(x) x.DateDetail = day And x.ScheduleFunctionalUnitId = _schedule.FunctionalUnitId) Then
+            ValidateScheduleDetailInSchedule = New Domain.Base.Entities.MessageResult("-007", "", "", "", "", "") ' ya hay un detalle de schedule para ese dia
+            Exit Function
+        End If
+
         If audit.CompanyType = 1 Then
             If Validate18Hours(ScheduleInPeriod, detHours) = False Then
                 ValidateScheduleDetailInSchedule = New Domain.Base.Entities.MessageResult("-011", "", "", "", "", "") 'Se supera el numero maximo de horas continuas permitidas (18)

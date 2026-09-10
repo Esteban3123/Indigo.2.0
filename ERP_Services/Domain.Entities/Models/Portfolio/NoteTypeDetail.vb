@@ -39,4 +39,6 @@ Public Class NoteTypeDetail
     Property NameAlternative As String
     <DataMember()>
     Property NameAlternativeTwo As String
+    <DataMember()>
+    Property TaxClassificationType As Byte?
 End Class

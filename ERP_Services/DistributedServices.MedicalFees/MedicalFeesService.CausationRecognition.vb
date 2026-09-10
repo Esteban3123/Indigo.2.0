@@ -1,5 +1,6 @@
 Imports Application.MedicalFees
 Imports Domain.Base.Entities
+Imports Infrastructure.CrossCutting.Base
 Imports Microsoft.Practices.Unity
 
 ''' <summary>
@@ -31,6 +32,31 @@ Partial Public Class MedicalFeesService
     Public Function ReverseCausationRecognition(causationRecognitionId As Integer, userCode As String) As ActionResult Implements IMedicalFeesCausationRecognition.ReverseCausationRecognition
         Using service As ICausationRecognitionAdminService = Container.Current.Resolve(Of ICausationRecognitionAdminService)()
             Return service.ReverseCausationRecognition(causationRecognitionId, userCode)
+        End Using
+    End Function
+
+    ''' <summary>
+    ''' Procesa causaciones automáticas para órdenes de servicio CUPS no reconocidas.
+    ''' Solo Registrado (sin factura), CUPS, sin causación activa, excluye liquidados.
+    ''' Procesa todas las unidades operativas.
+    ''' </summary>
+    ''' <param name="userCode">Código del usuario que ejecuta el proceso</param>
+    ''' <param name="batchSize">Tamaño del batch por iteración (default 500 para ejecución manual)</param>
+    ''' <returns>ActionResult con MessageResult: [TotalCandidates, SuccessCount, FailedCount, ExcludedByLiquidation]</returns>
+    Public Function ProcessUnrecognizedCausations(userCode As String, Optional batchSize As Integer = 500) As ActionResult Implements IMedicalFeesCausationRecognition.ProcessUnrecognizedCausations
+        Using service As IMedicalFeesCausationAdminService = Container.Current.Resolve(Of IMedicalFeesCausationAdminService)()
+            Dim result = service.ProcessUnrecognizedCausations(New AuditMessage() With {.CodeUser = userCode}, batchSize)
+            Return New ActionResult With {
+                .StateResult = result.StateResult,
+                .Message = result.Message,
+                .MessageResult = If(result.ObjectEmbbeded IsNot Nothing,
+                    New List(Of String)({
+                        result.ObjectEmbbeded.TotalCandidates.ToString(),
+                        result.ObjectEmbbeded.SuccessCount.ToString(),
+                        result.ObjectEmbbeded.FailedCount.ToString(),
+                        result.ObjectEmbbeded.ExcludedByLiquidation.ToString()
+                    }), Nothing)
+            }
         End Using
     End Function
 

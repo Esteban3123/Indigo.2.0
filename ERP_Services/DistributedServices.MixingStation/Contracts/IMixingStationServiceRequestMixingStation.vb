@@ -55,6 +55,24 @@ Public Interface IMixingStationServiceRequestMixingStation
     Function AnnulateRequests(requestMixingStationDetailIds As List(Of Integer)) As ActionResult
 
     ''' <summary>
+    ''' Reversa solicitudes activas al dashboard de confirmación de dosis unitaria.
+    ''' </summary>
+    ''' <param name="requestMixingStationDetailIds">Identificadores de los detalles de solicitud de central de mezclas a reversar.</param>
+    ''' <param name="audit">Información de auditoría del usuario que ejecuta la acción.</param>
+    ''' <returns>Resultado de la operación de reversa.</returns>
+    <OperationContract()>
+    Function ReverseRequestsToConfirmationUnitDose(requestMixingStationDetailIds As List(Of Integer), audit As AuditMessage) As ActionResult
+
+    ''' <summary>
+    ''' Devuelve solicitudes activas al flujo del servicio farmacéutico.
+    ''' </summary>
+    ''' <param name="requestMixingStationDetailIds">Identificadores de los detalles de solicitud de central de mezclas a devolver.</param>
+    ''' <param name="audit">Información de auditoría del usuario que ejecuta la acción.</param>
+    ''' <returns>Resultado de la operación de devolución al servicio farmacéutico.</returns>
+    <OperationContract()>
+    Function ReturnRequestsToPharmacy(requestMixingStationDetailIds As List(Of Integer), audit As AuditMessage) As ActionResult
+
+    ''' <summary>
     ''' Vincula la readecaucion con el detalle de la solicitud de la campaña
     ''' </summary>
     ''' <param name="RequestMSDetailId"></param>

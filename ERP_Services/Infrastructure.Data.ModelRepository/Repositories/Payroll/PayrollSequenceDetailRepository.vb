@@ -79,6 +79,30 @@ Public Class PayrollSequenceDetailRepository
         End If
     End Function
 
+    ''' <summary>
+    ''' Incrementa atomicamente el campo Next y retorna el valor PREVIO al incremento.
+    ''' Disenado para uso en bucles masivos como confirmacion masiva
+    ''' NO interactua con el ChangeTracker de EF, por lo que no genera conflictos
+    ''' de tracking si la entidad ya esta cargada en el contexto.
+    ''' Garantiza atomicidad mediante UPDATE a OUTPUT a nivel SQL.
+    ''' </summary>
+    Public Function IncrementSequenceAndGetNext(idSequence As Integer) As Long Implements IPayrollSequenceDetailRepository.IncrementSequenceAndGetNext
+        Dim connectionString As String = String.Format(ConfigurationManager.ConnectionStrings(Infrastructure.CrossCutting.Base.ConfigurationFile.CONX_GENESIS).ConnectionString, "",
+            ServerSessionValues.Current.CurrentContainer)
+
+        Dim newNextValue As Long
+        Dim queryString As String = "UPDATE Payroll.PayrollSequenceDetail SET [Next] = [Next] + 1 OUTPUT INSERTED.[Next] WHERE Id = @id"
+
+        Using connection As New SqlConnection(connectionString)
+            Dim cmd As New SqlCommand(queryString, connection)
+            cmd.Parameters.AddWithValue("@id", idSequence)
+            cmd.Connection.Open()
+            newNextValue = CLng(cmd.ExecuteScalar())
+        End Using
+
+        Return newNextValue - 1
+    End Function
+
 #End Region
 
 End Class

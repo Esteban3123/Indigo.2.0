@@ -1,4 +1,4 @@
-﻿'***********************************************************************
+'***********************************************************************
 ' Assembly         : Application.Security
 ' Author           : WalterSierra
 ' Created          : 11-03-2011
@@ -254,11 +254,10 @@ Public Class PermissionsUserAdminService
                 Dim auditprocess As IndigoAuditSimpleEntity(Of User)
                 Dim status As Integer
 
-                If user.ChangeTracker.State = ObjectState.Added Then
-                    If SessionValues.ArchitectureType = 2 Then ' Cuando es PAAS, el Código del Usuario lo igualo con el ID. Para ON PREMISE, mantengo el código digitado en el formulario
-                        user.UserCode = user.Id '.ToString("000") 'concatena 0 al inicio si la cantidad de digitos es menor a 3
-                    Else
+                Dim isNewUser As Boolean = user.ChangeTracker.State = ObjectState.Added
 
+                If isNewUser Then
+                    If SessionValues.ArchitectureType <> 2 Then ' ON PREMISE: el UserCode se asigna con la cédula antes del INSERT
                         Dim query = _userRepository.FirstOrDefault(Function(item) item.UserCode = user.Person.Identification, False)
 
                         If query IsNot Nothing AndAlso query.Id > 0 Then
@@ -283,8 +282,9 @@ Public Class PermissionsUserAdminService
                 auditprocess = New IndigoAuditSimpleEntity(Of User)(user, audit, status, auxuser)
                 auditprocess.Execute()
 
-                If SessionValues.ArchitectureType = 2 And user.UserCode = "0" OrElse user.UserCode = String.Empty Then
-                    user.UserCode = user.Id
+                ' PAAS: el UserCode se asigna después del Commit() porque solo entonces la BD genera el Id autonumérico real
+                If SessionValues.ArchitectureType = 2 AndAlso isNewUser Then
+                    user.UserCode = user.Id.ToString()
                     _userRepository.SaveEntity(user)
                     unitWorkUser.Commit()
                 End If

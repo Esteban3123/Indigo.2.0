@@ -3569,6 +3569,16 @@ Partial Public Class GlobalModelUnitOfWork
         End Get
     End Property
 
+	Private _costIntermediateDistributionServiceQuantity As DbSet(Of CostIntermediateDistributionServiceQuantity)
+    Public ReadOnly Property CostIntermediateDistributionServiceQuantity() As DbSet(Of CostIntermediateDistributionServiceQuantity) Implements IGlobalModelUnitOfWork.CostIntermediateDistributionServiceQuantity
+        Get
+            If _costIntermediateDistributionServiceQuantity Is Nothing Then
+                _costIntermediateDistributionServiceQuantity = [Set](Of CostIntermediateDistributionServiceQuantity)()
+            End If
+            Return _costIntermediateDistributionServiceQuantity
+        End Get
+    End Property
+
 	Private _costDistributionManpower As DbSet(Of CostDistributionManpower)
     Public ReadOnly Property CostDistributionManpower() As DbSet(Of CostDistributionManpower) Implements IGlobalModelUnitOfWork.CostDistributionManpower
         Get
@@ -11309,13 +11319,23 @@ Partial Public Class GlobalModelUnitOfWork
         End Get
     End Property
 
-	Private _aDACOMPAN As DbSet(Of ADACOMPAN)
-    Public ReadOnly Property ADACOMPAN() As DbSet(Of ADACOMPAN) Implements IGlobalModelUnitOfWork.ADACOMPAN
+	Private _initialBalanceInvoice As DbSet(Of InitialBalanceInvoice)
+    Public ReadOnly Property InitialBalanceInvoice() As DbSet(Of InitialBalanceInvoice) Implements IGlobalModelUnitOfWork.InitialBalanceInvoice
         Get
-            If _aDACOMPAN Is Nothing Then
-                _aDACOMPAN = [Set](Of ADACOMPAN)()
+            If _initialBalanceInvoice Is Nothing Then
+                _initialBalanceInvoice = [Set](Of InitialBalanceInvoice)()
             End If
-            Return _aDACOMPAN
+            Return _initialBalanceInvoice
+        End Get
+    End Property
+
+	Private _initialBalanceInvoiceDetail As DbSet(Of InitialBalanceInvoiceDetail)
+    Public ReadOnly Property InitialBalanceInvoiceDetail() As DbSet(Of InitialBalanceInvoiceDetail) Implements IGlobalModelUnitOfWork.InitialBalanceInvoiceDetail
+        Get
+            If _initialBalanceInvoiceDetail Is Nothing Then
+                _initialBalanceInvoiceDetail = [Set](Of InitialBalanceInvoiceDetail)()
+            End If
+            Return _initialBalanceInvoiceDetail
         End Get
     End Property
 
@@ -11437,11 +11457,11 @@ Partial Public Class GlobalModelUnitOfWork
 #Region "Function Imports"
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="statusJournalVouchers">No Metadata Documentation available.</param>
-    ''' <param name="idDocuments">No Metadata Documentation available.</param>
-    ''' <param name="month">No Metadata Documentation available.</param>
+    ''' <param name="statusJournalVouchers">No hay documentación de metadatos disponible.</param>
+    ''' <param name="idDocuments">No hay documentación de metadatos disponible.</param>
+    ''' <param name="month">No hay documentación de metadatos disponible.</param>
     Public Function SP_ChangeStatusJournalVouchers(ByVal statusJournalVouchers As Nullable(Of Integer), ByVal idDocuments As String, ByVal month As Nullable(Of Integer)) As ObjectResult(Of SP_ChangeStatusJournalVouchers_Result) Implements IGlobalModelUnitOfWork.SP_ChangeStatusJournalVouchers
         Dim statusJournalVouchersParameter As ObjectParameter
         If (statusJournalVouchers.HasValue)
@@ -11469,12 +11489,12 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="container">No Metadata Documentation available.</param>
-    ''' <param name="mainAccountNumber">No Metadata Documentation available.</param>
-    ''' <param name="year">No Metadata Documentation available.</param>
-    ''' <param name="month">No Metadata Documentation available.</param>
+    ''' <param name="container">No hay documentación de metadatos disponible.</param>
+    ''' <param name="mainAccountNumber">No hay documentación de metadatos disponible.</param>
+    ''' <param name="year">No hay documentación de metadatos disponible.</param>
+    ''' <param name="month">No hay documentación de metadatos disponible.</param>
     Public Function SP_MainAccountValue(ByVal container As String, ByVal mainAccountNumber As String, ByVal year As String, ByVal month As Nullable(Of Integer)) As ObjectResult(Of SP_MainAccountValue_Result) Implements IGlobalModelUnitOfWork.SP_MainAccountValue
         Dim containerParameter As ObjectParameter
         If (container IsNot Nothing)
@@ -11509,10 +11529,10 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="rEVENUECONTROLDETAILID">No Metadata Documentation available.</param>
-    ''' <param name="operativeUnitId">No Metadata Documentation available.</param>
+    ''' <param name="rEVENUECONTROLDETAILID">No hay documentación de metadatos disponible.</param>
+    ''' <param name="operativeUnitId">No hay documentación de metadatos disponible.</param>
     Public Function SP_UpdateRevenueControlDetailValues(ByVal rEVENUECONTROLDETAILID As Nullable(Of Integer), ByVal operativeUnitId As Nullable(Of Integer)) As ObjectResult(Of SP_UpdateRevenueControlDetailValues_Result) Implements IGlobalModelUnitOfWork.SP_UpdateRevenueControlDetailValues
         Dim rEVENUECONTROLDETAILIDParameter As ObjectParameter
         If (rEVENUECONTROLDETAILID.HasValue)
@@ -11533,22 +11553,22 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="idAccountLevel">No Metadata Documentation available.</param>
-    ''' <param name="idAccountClass">No Metadata Documentation available.</param>
-    ''' <param name="number">No Metadata Documentation available.</param>
-    ''' <param name="name">No Metadata Documentation available.</param>
-    ''' <param name="idParent">No Metadata Documentation available.</param>
-    ''' <param name="handlesThirdParty">No Metadata Documentation available.</param>
-    ''' <param name="closeThirdParty">No Metadata Documentation available.</param>
-    ''' <param name="idThirdParty">No Metadata Documentation available.</param>
-    ''' <param name="reconcileAccount">No Metadata Documentation available.</param>
-    ''' <param name="availability">No Metadata Documentation available.</param>
-    ''' <param name="handlesCostCenter">No Metadata Documentation available.</param>
-    ''' <param name="retencionType">No Metadata Documentation available.</param>
-    ''' <param name="allowsMovement">No Metadata Documentation available.</param>
-    ''' <param name="status">No Metadata Documentation available.</param>
+    ''' <param name="idAccountLevel">No hay documentación de metadatos disponible.</param>
+    ''' <param name="idAccountClass">No hay documentación de metadatos disponible.</param>
+    ''' <param name="number">No hay documentación de metadatos disponible.</param>
+    ''' <param name="name">No hay documentación de metadatos disponible.</param>
+    ''' <param name="idParent">No hay documentación de metadatos disponible.</param>
+    ''' <param name="handlesThirdParty">No hay documentación de metadatos disponible.</param>
+    ''' <param name="closeThirdParty">No hay documentación de metadatos disponible.</param>
+    ''' <param name="idThirdParty">No hay documentación de metadatos disponible.</param>
+    ''' <param name="reconcileAccount">No hay documentación de metadatos disponible.</param>
+    ''' <param name="availability">No hay documentación de metadatos disponible.</param>
+    ''' <param name="handlesCostCenter">No hay documentación de metadatos disponible.</param>
+    ''' <param name="retencionType">No hay documentación de metadatos disponible.</param>
+    ''' <param name="allowsMovement">No hay documentación de metadatos disponible.</param>
+    ''' <param name="status">No hay documentación de metadatos disponible.</param>
     Public Function SP_InsertPUC(ByVal idAccountLevel As Nullable(Of Integer), ByVal idAccountClass As Nullable(Of Integer), ByVal number As String, ByVal name As String, ByVal idParent As Nullable(Of Integer), ByVal handlesThirdParty As Nullable(Of Boolean), ByVal closeThirdParty As Nullable(Of Boolean), ByVal idThirdParty As Nullable(Of Integer), ByVal reconcileAccount As Nullable(Of Boolean), ByVal availability As Nullable(Of Byte), ByVal handlesCostCenter As Nullable(Of Boolean), ByVal retencionType As Nullable(Of Byte), ByVal allowsMovement As Nullable(Of Boolean), ByVal status As Nullable(Of Boolean)) As ObjectResult(Of Nullable(Of Decimal)) Implements IGlobalModelUnitOfWork.SP_InsertPUC
         Dim idAccountLevelParameter As ObjectParameter
         If (idAccountLevel.HasValue)
@@ -11653,10 +11673,10 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="journalVoucherXml">No Metadata Documentation available.</param>
-    ''' <param name="codeUser">No Metadata Documentation available.</param>
+    ''' <param name="journalVoucherXml">No hay documentación de metadatos disponible.</param>
+    ''' <param name="codeUser">No hay documentación de metadatos disponible.</param>
     Public Function SP_SaveJournalVoucher(ByVal journalVoucherXml As String, ByVal codeUser As String) As ObjectResult(Of SP_SaveJournalVoucher_Result) Implements IGlobalModelUnitOfWork.SP_SaveJournalVoucher
         Dim journalVoucherXmlParameter As ObjectParameter
         If (journalVoucherXml IsNot Nothing)
@@ -11677,13 +11697,13 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="id">No Metadata Documentation available.</param>
-    ''' <param name="document">No Metadata Documentation available.</param>
-    ''' <param name="user">No Metadata Documentation available.</param>
-    ''' <param name="containerNameCrystal">No Metadata Documentation available.</param>
-    ''' <param name="controlCost">No Metadata Documentation available.</param>
+    ''' <param name="id">No hay documentación de metadatos disponible.</param>
+    ''' <param name="document">No hay documentación de metadatos disponible.</param>
+    ''' <param name="user">No hay documentación de metadatos disponible.</param>
+    ''' <param name="containerNameCrystal">No hay documentación de metadatos disponible.</param>
+    ''' <param name="controlCost">No hay documentación de metadatos disponible.</param>
     Public Function SP_PhysicalInventory(ByVal id As Nullable(Of Integer), ByVal document As String, ByVal user As String, ByVal containerNameCrystal As String, ByVal controlCost As Nullable(Of Boolean)) As ObjectResult(Of SP_PhysicalInventory_Result) Implements IGlobalModelUnitOfWork.SP_PhysicalInventory
         Dim idParameter As ObjectParameter
         If (id.HasValue)
@@ -11725,11 +11745,11 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="collectionXML">No Metadata Documentation available.</param>
-    ''' <param name="collectionDetailForDeleteXml">No Metadata Documentation available.</param>
-    ''' <param name="codeUser">No Metadata Documentation available.</param>
+    ''' <param name="collectionXML">No hay documentación de metadatos disponible.</param>
+    ''' <param name="collectionDetailForDeleteXml">No hay documentación de metadatos disponible.</param>
+    ''' <param name="codeUser">No hay documentación de metadatos disponible.</param>
     Public Function SP_SaveCollection(ByVal collectionXML As String, ByVal collectionDetailForDeleteXml As String, ByVal codeUser As String) As ObjectResult(Of SP_SaveCollection_Result) Implements IGlobalModelUnitOfWork.SP_SaveCollection
         Dim collectionXMLParameter As ObjectParameter
         If (collectionXML IsNot Nothing)
@@ -11757,11 +11777,11 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="recognitionXML">No Metadata Documentation available.</param>
-    ''' <param name="recognitionDetailForDeleteXml">No Metadata Documentation available.</param>
-    ''' <param name="codeUser">No Metadata Documentation available.</param>
+    ''' <param name="recognitionXML">No hay documentación de metadatos disponible.</param>
+    ''' <param name="recognitionDetailForDeleteXml">No hay documentación de metadatos disponible.</param>
+    ''' <param name="codeUser">No hay documentación de metadatos disponible.</param>
     Public Function SP_SaveRecognition(ByVal recognitionXML As String, ByVal recognitionDetailForDeleteXml As String, ByVal codeUser As String) As ObjectResult(Of SP_SaveRecognition_Result) Implements IGlobalModelUnitOfWork.SP_SaveRecognition
         Dim recognitionXMLParameter As ObjectParameter
         If (recognitionXML IsNot Nothing)
@@ -11789,10 +11809,10 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="empresa">No Metadata Documentation available.</param>
-    ''' <param name="conceptType">No Metadata Documentation available.</param>
+    ''' <param name="empresa">No hay documentación de metadatos disponible.</param>
+    ''' <param name="conceptType">No hay documentación de metadatos disponible.</param>
     Public Function SP_AccountingConceptList(ByVal empresa As String, ByVal conceptType As Nullable(Of Integer)) As ObjectResult(Of SP_AccountingConceptList_Result) Implements IGlobalModelUnitOfWork.SP_AccountingConceptList
         Dim empresaParameter As ObjectParameter
         If (empresa IsNot Nothing)
@@ -11813,9 +11833,9 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="empresa">No Metadata Documentation available.</param>
+    ''' <param name="empresa">No hay documentación de metadatos disponible.</param>
     Public Function SP_AccountsList(ByVal empresa As String) As ObjectResult(Of SP_AccountsList_Result) Implements IGlobalModelUnitOfWork.SP_AccountsList
         Dim empresaParameter As ObjectParameter
         If (empresa IsNot Nothing)
@@ -11829,13 +11849,13 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="container">No Metadata Documentation available.</param>
-    ''' <param name="hISContainer">No Metadata Documentation available.</param>
-    ''' <param name="securityContainer">No Metadata Documentation available.</param>
-    ''' <param name="numerofactura">No Metadata Documentation available.</param>
-    ''' <param name="numeroConsecutivo">No Metadata Documentation available.</param>
+    ''' <param name="container">No hay documentación de metadatos disponible.</param>
+    ''' <param name="hISContainer">No hay documentación de metadatos disponible.</param>
+    ''' <param name="securityContainer">No hay documentación de metadatos disponible.</param>
+    ''' <param name="numerofactura">No hay documentación de metadatos disponible.</param>
+    ''' <param name="numeroConsecutivo">No hay documentación de metadatos disponible.</param>
     Public Function SP_invoiceDetailList(ByVal container As String, ByVal hISContainer As String, ByVal securityContainer As String, ByVal numerofactura As String, ByVal numeroConsecutivo As String) As ObjectResult(Of SP_invoiceDetailList_Result) Implements IGlobalModelUnitOfWork.SP_invoiceDetailList
         Dim containerParameter As ObjectParameter
         If (container IsNot Nothing)
@@ -11877,9 +11897,9 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="invoiceNumber">No Metadata Documentation available.</param>
+    ''' <param name="invoiceNumber">No hay documentación de metadatos disponible.</param>
     Public Function SP_InvoiceTraceabilityConciliation(ByVal invoiceNumber As String) As ObjectResult(Of SP_InvoiceTraceabilityConciliation_Result) Implements IGlobalModelUnitOfWork.SP_InvoiceTraceabilityConciliation
         Dim invoiceNumberParameter As ObjectParameter
         If (invoiceNumber IsNot Nothing)
@@ -11893,9 +11913,9 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="invoiceNumber">No Metadata Documentation available.</param>
+    ''' <param name="invoiceNumber">No hay documentación de metadatos disponible.</param>
     Public Function SP_InvoiceTraceabilityDevolution(ByVal invoiceNumber As String) As ObjectResult(Of SP_InvoiceTraceabilityDevolution_Result) Implements IGlobalModelUnitOfWork.SP_InvoiceTraceabilityDevolution
         Dim invoiceNumberParameter As ObjectParameter
         If (invoiceNumber IsNot Nothing)
@@ -11909,9 +11929,9 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="invoiceNumber">No Metadata Documentation available.</param>
+    ''' <param name="invoiceNumber">No hay documentación de metadatos disponible.</param>
     Public Function SP_InvoiceTraceabilityRadication(ByVal invoiceNumber As String) As ObjectResult(Of SP_InvoiceTraceabilityRadication_Result) Implements IGlobalModelUnitOfWork.SP_InvoiceTraceabilityRadication
         Dim invoiceNumberParameter As ObjectParameter
         If (invoiceNumber IsNot Nothing)
@@ -11925,9 +11945,9 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="invoiceNumber">No Metadata Documentation available.</param>
+    ''' <param name="invoiceNumber">No hay documentación de metadatos disponible.</param>
     Public Function SP_InvoiceTraceabilityResponsibles(ByVal invoiceNumber As String) As ObjectResult(Of SP_InvoiceTraceabilityResponsibles_Result) Implements IGlobalModelUnitOfWork.SP_InvoiceTraceabilityResponsibles
         Dim invoiceNumberParameter As ObjectParameter
         If (invoiceNumber IsNot Nothing)
@@ -11941,9 +11961,9 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="empresa">No Metadata Documentation available.</param>
+    ''' <param name="empresa">No hay documentación de metadatos disponible.</param>
     Public Function SP_TypeDocumentList(ByVal empresa As String) As ObjectResult(Of SP_TypeDocumentList_Result) Implements IGlobalModelUnitOfWork.SP_TypeDocumentList
         Dim empresaParameter As ObjectParameter
         If (empresa IsNot Nothing)
@@ -11957,15 +11977,15 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="container">No Metadata Documentation available.</param>
-    ''' <param name="numeroConsecutivo">No Metadata Documentation available.</param>
-    ''' <param name="ordenServicio">No Metadata Documentation available.</param>
-    ''' <param name="serviceCode">No Metadata Documentation available.</param>
-    ''' <param name="consecutiveOrder">No Metadata Documentation available.</param>
-    ''' <param name="serviceNumber">No Metadata Documentation available.</param>
-    ''' <param name="consecutivoInventory">No Metadata Documentation available.</param>
+    ''' <param name="container">No hay documentación de metadatos disponible.</param>
+    ''' <param name="numeroConsecutivo">No hay documentación de metadatos disponible.</param>
+    ''' <param name="ordenServicio">No hay documentación de metadatos disponible.</param>
+    ''' <param name="serviceCode">No hay documentación de metadatos disponible.</param>
+    ''' <param name="consecutiveOrder">No hay documentación de metadatos disponible.</param>
+    ''' <param name="serviceNumber">No hay documentación de metadatos disponible.</param>
+    ''' <param name="consecutivoInventory">No hay documentación de metadatos disponible.</param>
     Public Function SP_invoiceDetailListQX(ByVal container As String, ByVal numeroConsecutivo As String, ByVal ordenServicio As String, ByVal serviceCode As String, ByVal consecutiveOrder As String, ByVal serviceNumber As String, ByVal consecutivoInventory As String) As ObjectResult(Of SP_invoiceDetailListQX_Result) Implements IGlobalModelUnitOfWork.SP_invoiceDetailListQX
         Dim containerParameter As ObjectParameter
         If (container IsNot Nothing)
@@ -12021,9 +12041,9 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="empresa">No Metadata Documentation available.</param>
+    ''' <param name="empresa">No hay documentación de metadatos disponible.</param>
     Public Function SP_ValidateContainer(ByVal empresa As String) As ObjectResult(Of SP_ValidateContainer_Result) Implements IGlobalModelUnitOfWork.SP_ValidateContainer
         Dim empresaParameter As ObjectParameter
         If (empresa IsNot Nothing)
@@ -12037,9 +12057,9 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="codUser">No Metadata Documentation available.</param>
+    ''' <param name="codUser">No hay documentación de metadatos disponible.</param>
     Public Function SP_UnlockBlockRecord(ByVal codUser As String) As ObjectResult(Of SP_UnlockBlockRecord_Result) Implements IGlobalModelUnitOfWork.SP_UnlockBlockRecord
         Dim codUserParameter As ObjectParameter
         If (codUser IsNot Nothing)
@@ -12053,9 +12073,9 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="homologationAccountXml">No Metadata Documentation available.</param>
+    ''' <param name="homologationAccountXml">No hay documentación de metadatos disponible.</param>
     Public Function SP_SaveHomologationAccount(ByVal homologationAccountXml As String) As ObjectResult(Of SP_SaveHomologationAccount_Result) Implements IGlobalModelUnitOfWork.SP_SaveHomologationAccount
         Dim homologationAccountXmlParameter As ObjectParameter
         If (homologationAccountXml IsNot Nothing)
@@ -12069,16 +12089,16 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="operativeUnitId">No Metadata Documentation available.</param>
-    ''' <param name="revenueControlDetailId">No Metadata Documentation available.</param>
-    ''' <param name="reversalReasonId">No Metadata Documentation available.</param>
-    ''' <param name="reversalReasonDescription">No Metadata Documentation available.</param>
-    ''' <param name="codUser">No Metadata Documentation available.</param>
-    ''' <param name="containerNameCrystal">No Metadata Documentation available.</param>
-    ''' <param name="patientCode">No Metadata Documentation available.</param>
-    ''' <param name="companyType">No Metadata Documentation available.</param>
+    ''' <param name="operativeUnitId">No hay documentación de metadatos disponible.</param>
+    ''' <param name="revenueControlDetailId">No hay documentación de metadatos disponible.</param>
+    ''' <param name="reversalReasonId">No hay documentación de metadatos disponible.</param>
+    ''' <param name="reversalReasonDescription">No hay documentación de metadatos disponible.</param>
+    ''' <param name="codUser">No hay documentación de metadatos disponible.</param>
+    ''' <param name="containerNameCrystal">No hay documentación de metadatos disponible.</param>
+    ''' <param name="patientCode">No hay documentación de metadatos disponible.</param>
+    ''' <param name="companyType">No hay documentación de metadatos disponible.</param>
     Public Function SP_AnulateInvoice(ByVal operativeUnitId As Nullable(Of Integer), ByVal revenueControlDetailId As Nullable(Of Integer), ByVal reversalReasonId As Nullable(Of Integer), ByVal reversalReasonDescription As String, ByVal codUser As String, ByVal containerNameCrystal As String, ByVal patientCode As String, ByVal companyType As Nullable(Of Byte)) As ObjectResult(Of SP_AnulateInvoice_Result) Implements IGlobalModelUnitOfWork.SP_AnulateInvoice
         Dim operativeUnitIdParameter As ObjectParameter
         If (operativeUnitId.HasValue)
@@ -12141,12 +12161,12 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="revenueControlDetailId">No Metadata Documentation available.</param>
-    ''' <param name="operativeUnitId">No Metadata Documentation available.</param>
-    ''' <param name="reverse">No Metadata Documentation available.</param>
-    ''' <param name="invoiceId">No Metadata Documentation available.</param>
+    ''' <param name="revenueControlDetailId">No hay documentación de metadatos disponible.</param>
+    ''' <param name="operativeUnitId">No hay documentación de metadatos disponible.</param>
+    ''' <param name="reverse">No hay documentación de metadatos disponible.</param>
+    ''' <param name="invoiceId">No hay documentación de metadatos disponible.</param>
     Public Function SP_GenerateJournalVoucherDetails(ByVal revenueControlDetailId As Nullable(Of Integer), ByVal operativeUnitId As Nullable(Of Integer), ByVal reverse As Nullable(Of Boolean), ByVal invoiceId As Nullable(Of Integer)) As ObjectResult(Of SP_GenerateJournalVoucherDetails_Result) Implements IGlobalModelUnitOfWork.SP_GenerateJournalVoucherDetails
         Dim revenueControlDetailIdParameter As ObjectParameter
         If (revenueControlDetailId.HasValue)
@@ -12181,11 +12201,11 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="operatingUnitId">No Metadata Documentation available.</param>
-    ''' <param name="idRadicateInvoice">No Metadata Documentation available.</param>
-    ''' <param name="codeUser">No Metadata Documentation available.</param>
+    ''' <param name="operatingUnitId">No hay documentación de metadatos disponible.</param>
+    ''' <param name="idRadicateInvoice">No hay documentación de metadatos disponible.</param>
+    ''' <param name="codeUser">No hay documentación de metadatos disponible.</param>
     Public Function SP_GeneratePortfolioReclasification(ByVal operatingUnitId As Nullable(Of Integer), ByVal idRadicateInvoice As Nullable(Of Integer), ByVal codeUser As String) As ObjectResult(Of SP_GeneratePortfolioReclasification_Result) Implements IGlobalModelUnitOfWork.SP_GeneratePortfolioReclasification
         Dim operatingUnitIdParameter As ObjectParameter
         If (operatingUnitId.HasValue)
@@ -12213,10 +12233,10 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="journalVoucherXml">No Metadata Documentation available.</param>
-    ''' <param name="homologationLegalBookId">No Metadata Documentation available.</param>
+    ''' <param name="journalVoucherXml">No hay documentación de metadatos disponible.</param>
+    ''' <param name="homologationLegalBookId">No hay documentación de metadatos disponible.</param>
     Public Function SP_HomologationJournalVoucher(ByVal journalVoucherXml As String, ByVal homologationLegalBookId As Nullable(Of Integer)) As ObjectResult(Of SP_HomologationJournalVoucher_Result) Implements IGlobalModelUnitOfWork.SP_HomologationJournalVoucher
         Dim journalVoucherXmlParameter As ObjectParameter
         If (journalVoucherXml IsNot Nothing)
@@ -12237,13 +12257,13 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="container">No Metadata Documentation available.</param>
-    ''' <param name="hISContainer">No Metadata Documentation available.</param>
-    ''' <param name="securityContainer">No Metadata Documentation available.</param>
-    ''' <param name="numerofactura">No Metadata Documentation available.</param>
-    ''' <param name="numeroConsecutivo">No Metadata Documentation available.</param>
+    ''' <param name="container">No hay documentación de metadatos disponible.</param>
+    ''' <param name="hISContainer">No hay documentación de metadatos disponible.</param>
+    ''' <param name="securityContainer">No hay documentación de metadatos disponible.</param>
+    ''' <param name="numerofactura">No hay documentación de metadatos disponible.</param>
+    ''' <param name="numeroConsecutivo">No hay documentación de metadatos disponible.</param>
     Public Function SP_invoiceDetailList__FOX(ByVal container As String, ByVal hISContainer As String, ByVal securityContainer As String, ByVal numerofactura As String, ByVal numeroConsecutivo As String) As ObjectResult(Of SP_invoiceDetailList__FOX_Result) Implements IGlobalModelUnitOfWork.SP_invoiceDetailList__FOX
         Dim containerParameter As ObjectParameter
         If (container IsNot Nothing)
@@ -12285,15 +12305,15 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="container">No Metadata Documentation available.</param>
-    ''' <param name="numeroConsecutivo">No Metadata Documentation available.</param>
-    ''' <param name="ordenServicio">No Metadata Documentation available.</param>
-    ''' <param name="serviceCode">No Metadata Documentation available.</param>
-    ''' <param name="consecutiveOrder">No Metadata Documentation available.</param>
-    ''' <param name="serviceNumber">No Metadata Documentation available.</param>
-    ''' <param name="consecutivoInventory">No Metadata Documentation available.</param>
+    ''' <param name="container">No hay documentación de metadatos disponible.</param>
+    ''' <param name="numeroConsecutivo">No hay documentación de metadatos disponible.</param>
+    ''' <param name="ordenServicio">No hay documentación de metadatos disponible.</param>
+    ''' <param name="serviceCode">No hay documentación de metadatos disponible.</param>
+    ''' <param name="consecutiveOrder">No hay documentación de metadatos disponible.</param>
+    ''' <param name="serviceNumber">No hay documentación de metadatos disponible.</param>
+    ''' <param name="consecutivoInventory">No hay documentación de metadatos disponible.</param>
     Public Function SP_invoiceDetailListQX__FOX(ByVal container As String, ByVal numeroConsecutivo As String, ByVal ordenServicio As String, ByVal serviceCode As String, ByVal consecutiveOrder As String, ByVal serviceNumber As String, ByVal consecutivoInventory As String) As ObjectResult(Of SP_invoiceDetailListQX__FOX_Result) Implements IGlobalModelUnitOfWork.SP_invoiceDetailListQX__FOX
         Dim containerParameter As ObjectParameter
         If (container IsNot Nothing)
@@ -12349,11 +12369,11 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="containerDG">No Metadata Documentation available.</param>
-    ''' <param name="securityContainer">No Metadata Documentation available.</param>
-    ''' <param name="invoiceNumber">No Metadata Documentation available.</param>
+    ''' <param name="containerDG">No hay documentación de metadatos disponible.</param>
+    ''' <param name="securityContainer">No hay documentación de metadatos disponible.</param>
+    ''' <param name="invoiceNumber">No hay documentación de metadatos disponible.</param>
     Public Function SP_InvoiceTraceability(ByVal containerDG As String, ByVal securityContainer As String, ByVal invoiceNumber As String) As ObjectResult(Of SP_InvoiceTraceability_Result) Implements IGlobalModelUnitOfWork.SP_InvoiceTraceability
         Dim containerDGParameter As ObjectParameter
         If (containerDG IsNot Nothing)
@@ -12381,10 +12401,10 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="serviceOrderXml">No Metadata Documentation available.</param>
-    ''' <param name="user">No Metadata Documentation available.</param>
+    ''' <param name="serviceOrderXml">No hay documentación de metadatos disponible.</param>
+    ''' <param name="user">No hay documentación de metadatos disponible.</param>
     Public Function SP_GenerateServiceOrder(ByVal serviceOrderXml As String, ByVal user As String) As ObjectResult(Of SP_GenerateServiceOrder_Result) Implements IGlobalModelUnitOfWork.SP_GenerateServiceOrder
         Dim serviceOrderXmlParameter As ObjectParameter
         If (serviceOrderXml IsNot Nothing)
@@ -12405,11 +12425,11 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="devolutionXml">No Metadata Documentation available.</param>
-    ''' <param name="annulateXml">No Metadata Documentation available.</param>
-    ''' <param name="user">No Metadata Documentation available.</param>
+    ''' <param name="devolutionXml">No hay documentación de metadatos disponible.</param>
+    ''' <param name="annulateXml">No hay documentación de metadatos disponible.</param>
+    ''' <param name="user">No hay documentación de metadatos disponible.</param>
     Public Function SP_GeneratePharmaceuticalDevolution(ByVal devolutionXml As String, ByVal annulateXml As String, ByVal user As String) As ObjectResult(Of SP_GeneratePharmaceuticalDevolution_Result) Implements IGlobalModelUnitOfWork.SP_GeneratePharmaceuticalDevolution
         Dim devolutionXmlParameter As ObjectParameter
         If (devolutionXml IsNot Nothing)
@@ -12437,10 +12457,10 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="paymentsCXml">No Metadata Documentation available.</param>
-    ''' <param name="codeUser">No Metadata Documentation available.</param>
+    ''' <param name="paymentsCXml">No hay documentación de metadatos disponible.</param>
+    ''' <param name="codeUser">No hay documentación de metadatos disponible.</param>
     Public Function SP_GeneratePartialPayments(ByVal paymentsCXml As String, ByVal codeUser As String) As ObjectResult(Of SP_GeneratePartialPayments_Result) Implements IGlobalModelUnitOfWork.SP_GeneratePartialPayments
         Dim paymentsCXmlParameter As ObjectParameter
         If (paymentsCXml IsNot Nothing)
@@ -12461,10 +12481,10 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="medicalFeesLiquidationXml">No Metadata Documentation available.</param>
-    ''' <param name="codeUser">No Metadata Documentation available.</param>
+    ''' <param name="medicalFeesLiquidationXml">No hay documentación de metadatos disponible.</param>
+    ''' <param name="codeUser">No hay documentación de metadatos disponible.</param>
     Public Function SP_SaveMedicalFeesLiquidation(ByVal medicalFeesLiquidationXml As String, ByVal codeUser As String) As ObjectResult(Of SP_SaveMedicalFeesLiquidation_Result) Implements IGlobalModelUnitOfWork.SP_SaveMedicalFeesLiquidation
         Dim medicalFeesLiquidationXmlParameter As ObjectParameter
         If (medicalFeesLiquidationXml IsNot Nothing)
@@ -12485,10 +12505,10 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="medicalFeesLiquidationXml">No Metadata Documentation available.</param>
-    ''' <param name="codeUser">No Metadata Documentation available.</param>
+    ''' <param name="medicalFeesLiquidationXml">No hay documentación de metadatos disponible.</param>
+    ''' <param name="codeUser">No hay documentación de metadatos disponible.</param>
     Public Function SP_ConfirmMedicalFeesLiquidation(ByVal medicalFeesLiquidationXml As String, ByVal codeUser As String) As ObjectResult(Of SP_ConfirmMedicalFeesLiquidation_Result) Implements IGlobalModelUnitOfWork.SP_ConfirmMedicalFeesLiquidation
         Dim medicalFeesLiquidationXmlParameter As ObjectParameter
         If (medicalFeesLiquidationXml IsNot Nothing)
@@ -12509,10 +12529,10 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="medicalFeesLiquidationId">No Metadata Documentation available.</param>
-    ''' <param name="codeUser">No Metadata Documentation available.</param>
+    ''' <param name="medicalFeesLiquidationId">No hay documentación de metadatos disponible.</param>
+    ''' <param name="codeUser">No hay documentación de metadatos disponible.</param>
     Public Function SP_AnnularMedicalFeesLiquidation(ByVal medicalFeesLiquidationId As Nullable(Of Integer), ByVal codeUser As String) As ObjectResult(Of SP_AnnularMedicalFeesLiquidation_Result) Implements IGlobalModelUnitOfWork.SP_AnnularMedicalFeesLiquidation
         Dim medicalFeesLiquidationIdParameter As ObjectParameter
         If (medicalFeesLiquidationId.HasValue)
@@ -12533,9 +12553,9 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="xmlCriterias">No Metadata Documentation available.</param>
+    ''' <param name="xmlCriterias">No hay documentación de metadatos disponible.</param>
     Public Function SP_ReportBudgetExcutionExpense(ByVal xmlCriterias As String) As ObjectResult(Of SP_ReportBudgetExcutionExpense_Result) Implements IGlobalModelUnitOfWork.SP_ReportBudgetExcutionExpense
         Dim xmlCriteriasParameter As ObjectParameter
         If (xmlCriterias IsNot Nothing)
@@ -12549,9 +12569,9 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="xmlCriterias">No Metadata Documentation available.</param>
+    ''' <param name="xmlCriterias">No hay documentación de metadatos disponible.</param>
     Public Function SP_ReportBudgetExcutionIncome(ByVal xmlCriterias As String) As ObjectResult(Of SP_ReportBudgetExcutionIncome_Result) Implements IGlobalModelUnitOfWork.SP_ReportBudgetExcutionIncome
         Dim xmlCriteriasParameter As ObjectParameter
         If (xmlCriterias IsNot Nothing)
@@ -12565,10 +12585,10 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="validityId">No Metadata Documentation available.</param>
-    ''' <param name="budgetId">No Metadata Documentation available.</param>
+    ''' <param name="validityId">No hay documentación de metadatos disponible.</param>
+    ''' <param name="budgetId">No hay documentación de metadatos disponible.</param>
     Public Function SP_ReportBudgetExcutionByCategoryExpense(ByVal validityId As Nullable(Of Integer), ByVal budgetId As Nullable(Of Integer)) As ObjectResult(Of SP_ReportBudgetExcutionByCategoryExpense_Result) Implements IGlobalModelUnitOfWork.SP_ReportBudgetExcutionByCategoryExpense
         Dim validityIdParameter As ObjectParameter
         If (validityId.HasValue)
@@ -12589,16 +12609,16 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="container">No Metadata Documentation available.</param>
-    ''' <param name="nit">No Metadata Documentation available.</param>
-    ''' <param name="invoiceNumber">No Metadata Documentation available.</param>
-    ''' <param name="indigoCompany">No Metadata Documentation available.</param>
-    ''' <param name="hISContainer">No Metadata Documentation available.</param>
-    ''' <param name="stringSQl">No Metadata Documentation available.</param>
-    ''' <param name="topQuery">No Metadata Documentation available.</param>
-    ''' <param name="flagNotConfirmInvoice">No Metadata Documentation available.</param>
+    ''' <param name="container">No hay documentación de metadatos disponible.</param>
+    ''' <param name="nit">No hay documentación de metadatos disponible.</param>
+    ''' <param name="invoiceNumber">No hay documentación de metadatos disponible.</param>
+    ''' <param name="indigoCompany">No hay documentación de metadatos disponible.</param>
+    ''' <param name="hISContainer">No hay documentación de metadatos disponible.</param>
+    ''' <param name="stringSQl">No hay documentación de metadatos disponible.</param>
+    ''' <param name="topQuery">No hay documentación de metadatos disponible.</param>
+    ''' <param name="flagNotConfirmInvoice">No hay documentación de metadatos disponible.</param>
     Public Function SP_invoiceList(ByVal container As String, ByVal nit As String, ByVal invoiceNumber As String, ByVal indigoCompany As String, ByVal hISContainer As String, ByVal stringSQl As String, ByVal topQuery As String, ByVal flagNotConfirmInvoice As String) As ObjectResult(Of SP_invoiceList_Result) Implements IGlobalModelUnitOfWork.SP_invoiceList
         Dim containerParameter As ObjectParameter
         If (container IsNot Nothing)
@@ -12661,9 +12681,9 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="radicateId">No Metadata Documentation available.</param>
+    ''' <param name="radicateId">No hay documentación de metadatos disponible.</param>
     Public Function SP_ValidateRadicateDetailInvoiceCapitated(ByVal radicateId As Nullable(Of Integer)) As ObjectResult(Of Nullable(Of Integer)) Implements IGlobalModelUnitOfWork.SP_ValidateRadicateDetailInvoiceCapitated
         Dim radicateIdParameter As ObjectParameter
         If (radicateId.HasValue)
@@ -12677,11 +12697,11 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="admissionNumber">No Metadata Documentation available.</param>
-    ''' <param name="containerNameCrystal">No Metadata Documentation available.</param>
-    ''' <param name="codeUser">No Metadata Documentation available.</param>
+    ''' <param name="admissionNumber">No hay documentación de metadatos disponible.</param>
+    ''' <param name="containerNameCrystal">No hay documentación de metadatos disponible.</param>
+    ''' <param name="codeUser">No hay documentación de metadatos disponible.</param>
     Public Function SP_CloseAdmission(ByVal admissionNumber As String, ByVal containerNameCrystal As String, ByVal codeUser As String) As ObjectResult(Of SP_CloseAdmission_Result) Implements IGlobalModelUnitOfWork.SP_CloseAdmission
         Dim admissionNumberParameter As ObjectParameter
         If (admissionNumber IsNot Nothing)
@@ -12709,11 +12729,11 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="xmlObject">No Metadata Documentation available.</param>
-    ''' <param name="transferType">No Metadata Documentation available.</param>
-    ''' <param name="companyType">No Metadata Documentation available.</param>
+    ''' <param name="xmlObject">No hay documentación de metadatos disponible.</param>
+    ''' <param name="transferType">No hay documentación de metadatos disponible.</param>
+    ''' <param name="companyType">No hay documentación de metadatos disponible.</param>
     Public Function SP_CopyAndPasteTransfer(ByVal xmlObject As String, ByVal transferType As Nullable(Of Integer), ByVal companyType As Nullable(Of Integer)) As ObjectResult(Of SP_CopyAndPasteTransfer_Result) Implements IGlobalModelUnitOfWork.SP_CopyAndPasteTransfer
         Dim xmlObjectParameter As ObjectParameter
         If (xmlObject IsNot Nothing)
@@ -12741,14 +12761,14 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="kardex">No Metadata Documentation available.</param>
-    ''' <param name="entityId">No Metadata Documentation available.</param>
-    ''' <param name="entityCode">No Metadata Documentation available.</param>
-    ''' <param name="entityName">No Metadata Documentation available.</param>
-    ''' <param name="user">No Metadata Documentation available.</param>
-    ''' <param name="controlCost">No Metadata Documentation available.</param>
+    ''' <param name="kardex">No hay documentación de metadatos disponible.</param>
+    ''' <param name="entityId">No hay documentación de metadatos disponible.</param>
+    ''' <param name="entityCode">No hay documentación de metadatos disponible.</param>
+    ''' <param name="entityName">No hay documentación de metadatos disponible.</param>
+    ''' <param name="user">No hay documentación de metadatos disponible.</param>
+    ''' <param name="controlCost">No hay documentación de metadatos disponible.</param>
     Public Function SP_SavePhysicalInventoryKardex(ByVal kardex As String, ByVal entityId As Nullable(Of Integer), ByVal entityCode As String, ByVal entityName As String, ByVal user As String, ByVal controlCost As Nullable(Of Boolean)) As ObjectResult(Of SP_SavePhysicalInventoryKardex_Result) Implements IGlobalModelUnitOfWork.SP_SavePhysicalInventoryKardex
         Dim kardexParameter As ObjectParameter
         If (kardex IsNot Nothing)
@@ -12797,13 +12817,13 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="fixedAssetInitialBalanceItemPartsDetailBookXml">No Metadata Documentation available.</param>
-    ''' <param name="fixedAssetInitialBalanceItemPartsXml">No Metadata Documentation available.</param>
-    ''' <param name="fixedAssetInitialBalanceItemDetailBookXml">No Metadata Documentation available.</param>
-    ''' <param name="fixedAssetInitialBalanceItemXml">No Metadata Documentation available.</param>
-    ''' <param name="codeUser">No Metadata Documentation available.</param>
+    ''' <param name="fixedAssetInitialBalanceItemPartsDetailBookXml">No hay documentación de metadatos disponible.</param>
+    ''' <param name="fixedAssetInitialBalanceItemPartsXml">No hay documentación de metadatos disponible.</param>
+    ''' <param name="fixedAssetInitialBalanceItemDetailBookXml">No hay documentación de metadatos disponible.</param>
+    ''' <param name="fixedAssetInitialBalanceItemXml">No hay documentación de metadatos disponible.</param>
+    ''' <param name="codeUser">No hay documentación de metadatos disponible.</param>
     Public Function SP_SaveFixedAssetInitialBalance(ByVal fixedAssetInitialBalanceItemPartsDetailBookXml As String, ByVal fixedAssetInitialBalanceItemPartsXml As String, ByVal fixedAssetInitialBalanceItemDetailBookXml As String, ByVal fixedAssetInitialBalanceItemXml As String, ByVal codeUser As String) As ObjectResult(Of SP_SaveFixedAssetInitialBalance_Result) Implements IGlobalModelUnitOfWork.SP_SaveFixedAssetInitialBalance
         Dim fixedAssetInitialBalanceItemPartsDetailBookXmlParameter As ObjectParameter
         If (fixedAssetInitialBalanceItemPartsDetailBookXml IsNot Nothing)
@@ -12845,15 +12865,15 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="fixedAssetEntryXml">No Metadata Documentation available.</param>
-    ''' <param name="listDeleteFixedAssetEntryItemDetailPartBookXml">No Metadata Documentation available.</param>
-    ''' <param name="listDeleteFixedAssetEntryItemDetailPartXml">No Metadata Documentation available.</param>
-    ''' <param name="listDeleteFixedAssetEntryItemDetailBookXml">No Metadata Documentation available.</param>
-    ''' <param name="listDeleteFixedAssetEntryItemDetailXml">No Metadata Documentation available.</param>
-    ''' <param name="listDeleteFixedAssetEntryItemXml">No Metadata Documentation available.</param>
-    ''' <param name="codeUser">No Metadata Documentation available.</param>
+    ''' <param name="fixedAssetEntryXml">No hay documentación de metadatos disponible.</param>
+    ''' <param name="listDeleteFixedAssetEntryItemDetailPartBookXml">No hay documentación de metadatos disponible.</param>
+    ''' <param name="listDeleteFixedAssetEntryItemDetailPartXml">No hay documentación de metadatos disponible.</param>
+    ''' <param name="listDeleteFixedAssetEntryItemDetailBookXml">No hay documentación de metadatos disponible.</param>
+    ''' <param name="listDeleteFixedAssetEntryItemDetailXml">No hay documentación de metadatos disponible.</param>
+    ''' <param name="listDeleteFixedAssetEntryItemXml">No hay documentación de metadatos disponible.</param>
+    ''' <param name="codeUser">No hay documentación de metadatos disponible.</param>
     Public Function SP_SaveFixedAssetEntry(ByVal fixedAssetEntryXml As String, ByVal listDeleteFixedAssetEntryItemDetailPartBookXml As String, ByVal listDeleteFixedAssetEntryItemDetailPartXml As String, ByVal listDeleteFixedAssetEntryItemDetailBookXml As String, ByVal listDeleteFixedAssetEntryItemDetailXml As String, ByVal listDeleteFixedAssetEntryItemXml As String, ByVal codeUser As String) As ObjectResult(Of SP_SaveFixedAssetEntry_Result) Implements IGlobalModelUnitOfWork.SP_SaveFixedAssetEntry
         Dim fixedAssetEntryXmlParameter As ObjectParameter
         If (fixedAssetEntryXml IsNot Nothing)
@@ -12909,11 +12929,11 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="entityBanckAccountId">No Metadata Documentation available.</param>
-    ''' <param name="operatingUnitId">No Metadata Documentation available.</param>
-    ''' <param name="userCode">No Metadata Documentation available.</param>
+    ''' <param name="entityBanckAccountId">No hay documentación de metadatos disponible.</param>
+    ''' <param name="operatingUnitId">No hay documentación de metadatos disponible.</param>
+    ''' <param name="userCode">No hay documentación de metadatos disponible.</param>
     Public Function SP_GetCheckNumber(ByVal entityBanckAccountId As Nullable(Of Integer), ByVal operatingUnitId As Nullable(Of Integer), ByVal userCode As String) As ObjectResult(Of SP_GetCheckNumber_Result) Implements IGlobalModelUnitOfWork.SP_GetCheckNumber
         Dim entityBanckAccountIdParameter As ObjectParameter
         If (entityBanckAccountId.HasValue)
@@ -12941,12 +12961,12 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="operatingUnitId">No Metadata Documentation available.</param>
-    ''' <param name="entityBankAccountId">No Metadata Documentation available.</param>
-    ''' <param name="checkNumber">No Metadata Documentation available.</param>
-    ''' <param name="userCode">No Metadata Documentation available.</param>
+    ''' <param name="operatingUnitId">No hay documentación de metadatos disponible.</param>
+    ''' <param name="entityBankAccountId">No hay documentación de metadatos disponible.</param>
+    ''' <param name="checkNumber">No hay documentación de metadatos disponible.</param>
+    ''' <param name="userCode">No hay documentación de metadatos disponible.</param>
     Public Function SP_SaveCheckNumber(ByVal operatingUnitId As Nullable(Of Integer), ByVal entityBankAccountId As Nullable(Of Integer), ByVal checkNumber As Nullable(Of Long), ByVal userCode As String) As ObjectResult(Of SP_SaveCheckNumber_Result) Implements IGlobalModelUnitOfWork.SP_SaveCheckNumber
         Dim operatingUnitIdParameter As ObjectParameter
         If (operatingUnitId.HasValue)
@@ -12981,12 +13001,12 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="fixedAssetTransactionXml">No Metadata Documentation available.</param>
-    ''' <param name="listDeleteFixedAssetTransactionDetailBookXml">No Metadata Documentation available.</param>
-    ''' <param name="listDeleteFixedAssetTransactionDetailXml">No Metadata Documentation available.</param>
-    ''' <param name="codeUser">No Metadata Documentation available.</param>
+    ''' <param name="fixedAssetTransactionXml">No hay documentación de metadatos disponible.</param>
+    ''' <param name="listDeleteFixedAssetTransactionDetailBookXml">No hay documentación de metadatos disponible.</param>
+    ''' <param name="listDeleteFixedAssetTransactionDetailXml">No hay documentación de metadatos disponible.</param>
+    ''' <param name="codeUser">No hay documentación de metadatos disponible.</param>
     Public Function SP_SaveFixedAssetTransaction(ByVal fixedAssetTransactionXml As String, ByVal listDeleteFixedAssetTransactionDetailBookXml As String, ByVal listDeleteFixedAssetTransactionDetailXml As String, ByVal codeUser As String) As ObjectResult(Of SP_SaveFixedAssetTransaction_Result) Implements IGlobalModelUnitOfWork.SP_SaveFixedAssetTransaction
         Dim fixedAssetTransactionXmlParameter As ObjectParameter
         If (fixedAssetTransactionXml IsNot Nothing)
@@ -13021,10 +13041,10 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="fixedAssetActiveOutputXml">No Metadata Documentation available.</param>
-    ''' <param name="codeUser">No Metadata Documentation available.</param>
+    ''' <param name="fixedAssetActiveOutputXml">No hay documentación de metadatos disponible.</param>
+    ''' <param name="codeUser">No hay documentación de metadatos disponible.</param>
     Public Function SP_ConfirmFixedAssetActiveOutput(ByVal fixedAssetActiveOutputXml As String, ByVal codeUser As String) As ObjectResult(Of SP_ConfirmFixedAssetActiveOutput_Result) Implements IGlobalModelUnitOfWork.SP_ConfirmFixedAssetActiveOutput
         Dim fixedAssetActiveOutputXmlParameter As ObjectParameter
         If (fixedAssetActiveOutputXml IsNot Nothing)
@@ -13045,13 +13065,13 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="depreciateMonth">No Metadata Documentation available.</param>
-    ''' <param name="depreciateYear">No Metadata Documentation available.</param>
-    ''' <param name="codeUser">No Metadata Documentation available.</param>
-    ''' <param name="operatingUnitId">No Metadata Documentation available.</param>
-    ''' <param name="modeConfirm">No Metadata Documentation available.</param>
+    ''' <param name="depreciateMonth">No hay documentación de metadatos disponible.</param>
+    ''' <param name="depreciateYear">No hay documentación de metadatos disponible.</param>
+    ''' <param name="codeUser">No hay documentación de metadatos disponible.</param>
+    ''' <param name="operatingUnitId">No hay documentación de metadatos disponible.</param>
+    ''' <param name="modeConfirm">No hay documentación de metadatos disponible.</param>
     Public Function SP_SaveDepreciation(ByVal depreciateMonth As Nullable(Of Integer), ByVal depreciateYear As Nullable(Of Integer), ByVal codeUser As String, ByVal operatingUnitId As Nullable(Of Integer), ByVal modeConfirm As Nullable(Of Boolean)) As ObjectResult(Of SP_SaveDepreciation_Result) Implements IGlobalModelUnitOfWork.SP_SaveDepreciation
         Dim depreciateMonthParameter As ObjectParameter
         If (depreciateMonth.HasValue)
@@ -13093,11 +13113,11 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="cashReceiptsXml">No Metadata Documentation available.</param>
-    ''' <param name="user">No Metadata Documentation available.</param>
-    ''' <param name="companyType">No Metadata Documentation available.</param>
+    ''' <param name="cashReceiptsXml">No hay documentación de metadatos disponible.</param>
+    ''' <param name="user">No hay documentación de metadatos disponible.</param>
+    ''' <param name="companyType">No hay documentación de metadatos disponible.</param>
     Public Function SP_SaveCashReceipts(ByVal cashReceiptsXml As String, ByVal user As String, ByVal companyType As Nullable(Of Integer)) As ObjectResult(Of SP_SaveCashReceipts_Result) Implements IGlobalModelUnitOfWork.SP_SaveCashReceipts
         Dim cashReceiptsXmlParameter As ObjectParameter
         If (cashReceiptsXml IsNot Nothing)
@@ -13125,11 +13145,11 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="portfolioNoteXml">No Metadata Documentation available.</param>
-    ''' <param name="user">No Metadata Documentation available.</param>
-    ''' <param name="companyType">No Metadata Documentation available.</param>
+    ''' <param name="portfolioNoteXml">No hay documentación de metadatos disponible.</param>
+    ''' <param name="user">No hay documentación de metadatos disponible.</param>
+    ''' <param name="companyType">No hay documentación de metadatos disponible.</param>
     Public Function SP_SavePortfolioNote(ByVal portfolioNoteXml As String, ByVal user As String, ByVal companyType As Nullable(Of Byte)) As ObjectResult(Of SP_SavePortfolioNote_Result) Implements IGlobalModelUnitOfWork.SP_SavePortfolioNote
         Dim portfolioNoteXmlParameter As ObjectParameter
         If (portfolioNoteXml IsNot Nothing)
@@ -13157,12 +13177,12 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="year">No Metadata Documentation available.</param>
-    ''' <param name="month">No Metadata Documentation available.</param>
-    ''' <param name="operatingUnitId">No Metadata Documentation available.</param>
-    ''' <param name="codeUser">No Metadata Documentation available.</param>
+    ''' <param name="year">No hay documentación de metadatos disponible.</param>
+    ''' <param name="month">No hay documentación de metadatos disponible.</param>
+    ''' <param name="operatingUnitId">No hay documentación de metadatos disponible.</param>
+    ''' <param name="codeUser">No hay documentación de metadatos disponible.</param>
     Public Function SP_ConfirmMasiveCostDistributionManpower(ByVal year As Nullable(Of Integer), ByVal month As Nullable(Of Integer), ByVal operatingUnitId As Nullable(Of Integer), ByVal codeUser As String) As ObjectResult(Of SP_ConfirmMasiveCostDistributionManpower_Result) Implements IGlobalModelUnitOfWork.SP_ConfirmMasiveCostDistributionManpower
         Dim yearParameter As ObjectParameter
         If (year.HasValue)
@@ -13197,13 +13217,13 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="listIdsXml">No Metadata Documentation available.</param>
-    ''' <param name="year">No Metadata Documentation available.</param>
-    ''' <param name="month">No Metadata Documentation available.</param>
-    ''' <param name="operatingUnitId">No Metadata Documentation available.</param>
-    ''' <param name="codeUser">No Metadata Documentation available.</param>
+    ''' <param name="listIdsXml">No hay documentación de metadatos disponible.</param>
+    ''' <param name="year">No hay documentación de metadatos disponible.</param>
+    ''' <param name="month">No hay documentación de metadatos disponible.</param>
+    ''' <param name="operatingUnitId">No hay documentación de metadatos disponible.</param>
+    ''' <param name="codeUser">No hay documentación de metadatos disponible.</param>
     Public Function SP_ConfirmMasiveInteropCostDistributionManpower(ByVal listIdsXml As String, ByVal year As Nullable(Of Integer), ByVal month As Nullable(Of Integer), ByVal operatingUnitId As Nullable(Of Integer), ByVal codeUser As String) As ObjectResult(Of SP_ConfirmMasiveInteropCostDistributionManpower_Result) Implements IGlobalModelUnitOfWork.SP_ConfirmMasiveInteropCostDistributionManpower
         Dim listIdsXmlParameter As ObjectParameter
         If (listIdsXml IsNot Nothing)
@@ -13245,10 +13265,10 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="hardCollectionXml">No Metadata Documentation available.</param>
-    ''' <param name="user">No Metadata Documentation available.</param>
+    ''' <param name="hardCollectionXml">No hay documentación de metadatos disponible.</param>
+    ''' <param name="user">No hay documentación de metadatos disponible.</param>
     Public Function SP_HardCollection(ByVal hardCollectionXml As String, ByVal user As String) As ObjectResult(Of SP_HardCollection_Result) Implements IGlobalModelUnitOfWork.SP_HardCollection
         Dim hardCollectionXmlParameter As ObjectParameter
         If (hardCollectionXml IsNot Nothing)
@@ -13269,9 +13289,9 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="invoicesXml">No Metadata Documentation available.</param>
+    ''' <param name="invoicesXml">No hay documentación de metadatos disponible.</param>
     Public Function SP_SetInvoicesHardCollection(ByVal invoicesXml As String) As ObjectResult(Of SP_SetInvoicesHardCollection_Result) Implements IGlobalModelUnitOfWork.SP_SetInvoicesHardCollection
         Dim invoicesXmlParameter As ObjectParameter
         If (invoicesXml IsNot Nothing)
@@ -13285,10 +13305,10 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="xmlObject">No Metadata Documentation available.</param>
-    ''' <param name="serviceManual">No Metadata Documentation available.</param>
+    ''' <param name="xmlObject">No hay documentación de metadatos disponible.</param>
+    ''' <param name="serviceManual">No hay documentación de metadatos disponible.</param>
     Public Function SP_CopyAndPasteIPSService(ByVal xmlObject As String, ByVal serviceManual As Nullable(Of Integer)) As ObjectResult(Of SP_CopyAndPasteIPSService_Result) Implements IGlobalModelUnitOfWork.SP_CopyAndPasteIPSService
         Dim xmlObjectParameter As ObjectParameter
         If (xmlObject IsNot Nothing)
@@ -13309,11 +13329,11 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="xmlObject">No Metadata Documentation available.</param>
-    ''' <param name="serviceManual">No Metadata Documentation available.</param>
-    ''' <param name="gridOption">No Metadata Documentation available.</param>
+    ''' <param name="xmlObject">No hay documentación de metadatos disponible.</param>
+    ''' <param name="serviceManual">No hay documentación de metadatos disponible.</param>
+    ''' <param name="gridOption">No hay documentación de metadatos disponible.</param>
     Public Function SP_CopyAndPasteRateManual(ByVal xmlObject As String, ByVal serviceManual As Nullable(Of Integer), ByVal gridOption As Nullable(Of Integer)) As ObjectResult(Of SP_CopyAndPasteRateManual_Result) Implements IGlobalModelUnitOfWork.SP_CopyAndPasteRateManual
         Dim xmlObjectParameter As ObjectParameter
         If (xmlObject IsNot Nothing)
@@ -13341,9 +13361,9 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="xmlObject">No Metadata Documentation available.</param>
+    ''' <param name="xmlObject">No hay documentación de metadatos disponible.</param>
     Public Function SP_CopyAndPasteCategories(ByVal xmlObject As String) As ObjectResult(Of SP_CopyAndPasteCategories_Result) Implements IGlobalModelUnitOfWork.SP_CopyAndPasteCategories
         Dim xmlObjectParameter As ObjectParameter
         If (xmlObject IsNot Nothing)
@@ -13357,11 +13377,11 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="status">No Metadata Documentation available.</param>
-    ''' <param name="month">No Metadata Documentation available.</param>
-    ''' <param name="year">No Metadata Documentation available.</param>
+    ''' <param name="status">No hay documentación de metadatos disponible.</param>
+    ''' <param name="month">No hay documentación de metadatos disponible.</param>
+    ''' <param name="year">No hay documentación de metadatos disponible.</param>
     Public Function SP_GetJournalVouchersByStatus(ByVal status As Nullable(Of Integer), ByVal month As Nullable(Of Integer), ByVal year As Nullable(Of Integer)) As ObjectResult(Of SP_GetJournalVouchersByStatus_Result) Implements IGlobalModelUnitOfWork.SP_GetJournalVouchersByStatus
         Dim statusParameter As ObjectParameter
         If (status.HasValue)
@@ -13389,10 +13409,10 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="period">No Metadata Documentation available.</param>
-    ''' <param name="year">No Metadata Documentation available.</param>
+    ''' <param name="period">No hay documentación de metadatos disponible.</param>
+    ''' <param name="year">No hay documentación de metadatos disponible.</param>
     Public Function SP_ValidateBalanceCloseMonth(ByVal period As String, ByVal year As Nullable(Of Integer)) As ObjectResult(Of SP_ValidateBalanceCloseMonth_Result) Implements IGlobalModelUnitOfWork.SP_ValidateBalanceCloseMonth
         Dim periodParameter As ObjectParameter
         If (period IsNot Nothing)
@@ -13413,11 +13433,11 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="cashReceiptId">No Metadata Documentation available.</param>
-    ''' <param name="user">No Metadata Documentation available.</param>
-    ''' <param name="treasuryNoteCode">No Metadata Documentation available.</param>
+    ''' <param name="cashReceiptId">No hay documentación de metadatos disponible.</param>
+    ''' <param name="user">No hay documentación de metadatos disponible.</param>
+    ''' <param name="treasuryNoteCode">No hay documentación de metadatos disponible.</param>
     Public Function SP_ReverseCashReceipt(ByVal cashReceiptId As Nullable(Of Integer), ByVal user As String, ByVal treasuryNoteCode As String) As ObjectResult(Of SP_ReverseCashReceipt_Result) Implements IGlobalModelUnitOfWork.SP_ReverseCashReceipt
         Dim cashReceiptIdParameter As ObjectParameter
         If (cashReceiptId.HasValue)
@@ -13445,10 +13465,10 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="fixedAssetDevolutionXml">No Metadata Documentation available.</param>
-    ''' <param name="codeUser">No Metadata Documentation available.</param>
+    ''' <param name="fixedAssetDevolutionXml">No hay documentación de metadatos disponible.</param>
+    ''' <param name="codeUser">No hay documentación de metadatos disponible.</param>
     Public Function SP_SaveFixedAssetDevolution(ByVal fixedAssetDevolutionXml As String, ByVal codeUser As String) As ObjectResult(Of SP_SaveFixedAssetDevolution_Result) Implements IGlobalModelUnitOfWork.SP_SaveFixedAssetDevolution
         Dim fixedAssetDevolutionXmlParameter As ObjectParameter
         If (fixedAssetDevolutionXml IsNot Nothing)
@@ -13469,9 +13489,9 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="data">No Metadata Documentation available.</param>
+    ''' <param name="data">No hay documentación de metadatos disponible.</param>
     Public Function SP_ValidateLoadPlaneCollection(ByVal data As String) As ObjectResult(Of SP_ValidateLoadPlaneCollection_Result) Implements IGlobalModelUnitOfWork.SP_ValidateLoadPlaneCollection
         Dim dataParameter As ObjectParameter
         If (data IsNot Nothing)
@@ -13485,10 +13505,10 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="data">No Metadata Documentation available.</param>
-    ''' <param name="user">No Metadata Documentation available.</param>
+    ''' <param name="data">No hay documentación de metadatos disponible.</param>
+    ''' <param name="user">No hay documentación de metadatos disponible.</param>
     Public Function SP_SaveLoadPlaneCollection(ByVal data As String, ByVal user As String) As ObjectResult(Of SP_SaveLoadPlaneCollection_Result) Implements IGlobalModelUnitOfWork.SP_SaveLoadPlaneCollection
         Dim dataParameter As ObjectParameter
         If (data IsNot Nothing)
@@ -13509,11 +13529,11 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="year">No Metadata Documentation available.</param>
-    ''' <param name="ids">No Metadata Documentation available.</param>
-    ''' <param name="codeUser">No Metadata Documentation available.</param>
+    ''' <param name="year">No hay documentación de metadatos disponible.</param>
+    ''' <param name="ids">No hay documentación de metadatos disponible.</param>
+    ''' <param name="codeUser">No hay documentación de metadatos disponible.</param>
     Public Function SP_ConfirmTaxesLiquidation(ByVal year As Nullable(Of Integer), ByVal ids As String, ByVal codeUser As String) As ObjectResult(Of SP_ConfirmTaxesLiquidation_Result) Implements IGlobalModelUnitOfWork.SP_ConfirmTaxesLiquidation
         Dim yearParameter As ObjectParameter
         If (year.HasValue)
@@ -13541,16 +13561,16 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="year">No Metadata Documentation available.</param>
-    ''' <param name="cadastralIdentification">No Metadata Documentation available.</param>
-    ''' <param name="cadastralIdentification2">No Metadata Documentation available.</param>
-    ''' <param name="address">No Metadata Documentation available.</param>
-    ''' <param name="address2">No Metadata Documentation available.</param>
-    ''' <param name="ownerId">No Metadata Documentation available.</param>
-    ''' <param name="propertyType">No Metadata Documentation available.</param>
-    ''' <param name="codeUser">No Metadata Documentation available.</param>
+    ''' <param name="year">No hay documentación de metadatos disponible.</param>
+    ''' <param name="cadastralIdentification">No hay documentación de metadatos disponible.</param>
+    ''' <param name="cadastralIdentification2">No hay documentación de metadatos disponible.</param>
+    ''' <param name="address">No hay documentación de metadatos disponible.</param>
+    ''' <param name="address2">No hay documentación de metadatos disponible.</param>
+    ''' <param name="ownerId">No hay documentación de metadatos disponible.</param>
+    ''' <param name="propertyType">No hay documentación de metadatos disponible.</param>
+    ''' <param name="codeUser">No hay documentación de metadatos disponible.</param>
     Public Function SP_SaveTaxesLiquidation(ByVal year As Nullable(Of Integer), ByVal cadastralIdentification As String, ByVal cadastralIdentification2 As String, ByVal address As String, ByVal address2 As String, ByVal ownerId As Nullable(Of Integer), ByVal propertyType As Nullable(Of Integer), ByVal codeUser As String) As ObjectResult(Of SP_SaveTaxesLiquidation_Result) Implements IGlobalModelUnitOfWork.SP_SaveTaxesLiquidation
         Dim yearParameter As ObjectParameter
         If (year.HasValue)
@@ -13613,10 +13633,10 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="idLowtaxesLiquidation">No Metadata Documentation available.</param>
-    ''' <param name="codeUser">No Metadata Documentation available.</param>
+    ''' <param name="idLowtaxesLiquidation">No hay documentación de metadatos disponible.</param>
+    ''' <param name="codeUser">No hay documentación de metadatos disponible.</param>
     Public Function SP_ConfirmLowTaxesLiquidation(ByVal idLowtaxesLiquidation As Nullable(Of Integer), ByVal codeUser As String) As ObjectResult(Of SP_ConfirmLowTaxesLiquidation_Result) Implements IGlobalModelUnitOfWork.SP_ConfirmLowTaxesLiquidation
         Dim idLowtaxesLiquidationParameter As ObjectParameter
         If (idLowtaxesLiquidation.HasValue)
@@ -13637,10 +13657,10 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="data">No Metadata Documentation available.</param>
-    ''' <param name="year">No Metadata Documentation available.</param>
+    ''' <param name="data">No hay documentación de metadatos disponible.</param>
+    ''' <param name="year">No hay documentación de metadatos disponible.</param>
     Public Function SP_ValidateTaxBase(ByVal data As String, ByVal year As Nullable(Of Integer)) As ObjectResult(Of SP_ValidateTaxBase_Result) Implements IGlobalModelUnitOfWork.SP_ValidateTaxBase
         Dim dataParameter As ObjectParameter
         If (data IsNot Nothing)
@@ -13661,12 +13681,12 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="initialMonth">No Metadata Documentation available.</param>
-    ''' <param name="initialYear">No Metadata Documentation available.</param>
-    ''' <param name="lastMonth">No Metadata Documentation available.</param>
-    ''' <param name="lastYear">No Metadata Documentation available.</param>
+    ''' <param name="initialMonth">No hay documentación de metadatos disponible.</param>
+    ''' <param name="initialYear">No hay documentación de metadatos disponible.</param>
+    ''' <param name="lastMonth">No hay documentación de metadatos disponible.</param>
+    ''' <param name="lastYear">No hay documentación de metadatos disponible.</param>
     Public Function SP_ReportGeneralProfitabilityTotalCost(ByVal initialMonth As Nullable(Of Integer), ByVal initialYear As Nullable(Of Integer), ByVal lastMonth As Nullable(Of Integer), ByVal lastYear As Nullable(Of Integer)) As ObjectResult(Of SP_ReportGeneralProfitabilityTotalCost_Result) Implements IGlobalModelUnitOfWork.SP_ReportGeneralProfitabilityTotalCost
         Dim initialMonthParameter As ObjectParameter
         If (initialMonth.HasValue)
@@ -13701,12 +13721,12 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="initialMonth">No Metadata Documentation available.</param>
-    ''' <param name="initialYear">No Metadata Documentation available.</param>
-    ''' <param name="lastMonth">No Metadata Documentation available.</param>
-    ''' <param name="lastYear">No Metadata Documentation available.</param>
+    ''' <param name="initialMonth">No hay documentación de metadatos disponible.</param>
+    ''' <param name="initialYear">No hay documentación de metadatos disponible.</param>
+    ''' <param name="lastMonth">No hay documentación de metadatos disponible.</param>
+    ''' <param name="lastYear">No hay documentación de metadatos disponible.</param>
     Public Function SP_ReportGeneralProfitabilityTotalCostB(ByVal initialMonth As Nullable(Of Integer), ByVal initialYear As Nullable(Of Integer), ByVal lastMonth As Nullable(Of Integer), ByVal lastYear As Nullable(Of Integer)) As ObjectResult(Of SP_ReportGeneralProfitabilityTotalCostB_Result) Implements IGlobalModelUnitOfWork.SP_ReportGeneralProfitabilityTotalCostB
         Dim initialMonthParameter As ObjectParameter
         If (initialMonth.HasValue)
@@ -13741,16 +13761,16 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="initialMonth">No Metadata Documentation available.</param>
-    ''' <param name="initialYear">No Metadata Documentation available.</param>
-    ''' <param name="lastMonth">No Metadata Documentation available.</param>
-    ''' <param name="lastYear">No Metadata Documentation available.</param>
-    ''' <param name="centerType">No Metadata Documentation available.</param>
-    ''' <param name="codePCenterIni">No Metadata Documentation available.</param>
-    ''' <param name="codePCenterFin">No Metadata Documentation available.</param>
-    ''' <param name="status">No Metadata Documentation available.</param>
+    ''' <param name="initialMonth">No hay documentación de metadatos disponible.</param>
+    ''' <param name="initialYear">No hay documentación de metadatos disponible.</param>
+    ''' <param name="lastMonth">No hay documentación de metadatos disponible.</param>
+    ''' <param name="lastYear">No hay documentación de metadatos disponible.</param>
+    ''' <param name="centerType">No hay documentación de metadatos disponible.</param>
+    ''' <param name="codePCenterIni">No hay documentación de metadatos disponible.</param>
+    ''' <param name="codePCenterFin">No hay documentación de metadatos disponible.</param>
+    ''' <param name="status">No hay documentación de metadatos disponible.</param>
     Public Function SP_ReportGeneralProfitabilityTotalCostC(ByVal initialMonth As Nullable(Of Integer), ByVal initialYear As Nullable(Of Integer), ByVal lastMonth As Nullable(Of Integer), ByVal lastYear As Nullable(Of Integer), ByVal centerType As Nullable(Of Integer), ByVal codePCenterIni As String, ByVal codePCenterFin As String, ByVal status As Nullable(Of Integer)) As ObjectResult(Of SP_ReportGeneralProfitabilityTotalCostC_Result) Implements IGlobalModelUnitOfWork.SP_ReportGeneralProfitabilityTotalCostC
         Dim initialMonthParameter As ObjectParameter
         If (initialMonth.HasValue)
@@ -13813,10 +13833,10 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="voucherTransactionXml">No Metadata Documentation available.</param>
-    ''' <param name="user">No Metadata Documentation available.</param>
+    ''' <param name="voucherTransactionXml">No hay documentación de metadatos disponible.</param>
+    ''' <param name="user">No hay documentación de metadatos disponible.</param>
     Public Function SP_SaveVoucherTransaction(ByVal voucherTransactionXml As String, ByVal user As String) As ObjectResult(Of SP_SaveVoucherTransaction_Result) Implements IGlobalModelUnitOfWork.SP_SaveVoucherTransaction
         Dim voucherTransactionXmlParameter As ObjectParameter
         If (voucherTransactionXml IsNot Nothing)
@@ -13837,13 +13857,13 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="pContainerNameDGEmpres">No Metadata Documentation available.</param>
-    ''' <param name="pDistributionBaseId">No Metadata Documentation available.</param>
-    ''' <param name="pTypeCalc">No Metadata Documentation available.</param>
-    ''' <param name="pYear">No Metadata Documentation available.</param>
-    ''' <param name="pMonth">No Metadata Documentation available.</param>
+    ''' <param name="pContainerNameDGEmpres">No hay documentación de metadatos disponible.</param>
+    ''' <param name="pDistributionBaseId">No hay documentación de metadatos disponible.</param>
+    ''' <param name="pTypeCalc">No hay documentación de metadatos disponible.</param>
+    ''' <param name="pYear">No hay documentación de metadatos disponible.</param>
+    ''' <param name="pMonth">No hay documentación de metadatos disponible.</param>
     Public Function SP_CalculatePercentageByProductionCenter(ByVal pContainerNameDGEmpres As String, ByVal pDistributionBaseId As Nullable(Of Integer), ByVal pTypeCalc As Nullable(Of Integer), ByVal pYear As Nullable(Of Integer), ByVal pMonth As Nullable(Of Integer)) As ObjectResult(Of SP_CalculatePercentageByProductionCenter_Result) Implements IGlobalModelUnitOfWork.SP_CalculatePercentageByProductionCenter
         Dim pContainerNameDGEmpresParameter As ObjectParameter
         If (pContainerNameDGEmpres IsNot Nothing)
@@ -13885,11 +13905,11 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="portfolioProvisionXml">No Metadata Documentation available.</param>
-    ''' <param name="portfolioProvisionDetailForDeleteXml">No Metadata Documentation available.</param>
-    ''' <param name="codeUser">No Metadata Documentation available.</param>
+    ''' <param name="portfolioProvisionXml">No hay documentación de metadatos disponible.</param>
+    ''' <param name="portfolioProvisionDetailForDeleteXml">No hay documentación de metadatos disponible.</param>
+    ''' <param name="codeUser">No hay documentación de metadatos disponible.</param>
     Public Function SP_SaveProvisionAndDeterioration(ByVal portfolioProvisionXml As String, ByVal portfolioProvisionDetailForDeleteXml As String, ByVal codeUser As String) As ObjectResult(Of SP_SaveProvisionAndDeterioration_Result) Implements IGlobalModelUnitOfWork.SP_SaveProvisionAndDeterioration
         Dim portfolioProvisionXmlParameter As ObjectParameter
         If (portfolioProvisionXml IsNot Nothing)
@@ -13917,10 +13937,10 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="dateStart">No Metadata Documentation available.</param>
-    ''' <param name="dateEnd">No Metadata Documentation available.</param>
+    ''' <param name="dateStart">No hay documentación de metadatos disponible.</param>
+    ''' <param name="dateEnd">No hay documentación de metadatos disponible.</param>
     Public Function SP_ReportAccountingSummaryA(ByVal dateStart As Nullable(Of Date), ByVal dateEnd As Nullable(Of Date)) As ObjectResult(Of SP_ReportAccountingSummaryA_Result) Implements IGlobalModelUnitOfWork.SP_ReportAccountingSummaryA
         Dim dateStartParameter As ObjectParameter
         If (dateStart.HasValue)
@@ -13941,10 +13961,10 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="dateStart">No Metadata Documentation available.</param>
-    ''' <param name="dateEnd">No Metadata Documentation available.</param>
+    ''' <param name="dateStart">No hay documentación de metadatos disponible.</param>
+    ''' <param name="dateEnd">No hay documentación de metadatos disponible.</param>
     Public Function SP_ReportAccountingSummaryB(ByVal dateStart As Nullable(Of Date), ByVal dateEnd As Nullable(Of Date)) As ObjectResult(Of SP_ReportAccountingSummaryB_Result) Implements IGlobalModelUnitOfWork.SP_ReportAccountingSummaryB
         Dim dateStartParameter As ObjectParameter
         If (dateStart.HasValue)
@@ -13965,16 +13985,16 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="initialMonth">No Metadata Documentation available.</param>
-    ''' <param name="initialYear">No Metadata Documentation available.</param>
-    ''' <param name="lastMonth">No Metadata Documentation available.</param>
-    ''' <param name="lastYear">No Metadata Documentation available.</param>
-    ''' <param name="centerType">No Metadata Documentation available.</param>
-    ''' <param name="codePCenterIni">No Metadata Documentation available.</param>
-    ''' <param name="codePCenterFin">No Metadata Documentation available.</param>
-    ''' <param name="status">No Metadata Documentation available.</param>
+    ''' <param name="initialMonth">No hay documentación de metadatos disponible.</param>
+    ''' <param name="initialYear">No hay documentación de metadatos disponible.</param>
+    ''' <param name="lastMonth">No hay documentación de metadatos disponible.</param>
+    ''' <param name="lastYear">No hay documentación de metadatos disponible.</param>
+    ''' <param name="centerType">No hay documentación de metadatos disponible.</param>
+    ''' <param name="codePCenterIni">No hay documentación de metadatos disponible.</param>
+    ''' <param name="codePCenterFin">No hay documentación de metadatos disponible.</param>
+    ''' <param name="status">No hay documentación de metadatos disponible.</param>
     Public Function SP_ReportGeneralProfitabilityTotalCostCx(ByVal initialMonth As Nullable(Of Integer), ByVal initialYear As Nullable(Of Integer), ByVal lastMonth As Nullable(Of Integer), ByVal lastYear As Nullable(Of Integer), ByVal centerType As Nullable(Of Integer), ByVal codePCenterIni As String, ByVal codePCenterFin As String, ByVal status As Nullable(Of Integer)) As ObjectResult(Of SP_ReportGeneralProfitabilityTotalCostCx_Result) Implements IGlobalModelUnitOfWork.SP_ReportGeneralProfitabilityTotalCostCx
         Dim initialMonthParameter As ObjectParameter
         If (initialMonth.HasValue)
@@ -14037,10 +14057,10 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="schedulePaymentXml">No Metadata Documentation available.</param>
-    ''' <param name="user">No Metadata Documentation available.</param>
+    ''' <param name="schedulePaymentXml">No hay documentación de metadatos disponible.</param>
+    ''' <param name="user">No hay documentación de metadatos disponible.</param>
     Public Function SP_SaveSchedulePayment(ByVal schedulePaymentXml As String, ByVal user As String) As ObjectResult(Of SP_SaveSchedulePayment_Result) Implements IGlobalModelUnitOfWork.SP_SaveSchedulePayment
         Dim schedulePaymentXmlParameter As ObjectParameter
         If (schedulePaymentXml IsNot Nothing)
@@ -14061,11 +14081,11 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="xmlObject">No Metadata Documentation available.</param>
-    ''' <param name="crossingType">No Metadata Documentation available.</param>
-    ''' <param name="thirdPartyId">No Metadata Documentation available.</param>
+    ''' <param name="xmlObject">No hay documentación de metadatos disponible.</param>
+    ''' <param name="crossingType">No hay documentación de metadatos disponible.</param>
+    ''' <param name="thirdPartyId">No hay documentación de metadatos disponible.</param>
     Public Function SP_SaveMasiveCxCCrossingAccount(ByVal xmlObject As String, ByVal crossingType As Nullable(Of Integer), ByVal thirdPartyId As Nullable(Of Integer)) As ObjectResult(Of SP_SaveMasiveCxCCrossingAccount_Result) Implements IGlobalModelUnitOfWork.SP_SaveMasiveCxCCrossingAccount
         Dim xmlObjectParameter As ObjectParameter
         If (xmlObject IsNot Nothing)
@@ -14093,15 +14113,15 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="initialMonth">No Metadata Documentation available.</param>
-    ''' <param name="endMonth">No Metadata Documentation available.</param>
-    ''' <param name="year">No Metadata Documentation available.</param>
-    ''' <param name="container">No Metadata Documentation available.</param>
-    ''' <param name="codePCenterIni">No Metadata Documentation available.</param>
-    ''' <param name="codePCenterFin">No Metadata Documentation available.</param>
-    ''' <param name="structureOfCostId">No Metadata Documentation available.</param>
+    ''' <param name="initialMonth">No hay documentación de metadatos disponible.</param>
+    ''' <param name="endMonth">No hay documentación de metadatos disponible.</param>
+    ''' <param name="year">No hay documentación de metadatos disponible.</param>
+    ''' <param name="container">No hay documentación de metadatos disponible.</param>
+    ''' <param name="codePCenterIni">No hay documentación de metadatos disponible.</param>
+    ''' <param name="codePCenterFin">No hay documentación de metadatos disponible.</param>
+    ''' <param name="structureOfCostId">No hay documentación de metadatos disponible.</param>
     Public Function SP_ReportOperatingResultsByOrganizationalStructure(ByVal initialMonth As Nullable(Of Integer), ByVal endMonth As Nullable(Of Integer), ByVal year As Nullable(Of Integer), ByVal container As String, ByVal codePCenterIni As String, ByVal codePCenterFin As String, ByVal structureOfCostId As Nullable(Of Integer)) As ObjectResult(Of SP_ReportOperatingResultsByOrganizationalStructure_Result) Implements IGlobalModelUnitOfWork.SP_ReportOperatingResultsByOrganizationalStructure
         Dim initialMonthParameter As ObjectParameter
         If (initialMonth.HasValue)
@@ -14157,15 +14177,15 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="initialMonth">No Metadata Documentation available.</param>
-    ''' <param name="endMonth">No Metadata Documentation available.</param>
-    ''' <param name="year">No Metadata Documentation available.</param>
-    ''' <param name="container">No Metadata Documentation available.</param>
-    ''' <param name="codePCenterIni">No Metadata Documentation available.</param>
-    ''' <param name="codePCenterFin">No Metadata Documentation available.</param>
-    ''' <param name="structureOfCostId">No Metadata Documentation available.</param>
+    ''' <param name="initialMonth">No hay documentación de metadatos disponible.</param>
+    ''' <param name="endMonth">No hay documentación de metadatos disponible.</param>
+    ''' <param name="year">No hay documentación de metadatos disponible.</param>
+    ''' <param name="container">No hay documentación de metadatos disponible.</param>
+    ''' <param name="codePCenterIni">No hay documentación de metadatos disponible.</param>
+    ''' <param name="codePCenterFin">No hay documentación de metadatos disponible.</param>
+    ''' <param name="structureOfCostId">No hay documentación de metadatos disponible.</param>
     Public Function SP_ReportOperatingResultsByOrganizationalStatisticalGraphics(ByVal initialMonth As Nullable(Of Integer), ByVal endMonth As Nullable(Of Integer), ByVal year As Nullable(Of Integer), ByVal container As String, ByVal codePCenterIni As String, ByVal codePCenterFin As String, ByVal structureOfCostId As Nullable(Of Integer)) As ObjectResult(Of SP_ReportOperatingResultsByOrganizationalStatisticalGraphics_Result) Implements IGlobalModelUnitOfWork.SP_ReportOperatingResultsByOrganizationalStatisticalGraphics
         Dim initialMonthParameter As ObjectParameter
         If (initialMonth.HasValue)
@@ -14221,11 +14241,11 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="container">No Metadata Documentation available.</param>
-    ''' <param name="year">No Metadata Documentation available.</param>
-    ''' <param name="month">No Metadata Documentation available.</param>
+    ''' <param name="container">No hay documentación de metadatos disponible.</param>
+    ''' <param name="year">No hay documentación de metadatos disponible.</param>
+    ''' <param name="month">No hay documentación de metadatos disponible.</param>
     Public Function SP_ExportExcelDistributionFixedAsset(ByVal container As String, ByVal year As Nullable(Of Integer), ByVal month As Nullable(Of Integer)) As ObjectResult(Of SP_ExportExcelDistributionFixedAsset_Result) Implements IGlobalModelUnitOfWork.SP_ExportExcelDistributionFixedAsset
         Dim containerParameter As ObjectParameter
         If (container IsNot Nothing)
@@ -14253,12 +14273,12 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="container">No Metadata Documentation available.</param>
-    ''' <param name="year">No Metadata Documentation available.</param>
-    ''' <param name="month">No Metadata Documentation available.</param>
-    ''' <param name="user">No Metadata Documentation available.</param>
+    ''' <param name="container">No hay documentación de metadatos disponible.</param>
+    ''' <param name="year">No hay documentación de metadatos disponible.</param>
+    ''' <param name="month">No hay documentación de metadatos disponible.</param>
+    ''' <param name="user">No hay documentación de metadatos disponible.</param>
     Public Function SP_ConfirmMasiveDistributionFixedAsset(ByVal container As String, ByVal year As Nullable(Of Integer), ByVal month As Nullable(Of Integer), ByVal user As String) As ObjectResult(Of SP_ConfirmMasiveDistributionFixedAsset_Result) Implements IGlobalModelUnitOfWork.SP_ConfirmMasiveDistributionFixedAsset
         Dim containerParameter As ObjectParameter
         If (container IsNot Nothing)
@@ -14293,10 +14313,10 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="xmlObject">No Metadata Documentation available.</param>
-    ''' <param name="distributionSecondaryId">No Metadata Documentation available.</param>
+    ''' <param name="xmlObject">No hay documentación de metadatos disponible.</param>
+    ''' <param name="distributionSecondaryId">No hay documentación de metadatos disponible.</param>
     Public Function SP_CopyPasteSecondaryDistribution(ByVal xmlObject As String, ByVal distributionSecondaryId As Nullable(Of Integer)) As ObjectResult(Of SP_CopyPasteSecondaryDistribution_Result) Implements IGlobalModelUnitOfWork.SP_CopyPasteSecondaryDistribution
         Dim xmlObjectParameter As ObjectParameter
         If (xmlObject IsNot Nothing)
@@ -14317,14 +14337,14 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="dateStart">No Metadata Documentation available.</param>
-    ''' <param name="dateEnd">No Metadata Documentation available.</param>
-    ''' <param name="initialCodeProduction">No Metadata Documentation available.</param>
-    ''' <param name="endCodeProduction">No Metadata Documentation available.</param>
-    ''' <param name="container">No Metadata Documentation available.</param>
-    ''' <param name="detailType">No Metadata Documentation available.</param>
+    ''' <param name="dateStart">No hay documentación de metadatos disponible.</param>
+    ''' <param name="dateEnd">No hay documentación de metadatos disponible.</param>
+    ''' <param name="initialCodeProduction">No hay documentación de metadatos disponible.</param>
+    ''' <param name="endCodeProduction">No hay documentación de metadatos disponible.</param>
+    ''' <param name="container">No hay documentación de metadatos disponible.</param>
+    ''' <param name="detailType">No hay documentación de metadatos disponible.</param>
     Public Function SP_ReportResultProductionCostsExpensesDetail(ByVal dateStart As Nullable(Of Date), ByVal dateEnd As Nullable(Of Date), ByVal initialCodeProduction As String, ByVal endCodeProduction As String, ByVal container As String, ByVal detailType As Nullable(Of Integer)) As ObjectResult(Of SP_ReportResultProductionCostsExpensesDetail_Result) Implements IGlobalModelUnitOfWork.SP_ReportResultProductionCostsExpensesDetail
         Dim dateStartParameter As ObjectParameter
         If (dateStart.HasValue)
@@ -14373,13 +14393,13 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="pContainerNameDGEmpres">No Metadata Documentation available.</param>
-    ''' <param name="pDistributionBaseId">No Metadata Documentation available.</param>
-    ''' <param name="pTypeCalc">No Metadata Documentation available.</param>
-    ''' <param name="pYear">No Metadata Documentation available.</param>
-    ''' <param name="pMonth">No Metadata Documentation available.</param>
+    ''' <param name="pContainerNameDGEmpres">No hay documentación de metadatos disponible.</param>
+    ''' <param name="pDistributionBaseId">No hay documentación de metadatos disponible.</param>
+    ''' <param name="pTypeCalc">No hay documentación de metadatos disponible.</param>
+    ''' <param name="pYear">No hay documentación de metadatos disponible.</param>
+    ''' <param name="pMonth">No hay documentación de metadatos disponible.</param>
     Public Function SP_CalculatePercentageByCostProductionCenter(ByVal pContainerNameDGEmpres As String, ByVal pDistributionBaseId As Nullable(Of Integer), ByVal pTypeCalc As Nullable(Of Integer), ByVal pYear As Nullable(Of Integer), ByVal pMonth As Nullable(Of Integer)) As ObjectResult(Of SP_CalculatePercentageByCostProductionCenter_Result) Implements IGlobalModelUnitOfWork.SP_CalculatePercentageByCostProductionCenter
         Dim pContainerNameDGEmpresParameter As ObjectParameter
         If (pContainerNameDGEmpres IsNot Nothing)
@@ -14421,15 +14441,15 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="initialMonth">No Metadata Documentation available.</param>
-    ''' <param name="endMonth">No Metadata Documentation available.</param>
-    ''' <param name="year">No Metadata Documentation available.</param>
-    ''' <param name="container">No Metadata Documentation available.</param>
-    ''' <param name="codePCenterIni">No Metadata Documentation available.</param>
-    ''' <param name="codePCenterFin">No Metadata Documentation available.</param>
-    ''' <param name="structureOfCostId">No Metadata Documentation available.</param>
+    ''' <param name="initialMonth">No hay documentación de metadatos disponible.</param>
+    ''' <param name="endMonth">No hay documentación de metadatos disponible.</param>
+    ''' <param name="year">No hay documentación de metadatos disponible.</param>
+    ''' <param name="container">No hay documentación de metadatos disponible.</param>
+    ''' <param name="codePCenterIni">No hay documentación de metadatos disponible.</param>
+    ''' <param name="codePCenterFin">No hay documentación de metadatos disponible.</param>
+    ''' <param name="structureOfCostId">No hay documentación de metadatos disponible.</param>
     Public Function SP_ReportOperatingResultGrouped(ByVal initialMonth As Nullable(Of Integer), ByVal endMonth As Nullable(Of Integer), ByVal year As Nullable(Of Integer), ByVal container As String, ByVal codePCenterIni As String, ByVal codePCenterFin As String, ByVal structureOfCostId As Nullable(Of Integer)) As ObjectResult(Of SP_ReportOperatingResultGrouped_Result) Implements IGlobalModelUnitOfWork.SP_ReportOperatingResultGrouped
         Dim initialMonthParameter As ObjectParameter
         If (initialMonth.HasValue)
@@ -14485,15 +14505,15 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="initialMonth">No Metadata Documentation available.</param>
-    ''' <param name="endMonth">No Metadata Documentation available.</param>
-    ''' <param name="year">No Metadata Documentation available.</param>
-    ''' <param name="container">No Metadata Documentation available.</param>
-    ''' <param name="codePCenterIni">No Metadata Documentation available.</param>
-    ''' <param name="codePCenterFin">No Metadata Documentation available.</param>
-    ''' <param name="structureOfCostId">No Metadata Documentation available.</param>
+    ''' <param name="initialMonth">No hay documentación de metadatos disponible.</param>
+    ''' <param name="endMonth">No hay documentación de metadatos disponible.</param>
+    ''' <param name="year">No hay documentación de metadatos disponible.</param>
+    ''' <param name="container">No hay documentación de metadatos disponible.</param>
+    ''' <param name="codePCenterIni">No hay documentación de metadatos disponible.</param>
+    ''' <param name="codePCenterFin">No hay documentación de metadatos disponible.</param>
+    ''' <param name="structureOfCostId">No hay documentación de metadatos disponible.</param>
     Public Function SP_ReportOperatingResultsByOrganizationalStructureGrouped(ByVal initialMonth As Nullable(Of Integer), ByVal endMonth As Nullable(Of Integer), ByVal year As Nullable(Of Integer), ByVal container As String, ByVal codePCenterIni As String, ByVal codePCenterFin As String, ByVal structureOfCostId As Nullable(Of Integer)) As ObjectResult(Of SP_ReportOperatingResultsByOrganizationalStructureGrouped_Result) Implements IGlobalModelUnitOfWork.SP_ReportOperatingResultsByOrganizationalStructureGrouped
         Dim initialMonthParameter As ObjectParameter
         If (initialMonth.HasValue)
@@ -14549,14 +14569,14 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="distributionType">No Metadata Documentation available.</param>
-    ''' <param name="containerNameDGEmpres">No Metadata Documentation available.</param>
-    ''' <param name="containPayroll">No Metadata Documentation available.</param>
-    ''' <param name="onlySimulate">No Metadata Documentation available.</param>
-    ''' <param name="dataXml">No Metadata Documentation available.</param>
-    ''' <param name="userCode">No Metadata Documentation available.</param>
+    ''' <param name="distributionType">No hay documentación de metadatos disponible.</param>
+    ''' <param name="containerNameDGEmpres">No hay documentación de metadatos disponible.</param>
+    ''' <param name="containPayroll">No hay documentación de metadatos disponible.</param>
+    ''' <param name="onlySimulate">No hay documentación de metadatos disponible.</param>
+    ''' <param name="dataXml">No hay documentación de metadatos disponible.</param>
+    ''' <param name="userCode">No hay documentación de metadatos disponible.</param>
     Public Function SP_EstimateCost(ByVal distributionType As Nullable(Of Byte), ByVal containerNameDGEmpres As String, ByVal containPayroll As Nullable(Of Boolean), ByVal onlySimulate As Nullable(Of Boolean), ByVal dataXml As String, ByVal userCode As String) As ObjectResult(Of SP_EstimateCost_Result) Implements IGlobalModelUnitOfWork.SP_EstimateCost
         Dim distributionTypeParameter As ObjectParameter
         If (distributionType.HasValue)
@@ -14605,16 +14625,16 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="fechaInicial">No Metadata Documentation available.</param>
-    ''' <param name="fechaFinal">No Metadata Documentation available.</param>
-    ''' <param name="productionCenterIdLogistic">No Metadata Documentation available.</param>
-    ''' <param name="productionCenterIdIni">No Metadata Documentation available.</param>
-    ''' <param name="productionCenterIdFin">No Metadata Documentation available.</param>
-    ''' <param name="inventoryMeasurementUnitIdIni">No Metadata Documentation available.</param>
-    ''' <param name="inventoryMeasurementUnitIdFin">No Metadata Documentation available.</param>
-    ''' <param name="organizationalStructureLevel">No Metadata Documentation available.</param>
+    ''' <param name="fechaInicial">No hay documentación de metadatos disponible.</param>
+    ''' <param name="fechaFinal">No hay documentación de metadatos disponible.</param>
+    ''' <param name="productionCenterIdLogistic">No hay documentación de metadatos disponible.</param>
+    ''' <param name="productionCenterIdIni">No hay documentación de metadatos disponible.</param>
+    ''' <param name="productionCenterIdFin">No hay documentación de metadatos disponible.</param>
+    ''' <param name="inventoryMeasurementUnitIdIni">No hay documentación de metadatos disponible.</param>
+    ''' <param name="inventoryMeasurementUnitIdFin">No hay documentación de metadatos disponible.</param>
+    ''' <param name="organizationalStructureLevel">No hay documentación de metadatos disponible.</param>
     Public Function SP_ReportConsolidatedCCLogistic(ByVal fechaInicial As Nullable(Of Date), ByVal fechaFinal As Nullable(Of Date), ByVal productionCenterIdLogistic As Nullable(Of Integer), ByVal productionCenterIdIni As String, ByVal productionCenterIdFin As String, ByVal inventoryMeasurementUnitIdIni As Nullable(Of Integer), ByVal inventoryMeasurementUnitIdFin As Nullable(Of Integer), ByVal organizationalStructureLevel As Nullable(Of Integer)) As ObjectResult(Of SP_ReportConsolidatedCCLogistic_Result) Implements IGlobalModelUnitOfWork.SP_ReportConsolidatedCCLogistic
         Dim fechaInicialParameter As ObjectParameter
         If (fechaInicial.HasValue)
@@ -14677,9 +14697,9 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="objectXml">No Metadata Documentation available.</param>
+    ''' <param name="objectXml">No hay documentación de metadatos disponible.</param>
     Public Function SP_UpdateFieldImportCost(ByVal objectXml As String) As ObjectResult(Of SP_UpdateFieldImportCost_Result) Implements IGlobalModelUnitOfWork.SP_UpdateFieldImportCost
         Dim objectXmlParameter As ObjectParameter
         If (objectXml IsNot Nothing)
@@ -14693,10 +14713,10 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="xmlObject">No Metadata Documentation available.</param>
-    ''' <param name="distributionSecondaryId">No Metadata Documentation available.</param>
+    ''' <param name="xmlObject">No hay documentación de metadatos disponible.</param>
+    ''' <param name="distributionSecondaryId">No hay documentación de metadatos disponible.</param>
     Public Function SP_CopyPasteCostSecondaryDistribution(ByVal xmlObject As String, ByVal distributionSecondaryId As Nullable(Of Integer)) As ObjectResult(Of SP_CopyPasteCostSecondaryDistribution_Result) Implements IGlobalModelUnitOfWork.SP_CopyPasteCostSecondaryDistribution
         Dim xmlObjectParameter As ObjectParameter
         If (xmlObject IsNot Nothing)
@@ -14717,10 +14737,10 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="xmlObject">No Metadata Documentation available.</param>
-    ''' <param name="intermediateDistributionId">No Metadata Documentation available.</param>
+    ''' <param name="xmlObject">No hay documentación de metadatos disponible.</param>
+    ''' <param name="intermediateDistributionId">No hay documentación de metadatos disponible.</param>
     Public Function SP_CopyAndPasteCostIntermediateDistribution(ByVal xmlObject As String, ByVal intermediateDistributionId As Nullable(Of Integer)) As ObjectResult(Of SP_CopyAndPasteCostIntermediateDistribution_Result) Implements IGlobalModelUnitOfWork.SP_CopyAndPasteCostIntermediateDistribution
         Dim xmlObjectParameter As ObjectParameter
         If (xmlObject IsNot Nothing)
@@ -14741,15 +14761,15 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="fechaInicial">No Metadata Documentation available.</param>
-    ''' <param name="fechaFinal">No Metadata Documentation available.</param>
-    ''' <param name="productionCenterIdLogistic">No Metadata Documentation available.</param>
-    ''' <param name="productionCenterIdIni">No Metadata Documentation available.</param>
-    ''' <param name="productionCenterIdFin">No Metadata Documentation available.</param>
-    ''' <param name="inventoryMeasurementUnitIdIni">No Metadata Documentation available.</param>
-    ''' <param name="inventoryMeasurementUnitIdFin">No Metadata Documentation available.</param>
+    ''' <param name="fechaInicial">No hay documentación de metadatos disponible.</param>
+    ''' <param name="fechaFinal">No hay documentación de metadatos disponible.</param>
+    ''' <param name="productionCenterIdLogistic">No hay documentación de metadatos disponible.</param>
+    ''' <param name="productionCenterIdIni">No hay documentación de metadatos disponible.</param>
+    ''' <param name="productionCenterIdFin">No hay documentación de metadatos disponible.</param>
+    ''' <param name="inventoryMeasurementUnitIdIni">No hay documentación de metadatos disponible.</param>
+    ''' <param name="inventoryMeasurementUnitIdFin">No hay documentación de metadatos disponible.</param>
     Public Function SP_ReportConsolidatedCCLogisticB(ByVal fechaInicial As Nullable(Of Date), ByVal fechaFinal As Nullable(Of Date), ByVal productionCenterIdLogistic As Nullable(Of Integer), ByVal productionCenterIdIni As Nullable(Of Integer), ByVal productionCenterIdFin As Nullable(Of Integer), ByVal inventoryMeasurementUnitIdIni As Nullable(Of Integer), ByVal inventoryMeasurementUnitIdFin As Nullable(Of Integer)) As ObjectResult(Of SP_ReportConsolidatedCCLogisticB_Result) Implements IGlobalModelUnitOfWork.SP_ReportConsolidatedCCLogisticB
         Dim fechaInicialParameter As ObjectParameter
         If (fechaInicial.HasValue)
@@ -14805,12 +14825,12 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="year">No Metadata Documentation available.</param>
-    ''' <param name="month">No Metadata Documentation available.</param>
-    ''' <param name="operatingUnitId">No Metadata Documentation available.</param>
-    ''' <param name="codeUser">No Metadata Documentation available.</param>
+    ''' <param name="year">No hay documentación de metadatos disponible.</param>
+    ''' <param name="month">No hay documentación de metadatos disponible.</param>
+    ''' <param name="operatingUnitId">No hay documentación de metadatos disponible.</param>
+    ''' <param name="codeUser">No hay documentación de metadatos disponible.</param>
     Public Function SP_ConfirmMasiveCostDistributionFixedAsset(ByVal year As Nullable(Of Integer), ByVal month As Nullable(Of Integer), ByVal operatingUnitId As Nullable(Of Integer), ByVal codeUser As String) As ObjectResult(Of SP_ConfirmMasiveCostDistributionFixedAsset_Result) Implements IGlobalModelUnitOfWork.SP_ConfirmMasiveCostDistributionFixedAsset
         Dim yearParameter As ObjectParameter
         If (year.HasValue)
@@ -14845,10 +14865,10 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="year">No Metadata Documentation available.</param>
-    ''' <param name="month">No Metadata Documentation available.</param>
+    ''' <param name="year">No hay documentación de metadatos disponible.</param>
+    ''' <param name="month">No hay documentación de metadatos disponible.</param>
     Public Function SP_ExportExcelCostDistributionFixedAsset(ByVal year As Nullable(Of Integer), ByVal month As Nullable(Of Integer)) As ObjectResult(Of SP_ExportExcelCostDistributionFixedAsset_Result) Implements IGlobalModelUnitOfWork.SP_ExportExcelCostDistributionFixedAsset
         Dim yearParameter As ObjectParameter
         If (year.HasValue)
@@ -14869,9 +14889,9 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="fixedAssetInitialBalanceId">No Metadata Documentation available.</param>
+    ''' <param name="fixedAssetInitialBalanceId">No hay documentación de metadatos disponible.</param>
     Public Function SP_ConfirmFixedAssetInitialBalance(ByVal fixedAssetInitialBalanceId As Nullable(Of Integer)) As ObjectResult(Of SP_ConfirmFixedAssetInitialBalance_Result) Implements IGlobalModelUnitOfWork.SP_ConfirmFixedAssetInitialBalance
         Dim fixedAssetInitialBalanceIdParameter As ObjectParameter
         If (fixedAssetInitialBalanceId.HasValue)
@@ -14885,16 +14905,16 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="fechaInicial">No Metadata Documentation available.</param>
-    ''' <param name="fechaFinal">No Metadata Documentation available.</param>
-    ''' <param name="productionCenterIdLogistic">No Metadata Documentation available.</param>
-    ''' <param name="productionCenterIdIni">No Metadata Documentation available.</param>
-    ''' <param name="productionCenterIdFin">No Metadata Documentation available.</param>
-    ''' <param name="inventoryMeasurementUnitIdIni">No Metadata Documentation available.</param>
-    ''' <param name="inventoryMeasurementUnitIdFin">No Metadata Documentation available.</param>
-    ''' <param name="organizationalStructureLevel">No Metadata Documentation available.</param>
+    ''' <param name="fechaInicial">No hay documentación de metadatos disponible.</param>
+    ''' <param name="fechaFinal">No hay documentación de metadatos disponible.</param>
+    ''' <param name="productionCenterIdLogistic">No hay documentación de metadatos disponible.</param>
+    ''' <param name="productionCenterIdIni">No hay documentación de metadatos disponible.</param>
+    ''' <param name="productionCenterIdFin">No hay documentación de metadatos disponible.</param>
+    ''' <param name="inventoryMeasurementUnitIdIni">No hay documentación de metadatos disponible.</param>
+    ''' <param name="inventoryMeasurementUnitIdFin">No hay documentación de metadatos disponible.</param>
+    ''' <param name="organizationalStructureLevel">No hay documentación de metadatos disponible.</param>
     Public Function SP_ReportConsolidatedCCLogisticA(ByVal fechaInicial As Nullable(Of Date), ByVal fechaFinal As Nullable(Of Date), ByVal productionCenterIdLogistic As Nullable(Of Integer), ByVal productionCenterIdIni As String, ByVal productionCenterIdFin As String, ByVal inventoryMeasurementUnitIdIni As Nullable(Of Integer), ByVal inventoryMeasurementUnitIdFin As Nullable(Of Integer), ByVal organizationalStructureLevel As Nullable(Of Integer)) As ObjectResult(Of SP_ReportConsolidatedCCLogisticA_Result) Implements IGlobalModelUnitOfWork.SP_ReportConsolidatedCCLogisticA
         Dim fechaInicialParameter As ObjectParameter
         If (fechaInicial.HasValue)
@@ -14957,16 +14977,16 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="initialMonth">No Metadata Documentation available.</param>
-    ''' <param name="initialYear">No Metadata Documentation available.</param>
-    ''' <param name="lastMonth">No Metadata Documentation available.</param>
-    ''' <param name="lastYear">No Metadata Documentation available.</param>
-    ''' <param name="centerType">No Metadata Documentation available.</param>
-    ''' <param name="codePCenterIni">No Metadata Documentation available.</param>
-    ''' <param name="codePCenterFin">No Metadata Documentation available.</param>
-    ''' <param name="status">No Metadata Documentation available.</param>
+    ''' <param name="initialMonth">No hay documentación de metadatos disponible.</param>
+    ''' <param name="initialYear">No hay documentación de metadatos disponible.</param>
+    ''' <param name="lastMonth">No hay documentación de metadatos disponible.</param>
+    ''' <param name="lastYear">No hay documentación de metadatos disponible.</param>
+    ''' <param name="centerType">No hay documentación de metadatos disponible.</param>
+    ''' <param name="codePCenterIni">No hay documentación de metadatos disponible.</param>
+    ''' <param name="codePCenterFin">No hay documentación de metadatos disponible.</param>
+    ''' <param name="status">No hay documentación de metadatos disponible.</param>
     Public Function SP_CostReportGeneralProfitabilityTotalCostCx(ByVal initialMonth As Nullable(Of Integer), ByVal initialYear As Nullable(Of Integer), ByVal lastMonth As Nullable(Of Integer), ByVal lastYear As Nullable(Of Integer), ByVal centerType As Nullable(Of Integer), ByVal codePCenterIni As String, ByVal codePCenterFin As String, ByVal status As Nullable(Of Integer)) As ObjectResult(Of SP_CostReportGeneralProfitabilityTotalCostCx_Result) Implements IGlobalModelUnitOfWork.SP_CostReportGeneralProfitabilityTotalCostCx
         Dim initialMonthParameter As ObjectParameter
         If (initialMonth.HasValue)
@@ -15029,15 +15049,15 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="initialMonth">No Metadata Documentation available.</param>
-    ''' <param name="endMonth">No Metadata Documentation available.</param>
-    ''' <param name="year">No Metadata Documentation available.</param>
-    ''' <param name="container">No Metadata Documentation available.</param>
-    ''' <param name="codePCenterIni">No Metadata Documentation available.</param>
-    ''' <param name="codePCenterFin">No Metadata Documentation available.</param>
-    ''' <param name="structureOfCostId">No Metadata Documentation available.</param>
+    ''' <param name="initialMonth">No hay documentación de metadatos disponible.</param>
+    ''' <param name="endMonth">No hay documentación de metadatos disponible.</param>
+    ''' <param name="year">No hay documentación de metadatos disponible.</param>
+    ''' <param name="container">No hay documentación de metadatos disponible.</param>
+    ''' <param name="codePCenterIni">No hay documentación de metadatos disponible.</param>
+    ''' <param name="codePCenterFin">No hay documentación de metadatos disponible.</param>
+    ''' <param name="structureOfCostId">No hay documentación de metadatos disponible.</param>
     Public Function SP_CostReportOperatingResultsByOrganizationalStatisticalGraphics(ByVal initialMonth As Nullable(Of Integer), ByVal endMonth As Nullable(Of Integer), ByVal year As Nullable(Of Integer), ByVal container As String, ByVal codePCenterIni As String, ByVal codePCenterFin As String, ByVal structureOfCostId As Nullable(Of Integer)) As ObjectResult(Of SP_CostReportOperatingResultsByOrganizationalStatisticalGraphics_Result) Implements IGlobalModelUnitOfWork.SP_CostReportOperatingResultsByOrganizationalStatisticalGraphics
         Dim initialMonthParameter As ObjectParameter
         If (initialMonth.HasValue)
@@ -15093,15 +15113,15 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="initialMonth">No Metadata Documentation available.</param>
-    ''' <param name="endMonth">No Metadata Documentation available.</param>
-    ''' <param name="year">No Metadata Documentation available.</param>
-    ''' <param name="container">No Metadata Documentation available.</param>
-    ''' <param name="codePCenterIni">No Metadata Documentation available.</param>
-    ''' <param name="codePCenterFin">No Metadata Documentation available.</param>
-    ''' <param name="structureOfCostId">No Metadata Documentation available.</param>
+    ''' <param name="initialMonth">No hay documentación de metadatos disponible.</param>
+    ''' <param name="endMonth">No hay documentación de metadatos disponible.</param>
+    ''' <param name="year">No hay documentación de metadatos disponible.</param>
+    ''' <param name="container">No hay documentación de metadatos disponible.</param>
+    ''' <param name="codePCenterIni">No hay documentación de metadatos disponible.</param>
+    ''' <param name="codePCenterFin">No hay documentación de metadatos disponible.</param>
+    ''' <param name="structureOfCostId">No hay documentación de metadatos disponible.</param>
     Public Function SP_CostReportOperatingResultsByOrganizationalStructure(ByVal initialMonth As Nullable(Of Integer), ByVal endMonth As Nullable(Of Integer), ByVal year As Nullable(Of Integer), ByVal container As String, ByVal codePCenterIni As String, ByVal codePCenterFin As String, ByVal structureOfCostId As Nullable(Of Integer)) As ObjectResult(Of SP_CostReportOperatingResultsByOrganizationalStructure_Result) Implements IGlobalModelUnitOfWork.SP_CostReportOperatingResultsByOrganizationalStructure
         Dim initialMonthParameter As ObjectParameter
         If (initialMonth.HasValue)
@@ -15157,16 +15177,16 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="fechaInicial">No Metadata Documentation available.</param>
-    ''' <param name="fechaFinal">No Metadata Documentation available.</param>
-    ''' <param name="productionCenterIdLogistic">No Metadata Documentation available.</param>
-    ''' <param name="productionCenterIdIni">No Metadata Documentation available.</param>
-    ''' <param name="productionCenterIdFin">No Metadata Documentation available.</param>
-    ''' <param name="inventoryMeasurementUnitIdIni">No Metadata Documentation available.</param>
-    ''' <param name="inventoryMeasurementUnitIdFin">No Metadata Documentation available.</param>
-    ''' <param name="organizationalStructureLevel">No Metadata Documentation available.</param>
+    ''' <param name="fechaInicial">No hay documentación de metadatos disponible.</param>
+    ''' <param name="fechaFinal">No hay documentación de metadatos disponible.</param>
+    ''' <param name="productionCenterIdLogistic">No hay documentación de metadatos disponible.</param>
+    ''' <param name="productionCenterIdIni">No hay documentación de metadatos disponible.</param>
+    ''' <param name="productionCenterIdFin">No hay documentación de metadatos disponible.</param>
+    ''' <param name="inventoryMeasurementUnitIdIni">No hay documentación de metadatos disponible.</param>
+    ''' <param name="inventoryMeasurementUnitIdFin">No hay documentación de metadatos disponible.</param>
+    ''' <param name="organizationalStructureLevel">No hay documentación de metadatos disponible.</param>
     Public Function SP_CostReportConsolidatedCCLogisticA(ByVal fechaInicial As Nullable(Of Date), ByVal fechaFinal As Nullable(Of Date), ByVal productionCenterIdLogistic As Nullable(Of Integer), ByVal productionCenterIdIni As String, ByVal productionCenterIdFin As String, ByVal inventoryMeasurementUnitIdIni As Nullable(Of Integer), ByVal inventoryMeasurementUnitIdFin As Nullable(Of Integer), ByVal organizationalStructureLevel As Nullable(Of Integer)) As ObjectResult(Of SP_CostReportConsolidatedCCLogisticA_Result) Implements IGlobalModelUnitOfWork.SP_CostReportConsolidatedCCLogisticA
         Dim fechaInicialParameter As ObjectParameter
         If (fechaInicial.HasValue)
@@ -15229,15 +15249,15 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="fechaInicial">No Metadata Documentation available.</param>
-    ''' <param name="fechaFinal">No Metadata Documentation available.</param>
-    ''' <param name="productionCenterIdLogistic">No Metadata Documentation available.</param>
-    ''' <param name="productionCenterIdIni">No Metadata Documentation available.</param>
-    ''' <param name="productionCenterIdFin">No Metadata Documentation available.</param>
-    ''' <param name="inventoryMeasurementUnitIdIni">No Metadata Documentation available.</param>
-    ''' <param name="inventoryMeasurementUnitIdFin">No Metadata Documentation available.</param>
+    ''' <param name="fechaInicial">No hay documentación de metadatos disponible.</param>
+    ''' <param name="fechaFinal">No hay documentación de metadatos disponible.</param>
+    ''' <param name="productionCenterIdLogistic">No hay documentación de metadatos disponible.</param>
+    ''' <param name="productionCenterIdIni">No hay documentación de metadatos disponible.</param>
+    ''' <param name="productionCenterIdFin">No hay documentación de metadatos disponible.</param>
+    ''' <param name="inventoryMeasurementUnitIdIni">No hay documentación de metadatos disponible.</param>
+    ''' <param name="inventoryMeasurementUnitIdFin">No hay documentación de metadatos disponible.</param>
     Public Function SP_CostReportConsolidatedCCLogisticB(ByVal fechaInicial As Nullable(Of Date), ByVal fechaFinal As Nullable(Of Date), ByVal productionCenterIdLogistic As Nullable(Of Integer), ByVal productionCenterIdIni As Nullable(Of Integer), ByVal productionCenterIdFin As Nullable(Of Integer), ByVal inventoryMeasurementUnitIdIni As Nullable(Of Integer), ByVal inventoryMeasurementUnitIdFin As Nullable(Of Integer)) As ObjectResult(Of SP_CostReportConsolidatedCCLogisticB_Result) Implements IGlobalModelUnitOfWork.SP_CostReportConsolidatedCCLogisticB
         Dim fechaInicialParameter As ObjectParameter
         If (fechaInicial.HasValue)
@@ -15293,10 +15313,10 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="xmlObject">No Metadata Documentation available.</param>
-    ''' <param name="codeUser">No Metadata Documentation available.</param>
+    ''' <param name="xmlObject">No hay documentación de metadatos disponible.</param>
+    ''' <param name="codeUser">No hay documentación de metadatos disponible.</param>
     Public Function SP_SaveConstitutionCashSmaller(ByVal xmlObject As String, ByVal codeUser As String) As ObjectResult(Of SP_SaveConstitutionCashSmaller_Result) Implements IGlobalModelUnitOfWork.SP_SaveConstitutionCashSmaller
         Dim xmlObjectParameter As ObjectParameter
         If (xmlObject IsNot Nothing)
@@ -15317,14 +15337,14 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="initialMonth">No Metadata Documentation available.</param>
-    ''' <param name="endMonth">No Metadata Documentation available.</param>
-    ''' <param name="year">No Metadata Documentation available.</param>
-    ''' <param name="initialCodeProduction">No Metadata Documentation available.</param>
-    ''' <param name="endCodeProduction">No Metadata Documentation available.</param>
-    ''' <param name="container">No Metadata Documentation available.</param>
+    ''' <param name="initialMonth">No hay documentación de metadatos disponible.</param>
+    ''' <param name="endMonth">No hay documentación de metadatos disponible.</param>
+    ''' <param name="year">No hay documentación de metadatos disponible.</param>
+    ''' <param name="initialCodeProduction">No hay documentación de metadatos disponible.</param>
+    ''' <param name="endCodeProduction">No hay documentación de metadatos disponible.</param>
+    ''' <param name="container">No hay documentación de metadatos disponible.</param>
     Public Function SP_ReportResultProductionCostsExpenses(ByVal initialMonth As Nullable(Of Integer), ByVal endMonth As Nullable(Of Integer), ByVal year As Nullable(Of Integer), ByVal initialCodeProduction As String, ByVal endCodeProduction As String, ByVal container As String) As ObjectResult(Of SP_ReportResultProductionCostsExpenses_Result) Implements IGlobalModelUnitOfWork.SP_ReportResultProductionCostsExpenses
         Dim initialMonthParameter As ObjectParameter
         If (initialMonth.HasValue)
@@ -15373,10 +15393,10 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="objectXml">No Metadata Documentation available.</param>
-    ''' <param name="status">No Metadata Documentation available.</param>
+    ''' <param name="objectXml">No hay documentación de metadatos disponible.</param>
+    ''' <param name="status">No hay documentación de metadatos disponible.</param>
     Public Function SP_UpdateFieldImport(ByVal objectXml As String, ByVal status As Nullable(Of Integer)) As ObjectResult(Of SP_UpdateFieldImport_Result) Implements IGlobalModelUnitOfWork.SP_UpdateFieldImport
         Dim objectXmlParameter As ObjectParameter
         If (objectXml IsNot Nothing)
@@ -15397,13 +15417,13 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="listIdsXml">No Metadata Documentation available.</param>
-    ''' <param name="year">No Metadata Documentation available.</param>
-    ''' <param name="month">No Metadata Documentation available.</param>
-    ''' <param name="operatingUnitId">No Metadata Documentation available.</param>
-    ''' <param name="codeUser">No Metadata Documentation available.</param>
+    ''' <param name="listIdsXml">No hay documentación de metadatos disponible.</param>
+    ''' <param name="year">No hay documentación de metadatos disponible.</param>
+    ''' <param name="month">No hay documentación de metadatos disponible.</param>
+    ''' <param name="operatingUnitId">No hay documentación de metadatos disponible.</param>
+    ''' <param name="codeUser">No hay documentación de metadatos disponible.</param>
     Public Function SP_ExportExcelInteropCostDistributionManPower(ByVal listIdsXml As String, ByVal year As Nullable(Of Integer), ByVal month As Nullable(Of Integer), ByVal operatingUnitId As Nullable(Of Integer), ByVal codeUser As String) As ObjectResult(Of SP_ExportExcelInteropCostDistributionManPower_Result) Implements IGlobalModelUnitOfWork.SP_ExportExcelInteropCostDistributionManPower
         Dim listIdsXmlParameter As ObjectParameter
         If (listIdsXml IsNot Nothing)
@@ -15445,14 +15465,14 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="xml">No Metadata Documentation available.</param>
-    ''' <param name="operatingUnitId">No Metadata Documentation available.</param>
-    ''' <param name="year">No Metadata Documentation available.</param>
-    ''' <param name="month">No Metadata Documentation available.</param>
-    ''' <param name="companyNit">No Metadata Documentation available.</param>
-    ''' <param name="codeUser">No Metadata Documentation available.</param>
+    ''' <param name="xml">No hay documentación de metadatos disponible.</param>
+    ''' <param name="operatingUnitId">No hay documentación de metadatos disponible.</param>
+    ''' <param name="year">No hay documentación de metadatos disponible.</param>
+    ''' <param name="month">No hay documentación de metadatos disponible.</param>
+    ''' <param name="companyNit">No hay documentación de metadatos disponible.</param>
+    ''' <param name="codeUser">No hay documentación de metadatos disponible.</param>
     Public Function SP_ConfirmLeasingContractsFinalization(ByVal xml As String, ByVal operatingUnitId As Nullable(Of Integer), ByVal year As Nullable(Of Integer), ByVal month As Nullable(Of Integer), ByVal companyNit As String, ByVal codeUser As String) As ObjectResult(Of SP_ConfirmLeasingContractsFinalization_Result) Implements IGlobalModelUnitOfWork.SP_ConfirmLeasingContractsFinalization
         Dim xmlParameter As ObjectParameter
         If (xml IsNot Nothing)
@@ -15501,18 +15521,18 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="year">No Metadata Documentation available.</param>
-    ''' <param name="month">No Metadata Documentation available.</param>
-    ''' <param name="parameterInitialPlate">No Metadata Documentation available.</param>
-    ''' <param name="parameterFinalPlate">No Metadata Documentation available.</param>
-    ''' <param name="parameterInitialCatalog">No Metadata Documentation available.</param>
-    ''' <param name="parameterFinalCatalog">No Metadata Documentation available.</param>
-    ''' <param name="parameterInitialGroup">No Metadata Documentation available.</param>
-    ''' <param name="parameterFinalGroup">No Metadata Documentation available.</param>
-    ''' <param name="parameterInitialLocation">No Metadata Documentation available.</param>
-    ''' <param name="parameterFinalLocation">No Metadata Documentation available.</param>
+    ''' <param name="year">No hay documentación de metadatos disponible.</param>
+    ''' <param name="month">No hay documentación de metadatos disponible.</param>
+    ''' <param name="parameterInitialPlate">No hay documentación de metadatos disponible.</param>
+    ''' <param name="parameterFinalPlate">No hay documentación de metadatos disponible.</param>
+    ''' <param name="parameterInitialCatalog">No hay documentación de metadatos disponible.</param>
+    ''' <param name="parameterFinalCatalog">No hay documentación de metadatos disponible.</param>
+    ''' <param name="parameterInitialGroup">No hay documentación de metadatos disponible.</param>
+    ''' <param name="parameterFinalGroup">No hay documentación de metadatos disponible.</param>
+    ''' <param name="parameterInitialLocation">No hay documentación de metadatos disponible.</param>
+    ''' <param name="parameterFinalLocation">No hay documentación de metadatos disponible.</param>
     Public Function SP_ReportFixedAssetBalance(ByVal year As Nullable(Of Integer), ByVal month As Nullable(Of Integer), ByVal parameterInitialPlate As String, ByVal parameterFinalPlate As String, ByVal parameterInitialCatalog As String, ByVal parameterFinalCatalog As String, ByVal parameterInitialGroup As String, ByVal parameterFinalGroup As String, ByVal parameterInitialLocation As String, ByVal parameterFinalLocation As String) As ObjectResult(Of SP_ReportFixedAssetBalance_Result) Implements IGlobalModelUnitOfWork.SP_ReportFixedAssetBalance
         Dim yearParameter As ObjectParameter
         If (year.HasValue)
@@ -15589,20 +15609,20 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="year">No Metadata Documentation available.</param>
-    ''' <param name="month">No Metadata Documentation available.</param>
-    ''' <param name="parameterInitialPlate">No Metadata Documentation available.</param>
-    ''' <param name="parameterFinalPlate">No Metadata Documentation available.</param>
-    ''' <param name="parameterInitialCatalog">No Metadata Documentation available.</param>
-    ''' <param name="parameterFinalCatalog">No Metadata Documentation available.</param>
-    ''' <param name="parameterInitialGroup">No Metadata Documentation available.</param>
-    ''' <param name="parameterFinalGroup">No Metadata Documentation available.</param>
-    ''' <param name="parameterInitialLocation">No Metadata Documentation available.</param>
-    ''' <param name="parameterFinalLocation">No Metadata Documentation available.</param>
-    ''' <param name="parameterInitialResponsible">No Metadata Documentation available.</param>
-    ''' <param name="parameterFinalResponsible">No Metadata Documentation available.</param>
+    ''' <param name="year">No hay documentación de metadatos disponible.</param>
+    ''' <param name="month">No hay documentación de metadatos disponible.</param>
+    ''' <param name="parameterInitialPlate">No hay documentación de metadatos disponible.</param>
+    ''' <param name="parameterFinalPlate">No hay documentación de metadatos disponible.</param>
+    ''' <param name="parameterInitialCatalog">No hay documentación de metadatos disponible.</param>
+    ''' <param name="parameterFinalCatalog">No hay documentación de metadatos disponible.</param>
+    ''' <param name="parameterInitialGroup">No hay documentación de metadatos disponible.</param>
+    ''' <param name="parameterFinalGroup">No hay documentación de metadatos disponible.</param>
+    ''' <param name="parameterInitialLocation">No hay documentación de metadatos disponible.</param>
+    ''' <param name="parameterFinalLocation">No hay documentación de metadatos disponible.</param>
+    ''' <param name="parameterInitialResponsible">No hay documentación de metadatos disponible.</param>
+    ''' <param name="parameterFinalResponsible">No hay documentación de metadatos disponible.</param>
     Public Function SP_ReportFixedAssetKardex(ByVal year As Nullable(Of Integer), ByVal month As Nullable(Of Integer), ByVal parameterInitialPlate As String, ByVal parameterFinalPlate As String, ByVal parameterInitialCatalog As String, ByVal parameterFinalCatalog As String, ByVal parameterInitialGroup As String, ByVal parameterFinalGroup As String, ByVal parameterInitialLocation As String, ByVal parameterFinalLocation As String, ByVal parameterInitialResponsible As String, ByVal parameterFinalResponsible As String) As ObjectResult(Of SP_ReportFixedAssetKardex_Result) Implements IGlobalModelUnitOfWork.SP_ReportFixedAssetKardex
         Dim yearParameter As ObjectParameter
         If (year.HasValue)
@@ -15693,9 +15713,9 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="nitThirdParty">No Metadata Documentation available.</param>
+    ''' <param name="nitThirdParty">No hay documentación de metadatos disponible.</param>
     Public Function SP_DeleteThirdParty(ByVal nitThirdParty As String) As ObjectResult(Of SP_DeleteThirdParty_Result) Implements IGlobalModelUnitOfWork.SP_DeleteThirdParty
         Dim nitThirdPartyParameter As ObjectParameter
         If (nitThirdParty IsNot Nothing)
@@ -15709,15 +15729,15 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="year">No Metadata Documentation available.</param>
-    ''' <param name="month">No Metadata Documentation available.</param>
-    ''' <param name="initialWarehouse">No Metadata Documentation available.</param>
-    ''' <param name="finalWarehouse">No Metadata Documentation available.</param>
-    ''' <param name="initialGroup">No Metadata Documentation available.</param>
-    ''' <param name="finalGroup">No Metadata Documentation available.</param>
-    ''' <param name="reportType">No Metadata Documentation available.</param>
+    ''' <param name="year">No hay documentación de metadatos disponible.</param>
+    ''' <param name="month">No hay documentación de metadatos disponible.</param>
+    ''' <param name="initialWarehouse">No hay documentación de metadatos disponible.</param>
+    ''' <param name="finalWarehouse">No hay documentación de metadatos disponible.</param>
+    ''' <param name="initialGroup">No hay documentación de metadatos disponible.</param>
+    ''' <param name="finalGroup">No hay documentación de metadatos disponible.</param>
+    ''' <param name="reportType">No hay documentación de metadatos disponible.</param>
     Public Function SP_ReportNIIFRealizableCost(ByVal year As String, ByVal month As String, ByVal initialWarehouse As String, ByVal finalWarehouse As String, ByVal initialGroup As String, ByVal finalGroup As String, ByVal reportType As Nullable(Of Integer)) As ObjectResult(Of SP_ReportNIIFRealizableCost_Result) Implements IGlobalModelUnitOfWork.SP_ReportNIIFRealizableCost
         Dim yearParameter As ObjectParameter
         If (year IsNot Nothing)
@@ -15773,10 +15793,10 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="radicateInvoiceCId">No Metadata Documentation available.</param>
-    ''' <param name="companyCode">No Metadata Documentation available.</param>
+    ''' <param name="radicateInvoiceCId">No hay documentación de metadatos disponible.</param>
+    ''' <param name="companyCode">No hay documentación de metadatos disponible.</param>
     Public Function SP_GenerateMegaRIPS(ByVal radicateInvoiceCId As Nullable(Of Integer), ByVal companyCode As String) As ObjectResult(Of SP_GenerateMegaRIPS_Result) Implements IGlobalModelUnitOfWork.SP_GenerateMegaRIPS
         Dim radicateInvoiceCIdParameter As ObjectParameter
         If (radicateInvoiceCId.HasValue)
@@ -15797,15 +15817,15 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="initialMonth">No Metadata Documentation available.</param>
-    ''' <param name="endMonth">No Metadata Documentation available.</param>
-    ''' <param name="year">No Metadata Documentation available.</param>
-    ''' <param name="container">No Metadata Documentation available.</param>
-    ''' <param name="codePCenterIni">No Metadata Documentation available.</param>
-    ''' <param name="codePCenterFin">No Metadata Documentation available.</param>
-    ''' <param name="structureOfCostId">No Metadata Documentation available.</param>
+    ''' <param name="initialMonth">No hay documentación de metadatos disponible.</param>
+    ''' <param name="endMonth">No hay documentación de metadatos disponible.</param>
+    ''' <param name="year">No hay documentación de metadatos disponible.</param>
+    ''' <param name="container">No hay documentación de metadatos disponible.</param>
+    ''' <param name="codePCenterIni">No hay documentación de metadatos disponible.</param>
+    ''' <param name="codePCenterFin">No hay documentación de metadatos disponible.</param>
+    ''' <param name="structureOfCostId">No hay documentación de metadatos disponible.</param>
     Public Function SP_ReportOperatingResult(ByVal initialMonth As Nullable(Of Integer), ByVal endMonth As Nullable(Of Integer), ByVal year As Nullable(Of Integer), ByVal container As String, ByVal codePCenterIni As String, ByVal codePCenterFin As String, ByVal structureOfCostId As Nullable(Of Integer)) As ObjectResult(Of SP_ReportOperatingResult_Result) Implements IGlobalModelUnitOfWork.SP_ReportOperatingResult
         Dim initialMonthParameter As ObjectParameter
         If (initialMonth.HasValue)
@@ -15861,9 +15881,9 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="xmlCriterias">No Metadata Documentation available.</param>
+    ''' <param name="xmlCriterias">No hay documentación de metadatos disponible.</param>
     Public Function SP_ExogenaFormat1001(ByVal xmlCriterias As String) As ObjectResult(Of SP_ExogenaFormat1001_Result) Implements IGlobalModelUnitOfWork.SP_ExogenaFormat1001
         Dim xmlCriteriasParameter As ObjectParameter
         If (xmlCriterias IsNot Nothing)
@@ -15877,9 +15897,9 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="xmlCriterias">No Metadata Documentation available.</param>
+    ''' <param name="xmlCriterias">No hay documentación de metadatos disponible.</param>
     Public Function SP_ExogenaFormat1003(ByVal xmlCriterias As String) As ObjectResult(Of SP_ExogenaFormat1003_Result) Implements IGlobalModelUnitOfWork.SP_ExogenaFormat1003
         Dim xmlCriteriasParameter As ObjectParameter
         If (xmlCriterias IsNot Nothing)
@@ -15893,9 +15913,9 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="xmlCriterias">No Metadata Documentation available.</param>
+    ''' <param name="xmlCriterias">No hay documentación de metadatos disponible.</param>
     Public Function SP_ExogenaFormat1004(ByVal xmlCriterias As String) As ObjectResult(Of SP_ExogenaFormat1004_Result) Implements IGlobalModelUnitOfWork.SP_ExogenaFormat1004
         Dim xmlCriteriasParameter As ObjectParameter
         If (xmlCriterias IsNot Nothing)
@@ -15909,9 +15929,9 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="xmlCriterias">No Metadata Documentation available.</param>
+    ''' <param name="xmlCriterias">No hay documentación de metadatos disponible.</param>
     Public Function SP_ExogenaFormat1005(ByVal xmlCriterias As String) As ObjectResult(Of SP_ExogenaFormat1005_Result) Implements IGlobalModelUnitOfWork.SP_ExogenaFormat1005
         Dim xmlCriteriasParameter As ObjectParameter
         If (xmlCriterias IsNot Nothing)
@@ -15925,9 +15945,9 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="xmlCriterias">No Metadata Documentation available.</param>
+    ''' <param name="xmlCriterias">No hay documentación de metadatos disponible.</param>
     Public Function SP_ExogenaFormat1006(ByVal xmlCriterias As String) As ObjectResult(Of SP_ExogenaFormat1006_Result) Implements IGlobalModelUnitOfWork.SP_ExogenaFormat1006
         Dim xmlCriteriasParameter As ObjectParameter
         If (xmlCriterias IsNot Nothing)
@@ -15941,9 +15961,9 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="xmlCriterias">No Metadata Documentation available.</param>
+    ''' <param name="xmlCriterias">No hay documentación de metadatos disponible.</param>
     Public Function SP_ExogenaFormat1007(ByVal xmlCriterias As String) As ObjectResult(Of SP_ExogenaFormat1007_Result) Implements IGlobalModelUnitOfWork.SP_ExogenaFormat1007
         Dim xmlCriteriasParameter As ObjectParameter
         If (xmlCriterias IsNot Nothing)
@@ -15957,9 +15977,9 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="xmlCriterias">No Metadata Documentation available.</param>
+    ''' <param name="xmlCriterias">No hay documentación de metadatos disponible.</param>
     Public Function SP_ExogenaFormat1008(ByVal xmlCriterias As String) As ObjectResult(Of SP_ExogenaFormat1008_Result) Implements IGlobalModelUnitOfWork.SP_ExogenaFormat1008
         Dim xmlCriteriasParameter As ObjectParameter
         If (xmlCriterias IsNot Nothing)
@@ -15973,9 +15993,9 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="xmlCriterias">No Metadata Documentation available.</param>
+    ''' <param name="xmlCriterias">No hay documentación de metadatos disponible.</param>
     Public Function SP_ExogenaFormat1009(ByVal xmlCriterias As String) As ObjectResult(Of SP_ExogenaFormat1009_Result) Implements IGlobalModelUnitOfWork.SP_ExogenaFormat1009
         Dim xmlCriteriasParameter As ObjectParameter
         If (xmlCriterias IsNot Nothing)
@@ -15989,9 +16009,9 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="xmlCriterias">No Metadata Documentation available.</param>
+    ''' <param name="xmlCriterias">No hay documentación de metadatos disponible.</param>
     Public Function SP_ExogenaFormat1010(ByVal xmlCriterias As String) As ObjectResult(Of SP_ExogenaFormat1010_Result) Implements IGlobalModelUnitOfWork.SP_ExogenaFormat1010
         Dim xmlCriteriasParameter As ObjectParameter
         If (xmlCriterias IsNot Nothing)
@@ -16005,9 +16025,9 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="xmlCriterias">No Metadata Documentation available.</param>
+    ''' <param name="xmlCriterias">No hay documentación de metadatos disponible.</param>
     Public Function SP_ExogenaFormat1011(ByVal xmlCriterias As String) As ObjectResult(Of SP_ExogenaFormat1011_Result) Implements IGlobalModelUnitOfWork.SP_ExogenaFormat1011
         Dim xmlCriteriasParameter As ObjectParameter
         If (xmlCriterias IsNot Nothing)
@@ -16021,9 +16041,9 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="xmlCriterias">No Metadata Documentation available.</param>
+    ''' <param name="xmlCriterias">No hay documentación de metadatos disponible.</param>
     Public Function SP_ExogenaFormat1012(ByVal xmlCriterias As String) As ObjectResult(Of SP_ExogenaFormat1012_Result) Implements IGlobalModelUnitOfWork.SP_ExogenaFormat1012
         Dim xmlCriteriasParameter As ObjectParameter
         If (xmlCriterias IsNot Nothing)
@@ -16037,9 +16057,9 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="xmlCriterias">No Metadata Documentation available.</param>
+    ''' <param name="xmlCriterias">No hay documentación de metadatos disponible.</param>
     Public Function SP_ExogenaFormat1056(ByVal xmlCriterias As String) As ObjectResult(Of SP_ExogenaFormat1056_Result) Implements IGlobalModelUnitOfWork.SP_ExogenaFormat1056
         Dim xmlCriteriasParameter As ObjectParameter
         If (xmlCriterias IsNot Nothing)
@@ -16053,9 +16073,9 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="xmlCriterias">No Metadata Documentation available.</param>
+    ''' <param name="xmlCriterias">No hay documentación de metadatos disponible.</param>
     Public Function SP_ExogenaFormat1647(ByVal xmlCriterias As String) As ObjectResult(Of SP_ExogenaFormat1647_Result) Implements IGlobalModelUnitOfWork.SP_ExogenaFormat1647
         Dim xmlCriteriasParameter As ObjectParameter
         If (xmlCriterias IsNot Nothing)
@@ -16069,9 +16089,9 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="xmlCriterias">No Metadata Documentation available.</param>
+    ''' <param name="xmlCriterias">No hay documentación de metadatos disponible.</param>
     Public Function SP_ExogenaFormat2275(ByVal xmlCriterias As String) As ObjectResult(Of SP_ExogenaFormat2275_Result) Implements IGlobalModelUnitOfWork.SP_ExogenaFormat2275
         Dim xmlCriteriasParameter As ObjectParameter
         If (xmlCriterias IsNot Nothing)
@@ -16085,9 +16105,9 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="xmlCriterias">No Metadata Documentation available.</param>
+    ''' <param name="xmlCriterias">No hay documentación de metadatos disponible.</param>
     Public Function SP_ExogenaFormat2276(ByVal xmlCriterias As String) As ObjectResult(Of SP_ExogenaFormat2276_Result) Implements IGlobalModelUnitOfWork.SP_ExogenaFormat2276
         Dim xmlCriteriasParameter As ObjectParameter
         If (xmlCriterias IsNot Nothing)
@@ -16101,10 +16121,10 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="containerCost">No Metadata Documentation available.</param>
-    ''' <param name="distributionDirectCostId">No Metadata Documentation available.</param>
+    ''' <param name="containerCost">No hay documentación de metadatos disponible.</param>
+    ''' <param name="distributionDirectCostId">No hay documentación de metadatos disponible.</param>
     Public Function SP_ReportDistributionDirectCost(ByVal containerCost As String, ByVal distributionDirectCostId As Nullable(Of Integer)) As ObjectResult(Of SP_ReportDistributionDirectCost_Result) Implements IGlobalModelUnitOfWork.SP_ReportDistributionDirectCost
         Dim containerCostParameter As ObjectParameter
         If (containerCost IsNot Nothing)
@@ -16125,15 +16145,15 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="initialDate">No Metadata Documentation available.</param>
-    ''' <param name="endDate">No Metadata Documentation available.</param>
-    ''' <param name="bookOriginId">No Metadata Documentation available.</param>
-    ''' <param name="bookDestinationId">No Metadata Documentation available.</param>
-    ''' <param name="codeInitialJournalVoucherType">No Metadata Documentation available.</param>
-    ''' <param name="codeEndJournalVoucherType">No Metadata Documentation available.</param>
-    ''' <param name="codeUser">No Metadata Documentation available.</param>
+    ''' <param name="initialDate">No hay documentación de metadatos disponible.</param>
+    ''' <param name="endDate">No hay documentación de metadatos disponible.</param>
+    ''' <param name="bookOriginId">No hay documentación de metadatos disponible.</param>
+    ''' <param name="bookDestinationId">No hay documentación de metadatos disponible.</param>
+    ''' <param name="codeInitialJournalVoucherType">No hay documentación de metadatos disponible.</param>
+    ''' <param name="codeEndJournalVoucherType">No hay documentación de metadatos disponible.</param>
+    ''' <param name="codeUser">No hay documentación de metadatos disponible.</param>
     Public Function SP_MassiveReplication(ByVal initialDate As Nullable(Of Date), ByVal endDate As Nullable(Of Date), ByVal bookOriginId As Nullable(Of Integer), ByVal bookDestinationId As Nullable(Of Integer), ByVal codeInitialJournalVoucherType As String, ByVal codeEndJournalVoucherType As String, ByVal codeUser As String) As ObjectResult(Of SP_MassiveReplication_Result) Implements IGlobalModelUnitOfWork.SP_MassiveReplication
         Dim initialDateParameter As ObjectParameter
         If (initialDate.HasValue)
@@ -16189,10 +16209,10 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="xml">No Metadata Documentation available.</param>
-    ''' <param name="codeUser">No Metadata Documentation available.</param>
+    ''' <param name="xml">No hay documentación de metadatos disponible.</param>
+    ''' <param name="codeUser">No hay documentación de metadatos disponible.</param>
     Public Function SP_FixedAssetChangePlate(ByVal xml As String, ByVal codeUser As String) As ObjectResult(Of SP_FixedAssetChangePlate_Result) Implements IGlobalModelUnitOfWork.SP_FixedAssetChangePlate
         Dim xmlParameter As ObjectParameter
         If (xml IsNot Nothing)
@@ -16213,13 +16233,13 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="careGroupId">No Metadata Documentation available.</param>
-    ''' <param name="careGroupTotal">No Metadata Documentation available.</param>
-    ''' <param name="operativeUnitId">No Metadata Documentation available.</param>
-    ''' <param name="recognitionDate">No Metadata Documentation available.</param>
-    ''' <param name="codeUser">No Metadata Documentation available.</param>
+    ''' <param name="careGroupId">No hay documentación de metadatos disponible.</param>
+    ''' <param name="careGroupTotal">No hay documentación de metadatos disponible.</param>
+    ''' <param name="operativeUnitId">No hay documentación de metadatos disponible.</param>
+    ''' <param name="recognitionDate">No hay documentación de metadatos disponible.</param>
+    ''' <param name="codeUser">No hay documentación de metadatos disponible.</param>
     Public Function SP_GenerateRecognition(ByVal careGroupId As Nullable(Of Integer), ByVal careGroupTotal As Nullable(Of Decimal), ByVal operativeUnitId As Nullable(Of Integer), ByVal recognitionDate As Nullable(Of Date), ByVal codeUser As String) As ObjectResult(Of SP_GenerateRecognition_Result) Implements IGlobalModelUnitOfWork.SP_GenerateRecognition
         Dim careGroupIdParameter As ObjectParameter
         If (careGroupId.HasValue)
@@ -16261,10 +16281,10 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="revenueRecognitionId">No Metadata Documentation available.</param>
-    ''' <param name="codeUser">No Metadata Documentation available.</param>
+    ''' <param name="revenueRecognitionId">No hay documentación de metadatos disponible.</param>
+    ''' <param name="codeUser">No hay documentación de metadatos disponible.</param>
     Public Function SP_ReverseRecognition(ByVal revenueRecognitionId As Nullable(Of Integer), ByVal codeUser As String) As ObjectResult(Of SP_ReverseRecognition_Result) Implements IGlobalModelUnitOfWork.SP_ReverseRecognition
         Dim revenueRecognitionIdParameter As ObjectParameter
         If (revenueRecognitionId.HasValue)
@@ -16285,12 +16305,12 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="supplierId">No Metadata Documentation available.</param>
-    ''' <param name="operatingUnitId">No Metadata Documentation available.</param>
-    ''' <param name="recognitionDate">No Metadata Documentation available.</param>
-    ''' <param name="userCode">No Metadata Documentation available.</param>
+    ''' <param name="supplierId">No hay documentación de metadatos disponible.</param>
+    ''' <param name="operatingUnitId">No hay documentación de metadatos disponible.</param>
+    ''' <param name="recognitionDate">No hay documentación de metadatos disponible.</param>
+    ''' <param name="userCode">No hay documentación de metadatos disponible.</param>
     Public Function SP_GenerateCausationRecognition(ByVal supplierId As Nullable(Of Integer), ByVal operatingUnitId As Nullable(Of Integer), ByVal recognitionDate As Nullable(Of Date), ByVal userCode As String) As ObjectResult(Of SP_GenerateCausationRecognition_Result) Implements IGlobalModelUnitOfWork.SP_GenerateCausationRecognition
         Dim supplierIdParameter As ObjectParameter
         If (supplierId.HasValue)
@@ -16325,10 +16345,10 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="causationRecognitionId">No Metadata Documentation available.</param>
-    ''' <param name="userCode">No Metadata Documentation available.</param>
+    ''' <param name="causationRecognitionId">No hay documentación de metadatos disponible.</param>
+    ''' <param name="userCode">No hay documentación de metadatos disponible.</param>
     Public Function SP_ReverseCausationRecognition(ByVal causationRecognitionId As Nullable(Of Integer), ByVal userCode As String) As ObjectResult(Of SP_ReverseCausationRecognition_Result) Implements IGlobalModelUnitOfWork.SP_ReverseCausationRecognition
         Dim causationRecognitionIdParameter As ObjectParameter
         If (causationRecognitionId.HasValue)
@@ -16349,10 +16369,26 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="payrollDate">No Metadata Documentation available.</param>
-    ''' <param name="workCenterCode">No Metadata Documentation available.</param>
+    ''' <param name="batchSize">No hay documentación de metadatos disponible.</param>
+    Public Function SP_GetCandidatesForAutoCausation(ByVal batchSize As Nullable(Of Integer)) As ObjectResult(Of SP_GetCandidatesForAutoCausation_Result) Implements IGlobalModelUnitOfWork.SP_GetCandidatesForAutoCausation
+        Dim batchSizeParameter As ObjectParameter
+        If (batchSize.HasValue)
+            batchSizeParameter = New ObjectParameter("BatchSize", batchSize)
+        Else
+            batchSizeParameter = New ObjectParameter("BatchSize", GetType(Integer))
+        End If
+
+
+        Return CType(Me, IObjectContextAdapter).ObjectContext.ExecuteFunction(Of SP_GetCandidatesForAutoCausation_Result)("SP_GetCandidatesForAutoCausation", batchSizeParameter)
+    End Function
+
+    ''' <summary>
+    ''' No hay documentación de metadatos disponible.
+    ''' </summary>
+    ''' <param name="payrollDate">No hay documentación de metadatos disponible.</param>
+    ''' <param name="workCenterCode">No hay documentación de metadatos disponible.</param>
     Public Function SP_AutoliquidationFile(ByVal payrollDate As Nullable(Of Date), ByVal workCenterCode As String) As ObjectResult(Of SP_AutoliquidationFile_Result) Implements IGlobalModelUnitOfWork.SP_AutoliquidationFile
         Dim payrollDateParameter As ObjectParameter
         If (payrollDate.HasValue)
@@ -16373,15 +16409,15 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="year">No Metadata Documentation available.</param>
-    ''' <param name="month">No Metadata Documentation available.</param>
-    ''' <param name="distributionType">No Metadata Documentation available.</param>
-    ''' <param name="onlySimulate">No Metadata Documentation available.</param>
-    ''' <param name="containPayroll">No Metadata Documentation available.</param>
-    ''' <param name="dataXML">No Metadata Documentation available.</param>
-    ''' <param name="userCode">No Metadata Documentation available.</param>
+    ''' <param name="year">No hay documentación de metadatos disponible.</param>
+    ''' <param name="month">No hay documentación de metadatos disponible.</param>
+    ''' <param name="distributionType">No hay documentación de metadatos disponible.</param>
+    ''' <param name="onlySimulate">No hay documentación de metadatos disponible.</param>
+    ''' <param name="containPayroll">No hay documentación de metadatos disponible.</param>
+    ''' <param name="dataXML">No hay documentación de metadatos disponible.</param>
+    ''' <param name="userCode">No hay documentación de metadatos disponible.</param>
     Public Function SP_EstimateCostNative(ByVal year As Nullable(Of Integer), ByVal month As Nullable(Of Integer), ByVal distributionType As Nullable(Of Byte), ByVal onlySimulate As Nullable(Of Boolean), ByVal containPayroll As Nullable(Of Boolean), ByVal dataXML As String, ByVal userCode As String) As ObjectResult(Of SP_EstimateCostNative_Result) Implements IGlobalModelUnitOfWork.SP_EstimateCostNative
         Dim yearParameter As ObjectParameter
         If (year.HasValue)
@@ -16437,10 +16473,10 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="year">No Metadata Documentation available.</param>
-    ''' <param name="month">No Metadata Documentation available.</param>
+    ''' <param name="year">No hay documentación de metadatos disponible.</param>
+    ''' <param name="month">No hay documentación de metadatos disponible.</param>
     Public Function SP_ExportExcelCostDistributionManPower(ByVal year As Nullable(Of Integer), ByVal month As Nullable(Of Integer)) As ObjectResult(Of SP_ExportExcelCostDistributionManPower_Result) Implements IGlobalModelUnitOfWork.SP_ExportExcelCostDistributionManPower
         Dim yearParameter As ObjectParameter
         If (year.HasValue)
@@ -16461,14 +16497,14 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="initialMonth">No Metadata Documentation available.</param>
-    ''' <param name="endMonth">No Metadata Documentation available.</param>
-    ''' <param name="year">No Metadata Documentation available.</param>
-    ''' <param name="codePCenterIni">No Metadata Documentation available.</param>
-    ''' <param name="codePCenterFin">No Metadata Documentation available.</param>
-    ''' <param name="orderBy">No Metadata Documentation available.</param>
+    ''' <param name="initialMonth">No hay documentación de metadatos disponible.</param>
+    ''' <param name="endMonth">No hay documentación de metadatos disponible.</param>
+    ''' <param name="year">No hay documentación de metadatos disponible.</param>
+    ''' <param name="codePCenterIni">No hay documentación de metadatos disponible.</param>
+    ''' <param name="codePCenterFin">No hay documentación de metadatos disponible.</param>
+    ''' <param name="orderBy">No hay documentación de metadatos disponible.</param>
     Public Function SP_CostReportOperatingResultProductionCenter(ByVal initialMonth As Nullable(Of Integer), ByVal endMonth As Nullable(Of Integer), ByVal year As Nullable(Of Integer), ByVal codePCenterIni As String, ByVal codePCenterFin As String, ByVal orderBy As Nullable(Of Integer)) As ObjectResult(Of SP_CostReportOperatingResultProductionCenter_Result) Implements IGlobalModelUnitOfWork.SP_CostReportOperatingResultProductionCenter
         Dim initialMonthParameter As ObjectParameter
         If (initialMonth.HasValue)
@@ -16517,15 +16553,15 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="initialMonth">No Metadata Documentation available.</param>
-    ''' <param name="initialYear">No Metadata Documentation available.</param>
-    ''' <param name="endMonth">No Metadata Documentation available.</param>
-    ''' <param name="endYear">No Metadata Documentation available.</param>
-    ''' <param name="initialMeasurementUnitCode">No Metadata Documentation available.</param>
-    ''' <param name="endMeasurementUnitCode">No Metadata Documentation available.</param>
-    ''' <param name="productionCenterId">No Metadata Documentation available.</param>
+    ''' <param name="initialMonth">No hay documentación de metadatos disponible.</param>
+    ''' <param name="initialYear">No hay documentación de metadatos disponible.</param>
+    ''' <param name="endMonth">No hay documentación de metadatos disponible.</param>
+    ''' <param name="endYear">No hay documentación de metadatos disponible.</param>
+    ''' <param name="initialMeasurementUnitCode">No hay documentación de metadatos disponible.</param>
+    ''' <param name="endMeasurementUnitCode">No hay documentación de metadatos disponible.</param>
+    ''' <param name="productionCenterId">No hay documentación de metadatos disponible.</param>
     Public Function spCostReportCostMeasurementUnit(ByVal initialMonth As Nullable(Of Integer), ByVal initialYear As Nullable(Of Integer), ByVal endMonth As Nullable(Of Integer), ByVal endYear As Nullable(Of Integer), ByVal initialMeasurementUnitCode As String, ByVal endMeasurementUnitCode As String, ByVal productionCenterId As Nullable(Of Integer)) As ObjectResult(Of spCostReportCostMeasurementUnit_Result) Implements IGlobalModelUnitOfWork.spCostReportCostMeasurementUnit
         Dim initialMonthParameter As ObjectParameter
         If (initialMonth.HasValue)
@@ -16581,14 +16617,14 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="initialMonth">No Metadata Documentation available.</param>
-    ''' <param name="endMonth">No Metadata Documentation available.</param>
-    ''' <param name="year">No Metadata Documentation available.</param>
-    ''' <param name="codePCenterIni">No Metadata Documentation available.</param>
-    ''' <param name="codePCenterFin">No Metadata Documentation available.</param>
-    ''' <param name="structureOfCostId">No Metadata Documentation available.</param>
+    ''' <param name="initialMonth">No hay documentación de metadatos disponible.</param>
+    ''' <param name="endMonth">No hay documentación de metadatos disponible.</param>
+    ''' <param name="year">No hay documentación de metadatos disponible.</param>
+    ''' <param name="codePCenterIni">No hay documentación de metadatos disponible.</param>
+    ''' <param name="codePCenterFin">No hay documentación de metadatos disponible.</param>
+    ''' <param name="structureOfCostId">No hay documentación de metadatos disponible.</param>
     Public Function SP_CostReportOperatingResult(ByVal initialMonth As Nullable(Of Integer), ByVal endMonth As Nullable(Of Integer), ByVal year As Nullable(Of Integer), ByVal codePCenterIni As String, ByVal codePCenterFin As String, ByVal structureOfCostId As Nullable(Of Integer)) As ObjectResult(Of SP_CostReportOperatingResult_Result) Implements IGlobalModelUnitOfWork.SP_CostReportOperatingResult
         Dim initialMonthParameter As ObjectParameter
         If (initialMonth.HasValue)
@@ -16637,12 +16673,12 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="year">No Metadata Documentation available.</param>
-    ''' <param name="trimester">No Metadata Documentation available.</param>
-    ''' <param name="currentDate">No Metadata Documentation available.</param>
-    ''' <param name="user">No Metadata Documentation available.</param>
+    ''' <param name="year">No hay documentación de metadatos disponible.</param>
+    ''' <param name="trimester">No hay documentación de metadatos disponible.</param>
+    ''' <param name="currentDate">No hay documentación de metadatos disponible.</param>
+    ''' <param name="user">No hay documentación de metadatos disponible.</param>
     Public Function GenerateDocument030(ByVal year As Nullable(Of Integer), ByVal trimester As Nullable(Of Byte), ByVal currentDate As Nullable(Of Date), ByVal user As String) As ObjectResult(Of GenerateDocument030_Result) Implements IGlobalModelUnitOfWork.GenerateDocument030
         Dim yearParameter As ObjectParameter
         If (year.HasValue)
@@ -16677,9 +16713,9 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="xmlObject">No Metadata Documentation available.</param>
+    ''' <param name="xmlObject">No hay documentación de metadatos disponible.</param>
     Public Function SP_ImportFileAgreementsC(ByVal xmlObject As String) As ObjectResult(Of SP_ImportFileAgreementsC_Result) Implements IGlobalModelUnitOfWork.SP_ImportFileAgreementsC
         Dim xmlObjectParameter As ObjectParameter
         If (xmlObject IsNot Nothing)
@@ -16693,10 +16729,10 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="xmlObject">No Metadata Documentation available.</param>
-    ''' <param name="codeUser">No Metadata Documentation available.</param>
+    ''' <param name="xmlObject">No hay documentación de metadatos disponible.</param>
+    ''' <param name="codeUser">No hay documentación de metadatos disponible.</param>
     Public Function SP_SaveAgreementsCMassive(ByVal xmlObject As String, ByVal codeUser As String) As ObjectResult(Of SP_SaveAgreementsCMassive_Result) Implements IGlobalModelUnitOfWork.SP_SaveAgreementsCMassive
         Dim xmlObjectParameter As ObjectParameter
         If (xmlObject IsNot Nothing)
@@ -16717,9 +16753,9 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="xml">No Metadata Documentation available.</param>
+    ''' <param name="xml">No hay documentación de metadatos disponible.</param>
     Public Function SP_SaveProductInCrystal(ByVal xml As String) As ObjectResult(Of SP_SaveProductInCrystal_Result) Implements IGlobalModelUnitOfWork.SP_SaveProductInCrystal
         Dim xmlParameter As ObjectParameter
         If (xml IsNot Nothing)
@@ -16733,10 +16769,10 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="id">No Metadata Documentation available.</param>
-    ''' <param name="codeUser">No Metadata Documentation available.</param>
+    ''' <param name="id">No hay documentación de metadatos disponible.</param>
+    ''' <param name="codeUser">No hay documentación de metadatos disponible.</param>
     Public Function SP_GenerateJournalVoucherByRemissionEntrance(ByVal id As Nullable(Of Integer), ByVal codeUser As String) As ObjectResult(Of SP_GenerateJournalVoucherByRemissionEntrance_Result) Implements IGlobalModelUnitOfWork.SP_GenerateJournalVoucherByRemissionEntrance
         Dim idParameter As ObjectParameter
         If (id.HasValue)
@@ -16757,10 +16793,10 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="id">No Metadata Documentation available.</param>
-    ''' <param name="codeUser">No Metadata Documentation available.</param>
+    ''' <param name="id">No hay documentación de metadatos disponible.</param>
+    ''' <param name="codeUser">No hay documentación de metadatos disponible.</param>
     Public Function SP_GenerateJournalVoucherByRemissionOutput(ByVal id As Nullable(Of Integer), ByVal codeUser As String) As ObjectResult(Of SP_GenerateJournalVoucherByRemissionOutput_Result) Implements IGlobalModelUnitOfWork.SP_GenerateJournalVoucherByRemissionOutput
         Dim idParameter As ObjectParameter
         If (id.HasValue)
@@ -16781,10 +16817,10 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="monthClosed">No Metadata Documentation available.</param>
-    ''' <param name="yearClosed">No Metadata Documentation available.</param>
+    ''' <param name="monthClosed">No hay documentación de metadatos disponible.</param>
+    ''' <param name="yearClosed">No hay documentación de metadatos disponible.</param>
     Public Function SP_ConciliationInventoryVsAccounting(ByVal monthClosed As Nullable(Of Integer), ByVal yearClosed As Nullable(Of Integer)) As ObjectResult(Of SP_ConciliationInventoryVsAccounting_Result) Implements IGlobalModelUnitOfWork.SP_ConciliationInventoryVsAccounting
         Dim monthClosedParameter As ObjectParameter
         If (monthClosed.HasValue)
@@ -16805,10 +16841,10 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="monthClosed">No Metadata Documentation available.</param>
-    ''' <param name="yearClosed">No Metadata Documentation available.</param>
+    ''' <param name="monthClosed">No hay documentación de metadatos disponible.</param>
+    ''' <param name="yearClosed">No hay documentación de metadatos disponible.</param>
     Public Function SP_ClosedMonthVariationCost(ByVal monthClosed As Nullable(Of Integer), ByVal yearClosed As Nullable(Of Integer)) As ObjectResult(Of SP_ClosedMonthVariationCost_Result) Implements IGlobalModelUnitOfWork.SP_ClosedMonthVariationCost
         Dim monthClosedParameter As ObjectParameter
         If (monthClosed.HasValue)
@@ -16829,10 +16865,10 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="monthClosed">No Metadata Documentation available.</param>
-    ''' <param name="yearClosed">No Metadata Documentation available.</param>
+    ''' <param name="monthClosed">No hay documentación de metadatos disponible.</param>
+    ''' <param name="yearClosed">No hay documentación de metadatos disponible.</param>
     Public Function SP_VerifiyHasConfirmAllDocuments(ByVal monthClosed As Nullable(Of Integer), ByVal yearClosed As Nullable(Of Integer)) As ObjectResult(Of SP_VerifiyHasConfirmAllDocuments_Result) Implements IGlobalModelUnitOfWork.SP_VerifiyHasConfirmAllDocuments
         Dim monthClosedParameter As ObjectParameter
         If (monthClosed.HasValue)
@@ -16853,10 +16889,10 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="id">No Metadata Documentation available.</param>
-    ''' <param name="codeUser">No Metadata Documentation available.</param>
+    ''' <param name="id">No hay documentación de metadatos disponible.</param>
+    ''' <param name="codeUser">No hay documentación de metadatos disponible.</param>
     Public Function SP_GenerateJournalVoucherByReclassificationRemissionEntrance(ByVal id As Nullable(Of Integer), ByVal codeUser As String) As ObjectResult(Of SP_GenerateJournalVoucherByReclassificationRemissionEntrance_Result) Implements IGlobalModelUnitOfWork.SP_GenerateJournalVoucherByReclassificationRemissionEntrance
         Dim idParameter As ObjectParameter
         If (id.HasValue)
@@ -16877,43 +16913,43 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="portfolioProvisionId">No Metadata Documentation available.</param>
-    ''' <param name="codeUser">No Metadata Documentation available.</param>
-    ''' <param name="operativeUnitId">No Metadata Documentation available.</param>
+    ''' <param name="portfolioProvisionId">No hay documentación de metadatos disponible.</param>
+    ''' <param name="codeUser">No hay documentación de metadatos disponible.</param>
+    ''' <param name="operativeUnitId">No hay documentación de metadatos disponible.</param>
     Public Function SP_ConfirmProvisionAndDeterioration(ByVal portfolioProvisionId As Nullable(Of Integer), ByVal codeUser As String, ByVal operativeUnitId As Nullable(Of Integer)) As ObjectResult(Of SP_ConfirmProvisionAndDeterioration_Result) Implements IGlobalModelUnitOfWork.SP_ConfirmProvisionAndDeterioration
         Dim portfolioProvisionIdParameter As ObjectParameter
-        If (portfolioProvisionId.HasValue) Then
+        If (portfolioProvisionId.HasValue)
             portfolioProvisionIdParameter = New ObjectParameter("PortfolioProvisionId", portfolioProvisionId)
         Else
             portfolioProvisionIdParameter = New ObjectParameter("PortfolioProvisionId", GetType(Integer))
         End If
 
         Dim codeUserParameter As ObjectParameter
-        If (codeUser IsNot Nothing) Then
+        If (codeUser IsNot Nothing)
             codeUserParameter = New ObjectParameter("CodeUser", codeUser)
         Else
             codeUserParameter = New ObjectParameter("CodeUser", GetType(String))
         End If
 
         Dim operativeUnitIdParameter As ObjectParameter
-        If (operativeUnitId.HasValue) Then
+        If (operativeUnitId.HasValue)
             operativeUnitIdParameter = New ObjectParameter("OperativeUnitId", operativeUnitId)
         Else
             operativeUnitIdParameter = New ObjectParameter("OperativeUnitId", GetType(Integer))
         End If
 
 
-        Return CType(Me, IObjectContextAdapter).ObjectContext.ExecuteFunction(Of SP_ConfirmProvisionAndDeterioration_Result)("SP_ConfirmProvisionAndDeterioration", portfolioProvisionIdParameter, codeUserParameter, operativeUnitIdParameter)
+        Return CType(Me, IObjectContextAdapter).ObjectContext.ExecuteFunction(Of SP_ConfirmProvisionAndDeterioration_Result)("SP_ConfirmProvisionAndDeterioration", portfolioProvisionIdParameter, codeUserParameter, operativeUnitIdParameter)
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="monthClosed">No Metadata Documentation available.</param>
-    ''' <param name="yearClosed">No Metadata Documentation available.</param>
-    ''' <param name="codeUser">No Metadata Documentation available.</param>
+    ''' <param name="monthClosed">No hay documentación de metadatos disponible.</param>
+    ''' <param name="yearClosed">No hay documentación de metadatos disponible.</param>
+    ''' <param name="codeUser">No hay documentación de metadatos disponible.</param>
     Public Function SP_ClosedMonthInventory(ByVal monthClosed As Nullable(Of Integer), ByVal yearClosed As Nullable(Of Integer), ByVal codeUser As String) As ObjectResult(Of SP_ClosedMonthInventory_Result) Implements IGlobalModelUnitOfWork.SP_ClosedMonthInventory
         Dim monthClosedParameter As ObjectParameter
         If (monthClosed.HasValue)
@@ -16941,10 +16977,10 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="id">No Metadata Documentation available.</param>
-    ''' <param name="codeUser">No Metadata Documentation available.</param>
+    ''' <param name="id">No hay documentación de metadatos disponible.</param>
+    ''' <param name="codeUser">No hay documentación de metadatos disponible.</param>
     Public Function SP_GenerateJournalVoucherByRemissionDevolution(ByVal id As Nullable(Of Integer), ByVal codeUser As String) As ObjectResult(Of SP_GenerateJournalVoucherByRemissionDevolution_Result) Implements IGlobalModelUnitOfWork.SP_GenerateJournalVoucherByRemissionDevolution
         Dim idParameter As ObjectParameter
         If (id.HasValue)
@@ -16965,13 +17001,13 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="period">No Metadata Documentation available.</param>
-    ''' <param name="legalBookId">No Metadata Documentation available.</param>
-    ''' <param name="mainAccountId">No Metadata Documentation available.</param>
-    ''' <param name="validateMovement">No Metadata Documentation available.</param>
-    ''' <param name="year">No Metadata Documentation available.</param>
+    ''' <param name="period">No hay documentación de metadatos disponible.</param>
+    ''' <param name="legalBookId">No hay documentación de metadatos disponible.</param>
+    ''' <param name="mainAccountId">No hay documentación de metadatos disponible.</param>
+    ''' <param name="validateMovement">No hay documentación de metadatos disponible.</param>
+    ''' <param name="year">No hay documentación de metadatos disponible.</param>
     Public Function SP_GeneralLedgerBalance(ByVal period As Nullable(Of Integer), ByVal legalBookId As Nullable(Of Integer), ByVal mainAccountId As Nullable(Of Integer), ByVal validateMovement As Nullable(Of Boolean), ByVal year As Nullable(Of Integer)) As ObjectResult(Of SP_GeneralLedgerBalance_Result) Implements IGlobalModelUnitOfWork.SP_GeneralLedgerBalance
         Dim periodParameter As ObjectParameter
         If (period.HasValue)
@@ -17013,10 +17049,10 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="id">No Metadata Documentation available.</param>
-    ''' <param name="codeUser">No Metadata Documentation available.</param>
+    ''' <param name="id">No hay documentación de metadatos disponible.</param>
+    ''' <param name="codeUser">No hay documentación de metadatos disponible.</param>
     Public Function SP_GenerateJournalVoucherByConsignmentInventoryRemission(ByVal id As Nullable(Of Integer), ByVal codeUser As String) As ObjectResult(Of SP_GenerateJournalVoucherByConsignmentInventoryRemission_Result) Implements IGlobalModelUnitOfWork.SP_GenerateJournalVoucherByConsignmentInventoryRemission
         Dim idParameter As ObjectParameter
         If (id.HasValue)
@@ -17037,10 +17073,10 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="xMLConsignmentCostList">No Metadata Documentation available.</param>
-    ''' <param name="codeUser">No Metadata Documentation available.</param>
+    ''' <param name="xMLConsignmentCostList">No hay documentación de metadatos disponible.</param>
+    ''' <param name="codeUser">No hay documentación de metadatos disponible.</param>
     Public Function SP_GenerateJournalVoucherByConsignmentCostListDetail(ByVal xMLConsignmentCostList As String, ByVal codeUser As String) As ObjectResult(Of SP_GenerateJournalVoucherByConsignmentCostListDetail_Result) Implements IGlobalModelUnitOfWork.SP_GenerateJournalVoucherByConsignmentCostListDetail
         Dim xMLConsignmentCostListParameter As ObjectParameter
         If (xMLConsignmentCostList IsNot Nothing)
@@ -17061,14 +17097,14 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="remission">No Metadata Documentation available.</param>
-    ''' <param name="entityId">No Metadata Documentation available.</param>
-    ''' <param name="entityCode">No Metadata Documentation available.</param>
-    ''' <param name="entityName">No Metadata Documentation available.</param>
-    ''' <param name="user">No Metadata Documentation available.</param>
-    ''' <param name="messageReturn">No Metadata Documentation available.</param>
+    ''' <param name="remission">No hay documentación de metadatos disponible.</param>
+    ''' <param name="entityId">No hay documentación de metadatos disponible.</param>
+    ''' <param name="entityCode">No hay documentación de metadatos disponible.</param>
+    ''' <param name="entityName">No hay documentación de metadatos disponible.</param>
+    ''' <param name="user">No hay documentación de metadatos disponible.</param>
+    ''' <param name="messageReturn">No hay documentación de metadatos disponible.</param>
     Public Function SP_UpdateTheQuantityProductUsedInConsignmentInventoryRemission(ByVal remission As String, ByVal entityId As Nullable(Of Integer), ByVal entityCode As String, ByVal entityName As String, ByVal user As String, ByVal messageReturn As ObjectParameter) As ObjectResult(Of String) Implements IGlobalModelUnitOfWork.SP_UpdateTheQuantityProductUsedInConsignmentInventoryRemission
         Dim remissionParameter As ObjectParameter
         If (remission IsNot Nothing)
@@ -17110,9 +17146,9 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="admissionCode">No Metadata Documentation available.</param>
+    ''' <param name="admissionCode">No hay documentación de metadatos disponible.</param>
     Public Function SP_GetControlPOCOByCode(ByVal admissionCode As String) As ObjectResult(Of SP_GetControlPOCOByCode_Result) Implements IGlobalModelUnitOfWork.SP_GetControlPOCOByCode
         Dim admissionCodeParameter As ObjectParameter
         If (admissionCode IsNot Nothing)
@@ -17126,9 +17162,9 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="admissionNumber">No Metadata Documentation available.</param>
+    ''' <param name="admissionNumber">No hay documentación de metadatos disponible.</param>
     Public Function SP_GetPharmaceuticalDispensionAndDevolutionWithOutConfirm(ByVal admissionNumber As String) As ObjectResult(Of SP_GetPharmaceuticalDispensionAndDevolutionWithOutConfirm_Result) Implements IGlobalModelUnitOfWork.SP_GetPharmaceuticalDispensionAndDevolutionWithOutConfirm
         Dim admissionNumberParameter As ObjectParameter
         If (admissionNumber IsNot Nothing)
@@ -17142,12 +17178,12 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="xmlPharmaceutical">No Metadata Documentation available.</param>
-    ''' <param name="xmlAnnulateDashboard">No Metadata Documentation available.</param>
-    ''' <param name="user">No Metadata Documentation available.</param>
-    ''' <param name="xmlDispensingIntegrationMedilaser">No Metadata Documentation available.</param>
+    ''' <param name="xmlPharmaceutical">No hay documentación de metadatos disponible.</param>
+    ''' <param name="xmlAnnulateDashboard">No hay documentación de metadatos disponible.</param>
+    ''' <param name="user">No hay documentación de metadatos disponible.</param>
+    ''' <param name="xmlDispensingIntegrationMedilaser">No hay documentación de metadatos disponible.</param>
     Public Function SP_GeneratePharmaceuticalDispensing(ByVal xmlPharmaceutical As String, ByVal xmlAnnulateDashboard As String, ByVal user As String, ByVal xmlDispensingIntegrationMedilaser As String) As ObjectResult(Of SP_GeneratePharmaceuticalDispensing_Result) Implements IGlobalModelUnitOfWork.SP_GeneratePharmaceuticalDispensing
         Dim xmlPharmaceuticalParameter As ObjectParameter
         If (xmlPharmaceutical IsNot Nothing)
@@ -17182,10 +17218,10 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="stayId">No Metadata Documentation available.</param>
-    ''' <param name="admissionNumber">No Metadata Documentation available.</param>
+    ''' <param name="stayId">No hay documentación de metadatos disponible.</param>
+    ''' <param name="admissionNumber">No hay documentación de metadatos disponible.</param>
     Public Function SP_ListStayFolios(ByVal stayId As Nullable(Of Integer), ByVal admissionNumber As String) As ObjectResult(Of SP_ListStayFolios_Result) Implements IGlobalModelUnitOfWork.SP_ListStayFolios
         Dim stayIdParameter As ObjectParameter
         If (stayId.HasValue)
@@ -17206,9 +17242,9 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="xmlData">No Metadata Documentation available.</param>
+    ''' <param name="xmlData">No hay documentación de metadatos disponible.</param>
     Public Function SP_IncludeInOtherService(ByVal xmlData As String) As ObjectResult(Of SP_IncludeInOtherService_Result) Implements IGlobalModelUnitOfWork.SP_IncludeInOtherService
         Dim xmlDataParameter As ObjectParameter
         If (xmlData IsNot Nothing)
@@ -17222,10 +17258,10 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="controlOutPatientServicesXml">No Metadata Documentation available.</param>
-    ''' <param name="user">No Metadata Documentation available.</param>
+    ''' <param name="controlOutPatientServicesXml">No hay documentación de metadatos disponible.</param>
+    ''' <param name="user">No hay documentación de metadatos disponible.</param>
     Public Function SP_GenerateDocuments(ByVal controlOutPatientServicesXml As String, ByVal user As String) As ObjectResult(Of SP_GenerateDocuments_Result) Implements IGlobalModelUnitOfWork.SP_GenerateDocuments
         Dim controlOutPatientServicesXmlParameter As ObjectParameter
         If (controlOutPatientServicesXml IsNot Nothing)
@@ -17246,7 +17282,7 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
     Public Function SP_ListPrivateBudget() As ObjectResult(Of SP_ListPrivateBudget_Result) Implements IGlobalModelUnitOfWork.SP_ListPrivateBudget
 
@@ -17254,13 +17290,13 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="container">No Metadata Documentation available.</param>
-    ''' <param name="hISContainer">No Metadata Documentation available.</param>
-    ''' <param name="securityContainer">No Metadata Documentation available.</param>
-    ''' <param name="numerofactura">No Metadata Documentation available.</param>
-    ''' <param name="numeroConsecutivo">No Metadata Documentation available.</param>
+    ''' <param name="container">No hay documentación de metadatos disponible.</param>
+    ''' <param name="hISContainer">No hay documentación de metadatos disponible.</param>
+    ''' <param name="securityContainer">No hay documentación de metadatos disponible.</param>
+    ''' <param name="numerofactura">No hay documentación de metadatos disponible.</param>
+    ''' <param name="numeroConsecutivo">No hay documentación de metadatos disponible.</param>
     Public Function SP_invoiceDetailList__NET(ByVal container As String, ByVal hISContainer As String, ByVal securityContainer As String, ByVal numerofactura As String, ByVal numeroConsecutivo As String) As ObjectResult(Of SP_invoiceDetailList__NET_Result) Implements IGlobalModelUnitOfWork.SP_invoiceDetailList__NET
         Dim containerParameter As ObjectParameter
         If (container IsNot Nothing)
@@ -17302,15 +17338,15 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="container">No Metadata Documentation available.</param>
-    ''' <param name="numeroConsecutivo">No Metadata Documentation available.</param>
-    ''' <param name="ordenServicio">No Metadata Documentation available.</param>
-    ''' <param name="serviceCode">No Metadata Documentation available.</param>
-    ''' <param name="consecutiveOrder">No Metadata Documentation available.</param>
-    ''' <param name="serviceNumber">No Metadata Documentation available.</param>
-    ''' <param name="consecutivoInventory">No Metadata Documentation available.</param>
+    ''' <param name="container">No hay documentación de metadatos disponible.</param>
+    ''' <param name="numeroConsecutivo">No hay documentación de metadatos disponible.</param>
+    ''' <param name="ordenServicio">No hay documentación de metadatos disponible.</param>
+    ''' <param name="serviceCode">No hay documentación de metadatos disponible.</param>
+    ''' <param name="consecutiveOrder">No hay documentación de metadatos disponible.</param>
+    ''' <param name="serviceNumber">No hay documentación de metadatos disponible.</param>
+    ''' <param name="consecutivoInventory">No hay documentación de metadatos disponible.</param>
     Public Function SP_invoiceDetailListQX__NET(ByVal container As String, ByVal numeroConsecutivo As String, ByVal ordenServicio As String, ByVal serviceCode As String, ByVal consecutiveOrder As String, ByVal serviceNumber As String, ByVal consecutivoInventory As String) As ObjectResult(Of SP_invoiceDetailListQX__NET_Result) Implements IGlobalModelUnitOfWork.SP_invoiceDetailListQX__NET
         Dim containerParameter As ObjectParameter
         If (container IsNot Nothing)
@@ -17366,13 +17402,13 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="container">No Metadata Documentation available.</param>
-    ''' <param name="hISContainer">No Metadata Documentation available.</param>
-    ''' <param name="securityContainer">No Metadata Documentation available.</param>
-    ''' <param name="numerofactura">No Metadata Documentation available.</param>
-    ''' <param name="numeroConsecutivo">No Metadata Documentation available.</param>
+    ''' <param name="container">No hay documentación de metadatos disponible.</param>
+    ''' <param name="hISContainer">No hay documentación de metadatos disponible.</param>
+    ''' <param name="securityContainer">No hay documentación de metadatos disponible.</param>
+    ''' <param name="numerofactura">No hay documentación de metadatos disponible.</param>
+    ''' <param name="numeroConsecutivo">No hay documentación de metadatos disponible.</param>
     Public Function SP_invoiceDetailList_NAVITEINTEGRATION(ByVal container As String, ByVal hISContainer As String, ByVal securityContainer As String, ByVal numerofactura As String, ByVal numeroConsecutivo As String) As ObjectResult(Of SP_invoiceDetailList_NAVITEINTEGRATION_Result) Implements IGlobalModelUnitOfWork.SP_invoiceDetailList_NAVITEINTEGRATION
         Dim containerParameter As ObjectParameter
         If (container IsNot Nothing)
@@ -17414,15 +17450,15 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="container">No Metadata Documentation available.</param>
-    ''' <param name="numeroConsecutivo">No Metadata Documentation available.</param>
-    ''' <param name="ordenServicio">No Metadata Documentation available.</param>
-    ''' <param name="serviceCode">No Metadata Documentation available.</param>
-    ''' <param name="consecutiveOrder">No Metadata Documentation available.</param>
-    ''' <param name="serviceNumber">No Metadata Documentation available.</param>
-    ''' <param name="consecutivoInventory">No Metadata Documentation available.</param>
+    ''' <param name="container">No hay documentación de metadatos disponible.</param>
+    ''' <param name="numeroConsecutivo">No hay documentación de metadatos disponible.</param>
+    ''' <param name="ordenServicio">No hay documentación de metadatos disponible.</param>
+    ''' <param name="serviceCode">No hay documentación de metadatos disponible.</param>
+    ''' <param name="consecutiveOrder">No hay documentación de metadatos disponible.</param>
+    ''' <param name="serviceNumber">No hay documentación de metadatos disponible.</param>
+    ''' <param name="consecutivoInventory">No hay documentación de metadatos disponible.</param>
     Public Function SP_invoiceDetailListQX_NATIVEINTEGRATION(ByVal container As String, ByVal numeroConsecutivo As String, ByVal ordenServicio As String, ByVal serviceCode As String, ByVal consecutiveOrder As String, ByVal serviceNumber As String, ByVal consecutivoInventory As String) As ObjectResult(Of SP_invoiceDetailListQX_NATIVEINTEGRATION_Result) Implements IGlobalModelUnitOfWork.SP_invoiceDetailListQX_NATIVEINTEGRATION
         Dim containerParameter As ObjectParameter
         If (container IsNot Nothing)
@@ -17478,10 +17514,10 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="xml">No Metadata Documentation available.</param>
-    ''' <param name="codeUser">No Metadata Documentation available.</param>
+    ''' <param name="xml">No hay documentación de metadatos disponible.</param>
+    ''' <param name="codeUser">No hay documentación de metadatos disponible.</param>
     Public Function SP_SaveIntegration(ByVal xml As String, ByVal codeUser As String) As ObjectResult(Of SP_SaveIntegration_Result) Implements IGlobalModelUnitOfWork.SP_SaveIntegration
         Dim xmlParameter As ObjectParameter
         If (xml IsNot Nothing)
@@ -17502,11 +17538,11 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="userCode">No Metadata Documentation available.</param>
-    ''' <param name="groupCode">No Metadata Documentation available.</param>
-    ''' <param name="container">No Metadata Documentation available.</param>
+    ''' <param name="userCode">No hay documentación de metadatos disponible.</param>
+    ''' <param name="groupCode">No hay documentación de metadatos disponible.</param>
+    ''' <param name="container">No hay documentación de metadatos disponible.</param>
     Public Function SP_ListCareCenterHis(ByVal userCode As String, ByVal groupCode As String, ByVal container As String) As ObjectResult(Of SP_ListCareCenterHis_Result) Implements IGlobalModelUnitOfWork.SP_ListCareCenterHis
         Dim userCodeParameter As ObjectParameter
         If (userCode IsNot Nothing)
@@ -17534,12 +17570,12 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="careCenterCode">No Metadata Documentation available.</param>
-    ''' <param name="userCode">No Metadata Documentation available.</param>
-    ''' <param name="groupCode">No Metadata Documentation available.</param>
-    ''' <param name="container">No Metadata Documentation available.</param>
+    ''' <param name="careCenterCode">No hay documentación de metadatos disponible.</param>
+    ''' <param name="userCode">No hay documentación de metadatos disponible.</param>
+    ''' <param name="groupCode">No hay documentación de metadatos disponible.</param>
+    ''' <param name="container">No hay documentación de metadatos disponible.</param>
     Public Function SP_ListFunctionalUnitHis(ByVal careCenterCode As String, ByVal userCode As String, ByVal groupCode As String, ByVal container As String) As ObjectResult(Of SP_ListFunctionalUnitHis_Result) Implements IGlobalModelUnitOfWork.SP_ListFunctionalUnitHis
         Dim careCenterCodeParameter As ObjectParameter
         If (careCenterCode IsNot Nothing)
@@ -17574,10 +17610,10 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="id">No Metadata Documentation available.</param>
-    ''' <param name="codeUser">No Metadata Documentation available.</param>
+    ''' <param name="id">No hay documentación de metadatos disponible.</param>
+    ''' <param name="codeUser">No hay documentación de metadatos disponible.</param>
     Public Function SP_GenerateJournalVoucherByFixedAssetReclassification(ByVal id As Nullable(Of Integer), ByVal codeUser As String) As ObjectResult(Of SP_GenerateJournalVoucherByFixedAssetReclassification_Result) Implements IGlobalModelUnitOfWork.SP_GenerateJournalVoucherByFixedAssetReclassification
         Dim idParameter As ObjectParameter
         If (id.HasValue)
@@ -17598,17 +17634,17 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="revenueControlDetailId">No Metadata Documentation available.</param>
-    ''' <param name="careGroupId">No Metadata Documentation available.</param>
-    ''' <param name="patientGenus">No Metadata Documentation available.</param>
-    ''' <param name="patientBirth">No Metadata Documentation available.</param>
-    ''' <param name="listHomologationsXml">No Metadata Documentation available.</param>
-    ''' <param name="onlyRateChange">No Metadata Documentation available.</param>
-    ''' <param name="thirdPartyPatientId">No Metadata Documentation available.</param>
-    ''' <param name="healthAdministratorId">No Metadata Documentation available.</param>
-    ''' <param name="listServiceOrderDetailWithQxXml">No Metadata Documentation available.</param>
+    ''' <param name="revenueControlDetailId">No hay documentación de metadatos disponible.</param>
+    ''' <param name="careGroupId">No hay documentación de metadatos disponible.</param>
+    ''' <param name="patientGenus">No hay documentación de metadatos disponible.</param>
+    ''' <param name="patientBirth">No hay documentación de metadatos disponible.</param>
+    ''' <param name="listHomologationsXml">No hay documentación de metadatos disponible.</param>
+    ''' <param name="onlyRateChange">No hay documentación de metadatos disponible.</param>
+    ''' <param name="thirdPartyPatientId">No hay documentación de metadatos disponible.</param>
+    ''' <param name="healthAdministratorId">No hay documentación de metadatos disponible.</param>
+    ''' <param name="listServiceOrderDetailWithQxXml">No hay documentación de metadatos disponible.</param>
     Public Function SP_ChangeRateServices(ByVal revenueControlDetailId As Nullable(Of Integer), ByVal careGroupId As Nullable(Of Integer), ByVal patientGenus As Nullable(Of Integer), ByVal patientBirth As Nullable(Of Date), ByVal listHomologationsXml As String, ByVal onlyRateChange As Nullable(Of Boolean), ByVal thirdPartyPatientId As Nullable(Of Integer), ByVal healthAdministratorId As Nullable(Of Integer), ByVal listServiceOrderDetailWithQxXml As String) As ObjectResult(Of SP_ChangeRateServices_Result) Implements IGlobalModelUnitOfWork.SP_ChangeRateServices
         Dim revenueControlDetailIdParameter As ObjectParameter
         If (revenueControlDetailId.HasValue)
@@ -17678,28 +17714,28 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="revenueControlId">No Metadata Documentation available.</param>
-    ''' <param name="sourceFolioId">No Metadata Documentation available.</param>
-    ''' <param name="targetFolioId">No Metadata Documentation available.</param>
-    ''' <param name="distribType">No Metadata Documentation available.</param>
-    ''' <param name="distributeQuantity">No Metadata Documentation available.</param>
-    ''' <param name="caregroupId">No Metadata Documentation available.</param>
-    ''' <param name="careGroupIdTarget">No Metadata Documentation available.</param>
-    ''' <param name="changeRateServicesNeccesary">No Metadata Documentation available.</param>
-    ''' <param name="user">No Metadata Documentation available.</param>
-    ''' <param name="patientGenus">No Metadata Documentation available.</param>
-    ''' <param name="patientBirth">No Metadata Documentation available.</param>
-    ''' <param name="onlyRateChange">No Metadata Documentation available.</param>
-    ''' <param name="thirdPartyPatientId">No Metadata Documentation available.</param>
-    ''' <param name="healthAdministratorId">No Metadata Documentation available.</param>
-    ''' <param name="folioType">No Metadata Documentation available.</param>
-    ''' <param name="contractEntityId">No Metadata Documentation available.</param>
-    ''' <param name="thirdPartyId">No Metadata Documentation available.</param>
-    ''' <param name="productsAndServicesXml">No Metadata Documentation available.</param>
-    ''' <param name="homologationsXml">No Metadata Documentation available.</param>
-    ''' <param name="listServiceOrderDetailXml">No Metadata Documentation available.</param>
+    ''' <param name="revenueControlId">No hay documentación de metadatos disponible.</param>
+    ''' <param name="sourceFolioId">No hay documentación de metadatos disponible.</param>
+    ''' <param name="targetFolioId">No hay documentación de metadatos disponible.</param>
+    ''' <param name="distribType">No hay documentación de metadatos disponible.</param>
+    ''' <param name="distributeQuantity">No hay documentación de metadatos disponible.</param>
+    ''' <param name="caregroupId">No hay documentación de metadatos disponible.</param>
+    ''' <param name="careGroupIdTarget">No hay documentación de metadatos disponible.</param>
+    ''' <param name="changeRateServicesNeccesary">No hay documentación de metadatos disponible.</param>
+    ''' <param name="user">No hay documentación de metadatos disponible.</param>
+    ''' <param name="patientGenus">No hay documentación de metadatos disponible.</param>
+    ''' <param name="patientBirth">No hay documentación de metadatos disponible.</param>
+    ''' <param name="onlyRateChange">No hay documentación de metadatos disponible.</param>
+    ''' <param name="thirdPartyPatientId">No hay documentación de metadatos disponible.</param>
+    ''' <param name="healthAdministratorId">No hay documentación de metadatos disponible.</param>
+    ''' <param name="folioType">No hay documentación de metadatos disponible.</param>
+    ''' <param name="contractEntityId">No hay documentación de metadatos disponible.</param>
+    ''' <param name="thirdPartyId">No hay documentación de metadatos disponible.</param>
+    ''' <param name="productsAndServicesXml">No hay documentación de metadatos disponible.</param>
+    ''' <param name="homologationsXml">No hay documentación de metadatos disponible.</param>
+    ''' <param name="listServiceOrderDetailXml">No hay documentación de metadatos disponible.</param>
     Public Function SP_DistributeFolio(ByVal revenueControlId As Nullable(Of Integer), ByVal sourceFolioId As Nullable(Of Integer), ByVal targetFolioId As Nullable(Of Integer), ByVal distribType As Nullable(Of Byte), ByVal distributeQuantity As Nullable(Of Integer), ByVal caregroupId As Nullable(Of Integer), ByVal careGroupIdTarget As Nullable(Of Integer), ByVal changeRateServicesNeccesary As Nullable(Of Boolean), ByVal user As String, ByVal patientGenus As Nullable(Of Integer), ByVal patientBirth As Nullable(Of Date), ByVal onlyRateChange As Nullable(Of Boolean), ByVal thirdPartyPatientId As Nullable(Of Integer), ByVal healthAdministratorId As Nullable(Of Integer), ByVal folioType As Nullable(Of Byte), ByVal contractEntityId As Nullable(Of Integer), ByVal thirdPartyId As Nullable(Of Integer), ByVal productsAndServicesXml As String, ByVal homologationsXml As String, ByVal listServiceOrderDetailXml As String) As ObjectResult(Of SP_DistributeFolio_Result) Implements IGlobalModelUnitOfWork.SP_DistributeFolio
         Dim revenueControlIdParameter As ObjectParameter
         If (revenueControlId.HasValue)
@@ -17846,13 +17882,13 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="serviceOrderDetailToExcludeXml">No Metadata Documentation available.</param>
-    ''' <param name="folioId">No Metadata Documentation available.</param>
-    ''' <param name="careGroupId">No Metadata Documentation available.</param>
-    ''' <param name="patientGenus">No Metadata Documentation available.</param>
-    ''' <param name="patientBirth">No Metadata Documentation available.</param>
+    ''' <param name="serviceOrderDetailToExcludeXml">No hay documentación de metadatos disponible.</param>
+    ''' <param name="folioId">No hay documentación de metadatos disponible.</param>
+    ''' <param name="careGroupId">No hay documentación de metadatos disponible.</param>
+    ''' <param name="patientGenus">No hay documentación de metadatos disponible.</param>
+    ''' <param name="patientBirth">No hay documentación de metadatos disponible.</param>
     Public Function SP_ExcludeOutService(ByVal serviceOrderDetailToExcludeXml As String, ByVal folioId As Nullable(Of Integer), ByVal careGroupId As Nullable(Of Integer), ByVal patientGenus As Nullable(Of Integer), ByVal patientBirth As Nullable(Of Date)) As ObjectResult(Of SP_ExcludeOutService_Result) Implements IGlobalModelUnitOfWork.SP_ExcludeOutService
         Dim serviceOrderDetailToExcludeXmlParameter As ObjectParameter
         If (serviceOrderDetailToExcludeXml IsNot Nothing)
@@ -17894,16 +17930,16 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="admissionCode">No Metadata Documentation available.</param>
-    ''' <param name="revenueControlDetailId">No Metadata Documentation available.</param>
-    ''' <param name="totalsItemsApplyRecoveryFee">No Metadata Documentation available.</param>
-    ''' <param name="liquidationType">No Metadata Documentation available.</param>
-    ''' <param name="serviceOrderDetailDistributionDetailId">No Metadata Documentation available.</param>
-    ''' <param name="serviceDistributionListXml">No Metadata Documentation available.</param>
-    ''' <param name="listItemsApplyRecoveryFeeXml">No Metadata Documentation available.</param>
-    ''' <param name="liquidate">No Metadata Documentation available.</param>
+    ''' <param name="admissionCode">No hay documentación de metadatos disponible.</param>
+    ''' <param name="revenueControlDetailId">No hay documentación de metadatos disponible.</param>
+    ''' <param name="totalsItemsApplyRecoveryFee">No hay documentación de metadatos disponible.</param>
+    ''' <param name="liquidationType">No hay documentación de metadatos disponible.</param>
+    ''' <param name="serviceOrderDetailDistributionDetailId">No hay documentación de metadatos disponible.</param>
+    ''' <param name="serviceDistributionListXml">No hay documentación de metadatos disponible.</param>
+    ''' <param name="listItemsApplyRecoveryFeeXml">No hay documentación de metadatos disponible.</param>
+    ''' <param name="liquidate">No hay documentación de metadatos disponible.</param>
     Public Function SP_LiquidateRecoveryFee(ByVal admissionCode As String, ByVal revenueControlDetailId As Nullable(Of Integer), ByVal totalsItemsApplyRecoveryFee As Nullable(Of Decimal), ByVal liquidationType As Nullable(Of Integer), ByVal serviceOrderDetailDistributionDetailId As Nullable(Of Integer), ByVal serviceDistributionListXml As String, ByVal listItemsApplyRecoveryFeeXml As String, ByVal liquidate As Nullable(Of Boolean)) As ObjectResult(Of SP_LiquidateRecoveryFee_Result) Implements IGlobalModelUnitOfWork.SP_LiquidateRecoveryFee
         Dim admissionCodeParameter As ObjectParameter
         If (admissionCode IsNot Nothing)
@@ -17966,15 +18002,15 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="revenueControlDetailId">No Metadata Documentation available.</param>
-    ''' <param name="careGroupId">No Metadata Documentation available.</param>
-    ''' <param name="listHomologationsXml">No Metadata Documentation available.</param>
-    ''' <param name="patientGenus">No Metadata Documentation available.</param>
-    ''' <param name="patientBirth">No Metadata Documentation available.</param>
-    ''' <param name="distributionToRetarificXml">No Metadata Documentation available.</param>
-    ''' <param name="retarificServiceOrdenDetailSurgicalXml">No Metadata Documentation available.</param>
+    ''' <param name="revenueControlDetailId">No hay documentación de metadatos disponible.</param>
+    ''' <param name="careGroupId">No hay documentación de metadatos disponible.</param>
+    ''' <param name="listHomologationsXml">No hay documentación de metadatos disponible.</param>
+    ''' <param name="patientGenus">No hay documentación de metadatos disponible.</param>
+    ''' <param name="patientBirth">No hay documentación de metadatos disponible.</param>
+    ''' <param name="distributionToRetarificXml">No hay documentación de metadatos disponible.</param>
+    ''' <param name="retarificServiceOrdenDetailSurgicalXml">No hay documentación de metadatos disponible.</param>
     Public Function SP_RunChangeRatesServices(ByVal revenueControlDetailId As Nullable(Of Integer), ByVal careGroupId As Nullable(Of Integer), ByVal listHomologationsXml As String, ByVal patientGenus As Nullable(Of Integer), ByVal patientBirth As Nullable(Of Date), ByVal distributionToRetarificXml As String, ByVal retarificServiceOrdenDetailSurgicalXml As String) As ObjectResult(Of SP_RunChangeRatesServices_Result) Implements IGlobalModelUnitOfWork.SP_RunChangeRatesServices
         Dim revenueControlDetailIdParameter As ObjectParameter
         If (revenueControlDetailId.HasValue)
@@ -18030,13 +18066,13 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="legalBookId">No Metadata Documentation available.</param>
-    ''' <param name="year">No Metadata Documentation available.</param>
-    ''' <param name="idOperatingUnit">No Metadata Documentation available.</param>
-    ''' <param name="nitCompany">No Metadata Documentation available.</param>
-    ''' <param name="user">No Metadata Documentation available.</param>
+    ''' <param name="legalBookId">No hay documentación de metadatos disponible.</param>
+    ''' <param name="year">No hay documentación de metadatos disponible.</param>
+    ''' <param name="idOperatingUnit">No hay documentación de metadatos disponible.</param>
+    ''' <param name="nitCompany">No hay documentación de metadatos disponible.</param>
+    ''' <param name="user">No hay documentación de metadatos disponible.</param>
     Public Function SP_FiscalYearClose(ByVal legalBookId As Nullable(Of Integer), ByVal year As Nullable(Of Integer), ByVal idOperatingUnit As Nullable(Of Integer), ByVal nitCompany As String, ByVal user As String) As ObjectResult(Of SP_FiscalYearClose_Result) Implements IGlobalModelUnitOfWork.SP_FiscalYearClose
         Dim legalBookIdParameter As ObjectParameter
         If (legalBookId.HasValue)
@@ -18078,9 +18114,9 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="xmlObject">No Metadata Documentation available.</param>
+    ''' <param name="xmlObject">No hay documentación de metadatos disponible.</param>
     Public Function SP_CopyAndPasteFixedAssetInitialBalance(ByVal xmlObject As String) As ObjectResult(Of SP_CopyAndPasteFixedAssetInitialBalance_Result) Implements IGlobalModelUnitOfWork.SP_CopyAndPasteFixedAssetInitialBalance
         Dim xmlObjectParameter As ObjectParameter
         If (xmlObject IsNot Nothing)
@@ -18094,13 +18130,13 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="xmlObject">No Metadata Documentation available.</param>
-    ''' <param name="courtDate">No Metadata Documentation available.</param>
-    ''' <param name="process">No Metadata Documentation available.</param>
-    ''' <param name="operatingUnitId">No Metadata Documentation available.</param>
-    ''' <param name="applyDeterioration">No Metadata Documentation available.</param>
+    ''' <param name="xmlObject">No hay documentación de metadatos disponible.</param>
+    ''' <param name="courtDate">No hay documentación de metadatos disponible.</param>
+    ''' <param name="process">No hay documentación de metadatos disponible.</param>
+    ''' <param name="operatingUnitId">No hay documentación de metadatos disponible.</param>
+    ''' <param name="applyDeterioration">No hay documentación de metadatos disponible.</param>
     Public Function SP_CopyAndPasteProvisionAndDeterioration(ByVal xmlObject As String, ByVal courtDate As Nullable(Of Date), ByVal process As Nullable(Of Integer), ByVal operatingUnitId As Nullable(Of Integer), ByVal applyDeterioration As Nullable(Of Integer)) As ObjectResult(Of SP_CopyAndPasteProvisionAndDeterioration_Result) Implements IGlobalModelUnitOfWork.SP_CopyAndPasteProvisionAndDeterioration
         Dim xmlObjectParameter As ObjectParameter
         If (xmlObject IsNot Nothing)
@@ -18142,9 +18178,9 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="cODCONCEC">No Metadata Documentation available.</param>
+    ''' <param name="cODCONCEC">No hay documentación de metadatos disponible.</param>
     Public Function SP_ListHCPRESCRDByCODCONCEC(ByVal cODCONCEC As String) As ObjectResult(Of SP_ListHCPRESCRDByCODCONCEC_Result) Implements IGlobalModelUnitOfWork.SP_ListHCPRESCRDByCODCONCEC
         Dim cODCONCECParameter As ObjectParameter
         If (cODCONCEC IsNot Nothing)
@@ -18158,13 +18194,13 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="xmlPharmaceutical">No Metadata Documentation available.</param>
-    ''' <param name="xmlAnnulateDashboard">No Metadata Documentation available.</param>
-    ''' <param name="xmlPrescription">No Metadata Documentation available.</param>
-    ''' <param name="codeUser">No Metadata Documentation available.</param>
-    ''' <param name="operatingUnitId">No Metadata Documentation available.</param>
+    ''' <param name="xmlPharmaceutical">No hay documentación de metadatos disponible.</param>
+    ''' <param name="xmlAnnulateDashboard">No hay documentación de metadatos disponible.</param>
+    ''' <param name="xmlPrescription">No hay documentación de metadatos disponible.</param>
+    ''' <param name="codeUser">No hay documentación de metadatos disponible.</param>
+    ''' <param name="operatingUnitId">No hay documentación de metadatos disponible.</param>
     Public Function SP_SaveDispensingByPatientMedilaser(ByVal xmlPharmaceutical As String, ByVal xmlAnnulateDashboard As String, ByVal xmlPrescription As String, ByVal codeUser As String, ByVal operatingUnitId As Nullable(Of Integer)) As ObjectResult(Of SP_SaveDispensingByPatientMedilaser_Result) Implements IGlobalModelUnitOfWork.SP_SaveDispensingByPatientMedilaser
         Dim xmlPharmaceuticalParameter As ObjectParameter
         If (xmlPharmaceutical IsNot Nothing)
@@ -18206,9 +18242,9 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="programatedDateIdsXml">No Metadata Documentation available.</param>
+    ''' <param name="programatedDateIdsXml">No hay documentación de metadatos disponible.</param>
     Public Function SP_DeleteMaintenanceProgramed(ByVal programatedDateIdsXml As String) As ObjectResult(Of SP_DeleteMaintenanceProgramed_Result) Implements IGlobalModelUnitOfWork.SP_DeleteMaintenanceProgramed
         Dim programatedDateIdsXmlParameter As ObjectParameter
         If (programatedDateIdsXml IsNot Nothing)
@@ -18222,10 +18258,10 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="xmlObject">No Metadata Documentation available.</param>
-    ''' <param name="codeUser">No Metadata Documentation available.</param>
+    ''' <param name="xmlObject">No hay documentación de metadatos disponible.</param>
+    ''' <param name="codeUser">No hay documentación de metadatos disponible.</param>
     Public Function SP_SaveInitialBalancePayroll(ByVal xmlObject As String, ByVal codeUser As String) As ObjectResult(Of SP_SaveInitialBalancePayroll_Result) Implements IGlobalModelUnitOfWork.SP_SaveInitialBalancePayroll
         Dim xmlObjectParameter As ObjectParameter
         If (xmlObject IsNot Nothing)
@@ -18246,9 +18282,9 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="xmlObject">No Metadata Documentation available.</param>
+    ''' <param name="xmlObject">No hay documentación de metadatos disponible.</param>
     Public Function SP_ImportFileInitialBalancePayroll(ByVal xmlObject As String) As ObjectResult(Of SP_ImportFileInitialBalancePayroll_Result) Implements IGlobalModelUnitOfWork.SP_ImportFileInitialBalancePayroll
         Dim xmlObjectParameter As ObjectParameter
         If (xmlObject IsNot Nothing)
@@ -18262,10 +18298,10 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="entityXml">No Metadata Documentation available.</param>
-    ''' <param name="codeUser">No Metadata Documentation available.</param>
+    ''' <param name="entityXml">No hay documentación de metadatos disponible.</param>
+    ''' <param name="codeUser">No hay documentación de metadatos disponible.</param>
     Public Function SP_SaveBasicBilling(ByVal entityXml As String, ByVal codeUser As String) As ObjectResult(Of SP_SaveBasicBilling_Result) Implements IGlobalModelUnitOfWork.SP_SaveBasicBilling
         Dim entityXmlParameter As ObjectParameter
         If (entityXml IsNot Nothing)
@@ -18286,10 +18322,10 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="xml">No Metadata Documentation available.</param>
-    ''' <param name="codeUser">No Metadata Documentation available.</param>
+    ''' <param name="xml">No hay documentación de metadatos disponible.</param>
+    ''' <param name="codeUser">No hay documentación de metadatos disponible.</param>
     Public Function SP_SaveCupsEntity(ByVal xml As String, ByVal codeUser As String) As ObjectResult(Of SP_SaveCupsEntity_Result) Implements IGlobalModelUnitOfWork.SP_SaveCupsEntity
         Dim xmlParameter As ObjectParameter
         If (xml IsNot Nothing)
@@ -18310,12 +18346,12 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="id">No Metadata Documentation available.</param>
-    ''' <param name="codeUser">No Metadata Documentation available.</param>
-    ''' <param name="cashReceiptsXml">No Metadata Documentation available.</param>
-    ''' <param name="companyType">No Metadata Documentation available.</param>
+    ''' <param name="id">No hay documentación de metadatos disponible.</param>
+    ''' <param name="codeUser">No hay documentación de metadatos disponible.</param>
+    ''' <param name="cashReceiptsXml">No hay documentación de metadatos disponible.</param>
+    ''' <param name="companyType">No hay documentación de metadatos disponible.</param>
     Public Function SP_ConfirmBasicBilling(ByVal id As Nullable(Of Integer), ByVal codeUser As String, ByVal cashReceiptsXml As String, ByVal companyType As Nullable(Of Integer)) As ObjectResult(Of SP_ConfirmBasicBilling_Result) Implements IGlobalModelUnitOfWork.SP_ConfirmBasicBilling
         Dim idParameter As ObjectParameter
         If (id.HasValue)
@@ -18350,10 +18386,10 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="movementId">No Metadata Documentation available.</param>
-    ''' <param name="status">No Metadata Documentation available.</param>
+    ''' <param name="movementId">No hay documentación de metadatos disponible.</param>
+    ''' <param name="status">No hay documentación de metadatos disponible.</param>
     Public Function SP_SaveJournalVoucherOffline_ByMovementID(ByVal movementId As Nullable(Of Integer), ByVal status As Nullable(Of Byte)) As ObjectResult(Of SP_SaveJournalVoucherOffline_ByMovementID_Result) Implements IGlobalModelUnitOfWork.SP_SaveJournalVoucherOffline_ByMovementID
         Dim movementIdParameter As ObjectParameter
         If (movementId.HasValue)
@@ -18374,11 +18410,11 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="addressId">No Metadata Documentation available.</param>
-    ''' <param name="warehouseId">No Metadata Documentation available.</param>
-    ''' <param name="xmlObject">No Metadata Documentation available.</param>
+    ''' <param name="addressId">No hay documentación de metadatos disponible.</param>
+    ''' <param name="warehouseId">No hay documentación de metadatos disponible.</param>
+    ''' <param name="xmlObject">No hay documentación de metadatos disponible.</param>
     Public Function SP_SetBasicBillingDetailFromFile(ByVal addressId As Nullable(Of Integer), ByVal warehouseId As Nullable(Of Integer), ByVal xmlObject As String) As ObjectResult(Of SP_SetBasicBillingDetailFromFile_Result) Implements IGlobalModelUnitOfWork.SP_SetBasicBillingDetailFromFile
         Dim addressIdParameter As ObjectParameter
         If (addressId.HasValue)
@@ -18406,11 +18442,11 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="accountsPayableXml">No Metadata Documentation available.</param>
-    ''' <param name="codeUser">No Metadata Documentation available.</param>
-    ''' <param name="isMasiveConfirm">No Metadata Documentation available.</param>
+    ''' <param name="accountsPayableXml">No hay documentación de metadatos disponible.</param>
+    ''' <param name="codeUser">No hay documentación de metadatos disponible.</param>
+    ''' <param name="isMasiveConfirm">No hay documentación de metadatos disponible.</param>
     Public Function SP_ConfirmAccountsPayable(ByVal accountsPayableXml As String, ByVal codeUser As String, ByVal isMasiveConfirm As Nullable(Of Boolean)) As ObjectResult(Of SP_ConfirmAccountsPayable_Result) Implements IGlobalModelUnitOfWork.SP_ConfirmAccountsPayable
         Dim accountsPayableXmlParameter As ObjectParameter
         If (accountsPayableXml IsNot Nothing)
@@ -18438,10 +18474,10 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="xmlObject">No Metadata Documentation available.</param>
-    ''' <param name="xmlParameters">No Metadata Documentation available.</param>
+    ''' <param name="xmlObject">No hay documentación de metadatos disponible.</param>
+    ''' <param name="xmlParameters">No hay documentación de metadatos disponible.</param>
     Public Function SP_ImportAdvancesToPortfolioNote(ByVal xmlObject As String, ByVal xmlParameters As String) As ObjectResult(Of SP_ImportAdvancesToPortfolioNote_Result) Implements IGlobalModelUnitOfWork.SP_ImportAdvancesToPortfolioNote
         Dim xmlObjectParameter As ObjectParameter
         If (xmlObject IsNot Nothing)
@@ -18462,10 +18498,10 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="xmlObject">No Metadata Documentation available.</param>
-    ''' <param name="xmlParameters">No Metadata Documentation available.</param>
+    ''' <param name="xmlObject">No hay documentación de metadatos disponible.</param>
+    ''' <param name="xmlParameters">No hay documentación de metadatos disponible.</param>
     Public Function SP_ImportBillsToPortfolioNote(ByVal xmlObject As String, ByVal xmlParameters As String) As ObjectResult(Of SP_ImportBillsToPortfolioNote_Result) Implements IGlobalModelUnitOfWork.SP_ImportBillsToPortfolioNote
         Dim xmlObjectParameter As ObjectParameter
         If (xmlObject IsNot Nothing)
@@ -18486,10 +18522,10 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="xmlObject">No Metadata Documentation available.</param>
-    ''' <param name="xmlParameters">No Metadata Documentation available.</param>
+    ''' <param name="xmlObject">No hay documentación de metadatos disponible.</param>
+    ''' <param name="xmlParameters">No hay documentación de metadatos disponible.</param>
     Public Function SP_ImportBillsToAccountPayable(ByVal xmlObject As String, ByVal xmlParameters As String) As ObjectResult(Of SP_ImportBillsToAccountPayable_Result) Implements IGlobalModelUnitOfWork.SP_ImportBillsToAccountPayable
         Dim xmlObjectParameter As ObjectParameter
         If (xmlObject IsNot Nothing)
@@ -18510,11 +18546,11 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="admissionNumber">No Metadata Documentation available.</param>
-    ''' <param name="isCurrentAdmission">No Metadata Documentation available.</param>
-    ''' <param name="xml">No Metadata Documentation available.</param>
+    ''' <param name="admissionNumber">No hay documentación de metadatos disponible.</param>
+    ''' <param name="isCurrentAdmission">No hay documentación de metadatos disponible.</param>
+    ''' <param name="xml">No hay documentación de metadatos disponible.</param>
     Public Function SP_ProcessAccountControlAmbulatory(ByVal admissionNumber As String, ByVal isCurrentAdmission As Nullable(Of Boolean), ByVal xml As String) As ObjectResult(Of SP_ProcessAccountControlAmbulatory_Result) Implements IGlobalModelUnitOfWork.SP_ProcessAccountControlAmbulatory
         Dim admissionNumberParameter As ObjectParameter
         If (admissionNumber IsNot Nothing)
@@ -18542,11 +18578,11 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="paymentNotesXml">No Metadata Documentation available.</param>
-    ''' <param name="codeUser">No Metadata Documentation available.</param>
-    ''' <param name="isMasiveConfirm">No Metadata Documentation available.</param>
+    ''' <param name="paymentNotesXml">No hay documentación de metadatos disponible.</param>
+    ''' <param name="codeUser">No hay documentación de metadatos disponible.</param>
+    ''' <param name="isMasiveConfirm">No hay documentación de metadatos disponible.</param>
     Public Function SP_ConfirmPayableNote(ByVal paymentNotesXml As String, ByVal codeUser As String, ByVal isMasiveConfirm As Nullable(Of Boolean)) As ObjectResult(Of SP_ConfirmPayableNote_Result) Implements IGlobalModelUnitOfWork.SP_ConfirmPayableNote
         Dim paymentNotesXmlParameter As ObjectParameter
         If (paymentNotesXml IsNot Nothing)
@@ -18574,10 +18610,10 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="invoiceEntityCapitatedId">No Metadata Documentation available.</param>
-    ''' <param name="invoiceEntityCapitatedDistributionId">No Metadata Documentation available.</param>
+    ''' <param name="invoiceEntityCapitatedId">No hay documentación de metadatos disponible.</param>
+    ''' <param name="invoiceEntityCapitatedDistributionId">No hay documentación de metadatos disponible.</param>
     Public Function SP_GetInvoiceEntityCapitatedDistributionDetails(ByVal invoiceEntityCapitatedId As Nullable(Of Integer), ByVal invoiceEntityCapitatedDistributionId As Nullable(Of Integer)) As ObjectResult(Of SP_GetInvoiceEntityCapitatedDistributionDetails_Result) Implements IGlobalModelUnitOfWork.SP_GetInvoiceEntityCapitatedDistributionDetails
         Dim invoiceEntityCapitatedIdParameter As ObjectParameter
         If (invoiceEntityCapitatedId.HasValue)
@@ -18598,10 +18634,10 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="invoiceEntityCapitatedDistributionId">No Metadata Documentation available.</param>
-    ''' <param name="codeUser">No Metadata Documentation available.</param>
+    ''' <param name="invoiceEntityCapitatedDistributionId">No hay documentación de metadatos disponible.</param>
+    ''' <param name="codeUser">No hay documentación de metadatos disponible.</param>
     Public Function SP_ConfirmInvoiceEntityCapitatedDistribution(ByVal invoiceEntityCapitatedDistributionId As Nullable(Of Integer), ByVal codeUser As String) As ObjectResult(Of SP_ConfirmInvoiceEntityCapitatedDistribution_Result) Implements IGlobalModelUnitOfWork.SP_ConfirmInvoiceEntityCapitatedDistribution
         Dim invoiceEntityCapitatedDistributionIdParameter As ObjectParameter
         If (invoiceEntityCapitatedDistributionId.HasValue)
@@ -18622,11 +18658,11 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="invoiceEntityCapitatedDistributionXml">No Metadata Documentation available.</param>
-    ''' <param name="invoiceEntityCapitatedDistributionDetailXml">No Metadata Documentation available.</param>
-    ''' <param name="codeUser">No Metadata Documentation available.</param>
+    ''' <param name="invoiceEntityCapitatedDistributionXml">No hay documentación de metadatos disponible.</param>
+    ''' <param name="invoiceEntityCapitatedDistributionDetailXml">No hay documentación de metadatos disponible.</param>
+    ''' <param name="codeUser">No hay documentación de metadatos disponible.</param>
     Public Function SP_SaveInvoiceEntityCapitatedDistribution(ByVal invoiceEntityCapitatedDistributionXml As String, ByVal invoiceEntityCapitatedDistributionDetailXml As String, ByVal codeUser As String) As ObjectResult(Of SP_SaveInvoiceEntityCapitatedDistribution_Result) Implements IGlobalModelUnitOfWork.SP_SaveInvoiceEntityCapitatedDistribution
         Dim invoiceEntityCapitatedDistributionXmlParameter As ObjectParameter
         If (invoiceEntityCapitatedDistributionXml IsNot Nothing)
@@ -18654,10 +18690,10 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="invoiceEntityCapitatedDistributionId">No Metadata Documentation available.</param>
-    ''' <param name="codeUser">No Metadata Documentation available.</param>
+    ''' <param name="invoiceEntityCapitatedDistributionId">No hay documentación de metadatos disponible.</param>
+    ''' <param name="codeUser">No hay documentación de metadatos disponible.</param>
     Public Function SP_ReverseInvoiceEntityCapitatedDistribution(ByVal invoiceEntityCapitatedDistributionId As Nullable(Of Integer), ByVal codeUser As String) As ObjectResult(Of SP_ReverseInvoiceEntityCapitatedDistribution_Result) Implements IGlobalModelUnitOfWork.SP_ReverseInvoiceEntityCapitatedDistribution
         Dim invoiceEntityCapitatedDistributionIdParameter As ObjectParameter
         If (invoiceEntityCapitatedDistributionId.HasValue)
@@ -18678,16 +18714,16 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="costActivityXml">No Metadata Documentation available.</param>
-    ''' <param name="listCostProductionCenterXml">No Metadata Documentation available.</param>
-    ''' <param name="listCostActivityStepXml">No Metadata Documentation available.</param>
-    ''' <param name="listCostActivityStepFixedAssetXml">No Metadata Documentation available.</param>
-    ''' <param name="listCostActivityStepPayrollXml">No Metadata Documentation available.</param>
-    ''' <param name="listCostActivityStepInventoryXml">No Metadata Documentation available.</param>
-    ''' <param name="listCostActivityStepAddictionalCostXml">No Metadata Documentation available.</param>
-    ''' <param name="codeUser">No Metadata Documentation available.</param>
+    ''' <param name="costActivityXml">No hay documentación de metadatos disponible.</param>
+    ''' <param name="listCostProductionCenterXml">No hay documentación de metadatos disponible.</param>
+    ''' <param name="listCostActivityStepXml">No hay documentación de metadatos disponible.</param>
+    ''' <param name="listCostActivityStepFixedAssetXml">No hay documentación de metadatos disponible.</param>
+    ''' <param name="listCostActivityStepPayrollXml">No hay documentación de metadatos disponible.</param>
+    ''' <param name="listCostActivityStepInventoryXml">No hay documentación de metadatos disponible.</param>
+    ''' <param name="listCostActivityStepAddictionalCostXml">No hay documentación de metadatos disponible.</param>
+    ''' <param name="codeUser">No hay documentación de metadatos disponible.</param>
     Public Function SP_SaveCostActivity(ByVal costActivityXml As String, ByVal listCostProductionCenterXml As String, ByVal listCostActivityStepXml As String, ByVal listCostActivityStepFixedAssetXml As String, ByVal listCostActivityStepPayrollXml As String, ByVal listCostActivityStepInventoryXml As String, ByVal listCostActivityStepAddictionalCostXml As String, ByVal codeUser As String) As ObjectResult(Of SP_SaveCostActivity_Result) Implements IGlobalModelUnitOfWork.SP_SaveCostActivity
         Dim costActivityXmlParameter As ObjectParameter
         If (costActivityXml IsNot Nothing)
@@ -18750,9 +18786,9 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="xmlObject">No Metadata Documentation available.</param>
+    ''' <param name="xmlObject">No hay documentación de metadatos disponible.</param>
     Public Function SP_CostActivityCopyAndPasteFixedAsset(ByVal xmlObject As String) As ObjectResult(Of SP_CostActivityCopyAndPasteFixedAsset_Result) Implements IGlobalModelUnitOfWork.SP_CostActivityCopyAndPasteFixedAsset
         Dim xmlObjectParameter As ObjectParameter
         If (xmlObject IsNot Nothing)
@@ -18766,9 +18802,9 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="xmlObject">No Metadata Documentation available.</param>
+    ''' <param name="xmlObject">No hay documentación de metadatos disponible.</param>
     Public Function SP_CostActivityCopyAndPasteInventory(ByVal xmlObject As String) As ObjectResult(Of SP_CostActivityCopyAndPasteInventory_Result) Implements IGlobalModelUnitOfWork.SP_CostActivityCopyAndPasteInventory
         Dim xmlObjectParameter As ObjectParameter
         If (xmlObject IsNot Nothing)
@@ -18782,9 +18818,9 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="xmlObject">No Metadata Documentation available.</param>
+    ''' <param name="xmlObject">No hay documentación de metadatos disponible.</param>
     Public Function SP_CostActivityCopyAndPastePayroll(ByVal xmlObject As String) As ObjectResult(Of SP_CostActivityCopyAndPastePayroll_Result) Implements IGlobalModelUnitOfWork.SP_CostActivityCopyAndPastePayroll
         Dim xmlObjectParameter As ObjectParameter
         If (xmlObject IsNot Nothing)
@@ -18798,9 +18834,9 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="xmlObject">No Metadata Documentation available.</param>
+    ''' <param name="xmlObject">No hay documentación de metadatos disponible.</param>
     Public Function SP_CostActivityCopyAndPasteProductionCenter(ByVal xmlObject As String) As ObjectResult(Of SP_CostActivityCopyAndPasteProductionCenter_Result) Implements IGlobalModelUnitOfWork.SP_CostActivityCopyAndPasteProductionCenter
         Dim xmlObjectParameter As ObjectParameter
         If (xmlObject IsNot Nothing)
@@ -18814,10 +18850,10 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="patientCode">No Metadata Documentation available.</param>
-    ''' <param name="admissionNumber">No Metadata Documentation available.</param>
+    ''' <param name="patientCode">No hay documentación de metadatos disponible.</param>
+    ''' <param name="admissionNumber">No hay documentación de metadatos disponible.</param>
     Public Function SP_ProductCustody(ByVal patientCode As String, ByVal admissionNumber As String) As ObjectResult(Of SP_ProductCustody_Result) Implements IGlobalModelUnitOfWork.SP_ProductCustody
         Dim patientCodeParameter As ObjectParameter
         If (patientCode IsNot Nothing)
@@ -18838,15 +18874,15 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="kardexCustody">No Metadata Documentation available.</param>
-    ''' <param name="admissionNumber">No Metadata Documentation available.</param>
-    ''' <param name="entityId">No Metadata Documentation available.</param>
-    ''' <param name="entityCode">No Metadata Documentation available.</param>
-    ''' <param name="entityName">No Metadata Documentation available.</param>
-    ''' <param name="user">No Metadata Documentation available.</param>
-    ''' <param name="controlCost">No Metadata Documentation available.</param>
+    ''' <param name="kardexCustody">No hay documentación de metadatos disponible.</param>
+    ''' <param name="admissionNumber">No hay documentación de metadatos disponible.</param>
+    ''' <param name="entityId">No hay documentación de metadatos disponible.</param>
+    ''' <param name="entityCode">No hay documentación de metadatos disponible.</param>
+    ''' <param name="entityName">No hay documentación de metadatos disponible.</param>
+    ''' <param name="user">No hay documentación de metadatos disponible.</param>
+    ''' <param name="controlCost">No hay documentación de metadatos disponible.</param>
     Public Function SP_SavePhysicalInventoryCustodyKardexCustody(ByVal kardexCustody As String, ByVal admissionNumber As String, ByVal entityId As Nullable(Of Integer), ByVal entityCode As String, ByVal entityName As String, ByVal user As String, ByVal controlCost As Nullable(Of Boolean)) As ObjectResult(Of SP_SavePhysicalInventoryCustodyKardexCustody_Result) Implements IGlobalModelUnitOfWork.SP_SavePhysicalInventoryCustodyKardexCustody
         Dim kardexCustodyParameter As ObjectParameter
         If (kardexCustody IsNot Nothing)
@@ -18902,18 +18938,18 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="codeMeasurementUnit">No Metadata Documentation available.</param>
-    ''' <param name="descriptionMeasurementUnit">No Metadata Documentation available.</param>
-    ''' <param name="abbreviation">No Metadata Documentation available.</param>
-    ''' <param name="unitType">No Metadata Documentation available.</param>
-    ''' <param name="status">No Metadata Documentation available.</param>
-    ''' <param name="allowEditCostValue">No Metadata Documentation available.</param>
-    ''' <param name="costValue">No Metadata Documentation available.</param>
-    ''' <param name="codeUser">No Metadata Documentation available.</param>
-    ''' <param name="requiresStandardCode">No Metadata Documentation available.</param>
-    ''' <param name="standardCode">No Metadata Documentation available.</param>
+    ''' <param name="codeMeasurementUnit">No hay documentación de metadatos disponible.</param>
+    ''' <param name="descriptionMeasurementUnit">No hay documentación de metadatos disponible.</param>
+    ''' <param name="abbreviation">No hay documentación de metadatos disponible.</param>
+    ''' <param name="unitType">No hay documentación de metadatos disponible.</param>
+    ''' <param name="status">No hay documentación de metadatos disponible.</param>
+    ''' <param name="allowEditCostValue">No hay documentación de metadatos disponible.</param>
+    ''' <param name="costValue">No hay documentación de metadatos disponible.</param>
+    ''' <param name="codeUser">No hay documentación de metadatos disponible.</param>
+    ''' <param name="requiresStandardCode">No hay documentación de metadatos disponible.</param>
+    ''' <param name="standardCode">No hay documentación de metadatos disponible.</param>
     Public Function SP_SaveMeasureUnit(ByVal codeMeasurementUnit As String, ByVal descriptionMeasurementUnit As String, ByVal abbreviation As String, ByVal unitType As Nullable(Of Byte), ByVal status As Nullable(Of Boolean), ByVal allowEditCostValue As Nullable(Of Boolean), ByVal costValue As Nullable(Of Decimal), ByVal codeUser As String, ByVal requiresStandardCode As Nullable(Of Boolean), ByVal standardCode As String) As ObjectResult(Of SP_SaveMeasureUnit_Result) Implements IGlobalModelUnitOfWork.SP_SaveMeasureUnit
         Dim codeMeasurementUnitParameter As ObjectParameter
         If (codeMeasurementUnit IsNot Nothing)
@@ -18990,12 +19026,12 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="codePharmaCologicalGroup">No Metadata Documentation available.</param>
-    ''' <param name="descriptionPharmacologicalGroup">No Metadata Documentation available.</param>
-    ''' <param name="status">No Metadata Documentation available.</param>
-    ''' <param name="codeUser">No Metadata Documentation available.</param>
+    ''' <param name="codePharmaCologicalGroup">No hay documentación de metadatos disponible.</param>
+    ''' <param name="descriptionPharmacologicalGroup">No hay documentación de metadatos disponible.</param>
+    ''' <param name="status">No hay documentación de metadatos disponible.</param>
+    ''' <param name="codeUser">No hay documentación de metadatos disponible.</param>
     Public Function SP_SavePharmacologicalGroup(ByVal codePharmaCologicalGroup As String, ByVal descriptionPharmacologicalGroup As String, ByVal status As Nullable(Of Boolean), ByVal codeUser As String) As ObjectResult(Of SP_SavePharmacologicalGroup_Result) Implements IGlobalModelUnitOfWork.SP_SavePharmacologicalGroup
         Dim codePharmaCologicalGroupParameter As ObjectParameter
         If (codePharmaCologicalGroup IsNot Nothing)
@@ -19030,10 +19066,10 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="paymentTransferId">No Metadata Documentation available.</param>
-    ''' <param name="codeUser">No Metadata Documentation available.</param>
+    ''' <param name="paymentTransferId">No hay documentación de metadatos disponible.</param>
+    ''' <param name="codeUser">No hay documentación de metadatos disponible.</param>
     Public Function SP_ConfirmPaymentTransfer(ByVal paymentTransferId As Nullable(Of Integer), ByVal codeUser As String) As ObjectResult(Of SP_ConfirmPaymentTransfer_Result) Implements IGlobalModelUnitOfWork.SP_ConfirmPaymentTransfer
         Dim paymentTransferIdParameter As ObjectParameter
         If (paymentTransferId.HasValue)
@@ -19054,10 +19090,10 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="xml">No Metadata Documentation available.</param>
-    ''' <param name="codeUser">No Metadata Documentation available.</param>
+    ''' <param name="xml">No hay documentación de metadatos disponible.</param>
+    ''' <param name="codeUser">No hay documentación de metadatos disponible.</param>
     Public Function SP_SavePharmaceuticalForm(ByVal xml As String, ByVal codeUser As String) As ObjectResult(Of SP_SavePharmaceuticalForm_Result) Implements IGlobalModelUnitOfWork.SP_SavePharmaceuticalForm
         Dim xmlParameter As ObjectParameter
         If (xml IsNot Nothing)
@@ -19078,13 +19114,13 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="pharmaceuticalFormId">No Metadata Documentation available.</param>
-    ''' <param name="codeAdministrationRoute">No Metadata Documentation available.</param>
-    ''' <param name="nameAdministrationRoute">No Metadata Documentation available.</param>
-    ''' <param name="status">No Metadata Documentation available.</param>
-    ''' <param name="codeUser">No Metadata Documentation available.</param>
+    ''' <param name="pharmaceuticalFormId">No hay documentación de metadatos disponible.</param>
+    ''' <param name="codeAdministrationRoute">No hay documentación de metadatos disponible.</param>
+    ''' <param name="nameAdministrationRoute">No hay documentación de metadatos disponible.</param>
+    ''' <param name="status">No hay documentación de metadatos disponible.</param>
+    ''' <param name="codeUser">No hay documentación de metadatos disponible.</param>
     Public Function SP_SaveAdministrationRoute(ByVal pharmaceuticalFormId As Nullable(Of Integer), ByVal codeAdministrationRoute As String, ByVal nameAdministrationRoute As String, ByVal status As Nullable(Of Boolean), ByVal codeUser As String) As ObjectResult(Of SP_SaveAdministrationRoute_Result) Implements IGlobalModelUnitOfWork.SP_SaveAdministrationRoute
         Dim pharmaceuticalFormIdParameter As ObjectParameter
         If (pharmaceuticalFormId.HasValue)
@@ -19126,16 +19162,16 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="dCIXml">No Metadata Documentation available.</param>
-    ''' <param name="listDeleteMedicaments">No Metadata Documentation available.</param>
-    ''' <param name="listDeleteDrugActive">No Metadata Documentation available.</param>
-    ''' <param name="listDeleteLethalDoseLimits">No Metadata Documentation available.</param>
-    ''' <param name="listDeleteRisksDescription">No Metadata Documentation available.</param>
-    ''' <param name="listDeleteRiskFactor">No Metadata Documentation available.</param>
-    ''' <param name="operatingUnitId">No Metadata Documentation available.</param>
-    ''' <param name="codeUser">No Metadata Documentation available.</param>
+    ''' <param name="dCIXml">No hay documentación de metadatos disponible.</param>
+    ''' <param name="listDeleteMedicaments">No hay documentación de metadatos disponible.</param>
+    ''' <param name="listDeleteDrugActive">No hay documentación de metadatos disponible.</param>
+    ''' <param name="listDeleteLethalDoseLimits">No hay documentación de metadatos disponible.</param>
+    ''' <param name="listDeleteRisksDescription">No hay documentación de metadatos disponible.</param>
+    ''' <param name="listDeleteRiskFactor">No hay documentación de metadatos disponible.</param>
+    ''' <param name="operatingUnitId">No hay documentación de metadatos disponible.</param>
+    ''' <param name="codeUser">No hay documentación de metadatos disponible.</param>
     Public Function SP_SaveDCI(ByVal dCIXml As String, ByVal listDeleteMedicaments As String, ByVal listDeleteDrugActive As String, ByVal listDeleteLethalDoseLimits As String, ByVal listDeleteRisksDescription As String, ByVal listDeleteRiskFactor As String, ByVal operatingUnitId As Nullable(Of Integer), ByVal codeUser As String) As ObjectResult(Of SP_SaveDCI_Result) Implements IGlobalModelUnitOfWork.SP_SaveDCI
         Dim dCIXmlParameter As ObjectParameter
         If (dCIXml IsNot Nothing)
@@ -19198,12 +19234,12 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="codeRiskLevel">No Metadata Documentation available.</param>
-    ''' <param name="nameRiskLevel">No Metadata Documentation available.</param>
-    ''' <param name="status">No Metadata Documentation available.</param>
-    ''' <param name="codeUser">No Metadata Documentation available.</param>
+    ''' <param name="codeRiskLevel">No hay documentación de metadatos disponible.</param>
+    ''' <param name="nameRiskLevel">No hay documentación de metadatos disponible.</param>
+    ''' <param name="status">No hay documentación de metadatos disponible.</param>
+    ''' <param name="codeUser">No hay documentación de metadatos disponible.</param>
     Public Function SP_SaveInventoryRiskLevel(ByVal codeRiskLevel As String, ByVal nameRiskLevel As String, ByVal status As Nullable(Of Boolean), ByVal codeUser As String) As ObjectResult(Of SP_SaveInventoryRiskLevel_Result) Implements IGlobalModelUnitOfWork.SP_SaveInventoryRiskLevel
         Dim codeRiskLevelParameter As ObjectParameter
         If (codeRiskLevel IsNot Nothing)
@@ -19238,9 +19274,9 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="xmlObject">No Metadata Documentation available.</param>
+    ''' <param name="xmlObject">No hay documentación de metadatos disponible.</param>
     Public Function SP_CopyAndPasteCostInventoryGroupDetail(ByVal xmlObject As String) As ObjectResult(Of SP_CopyAndPasteCostInventoryGroupDetail_Result) Implements IGlobalModelUnitOfWork.SP_CopyAndPasteCostInventoryGroupDetail
         Dim xmlObjectParameter As ObjectParameter
         If (xmlObject IsNot Nothing)
@@ -19254,11 +19290,11 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="costInventoryGroupXml">No Metadata Documentation available.</param>
-    ''' <param name="listCostInventoryGroupDetailXml">No Metadata Documentation available.</param>
-    ''' <param name="codeUser">No Metadata Documentation available.</param>
+    ''' <param name="costInventoryGroupXml">No hay documentación de metadatos disponible.</param>
+    ''' <param name="listCostInventoryGroupDetailXml">No hay documentación de metadatos disponible.</param>
+    ''' <param name="codeUser">No hay documentación de metadatos disponible.</param>
     Public Function SP_SaveCostInventoryGroup(ByVal costInventoryGroupXml As String, ByVal listCostInventoryGroupDetailXml As String, ByVal codeUser As String) As ObjectResult(Of SP_SaveCostInventoryGroup_Result) Implements IGlobalModelUnitOfWork.SP_SaveCostInventoryGroup
         Dim costInventoryGroupXmlParameter As ObjectParameter
         If (costInventoryGroupXml IsNot Nothing)
@@ -19286,10 +19322,10 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="treasuryNoteId">No Metadata Documentation available.</param>
-    ''' <param name="codeUser">No Metadata Documentation available.</param>
+    ''' <param name="treasuryNoteId">No hay documentación de metadatos disponible.</param>
+    ''' <param name="codeUser">No hay documentación de metadatos disponible.</param>
     Public Function SP_ReverseConsignment(ByVal treasuryNoteId As Nullable(Of Integer), ByVal codeUser As String) As ObjectResult(Of SP_ReverseConsignment_Result) Implements IGlobalModelUnitOfWork.SP_ReverseConsignment
         Dim treasuryNoteIdParameter As ObjectParameter
         If (treasuryNoteId.HasValue)
@@ -19310,10 +19346,10 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="xml">No Metadata Documentation available.</param>
-    ''' <param name="userCode">No Metadata Documentation available.</param>
+    ''' <param name="xml">No hay documentación de metadatos disponible.</param>
+    ''' <param name="userCode">No hay documentación de metadatos disponible.</param>
     Public Function SP_SaveATC(ByVal xml As String, ByVal userCode As String) As ObjectResult(Of SP_SaveATC_Result) Implements IGlobalModelUnitOfWork.SP_SaveATC
         Dim xmlParameter As ObjectParameter
         If (xml IsNot Nothing)
@@ -19334,10 +19370,10 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="radicateInvoiceId">No Metadata Documentation available.</param>
-    ''' <param name="xmlInvoices">No Metadata Documentation available.</param>
+    ''' <param name="radicateInvoiceId">No hay documentación de metadatos disponible.</param>
+    ''' <param name="xmlInvoices">No hay documentación de metadatos disponible.</param>
     Public Function SP_GenerateAFFileData(ByVal radicateInvoiceId As Nullable(Of Integer), ByVal xmlInvoices As String) As ObjectResult(Of SP_GenerateAFFileData_Result) Implements IGlobalModelUnitOfWork.SP_GenerateAFFileData
         Dim radicateInvoiceIdParameter As ObjectParameter
         If (radicateInvoiceId.HasValue)
@@ -19358,10 +19394,10 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="radicateInvoiceId">No Metadata Documentation available.</param>
-    ''' <param name="xmlInvoices">No Metadata Documentation available.</param>
+    ''' <param name="radicateInvoiceId">No hay documentación de metadatos disponible.</param>
+    ''' <param name="xmlInvoices">No hay documentación de metadatos disponible.</param>
     Public Function SP_GenerateAHFileData(ByVal radicateInvoiceId As Nullable(Of Integer), ByVal xmlInvoices As String) As ObjectResult(Of SP_GenerateAHFileData_Result) Implements IGlobalModelUnitOfWork.SP_GenerateAHFileData
         Dim radicateInvoiceIdParameter As ObjectParameter
         If (radicateInvoiceId.HasValue)
@@ -19382,11 +19418,11 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="radicateInvoiceId">No Metadata Documentation available.</param>
-    ''' <param name="xmlInvoices">No Metadata Documentation available.</param>
-    ''' <param name="packageDetail">No Metadata Documentation available.</param>
+    ''' <param name="radicateInvoiceId">No hay documentación de metadatos disponible.</param>
+    ''' <param name="xmlInvoices">No hay documentación de metadatos disponible.</param>
+    ''' <param name="packageDetail">No hay documentación de metadatos disponible.</param>
     Public Function SP_GenerateAMFileData(ByVal radicateInvoiceId As Nullable(Of Integer), ByVal xmlInvoices As String, ByVal packageDetail As Nullable(Of Boolean)) As ObjectResult(Of SP_GenerateAMFileData_Result) Implements IGlobalModelUnitOfWork.SP_GenerateAMFileData
         Dim radicateInvoiceIdParameter As ObjectParameter
         If (radicateInvoiceId.HasValue)
@@ -19414,10 +19450,10 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="radicateInvoiceId">No Metadata Documentation available.</param>
-    ''' <param name="xmlInvoices">No Metadata Documentation available.</param>
+    ''' <param name="radicateInvoiceId">No hay documentación de metadatos disponible.</param>
+    ''' <param name="xmlInvoices">No hay documentación de metadatos disponible.</param>
     Public Function SP_GenerateANFileData(ByVal radicateInvoiceId As Nullable(Of Integer), ByVal xmlInvoices As String) As ObjectResult(Of SP_GenerateANFileData_Result) Implements IGlobalModelUnitOfWork.SP_GenerateANFileData
         Dim radicateInvoiceIdParameter As ObjectParameter
         If (radicateInvoiceId.HasValue)
@@ -19438,11 +19474,11 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="radicateInvoiceId">No Metadata Documentation available.</param>
-    ''' <param name="xmlInvoices">No Metadata Documentation available.</param>
-    ''' <param name="packageDetail">No Metadata Documentation available.</param>
+    ''' <param name="radicateInvoiceId">No hay documentación de metadatos disponible.</param>
+    ''' <param name="xmlInvoices">No hay documentación de metadatos disponible.</param>
+    ''' <param name="packageDetail">No hay documentación de metadatos disponible.</param>
     Public Function SP_GenerateAPFileData(ByVal radicateInvoiceId As Nullable(Of Integer), ByVal xmlInvoices As String, ByVal packageDetail As Nullable(Of Boolean)) As ObjectResult(Of SP_GenerateAPFileData_Result) Implements IGlobalModelUnitOfWork.SP_GenerateAPFileData
         Dim radicateInvoiceIdParameter As ObjectParameter
         If (radicateInvoiceId.HasValue)
@@ -19470,11 +19506,11 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="radicateInvoiceId">No Metadata Documentation available.</param>
-    ''' <param name="xmlInvoices">No Metadata Documentation available.</param>
-    ''' <param name="packageDetail">No Metadata Documentation available.</param>
+    ''' <param name="radicateInvoiceId">No hay documentación de metadatos disponible.</param>
+    ''' <param name="xmlInvoices">No hay documentación de metadatos disponible.</param>
+    ''' <param name="packageDetail">No hay documentación de metadatos disponible.</param>
     Public Function SP_GenerateATFileData(ByVal radicateInvoiceId As Nullable(Of Integer), ByVal xmlInvoices As String, ByVal packageDetail As Nullable(Of Boolean)) As ObjectResult(Of SP_GenerateATFileData_Result) Implements IGlobalModelUnitOfWork.SP_GenerateATFileData
         Dim radicateInvoiceIdParameter As ObjectParameter
         If (radicateInvoiceId.HasValue)
@@ -19502,10 +19538,10 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="radicateInvoiceId">No Metadata Documentation available.</param>
-    ''' <param name="xmlInvoices">No Metadata Documentation available.</param>
+    ''' <param name="radicateInvoiceId">No hay documentación de metadatos disponible.</param>
+    ''' <param name="xmlInvoices">No hay documentación de metadatos disponible.</param>
     Public Function SP_GenerateAUFileData(ByVal radicateInvoiceId As Nullable(Of Integer), ByVal xmlInvoices As String) As ObjectResult(Of SP_GenerateAUFileData_Result) Implements IGlobalModelUnitOfWork.SP_GenerateAUFileData
         Dim radicateInvoiceIdParameter As ObjectParameter
         If (radicateInvoiceId.HasValue)
@@ -19526,10 +19562,10 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="radicateInvoiceId">No Metadata Documentation available.</param>
-    ''' <param name="xmlInvoices">No Metadata Documentation available.</param>
+    ''' <param name="radicateInvoiceId">No hay documentación de metadatos disponible.</param>
+    ''' <param name="xmlInvoices">No hay documentación de metadatos disponible.</param>
     Public Function SP_GenerateUSFileData(ByVal radicateInvoiceId As Nullable(Of Integer), ByVal xmlInvoices As String) As ObjectResult(Of SP_GenerateUSFileData_Result) Implements IGlobalModelUnitOfWork.SP_GenerateUSFileData
         Dim radicateInvoiceIdParameter As ObjectParameter
         If (radicateInvoiceId.HasValue)
@@ -19550,9 +19586,9 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="xmlPurchaseOrden">No Metadata Documentation available.</param>
+    ''' <param name="xmlPurchaseOrden">No hay documentación de metadatos disponible.</param>
     Public Function SP_ConfirmPurchaseOrder(ByVal xmlPurchaseOrden As String) As ObjectResult(Of SP_ConfirmPurchaseOrder_Result) Implements IGlobalModelUnitOfWork.SP_ConfirmPurchaseOrder
         Dim xmlPurchaseOrdenParameter As ObjectParameter
         If (xmlPurchaseOrden IsNot Nothing)
@@ -19566,11 +19602,11 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="radicateInvoiceId">No Metadata Documentation available.</param>
-    ''' <param name="xmlInvoices">No Metadata Documentation available.</param>
-    ''' <param name="packageDetail">No Metadata Documentation available.</param>
+    ''' <param name="radicateInvoiceId">No hay documentación de metadatos disponible.</param>
+    ''' <param name="xmlInvoices">No hay documentación de metadatos disponible.</param>
+    ''' <param name="packageDetail">No hay documentación de metadatos disponible.</param>
     Public Function SP_GenerateACFileData(ByVal radicateInvoiceId As Nullable(Of Integer), ByVal xmlInvoices As String, ByVal packageDetail As Nullable(Of Boolean)) As ObjectResult(Of SP_GenerateACFileData_Result) Implements IGlobalModelUnitOfWork.SP_GenerateACFileData
         Dim radicateInvoiceIdParameter As ObjectParameter
         If (radicateInvoiceId.HasValue)
@@ -19598,10 +19634,10 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="revenueControlDetailId">No Metadata Documentation available.</param>
-    ''' <param name="operativeUnitId">No Metadata Documentation available.</param>
+    ''' <param name="revenueControlDetailId">No hay documentación de metadatos disponible.</param>
+    ''' <param name="operativeUnitId">No hay documentación de metadatos disponible.</param>
     Public Function SP_UpdateRevenueControlDetailValuesNew(ByVal revenueControlDetailId As Nullable(Of Integer), ByVal operativeUnitId As Nullable(Of Integer)) As ObjectResult(Of SP_UpdateRevenueControlDetailValuesNew_Result) Implements IGlobalModelUnitOfWork.SP_UpdateRevenueControlDetailValuesNew
         Dim revenueControlDetailIdParameter As ObjectParameter
         If (revenueControlDetailId.HasValue)
@@ -19622,9 +19658,9 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="xmlPurchaseOrden">No Metadata Documentation available.</param>
+    ''' <param name="xmlPurchaseOrden">No hay documentación de metadatos disponible.</param>
     Public Function SP_ConfirmPurchaseOrderFixedAsset(ByVal xmlPurchaseOrden As String) As ObjectResult(Of SP_ConfirmPurchaseOrderFixedAsset_Result) Implements IGlobalModelUnitOfWork.SP_ConfirmPurchaseOrderFixedAsset
         Dim xmlPurchaseOrdenParameter As ObjectParameter
         If (xmlPurchaseOrden IsNot Nothing)
@@ -19638,7 +19674,7 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
     Public Function SP_PurchaseRequestToOrderFixedAsset() As ObjectResult(Of SP_PurchaseRequestToOrderFixedAsset_Result) Implements IGlobalModelUnitOfWork.SP_PurchaseRequestToOrderFixedAsset
 
@@ -19646,10 +19682,10 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="xmlObject">No Metadata Documentation available.</param>
-    ''' <param name="xmlParameters">No Metadata Documentation available.</param>
+    ''' <param name="xmlObject">No hay documentación de metadatos disponible.</param>
+    ''' <param name="xmlParameters">No hay documentación de metadatos disponible.</param>
     Public Function SP_ImportBillsToPaymentTransfer(ByVal xmlObject As String, ByVal xmlParameters As String) As ObjectResult(Of SP_ImportBillsToPaymentTransfer_Result) Implements IGlobalModelUnitOfWork.SP_ImportBillsToPaymentTransfer
         Dim xmlObjectParameter As ObjectParameter
         If (xmlObject IsNot Nothing)
@@ -19670,18 +19706,18 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="code">No Metadata Documentation available.</param>
-    ''' <param name="description">No Metadata Documentation available.</param>
-    ''' <param name="large">No Metadata Documentation available.</param>
-    ''' <param name="wide">No Metadata Documentation available.</param>
-    ''' <param name="deep">No Metadata Documentation available.</param>
-    ''' <param name="partitionXDeep">No Metadata Documentation available.</param>
-    ''' <param name="partitions">No Metadata Documentation available.</param>
-    ''' <param name="locationXPartition">No Metadata Documentation available.</param>
-    ''' <param name="state">No Metadata Documentation available.</param>
-    ''' <param name="codeUser">No Metadata Documentation available.</param>
+    ''' <param name="code">No hay documentación de metadatos disponible.</param>
+    ''' <param name="description">No hay documentación de metadatos disponible.</param>
+    ''' <param name="large">No hay documentación de metadatos disponible.</param>
+    ''' <param name="wide">No hay documentación de metadatos disponible.</param>
+    ''' <param name="deep">No hay documentación de metadatos disponible.</param>
+    ''' <param name="partitionXDeep">No hay documentación de metadatos disponible.</param>
+    ''' <param name="partitions">No hay documentación de metadatos disponible.</param>
+    ''' <param name="locationXPartition">No hay documentación de metadatos disponible.</param>
+    ''' <param name="state">No hay documentación de metadatos disponible.</param>
+    ''' <param name="codeUser">No hay documentación de metadatos disponible.</param>
     Public Function SP_SaveShelfType(ByVal code As String, ByVal description As String, ByVal large As Nullable(Of Decimal), ByVal wide As Nullable(Of Decimal), ByVal deep As Nullable(Of Decimal), ByVal partitionXDeep As Nullable(Of Decimal), ByVal partitions As Nullable(Of Decimal), ByVal locationXPartition As Nullable(Of Decimal), ByVal state As Nullable(Of Boolean), ByVal codeUser As String) As ObjectResult(Of SP_SaveShelfType_Result) Implements IGlobalModelUnitOfWork.SP_SaveShelfType
         Dim codeParameter As ObjectParameter
         If (code IsNot Nothing)
@@ -19758,10 +19794,10 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="xml">No Metadata Documentation available.</param>
-    ''' <param name="userCode">No Metadata Documentation available.</param>
+    ''' <param name="xml">No hay documentación de metadatos disponible.</param>
+    ''' <param name="userCode">No hay documentación de metadatos disponible.</param>
     Public Function SP_SaveAccountsPayable(ByVal xml As String, ByVal userCode As String) As ObjectResult(Of SP_SaveAccountsPayable_Result) Implements IGlobalModelUnitOfWork.SP_SaveAccountsPayable
         Dim xmlParameter As ObjectParameter
         If (xml IsNot Nothing)
@@ -19782,11 +19818,11 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="xmlLoadMassive">No Metadata Documentation available.</param>
-    ''' <param name="xmlBills">No Metadata Documentation available.</param>
-    ''' <param name="xmlDetails">No Metadata Documentation available.</param>
+    ''' <param name="xmlLoadMassive">No hay documentación de metadatos disponible.</param>
+    ''' <param name="xmlBills">No hay documentación de metadatos disponible.</param>
+    ''' <param name="xmlDetails">No hay documentación de metadatos disponible.</param>
     Public Function SP_SaveLoadMassive(ByVal xmlLoadMassive As String, ByVal xmlBills As String, ByVal xmlDetails As String) As ObjectResult(Of SP_SaveLoadMassive_Result) Implements IGlobalModelUnitOfWork.SP_SaveLoadMassive
         Dim xmlLoadMassiveParameter As ObjectParameter
         If (xmlLoadMassive IsNot Nothing)
@@ -19814,10 +19850,10 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="treasuryNoteId">No Metadata Documentation available.</param>
-    ''' <param name="codeUser">No Metadata Documentation available.</param>
+    ''' <param name="treasuryNoteId">No hay documentación de metadatos disponible.</param>
+    ''' <param name="codeUser">No hay documentación de metadatos disponible.</param>
     Public Function SP_ReverseCrossingAccount(ByVal treasuryNoteId As Nullable(Of Integer), ByVal codeUser As String) As ObjectResult(Of SP_ReverseCrossingAccount_Result) Implements IGlobalModelUnitOfWork.SP_ReverseCrossingAccount
         Dim treasuryNoteIdParameter As ObjectParameter
         If (treasuryNoteId.HasValue)
@@ -19838,11 +19874,11 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="xml">No Metadata Documentation available.</param>
-    ''' <param name="userCode">No Metadata Documentation available.</param>
-    ''' <param name="operatingUnitId">No Metadata Documentation available.</param>
+    ''' <param name="xml">No hay documentación de metadatos disponible.</param>
+    ''' <param name="userCode">No hay documentación de metadatos disponible.</param>
+    ''' <param name="operatingUnitId">No hay documentación de metadatos disponible.</param>
     Public Function SP_SaveInventoryProduct(ByVal xml As String, ByVal userCode As String, ByVal operatingUnitId As Nullable(Of Integer)) As ObjectResult(Of SP_SaveInventoryProduct_Result) Implements IGlobalModelUnitOfWork.SP_SaveInventoryProduct
         Dim xmlParameter As ObjectParameter
         If (xml IsNot Nothing)
@@ -19870,9 +19906,9 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="id">No Metadata Documentation available.</param>
+    ''' <param name="id">No hay documentación de metadatos disponible.</param>
     Public Function SP_DeleteAdministrationRoute(ByVal id As Nullable(Of Integer)) As ObjectResult(Of SP_DeleteAdministrationRoute_Result) Implements IGlobalModelUnitOfWork.SP_DeleteAdministrationRoute
         Dim idParameter As ObjectParameter
         If (id.HasValue)
@@ -19886,9 +19922,9 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="id">No Metadata Documentation available.</param>
+    ''' <param name="id">No hay documentación de metadatos disponible.</param>
     Public Function SP_DeleteDCI(ByVal id As Nullable(Of Integer)) As ObjectResult(Of SP_DeleteDCI_Result) Implements IGlobalModelUnitOfWork.SP_DeleteDCI
         Dim idParameter As ObjectParameter
         If (id.HasValue)
@@ -19902,9 +19938,9 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="id">No Metadata Documentation available.</param>
+    ''' <param name="id">No hay documentación de metadatos disponible.</param>
     Public Function SP_DeleteMeasurementUnit(ByVal id As Nullable(Of Integer)) As ObjectResult(Of SP_DeleteMeasurementUnit_Result) Implements IGlobalModelUnitOfWork.SP_DeleteMeasurementUnit
         Dim idParameter As ObjectParameter
         If (id.HasValue)
@@ -19918,9 +19954,9 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="id">No Metadata Documentation available.</param>
+    ''' <param name="id">No hay documentación de metadatos disponible.</param>
     Public Function SP_DeleteMedicament(ByVal id As Nullable(Of Integer)) As ObjectResult(Of SP_DeleteMedicament_Result) Implements IGlobalModelUnitOfWork.SP_DeleteMedicament
         Dim idParameter As ObjectParameter
         If (id.HasValue)
@@ -19934,9 +19970,9 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="id">No Metadata Documentation available.</param>
+    ''' <param name="id">No hay documentación de metadatos disponible.</param>
     Public Function SP_DeletePharmaceuticalForm(ByVal id As Nullable(Of Integer)) As ObjectResult(Of SP_DeletePharmaceuticalForm_Result) Implements IGlobalModelUnitOfWork.SP_DeletePharmaceuticalForm
         Dim idParameter As ObjectParameter
         If (id.HasValue)
@@ -19950,9 +19986,9 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="id">No Metadata Documentation available.</param>
+    ''' <param name="id">No hay documentación de metadatos disponible.</param>
     Public Function SP_DeletePharmacologicalGroup(ByVal id As Nullable(Of Integer)) As ObjectResult(Of SP_DeletePharmacologicalGroup_Result) Implements IGlobalModelUnitOfWork.SP_DeletePharmacologicalGroup
         Dim idParameter As ObjectParameter
         If (id.HasValue)
@@ -19966,9 +20002,9 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="id">No Metadata Documentation available.</param>
+    ''' <param name="id">No hay documentación de metadatos disponible.</param>
     Public Function SP_DeleteRiskLevels(ByVal id As Nullable(Of Integer)) As ObjectResult(Of SP_DeleteRiskLevels_Result) Implements IGlobalModelUnitOfWork.SP_DeleteRiskLevels
         Dim idParameter As ObjectParameter
         If (id.HasValue)
@@ -19982,9 +20018,9 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="xml">No Metadata Documentation available.</param>
+    ''' <param name="xml">No hay documentación de metadatos disponible.</param>
     Public Function SP_CopyPasteAndImportRequests(ByVal xml As String) As ObjectResult(Of SP_CopyPasteAndImportRequests_Result) Implements IGlobalModelUnitOfWork.SP_CopyPasteAndImportRequests
         Dim xmlParameter As ObjectParameter
         If (xml IsNot Nothing)
@@ -19998,11 +20034,11 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="availabilityModificationXml">No Metadata Documentation available.</param>
-    ''' <param name="availabilityModificationDetailForDeleteXml">No Metadata Documentation available.</param>
-    ''' <param name="codeUser">No Metadata Documentation available.</param>
+    ''' <param name="availabilityModificationXml">No hay documentación de metadatos disponible.</param>
+    ''' <param name="availabilityModificationDetailForDeleteXml">No hay documentación de metadatos disponible.</param>
+    ''' <param name="codeUser">No hay documentación de metadatos disponible.</param>
     Public Function SP_SaveAvailabilityModification(ByVal availabilityModificationXml As String, ByVal availabilityModificationDetailForDeleteXml As String, ByVal codeUser As String) As ObjectResult(Of SP_SaveAvailabilityModification_Result) Implements IGlobalModelUnitOfWork.SP_SaveAvailabilityModification
         Dim availabilityModificationXmlParameter As ObjectParameter
         If (availabilityModificationXml IsNot Nothing)
@@ -20030,11 +20066,11 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="budgetModificationXml">No Metadata Documentation available.</param>
-    ''' <param name="budgetModificationDetailForDeleteXml">No Metadata Documentation available.</param>
-    ''' <param name="codeUser">No Metadata Documentation available.</param>
+    ''' <param name="budgetModificationXml">No hay documentación de metadatos disponible.</param>
+    ''' <param name="budgetModificationDetailForDeleteXml">No hay documentación de metadatos disponible.</param>
+    ''' <param name="codeUser">No hay documentación de metadatos disponible.</param>
     Public Function SP_SaveBudgetModification(ByVal budgetModificationXml As String, ByVal budgetModificationDetailForDeleteXml As String, ByVal codeUser As String) As ObjectResult(Of SP_SaveBudgetModification_Result) Implements IGlobalModelUnitOfWork.SP_SaveBudgetModification
         Dim budgetModificationXmlParameter As ObjectParameter
         If (budgetModificationXml IsNot Nothing)
@@ -20062,11 +20098,11 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="commitmentModificationXml">No Metadata Documentation available.</param>
-    ''' <param name="commitmentModificationDetailForDeleteXml">No Metadata Documentation available.</param>
-    ''' <param name="codeUser">No Metadata Documentation available.</param>
+    ''' <param name="commitmentModificationXml">No hay documentación de metadatos disponible.</param>
+    ''' <param name="commitmentModificationDetailForDeleteXml">No hay documentación de metadatos disponible.</param>
+    ''' <param name="codeUser">No hay documentación de metadatos disponible.</param>
     Public Function SP_SaveCommitmentModification(ByVal commitmentModificationXml As String, ByVal commitmentModificationDetailForDeleteXml As String, ByVal codeUser As String) As ObjectResult(Of SP_SaveCommitmentModification_Result) Implements IGlobalModelUnitOfWork.SP_SaveCommitmentModification
         Dim commitmentModificationXmlParameter As ObjectParameter
         If (commitmentModificationXml IsNot Nothing)
@@ -20094,11 +20130,11 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="obligationModificationXml">No Metadata Documentation available.</param>
-    ''' <param name="obligationModificationDetailForDeleteXml">No Metadata Documentation available.</param>
-    ''' <param name="codeUser">No Metadata Documentation available.</param>
+    ''' <param name="obligationModificationXml">No hay documentación de metadatos disponible.</param>
+    ''' <param name="obligationModificationDetailForDeleteXml">No hay documentación de metadatos disponible.</param>
+    ''' <param name="codeUser">No hay documentación de metadatos disponible.</param>
     Public Function SP_SaveObligationModification(ByVal obligationModificationXml As String, ByVal obligationModificationDetailForDeleteXml As String, ByVal codeUser As String) As ObjectResult(Of SP_SaveObligationModification_Result) Implements IGlobalModelUnitOfWork.SP_SaveObligationModification
         Dim obligationModificationXmlParameter As ObjectParameter
         If (obligationModificationXml IsNot Nothing)
@@ -20126,11 +20162,11 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="reimbursementResourceXml">No Metadata Documentation available.</param>
-    ''' <param name="reimbursementResourceDetailForDeleteXml">No Metadata Documentation available.</param>
-    ''' <param name="codeUser">No Metadata Documentation available.</param>
+    ''' <param name="reimbursementResourceXml">No hay documentación de metadatos disponible.</param>
+    ''' <param name="reimbursementResourceDetailForDeleteXml">No hay documentación de metadatos disponible.</param>
+    ''' <param name="codeUser">No hay documentación de metadatos disponible.</param>
     Public Function SP_SaveReimbursementResource(ByVal reimbursementResourceXml As String, ByVal reimbursementResourceDetailForDeleteXml As String, ByVal codeUser As String) As ObjectResult(Of SP_SaveReimbursementResource_Result) Implements IGlobalModelUnitOfWork.SP_SaveReimbursementResource
         Dim reimbursementResourceXmlParameter As ObjectParameter
         If (reimbursementResourceXml IsNot Nothing)
@@ -20158,11 +20194,11 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="obligationXml">No Metadata Documentation available.</param>
-    ''' <param name="obligationDetailForDeleteXml">No Metadata Documentation available.</param>
-    ''' <param name="codeUser">No Metadata Documentation available.</param>
+    ''' <param name="obligationXml">No hay documentación de metadatos disponible.</param>
+    ''' <param name="obligationDetailForDeleteXml">No hay documentación de metadatos disponible.</param>
+    ''' <param name="codeUser">No hay documentación de metadatos disponible.</param>
     Public Function SP_SaveObligation(ByVal obligationXml As String, ByVal obligationDetailForDeleteXml As String, ByVal codeUser As String) As ObjectResult(Of SP_SaveObligation_Result) Implements IGlobalModelUnitOfWork.SP_SaveObligation
         Dim obligationXmlParameter As ObjectParameter
         If (obligationXml IsNot Nothing)
@@ -20190,11 +20226,11 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="paymentOrderXml">No Metadata Documentation available.</param>
-    ''' <param name="paymentOrderDetailForDeleteXml">No Metadata Documentation available.</param>
-    ''' <param name="codeUser">No Metadata Documentation available.</param>
+    ''' <param name="paymentOrderXml">No hay documentación de metadatos disponible.</param>
+    ''' <param name="paymentOrderDetailForDeleteXml">No hay documentación de metadatos disponible.</param>
+    ''' <param name="codeUser">No hay documentación de metadatos disponible.</param>
     Public Function SP_SavePaymentOrder(ByVal paymentOrderXml As String, ByVal paymentOrderDetailForDeleteXml As String, ByVal codeUser As String) As ObjectResult(Of SP_SavePaymentOrder_Result) Implements IGlobalModelUnitOfWork.SP_SavePaymentOrder
         Dim paymentOrderXmlParameter As ObjectParameter
         If (paymentOrderXml IsNot Nothing)
@@ -20222,10 +20258,10 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="treasuryNoteId">No Metadata Documentation available.</param>
-    ''' <param name="codeUser">No Metadata Documentation available.</param>
+    ''' <param name="treasuryNoteId">No hay documentación de metadatos disponible.</param>
+    ''' <param name="codeUser">No hay documentación de metadatos disponible.</param>
     Public Function SP_ReverseVoucherTransaction(ByVal treasuryNoteId As Nullable(Of Integer), ByVal codeUser As String) As ObjectResult(Of SP_ReverseVoucherTransaction_Result) Implements IGlobalModelUnitOfWork.SP_ReverseVoucherTransaction
         Dim treasuryNoteIdParameter As ObjectParameter
         If (treasuryNoteId.HasValue)
@@ -20246,12 +20282,12 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="distributionType">No Metadata Documentation available.</param>
-    ''' <param name="measurementUnit">No Metadata Documentation available.</param>
-    ''' <param name="xmlListDistributionBaseDetail">No Metadata Documentation available.</param>
-    ''' <param name="xmlData">No Metadata Documentation available.</param>
+    ''' <param name="distributionType">No hay documentación de metadatos disponible.</param>
+    ''' <param name="measurementUnit">No hay documentación de metadatos disponible.</param>
+    ''' <param name="xmlListDistributionBaseDetail">No hay documentación de metadatos disponible.</param>
+    ''' <param name="xmlData">No hay documentación de metadatos disponible.</param>
     Public Function SP_ImportDetailsToCostDistributionBase(ByVal distributionType As Nullable(Of Byte), ByVal measurementUnit As Nullable(Of Byte), ByVal xmlListDistributionBaseDetail As String, ByVal xmlData As String) As ObjectResult(Of SP_ImportDetailsToCostDistributionBase_Result) Implements IGlobalModelUnitOfWork.SP_ImportDetailsToCostDistributionBase
         Dim distributionTypeParameter As ObjectParameter
         If (distributionType.HasValue)
@@ -20286,12 +20322,12 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="distributionType">No Metadata Documentation available.</param>
-    ''' <param name="measurementUnit">No Metadata Documentation available.</param>
-    ''' <param name="xmlListDistributionSecondaryBaseDetail">No Metadata Documentation available.</param>
-    ''' <param name="xmlData">No Metadata Documentation available.</param>
+    ''' <param name="distributionType">No hay documentación de metadatos disponible.</param>
+    ''' <param name="measurementUnit">No hay documentación de metadatos disponible.</param>
+    ''' <param name="xmlListDistributionSecondaryBaseDetail">No hay documentación de metadatos disponible.</param>
+    ''' <param name="xmlData">No hay documentación de metadatos disponible.</param>
     Public Function SP_ImportDetailsToCostDistributionSecondaryBase(ByVal distributionType As Nullable(Of Byte), ByVal measurementUnit As Nullable(Of Byte), ByVal xmlListDistributionSecondaryBaseDetail As String, ByVal xmlData As String) As ObjectResult(Of SP_ImportDetailsToCostDistributionSecondaryBase_Result) Implements IGlobalModelUnitOfWork.SP_ImportDetailsToCostDistributionSecondaryBase
         Dim distributionTypeParameter As ObjectParameter
         If (distributionType.HasValue)
@@ -20326,12 +20362,12 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="distributionType">No Metadata Documentation available.</param>
-    ''' <param name="measurementUnit">No Metadata Documentation available.</param>
-    ''' <param name="xmlListIntermediateDistributionBaseDetail">No Metadata Documentation available.</param>
-    ''' <param name="xmlData">No Metadata Documentation available.</param>
+    ''' <param name="distributionType">No hay documentación de metadatos disponible.</param>
+    ''' <param name="measurementUnit">No hay documentación de metadatos disponible.</param>
+    ''' <param name="xmlListIntermediateDistributionBaseDetail">No hay documentación de metadatos disponible.</param>
+    ''' <param name="xmlData">No hay documentación de metadatos disponible.</param>
     Public Function SP_ImportDetailsToCostIntermediateDistributionBase(ByVal distributionType As Nullable(Of Byte), ByVal measurementUnit As Nullable(Of Byte), ByVal xmlListIntermediateDistributionBaseDetail As String, ByVal xmlData As String) As ObjectResult(Of SP_ImportDetailsToCostIntermediateDistributionBase_Result) Implements IGlobalModelUnitOfWork.SP_ImportDetailsToCostIntermediateDistributionBase
         Dim distributionTypeParameter As ObjectParameter
         If (distributionType.HasValue)
@@ -20366,11 +20402,11 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="costDistributionSecondaryId">No Metadata Documentation available.</param>
-    ''' <param name="year">No Metadata Documentation available.</param>
-    ''' <param name="month">No Metadata Documentation available.</param>
+    ''' <param name="costDistributionSecondaryId">No hay documentación de metadatos disponible.</param>
+    ''' <param name="year">No hay documentación de metadatos disponible.</param>
+    ''' <param name="month">No hay documentación de metadatos disponible.</param>
     Public Function SP_CalculateDistributionSecondary(ByVal costDistributionSecondaryId As Nullable(Of Integer), ByVal year As Nullable(Of Integer), ByVal month As Nullable(Of Integer)) As ObjectResult(Of SP_CalculateDistributionSecondary_Result) Implements IGlobalModelUnitOfWork.SP_CalculateDistributionSecondary
         Dim costDistributionSecondaryIdParameter As ObjectParameter
         If (costDistributionSecondaryId.HasValue)
@@ -20398,12 +20434,44 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="distributionSecondaryXml">No Metadata Documentation available.</param>
-    ''' <param name="distributionSecondaryDetailForDeleteXml">No Metadata Documentation available.</param>
-    ''' <param name="costLogisticsProductionCenterDetail">No Metadata Documentation available.</param>
-    ''' <param name="codeUser">No Metadata Documentation available.</param>
+    ''' <param name="costIntermediateDistributionId">No hay documentación de metadatos disponible.</param>
+    ''' <param name="year">No hay documentación de metadatos disponible.</param>
+    ''' <param name="month">No hay documentación de metadatos disponible.</param>
+    Public Function SP_CalculateDistributionIntermediate(ByVal costIntermediateDistributionId As Nullable(Of Integer), ByVal year As Nullable(Of Integer), ByVal month As Nullable(Of Integer)) As ObjectResult(Of SP_CalculateDistributionIntermediate_Result) Implements IGlobalModelUnitOfWork.SP_CalculateDistributionIntermediate
+        Dim costIntermediateDistributionIdParameter As ObjectParameter
+        If (costIntermediateDistributionId.HasValue)
+            costIntermediateDistributionIdParameter = New ObjectParameter("CostIntermediateDistributionId", costIntermediateDistributionId)
+        Else
+            costIntermediateDistributionIdParameter = New ObjectParameter("CostIntermediateDistributionId", GetType(Integer))
+        End If
+
+        Dim yearParameter As ObjectParameter
+        If (year.HasValue)
+            yearParameter = New ObjectParameter("Year", year)
+        Else
+            yearParameter = New ObjectParameter("Year", GetType(Integer))
+        End If
+
+        Dim monthParameter As ObjectParameter
+        If (month.HasValue)
+            monthParameter = New ObjectParameter("Month", month)
+        Else
+            monthParameter = New ObjectParameter("Month", GetType(Integer))
+        End If
+
+
+        Return CType(Me, IObjectContextAdapter).ObjectContext.ExecuteFunction(Of SP_CalculateDistributionIntermediate_Result)("SP_CalculateDistributionIntermediate", costIntermediateDistributionIdParameter, yearParameter, monthParameter)
+    End Function
+
+    ''' <summary>
+    ''' No hay documentación de metadatos disponible.
+    ''' </summary>
+    ''' <param name="distributionSecondaryXml">No hay documentación de metadatos disponible.</param>
+    ''' <param name="distributionSecondaryDetailForDeleteXml">No hay documentación de metadatos disponible.</param>
+    ''' <param name="costLogisticsProductionCenterDetail">No hay documentación de metadatos disponible.</param>
+    ''' <param name="codeUser">No hay documentación de metadatos disponible.</param>
     Public Function SP_SaveDistributionSecondary(ByVal distributionSecondaryXml As String, ByVal distributionSecondaryDetailForDeleteXml As String, ByVal costLogisticsProductionCenterDetail As String, ByVal codeUser As String) As ObjectResult(Of SP_SaveDistributionSecondary_Result) Implements IGlobalModelUnitOfWork.SP_SaveDistributionSecondary
         Dim distributionSecondaryXmlParameter As ObjectParameter
         If (distributionSecondaryXml IsNot Nothing)
@@ -20438,12 +20506,12 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="year">No Metadata Documentation available.</param>
-    ''' <param name="month">No Metadata Documentation available.</param>
-    ''' <param name="operatingUnitId">No Metadata Documentation available.</param>
-    ''' <param name="codeUser">No Metadata Documentation available.</param>
+    ''' <param name="year">No hay documentación de metadatos disponible.</param>
+    ''' <param name="month">No hay documentación de metadatos disponible.</param>
+    ''' <param name="operatingUnitId">No hay documentación de metadatos disponible.</param>
+    ''' <param name="codeUser">No hay documentación de metadatos disponible.</param>
     Public Function SP_GenerateDistributionSecondary(ByVal year As Nullable(Of Integer), ByVal month As Nullable(Of Integer), ByVal operatingUnitId As Nullable(Of Integer), ByVal codeUser As String) As ObjectResult(Of SP_GenerateDistributionSecondary_Result) Implements IGlobalModelUnitOfWork.SP_GenerateDistributionSecondary
         Dim yearParameter As ObjectParameter
         If (year.HasValue)
@@ -20478,12 +20546,12 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="year">No Metadata Documentation available.</param>
-    ''' <param name="month">No Metadata Documentation available.</param>
-    ''' <param name="manpowerType">No Metadata Documentation available.</param>
-    ''' <param name="entityId">No Metadata Documentation available.</param>
+    ''' <param name="year">No hay documentación de metadatos disponible.</param>
+    ''' <param name="month">No hay documentación de metadatos disponible.</param>
+    ''' <param name="manpowerType">No hay documentación de metadatos disponible.</param>
+    ''' <param name="entityId">No hay documentación de metadatos disponible.</param>
     Public Function SP_GetDistributionManpower(ByVal year As Nullable(Of Integer), ByVal month As Nullable(Of Integer), ByVal manpowerType As Nullable(Of Byte), ByVal entityId As Nullable(Of Integer)) As ObjectResult(Of SP_GetDistributionManpower_Result) Implements IGlobalModelUnitOfWork.SP_GetDistributionManpower
         Dim yearParameter As ObjectParameter
         If (year.HasValue)
@@ -20518,10 +20586,10 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="costDistributionManpowerXml">No Metadata Documentation available.</param>
-    ''' <param name="codeUser">No Metadata Documentation available.</param>
+    ''' <param name="costDistributionManpowerXml">No hay documentación de metadatos disponible.</param>
+    ''' <param name="codeUser">No hay documentación de metadatos disponible.</param>
     Public Function SP_SaveCostDistributionManpower(ByVal costDistributionManpowerXml As String, ByVal codeUser As String) As ObjectResult(Of SP_SaveCostDistributionManpower_Result) Implements IGlobalModelUnitOfWork.SP_SaveCostDistributionManpower
         Dim costDistributionManpowerXmlParameter As ObjectParameter
         If (costDistributionManpowerXml IsNot Nothing)
@@ -20542,11 +20610,11 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="year">No Metadata Documentation available.</param>
-    ''' <param name="month">No Metadata Documentation available.</param>
-    ''' <param name="physicalAssetId">No Metadata Documentation available.</param>
+    ''' <param name="year">No hay documentación de metadatos disponible.</param>
+    ''' <param name="month">No hay documentación de metadatos disponible.</param>
+    ''' <param name="physicalAssetId">No hay documentación de metadatos disponible.</param>
     Public Function SP_GetDistributionFixedAssetDataByYearMonthAndPhysicalAssetId(ByVal year As Nullable(Of Integer), ByVal month As Nullable(Of Integer), ByVal physicalAssetId As Nullable(Of Integer)) As ObjectResult(Of SP_GetDistributionFixedAssetDataByYearMonthAndPhysicalAssetId_Result) Implements IGlobalModelUnitOfWork.SP_GetDistributionFixedAssetDataByYearMonthAndPhysicalAssetId
         Dim yearParameter As ObjectParameter
         If (year.HasValue)
@@ -20574,13 +20642,13 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="year">No Metadata Documentation available.</param>
-    ''' <param name="month">No Metadata Documentation available.</param>
-    ''' <param name="operatingUnitId">No Metadata Documentation available.</param>
-    ''' <param name="importXml">No Metadata Documentation available.</param>
-    ''' <param name="codeUser">No Metadata Documentation available.</param>
+    ''' <param name="year">No hay documentación de metadatos disponible.</param>
+    ''' <param name="month">No hay documentación de metadatos disponible.</param>
+    ''' <param name="operatingUnitId">No hay documentación de metadatos disponible.</param>
+    ''' <param name="importXml">No hay documentación de metadatos disponible.</param>
+    ''' <param name="codeUser">No hay documentación de metadatos disponible.</param>
     Public Function SP_ImportCostDistributionFixedAsset(ByVal year As Nullable(Of Integer), ByVal month As Nullable(Of Integer), ByVal operatingUnitId As Nullable(Of Integer), ByVal importXml As String, ByVal codeUser As String) As ObjectResult(Of SP_ImportCostDistributionFixedAsset_Result) Implements IGlobalModelUnitOfWork.SP_ImportCostDistributionFixedAsset
         Dim yearParameter As ObjectParameter
         If (year.HasValue)
@@ -20622,13 +20690,13 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="year">No Metadata Documentation available.</param>
-    ''' <param name="month">No Metadata Documentation available.</param>
-    ''' <param name="operatingUnitId">No Metadata Documentation available.</param>
-    ''' <param name="importXml">No Metadata Documentation available.</param>
-    ''' <param name="codeUser">No Metadata Documentation available.</param>
+    ''' <param name="year">No hay documentación de metadatos disponible.</param>
+    ''' <param name="month">No hay documentación de metadatos disponible.</param>
+    ''' <param name="operatingUnitId">No hay documentación de metadatos disponible.</param>
+    ''' <param name="importXml">No hay documentación de metadatos disponible.</param>
+    ''' <param name="codeUser">No hay documentación de metadatos disponible.</param>
     Public Function SP_ImportCostDistributionManpower(ByVal year As Nullable(Of Integer), ByVal month As Nullable(Of Integer), ByVal operatingUnitId As Nullable(Of Integer), ByVal importXml As String, ByVal codeUser As String) As ObjectResult(Of SP_ImportCostDistributionManpower_Result) Implements IGlobalModelUnitOfWork.SP_ImportCostDistributionManpower
         Dim yearParameter As ObjectParameter
         If (year.HasValue)
@@ -20670,10 +20738,10 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="costDistributionFixedAssetXml">No Metadata Documentation available.</param>
-    ''' <param name="codeUser">No Metadata Documentation available.</param>
+    ''' <param name="costDistributionFixedAssetXml">No hay documentación de metadatos disponible.</param>
+    ''' <param name="codeUser">No hay documentación de metadatos disponible.</param>
     Public Function SP_SaveCostDistributionFixedAsset(ByVal costDistributionFixedAssetXml As String, ByVal codeUser As String) As ObjectResult(Of SP_SaveCostDistributionFixedAsset_Result) Implements IGlobalModelUnitOfWork.SP_SaveCostDistributionFixedAsset
         Dim costDistributionFixedAssetXmlParameter As ObjectParameter
         If (costDistributionFixedAssetXml IsNot Nothing)
@@ -20694,12 +20762,12 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="costGeneralExpenseId">No Metadata Documentation available.</param>
-    ''' <param name="year">No Metadata Documentation available.</param>
-    ''' <param name="month">No Metadata Documentation available.</param>
-    ''' <param name="value">No Metadata Documentation available.</param>
+    ''' <param name="costGeneralExpenseId">No hay documentación de metadatos disponible.</param>
+    ''' <param name="year">No hay documentación de metadatos disponible.</param>
+    ''' <param name="month">No hay documentación de metadatos disponible.</param>
+    ''' <param name="value">No hay documentación de metadatos disponible.</param>
     Public Function SP_CalculateCostDistribution(ByVal costGeneralExpenseId As Nullable(Of Integer), ByVal year As Nullable(Of Integer), ByVal month As Nullable(Of Integer), ByVal value As Nullable(Of Decimal)) As ObjectResult(Of SP_CalculateCostDistribution_Result) Implements IGlobalModelUnitOfWork.SP_CalculateCostDistribution
         Dim costGeneralExpenseIdParameter As ObjectParameter
         If (costGeneralExpenseId.HasValue)
@@ -20734,9 +20802,9 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="idMixingStation">No Metadata Documentation available.</param>
+    ''' <param name="idMixingStation">No hay documentación de metadatos disponible.</param>
     Public Function SP_CM_CENTER_ATTENTION(ByVal idMixingStation As Nullable(Of Integer)) As ObjectResult(Of SP_CM_CENTER_ATTENTION_Result) Implements IGlobalModelUnitOfWork.SP_CM_CENTER_ATTENTION
         Dim idMixingStationParameter As ObjectParameter
         If (idMixingStation.HasValue)
@@ -20750,11 +20818,11 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="collectionModificationXml">No Metadata Documentation available.</param>
-    ''' <param name="collectionModificationDetailForDeleteXml">No Metadata Documentation available.</param>
-    ''' <param name="codeUser">No Metadata Documentation available.</param>
+    ''' <param name="collectionModificationXml">No hay documentación de metadatos disponible.</param>
+    ''' <param name="collectionModificationDetailForDeleteXml">No hay documentación de metadatos disponible.</param>
+    ''' <param name="codeUser">No hay documentación de metadatos disponible.</param>
     Public Function SP_SaveCollectionModification(ByVal collectionModificationXml As String, ByVal collectionModificationDetailForDeleteXml As String, ByVal codeUser As String) As ObjectResult(Of SP_SaveCollectionModification_Result) Implements IGlobalModelUnitOfWork.SP_SaveCollectionModification
         Dim collectionModificationXmlParameter As ObjectParameter
         If (collectionModificationXml IsNot Nothing)
@@ -20782,11 +20850,11 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="recognitionModificationXml">No Metadata Documentation available.</param>
-    ''' <param name="recognitionModificationDetailForDeleteXml">No Metadata Documentation available.</param>
-    ''' <param name="codeUser">No Metadata Documentation available.</param>
+    ''' <param name="recognitionModificationXml">No hay documentación de metadatos disponible.</param>
+    ''' <param name="recognitionModificationDetailForDeleteXml">No hay documentación de metadatos disponible.</param>
+    ''' <param name="codeUser">No hay documentación de metadatos disponible.</param>
     Public Function SP_SaveRecognitionModification(ByVal recognitionModificationXml As String, ByVal recognitionModificationDetailForDeleteXml As String, ByVal codeUser As String) As ObjectResult(Of SP_SaveRecognitionModification_Result) Implements IGlobalModelUnitOfWork.SP_SaveRecognitionModification
         Dim recognitionModificationXmlParameter As ObjectParameter
         If (recognitionModificationXml IsNot Nothing)
@@ -20814,11 +20882,11 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="portfolioTransferXml">No Metadata Documentation available.</param>
-    ''' <param name="codeUser">No Metadata Documentation available.</param>
-    ''' <param name="companyType">No Metadata Documentation available.</param>
+    ''' <param name="portfolioTransferXml">No hay documentación de metadatos disponible.</param>
+    ''' <param name="codeUser">No hay documentación de metadatos disponible.</param>
+    ''' <param name="companyType">No hay documentación de metadatos disponible.</param>
     Public Function SP_SavePortfolioTransfer(ByVal portfolioTransferXml As String, ByVal codeUser As String, ByVal companyType As Nullable(Of Byte)) As ObjectResult(Of SP_SavePortfolioTransfer_Result) Implements IGlobalModelUnitOfWork.SP_SavePortfolioTransfer
         Dim portfolioTransferXmlParameter As ObjectParameter
         If (portfolioTransferXml IsNot Nothing)
@@ -20846,10 +20914,10 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="xml">No Metadata Documentation available.</param>
-    ''' <param name="userCode">No Metadata Documentation available.</param>
+    ''' <param name="xml">No hay documentación de metadatos disponible.</param>
+    ''' <param name="userCode">No hay documentación de metadatos disponible.</param>
     Public Function SP_SaveInventoryContract(ByVal xml As String, ByVal userCode As String) As ObjectResult(Of SP_SaveInventoryContract_Result) Implements IGlobalModelUnitOfWork.SP_SaveInventoryContract
         Dim xmlParameter As ObjectParameter
         If (xml IsNot Nothing)
@@ -20870,9 +20938,9 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="invoiceId">No Metadata Documentation available.</param>
+    ''' <param name="invoiceId">No hay documentación de metadatos disponible.</param>
     Public Function SP_GetPaymentMethodsByInvoiceId(ByVal invoiceId As Nullable(Of Integer)) As ObjectResult(Of SP_GetPaymentMethodsByInvoiceId_Result) Implements IGlobalModelUnitOfWork.SP_GetPaymentMethodsByInvoiceId
         Dim invoiceIdParameter As ObjectParameter
         If (invoiceId.HasValue)
@@ -20886,9 +20954,9 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="documentSupportId">No Metadata Documentation available.</param>
+    ''' <param name="documentSupportId">No hay documentación de metadatos disponible.</param>
     Public Function SP_GetPaymentMethodByDocumentSupportId(ByVal documentSupportId As Nullable(Of Integer)) As ObjectResult(Of SP_GetPaymentMethodByDocumentSupportId_Result) Implements IGlobalModelUnitOfWork.SP_GetPaymentMethodByDocumentSupportId
         Dim documentSupportIdParameter As ObjectParameter
         If (documentSupportId.HasValue)
@@ -20902,9 +20970,9 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="invoiceId">No Metadata Documentation available.</param>
+    ''' <param name="invoiceId">No hay documentación de metadatos disponible.</param>
     Public Function SP_GetInvoiceDetailsByInvoiceId(ByVal invoiceId As Nullable(Of Integer)) As ObjectResult(Of SP_GetInvoiceDetailsByInvoiceId_Result) Implements IGlobalModelUnitOfWork.SP_GetInvoiceDetailsByInvoiceId
         Dim invoiceIdParameter As ObjectParameter
         If (invoiceId.HasValue)
@@ -20918,9 +20986,9 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="documentSupportId">No Metadata Documentation available.</param>
+    ''' <param name="documentSupportId">No hay documentación de metadatos disponible.</param>
     Public Function SP_GetDocumentSupportDetailsById(ByVal documentSupportId As Nullable(Of Integer)) As ObjectResult(Of SP_GetDocumentSupportDetailsById_Result) Implements IGlobalModelUnitOfWork.SP_GetDocumentSupportDetailsById
         Dim documentSupportIdParameter As ObjectParameter
         If (documentSupportId.HasValue)
@@ -20934,9 +21002,9 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="xmlCriterias">No Metadata Documentation available.</param>
+    ''' <param name="xmlCriterias">No hay documentación de metadatos disponible.</param>
     Public Function SP_UpdateParameterizedInformation(ByVal xmlCriterias As String) As ObjectResult(Of SP_UpdateParameterizedInformation_Result) Implements IGlobalModelUnitOfWork.SP_UpdateParameterizedInformation
         Dim xmlCriteriasParameter As ObjectParameter
         If (xmlCriterias IsNot Nothing)
@@ -20950,10 +21018,10 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="xml">No Metadata Documentation available.</param>
-    ''' <param name="userCode">No Metadata Documentation available.</param>
+    ''' <param name="xml">No hay documentación de metadatos disponible.</param>
+    ''' <param name="userCode">No hay documentación de metadatos disponible.</param>
     Public Function SP_SaveSupplie(ByVal xml As String, ByVal userCode As String) As ObjectResult(Of SP_SaveSupplie_Result) Implements IGlobalModelUnitOfWork.SP_SaveSupplie
         Dim xmlParameter As ObjectParameter
         If (xml IsNot Nothing)
@@ -20974,9 +21042,9 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="id">No Metadata Documentation available.</param>
+    ''' <param name="id">No hay documentación de metadatos disponible.</param>
     Public Function SP_DeleteSupplie(ByVal id As Nullable(Of Integer)) As ObjectResult(Of SP_DeleteSupplie_Result) Implements IGlobalModelUnitOfWork.SP_DeleteSupplie
         Dim idParameter As ObjectParameter
         If (id.HasValue)
@@ -20990,9 +21058,9 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="xmlCriterias">No Metadata Documentation available.</param>
+    ''' <param name="xmlCriterias">No hay documentación de metadatos disponible.</param>
     Public Function SP_GetBankReconciliationDetails(ByVal xmlCriterias As String) As ObjectResult(Of SP_GetBankReconciliationDetails_Result) Implements IGlobalModelUnitOfWork.SP_GetBankReconciliationDetails
         Dim xmlCriteriasParameter As ObjectParameter
         If (xmlCriterias IsNot Nothing)
@@ -21006,10 +21074,10 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="xml">No Metadata Documentation available.</param>
-    ''' <param name="userCode">No Metadata Documentation available.</param>
+    ''' <param name="xml">No hay documentación de metadatos disponible.</param>
+    ''' <param name="userCode">No hay documentación de metadatos disponible.</param>
     Public Function SP_SaveDocumentInvoiceProductSalesDevolution(ByVal xml As String, ByVal userCode As String) As ObjectResult(Of SP_SaveDocumentInvoiceProductSalesDevolution_Result) Implements IGlobalModelUnitOfWork.SP_SaveDocumentInvoiceProductSalesDevolution
         Dim xmlParameter As ObjectParameter
         If (xml IsNot Nothing)
@@ -21030,9 +21098,9 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="cUPSEntityContractDescriptionId">No Metadata Documentation available.</param>
+    ''' <param name="cUPSEntityContractDescriptionId">No hay documentación de metadatos disponible.</param>
     Public Function SP_ValidateDescriptionsInCrystal(ByVal cUPSEntityContractDescriptionId As Nullable(Of Integer)) As ObjectResult(Of SP_ValidateDescriptionsInCrystal_Result) Implements IGlobalModelUnitOfWork.SP_ValidateDescriptionsInCrystal
         Dim cUPSEntityContractDescriptionIdParameter As ObjectParameter
         If (cUPSEntityContractDescriptionId.HasValue)
@@ -21046,10 +21114,10 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="xml">No Metadata Documentation available.</param>
-    ''' <param name="userCode">No Metadata Documentation available.</param>
+    ''' <param name="xml">No hay documentación de metadatos disponible.</param>
+    ''' <param name="userCode">No hay documentación de metadatos disponible.</param>
     Public Function SP_SaveQuotation(ByVal xml As String, ByVal userCode As String) As ObjectResult(Of SP_SaveQuotation_Result) Implements IGlobalModelUnitOfWork.SP_SaveQuotation
         Dim xmlParameter As ObjectParameter
         If (xml IsNot Nothing)
@@ -21070,9 +21138,9 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="xml">No Metadata Documentation available.</param>
+    ''' <param name="xml">No hay documentación de metadatos disponible.</param>
     Public Function SP_CMCenterLineUnit(ByVal xml As String) As ObjectResult(Of SP_CMCenterLineUnit_Result) Implements IGlobalModelUnitOfWork.SP_CMCenterLineUnit
         Dim xmlParameter As ObjectParameter
         If (xml IsNot Nothing)
@@ -21086,10 +21154,10 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="validityId">No Metadata Documentation available.</param>
-    ''' <param name="userCode">No Metadata Documentation available.</param>
+    ''' <param name="validityId">No hay documentación de metadatos disponible.</param>
+    ''' <param name="userCode">No hay documentación de metadatos disponible.</param>
     Public Function SP_ClosingValidityExpense(ByVal validityId As Nullable(Of Integer), ByVal userCode As String) As ObjectResult(Of SP_ClosingValidityExpense_Result) Implements IGlobalModelUnitOfWork.SP_ClosingValidityExpense
         Dim validityIdParameter As ObjectParameter
         If (validityId.HasValue)
@@ -21110,10 +21178,10 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="validityId">No Metadata Documentation available.</param>
-    ''' <param name="userCode">No Metadata Documentation available.</param>
+    ''' <param name="validityId">No hay documentación de metadatos disponible.</param>
+    ''' <param name="userCode">No hay documentación de metadatos disponible.</param>
     Public Function SP_ClosingValidityIncome(ByVal validityId As Nullable(Of Integer), ByVal userCode As String) As ObjectResult(Of SP_ClosingValidityIncome_Result) Implements IGlobalModelUnitOfWork.SP_ClosingValidityIncome
         Dim validityIdParameter As ObjectParameter
         If (validityId.HasValue)
@@ -21134,11 +21202,11 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="commitmentXml">No Metadata Documentation available.</param>
-    ''' <param name="commitmentDetailForDeleteXml">No Metadata Documentation available.</param>
-    ''' <param name="codeUser">No Metadata Documentation available.</param>
+    ''' <param name="commitmentXml">No hay documentación de metadatos disponible.</param>
+    ''' <param name="commitmentDetailForDeleteXml">No hay documentación de metadatos disponible.</param>
+    ''' <param name="codeUser">No hay documentación de metadatos disponible.</param>
     Public Function SP_SaveCommitment(ByVal commitmentXml As String, ByVal commitmentDetailForDeleteXml As String, ByVal codeUser As String) As ObjectResult(Of SP_SaveCommitment_Result) Implements IGlobalModelUnitOfWork.SP_SaveCommitment
         Dim commitmentXmlParameter As ObjectParameter
         If (commitmentXml IsNot Nothing)
@@ -21166,10 +21234,10 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="xml">No Metadata Documentation available.</param>
-    ''' <param name="codeUser">No Metadata Documentation available.</param>
+    ''' <param name="xml">No hay documentación de metadatos disponible.</param>
+    ''' <param name="codeUser">No hay documentación de metadatos disponible.</param>
     Public Function SP_SaveContract(ByVal xml As String, ByVal codeUser As String) As ObjectResult(Of SP_SaveContract_Result) Implements IGlobalModelUnitOfWork.SP_SaveContract
         Dim xmlParameter As ObjectParameter
         If (xml IsNot Nothing)
@@ -21190,10 +21258,10 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="inventoryContractAssignmentXML">No Metadata Documentation available.</param>
-    ''' <param name="userCode">No Metadata Documentation available.</param>
+    ''' <param name="inventoryContractAssignmentXML">No hay documentación de metadatos disponible.</param>
+    ''' <param name="userCode">No hay documentación de metadatos disponible.</param>
     Public Function SP_SaveInventoryContractAssignment(ByVal inventoryContractAssignmentXML As String, ByVal userCode As String) As ObjectResult(Of SP_SaveInventoryContractAssignment_Result) Implements IGlobalModelUnitOfWork.SP_SaveInventoryContractAssignment
         Dim inventoryContractAssignmentXMLParameter As ObjectParameter
         If (inventoryContractAssignmentXML IsNot Nothing)
@@ -21214,10 +21282,10 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="inventoryContractModificationXML">No Metadata Documentation available.</param>
-    ''' <param name="userCode">No Metadata Documentation available.</param>
+    ''' <param name="inventoryContractModificationXML">No hay documentación de metadatos disponible.</param>
+    ''' <param name="userCode">No hay documentación de metadatos disponible.</param>
     Public Function SP_SaveInventoryContractModification(ByVal inventoryContractModificationXML As String, ByVal userCode As String) As ObjectResult(Of SP_SaveInventoryContractModification_Result) Implements IGlobalModelUnitOfWork.SP_SaveInventoryContractModification
         Dim inventoryContractModificationXMLParameter As ObjectParameter
         If (inventoryContractModificationXML IsNot Nothing)
@@ -21238,9 +21306,9 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="xmlObject">No Metadata Documentation available.</param>
+    ''' <param name="xmlObject">No hay documentación de metadatos disponible.</param>
     Public Function SP_CopyAndPasteProcedureTemplate(ByVal xmlObject As String) As ObjectResult(Of SP_CopyAndPasteProcedureTemplate_Result) Implements IGlobalModelUnitOfWork.SP_CopyAndPasteProcedureTemplate
         Dim xmlObjectParameter As ObjectParameter
         If (xmlObject IsNot Nothing)
@@ -21254,10 +21322,10 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="xmlParameters">No Metadata Documentation available.</param>
-    ''' <param name="xmlObject">No Metadata Documentation available.</param>
+    ''' <param name="xmlParameters">No hay documentación de metadatos disponible.</param>
+    ''' <param name="xmlObject">No hay documentación de metadatos disponible.</param>
     Public Function SP_CopyAndPastePortfolioNoteAccountReceivableAdvance(ByVal xmlParameters As String, ByVal xmlObject As String) As ObjectResult(Of SP_CopyAndPastePortfolioNoteAccountReceivableAdvance_Result) Implements IGlobalModelUnitOfWork.SP_CopyAndPastePortfolioNoteAccountReceivableAdvance
         Dim xmlParametersParameter As ObjectParameter
         If (xmlParameters IsNot Nothing)
@@ -21278,10 +21346,10 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="xml">No Metadata Documentation available.</param>
-    ''' <param name="userCode">No Metadata Documentation available.</param>
+    ''' <param name="xml">No hay documentación de metadatos disponible.</param>
+    ''' <param name="userCode">No hay documentación de metadatos disponible.</param>
     Public Function SP_SaveBacterialResistanceMedication(ByVal xml As String, ByVal userCode As String) As ObjectResult(Of SP_SaveBacterialResistanceMedication_Result) Implements IGlobalModelUnitOfWork.SP_SaveBacterialResistanceMedication
         Dim xmlParameter As ObjectParameter
         If (xml IsNot Nothing)
@@ -21302,10 +21370,10 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="xmlParameter">No Metadata Documentation available.</param>
-    ''' <param name="xmlObject">No Metadata Documentation available.</param>
+    ''' <param name="xmlParameter">No hay documentación de metadatos disponible.</param>
+    ''' <param name="xmlObject">No hay documentación de metadatos disponible.</param>
     Public Function SP_CopyAndPasteTransferJuridicalDebtCollectionDetail(ByVal xmlParameter As String, ByVal xmlObject As String) As ObjectResult(Of SP_CopyAndPasteTransferJuridicalDebtCollectionDetail_Result) Implements IGlobalModelUnitOfWork.SP_CopyAndPasteTransferJuridicalDebtCollectionDetail
         Dim xmlParameterParameter As ObjectParameter
         If (xmlParameter IsNot Nothing)
@@ -21326,12 +21394,12 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="transferJuridicalDebtCollectionXml">No Metadata Documentation available.</param>
-    ''' <param name="userCode">No Metadata Documentation available.</param>
-    ''' <param name="indigoGlossesIntegration">No Metadata Documentation available.</param>
-    ''' <param name="companyType">No Metadata Documentation available.</param>
+    ''' <param name="transferJuridicalDebtCollectionXml">No hay documentación de metadatos disponible.</param>
+    ''' <param name="userCode">No hay documentación de metadatos disponible.</param>
+    ''' <param name="indigoGlossesIntegration">No hay documentación de metadatos disponible.</param>
+    ''' <param name="companyType">No hay documentación de metadatos disponible.</param>
     Public Function SP_SaveTransferJuridicalDebtCollection(ByVal transferJuridicalDebtCollectionXml As String, ByVal userCode As String, ByVal indigoGlossesIntegration As Nullable(Of Byte), ByVal companyType As Nullable(Of Byte)) As ObjectResult(Of SP_SaveTransferJuridicalDebtCollection_Result) Implements IGlobalModelUnitOfWork.SP_SaveTransferJuridicalDebtCollection
         Dim transferJuridicalDebtCollectionXmlParameter As ObjectParameter
         If (transferJuridicalDebtCollectionXml IsNot Nothing)
@@ -21366,10 +21434,10 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="authorizationPortfolioXml">No Metadata Documentation available.</param>
-    ''' <param name="userCode">No Metadata Documentation available.</param>
+    ''' <param name="authorizationPortfolioXml">No hay documentación de metadatos disponible.</param>
+    ''' <param name="userCode">No hay documentación de metadatos disponible.</param>
     Public Function SP_SaveAuthorizationPortfolio(ByVal authorizationPortfolioXml As String, ByVal userCode As String) As ObjectResult(Of SP_SaveAuthorizationPortfolio_Result) Implements IGlobalModelUnitOfWork.SP_SaveAuthorizationPortfolio
         Dim authorizationPortfolioXmlParameter As ObjectParameter
         If (authorizationPortfolioXml IsNot Nothing)
@@ -21390,9 +21458,9 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="xmlObject">No Metadata Documentation available.</param>
+    ''' <param name="xmlObject">No hay documentación de metadatos disponible.</param>
     Public Function SP_CopyAndPasteAuthorizationPortfolioCareCenter(ByVal xmlObject As String) As ObjectResult(Of SP_CopyAndPasteAuthorizationPortfolioCareCenter_Result) Implements IGlobalModelUnitOfWork.SP_CopyAndPasteAuthorizationPortfolioCareCenter
         Dim xmlObjectParameter As ObjectParameter
         If (xmlObject IsNot Nothing)
@@ -21406,9 +21474,9 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="xmlObject">No Metadata Documentation available.</param>
+    ''' <param name="xmlObject">No hay documentación de metadatos disponible.</param>
     Public Function SP_CopyAndPasteAuthorizationPortfolioCUPSEntity(ByVal xmlObject As String) As ObjectResult(Of SP_CopyAndPasteAuthorizationPortfolioCUPSEntity_Result) Implements IGlobalModelUnitOfWork.SP_CopyAndPasteAuthorizationPortfolioCUPSEntity
         Dim xmlObjectParameter As ObjectParameter
         If (xmlObject IsNot Nothing)
@@ -21422,9 +21490,9 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="xmlObject">No Metadata Documentation available.</param>
+    ''' <param name="xmlObject">No hay documentación de metadatos disponible.</param>
     Public Function SP_CopyAndPasteAuthorizationPortfolioInventoryProduct(ByVal xmlObject As String) As ObjectResult(Of SP_CopyAndPasteAuthorizationPortfolioInventoryProduct_Result) Implements IGlobalModelUnitOfWork.SP_CopyAndPasteAuthorizationPortfolioInventoryProduct
         Dim xmlObjectParameter As ObjectParameter
         If (xmlObject IsNot Nothing)
@@ -21438,10 +21506,10 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="xml">No Metadata Documentation available.</param>
-    ''' <param name="userCode">No Metadata Documentation available.</param>
+    ''' <param name="xml">No hay documentación de metadatos disponible.</param>
+    ''' <param name="userCode">No hay documentación de metadatos disponible.</param>
     Public Function SP_SaveConfigurationServicesAmbulatory(ByVal xml As String, ByVal userCode As String) As ObjectResult(Of SP_SaveConfigurationServicesAmbulatory_Result) Implements IGlobalModelUnitOfWork.SP_SaveConfigurationServicesAmbulatory
         Dim xmlParameter As ObjectParameter
         If (xml IsNot Nothing)
@@ -21462,10 +21530,10 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="transferOrderXml">No Metadata Documentation available.</param>
-    ''' <param name="codeUser">No Metadata Documentation available.</param>
+    ''' <param name="transferOrderXml">No hay documentación de metadatos disponible.</param>
+    ''' <param name="codeUser">No hay documentación de metadatos disponible.</param>
     Public Function SP_SaveTransferOrder(ByVal transferOrderXml As String, ByVal codeUser As String) As ObjectResult(Of SP_SaveTransferOrder_Result) Implements IGlobalModelUnitOfWork.SP_SaveTransferOrder
         Dim transferOrderXmlParameter As ObjectParameter
         If (transferOrderXml IsNot Nothing)
@@ -21486,9 +21554,9 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="xml">No Metadata Documentation available.</param>
+    ''' <param name="xml">No hay documentación de metadatos disponible.</param>
     Public Function SP_SaveAuthorizationSchedule(ByVal xml As String) As ObjectResult(Of SP_SaveAuthorizationSchedule_Result) Implements IGlobalModelUnitOfWork.SP_SaveAuthorizationSchedule
         Dim xmlParameter As ObjectParameter
         If (xml IsNot Nothing)
@@ -21502,10 +21570,10 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="transferOrderDevolutionXml">No Metadata Documentation available.</param>
-    ''' <param name="codeUser">No Metadata Documentation available.</param>
+    ''' <param name="transferOrderDevolutionXml">No hay documentación de metadatos disponible.</param>
+    ''' <param name="codeUser">No hay documentación de metadatos disponible.</param>
     Public Function SP_SaveTransferOrderDevolution(ByVal transferOrderDevolutionXml As String, ByVal codeUser As String) As ObjectResult(Of SP_SaveTransferOrderDevolution_Result) Implements IGlobalModelUnitOfWork.SP_SaveTransferOrderDevolution
         Dim transferOrderDevolutionXmlParameter As ObjectParameter
         If (transferOrderDevolutionXml IsNot Nothing)
@@ -21526,9 +21594,9 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="xml">No Metadata Documentation available.</param>
+    ''' <param name="xml">No hay documentación de metadatos disponible.</param>
     Public Function SP_SaveTraceabilityPaperwork(ByVal xml As String) As ObjectResult(Of SP_SaveTraceabilityPaperwork_Result) Implements IGlobalModelUnitOfWork.SP_SaveTraceabilityPaperwork
         Dim xmlParameter As ObjectParameter
         If (xml IsNot Nothing)
@@ -21542,10 +21610,10 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="listManagementMedicalOrderXml">No Metadata Documentation available.</param>
-    ''' <param name="codeUser">No Metadata Documentation available.</param>
+    ''' <param name="listManagementMedicalOrderXml">No hay documentación de metadatos disponible.</param>
+    ''' <param name="codeUser">No hay documentación de metadatos disponible.</param>
     Public Function SP_SaveManagementMedicalOrder(ByVal listManagementMedicalOrderXml As String, ByVal codeUser As String) As ObjectResult(Of SP_SaveManagementMedicalOrder_Result) Implements IGlobalModelUnitOfWork.SP_SaveManagementMedicalOrder
         Dim listManagementMedicalOrderXmlParameter As ObjectParameter
         If (listManagementMedicalOrderXml IsNot Nothing)
@@ -21566,9 +21634,9 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="xml">No Metadata Documentation available.</param>
+    ''' <param name="xml">No hay documentación de metadatos disponible.</param>
     Public Function SP_SaveContractCoverage(ByVal xml As String) As ObjectResult(Of SP_SaveContractCoverage_Result) Implements IGlobalModelUnitOfWork.SP_SaveContractCoverage
         Dim xmlParameter As ObjectParameter
         If (xml IsNot Nothing)
@@ -21582,10 +21650,10 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="xml">No Metadata Documentation available.</param>
-    ''' <param name="userCode">No Metadata Documentation available.</param>
+    ''' <param name="xml">No hay documentación de metadatos disponible.</param>
+    ''' <param name="userCode">No hay documentación de metadatos disponible.</param>
     Public Function SP_SaveDashboardQuoted(ByVal xml As String, ByVal userCode As String) As ObjectResult(Of SP_SaveDashboardQuoted_Result) Implements IGlobalModelUnitOfWork.SP_SaveDashboardQuoted
         Dim xmlParameter As ObjectParameter
         If (xml IsNot Nothing)
@@ -21606,9 +21674,9 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="xml">No Metadata Documentation available.</param>
+    ''' <param name="xml">No hay documentación de metadatos disponible.</param>
     Public Function SP_SaveAcceptanceAuthorization(ByVal xml As String) As ObjectResult(Of SP_SaveAcceptanceAuthorization_Result) Implements IGlobalModelUnitOfWork.SP_SaveAcceptanceAuthorization
         Dim xmlParameter As ObjectParameter
         If (xml IsNot Nothing)
@@ -21622,9 +21690,9 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="traceabilityPaperworkXml">No Metadata Documentation available.</param>
+    ''' <param name="traceabilityPaperworkXml">No hay documentación de metadatos disponible.</param>
     Public Function SP_AssignTraceabilityPaperwork(ByVal traceabilityPaperworkXml As String) As ObjectResult(Of SP_AssignTraceabilityPaperwork_Result) Implements IGlobalModelUnitOfWork.SP_AssignTraceabilityPaperwork
         Dim traceabilityPaperworkXmlParameter As ObjectParameter
         If (traceabilityPaperworkXml IsNot Nothing)
@@ -21638,10 +21706,10 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="xml">No Metadata Documentation available.</param>
-    ''' <param name="userCode">No Metadata Documentation available.</param>
+    ''' <param name="xml">No hay documentación de metadatos disponible.</param>
+    ''' <param name="userCode">No hay documentación de metadatos disponible.</param>
     Public Function SP_SaveAuthorizationOutsourcedServices(ByVal xml As String, ByVal userCode As String) As ObjectResult(Of SP_SaveAuthorizationOutsourcedServices_Result) Implements IGlobalModelUnitOfWork.SP_SaveAuthorizationOutsourcedServices
         Dim xmlParameter As ObjectParameter
         If (xml IsNot Nothing)
@@ -21662,10 +21730,10 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="xml">No Metadata Documentation available.</param>
-    ''' <param name="userCode">No Metadata Documentation available.</param>
+    ''' <param name="xml">No hay documentación de metadatos disponible.</param>
+    ''' <param name="userCode">No hay documentación de metadatos disponible.</param>
     Public Function SP_SaveAntineoplasicoMedication(ByVal xml As String, ByVal userCode As String) As ObjectResult(Of SP_SaveAntineoplasicoMedication_Result) Implements IGlobalModelUnitOfWork.SP_SaveAntineoplasicoMedication
         Dim xmlParameter As ObjectParameter
         If (xml IsNot Nothing)
@@ -21686,10 +21754,10 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="pharmaceuticalDispensingTransferXml">No Metadata Documentation available.</param>
-    ''' <param name="codeUser">No Metadata Documentation available.</param>
+    ''' <param name="pharmaceuticalDispensingTransferXml">No hay documentación de metadatos disponible.</param>
+    ''' <param name="codeUser">No hay documentación de metadatos disponible.</param>
     Public Function SP_SavePharmaceuticalDispensingTransfer(ByVal pharmaceuticalDispensingTransferXml As String, ByVal codeUser As String) As ObjectResult(Of SP_SavePharmaceuticalDispensingTransfer_Result) Implements IGlobalModelUnitOfWork.SP_SavePharmaceuticalDispensingTransfer
         Dim pharmaceuticalDispensingTransferXmlParameter As ObjectParameter
         If (pharmaceuticalDispensingTransferXml IsNot Nothing)
@@ -21710,10 +21778,10 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="legalBookId">No Metadata Documentation available.</param>
-    ''' <param name="xmlObject">No Metadata Documentation available.</param>
+    ''' <param name="legalBookId">No hay documentación de metadatos disponible.</param>
+    ''' <param name="xmlObject">No hay documentación de metadatos disponible.</param>
     Public Function SP_CopyAndPasteJournalVoucherDetails(ByVal legalBookId As Nullable(Of Integer), ByVal xmlObject As String) As ObjectResult(Of SP_CopyAndPasteJournalVoucherDetails_Result) Implements IGlobalModelUnitOfWork.SP_CopyAndPasteJournalVoucherDetails
         Dim legalBookIdParameter As ObjectParameter
         If (legalBookId.HasValue)
@@ -21734,10 +21802,10 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="conciliationXml">No Metadata Documentation available.</param>
-    ''' <param name="codeUser">No Metadata Documentation available.</param>
+    ''' <param name="conciliationXml">No hay documentación de metadatos disponible.</param>
+    ''' <param name="codeUser">No hay documentación de metadatos disponible.</param>
     Public Function SP_SaveConciliation(ByVal conciliationXml As String, ByVal codeUser As String) As ObjectResult(Of SP_SaveConciliation_Result) Implements IGlobalModelUnitOfWork.SP_SaveConciliation
         Dim conciliationXmlParameter As ObjectParameter
         If (conciliationXml IsNot Nothing)
@@ -21758,11 +21826,11 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="revenueControlDetailId">No Metadata Documentation available.</param>
-    ''' <param name="invoiceId">No Metadata Documentation available.</param>
-    ''' <param name="userCode">No Metadata Documentation available.</param>
+    ''' <param name="revenueControlDetailId">No hay documentación de metadatos disponible.</param>
+    ''' <param name="invoiceId">No hay documentación de metadatos disponible.</param>
+    ''' <param name="userCode">No hay documentación de metadatos disponible.</param>
     Public Function SP_AssociateInvoice(ByVal revenueControlDetailId As Nullable(Of Integer), ByVal invoiceId As Nullable(Of Integer), ByVal userCode As String) As ObjectResult(Of SP_AssociateInvoice_Result) Implements IGlobalModelUnitOfWork.SP_AssociateInvoice
         Dim revenueControlDetailIdParameter As ObjectParameter
         If (revenueControlDetailId.HasValue)
@@ -21790,9 +21858,9 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="xmlObject">No Metadata Documentation available.</param>
+    ''' <param name="xmlObject">No hay documentación de metadatos disponible.</param>
     Public Function SP_CopyAndPasteBillingConceptCostCenter(ByVal xmlObject As String) As ObjectResult(Of SP_CopyAndPasteBillingConceptCostCenter_Result) Implements IGlobalModelUnitOfWork.SP_CopyAndPasteBillingConceptCostCenter
         Dim xmlObjectParameter As ObjectParameter
         If (xmlObject IsNot Nothing)
@@ -21806,10 +21874,10 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="xml">No Metadata Documentation available.</param>
-    ''' <param name="userCode">No Metadata Documentation available.</param>
+    ''' <param name="xml">No hay documentación de metadatos disponible.</param>
+    ''' <param name="userCode">No hay documentación de metadatos disponible.</param>
     Public Function SP_SaveStabilityTable(ByVal xml As String, ByVal userCode As String) As ObjectResult(Of SP_SaveStabilityTable_Result) Implements IGlobalModelUnitOfWork.SP_SaveStabilityTable
         Dim xmlParameter As ObjectParameter
         If (xml IsNot Nothing)
@@ -21830,9 +21898,9 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="cUPSEntityCode">No Metadata Documentation available.</param>
+    ''' <param name="cUPSEntityCode">No hay documentación de metadatos disponible.</param>
     Public Function SP_ValidateCUPSInCrystal(ByVal cUPSEntityCode As String) As ObjectResult(Of SP_ValidateCUPSInCrystal_Result) Implements IGlobalModelUnitOfWork.SP_ValidateCUPSInCrystal
         Dim cUPSEntityCodeParameter As ObjectParameter
         If (cUPSEntityCode IsNot Nothing)
@@ -21846,10 +21914,10 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="xmlParameters">No Metadata Documentation available.</param>
-    ''' <param name="xmlInvoices">No Metadata Documentation available.</param>
+    ''' <param name="xmlParameters">No hay documentación de metadatos disponible.</param>
+    ''' <param name="xmlInvoices">No hay documentación de metadatos disponible.</param>
     Public Function SP_GenerateMegaPlaneFileData(ByVal xmlParameters As String, ByVal xmlInvoices As String) As ObjectResult(Of SP_GenerateMegaPlaneFileData_Result) Implements IGlobalModelUnitOfWork.SP_GenerateMegaPlaneFileData
         Dim xmlParametersParameter As ObjectParameter
         If (xmlParameters IsNot Nothing)
@@ -21870,10 +21938,10 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="xmlParameters">No Metadata Documentation available.</param>
-    ''' <param name="xmlInvoices">No Metadata Documentation available.</param>
+    ''' <param name="xmlParameters">No hay documentación de metadatos disponible.</param>
+    ''' <param name="xmlInvoices">No hay documentación de metadatos disponible.</param>
     Public Function SP_GenerateFURIPS2FileData(ByVal xmlParameters As String, ByVal xmlInvoices As String) As ObjectResult(Of SP_GenerateFURIPS2FileData_Result) Implements IGlobalModelUnitOfWork.SP_GenerateFURIPS2FileData
         Dim xmlParametersParameter As ObjectParameter
         If (xmlParameters IsNot Nothing)
@@ -21894,10 +21962,82 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="validityId">No Metadata Documentation available.</param>
-    ''' <param name="userCode">No Metadata Documentation available.</param>
+    ''' <param name="xmlParameters">No hay documentación de metadatos disponible.</param>
+    ''' <param name="xmlInvoices">No hay documentación de metadatos disponible.</param>
+    Public Function SP_GenerateAdresFurServiciosData(ByVal xmlParameters As String, ByVal xmlInvoices As String) As ObjectResult(Of SP_GenerateAdresFurServiciosData_Result) Implements IGlobalModelUnitOfWork.SP_GenerateAdresFurServiciosData
+        Dim xmlParametersParameter As ObjectParameter
+        If (xmlParameters IsNot Nothing)
+            xmlParametersParameter = New ObjectParameter("XmlParameters", xmlParameters)
+        Else
+            xmlParametersParameter = New ObjectParameter("XmlParameters", GetType(String))
+        End If
+
+        Dim xmlInvoicesParameter As ObjectParameter
+        If (xmlInvoices IsNot Nothing)
+            xmlInvoicesParameter = New ObjectParameter("XmlInvoices", xmlInvoices)
+        Else
+            xmlInvoicesParameter = New ObjectParameter("XmlInvoices", GetType(String))
+        End If
+
+
+        Return CType(Me, IObjectContextAdapter).ObjectContext.ExecuteFunction(Of SP_GenerateAdresFurServiciosData_Result)("SP_GenerateAdresFurServiciosData", xmlParametersParameter, xmlInvoicesParameter)
+    End Function
+
+    ''' <summary>
+    ''' No hay documentación de metadatos disponible.
+    ''' </summary>
+    ''' <param name="xmlParameters">No hay documentación de metadatos disponible.</param>
+    ''' <param name="xmlInvoices">No hay documentación de metadatos disponible.</param>
+    Public Function SP_GenerateAdresFurData(ByVal xmlParameters As String, ByVal xmlInvoices As String) As ObjectResult(Of SP_GenerateAdresFurData_Result) Implements IGlobalModelUnitOfWork.SP_GenerateAdresFurData
+        Dim xmlParametersParameter As ObjectParameter
+        If (xmlParameters IsNot Nothing)
+            xmlParametersParameter = New ObjectParameter("XmlParameters", xmlParameters)
+        Else
+            xmlParametersParameter = New ObjectParameter("XmlParameters", GetType(String))
+        End If
+
+        Dim xmlInvoicesParameter As ObjectParameter
+        If (xmlInvoices IsNot Nothing)
+            xmlInvoicesParameter = New ObjectParameter("XmlInvoices", xmlInvoices)
+        Else
+            xmlInvoicesParameter = New ObjectParameter("XmlInvoices", GetType(String))
+        End If
+
+
+        Return CType(Me, IObjectContextAdapter).ObjectContext.ExecuteFunction(Of SP_GenerateAdresFurData_Result)("SP_GenerateAdresFurData", xmlParametersParameter, xmlInvoicesParameter)
+    End Function
+
+    ''' <summary>
+    ''' No hay documentación de metadatos disponible.
+    ''' </summary>
+    ''' <param name="xmlParameters">No hay documentación de metadatos disponible.</param>
+    ''' <param name="xmlInvoices">No hay documentación de metadatos disponible.</param>
+    Public Function SP_GenerateAdresFurRgData(ByVal xmlParameters As String, ByVal xmlInvoices As String) As ObjectResult(Of SP_GenerateAdresFurRgData_Result) Implements IGlobalModelUnitOfWork.SP_GenerateAdresFurRgData
+        Dim xmlParametersParameter As ObjectParameter
+        If (xmlParameters IsNot Nothing) Then
+            xmlParametersParameter = New ObjectParameter("XmlParameters", xmlParameters)
+        Else
+            xmlParametersParameter = New ObjectParameter("XmlParameters", GetType(String))
+        End If
+
+        Dim xmlInvoicesParameter As ObjectParameter
+        If (xmlInvoices IsNot Nothing) Then
+            xmlInvoicesParameter = New ObjectParameter("XmlInvoices", xmlInvoices)
+        Else
+            xmlInvoicesParameter = New ObjectParameter("XmlInvoices", GetType(String))
+        End If
+
+
+        Return CType(Me, IObjectContextAdapter).ObjectContext.ExecuteFunction(Of SP_GenerateAdresFurRgData_Result)("SP_GenerateAdresFurRgData", xmlParametersParameter, xmlInvoicesParameter)
+    End Function
+
+    ''' <summary>
+    ''' No hay documentación de metadatos disponible.
+    ''' </summary>
+    ''' <param name="validityId">No hay documentación de metadatos disponible.</param>
+    ''' <param name="userCode">No hay documentación de metadatos disponible.</param>
     Public Function SP_RecalculateBalancesExpense(ByVal validityId As Nullable(Of Integer), ByVal userCode As String) As ObjectResult(Of SP_RecalculateBalancesExpense_Result) Implements IGlobalModelUnitOfWork.SP_RecalculateBalancesExpense
         Dim validityIdParameter As ObjectParameter
         If (validityId.HasValue)
@@ -21918,10 +22058,10 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="validityId">No Metadata Documentation available.</param>
-    ''' <param name="userCode">No Metadata Documentation available.</param>
+    ''' <param name="validityId">No hay documentación de metadatos disponible.</param>
+    ''' <param name="userCode">No hay documentación de metadatos disponible.</param>
     Public Function SP_RecalculateBalancesIncome(ByVal validityId As Nullable(Of Integer), ByVal userCode As String) As ObjectResult(Of SP_RecalculateBalancesIncome_Result) Implements IGlobalModelUnitOfWork.SP_RecalculateBalancesIncome
         Dim validityIdParameter As ObjectParameter
         If (validityId.HasValue)
@@ -21942,10 +22082,10 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="xmlObject">No Metadata Documentation available.</param>
-    ''' <param name="cMConfigurationId">No Metadata Documentation available.</param>
+    ''' <param name="xmlObject">No hay documentación de metadatos disponible.</param>
+    ''' <param name="cMConfigurationId">No hay documentación de metadatos disponible.</param>
     Public Function SP_ImportMedicinesProduction(ByVal xmlObject As String, ByVal cMConfigurationId As Nullable(Of Integer)) As ObjectResult(Of SP_ImportMedicinesProduction_Result) Implements IGlobalModelUnitOfWork.SP_ImportMedicinesProduction
         Dim xmlObjectParameter As ObjectParameter
         If (xmlObject IsNot Nothing)
@@ -21966,10 +22106,10 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="xml">No Metadata Documentation available.</param>
-    ''' <param name="userCode">No Metadata Documentation available.</param>
+    ''' <param name="xml">No hay documentación de metadatos disponible.</param>
+    ''' <param name="userCode">No hay documentación de metadatos disponible.</param>
     Public Function SP_UpdateMedicalOrder(ByVal xml As String, ByVal userCode As String) As ObjectResult(Of SP_UpdateMedicalOrder_Result) Implements IGlobalModelUnitOfWork.SP_UpdateMedicalOrder
         Dim xmlParameter As ObjectParameter
         If (xml IsNot Nothing)
@@ -21990,9 +22130,9 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="xmlObject">No Metadata Documentation available.</param>
+    ''' <param name="xmlObject">No hay documentación de metadatos disponible.</param>
     Public Function SP_ImportGlosaMovementGlosas(ByVal xmlObject As String) As ObjectResult(Of SP_ImportGlosaMovementGlosas_Result) Implements IGlobalModelUnitOfWork.SP_ImportGlosaMovementGlosas
         Dim xmlObjectParameter As ObjectParameter
         If (xmlObject IsNot Nothing)
@@ -22006,10 +22146,10 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="xml">No Metadata Documentation available.</param>
-    ''' <param name="userCode">No Metadata Documentation available.</param>
+    ''' <param name="xml">No hay documentación de metadatos disponible.</param>
+    ''' <param name="userCode">No hay documentación de metadatos disponible.</param>
     Public Function SP_SaveRequestUnitDoseInventory(ByVal xml As String, ByVal userCode As String) As ObjectResult(Of SP_SaveRequestUnitDoseInventory_Result) Implements IGlobalModelUnitOfWork.SP_SaveRequestUnitDoseInventory
         Dim xmlParameter As ObjectParameter
         If (xml IsNot Nothing)
@@ -22030,11 +22170,11 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="hisContainer">No Metadata Documentation available.</param>
-    ''' <param name="xmlCriterias">No Metadata Documentation available.</param>
-    ''' <param name="xmlFilters">No Metadata Documentation available.</param>
+    ''' <param name="hisContainer">No hay documentación de metadatos disponible.</param>
+    ''' <param name="xmlCriterias">No hay documentación de metadatos disponible.</param>
+    ''' <param name="xmlFilters">No hay documentación de metadatos disponible.</param>
     Public Function SP_ReportPortfolioReconciliation(ByVal hisContainer As String, ByVal xmlCriterias As String, ByVal xmlFilters As String) As ObjectResult(Of SP_ReportPortfolioReconciliation_Result) Implements IGlobalModelUnitOfWork.SP_ReportPortfolioReconciliation
         Dim hisContainerParameter As ObjectParameter
         If (hisContainer IsNot Nothing)
@@ -22062,10 +22202,10 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="xml">No Metadata Documentation available.</param>
-    ''' <param name="userCode">No Metadata Documentation available.</param>
+    ''' <param name="xml">No hay documentación de metadatos disponible.</param>
+    ''' <param name="userCode">No hay documentación de metadatos disponible.</param>
     Public Function SP_SaveRequestUnitDoseExternalCareCenter(ByVal xml As String, ByVal userCode As String) As ObjectResult(Of SP_SaveRequestUnitDoseExternalCareCenter_Result) Implements IGlobalModelUnitOfWork.SP_SaveRequestUnitDoseExternalCareCenter
         Dim xmlParameter As ObjectParameter
         If (xml IsNot Nothing)
@@ -22086,10 +22226,10 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="xml">No Metadata Documentation available.</param>
-    ''' <param name="userCode">No Metadata Documentation available.</param>
+    ''' <param name="xml">No hay documentación de metadatos disponible.</param>
+    ''' <param name="userCode">No hay documentación de metadatos disponible.</param>
     Public Function SP_ProcessMixingStation(ByVal xml As String, ByVal userCode As String) As ObjectResult(Of SP_ProcessMixingStation_Result) Implements IGlobalModelUnitOfWork.SP_ProcessMixingStation
         Dim xmlParameter As ObjectParameter
         If (xml IsNot Nothing)
@@ -22110,9 +22250,9 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="xmlObject">No Metadata Documentation available.</param>
+    ''' <param name="xmlObject">No hay documentación de metadatos disponible.</param>
     Public Function SP_ImportExcelConciliation(ByVal xmlObject As String) As ObjectResult(Of SP_ImportExcelConciliation_Result) Implements IGlobalModelUnitOfWork.SP_ImportExcelConciliation
         Dim xmlObjectParameter As ObjectParameter
         If (xmlObject IsNot Nothing)
@@ -22126,10 +22266,10 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="invoiceNumber">No Metadata Documentation available.</param>
-    ''' <param name="closingDate">No Metadata Documentation available.</param>
+    ''' <param name="invoiceNumber">No hay documentación de metadatos disponible.</param>
+    ''' <param name="closingDate">No hay documentación de metadatos disponible.</param>
     Public Function SP_PortfolioConciliation(ByVal invoiceNumber As String, ByVal closingDate As Nullable(Of Date)) As ObjectResult(Of SP_PortfolioConciliation_Result) Implements IGlobalModelUnitOfWork.SP_PortfolioConciliation
         Dim invoiceNumberParameter As ObjectParameter
         If (invoiceNumber IsNot Nothing)
@@ -22150,10 +22290,10 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="xmlParameters">No Metadata Documentation available.</param>
-    ''' <param name="xmlATCs">No Metadata Documentation available.</param>
+    ''' <param name="xmlParameters">No hay documentación de metadatos disponible.</param>
+    ''' <param name="xmlATCs">No hay documentación de metadatos disponible.</param>
     Public Function SP_ListPhysicalInventoryByCode(ByVal xmlParameters As String, ByVal xmlATCs As String) As ObjectResult(Of SP_ListPhysicalInventoryByCode_Result) Implements IGlobalModelUnitOfWork.SP_ListPhysicalInventoryByCode
         Dim xmlParametersParameter As ObjectParameter
         If (xmlParameters IsNot Nothing)
@@ -22174,10 +22314,10 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="invoiceEntityCapitatedXml">No Metadata Documentation available.</param>
-    ''' <param name="codeUser">No Metadata Documentation available.</param>
+    ''' <param name="invoiceEntityCapitatedXml">No hay documentación de metadatos disponible.</param>
+    ''' <param name="codeUser">No hay documentación de metadatos disponible.</param>
     Public Function SP_SaveInvoiceEntityCapitated(ByVal invoiceEntityCapitatedXml As String, ByVal codeUser As String) As ObjectResult(Of SP_SaveInvoiceEntityCapitated_Result) Implements IGlobalModelUnitOfWork.SP_SaveInvoiceEntityCapitated
         Dim invoiceEntityCapitatedXmlParameter As ObjectParameter
         If (invoiceEntityCapitatedXml IsNot Nothing)
@@ -22198,10 +22338,10 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="xml">No Metadata Documentation available.</param>
-    ''' <param name="userCode">No Metadata Documentation available.</param>
+    ''' <param name="xml">No hay documentación de metadatos disponible.</param>
+    ''' <param name="userCode">No hay documentación de metadatos disponible.</param>
     Public Function SP_SaveProductionSchedule(ByVal xml As String, ByVal userCode As String) As ObjectResult(Of SP_SaveProductionSchedule_Result) Implements IGlobalModelUnitOfWork.SP_SaveProductionSchedule
         Dim xmlParameter As ObjectParameter
         If (xml IsNot Nothing)
@@ -22222,10 +22362,10 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="xml">No Metadata Documentation available.</param>
-    ''' <param name="userCode">No Metadata Documentation available.</param>
+    ''' <param name="xml">No hay documentación de metadatos disponible.</param>
+    ''' <param name="userCode">No hay documentación de metadatos disponible.</param>
     Public Function SP_SaveCampaign(ByVal xml As String, ByVal userCode As String) As ObjectResult(Of SP_SaveCampaign_Result) Implements IGlobalModelUnitOfWork.SP_SaveCampaign
         Dim xmlParameter As ObjectParameter
         If (xml IsNot Nothing)
@@ -22246,10 +22386,10 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="accountReceivableDocumentXml">No Metadata Documentation available.</param>
-    ''' <param name="codeUser">No Metadata Documentation available.</param>
+    ''' <param name="accountReceivableDocumentXml">No hay documentación de metadatos disponible.</param>
+    ''' <param name="codeUser">No hay documentación de metadatos disponible.</param>
     Public Function SP_SaveAccountReceivableDocument(ByVal accountReceivableDocumentXml As String, ByVal codeUser As String) As ObjectResult(Of SP_SaveAccountReceivableDocument_Result) Implements IGlobalModelUnitOfWork.SP_SaveAccountReceivableDocument
         Dim accountReceivableDocumentXmlParameter As ObjectParameter
         If (accountReceivableDocumentXml IsNot Nothing)
@@ -22270,33 +22410,33 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="xml">No Metadata Documentation available.</param>
-    ''' <param name="userCode">No Metadata Documentation available.</param>
+    ''' <param name="xml">No hay documentación de metadatos disponible.</param>
+    ''' <param name="userCode">No hay documentación de metadatos disponible.</param>
     Public Function SP_SavePatientExternalCareCenter(ByVal xml As String, ByVal userCode As String) As ObjectResult(Of SP_SavePatientExternalCareCenter_Result) Implements IGlobalModelUnitOfWork.SP_SavePatientExternalCareCenter
         Dim xmlParameter As ObjectParameter
-        If (xml IsNot Nothing) Then
+        If (xml IsNot Nothing)
             xmlParameter = New ObjectParameter("Xml", xml)
         Else
             xmlParameter = New ObjectParameter("Xml", GetType(String))
         End If
 
         Dim userCodeParameter As ObjectParameter
-        If (userCode IsNot Nothing) Then
+        If (userCode IsNot Nothing)
             userCodeParameter = New ObjectParameter("UserCode", userCode)
         Else
             userCodeParameter = New ObjectParameter("UserCode", GetType(String))
         End If
 
 
-        Return CType(Me, IObjectContextAdapter).ObjectContext.ExecuteFunction(Of SP_SavePatientExternalCareCenter_Result)("SP_SavePatientExternalCareCenter", xmlParameter, userCodeParameter)
+        Return CType(Me, IObjectContextAdapter).ObjectContext.ExecuteFunction(Of SP_SavePatientExternalCareCenter_Result)("SP_SavePatientExternalCareCenter", xmlParameter, userCodeParameter)
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="invoiceId">No Metadata Documentation available.</param>
+    ''' <param name="invoiceId">No hay documentación de metadatos disponible.</param>
     Public Function SP_GetInvoiceMoreInformationByInvoiceId(ByVal invoiceId As Nullable(Of Integer)) As ObjectResult(Of SP_GetInvoiceMoreInformationByInvoiceId_Result) Implements IGlobalModelUnitOfWork.SP_GetInvoiceMoreInformationByInvoiceId
         Dim invoiceIdParameter As ObjectParameter
         If (invoiceId.HasValue)
@@ -22310,10 +22450,10 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="workOrderXml">No Metadata Documentation available.</param>
-    ''' <param name="userCode">No Metadata Documentation available.</param>
+    ''' <param name="workOrderXml">No hay documentación de metadatos disponible.</param>
+    ''' <param name="userCode">No hay documentación de metadatos disponible.</param>
     Public Function SP_SaveWorkOrder(ByVal workOrderXml As String, ByVal userCode As String) As ObjectResult(Of SP_SaveWorkOrder_Result) Implements IGlobalModelUnitOfWork.SP_SaveWorkOrder
         Dim workOrderXmlParameter As ObjectParameter
         If (workOrderXml IsNot Nothing)
@@ -22334,10 +22474,10 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="uploadBankStatementsXml">No Metadata Documentation available.</param>
-    ''' <param name="codeUser">No Metadata Documentation available.</param>
+    ''' <param name="uploadBankStatementsXml">No hay documentación de metadatos disponible.</param>
+    ''' <param name="codeUser">No hay documentación de metadatos disponible.</param>
     Public Function SP_SaveUploadBankStatements(ByVal uploadBankStatementsXml As String, ByVal codeUser As String) As ObjectResult(Of SP_SaveUploadBankStatements_Result) Implements IGlobalModelUnitOfWork.SP_SaveUploadBankStatements
         Dim uploadBankStatementsXmlParameter As ObjectParameter
         If (uploadBankStatementsXml IsNot Nothing)
@@ -22358,9 +22498,9 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="uploadBankStatementsDetail">No Metadata Documentation available.</param>
+    ''' <param name="uploadBankStatementsDetail">No hay documentación de metadatos disponible.</param>
     Public Function SP_SetUploadBankStatementsDetail(ByVal uploadBankStatementsDetail As String) As ObjectResult(Of SP_SetUploadBankStatementsDetail_Result) Implements IGlobalModelUnitOfWork.SP_SetUploadBankStatementsDetail
         Dim uploadBankStatementsDetailParameter As ObjectParameter
         If (uploadBankStatementsDetail IsNot Nothing)
@@ -22374,10 +22514,10 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="xml">No Metadata Documentation available.</param>
-    ''' <param name="userCode">No Metadata Documentation available.</param>
+    ''' <param name="xml">No hay documentación de metadatos disponible.</param>
+    ''' <param name="userCode">No hay documentación de metadatos disponible.</param>
     Public Function SP_SavePackage(ByVal xml As String, ByVal userCode As String) As ObjectResult(Of SP_SavePackage_Result) Implements IGlobalModelUnitOfWork.SP_SavePackage
         Dim xmlParameter As ObjectParameter
         If (xml IsNot Nothing)
@@ -22398,9 +22538,9 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="xmlCriterias">No Metadata Documentation available.</param>
+    ''' <param name="xmlCriterias">No hay documentación de metadatos disponible.</param>
     Public Function SP_GetBankReconciliationAutomaticDetails(ByVal xmlCriterias As String) As ObjectResult(Of SP_GetBankReconciliationAutomaticDetails_Result) Implements IGlobalModelUnitOfWork.SP_GetBankReconciliationAutomaticDetails
         Dim xmlCriteriasParameter As ObjectParameter
         If (xmlCriterias IsNot Nothing)
@@ -22414,9 +22554,9 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="xmlCriterias">No Metadata Documentation available.</param>
+    ''' <param name="xmlCriterias">No hay documentación de metadatos disponible.</param>
     Public Function SP_GetBankReconciliationAutomaticExtractDetails(ByVal xmlCriterias As String) As ObjectResult(Of SP_GetBankReconciliationAutomaticExtractDetails_Result) Implements IGlobalModelUnitOfWork.SP_GetBankReconciliationAutomaticExtractDetails
         Dim xmlCriteriasParameter As ObjectParameter
         If (xmlCriterias IsNot Nothing)
@@ -22430,10 +22570,10 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="bankReconciliationXml">No Metadata Documentation available.</param>
-    ''' <param name="codeUser">No Metadata Documentation available.</param>
+    ''' <param name="bankReconciliationXml">No hay documentación de metadatos disponible.</param>
+    ''' <param name="codeUser">No hay documentación de metadatos disponible.</param>
     Public Function SP_SaveBankReconciliation(ByVal bankReconciliationXml As String, ByVal codeUser As String) As ObjectResult(Of SP_SaveBankReconciliation_Result) Implements IGlobalModelUnitOfWork.SP_SaveBankReconciliation
         Dim bankReconciliationXmlParameter As ObjectParameter
         If (bankReconciliationXml IsNot Nothing)
@@ -22454,9 +22594,9 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="inventoryRequestDetailOther">No Metadata Documentation available.</param>
+    ''' <param name="inventoryRequestDetailOther">No hay documentación de metadatos disponible.</param>
     Public Function SP_CopyPasteAndImportRequestsOtherDetail(ByVal inventoryRequestDetailOther As String) As ObjectResult(Of SP_CopyPasteAndImportRequestsOtherDetail_Result) Implements IGlobalModelUnitOfWork.SP_CopyPasteAndImportRequestsOtherDetail
         Dim inventoryRequestDetailOtherParameter As ObjectParameter
         If (inventoryRequestDetailOther IsNot Nothing)
@@ -22470,11 +22610,11 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="year">No Metadata Documentation available.</param>
-    ''' <param name="month">No Metadata Documentation available.</param>
-    ''' <param name="userCode">No Metadata Documentation available.</param>
+    ''' <param name="year">No hay documentación de metadatos disponible.</param>
+    ''' <param name="month">No hay documentación de metadatos disponible.</param>
+    ''' <param name="userCode">No hay documentación de metadatos disponible.</param>
     Public Function SP_ReverseEstimateCostNative(ByVal year As Nullable(Of Integer), ByVal month As Nullable(Of Integer), ByVal userCode As String) As ObjectResult(Of SP_ReverseEstimateCostNative_Result) Implements IGlobalModelUnitOfWork.SP_ReverseEstimateCostNative
         Dim yearParameter As ObjectParameter
         If (year.HasValue)
@@ -22502,10 +22642,10 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="serviceOrderDetailXml">No Metadata Documentation available.</param>
-    ''' <param name="userCode">No Metadata Documentation available.</param>
+    ''' <param name="serviceOrderDetailXml">No hay documentación de metadatos disponible.</param>
+    ''' <param name="userCode">No hay documentación de metadatos disponible.</param>
     Public Function SP_ValidateServiceOrderDetail(ByVal serviceOrderDetailXml As String, ByVal userCode As String) As ObjectResult(Of SP_ValidateServiceOrderDetail_Result) Implements IGlobalModelUnitOfWork.SP_ValidateServiceOrderDetail
         Dim serviceOrderDetailXmlParameter As ObjectParameter
         If (serviceOrderDetailXml IsNot Nothing)
@@ -22526,9 +22666,9 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="xmlObject">No Metadata Documentation available.</param>
+    ''' <param name="xmlObject">No hay documentación de metadatos disponible.</param>
     Public Function SP_ImportExceptionsRawMaterial(ByVal xmlObject As String) As ObjectResult(Of SP_ImportExceptionsRawMaterial_Result) Implements IGlobalModelUnitOfWork.SP_ImportExceptionsRawMaterial
         Dim xmlObjectParameter As ObjectParameter
         If (xmlObject IsNot Nothing)
@@ -22542,12 +22682,12 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="codeProducto">No Metadata Documentation available.</param>
-    ''' <param name="warehouseId">No Metadata Documentation available.</param>
-    ''' <param name="stockId">No Metadata Documentation available.</param>
-    ''' <param name="maquilaId">No Metadata Documentation available.</param>
+    ''' <param name="codeProducto">No hay documentación de metadatos disponible.</param>
+    ''' <param name="warehouseId">No hay documentación de metadatos disponible.</param>
+    ''' <param name="stockId">No hay documentación de metadatos disponible.</param>
+    ''' <param name="maquilaId">No hay documentación de metadatos disponible.</param>
     Public Function SP_ListPhysicalInventoryByCodeMaterialRaw(ByVal codeProducto As String, ByVal warehouseId As Nullable(Of Integer), ByVal stockId As Nullable(Of Integer), ByVal maquilaId As Nullable(Of Integer)) As ObjectResult(Of SP_ListPhysicalInventoryByCodeMaterialRaw_Result) Implements IGlobalModelUnitOfWork.SP_ListPhysicalInventoryByCodeMaterialRaw
         Dim codeProductoParameter As ObjectParameter
         If (codeProducto IsNot Nothing)
@@ -22582,9 +22722,9 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="campaignDetailId">No Metadata Documentation available.</param>
+    ''' <param name="campaignDetailId">No hay documentación de metadatos disponible.</param>
     Public Function SP_ListViewItemsCampaigns(ByVal campaignDetailId As Nullable(Of Integer)) As ObjectResult(Of SP_ListViewItemsCampaigns_Result) Implements IGlobalModelUnitOfWork.SP_ListViewItemsCampaigns
         Dim campaignDetailIdParameter As ObjectParameter
         If (campaignDetailId.HasValue)
@@ -22598,18 +22738,18 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="patientCode">No Metadata Documentation available.</param>
-    ''' <param name="admissionNumber">No Metadata Documentation available.</param>
-    ''' <param name="containerCrystal">No Metadata Documentation available.</param>
-    ''' <param name="billingAuthorizationId">No Metadata Documentation available.</param>
-    ''' <param name="operativeUnitId">No Metadata Documentation available.</param>
-    ''' <param name="thirdPartyPatientId">No Metadata Documentation available.</param>
-    ''' <param name="userCode">No Metadata Documentation available.</param>
-    ''' <param name="companyType">No Metadata Documentation available.</param>
-    ''' <param name="revenueControlDetailCrossingListXml">No Metadata Documentation available.</param>
-    ''' <param name="skipAccountControlValidations">No Metadata Documentation available.</param>
+    ''' <param name="patientCode">No hay documentación de metadatos disponible.</param>
+    ''' <param name="admissionNumber">No hay documentación de metadatos disponible.</param>
+    ''' <param name="containerCrystal">No hay documentación de metadatos disponible.</param>
+    ''' <param name="billingAuthorizationId">No hay documentación de metadatos disponible.</param>
+    ''' <param name="operativeUnitId">No hay documentación de metadatos disponible.</param>
+    ''' <param name="thirdPartyPatientId">No hay documentación de metadatos disponible.</param>
+    ''' <param name="userCode">No hay documentación de metadatos disponible.</param>
+    ''' <param name="companyType">No hay documentación de metadatos disponible.</param>
+    ''' <param name="revenueControlDetailCrossingListXml">No hay documentación de metadatos disponible.</param>
+    ''' <param name="skipAccountControlValidations">No hay documentación de metadatos disponible.</param>
     Public Function LiquidateFolio(ByVal patientCode As String, ByVal admissionNumber As String, ByVal containerCrystal As String, ByVal billingAuthorizationId As Nullable(Of Integer), ByVal operativeUnitId As Nullable(Of Integer), ByVal thirdPartyPatientId As Nullable(Of Integer), ByVal userCode As String, ByVal companyType As Nullable(Of Byte), ByVal revenueControlDetailCrossingListXml As String, ByVal skipAccountControlValidations As Nullable(Of Boolean)) As ObjectResult(Of LiquidateFolio_Result) Implements IGlobalModelUnitOfWork.LiquidateFolio
         Dim patientCodeParameter As ObjectParameter
         If (patientCode IsNot Nothing)
@@ -22686,10 +22826,10 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="supplierTypeIdList">No Metadata Documentation available.</param>
-    ''' <param name="paymentD">No Metadata Documentation available.</param>
+    ''' <param name="supplierTypeIdList">No hay documentación de metadatos disponible.</param>
+    ''' <param name="paymentD">No hay documentación de metadatos disponible.</param>
     Public Function SP_SchedulePayment(ByVal supplierTypeIdList As String, ByVal paymentD As String) As ObjectResult(Of SP_SchedulePayment_Result) Implements IGlobalModelUnitOfWork.SP_SchedulePayment
         Dim supplierTypeIdListParameter As ObjectParameter
         If (supplierTypeIdList IsNot Nothing)
@@ -22710,23 +22850,23 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="admissionNumber">No Metadata Documentation available.</param>
-    ''' <param name="centerAttentionCode">No Metadata Documentation available.</param>
-    ''' <param name="cupsEntityId">No Metadata Documentation available.</param>
-    ''' <param name="iPSServiceId">No Metadata Documentation available.</param>
-    ''' <param name="careGroupId">No Metadata Documentation available.</param>
-    ''' <param name="functionalUnitId">No Metadata Documentation available.</param>
-    ''' <param name="specialtyId">No Metadata Documentation available.</param>
-    ''' <param name="serviceDate">No Metadata Documentation available.</param>
-    ''' <param name="patientGenus">No Metadata Documentation available.</param>
-    ''' <param name="patientDateBirth">No Metadata Documentation available.</param>
-    ''' <param name="invoicedQuantity">No Metadata Documentation available.</param>
-    ''' <param name="professionalHealthCode">No Metadata Documentation available.</param>
-    ''' <param name="professionalHealthThirdPartyId">No Metadata Documentation available.</param>
-    ''' <param name="riasId">No Metadata Documentation available.</param>
-    ''' <param name="contractDescriptionId">No Metadata Documentation available.</param>
+    ''' <param name="admissionNumber">No hay documentación de metadatos disponible.</param>
+    ''' <param name="centerAttentionCode">No hay documentación de metadatos disponible.</param>
+    ''' <param name="cupsEntityId">No hay documentación de metadatos disponible.</param>
+    ''' <param name="iPSServiceId">No hay documentación de metadatos disponible.</param>
+    ''' <param name="careGroupId">No hay documentación de metadatos disponible.</param>
+    ''' <param name="functionalUnitId">No hay documentación de metadatos disponible.</param>
+    ''' <param name="specialtyId">No hay documentación de metadatos disponible.</param>
+    ''' <param name="serviceDate">No hay documentación de metadatos disponible.</param>
+    ''' <param name="patientGenus">No hay documentación de metadatos disponible.</param>
+    ''' <param name="patientDateBirth">No hay documentación de metadatos disponible.</param>
+    ''' <param name="invoicedQuantity">No hay documentación de metadatos disponible.</param>
+    ''' <param name="professionalHealthCode">No hay documentación de metadatos disponible.</param>
+    ''' <param name="professionalHealthThirdPartyId">No hay documentación de metadatos disponible.</param>
+    ''' <param name="riasId">No hay documentación de metadatos disponible.</param>
+    ''' <param name="contractDescriptionId">No hay documentación de metadatos disponible.</param>
     Public Function SP_GetServiceValue(ByVal admissionNumber As String, ByVal centerAttentionCode As String, ByVal cupsEntityId As Nullable(Of Integer), ByVal iPSServiceId As Nullable(Of Integer), ByVal careGroupId As Nullable(Of Integer), ByVal functionalUnitId As Nullable(Of Integer), ByVal specialtyId As String, ByVal serviceDate As Nullable(Of Date), ByVal patientGenus As Nullable(Of Integer), ByVal patientDateBirth As Nullable(Of Date), ByVal invoicedQuantity As Nullable(Of Integer), ByVal professionalHealthCode As String, ByVal professionalHealthThirdPartyId As Nullable(Of Integer), ByVal riasId As Nullable(Of Integer), ByVal contractDescriptionId As Nullable(Of Integer)) As ObjectResult(Of SP_GetServiceValue_Result) Implements IGlobalModelUnitOfWork.SP_GetServiceValue
         Dim admissionNumberParameter As ObjectParameter
         If (admissionNumber IsNot Nothing)
@@ -22838,9 +22978,9 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="devolutionCashReceiptXml">No Metadata Documentation available.</param>
+    ''' <param name="devolutionCashReceiptXml">No hay documentación de metadatos disponible.</param>
     Public Function SP_DevolutionCashReceipt(ByVal devolutionCashReceiptXml As String) As ObjectResult(Of SP_DevolutionCashReceipt_Result) Implements IGlobalModelUnitOfWork.SP_DevolutionCashReceipt
         Dim devolutionCashReceiptXmlParameter As ObjectParameter
         If (devolutionCashReceiptXml IsNot Nothing)
@@ -22854,10 +22994,10 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="accountPayableIds">No Metadata Documentation available.</param>
-    ''' <param name="idAutorization">No Metadata Documentation available.</param>
+    ''' <param name="accountPayableIds">No hay documentación de metadatos disponible.</param>
+    ''' <param name="idAutorization">No hay documentación de metadatos disponible.</param>
     Public Function SP_GenerateElectronicSupportDocument(ByVal accountPayableIds As String, ByVal idAutorization As Nullable(Of Integer)) As ObjectResult(Of SP_GenerateElectronicSupportDocument_Result) Implements IGlobalModelUnitOfWork.SP_GenerateElectronicSupportDocument
         Dim accountPayableIdsParameter As ObjectParameter
         If (accountPayableIds IsNot Nothing)
@@ -22878,13 +23018,13 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="id">No Metadata Documentation available.</param>
-    ''' <param name="codeUser">No Metadata Documentation available.</param>
-    ''' <param name="reversalReasonId">No Metadata Documentation available.</param>
-    ''' <param name="reversalReasonDescription">No Metadata Documentation available.</param>
-    ''' <param name="companyType">No Metadata Documentation available.</param>
+    ''' <param name="id">No hay documentación de metadatos disponible.</param>
+    ''' <param name="codeUser">No hay documentación de metadatos disponible.</param>
+    ''' <param name="reversalReasonId">No hay documentación de metadatos disponible.</param>
+    ''' <param name="reversalReasonDescription">No hay documentación de metadatos disponible.</param>
+    ''' <param name="companyType">No hay documentación de metadatos disponible.</param>
     Public Function SP_ReverseBasicBilling(ByVal id As Nullable(Of Integer), ByVal codeUser As String, ByVal reversalReasonId As Nullable(Of Integer), ByVal reversalReasonDescription As String, ByVal companyType As Nullable(Of Integer)) As ObjectResult(Of SP_ReverseBasicBilling_Result) Implements IGlobalModelUnitOfWork.SP_ReverseBasicBilling
         Dim idParameter As ObjectParameter
         If (id.HasValue)
@@ -22926,11 +23066,11 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="radicateInvoiceId">No Metadata Documentation available.</param>
-    ''' <param name="xmlInvoices">No Metadata Documentation available.</param>
-    ''' <param name="packageDetail">No Metadata Documentation available.</param>
+    ''' <param name="radicateInvoiceId">No hay documentación de metadatos disponible.</param>
+    ''' <param name="xmlInvoices">No hay documentación de metadatos disponible.</param>
+    ''' <param name="packageDetail">No hay documentación de metadatos disponible.</param>
     Public Function SP_GenerateADFileData(ByVal radicateInvoiceId As Nullable(Of Integer), ByVal xmlInvoices As String, ByVal packageDetail As Nullable(Of Boolean)) As ObjectResult(Of SP_GenerateADFileData_Result) Implements IGlobalModelUnitOfWork.SP_GenerateADFileData
         Dim radicateInvoiceIdParameter As ObjectParameter
         If (radicateInvoiceId.HasValue)
@@ -22958,10 +23098,10 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="xmlFilters">No Metadata Documentation available.</param>
-    ''' <param name="xmlRange">No Metadata Documentation available.</param>
+    ''' <param name="xmlFilters">No hay documentación de metadatos disponible.</param>
+    ''' <param name="xmlRange">No hay documentación de metadatos disponible.</param>
     Public Function SP_ReportValuedInventory(ByVal xmlFilters As String, ByVal xmlRange As String) As ObjectResult(Of SP_ReportValuedInventory_Result) Implements IGlobalModelUnitOfWork.SP_ReportValuedInventory
         Dim xmlFiltersParameter As ObjectParameter
         If (xmlFilters IsNot Nothing)
@@ -22982,9 +23122,9 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="xmlObject">No Metadata Documentation available.</param>
+    ''' <param name="xmlObject">No hay documentación de metadatos disponible.</param>
     Public Function SP_CopyAndPasteProductFeeDetails(ByVal xmlObject As String) As ObjectResult(Of SP_CopyAndPasteProductFeeDetails_Result) Implements IGlobalModelUnitOfWork.SP_CopyAndPasteProductFeeDetails
         Dim xmlObjectParameter As ObjectParameter
         If (xmlObject IsNot Nothing)
@@ -22998,9 +23138,9 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="xmlObject">No Metadata Documentation available.</param>
+    ''' <param name="xmlObject">No hay documentación de metadatos disponible.</param>
     Public Function SP_CopyAndPasteServiceFeeDetails(ByVal xmlObject As String) As ObjectResult(Of SP_CopyAndPasteServiceFeeDetails_Result) Implements IGlobalModelUnitOfWork.SP_CopyAndPasteServiceFeeDetails
         Dim xmlObjectParameter As ObjectParameter
         If (xmlObject IsNot Nothing)
@@ -23014,10 +23154,10 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="entityXml">No Metadata Documentation available.</param>
-    ''' <param name="codeUser">No Metadata Documentation available.</param>
+    ''' <param name="entityXml">No hay documentación de metadatos disponible.</param>
+    ''' <param name="codeUser">No hay documentación de metadatos disponible.</param>
     Public Function SP_SaveProductAndServiceFee(ByVal entityXml As String, ByVal codeUser As String) As ObjectResult(Of SP_SaveProductAndServiceFee_Result) Implements IGlobalModelUnitOfWork.SP_SaveProductAndServiceFee
         Dim entityXmlParameter As ObjectParameter
         If (entityXml IsNot Nothing)
@@ -23038,10 +23178,10 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="xmlCriterias">No Metadata Documentation available.</param>
-    ''' <param name="xmlFilters">No Metadata Documentation available.</param>
+    ''' <param name="xmlCriterias">No hay documentación de metadatos disponible.</param>
+    ''' <param name="xmlFilters">No hay documentación de metadatos disponible.</param>
     Public Function SP_ReportBillingStadistics(ByVal xmlCriterias As String, ByVal xmlFilters As String) As ObjectResult(Of SP_ReportBillingStadistics_Result) Implements IGlobalModelUnitOfWork.SP_ReportBillingStadistics
         Dim xmlCriteriasParameter As ObjectParameter
         If (xmlCriterias IsNot Nothing)
@@ -23062,9 +23202,9 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="xmlFilters">No Metadata Documentation available.</param>
+    ''' <param name="xmlFilters">No hay documentación de metadatos disponible.</param>
     Public Function SP_SupportPaymentSuppliers(ByVal xmlFilters As String) As ObjectResult(Of SP_SupportPaymentSuppliers_Result) Implements IGlobalModelUnitOfWork.SP_SupportPaymentSuppliers
         Dim xmlFiltersParameter As ObjectParameter
         If (xmlFilters IsNot Nothing)
@@ -23078,10 +23218,10 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="distributionDirectCostId">No Metadata Documentation available.</param>
-    ''' <param name="codeUser">No Metadata Documentation available.</param>
+    ''' <param name="distributionDirectCostId">No hay documentación de metadatos disponible.</param>
+    ''' <param name="codeUser">No hay documentación de metadatos disponible.</param>
     Public Function SP_ConfirmProvisionDocumentDistributionDirectCost(ByVal distributionDirectCostId As Nullable(Of Integer), ByVal codeUser As String) As ObjectResult(Of SP_ConfirmProvisionDocumentDistributionDirectCost_Result) Implements IGlobalModelUnitOfWork.SP_ConfirmProvisionDocumentDistributionDirectCost
         Dim distributionDirectCostIdParameter As ObjectParameter
         If (distributionDirectCostId.HasValue)
@@ -23102,11 +23242,11 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="distributionDirectCostId">No Metadata Documentation available.</param>
-    ''' <param name="codeUser">No Metadata Documentation available.</param>
-    ''' <param name="type">No Metadata Documentation available.</param>
+    ''' <param name="distributionDirectCostId">No hay documentación de metadatos disponible.</param>
+    ''' <param name="codeUser">No hay documentación de metadatos disponible.</param>
+    ''' <param name="type">No hay documentación de metadatos disponible.</param>
     Public Function SP_ReverseProvisionDocumentDistributionDirectCost(ByVal distributionDirectCostId As Nullable(Of Integer), ByVal codeUser As String, ByVal type As Nullable(Of Integer)) As ObjectResult(Of SP_ReverseProvisionDocumentDistributionDirectCost_Result) Implements IGlobalModelUnitOfWork.SP_ReverseProvisionDocumentDistributionDirectCost
         Dim distributionDirectCostIdParameter As ObjectParameter
         If (distributionDirectCostId.HasValue)
@@ -23134,9 +23274,9 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="xmlObject">No Metadata Documentation available.</param>
+    ''' <param name="xmlObject">No hay documentación de metadatos disponible.</param>
     Public Function SP_CopyAndPasteCostDistributionDirectCostDetail(ByVal xmlObject As String) As ObjectResult(Of SP_CopyAndPasteCostDistributionDirectCostDetail_Result) Implements IGlobalModelUnitOfWork.SP_CopyAndPasteCostDistributionDirectCostDetail
         Dim xmlObjectParameter As ObjectParameter
         If (xmlObject IsNot Nothing)
@@ -23150,9 +23290,9 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="xmlParameters">No Metadata Documentation available.</param>
+    ''' <param name="xmlParameters">No hay documentación de metadatos disponible.</param>
     Public Function SP_GenerateFURTRANFileData(ByVal xmlParameters As String) As ObjectResult(Of SP_GenerateFURTRANFileData_Result) Implements IGlobalModelUnitOfWork.SP_GenerateFURTRANFileData
         Dim xmlParametersParameter As ObjectParameter
         If (xmlParameters IsNot Nothing)
@@ -23166,9 +23306,9 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="xmlObject">No Metadata Documentation available.</param>
+    ''' <param name="xmlObject">No hay documentación de metadatos disponible.</param>
     Public Function SP_CopyAndPasteConsignmentCostListDetail(ByVal xmlObject As String) As ObjectResult(Of SP_CopyAndPasteConsignmentCostListDetail_Result) Implements IGlobalModelUnitOfWork.SP_CopyAndPasteConsignmentCostListDetail
         Dim xmlObjectParameter As ObjectParameter
         If (xmlObject IsNot Nothing)
@@ -23182,9 +23322,9 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="xmlObject">No Metadata Documentation available.</param>
+    ''' <param name="xmlObject">No hay documentación de metadatos disponible.</param>
     Public Function SP_SetFixedAssetItemCatalogDetailFromFile(ByVal xmlObject As String) As ObjectResult(Of SP_SetFixedAssetItemCatalogDetailFromFile_Result) Implements IGlobalModelUnitOfWork.SP_SetFixedAssetItemCatalogDetailFromFile
         Dim xmlObjectParameter As ObjectParameter
         If (xmlObject IsNot Nothing)
@@ -23198,10 +23338,10 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="year">No Metadata Documentation available.</param>
-    ''' <param name="month">No Metadata Documentation available.</param>
+    ''' <param name="year">No hay documentación de metadatos disponible.</param>
+    ''' <param name="month">No hay documentación de metadatos disponible.</param>
     Public Function SP_GetMonthlyClosureSummary(ByVal year As Nullable(Of Integer), ByVal month As Nullable(Of Integer)) As ObjectResult(Of SP_GetMonthlyClosureSummary_Result) Implements IGlobalModelUnitOfWork.SP_GetMonthlyClosureSummary
         Dim yearParameter As ObjectParameter
         If (year.HasValue)
@@ -23222,10 +23362,10 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="admissionNumber">No Metadata Documentation available.</param>
-    ''' <param name="isChild">No Metadata Documentation available.</param>
+    ''' <param name="admissionNumber">No hay documentación de metadatos disponible.</param>
+    ''' <param name="isChild">No hay documentación de metadatos disponible.</param>
     Public Function SP_GetProcessedMedicationItemsForBilling(ByVal admissionNumber As String, ByVal isChild As Nullable(Of Boolean)) As ObjectResult(Of SP_GetProcessedMedicationItemsForBilling_Result) Implements IGlobalModelUnitOfWork.SP_GetProcessedMedicationItemsForBilling
         Dim admissionNumberParameter As ObjectParameter
         If (admissionNumber IsNot Nothing)
@@ -23235,7 +23375,7 @@ Partial Public Class GlobalModelUnitOfWork
         End If
 
         Dim isChildParameter As ObjectParameter
-        If (isChild.HasValue) Then
+        If (isChild.HasValue)
             isChildParameter = New ObjectParameter("IsChild", isChild)
         Else
             isChildParameter = New ObjectParameter("IsChild", GetType(Boolean))
@@ -23246,10 +23386,10 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="journalVoucherXml">No Metadata Documentation available.</param>
-    ''' <param name="codeUser">No Metadata Documentation available.</param>
+    ''' <param name="journalVoucherXml">No hay documentación de metadatos disponible.</param>
+    ''' <param name="codeUser">No hay documentación de metadatos disponible.</param>
     Public Async Function SP_CreateAndValidateJournalVoucherMovementAsync(journalVoucherXml As String, codeUser As String) As Task(Of SP_CreateAndValidateJournalVoucherMovement_Result) Implements IGlobalModelUnitOfWork.SP_CreateAndValidateJournalVoucherMovementAsync
         Dim sql = "EXEC GeneralLedger.SP_CreateAndValidateJournalVoucherMovement @JournalVoucherXml, @CodeUser"
         Dim result = Await Me.Database.SqlQuery(Of SP_CreateAndValidateJournalVoucherMovement_Result)(
@@ -23261,10 +23401,10 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="journalVoucherXml">No Metadata Documentation available.</param>
-    ''' <param name="codeUser">No Metadata Documentation available.</param>
+    ''' <param name="journalVoucherXml">No hay documentación de metadatos disponible.</param>
+    ''' <param name="codeUser">No hay documentación de metadatos disponible.</param>
     Public Async Function SP_UnconfirmOrAnnulJournalVoucherAsync(journalVoucherXml As String, codeUser As String) As Task(Of SP_UnconfirmOrAnnulJournalVoucher_Result) Implements IGlobalModelUnitOfWork.SP_UnconfirmOrAnnulJournalVoucherAsync
         Dim sql = "EXEC GeneralLedger.SP_UnconfirmOrAnnulJournalVoucher @JournalVoucherXml, @CodeUser"
         Dim result = Await Me.Database.SqlQuery(Of SP_UnconfirmOrAnnulJournalVoucher_Result)(
@@ -23276,10 +23416,10 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="xmlCriterias">No Metadata Documentation available.</param>
-    ''' <param name="xmlFilters">No Metadata Documentation available.</param>
+    ''' <param name="xmlCriterias">No hay documentación de metadatos disponible.</param>
+    ''' <param name="xmlFilters">No hay documentación de metadatos disponible.</param>
     Public Function SP_ReportBillingStadistics_Count(ByVal xmlCriterias As String, ByVal xmlFilters As String) As ObjectResult(Of SP_ReportBillingStadistics_Count_Result) Implements IGlobalModelUnitOfWork.SP_ReportBillingStadistics_Count
         Dim xmlCriteriasParameter As ObjectParameter
         If (xmlCriterias IsNot Nothing)
@@ -23300,19 +23440,35 @@ Partial Public Class GlobalModelUnitOfWork
     End Function
 
     ''' <summary>
-    ''' No Metadata Documentation available.
+    ''' No hay documentación de metadatos disponible.
     ''' </summary>
-    ''' <param name="xmlObject">No Metadata Documentation available.</param>
-    Public Function SP_SetConsignmentTransferDetailFromFile(ByVal xmlObject As String) As ObjectResult(Of SP_SetConsignmentTransferDetailFromFile_Result) Implements IGlobalModelUnitOfWork.SP_SetConsignmentTransferDetailFromFile
-        Dim xmlObjectParameter As ObjectParameter
-        If (xmlObject IsNot Nothing)
-            xmlObjectParameter = New ObjectParameter("XmlObject", xmlObject)
+    ''' <param name="initialDate">No hay documentación de metadatos disponible.</param>
+    ''' <param name="finalDate">No hay documentación de metadatos disponible.</param>
+    ''' <param name="employeeId">No hay documentación de metadatos disponible.</param>
+    Public Function SP_ReportHumanTalent(ByVal initialDate As Nullable(Of Date), ByVal finalDate As Nullable(Of Date), ByVal employeeId As Nullable(Of Integer)) As ObjectResult(Of SP_ReportHumanTalent_Result) Implements IGlobalModelUnitOfWork.SP_ReportHumanTalent
+        Dim initialDateParameter As ObjectParameter
+        If (initialDate.HasValue)
+            initialDateParameter = New ObjectParameter("InitialDate", initialDate)
         Else
-            xmlObjectParameter = New ObjectParameter("XmlObject", GetType(String))
+            initialDateParameter = New ObjectParameter("InitialDate", GetType(Date))
+        End If
+
+        Dim finalDateParameter As ObjectParameter
+        If (finalDate.HasValue)
+            finalDateParameter = New ObjectParameter("FinalDate", finalDate)
+        Else
+            finalDateParameter = New ObjectParameter("FinalDate", GetType(Date))
+        End If
+
+        Dim employeeIdParameter As ObjectParameter
+        If (employeeId.HasValue)
+            employeeIdParameter = New ObjectParameter("EmployeeId", employeeId)
+        Else
+            employeeIdParameter = New ObjectParameter("EmployeeId", GetType(Integer))
         End If
 
 
-        Return CType(Me, IObjectContextAdapter).ObjectContext.ExecuteFunction(Of SP_SetConsignmentTransferDetailFromFile_Result)("SP_SetConsignmentTransferDetailFromFile", xmlObjectParameter)
+        Return CType(Me, IObjectContextAdapter).ObjectContext.ExecuteFunction(Of SP_ReportHumanTalent_Result)("SP_ReportHumanTalent", initialDateParameter, finalDateParameter, employeeIdParameter)
     End Function
 
 #End Region

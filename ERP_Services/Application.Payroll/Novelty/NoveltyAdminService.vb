@@ -257,6 +257,14 @@ Public Class NoveltyAdminService
                 If (novelty.Status <> 0) Then 'Si el estado es diferente a 0 no se puede eliminar
                     Throw New ArgumentException("No se puede eliminar una novedad que ya esta liquidada")
                 End If
+                ' Reverso del reajuste de vacaciones: al borrar una incapacidad/licencia que
+                ' interrumpio vacaciones, se deshace el split (Interrumpidas tipo 5 + reprogramada) y se
+                ' reconstruye el disfrute original. Funciona aunque la vacacion este paga (solo reordena
+                ' registros de vacacion, no des-paga). Si no se puede reconstruir (front-overlap: se perdio
+                ' la fecha inicial), el helper bloquea el borrado con excepcion.
+                If novelty.VacationInitialDateNovelty IsNot Nothing AndAlso novelty.VacationEndDateNovelty IsNot Nothing Then
+                    RevertVacationReajusteOnDelete(novelty)
+                End If
                 Dim listNoveltyScheduleDetail = _noveltyScheduleRepository.GetNoveltyScheduleDetailByEmployeeNoveltyId(novelty.EmployeeId, novelty.Id)
                 For Each noveltyItem In listNoveltyScheduleDetail
                     While noveltyItem.NoveltyScheduleDetailHour.Count > 0
@@ -426,6 +434,90 @@ Public Class NoveltyAdminService
             Return False
         End Try
     End Function
+
+    ''' <summary>
+    ''' Revierte el reajuste de vacaciones que genero una incapacidad/licencia cuando se elimina:
+    ''' deshace el split creado por SaveInability (registro Interrumpidas tipo 5 + reprogramada) y reconstruye
+    ''' el disfrute original uniendo el tramo disfrutado + el reprogramado (recomputando la fecha fin por dias
+    ''' habiles). No des-paga: solo reordena registros de vacacion. Si no encuentra el registro Interrumpidas
+    ''' (p.ej. front-overlap, donde el reajuste sobrescribio la fecha inicial y no hay como reconstruir),
+    ''' bloquea el borrado con excepcion en lugar de dejar datos corruptos.
+    ''' </summary>
+    ''' <param name="novelty">Incapacidad/licencia que se esta eliminando</param>
+    Private Sub RevertVacationReajusteOnDelete(novelty As Novelty)
+        Dim employee = _employeeRepository.GetEmployeeById(novelty.EmployeeId)
+        Dim contract As Domain.Payroll.Entities.Contract = employee.Contract.Where(Function(x) x.Valid = True).ToList().FirstOrDefault()
+        If contract Is Nothing Then contract = employee.Contract.FirstOrDefault()
+        Dim sat As Boolean = contract.Group.PayrollParameter.SaturdayBusinessDay
+        Dim sun As Boolean = contract.Group.PayrollParameter.SundayBusinessDay
+        Dim holidays = _holidayRepository.ListHolidayBetweenDate(novelty.RealDate.AddMonths(-2), novelty.EndDate.AddMonths(6))
+
+        Dim reverted As Boolean = False
+        For Each vp As VacationPeriod In employee.VacationPeriod
+            ' Registro Interrumpidas (tipo 5) creado por el reajuste, con las fechas de la novedad
+            Dim interruptedVac As Vacation = vp.Vacation.FirstOrDefault(Function(v) v.TypeVacation = 5 AndAlso v.VacationStartDate = novelty.RealDate AndAlso v.VacationEndDate = novelty.EndDate)
+            If interruptedVac Is Nothing Then Continue For
+
+            ' Reprogramada (reanudacion: arranca el dia siguiente al fin de la novedad) y disfrute recortado (termina el dia previo a la novedad)
+            Dim rescheduled As Vacation = vp.Vacation.FirstOrDefault(Function(v) v.TypeVacation <> 5 AndAlso v.VacationStartDate = novelty.EndDate.AddDays(1))
+            Dim original As Vacation = vp.Vacation.FirstOrDefault(Function(v) v.TypeVacation <> 5 AndAlso v.VacationEndDate = novelty.RealDate.AddDays(-1))
+
+            If original IsNot Nothing AndAlso rescheduled IsNot Nothing Then
+                ' Reconstruir el disfrute original contiguo: total dias tomados y recomputar la fecha fin por dias habiles
+                Dim totalTaken As Integer = CInt(original.TakenDays) + CInt(rescheduled.TakenDays)
+                Dim origEnd As Date = original.VacationStartDate
+                Dim cnt As Integer = 0
+                While cnt < totalTaken
+                    If IsValidDay(holidays, sat, sun, origEnd) Then
+                        cnt += 1
+                    End If
+                    If cnt < totalTaken Then
+                        origEnd = origEnd.AddDays(1)
+                    End If
+                End While
+
+                ' Actualizar el disfrute original por SQL directo. Se evita EF (SaveEntity/DeleteEntity)
+                ' porque los registros vienen en el grafo cargado y EF intenta poner en null la FK
+                ' VacationPeriodId (no-nullable) -> "The relationship could not be changed...".
+                ' Reincorporacion = siguiente dia habil despues del fin (salta domingo/festivo)
+                Dim incorpDate As Date = origEnd.AddDays(1)
+                While Not IsValidDay(holidays, sat, sun, incorpDate)
+                    incorpDate = incorpDate.AddDays(1)
+                End While
+                Dim enjoyDaysOrig As Integer = DateDiff(DateInterval.Day, original.VacationStartDate, incorpDate)
+                Dim sEnd As String = origEnd.ToString("yyyy-MM-dd")
+                Dim sIncorp As String = incorpDate.ToString("yyyy-MM-dd")
+                _vacationRepository.UnitWork.ExecuteNonQuery(
+                    "UPDATE Payroll.Vacation SET VacationEndDate='" & sEnd & "', TakenDays=" & totalTaken.ToString() &
+                    ", TakenDaysReal=" & totalTaken.ToString() & ", EnjoyDays=" & enjoyDaysOrig.ToString() &
+                    ", IncorporationDate='" & sIncorp & "', IncorporationDateReal='" & sIncorp & "' WHERE Id=" & original.Id.ToString())
+
+                ' Borrar la reprogramada (y sus hijas por FK)
+                DeleteVacationRow(rescheduled.Id)
+            End If
+
+            ' Borrar el registro Interrumpidas (tipo 5) (y sus hijas por FK)
+            DeleteVacationRow(interruptedVac.Id)
+            reverted = True
+        Next
+
+        If Not reverted Then
+            ' No se hallo el registro Interrumpidas (p.ej. front-overlap): no se puede reconstruir a ciegas -> bloquear.
+            Throw New ArgumentException("No se puede eliminar esta novedad porque interrumpio unas vacaciones cuyo disfrute original no se puede reconstruir automaticamente. Ajuste las vacaciones manualmente antes de eliminar.")
+        End If
+    End Sub
+
+    ''' <summary>
+    ''' Borra un registro de vacacion por SQL directo, incluyendo sus hijas (VacationDetail,
+    ''' ResumptionHolidayDetail). SQL directo para evitar el error de EF al romper la relacion con
+    ''' VacationPeriod (FK no-nullable) cuando el registro viene en un grafo cargado.
+    ''' </summary>
+    Private Sub DeleteVacationRow(vacationId As Integer)
+        Dim id As String = vacationId.ToString()
+        _vacationRepository.UnitWork.ExecuteNonQuery("DELETE FROM Payroll.VacationDetail WHERE IdVacation = " & id)
+        _vacationRepository.UnitWork.ExecuteNonQuery("DELETE FROM Payroll.ResumptionHolidayDetail WHERE VacationId = " & id)
+        _vacationRepository.UnitWork.ExecuteNonQuery("DELETE FROM Payroll.Vacation WHERE Id = " & id)
+    End Sub
 
     ''' <summary>
     ''' Almacena o Actualiza una Incapacidad
@@ -628,6 +720,17 @@ Public Class NoveltyAdminService
                         Dim VacationEndingDate = (From e In listVacation
                                                   Select e.VacationEndDate).FirstOrDefault()
 
+                        ' Complementar la lista de festivos para cubrir el período anterior a novelty.RealDate
+                        ' (la carga inicial arranca desde novelty.RealDate y pierde festivos del inicio de vacaciones)
+                        If VacationStarDate < novelty.RealDate Then
+                            Dim missingHolidays = _holidayRepository.ListHolidayBetweenDate(VacationStarDate, novelty.RealDate.AddDays(-1))
+                            For Each h In missingHolidays
+                                If Not holidays.Any(Function(x) x.Holiday1 = h.Holiday1) Then
+                                    holidays.Add(h)
+                                End If
+                            Next
+                        End If
+
                         Dim VacationInitialNoveltyDate As Date
                         Dim VacationEndNoveltyDate As Date
 
@@ -641,122 +744,148 @@ Public Class NoveltyAdminService
                             Dim daysInterrumted As Integer
                             Dim daysEnjoyedBeforeNovelty As Integer
                             Dim takenDaysBeforeNovelty As Integer
-                            
+
                             If novelty.RealDate >= VacationStarDate Then
                                 'Incapacidad empieza dentro de vacaciones
                                 daysInterrumted = DateDiff(DateInterval.Day, VacationStarDate, novelty.RealDate)
-                                
+
                                 'Calcular días disfrutados hasta el inicio de la incapacidad
                                 daysEnjoyedBeforeNovelty = DateDiff(DateInterval.Day, VacationStarDate, novelty.RealDate)
-                                
-                                'Calcular TakenDays proporcionalmente basado en EnjoyDays
-                                Dim originalTakenDays = listVacation.FirstOrDefault.TakenDays
-                                Dim originalEnjoyDays = listVacation.FirstOrDefault.EnjoyDays
-                                If originalEnjoyDays > 0 Then
-                                    takenDaysBeforeNovelty = Math.Round((originalTakenDays * daysEnjoyedBeforeNovelty) / originalEnjoyDays, 0)
-                                Else
-                                    takenDaysBeforeNovelty = 0
-                                End If
+
+                                'Contar días hábiles reales desde inicio de vacaciones hasta el día anterior al inicio de la interrupción
+                                Dim countDate As Date = VacationStarDate
+                                Dim lastDayEnjoyed As Date = novelty.RealDate.AddDays(-1)
+                                takenDaysBeforeNovelty = 0
+                                While countDate <= lastDayEnjoyed
+                                    If IsValidDay(holidays, contract.Group.PayrollParameter.SaturdayBusinessDay, contract.Group.PayrollParameter.SundayBusinessDay, countDate) Then
+                                        takenDaysBeforeNovelty += 1
+                                    End If
+                                    countDate = countDate.AddDays(1)
+                                End While
                             Else
                                 'Incapacidad termina dentro de vacaciones
                                 daysInterrumted = DateDiff(DateInterval.Day, novelty.RealDate, VacationStarDate)
                                 daysEnjoyedBeforeNovelty = 0
                                 takenDaysBeforeNovelty = 0
                             End If
-                            
-                            'Insertamos un nuevo registro por vacaciones interrumpidas
-                            Dim interruptedVacation As New Vacation
-                            interruptedVacation.VacationPeriodId = listVacation.FirstOrDefault.VacationPeriodId
-                            interruptedVacation.VacationStartDate = novelty.RealDate
-                            interruptedVacation.VacationEndDate = novelty.EndDate
-                            interruptedVacation.TypeLiquidation = listVacation.FirstOrDefault.TypeLiquidation
-                            interruptedVacation.TypeVacation = 5 'Interrumpidas
-                            interruptedVacation.TypePayment = listVacation.FirstOrDefault.TypePayment
-                            interruptedVacation.TakenDays = 0
-                            interruptedVacation.EnjoyDays = 0
-                            interruptedVacation.IncorporationDate = novelty.EndDate.AddDays(1)
-                            interruptedVacation.WorkedDays = 0
-                            interruptedVacation.NotWorkedDays = 0
-                            interruptedVacation.BaseLiquidation = 0
-                            interruptedVacation.VacationValue = 0
-                            interruptedVacation.HealthContribution = 0
-                            interruptedVacation.PensionContribution = 0
-                            interruptedVacation.VacationValueNet = 0
-                            interruptedVacation.State = 3
-                            interruptedVacation.TakenDaysReal = 0
-                            interruptedVacation.IncorporationDateReal = novelty.EndDate.AddDays(1)
-                            interruptedVacation.StateIncorporation = listVacation.FirstOrDefault.StateIncorporation
-                            interruptedVacation.DaysDeferredPending = listVacation.FirstOrDefault.DaysDeferredPending
-                            interruptedVacation.CreationUser = audit.CodeUser
-                            interruptedVacation.CreationDate = DateTime.Now
-                            _vacationRepository.SaveEntity(interruptedVacation)
 
-                            Dim remainingDays As Integer
-                            Dim remainingTakenDays As Integer
-                            
-                            If novelty.RealDate >= VacationStarDate Then
-                                'Incapacidad empieza dentro de vacaciones
-                                remainingDays = listVacation.FirstOrDefault.EnjoyDays - daysEnjoyedBeforeNovelty
-                                remainingTakenDays = listVacation.FirstOrDefault.TakenDays - takenDaysBeforeNovelty
-                            Else
-                                'Incapacidad termina dentro de vacaciones - usar días de la incapacidad
-                                remainingDays = novelty.Days
-                                remainingTakenDays = 0
-                            End If
-                            
-                            'Se agrega la reanudación si la incapacidad empieza dentro de vacaciones
-                            If novelty.RealDate >= VacationStarDate Then
-                                Dim newVacation As New Vacation
-                                Dim originalVacation = listVacation.FirstOrDefault
-                                
-                                newVacation.VacationPeriodId = originalVacation.VacationPeriodId
-                                newVacation.VacationStartDate = novelty.EndDate.AddDays(1)
-                                newVacation.VacationEndDate = newVacation.VacationStartDate.AddDays(remainingDays - 1)
-                                newVacation.TypeLiquidation = originalVacation.TypeLiquidation
-                                newVacation.TypeVacation = originalVacation.TypeVacation
-                                newVacation.TypePayment = originalVacation.TypePayment
-                                
-                                'Distribuir TakenDays proporcionalmente
-                                newVacation.TakenDays = remainingTakenDays
-                                newVacation.EnjoyDays = remainingDays
-                                newVacation.IncorporationDate = newVacation.VacationEndDate.AddDays(1)
-                                newVacation.WorkedDays = originalVacation.WorkedDays
-                                newVacation.NotWorkedDays = originalVacation.NotWorkedDays
-
-                                'Mantener valores originales sin distribución proporcional (por ahora)
-                                newVacation.BaseLiquidation = originalVacation.BaseLiquidation
-                                newVacation.VacationValue = originalVacation.VacationValue
-                                newVacation.HealthContribution = originalVacation.HealthContribution
-                                newVacation.PensionContribution = originalVacation.PensionContribution
-                                newVacation.SolidarityFundValue = originalVacation.SolidarityFundValue
-                                newVacation.VacationValueNet = originalVacation.VacationValueNet
-
-                                newVacation.State = originalVacation.State
-                                newVacation.TakenDaysReal = remainingTakenDays
-                                newVacation.IncorporationDateReal = newVacation.VacationEndDate.AddDays(1)
-                                newVacation.StateIncorporation = originalVacation.StateIncorporation
-                                newVacation.DaysDeferredPending = originalVacation.DaysDeferredPending
-                                newVacation.CreationUser = audit.CodeUser
-                                newVacation.CreationDate = DateTime.Now
-                                _vacationRepository.SaveEntity(newVacation)
-                            End If
+                            ' Distribuir días hábiles previos a la novedad entre cada vacación de forma secuencial.
+                            ' Cuando varios períodos comparten el mismo rango de fechas, los días se consumen
+                            ' en orden: la primera vacación agota sus días primero, luego la siguiente.
+                            ' Esto evita remainingTakenDays negativos que causan overflow en TINYINT.
+                            Dim remainingBudget As Integer = takenDaysBeforeNovelty
 
                             For Each vacation In listVacation
+                                Dim thisVacDaysBeforeNovelty As Integer
+                                Dim thisRemainingTakenDays As Integer
+
                                 If novelty.RealDate >= VacationStarDate Then
-                                    'Incapacidad empieza dentro de vacaciones
+                                    thisVacDaysBeforeNovelty = Math.Min(vacation.TakenDays, remainingBudget)
+                                    remainingBudget -= thisVacDaysBeforeNovelty
+                                    thisRemainingTakenDays = vacation.TakenDays - thisVacDaysBeforeNovelty
+                                Else
+                                    thisVacDaysBeforeNovelty = 0
+                                    thisRemainingTakenDays = 0
+                                End If
+
+                                ' Crear interrupción y reanudación solo para vacaciones con días pendientes
+                                If thisRemainingTakenDays > 0 Then
+                                    Dim interruptedVacation As New Vacation
+                                    interruptedVacation.VacationPeriodId = vacation.VacationPeriodId
+                                    interruptedVacation.VacationStartDate = novelty.RealDate
+                                    interruptedVacation.VacationEndDate = novelty.EndDate
+                                    interruptedVacation.TypeLiquidation = vacation.TypeLiquidation
+                                    interruptedVacation.TypeVacation = 5 'Interrumpidas
+                                    interruptedVacation.TypePayment = vacation.TypePayment
+                                    interruptedVacation.TakenDays = 0
+                                    interruptedVacation.EnjoyDays = 0
+                                    interruptedVacation.IncorporationDate = novelty.EndDate.AddDays(1)
+                                    interruptedVacation.WorkedDays = 0
+                                    interruptedVacation.NotWorkedDays = 0
+                                    interruptedVacation.BaseLiquidation = 0
+                                    interruptedVacation.VacationValue = 0
+                                    interruptedVacation.HealthContribution = 0
+                                    interruptedVacation.PensionContribution = 0
+                                    interruptedVacation.VacationValueNet = 0
+                                    interruptedVacation.State = 3
+                                    interruptedVacation.TakenDaysReal = 0
+                                    interruptedVacation.IncorporationDateReal = novelty.EndDate.AddDays(1)
+                                    interruptedVacation.StateIncorporation = vacation.StateIncorporation
+                                    interruptedVacation.DaysDeferredPending = vacation.DaysDeferredPending
+                                    interruptedVacation.CreationUser = audit.CodeUser
+                                    interruptedVacation.CreationDate = DateTime.Now
+                                    _vacationRepository.SaveEntity(interruptedVacation)
+
+                                    Dim newVacation As New Vacation
+                                    newVacation.VacationPeriodId = vacation.VacationPeriodId
+                                    newVacation.VacationStartDate = novelty.EndDate.AddDays(1)
+
+                                    Dim reschedEndDate As Date = newVacation.VacationStartDate
+                                    Dim reschedWorkDays As Integer = 0
+                                    While reschedWorkDays < thisRemainingTakenDays
+                                        If IsValidDay(holidays, contract.Group.PayrollParameter.SaturdayBusinessDay, contract.Group.PayrollParameter.SundayBusinessDay, reschedEndDate) Then
+                                            reschedWorkDays += 1
+                                        End If
+                                        If reschedWorkDays < thisRemainingTakenDays Then
+                                            reschedEndDate = reschedEndDate.AddDays(1)
+                                        End If
+                                    End While
+                                    newVacation.VacationEndDate = reschedEndDate
+
+                                    newVacation.TypeLiquidation = vacation.TypeLiquidation
+                                    newVacation.TypeVacation = vacation.TypeVacation
+                                    newVacation.TypePayment = vacation.TypePayment
+                                    newVacation.TakenDays = thisRemainingTakenDays
+                                    newVacation.EnjoyDays = DateDiff(DateInterval.Day, newVacation.VacationStartDate, newVacation.VacationEndDate) + 1
+                                    newVacation.IncorporationDate = newVacation.VacationEndDate.AddDays(1)
+                                    newVacation.WorkedDays = vacation.WorkedDays
+                                    newVacation.NotWorkedDays = vacation.NotWorkedDays
+                                    newVacation.BaseLiquidation = vacation.BaseLiquidation
+                                    newVacation.VacationValue = vacation.VacationValue
+                                    newVacation.HealthContribution = vacation.HealthContribution
+                                    newVacation.PensionContribution = vacation.PensionContribution
+                                    newVacation.SolidarityFundValue = vacation.SolidarityFundValue
+                                    newVacation.VacationValueNet = vacation.VacationValueNet
+                                    newVacation.State = vacation.State
+                                    newVacation.TakenDaysReal = thisRemainingTakenDays
+                                    newVacation.IncorporationDateReal = newVacation.VacationEndDate.AddDays(1)
+                                    newVacation.StateIncorporation = vacation.StateIncorporation
+                                    newVacation.DaysDeferredPending = vacation.DaysDeferredPending
+                                    newVacation.CreationUser = audit.CodeUser
+                                    newVacation.CreationDate = DateTime.Now
+                                    _vacationRepository.SaveEntity(newVacation)
+                                End If
+
+                                If novelty.RealDate >= VacationStarDate Then
                                     vacation.VacationEndDate = IIf(daysInterrumted <= 0, vacation.VacationStartDate, novelty.RealDate.AddDays(-1))
                                     vacation.EnjoyDays = daysEnjoyedBeforeNovelty
-                                    vacation.TakenDays = takenDaysBeforeNovelty
-
-                                    'Actualizar fechas de incorporación
+                                    vacation.TakenDays = thisVacDaysBeforeNovelty
+                                    vacation.TakenDaysReal = thisVacDaysBeforeNovelty
                                     vacation.IncorporationDate = novelty.RealDate
                                     vacation.IncorporationDateReal = novelty.RealDate
-
-                                    'Los valores se mantienen sin modificar (por ahora)
                                 Else
-                                    'Incapacidad termina dentro de vacaciones - ajustar fecha de inicio
+                                    ' Traslape frontal: la incapacidad empieza ANTES del inicio del disfrute
+                                    ' (caso Medilaser). El colaborador no alcanzó a disfrutar ningún día, por lo
+                                    ' que se aplaza el período completo: se corre el inicio al día siguiente de la
+                                    ' incapacidad y se RECALCULA la fecha fin contando de nuevo los días tomados
+                                    ' (hábiles) desde el nuevo inicio, para no perder días de disfrute.
                                     vacation.VacationStartDate = novelty.EndDate.AddDays(1)
-                                    vacation.EnjoyDays -= remainingDays
+
+                                    Dim reschedEndDateFront As Date = vacation.VacationStartDate
+                                    Dim reschedWorkDaysFront As Integer = 0
+                                    While reschedWorkDaysFront < vacation.TakenDays
+                                        If IsValidDay(holidays, contract.Group.PayrollParameter.SaturdayBusinessDay, contract.Group.PayrollParameter.SundayBusinessDay, reschedEndDateFront) Then
+                                            reschedWorkDaysFront += 1
+                                        End If
+                                        If reschedWorkDaysFront < vacation.TakenDays Then
+                                            reschedEndDateFront = reschedEndDateFront.AddDays(1)
+                                        End If
+                                    End While
+
+                                    vacation.VacationEndDate = reschedEndDateFront
+                                    vacation.EnjoyDays = DateDiff(DateInterval.Day, vacation.VacationStartDate, vacation.VacationEndDate) + 1
+                                    vacation.IncorporationDate = vacation.VacationEndDate.AddDays(1)
+                                    vacation.IncorporationDateReal = vacation.VacationEndDate.AddDays(1)
                                 End If
                                 vacation.MarkAsModified
                                 _vacationRepository.SaveEntity(vacation)

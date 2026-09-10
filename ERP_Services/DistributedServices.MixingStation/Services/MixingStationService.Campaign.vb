@@ -109,6 +109,12 @@ Partial Class MixingStationService
         End Using
     End Function
 
+    Public Function GetCampaignDetailValidationForDevolution(campaignDetailId As Integer) As ActionResult(Of List(Of CampaignDetailValidation)) Implements IMixingStationServiceCampaign.GetCampaignDetailValidationForDevolution
+        Using service As ICampaignAdminService = Container.Current.Resolve(Of ICampaignAdminService)()
+            Return service.GetCampaignDetailValidationForDevolution(campaignDetailId)
+        End Using
+    End Function
+
     Public Function SaveCampaignDetailPickingList(campaignDetailItem As CampaignDetailItems, campaignDetailPicking As List(Of CampaignDetailPicking), stockWareHouseId As Integer, audit As AuditMessage) As ActionResult Implements IMixingStationServiceCampaign.SaveCampaignDetailPickingList
         Using service As ICampaignAdminService = Container.Current.Resolve(Of ICampaignAdminService)()
             Return service.SaveCampaignDetailPickingList(campaignDetailItem, campaignDetailPicking, stockWareHouseId, audit)

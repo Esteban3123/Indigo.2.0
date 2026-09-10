@@ -300,6 +300,20 @@ Partial Public Class RadicateInvoiceC
         End Set
     End Property
 
+	Private _customerRadicateConsecutive As String
+	<DataMember()>
+	Public Property CustomerRadicateConsecutive() As String
+        Get
+            Return _customerRadicateConsecutive
+        End Get
+        Set(ByVal value As String)
+            If Not Equals(_customerRadicateConsecutive, value) Then
+                _customerRadicateConsecutive = value
+                OnPropertyChanged("CustomerRadicateConsecutive")
+            End If
+        End Set
+    End Property
+
 #End Region
 
 #Region "Navigation Properties"

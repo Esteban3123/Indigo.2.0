@@ -1,4 +1,4 @@
-using Domain.Autentication;
+﻿using Domain.Autentication;
 using Domain.Autentication.Interfaces;
 using Microsoft.IdentityModel.Tokens;
 using System;
@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Application.Autentication.JwtService
 {
-    public class JwtTokenService : IJwtTokenService
+   public class JwtTokenService : IJwtTokenService
     {
         private readonly ISecretProvider _secretProvider;
         private readonly JwtSettings _jwtSettings;
@@ -32,20 +32,20 @@ namespace Application.Autentication.JwtService
             claims.Add(new Claim(JwtRegisteredClaimNames.Iat, DateTimeOffset.UtcNow.ToUnixTimeSeconds().ToString()));
 
             JwtSecurityTokenHandler tokenHandler = new JwtSecurityTokenHandler();
-            var key = Encoding.UTF8.GetBytes(await _secretProvider.GetSecretAsync(_jwtSettings.SecretName).ConfigureAwait(false));
-            string issuer = await _secretProvider.GetSecretAsync(_jwtSettings.IssuerSecretName).ConfigureAwait(false);
-            string audience = await _secretProvider.GetSecretAsync(_jwtSettings.AudienceSecretName).ConfigureAwait(false);
-            string timeLife = await _secretProvider.GetSecretAsync(_jwtSettings.ExpiresInMinutes).ConfigureAwait(false);
+            var key = Encoding.UTF8.GetBytes(await _secretProvider.GetSecretAsync(_jwtSettings.SecretName));
+            string issuer = await _secretProvider.GetSecretAsync(_jwtSettings.IssuerSecretName);
+            string audience = await _secretProvider.GetSecretAsync(_jwtSettings.AudienceSecretName);
+            string timeLife = await _secretProvider.GetSecretAsync(_jwtSettings.ExpiresInMinutes);
 
-            var tokenDescriptor = new SecurityTokenDescriptor
-            {
+                var tokenDescriptor = new SecurityTokenDescriptor
+                {
                 Issuer = issuer,
                 Audience = audience,
                 Subject = new ClaimsIdentity(claims),
                 Expires = DateTime.UtcNow.AddMinutes(int.Parse(timeLife)),
                 NotBefore = DateTime.UtcNow,
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
-            };
+                };
 
             return tokenHandler.WriteToken(tokenHandler.CreateToken(tokenDescriptor));
 
@@ -53,10 +53,10 @@ namespace Application.Autentication.JwtService
 
         public async Task ValidateToken(string token)
         {
-            string secretKey = await _secretProvider.GetSecretAsync(_jwtSettings.SecretName).ConfigureAwait(false);
-            string issuer = await _secretProvider.GetSecretAsync(_jwtSettings.IssuerSecretName).ConfigureAwait(false);
-            string audience = await _secretProvider.GetSecretAsync(_jwtSettings.AudienceSecretName).ConfigureAwait(false);
-            var tokenHandler = new JwtSecurityTokenHandler();
+            string secretKey = await _secretProvider.GetSecretAsync(_jwtSettings.SecretName);
+                string issuer = await _secretProvider.GetSecretAsync(_jwtSettings.IssuerSecretName);
+                string audience = await _secretProvider.GetSecretAsync(_jwtSettings.AudienceSecretName);
+                var tokenHandler = new JwtSecurityTokenHandler();
             var validationParameters = new TokenValidationParameters()
             {
                 ValidateIssuer = true,
@@ -73,7 +73,7 @@ namespace Application.Autentication.JwtService
                 SecurityToken validatedToken;
                 tokenHandler.ValidateToken(token, validationParameters, out validatedToken);
             }
-            catch (Exception ex)
+            catch(Exception ex)
             {
                 throw new SecurityTokenException("Token JWT inválido.", ex);
             }

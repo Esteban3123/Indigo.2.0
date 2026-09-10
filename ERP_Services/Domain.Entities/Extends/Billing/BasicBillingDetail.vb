@@ -1,5 +1,7 @@
 ﻿Imports System.Runtime.Serialization
 
+Imports Infrastructure.CrossCutting.Base
+
 Partial Public Class BasicBillingDetail
 
 #Region " Properties"
@@ -109,18 +111,32 @@ Partial Public Class BasicBillingDetail
         Return Math.Round((Me.Value - Me.ValueDiscount) * Me.PercentageIVA / 100, Me.RoundLevel, MidpointRounding.AwayFromZero)
     End Function
 
+    Public Function CalculateValueIVAWithOutRound() As Decimal
+        Return (Me.Value - Me.ValueDiscount) * Me.PercentageIVA / 100D
+    End Function
+
     Public Function CalculateSubTotalValue() As Decimal
         Return Me.Value - Me.ValueDiscount + Me.CalculateValueIVA()
     End Function
 
     Public Function CalculateWithholdingTax() As Decimal
-		Me.WithholdingTax = Math.Round((Me.Value - Me.ValueDiscount) * Me.RetentionPercentageTax / 100, Me.RoundLevel, MidpointRounding.AwayFromZero)
+        Me.WithholdingTax = Math.Round((Me.Value - Me.ValueDiscount) * Me.RetentionPercentageTax / 100, Me.RoundLevel, MidpointRounding.AwayFromZero)
+        Return Me.WithholdingTax
+    End Function
+
+    Public Function CalculateWithholdingTax(roundLevel As Decimal) As Decimal
+        Me.WithholdingTax = Utils.RoundValue((Me.Value - Me.ValueDiscount) * Me.RetentionPercentageTax / 100, roundLevel)
         Return Me.WithholdingTax
     End Function
 
     Public Function CalculateWithholdingICA() As Decimal
         Me.WithholdingICA = Math.Round((Me.Value - Me.ValueDiscount) * Me.RetentionPercentageICA / 100, Me.RoundLevel, MidpointRounding.AwayFromZero)
-		Return Me.WithholdingICA
+        Return Me.WithholdingICA
+    End Function
+
+    Public Function CalculateWithholdingICA(roundLevel As Decimal) As Decimal
+        Me.WithholdingICA = Utils.RoundValue((Me.Value - Me.ValueDiscount) * Me.RetentionPercentageICA / 100, roundLevel)
+        Return Me.WithholdingICA
     End Function
 
     Public Function CalculateTotalValue() As Decimal

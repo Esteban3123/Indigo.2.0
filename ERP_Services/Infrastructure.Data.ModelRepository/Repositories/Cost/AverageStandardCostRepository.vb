@@ -1,4 +1,4 @@
-﻿Imports System.Data.Entity.Infrastructure
+Imports System.Data.Entity.Infrastructure
 Imports System.Linq.Dynamic.Core
 Imports Domain.Base.Entities
 Imports Domain.Entities
@@ -46,6 +46,34 @@ Public Class AverageStandardCostRepository
     ''' <returns></returns>
     Public Function GetAverageStandardCostById(standarCostId As Integer) As StandarCost Implements IAverageStandardCostRepository.GetAverageStandardCostById
         Return _context.StandarCost.Where(Function(w) w.Id = standarCostId)?.FirstOrDefault()
+    End Function
+
+    ''' <summary>
+    ''' Consulta Costo Estándar por vigencia y Actividad
+    ''' </summary>
+    ''' <param name="validity"></param>
+    ''' <param name="endDate"></param>
+    ''' <param name="excludeId"></param>
+    ''' <returns></returns>
+    Public Function GetOverlappingStandarCosts(validity As Date, endDate As Date, excludeId As Integer) As List(Of StandarCost) Implements IAverageStandardCostRepository.GetOverlappingStandarCosts
+        Dim results = _context.StandarCost.Include("StandarCostDetails") _
+            .Where(Function(w) w.Id <> excludeId _
+                AndAlso w.Validity <= endDate _
+                AndAlso w.EndDate >= validity) _
+            .ToList()
+
+        For Each record In results
+            If record.StandarCostDetails.Any Then
+                For Each item In record.StandarCostDetails
+                    Dim activityEntity = _context.CostActivity.AsNoTracking().Where(Function(w) w.Id = item.CostActivityId)?.FirstOrDefault
+                    If activityEntity IsNot Nothing Then
+                        item.CodeNameActivity = $"{activityEntity.Code} - {activityEntity.Name}"
+                    End If
+                Next
+            End If
+        Next
+
+        Return results
     End Function
 
 End Class

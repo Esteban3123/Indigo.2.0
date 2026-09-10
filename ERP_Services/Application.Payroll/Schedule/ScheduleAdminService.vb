@@ -351,8 +351,25 @@ Public Class ScheduleAdminService
                             Dim StringUpdate = "UPDATE Payroll.Schedule SET D" + Day + " = NULL, TotalHour = " + TotalHours.ToString() + " WHERE Id = " + schedule.Id.ToString
                             _ScheduleRepositoryCommit.UnitWork.ExecuteNonQuery(StringUpdate)
                         Else
-                            Dim StringUpdate = "DELETE FROM Payroll.Schedule WHERE Id = " + schedule.Id.ToString
-                            _ScheduleRepositoryCommit.UnitWork.ExecuteNonQuery(StringUpdate)
+                            ' Antes de borrar el Schedule completo, se valida que no queden otros ScheduleDetail
+                            ' reales de este mismo empleado/periodo/unidad funcional por fuera de este lote de
+                            ' eliminación - y de paso se calcula el total de horas real de lo que queda, en vez de
+                            ' confiar en TotalHours
+                            Dim idsLote = ListTmpScheduleDetail.Select(Function(x) x.Id.ToString).ToArray()
+                            Dim idsLoteCsv = String.Join(",", If(idsLote.Length > 0, idsLote, {"0"}))
+                            Dim horasRemanentes As Decimal = _ScheduleDetailRepository.UnitWork.ExecuteQuery(Of Decimal)(
+                                "SELECT ISNULL(SUM(TotalNumberHours),0) FROM Payroll.ScheduleDetail WHERE EmployeeId = {0} AND ScheduleFunctionalUnitId = {1} AND YEAR(DateDetail) = {2} AND MONTH(DateDetail) = {3} AND Id NOT IN (" + idsLoteCsv + ")",
+                                objScheduleDetail.EmployeeId, objScheduleDetail.ScheduleFunctionalUnitId, objScheduleDetail.DateDetail.Year, objScheduleDetail.DateDetail.Month
+                            ).FirstOrDefault()
+
+                            If horasRemanentes > 0 Then
+                                'evitar datos huerfanos
+                                Dim StringUpdateSoloDia = "UPDATE Payroll.Schedule SET D" + Day + " = NULL, TotalHour = " + horasRemanentes.ToString(System.Globalization.CultureInfo.InvariantCulture) + " WHERE Id = " + schedule.Id.ToString
+                                _ScheduleRepositoryCommit.UnitWork.ExecuteNonQuery(StringUpdateSoloDia)
+                            Else
+                                Dim StringUpdate = "DELETE FROM Payroll.Schedule WHERE Id = " + schedule.Id.ToString
+                                _ScheduleRepositoryCommit.UnitWork.ExecuteNonQuery(StringUpdate)
+                            End If
                         End If
 
                     End If

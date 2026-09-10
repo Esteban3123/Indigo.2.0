@@ -64,6 +64,12 @@ Public Interface ISequenseAccountingDRepository
     ''' </summary>
     ''' <param name="documentType">Objeto de tipo JournalVoucherTypeConsecutive </param>
     Function DeleteAllSequencesForDocumentTypeAsync(documentType As JournalVoucherTypes) As Task
+
+    ''' <summary>
+    ''' Obtiene todas las secuencias SQL para un tipo de documento como lista de JournalVoucherTypeConsecutive
+    ''' </summary>
+    ''' <param name="typeId">Id del JournalVoucherType</param>
+    Function GetAllSequencesForDocumentTypeAsync(typeId As Integer) As Task(Of List(Of JournalVoucherTypeConsecutive))
 #End Region
 
 End Interface

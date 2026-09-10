@@ -1190,7 +1190,7 @@ namespace Application.Inventory.InventoryProduct
                     lineHead += Utils.StringPad("|", 1, "0", Utils.PadType.STR_PAD_LEFT);
                     lineHead += Utils.StringPad((dtSismedCompras.Rows.Count + dtSismedVentas.Rows.Count).ToString(), maxSize((dtSismedCompras.Rows.Count + dtSismedVentas.Rows.Count).ToString(), 6), " ", Utils.PadType.STR_PAD_LEFT);
                     lineHead += Utils.StringPad("|", 1, "0", Utils.PadType.STR_PAD_LEFT);
-                    lineHead += Utils.StringPad(NumeroCUMUnitario.ToString(), 6, " ", Utils.PadType.STR_PAD_RIGHT);
+                    lineHead += Utils.StringPad(NumeroCUMUnitario.ToString(), maxSize(NumeroCUMUnitario.ToString(), 6), " ", Utils.PadType.STR_PAD_LEFT);
                     file.Append(lineHead);
                 }
 

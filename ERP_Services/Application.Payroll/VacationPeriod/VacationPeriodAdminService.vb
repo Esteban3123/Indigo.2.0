@@ -960,7 +960,7 @@ Public Class VacationPeriodAdminService
                         Dim takenDays As Integer = 0
                         While index < itemVacationPeriod.Vacation.Count
                             Dim itemVacation As Vacation = itemVacationPeriod.Vacation(index)
-                            If itemVacation.VacationStartDate = initialDate And itemVacation.VacationEndDate = endDate Then
+                            If itemVacation.VacationStartDate = initialDate And itemVacation.VacationEndDate = endDate And itemVacation.State = 1 Then
                                 Dim idPeriod As Integer = itemVacation.VacationPeriod.Id
 
                                 takenDays += itemVacation.TakenDays

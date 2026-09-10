@@ -1,4 +1,4 @@
-﻿'***********************************************************************
+'***********************************************************************
 ' Assembly         : DistributedServices.Payroll
 ' Author           : Cristhian Mauricio Salazar
 ' Created          : 02-07-2013
@@ -6,6 +6,7 @@
 ' Copyright        : (c) . All rights reserved.
 '***********************************************************************
 
+Imports Domain.Payroll
 Imports Domain.Payroll.Entities
 Imports Infrastructure.CrossCutting.Base
 Imports Domain.Base.Entities
@@ -20,7 +21,7 @@ Public Interface IPayrollMassiveContract
     Function GetMassiveContract(pData As List(Of ImportFileRow), pSession As SessionValues) As List(Of SP_GetMassiveContract_Result)
 
     <OperationContract()>
-    Sub SaveMassiveContract(pData As List(Of ImportFileRow), pSession As SessionValues)
+    Function SaveMassiveContract(pData As List(Of ImportFileRow), pSession As SessionValues) As SP_SaveMassiveContract_DTO
 
     <OperationContract()>
     Function ValidateMassiveContractExtension(pData As List(Of ImportFileRow), pSession As SessionValues) As List(Of SP_ValidateMassiveContractExtension_Result)

@@ -9,6 +9,8 @@
 #Region "Imports"
 Imports System.Data.Entity.Core
 Imports System.Data.Entity.Validation
+Imports System.Data.SqlClient
+Imports System.Diagnostics
 Imports System.Transactions
 Imports Application.Base
 Imports Domain.Base
@@ -28,45 +30,36 @@ Public Class PortfolioInitialBalanceAdminService
 #Region "Field"
     Private _portfolioInitialBalanceRepository As IPortfolioInitialBalanceRepository
     Private _accountReceivableRepository As IAccountReceivableRepository
-    Private _portfolioAdvanceRepository As IPortfolioAdvanceRepository
     Private _sequensePortfolioDRepository As ISequensePortfolioDRepository
-    Private _sequensePortfolioCRepository As ISequensePortfolioCRepository
     Private _thirdPartyRepository As IThirdPartyRepository
     Private _customerRepository As ICustomerRepository
     Private _accountingRepository As IPUCRepository
     Private _costCenterRepository As ICostCenterRepository
     Private _portfolioNoteConceptRepository As IPortfolioNoteConceptRepository
     Private _documentTypeRepository As IDocumentTypeRepository
-    Dim sequence As PortfolioSequence = Nothing
     Private _billingInvoiceCategoriesRepository As IBillingInvoiceCategories
+    Private _contractAccountingStructureRepository As IContractAccountingStructureRepository
 #End Region
 
 #Region "Builder"
-    Public Sub New(portfolioInitialBalanceRepository As IPortfolioInitialBalanceRepository, accountReceivableRepository As IAccountReceivableRepository, portfolioAdvanceRepository As IPortfolioAdvanceRepository,
-                   sequensePortfolioDRepository As ISequensePortfolioDRepository, sequensePortfolioCRepository As ISequensePortfolioCRepository, thirdPartyRepository As IThirdPartyRepository,
+    Public Sub New(portfolioInitialBalanceRepository As IPortfolioInitialBalanceRepository, accountReceivableRepository As IAccountReceivableRepository,
+                   sequensePortfolioDRepository As ISequensePortfolioDRepository, thirdPartyRepository As IThirdPartyRepository,
                    customerRepository As ICustomerRepository, accountingRepository As IPUCRepository, costCenterRepository As ICostCenterRepository,
                    portfolioNoteConceptRepository As IPortfolioNoteConceptRepository, documentTypeRepository As IDocumentTypeRepository,
-                   billingInvoiceCategoriesRepository As IBillingInvoiceCategories)
+                   billingInvoiceCategoriesRepository As IBillingInvoiceCategories,
+                   contractAccountingStructureRepository As IContractAccountingStructureRepository)
         If portfolioInitialBalanceRepository Is Nothing Then
             Throw New ArgumentNullException("portfolioInitialBalanceRepository")
         End If
         If accountReceivableRepository Is Nothing Then
             Throw New ArgumentNullException("accountReceivableRepository")
         End If
-        If portfolioAdvanceRepository Is Nothing Then
-            Throw New ArgumentNullException("portfolioAdvanceRepository")
-        End If
         If sequensePortfolioDRepository Is Nothing Then
             Throw New ArgumentNullException("sequensePortfolioDRepository")
         End If
-        If sequensePortfolioCRepository Is Nothing Then
-            Throw New ArgumentNullException("sequensePortfolioCRepository")
-        End If
         _portfolioInitialBalanceRepository = portfolioInitialBalanceRepository
         _accountReceivableRepository = accountReceivableRepository
-        _portfolioAdvanceRepository = portfolioAdvanceRepository
         _sequensePortfolioDRepository = sequensePortfolioDRepository
-        _sequensePortfolioCRepository = sequensePortfolioCRepository
         _thirdPartyRepository = thirdPartyRepository
         _customerRepository = customerRepository
         _accountingRepository = accountingRepository
@@ -74,6 +67,7 @@ Public Class PortfolioInitialBalanceAdminService
         _portfolioNoteConceptRepository = portfolioNoteConceptRepository
         _documentTypeRepository = documentTypeRepository
         _billingInvoiceCategoriesRepository = billingInvoiceCategoriesRepository
+        _contractAccountingStructureRepository = contractAccountingStructureRepository
     End Sub
 #End Region
 
@@ -85,200 +79,57 @@ Public Class PortfolioInitialBalanceAdminService
     ''' <param name="audit"></param>
     ''' <returns></returns>
     Public Function ConfirmPortfolioInitialBalance(idPortfolioInitialBalance As Integer, audit As Infrastructure.CrossCutting.Base.AuditMessage) As Domain.Base.Entities.ActionResult(Of String) Implements IPortfolioInitialBalanceAdminService.ConfirmPortfolioInitialBalance
-        Dim txSettings As New TransactionOptions()
-        txSettings.Timeout = TimeSpan.FromMinutes(30) 'TransactionManager.MaximumTimeout 
-        txSettings.IsolationLevel = System.Transactions.IsolationLevel.ReadCommitted
-        Using transaction As New TransactionScope(TransactionScopeOption.Required, txSettings)
-            Try
-                Dim portfolioInitialBalanceUnitOfWork As IUnitWork = _portfolioInitialBalanceRepository.UnitWork
-                Dim accountReceivableUnitOfWork As IUnitWork = _accountReceivableRepository.UnitWork
-                Dim advanceUnitOfWork As IUnitWork = _portfolioAdvanceRepository.UnitWork
-                Dim sequenceUnitOfWor As IUnitWork = _sequensePortfolioCRepository.UnitWork
-                Dim auditProcess As IndigoAuditSimpleEntity(Of PortfolioInitialBalance)
-                Dim porfolioInitialBalance = _portfolioInitialBalanceRepository.GetPortfolioInitialBalanceById(idPortfolioInitialBalance)
-                Dim listInitialBalanceAccountReceivable = _portfolioInitialBalanceRepository.GetPortfolioInitialBalanceAccountReceivableByIdPortfolioInitialBalance(idPortfolioInitialBalance)
-                Dim listInitialBalanceAdvance = _portfolioInitialBalanceRepository.GetPortfolioInitialBalanceAdvanceByIdPortfolioInitialBalance(idPortfolioInitialBalance)
-                Dim InvoiceConsecutives As String = String.Empty
-                Dim AdvanceConsecutives As String = String.Empty
-                'obtengo el total de las facturas que no se le asignaron presupuesto
-                Dim listBudgetAssigned = listInitialBalanceAccountReceivable.FindAll(Function(x) x.AffectBudget = False)
-                If listBudgetAssigned.Count = 0 Then
-                    porfolioInitialBalance.AllBudgetAssigned = True
-                End If
-                porfolioInitialBalance.AllBudgetAssigned = False
-                For Each item In listInitialBalanceAccountReceivable
-                    Dim accountReceivable As New AccountReceivable
-                    With accountReceivable
-                        'Usar el mismo numero de la factura como codigo
-                        .Code = item.InvoiceNumber
-                        If InvoiceConsecutives = String.Empty Then
-                            InvoiceConsecutives = ResourceManager.GetString("Bill", "Portfolio") + .Code
-                        Else
-                            InvoiceConsecutives += "," + .Code
-                        End If
-                        .OperatingUnitId = porfolioInitialBalance.OperatingUnitId
-                        .AccountReceivableType = item.AccountReceivableType
-                        .ThirdPartyId = item.ThirdPartyId
-                        .CustomerId = item.CustomerId
-                        .InvoiceNumber = item.InvoiceNumber
-                        .InvoiceCategoryId = item.InvoiceCategoryId
-                        .AccountReceivableDate = item.AccountReceivableDate
-                        .Term = item.Term
-                        .ExpiredDate = item.ExpiredDate
-                        .Observations = item.Observations
-                        .PortfolioStatus = item.PortfolioStatus
-                        .OpeningBalance = True
-                        .PaymentAgreement = False
-                        .RegistrationAdjusted = False
-                        .MainAccountWithoutFilingId = item.AccountWithoutRadicateId
-                        .NumberShares = item.NumberShares
-                        .Value = item.Value
-                        .Balance = item.Balance
-                        .AffectBudget = item.AffectBudget
-                        .BudgetId = item.BudgetId
-                        .CostCenterId = item.CostCenterId
-                        .AccountWithoutRadicateId = item.AccountWithoutRadicateId
-                        .AccountRadicateId = item.AccountRadicateId
-                        .AccountObjectionRemediedId = item.AccountObjectionRemediedId
-                        .AccountConciliationId = item.AccountConciliationId
-                        .AccountLegalCollectionId = item.AccountLegalCollectionId
-                        .AccountDebtorOrder = item.AccountDebtorOrder
-                        .AccountCreditorOrder = item.AccountCreditorOrder
-                        .Status = 2
-                        .CreationUser = audit.CodeUser
-                        .CreationDate = DateTime.Now
-                        .ConfirmationDate = DateTime.Now
-                        .ConfirmationUser = audit.CodeUser
-                        For Each itemAccounting In item.PortfolioInitialBalanceAccountReceivableAccounting
-                            Dim accountReceivableAccounting As New AccountReceivableAccounting
-                            accountReceivableAccounting.MainAccountId = itemAccounting.MainAccountId
-                            accountReceivableAccounting.ThirdPartyId = itemAccounting.ThirdPartyId
-                            accountReceivableAccounting.CostCenterId = itemAccounting.CostCenterId
-                            accountReceivableAccounting.Value = itemAccounting.Value
-                            accountReceivableAccounting.Balance = itemAccounting.Value
-                            .AccountReceivableAccounting.Add(accountReceivableAccounting)
-                        Next
-                        For Each itemShare In item.PortfolioInitialBalanceAccountReceivableShare
-                            Dim accountReceivableShare As New AccountReceivableShare
-                            accountReceivableShare.Number = itemShare.Number
-                            accountReceivableShare.ExpiredDate = itemShare.ExpiredDate
-                            accountReceivableShare.Value = itemShare.Value
-                            accountReceivableShare.Balance = itemShare.Value
-                            .AccountReceivableShare.Add(accountReceivableShare)
-                        Next
-                    End With
-                    _accountReceivableRepository.SaveEntity(accountReceivable)
-                    'accountReceivableUnitOfWork.Commit()
-                Next
-                For Each item In listInitialBalanceAdvance
-                    Dim portfolioAdvance As New PortfolioAdvance
-                    With portfolioAdvance
-                        Dim resultGenerateSecuence = GenerateSequence(False)
-                        If resultGenerateSecuence.StateResult = False Then
-                            transaction.Dispose()
-                            Return New ActionResult(Of String) With {.StateResult = False, .Message = resultGenerateSecuence.Message}
-                        End If
-                        .Code = resultGenerateSecuence.Message
-                        If AdvanceConsecutives = String.Empty Then
-                            AdvanceConsecutives = ResourceManager.GetString("Advance", "Portfolio") + .Code
-                        Else
-                            AdvanceConsecutives += "," + .Code
-                        End If
-                        .ThirdPartyId = item.ThirdPartyId
-                        .MainAccountId = item.MainAccountId
-                        .CostCenterId = item.CostCenterId
-                        .DocumentDate = item.DocumentDate
-                        .CustomerId = item.CustomerId
-                        .Value = item.Value
-                        .OpeningBalance = True
-                        .Balance = item.Value
-                        .Observations = item.Observations
-                        .Status = 2
-                        .CreationDate = DateTime.Now
-                        .CreationUser = audit.CodeUser
-                        .ConfirmationDate = DateTime.Now
-                        .ConfirmationUser = audit.CodeUser
-                    End With
-                    _portfolioAdvanceRepository.SaveEntity(portfolioAdvance)
-                    advanceUnitOfWork.Commit()
-                    sequence.PortfolioSequenceDetail(0).Next += 1
-                    sequence.PortfolioSequenceDetail(0).MarkAsModified()
-                    Me._sequensePortfolioCRepository.SaveEntity(sequence)
-                    sequenceUnitOfWor.Commit()
-                Next
-                porfolioInitialBalance.Status = 2
-                porfolioInitialBalance.ConfirmationDate = DateTime.Now
-                porfolioInitialBalance.ConfirmationUser = audit.CodeUser
-                porfolioInitialBalance.ModificationDate = DateTime.Now
-                porfolioInitialBalance.ModificationUser = audit.CodeUser
-                porfolioInitialBalance.MarkAsModified()
-                _portfolioInitialBalanceRepository.SaveEntity(porfolioInitialBalance)
-                portfolioInitialBalanceUnitOfWork.Commit()
-                auditProcess = New IndigoAuditSimpleEntity(Of PortfolioInitialBalance)(porfolioInitialBalance, audit, Infrastructure.CrossCutting.Audit.Actions.Confirm, porfolioInitialBalance.OriginalValue)
-                auditProcess.Execute()
-                transaction.Complete()
-                If listInitialBalanceAccountReceivable.Count > 0 And listInitialBalanceAdvance.Count > 0 Then
-                    Return New ActionResult(Of String) With {.StateResult = True, .Message = InvoiceConsecutives + " - " + AdvanceConsecutives, .ObjectEmbbeded = idPortfolioInitialBalance.ToString()}
-                ElseIf listInitialBalanceAccountReceivable.Count > 0 Then
-                    Return New ActionResult(Of String) With {.StateResult = True, .Message = InvoiceConsecutives, .ObjectEmbbeded = idPortfolioInitialBalance.ToString()}
-                Else
-                    Return New ActionResult(Of String) With {.StateResult = True, .Message = AdvanceConsecutives, .ObjectEmbbeded = idPortfolioInitialBalance.ToString()}
-                End If
-            Catch ex As OptimisticConcurrencyException
-                transaction.Dispose()
-                Return New ActionResult(Of String) With {.StateResult = False, .Message = ResourceManager.GetString("ErrorConcurrence")}
-            Catch ex As DbEntityValidationException
-                transaction.Dispose()
-                IndigoManagementExceptions.HandleException(ex, "ApplicationPolicy")
-                Return New ActionResult(Of String) With {.StateResult = False, .Message = ResourceManager.GetString("ErrorUnknown")}
-            Catch ex As Exception
-                transaction.Dispose()
-                IndigoManagementExceptions.HandleException(ex, "ApplicationPolicy")
+        Try
+            Dim summary = _portfolioInitialBalanceRepository.ConfirmPortfolioInitialBalanceSetBased(
+                idPortfolioInitialBalance,
+                audit.CodeUser,
+                ServerSessionValues.Current.CurrentContainer)
+            Dim confirmationParts As New List(Of String)
 
-                Dim message = ResourceManager.GetString("ErrorUnknown")
-                If ex.InnerException IsNot Nothing AndAlso Not String.IsNullOrEmpty(ex.InnerException.Message) Then
-                    message = ex.InnerException.Message
-                    If ex.InnerException.InnerException IsNot Nothing AndAlso Not String.IsNullOrEmpty(ex.InnerException.InnerException.Message) Then
-                        message = ex.InnerException.InnerException.Message
-                    End If
-                End If
+            If summary.Created > 0 Then
+                confirmationParts.Add(String.Format("{0} factura(s) confirmada(s)", summary.Created))
+            End If
+            If summary.OmittedConflicts > 0 Then
+                confirmationParts.Add(String.Format("{0} factura(s) en conflicto omitida(s)", summary.OmittedConflicts))
+            End If
 
-                Return New ActionResult(Of String) With {.StateResult = False, .Message = message}
-            End Try
-        End Using
+            Return New ActionResult(Of String) With {
+                .StateResult = True,
+                .Message = String.Join(" - ", confirmationParts),
+                .ObjectEmbbeded = idPortfolioInitialBalance.ToString()
+            }
+        Catch ex As Exception
+            Dim businessSqlMessage = GetBusinessSqlErrorMessage(ex)
+            If Not String.IsNullOrEmpty(businessSqlMessage) Then
+                Return New ActionResult(Of String) With {.StateResult = False, .Message = businessSqlMessage}
+            End If
+
+            IndigoManagementExceptions.HandleException(ex, "ApplicationPolicy")
+            Return New ActionResult(Of String) With {
+                .StateResult = False,
+                .Message = IndigoManagementExceptions.GetExceptionDetails(ex)
+            }
+        End Try
     End Function
 
-    Private Function GenerateSequence(account As Boolean) As ActionResult
-        If account = True Then
-            sequence = _sequensePortfolioCRepository.GetSequenseByIdForm("682")
-        Else
-            sequence = _sequensePortfolioCRepository.GetSequenseByIdForm("1507")
-        End If
-        If sequence IsNot Nothing AndAlso sequence.Id > 0 AndAlso sequence.Sequential AndAlso sequence.PortfolioSequenceDetail IsNot Nothing AndAlso sequence.PortfolioSequenceDetail.Count > 0 Then
-            Dim res = Infrastructure.CrossCutting.Base.Sequense.GetSequense(sequence.PortfolioSequenceDetail(0).Sequense.Pattern, sequence.PortfolioSequenceDetail(0).Next)
-            If res IsNot Nothing AndAlso Not res.Equals(Infrastructure.CrossCutting.Base.Sequense.ERROR_MAXVALUE) Then
-                Return New ActionResult With {.Message = res, .StateResult = True}
-            Else
-                If account = True Then
-                    Return New ActionResult With {.StateResult = False, .Message = "La secuencia para facturas alcanzo su valor maximo"}
-                Else
-                    Return New ActionResult With {.StateResult = False, .Message = "La secuencia para anticipos alcanzo su valor maximo"}
-                End If
+    Private Shared Function GetBusinessSqlErrorMessage(exception As Exception) As String
+        Dim currentException = exception
+        For depth As Integer = 0 To 4
+            If currentException Is Nothing Then Exit For
+
+            Dim sqlException = TryCast(currentException, SqlException)
+            If sqlException IsNot Nothing Then
+                For Each sqlError As SqlError In sqlException.Errors
+                    If sqlError.Number = 51000 Then Return sqlError.Message
+                Next
+                Return Nothing
             End If
-        Else
-            If account = True Then
-                Return New ActionResult With {.StateResult = False, .Message = "La secuencia para facturas (682) no esta parametrizada o no es secuencial"}
-            Else
-                Return New ActionResult With {.StateResult = False, .Message = "La secuencia para anticipos (1507) no esta parametrizada o no es secuencial"}
-            End If
-        End If
+
+            currentException = currentException.InnerException
+        Next
+        Return Nothing
     End Function
 
-    ''' <summary>
-    ''' metodo para obtener las facturas del saldo inicial por id del saldo inicial
-    ''' </summary>
-    ''' <param name="idPortfolioInitialBalance"></param>
-    ''' <returns></returns>
     Public Function GetPortfolioInitialBalanceAccountReceivableByIdPortfolioInitialBalance(idPortfolioInitialBalance As Integer) As List(Of Domain.Entities.PortfolioInitialBalanceAccountReceivable) Implements IPortfolioInitialBalanceAdminService.GetPortfolioInitialBalanceAccountReceivableByIdPortfolioInitialBalance
         Try
             Return _portfolioInitialBalanceRepository.GetPortfolioInitialBalanceAccountReceivableByIdPortfolioInitialBalance(idPortfolioInitialBalance)
@@ -349,45 +200,28 @@ Public Class PortfolioInitialBalanceAdminService
     ''' <returns></returns>
     Public Function SaveAndConfirmPortfolioInitialBalance(PortfolioInitialBalance As Domain.Entities.PortfolioInitialBalance, audit As Infrastructure.CrossCutting.Base.AuditMessage, Optional idSequence As Integer = 0) As Domain.Base.Entities.ActionResult(Of String) Implements IPortfolioInitialBalanceAdminService.SaveAndConfirmPortfolioInitialBalance
         Dim message As String = String.Empty
+        ' Save path discriminado por Import flag (staging vs entity directa). Confirm path siempre se invoca tras
+        ' Save OK, independiente del origen del registro (Import Excel o entrada manual). Frontend realiza pre-check
+        ' Cosmos via RCM antes de invocar este método para garantizar que toda factura con CUV tenga JSON subido.
+        Dim resultSave As ActionResult(Of PortfolioInitialBalance)
         If PortfolioInitialBalance.Import Then
-            'si se esta importando desde un excel
-            Dim txSettings As New TransactionOptions()
-            txSettings.Timeout = TimeSpan.FromMinutes(30) 'TransactionManager.MaximumTimeout
-            txSettings.IsolationLevel = System.Transactions.IsolationLevel.ReadCommitted
-            Using transaction As New TransactionScope(TransactionScopeOption.Required, txSettings)
-                Dim resultSave = SavePortfolioInitialBalanceImportFile(PortfolioInitialBalance, audit, idSequence)
-                If resultSave.StateResult = True Then
-                    Dim resultConfirm = ConfirmPortfolioInitialBalanceImportFile(resultSave.ObjectEmbbeded, audit)
-                    If resultConfirm.StateResult = True Then
-                        transaction.Complete()
-                        message = String.Format(ResourceManager.GetString("SaveAndConfirmDocument", "Portfolio"), resultSave.ObjectEmbbeded.Code, resultConfirm.Message)
-                        Return New ActionResult(Of String) With {.StateResult = True, .StateResultAux = True, .Message = message, .ObjectEmbbeded = resultConfirm.ObjectEmbbeded}
-                    Else
-                        transaction.Dispose()
-                        message = String.Format(ResourceManager.GetString("NotSave", "Portfolio"), resultConfirm.Message)
-                        Return New ActionResult(Of String) With {.StateResult = True, .StateResultAux = False, .Message = message}
-                    End If
-                Else
-                    transaction.Dispose()
-                    message = String.Format(ResourceManager.GetString("NotSave", "Portfolio"), resultSave.Message)
-                    Return New ActionResult(Of String) With {.StateResult = False, .StateResultAux = False, .Message = message}
-                End If
-            End Using
+            resultSave = SavePortfolioInitialBalanceImportFile(PortfolioInitialBalance, audit, idSequence)
         Else
-            Dim resultSave = SavePortfolioInitialBalance(PortfolioInitialBalance, audit, idSequence)
-            If resultSave.StateResult = True Then
-                Dim resultConfirm = ConfirmPortfolioInitialBalance(resultSave.ObjectEmbbeded.Id, audit)
-                If resultConfirm.StateResult = True Then
-                    message = String.Format(ResourceManager.GetString("SaveAndConfirmDocument", "Portfolio"), resultSave.ObjectEmbbeded.Code, resultConfirm.Message)
-                    Return New ActionResult(Of String) With {.StateResult = True, .StateResultAux = True, .Message = message}
-                Else
-                    message = String.Format(ResourceManager.GetString("SaveButNotConfirm", "Portfolio"), resultSave.ObjectEmbbeded.Code, resultConfirm.Message)
-                    Return New ActionResult(Of String) With {.StateResult = True, .StateResultAux = False, .Message = message}
-                End If
-            Else
-                message = String.Format(ResourceManager.GetString("NotSave", "Portfolio"), resultSave.Message)
-                Return New ActionResult(Of String) With {.StateResult = False, .StateResultAux = False, .Message = message}
-            End If
+            resultSave = SavePortfolioInitialBalance(PortfolioInitialBalance, audit, idSequence)
+        End If
+
+        If Not resultSave.StateResult Then
+            message = String.Format(ResourceManager.GetString("NotSave", "Portfolio"), resultSave.Message)
+            Return New ActionResult(Of String) With {.StateResult = False, .StateResultAux = False, .Message = message}
+        End If
+
+        Dim resultConfirm = ConfirmPortfolioInitialBalance(resultSave.ObjectEmbbeded.Id, audit)
+        If resultConfirm.StateResult = True Then
+            message = String.Format(ResourceManager.GetString("SaveAndConfirmDocument", "Portfolio"), resultSave.ObjectEmbbeded.Code, resultConfirm.Message)
+            Return New ActionResult(Of String) With {.StateResult = True, .StateResultAux = True, .Message = message}
+        Else
+            message = String.Format(ResourceManager.GetString("SaveButNotConfirm", "Portfolio"), resultSave.ObjectEmbbeded.Code, resultConfirm.Message)
+            Return New ActionResult(Of String) With {.StateResult = True, .StateResultAux = False, .Message = message}
         End If
     End Function
     ''' <summary>
@@ -444,8 +278,19 @@ Public Class PortfolioInitialBalanceAdminService
                     PortfolioInitialBalance.AnnulmentUser = audit.CodeUser
                     auxPortfolioInitialBalance = PortfolioInitialBalance.OriginalValue
             End Select
-            _portfolioInitialBalanceRepository.SaveEntity(PortfolioInitialBalance)
-            _portfolioInitialBalanceUnitOfWork.Commit()
+            Dim useBulkImportPersistence = PortfolioInitialBalance.Import AndAlso
+                                           PortfolioInitialBalance.PortfolioInitialBalanceAccountReceivable.Count > 0 AndAlso
+                                           PortfolioInitialBalance.PortfolioInitialBalanceAdvance.Count = 0
+            If useBulkImportPersistence Then
+                _portfolioInitialBalanceRepository.RegisterAccountReceivableImportBatch(PortfolioInitialBalance)
+            Else
+                _portfolioInitialBalanceRepository.SaveEntity(PortfolioInitialBalance)
+            End If
+            If useBulkImportPersistence Then
+                _portfolioInitialBalanceRepository.CommitAccountReceivableImportBatch()
+            Else
+                _portfolioInitialBalanceUnitOfWork.Commit()
+            End If
             sequenseUnitOfWork.Commit()
             auditProcess = New IndigoAuditSimpleEntity(Of PortfolioInitialBalance)(PortfolioInitialBalance, audit, status, auxPortfolioInitialBalance)
             auditProcess.Execute()
@@ -466,119 +311,6 @@ Public Class PortfolioInitialBalanceAdminService
             Return New ActionResult(Of PortfolioInitialBalance) With {.StateResult = False, .Message = ResourceManager.GetString("ErrorUnknown")}
         End Try
 
-
-    End Function
-    ''' <summary>
-    ''' metodo para confirmar el documento cuando esta importando desde excel
-    ''' </summary>
-    ''' <param name="PortfolioInitialBalance"></param>
-    ''' <param name="audit"></param>
-    ''' <returns></returns>
-    ''' <remarks></remarks>
-    Private Function ConfirmPortfolioInitialBalanceImportFile(PortfolioInitialBalance As Domain.Entities.PortfolioInitialBalance, audit As Infrastructure.CrossCutting.Base.AuditMessage) As Domain.Base.Entities.ActionResult(Of String)
-        Try
-            Dim portfolioInitialBalanceUnitOfWork As IUnitWork = _portfolioInitialBalanceRepository.UnitWork
-            Dim accountReceivableUnitOfWork As IUnitWork = _accountReceivableRepository.UnitWork
-            Dim sequenceUnitOfWor As IUnitWork = _sequensePortfolioCRepository.UnitWork
-            Dim auditProcess As IndigoAuditSimpleEntity(Of PortfolioInitialBalance)
-            Dim porfolioInitialBalance = PortfolioInitialBalance
-            Dim listAccountReceivableSave As New List(Of AccountReceivable)
-            Dim InvoiceConsecutives As String = String.Empty
-
-
-            For Each item In porfolioInitialBalance.PortfolioInitialBalanceAccountReceivable
-                Dim accountReceivable As AccountReceivable = _accountReceivableRepository.GetAccountByInvoiceNumberAndAccountReceivableType(item.InvoiceNumber, {item.AccountReceivableType})
-                If accountReceivable Is Nothing OrElse accountReceivable.Id = 0 Then
-                    If listAccountReceivableSave.Any(Function(o) o.InvoiceNumber.Equals(item.InvoiceNumber) AndAlso o.AccountReceivableType = item.AccountReceivableType) Then
-                        accountReceivable = listAccountReceivableSave.Find(Function(o) o.InvoiceNumber.Equals(item.InvoiceNumber) AndAlso o.AccountReceivableType = item.AccountReceivableType)
-                    Else
-                        accountReceivable = New AccountReceivable()
-                        With accountReceivable
-                            .Code = item.InvoiceNumber
-                            If InvoiceConsecutives = String.Empty Then
-                                InvoiceConsecutives = "Cuentas por Cobrar: " + .Code
-                            Else
-                                InvoiceConsecutives += "," + .Code
-                            End If
-                            .OperatingUnitId = porfolioInitialBalance.OperatingUnitId
-                            .AccountReceivableType = item.AccountReceivableType
-                            .ThirdPartyId = item.ThirdPartyId
-                            .CustomerId = item.CustomerId
-                            .InvoiceNumber = item.InvoiceNumber
-                            .InvoiceCategoryId = item.InvoiceCategoryId
-                            .AccountReceivableDate = item.AccountReceivableDate
-                            .Term = item.Term
-                            .ExpiredDate = item.ExpiredDate
-                            .Observations = item.Observations
-                            .PortfolioStatus = item.PortfolioStatus
-                            .OpeningBalance = True
-                            .PaymentAgreement = False
-                            .RegistrationAdjusted = False
-                            .MainAccountWithoutFilingId = item.AccountWithoutRadicateId
-                            .NumberShares = item.NumberShares
-                            .Value = item.Value
-                            .Balance = item.Balance
-                            .CostCenterId = item.CostCenterId
-                            .AccountWithoutRadicateId = item.AccountWithoutRadicateId
-                            .AccountRadicateId = item.AccountRadicateId
-                            .AccountObjectionRemediedId = item.AccountObjectionRemediedId
-                            .AccountConciliationId = item.AccountConciliationId
-                            .AccountLegalCollectionId = item.AccountLegalCollectionId
-                            .AccountDebtorOrder = item.AccountDebtorOrder
-                            .AccountCreditorOrder = item.AccountCreditorOrder
-                            .Status = 2
-                            .CreationUser = audit.CodeUser
-                            .CreationDate = DateTime.Now
-                            .ConfirmationDate = DateTime.Now
-                            .ConfirmationUser = audit.CodeUser
-                        End With
-                        For Each itemShare In item.PortfolioInitialBalanceAccountReceivableShare
-                            Dim accountReceivableShare As New AccountReceivableShare
-                            accountReceivableShare.Number = itemShare.Number
-                            accountReceivableShare.ExpiredDate = itemShare.ExpiredDate
-                            accountReceivableShare.Value = itemShare.PortfolioInitialBalanceAccountReceivable.Value
-                            accountReceivableShare.Balance = itemShare.Value
-                            accountReceivable.AccountReceivableShare.Add(accountReceivableShare)
-                        Next
-                    End If
-                End If
-                For Each itemAccounting In item.PortfolioInitialBalanceAccountReceivableAccounting
-                    Dim accountReceivableAccounting As New AccountReceivableAccounting
-                    accountReceivableAccounting.MainAccountId = itemAccounting.MainAccountId
-                    accountReceivableAccounting.ThirdPartyId = itemAccounting.ThirdPartyId
-                    accountReceivableAccounting.CostCenterId = itemAccounting.CostCenterId
-                    accountReceivableAccounting.Value = itemAccounting.Value
-                    accountReceivableAccounting.Balance = itemAccounting.PortfolioInitialBalanceAccountReceivable.Balance
-                    accountReceivable.AccountReceivableAccounting.Add(accountReceivableAccounting)
-                Next
-                If accountReceivable.Id > 0 Then
-                    accountReceivable.MarkAsModified()
-                    _accountReceivableRepository.SaveEntity(accountReceivable)
-                ElseIf Not listAccountReceivableSave.Any(Function(o) o.InvoiceNumber.Equals(item.InvoiceNumber) AndAlso o.AccountReceivableType = item.AccountReceivableType) Then
-                    listAccountReceivableSave.Add(accountReceivable)
-                End If
-            Next
-            _accountReceivableRepository.SaveListAccountReceivable(listAccountReceivableSave)
-            porfolioInitialBalance.Status = 2
-            porfolioInitialBalance.ConfirmationDate = DateTime.Now
-            porfolioInitialBalance.ConfirmationUser = audit.CodeUser
-            porfolioInitialBalance.ModificationDate = DateTime.Now
-            porfolioInitialBalance.ModificationUser = audit.CodeUser
-            porfolioInitialBalance.MarkAsModified()
-            _portfolioInitialBalanceRepository.SaveEntity(porfolioInitialBalance)
-            portfolioInitialBalanceUnitOfWork.Commit()
-            auditProcess = New IndigoAuditSimpleEntity(Of PortfolioInitialBalance)(porfolioInitialBalance, audit, Infrastructure.CrossCutting.Audit.Actions.Confirm, porfolioInitialBalance.OriginalValue)
-            auditProcess.Execute()
-            Return New ActionResult(Of String) With {.StateResult = True, .Message = InvoiceConsecutives, .ObjectEmbbeded = porfolioInitialBalance.Id.ToString()}
-        Catch ex As OptimisticConcurrencyException
-            Return New ActionResult(Of String) With {.StateResult = False, .Message = ResourceManager.GetString("ErrorConcurrence")}
-        Catch ex As DbEntityValidationException
-            IndigoManagementExceptions.HandleException(ex, "ApplicationPolicy")
-            Return New ActionResult(Of String) With {.StateResult = False, .Message = ResourceManager.GetString("ErrorUnknown")}
-        Catch ex As Exception
-            IndigoManagementExceptions.HandleException(ex, "ApplicationPolicy")
-            Return New ActionResult(Of String) With {.StateResult = False, .Message = IndigoManagementExceptions.GetExceptionDetails(ex)}
-        End Try
 
     End Function
 
@@ -641,12 +373,48 @@ Public Class PortfolioInitialBalanceAdminService
                         PortfolioInitialBalance.AnnulmentUser = audit.CodeUser
                         auxPortfolioInitialBalance = PortfolioInitialBalance.OriginalValue
                 End Select
-                _portfolioInitialBalanceRepository.SaveEntity(PortfolioInitialBalance)
-                _portfolioInitialBalanceUnitOfWork.Commit()
+                Dim importPersistenceTimer As Stopwatch = Nothing
+                Dim importedRowsCount As Integer = 0
+                Dim useBulkImportPersistence = PortfolioInitialBalance.Import AndAlso
+                                               PortfolioInitialBalance.PortfolioInitialBalanceAccountReceivable.Count > 0 AndAlso
+                                               PortfolioInitialBalance.PortfolioInitialBalanceAdvance.Count = 0
+                If useBulkImportPersistence Then
+                    importedRowsCount = PortfolioInitialBalance.PortfolioInitialBalanceAccountReceivable.Count
+                    importPersistenceTimer = Stopwatch.StartNew()
+                    _portfolioInitialBalanceRepository.RegisterAccountReceivableImportBatch(PortfolioInitialBalance)
+                    Debug.WriteLine(String.Format(
+                        "Portfolio import: registro EF {0:N2} s; filas {1}.",
+                        importPersistenceTimer.Elapsed.TotalSeconds,
+                        importedRowsCount))
+                    importPersistenceTimer.Restart()
+                Else
+                    _portfolioInitialBalanceRepository.SaveEntity(PortfolioInitialBalance)
+                End If
+                If useBulkImportPersistence Then
+                    _portfolioInitialBalanceRepository.CommitAccountReceivableImportBatch()
+                Else
+                    _portfolioInitialBalanceUnitOfWork.Commit()
+                End If
+                If importPersistenceTimer IsNot Nothing Then
+                    Debug.WriteLine(String.Format(
+                        "Portfolio import: BulkSaveChanges {0:N2} s.",
+                        importPersistenceTimer.Elapsed.TotalSeconds))
+                End If
                 sequenseUnitOfWork.Commit()
                 auditProcess = New IndigoAuditSimpleEntity(Of PortfolioInitialBalance)(PortfolioInitialBalance, audit, status, auxPortfolioInitialBalance)
                 auditProcess.Execute()
                 transaction.Complete()
+                If PortfolioInitialBalance.Import Then
+                    ' El import solo consume Id/Code. Evitar devolver y serializar nuevamente
+                    ' el grafo completo del lote (facturas, accounting y shares).
+                    Dim importSummary As New PortfolioInitialBalance With {
+                        .Id = PortfolioInitialBalance.Id,
+                        .Code = PortfolioInitialBalance.Code,
+                        .Status = PortfolioInitialBalance.Status,
+                        .Import = True
+                    }
+                    Return New ActionResult(Of PortfolioInitialBalance) With {.ObjectEmbbeded = importSummary, .StateResult = True}
+                End If
                 Return New ActionResult(Of PortfolioInitialBalance) With {.ObjectEmbbeded = PortfolioInitialBalance, .StateResult = True}
 
             Catch ex As OptimisticConcurrencyException
@@ -678,7 +446,7 @@ Public Class PortfolioInitialBalanceAdminService
     ''' <param name="data"></param>
     ''' <returns></returns>
     Public Function ValidateFileBillsInitialBalance(data As List(Of ImportFileRow), companyType As Integer) As ActionResult(Of List(Of PortfolioInitialBalanceAccountReceivable)) Implements IPortfolioInitialBalanceAdminService.ValidateFileBillsInitialBalance
-        Dim portfolioService As New PortfolioServices(_accountReceivableRepository, _accountingRepository, _thirdPartyRepository, _customerRepository, _costCenterRepository, _portfolioNoteConceptRepository, _documentTypeRepository, _billingInvoiceCategoriesRepository)
+        Dim portfolioService As New PortfolioServices(_accountReceivableRepository, _accountingRepository, _thirdPartyRepository, _customerRepository, _costCenterRepository, _portfolioNoteConceptRepository, _documentTypeRepository, _billingInvoiceCategoriesRepository, _contractAccountingStructureRepository)
         Return portfolioService.SetBillsImportFile(data, companyType)
     End Function
 
@@ -693,9 +461,7 @@ Public Class PortfolioInitialBalanceAdminService
             End If
             _portfolioInitialBalanceRepository = Nothing
             _accountReceivableRepository = Nothing
-            _portfolioAdvanceRepository = Nothing
             _sequensePortfolioDRepository = Nothing
-            _sequensePortfolioCRepository = Nothing
             _thirdPartyRepository = Nothing
             _customerRepository = Nothing
             _accountingRepository = Nothing

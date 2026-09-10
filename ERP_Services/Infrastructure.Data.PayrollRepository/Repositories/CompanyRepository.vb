@@ -76,7 +76,7 @@ Public Class CompanyRepository
     ''' <returns></returns>
     ''' <remarks></remarks>
     Public Function GetCompanyById(companyId As Integer) As Company Implements ICompanyRepository.GetCompanyById
-        Dim queryCompany = From e In _context.Company.Include("ThirdParty").Include("Fund")
+        Dim queryCompany = From e In _context.Company.Include("ThirdParty").Include("ThirdParty.Person").Include("Fund")
                            Where e.Id = companyId
                            Select e
         If queryCompany.Count > 0 Then

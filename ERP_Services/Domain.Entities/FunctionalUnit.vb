@@ -1291,6 +1291,34 @@ Partial Public Class FunctionalUnit
 
     Private _rIPSSupportRecordDetail As TrackableCollection(Of RIPSSupportRecordDetail)
 
+    ' ⚠️ NO exponer a WCF: Es una tabla de uso interno, no se consume desde cliente
+	Public Property CostIntermediateDistributionServiceQuantity() As TrackableCollection(Of CostIntermediateDistributionServiceQuantity)
+		Get
+            If _costIntermediateDistributionServiceQuantity Is Nothing Then
+                _costIntermediateDistributionServiceQuantity = New TrackableCollection(Of CostIntermediateDistributionServiceQuantity)
+                AddHandler _costIntermediateDistributionServiceQuantity.CollectionChanged, AddressOf FixupCostIntermediateDistributionServiceQuantity
+            End If
+            Return _costIntermediateDistributionServiceQuantity
+        End Get
+        Set(ByVal value As TrackableCollection(Of CostIntermediateDistributionServiceQuantity))
+            If _costIntermediateDistributionServiceQuantity IsNot value Then
+                If ChangeTracker.ChangeTrackingEnabled Then
+                    Throw New InvalidOperationException("Cannot set the FixupChangeTrackingCollection when ChangeTracking is enabled")
+                End If
+                If _costIntermediateDistributionServiceQuantity IsNot Nothing Then
+                    RemoveHandler _costIntermediateDistributionServiceQuantity.CollectionChanged, AddressOf FixupCostIntermediateDistributionServiceQuantity
+                End If
+                _costIntermediateDistributionServiceQuantity = value
+                If _costIntermediateDistributionServiceQuantity IsNot Nothing Then
+                    AddHandler _costIntermediateDistributionServiceQuantity.CollectionChanged, AddressOf FixupCostIntermediateDistributionServiceQuantity
+                End If
+                OnNavigationPropertyChanged("CostIntermediateDistributionServiceQuantity")
+            End If
+        End Set
+    End Property
+
+    Private _costIntermediateDistributionServiceQuantity As TrackableCollection(Of CostIntermediateDistributionServiceQuantity)
+
 #End Region
 
 #Region "ChangeTracking"
@@ -1393,6 +1421,7 @@ Partial Public Class FunctionalUnit
         RequestParamAuthUser.Clear()
         FunctionalUnitUserAuthorizationRequest.Clear()
         RIPSSupportRecordDetail.Clear()
+        CostIntermediateDistributionServiceQuantity.Clear()
     End Sub
 
 #End Region
@@ -2434,6 +2463,35 @@ Partial Public Class FunctionalUnit
                 End If
                 If ChangeTracker.ChangeTrackingEnabled Then
                     ChangeTracker.RecordRemovalFromCollectionProperties("RIPSSupportRecordDetail", item)
+                End If
+            Next
+        End If
+    End Sub
+
+    Private Sub FixupCostIntermediateDistributionServiceQuantity(ByVal sender As Object, ByVal e As NotifyCollectionChangedEventArgs)
+        If IsDeserializing Then
+            Return
+        End If
+
+        If e.NewItems IsNot Nothing Then
+            For Each item As CostIntermediateDistributionServiceQuantity In e.NewItems
+                item.FunctionalUnit = Me
+                If ChangeTracker.ChangeTrackingEnabled Then
+                    If Not item.ChangeTracker.ChangeTrackingEnabled Then
+                        item.StartTracking()
+                    End If
+                    ChangeTracker.RecordAdditionToCollectionProperties("CostIntermediateDistributionServiceQuantity", item)
+                End If
+            Next
+        End If
+
+        If e.OldItems IsNot Nothing Then
+            For Each item As CostIntermediateDistributionServiceQuantity In e.OldItems
+                If item.FunctionalUnit Is Me Then
+                    item.FunctionalUnit = Nothing
+                End If
+                If ChangeTracker.ChangeTrackingEnabled Then
+                    ChangeTracker.RecordRemovalFromCollectionProperties("CostIntermediateDistributionServiceQuantity", item)
                 End If
             Next
         End If

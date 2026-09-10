@@ -91,13 +91,13 @@ Partial Public Class BankFileDetail
         End Set
     End Property
 
-	Private _liquidationId As Integer
+	Private _liquidationId As Integer?
 	<DataMember()>
-	Public Property LiquidationId() As Integer
+	Public Property LiquidationId() As Integer?
         Get
             Return _liquidationId
         End Get
-        Set(ByVal value As Integer)
+        Set(ByVal value As Integer?)
             If Not Equals(_liquidationId, value) Then
                 ChangeTracker.RecordOriginalValue("LiquidationId", _liquidationId)
                 If Not IsDeserializing Then

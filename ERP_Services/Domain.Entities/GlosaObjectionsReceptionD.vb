@@ -153,7 +153,7 @@ Partial Public Class GlosaObjectionsReceptionD
         End Set
     End Property
 
-	Private _comment As String
+    Private _comment As String
 	<DataMember()>
 	Public Property Comment() As String
         Get
@@ -245,8 +245,8 @@ Partial Public Class GlosaObjectionsReceptionD
     End Property
 
 	Private _radicatedObservation As String
-	<DataMember()>
-	Public Property RadicatedObservation() As String
+    <DataMember()>
+    Public Property RadicatedObservation() As String
         Get
             Return _radicatedObservation
         End Get
@@ -254,6 +254,20 @@ Partial Public Class GlosaObjectionsReceptionD
             If Not Equals(_radicatedObservation, value) Then
                 _radicatedObservation = value
                 OnPropertyChanged("RadicatedObservation")
+            End If
+        End Set
+    End Property
+
+    Private _aDRESCode As String
+    <DataMember()>
+    Public Property ADRESCode() As String
+        Get
+            Return _aDRESCode
+        End Get
+        Set(ByVal value As String)
+            If Not Equals(_aDRESCode, value) Then
+                _aDRESCode = value
+                OnPropertyChanged("ADRESCode")
             End If
         End Set
     End Property

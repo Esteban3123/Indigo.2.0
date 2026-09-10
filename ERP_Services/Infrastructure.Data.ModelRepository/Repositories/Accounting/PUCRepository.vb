@@ -148,6 +148,15 @@ Public Class PUCRepository
         Return (From e In _context.MainAccounts.AsNoTracking() Where listCode.Contains(e.Number) And e.LegalBookId = LegalBookId Select e).ToList()
     End Function
 
+    Function GetListAccountByIdPOCO(listId As List(Of Integer)) As List(Of MainAccounts) Implements IPUCRepository.GetListAccountByIdPOCO
+        If listId Is Nothing OrElse listId.Count = 0 Then
+            Return New List(Of MainAccounts)
+        End If
+        Return (From e In _context.MainAccounts.AsNoTracking()
+                Where listId.Contains(e.Id)
+                Select e).ToList()
+    End Function
+
     ''' <summary>
     ''' Funcion para obtener la cuenta por codigo y libro oficial
     ''' </summary>

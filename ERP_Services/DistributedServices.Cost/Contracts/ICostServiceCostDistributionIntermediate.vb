@@ -1,4 +1,4 @@
-﻿'***********************************************************************
+'***********************************************************************
 ' Assembly         : DistributedServices.Cost
 ' Author           : Diego Andrés Roldán Lozano
 ' Created          : 15-01-2015
@@ -33,6 +33,18 @@ Public Interface ICostServiceCostDistributionIntermediate
     Function UpdateStateDistributionIntermediate(code As String, state As Boolean, audit As AuditMessage) As ActionResult(Of CostDistributionIntermediate)
 
     ''' <summary>
+    ''' Confirma una distribución intermedia
+    ''' </summary>
+    <OperationContract()>
+    Function ConfirmDistributionIntermediate(code As String, audit As AuditMessage) As ActionResult(Of CostDistributionIntermediate)
+
+    ''' <summary>
+    ''' Anula una distribución intermedia
+    ''' </summary>
+    <OperationContract()>
+    Function AnnulDistributionIntermediate(code As String, audit As AuditMessage) As ActionResult(Of CostDistributionIntermediate)
+
+    ''' <summary>
     ''' Obtiene una distribucion Intermedia por codigo
     ''' </summary>
     <OperationContract()>
@@ -55,5 +67,11 @@ Public Interface ICostServiceCostDistributionIntermediate
     ''' </summary>
     <OperationContract()>
     Function ListDistributionIntermediateByYearMonth(ByVal year As Integer, ByVal month As Integer) As List(Of CostDistributionIntermediate)
+
+    ''' <summary>
+    ''' Calcula la distribución intermedia basándose en las bases de distribución configuradas
+    ''' </summary>
+    <OperationContract()>
+    Function CalculateDistributionIntermediate(costIntermediateDistributionId As Integer, year As Integer, month As Integer) As ActionResult(Of List(Of CostDistributionIntermediateDetail))
 
 End Interface

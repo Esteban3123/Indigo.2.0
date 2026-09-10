@@ -56,7 +56,7 @@ Public Interface IMixingStationServiceQualityControl
     ''' <param name="audit"></param>
     ''' <returns></returns>
     <OperationContract>
-    Function SaveDefectClassificationByRequestPackageDetailStatus(isQuality As Boolean, requestPackageDetailStatusIds As List(Of Integer), DefectClassificationHeader As DefectClassificationHeaderModel, lst As List(Of DefectClassificationModel), audit As AuditMessage, Optional ForceSave As Boolean = False) As ActionResult
+    Function SaveDefectClassificationByRequestPackageDetailStatus(isQuality As Boolean, requestPackageDetailStatusIds As List(Of Integer), DefectClassificationHeader As DefectClassificationHeaderModel, lst As List(Of DefectClassificationModel), audit As AuditMessage, Optional ForceSave As Boolean = False) As Task(Of ActionResult)
 
     ''' <summary>
     ''' funcion para validar si un producto puede ser rechazado, reprocesado o liberado

@@ -116,9 +116,9 @@ Public Interface ISecurityService
     'Function getInteropCostContainerName() As String
 
     ''' <summary>
-    ''' Obtiene la cadena de conexion
+    ''' Obtiene la cadena de conexión
     ''' </summary>
-    ''' <returns>Nombre del contenedor de Indigo Vie Cloud Platform</returns>
+    ''' <returns>Cadena de conexión vacía por seguridad </returns>
     <OperationContract()>
     Function getIndigoConnectionString() As String
 
@@ -375,12 +375,13 @@ Public Interface ISecurityService
     Function GetEmailUser(ByVal codeUser As String, session As SessionValues) As String
 
     ''' <summary>
-    ''' Lista la contraseña del Usuario.
+    ''' Obtiene la contraseña del usuario
     ''' </summary>
     ''' <param name="codeUser">se envia id de usario.</param>
-    ''' <returns></returns>
+    ''' <returns>Cadena vacía por seguridad (ISSUE-36107)</returns>
     <OperationContract()>
     Function GetPasswordUser(ByVal codeUser As String, session As SessionValues) As String
+
 
     ''' <summary>
     ''' Lista tdos los usuarios del sistema

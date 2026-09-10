@@ -444,7 +444,7 @@ namespace Application.Inventory.PharmaceuticalDispensing
 
                     var xml = pharmaceuticalDispensing.ToXML(true);
                     var result = _pharmaceuticalDispensingRepository.GeneratePharmaceuticalDispensingSP(xml, "", audit.CodeUser);
-                    var ObjResult = result.ToList()[0];
+                    var ObjResult = result.FirstOrDefault();
                     ActionResult<Domain.Entities.PharmaceuticalDispensing> actionResultReturn = new ActionResult<Domain.Entities.PharmaceuticalDispensing>();
 
                     actionResultReturn.Message = ObjResult.Message;

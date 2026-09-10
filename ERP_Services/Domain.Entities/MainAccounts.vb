@@ -1999,6 +1999,34 @@ Partial Public Class MainAccounts
     Private _portfolioInitialBalanceAccountReceivable6 As TrackableCollection(Of PortfolioInitialBalanceAccountReceivable)
 
     <DataMember()>
+	Public Property PortfolioInitialBalanceAccountReceivable7() As TrackableCollection(Of PortfolioInitialBalanceAccountReceivable)
+		Get
+            If _portfolioInitialBalanceAccountReceivable7 Is Nothing Then
+                _portfolioInitialBalanceAccountReceivable7 = New TrackableCollection(Of PortfolioInitialBalanceAccountReceivable)
+                AddHandler _portfolioInitialBalanceAccountReceivable7.CollectionChanged, AddressOf FixupPortfolioInitialBalanceAccountReceivable7
+            End If
+            Return _portfolioInitialBalanceAccountReceivable7
+        End Get
+        Set(ByVal value As TrackableCollection(Of PortfolioInitialBalanceAccountReceivable))
+            If _portfolioInitialBalanceAccountReceivable7 IsNot value Then
+                If ChangeTracker.ChangeTrackingEnabled Then
+                    Throw New InvalidOperationException("Cannot set the FixupChangeTrackingCollection when ChangeTracking is enabled")
+                End If
+                If _portfolioInitialBalanceAccountReceivable7 IsNot Nothing Then
+                    RemoveHandler _portfolioInitialBalanceAccountReceivable7.CollectionChanged, AddressOf FixupPortfolioInitialBalanceAccountReceivable7
+                End If
+                _portfolioInitialBalanceAccountReceivable7 = value
+                If _portfolioInitialBalanceAccountReceivable7 IsNot Nothing Then
+                    AddHandler _portfolioInitialBalanceAccountReceivable7.CollectionChanged, AddressOf FixupPortfolioInitialBalanceAccountReceivable7
+                End If
+                OnNavigationPropertyChanged("PortfolioInitialBalanceAccountReceivable7")
+            End If
+        End Set
+    End Property
+
+    Private _portfolioInitialBalanceAccountReceivable7 As TrackableCollection(Of PortfolioInitialBalanceAccountReceivable)
+
+    <DataMember()>
 	Public Property PortfolioInitialBalanceAccountReceivableAccounting() As TrackableCollection(Of PortfolioInitialBalanceAccountReceivableAccounting)
 		Get
             If _portfolioInitialBalanceAccountReceivableAccounting Is Nothing Then
@@ -7259,6 +7287,7 @@ Partial Public Class MainAccounts
         PortfolioInitialBalanceAccountReceivable4.Clear()
         PortfolioInitialBalanceAccountReceivable5.Clear()
         PortfolioInitialBalanceAccountReceivable6.Clear()
+        PortfolioInitialBalanceAccountReceivable7.Clear()
         PortfolioInitialBalanceAccountReceivableAccounting.Clear()
         PortfolioInitialBalanceAdvance.Clear()
         PortfolioNoteAccountReceivableAdvance.Clear()
@@ -9004,6 +9033,35 @@ Partial Public Class MainAccounts
                 End If
                 If ChangeTracker.ChangeTrackingEnabled Then
                     ChangeTracker.RecordRemovalFromCollectionProperties("PortfolioInitialBalanceAccountReceivable6", item)
+                End If
+            Next
+        End If
+    End Sub
+
+    Private Sub FixupPortfolioInitialBalanceAccountReceivable7(ByVal sender As Object, ByVal e As NotifyCollectionChangedEventArgs)
+        If IsDeserializing Then
+            Return
+        End If
+
+        If e.NewItems IsNot Nothing Then
+            For Each item As PortfolioInitialBalanceAccountReceivable In e.NewItems
+                item.MainAccounts7 = Me
+                If ChangeTracker.ChangeTrackingEnabled Then
+                    If Not item.ChangeTracker.ChangeTrackingEnabled Then
+                        item.StartTracking()
+                    End If
+                    ChangeTracker.RecordAdditionToCollectionProperties("PortfolioInitialBalanceAccountReceivable7", item)
+                End If
+            Next
+        End If
+
+        If e.OldItems IsNot Nothing Then
+            For Each item As PortfolioInitialBalanceAccountReceivable In e.OldItems
+                If item.MainAccounts7 Is Me Then
+                    item.MainAccounts7 = Nothing
+                End If
+                If ChangeTracker.ChangeTrackingEnabled Then
+                    ChangeTracker.RecordRemovalFromCollectionProperties("PortfolioInitialBalanceAccountReceivable7", item)
                 End If
             Next
         End If

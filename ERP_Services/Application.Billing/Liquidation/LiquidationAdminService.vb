@@ -14,7 +14,6 @@ Imports System.Data.Entity.Core
 Imports System.Data.SqlClient
 Imports System.Dynamic
 Imports System.Text
-Imports System.Threading.Tasks
 Imports System.Transactions
 Imports Application.Accounting
 Imports Application.Contract
@@ -154,11 +153,6 @@ Public Class LiquidationAdminService
     ''' </summary>
     Private _feeNotCollectedRepository As IFeeNotCollectedRepository
 
-    ''' <summary>
-    ''' Servicio de validación de mayoría de edad
-    ''' </summary>
-    Private ReadOnly _ageValidationService As ILiquidationAgeValidationAdminService
-
 #End Region
 
 #Region "Builders"
@@ -210,8 +204,7 @@ Public Class LiquidationAdminService
                    invoiceCopayService As IInvoiceCopayAdminService,
                    basicBillingRepository As IBasicBillingRepository,
                    invoiceCopayRepository As IInvoiceCopayRepository,
-                   feeNotCollectedRepository As IFeeNotCollectedRepository,
-                   ageValidationService As ILiquidationAgeValidationAdminService)
+                   feeNotCollectedRepository As IFeeNotCollectedRepository)
         _userRepository = userRepository
         _basicBillingRepository = basicBillingRepository
         _invoiceCopayService = invoiceCopayService
@@ -299,7 +292,6 @@ Public Class LiquidationAdminService
         Me._folioAdminService = folioAdminService
         Me._stayService = stayService
         Me._feeNotCollectedRepository = feeNotCollectedRepository
-        Me._ageValidationService = ageValidationService
     End Sub
 
 #End Region
@@ -1393,13 +1385,16 @@ Public Class LiquidationAdminService
         Dim resultList As New List(Of String)()
         Try
             Dim messageNotificationContract As String = ""
+
+            Dim eventValidate = ValidateExistEvent(EventType.Invoice.ToString(), audit.Company)
+
             Using transaction As New TransactionScope(TransactionScopeOption.Required, New TransactionOptions() With {.Timeout = TransactionManager.MaximumTimeout, .IsolationLevel = IsolationLevel.ReadCommitted})
 
                 For Each revenueControlDetailId As Integer In RevenueControlDetailIdsToLiquidate
                     'Primero Actualizamos el folio agregando el número de autorización
                     'Anulación de la factura
                     Dim invoiceId = _invoiceRepository.Query(Function(m) m.RevenueControlDetailId = revenueControlDetailId).Select(Function(m) m.Id).FirstOrDefault()
-                    Dim resultAnulateInvoice As ActionResult(Of SP_AnulateInvoice_Result) = Me.AnulateInvoice(revenueControlDetailId, OperativeUnitId, ReversalReasonId, ReversalDescription, containerHist, patientCode, audit, TransactionContainer)
+                    Dim resultAnulateInvoice As ActionResult(Of SP_AnulateInvoice_Result) = Me.AnulateInvoice(revenueControlDetailId, OperativeUnitId, ReversalReasonId, ReversalDescription, containerHist, patientCode, audit, TransactionContainer, eventValidate)
                     If resultAnulateInvoice.StateResult = False Then
                         errorList.AppendLine(resultAnulateInvoice.Message)
                     Else
@@ -1473,7 +1468,7 @@ Public Class LiquidationAdminService
     ''' </summary>
     ''' <param name="audit">The audit.</param>
     ''' <returns></returns>
-    Private Function AnulateInvoice(folioId As Integer, OperativeUnitId As Integer, ReversalReasonId As Integer, ReversalDescription As String, containerHis As String, patientCode As String, audit As AuditMessage, TransactionContainer As String) As ActionResult(Of SP_AnulateInvoice_Result)
+    Private Function AnulateInvoice(folioId As Integer, OperativeUnitId As Integer, ReversalReasonId As Integer, ReversalDescription As String, containerHis As String, patientCode As String, audit As AuditMessage, TransactionContainer As String, eventValidate As Boolean) As ActionResult(Of SP_AnulateInvoice_Result)
         Dim errorList As New StringBuilder()
         Dim resultMessage As New StringBuilder()
         Try
@@ -1490,21 +1485,11 @@ Public Class LiquidationAdminService
 
             'Aqui validamos, si es una factura electronica para realizar el registro de la nota Credito por la anulacion
             If String.IsNullOrEmpty(invoice.CUFE) = False Then
-                'Secuencia de la Nota para los Documentos Electronicos
-                Dim sequence As BillingSequence = _sequenseRepository.GetSequenseByIdForm("2037")
-                If (sequence IsNot Nothing AndAlso sequence.Id > 0 AndAlso sequence.Sequential AndAlso sequence.BillingSequenceDetail IsNot Nothing AndAlso sequence.BillingSequenceDetail.Count > 0) Then
-                    codeNote = Infrastructure.CrossCutting.Base.Sequense.GetSequense(sequence.BillingSequenceDetail.First().Sequense.Pattern, sequence.BillingSequenceDetail.First().Next)
-                    If (codeNote Is Nothing OrElse codeNote.Equals(Infrastructure.CrossCutting.Base.Sequense.ERROR_MAXVALUE)) Then
-                        Return New ActionResult(Of SP_AnulateInvoice_Result) With {.StateResult = False, .Message = "La secuencia para cuentas por cobrar alcanzo su valor maximo."}
-                    End If
-
-                    Dim unitOfWorkSequence As IUnitWork = _sequenseRepository.UnitWork
-                    sequence.BillingSequenceDetail.First().Next += 1
-                    _sequenseRepository.SaveEntity(sequence)
-                    unitOfWorkSequence.Commit()
-                Else
-                    Return New ActionResult(Of SP_AnulateInvoice_Result) With {.StateResult = False, .Message = "La secuencia para las Notas Crédito de Facturacion Electronica no esta parametrizada o no es secuencial."}
+                Dim reservation = _sequenseRepository.ReserveNextFormattedCodeByFormId("2037")
+                If Not reservation.Success Then
+                    Return New ActionResult(Of SP_AnulateInvoice_Result) With {.StateResult = False, .Message = reservation.Message}
                 End If
+                codeNote = reservation.Code
             End If
 
             Dim resultAnullateInvoice = _revenueControlDetailRepository.SP_AnulateInvoice(OperativeUnitId, folioId, ReversalReasonId, ReversalDescription, audit.CodeUser, containerHis, patientCode, companyType)
@@ -1598,8 +1583,6 @@ Public Class LiquidationAdminService
             End If
 
             resultMessage.AppendLine(resultAnullateInvoice.MessageResult)
-
-            Dim eventValidate = ValidateExistEvent(EventType.Invoice.ToString(), audit.Company)
 
             ''validacion si se debe publicar un evento o no
             If eventValidate Then
@@ -1928,6 +1911,11 @@ Public Class LiquidationAdminService
             End If
 
             Dim revenueControlDetailCrossingListXml As String = Me.GenerateRevenueControlDetailCrossingListXml(revenueControlDetailCrossingList, session)
+            Dim eventValidate = ValidateExistEvent(EventType.Invoice.ToString(), audit.Company)
+
+            Dim linvoices As New List(Of InvoiceResult)()
+            Dim messageResult As String = Nothing
+
             'Liquidar Factura
             Using scope As New TransactionScope(TransactionScopeOption.Required, New TransactionOptions() With {.IsolationLevel = IsolationLevel.ReadCommitted, .Timeout = TransactionManager.MaximumTimeout}, TransactionScopeAsyncFlowOption.Enabled)
                 Try
@@ -1941,12 +1929,11 @@ Public Class LiquidationAdminService
                         Return New ActionResult(Of List(Of InvoiceResult))(False, Nothing, message, Nothing)
                     End If
 
-                    Dim linvoices As New List(Of InvoiceResult)()
                     For Each r As LiquidateFolio_Result In result
                         linvoices.Add(New InvoiceResult() With {.InvoiceId = r.InvoiceId, .InvoiceNumber = r.InvoiceNumber})
                     Next
 
-                    Dim messageResult = result(0).Message
+                    messageResult = result(0).Message
                     If Not resValidationStay.StateResult Then
                         Dim messages = messageResult.Split(vbCrLf).Where(Function(m) Not m.Equals(vbCrLf) AndAlso Not m.Equals(vbLf) AndAlso Not m.Equals(String.Empty)).ToList()
                         messages.Add("Existen ítems por generar en control de cuentas hospitalario")
@@ -1968,9 +1955,6 @@ Public Class LiquidationAdminService
                         End If
                     End If
 
-                    Dim eventValidate = ValidateExistEvent(EventType.Invoice.ToString(), audit.Company)
-
-                    ' se valida si se debe publicar o no un evento
                     If eventValidate Then
 
                         Dim data As Object
@@ -1985,7 +1969,7 @@ Public Class LiquidationAdminService
                             source = EventType.Invoice.ToString()
                         Else
                             'si se se genera alguna Exception dentro de la creacion del jsom y enviamos un jsom de error para que quede registrado en la DeadLetterMessageAsync
-                            'enviar json de error 
+                            'enviar json de error
                             Dim errorHandler As New ErrorHandler()
 
                             errorHandler.InvoiceNumber = String.Join(", ", linvoices.Select(Function(inv) inv.InvoiceNumber))
@@ -2001,8 +1985,10 @@ Public Class LiquidationAdminService
 
                     End If
 
+                    Dim invoiceMessageResult = result(0).MessageResult.ToString()
+
                     scope.Complete()
-                    Return New ActionResult(Of List(Of InvoiceResult))(True, result(0).MessageResult.ToString().Split("@").ToList().FindAll(Function(x) Not x.Equals("")), messageResult, linvoices)
+                    Return New ActionResult(Of List(Of InvoiceResult))(True, invoiceMessageResult.Split("@").ToList().FindAll(Function(x) Not x.Equals("")), messageResult, linvoices)
                 Catch ex As Exception
                     scope.Dispose()
                     IndigoManagementExceptions.HandleException(ex, "ApplicationPolicy", session)
@@ -2220,24 +2206,29 @@ Public Class LiquidationAdminService
     ''' <param name="type"></param>
     ''' <param name="company"></param>
     ''' <returns></returns>
-    Public Function ValidateExistEvent(type As String, company As String)
+    Public Function ValidateExistEvent(type As String, company As String) As Boolean
         Dim securityContainer = ConfigurationManager.AppSettings.Get("containerSecurity")
         Dim validateEventConfiguration As EventConfiguration = Nothing
 
-        ''se realiza la consulta a la tabla eventconfiguration
-        Using context As New SecurityContext(
-                Utils.GetEntityConnectionString(ConfigurationFile.CONX_GENESIS, String.Empty, securityContainer, True)
-            )
-            validateEventConfiguration = (From ec In context.EventsConfiguration.AsNoTracking()
-                                          Where ec.Container.Code = company And ec.Code = type).SingleOrDefault()
-        End Using
+        Try
+            Using transaction As New TransactionScope(TransactionScopeOption.Suppress)
+                ''se realiza la consulta a la tabla eventconfiguration
+                Using context As New SecurityContext(
+                        Utils.GetEntityConnectionString(ConfigurationFile.CONX_GENESIS, String.Empty, securityContainer, True)
+                    )
+                    validateEventConfiguration = (From ec In context.EventsConfiguration.AsNoTracking()
+                                                  Where ec.Container.Code = company And ec.Code = type).SingleOrDefault()
+                End Using
 
-        ''si existe un evento a publicar se retorna true
-        If validateEventConfiguration IsNot Nothing Then
-            Return True
-        Else
-            Return False
-        End If
+                transaction.Complete()
+            End Using
+
+            ''si existe un evento a publicar se retorna true
+            Return validateEventConfiguration IsNot Nothing
+        Catch ex As Exception
+            Dim message = $"Error validando evento '{type}' compañía '{company}' (containerSecurity='{securityContainer}'): {ex}"
+            Throw New Exception(message)
+        End Try
 
 
     End Function
@@ -2996,20 +2987,6 @@ Public Class LiquidationAdminService
     End Function
 
     ''' <summary>
-    ''' Funcion que retorna los datos para el reporte de estadistico de facturacion
-    ''' </summary>
-    ''' <returns></returns>
-    Public Function ReportBillingStadistics(XmlCriterials As String, XmlFilters As String, session As SessionValues) As List(Of SP_ReportBillingStadistics_Result) Implements ILiquidationAdminService.ReportBillingStadistics
-        Try
-            ReportBillingStadisticsData = _settingBillingRepository.GetReportBillingStadistics(XmlCriterials, XmlFilters)
-            Return ReportBillingStadisticsData
-        Catch ex As Exception
-            IndigoManagementExceptions.HandleException(ex, "ApplicationPolicy")
-            Return Nothing
-        End Try
-    End Function
-
-    ''' <summary>
     ''' Funcion que retorna el conteo de registros para validar antes de ejecutar el reporte estadistico de facturacion
     ''' </summary>
     ''' <param name="XmlCriterials">Criterios de busqueda</param>
@@ -3024,6 +3001,19 @@ Public Class LiquidationAdminService
         End Try
     End Function
 
+    ''' <summary>
+    ''' Funcion que retorna los datos para el reporte de estadistico de facturacion
+    ''' </summary>
+    ''' <returns></returns>
+    Public Function ReportBillingStadistics(XmlCriterials As String, XmlFilters As String, session As SessionValues) As List(Of SP_ReportBillingStadistics_Result) Implements ILiquidationAdminService.ReportBillingStadistics
+        Try
+            ReportBillingStadisticsData = _settingBillingRepository.GetReportBillingStadistics(XmlCriterials, XmlFilters)
+            Return ReportBillingStadisticsData
+        Catch ex As Exception
+            IndigoManagementExceptions.HandleException(ex, "ApplicationPolicy")
+            Return Nothing
+        End Try
+    End Function
 
     ''' <summary>
     ''' Método que obtiene la información del sp de estadísitco de ingresos
@@ -3907,6 +3897,12 @@ Public Class LiquidationAdminService
         Try
             Using scope As New TransactionScope(TransactionScopeOption.Required, New TransactionOptions() With {.Timeout = TransactionManager.MaximumTimeout, .IsolationLevel = IsolationLevel.ReadCommitted})
                 Dim revenueControlDetail As RevenueControlDetail = _revenueControlDetailRepository.GetRevenueControlDetailByIdWithIncludes(FolioId)
+
+                If revenueControlDetail Is Nothing Then
+                    scope.Dispose()
+                    Return New ActionResult With {.StatusCode = eStatusResult.WARNING, .Message = $"No se encontró el folio con Id {FolioId}"}
+                End If
+
                 revenueControlDetail.InvoiceCategoryId = CategoryId
                 If revenueControlDetail.Status = 2 Then
                     Dim invoice As Invoice = _invoiceRepository.GetInvoiceByRevenueControlDetailId(revenueControlDetail.Id)
@@ -4418,43 +4414,6 @@ Public Class LiquidationAdminService
         Catch ex As Exception
             IndigoManagementExceptions.HandleException(ex, "ApplicationPolicy")
             Return New ActionResult(Of List(Of ADINGRESO)) With {.StateResult = False, .Message = ex.Message}
-        End Try
-    End Function
-
-#End Region
-
-#Region "Age Validation Methods"
-
-    ''' <summary>
-    ''' Valida si el tercero cumple con la mayoría de edad para facturación
-    ''' </summary>
-    ''' <param name="thirdPartyId">Id del tercero a validar</param>
-    ''' <param name="operativeUnitId">Id de la unidad operativa</param>
-    ''' <param name="admissionNumber">Número de ingreso para buscar responsable sugerido</param>
-    ''' <returns>Resultado de la validación con información del responsable sugerido si aplica</returns>
-    Public Async Function ValidateAgeOfMajorityForLiquidation(thirdPartyId As Integer, operativeUnitId As Integer, admissionNumber As String) As Task(Of ActionResult(Of AgeValidationResult)) Implements ILiquidationAdminService.ValidateAgeOfMajorityForLiquidation
-        Try
-            Return Await _ageValidationService.ValidateAgeOfMajorityAsync(thirdPartyId, operativeUnitId, admissionNumber)
-        Catch ex As Exception
-            IndigoManagementExceptions.HandleException(ex, "ApplicationPolicy")
-            Return New ActionResult(Of AgeValidationResult) With {
-                .StateResult = False,
-                .Message = $"Error al validar mayoría de edad: {ex.Message}"
-            }
-        End Try
-    End Function
-
-    ''' <summary>
-    ''' Verifica si el parámetro de validación de mayoría de edad está activo
-    ''' </summary>
-    ''' <param name="operativeUnitId">Id de la unidad operativa</param>
-    ''' <returns>True si el parámetro está activo</returns>
-    Public Function IsAgeValidationEnabled(operativeUnitId As Integer) As Boolean Implements ILiquidationAdminService.IsAgeValidationEnabled
-        Try
-            Return _ageValidationService.IsAgeValidationEnabled(operativeUnitId)
-        Catch ex As Exception
-            IndigoManagementExceptions.HandleException(ex, "ApplicationPolicy")
-            Return False
         End Try
     End Function
 

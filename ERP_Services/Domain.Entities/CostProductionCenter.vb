@@ -455,6 +455,34 @@ Partial Public Class CostProductionCenter
 
     Private _costDistributionIntermediateDetail As TrackableCollection(Of CostDistributionIntermediateDetail)
 
+    ' ⚠️ NO exponer a WCF: Es una tabla de uso interno, no se consume desde cliente
+	Public Property CostIntermediateDistributionServiceQuantity() As TrackableCollection(Of CostIntermediateDistributionServiceQuantity)
+		Get
+            If _costIntermediateDistributionServiceQuantity Is Nothing Then
+                _costIntermediateDistributionServiceQuantity = New TrackableCollection(Of CostIntermediateDistributionServiceQuantity)
+                AddHandler _costIntermediateDistributionServiceQuantity.CollectionChanged, AddressOf FixupCostIntermediateDistributionServiceQuantity
+            End If
+            Return _costIntermediateDistributionServiceQuantity
+        End Get
+        Set(ByVal value As TrackableCollection(Of CostIntermediateDistributionServiceQuantity))
+            If _costIntermediateDistributionServiceQuantity IsNot value Then
+                If ChangeTracker.ChangeTrackingEnabled Then
+                    Throw New InvalidOperationException("Cannot set the FixupChangeTrackingCollection when ChangeTracking is enabled")
+                End If
+                If _costIntermediateDistributionServiceQuantity IsNot Nothing Then
+                    RemoveHandler _costIntermediateDistributionServiceQuantity.CollectionChanged, AddressOf FixupCostIntermediateDistributionServiceQuantity
+                End If
+                _costIntermediateDistributionServiceQuantity = value
+                If _costIntermediateDistributionServiceQuantity IsNot Nothing Then
+                    AddHandler _costIntermediateDistributionServiceQuantity.CollectionChanged, AddressOf FixupCostIntermediateDistributionServiceQuantity
+                End If
+                OnNavigationPropertyChanged("CostIntermediateDistributionServiceQuantity")
+            End If
+        End Set
+    End Property
+
+    Private _costIntermediateDistributionServiceQuantity As TrackableCollection(Of CostIntermediateDistributionServiceQuantity)
+
     <DataMember()>
 	Public Property CostDistributionManpowerDetail() As TrackableCollection(Of CostDistributionManpowerDetail)
 		Get
@@ -945,6 +973,7 @@ Partial Public Class CostProductionCenter
         CostDistributionFixedAssetDetail.Clear()
         CostDistributionIntermediate.Clear()
         CostDistributionIntermediateDetail.Clear()
+        CostIntermediateDistributionServiceQuantity.Clear()
         CostDistributionManpowerDetail.Clear()
         CostDistributionSecondary.Clear()
         CostDistributionSecondaryBaseDetail.Clear()
@@ -1221,6 +1250,35 @@ Partial Public Class CostProductionCenter
                 End If
                 If ChangeTracker.ChangeTrackingEnabled Then
                     ChangeTracker.RecordRemovalFromCollectionProperties("CostDistributionIntermediateDetail", item)
+                End If
+            Next
+        End If
+    End Sub
+
+    Private Sub FixupCostIntermediateDistributionServiceQuantity(ByVal sender As Object, ByVal e As NotifyCollectionChangedEventArgs)
+        If IsDeserializing Then
+            Return
+        End If
+
+        If e.NewItems IsNot Nothing Then
+            For Each item As CostIntermediateDistributionServiceQuantity In e.NewItems
+                item.CostProductionCenter = Me
+                If ChangeTracker.ChangeTrackingEnabled Then
+                    If Not item.ChangeTracker.ChangeTrackingEnabled Then
+                        item.StartTracking()
+                    End If
+                    ChangeTracker.RecordAdditionToCollectionProperties("CostIntermediateDistributionServiceQuantity", item)
+                End If
+            Next
+        End If
+
+        If e.OldItems IsNot Nothing Then
+            For Each item As CostIntermediateDistributionServiceQuantity In e.OldItems
+                If item.CostProductionCenter Is Me Then
+                    item.CostProductionCenter = Nothing
+                End If
+                If ChangeTracker.ChangeTrackingEnabled Then
+                    ChangeTracker.RecordRemovalFromCollectionProperties("CostIntermediateDistributionServiceQuantity", item)
                 End If
             Next
         End If

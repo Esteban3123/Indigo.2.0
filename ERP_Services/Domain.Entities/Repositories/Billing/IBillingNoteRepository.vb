@@ -1,4 +1,4 @@
-﻿'************************************************************
+'************************************************************
 ' Assembly         : Domain.Billing
 ' Author           : Miguel Angel Fonseca Castro
 ' Created          : 2018-10-17
@@ -27,6 +27,13 @@ Public Interface IBillingNoteRepository
     ''' </summary>
     ''' <param name="Id">The identifier.</param>
     ''' <returns></returns>
-    Function GetBillingNoteByIdWithAggregates(ByVal Id As Integer) As BillingNote
+    Function GetBillingNoteByIdWithAggregates(ByVal Id As Integer, Optional xmlDianGenerate As Boolean = False) As BillingNote
+
+    ''' <summary>
+    ''' Obtiene el ConceptId de PortfolioNoteAccountReceivableAdvance para el DiscrepancyResponse
+    ''' </summary>
+    ''' <param name="billingNoteId">Id de la BillingNote</param>
+    ''' <returns>ConceptId o Nothing si no existe</returns>
+    Function GetDiscrepancyConceptIdByBillingNoteId(ByVal billingNoteId As Integer) As Integer?
 
 End Interface

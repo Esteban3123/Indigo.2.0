@@ -365,6 +365,38 @@ Partial Public Class SP_ReportHumanTalent_Result
 
     Private _totalPendingVacationDays As Nullable(Of Integer)
 
+    <DataMember()>
+    Public Property EmployeeId() As Integer
+        Get
+            Return _employeeId
+        End Get
+        Set(ByVal value As Integer)
+            If Not Equals(_employeeId, value) Then
+                OnComplexPropertyChanging()
+                _employeeId = value
+                OnPropertyChanged("EmployeeId")
+            End If
+        End Set
+    End Property
+
+    Private _employeeId As Integer
+
+    <DataMember()>
+    Public Property PayrollDate() As String
+        Get
+            Return _payrollDate
+        End Get
+        Set(ByVal value As String)
+            If Not Equals(_payrollDate, value) Then
+                OnComplexPropertyChanging()
+                _payrollDate = value
+                OnPropertyChanged("PayrollDate")
+            End If
+        End Set
+    End Property
+
+    Private _payrollDate As String
+
 #End Region
 
 #Region "ChangeTracking"
@@ -410,6 +442,8 @@ Partial Public Class SP_ReportHumanTalent_Result
         changeTracker.RecordOriginalValue(String.Format(CultureInfo.InvariantCulture, "{0}.BankAccountNumber", parentPropertyName), If(complexObject Is Nothing, Nothing, complexObject.BankAccountNumber))
         changeTracker.RecordOriginalValue(String.Format(CultureInfo.InvariantCulture, "{0}.EmailAddress", parentPropertyName), If(complexObject Is Nothing, Nothing, complexObject.EmailAddress))
         changeTracker.RecordOriginalValue(String.Format(CultureInfo.InvariantCulture, "{0}.TotalPendingVacationDays", parentPropertyName), If(complexObject Is Nothing, Nothing, complexObject.TotalPendingVacationDays))
+        changeTracker.RecordOriginalValue(String.Format(CultureInfo.InvariantCulture, "{0}.EmployeeId", parentPropertyName), If(complexObject Is Nothing, Nothing, complexObject.EmployeeId))
+        changeTracker.RecordOriginalValue(String.Format(CultureInfo.InvariantCulture, "{0}.PayrollDate", parentPropertyName), If(complexObject Is Nothing, Nothing, complexObject.PayrollDate))
     End Sub
 
 #End Region

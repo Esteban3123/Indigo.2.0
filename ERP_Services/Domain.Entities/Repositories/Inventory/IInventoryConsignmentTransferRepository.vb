@@ -16,5 +16,4 @@ Public Interface IInventoryConsignmentTransferRepository
 
     Function GetByCode(code As String) As ConsignmentTransfer
 
-    Function SetConsignmentTransferDetailFromFile(xmlObject As String) As List(Of SP_SetConsignmentTransferDetailFromFile_Result)
 End Interface

@@ -2,7 +2,6 @@
 Imports System.Text
 Imports Domain.Base.Entities
 Imports Domain.Crystal
-Imports Domain.Entities
 Imports Domain.Payroll
 Imports Infrastructure.CrossCutting.Base
 Imports Infrastructure.CrossCutting.Exceptions
@@ -137,8 +136,8 @@ Public Class InventoryServices
     ''' <param name="documentDate"></param>
     ''' <returns></returns>
     ''' <remarks></remarks>
-    Public Function ValidateInventoryPeriod(documentDate As DateTime, OperatingUnit As Integer) As ActionResult(Of SettingInventory) Implements IInventoryService.ValidateInventoryPeriod
-        Dim settingInventory = _settingInventoryrepository.GetSettingInventoryByOperatingUnitId(OperatingUnit)
+    Public Function ValidateInventoryPeriod(documentDate As DateTime, OperatingUnitId As Integer) As ActionResult(Of SettingInventory) Implements IInventoryService.ValidateInventoryPeriod
+        Dim settingInventory = _settingInventoryrepository.GetSettingInventoryByOperatingUnitId(OperatingUnitId)
         If settingInventory Is Nothing Then
             Return New ActionResult(Of SettingInventory) With {.StateResult = False, .Message = "No se ha creado una configuración para el modulo de inventarios"}
         Else
@@ -149,15 +148,6 @@ Public Class InventoryServices
         Return New ActionResult(Of SettingInventory) With {.StateResult = True, .ObjectEmbbeded = settingInventory}
     End Function
 
-    ''' <summary>
-    ''' valida informacion extraida del Excel para ConsignmentTransfer
-    ''' </summary>
-    Public Function SetConsignmentTransferImportFile(dataimport As List(Of ImportFileRow), sourceWarehouseId As Integer) As ActionResult(Of List(Of ConsignmentTransferDetail)) Implements IInventoryService.SetConsignmentTransferImportFile
-        Return New ActionResult(Of List(Of ConsignmentTransferDetail)) With {
-        .StateResult = True,
-        .ObjectEmbbeded = New List(Of ConsignmentTransferDetail)
-    }
-    End Function
 
 #Region "Validate Stock"
 
@@ -1299,11 +1289,11 @@ Public Class InventoryServices
                 Continue For
             End If
 
-            If Not _products.Any(Function(f) f.Code = row.Row.Item(0).ToString()) Then
+            If Not _products.Any(Function(f) f.Code.Trim() = row.Row.Item(0).ToString().Trim()) Then
                 listErrors.Add(String.Format("El producto {0} No existe", row.Row.Item(0).ToString()))
                 Continue For
             Else
-                Product = _products.Where(Function(x) x.Code = row.Row.Item(0).ToString()).FirstOrDefault
+                Product = _products.Where(Function(x) x.Code.Trim() = row.Row.Item(0).ToString().Trim()).FirstOrDefault
             End If
 
             If row.Row.Item(1) Is Nothing OrElse Not IsNumeric(row.Row.Item(1)) OrElse Not {1, 2, 3}.Contains(row.Row.Item(1)) Then
@@ -1544,11 +1534,11 @@ Public Class InventoryServices
                 Continue For
             End If
 
-            If Not _products.Any(Function(f) f.Code = data.Item(i).Item(0)) Then
+            If Not _products.Any(Function(f) f.Code.Trim() = data.Item(i).Item(0).ToString().Trim()) Then
                 listErrors.Add(String.Format("El producto {0} No existe", data.Item(i).Item(0).ToString()))
                 Continue For
             Else
-                Product = _products.Where(Function(x) x.Code = data.Item(i).Item(0)).FirstOrDefault
+                Product = _products.Where(Function(x) x.Code.Trim() = data.Item(i).Item(0).ToString().Trim()).FirstOrDefault
             End If
 
             If data.Item(i).Item(1) Is String.Empty OrElse Not IsNumeric(data.Item(i).Item(1)) OrElse Not {1, 2, 3}.Contains(data.Item(i).Item(1)) Then
@@ -2272,11 +2262,11 @@ Public Class InventoryServices
         disposedValue = True
     End Sub
 
+    ' Visual Basic agrega este código para implementar correctamente el patrón descartable.
     Public Sub Dispose() Implements IDisposable.Dispose
         Dispose(True)
         GC.SuppressFinalize(Me)
     End Sub
-
 #End Region
 
 End Class

@@ -1327,6 +1327,10 @@ Public Class LiquidationFunctions
         Dim IncentivePaymentVacationValue As Decimal = 0
         Dim VacationalIncreaseValue As Decimal = 0
         Dim CompensationValueVacation As Decimal = 0
+        Dim ImmediateVacationValue As Decimal = 0
+        Dim ImmediateVacationBonificationValue As Decimal = 0
+        Dim ImmediateVacationIncentivePaymentValue As Decimal = 0
+        Dim ImmediateVacationalIncreaseValue As Decimal = 0
 
         Dim VacationValueRTF As Decimal = 0
         Dim VacationHealthRTF As Decimal = 0
@@ -1390,41 +1394,21 @@ Public Class LiquidationFunctions
                     'Si las vacaciones inician y finalizan en el mes
                     If PayrollStarDate <= InitialVacationDate And PayrollEndingDate >= EndVacationDate Then
                         VacationDays = VacationDays + Math.Abs(liquidationPayrollDomain.Days360(InitialVacationDate, EndVacationDate))
-
-                        ' Ajuste para día 31: Days360 no cuenta correctamente el día 31
-                        If EndVacationDate.Day = 31 And EndVacationDate <= PayrollEndingDate Then
-                            VacationDays = VacationDays + 1
-                        End If
                     End If
 
                     'Si las vacaciones iniciaron un mes antes y terminan este mes
                     If PayrollStarDate > InitialVacationDate And PayrollEndingDate >= EndVacationDate And EndVacationDate >= PayrollStarDate Then
                         VacationDays = VacationDays + liquidationPayrollDomain.Days360(PayrollStarDate, EndVacationDate)
-
-                        ' Ajuste para día 31: Days360 no cuenta correctamente el día 31
-                        If EndVacationDate.Day = 31 And EndVacationDate <= PayrollEndingDate Then
-                            VacationDays = VacationDays + 1
-                        End If
                     End If
 
                     'Si las vacaciones incian este mes y terminan después
                     If PayrollStarDate <= InitialVacationDate And PayrollEndingDate < EndVacationDate Then
                         VacationDays = VacationDays + liquidationPayrollDomain.Days360(InitialVacationDate, PayrollEndingDate)
-
-                        ' Ajuste para día 31: Days360 no cuenta correctamente el día 31
-                        If PayrollEndingDate.Day = 31 Then
-                            VacationDays = VacationDays + 1
-                        End If
                     End If
 
                     'Si las vacaciones iniciaron un mes antes y finalizan uno despúes
                     If PayrollStarDate > InitialVacationDate And PayrollEndingDate < EndVacationDate Then
                         VacationDays = VacationDays + liquidationPayrollDomain.Days360(PayrollStarDate, PayrollEndingDate)
-
-                        ' Ajuste para día 31: Days360 no cuenta correctamente el día 31
-                        If PayrollEndingDate.Day = 31 Then
-                            VacationDays = VacationDays + 1
-                        End If
                     End If
 
                     If ObjVacation.TypeVacation = 1 Or ObjVacation.TypeVacation = 4 Then
@@ -1477,6 +1461,13 @@ Public Class LiquidationFunctions
 
                 End If
 
+                If ObjVacation.TypePayment = 1 Then
+                    ImmediateVacationValue = ImmediateVacationValue + ObjVacation.VacationValue
+                    ImmediateVacationBonificationValue = ImmediateVacationBonificationValue + ObjVacation.VacationBonificationValue.GetValueOrDefault()
+                    ImmediateVacationIncentivePaymentValue = ImmediateVacationIncentivePaymentValue + ObjVacation.IncentivePaymentVacationValue.GetValueOrDefault()
+                    ImmediateVacationalIncreaseValue = ImmediateVacationalIncreaseValue + ObjVacation.VacationalIncreaseValue.GetValueOrDefault()
+                End If
+
                 If ObjVacation.TypeVacation = 2 Then
                     If ObjVacation.LiquidationDate Is Nothing Then
                         PaidCredit = 0
@@ -1514,6 +1505,10 @@ Public Class LiquidationFunctions
             descriptions.Add(New Tuple(Of String, Decimal)("AportePensionVacaciones", VacationPensionRTF))
             descriptions.Add(New Tuple(Of String, Decimal)("ValorVacacionesCompensadas", CompensationValueVacation))
             descriptions.Add(New Tuple(Of String, Decimal)("DiasVacacionesCompensadas", VacationDaysInCash))
+            descriptions.Add(New Tuple(Of String, Decimal)("ValorVacacionesPagoInmediato", ImmediateVacationValue))
+            descriptions.Add(New Tuple(Of String, Decimal)("BonificacionVacacionesPagoInmediato", ImmediateVacationBonificationValue))
+            descriptions.Add(New Tuple(Of String, Decimal)("PrimaVacacionesPagoInmediato", ImmediateVacationIncentivePaymentValue))
+            descriptions.Add(New Tuple(Of String, Decimal)("IncrementoVacacionesPagoInmediato", ImmediateVacationalIncreaseValue))
 
         End If
 
@@ -1684,7 +1679,7 @@ Public Class LiquidationFunctions
 
     End Function
 
-    Public Function AnalisisNovelty(liquidationPayrollDomain As ILiquidationDomain, ContractEmployee As Entities.Contract, PayrollStarDate As Date, PayrollEndingDate As Date, ListNovelties As List(Of Novelty), PayrollDays As Integer, noveltyRepository As INoveltyRepository, ByRef VacationInitialModifiedDate As Date?, ByRef VacationEndModifiedDate As Date?, ByVal SessionValues As SessionValues, ByRef shouldExcludeAccruedDeducted As Boolean, Optional Day31 As Boolean = False) As List(Of Tuple(Of String, Integer, Decimal, Decimal, Date, Date, String, Tuple(Of Integer, Decimal, Decimal, Integer, Integer, Byte))) Implements ILiquidationFunctions.AnalisisNovelty
+    Public Function AnalisisNovelty(liquidationPayrollDomain As ILiquidationDomain, ContractEmployee As Entities.Contract, PayrollStarDate As Date, PayrollEndingDate As Date, ListNovelties As List(Of Novelty), PayrollDays As Integer, noveltyRepository As INoveltyRepository, ByRef VacationInitialModifiedDate As Date?, ByRef VacationEndModifiedDate As Date?, ByVal SessionValues As SessionValues, Optional Day31 As Boolean = False, Optional LegalSalaryMinimum As Decimal = 0) As List(Of Tuple(Of String, Integer, Decimal, Decimal, Date, Date, String, Tuple(Of Integer, Decimal, Decimal, Integer, Integer, Byte))) Implements ILiquidationFunctions.AnalisisNovelty
 
         Dim descriptions As New List(Of Tuple(Of String, Integer, Decimal, Decimal, Date, Date, String, Tuple(Of Integer, Decimal, Decimal, Integer, Integer, Byte)))
 
@@ -1792,6 +1787,15 @@ Public Class LiquidationFunctions
                 Return descriptions
             End If
 
+            ' Otrosí con cambio de grupo: el contrato cerrado (Valid=False) no debe procesar
+            ' novedades de otro grupo que se extiendan más allá de su fecha de fin; esas novedades
+            ' las asumirá el nuevo contrato (Valid=True) del período.
+            If ContractEmployee.Valid = False AndAlso
+               ContractEmployee.GroupId <> ObjNovelty.GroupId AndAlso
+               ObjNovelty.EndDate > ContractEmployee.ContractEndingDate Then
+                Continue For
+            End If
+
             VacationEndModifiedDate = ObjNovelty.VacationEndDateNovelty
             VacationInitialModifiedDate = ObjNovelty.VacationInitialDateNovelty
 
@@ -1863,48 +1867,35 @@ Public Class LiquidationFunctions
 
                 TotalInabilties = TotalInabilties + AmbulatoryInabilityDays
 
-                'Calcular el 50% del salario base del empleado cuando el total de días supera 90
-                If totalDaysExtension > 90 Then
-                    Dim baseSalary As Decimal = ObjNovelty.EmployeeBaseSalary
-                    Dim fiftyPercentSalary As Decimal = baseSalary * 0.5
+                ' Prórrogas que superan los 90 días: los días 91+ se pagan al 50% (Art. 227 CST),
+                ' con piso en el salario mínimo (Decreto 780 de 2016, art. 3.2.1.13).
+                '
+                ' No se recalcula cuando la novedad se registró con un tipo de cálculo que ya
+                ' resuelve la regla de los 90/180 días (4 = "90 días o más", 7 = "180 días"):
+                ' en esos casos la novedad ya trae en EPSRecognizeValue el valor legal —con el
+                ' corte día a día entre 2/3 y 50% y el piso del salario mínimo— y
+                ' GetInabilityCollectNovelty únicamente lo prorratea por los días del período.
+                Dim appliesLegalDaySplit As Boolean = ObjNovelty.CalculationType.HasValue AndAlso
+                                                     (ObjNovelty.CalculationType.Value = 4 OrElse ObjNovelty.CalculationType.Value = 7)
 
-                    ' Calcular el valor proporcional basado solo en los días de extensión del periodo actual
-                    Dim noveltiesInCurrentPeriod = ListNovelties.Where(Function(x) x.Extension = 1 And x.Consecutive = ObjNovelty.Consecutive)
-                    Dim totalDaysInExtensionCurrentPeriod As Integer = noveltiesInCurrentPeriod.Sum(Function(x) x.Days)
+                If totalDaysExtension > 90 AndAlso Not appliesLegalDaySplit Then
+                    ' Valor día al 50%, con piso en el salario mínimo diario. El piso se aplica
+                    ' al valor DIARIO: aplicarlo al valor mensual y luego prorratear dejaba pagos
+                    ' de un mes completo por uno o dos días liquidados.
+                    Dim fiftyPercentDayValue As Decimal = ObjNovelty.EmployeeBaseSalary * 0.5D / 30D
+                    Dim minimumDayValue As Decimal = If(LegalSalaryMinimum > 0, LegalSalaryMinimum / 30D, 0D)
 
-                    If totalDaysInExtensionCurrentPeriod > 0 Then
-                        AmbulatoryInabilityEPS = Math.Round(fiftyPercentSalary * ObjNovelty.Days / totalDaysInExtensionCurrentPeriod, 3)
-                    Else
-                        AmbulatoryInabilityEPS = fiftyPercentSalary
+                    If fiftyPercentDayValue < minimumDayValue Then
+                        fiftyPercentDayValue = minimumDayValue
                     End If
+
+                    ' Se liquida por los días de EPS que realmente cayeron en este período
+                    ' (AmbulatoryInabilityEPSDays), no por una proporción sobre los días
+                    ' declarados en la novedad.
+                    AmbulatoryInabilityEPS = Math.Round(fiftyPercentDayValue * AmbulatoryInabilityEPSDays, 3)
                 End If
 
-                ' Verificar si se debe excluir el registro 
-                ' Calcular PayrollEndDate basado en el período
-                Dim PayrollEndDate As Date
-                If PayrollStarDate.Day = 1 Then
-                    ' Primera quincena - termina el día 15
-                    PayrollEndDate = New Date(PayrollStarDate.Year, PayrollStarDate.Month, 15)
-                Else
-                    ' Segunda quincena - termina el último día del mes  
-                    PayrollEndDate = New Date(PayrollStarDate.Year, PayrollStarDate.Month, DateTime.DaysInMonth(PayrollStarDate.Year, PayrollStarDate.Month))
-                End If
-
-                ' Validar impacto de incapacidad usando función helper
-                Dim validationResult As IncapacityValidationResult = ValidateIncapacityImpactCR(
-                    ObjNovelty,
-                    PayrollStarDate,
-                    PayrollEndDate,
-                    _cultureCR,
-                    SessionValues.LanguageCulture
-                )
-
-                ' Aplicar resultados de la validación
-                Dim shouldExcludeDescription As Boolean = validationResult.ShouldExcludeDescription
-                shouldExcludeAccruedDeducted = validationResult.ShouldExcludeAccruedDeducted
-                Dim proportionalPayment As Double = validationResult.ProportionalPayment
-
-                If AmbulatoryInabilityDays > 0 AndAlso Not shouldExcludeDescription Then
+                If AmbulatoryInabilityDays > 0 Then
                     descriptions.Add(New Tuple(Of String, Integer, Decimal, Decimal, Date, Date, String, Tuple(Of Integer, Decimal, Decimal, Integer, Integer, Byte))("Ambulatoria", AmbulatoryInabilityDays, AmbulatoryInabilityEmployer, AmbulatoryInabilityEPS, ObjNovelty.RealDate, ObjNovelty.EndDate, AmbulatoryInabilityAutorizationNumber, New Tuple(Of Integer, Decimal, Decimal, Integer, Integer, Byte)(PermanentInabity, PaidEmployerValueAmbu, EPSRecognizeValueAmbu, AmbulatoryInabilityEmployerDays, AmbulatoryInabilityERPDays, ObjNovelty.Status)))
                 End If
 
@@ -2100,168 +2091,8 @@ Public Class LiquidationFunctions
             previousNovelty = ObjNovelty
         Next
 
-        ''Logica calculo salario proporcional
-        If SessionValues.LanguageCulture = _cultureCR AndAlso Not shouldExcludeAccruedDeducted Then
-            ' Calcular días del período total
-            Dim totalPayrollDays As Integer = (PayrollEndingDate - PayrollStarDate).Days + 1
-            If PayrollEndingDate.Day = 31 AndAlso PayrollStarDate.Day > 0 Then
-                totalPayrollDays = totalPayrollDays - 1
-            End If
-            
-            ' Calcular días de incapacidades que intersectan con el período de liquidación
-            Dim totalIncapacityDaysInPeriod As Integer = 0
-            For Each novelty As Novelty In ListNovelties
-                If novelty.CalculationType = 8 Then ' Solo incapacidades generales
-                    ' Calcular intersección entre incapacidad y período de liquidación
-                    Dim intersectionDays As Integer = CalculateIntersectionDays(novelty.RealDate, novelty.EndDate, PayrollStarDate, PayrollEndingDate, Day31)
-                    totalIncapacityDaysInPeriod += intersectionDays
-                End If
-            Next
-            
-            ' Calcular días trabajados (período total menos días de incapacidad que intersectan)
-            Dim workedDays As Integer = totalPayrollDays - totalIncapacityDaysInPeriod
-            ' Si hay días trabajados, agregar salario proporcional
-            If workedDays > 0 Then
-                ' Obtener salario base del empleado
-                Dim baseSalary As Decimal = ContractEmployee.BasicSalary
-                Dim dailySalary As Decimal = baseSalary / 30
-                Dim proportionalSalary As Decimal = dailySalary * workedDays
-                ' Agregar concepto de salario proporcional a la liquidación
-                descriptions.Add(New Tuple(Of String, Integer, Decimal, Decimal, Date, Date, String, Tuple(Of Integer, Decimal, Decimal, Integer, Integer, Byte))(
-                    "SalarioProporcional",
-                    workedDays,
-                    proportionalSalary,
-                    0,
-                    PayrollStarDate,
-                    PayrollEndingDate,
-                    "Días trabajados en período con incapacidad",
-                    New Tuple(Of Integer, Decimal, Decimal, Integer, Integer, Byte)(0, proportionalSalary, 0, workedDays, 0, 0)
-                ))
-
-            End If
-        End If
         Return descriptions
 
-    End Function
-
-
-    ''' <summary>
-    ''' Valida el impacto de una incapacidad en la liquidación para Costa Rica
-    ''' Maneja liquidaciones proporcionales considerando fechas de inicio y fin
-    ''' </summary>
-    ''' <param name="novelty">Objeto de la novedad (incapacidad)</param>
-    ''' <param name="payrollStartDate">Fecha inicio del período de nómina</param>
-    ''' <param name="payrollEndDate">Fecha fin del período de nómina</param>
-    ''' <param name="cultureCR">Cultura de Costa Rica</param>
-    ''' <param name="currentCulture">Cultura actual del sistema</param>
-    ''' <returns>Resultado de la validación con flags y factor proporcional</returns>
-    Private Function ValidateIncapacityImpactCR(novelty As Novelty,
-                                               payrollStartDate As Date,
-                                               payrollEndDate As Date,
-                                               cultureCR As String,
-                                               currentCulture As String) As IncapacityValidationResult
-
-        Dim result As New IncapacityValidationResult()
-
-        ' Valores por defecto (liquidar normal)
-        result.ShouldExcludeAccruedDeducted = False
-        result.ShouldExcludeDescription = False
-
-        ' Obtener fechas de la incapacidad
-        Dim incapacityStartDate As Date = novelty.RealDate
-        Dim incapacityEndDate As Date = novelty.EndDate
-
-        ' Validar que es Costa Rica y que es Incapacidad General
-        If currentCulture <> cultureCR OrElse novelty.CalculationType <> 8 Then
-            Return result ' Liquidar normal
-        End If
-
-        ' Validar estado de liquidación de la novedad
-        If novelty.Status = 1 Then
-            result.ShouldExcludeAccruedDeducted = True
-            result.ShouldExcludeDescription = True
-            Return result ' Bloquea Status = 1 
-        Else
-            If novelty.Status = 2 And incapacityEndDate > payrollEndDate Then
-                result.ShouldExcludeAccruedDeducted = True
-                result.ShouldExcludeDescription = True
-                Return result ' Bloquea Status = 2
-            End If
-        End If
-        ' Estado 0 (Normal) y Estado 2 (Parcialmente liquidada) - Continuar evaluación
-
-
-
-        ' Verificar superposición entre período de nómina e incapacidad
-        Dim hasOverlap As Boolean = Not (payrollEndDate < incapacityStartDate OrElse
-                                        payrollStartDate > incapacityEndDate)
-        If Not hasOverlap Then
-            Return result ' Sin superposición - liquidar normal
-        End If
-        'determinar si liquidar o no (sin calcular proporciones)
-        ' CASO 1: Superposición parcial al inicio - hay días trabajados antes de incapacidad
-        If payrollStartDate < incapacityStartDate AndAlso payrollEndDate >= incapacityStartDate Then
-            Dim daysBeforeIncapacity As Integer = (incapacityStartDate - payrollStartDate).Days
-            If payrollEndDate.Day = 31 AndAlso daysBeforeIncapacity > 0 Then
-                daysBeforeIncapacity = daysBeforeIncapacity - 1
-            End If
-            If daysBeforeIncapacity > 0 Then
-                ' Hay días trabajados antes de la incapacidad - SÍ LIQUIDAR
-                result.ShouldExcludeAccruedDeducted = False
-                ' Solo mostrar concepto si es primera vez procesando (Status=0)
-                If novelty.Status = 0 Then
-                    result.ShouldExcludeDescription = False  ' SÍ mostrar concepto "Ambulatoria" 
-                Else
-                    result.ShouldExcludeDescription = True   ' NO mostrar concepto (ya procesada)
-                End If
-            Else
-                ' No hay días trabajados - PERMITIR liquidación (subsidio de incapacidad)
-                result.ShouldExcludeAccruedDeducted = False
-
-                ' Solo mostrar concepto si es primera vez (Status=0) Y incapacidad inició antes del período  
-                If novelty.Status = 0 AndAlso incapacityStartDate < payrollStartDate Then
-                    result.ShouldExcludeDescription = False  ' SÍ mostrar concepto "Ambulatoria"
-                Else
-                    result.ShouldExcludeDescription = True   ' NO mostrar concepto
-                End If
-            End If
-            ' CASO 2: Superposición parcial al final - hay días trabajados después de incapacidad
-        ElseIf payrollStartDate <= incapacityEndDate AndAlso payrollEndDate > incapacityEndDate Then
-            Dim daysAfterIncapacity As Integer = (payrollEndDate - incapacityEndDate).Days
-            If payrollEndDate.Day = 31 AndAlso daysAfterIncapacity > 0 Then
-                daysAfterIncapacity = daysAfterIncapacity - 1
-            End If
-            If daysAfterIncapacity > 0 Then
-                ' Hay días trabajados después de la incapacidad - SÍ LIQUIDAR
-                result.ShouldExcludeAccruedDeducted = False
-                ' Solo mostrar concepto si es primera vez (Status=0) Y incapacidad inició antes del período
-                If novelty.Status = 0 AndAlso incapacityStartDate < payrollStartDate Then
-                    result.ShouldExcludeDescription = False  ' SÍ mostrar concepto "Ambulatoria"
-                Else
-                    result.ShouldExcludeDescription = True   ' NO mostrar concepto
-                End If
-            Else
-                ' No hay días trabajados - PERMITIR liquidación (subsidio de incapacidad)
-                result.ShouldExcludeAccruedDeducted = False
-                ' Solo mostrar concepto si es primera vez (Status=0) Y incapacidad inició antes del período  
-                If novelty.Status = 0 AndAlso incapacityStartDate < payrollStartDate Then
-                    result.ShouldExcludeDescription = False  ' SÍ mostrar concepto "Ambulatoria"
-                Else
-                    result.ShouldExcludeDescription = True   ' NO mostrar concepto
-                End If
-            End If
-
-        Else
-            ' CASO 3: Superposición total - todo el período está en incapacidad  
-            result.ShouldExcludeAccruedDeducted = False  ' PERMITIR liquidación (subsidio de incapacidad)
-            ' Solo mostrar concepto si es primera vez procesando (Status=0) 
-            If novelty.Status = 0 Then
-                result.ShouldExcludeDescription = False  ' SÍ mostrar concepto "Ambulatoria"
-            Else
-                result.ShouldExcludeDescription = True   ' NO mostrar concepto (ya procesada)
-            End If
-        End If
-        Return result
     End Function
 
     Public Sub GetInabilityCollectNovelty(LiquidationDomain As LiquidationDomain, ObjInability As Novelty, PayrollEndDate As Date, PayrollStarDate As Date, ByRef InabilityCollect As Decimal, ByRef DaysCalculation As Integer, ByVal DaysInabilitiesTotal As Integer, ByVal PayrollDays As Integer, TotalInabilitiesDays As Integer, ByRef PermanentInability As Byte, SessionValues As SessionValues, Optional Day31 As Boolean = False)
@@ -2277,37 +2108,29 @@ Public Class LiquidationFunctions
         If EPSDays > 0 Then
 
             ''Incapacidades inician en un mes anterior y finalizan en el periodo
-            If ObjInability.RealDate < PayrollStarDate And ObjInability.EndDate <= PayrollEndDate And ObjInability.Status = 2 Then
+            If ObjInability.RealDate < PayrollStarDate And ObjInability.EndDate >= PayrollStarDate And ObjInability.EndDate <= PayrollEndDate And ObjInability.Status = 2 Then
                 If PayrollStarDate > InitialDateEPSPaid Then
-                    If PayrollEndDate.Month = 2 Then
+                    If TotalInabilitiesDays > 0 AndAlso DateDiff(DateInterval.Month, ObjInability.RealDate, PayrollStarDate) = 1 AndAlso DateAdd(DateInterval.Day, -1, PayrollStarDate).Day <> 31 Then
+                        Dim prevPeriodEnd As Date = DateAdd(DateInterval.Day, -1, PayrollStarDate)
+                        Dim daysInPrevPeriod As Integer = LiquidationDomain.Days360(InitialDateEPSPaid, prevPeriodEnd)
+                        DaysCalculation = Math.Max(0, EPSDays - daysInPrevPeriod)
+                    ElseIf PayrollEndDate.Month = 2 Then
                         DaysCalculation = DateDiff(DateInterval.Day, PayrollStarDate, ObjInability.EndDate) + 1
                     Else
-                        ' Usar Day31 para determinar si incluir día 31 en cálculos
-                        If Day31 Then
+                        DaysCalculation = LiquidationDomain.Days360(PayrollStarDate, ObjInability.EndDate)
+                        If ObjInability.EndDate.Day = 31 Then
                             DaysCalculation = DateDiff(DateInterval.Day, PayrollStarDate, ObjInability.EndDate) + 1
-                        Else
-                            DaysCalculation = LiquidationDomain.Days360(PayrollStarDate, ObjInability.EndDate)
                         End If
-                    End If
-
-                    If ObjInability.EndDate.Day = 31 Then
-                        DaysCalculation = DateDiff(DateInterval.Day, PayrollStarDate, ObjInability.EndDate) + 1
                     End If
 
                 Else
                     If PayrollEndDate.Month = 2 Then
                         DaysCalculation = DateDiff(DateInterval.Day, InitialDateEPSPaid, ObjInability.EndDate) + 1
                     Else
-                        ' Usar Day31 para determinar si incluir día 31 en cálculos
-                        If Day31 Then
+                        DaysCalculation = LiquidationDomain.Days360(InitialDateEPSPaid, ObjInability.EndDate)
+                        If ObjInability.EndDate.Day = 31 Then
                             DaysCalculation = DateDiff(DateInterval.Day, InitialDateEPSPaid, ObjInability.EndDate) + 1
-                        Else
-                            DaysCalculation = LiquidationDomain.Days360(InitialDateEPSPaid, ObjInability.EndDate)
                         End If
-                    End If
-
-                    If ObjInability.EndDate.Day = 31 Then
-                        DaysCalculation = DateDiff(DateInterval.Day, InitialDateEPSPaid, ObjInability.EndDate) + 1
                     End If
 
                 End If
@@ -2318,16 +2141,10 @@ Public Class LiquidationFunctions
                 If PayrollEndDate.Month = 2 Then
                     DaysCalculation = DateDiff(DateInterval.Day, InitialDateEPSPaid, ObjInability.EndDate) + 1
                 Else
-                    ' Usar Day31 para determinar si incluir día 31 en cálculos
-                    If Day31 Then
+                    DaysCalculation = LiquidationDomain.Days360(InitialDateEPSPaid, ObjInability.EndDate)
+                    If ObjInability.EndDate.Day = 31 Then
                         DaysCalculation = DateDiff(DateInterval.Day, InitialDateEPSPaid, ObjInability.EndDate) + 1
-                    Else
-                        DaysCalculation = LiquidationDomain.Days360(InitialDateEPSPaid, ObjInability.EndDate)
                     End If
-                End If
-
-                If ObjInability.EndDate.Day = 31 Then
-                    DaysCalculation = DateDiff(DateInterval.Day, InitialDateEPSPaid, ObjInability.EndDate) + 1
                 End If
 
             End If
@@ -2335,11 +2152,25 @@ Public Class LiquidationFunctions
             '' Incapacidades que inicia este mes y finaliza el siguiente
             If ObjInability.RealDate >= PayrollStarDate And ObjInability.EndDate > PayrollEndDate Then
                 If PayrollEndDate > EndDatePaidEmployer Then
-                    ' Usar Day31 para determinar si incluir día 31 en cálculos
-                    If Day31 Then
-                        DaysCalculation = DateDiff(DateInterval.Day, InitialDateEPSPaid, PayrollEndDate) + 1
+                    If PayrollEndDate.Month = 2 Then
+                        ' Días de EPS que caen en febrero
+                        Dim FebDays As Integer = DateDiff(DateInterval.Day, InitialDateEPSPaid, PayrollEndDate) + 1
+                        ' Días "faltantes" de febrero en sistema de 30 días (2 para no bisiesto, 1 para bisiesto)
+                        Dim MissingFebDays As Integer = 30 - Day(PayrollEndDate)
+
+                        ' Solo asignar días de marzo a febrero si la incapacidad termina
+                        ' dentro de los días faltantes (ej: termina el 1 mar cuando faltan 2 días)
+                        If ObjInability.EndDate.Month = 3 AndAlso Day(ObjInability.EndDate) <= MissingFebDays Then
+                            DaysCalculation = FebDays + Day(ObjInability.EndDate)
+                            If DaysCalculation > EPSDays Then DaysCalculation = EPSDays
+                        Else
+                            DaysCalculation = FebDays
+                        End If
                     Else
                         DaysCalculation = LiquidationDomain.Days360(InitialDateEPSPaid, PayrollEndDate)
+                        If PayrollEndDate.Day = 31 Then
+                            DaysCalculation = DateDiff(DateInterval.Day, InitialDateEPSPaid, PayrollEndDate) + 1
+                        End If
                     End If
                 Else
                     DaysCalculation = 0
@@ -2348,11 +2179,9 @@ Public Class LiquidationFunctions
 
             '' Incapacidades que Iniciaron un Periodo Antes, y finalizan un periodo después
             If ObjInability.RealDate < PayrollStarDate And ObjInability.EndDate > PayrollEndDate Then
-                ' Usar Day31 para determinar si incluir día 31 en cálculos
-                If Day31 Then
+                DaysCalculation = LiquidationDomain.Days360(PayrollStarDate, PayrollEndDate)
+                If PayrollEndDate.Day = 31 Then
                     DaysCalculation = DateDiff(DateInterval.Day, PayrollStarDate, PayrollEndDate) + 1
-                Else
-                    DaysCalculation = LiquidationDomain.Days360(PayrollStarDate, PayrollEndDate)
                 End If
             End If
 
@@ -2363,19 +2192,7 @@ Public Class LiquidationFunctions
 
             'Analizo las incapacidades de meses pasados
             If ObjInability.RealDate < PayrollStarDate And ObjInability.Status = 0 Then
-                Dim diferenciaDias As Integer = DateDiff(DateInterval.Day, ObjInability.RealDate, PayrollStarDate)
-                If diferenciaDias > 15 Then
-                    ' Usar Day31 para determinar si incluir día 31 en cálculos
-                    If Day31 Then
-                        DaysCalculation = DateDiff(DateInterval.Day, InitialDateEPSPaid, ObjInability.EndDate) + 1
-                    Else
-                        DaysCalculation = LiquidationDomain.Days360(InitialDateEPSPaid, ObjInability.EndDate)
-                    End If
-                End If
-
-                If diferenciaDias <= 15 Then
-                    DaysCalculation = DateDiff(DateInterval.Day, InitialDateEPSPaid, ObjInability.EndDate) + 1
-                End If
+                DaysCalculation = DateDiff(DateInterval.Day, InitialDateEPSPaid, ObjInability.EndDate) + 1
 
                 If DaysCalculation > 30 Then
                     DaysCalculation = 30
@@ -2389,19 +2206,10 @@ Public Class LiquidationFunctions
         End If
 
 
+        Dim NoveltyCapDaysInability As Integer = If(PayrollEndDate.Day = 31, DateDiff(DateInterval.Day, PayrollStarDate, PayrollEndDate) + 1, PayrollDays)
         If DaysInabilitiesTotal > 0 Then
-            If DaysCalculation + DaysInabilitiesTotal > PayrollDays Then
-                DaysCalculation = PayrollDays - DaysInabilitiesTotal
-            End If
-        End If
-
-        If DaysInabilitiesTotal > 0 Then
-            If DaysCalculation + DaysInabilitiesTotal > PayrollDays Then
-                If Day31 Then
-                    DaysCalculation = PayrollDays - DaysInabilitiesTotal
-                Else
-                    DaysCalculation = PayrollDays - DaysInabilitiesTotal - EmployerDays
-                End If
+            If DaysCalculation + DaysInabilitiesTotal > NoveltyCapDaysInability Then
+                DaysCalculation = NoveltyCapDaysInability - DaysInabilitiesTotal
             End If
         End If
 
@@ -2465,10 +2273,14 @@ Public Class LiquidationFunctions
             Dim InitialDatePatronoPaid As Date = DateAdd(DateInterval.Day, 1, EndDatePaidEmployer)
 
             If EndDatePaidEmployer < PayrollInitialDate And ObjInability.Status = 2 Then
-                EmployerDays = 0
+                If EndDatePaidEmployer.Day = 31 Then
+                    CalculationDays = 1
+                Else
+                    EmployerDays = 0
+                End If
             End If
 
-            If EmployerDays > 0 Then
+            If EmployerDays > 0 AndAlso CalculationDays = 0 Then
 
                 ''Incapacidades inician en un mes anterior y finalizan en el periodo
                 If InitialDateInability < PayrollInitialDate And ObjInability.EndDate <= PayrollEndDate And ObjInability.Status = 2 Then
@@ -2476,11 +2288,9 @@ Public Class LiquidationFunctions
                     If PayrollEndDate.Month = 2 Then
                         CalculationDays = DateDiff(DateInterval.Day, PayrollInitialDate, EndDatePaidEmployer) + 1
                     Else
-                        ' Usar Day31 para determinar si incluir día 31 en cálculos
-                        If Day31 Then
+                        CalculationDays = LiquidationDomain.Days360(PayrollInitialDate, EndDatePaidEmployer)
+                        If EndDatePaidEmployer.Day = 31 Then
                             CalculationDays = DateDiff(DateInterval.Day, PayrollInitialDate, EndDatePaidEmployer) + 1
-                        Else
-                            CalculationDays = LiquidationDomain.Days360(PayrollInitialDate, EndDatePaidEmployer)
                         End If
                     End If
 
@@ -2493,12 +2303,13 @@ Public Class LiquidationFunctions
                     Else
                         'Analizo las incapacidades de meses pasados
                         If ObjInability.RealDate < PayrollInitialDate And ObjInability.Status = 0 Then
-                            Dim diferenciaDias As Integer = DateDiff(DateInterval.Day, ObjInability.RealDate, PayrollInitialDate)
-                            ' Usar Day31 para determinar si incluir día 31 en cálculos
-                            If Day31 Then
+                            If ObjInability.RealDate.Day = 31 Then
                                 CalculationDays = DateDiff(DateInterval.Day, InitialDateInability, EndDatePaidEmployer) + 1
                             Else
                                 CalculationDays = LiquidationDomain.Days360(InitialDateInability, EndDatePaidEmployer)
+                                If EndDatePaidEmployer.Day = 31 Then
+                                    CalculationDays = DateDiff(DateInterval.Day, InitialDateInability, EndDatePaidEmployer) + 1
+                                End If
                             End If
                         End If
                     End If
@@ -2510,11 +2321,9 @@ Public Class LiquidationFunctions
                     If PayrollEndDate.Month = 2 Then
                         CalculationDays = DateDiff(DateInterval.Day, InitialDateInability, EndDatePaidEmployer) + 1
                     Else
-                        ' Usar Day31 para determinar si incluir día 31 en cálculos
-                        If Day31 Then
+                        CalculationDays = LiquidationDomain.Days360(InitialDateInability, EndDatePaidEmployer)
+                        If EndDatePaidEmployer.Day = 31 Then
                             CalculationDays = DateDiff(DateInterval.Day, InitialDateInability, EndDatePaidEmployer) + 1
-                        Else
-                            CalculationDays = LiquidationDomain.Days360(InitialDateInability, EndDatePaidEmployer)
                         End If
                     End If
 
@@ -2523,11 +2332,9 @@ Public Class LiquidationFunctions
                 ''Incapacidades que inicia este mes y finaliza el siguiente
                 If InitialDateInability >= PayrollInitialDate And ObjInability.EndDate > PayrollEndDate Then
 
-                    ' Usar Day31 para determinar si incluir día 31 en cálculos
-                    If Day31 Then
+                    CalculationDays = LiquidationDomain.Days360(InitialDateInability, PayrollEndDate)
+                    If PayrollEndDate.Day = 31 Then
                         CalculationDays = DateDiff(DateInterval.Day, InitialDateInability, PayrollEndDate) + 1
-                    Else
-                        CalculationDays = LiquidationDomain.Days360(InitialDateInability, PayrollEndDate)
                     End If
 
                     If CalculationDays > EmployerDays Then
@@ -2540,19 +2347,15 @@ Public Class LiquidationFunctions
                 If InitialDateInability < PayrollInitialDate And ObjInability.EndDate > PayrollEndDate Then
                     If EndDatePaidEmployer >= PayrollInitialDate Then
                         If actualCulture = _cultureCR AndAlso ObjInability.IsCycleDate = True AndAlso ObjInability.PaidEmployerValue IsNot Nothing Then
-                            ' Usar Day31 para determinar si incluir día 31 en cálculos
-                            If Day31 Then
+                            CalculationDays = LiquidationDomain.Days360(PayrollInitialDate, PayrollEndDate)
+                            If PayrollEndDate.Day = 31 Then
                                 CalculationDays = DateDiff(DateInterval.Day, PayrollInitialDate, PayrollEndDate) + 1
-                            Else
-                                CalculationDays = LiquidationDomain.Days360(PayrollInitialDate, PayrollEndDate)
                             End If
                             EmployerDays = CalculationDays
                         Else
-                            ' Usar Day31 para determinar si incluir día 31 en cálculos
-                            If Day31 Then
+                            CalculationDays = LiquidationDomain.Days360(PayrollInitialDate, EndDatePaidEmployer)
+                            If EndDatePaidEmployer.Day = 31 Then
                                 CalculationDays = DateDiff(DateInterval.Day, PayrollInitialDate, EndDatePaidEmployer) + 1
-                            Else
-                                CalculationDays = LiquidationDomain.Days360(PayrollInitialDate, EndDatePaidEmployer)
                             End If
                         End If
                     End If
@@ -2566,9 +2369,10 @@ Public Class LiquidationFunctions
                 End If
 
 
+                Dim NoveltyCapDaysSpending As Integer = If(PayrollEndDate.Day = 31, DateDiff(DateInterval.Day, PayrollInitialDate, PayrollEndDate) + 1, PayrollDays)
                 If DaysInabilitiesTotal > 0 Then
-                    If CalculationDays + DaysInabilitiesTotal > PayrollDays Then
-                        CalculationDays = PayrollDays - DaysInabilitiesTotal
+                    If CalculationDays + DaysInabilitiesTotal > NoveltyCapDaysSpending Then
+                        CalculationDays = NoveltyCapDaysSpending - DaysInabilitiesTotal
                     End If
                 End If
 
@@ -2581,7 +2385,9 @@ Public Class LiquidationFunctions
             End If
 
             If CalculationDays > 0 Then
-                SpendingInabilityAmbulatory = Utils.RoundValue((IIf(ObjInability.PaidEmployerValue IsNot Nothing, ObjInability.PaidEmployerValue, 0) * CalculationDays) / EmployerDays)
+                If EmployerDays > 0 Then
+                    SpendingInabilityAmbulatory = Utils.RoundValue((IIf(ObjInability.PaidEmployerValue IsNot Nothing, ObjInability.PaidEmployerValue, 0) * CalculationDays) / EmployerDays)
+                End If
             Else
                 CalculationDays = 0
                 SpendingInabilityAmbulatory = 0
@@ -2616,41 +2422,21 @@ Public Class LiquidationFunctions
             'Para Vacaciones que vienen del mes anterior y finalizan este mes
             If PayrollStarDate > VacationInitialDate And VacationEndDate <= PayrollEndDate Then
                 ReturnDays = LiquidationDomain.Days360(PayrollStarDate, VacationEndDate)
-
-                ' Ajuste para día 31: Days360 no cuenta correctamente el día 31
-                If VacationEndDate.Day = 31 And VacationEndDate <= PayrollEndDate Then
-                    ReturnDays = ReturnDays + 1
-                End If
             End If
 
             If VacationInitialModifiedDate >= PayrollStarDate And VacationEndModifiedDate <= VacationEndModifiedDate Then
                 'analizo que las vacaciones modificadas estén en el rango de este mes
                 ReturnDays = LiquidationDomain.Days360(VacationInitialModifiedDate, VacationEndModifiedDate)
-
-                ' Ajuste para día 31: Days360 no cuenta correctamente el día 31
-                If VacationEndModifiedDate.Value.Day = 31 And VacationEndModifiedDate <= PayrollEndDate Then
-                    ReturnDays = ReturnDays + 1
-                End If
             End If
 
             'Para Vacaciones que iniciaron este mes y finalizan el siguiente
             If PayrollStarDate <= VacationInitialDate And VacationEndDate > PayrollEndDate Then
                 ReturnDays = LiquidationDomain.Days360(VacationInitialDate, PayrollEndDate)
-
-                ' Ajuste para día 31: Days360 no cuenta correctamente el día 31
-                If PayrollEndDate.Day = 31 Then
-                    ReturnDays = ReturnDays + 1
-                End If
             End If
 
             'Para Vacaciones que iniciaron el mes anterior y finalizan el proximo mes
             If PayrollStarDate > VacationInitialDate And VacationEndDate > PayrollEndDate Then
                 ReturnDays = LiquidationDomain.Days360(PayrollStarDate, PayrollEndDate)
-
-                ' Ajuste para día 31: Days360 no cuenta correctamente el día 31
-                If PayrollEndDate.Day = 31 Then
-                    ReturnDays = ReturnDays + 1
-                End If
             End If
 
         End If
@@ -2680,41 +2466,21 @@ Public Class LiquidationFunctions
         'Si inició antes de que iniciara la Nómina y Finaliza Después que finalice esta Nómina
         If Employee.InitialDatePermanentInability < PayrollStarDate And PayrollEndDate < EndDatePermanent Then
             ReturnDays = LiquidationDomain.Days360(PayrollStarDate, PayrollEndDate)
-
-            ' Ajuste para día 31: Days360 no cuenta correctamente el día 31
-            If PayrollEndDate.Day = 31 Then
-                ReturnDays = ReturnDays + 1
-            End If
         End If
 
         'Si inicia en la nómina, y finaliza después de la nómina
         If PayrollStarDate <= Employee.InitialDatePermanentInability And PayrollEndDate < EndDatePermanent Then
             ReturnDays = LiquidationDomain.Days360(Employee.InitialDatePermanentInability, PayrollEndDate)
-
-            ' Ajuste para día 31: Days360 no cuenta correctamente el día 31
-            If PayrollEndDate.Day = 31 Then
-                ReturnDays = ReturnDays + 1
-            End If
         End If
 
         'Si inicia antes de la nómina, y finaliza en la nómina
         If Employee.InitialDatePermanentInability < PayrollStarDate And EndDatePermanent <= PayrollEndDate Then
             ReturnDays = LiquidationDomain.Days360(PayrollStarDate, EndDatePermanent)
-
-            ' Ajuste para día 31: Days360 no cuenta correctamente el día 31
-            If EndDatePermanent.Day = 31 And EndDatePermanent <= PayrollEndDate Then
-                ReturnDays = ReturnDays + 1
-            End If
         End If
 
         'Si inicia y finaliza dentro de la Nómina
         If Employee.InitialDatePermanentInability >= PayrollStarDate And EndDatePermanent <= PayrollEndDate Then
             ReturnDays = LiquidationDomain.Days360(Employee.InitialDatePermanentInability, EndDatePermanent)
-
-            ' Ajuste para día 31: Days360 no cuenta correctamente el día 31
-            If EndDatePermanent.Day = 31 And EndDatePermanent <= PayrollEndDate Then
-                ReturnDays = ReturnDays + 1
-            End If
         End If
 
         If Employee.InitialDatePermanentInability > PayrollEndDate Then
@@ -2741,68 +2507,21 @@ Public Class LiquidationFunctions
         'Si la incapacidad se encuentra dentro de las vacaciones
         If PayrollStarDate <= VacationStartDate And VacationStartDate < InabilityStartDate And VacationEndDate > InabilityEndDate And InabilityEndDate <= PayrollEndDate Then
             DaysInability = LiquidationDomain.Days360(InabilityStartDate, InabilityEndDate)
-
-            ' Ajuste para día 31: Days360 no cuenta correctamente el día 31
-            If InabilityEndDate.Value.Day = 31 And InabilityEndDate <= PayrollEndDate Then
-                DaysInability = DaysInability + 1
-            End If
         End If
 
         'Si se encuentra en vacaciones y tiene incapacidad, se acaban las vacaciones y sigue con la incapacidad
         If PayrollStarDate <= VacationStartDate And VacationStartDate <= InabilityStartDate And InabilityStartDate <= VacationEndDate And InabilityEndDate <= PayrollEndDate Then
             DaysInability = LiquidationDomain.Days360(VacationEndDate, InabilityEndDate)
 
-            ' Ajuste para día 31: Days360 no cuenta correctamente el día 31
-            If InabilityEndDate.Value.Day = 31 And InabilityEndDate <= PayrollEndDate Then
-                DaysInability = DaysInability + 1
-            End If
-
         End If
 
         'Si esta incapacidad, sale a vacaciones regresa y continua la incapacidad
         If PayrollStarDate <= VacationStartDate And VacationStartDate > InabilityStartDate And VacationEndDate < InabilityEndDate And InabilityEndDate <= PayrollEndDate Then
             DaysInability = LiquidationDomain.Days360(VacationStartDate, VacationEndDate)
-
-            ' Ajuste para día 31: Days360 no cuenta correctamente el día 31
-            If VacationEndDate.Day = 31 And VacationEndDate <= PayrollEndDate Then
-                DaysInability = DaysInability + 1
-            End If
         End If
 
         Return DaysInability
 
     End Function
-
-    ''' <summary>
-    ''' Calcula la intersección en días entre dos rangos de fechas
-    ''' </summary>
-    ''' <param name="startDate1">Fecha inicio del primer rango (incapacidad)</param>
-    ''' <param name="endDate1">Fecha fin del primer rango (incapacidad)</param>
-    ''' <param name="startDate2">Fecha inicio del segundo rango (período de liquidación)</param>
-    ''' <param name="endDate2">Fecha fin del segundo rango (período de liquidación)</param>
-    ''' <param name="Day31">Si se debe incluir el día 31 en los cálculos</param>
-    ''' <returns>Número de días que intersectan entre los dos rangos</returns>
-    Private Function CalculateIntersectionDays(startDate1 As Date, endDate1 As Date, startDate2 As Date, endDate2 As Date, Day31 As Boolean) As Integer
-        ' Calcular fechas de intersección
-        Dim intersectionStart As Date = If(startDate1 > startDate2, startDate1, startDate2)
-        Dim intersectionEnd As Date = If(endDate1 < endDate2, endDate1, endDate2)
-        ' Si no hay intersección, retornar 0
-        If intersectionStart > intersectionEnd Then
-            Return 0
-        End If
-        ' Calcular días de intersección según configuración Day31
-        Dim days As Integer
-        days = DateDiff(DateInterval.Day, intersectionStart, intersectionEnd) + 1
-        Return Math.Max(0, days)
-    End Function
-
-    ''' <summary>
-    ''' Clase para el resultado de la validación de incapacidades
-    ''' </summary>
-    Private Class IncapacityValidationResult
-        Public Property ShouldExcludeAccruedDeducted As Boolean
-        Public Property ShouldExcludeDescription As Boolean
-        Public Property ProportionalPayment As Double
-    End Class
 
 End Class

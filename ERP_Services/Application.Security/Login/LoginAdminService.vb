@@ -195,10 +195,6 @@ Public Class LoginAdminService
     '    Return _containersRepository.getInteropCostContainerName()
     'End Function
 
-    Public Function getIndigoConnectionString() As String Implements ILoginAdminService.getIndigoConnectionString
-        Return _containersRepository.getIndigoConnectionString()
-    End Function
-
     Public Function GetEndpointsByIdContainer(idContainer As Integer) As IEnumerable(Of Endpoints) Implements ILoginAdminService.GetEndpointsByIdContainer
         Return _endPointsRepository.GetEndpointsByContainer(idContainer)
     End Function

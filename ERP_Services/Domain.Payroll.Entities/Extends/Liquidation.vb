@@ -24,6 +24,12 @@ Partial Public Class Liquidation
     Property ExemptIncome As Decimal
 
     <DataMember()>
+    Property ExemptIncomeControl As Decimal
+
+    <DataMember()>
+    Property TotalExemptIncomeandDeductionsControl As Decimal
+
+    <DataMember()>
     Property Subtotal As Decimal
 
     <DataMember()>

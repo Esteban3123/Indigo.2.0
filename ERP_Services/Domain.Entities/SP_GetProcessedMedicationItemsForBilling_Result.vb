@@ -254,6 +254,22 @@ Partial Public Class SP_GetProcessedMedicationItemsForBilling_Result
     Private _batchCode As String
 
     <DataMember()>
+    Public Property DispensingDate() As Nullable(Of Date)
+        Get
+            Return _dispensingDate
+        End Get
+        Set(ByVal value As Nullable(Of Date))
+            If Not Equals(_dispensingDate, value) Then
+                OnComplexPropertyChanging()
+                _dispensingDate = value
+                OnPropertyChanged("DispensingDate")
+            End If
+        End Set
+    End Property
+
+    Private _dispensingDate As Nullable(Of Date)
+
+    <DataMember()>
     Public Property Selected() As Nullable(Of Boolean)
         Get
             Return _selected
@@ -445,6 +461,38 @@ Partial Public Class SP_GetProcessedMedicationItemsForBilling_Result
 
     Private _paidToEndCampaign As Nullable(Of Integer)
 
+    <DataMember()>
+    Public Property PackagePersonalizedId() As Nullable(Of Integer)
+        Get
+            Return _packagePersonalizedId
+        End Get
+        Set(ByVal value As Nullable(Of Integer))
+            If Not Equals(_packagePersonalizedId, value) Then
+                OnComplexPropertyChanging()
+                _packagePersonalizedId = value
+                OnPropertyChanged("PackagePersonalizedId")
+            End If
+        End Set
+    End Property
+
+    Private _packagePersonalizedId As Nullable(Of Integer)
+
+    <DataMember()>
+    Public Property Source() As Nullable(Of Byte)
+        Get
+            Return _source
+        End Get
+        Set(ByVal value As Nullable(Of Byte))
+            If Not Equals(_source, value) Then
+                OnComplexPropertyChanging()
+                _source = value
+                OnPropertyChanged("Source")
+            End If
+        End Set
+    End Property
+
+    Private _source As Nullable(Of Byte)
+
 #End Region
 
 #Region "ChangeTracking"
@@ -483,6 +531,7 @@ Partial Public Class SP_GetProcessedMedicationItemsForBilling_Result
         changeTracker.RecordOriginalValue(String.Format(CultureInfo.InvariantCulture, "{0}.Child", parentPropertyName), If(complexObject Is Nothing, Nothing, complexObject.Child))
         changeTracker.RecordOriginalValue(String.Format(CultureInfo.InvariantCulture, "{0}.AdmissionNumber", parentPropertyName), If(complexObject Is Nothing, Nothing, complexObject.AdmissionNumber))
         changeTracker.RecordOriginalValue(String.Format(CultureInfo.InvariantCulture, "{0}.BatchCode", parentPropertyName), If(complexObject Is Nothing, Nothing, complexObject.BatchCode))
+        changeTracker.RecordOriginalValue(String.Format(CultureInfo.InvariantCulture, "{0}.DispensingDate", parentPropertyName), If(complexObject Is Nothing, Nothing, complexObject.DispensingDate))
         changeTracker.RecordOriginalValue(String.Format(CultureInfo.InvariantCulture, "{0}.Selected", parentPropertyName), If(complexObject Is Nothing, Nothing, complexObject.Selected))
         changeTracker.RecordOriginalValue(String.Format(CultureInfo.InvariantCulture, "{0}.PackageId", parentPropertyName), If(complexObject Is Nothing, Nothing, complexObject.PackageId))
         changeTracker.RecordOriginalValue(String.Format(CultureInfo.InvariantCulture, "{0}.FunctionalUnitId", parentPropertyName), If(complexObject Is Nothing, Nothing, complexObject.FunctionalUnitId))
@@ -495,6 +544,8 @@ Partial Public Class SP_GetProcessedMedicationItemsForBilling_Result
         changeTracker.RecordOriginalValue(String.Format(CultureInfo.InvariantCulture, "{0}.AppliedDateDose", parentPropertyName), If(complexObject Is Nothing, Nothing, complexObject.AppliedDateDose))
         changeTracker.RecordOriginalValue(String.Format(CultureInfo.InvariantCulture, "{0}.Father", parentPropertyName), If(complexObject Is Nothing, Nothing, complexObject.Father))
         changeTracker.RecordOriginalValue(String.Format(CultureInfo.InvariantCulture, "{0}.PaidToEndCampaign", parentPropertyName), If(complexObject Is Nothing, Nothing, complexObject.PaidToEndCampaign))
+        changeTracker.RecordOriginalValue(String.Format(CultureInfo.InvariantCulture, "{0}.PackagePersonalizedId", parentPropertyName), If(complexObject Is Nothing, Nothing, complexObject.PackagePersonalizedId))
+        changeTracker.RecordOriginalValue(String.Format(CultureInfo.InvariantCulture, "{0}.Source", parentPropertyName), If(complexObject Is Nothing, Nothing, complexObject.Source))
     End Sub
 
 #End Region

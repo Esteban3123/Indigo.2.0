@@ -52,6 +52,7 @@ Imports System.Data.Entity.ModelConfiguration
 <KnownType(GetType(EmployeeScheduleDetail))>
 <KnownType(GetType(AgreementsC))>
 <KnownType(GetType(Novelty))>
+<KnownType(GetType(ContributorTypeSubtype))>
 Partial Public Class Employee
 	Inherits Entity(Of Employee)
     Implements IObjectWithChangeTracker
@@ -617,6 +618,26 @@ Partial Public Class Employee
             If Not Equals(_insuredCCSSCode, value) Then
                 _insuredCCSSCode = value
                 OnPropertyChanged("InsuredCCSSCode")
+            End If
+        End Set
+    End Property
+
+	Private _contributorTypeSubtypeId As Nullable(Of Integer)
+	<DataMember()>
+	Public Property ContributorTypeSubtypeId() As Nullable(Of Integer)
+        Get
+            Return _contributorTypeSubtypeId
+        End Get
+        Set(ByVal value As Nullable(Of Integer))
+            If Not Equals(_contributorTypeSubtypeId, value) Then
+                ChangeTracker.RecordOriginalValue("ContributorTypeSubtypeId", _contributorTypeSubtypeId)
+                If Not IsDeserializing Then
+                    If ContributorTypeSubtype IsNot Nothing AndAlso Not Equals(ContributorTypeSubtype.Id, value) Then
+                        ContributorTypeSubtype = Nothing
+                    End If
+                End If
+                _contributorTypeSubtypeId = value
+                OnPropertyChanged("ContributorTypeSubtypeId")
             End If
         End Set
     End Property
@@ -1415,6 +1436,24 @@ Partial Public Class Employee
 
     Private _novelty As TrackableCollection(Of Novelty)
 
+    <DataMember()>
+    Public Property ContributorTypeSubtype() As ContributorTypeSubtype
+        Get
+            Return _contributorTypeSubtype
+        End Get
+        Set(ByVal value As ContributorTypeSubtype)
+            If _contributorTypeSubtype IsNot value Then
+                Dim previousValue As ContributorTypeSubtype = _contributorTypeSubtype
+                _contributorTypeSubtype = value
+                FixupContributorTypeSubtype(previousValue)
+                OnNavigationPropertyChanged("ContributorTypeSubtype")
+            End If
+        End Set
+    End Property
+
+    Private _contributorTypeSubtype As ContributorTypeSubtype
+
+
 #End Region
 
 #Region "ChangeTracking"
@@ -1511,6 +1550,7 @@ Partial Public Class Employee
         EmployeeScheduleDetail = Nothing
         AgreementsC.Clear()
         Novelty.Clear()
+        ContributorTypeSubtype = Nothing
     End Sub
 
 #End Region
@@ -1665,6 +1705,35 @@ Partial Public Class Employee
             End If
             If EmployeeScheduleDetail IsNot Nothing AndAlso Not EmployeeScheduleDetail.ChangeTracker.ChangeTrackingEnabled Then
                 EmployeeScheduleDetail.StartTracking()
+            End If
+        End If
+    End Sub
+
+    Private Sub FixupContributorTypeSubtype(ByVal previousValue As ContributorTypeSubtype, Optional ByVal skipKeys As Boolean = False)
+        If IsDeserializing Then
+            Return
+        End If
+
+        If previousValue IsNot Nothing AndAlso previousValue.Employee.Contains(Me) Then
+            previousValue.Employee.Remove(Me)
+        End If
+
+        If ContributorTypeSubtype IsNot Nothing Then
+            ContributorTypeSubtype.Employee.Add(Me)
+
+            ContributorTypeSubtypeId = ContributorTypeSubtype.Id
+        ElseIf Not skipKeys Then
+            ContributorTypeSubtypeId = Nothing
+        End If
+        If ChangeTracker.ChangeTrackingEnabled Then
+            If ChangeTracker.OriginalValues.ContainsKey("ContributorTypeSubtype") AndAlso
+                ChangeTracker.OriginalValues("ContributorTypeSubtype") Is ContributorTypeSubtype Then
+                ChangeTracker.OriginalValues.Remove("ContributorTypeSubtype")
+            Else
+                ChangeTracker.RecordOriginalValue("ContributorTypeSubtype", previousValue)
+            End If
+            If ContributorTypeSubtype IsNot Nothing AndAlso Not ContributorTypeSubtype.ChangeTracker.ChangeTrackingEnabled Then
+                ContributorTypeSubtype.StartTracking()
             End If
         End If
     End Sub

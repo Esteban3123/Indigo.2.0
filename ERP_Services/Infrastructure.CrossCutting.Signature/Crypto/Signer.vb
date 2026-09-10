@@ -88,8 +88,13 @@ Namespace Crypto
                 Dim cspParameters2 As CspParameters = New CspParameters(24, CryptoConst.MS_ENH_RSA_AES_PROV, rSACryptoServiceProvider.CspKeyContainerInfo.KeyContainerName)
                 cspParameters2.KeyNumber = cspParameters.KeyNumber
                 cspParameters2.Flags = cspParameters.Flags
-                _signingKey = New RSACryptoServiceProvider(cspParameters2)
-                _disposeCryptoProvider = True
+                Try
+                    _signingKey = New RSACryptoServiceProvider(cspParameters2)
+                    _disposeCryptoProvider = True
+                Catch ex As CryptographicException
+                    _signingKey = rSACryptoServiceProvider
+                    _disposeCryptoProvider = false
+                End Try
             Else
                 _signingKey = rSACryptoServiceProvider
                 _disposeCryptoProvider = false
@@ -110,4 +115,4 @@ Namespace Crypto
 
     End Class
 
-End NameSpace
+End Namespace

@@ -7,8 +7,10 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http;
 using System.Text.Json;
+using Application.Billing;
 using Application.Glosas;
 using Domain.Billing.POCO;
+using Domain.Billing.POCO.E_RIPS;
 using Domain.Base.Entities;
 using DistributedService.RCM.Utilities;
 using DistributedService.Rest.Unity;
@@ -24,13 +26,21 @@ namespace DistributedService.Rest.Controllers
     public class ElectronicRipsController : ApiController
     {
         private const string CodeUserHeader = "CodeUser";
+        private const int DefaultBulkThreshold = 10;
         private readonly bool _isMultiTenant;
+        private readonly int _bulkThreshold;
 
         public ElectronicRipsController()
         {
             _isMultiTenant = bool.TryParse(
                 ConfigurationManager.AppSettings["EnableMultiTenant"] as string,
                 out bool flag) && flag;
+
+            _bulkThreshold = int.TryParse(
+                ConfigurationManager.AppSettings["RipsBulkThreshold"] as string,
+                out int threshold) && threshold > 0
+                    ? threshold
+                    : DefaultBulkThreshold;
         }
 
         #region Envío de RIPS
@@ -103,6 +113,84 @@ namespace DistributedService.Rest.Controllers
 
         #endregion
 
+        #region Reconstrucción facturas monto fijo
+
+        /// <summary>
+        /// Enqueues fixed amount service records to rebuild their RIPS JSON.
+        /// </summary>
+        [Route("RebuildFixedAmountRIPS")]
+        [HttpPost]
+        public RequestResponse<string> RebuildFixedAmountRips()
+        {
+            var documentNumbers = ReadBodyAsDocumentList();
+            if (documentNumbers == null)
+                return ErrorResponse("999", "Body vacÃ­o");
+
+            InitializeSession();
+            return MapToResponse(ResolveService().RebuildFixedAmountRIPSToQueue(documentNumbers, CreateAudit()));
+        }
+
+        /// <summary>
+        /// Returns paged service records for a fixed amount invoice.
+        /// </summary>
+        [Route("fixedAmount/serviceRecords")]
+        [HttpPost]
+        public async Task<RequestResponse<PagedResult<FixedAmountServiceRecordDto>>> GetFixedAmountServiceRecords([FromBody] FixedAmountServiceRecordQuery query)
+        {
+            InitializeSession();
+            using (var service = ResolveInvoiceEntityCapitatedService())
+            {
+                var response = await service.GetFixedAmountServiceRecordsAsync(query);
+                return MapToResponse(response.ObjectEmbbeded, response.StateResult, response.Message);
+            }
+        }
+
+        /// <summary>
+        /// Returns service records that can be rebuilt for affected patients.
+        /// </summary>
+        [Route("fixedAmount/rebuildCandidates")]
+        [HttpPost]
+        public async Task<RequestResponse<List<FixedAmountRebuildCandidateDto>>> GetFixedAmountRebuildCandidates([FromBody] FixedAmountServiceRecordQuery query)
+        {
+            InitializeSession();
+            using (var service = ResolveInvoiceEntityCapitatedService())
+            {
+                var response = await service.GetFixedAmountServiceRecordsToRebuildAsync(query);
+                return MapToResponse(response.ObjectEmbbeded, response.StateResult, response.Message);
+            }
+        }
+
+        /// <summary>
+        /// Returns rebuild progress for fixed amount service records.
+        /// </summary>
+        [Route("fixedAmount/rebuildStatus")]
+        [HttpPost]
+        public async Task<RequestResponse<FixedAmountRebuildStatusDto>> GetFixedAmountRebuildStatus([FromBody] FixedAmountServiceRecordQuery query)
+        {
+            InitializeSession();
+            using (var service = ResolveInvoiceEntityCapitatedService())
+            {
+                var response = await service.GetFixedAmountRIPSRebuildStatusAsync(query);
+                return MapToResponse(response.ObjectEmbbeded, response.StateResult, response.Message);
+            }
+        }
+
+        /// <summary>
+        /// Returns the database server date used as rebuild boundary.
+        /// </summary>
+        [Route("serverDate")]
+        [HttpGet]
+        public RequestResponse<DateTime> GetServerDate()
+        {
+            InitializeSession();
+            using (var service = ResolveInvoiceEntityCapitatedService())
+            {
+                return MapToResponse(service.GetDatabaseDate(), true, String.Empty);
+            }
+        }
+
+        #endregion
+
         #region Consulta de RIPS
 
         /// <summary>
@@ -152,6 +240,116 @@ namespace DistributedService.Rest.Controllers
             using (var service = ResolveServiceWithBlob())
             {
                 var response = await service.GetObjectJsonRIPSbyId(IdItemCosmoDB);
+                return MapToResponse(response.ObjectEmbbeded, response.StateResult, response.Message);
+            }
+        }
+
+        #endregion
+
+        #region Carga masiva de RIPS (Saldos Iniciales)
+
+        /// <summary>
+        /// Cargue pequeño de RIPS (≤ RipsBulkThreshold). Procesa síncronamente.
+        /// Body: JSON array de RipsUploadRequest.
+        /// </summary>
+        [Route("UploadSmall")]
+        [HttpPost]
+        public async Task<RequestResponse<RipsBulkResponse>> UploadSmall([FromBody] List<RipsUploadRequest> items)
+        {
+            if (items == null || items.Count == 0)
+                return ErrorResponse<RipsBulkResponse>("999", "Body vacío");
+
+            if (items.Count > _bulkThreshold)
+                return ErrorResponse<RipsBulkResponse>("999",
+                    $"UploadSmall acepta hasta {_bulkThreshold} items. Recibidos: {items.Count}. Use UploadBulk.");
+
+            InitializeSession();
+            ConfigureBlobStorage();
+            var audit = CreateAudit();
+
+            using (var service = ResolveServiceWithBlob())
+            {
+                var response = await service.UploadRipsSmallAsync(items, audit);
+                return MapToResponse(response.ObjectEmbbeded, response.StateResult, response.Message);
+            }
+        }
+
+        /// <summary>
+        /// Cargue masivo de RIPS. Cliente envía batches de tamaño configurable (default 100).
+        /// Body: RipsBulkRequest con BatchId y items.
+        /// </summary>
+        [Route("UploadBulk")]
+        [HttpPost]
+        public async Task<RequestResponse<RipsBulkResponse>> UploadBulk([FromBody] RipsBulkRequest request)
+        {
+            if (request == null || request.Items == null || request.Items.Count == 0)
+                return ErrorResponse<RipsBulkResponse>("999", "Body vacío");
+
+            InitializeSession();
+            ConfigureBlobStorage();
+            var audit = CreateAudit();
+
+            using (var service = ResolveServiceWithBlob())
+            {
+                var response = await service.UploadRipsBulkAsync(request.BatchId, request.Items, audit);
+                return MapToResponse(response.ObjectEmbbeded, response.StateResult, response.Message);
+            }
+        }
+
+        /// <summary>
+        /// Pre-check existencia RIPS en CosmosDB. Body: JSON array de numFactura. Devuelve Existing/Missing.
+        /// Usado por Portfolio Confirm + frontend SaveAndConfirm para bloquear confirmación si faltan
+        /// JSON RIPS para alguna factura con CUV.
+        /// </summary>
+        [Route("CheckRipsExist/")]
+        [HttpPost]
+        public async Task<RequestResponse<RipsCheckExistResponse>> CheckRipsExist()
+        {
+            var invoiceNumbers = ReadBodyAsDocumentList();
+            if (invoiceNumbers == null || invoiceNumbers.Count == 0)
+                return ErrorResponse<RipsCheckExistResponse>("999", "Body vacío o sin números de factura.");
+
+            InitializeSession();
+            ConfigureBlobStorage();
+            var audit = CreateAudit();
+
+            using (var service = ResolveServiceWithBlob())
+            {
+                var response = await service.CheckRipsExistAsync(invoiceNumbers, audit);
+                return MapToResponse(response.ObjectEmbbeded, response.StateResult, response.Message);
+            }
+        }
+
+        #endregion
+
+        #region Carga InitialBalanceInvoiceDetail (Saldos Iniciales)
+
+        /// <summary>
+        /// Pobla InitialBalanceInvoiceDetail desde CosmosDB para una lista de facturas confirmadas como saldos
+        /// iniciales con RIPS validado (CUV). Idempotente: DELETE detail rows existentes antes del INSERT.
+        /// Body: JSON array de números de factura. Pre-requisito: el saldo inicial debe estar confirmado
+        /// (InitialBalanceInvoice header existe con Status=1 = DetailPending).
+        /// </summary>
+        [Route("PopulateInitialBalanceDetail/")]
+        [HttpPost]
+        public async Task<RequestResponse<List<Domain.Billing.POCO.E_RIPS.RipsUploadResult>>> PopulateInitialBalanceDetail()
+        {
+            var invoiceNumbers = ReadBodyAsDocumentList();
+            if (invoiceNumbers == null || invoiceNumbers.Count == 0)
+                return new RequestResponse<List<Domain.Billing.POCO.E_RIPS.RipsUploadResult>>
+                {
+                    Code = "999",
+                    Message = "Body vacío o sin números de factura.",
+                    Status = false
+                };
+
+            InitializeSession();
+            ConfigureBlobStorage();
+            var audit = CreateAudit();
+
+            using (var service = ResolveServiceWithBlob())
+            {
+                var response = await service.PopulateInitialBalanceDetail(invoiceNumbers, audit);
                 return MapToResponse(response.ObjectEmbbeded, response.StateResult, response.Message);
             }
         }
@@ -231,6 +429,15 @@ namespace DistributedService.Rest.Controllers
             ).Resolve<IRIPSPlaneAdminService>();
         }
 
+        private IInvoiceEntityCapitatedAdminService ResolveInvoiceEntityCapitatedService()
+        {
+            return ContainerRCM.Current(
+                SessionValues.Instance.TransactionalContainer,
+                SessionValues.Instance.HisContainer,
+                SessionValues.Instance.SecurityContainer
+            ).Resolve<IInvoiceEntityCapitatedAdminService>();
+        }
+
         private static RequestResponse<string> MapToResponse(dynamic serviceResponse)
         {
             return new RequestResponse<string>
@@ -255,6 +462,11 @@ namespace DistributedService.Rest.Controllers
         private static RequestResponse<string> ErrorResponse(string code, string message)
         {
             return new RequestResponse<string> { Code = code, Message = message, Status = false };
+        }
+
+        private static RequestResponse<T> ErrorResponse<T>(string code, string message)
+        {
+            return new RequestResponse<T> { Code = code, Message = message, Status = false };
         }
 
         #endregion

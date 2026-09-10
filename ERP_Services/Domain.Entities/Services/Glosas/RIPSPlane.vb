@@ -1036,7 +1036,7 @@ Public Class RIPSPlane
             lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
             lineHead &= Utils.StringPad(item.EstadoAseguradoraVictima, MaxSize(item.EstadoAseguradoraVictima, 1), " ", Utils.PadType.STR_PAD_RIGHT).ToString.Trim()
             lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
-            lineHead &= Utils.StringPad(item.TipoVehiculoVictima, MaxSize(item.TipoVehiculoVictima, 1), " ", Utils.PadType.STR_PAD_RIGHT).ToString.Trim()
+            lineHead &= Utils.StringPad(item.TipoVehiculoVictima, MaxSize(item.TipoVehiculoVictima, 2), " ", Utils.PadType.STR_PAD_RIGHT).ToString.Trim()
             lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)
             lineHead &= Utils.StringPad(item.PlacaVehiculoVictima, MaxSize(item.PlacaVehiculoVictima, 10), " ", Utils.PadType.STR_PAD_RIGHT).ToString.Trim()
             lineHead &= Utils.StringPad(",", 1, 0, Utils.PadType.STR_PAD_LEFT)

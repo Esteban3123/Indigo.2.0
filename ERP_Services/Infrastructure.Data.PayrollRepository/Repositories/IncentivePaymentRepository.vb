@@ -119,7 +119,6 @@ Public Class IncentivePaymentRepository
         Return count
     End Function
 
-
     ''' <summary>
     ''' Obtiene la lista de Primas por Id del Contrato y Fecha Próxima Nómina
     ''' </summary>
@@ -195,6 +194,22 @@ Public Class IncentivePaymentRepository
         End If
     End Function
 
+    Public Function GetIncentivePaymentByEmployeeIdRetefuenteBetweenDates(EmployeeId As Integer, InitialDate As Date, EndDate As Date) As List(Of IncentivePayment) Implements IIncentivePaymentRepository.GetIncentivePaymentByEmployeeIdRetefuenteBetweenDates
+        'Solo primas confirmadas (RegisterStatus = 2) cuyo período termina dentro de la ventana,
+        'igual criterio que GetConfirmLiquidationByStarEndDateRetefuente usa con las liquidaciones.
+        Dim incentivePayment = From e In _context.IncentivePayment.Include("Contract.Employee")
+                               Where e.Contract.EmployeeId = EmployeeId _
+                                     And e.PeriodEndDate >= InitialDate And e.PeriodEndDate <= EndDate _
+                                     And e.RegisterStatus = 2
+                               Select e
+
+        If incentivePayment.Count > 0 Then
+            Return incentivePayment.ToList()
+        Else
+            Return Nothing
+        End If
+    End Function
+
     ''' <summary>
     ''' Función para Cargar la Cabecera, para el precargue de las Liquidaciones de Nómina, cuando se abre el frontal
     ''' </summary>
@@ -207,7 +222,7 @@ Public Class IncentivePaymentRepository
         Dim ListIncentivePayment As New List(Of IncentivePayment)
 
         Dim IncentivePayment = From e In _context.IncentivePayment
-                               Where e.GroupId = GroupId And e.Period = Period And e.PeriodEndDate = PeriodEndDate And e.RegisterStatus = 1
+                               Where e.GroupId = GroupId And e.Period = Period And e.PeriodEndDate = PeriodEndDate
 
         If IncentivePayment.Count > 0 Then
             Return IncentivePayment.ToList()
@@ -227,7 +242,7 @@ Public Class IncentivePaymentRepository
                                         .Include("Contract.Employee.ThirdParty") _
                                         .Include("Contract.Group") _
                                         .Include("Contract.Position")
-                                    Where e.GroupId = GroupId And e.Period = Period And e.PeriodEndDate = PeriodEndDate And e.RegisterStatus = 1
+                                    Where e.GroupId = GroupId And e.Period = Period And e.PeriodEndDate = PeriodEndDate
 
         ' Materializar la query una sola vez
         Dim IncentivePaymentList = IncentivePaymentQuery.ToList()

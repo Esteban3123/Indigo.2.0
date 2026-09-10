@@ -164,6 +164,29 @@ Public Interface IGlosasObjectionsReceptionC
     <OperationContract>
     Function ReceptionExcelExportFull(ByVal IdRecepcion As String, session As SessionValues) As DataTable
 
+    ''' <summary>
+    ''' Genera el archivo FUR RG (Respuesta a Glosa) de la Circular Externa 003
+    ''' de 2026 de ADRES a partir de un radicado de objeciones, incluyendo
+    ''' TODAS las facturas elegibles del radicado. Aplica filtros Aseguradora/
+    ''' Fosyga y <c>GlosaPortfolioGlosada.State IN (11,12)</c>. Devuelve un
+    ''' único <see cref="AdresClaimFile"/> con JSON y DataSet plano listo para
+    ''' exportar a XLSX desde la UI.
+    ''' </summary>
+    <OperationContract()>
+    Function GenerateAdresFurRgPlane(IdObjectionsReception As Integer,
+                                     Session As SessionValues) As ActionMessageResult(Of AdresClaimFile)
+
+    ''' <summary>
+    ''' Genera el archivo FUR RG (Respuesta a Glosa) restringido al
+    ''' subconjunto de facturas indicadas en <paramref name="InvoiceNumbers"/>.
+    ''' Pensado para el flujo de menú contextual con multi-select en la
+    ''' rejilla. Aplica los mismos filtros internos que
+    ''' <see cref="GenerateAdresFurRgPlane"/>.
+    ''' </summary>
+    <OperationContract()>
+    Function GenerateAdresFurRgPlaneByInvoices(IdObjectionsReception As Integer,
+                                               InvoiceNumbers As List(Of String),
+                                               Session As SessionValues) As ActionMessageResult(Of AdresClaimFile)
 
 #End Region
 

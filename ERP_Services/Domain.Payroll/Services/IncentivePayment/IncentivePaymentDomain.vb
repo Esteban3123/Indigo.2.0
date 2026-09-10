@@ -68,8 +68,8 @@ Public Class IncentivePaymentDomain
     Public Sub New(payrollLiquidationFunctions As ILiquidationDomain, liquidationRepository As IPayrollLiquidationRepository, ManualConceptsRepository As IManualConcepts,
                    PositionRepository As IPositionRepository, noveltyRepository As INoveltyRepository, retroactiveRepository As IRetroactiveCRepository,
                    NoveltyIncentivePaymentRepository As INoveltyIncentivePaymentRepository, GroupRepository As IGroupRepository, settingsRepository As IPayrollSettingsRepository,
-                   contractRepository As IContractRepository, conceptRepository As IConceptRepository, incentivePaymentRepository As IIncentivePaymentRepository, personrepository As IPersonRepository, bankRepository As IBankRepository,
-        foreclousureRepository As IForeclousureRepository, vacationRepository As IVacationRepository)
+                   contractRepository As IContractRepository, conceptRepository As IConceptRepository, incentivePaymentRepository As IIncentivePaymentRepository, personrepository As IPersonRepository, bankRepository As IBankRepository, vacationRepository As IVacationRepository,
+        foreclousureRepository As IForeclousureRepository)
         _LiquidationDomain = payrollLiquidationFunctions
         _liquidationRepository = liquidationRepository
         _ManualConceptsRepository = ManualConceptsRepository
@@ -232,7 +232,7 @@ Public Class IncentivePaymentDomain
                     conceptCache("701") = _conceptRepository.GetConcept("701")
 
 
-                    For Each ObjEmployeeLiquidation As Domain.Payroll.Entities.Employee In employeeLiquidation
+                    For Each ObjEmployeeLiquidation As Domain.Payroll.Entities.Employee In allEmployees
 
                         'Variables
                         Dim BasicSalary As Double = 0
@@ -381,7 +381,15 @@ Public Class IncentivePaymentDomain
 
                         If ActualGroup IsNot Nothing AndAlso ActualGroup.NextDateLiquidation <= IncentiveEndDate Then
 
-                            If SessionValues.IndigoCompanyType = 2 Then
+                            Dim savedPendingLiquidations = _liquidationRepository.GetLiquidationPendingByEmployeeAndMonth(ObjEmployeeLiquidation.Id, ActualGroup.NextDateLiquidation)
+
+                            Dim pendingAdded As Boolean = False
+
+                            If savedPendingLiquidations IsNot Nothing AndAlso savedPendingLiquidations.Count > 0 Then
+                                LiquidationEmployeeInitalContractList.AddRange(savedPendingLiquidations)
+                                ActualLiquidation = savedPendingLiquidations.FirstOrDefault()
+                                pendingAdded = True
+                            ElseIf SessionValues.IndigoCompanyType = 2 Then
                                 Dim ListLiquidation = _LiquidationDomain.NewExecuteLiquitadion(TmpEmployeeList, IIf(ActualGroup IsNot Nothing, ActualGroup, Group), False, SessionValues, DateRetirement, True).ObjectEmbbeded
                                 If ListLiquidation IsNot Nothing Then
                                     ActualLiquidation = ListLiquidation.FirstOrDefault()
@@ -394,12 +402,11 @@ Public Class IncentivePaymentDomain
                                 End If
                             End If
 
-                        End If
+                            If Not pendingAdded AndAlso ActualLiquidation IsNot Nothing Then
+                                LiquidationEmployeeInitalContractList.Add(ActualLiquidation)
+                                RepresentationCost = (From x In ActualLiquidation.LiquidationDetail Where x.ConceptClass = "047" Select x.AccruedValue).Sum()
+                            End If
 
-                        If ActualLiquidation IsNot Nothing Then
-                            LiquidationEmployeeInitalContractList.Add(ActualLiquidation)
-                            'Sumo los gastos de representacion
-                            RepresentationCost = (From x In ActualLiquidation.LiquidationDetail Where x.ConceptClass = "047" Select x.AccruedValue).Sum()
                         End If
 
                         AverageIBCIncentivePaymentValue = 0
@@ -443,7 +450,9 @@ Public Class IncentivePaymentDomain
 
                         End If
 
-                        If BasicSalary > (2 * LegalMinimunSalary) Then
+                        If AverageHelpTransportValue > 0 Then
+                            TransportHealthValue = AverageHelpTransportValue
+                        ElseIf BasicSalary > (2 * LegalMinimunSalary) Then
                             TransportHealthValue = 0
                         End If
 
@@ -1442,7 +1451,7 @@ Public Class IncentivePaymentDomain
             Dim TotalValue = ListIncentivePayment.Sum(Function(x) x.PaidValue) * 100
 
             Dim lineHead As String = Utils.StringPad("RC", 2, 0, Utils.PadType.STR_PAD_LEFT)
-            lineHead &= Utils.StringPad(Company.ThirdParty.Nit, 16, 0, Utils.PadType.STR_PAD_LEFT)
+            lineHead &= Utils.StringPad(Company.ThirdParty.Nit & Company.ThirdParty.DigitVerification, 16, 0, Utils.PadType.STR_PAD_LEFT)
             lineHead &= Utils.StringPad("PRIM", 4, 0, Utils.PadType.STR_PAD_LEFT)
             lineHead &= Utils.StringPad("PRIM", 4, 0, Utils.PadType.STR_PAD_LEFT)
             lineHead &= Utils.StringPad(BankAccount.Trim.Replace("-", ""), 16, 0, Utils.PadType.STR_PAD_LEFT)

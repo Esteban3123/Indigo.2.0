@@ -102,5 +102,8 @@ Partial Public Class GlosaObjectionsReceptionD
         End Set
     End Property
 
+    <DataMember()>
+    Public Property CustomerRadicateConsecutive As String
+
 #End Region
 End Class

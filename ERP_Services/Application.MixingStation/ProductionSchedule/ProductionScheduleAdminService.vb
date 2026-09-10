@@ -1,4 +1,4 @@
-﻿'***********************************************************************
+'***********************************************************************
 ' Assembly         : Application.Contract
 ' Author           : Carlos Mario Arias Rubiano
 ' Created          : 07/10/2014
@@ -643,15 +643,6 @@ Public Class ProductionScheduleAdminService
                 }
             End If
 
-            ' Verificación post-cálculo: Asegurar que todas las fechas se guardaron correctamente
-            Dim verifyResult As ActionResult = Await VerifyExpirationDatesWereCalculated(campaignDetail.Id)
-            If Not verifyResult.StateResult Then
-                Return New ActionResult(Of CampaignDetailUsers) With {
-                    .StateResult = False,
-                    .Message = $"Verificación de fechas de vencimiento falló: {verifyResult.Message}"
-                }
-            End If
-
             Dim campaign = _campaignDetailRepository.FindById(campaignDetail.Id)
             campaign.CampaignStatus = 5
             campaign.ProcessingDate = campaignDetail.ProcessingDate
@@ -688,7 +679,7 @@ Public Class ProductionScheduleAdminService
             ' Consultar todos los items de la campaña y verificar que tengan fecha de vencimiento
             Dim itemsWithoutDate = Await _requestPackageDetailStatusRepository.Query(
                 Function(rpds) rpds.RequestMixingStationDetail.CampaignDetailId = campaignDetailId AndAlso
-                                Not rpds.BatchExpirationDate.HasValue,
+                                Not rpds.BatchExpirationDate.HasValue And rpds.RequestMixingStationDetail.Status <> 3,
                                 includes:=New List(Of String) From {"RequestMixingStationDetail"}).ToListAsync()
 
             If itemsWithoutDate.Any() Then
@@ -718,7 +709,7 @@ Public Class ProductionScheduleAdminService
         Try
             ' consulta LINQ-to-Entities.
             Dim listRequestPackageDetailStatus = Await _requestPackageDetailStatusRepository.Query(
-                Function(rpds) rpds.RequestMixingStationDetail.CampaignDetailId = campaingDetail.Id,
+                Function(rpds) rpds.RequestMixingStationDetail.CampaignDetailId = campaingDetail.Id And rpds.RequestMixingStationDetail.Status <> 3,
                 includes:=New List(Of String) From {"RequestMixingStationDetail"}).OrderBy(Function(rpds) rpds.BatchCode).ToListAsync()
 
             ' Se verifica si hay resultados antes de continuar.
@@ -741,6 +732,7 @@ Public Class ProductionScheduleAdminService
 
             Dim firstItem = listRequestPackageDetailStatus.First()
             Dim cacheRepackaging As New Dictionary(Of Integer, RequestPackageDetailStatus)
+            Dim cacheRebottling As New Dictionary(Of Integer, ActionResult(Of RequestPackageDetailStatus))
             Dim itemsToUpdate As New List(Of RequestPackageDetailStatus)() ' Lista para SaveEntityMassive optimizado
 
             For Each item As RequestPackageDetailStatus In listRequestPackageDetailStatus
@@ -769,12 +761,16 @@ Public Class ProductionScheduleAdminService
                     End If
 
                     If isRebottling AndAlso Not isCytostaticWithNoPreparation Then
-                        Dim requestPackageDetail As ActionResult(Of RequestPackageDetailStatus) = GetHoursStabilityRebottling(item.Id, dateReference)
-                        If requestPackageDetail.StateResult Then
-                            item.BatchExpirationDate = requestPackageDetail.ObjectEmbbeded.BatchExpirationDate
-                        Else
-                            Return New ActionResult With {.StateResult = False, .Message = $"Error al calcular fecha de vencimiento para el lote {item.BatchCode}: {requestPackageDetail.Message}"}
+                        Dim cacheKey = item.PackageId.GetValueOrDefault()
+                        Dim requestPackageDetail As ActionResult(Of RequestPackageDetailStatus) = Nothing
+                        If Not cacheRebottling.TryGetValue(cacheKey, requestPackageDetail) Then
+                            requestPackageDetail = GetHoursStabilityRebottling(item.Id, dateReference)
+                            If Not requestPackageDetail.StateResult Then
+                                Return New ActionResult With {.StateResult = False, .Message = $"Error al calcular fecha de vencimiento para el lote {item.BatchCode}: {requestPackageDetail.Message}"}
+                            End If
+                            cacheRebottling(cacheKey) = requestPackageDetail
                         End If
+                        item.BatchExpirationDate = requestPackageDetail.ObjectEmbbeded.BatchExpirationDate
                     End If
 
                     'Logica reenvase
@@ -849,6 +845,7 @@ Public Class ProductionScheduleAdminService
                             BatchExpirationDateLater = item.BatchExpirationDate
                         Else
                             item.BatchExpirationDate = BatchExpirationDateLater.Add(campaingDetail.PreparationTime)
+                            BatchExpirationDateLater = item.BatchExpirationDate.Value
                         End If
                     End If
 

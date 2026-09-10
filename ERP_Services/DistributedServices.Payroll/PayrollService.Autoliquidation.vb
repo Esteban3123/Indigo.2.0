@@ -149,4 +149,19 @@ Partial Class PayrollService
             Return AutoliquidationAdmin.GenerateINSFile(companyId, policyNumber, workCenterId, periodLiquidation)
         End Using
     End Function
+
+    ''' <summary>
+    ''' Conexión para referenciar la función de generar archivo plano PILA con Presentación
+    ''' </summary>
+    Public Function GeneratePilaFile(companyId As Integer, periodLiquidation As String, session As SessionValues) As ActionMessageResult(Of StringBuilder) Implements IPayrollAutoliquidation.GeneratePilaFile
+        Using AutoliquidationAdmin As IAutoliquidationAdminService = IocFactory.Instance(session.TransactionalContainer).CurrentContainer.Resolve(Of IAutoliquidationAdminService)()
+            Return AutoliquidationAdmin.GeneratePilaFile(companyId, periodLiquidation)
+        End Using
+    End Function
+
+    Public Function GeneratePilaExcel(companyId As Integer, periodLiquidation As String, session As SessionValues) As ActionMessageResult(Of Byte()) Implements IPayrollAutoliquidation.GeneratePilaExcel
+        Using AutoliquidationAdmin As IAutoliquidationAdminService = IocFactory.Instance(session.TransactionalContainer).CurrentContainer.Resolve(Of IAutoliquidationAdminService)()
+            Return AutoliquidationAdmin.GeneratePilaExcel(companyId, periodLiquidation)
+        End Using
+    End Function
 End Class

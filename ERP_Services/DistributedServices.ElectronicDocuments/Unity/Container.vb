@@ -2,10 +2,12 @@
 Imports System.ServiceModel
 Imports Application.ElectronicDocuments
 Imports DistributedServices.Authentication
+Imports Domain.Crystal
 Imports Domain.Entities
 Imports Domain.Security
 Imports Infrastructure.CrossCutting.AzureBlobStorage.Factory
 Imports Infrastructure.CrossCutting.Base
+Imports Infrastructure.Data.CrystalRepository
 Imports Infrastructure.Data.ModelRepository
 Imports Infrastructure.Data.SecurityRepository
 Imports Microsoft.Practices.Unity
@@ -83,6 +85,10 @@ Public NotInheritable Class Container
         newContainer.RegisterType(Of IFactoryStorage)(New PerResolveLifetimeManager(), New InjectionFactory(Function(c)
                                                                                                                 Return New FactoryStorage(blobContainerName)
                                                                                                             End Function))
+
+        newContainer.RegisterType(Of ICrystalModelUnitOfWork)(New PerResolveLifetimeManager(), New InjectionFactory(Function(c)
+                                                                                                                        Return New CrystalModelUnitOfWork(hisContainer)
+                                                                                                                    End Function))
         '-------------------------- REPOSITORY --------------------------
 
         'Billing
@@ -119,6 +125,10 @@ Public NotInheritable Class Container
         newContainer.RegisterType(Of IElectronicsPropertiesRepository, ElectronicsPropertiesRepository)
         newContainer.RegisterType(Of IEndpointsRepository, EndPointsRepository)
         newContainer.RegisterType(Of IInvoiceCopayRepository, InvoiceCopayRepository)
+        ' Discriminador saldo inicial en GetHealthSegmentFromInvoiceXml (notas tipo 6).
+        newContainer.RegisterType(Of IInitialBalanceInvoiceRepository, InitialBalanceInvoiceRepository)()
+        newContainer.RegisterType(Of IPatientRepository, PatientRepository)()
+
         _currentContainer = newContainer
 
     End Sub

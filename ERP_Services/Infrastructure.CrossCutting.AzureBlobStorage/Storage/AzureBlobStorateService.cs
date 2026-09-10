@@ -65,12 +65,14 @@ namespace Infrastructure.CrossCutting.AzureBlobStorage.Storage
         /// <param name="fileName"></param>
         public void DeleteFile(string filePath, string fileName)
         {
-            string file = System.IO.Path.Combine(filePath, fileName);
             try
             {
                 var container = GetClient();
-                var blockBlob = container.GetBlobClient(file);
-                blockBlob.DeleteIfExists(DeleteSnapshotsOption.IncludeSnapshots);
+                foreach (var file in GetBlobNameCandidates(filePath, fileName))
+                {
+                    var blockBlob = container.GetBlobClient(file);
+                    blockBlob.DeleteIfExists(DeleteSnapshotsOption.IncludeSnapshots);
+                }
             }
             catch (Exception)
             {
@@ -86,12 +88,16 @@ namespace Infrastructure.CrossCutting.AzureBlobStorage.Storage
         /// <returns></returns>
         public bool ValidateFileExists(string filePath, string fileName)
         {
-            var file = System.IO.Path.Combine(filePath, fileName);
             try
             {
                 var container = GetClient();
-                var blockBlob = container.GetBlobClient(file);
-                return blockBlob.Exists();
+                foreach (var file in GetBlobNameCandidates(filePath, fileName))
+                {
+                    var blockBlob = container.GetBlobClient(file);
+                    if (blockBlob.Exists()) return true;
+                }
+
+                return false;
             }
             catch (Exception)
             {
@@ -110,12 +116,16 @@ namespace Infrastructure.CrossCutting.AzureBlobStorage.Storage
         /// </returns>
         public bool ValidateIfNotExists(string filePath, string fileName)
         {
-            var file = System.IO.Path.Combine(filePath, fileName);
             try
             {
                 var container = GetClient();
 
-                return container?.GetBlobClient(file)?.Exists() ? false : true;
+                foreach (var file in GetBlobNameCandidates(filePath, fileName))
+                {
+                    if (container?.GetBlobClient(file)?.Exists() == true) return false;
+                }
+
+                return true;
 
             }
             catch (Exception)
@@ -134,7 +144,7 @@ namespace Infrastructure.CrossCutting.AzureBlobStorage.Storage
         {
             try
             {
-                var file = System.IO.Path.Combine(filePath, fileName);
+                var file = NormalizeBlobName(System.IO.Path.Combine(filePath, fileName));
                 var container = GetClient();
                 container.CreateIfNotExists();
                 var blockBlob = container.GetBlobClient(file);
@@ -158,20 +168,81 @@ namespace Infrastructure.CrossCutting.AzureBlobStorage.Storage
         /// <returns></returns>
         public byte[] ReadFile(string filePath, string fileName)
         {
-            var file = System.IO.Path.Combine(filePath, fileName);
             try
             {
-                 var container = GetClient();
+                var container = GetClient();
 
                 string token =this.GetSasTokenStorageAccount();
-                var blockBlob = container.GetBlobClient(file);
-                var content = blockBlob.DownloadContent();
-                return content.Value.Content.ToArray();
+                foreach (var file in GetBlobNameCandidates(filePath, fileName))
+                {
+                    try
+                    {
+                        var blockBlob = container.GetBlobClient(file);
+                        var content = blockBlob.DownloadContent();
+                        return content.Value.Content.ToArray();
+                    }
+                    catch (Exception)
+                    {
+                    }
+                }
+
+                return LocalStorateService.ReadFile(filePath, fileName);
             }
             catch (Exception)
             {
                 return LocalStorateService.ReadFile(filePath, fileName);
             }
+        }
+
+        public string FindFirstFileName(string filePath, string prefix, string extension)
+        {
+            try
+            {
+                var container = GetClient();
+                foreach (var blobPrefix in GetBlobNameCandidates(filePath, prefix ?? string.Empty))
+                {
+                    foreach (var blob in container.GetBlobs(prefix: blobPrefix))
+                    {
+                        var fileName = GetBlobFileName(blob.Name);
+                        if (fileName.StartsWith(prefix ?? string.Empty, StringComparison.OrdinalIgnoreCase) &&
+                            fileName.EndsWith(extension ?? string.Empty, StringComparison.OrdinalIgnoreCase))
+                        {
+                            return fileName;
+                        }
+                    }
+                }
+
+                return null;
+            }
+            catch (Exception)
+            {
+                return LocalStorateService.FindFirstFileName(filePath, prefix, extension);
+            }
+        }
+
+        private static string[] GetBlobNameCandidates(string filePath, string fileName)
+        {
+            var rawName = System.IO.Path.Combine(filePath, fileName);
+            var normalizedName = NormalizeBlobName(rawName);
+
+            if (string.Equals(rawName, normalizedName, StringComparison.Ordinal))
+            {
+                return new[] { rawName };
+            }
+
+            return new[] { normalizedName, rawName };
+        }
+
+        private static string NormalizeBlobName(string blobName)
+        {
+            return blobName?.Replace('\\', '/');
+        }
+
+        private static string GetBlobFileName(string blobName)
+        {
+            var normalizedName = NormalizeBlobName(blobName);
+            var lastSeparator = normalizedName.LastIndexOf('/');
+            return lastSeparator >= 0 ? normalizedName.Substring(lastSeparator + 1) : normalizedName;
         }
 
         /// <summary>

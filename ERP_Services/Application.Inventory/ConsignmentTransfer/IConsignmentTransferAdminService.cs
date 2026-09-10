@@ -2,7 +2,6 @@
 using Domain.Entities;
 using Infrastructure.CrossCutting.Base;
 using System;
-using System.Collections.Generic;
 
 namespace Application.Inventory.ConsignmentTransfer
 {
@@ -64,13 +63,5 @@ namespace Application.Inventory.ConsignmentTransfer
         /// <param name="productId"></param>
         /// <returns></returns>
         ConsignmentMovementInventory GetConsignmentInventoryQuantities(int warehouseId, int productId);
-        /// <summary>
-        /// Valida información extraída de Excel mediante SP
-        /// </summary>
-        /// <param name="dataimport">Datos del archivo Excel importado</param>
-        /// <param name="sourceWarehouseId">ID del almacén de origen</param>
-        /// <returns></returns>
-        ActionResult<List<ConsignmentTransferDetail>> SetConsignmentTransferImportFile(List<ImportFileRow> dataimport, int sourceWarehouseId);
-        ActionResult<List<ConsignmentTransferDetail>> SetConsignmentTransferDetailFromCopyPaste(List<List<string>> dataImport, int sourceWarehouseId);
     }
 }

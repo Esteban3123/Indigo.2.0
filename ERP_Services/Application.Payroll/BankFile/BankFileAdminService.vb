@@ -270,7 +270,9 @@ Public Class BankFileAdminService
 
             builder.Append("<Id>" & detail.Id & "</Id>")
             builder.Append("<BankFileId>" & detail.BankFileId & "</BankFileId>")
-            builder.Append("<LiquidationId>" & detail.LiquidationId & "</LiquidationId>")
+            If detail.LiquidationId.HasValue Then
+                builder.Append("<LiquidationId>" & detail.LiquidationId.Value.ToString() & "</LiquidationId>")
+            End If
             builder.Append("<GroupId>" & detail.GroupId & "</GroupId>")
             builder.Append("<PositionId>" & detail.PositionId & "</PositionId>")
             builder.Append("<FunctionalUnitId>" & detail.FunctionalUnitId & "</FunctionalUnitId>")

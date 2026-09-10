@@ -405,25 +405,12 @@ Public Class PortfolioNoteAdminService
     ''' <returns>return action result .stateresult = false when the sequence is manual</returns>
     Private Function GetNextCodeElectronicNoteDocument() As ActionResult(Of String)
         'Secuencia de la Nota credito para la facturacion electronica
-        Dim sequence As BillingSequence = _billingSequenseRepository.GetSequenseByIdForm("2037")
-        Dim codeNote As String = String.Empty
-
-        If (sequence IsNot Nothing AndAlso sequence.Id > 0 AndAlso sequence.Sequential AndAlso sequence?.BillingSequenceDetail?.Any()) Then
-            codeNote = Infrastructure.CrossCutting.Base.Sequense.GetSequense(sequence.BillingSequenceDetail.First().Sequense.Pattern, sequence.BillingSequenceDetail.First().Next)
-
-            If (String.IsNullOrEmpty(codeNote) OrElse codeNote.Equals(Infrastructure.CrossCutting.Base.Sequense.ERROR_MAXVALUE)) Then
-                Return New ActionResult(Of String) With {.StateResult = False, .Message = "La secuencia para cuentas por cobrar alcanzo su valor maximo."}
-            End If
-
-            Dim unitOfWorkSequence As IUnitWork = _billingSequenseRepository.UnitWork
-            sequence.BillingSequenceDetail.First().Next += 1
-            _billingSequenseRepository.SaveEntity(sequence)
-            unitOfWorkSequence.Commit()
-        Else
-            Return New ActionResult(Of String) With {.StateResult = False, .Message = "La secuencia para las Notas Crédito de Facturacion Electronica no esta parametrizada o no es secuencial."}
+        Dim reservation = _billingSequenseRepository.ReserveNextFormattedCodeByFormId("2037")
+        If Not reservation.Success Then
+            Return New ActionResult(Of String) With {.StateResult = False, .Message = reservation.Message}
         End If
 
-        Return New ActionResult(Of String) With {.StateResult = True, .ObjectEmbbeded = codeNote}
+        Return New ActionResult(Of String) With {.StateResult = True, .ObjectEmbbeded = reservation.Code}
     End Function
 
     ''' <summary>
@@ -493,7 +480,7 @@ Public Class PortfolioNoteAdminService
             groupTaxes = Me.CalculateGroupTaxesFromPortfolioNote(portfolioNote)
 
             If groupTaxes.Any(Function(c) c.TaxValue < 0 OrElse c.BaseValue < 0) Then
-                groupTaxes = groupTaxes.Where(Function(c) c.TaxValue > 0 AndAlso c.BaseValue > 0)
+                groupTaxes = groupTaxes.Where(Function(c) c.TaxValue >= 0 AndAlso c.BaseValue > 0)
             End If
 
             If groupTaxes.Sum(Function(x) DirectCast(x.BaseValue, Decimal)) > billingNoteDetail.BillingValue Then
@@ -512,7 +499,8 @@ Public Class PortfolioNoteAdminService
             New BillingNoteDetailTax With {
                 .TaxPercentage = item.TaxPercentage,
                 .TaxValue = item.TaxValue,
-                .BaseValue = item.BaseValue
+                .BaseValue = item.BaseValue,
+                .IVAId = item.IVAId
             })
         Next
     End Sub
@@ -524,7 +512,8 @@ Public Class PortfolioNoteAdminService
     ''' <returns></returns>
     Private Function HasValidPortfolioNoteDetails(portfolioNoteDetail As List(Of PortfolioNoteDetail)) As Boolean
         Return portfolioNoteDetail IsNot Nothing AndAlso
-                portfolioNoteDetail.Any(Function(a) a.IvaRate IsNot Nothing AndAlso a.IvaRate > 0)
+                portfolioNoteDetail.Any(Function(a) a.IvaRate IsNot Nothing AndAlso
+                    (a.IvaRate > 0 OrElse a.GeneralLedgerIVA?.TaxClassificationType = 3))
     End Function
 
     ''' <summary>
@@ -534,8 +523,8 @@ Public Class PortfolioNoteAdminService
     ''' <returns></returns>
     Private Function HasValidAccountReceivableDetails(portfolioNoteAccountReceivableDetail As List(Of PortfolioNoteAccountReceivableDetail)) As Boolean
         Return portfolioNoteAccountReceivableDetail IsNot Nothing AndAlso
-                portfolioNoteAccountReceivableDetail.Any(Function(x) x.TaxPercentage IsNot Nothing AndAlso x.TaxPercentage > 0)
-
+                portfolioNoteAccountReceivableDetail.Any(Function(x) x.TaxPercentage.GetValueOrDefault() > 0 OrElse
+                     (x.GeneralLedgerIVA IsNot Nothing AndAlso x.GeneralLedgerIVA.TaxClassificationType = 3))
     End Function
 
     ''' <summary>
@@ -547,12 +536,17 @@ Public Class PortfolioNoteAdminService
         Dim sign As Integer = If(portfolioNote.Nature = 1, -1, 1)
 
         Return portfolioNote.PortfolioNoteDetail _
-                            .Where(Function(w) w.IvaRate IsNot Nothing AndAlso w.IvaRate > 0) _
-                            .GroupBy(Function(g) g.GeneralLedgerIVA?.Percentage) _
+                            .Where(Function(w) w.IvaRate IsNot Nothing AndAlso
+                                w.GeneralLedgerIVA?.TaxClassificationType <> 2) _
+                            .GroupBy(Function(g) New With {
+                                Key .Percentage = g.GeneralLedgerIVA?.Percentage,
+                                Key .TaxClassificationType = g.GeneralLedgerIVA?.TaxClassificationType
+                            }) _
                             .Select(Function(f) New With {
-                                Key .TaxPercentage = f.Key,
+                                Key .TaxPercentage = f.Key.Percentage,
                                 Key .TaxValue = f.Sum(Function(o) If(o.Nature = 1, 1, -1) * o.IvaRate * sign),
-                                Key .BaseValue = f.Sum(Function(p) If(p.Nature = 1, 1, -1) * p.Value * sign)
+                                Key .BaseValue = f.Sum(Function(p) If(p.Nature = 1, 1, -1) * p.Value * sign),
+                                Key .IVAId = f.First().IdGeneralLedgerIVA
                             })?.ToList()
     End Function
 
@@ -563,12 +557,17 @@ Public Class PortfolioNoteAdminService
     ''' <returns></returns>
     Private Function CalculateGroupTaxesFromAccountReceivable(ByVal pnara As PortfolioNoteAccountReceivableAdvance) As IEnumerable(Of Object)
         Return pnara.PortfolioNoteAccountReceivableDetail _
-                                    .Where(Function(x) x.TaxPercentage IsNot Nothing AndAlso x.TaxPercentage > 0) _
-                                    .GroupBy(Function(d) d.TaxPercentage) _
+                                    .Where(Function(x) x.TaxPercentage IsNot Nothing AndAlso
+                                        x.GeneralLedgerIVA?.TaxClassificationType <> 2) _
+                                    .GroupBy(Function(d) New With {
+                                        Key .TaxPercentage = d.TaxPercentage,
+                                        Key .TaxClassificationType = d.GeneralLedgerIVA?.TaxClassificationType
+                                    }) _
                                     .Select(Function(f) New With {
-                                        Key .TaxPercentage = f.Key,
+                                        Key .TaxPercentage = f.Key.TaxPercentage,
                                         Key .TaxValue = f.Sum(Function(o) o.TaxValue),
-                                        Key .BaseValue = f.Sum(Function(p) p.BaseValue)
+                                        Key .BaseValue = f.Sum(Function(p) p.BaseValue),
+                                        Key .IVAId = CType(Nothing, Integer?)
                                     })?.ToList()
     End Function
 

@@ -289,10 +289,28 @@ Public Class ContractLiquidationAdminService
         Dim unitWorkAgreements As IUnitWork = _agreementsCRepository.UnitWork
         Try
             Dim PayrollSequenseDetailId As Integer = 0
-            Dim accountingSettings = _settingsAccountRepository.GetSettingAccount(session.IndigoOperatingUnitId)
-            If accountingSettings Is Nothing Then
-                Return New ActionMessageResult() With {.StateResult = False, .Message = "No existe parámetros de contabilidad para la unidad operativa."}
+            'Se usa GetSettingAccountSimple: aquí solo se necesitan Id, IdDian y
+            'HandlesElectronicPayroll (escalares). GetSettingAccount agrega includes y ~11 consultas
+            'para armar descripciones, y desreferencia esos resultados sin validar nulos, por lo que
+            'lanza NullReferenceException si la unidad operativa tiene una cuenta sin parametrizar.
+            Dim accountingSettings = _settingsAccountRepository.GetSettingAccountSimple(session.IndigoOperatingUnitId)
+            'GetSettingAccountSimple puede devolver Nothing y GetSettingAccount una entidad vacía,
+            'por lo que se valida la referencia y el Id.
+            If accountingSettings Is Nothing OrElse accountingSettings.Id = 0 Then
+                Return New ActionMessageResult() With {.StateResult = False, .Message = "No existen parámetros de contabilidad para la unidad operativa de la sesión."}
             End If
+
+            'Misma validación que en PayrollLiquidationAdminService: si el empleador maneja nómina
+            'electrónica pero la unidad operativa de la sesión no la tiene habilitada, se aborta en
+            'lugar de omitir el soporte en silencio.
+            If Not accountingSettings.HandlesElectronicPayroll _
+               AndAlso _settingsAccountRepository.EmployerHandlesElectronicPayroll(accountingSettings.IdDian) Then
+                Return New ActionMessageResult() With {.StateResult = False,
+                    .Message = "La unidad operativa de la sesión no tiene habilitada la nómina electrónica, " &
+                               "pero el empleador sí la maneja. Inicie sesión con una unidad operativa " &
+                               "habilitada, o solicite la parametrización, antes de liquidar el contrato."}
+            End If
+
             If accountingSettings.HandlesElectronicPayroll Then
                 Dim payrollSequense = _secuenseCRepository.GetSequenseByIdForm("2635")
                 If payrollSequense.Id = 0 Then
@@ -502,8 +520,10 @@ Public Class ContractLiquidationAdminService
 
                 unitWorkAgreements.CommitAndRefreshChanges()
                 unitWorkManualConcept.CommitAndRefreshChanges()
-                unitWorkContract.CommitAndRefreshChanges()
+                'unitWorkContract commitea de último: el grafo de ContractLiquidation alcanza Payroll.Contract
+                'por .Contract y por .Employee.Contract, y su commit sobrescribe Status y Valid.
                 unitWorkContractLiquidation.CommitAndRefreshChanges()
+                unitWorkContract.CommitAndRefreshChanges()
 
                 If accountingSettings.HandlesElectronicPayroll Then
                     Dim support = _electronicPayrollPaymentSupportRepository.GetElectronicPayrollPaymentSupportByThirdPartyAndPeriod(contractLiquidation.Employee.ThirdPartyId, contractLiquidation.RetirementDate.Year, contractLiquidation.RetirementDate.Month)
@@ -620,6 +640,9 @@ Public Class ContractLiquidationAdminService
                 contractSaveTmp.RetirementReasonId = contract.RetirementReasonId
                 contractSaveTmp.RetirementDate = contract.RetirementDate
                 contractSaveTmp.Status = 2
+                contractSaveTmp.Valid = False
+                contractSaveTmp.LastModificationDate = Date.Now
+                contractSaveTmp.ModificationUserId = audit.CodeUser
                 _contractRepository.SaveEntity(contractSaveTmp)
                 _contractLiquidationRepository.SaveEntity(itemContractLiquidation)
                 unitWorkContract.CommitAndRefreshChanges()
