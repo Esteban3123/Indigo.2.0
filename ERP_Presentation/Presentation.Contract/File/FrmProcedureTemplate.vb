@@ -991,8 +991,8 @@ Public Class FrmProcedureTemplate
         Dim keysArray = SelectedCups.Select(Function(m) m.Id).ToArray()
         Dim keys = String.Join(",", keysArray)
 
-        Dim listCupsWithDescriptionsIds = _presenter.CupsWithDescriptionsId(keys) '_presenter.CupsWithDescriptionsId(_selectorCupsEntity.GetKeys())
-        Dim listCupsWithoutDescriptionsIds = keysArray '_selectorCupsEntity.GetKeysToArray.Where(Function(s) Not listCupsWithDescriptionsIds.Contains(s)).Select(Function(d) CInt(d)).ToList()
+        Dim listCupsWithDescriptionsIds = _presenter.CupsWithDescriptionsId(keys)
+        Dim listCupsWithoutDescriptionsIds = keysArray.Where(Function(s) Not listCupsWithDescriptionsIds.Contains(s)).ToList()
 
         If listCupsWithDescriptionsIds.Any() Then
             Me.Cursor = ChangeCursorIndigo()
@@ -1032,7 +1032,7 @@ Public Class FrmProcedureTemplate
             End Using
         End If
         For Each cupsEntityId In listCupsWithoutDescriptionsIds
-            Dim cupsTmp = _listProcedureCups.Where(Function(x) x.CupsId = cupsEntityId AndAlso x.ContractDescriptionId IsNot Nothing).FirstOrDefault()
+            Dim cupsTmp = _listProcedureCups.Where(Function(x) x.CupsId = cupsEntityId AndAlso x.ContractDescriptionId Is Nothing).FirstOrDefault()
             If cupsTmp IsNot Nothing Then
                 Continue For
             End If
