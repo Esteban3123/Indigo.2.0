@@ -873,12 +873,10 @@ Public Class FrmConceptsAccountsPayable
                 .IdAccount = Nothing
             End If
 
-            If _appliesCatalogPropertyandServices Then
-                If ConceptType = CONCEPT_TYPE_SPECIFIC Then
-                    .CatalogOfPropertyandServicesId = CatalogOfPropertyandServicesId
-                Else
-                    .CatalogOfPropertyandServicesId = Nothing
-                End If
+            ' Solo actualiza el catálogo en conceptos Específicos. En General o con el flag del tenant inactivo
+            ' se conserva la asociación histórica; no se borra sin una acción explícita del usuario.
+            If _appliesCatalogPropertyandServices AndAlso ConceptType = CONCEPT_TYPE_SPECIFIC Then
+                .CatalogOfPropertyandServicesId = CatalogOfPropertyandServicesId
             End If
 
             If INDlyItemThreeEightThreeRetentionAccountId.Visibility = DevExpress.XtraLayout.Utils.LayoutVisibility.Always Then
@@ -1182,8 +1180,30 @@ Public Class FrmConceptsAccountsPayable
         _catalogOfPropertyandServicesFormId = formCatalog.IdForm.ToString()
         IndigoSearchLookUpControl1.SetTagForm(INDSleCatalogOfPropertyandServices, _catalogOfPropertyandServicesFormId)
         If indigo.IsAllowPermissionForm(_catalogOfPropertyandServicesFormId) Then
-            If INDSleCatalogOfPropertyandServices.Properties.Buttons.Count = 1 Then
+            Dim hasPlusButton = False
+            For Each button As DevExpress.XtraEditors.Controls.EditorButton In INDSleCatalogOfPropertyandServices.Properties.Buttons
+                If button.Kind = DevExpress.XtraEditors.Controls.ButtonPredefines.Plus Then
+                    hasPlusButton = True
+                    Exit For
+                End If
+            Next
+            If Not hasPlusButton Then
                 INDSleCatalogOfPropertyandServices.Properties.Buttons.Add(New DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Plus))
+            End If
+        End If
+    End Sub
+
+    ''' <summary>
+    ''' Recarga el datasource de catálogos activos restaurando el valor histórico y su texto.
+    ''' </summary>
+    Private Sub RefreshCatalogOfPropertyandServicesDatasource()
+        Dim currentId = CatalogOfPropertyandServicesId
+        Dim currentNullText = INDSleCatalogOfPropertyandServices.Properties.NullText
+        Presenter.InitializeCatalogOfPropertyandServices()
+        If currentId.HasValue Then
+            CatalogOfPropertyandServicesId = currentId
+            If Not String.IsNullOrEmpty(currentNullText) Then
+                INDSleCatalogOfPropertyandServices.Properties.NullText = currentNullText
             End If
         End If
     End Sub
@@ -1343,7 +1363,7 @@ Public Class FrmConceptsAccountsPayable
                 Return
             End If
             OpenForm(_catalogOfPropertyandServicesFormId, Nothing, True)
-            Presenter.InitializeCatalogOfPropertyandServices()
+            RefreshCatalogOfPropertyandServicesDatasource()
         End If
     End Sub
 
@@ -1422,7 +1442,7 @@ Public Class FrmConceptsAccountsPayable
     ''' </summary>
     Private Sub INDSleCatalogOfPropertyandServices_QueryPopUp(sender As Object, e As CancelEventArgs) Handles INDSleCatalogOfPropertyandServices.QueryPopUp
         If CatalogOfPropertyandServicesXpo Is Nothing Then
-            Presenter.InitializeCatalogOfPropertyandServices()
+            RefreshCatalogOfPropertyandServicesDatasource()
         End If
     End Sub
 
@@ -1521,6 +1541,18 @@ Public Class FrmConceptsAccountsPayable
         End If
         ApplyCatalogOfPropertyandServicesLayout(INDtxtName.Enabled)
         HandlesRetention = False
+    End Sub
+
+    ''' <summary>
+    ''' Muestra código y descripción del catálogo histórico cuando el id no está en la lista de activos.
+    ''' </summary>
+    Private Sub INDSleCatalogOfPropertyandServices_CustomDisplayText(sender As Object, e As DevExpress.XtraEditors.Controls.CustomDisplayTextEventArgs) Handles INDSleCatalogOfPropertyandServices.CustomDisplayText
+        If CatalogOfPropertyandServicesId Is Nothing Then
+            Return
+        End If
+        If String.IsNullOrEmpty(e.DisplayText) AndAlso Not String.IsNullOrEmpty(INDSleCatalogOfPropertyandServices.Properties.NullText) Then
+            e.DisplayText = INDSleCatalogOfPropertyandServices.Properties.NullText
+        End If
     End Sub
 
     ''' <summary>

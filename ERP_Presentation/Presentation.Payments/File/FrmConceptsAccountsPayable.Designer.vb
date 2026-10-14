@@ -2201,7 +2201,7 @@ Partial Class FrmConceptsAccountsPayable
         Me.INDSleCatalogOfPropertyandServices.Name = "INDSleCatalogOfPropertyandServices"
         Me.IndigoSearchLookUpControl1.SetNextButtonNavigator(Me.INDSleCatalogOfPropertyandServices, False)
         Me.IndigoSearchLookUpControl1.SetNextPageButtonNavigator(Me.INDSleCatalogOfPropertyandServices, False)
-        Me.IndigoSearchLookUpControl1.SetOpenForm(Me.INDSleCatalogOfPropertyandServices, True)
+        Me.IndigoSearchLookUpControl1.SetOpenForm(Me.INDSleCatalogOfPropertyandServices, False)
         Me.IndigoSearchLookUpControl1.SetPopupSizeable(Me.INDSleCatalogOfPropertyandServices, False)
         Me.IndigoSearchLookUpControl1.SetPrevButtonNavigator(Me.INDSleCatalogOfPropertyandServices, False)
         Me.IndigoSearchLookUpControl1.SetPrevPageButtonNavigator(Me.INDSleCatalogOfPropertyandServices, False)
