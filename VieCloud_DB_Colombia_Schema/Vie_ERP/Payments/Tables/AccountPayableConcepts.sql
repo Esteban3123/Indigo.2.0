@@ -21,13 +21,15 @@
     [ModificationDate]                  DATETIME      NULL,
     [TimeStamp]                         ROWVERSION    NOT NULL,
     [HandleTaxes]                       BIT           CONSTRAINT [DF__AccountPa__Handl__1067B6E1] DEFAULT ((0)) NOT NULL,
+    [CatalogOfPropertyandServicesId]    INT           NULL,
     CONSTRAINT [PK_AccountPayableConcepts__Id] PRIMARY KEY CLUSTERED ([Id] ASC),
     CONSTRAINT [FK_AccountPayableConcepts_MainAccounts] FOREIGN KEY ([IdAccount]) REFERENCES [GeneralLedger].[MainAccounts] ([Id]),
     CONSTRAINT [FK_AccountPayableConcepts_MainAccounts383] FOREIGN KEY ([ThreeEightThreeAccountId]) REFERENCES [GeneralLedger].[MainAccounts] ([Id]),
     CONSTRAINT [FK_AccountPayableConcepts_MainAccounts384] FOREIGN KEY ([ThreeEightFourAccountId]) REFERENCES [GeneralLedger].[MainAccounts] ([Id]),
     CONSTRAINT [FK_AccountPayableConcepts_RetentionConcepts] FOREIGN KEY ([RetentionConceptId]) REFERENCES [GeneralLedger].[RetentionConcepts] ([Id]),
     CONSTRAINT [FK_AccountPayableConcepts_RetentionConcepts1] FOREIGN KEY ([ThreeEightThreeRetentionConceptId]) REFERENCES [GeneralLedger].[RetentionConcepts] ([Id]),
-    CONSTRAINT [FK_AccountPayableConcepts_RetentionConcepts2] FOREIGN KEY ([ThreeEightFourRetentionConceptId]) REFERENCES [GeneralLedger].[RetentionConcepts] ([Id])
+    CONSTRAINT [FK_AccountPayableConcepts_RetentionConcepts2] FOREIGN KEY ([ThreeEightFourRetentionConceptId]) REFERENCES [GeneralLedger].[RetentionConcepts] ([Id]),
+    CONSTRAINT [FK_AccountPayableConcepts_FixedAssetCatalogOfPropertyandServices] FOREIGN KEY ([CatalogOfPropertyandServicesId]) REFERENCES [FixedAsset].[FixedAssetCatalogOfPropertyandServices] ([Id])
 );
 
 
@@ -62,6 +64,8 @@ CREATE UNIQUE NONCLUSTERED INDEX [UQ_AccountPayableConcepts__Code]
     ON [Payments].[AccountPayableConcepts]([Code] ASC);
 
 
+GO
+EXECUTE sp_addextendedproperty @name = N'MS_Description', @value = N'Identificador (INT, FK→FixedAssetCatalogOfPropertyandServices, NULL) del código del Catálogo de Bienes y Servicios asociado al concepto. Aplica cuando el tenant tiene habilitado Aplica Catálogo de Bienes y Servicios y el tipo de concepto es Específico.', @level0type = N'SCHEMA', @level0name = N'Payments', @level1type = N'TABLE', @level1name = N'AccountPayableConcepts', @level2type = N'COLUMN', @level2name = N'CatalogOfPropertyandServicesId';
 GO
 EXECUTE sp_addextendedproperty @name = N'MS_Description', @value = N'Indicador booleano (BIT, default=0) que define si el concepto de cuenta por pagar maneja o calcula impuestos. Valores: 1=Sí maneja impuestos, 0=No maneja impuestos.', @level0type = N'SCHEMA', @level0name = N'Payments', @level1type = N'TABLE', @level1name = N'AccountPayableConcepts', @level2type = N'COLUMN', @level2name = N'HandleTaxes';
 GO

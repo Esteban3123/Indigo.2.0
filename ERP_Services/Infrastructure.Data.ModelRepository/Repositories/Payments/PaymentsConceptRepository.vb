@@ -73,6 +73,8 @@ Public Class PaymentsConceptRepository
                 res.RetentionConceptFourDescription = retentionConcept.Code + " - " + retentionConcept.Name
             End If
 
+            LoadCatalogOfPropertyandServicesDisplay(res)
+
             res.OriginalValue = (From d As AccountPayableConcepts In Me._context.AccountPayableConcepts.AsNoTracking() Where d.Code.Equals(code.Trim()) Select d).SingleOrDefault()
             Return res
         Else
@@ -130,6 +132,8 @@ Public Class PaymentsConceptRepository
                 objtmp.RetentionConceptFourDescription = retentionConcept.Code + " - " + retentionConcept.Name
             End If
 
+            LoadCatalogOfPropertyandServicesDisplay(objtmp)
+
             Return res.SingleOrDefault
         Else
             Return New AccountPayableConcepts()
@@ -173,5 +177,20 @@ Public Class PaymentsConceptRepository
                                 Where apc.Id = id
                                Select apc).FirstOrDefault()
     End Function
+
+    ''' <summary>
+    ''' Carga el código y nombre del catálogo de bienes y servicios, incluyendo registros inactivos asociados históricamente.
+    ''' </summary>
+    Private Sub LoadCatalogOfPropertyandServicesDisplay(concept As AccountPayableConcepts)
+        If concept Is Nothing OrElse concept.CatalogOfPropertyandServicesId Is Nothing Then
+            Return
+        End If
+        Dim catalog = (From c In _context.FixedAssetCatalogOfPropertyandServices.AsNoTracking()
+                       Where c.Id = concept.CatalogOfPropertyandServicesId
+                       Select c).FirstOrDefault()
+        If catalog IsNot Nothing Then
+            concept.CodeNameCatalogOfPropertyandServices = catalog.Code + " - " + catalog.Name
+        End If
+    End Sub
 
 End Class

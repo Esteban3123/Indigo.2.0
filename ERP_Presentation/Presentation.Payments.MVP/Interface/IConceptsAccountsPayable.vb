@@ -216,6 +216,16 @@ Public Interface IConceptsAccountsPayable
     ''' <remarks></remarks>
     Property Account383Xpo As DevExpress.Xpo.XPInstantFeedbackSource
 
+    ''' <summary>
+    ''' Obtiene o establece el id del catálogo de bienes y servicios
+    ''' </summary>
+    Property CatalogOfPropertyandServicesId As Integer?
+
+    ''' <summary>
+    ''' Establece el datasource del catálogo de bienes y servicios
+    ''' </summary>
+    Property CatalogOfPropertyandServicesXpo As XPInstantFeedbackSource
+
 #End Region
 
 End Interface
