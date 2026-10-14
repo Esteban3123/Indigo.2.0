@@ -13,6 +13,7 @@
 #Region "Imports"
 Imports Infrastructure.CrossCutting.Base
 Imports Infrastructure.Data.Xpo
+Imports Infrastructure.Data.Xpo.FixedAssetRepository
 Imports Presentation.Base
 Imports Presentation.Common.MVP
 Imports Presentation.Controls.MVP
@@ -130,7 +131,7 @@ Public Class PConceptsAccountsPayable
     ''' </summary>
     Public Sub InitializeCatalogOfPropertyandServices()
         Dim filter = "State = True"
-        Me.View.CatalogOfPropertyandServicesXpo = XpoServiceEx.Instance(Indigo.TransactionalContainer).FixedAsset.ListXPInstantFeedbackSource(Of FixedAssetRepository.FixedAssetCatalogOfPropertyandServicesXpo)(filter:=filter)
+        Me.View.CatalogOfPropertyandServicesXpo = XpoServiceEx.Instance(Indigo.TransactionalContainer).FixedAsset.ListXPInstantFeedbackSource(Of FixedAssetCatalogOfPropertyandServicesXpo)(filter:=filter)
     End Sub
 
     ''' <summary>
