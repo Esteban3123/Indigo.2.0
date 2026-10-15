@@ -44,6 +44,12 @@ Partial Public Class AccountPayableConcepts
     <DataMember()>
     Public Property RetentionConceptFourDescription As String
 
+    ''' <summary>
+    ''' Obtiene o establece el código y el nombre del catálogo de bienes y servicios
+    ''' </summary>
+    <DataMember()>
+    Public Property CodeNameCatalogOfPropertyandServices As String
+
 #End Region
 
 End Class

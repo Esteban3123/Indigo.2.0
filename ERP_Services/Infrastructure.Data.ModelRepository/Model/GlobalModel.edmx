@@ -8282,6 +8282,7 @@
           <Property Name="CostCenterId" Type="int" />
           <Property Name="TaxRegistration" Type="tinyint" Nullable="false" />
           <Property Name="TransactionEconomicActivity" Type="bit" Nullable="false" />
+          <Property Name="AppliesCatalogPropertyandServices" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="ExogenousFormat">
           <Key>
@@ -15471,6 +15472,7 @@
           <Property Name="ModificationDate" Type="datetime" />
           <Property Name="TimeStamp" Type="timestamp" StoreGeneratedPattern="Computed" Nullable="false" />
           <Property Name="HandleTaxes" Type="bit" Nullable="false" />
+          <Property Name="CatalogOfPropertyandServicesId" Type="int" />
         </EntityType>
         <EntityType Name="AccountPayableDetailConcept">
           <Key>
@@ -84556,6 +84558,7 @@ warning 6035: The relationship 'FK_ProductSusceptibleMixingStation_ATC' has colu
           <NavigationProperty Name="CostCenter" Relationship="GlobalModel.FK_CompanySettings_CostCenter" FromRole="CompanySettings" ToRole="CostCenter" />
           <Property Name="TaxRegistration" Type="Byte" Nullable="false" />
           <Property Name="TransactionEconomicActivity" Type="Boolean" Nullable="false" />
+          <Property Name="AppliesCatalogPropertyandServices" Type="Boolean" Nullable="false" />
         </EntityType>
         <EntityType Name="DeferredCausationShare">
           <Key>
@@ -85638,6 +85641,7 @@ warning 6035: The relationship 'FK_ProductSusceptibleMixingStation_ATC' has colu
           <NavigationProperty Name="SettingInventory7" Relationship="GlobalModel.FK_SettingInventory_AccountPayableConcepts8" FromRole="AccountPayableConcepts" ToRole="SettingInventory" />
           <NavigationProperty Name="SettingInventory8" Relationship="GlobalModel.FK_SettingInventory_AccountPayableConcepts9" FromRole="AccountPayableConcepts" ToRole="SettingInventory" />
           <Property Name="HandleTaxes" Type="Boolean" Nullable="false" />
+          <Property Name="CatalogOfPropertyandServicesId" Type="Int32" />
           <NavigationProperty Name="ProductGroup" Relationship="GlobalModel.FK_ProductGroup_AccountPayableConcepts" FromRole="AccountPayableConcepts" ToRole="ProductGroup" />
           <NavigationProperty Name="ProductGroup1" Relationship="GlobalModel.FK_ProductGroup_AccountPayableConcepts1" FromRole="AccountPayableConcepts" ToRole="ProductGroup" />
           <NavigationProperty Name="ProductGroup2" Relationship="GlobalModel.FK_ProductGroup_AccountPayableConcepts2" FromRole="AccountPayableConcepts" ToRole="ProductGroup" />
@@ -145231,6 +145235,7 @@ warning 6035: The relationship 'FK_ProductSusceptibleMixingStation_ATC' has colu
           <EntitySetMapping Name="CompanySettings">
             <EntityTypeMapping TypeName="GlobalModel.CompanySettings">
               <MappingFragment StoreEntitySet="CompanySettings">
+                <ScalarProperty Name="AppliesCatalogPropertyandServices" ColumnName="AppliesCatalogPropertyandServices" />
                 <ScalarProperty Name="TransactionEconomicActivity" ColumnName="TransactionEconomicActivity" />
                 <ScalarProperty Name="TaxRegistration" ColumnName="TaxRegistration" />
                 <ScalarProperty Name="CostCenterId" ColumnName="CostCenterId" />
@@ -145708,6 +145713,7 @@ warning 6035: The relationship 'FK_ProductSusceptibleMixingStation_ATC' has colu
           <EntitySetMapping Name="AccountPayableConcepts">
             <EntityTypeMapping TypeName="GlobalModel.AccountPayableConcepts">
               <MappingFragment StoreEntitySet="AccountPayableConcepts">
+                <ScalarProperty Name="CatalogOfPropertyandServicesId" ColumnName="CatalogOfPropertyandServicesId" />
                 <ScalarProperty Name="HandleTaxes" ColumnName="HandleTaxes" />
                 <ScalarProperty Name="TimeStamp" ColumnName="TimeStamp" />
                 <ScalarProperty Name="ModificationDate" ColumnName="ModificationDate" />

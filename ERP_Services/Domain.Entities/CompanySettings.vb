@@ -389,6 +389,20 @@ Partial Public Class CompanySettings
         End Set
     End Property
 
+	Private _appliesCatalogPropertyandServices As Boolean
+	<DataMember()>
+	Public Property AppliesCatalogPropertyandServices() As Boolean
+        Get
+            Return _appliesCatalogPropertyandServices
+        End Get
+        Set(ByVal value As Boolean)
+            If Not Equals(_appliesCatalogPropertyandServices, value) Then
+                _appliesCatalogPropertyandServices = value
+                OnPropertyChanged("AppliesCatalogPropertyandServices")
+            End If
+        End Set
+    End Property
+
 #End Region
 
 #Region "Navigation Properties"
