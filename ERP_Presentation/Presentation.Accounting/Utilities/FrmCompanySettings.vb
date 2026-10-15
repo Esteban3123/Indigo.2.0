@@ -222,6 +222,22 @@ Public Class FrmCompanySettings
         End Set
     End Property
 
+    ''' <summary>
+    ''' Propiedad de Aplica Catálogo de Bienes y Servicios
+    ''' </summary>
+    ''' <returns></returns>
+    Private Property AppliesCatalogPropertyandServices As Boolean
+        Get
+            If INDSleAppliesCatalogPropertyandServices.EditValue Is Nothing Then
+                Return False
+            End If
+            Return INDSleAppliesCatalogPropertyandServices.EditValue
+        End Get
+        Set(value As Boolean)
+            INDSleAppliesCatalogPropertyandServices.EditValue = value
+        End Set
+    End Property
+
 #End Region
 
 #Region "Events"
@@ -428,6 +444,7 @@ Public Class FrmCompanySettings
             INDGleWorkIncomeControl.Properties.DataSource = WorkIncomeControlTuple
             INDsleTaxRegistration.Properties.DataSource = TaxRegistrationTuple
             INDSleTransactionEconomicActivity.Properties.DataSource = TransactionEconomicActivityTuple
+            INDSleAppliesCatalogPropertyandServices.Properties.DataSource = TransactionEconomicActivityTuple
 
             Using Model = New MCompanySettings(Me.Tag)
                 companySettings = Await Model.GetCompanySettings()
@@ -446,6 +463,7 @@ Public Class FrmCompanySettings
                     INDGleWorkIncomeControl.EditValue = companySettings.WorkIncomeControl
                     TaxRegistration = companySettings.TaxRegistration
                     TransactionEconomicActivity = companySettings.TransactionEconomicActivity
+                    AppliesCatalogPropertyandServices = companySettings.AppliesCatalogPropertyandServices
                     BarraBotones.PrepareToolbar(eAction.OnlyUpdate)
                     BarraBotones.SetDocuments(companySettings.Id)
                     BarraBotones.OcultarBotonesSinPermisos(EbuttonsWithoutPermission.Deshacer) = True
@@ -466,6 +484,7 @@ Public Class FrmCompanySettings
                     Await Me.ValidateCostCenter(Me.ProfitExchangeId, Me.LostExchangeId, False)
                 Else
                     companySettings = New CompanySettings
+                    AppliesCatalogPropertyandServices = False
                     BarraBotones.PrepareToolbar(eAction.OnlySave)
                 End If
             End Using
@@ -623,6 +642,7 @@ Public Class FrmCompanySettings
             .CostCenterId = Me.CostCenterExchangeId
             .TaxRegistration = TaxRegistration
             .TransactionEconomicActivity = TransactionEconomicActivity
+            .AppliesCatalogPropertyandServices = AppliesCatalogPropertyandServices
         End With
     End Sub
 

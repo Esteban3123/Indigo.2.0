@@ -64,6 +64,9 @@ Partial Class FrmCompanySettings
         Me.CtrYesNo1View = New DevExpress.XtraGrid.Views.Grid.GridView()
         Me.GridColumn15 = New DevExpress.XtraGrid.Columns.GridColumn()
         Me.GridColumn17 = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.INDSleAppliesCatalogPropertyandServices = New Presentation.Controls.CtrYesNo()
+        Me.CtrYesNo1View2 = New DevExpress.XtraGrid.Views.Grid.GridView()
+        Me.GridColumn19 = New DevExpress.XtraGrid.Columns.GridColumn()
         Me.INDsleProfitLostJournalVoucherType = New DevExpress.XtraEditors.SearchLookUpEdit()
         Me.GridView2 = New DevExpress.XtraGrid.Views.Grid.GridView()
         Me.GridColumn4 = New DevExpress.XtraGrid.Columns.GridColumn()
@@ -125,6 +128,7 @@ Partial Class FrmCompanySettings
         Me.INDLcgTaxRegistration = New DevExpress.XtraLayout.LayoutControlGroup()
         Me.INDlyItemTaxRegistration = New DevExpress.XtraLayout.LayoutControlItem()
         Me.INDLciTransactionEconomicActivity = New DevExpress.XtraLayout.LayoutControlItem()
+        Me.INDLciAppliesCatalogPropertyandServices = New DevExpress.XtraLayout.LayoutControlItem()
         Me.GridColumn13 = New DevExpress.XtraGrid.Columns.GridColumn()
         Me.GridColumn14 = New DevExpress.XtraGrid.Columns.GridColumn()
         Me.GridColumn12 = New DevExpress.XtraGrid.Columns.GridColumn()
@@ -198,6 +202,9 @@ Partial Class FrmCompanySettings
         CType(Me.INDSleTransactionEconomicActivity, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.INDSleTransactionEconomicActivity.Properties, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.CtrYesNo1View, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.INDSleAppliesCatalogPropertyandServices, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.INDSleAppliesCatalogPropertyandServices.Properties, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.CtrYesNo1View2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.INDsleProfitLostJournalVoucherType.Properties, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.GridView2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.INDsleProfit.Properties, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -247,6 +254,7 @@ Partial Class FrmCompanySettings
         CType(Me.INDLcgTaxRegistration, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.INDlyItemTaxRegistration, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.INDLciTransactionEconomicActivity, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.INDLciAppliesCatalogPropertyandServices, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.IndigoDate1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.IndigoGroupControl1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.IndigoLayoutControlGroup1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -339,6 +347,7 @@ Partial Class FrmCompanySettings
         'LayoutControl1
         '
         Me.LayoutControl1.Controls.Add(Me.INDSleTransactionEconomicActivity)
+        Me.LayoutControl1.Controls.Add(Me.INDSleAppliesCatalogPropertyandServices)
         Me.LayoutControl1.Controls.Add(Me.INDsleProfitLostJournalVoucherType)
         Me.LayoutControl1.Controls.Add(Me.INDsleProfit)
         Me.LayoutControl1.Controls.Add(Me.INDRgSalePrice)
@@ -440,6 +449,77 @@ Partial Class FrmCompanySettings
         Me.GridColumn17.Name = "GridColumn17"
         Me.GridColumn17.Visible = True
         Me.GridColumn17.VisibleIndex = 0
+        '
+        'INDSleAppliesCatalogPropertyandServices
+        '
+        Me.IndigoGridLookUpControl11.SetAbrirFormularioArchivo(Me.INDSleAppliesCatalogPropertyandServices, False)
+        Me.IndigoGridLookUpControl12.SetAbrirFormularioArchivo(Me.INDSleAppliesCatalogPropertyandServices, False)
+        Me.IndigoTextEdit1.SetApplyStyle(Me.INDSleAppliesCatalogPropertyandServices, False)
+        Me.IndigoTextEdit1.SetCampoObligatorio(Me.INDSleAppliesCatalogPropertyandServices, False)
+        Me.IndigoGridLookUpControl12.SetGuardarXmlGrid(Me.INDSleAppliesCatalogPropertyandServices, True)
+        Me.IndigoGridLookUpControl11.SetGuardarXmlGrid(Me.INDSleAppliesCatalogPropertyandServices, True)
+        Me.INDSleAppliesCatalogPropertyandServices.EditValue = False
+        Me.INDSleAppliesCatalogPropertyandServices.Location = New System.Drawing.Point(421, 197)
+        Me.IndigoTextEdit1.SetMascara(Me.INDSleAppliesCatalogPropertyandServices, Presentation.Controls.IndigoTextEdit.EMask.Ninguno)
+        Me.INDSleAppliesCatalogPropertyandServices.Name = "INDSleAppliesCatalogPropertyandServices"
+        Me.INDSleAppliesCatalogPropertyandServices.Properties.Appearance.Font = New System.Drawing.Font("Segoe UI Light", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.INDSleAppliesCatalogPropertyandServices.Properties.Appearance.Options.UseFont = True
+        Me.INDSleAppliesCatalogPropertyandServices.Properties.AppearanceFocused.BackColor = System.Drawing.Color.FromArgb(CType(CType(240, Byte), Integer), CType(CType(240, Byte), Integer), CType(CType(240, Byte), Integer))
+        Me.INDSleAppliesCatalogPropertyandServices.Properties.AppearanceFocused.BorderColor = System.Drawing.Color.FromArgb(CType(CType(240, Byte), Integer), CType(CType(240, Byte), Integer), CType(CType(240, Byte), Integer))
+        Me.INDSleAppliesCatalogPropertyandServices.Properties.AppearanceFocused.Options.UseBackColor = True
+        Me.INDSleAppliesCatalogPropertyandServices.Properties.AppearanceFocused.Options.UseBorderColor = True
+        Me.INDSleAppliesCatalogPropertyandServices.Properties.Buttons.AddRange(New DevExpress.XtraEditors.Controls.EditorButton() {New DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)})
+        Me.INDSleAppliesCatalogPropertyandServices.Properties.DisplayMember = "Item2"
+        Me.INDSleAppliesCatalogPropertyandServices.Properties.ImmediatePopup = True
+        Me.INDSleAppliesCatalogPropertyandServices.Properties.NullText = ""
+        Me.INDSleAppliesCatalogPropertyandServices.Properties.PopupView = Me.CtrYesNo1View2
+        Me.INDSleAppliesCatalogPropertyandServices.Properties.ValueMember = "Item1"
+        Me.INDSleAppliesCatalogPropertyandServices.Size = New System.Drawing.Size(386, 28)
+        Me.INDSleAppliesCatalogPropertyandServices.StyleController = Me.LayoutControl1
+        Me.INDSleAppliesCatalogPropertyandServices.TabIndex = 51
+        Me.IndigoGridLookUpControl12.SetTagFormularioAbrir(Me.INDSleAppliesCatalogPropertyandServices, Nothing)
+        Me.IndigoGridLookUpControl11.SetTagFormularioAbrir(Me.INDSleAppliesCatalogPropertyandServices, Nothing)
+        Me.IndigoTextEdit1.SetTamañoMinimoString(Me.INDSleAppliesCatalogPropertyandServices, 0)
+        '
+        'CtrYesNo1View2
+        '
+        Me.CtrYesNo1View2.Appearance.FocusedRow.BorderColor = System.Drawing.Color.LightGray
+        Me.CtrYesNo1View2.Appearance.FocusedRow.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Bold)
+        Me.CtrYesNo1View2.Appearance.FocusedRow.Options.UseBorderColor = True
+        Me.CtrYesNo1View2.Appearance.FocusedRow.Options.UseFont = True
+        Me.CtrYesNo1View2.Appearance.GroupRow.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.CtrYesNo1View2.Appearance.GroupRow.Options.UseFont = True
+        Me.CtrYesNo1View2.Appearance.HeaderPanel.Font = New System.Drawing.Font("Segoe UI Semibold", 10.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.CtrYesNo1View2.Appearance.HeaderPanel.Options.UseFont = True
+        Me.CtrYesNo1View2.Appearance.Row.Font = New System.Drawing.Font("Segoe UI Light", 9.75!)
+        Me.CtrYesNo1View2.Appearance.Row.Options.UseFont = True
+        Me.CtrYesNo1View2.Columns.AddRange(New DevExpress.XtraGrid.Columns.GridColumn() {Me.GridColumn19})
+        Me.CtrYesNo1View2.FocusRectStyle = DevExpress.XtraGrid.Views.Grid.DrawFocusRectStyle.RowFocus
+        Me.CtrYesNo1View2.Name = "CtrYesNo1View2"
+        Me.CtrYesNo1View2.OptionsSelection.EnableAppearanceFocusedCell = False
+        Me.CtrYesNo1View2.OptionsView.EnableAppearanceEvenRow = True
+        Me.CtrYesNo1View2.OptionsView.EnableAppearanceOddRow = True
+        Me.CtrYesNo1View2.OptionsView.ShowAutoFilterRow = True
+        Me.CtrYesNo1View2.OptionsView.ShowDetailButtons = False
+        Me.CtrYesNo1View2.OptionsView.ShowGroupPanel = False
+        Me.IndigoGridViewPBS3.SetTemaIndigoMetro(Me.CtrYesNo1View2, False)
+        Me.IndigoGridView2.SetTemaIndigoMetro(Me.CtrYesNo1View2, False)
+        Me.IndigoGridViewPBS1.SetTemaIndigoMetro(Me.CtrYesNo1View2, False)
+        Me.IndigoGridViewPBS4.SetTemaIndigoMetro(Me.CtrYesNo1View2, False)
+        Me.IndigoGridView11.SetTemaIndigoMetro(Me.CtrYesNo1View2, False)
+        Me.IndigoGridViewPBS31.SetTemaIndigoMetro(Me.CtrYesNo1View2, False)
+        Me.IndigoGridViewPBS.SetTemaIndigoMetro(Me.CtrYesNo1View2, False)
+        Me.IndigoGridViewPBS12.SetTemaIndigoMetro(Me.CtrYesNo1View2, False)
+        Me.IndigoGridViewPBS2.SetTemaIndigoMetro(Me.CtrYesNo1View2, False)
+        '
+        'GridColumn19
+        '
+        Me.GridColumn19.AppearanceHeader.Options.UseTextOptions = True
+        Me.GridColumn19.Caption = "Selección"
+        Me.GridColumn19.FieldName = "Item2"
+        Me.GridColumn19.Name = "GridColumn19"
+        Me.GridColumn19.Visible = True
+        Me.GridColumn19.VisibleIndex = 0
         '
         'INDsleProfitLostJournalVoucherType
         '
@@ -1722,12 +1802,12 @@ Partial Class FrmCompanySettings
         Me.INDLcgCurrency.AppearanceTabPage.PageClient.Font = New System.Drawing.Font("Segoe UI Light", 12.0!)
         Me.INDLcgCurrency.AppearanceTabPage.PageClient.Options.UseFont = True
         Me.IndigoLayoutControlGroup1.SetCampoObligatorio(Me.INDLcgCurrency, False)
-        Me.INDLcgCurrency.CustomizationFormText = "Moneda"
-        Me.INDLcgCurrency.Items.AddRange(New DevExpress.XtraLayout.BaseLayoutItem() {Me.INDLciOfficalCurrency})
+        Me.INDLcgCurrency.CustomizationFormText = "Configuración General"
+        Me.INDLcgCurrency.Items.AddRange(New DevExpress.XtraLayout.BaseLayoutItem() {Me.INDLciOfficalCurrency, Me.INDlyItemTaxRegistration, Me.INDLciTransactionEconomicActivity, Me.INDLciAppliesCatalogPropertyandServices})
         Me.INDLcgCurrency.Location = New System.Drawing.Point(413, 0)
         Me.INDLcgCurrency.Name = "INDLcgCurrency"
         Me.INDLcgCurrency.Size = New System.Drawing.Size(413, 640)
-        Me.INDLcgCurrency.Text = "Moneda"
+        Me.INDLcgCurrency.Text = "Configuración General"
         '
         'INDLciOfficalCurrency
         '
@@ -1739,7 +1819,7 @@ Partial Class FrmCompanySettings
         Me.INDLciOfficalCurrency.MinSize = New System.Drawing.Size(389, 65)
         Me.INDLciOfficalCurrency.Name = "INDLciOfficalCurrency"
         Me.INDLciOfficalCurrency.ShowInCustomizationForm = False
-        Me.INDLciOfficalCurrency.Size = New System.Drawing.Size(389, 587)
+        Me.INDLciOfficalCurrency.Size = New System.Drawing.Size(389, 65)
         Me.INDLciOfficalCurrency.SizeConstraintsType = DevExpress.XtraLayout.SizeConstraintsType.Custom
         Me.INDLciOfficalCurrency.Text = "Moneda Oficial"
         Me.INDLciOfficalCurrency.TextAlignMode = DevExpress.XtraLayout.TextAlignModeItem.CustomSize
@@ -1839,23 +1919,24 @@ Partial Class FrmCompanySettings
         Me.INDLcgTaxRegistration.AppearanceTabPage.PageClient.Options.UseFont = True
         Me.IndigoLayoutControlGroup1.SetCampoObligatorio(Me.INDLcgTaxRegistration, False)
         Me.INDLcgTaxRegistration.CustomizationFormText = "Control Fiscal"
-        Me.INDLcgTaxRegistration.Items.AddRange(New DevExpress.XtraLayout.BaseLayoutItem() {Me.INDlyItemTaxRegistration, Me.INDLciTransactionEconomicActivity})
         Me.INDLcgTaxRegistration.Location = New System.Drawing.Point(1240, 0)
         Me.INDLcgTaxRegistration.Name = "INDLcgTaxRegistration"
+        Me.INDLcgTaxRegistration.ShowInCustomizationForm = False
         Me.INDLcgTaxRegistration.Size = New System.Drawing.Size(414, 640)
         Me.INDLcgTaxRegistration.Text = "Control Fiscal"
+        Me.INDLcgTaxRegistration.Visibility = DevExpress.XtraLayout.Utils.LayoutVisibility.Never
         '
         'INDlyItemTaxRegistration
         '
         Me.INDlyItemTaxRegistration.Control = Me.INDsleTaxRegistration
         Me.INDlyItemTaxRegistration.ControlAlignment = System.Drawing.ContentAlignment.TopLeft
         Me.INDlyItemTaxRegistration.CustomizationFormText = "Registro IVA"
-        Me.INDlyItemTaxRegistration.Location = New System.Drawing.Point(0, 0)
-        Me.INDlyItemTaxRegistration.MaxSize = New System.Drawing.Size(390, 60)
-        Me.INDlyItemTaxRegistration.MinSize = New System.Drawing.Size(390, 60)
+        Me.INDlyItemTaxRegistration.Location = New System.Drawing.Point(0, 65)
+        Me.INDlyItemTaxRegistration.MaxSize = New System.Drawing.Size(389, 60)
+        Me.INDlyItemTaxRegistration.MinSize = New System.Drawing.Size(389, 60)
         Me.INDlyItemTaxRegistration.Name = "INDlyItemTaxRegistration"
         Me.INDlyItemTaxRegistration.ShowInCustomizationForm = False
-        Me.INDlyItemTaxRegistration.Size = New System.Drawing.Size(390, 60)
+        Me.INDlyItemTaxRegistration.Size = New System.Drawing.Size(389, 60)
         Me.INDlyItemTaxRegistration.SizeConstraintsType = DevExpress.XtraLayout.SizeConstraintsType.Custom
         Me.INDlyItemTaxRegistration.Text = "Registro IVA"
         Me.INDlyItemTaxRegistration.TextAlignMode = DevExpress.XtraLayout.TextAlignModeItem.CustomSize
@@ -1866,17 +1947,32 @@ Partial Class FrmCompanySettings
         'INDLciTransactionEconomicActivity
         '
         Me.INDLciTransactionEconomicActivity.Control = Me.INDSleTransactionEconomicActivity
-        Me.INDLciTransactionEconomicActivity.Location = New System.Drawing.Point(0, 60)
-        Me.INDLciTransactionEconomicActivity.MaxSize = New System.Drawing.Size(390, 60)
-        Me.INDLciTransactionEconomicActivity.MinSize = New System.Drawing.Size(390, 60)
+        Me.INDLciTransactionEconomicActivity.Location = New System.Drawing.Point(0, 125)
+        Me.INDLciTransactionEconomicActivity.MaxSize = New System.Drawing.Size(389, 60)
+        Me.INDLciTransactionEconomicActivity.MinSize = New System.Drawing.Size(389, 60)
         Me.INDLciTransactionEconomicActivity.Name = "INDLciTransactionEconomicActivity"
-        Me.INDLciTransactionEconomicActivity.Size = New System.Drawing.Size(390, 527)
+        Me.INDLciTransactionEconomicActivity.Size = New System.Drawing.Size(389, 60)
         Me.INDLciTransactionEconomicActivity.SizeConstraintsType = DevExpress.XtraLayout.SizeConstraintsType.Custom
         Me.INDLciTransactionEconomicActivity.Text = "Asociar Actividad Económica en Transacciones"
         Me.INDLciTransactionEconomicActivity.TextAlignMode = DevExpress.XtraLayout.TextAlignModeItem.CustomSize
         Me.INDLciTransactionEconomicActivity.TextLocation = DevExpress.Utils.Locations.Top
         Me.INDLciTransactionEconomicActivity.TextSize = New System.Drawing.Size(50, 20)
         Me.INDLciTransactionEconomicActivity.TextToControlDistance = 5
+        '
+        'INDLciAppliesCatalogPropertyandServices
+        '
+        Me.INDLciAppliesCatalogPropertyandServices.Control = Me.INDSleAppliesCatalogPropertyandServices
+        Me.INDLciAppliesCatalogPropertyandServices.Location = New System.Drawing.Point(0, 185)
+        Me.INDLciAppliesCatalogPropertyandServices.MaxSize = New System.Drawing.Size(389, 60)
+        Me.INDLciAppliesCatalogPropertyandServices.MinSize = New System.Drawing.Size(389, 60)
+        Me.INDLciAppliesCatalogPropertyandServices.Name = "INDLciAppliesCatalogPropertyandServices"
+        Me.INDLciAppliesCatalogPropertyandServices.Size = New System.Drawing.Size(389, 402)
+        Me.INDLciAppliesCatalogPropertyandServices.SizeConstraintsType = DevExpress.XtraLayout.SizeConstraintsType.Custom
+        Me.INDLciAppliesCatalogPropertyandServices.Text = "Aplica Catálogo de Bienes y Servicios"
+        Me.INDLciAppliesCatalogPropertyandServices.TextAlignMode = DevExpress.XtraLayout.TextAlignModeItem.CustomSize
+        Me.INDLciAppliesCatalogPropertyandServices.TextLocation = DevExpress.Utils.Locations.Top
+        Me.INDLciAppliesCatalogPropertyandServices.TextSize = New System.Drawing.Size(50, 20)
+        Me.INDLciAppliesCatalogPropertyandServices.TextToControlDistance = 5
         '
         'GridColumn13
         '
@@ -2184,6 +2280,9 @@ Partial Class FrmCompanySettings
         CType(Me.INDSleTransactionEconomicActivity.Properties, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.INDSleTransactionEconomicActivity, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.CtrYesNo1View, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.INDSleAppliesCatalogPropertyandServices.Properties, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.INDSleAppliesCatalogPropertyandServices, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.CtrYesNo1View2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.INDsleProfitLostJournalVoucherType.Properties, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.GridView2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.INDsleProfit.Properties, System.ComponentModel.ISupportInitialize).EndInit()
@@ -2233,6 +2332,7 @@ Partial Class FrmCompanySettings
         CType(Me.INDLcgTaxRegistration, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.INDlyItemTaxRegistration, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.INDLciTransactionEconomicActivity, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.INDLciAppliesCatalogPropertyandServices, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.IndigoDate1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.IndigoGroupControl1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.IndigoLayoutControlGroup1, System.ComponentModel.ISupportInitialize).EndInit()
@@ -2412,6 +2512,10 @@ Partial Class FrmCompanySettings
     Friend WithEvents CtrYesNo1View As DevExpress.XtraGrid.Views.Grid.GridView
     Friend WithEvents GridColumn12 As DevExpress.XtraGrid.Columns.GridColumn
     Friend WithEvents INDLciTransactionEconomicActivity As DevExpress.XtraLayout.LayoutControlItem
+    Friend WithEvents INDSleAppliesCatalogPropertyandServices As Controls.CtrYesNo
+    Friend WithEvents CtrYesNo1View2 As DevExpress.XtraGrid.Views.Grid.GridView
+    Friend WithEvents GridColumn19 As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents INDLciAppliesCatalogPropertyandServices As DevExpress.XtraLayout.LayoutControlItem
     Friend WithEvents BackgroundWorker1 As ComponentModel.BackgroundWorker
     Friend WithEvents GridColumn13 As DevExpress.XtraGrid.Columns.GridColumn
     Friend WithEvents GridColumn14 As DevExpress.XtraGrid.Columns.GridColumn
