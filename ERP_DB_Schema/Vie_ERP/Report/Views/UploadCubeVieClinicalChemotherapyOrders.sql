@@ -1,0 +1,123 @@
+﻿
+
+
+
+CREATE view [Report].[UploadCubeVieClinicalChemotherapyOrders] AS
+
+--ALTER PROCEDURE [EHR].[SP_QUIMIOTERAPIA]
+--DECLARE	@FECINI Datetime ='2024-01-01';
+--DECLARE	@FECFIN Datetime ='2024-04-30';
+
+	SELECT  CAST(DB_NAME() AS VARCHAR(9)) AS ID_COMPANY,
+		CASE P.IPTIPODOC 	
+			WHEN 1 THEN 'CC'
+			WHEN 2 THEN 'CE'
+			WHEN 3 THEN 'TI'
+			WHEN 4 THEN 'RC'
+			WHEN 5 THEN 'PA'
+			WHEN 6 THEN 'AS'
+			WHEN 7 THEN 'MS'
+			WHEN 8 THEN 'NU'
+			WHEN 9 THEN 'CN'
+			WHEN 10 THEN 'CD'
+			WHEN 11 THEN 'SC' 
+			WHEN 12 THEN 'PE' 
+			WHEN 13 THEN 'PT'
+			WHEN 14 THEN 'DE'
+			WHEN 15 THEN 'SI' END AS 'TIPO IDENTIFICACION',--[TipoIdentificacion], 
+		
+		ORD.IPCODPACI AS 'NRO IDENTIFICACION',-- [NroIdentificacion],
+		RTRIM(P.IPNOMCOMP) AS 'NOMBRE PACIENTE',--[NombrePaciente], 
+		CAST(P.IPFECNACI AS DATE) AS 'FECHA NACIMIENTO',--[FechaNacimiento], 
+		DATEDIFF(YEAR, P.IPFECNACI, ING.IFECHAING) AS 'EDAD',--[Edad],  
+		P.IPTELEFON AS 'TELEFONO PRINCIPAL',--[TelPrincipal],
+		P.IPTELMOVI AS 'TELEFONO ALTERNATIVO',--[TelAlternativo],
+		--DP.depcodigo AS 'Cod. Departamento',
+		dp.nomdepart AS 'DEPARTAMENTO',--[Departamento],
+		--MU.MUNCODIGO AS 'Cod. Municipio',
+		MU.MUNNOMBRE AS 'MINICIPIO',--[Municipio],
+		UPPER(p.ipdirecci) AS 'DIRECCION',--[Direccion],
+		H.Name AS 'ENTIDAD',--[Entidad],
+		CG.Name AS 'GRUPO ATENCION',-- [GrupoAtencion], 
+
+		ORD.NUMINGRES AS 'NRO DE INGRESO',--[NroIngreso],
+		CEN.NOMCENATE AS 'CENTRO DE ATENCION',--[CentroAtencion],
+		FUN.UFUDESCRI AS 'UNIDAD FUNCIONAL',--[UnidadFuncional],
+		CASE 
+			WHEN ORD.CODCENATE = '13031'THEN 'ARMENIA' 
+			when ORD.CODCENATE = '13034' THEN 'ARMENIA'
+			when ORD.CODCENATE = '13032' THEN 'ARMENIA'
+			when ORD.CODCENATE = '11011' THEN 'PEREIRA'
+			when ORD.CODCENATE = '11012' THEN 'PEREIRA'
+			when ORD.CODCENATE = '12021' THEN 'MANIZALES'
+			when ORD.CODCENATE = '14041' THEN 'CARTAGO'
+			WHEN ORD.CODCENATE = '12022' THEN 'MANIZALES'
+			WHEN ORD.CODCENATE = '12024' THEN 'MANIZALES'
+			WHEN ORD.CODCENATE = '13033' THEN 'ARMENIA'
+			WHEN ORD.CODCENATE = '12025' THEN 'LA DORADA' END AS 'CIUDAD PROCEDIMIENTO',-- [CiudadProcedimiento],
+		S.Code AS 'CODIGO ESQUEMA',--[CodEsquema],
+		S.Description AS 'ESQUEMA',--[Esquema],
+		CASE s.typescheme
+			WHEN 1 THEN 'Quimioterapia' 
+			WHEN 2 THEN 'Enfermedades Huérfanas'
+			WHEN 3 THEN 'Otros' END AS 'TIPO ESQUEMA',--[TipoEsquema],
+		RTRIM(cup.description) AS 'SERVICIO ADMINISTRACION',--[ServicioAdministracion],
+		CASE ORD.ESTADO 
+			WHEN 1 THEN  'Orden Solicitada' 
+			WHEN 2 THEN 'Esquema iniciado' 
+			WHEN 3 THEN 'Esquema finalizado completo'
+			WHEN 4 THEN 'Suspendido - Finalización prematura' 
+			WHEN 5 THEN 'Anulado - Cuando no se ha iniciado tratamiento' END 'ESTADO',-- [Estado],
+		ORD.CODDIAGNO 'CODIGO DIAGNOSTICO',--[CodDiagnostico],
+		DIA.NOMDIAGNO AS 'DIAGNOSTICO',--[Diagnostico],
+		CASE dxP.tipdiagno 
+			WHEN 'I' THEN 'Impresion Diagnostica' 
+			WHEN 'C' THEN 'Confirmado Nuevo' 
+			WHEN 'R' THEN 'Confirmado Repetido' END AS 'TIPO DIAGNOSTICO',--[TipoDiagnostico],
+		CONVERT(VARCHAR(10), cac.[23], 103) AS 'FECHA PATOLOGIA',--[FechaPatologia], 
+		CAST(ORD.CICLOS AS CHAR) 'NRO CICLOS ESQUEMA',--[NroCiclosEsquema],
+		CAST(DET.CICLO AS CHAR) 'CICLO ACTUAL',--[CicloActual],
+		CAST(DET.DIA AS CHAR) 'DIA',--[Dia],
+		M.NOMMEDICO AS 'PROFESIONAL ORDENO',--[ProfesionalOrdeno], 
+		med.nommedico AS 'PROFEIONAL ORDENO CICLO',--[ProfesionalOrdenoCiclo], 
+		CAST(ORD.FECHAREGISTRO AS DATE) 'FECHA ORDEN',--[FechaOrden],
+		CAST(CIC.FECHAREGISTRO AS DATE) 'FECHA ORDEN CICLO',--[FechaOrdenCiclo], 
+		CASE DET.ESTADODIA 
+			WHEN 1 THEN 'Dia Sin Cumplir' 
+			WHEN 2 THEN 'Dia cumplido' 
+			WHEN 3 THEN 'Antes de Indigo' END 'ESTADO DIA',--[EstadoDia],
+		ISNULL(CAST(CIT.FECHORAIN AS DATE),'1900-01-01') AS 'FECHA APLICACION',--[FechaAplicacion],
+		ING.IAUTORIZA AS 'NRO AUTORIZACION',--,
+		PRO.CODSERIPS  'CUPS',--[CUPS], 
+		CE.Description as 'DESCRIPCION',--[Descripcion],
+		[CICLO ESQUEMA] = concat('Ciclo ', ORD.CICLOACTUAL, ' de ' , ORD.CICLOS),
+		sal.descripsal AS 'SALA',--[Sala]
+		CAST(ISNULL(CIT.FECHORAIN,'1900-01-01')  AS DATE) 'FECHA BUSQUEDA',
+		YEAR(ORD.FECHAREGISTRO) AS 'AÑO CARGUE',
+		CONVERT(DATETIME,GETDATE() AT TIME ZONE 'Pakistan Standard Time',1) AS ULT_ACTUAL
+
+	FROM EHR.HCORDQUIMIO ORD
+	JOIN EHR.HCORDCICLOSD DET ON DET.IDHCORDQUIMIO =ORD.ID 
+	JOIN EHR.HCORDCICLOS CIC ON DET.IDHCORDCICLOS=CIC.ID
+	JOIN EHR.Schemes S ON S.Id = ORD.SchemesId
+	LEFT JOIN contract.cupsentity AS cup ON s.serviceips = cup.code
+	JOIN DBO.INPACIENT P ON P.IPCODPACI = ORD.IPCODPACI
+	JOIN dbo.ADINGRESO AS ING ON ORD.NUMINGRES  =ING.NUMINGRES
+	JOIN DBO.ADCENATEN CEN ON CEN.CODCENATE = ORD.CODCENATE
+	JOIN dbo.INUNIFUNC AS FUN ON FUN.UFUCODIGO =ORD.UFUCODIGO
+	JOIN Contract.HealthAdministrator  H with (nolock) on H.id = ING.GENCONENTITY
+	JOIN Contract .CareGroup AS CG ON CG.Id =ING.GENCAREGROUP 
+	JOIN DBO.INPROFSAL M ON M.CODPROSAL = ORD.CODPROSAL
+	JOIN dbo.inprofsal AS med ON cic.codprosal = med.codprosal
+	JOIN DBO.INUBICACI UB ON UB.AUUBICACI = P.AUUBICACI
+	JOIN DBO.INMUNICIP MU ON MU.DEPMUNCOD = UB.DEPMUNCOD
+	JOIN DBO.INDEPARTA DP ON DP.depcodigo = MU.DEPCODIGO
+	LEFT JOIN dbo.INDIAGNOS AS DIA ON DIA.CODDIAGNO =ORD.CODDIAGNO
+	LEFT JOIN DBO.AGASICITA CIT ON CIT.IDHCORDCICLOSD = DET.ID
+	LEFT JOIN dbo.HCORDPRON AS PRO ON PRO.AUTO =CIC.IDHCORDPRON 
+	LEFT JOIN Contract .CUPSEntity  AS CE ON CE.Code  =PRO.CODSERIPS 
+	LEFT JOIN dbo.agensalac AS sal ON cit.idsala = sal.codconcec
+	LEFT JOIN dbo.indiagnop AS dxp WITH (NOLOCK) ON ord.numingres = dxp.numingres AND ord.coddiagno = dxp.coddiagno
+	LEFT JOIN dbo.hconcopreg AS cac ON ord.ipcodpaci = cac.[6] AND ord.coddiagno = cac.[17] 
+	WHERE ORD.ESTADO in (1, 2, 3, 4) and CODESTCIT = 1 --AND CAST(ISNULL(CIT.FECHORAIN,'1900-01-01')  AS DATE) BETWEEN @FECINI AND @FECFIN 
+	--ORDER BY P.IPCODPACI,S.Code

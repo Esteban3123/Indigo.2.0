@@ -1,0 +1,27 @@
+﻿CREATE TABLE [Report].[DATOSINVENTARIOS_CONSULTA] (
+    [ID_COMPANY]           VARCHAR (9)     NULL,
+    [MODULO]               VARCHAR (12)    NOT NULL,
+    [TRANSACCION]          VARCHAR (36)    NOT NULL,
+    [AÑO]                  INT             NULL,
+    [MES]                  INT             NULL,
+    [DIA]                  INT             NULL,
+    [CODIGO GRUPO]         VARCHAR (20)    NOT NULL,
+    [GRUPO PRODUCTO]       VARCHAR (100)   NOT NULL,
+    [CUENTA CONTABLE]      VARCHAR (50)    NOT NULL,
+    [NOMBRE ALMACEN]       VARCHAR (100)   NOT NULL,
+    [TIPO DE TRANSACCION]  VARCHAR (7)     NULL,
+    [TIPO ALMACEN]         VARCHAR (12)    NOT NULL,
+    [TOTAL ENTRADAS]       NUMERIC (38, 2) NULL,
+    [TOTAL SALIDAS]        NUMERIC (38, 2) NULL,
+    [AFECTA INVENTARIO]    VARCHAR (2)     NOT NULL,
+    [CODIGO DOCUMENTO]     VARCHAR (20)    NULL,
+    [TIPO ORDEN]           VARCHAR (43)    NULL,
+    [ESTADO]               VARCHAR (11)    NULL,
+    [CODIGO INTERNO]       VARCHAR (20)    NULL,
+    [FECHA BUSQUEDA]       DATETIME        NULL,
+    [ULT_ACTUA]            DATETIME        NULL,
+    [ID COMPROBANTE]       INT             NOT NULL,
+    [COMPROBANTE CONTABLE] BIGINT          NOT NULL,
+    [TIPO COMPROBANTE]     VARCHAR (123)   NOT NULL
+);
+

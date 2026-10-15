@@ -1,0 +1,3 @@
+﻿CREATE SCHEMA [Nursing]
+    AUTHORIZATION [dbo];
+

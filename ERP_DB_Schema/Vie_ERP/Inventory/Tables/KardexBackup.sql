@@ -1,0 +1,27 @@
+﻿CREATE TABLE [Inventory].[KardexBackup] (
+    [Id]                      INT             NOT NULL,
+    [MovementType]            TINYINT         NOT NULL,
+    [ThirdPartyId]            INT             NULL,
+    [WarehouseId]             INT             NOT NULL,
+    [ProductId]               INT             NOT NULL,
+    [BatchSerialId]           INT             NULL,
+    [DocumentDate]            DATETIME        NOT NULL,
+    [Quantity]                INT             NOT NULL,
+    [Value]                   NUMERIC (20, 4) NOT NULL,
+    [PreviousCost]            NUMERIC (20, 4) NOT NULL,
+    [AverageCost]             NUMERIC (20, 4) NOT NULL,
+    [PreviousAverageCost]     NUMERIC (20, 4) NOT NULL,
+    [PreviousAmountProduct]   INT             NOT NULL,
+    [PreviousAmountWarehouse] INT             NOT NULL,
+    [PreviousAmountBatch]     INT             NOT NULL,
+    [EntityId]                INT             NOT NULL,
+    [EntityCode]              VARCHAR (20)    NOT NULL,
+    [EntityName]              VARCHAR (250)   NOT NULL,
+    [ImportedEntityId]        INT             NULL,
+    [ImportedEntityCode]      VARCHAR (20)    NULL,
+    [ImportedEntityName]      VARCHAR (250)   NULL,
+    [AffectInventory]         BIT             NOT NULL,
+    [CreationUser]            VARCHAR (20)    NOT NULL,
+    [CreationDate]            DATETIME        NOT NULL
+);
+

@@ -1,0 +1,9 @@
+﻿
+CREATE procedure [dbo].[PRUEBA]
+@FECHAINI AS DATETIME, --='2022-07-01 00:00:00',
+@FECHAFIN AS DATETIME --='2022-07-05 23:59:59'
+AS
+
+
+select * from dbo.ADINGRESO 
+where IFECHAING between @FECHAINI  and @FECHAFIN

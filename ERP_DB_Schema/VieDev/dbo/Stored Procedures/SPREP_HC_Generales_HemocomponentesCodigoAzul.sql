@@ -1,0 +1,36 @@
+﻿CREATE PROCEDURE [dbo].[SPREP_HC_Generales_HemocomponentesCodigoAzul]
+(
+    @CodigoPaciente VARCHAR(25),
+    @NumeroIngreso CHAR(25),
+    @NumeroCodigoAzul NVARCHAR(500) -- Acepta una lista de valores
+)
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    DECLARE @SQL NVARCHAR(MAX)
+
+	 SET @SQL = '
+    SELECT 
+        HCORHEMCOID,
+        COM.DESCOMSAM, 
+        COUNT(*) AS CANTIDAD,
+        A.NUMCODAZU AS ''CONSECUTIVO DEL CODIGO AZUL'',
+		A.IPCODPACI, 
+		A.CODCENATE, 
+		A.UFUCODIGO
+    FROM HCORHEMBOL BOLSA 
+    INNER JOIN HCCOMSAN COM ON COM.ID = BOLSA.COMSAMID 
+    INNER JOIN HCORHEMCO HEM ON BOLSA.HCORHEMCOID = HEM.ID
+    INNER JOIN HCCODAZUC A ON HEM.NUMEFOLIO = A.NUMCODAZU 
+                           AND HEM.IPCODPACI = A.IPCODPACI 
+                           AND HEM.NUMINGRES = A.NUMINGRES 
+                           AND HEM.IDETIPHIS = ''CODIGOAZU''
+    WHERE A.NUMCODAZU IN (' + @NumeroCodigoAzul + ')
+      AND A.IPCODPACI = ''' + @CodigoPaciente + '''
+      AND A.NUMINGRES = ''' + @NumeroIngreso + '''
+    GROUP BY A.IPCODPACI,A.CODCENATE,A.UFUCODIGO,COM.DESCOMSAM, A.NUMCODAZU, HCORHEMCOID ORDER BY A.NUMCODAZU DESC;'
+
+
+    EXEC(@SQL) 
+END

@@ -1,0 +1,33 @@
+﻿
+-- =============================================
+-- Author:		<Julian Andres Cardozo>
+-- Create date: <05/08/2011>
+-- Description:	<Listado de patologias>
+-- =============================================
+CREATE PROCEDURE [dbo].[SPHC_ListarResultadosEstudiosPacienteIngreso]
+(
+@Paciente Varchar(25),
+@Ingreso Char(10)
+)
+AS
+BEGIN
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	SET NOCOUNT ON;
+
+
+	
+SELECT CAST('' AS BIT) AS IMPRIMIR,CAST(CONSECUTI AS INT) AS Consecutivo,CASE TIPODOCUM WHEN 2 THEN 'Laboratorios' WHEN 3 THEN 'Imagenes - DICOM' WHEN 4 THEN 'Patologias' WHEN 8 THEN 'Otros Estudios Realizados' WHEN 9 THEN 'Lecturas Imagenes Dx' END AS Tipo,NUMINGRES AS Ingreso,FECPROCES AS Fecha,RTRIM(B.DESSERIPS) AS Servicio,
+CODCENATE AS Centro,RTRIM(C.UFUDESCRI) AS UnidadFuncional,'' AS Estado,RTRIM(OBSERDOCU) AS Nombre,RTRIM(NOMARCADJ) AS Archivo,A.TIPODOCUM,A.IDMUESTRA
+FROM dbo.HCDOCUMAD A  LEFT  OUTER JOIN
+dbo.INCUPSIPS B ON A.CODSERIPS=B.CODSERIPS INNER JOIN
+dbo.INUNIFUNC C ON A.UFUCODIGO=C.UFUCODIGO
+WHERE IPCODPACI=@Paciente AND NUMINGRES=@Ingreso AND  NOMARCADJ IS NOT NULL  AND A.TIPODOCUM IN (2,3,4,8,9) AND A.CODSERIPS IS NOT NULL
+UNION
+SELECT CAST('' AS BIT) AS IMPRIMIR,CAST(CONSECUTI AS INT) AS Consecutivo,D.DESCATEGO AS Tipo,NUMINGRES AS Ingreso,FECPROCES AS Fecha,'NO APLICA' AS Servicio,
+CODCENATE AS Centro,RTRIM(C.UFUDESCRI) AS UnidadFuncional,'' AS Estado,RTRIM(OBSERDOCU) AS Nombre,RTRIM(NOMARCADJ) AS Archivo,A.TIPODOCUM,A.IDMUESTRA
+FROM dbo.HCDOCUMAD A INNER JOIN 
+dbo.INUNIFUNC C ON A.UFUCODIGO=C.UFUCODIGO INNER JOIN 
+dbo.HCCATDOCU D ON A.TIPODOCUM=D.CODCATEGO
+WHERE IPCODPACI=@Paciente AND NUMINGRES=@Ingreso AND NOMARCADJ IS NOT NULL  AND D.TIPDOCUME='1'
+END

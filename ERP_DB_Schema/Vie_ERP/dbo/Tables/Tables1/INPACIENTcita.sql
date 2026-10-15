@@ -1,0 +1,4 @@
+﻿CREATE TABLE [dbo].[INPACIENTcita] (
+    [IPCODPACI] VARCHAR (25) NOT NULL
+);
+

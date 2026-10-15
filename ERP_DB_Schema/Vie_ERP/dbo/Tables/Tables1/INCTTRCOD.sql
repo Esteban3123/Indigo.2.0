@@ -1,0 +1,44 @@
+﻿CREATE TABLE [dbo].[INCTTRCOD] (
+    [CONSECUTI] INT                                                                            IDENTITY (1, 1) NOT FOR REPLICATION NOT NULL,
+    [PACANTERI] CHAR (15) MASKED WITH (FUNCTION = 'partial(0, "Indentification_Ofuscado", 0)') NOT NULL,
+    [FECREGIST] DATETIME                                                                       NOT NULL,
+    [ESTADOPAC] CHAR (1)                                                                       NOT NULL,
+    [PACINUEVO] CHAR (15) MASKED WITH (FUNCTION = 'partial(0, "Identification_Ofuscado", 0)')  NOT NULL,
+    [CODUSUARI] CHAR (20)                                                                      NOT NULL,
+    [TRASPACYA] BIT                                                                            NULL,
+    [OBSERVACI] VARCHAR (250)                                                                  NULL,
+    CONSTRAINT [PK_INCTTRCOD] PRIMARY KEY CLUSTERED ([CONSECUTI] ASC)
+);
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'MS_Description', @value = 'Observaciones', @level0type = N'SCHEMA', @level0name = N'dbo', @level1type = N'TABLE', @level1name = N'INCTTRCOD', @level2type = N'COLUMN', @level2name = N'OBSERVACI';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'MS_Description', @value = 'Permite saber si cuando en el administrador de los servicios se ejecuta iniciar ya, el paciente esta disponible para el traslado', @level0type = N'SCHEMA', @level0name = N'dbo', @level1type = N'TABLE', @level1name = N'INCTTRCOD', @level2type = N'COLUMN', @level2name = N'TRASPACYA';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'MS_Description', @value = 'Codigo del Usuario que ejecuto el traslado', @level0type = N'SCHEMA', @level0name = N'dbo', @level1type = N'TABLE', @level1name = N'INCTTRCOD', @level2type = N'COLUMN', @level2name = N'CODUSUARI';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'MS_Description', @value = 'Codigo del Paciente Nuevo', @level0type = N'SCHEMA', @level0name = N'dbo', @level1type = N'TABLE', @level1name = N'INCTTRCOD', @level2type = N'COLUMN', @level2name = N'PACINUEVO';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'MS_Description', @value = '1-Activo  2-Inactivo', @level0type = N'SCHEMA', @level0name = N'dbo', @level1type = N'TABLE', @level1name = N'INCTTRCOD', @level2type = N'COLUMN', @level2name = N'ESTADOPAC';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'MS_Description', @value = 'Fecha Registro en el sistema', @level0type = N'SCHEMA', @level0name = N'dbo', @level1type = N'TABLE', @level1name = N'INCTTRCOD', @level2type = N'COLUMN', @level2name = N'FECREGIST';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'MS_Description', @value = 'Codigo del Paciente Anterior', @level0type = N'SCHEMA', @level0name = N'dbo', @level1type = N'TABLE', @level1name = N'INCTTRCOD', @level2type = N'COLUMN', @level2name = N'PACANTERI';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'MS_Description', @value = 'Consecutivo', @level0type = N'SCHEMA', @level0name = N'dbo', @level1type = N'TABLE', @level1name = N'INCTTRCOD', @level2type = N'COLUMN', @level2name = N'CONSECUTI';
+

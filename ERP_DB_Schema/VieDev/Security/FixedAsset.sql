@@ -1,0 +1,3 @@
+﻿CREATE SCHEMA [FixedAsset]
+    AUTHORIZATION [dbo];
+

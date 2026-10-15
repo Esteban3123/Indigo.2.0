@@ -1,0 +1,45 @@
+﻿CREATE TABLE [dbo].[HCCODAZUC] (
+    [CODCONSEC] NUMERIC (18)                                                                     IDENTITY (1, 1) NOT FOR REPLICATION NOT NULL,
+    [FECHAORDE] DATETIME                                                                         NOT NULL,
+    [CODPROSAL] CHAR (20) MASKED WITH (FUNCTION = 'partial(0, "Identification_Ofuscado", 0)')    NOT NULL,
+    [NUMCODAZU] CHAR (4)                                                                         NOT NULL,
+    [IPCODPACI] VARCHAR (25) MASKED WITH (FUNCTION = 'partial(0, "Identification_Ofuscado", 0)') NOT NULL,
+    [NUMINGRES] CHAR (10)                                                                        NOT NULL,
+    [CODCENATE] CHAR (10)                                                                        NOT NULL,
+    [UFUCODIGO] CHAR (10)                                                                        NOT NULL,
+    [JUSCODAZU] VARCHAR (8000)                                                                   NULL,
+    [NUMEFOLIO] CHAR (10)                                                                        NULL,
+    CONSTRAINT [PK_HCCODAZUC] PRIMARY KEY CLUSTERED ([CODCONSEC] ASC),
+    CONSTRAINT [FK_HCCODAZUC_ADCENATEN] FOREIGN KEY ([CODCENATE]) REFERENCES [dbo].[ADCENATEN] ([CODCENATE]),
+    CONSTRAINT [FK_HCCODAZUC_ADINGRESO] FOREIGN KEY ([NUMINGRES]) REFERENCES [dbo].[ADINGRESO] ([NUMINGRES]),
+    CONSTRAINT [FK_HCCODAZUC_INPACIENT] FOREIGN KEY ([IPCODPACI]) REFERENCES [dbo].[INPACIENT] ([IPCODPACI]),
+    CONSTRAINT [FK_HCCODAZUC_INPROFSAL] FOREIGN KEY ([CODPROSAL]) REFERENCES [dbo].[INPROFSAL] ([CODPROSAL]),
+    CONSTRAINT [FK_HCCODAZUC_INUNIFUNC] FOREIGN KEY ([UFUCODIGO]) REFERENCES [dbo].[INUNIFUNC] ([UFUCODIGO])
+);
+
+
+GO
+ALTER TABLE [dbo].[HCCODAZUC] NOCHECK CONSTRAINT [FK_HCCODAZUC_ADCENATEN];
+
+
+GO
+ALTER TABLE [dbo].[HCCODAZUC] NOCHECK CONSTRAINT [FK_HCCODAZUC_ADINGRESO];
+
+
+GO
+ALTER TABLE [dbo].[HCCODAZUC] NOCHECK CONSTRAINT [FK_HCCODAZUC_INPACIENT];
+
+
+GO
+ALTER TABLE [dbo].[HCCODAZUC] NOCHECK CONSTRAINT [FK_HCCODAZUC_INPROFSAL];
+
+
+GO
+ALTER TABLE [dbo].[HCCODAZUC] NOCHECK CONSTRAINT [FK_HCCODAZUC_INUNIFUNC];
+
+
+GO
+CREATE NONCLUSTERED INDEX [IX_HCCODAZUC__IPCODPACI__NUMINGRES__CODCONSEC__INC__JUSCODAZU__NUMCODAZU]
+    ON [dbo].[HCCODAZUC]([IPCODPACI] ASC, [NUMINGRES] ASC, [CODCONSEC] ASC)
+    INCLUDE([NUMCODAZU], [JUSCODAZU]);
+

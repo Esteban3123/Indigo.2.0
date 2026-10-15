@@ -1,0 +1,25 @@
+﻿CREATE TABLE [dbo].[HCPRODIAG] (
+    [CODPRODUC] CHAR (20)                                                                     NOT NULL,
+    [CODDIAGNO] CHAR (4) MASKED WITH (FUNCTION = 'partial(0, "DiagnosticCode_Ofuscado", 0)')  NOT NULL,
+    [CODCONCEC] NUMERIC (18)                                                                  NOT NULL,
+    [CODPROSAL] CHAR (20) MASKED WITH (FUNCTION = 'partial(0, "Identification_Ofuscado", 0)') NOT NULL,
+    [MANEXTPRO] BIT                                                                           NOT NULL,
+    [INDAUDFOR] NUMERIC (18)                                                                  NOT NULL,
+    CONSTRAINT [PK_HCPRODIAG] PRIMARY KEY CLUSTERED ([CODPRODUC] ASC, [CODDIAGNO] ASC, [CODCONCEC] ASC, [MANEXTPRO] ASC),
+    CONSTRAINT [FK_HCPRODIAG_HCPRESCRC] FOREIGN KEY ([CODCONCEC]) REFERENCES [dbo].[HCPRESCRC] ([CODCONCEC]),
+    CONSTRAINT [FK_HCPRODIAG_IHLISTPRO] FOREIGN KEY ([CODPRODUC]) REFERENCES [dbo].[IHLISTPRO] ([CODPRODUC]),
+    CONSTRAINT [FK_HCPRODIAG_INDIAGNOS] FOREIGN KEY ([CODDIAGNO]) REFERENCES [dbo].[INDIAGNOS] ([CODDIAGNO])
+);
+
+
+GO
+ALTER TABLE [dbo].[HCPRODIAG] NOCHECK CONSTRAINT [FK_HCPRODIAG_HCPRESCRC];
+
+
+GO
+ALTER TABLE [dbo].[HCPRODIAG] NOCHECK CONSTRAINT [FK_HCPRODIAG_IHLISTPRO];
+
+
+GO
+ALTER TABLE [dbo].[HCPRODIAG] NOCHECK CONSTRAINT [FK_HCPRODIAG_INDIAGNOS];
+

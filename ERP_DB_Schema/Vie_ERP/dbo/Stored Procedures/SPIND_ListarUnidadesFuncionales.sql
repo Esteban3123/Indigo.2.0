@@ -1,0 +1,12 @@
+﻿
+CREATE PROCEDURE [dbo].[SPIND_ListarUnidadesFuncionales]
+(
+@UnidadFuncional Char(10)
+)
+AS
+BEGIN
+	SET NOCOUNT ON;
+SELECT UFUTIPUNI, UFUDESCRI 
+FROM dbo.INUNIFUNC 
+WHERE UFUCODIGO=@UnidadFuncional
+end

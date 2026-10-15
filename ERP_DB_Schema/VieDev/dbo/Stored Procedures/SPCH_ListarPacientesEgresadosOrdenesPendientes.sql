@@ -1,0 +1,32 @@
+﻿
+CREATE PROCEDURE [dbo].[SPCH_ListarPacientesEgresadosOrdenesPendientes]
+(
+@UnidadFuncional Char(10)
+)
+AS
+BEGIN
+	SET NOCOUNT ON;
+
+	SELECT
+	DISTINCT 
+		cast(' ' as char(100)) AS Origen,'Normal' as Alerta,
+		P.IPCODPACI AS Identificacion,
+		NUMINGRES AS Ingreso,
+		RTRIM(IPNOMCOMP) AS Paciente,
+		CAST(0 AS BIT) AS Resultado,
+		P.FECREGCRE ,
+		CAST('' as bit) AS MuestraAlerta
+	FROM INPACIENT P with(nolock)
+		 INNER JOIN
+		 HCHISPACA H with(nolock)
+		 ON P.IPCODPACI = H.IPCODPACI 
+	WHERE
+		
+			H.INDICAPAC IN('9','10','11','12')
+			AND 
+			H.UFUCODIGO =@UnidadFuncional
+			AND
+			P.IPCODPACI IN ( SELECT HEMO.IPCODPACI FROM HCORDHEMO HEMO with(nolock) WHERE HEMO.IPCODPACI = P.IPCODPACI AND HEMO.ESTSERIPS ='1'  ) OR
+			P.IPCODPACI IN ( SELECT  IPCODPACI FROM HCHOJAMED HM with(nolock) WHERE IPCODPACI = P.IPCODPACI AND HM.MEDESTADO= '2' ) OR
+			P.IPCODPACI IN ( SELECT IPCODPACI FROM HCORDPRON with(nolock) WHERE IPCODPACI = P.IPCODPACI AND ESTSERIPS='1')
+end

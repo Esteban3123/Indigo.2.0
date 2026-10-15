@@ -1,0 +1,36 @@
+﻿
+
+CREATE PROCEDURE [dbo].[SPCH_ListarExamenFisicoPacienteUltimo]
+(
+@Paciente Varchar(25)
+)
+AS
+BEGIN
+	SET NOCOUNT ON;
+
+SELECT TOP 1 
+(select top 1 RTRIM(TENARTSIS) from HCEXFISIC where IPCODPACI = H.IPCODPACI and TENARTSIS is not null and LEN(TENARTSIS) > 0 order by FECREGITE desc  ) as TENARTSIS,
+(select top 1 RTRIM(TENARTDIA) from HCEXFISIC where IPCODPACI = H.IPCODPACI and TENARTDIA is not null and LEN(TENARTDIA) > 0 order by FECREGITE desc  ) as TENARTDIA,
+(select top 1 RTRIM(TEMPERPAC) from HCEXFISIC where IPCODPACI = H.IPCODPACI and TEMPERPAC is not null and LEN(TEMPERPAC) > 0 order by FECREGITE desc  ) as TEMPERPAC,
+(select top 1 RTRIM(FRECARPAC) from HCEXFISIC where IPCODPACI = H.IPCODPACI and FRECARPAC is not null and LEN(FRECARPAC) > 0 order by FECREGITE desc  ) as FRECARPAC,
+(select top 1 RTRIM(FRERESPAC) from HCEXFISIC where IPCODPACI = H.IPCODPACI and FRERESPAC is not null and LEN(FRERESPAC) > 0 order by FECREGITE desc  ) as FRERESPAC,
+(select top 1 RTRIM(REGSO2PAC) from HCEXFISIC where IPCODPACI = H.IPCODPACI and REGSO2PAC is not null and LEN(REGSO2PAC) > 0 order by FECREGITE desc  ) as REGSO2PAC,
+(select top 1 TALLAPACI from HCEXFISIC where IPCODPACI = H.IPCODPACI and TALLAPACI is not null and LEN(TALLAPACI) > 0 order by FECREGITE desc  ) as TALLAPACI,
+(select top 1  PESOPACIE/1000 from HCEXFISIC where IPCODPACI = H.IPCODPACI and PESOPACIE is not null and LEN(PESOPACIE) > 0 order by FECREGITE desc  ) as PESOPACIE,
+(select top 1 FECREGITE from HCEXFISIC where IPCODPACI = H.IPCODPACI and TENARTSIS is not null and LEN(TENARTSIS) > 0 order by FECREGITE desc) as FechaRegistro,
+P.IPFECNACI as IPFECNACI,
+			 Resultado = ISNULL((select TOP 1  CASE 
+			    WHEN CAST(E.RESULTADO as int) = 0 THEN CONCAT(E.RESULTADO,' puntos - Sin dolor')
+				WHEN CAST(E.RESULTADO as int)  BETWEEN 1 and 4 THEN CONCAT(E.RESULTADO,' puntos - Dolor suave')
+			    WHEN CAST(E.RESULTADO as int)  BETWEEN 4 and 6 THEN CONCAT(E.RESULTADO,' puntos - Dolor moderado')
+				WHEN CAST(E.RESULTADO as int)  BETWEEN 7 and 10 THEN CONCAT(E.RESULTADO,' puntos - Dolor intenso') 			
+				ELSE 'sin escala ' 
+			    END
+    		    AS DOLOR FROM HCESCALAS E WHERE E.IPCODPACI = H.IPCODPACI AND E.NUMINGRES = H.NUMINGRES AND E.TIPOESCALA = '94' ORDER BY FECHAREGISTRO DESC ), 'Sin escala'), 
+P.IPSEXOPAC	as IPSEXOPAC
+FROM HCEXFISIC H
+	LEFT JOIN INPACIENT P ON P.IPCODPACI = H.IPCODPACI
+WHERE H.IPCODPACI = @Paciente 
+ORDER BY FECREGITE DESC  
+
+end

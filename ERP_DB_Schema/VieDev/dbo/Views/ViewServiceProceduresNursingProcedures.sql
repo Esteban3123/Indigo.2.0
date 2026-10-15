@@ -1,0 +1,143 @@
+﻿
+CREATE VIEW [dbo].[ViewServiceProceduresNursingProcedures]
+AS
+		SELECT	CONCAT('HCHOGASIN', '-', STRING_AGG(A.CONSECUTI,'-')) Id,
+			'HCHOGASIN' EntityName,
+			STRING_AGG(A.CONSECUTI,',') as Row,
+			CASE 
+				WHEN C.ACTFACTUR = '1' THEN COALESCE(NULLIF(C.CODSERIPS, ''), A.CODSERIPS)
+				ELSE C.CODSERIPS
+			END AS CODSERIPS,
+			IIF(A.GENSERVICEORDER IS NULL, 0, 1) AS Seleccione,
+			RTRIM(F.UFUDESCRI) AS UnidadFuncional,
+			RTRIM(G.NOMMEDICO) AS Medico,
+			A.OBSERVACI AS Observacion,
+			FECHAUTIL as Fecha,
+			CODCENATE,
+			A.CODPROSAL,
+			E.CODESPEC1,
+			A.IPCODPACI,
+			NUMINGRES,
+			F.UFUCODIGO,
+			G.CODIGONIT as NitMedico,
+			RTRIM(DESACTENF) AS Actividad,
+			A.GENSERVICEORDER,
+			COALESCE(A.CANACTENF,0) as CANSERIPS,
+			CASE C.ACTFACTUR WHEN '1' THEN 'Facturable' WHEN '0' THEN 'No Facturable' END AS Tipo,
+			D.DESSERIPS,
+			C.CODACTENF AS CodigoActividad,
+			i.IPNOMCOMP  as PersonName,
+			STRING_AGG(acj.Id,',') ACJustificationId,
+			acj.CreationUser ACCreationUser,
+			CAST(acj.CreationDate AS DATE) ACCreationDate,
+			acj.JustificationId,
+			IIF(acj.JustificationId is null,'',CONCAT(bjc.Code,' - ',bjc.[Description])) JustificationCodeName,
+			IIF(acj.JustificationId is null,0,bjc.SkipClearance) SkipLiquidation,
+			cd.Id ContractDescriptionId,
+			ccd.Id CUPSEntityContractDescriptionId,
+			IIF(A.IDDESCRIPCIONRELACIONADA IS NOT NULL, CONCAT(cd.Code, ' - ', cd.Name), NULL) CodeNameContractDescriptions
+	FROM dbo.HCHOGASIN A 
+	LEFT OUTER JOIN dbo.IHLISTPRO B ON A.CODPRODUC=B.CODPRODUC 
+	INNER JOIN dbo.HCACTENFE C ON A.CODACTENF=C.CODACTENF 
+	LEFT JOIN INCUPSIPS D ON D.CODSERIPS = CASE 
+		WHEN C.ACTFACTUR = '1' THEN 
+			CASE 
+				WHEN ISNULL(C.CODSERIPS, '') <> '' THEN C.CODSERIPS
+				ELSE A.CODSERIPS
+			END
+		ELSE C.CODSERIPS
+	END
+	LEFT OUTER JOIN dbo.INPROFSAL E ON A.CODPROSAL=E.CODPROSAL
+	INNER JOIN dbo.INUNIFUNC F ON A.UFUCODIGO = F.UFUCODIGO
+	INNER JOIN INPROFSAL G ON A.CODPROSAL = G.CODPROSAL
+	INNER JOIN  dbo.INPACIENT i on A.IPCODPACI = i.IPCODPACI
+	LEFT JOIN Contract.CUPSEntityContractDescriptions ccd ON ccd.Id = a.IDDESCRIPCIONRELACIONADA
+	LEFT JOIN Contract.ContractDescriptions cd ON cd.Id = ccd.ContractDescriptionId
+	LEFT JOIN Billing.AccountControlJustification acj WITH(NOLOCK) on A.CONSECUTI=acj.EntityId and acj.EntityName='HCHOGASIN' and acj.EntityTap='INDlcgNurseProcedure'
+	LEFT JOIN Billing.BillingJustificationControl bjc WITH(NOLOCK) on acj.JustificationId= bjc.Id
+	GROUP BY C.CODACTENF,RTRIM(DESACTENF),VALACTENF
+		,ACTFACTUR,
+		CASE 
+				WHEN C.ACTFACTUR = '1' THEN COALESCE(NULLIF(C.CODSERIPS, ''), A.CODSERIPS)
+				ELSE C.CODSERIPS
+		END,
+		TIPSERIPS,A.IPCODPACI
+		,NUMINGRES,CODCENATE,F.UFUDESCRI,G.NOMMEDICO
+		,A.OBSERVACI,FECHAUTIL,A.CODPROSAL,E.CODESPEC1
+		,F.UFUCODIGO,G.CODIGONIT,A.GENSERVICEORDER,D.DESSERIPS,i.IPNOMCOMP
+		,acj.CreationUser,CAST(acj.CreationDate AS DATE),acj.JustificationId
+		,bjc.Code,bjc.[Description],bjc.SkipClearance,COALESCE(A.CANACTENF,0),
+		cd.Id, ccd.Id, A.IDDESCRIPCIONRELACIONADA, cd.Code, cd.Name
+
+
+UNION ALL
+	SELECT	CONCAT('HCHOGASIN', '-',STRING_AGG(A.CONSECUTI,'-')) Id,
+			'HCHOGASIN' EntityName,
+			STRING_AGG(A.CONSECUTI,',') as Row,
+			CASE 
+				WHEN C.ACTFACTUR = '1' THEN COALESCE(NULLIF(C.CODSERIPS, ''), A.CODSERIPS)
+				ELSE C.CODSERIPS
+			END AS CODSERIPS,
+			IIF(A.GENSERVICEORDER IS NULL, 0, 1) AS Seleccione,
+			RTRIM(F.UFUDESCRI) AS UnidadFuncional,
+			RTRIM(G.NOMMEDICO) AS Medico,
+			A.OBSERVACI AS Observacion,
+			FECHAUTIL as Fecha,
+			a.CODCENATE,
+			A.CODPROSAL,
+			E.CODESPEC1,
+			A.IPCODPACI,
+			INGMH.NUMINGRES,
+			F.UFUCODIGO,
+			G.CODIGONIT as NitMedico,
+			RTRIM(DESACTENF) AS Actividad,
+			A.GENSERVICEORDER,
+			COALESCE(A.CANACTENF,0) as CANSERIPS,
+			CASE C.ACTFACTUR WHEN '1' THEN 'Facturable' WHEN '0' THEN 'No Facturable' END AS Tipo,
+			D.DESSERIPS,
+			C.CODACTENF AS CodigoActividad,
+			'Hijo '+ CAST(rn.NUMHIJREG as varchar(20)) as PersonName,
+			STRING_AGG(acj.Id,',') ACJustificationId,
+			acj.CreationUser ACCreationUser,
+			CAST(acj.CreationDate AS DATE) ACCreationDate,
+			acj.JustificationId,
+			IIF(acj.JustificationId is null,'',CONCAT(bjc.Code,' - ',bjc.[Description])) JustificationCodeName,
+			IIF(acj.JustificationId is null,0,bjc.SkipClearance) SkipLiquidation,
+			cd.Id ContractDescriptionId,
+			ccd.Id CUPSEntityContractDescriptionId,
+			IIF(A.IDDESCRIPCIONRELACIONADA IS NOT NULL, CONCAT(cd.Code, ' - ', cd.Name), NULL) CodeNameContractDescriptions
+	FROM dbo.HCHOGASIN A 
+	LEFT OUTER JOIN dbo.IHLISTPRO B ON A.CODPRODUC=B.CODPRODUC 
+	INNER JOIN dbo.HCACTENFE C ON A.CODACTENF=C.CODACTENF 
+	LEFT JOIN INCUPSIPS D ON D.CODSERIPS = CASE 
+		WHEN C.ACTFACTUR = '1' THEN 
+			CASE 
+				WHEN ISNULL(C.CODSERIPS, '') <> '' THEN C.CODSERIPS
+				ELSE A.CODSERIPS
+			END
+		ELSE C.CODSERIPS
+	END
+	LEFT OUTER JOIN dbo.INPROFSAL E ON A.CODPROSAL=E.CODPROSAL
+	INNER JOIN dbo.INUNIFUNC F ON A.UFUCODIGO = F.UFUCODIGO
+	INNER JOIN INPROFSAL G ON A.CODPROSAL = G.CODPROSAL
+	INNER JOIN dbo.HCINGRESORECNAC INGMH  on a.NUMINGRES = INGMH .NUMINGRESHIJO
+	INNER JOIN dbo.HCRECINAC RN  on INGMH.NUMINGRESHIJO  = rn.NUMINGRESHIJO  
+	INNER JOIN  dbo.ADINGRESO AS ING  on ING.NUMINGRES = INGMH.NUMINGRESHIJO
+	LEFT JOIN Contract.CUPSEntityContractDescriptions ccd ON ccd.Id = a.IDDESCRIPCIONRELACIONADA
+	LEFT JOIN Contract.ContractDescriptions cd ON cd.Id = ccd.ContractDescriptionId
+	LEFT JOIN Billing.AccountControlJustification acj WITH(NOLOCK) on A.CONSECUTI=acj.EntityId and acj.EntityName='HCHOGASIN' and acj.EntityTap='INDlcgNurseProcedure'
+	LEFT JOIN Billing.BillingJustificationControl bjc WITH(NOLOCK) on acj.JustificationId= bjc.Id
+	WHERE ING.IESTADOIN = 'C' 
+	GROUP BY C.CODACTENF,RTRIM(DESACTENF),VALACTENF
+		,ACTFACTUR,
+		CASE 
+				WHEN C.ACTFACTUR = '1' THEN COALESCE(NULLIF(C.CODSERIPS, ''), A.CODSERIPS)
+				ELSE C.CODSERIPS
+		END,
+		TIPSERIPS,a.IPCODPACI
+		,INGMH.NUMINGRES,a.CODCENATE,F.UFUDESCRI,G.NOMMEDICO
+		,A.OBSERVACI,FECHAUTIL,A.CODPROSAL,E.CODESPEC1
+		,F.UFUCODIGO,G.CODIGONIT,A.GENSERVICEORDER,CONSECUTI
+		,D.DESSERIPS,rn.NUMHIJREG,acj.CreationUser,CAST(acj.CreationDate AS DATE)
+		,acj.JustificationId,bjc.Code,bjc.[Description],bjc.SkipClearance,
+		cd.Id, ccd.Id, A.IDDESCRIPCIONRELACIONADA, cd.Code, cd.Name,COALESCE(A.CANACTENF,0)

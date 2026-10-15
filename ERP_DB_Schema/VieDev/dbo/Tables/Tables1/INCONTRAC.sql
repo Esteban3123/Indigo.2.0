@@ -1,0 +1,31 @@
+﻿CREATE TABLE [dbo].[INCONTRAC] (
+    [CONCODIGO] CHAR (6)      NOT NULL,
+    [CONDESCRI] VARCHAR (100) NOT NULL,
+    [CODENTIDA] CHAR (9)      NULL,
+    [CODENTADM] CHAR (5)      NULL,
+    [CODNITTER] CHAR (15)     NULL,
+    [CONCONTAC] VARCHAR (150) NULL,
+    [NUMCONTRA] VARCHAR (15)  NULL,
+    [RESEVAPRE] VARCHAR (10)  NOT NULL,
+    [CONIMPUTA] VARCHAR (15)  NOT NULL,
+    [CONTVALOR] MONEY         NOT NULL,
+    [FECINICON] DATETIME      NOT NULL,
+    [FECFINCON] DATETIME      NOT NULL,
+    [OBSERVACI] VARCHAR (500) NULL,
+    [OBSERVCON] VARCHAR (500) NULL,
+    [CONESTADO] CHAR (1)      NOT NULL,
+    [MODOFACT]  CHAR (1)      NOT NULL,
+    [CONIMPRIS] CHAR (1)      NOT NULL,
+    [TIPLEGALI] BIT           NOT NULL,
+    [FECLEGALI] DATETIME      NOT NULL,
+    [CONDIRECC] VARCHAR (50)  NULL,
+    [MONFACCON] MONEY         NULL,
+    [TOMONFACT] CHAR (1)      NOT NULL,
+    [CONEMAIL]  VARCHAR (50)  NULL,
+    CONSTRAINT [PK_INCONTRAC] PRIMARY KEY CLUSTERED ([CONCODIGO] ASC)
+);
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'MS_Description', @value = N'Código entidad administradora', @level0type = N'SCHEMA', @level0name = N'dbo', @level1type = N'TABLE', @level1name = N'INCONTRAC', @level2type = N'COLUMN', @level2name = N'CODENTADM';
+

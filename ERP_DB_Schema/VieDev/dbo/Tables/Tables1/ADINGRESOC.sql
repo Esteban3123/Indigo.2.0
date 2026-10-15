@@ -1,0 +1,4 @@
+﻿CREATE TABLE [dbo].[ADINGRESOC] (
+    [INGRESO] NCHAR (10) NOT NULL
+);
+

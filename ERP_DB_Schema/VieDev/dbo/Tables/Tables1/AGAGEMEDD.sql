@@ -1,0 +1,21 @@
+﻿CREATE TABLE [dbo].[AGAGEMEDD] (
+    [CODAUTONU] INT      NOT NULL,
+    [CODACTMED] CHAR (3) NOT NULL,
+    [CODESPECI] CHAR (3) NULL,
+    CONSTRAINT [PK_AGAGEMEDD] PRIMARY KEY CLUSTERED ([CODAUTONU] ASC, [CODACTMED] ASC),
+    CONSTRAINT [FK_AGAGEMEDD_CODESPECI] FOREIGN KEY ([CODESPECI]) REFERENCES [dbo].[INESPECIA] ([CODESPECI]),
+    CONSTRAINT [FK_AGAGEMEDD2_AGACTIMED] FOREIGN KEY ([CODACTMED]) REFERENCES [dbo].[AGACTIMED] ([CODACTMED])
+);
+
+
+GO
+ALTER TABLE [dbo].[AGAGEMEDD] NOCHECK CONSTRAINT [FK_AGAGEMEDD_CODESPECI];
+
+
+GO
+ALTER TABLE [dbo].[AGAGEMEDD] NOCHECK CONSTRAINT [FK_AGAGEMEDD2_AGACTIMED];
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'MS_Description', @value = 'Código de la especialidad anexada al código de la actividad médica, guardada en la agenda', @level0type = N'SCHEMA', @level0name = N'dbo', @level1type = N'TABLE', @level1name = N'AGAGEMEDD', @level2type = N'COLUMN', @level2name = N'CODESPECI';
+

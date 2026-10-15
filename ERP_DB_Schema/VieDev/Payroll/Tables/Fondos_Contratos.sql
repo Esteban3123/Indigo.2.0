@@ -1,0 +1,27 @@
+﻿CREATE TABLE [Payroll].[Fondos_Contratos] (
+    [Cedula]                VARCHAR (20)  NULL,
+    [Id_Empleado]           INT           NULL,
+    [Id_Contrato]           INT           NULL,
+    [TipoFondo_Salud]       TINYINT       NULL,
+    [FondoSalud]            VARCHAR (MAX) NULL,
+    [Id__FSalud]            INT           NULL,
+    [TipoFondo_Pension]     TINYINT       NULL,
+    [FondoPension]          VARCHAR (MAX) NULL,
+    [Id__FPension]          INT           NULL,
+    [TipoFondo_ARL]         TINYINT       NULL,
+    [FondoARL]              VARCHAR (MAX) NULL,
+    [Id__FARL]              INT           NULL,
+    [TipoFondo_Caja]        TINYINT       NULL,
+    [CajaCompensacion]      VARCHAR (MAX) NULL,
+    [Id__CajaCompensacion]  INT           NULL,
+    [TipoFondo_Cesantias]   TINYINT       NULL,
+    [FondoCesantias]        VARCHAR (MAX) NULL,
+    [Id__FCesantias]        INT           NULL,
+    [FondoSaludPrepagada]   VARCHAR (MAX) NULL,
+    [Id__FSaludPrepagada]   INT           NULL,
+    [ValorSaludPrepagada]   VARCHAR (MAX) NULL,
+    [FondoPensionPrepagada] VARCHAR (MAX) NULL,
+    [Id__FPensionPrepagada] INT           NULL,
+    [ValorPensionPrepagada] VARCHAR (MAX) NULL
+);
+

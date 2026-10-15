@@ -1,0 +1,3 @@
+﻿CREATE VIEW [dbo].[PRUEBAVISTA] 
+AS 
+SELECT TOP 10 * FROM Payroll.Employee

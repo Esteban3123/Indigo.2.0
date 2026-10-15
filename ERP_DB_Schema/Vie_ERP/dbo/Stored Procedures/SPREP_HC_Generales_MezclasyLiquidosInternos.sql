@@ -1,0 +1,21 @@
+﻿
+CREATE PROCEDURE [dbo].[SPREP_HC_Generales_MezclasyLiquidosInternos]
+(
+@CodigoPaciente Varchar(25),
+@NumeroFolio nChar(10),
+@NumeroIngreso Char(10)
+)
+AS
+BEGIN
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	SET NOCOUNT ON;
+
+    -- Insert statements for procedure here
+          
+SELECT CODCONCEC AS CONSECUTIVO,RTRIM(MEZLIQPAC)AS 'MEZCLAS Y LIQUIDOS',RTRIM(ADMMEZLIQ) AS 'ADMINISTRACION MEZCLAS Y LIQUIDOS',RTRIM(INDAPLMED) AS 'INDICACIONES DE APLICACION',CASE WHEN FOLIOINIC=NUMEFOLIO THEN 'N' WHEN TRATMODIF='1' THEN 'M' ELSE '' END AS LEYENDA,CODCENATE,UFUCODIGO,IPCODPACI
+                   
+FROM HCINFLIDI WITH(NOLOCK)
+WHERE IPCODPACI=@CodigoPaciente AND NUMINGRES=@NumeroIngreso AND NUMEFOLIO=@NumeroFolio AND IDETIPHIS<>'CODIGOAZU'
+
+END

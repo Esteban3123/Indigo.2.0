@@ -1,0 +1,38 @@
+﻿CREATE TABLE [dbo].[COCONTRAT] (
+    [CODCONTRA] CHAR (6)        NOT NULL,
+    [CODENTIDA] CHAR (9)        NOT NULL,
+    [CODENTADM] CHAR (9)        NULL,
+    [CODNITTER] CHAR (15)       NULL,
+    [CONCONTAC] VARCHAR (150)   NULL,
+    [RESEVAPRE] VARCHAR (10)    NULL,
+    [CONIMPUTA] VARCHAR (15)    NULL,
+    [DESCONTRA] CHAR (90)       NOT NULL,
+    [NUMCONTRA] CHAR (15)       NOT NULL,
+    [CONFECLEG] DATETIME        NOT NULL,
+    [CONTVALOR] NUMERIC (18, 2) NOT NULL,
+    [CONFECINI] DATETIME        NOT NULL,
+    [CONFECFIN] DATETIME        NOT NULL,
+    [CONOBSERV] TEXT            NULL,
+    [OBSERVCON] TEXT            NULL,
+    [CONESTADO] INT             NULL,
+    [MODOFACT]  CHAR (1)        NULL,
+    [CONIMPRIS] CHAR (1)        NULL,
+    [TIPLEGALI] BIT             NULL,
+    [CONDIRECC] VARCHAR (50)    NULL,
+    [MONFACCON] MONEY           NULL,
+    [TOMONFACT] CHAR (1)        NULL,
+    [CONEMAIL]  VARCHAR (50)    NULL,
+    [INDAUDFOR] NUMERIC (18, 9) NOT NULL,
+    [REGIMEN]   VARCHAR (50)    NULL,
+    CONSTRAINT [PK_INCONTRAT] PRIMARY KEY CLUSTERED ([CODCONTRA] ASC),
+    CONSTRAINT [FK_COCONTRAT_INENTADM] FOREIGN KEY ([CODENTADM]) REFERENCES [dbo].[INENTADM] ([CODENTADM])
+);
+
+
+GO
+ALTER TABLE [dbo].[COCONTRAT] NOCHECK CONSTRAINT [FK_COCONTRAT_INENTADM];
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'MS_Description', @value = 'Estado del Contrato:  1: Activo  2: Suspendido  3: Inactivo', @level0type = N'SCHEMA', @level0name = N'dbo', @level1type = N'TABLE', @level1name = N'COCONTRAT', @level2type = N'COLUMN', @level2name = N'CONESTADO';
+

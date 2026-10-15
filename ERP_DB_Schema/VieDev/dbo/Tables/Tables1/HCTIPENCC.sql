@@ -1,0 +1,12 @@
+﻿CREATE TABLE [dbo].[HCTIPENCC] (
+    [AUTO]       INT           IDENTITY (1, 1) NOT FOR REPLICATION NOT NULL,
+    [NOMENCENF]  VARCHAR (200) NOT NULL,
+    [GENEROAPLI] INT           NULL,
+    [UNIEDADMI]  INT           NULL,
+    [EDADMINIM]  INT           NULL,
+    [UNIEDADMA]  INT           NULL,
+    [EDADMAXIM]  INT           NULL,
+    [ESTADOENC]  INT           NULL,
+    CONSTRAINT [PK_HCTIPENCC] PRIMARY KEY CLUSTERED ([AUTO] ASC)
+);
+

@@ -1,0 +1,7 @@
+﻿CREATE SEQUENCE [GeneralLedger].[Seq_JV_T53_L3_Y2020]
+    AS BIGINT
+    START WITH 9
+    INCREMENT BY 1
+    MINVALUE 0
+    NO CACHE;
+

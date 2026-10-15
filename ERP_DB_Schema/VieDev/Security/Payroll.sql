@@ -1,0 +1,3 @@
+﻿CREATE SCHEMA [Payroll]
+    AUTHORIZATION [dbo];
+

@@ -1,0 +1,39 @@
+﻿CREATE TABLE [dbo].[HCPLANVALPCE] (
+    [IDPLANVAL]    INT         IDENTITY (1, 1) NOT FOR REPLICATION NOT NULL,
+    [CODPLANCENF]  VARCHAR (3) NOT NULL,
+    [CODVALORAPCE] INT         NOT NULL,
+    CONSTRAINT [PK_HCPLANVALPCE] PRIMARY KEY CLUSTERED ([IDPLANVAL] ASC),
+    CONSTRAINT [FK_HCPLANVALPCE_HCPLANCUIENF] FOREIGN KEY ([CODPLANCENF]) REFERENCES [dbo].[HCPLANCUIENF] ([CODPLANCENF]),
+    CONSTRAINT [FK_HCVALDIAGPCE_HCPLANVALPCE] FOREIGN KEY ([IDPLANVAL]) REFERENCES [dbo].[HCPLANVALPCE] ([IDPLANVAL]),
+    CONSTRAINT [FK_PLANVALPCE_HCVALORAPCE] FOREIGN KEY ([CODVALORAPCE]) REFERENCES [dbo].[HCVALORAPCE] ([CODVALORAPCE])
+);
+
+
+GO
+ALTER TABLE [dbo].[HCPLANVALPCE] NOCHECK CONSTRAINT [FK_HCPLANVALPCE_HCPLANCUIENF];
+
+
+GO
+ALTER TABLE [dbo].[HCPLANVALPCE] NOCHECK CONSTRAINT [FK_HCVALDIAGPCE_HCPLANVALPCE];
+
+
+GO
+ALTER TABLE [dbo].[HCPLANVALPCE] NOCHECK CONSTRAINT [FK_PLANVALPCE_HCVALORAPCE];
+
+
+GO
+CREATE UNIQUE NONCLUSTERED INDEX [IX_HCPLANVALPCE]
+    ON [dbo].[HCPLANVALPCE]([CODPLANCENF] ASC, [CODVALORAPCE] ASC);
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'MS_Description', @value = 'Codigo de la valoracion', @level0type = N'SCHEMA', @level0name = N'dbo', @level1type = N'TABLE', @level1name = N'HCPLANVALPCE', @level2type = N'COLUMN', @level2name = N'CODVALORAPCE';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'MS_Description', @value = 'Codigo del plan cuidado de enfermeria', @level0type = N'SCHEMA', @level0name = N'dbo', @level1type = N'TABLE', @level1name = N'HCPLANVALPCE', @level2type = N'COLUMN', @level2name = N'CODPLANCENF';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'MS_Description', @value = 'Icentificador de la fila', @level0type = N'SCHEMA', @level0name = N'dbo', @level1type = N'TABLE', @level1name = N'HCPLANVALPCE', @level2type = N'COLUMN', @level2name = N'IDPLANVAL';
+

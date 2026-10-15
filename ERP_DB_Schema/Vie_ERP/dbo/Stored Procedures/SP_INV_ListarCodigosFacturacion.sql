@@ -1,0 +1,19 @@
+﻿
+CREATE PROCEDURE [dbo].[SP_INV_ListarCodigosFacturacion]
+(
+@VersionERP int
+)
+AS
+BEGIN
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	SET NOCOUNT ON;
+
+    -- Insert statements for procedure here
+IF @VersionERP=1
+	SELECT GCFCODIGO AS CODIGO,GCFNOMBRE AS NOMBRE, RTRIM(GCFCODIGO) + ' - ' + RTRIM(GCFNOMBRE) AS FACTURACION
+	FROM DBO.GECONFAC
+ELSE
+	SELECT OID,GCFCODIGO AS CODIGO,GCFNOMBRE AS NOMBRE, RTRIM(GCFCODIGO) + ' - ' + RTRIM(GCFNOMBRE) AS FACTURACION
+	FROM DBO.GENCONFAC
+END

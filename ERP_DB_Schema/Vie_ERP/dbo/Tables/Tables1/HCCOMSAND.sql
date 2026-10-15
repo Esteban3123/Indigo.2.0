@@ -1,0 +1,44 @@
+﻿CREATE TABLE [dbo].[HCCOMSAND] (
+    [ID]                       INT       IDENTITY (1, 1) NOT FOR REPLICATION NOT NULL,
+    [COMSAMID]                 INT       NOT NULL,
+    [CODSERIPS]                CHAR (20) NOT NULL,
+    [TIPSERIPS]                TINYINT   NOT NULL,
+    [TIPOCARGUE]               TINYINT   CONSTRAINT [DF_HCCOMSAND_TIPOCARGUE] DEFAULT ((1)) NOT NULL,
+    [IDDESCRIPCIONRELACIONADA] INT       NULL,
+    CONSTRAINT [PK_HCCOMSAND] PRIMARY KEY CLUSTERED ([ID] ASC),
+    CONSTRAINT [FK_HCCOMSAND_HCCOMSAN] FOREIGN KEY ([COMSAMID]) REFERENCES [dbo].[HCCOMSAN] ([ID]),
+    CONSTRAINT [FK_HCCOMSAND_INCUPSIPS] FOREIGN KEY ([CODSERIPS]) REFERENCES [dbo].[INCUPSIPS] ([CODSERIPS])
+);
+
+
+GO
+ALTER TABLE [dbo].[HCCOMSAND] NOCHECK CONSTRAINT [FK_HCCOMSAND_HCCOMSAN];
+
+
+GO
+ALTER TABLE [dbo].[HCCOMSAND] NOCHECK CONSTRAINT [FK_HCCOMSAND_INCUPSIPS];
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'MS_Description', @value = 'ID de descripcion de relacion. relacion con  VIE ERP  (contract.CUPSEntityContractDescriptions) ', @level0type = N'SCHEMA', @level0name = N'dbo', @level1type = N'TABLE', @level1name = N'HCCOMSAND', @level2type = N'COLUMN', @level2name = N'IDDESCRIPCIONRELACIONADA';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'MS_Description', @value = 'Tipo de cargue: 1:Automatico, 2:Preguntar antes de cargar', @level0type = N'SCHEMA', @level0name = N'dbo', @level1type = N'TABLE', @level1name = N'HCCOMSAND', @level2type = N'COLUMN', @level2name = N'TIPOCARGUE';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'MS_Description', @value = 'Tipo de Servicio  1 = Pruebas Cruzadas (Reserva)   2 = Transfusion   ', @level0type = N'SCHEMA', @level0name = N'dbo', @level1type = N'TABLE', @level1name = N'HCCOMSAND', @level2type = N'COLUMN', @level2name = N'TIPSERIPS';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'MS_Description', @value = 'Codigo del Servicio IPS', @level0type = N'SCHEMA', @level0name = N'dbo', @level1type = N'TABLE', @level1name = N'HCCOMSAND', @level2type = N'COLUMN', @level2name = N'CODSERIPS';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'MS_Description', @value = 'Id del componente sanguineo (Cabecera)', @level0type = N'SCHEMA', @level0name = N'dbo', @level1type = N'TABLE', @level1name = N'HCCOMSAND', @level2type = N'COLUMN', @level2name = N'COMSAMID';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'MS_Description', @value = 'ID del Detalle', @level0type = N'SCHEMA', @level0name = N'dbo', @level1type = N'TABLE', @level1name = N'HCCOMSAND', @level2type = N'COLUMN', @level2name = N'ID';
+

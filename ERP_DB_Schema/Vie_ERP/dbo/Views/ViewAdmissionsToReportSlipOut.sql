@@ -1,0 +1,82 @@
+
+CREATE VIEW [dbo].[ViewAdmissionsToReportSlipOut]  
+AS
+SELECT DISTINCT
+	LTRIM(RTRIM(ING.NUMINGRES)) AS AdmissionCode
+   ,ING.NUMINGRES AS AdmissionCodeWithOutTrim
+   ,ING.IFECHAING AS AdmissionDate
+   ,ING.TIPOINGRE AS AdmissionType
+   ,ING.GENCAREGROUP AS AdmissionCaregroupId
+   ,ING.ICAUSAING AS AdmissionReason
+   ,ING.ITIPORIES AS AdmissionRiskType
+   ,CONCAT(LTRIM(RTRIM(CEN.CODCENATE)), ' - ', LTRIM(RTRIM(CEN.NOMCENATE))) AS AdmissionCentAtencCodeName
+   ,CONCAT(LTRIM(RTRIM(UFU.UFUCODIGO)), ' - ', LTRIM(RTRIM(UFU.UFUDESCRI))) AS AdmissionUniFuncCodeName
+   ,c.Name CityName
+   ,ING.IINGREPOR AS PlaceEntry
+   ,COALESCE(ING.CODPANATE, '') AS BenefitPlan
+   ,COALESCE(ING.IAUTORIZA, '') AS AuthorizationNumber
+   ,COALESCE(ING.IPTELEFON, '') AS ResponsiblePhone
+   ,ING.IPRNOMBRE AS ResponsibleName
+   ,PAT.IPCODPACI AS PatientCode
+   ,PAT.IPFECNACI AS PatientBirth
+   ,PAT.IPSEXOPAC AS PatientGenus
+   ,COALESCE(PAT.IPESTRATO, '') AS PatientEstrato
+   ,PAT.IPTIPOPAC AS PatientType
+   ,PAT.IPTIPOAFI AS PatientAfiliation
+   ,PAT.IPTIPODOC AS PatientDocumentType
+   ,NIV.NIVCODIGO AS NivelCode
+   ,NIV.NIVDESCRI AS NivelName
+   ,NIV.NIVPORCMO AS NivelModeratorSharePercentage
+   ,NIV.NIVPORCOP AS NivelCoPayContribPercentage
+   ,NIV.NIVPORSUB AS NivelCoPaySubsiPercentage
+   ,NIV.NIVPORVIN AS NivelCoPayVincuPercentage
+   ,NIV.NIVSISBEN AS NivelSisben
+   ,NIV.TOPEVECMO AS NivelModeratorShareTop
+   ,NIV.TOPEVECOP AS NivelCoPayContribTop
+   ,NIV.TOPEVESUB AS NivelCoPaySubsibTop
+   ,NIV.TOPEVEVIN AS NivelCoPayVincuTop
+   ,NIV.TOPANUCMO AS NivelModeratorShareTopYear
+   ,NIV.TOPANUCOP AS NivelCoPayContribTopYear
+   ,NIV.TOPANUSUB AS NivelCoPaySubsibTopYear
+   ,NIV.TOPANUVIN AS NivelCoPayVincuTopYear
+   ,ING.IESTADOIN AS Status
+   ,ENT.Code AS EntityCode
+   ,ENT.Name AS EntityName
+   ,ING.GENCONENTITY AS HealthAdministratorId
+   ,'' AS PatientEntityCode
+   ,'' AS PatientEntityName
+   ,PAT.GENCONENTITY AS PatientEntityId
+   ,PAT.IPTELMOVI AS PatientPhone
+   ,PAT.GENCAREGROUP AS PatientCareGroupId
+   ,LTRIM(RTRIM(PAT.IPNOMCOMP)) AS PatientName
+   ,LTRIM(RTRIM(ISNULL(h.DESCCAMAS, ING.CODICAMHO))) AS BedStay
+   ,ING.ILIQUIDAC AS LiquidationType
+   ,'- Ingresos' AS StatusName
+   ,ISNULL(EGRE.FECALTPAC, '1900-01-01') AS EgressDate
+   ,PRO.NOMMEDICO AS NameMedic
+   ,BS.Code AS CodeSlipOut
+   ,ISNULL(BS.CreationDate, '1900-01-01') AS DateRequest
+   ,BS.CreationUser AS UserCreate
+   ,ISNULL(OU.Id, 0) AS IdOperatingUnit
+FROM dbo.ADINGRESO AS ING WITH (NOLOCK)
+INNER JOIN dbo.INPACIENT AS PAT WITH (NOLOCK) ON ING.IPCODPACI = PAT.IPCODPACI
+INNER JOIN dbo.ADNIVELES AS NIV WITH (NOLOCK) ON PAT.NIVCODIGO = NIV.NIVCODIGO
+INNER JOIN dbo.ADCENATEN AS CEN WITH (NOLOCK) ON ING.CODCENATE = CEN.CODCENATE
+INNER JOIN Contract.HealthAdministrator AS ENT WITH (NOLOCK) ON ENT.Id = ING.GENCONENTITY
+LEFT OUTER JOIN Billing.SlipOut AS BS WITH (NOLOCK) ON BS.AdmissionNumber = ING.NUMINGRES
+LEFT OUTER JOIN dbo.HCREGEGRE AS EGRE WITH (NOLOCK) ON ING.NUMINGRES = EGRE.NUMINGRES
+LEFT OUTER JOIN Billing.Invoice bi WITH (NOLOCK) ON bi.AdmissionNumber = ING.NUMINGRES
+LEFT OUTER JOIN dbo.INPROFSAL AS PRO WITH (NOLOCK) ON EGRE.CODPROSAL = PRO.CODPROSAL
+LEFT JOIN
+(
+	SELECT e.NUMINGRES, MAX(e.ID) Id
+	FROM dbo.CHREGESTA e WITH (NOLOCK)
+	GROUP BY e.NUMINGRES
+) em ON ING.NUMINGRES = em.NUMINGRES
+LEFT JOIN CHREGESTA e WITH (NOLOCK) ON em.Id = e.ID
+LEFT JOIN CHCAMASHO h WITH (NOLOCK) ON e.CODICAMAS = h.CODICAMAS
+LEFT JOIN INUNIFUNC UFU WITH (NOLOCK) ON ISNULL(h.UFUCODIGO, ING.UFUCODIGO) = UFU.UFUCODIGO
+LEFT JOIN Payroll.FunctionalUnit fu WITH (NOLOCK) ON UFU.UFUCODIGO = fu.Code
+LEFT JOIN Payroll.BranchOffice bo  WITH (NOLOCK) ON bo.Id = fu.BranchOfficeId
+LEFT JOIN Common.City c  WITH (NOLOCK) ON c.Id = bo.CityId
+LEFT JOIN common.OperatingUnit AS OU WITH (NOLOCK) ON OU.IdCity = c.Id

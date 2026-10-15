@@ -1,0 +1,38 @@
+﻿-- Stored Procedure
+-- =============================================
+-- Autor:		Jean Carlos Roldan Lozano
+-- Fecha Creación: 02-11-2018
+-- Descripción:	Sp que me lista la Información de las Fichas del Sivigila, Ficha 342
+-- Modificó:    Yezid Garcia Medina
+-- Fecha Modificación : 26-01-2022
+-- =============================================
+CREATE PROCEDURE [dbo].[SP_HC_ListarFichaSivigila342]
+(
+  @IdFicha as Int,
+  @NumFicha as varchar(10)
+)
+
+AS
+BEGIN
+  SET NOCOUNT ON;
+ 
+			Select
+				CASE NIVELEDUCA  WHEN '1' THEN 'X' END AS 'Preescolar',CASE NIVELEDUCA WHEN '2' THEN 'X' END AS 'Primaria', CASE NIVELEDUCA WHEN '3' THEN 'X' END AS 'Secundaria',
+				CASE NIVELEDUCA  WHEN '4' THEN 'X' END AS 'Academica',CASE NIVELEDUCA WHEN '5' THEN 'X' END AS 'Tecnica', CASE NIVELEDUCA WHEN '6' THEN 'X' END AS 'Normalista',
+				CASE NIVELEDUCA  WHEN '7' THEN 'X' END AS 'TecniProfesional',CASE NIVELEDUCA WHEN '8' THEN 'X' END AS 'Tecnologica', CASE NIVELEDUCA WHEN '9' THEN 'X' END AS 'Profesional',
+				CASE NIVELEDUCA  WHEN '10' THEN 'X' END AS 'Especializacion',CASE NIVELEDUCA WHEN '11' THEN 'X' END AS 'Maestria', CASE NIVELEDUCA WHEN '12' THEN 'X' END AS 'Doctorado',
+				CASE NIVELEDUCA  WHEN '13' THEN 'X' END AS 'Ninguno', CASE TRABURBAN WHEN '1' THEN 'X' END AS 'TRABURBAN', CASE TRABRURAL WHEN '1' THEN 'X' END AS 'TRABRURAL',
+				CASE JOVENVULNE WHEN '1' THEN 'X' END AS 'JOVENVULNE', CASE JOVENVULURB WHEN '1' THEN 'X' END AS 'JOVENVULURB', CASE DISSISNERV WHEN '1' THEN 'X' END AS 'DISSISNERV',
+				CASE DISOJOS WHEN '1' THEN 'X' END AS 'DISOJOS', CASE DISOIDOS WHEN '1' THEN 'X' END AS 'DISOIDOS', CASE DISDEMAS WHEN '1' THEN 'X' END AS 'DISDEMAS',
+				CASE DISVOZ WHEN '1' THEN 'X' END AS 'DISVOZ', CASE DISSISTEM WHEN '1' THEN 'X' END AS 'DISSISTEM', CASE DISDIGEST WHEN '1' THEN 'X' END AS 'DISDIGEST',
+				CASE DISSISTGENI WHEN '1' THEN 'X' END AS 'DISSISTGENI', CASE DISMOVI WHEN '1' THEN 'X' END AS 'DISMOVI', CASE DISPIEL WHEN '1' THEN 'X' END AS 'DISPIEL',
+				CASE DISOTRO WHEN '1' THEN 'X' END AS 'DISOTRO', CASE NODEFIN WHEN '1' THEN 'X' END AS 'NODEFIN', convert(varchar(10),FECHADIAG,103) As 'Fecha Diagno', 
+				Rtrim(PRUEBLAB) As 'PRUEBLAB',  Rtrim(NOMBENFER) As 'NOMBENFER', 
+				VERSION AS 'VERSION', 
+				JSON AS 'JSON' 
+			From 
+				HCFICHA342 
+			Where 
+				IDFICHANOTIFICACION  = @IdFicha			
+		
+END

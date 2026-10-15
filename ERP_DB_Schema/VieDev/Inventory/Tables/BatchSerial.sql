@@ -1,0 +1,23 @@
+﻿CREATE TABLE [Inventory].[BatchSerial] (
+    [Id]               INT          IDENTITY (1, 1) NOT FOR REPLICATION NOT NULL,
+    [ProductId]        INT          NOT NULL,
+    [Type]             TINYINT      NOT NULL,
+    [BatchCode]        VARCHAR (50) NOT NULL,
+    [ExpirationDate]   DATE         NULL,
+    [Barcode]          VARCHAR (50) NULL,
+    [CreationUser]     VARCHAR (20) CONSTRAINT [DF_BatchSerial_CreationUser] DEFAULT ((999)) NOT NULL,
+    [CreationDate]     DATETIME     CONSTRAINT [DF_BatchSerial_CreationDate] DEFAULT ([Common].[getdate]()) NOT NULL,
+    [ModificationUser] VARCHAR (20) NULL,
+    [ModificationDate] DATETIME     NULL,
+    CONSTRAINT [PK_BatchSerial] PRIMARY KEY CLUSTERED ([Id] ASC),
+    CONSTRAINT [FK_BatchSerial_InventoryProduct] FOREIGN KEY ([ProductId]) REFERENCES [Inventory].[InventoryProduct] ([Id])
+);
+
+
+GO
+ALTER TABLE [Inventory].[BatchSerial] NOCHECK CONSTRAINT [FK_BatchSerial_InventoryProduct];
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'MS_Description', @value = 'Tipo  1 - Lote  2 - Serial  3 - Ninguno', @level0type = N'SCHEMA', @level0name = N'Inventory', @level1type = N'TABLE', @level1name = N'BatchSerial', @level2type = N'COLUMN', @level2name = N'Type';
+

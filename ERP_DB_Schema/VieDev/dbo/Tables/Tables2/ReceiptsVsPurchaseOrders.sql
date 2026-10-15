@@ -1,0 +1,25 @@
+﻿CREATE TABLE [dbo].[ReceiptsVsPurchaseOrders] (
+    [ID_COMPANY]                 VARCHAR (9)     NULL,
+    [NRO COMPROBANTE DE ENTRADA] VARCHAR (20)    NOT NULL,
+    [FECHA]                      DATETIME        NOT NULL,
+    [NRO FACTURA]                VARCHAR (100)   NOT NULL,
+    [FECHA FACTURA]              DATETIME        NOT NULL,
+    [NRO ORDEN DE COMPRA]        VARCHAR (20)    NULL,
+    [NIT]                        VARCHAR (25)    NOT NULL,
+    [PROVEEDOR]                  VARCHAR (100)   NOT NULL,
+    [ALMACEN]                    VARCHAR (100)   NOT NULL,
+    [TIPO PRODUCTO]              VARCHAR (11)    NOT NULL,
+    [CODIGO PRODUCTO]            VARCHAR (20)    NOT NULL,
+    [DESCRIPCION PRODUCTO]       VARCHAR (400)   NOT NULL,
+    [CANTIDAD ORDENADA]          INT             NULL,
+    [CANTIDAD RECIBIDA]          INT             NOT NULL,
+    [VALOR UNITARIO OC]          DECIMAL (18, 2) NULL,
+    [VALOR UNITARIO FACTURA]     DECIMAL (18, 2) NOT NULL,
+    [VALOR TOTAL OC]             DECIMAL (18, 2) NULL,
+    [VALOR TOTAL FACTURA]        DECIMAL (18, 2) NOT NULL,
+    [VALOR IMPUESTO OC]          DECIMAL (18, 2) NULL,
+    [VALOR IMPUESTO FACTURA]     DECIMAL (18, 2) NOT NULL,
+    [VALOR TOTAL]                DECIMAL (18, 2) NOT NULL,
+    [FECHA BUSQUEDA]             DATE            NULL
+);
+

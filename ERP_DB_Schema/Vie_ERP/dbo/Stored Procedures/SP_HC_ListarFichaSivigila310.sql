@@ -1,0 +1,58 @@
+﻿-- Stored Procedure
+-- =============================================
+-- Author:		<Author,Jean Carlos Roldan Lozano,Name>
+-- Create date: <Create Date,26-11-2018,>
+-- Description:	<Description,Sp que me lista la Información de las Fichas del Sivigila>
+-- =============================================
+CREATE PROCEDURE [dbo].[SP_HC_ListarFichaSivigila310]
+(
+  @IdFicha as Int,
+  @NumFicha as varchar(10)
+)
+
+AS
+BEGIN
+  SET NOCOUNT ON;  
+
+			Select
+				CASE A.CARNEVACU  WHEN '1' THEN 'X' END AS 'CARNEVACU si',CASE A.CARNEVACU WHEN '0' THEN 'X' END AS 'CARNEVACU no',
+				CASE A.VACUFIEAMA  WHEN '1' THEN 'X' END AS 'VACUFIEAMA Si',CASE A.VACUFIEAMA WHEN '2' THEN 'X' END AS 'VACUFIEAMA No', CASE A.VACUFIEAMA WHEN '3' THEN 'X' END AS 'Desconocido',
+				convert(varchar(10),A.FECHAAPLI,103) As 'FECHAAPLI', convert(varchar(10),A.FECHATOMA,103) As 'FECHATOMA', convert(varchar(10),A.FECHARECE,103) As 'FECHARECE',
+				convert(varchar(10),A.FECHARESUL,103) As 'FECHARESUL', Rtrim(A.VALOR) As 'VALOR',
+				CASE A.CASOFIEAMA  WHEN '1' THEN 'X' END AS 'Selvático',CASE A.CASOFIEAMA WHEN '0' THEN 'X' END AS 'Urbano',
+				CASE A.MUESTRA  WHEN '1' THEN 'Sangre Total' WHEN '2' THEN 'Tejido' WHEN '3' THEN 'Suero' END AS 'MUESTRA',
+				CASE A.PRUEBA  WHEN '1' THEN 'PCR' WHEN '2' THEN 'Aislamiento' WHEN '3' THEN 'TGO' WHEN '4' THEN'TGP' WHEN '5' THEN 'Bilirrubina Total' WHEN '6' THEN 'Bilirrubina Directa'
+				WHEN '7' THEN 'Bilirrubina Indirecta' WHEN '8' THEN 'Creatinina' WHEN '9' THEN 'BUN' WHEN '10' THEN 'Parología' WHEN '11' THEN 'Estudio Directo' WHEN '12' THEN 'Elisa'
+				WHEN '13' THEN 'Tiempo de Protombina' WHEN '14' THEN 'Tiempo Parcial' END AS 'PRUEBA',
+				CASE A.AGENTE  WHEN '1' THEN 'Fiebre Amarilla' END AS 'AGENTE',
+				CASE A.RESULTADO  WHEN '1' THEN 'Positivo' WHEN '2' THEN 'Negativo' WHEN '3' THEN 'No Procesado' WHEN '4' THEN 'Inadecuado' WHEN '5' THEN 'Valor Registrado' END AS 'RESULTADO',
+				CASE A.CEFALEA  WHEN '1' THEN 'X' END AS 'CEFALEA',CASE A.VOMITO WHEN '1' THEN 'X' END AS 'VOMITO', CASE A.ICTERICIA WHEN '1' THEN 'X' END AS 'ICTERICIA',
+				CASE A.FIEBRE  WHEN '1' THEN 'X' END AS 'FIEBRE',CASE A.MIALGIAS WHEN '1' THEN 'X' END AS 'MIALGIAS', CASE A.ARTRALGIAS WHEN '1' THEN 'X' END AS 'ARTRALGIAS',
+				CASE A.SFAGET  WHEN '1' THEN 'X' END AS 'SFAGET',CASE A.OLIGURIA WHEN '1' THEN 'X' END AS 'OLIGURIA', CASE A.CHOQUEXSHOCK WHEN '1' THEN 'X' END AS 'CHOQUEXSHOCK',
+				CASE A.BRADICARDIA  WHEN '1' THEN 'X' END AS 'BRADICARDIA',CASE A.FALLARENAL WHEN '1' THEN 'X' END AS 'FALLARENAL', CASE A.FALLAHEPA WHEN '1' THEN 'X' END AS 'FALLAHEPA',
+				CASE A.HEPATOMEGALIA  WHEN '1' THEN 'X' END AS 'HEPATOMEGALIA',				
+				A.VERSION AS 'VERSION', 
+				A.JSON AS 'JSON', 
+				CASE TRY_CAST( JSON_VALUE(A.JSON,'$.SH_HEMOPTISIS') AS BIT) WHEN 1 THEN 'X' END AS 'Hemoptisis', 
+				CASE TRY_CAST( JSON_VALUE(A.JSON,'$.SH_HIPEREMIA') AS BIT) WHEN 1 THEN 'X' END AS 'Hiperemia', 
+				CASE TRY_CAST( JSON_VALUE(A.JSON,'$.SH_HEMATEMESIS') AS BIT) WHEN 1 THEN 'X' END AS 'Hematemesis', 
+				CASE TRY_CAST( JSON_VALUE(A.JSON,'$.SH_PETEQUIAS') AS BIT) WHEN 1 THEN 'X' END AS 'Petequias', 
+				CASE TRY_CAST( JSON_VALUE(A.JSON,'$.SH_METRORRAGIA') AS BIT) WHEN 1 THEN 'X' END AS 'Metrorragia', 
+				CASE TRY_CAST( JSON_VALUE(A.JSON,'$.SH_MELENAS') AS BIT) WHEN 1 THEN 'X' END AS 'Melenas', 
+				CASE TRY_CAST( JSON_VALUE(A.JSON,'$.SH_EQUIMOSIS') AS BIT) WHEN 1 THEN 'X' END AS 'Equimosis', 
+				CASE TRY_CAST( JSON_VALUE(A.JSON,'$.SH_EPISTAXIS') AS BIT) WHEN 1 THEN 'X' END AS 'Epistaxis', 
+				CASE TRY_CAST( JSON_VALUE(A.JSON,'$.SH_HEMATURIA') AS BIT) WHEN 1 THEN 'X' END AS 'Hematuria', 
+				CASE WHEN U.AUUBICACI IS NOT NULL THEN CONCAT( RTRIM(Q.StandardCode), '-', RTRIM(Q.Name), ' / ', RTRIM(O.depcodigo), '-', RTRIM(O.nomdepart), ' / ', RTRIM(R.MUNCODIGO), '-', RTRIM(R.MUNNOMBRE) ) END as 'SITIOPROBA'
+
+
+			From 
+				HCFICHA310 A
+				Left Join INUBICACI U on JSON_VALUE(A.JSON,'$.CODSITIO_INFECCION') = U.AUUBICACI 
+				Left Join INMUNICIP R on U.DEPMUNCOD = R.DEPMUNCOD 
+				Left Join INDEPARTA O on R.DEPCODIGO = O.DEPCODIGO 
+				Left Join Common.Country Q ON O.IDPAIS = Q.Id 
+			Where 
+				A.IDFICHANOTIFICACION  = @IdFicha 
+				AND ISJSON(A.JSON) > 0
+
+END

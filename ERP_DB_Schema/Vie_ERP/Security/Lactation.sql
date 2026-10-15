@@ -1,0 +1,5 @@
+﻿CREATE SCHEMA [Lactation]
+    AUTHORIZATION [dbo];
+
+
+GO

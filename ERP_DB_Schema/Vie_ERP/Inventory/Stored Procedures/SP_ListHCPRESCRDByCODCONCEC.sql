@@ -1,0 +1,224 @@
+﻿-- =============================================
+-- Author:		Carlos Mario Arias Rubiano
+-- Create date: 12/09/2018
+-- Description:	Sp que se encarga de listar los productos de una fórmula médica
+-- =============================================
+CREATE PROCEDURE [Inventory].[SP_ListHCPRESCRDByCODCONCEC]
+	@CODCONCEC varchar(18)
+AS
+BEGIN
+	SET NOCOUNT ON
+
+	SELECT
+		hc.IDETIPHIS
+	   ,hc.NUMEFOLIO
+	   ,hc.FECHAORDE
+	   ,hc.CODPROSAL
+	   ,hc.IPCODPACI
+	   ,hc.NUMINGRES
+	   ,hc.CODCENATE
+	   ,hc.UFUCODIGO
+	   ,hd.CODPRODUC
+	   ,hd.CODVIAADM
+	   ,hd.CODFORMED
+	   ,hd.CANPEDPRO
+	   ,hd.PREESTADO
+	   ,hd.FOLIOINIC
+	   ,hd.DESADMINI
+	   ,hd.DOSISPRFN
+	   ,ISNULL(hd.CODUNIMED, '') CODUNIMED
+	   ,pro.CODDCIMED
+	   ,pro.DESPRODUC
+	   ,pro.NOPOSPROD
+	   ,pro.TIPPRODUC
+	   ,pro.CONCENMED
+	   ,pro.PRESENMED
+	   ,pac.IPTIPODOC
+	   ,pac.CODIGONIT
+	   ,pac.IPEXPEDIC
+	   ,pac.IPPRIAPEL
+	   ,pac.IPSEGAPEL
+	   ,pac.IPPRINOMB
+	   ,pac.IPSEGNOMB
+	   ,pac.IPNOMCOMP
+	   ,pac.CODEMPRES
+	   ,pac.IPTIPOPAC
+	   ,pac.IPTIPOAFI
+	   ,pac.CAPACIPAG
+	   ,pac.CODENTIDA
+	   ,pac.CCCONTRAT
+	   ,pac.CPPLANBEN
+	   ,pac.AUUBICACI
+	   ,pac.NIVCODIGO
+	   ,pac.IPDIRECCI
+	   ,pac.IPTELEFON
+	   ,pac.IPTELMOVI
+	   ,pac.IPFECNACI
+	   ,pac.CODACTIVI
+	   ,pac.IPSEXOPAC
+	   ,pac.IPESTADOC
+	   ,pac.IPGRUPSAN
+	   ,pac.IPRHSANGR
+	   ,pac.TIPCOBSAL
+	   ,pac.CORELEPAC
+	   ,pac.CODGRUPOE
+	   ,pac.ESTADOPAC
+	   ,pac.OBSERVACI
+	   ,pac.INDAUDFOR
+	   ,pac.PACIEFOTO
+	   ,pac.PACIEHUELL
+	   ,pac.NUMCARPET
+	   ,pac.CODUSUCRE
+	   ,pac.FECREGCRE
+	   ,pac.CODUSUMOD
+	   ,pac.FECREGMOD
+	   ,pac.IPESTRATO
+	   ,pac.CREDCODIGO
+	   ,pac.DISCCODIGO
+	   ,pac.IDICODIGO
+	   ,pac.NIVECODIGO
+	   ,pac.GRUPCODIGO
+	   ,pac.ZONAPARTADA
+	   ,pac.GENEXPEDITIONCITY
+	   ,pac.IPORIENTSEXUAL
+	   ,pac.IPIDENTSEXUAL
+	   ,pac.IPORIENTSEXOTRO
+	   ,pac.IPIDENTSEXOTRO
+	   ,pac.PESO
+	   ,pac.IPSEXO
+	   ,pac.IDENTMAMA
+	   ,pac.IDENTOBSERVAC
+	   ,pac.ID
+	   ,med.CODIGONIT CODIGONITPROFSAL
+	   ,med.NOMMEDICO
+	   ,med.MEDPRINOM
+	   ,med.MEDSEGNOM
+	   ,med.MEDPRIAPEL
+	   ,med.MEDSEGAPEL
+	   ,med.CODESPEC1
+	   ,esp.DESESPECI
+	   ,ing.GENCONENTITY
+	   ,ing.CODCONTRA
+	   ,ing.CODPANATE
+	   ,ing.GENCAREGROUP
+	   ,fu.UFUDESCRI
+	FROM dbo.HCPRESCRD hd
+	INNER JOIN dbo.HCPRESCRC hc ON hc.CODCONCEC = hd.CODCONCEC
+	INNER JOIN dbo.IHLISTPRO pro ON pro.CODPRODUC = hd.CODPRODUC
+	INNER JOIN dbo.INPACIENT pac ON pac.IPCODPACI = hd.IPCODPACI
+	INNER JOIN dbo.INPROFSAL med ON med.CODPROSAL = hc.CODPROSAL
+	INNER JOIN dbo.ADINGRESO ing ON ing.NUMINGRES = hc.NUMINGRES
+	INNER JOIN dbo.INESPECIA esp ON esp.CODESPECI = med.CODESPEC1
+	INNER JOIN dbo.INUNIFUNC fu ON fu.UFUCODIGO = hc.UFUCODIGO
+	WHERE hd.CODCONCEC = @CODCONCEC
+UNION ALL
+	SELECT 
+		hc.IDETIPHIS
+	   ,hc.NUMEFOLIO
+	   ,hc.FECHAORDE
+	   ,hc.CODPROSAL
+	   ,hc.IPCODPACI
+	   ,hc.NUMINGRES
+	   ,hc.CODCENATE
+	   ,hc.UFUCODIGO
+	   ,hd.CODPRODUC
+	   ,CODVIAADM = ''
+	   ,CODFORMED = ''
+	   ,hd.CANPEDPRO
+	   ,hd.PREESTADO
+	   ,hc.NUMEFOLIO FOLIOINIC
+	   ,DESADMINI = ''
+	   ,DOSISPRFN = 0
+	   ,CODUNIMED = ''
+	   ,pro.CODDCIMED
+	   ,pro.DESPRODUC
+	   ,pro.NOPOSPROD
+	   ,pro.TIPPRODUC
+	   ,pro.CONCENMED
+	   ,pro.PRESENMED
+	   ,pac.IPTIPODOC
+	   ,pac.CODIGONIT
+	   ,pac.IPEXPEDIC
+	   ,pac.IPPRIAPEL
+	   ,pac.IPSEGAPEL
+	   ,pac.IPPRINOMB
+	   ,pac.IPSEGNOMB
+	   ,pac.IPNOMCOMP
+	   ,pac.CODEMPRES
+	   ,pac.IPTIPOPAC
+	   ,pac.IPTIPOAFI
+	   ,pac.CAPACIPAG
+	   ,pac.CODENTIDA
+	   ,pac.CCCONTRAT
+	   ,pac.CPPLANBEN
+	   ,pac.AUUBICACI
+	   ,pac.NIVCODIGO
+	   ,pac.IPDIRECCI
+	   ,pac.IPTELEFON
+	   ,pac.IPTELMOVI
+	   ,pac.IPFECNACI
+	   ,pac.CODACTIVI
+	   ,pac.IPSEXOPAC
+	   ,pac.IPESTADOC
+	   ,pac.IPGRUPSAN
+	   ,pac.IPRHSANGR
+	   ,pac.TIPCOBSAL
+	   ,pac.CORELEPAC
+	   ,pac.CODGRUPOE
+	   ,pac.ESTADOPAC
+	   ,pac.OBSERVACI
+	   ,pac.INDAUDFOR
+	   ,pac.PACIEFOTO
+	   ,pac.PACIEHUELL
+	   ,pac.NUMCARPET
+	   ,pac.CODUSUCRE
+	   ,pac.FECREGCRE
+	   ,pac.CODUSUMOD
+	   ,pac.FECREGMOD
+	   ,pac.IPESTRATO
+	   ,pac.CREDCODIGO
+	   ,pac.DISCCODIGO
+	   ,pac.IDICODIGO
+	   ,pac.NIVECODIGO
+	   ,pac.GRUPCODIGO
+	   ,pac.ZONAPARTADA
+	   ,pac.GENEXPEDITIONCITY
+	   ,pac.IPORIENTSEXUAL
+	   ,pac.IPIDENTSEXUAL
+	   ,pac.IPORIENTSEXOTRO
+	   ,pac.IPIDENTSEXOTRO
+	   ,pac.PESO
+	   ,pac.IPSEXO
+	   ,pac.IDENTMAMA
+	   ,pac.IDENTOBSERVAC
+	   ,pac.ID
+	   ,med.CODIGONIT CODIGONITPROFSAL
+	   ,med.NOMMEDICO
+	   ,med.MEDPRINOM
+	   ,med.MEDSEGNOM
+	   ,med.MEDPRIAPEL
+	   ,med.MEDSEGAPEL
+	   ,med.CODESPEC1
+	   ,esp.DESESPECI
+	   ,ing.GENCONENTITY
+	   ,ing.CODCONTRA
+	   ,ing.CODPANATE
+	   ,ing.GENCAREGROUP
+	   ,fu.UFUDESCRI
+	FROM dbo.HCSOLINSC A
+	INNER JOIN dbo.HCSOLINSD HD ON A.CODCONCEC = HD.CODCONCEC
+	INNER JOIN dbo.HCPRESCRC hc ON hc.CODCONCEC = A.CODCONCEC
+	INNER JOIN dbo.ADINGRESO ing ON ing.NUMINGRES = hc.NUMINGRES
+	INNER JOIN dbo.INPACIENT pac ON pac.IPCODPACI = hd.IPCODPACI
+	INNER JOIN dbo.IHLISTPRO PRO ON HD.CODPRODUC = PRO.CODPRODUC
+	INNER JOIN dbo.INPROFSAL MED ON A.CODPROSAL = MED.CODPROSAL
+	INNER JOIN dbo.INESPECIA esp ON esp.CODESPECI = med.CODESPEC1
+	INNER JOIN dbo.INUNIFUNC FU ON A.UFUCODIGO = FU.UFUCODIGO AND (UFUTIPUNI='15' OR UFUTIPUNI='24')
+	INNER JOIN
+	(
+		SELECT NUMINGRES, NUMEFOLIO
+		FROM dbo.HCPRESCRD
+		WHERE CODCONCEC = @CODCONCEC
+		GROUP BY NUMINGRES, NUMEFOLIO
+	) pre ON A.NUMINGRES = pre.NUMINGRES AND a.NUMEFOLIO = pre.NUMEFOLIO
+END

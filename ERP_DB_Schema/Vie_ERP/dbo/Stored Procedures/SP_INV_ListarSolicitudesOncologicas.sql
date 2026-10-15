@@ -1,0 +1,31 @@
+﻿
+CREATE PROCEDURE [dbo].[SP_INV_ListarSolicitudesOncologicas]
+(
+@CentoAtencion varchar(5),
+@FechaInicial as date,
+@FechaFinal as date 
+)
+AS
+BEGIN
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	SET NOCOUNT ON;
+
+    -- Insert statements for procedure here
+SELECT O.CODTIPPAC, A.ID as ConsecutivoFarmacia, A.FECHAORDE  as FechaOrden, C.IPCODPACI  AS CodigoPaciente ,RTRIM(IPNOMCOMP) AS NombrePaciente,RTRIM(UFUDESCRI) AS UnidadFuncional,  
+A.ESTADO as Estado, A.CODPROSAL , P.NOMMEDICO  as NombreMedico,(select top 1 CODBODEGA from HCUNITHIS where UFUCODIGO = U.UFUCODIGO ) AS Bodega,RF.NUMINGRES AS Ingreso,S.UFUCODIGO,'' as ConsecutivoPrescripcion, '' as ConsecutivoInsumos,RTRIM(ASE.CODCENCOS) AS CentroCostos,CAST('' AS bit) AS Impresion 
+FROM  
+AGFARMEONCOC A INNER JOIN 
+AGASICITA C ON C.CODAUTONU = A.IDCITA  INNER JOIN
+INPACIENT B ON C.IPCODPACI=B.IPCODPACI LEFT JOIN 
+HCONCOFICH F ON F.IPCODPACI = C.IPCODPACI AND F.ESTFICHA = 1 LEFT JOIN
+ADRELFICHAON RF ON RF.IDFICHA  = F.ID  AND RF.ESTADO = 1 LEFT JOIN
+ADINGRESO O ON O.NUMINGRES =RF.NUMINGRES INNER JOIN  
+AGENSALAC S ON S.CODCONCEC = C.IDSALA INNER JOIN
+INUNIFUNC U ON U.UFUCODIGO = S.UFUCODIGO INNER JOIN
+INAREASER ASE ON ASE.ARSCODIGO = U.ARSCODIGO INNER JOIN
+INPROFSAL  P on P.CODPROSAL =  A.CODPROSAL  
+where C.CODCENATE = @CentoAtencion and  A.ESTADO =1 and  C.CODESTCIT = 0 AND C.FECHORAIN BETWEEN @FechaInicial AND @FechaFinal
+
+
+END

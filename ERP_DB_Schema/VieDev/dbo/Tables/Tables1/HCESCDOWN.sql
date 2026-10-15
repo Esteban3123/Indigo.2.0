@@ -1,0 +1,170 @@
+﻿CREATE TABLE [dbo].[HCESCDOWN] (
+    [AUTO]       INT                                                                              IDENTITY (1, 1) NOT FOR REPLICATION NOT NULL,
+    [CODCENATE]  NCHAR (10)                                                                       NULL,
+    [UFUCODIGO]  NCHAR (10)                                                                       NULL,
+    [IPCODPACI]  VARCHAR (25) MASKED WITH (FUNCTION = 'partial(0, "Identification_Ofuscado", 0)') NULL,
+    [NUMINGRES]  CHAR (10)                                                                        NULL,
+    [EDADPACIE]  TINYINT                                                                          NULL,
+    [SELECIEDA]  TINYINT                                                                          NULL,
+    [CAIDPREVI]  TINYINT                                                                          NULL,
+    [TRANQUILI]  TINYINT                                                                          NULL,
+    [DIURETICO]  TINYINT                                                                          NULL,
+    [HIPOTENSO]  TINYINT                                                                          NULL,
+    [ANTIPARKI]  TINYINT                                                                          NULL,
+    [ANTIDEPRE]  TINYINT                                                                          NULL,
+    [SELECIMED]  TINYINT                                                                          NULL,
+    [MEDICAMEN]  VARCHAR (MAX)                                                                    NULL,
+    [ALTERAVIS]  TINYINT                                                                          NULL,
+    [ALTERAUDI]  TINYINT                                                                          NULL,
+    [ICTUEXTRE]  TINYINT                                                                          NULL,
+    [ESTADOMEN]  TINYINT                                                                          NULL,
+    [SEGURAYUD]  TINYINT                                                                          NULL,
+    [INSEGAYUD]  TINYINT                                                                          NULL,
+    [IMPOSIBLE]  TINYINT                                                                          NULL,
+    [PATOLOGIA]  TINYINT                                                                          NULL,
+    [NUTRICION]  TINYINT                                                                          NULL,
+    [FECREGSIS]  DATETIME                                                                         NULL,
+    [CODPROSAL]  CHAR (20) MASKED WITH (FUNCTION = 'partial(0, "Identification_Ofuscado", 0)')    NULL,
+    [CODESPECI]  CHAR (3)                                                                         NULL,
+    [RESULTADO]  INT                                                                              NULL,
+    [TIPOESCALA] INT                                                                              NULL,
+    [NUMEFOLIO]  NCHAR (10)                                                                       NULL,
+    CONSTRAINT [PK_HCESCDOWN] PRIMARY KEY CLUSTERED ([AUTO] ASC),
+    CONSTRAINT [FK_HCESCDOWN_ADINGRESO] FOREIGN KEY ([NUMINGRES]) REFERENCES [dbo].[ADINGRESO] ([NUMINGRES]),
+    CONSTRAINT [FK_HCESCDOWN_INESPECIA] FOREIGN KEY ([CODESPECI]) REFERENCES [dbo].[INESPECIA] ([CODESPECI]),
+    CONSTRAINT [FK_HCESCDOWN_INPACIENT] FOREIGN KEY ([IPCODPACI]) REFERENCES [dbo].[INPACIENT] ([IPCODPACI])
+);
+
+
+GO
+ALTER TABLE [dbo].[HCESCDOWN] NOCHECK CONSTRAINT [FK_HCESCDOWN_ADINGRESO];
+
+
+GO
+ALTER TABLE [dbo].[HCESCDOWN] NOCHECK CONSTRAINT [FK_HCESCDOWN_INESPECIA];
+
+
+GO
+ALTER TABLE [dbo].[HCESCDOWN] NOCHECK CONSTRAINT [FK_HCESCDOWN_INPACIENT];
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'MS_Description', @value = N'Se guarda el tipo de escala (
+NoAplica = 0
+EscalaCAGE = 1
+EscalaAPGAR_Familiar = 2
+EscalaEDPS = 3
+EscalaBiopsicosocial = 4
+EscalaTamizajeViolenciaDomestica = 5
+EscalaRiesgoFramingham = 6
+EscalaMorisky = 7
+TestFINDRISC = 8
+TestMiniMental = 9
+TestDependenciaNicotina = 10
+EscalaTannerDesarrolloMamarioMujer = 11
+EscalaTannerDesarrolloVelloPubianoMujer = 12
+EscalaTannerDesarrolloGenitalHombre = 13
+EscalaTannerDesarrolloVelloPubianoHombre = 14
+EscalaWagner = 15
+EscalaModificadaDisnea = 16
+EscalaCAT_COPD_AssessmentTest = 17
+Exacerbaciones = 18
+ClasificacionEPOC = 19
+TestGoodenough = 20
+GOLD_EPOC = 21
+EscalaAbreviadaDesarrollo = 22
+EscalaTISS_28 = 23
+Escala_Branden = 24
+Escala_ApacheII = 25
+Escala_Karnosfky = 26
+Escala_Ecog = 27
+Escala_Nems = 28
+Escala_Glasgow_Mayor5Anos = 29
+Escala_Glasgow_de1a5Anos = 30
+Escala_Glasgow_Menor1Ano = 31
+Escala_SOFA = 32
+Escala_Charlson = 33
+Escala_SAPS3 = 34
+Escala_Barthel = 35
+Escala_Morse = 36
+Escala_Macdems = 37
+Escala_NSRAS = 38
+Escala_MSTS = 39
+Escala_Person = 40
+Escala_beck = 41
+Escala_Zarit = 42
+Escala_RQC = 43
+Escala_BacterianaSilness = 44
+Escala_VALE = 45
+EscalaRASS = 46
+EscalaDown_Adaptada = 47
+EscalaNorton = 48
+EscalaVass = 49
+EscalaNutricion = 50
+EscalaSQR = 51
+EscalaM_CHAT = 52
+EscalaWHOOLEY = 53
+EscalaAUDIT = 54
+EscalaLindaFried = 55
+EscalaLawton_Brody = 56
+EscalaGAD = 57
+EscalaMNA = 58
+EscalaMNASimplificada = 59
+EscalaAssist = 60
+EscalaNews = 61
+EscalaCHA2DS2_VASc = 62
+EscalaCRUSADE = 63
+EscalaHAS_BLED = 64
+EscalaHEMORR2HAGES = 65
+EscalaEUROSCOREII = 66
+EscalaNYHA = 67
+EscalaKILLIP = 68
+EscalaPADUA = 69
+EscalaCAPRINI = 70
+EscalaMUST = 71
+Escala_STRONG_KIDS = 72
+Escala_VGSDEN = 73 
+Escala_TIMI_CEST = 74
+Escala_WELLS_TVP = 75
+Escala_WELLS_TEP = 76
+Escala_NPC = 77
+Escala_GRACE = 78
+Escala_TIMI_SEST = 79
+Escala_ANTHONISEN = 80
+Escala_DAS_28 = 81
+EscalaMRS = 82
+EscalaHAQ = 83
+EscalaASPECT = 84
+EscalaAbreviadaDesarrolloV3 = 85
+EscalaIndiceOLeary = 86
+EscalaNIHSS = 87
+EscalaHumptyDumpty = 88
+EscalaRiesgoEnfermedadesPotencialTransmisibles = 89
+Escala_PIPP_R = 90
+Escala_FLACC = 91
+Escala_OFRAS = 92
+Escala_FPSR = 93
+Escala_NRS = 94
+Escala_Gijon = 95
+Escala_CAM = 96
+Escala_Valoracion_Infeccion = 97
+Escala_RiesgoFarmacologico = 98
+Escala_Valoracion_Riesgo_Psicosocial = 99
+Escala_Gijon_Original = 100
+Escala_ObtetricadeAlerta_Temprana = 101
+EscalaMPEWS = 102
+EscalaBPEWS = 103
+Escala_EventosTromboembolicosVenosos = 104
+Escala_Bishop = 105
+Escala_Finnegan = 106
+Escala_de_choque_y_respuesta_obstétrica = 107
+Cuestionario_EPOC = 108
+Escala_GAD2 = 109
+Escala_Estratificacion_Riesgo_Cardiovascular = 110
+Escala_Me
+)', @level0type = N'SCHEMA', @level0name = N'dbo', @level1type = N'TABLE', @level1name = N'HCESCDOWN', @level2type = N'COLUMN', @level2name = N'TIPOESCALA';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'MS_Description', @value = N'Se guarda el resultado (0 Asintomático, 1 Sin discapacidad significativa, 2 Discapacidad leve, 3 Discapacidad moderada, 4 Discapacidad moderadamente grave, 5 Discapacidad grave, 6 Muerte)', @level0type = N'SCHEMA', @level0name = N'dbo', @level1type = N'TABLE', @level1name = N'HCESCDOWN', @level2type = N'COLUMN', @level2name = N'RESULTADO';
+

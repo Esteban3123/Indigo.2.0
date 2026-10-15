@@ -1,0 +1,5 @@
+﻿CREATE SCHEMA [Glosas]
+    AUTHORIZATION [dbo];
+
+
+GO

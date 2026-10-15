@@ -1,0 +1,20 @@
+﻿-- =============================================
+-- Author:      <Author, , Name>
+-- Create Date: <Create Date, , >
+-- Description: <Description, , >
+-- =============================================
+CREATE FUNCTION [dbo].[Patient_Ubication] (@IPCODPACI as varchar(25))
+RETURNS varchar (300)
+AS
+BEGIN
+
+declare @Ubication varchar(300)
+
+   SET @Ubication = (SELECT RTRIM(B.UBINOMBRE) 
+				from Admissions.PatientAddress A 
+				inner join INUBICACI B  WITH(NOLOCK) on A.IdUbication = B.ID 
+				where ipcodpaci = @IPCODPACI and IsMain = 1)
+
+    -- Return the result of the function
+    RETURN @Ubication
+END

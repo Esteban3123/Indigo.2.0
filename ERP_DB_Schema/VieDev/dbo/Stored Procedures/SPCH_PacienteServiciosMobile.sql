@@ -1,0 +1,46 @@
+﻿
+CREATE PROCEDURE [dbo].[SPCH_PacienteServiciosMobile]
+(
+@Paciente Varchar(25),
+@Ingreso Char(20)
+)
+AS
+BEGIN
+	SET NOCOUNT ON;
+
+
+	SELECT RTRIM(A.CODSERIPS) as Codigo,rtrim(b.DESSERIPS) as Servicio,'Laboratorios' as Tipo
+	FROM HCORDLABO A INNER JOIN
+	INCUPSIPS B ON A.CODSERIPS=B.CODSERIPS
+	WHERE A.IPCODPACI=@paciente and a.NUMINGRES=@ingreso
+	UNION ALL
+	
+	SELECT RTRIM(A.CODSERIPS) as Codigo,rtrim(b.DESSERIPS) as Servicio,'Imagenes' as Tipo
+	FROM HCORDIMAG A INNER JOIN
+	INCUPSIPS B ON A.CODSERIPS=B.CODSERIPS
+	WHERE A.IPCODPACI=@paciente and a.NUMINGRES=@ingreso
+	UNION ALL
+
+	SELECT RTRIM(A.CODSERIPS) as Codigo,rtrim(b.DESSERIPS) as Servicio,'Procedimientos' as Tipo
+	FROM HCORDPATO A INNER JOIN
+	INCUPSIPS B ON A.CODSERIPS=B.CODSERIPS
+	WHERE A.IPCODPACI=@paciente and a.NUMINGRES=@ingreso
+	UNION ALL
+
+	SELECT RTRIM(A.CODSERIPS) as Codigo,rtrim(b.DESSERIPS) as Servicio,'Procedimientos' as Tipo
+	FROM HCORDPROQ A INNER JOIN
+	INCUPSIPS B ON A.CODSERIPS=B.CODSERIPS
+	WHERE A.IPCODPACI=@paciente and a.NUMINGRES=@ingreso
+
+	UNION ALL
+		SELECT RTRIM(A.CODSERIPS) as Codigo,rtrim(b.DESSERIPS) as Servicio,'Procedimientos' as Tipo
+	FROM HCORDPRON A INNER JOIN
+	INCUPSIPS B ON A.CODSERIPS=B.CODSERIPS
+	WHERE A.IPCODPACI=@paciente and a.NUMINGRES=@ingreso
+
+		UNION ALL
+		SELECT RTRIM(A.CODPRODUC) as Codigo,rtrim(b.DESPRODUC) as Servicio,'Medicamentos' as Tipo
+	FROM HCPRESCRA A INNER JOIN
+	IHLISTPRO B ON A.CODPRODUC=B.CODPRODUC
+	WHERE A.IPCODPACI=@paciente and a.NUMINGRES=@ingreso
+end

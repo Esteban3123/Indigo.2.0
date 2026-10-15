@@ -1,0 +1,72 @@
+﻿CREATE TABLE [dbo].[HCREFCONTD] (
+    [ID]             INT           IDENTITY (1, 1) NOT FOR REPLICATION NOT NULL,
+    [HCREFCONPID]    INT           NOT NULL,
+    [TIPENTIDAD]     TINYINT       NOT NULL,
+    [CODENTIDA]      CHAR (9)      NULL,
+    [NOMCONTACT]     VARCHAR (200) NOT NULL,
+    [TELEFONO]       VARCHAR (20)  NULL,
+    [REGESTADO]      TINYINT       NOT NULL,
+    [FECHCONFIR]     DATETIME      NULL,
+    [OBSERVACI]      VARCHAR (500) NULL,
+    [CODUSUAREG]     VARCHAR (20)  NULL,
+    [FECHCREREG]     DATETIME      NULL,
+    [CODUSUMOD]      VARCHAR (20)  NULL,
+    [FECHMODIF]      DATETIME      NULL,
+    [ESTADOSUSP]     INT           NULL,
+    [IPSSELECCION]   CHAR (100)    NULL,
+    [OTRAENTIDAD]    VARCHAR (500) NULL,
+    [MUNOTRAENT]     CHAR (5)      NULL,
+    [RCMODSOLICID]   INT           NULL,
+    [IPSACEPTADO]    CHAR (100)    NULL,
+    [HCREFCONTDID]   INT           NULL,
+    [FECSEGUIMIENTO] DATETIME      NULL,
+    [ENVIAR]         BIT           NULL,
+    [ASUNTO]         VARCHAR (100) NULL,
+    [MENSAJE]        VARCHAR (MAX) NULL,
+    [CORRENVIADO]    BIT           NULL,
+    CONSTRAINT [PK_HCREFCONTD] PRIMARY KEY CLUSTERED ([ID] ASC),
+    CONSTRAINT [FK_HCREFCONTD_ADCONTIPS] FOREIGN KEY ([IPSSELECCION]) REFERENCES [dbo].[ADCONTIPS] ([CODIGOIPS]),
+    CONSTRAINT [FK_HCREFCONTD_ADCONTIPS1] FOREIGN KEY ([IPSACEPTADO]) REFERENCES [dbo].[ADCONTIPS] ([CODIGOIPS]),
+    CONSTRAINT [FK_HCREFCONTD_HCREFCONTD] FOREIGN KEY ([HCREFCONPID]) REFERENCES [dbo].[HCREFCONP] ([AUTO]),
+    CONSTRAINT [FK_HCREFCONTD_HCREFCONTD1] FOREIGN KEY ([RCMODSOLICID]) REFERENCES [dbo].[RCMODSOLIC] ([Id]),
+    CONSTRAINT [FK_HCREFCONTD_HCREFCONTD2] FOREIGN KEY ([HCREFCONTDID]) REFERENCES [dbo].[HCREFCONTD] ([ID]),
+    CONSTRAINT [FK_HCREFCONTD_INMUNICIP] FOREIGN KEY ([MUNOTRAENT]) REFERENCES [dbo].[INMUNICIP] ([DEPMUNCOD])
+);
+
+
+GO
+ALTER TABLE [dbo].[HCREFCONTD] NOCHECK CONSTRAINT [FK_HCREFCONTD_ADCONTIPS];
+
+
+GO
+ALTER TABLE [dbo].[HCREFCONTD] NOCHECK CONSTRAINT [FK_HCREFCONTD_ADCONTIPS1];
+
+
+GO
+ALTER TABLE [dbo].[HCREFCONTD] NOCHECK CONSTRAINT [FK_HCREFCONTD_HCREFCONTD];
+
+
+GO
+ALTER TABLE [dbo].[HCREFCONTD] NOCHECK CONSTRAINT [FK_HCREFCONTD_HCREFCONTD1];
+
+
+GO
+ALTER TABLE [dbo].[HCREFCONTD] NOCHECK CONSTRAINT [FK_HCREFCONTD_HCREFCONTD2];
+
+
+GO
+ALTER TABLE [dbo].[HCREFCONTD] NOCHECK CONSTRAINT [FK_HCREFCONTD_INMUNICIP];
+
+
+GO
+CREATE NONCLUSTERED INDEX [IX_HCREFCONTD__HCREFCONPID__FECHCONFIR]
+    ON [dbo].[HCREFCONTD]([HCREFCONPID] ASC, [FECHCONFIR] ASC);
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'MS_Description', @value = 'Esta Columna me Identifica, si se debe enviar o no el Correo  1 ó true Significa que si se debe enviar el correo, significa que si habian correos parametrizados y que NO es un seguimiento de la gestion de la referencia', @level0type = N'SCHEMA', @level0name = N'dbo', @level1type = N'TABLE', @level1name = N'HCREFCONTD', @level2type = N'COLUMN', @level2name = N'ENVIAR';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'MS_Description', @value = 'Estado que me permite saber si la solicitud de esa refecia  esta  suspendido si lo esta los detalles en este campo se colocan en 1 que es suspendido-.  0->No  1->Si  ', @level0type = N'SCHEMA', @level0name = N'dbo', @level1type = N'TABLE', @level1name = N'HCREFCONTD', @level2type = N'COLUMN', @level2name = N'ESTADOSUSP';
+

@@ -1,0 +1,23 @@
+﻿
+
+CREATE PROCEDURE [dbo].[SP_ONCO_ListarPacientesEnTratamiento]
+(
+@CentroAtencion Char(10),
+@UnidadFuncional Char(10)
+)
+AS
+BEGIN
+	SET NOCOUNT ON;
+
+
+Select   A.CODTIPPAC,C.FECORDMED AS 'Fecha Orden Medica',P.IPCODPACI AS 'Identificacion',rtrim(ltrim(P.IPNOMCOMP)) as 'NombrePaciente', rtrim(ltrim(ENT.CODENTIDA)) + ' - ' + rtrim(ltrim(ENT.NOMENTIDA)) as 'Entidad',C.NUMINGRES AS 'Ingreso',[dbo].[EDAD] (P.IPFECNACI,getdate()) As 'Edad',
+		 Rtrim(X.UFUDESCRI) AS 'UFOrdeno'
+FROM  INPACIENT P 
+	INNER JOIN HCORDPRON C ON P.IPCODPACI = C.IPCODPACI 
+	INNER JOIN ADINGRESO A on A.NUMINGRES = C.NUMINGRES
+	INNER JOIN INENTIDAD ENT on ENT.CODENTIDA = A.CODENTIDA 
+	INNER JOIN INCUPSIPS  I on I.CODSERIPS  = C.CODSERIPS 
+	INNER JOIN INUNIFUNC  X on X.UFUCODIGO   = C.UFUCODIGO
+	where I.SERIPSDASH  = 6 AND C.ESTSERIPS = 6 AND  C.CODCENATE = @CentroAtencion 
+
+end

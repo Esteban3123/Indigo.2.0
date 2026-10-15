@@ -1,0 +1,34 @@
+﻿CREATE TABLE [dbo].[HCPARAESCALASUF] (
+    [ID]              INT       IDENTITY (1, 1) NOT FOR REPLICATION NOT NULL,
+    [IDHCPARAESCALAS] INT       NOT NULL,
+    [UFUCODIGO]       CHAR (10) NOT NULL,
+    [ESCALOBLIG]      BIT       CONSTRAINT [DF_HCPARAESCALASUF_ESCALOBLIG] DEFAULT ((0)) NOT NULL,
+    CONSTRAINT [PK_HCPARAESCALASUF] PRIMARY KEY CLUSTERED ([ID] ASC),
+    CONSTRAINT [FK_HCPARAESCALASUF_HCPARAESCALAS] FOREIGN KEY ([IDHCPARAESCALAS]) REFERENCES [dbo].[HCPARAESCALAS] ([ID]),
+    CONSTRAINT [FK_HCPARAESCALASUF_INUNIFUNC] FOREIGN KEY ([UFUCODIGO]) REFERENCES [dbo].[INUNIFUNC] ([UFUCODIGO])
+);
+
+
+GO
+ALTER TABLE [dbo].[HCPARAESCALASUF] NOCHECK CONSTRAINT [FK_HCPARAESCALASUF_HCPARAESCALAS];
+
+
+GO
+ALTER TABLE [dbo].[HCPARAESCALASUF] NOCHECK CONSTRAINT [FK_HCPARAESCALASUF_INUNIFUNC];
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'MS_Description', @value = 'Escala obligatoria:   True=Si   False=No', @level0type = N'SCHEMA', @level0name = N'dbo', @level1type = N'TABLE', @level1name = N'HCPARAESCALASUF', @level2type = N'COLUMN', @level2name = N'ESCALOBLIG';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'MS_Description', @value = 'Unidad Funcional', @level0type = N'SCHEMA', @level0name = N'dbo', @level1type = N'TABLE', @level1name = N'HCPARAESCALASUF', @level2type = N'COLUMN', @level2name = N'UFUCODIGO';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'MS_Description', @value = 'Relacion con la tabla cabecera', @level0type = N'SCHEMA', @level0name = N'dbo', @level1type = N'TABLE', @level1name = N'HCPARAESCALASUF', @level2type = N'COLUMN', @level2name = N'IDHCPARAESCALAS';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'MS_Description', @value = 'Consecutivo de la tabla', @level0type = N'SCHEMA', @level0name = N'dbo', @level1type = N'TABLE', @level1name = N'HCPARAESCALASUF', @level2type = N'COLUMN', @level2name = N'ID';
+

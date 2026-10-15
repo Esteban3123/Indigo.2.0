@@ -1,0 +1,12 @@
+﻿CREATE TABLE [dbo].[HCIMARADIO] (
+    [ID]          INT             IDENTITY (1, 1) NOT FOR REPLICATION NOT NULL,
+    [CODIGO]      VARCHAR (3)     NOT NULL,
+    [NOMBREFOTO]  VARCHAR (200)   NOT NULL,
+    [ESTADO]      INT             NOT NULL,
+    [FOTO]        VARBINARY (MAX) NULL,
+    [FECREGISTRO] DATETIME        NOT NULL,
+    [USUCREACION] CHAR (20)       NOT NULL,
+    [TIPO]        INT             NULL,
+    CONSTRAINT [PK_HCIMARADIO] PRIMARY KEY CLUSTERED ([ID] ASC)
+);
+
