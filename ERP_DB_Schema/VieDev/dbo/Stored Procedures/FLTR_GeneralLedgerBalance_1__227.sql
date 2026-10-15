@@ -1,0 +1,1 @@
+﻿CREATE PROCEDURE [dbo].[FLTR_GeneralLedgerBalance_1__227] AS if exists (select * from [GeneralLedger].[GeneralLedgerBalance] where [Year] >2017) return 1 else return 0

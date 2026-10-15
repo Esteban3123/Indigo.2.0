@@ -1,0 +1,26 @@
+﻿CREATE TABLE [dbo].[SALDOSGLOSAS_ESTANCARTERA] (
+    [Id]                     INT           IDENTITY (1, 1) NOT FOR REPLICATION NOT NULL,
+    [Cliente]                VARCHAR (20)  NOT NULL,
+    [Factura]                VARCHAR (20)  NULL,
+    [EstadoFactura]          VARCHAR (2)   NULL,
+    [CategoriaFactura]       VARCHAR (2)   NULL,
+    [Fecha]                  DATETIME      NOT NULL,
+    [Plazo]                  VARCHAR (2)   NULL,
+    [NumCuota]               VARCHAR (2)   NULL,
+    [CuentaContableSaldo]    VARCHAR (20)  NOT NULL,
+    [CentroCosto]            VARCHAR (20)  NULL,
+    [Observacion]            VARCHAR (100) NULL,
+    [Valor]                  DECIMAL (18)  NOT NULL,
+    [Saldo]                  DECIMAL (18)  NOT NULL,
+    [CentroCostoGlosas]      VARCHAR (20)  NULL,
+    [CuentaSinRadicar]       VARCHAR (20)  NOT NULL,
+    [CuentaRadicada]         VARCHAR (20)  NULL,
+    [CuentaGlosa]            VARCHAR (20)  NOT NULL,
+    [CuentaConciliacion]     VARCHAR (20)  NOT NULL,
+    [CuentaJuridico]         VARCHAR (20)  NOT NULL,
+    [CuentaOrdenGlosa]       VARCHAR (20)  NULL,
+    [CuentaAcreedoresGlosas] VARCHAR (20)  NULL,
+    [Observacion2]           VARCHAR (100) NOT NULL,
+    CONSTRAINT [PK_SALDOSGLOSAS_ESTANCARTERA__Id] PRIMARY KEY CLUSTERED ([Id] ASC)
+);
+

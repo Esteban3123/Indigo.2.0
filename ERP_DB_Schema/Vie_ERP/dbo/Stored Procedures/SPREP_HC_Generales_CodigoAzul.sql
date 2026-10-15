@@ -1,0 +1,23 @@
+﻿
+CREATE PROCEDURE [dbo].[SPREP_HC_Generales_CodigoAzul]
+(
+@CodigoPaciente Varchar(25),
+@NumeroFolio Char(10),
+@NumeroIngreso Char(10)
+)
+AS
+BEGIN
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	SET NOCOUNT ON;
+
+    -- Insert statements for procedure here
+          
+SELECT RTRIM(C.DESPRODUC) AS 'DESCRIPCION DEL PRODUCTO',RTRIM(A.JUSCODAZU) AS JUSTIFICACION,B.CANENTPRO AS 'CANTIDAD UTILIZADA DEL PRODUCTO',
+	   A.NUMCODAZU AS 'CONSECUTIVO DEL CODIGO AZUL'
+FROM HCCODAZUC AS A With(Nolock)
+INNER JOIN HCCODAZUD AS B With(Nolock) ON A.CODCONSEC = B.CODCONSEC 
+INNER JOIN IHLISTPRO AS C With(Nolock) ON B.CODPRODUC = C.CODPRODUC 
+WHERE A.IPCODPACI=@CodigoPaciente AND A.NUMINGRES=@NumeroIngreso AND A.NUMEFOLIO=@NumeroFolio AND CANENTPRO >'0'
+
+END

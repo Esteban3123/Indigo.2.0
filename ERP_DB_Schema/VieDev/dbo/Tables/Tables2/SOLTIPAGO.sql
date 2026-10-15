@@ -1,0 +1,7 @@
+﻿CREATE TABLE [dbo].[SOLTIPAGO] (
+    [Autonumerico] TINYINT      IDENTITY (1, 1) NOT FOR REPLICATION NOT NULL,
+    [Codigo]       VARCHAR (3)  NOT NULL,
+    [Descripcion]  VARCHAR (50) NOT NULL,
+    CONSTRAINT [PK_SOLTIPAG] PRIMARY KEY CLUSTERED ([Autonumerico] ASC)
+);
+

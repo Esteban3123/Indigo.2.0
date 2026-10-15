@@ -1,0 +1,9 @@
+﻿CREATE TABLE [Admissions].[RecommendationsInunifunc] (
+    [UFUCODIGO] VARCHAR (10)  NOT NULL,
+    [CODCENATE] VARCHAR (10)  NULL,
+    [UFUDESCRI] VARCHAR (100) NULL,
+    [ID]        INT           IDENTITY (1, 1) NOT NULL,
+    CONSTRAINT [PK__Recommen__3214EC276844A29D] PRIMARY KEY CLUSTERED ([ID] ASC),
+    CONSTRAINT [FK__Recommend__CODCE__1DAD6EBD] FOREIGN KEY ([CODCENATE]) REFERENCES [Admissions].[Recommendations] ([CODCENATE])
+);
+

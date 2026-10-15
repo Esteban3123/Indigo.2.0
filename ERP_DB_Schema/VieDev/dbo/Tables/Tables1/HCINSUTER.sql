@@ -1,0 +1,37 @@
+﻿CREATE TABLE [dbo].[HCINSUTER] (
+    [CODCONSEC] NUMERIC (18)                                                                     NOT NULL,
+    [CODPRODUC] CHAR (20)                                                                        NOT NULL,
+    [IPCODPACI] VARCHAR (25) MASKED WITH (FUNCTION = 'partial(0, "Identification_Ofuscado", 0)') NOT NULL,
+    [NUMINGRES] CHAR (10)                                                                        NOT NULL,
+    [CODCENATE] CHAR (10)                                                                        NOT NULL,
+    [UFUCODIGO] CHAR (10)                                                                        NOT NULL,
+    [CANPROUSA] INT                                                                              NOT NULL,
+    [FECREGSIS] DATETIME                                                                         CONSTRAINT [DF_HCINSUTER_FECREGSIS] DEFAULT ([Common].[getdate]()) NOT NULL,
+    CONSTRAINT [PK_HCINSUTER] PRIMARY KEY CLUSTERED ([CODCONSEC] ASC, [CODPRODUC] ASC),
+    CONSTRAINT [FK_HCINSUTER_ADINGRESO] FOREIGN KEY ([NUMINGRES]) REFERENCES [dbo].[ADINGRESO] ([NUMINGRES]),
+    CONSTRAINT [FK_HCINSUTER_HCPROCTER] FOREIGN KEY ([CODCONSEC]) REFERENCES [dbo].[HCPROCTER] ([CODCONSEC]),
+    CONSTRAINT [FK_HCINSUTER_IHLISTPRO] FOREIGN KEY ([CODPRODUC]) REFERENCES [dbo].[IHLISTPRO] ([CODPRODUC]),
+    CONSTRAINT [FK_HCINSUTER_INPACIENT] FOREIGN KEY ([IPCODPACI]) REFERENCES [dbo].[INPACIENT] ([IPCODPACI])
+);
+
+
+GO
+ALTER TABLE [dbo].[HCINSUTER] NOCHECK CONSTRAINT [FK_HCINSUTER_ADINGRESO];
+
+
+GO
+ALTER TABLE [dbo].[HCINSUTER] NOCHECK CONSTRAINT [FK_HCINSUTER_HCPROCTER];
+
+
+GO
+ALTER TABLE [dbo].[HCINSUTER] NOCHECK CONSTRAINT [FK_HCINSUTER_IHLISTPRO];
+
+
+GO
+ALTER TABLE [dbo].[HCINSUTER] NOCHECK CONSTRAINT [FK_HCINSUTER_INPACIENT];
+
+
+GO
+CREATE NONCLUSTERED INDEX [IX_HCINSUTER_IPCODPACI_NUMINGRES_CODCENATE_UFUCODIGO]
+    ON [dbo].[HCINSUTER]([IPCODPACI] ASC, [NUMINGRES] ASC, [CODCENATE] ASC, [UFUCODIGO] ASC);
+

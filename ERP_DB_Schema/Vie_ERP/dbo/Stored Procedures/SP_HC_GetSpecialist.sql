@@ -1,0 +1,13 @@
+﻿CREATE PROC [dbo].[SP_HC_GetSpecialist]
+@IDNumber char(15)
+AS
+SELECT		U.CODUSUARI AS Code,
+			P.CODIGONIT AS IDNumber,
+			U.NOMUSUARI as Name,
+			U.USUADMINI AS IsAdministrator,
+			p.CODESPEC1 AS FirstSpecialty,
+			ISNULL(P.CODESPEC2, '0') AS SecondSpecialty,
+			ISNULL(P.CODESPEC3, '0')AS ThirdSpecialty
+FROM		SEGusuaru AS U 
+INNER JOIN	INPROFSAL AS P ON U.CODUSUARI = P.CODPROSAL
+WHERE		P.CODIGONIT = @IDNumber

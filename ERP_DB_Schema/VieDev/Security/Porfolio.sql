@@ -1,0 +1,3 @@
+﻿CREATE SCHEMA [Porfolio]
+    AUTHORIZATION [dbo];
+

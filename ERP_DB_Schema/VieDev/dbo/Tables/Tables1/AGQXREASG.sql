@@ -1,0 +1,37 @@
+﻿CREATE TABLE [dbo].[AGQXREASG] (
+    [CODAUTONU] INT                                                                              IDENTITY (1, 1) NOT FOR REPLICATION NOT NULL,
+    [CODCENATE] CHAR (10)                                                                        NOT NULL,
+    [IPCODPACI] VARCHAR (25) MASKED WITH (FUNCTION = 'partial(0, "Identification_Ofuscado", 0)') NOT NULL,
+    [CODSERIPS] CHAR (20)                                                                        NOT NULL,
+    [CODPROSAL] CHAR (20) MASKED WITH (FUNCTION = 'partial(0, "Identification_Ofuscado", 0)')    NOT NULL,
+    [CODCONCEC] INT                                                                              NOT NULL,
+    [CODUSUASI] CHAR (20)                                                                        NOT NULL,
+    [FECREGSIS] DATETIME                                                                         NOT NULL,
+    CONSTRAINT [PK_AGQXREASG] PRIMARY KEY CLUSTERED ([CODAUTONU] ASC),
+    CONSTRAINT [FK_AGQXREASG_ADCENATEN] FOREIGN KEY ([CODCENATE]) REFERENCES [dbo].[ADCENATEN] ([CODCENATE]),
+    CONSTRAINT [FK_AGQXREASG_AGENSALAC] FOREIGN KEY ([CODCONCEC]) REFERENCES [dbo].[AGENSALAC] ([CODCONCEC]),
+    CONSTRAINT [FK_AGQXREASG_INCUPSIPS] FOREIGN KEY ([CODSERIPS]) REFERENCES [dbo].[INCUPSIPS] ([CODSERIPS]),
+    CONSTRAINT [FK_AGQXREASG_INPACIENT] FOREIGN KEY ([IPCODPACI]) REFERENCES [dbo].[INPACIENT] ([IPCODPACI]),
+    CONSTRAINT [FK_AGQXREASG_INPROFSAL] FOREIGN KEY ([CODPROSAL]) REFERENCES [dbo].[INPROFSAL] ([CODPROSAL])
+);
+
+
+GO
+ALTER TABLE [dbo].[AGQXREASG] NOCHECK CONSTRAINT [FK_AGQXREASG_ADCENATEN];
+
+
+GO
+ALTER TABLE [dbo].[AGQXREASG] NOCHECK CONSTRAINT [FK_AGQXREASG_AGENSALAC];
+
+
+GO
+ALTER TABLE [dbo].[AGQXREASG] NOCHECK CONSTRAINT [FK_AGQXREASG_INCUPSIPS];
+
+
+GO
+ALTER TABLE [dbo].[AGQXREASG] NOCHECK CONSTRAINT [FK_AGQXREASG_INPACIENT];
+
+
+GO
+ALTER TABLE [dbo].[AGQXREASG] NOCHECK CONSTRAINT [FK_AGQXREASG_INPROFSAL];
+

@@ -1,0 +1,38 @@
+﻿
+
+CREATE PROCEDURE [dbo].[SPCH_ListadoServiciosPendientesEgreso]
+(
+@Paciente Varchar(25),
+@Ingreso  Char(10),
+@CentroAtencion  Char(10),
+@UnidadFuncional  Char(10)
+)
+AS
+BEGIN
+	SET NOCOUNT ON;
+
+SELECT A.FECORDMED AS 'FechaSolicitud', RTRIM(A.CODSERIPS) AS Codigo,RTRIM(DESSERIPS) AS Servicio,
+CASE ESTSERIPS WHEN '2' THEN 'Pendiente de Resultado' WHEN '3' THEN 'Pendiente de Interpretacion' ELSE 'Remitido' END AS Estado,'Laboratorios' AS Tipo
+FROM dbo.HCORDLABO A 
+INNER JOIN dbo.INCUPSIPS B ON A.CODSERIPS=B.CODSERIPS
+WHERE IPCODPACI=@Paciente AND NUMINGRES=@Ingreso AND ESTSERIPS IN ('1','2','3','5') AND A.CODSERIPS NOT IN ( SELECT CODSERIPS FROM dbo.HCEGRESINRESULT WHERE UFUCODIGO = @UnidadFuncional AND CODCENATE = @CentroAtencion  )
+UNION
+SELECT A.FECORDMED AS 'FechaSolicitud',RTRIM(A.CODSERIPS) AS Codigo,RTRIM(DESSERIPS) AS Servicio,
+CASE ESTSERIPS WHEN '2' THEN 'Estudio Realizado' WHEN '3' THEN 'Pendiente de Interpretacion' ELSE 'Remitido' END AS Estado,'Imagenes DX' AS Tipo
+FROM dbo.HCORDIMAG A 
+INNER JOIN dbo.INCUPSIPS B ON A.CODSERIPS=B.CODSERIPS
+WHERE IPCODPACI=@Paciente AND NUMINGRES=@Ingreso AND ESTSERIPS IN ('1','2','3','5') AND A.CODSERIPS NOT IN ( SELECT CODSERIPS FROM dbo.HCEGRESINRESULT WHERE UFUCODIGO = @UnidadFuncional AND CODCENATE = @CentroAtencion  )
+/*
+UNION
+SELECT A.FECORDMED AS 'FechaSolicitud',RTRIM(A.CODSERIPS) AS Codigo,RTRIM(DESSERIPS) AS Servicio,
+CASE ESTSERIPS WHEN '2' THEN 'Pendiente de Resultado' WHEN '3' THEN 'Pendiente de Interpretacion' ELSE 'Remitido' END AS Estado,'Patologias' AS Tipo
+FROM dbo.HCORDPATO A INNER JOIN dbo.INCUPSIPS B ON A.CODSERIPS=B.CODSERIPS
+WHERE IPCODPACI=@Paciente AND NUMINGRES=@Ingreso AND ESTSERIPS IN ('2','3','5')
+*/
+UNION
+SELECT A.FECORDMED AS 'FechaSolicitud',RTRIM(A.CODSERIPS) AS Codigo,RTRIM(DESSERIPS) AS Servicio,
+'Pendiente Evolucion' AS Estado,'Interconsultas' AS Tipo
+FROM dbo.HCORDINTE A 
+INNER JOIN dbo.INCUPSIPS B ON A.CODSERIPS=B.CODSERIPS
+WHERE IPCODPACI=@Paciente AND NUMINGRES=@Ingreso AND ESTSERIPS IN ('1','2')
+end

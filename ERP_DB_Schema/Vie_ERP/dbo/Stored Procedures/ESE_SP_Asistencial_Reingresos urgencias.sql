@@ -1,0 +1,49 @@
+﻿CREATE PROCEDURE [dbo].[ESE_SP_Asistencial_Reingresos urgencias] @FechaIni DATETIME, 
+                                                                @FechaFin DATETIME
+AS
+     SELECT CASE PAC.IPTIPODOC
+                WHEN 1
+                THEN 'CC'
+                WHEN 2
+                THEN 'CE'
+                WHEN 3
+                THEN 'TI'
+                WHEN 4
+                THEN 'RC '
+                WHEN 5
+                THEN 'PA'
+                WHEN 6
+                THEN 'AS'
+                WHEN 7
+                THEN 'MS'
+                WHEN 8
+                THEN 'NUIP'
+                WHEN 12
+                THEN 'PEP'
+            END AS TIPODOC, 
+            RTRIM(ING.IPCODPACI) AS PACNUMDOC, 
+            RTRIM(PAC.IPPRINOMB) AS PACPRINOM, 
+            RTRIM(PAC.IPSEGNOMB) AS PACSEGNOM, 
+            RTRIM(PAC.IPPRIAPEL) AS PACPRIAPE, 
+            RTRIM(PAC.IPSEGAPEL) AS PACSEGAPE, 
+            ING.NUMINGRES AS 'AINCONSEC', 
+            HC.FECHISPAC AS 'HCFECFOL', 
+            ING.CODCENATE AS 'ACACODIGO', 
+            RTRIM(cen.NOMCENATE) AS 'ACANOMBRE', 
+            HC.CODDIAGNO AS 'DIACODIGO', 
+            RTRIM(DIAG.NOMDIAGNO) AS Diagnostico
+     FROM.ADINGRESO AS ING WITH(NOLOCK)
+         INNER JOIN.HCHISPACA AS HC WITH(NOLOCK) ON ING.NUMINGRES = HC.NUMINGRES
+                                                    AND ING.IPCODPACI = HC.IPCODPACI
+         INNER JOIN.ADCENATEN AS Cen WITH(NOLOCK) ON Cen.CODCENATE = ING.CODCENATE
+         INNER JOIN.INPACIENT AS PAC WITH(NOLOCK) ON ING.IPCODPACI = PAC.IPCODPACI
+         INNER JOIN.INUNIFUNC AS UNI WITH(NOLOCK) ON UNI.UFUCODIGO = HC.UFUCODIGO
+         INNER JOIN.INUBICACI AS UBI WITH(NOLOCK) ON PAC.AUUBICACI = UBI.AUUBICACI
+         INNER JOIN.INDIAGNOS AS DIAG WITH(NOLOCK) ON HC.CODDIAGNO = DIAG.CODDIAGNO
+         INNER JOIN.INPROFSAL AS S WITH(NOLOCK) ON S.CODPROSAL = hc.CODPROSAL
+         INNER JOIN.INENTIDAD AS ENT WITH(NOLOCK) ON ING.CODENTIDA = ENT.CODENTIDA
+         LEFT OUTER JOIN.PRMODELOHC AS MO WITH(NOLOCK) ON MO.ID = HC.IDMODELOHC
+         LEFT OUTER JOIN.HCRIESGOSP AS RIE WITH(NOLOCK) ON RIE.NUMINGRCES = ING.NUMINGRES
+     WHERE CAST(HC.FECHISPAC AS DATE) BETWEEN @FechaIni AND @FechaFin
+           AND ING.IESTADOIN <> 'A'
+           AND UNI.UFUTIPUNI = 1;

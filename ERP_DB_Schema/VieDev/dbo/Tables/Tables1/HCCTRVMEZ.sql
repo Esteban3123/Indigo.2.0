@@ -1,0 +1,16 @@
+﻿CREATE TABLE [dbo].[HCCTRVMEZ] (
+    [CONSECUTI] NUMERIC (18) NOT NULL,
+    [NOMMEZCLA] CHAR (200)   NOT NULL,
+    [FECHAINIC] DATETIME     NOT NULL,
+    CONSTRAINT [PK_HCCTRVMEZ] PRIMARY KEY CLUSTERED ([CONSECUTI] ASC, [NOMMEZCLA] ASC),
+    CONSTRAINT [FK_HCCTRVMEZ_HCCTRVENP] FOREIGN KEY ([CONSECUTI]) REFERENCES [dbo].[HCCTRVENP] ([CONSECUTI])
+);
+
+
+GO
+ALTER TABLE [dbo].[HCCTRVMEZ] NOCHECK CONSTRAINT [FK_HCCTRVMEZ_HCCTRVENP];
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'MS_Description', @value = 'Fecha Inicial de la Venopuncion  ', @level0type = N'SCHEMA', @level0name = N'dbo', @level1type = N'TABLE', @level1name = N'HCCTRVMEZ', @level2type = N'COLUMN', @level2name = N'FECHAINIC';
+

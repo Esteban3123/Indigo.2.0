@@ -1,0 +1,76 @@
+﻿
+-- =============================================
+-- Author:		Juan David Patiño Cabrera.
+-- Create date: 29/02/2016
+-- Description:	SP que lista los pacientes Que Tiene Citas Oncologia.
+-- =============================================
+CREATE PROCEDURE [dbo].[SPENF_ListarPacientesAgendaOncologica]
+	(
+@CentroAtencion Char(10),
+@UnidadFuncional char(20),
+@TipoUnidadFuncional int,
+@TipoTratamiento as int,
+@Fecha as date,
+@Usuario as varchar(20)
+
+--@CentroAtencion Char(10) = '01',
+--@UnidadFuncional char(20) = '038',
+--@TipoUnidadFuncional int = '13',
+--@TipoTratamiento as int =  '1',
+--@Fecha as date = '09/11/2016',
+--@Usuario as varchar(20) = '999'
+--TIPOTRATA =  1 -> Quimio 2-> Radio 
+     
+)
+AS
+BEGIN
+	SET NOCOUNT ON;		 
+
+		SELECT DISTINCT CODAUTONU,TIPOTRATA, D.CODENTIDA,Rtrim(K.NOMENTIDA) as 'Nombre Entidad',D.UFUACTPAC,Rtrim(N.UFUDESCRI) as 'Unidad Funcional','' as 'Nombre Cama',P.NUMINGRES AS 'Ingreso',D.CODTIPPAC as TipoPoblacion ,'' AS Aislamiento,CAST('' AS CHAR(50)) AS Edad,RTRIM(C.IPNOMCOMP) AS 'Nombre Completo', IPFECNACI AS 'Fecha Nacimiento' ,RTRIM(NOMDIAGNO) AS 'Nombre Diagnos',A.CODDIAGNO , B.DESCRIPSAL,  A.IPCODPACI,  isnull(D.NUMINGRES,'') as NUMINGRES,
+	TIPOINGRE = CASE WHEN D.TIPOINGRE = 1 THEN 'AMBULATORIO' WHEN D.TIPOINGRE = 2 THEN 'HOSPITALARIO' END,  
+	E.DESCREQUI as 'Equipo Tratamiento',  E.ID AS IDEQUIP,  CODTIPCIT = CASE WHEN A.CODTIPCIT = 0 THEN 'PRIMERA VEZ' WHEN A.CODTIPCIT = 1 THEN 'CONTROL'  WHEN A.CODTIPCIT = 2 THEN 'POS OPERATORIO' END, F.CODACTMED,  F.DESACTMED As 'Actividad',  HORINIC = FORMAT(A.FECHORAIN, 'HH:mm:ss'),  A.FECHORAIN, null AS 'Codigo Cama', 'false' AS TrasladoMedicamentos, null as  Consecutivo,  null as UFUCODIGO, A.RELCITAINGRE as 'CitaConIngreso',ISNULL(CONVERT(VARCHAR(20),CICLO),Case WHEN FASE = 1 Then 'Prefase o citoreducción inicial' WHEN FASE =  2 Then 'Inducción'  WHEN FASE = 3 Then 'Intensificación'  WHEN FASE = 4 Then 'Consolidación' WHEN FASE = 5 Then 'Reinducción' WHEN FASE = 6 Then 'Mantenimiento' WHEN FASE = 7 Then 'Mantenimiento largo o final' WHEN FASE = 8 Then 'Otra fase de quimioterapia' end) AS CAMPO  , A.OBSERVACI as 'Observacion Cita', G.ID as 'IdCabeceraProductos'
+	 FROM AGASICITA A  
+	 INNER JOIN AGENSALAC B ON A.IDSALA = B.CODCONCEC AND B.TIPOTRATA = @TipoTratamiento
+	 INNER JOIN INPACIENT C ON A.IPCODPACI = C.IPCODPACI  
+	 INNER JOIN AGEQUIPTRA E ON A.IDEQUIPOTRA = E.ID  
+	 INNER JOIN AGACTIMED F ON A.CODACTMED = F.CODACTMED  
+	 INNER JOIN ADACTIVID L ON C.CODACTIVI = L.codactivi  
+	 LEFT  JOIN ADRELFICHAON  P ON  A.IPCODPACI = P.IPCODPACI AND P.ESTADO = 1 
+	 LEFT  JOIN ADINGRESO D ON A.IPCODPACI = D.IPCODPACI  AND P.NUMINGRES = D.NUMINGRES 
+	 LEFT JOIN  INDIAGNOS Z ON Z.CODDIAGNO = A.CODDIAGNO  
+	 LEFT JOIN INENTIDAD K ON K.CODENTIDA = D.CODENTIDA 
+	 LEFT JOIN INUNIFUNC N ON N.UFUCODIGO = D.UFUACTPAC
+	 LEFT JOIN AGFARMEONCOC G ON G.IDCITA  = A.CODAUTONU 
+	 WHERE A.CODESTCIT = 0 
+	AND A.TIPSOLICITU = 3 
+	AND (A.FECHCANCELA IS NUll OR A.FECHCANCELA = '') 
+	AND A.IDSALA IN (SELECT  B.CODCONCEC FROM INAUTORIU A INNER JOIN AGENSALAC B ON A.PKVALORCO = B.CODIGSALA WHERE A.CODUSUARI = @Usuario AND A.PKTIPOCON = 8 AND B.ESTADO = 1
+					UNION  select  B.CODCONCEC from INAUTORIG  A INNER JOIN AGENSALAC B ON A.PKVALORCO = B.CODIGSALA WHERE A.CODGRUPOU  in (select CODGRUPOU  from SEGusuaru where CODUSUARI = @Usuario) AND A.PKTIPOCON = 8 AND B.ESTADO = 1 ) 
+	AND A.CODCENATE = @centroAtencion AND FORMAT(A.FECHORAIN, 'dd/MM/yyyy') = @Fecha
+	AND A.RELCITAINGRE = 0 --no hospitalizados. no relaciona ingreso en cita. el ingreso sale de la ficha oncologica.
+UNION ALL
+	SELECT DISTINCT  CODAUTONU,TIPOTRATA,D.CODENTIDA,Rtrim(K.NOMENTIDA) as 'Nombre Entidad',D.UFUACTPAC,Rtrim(N.UFUDESCRI) as 'Unidad Funcional',Rtrim(O.DESCCAMAS) as 'Nombre Cama',D.NUMINGRES AS 'Ingreso',D.CODTIPPAC as TipoPoblacion ,dbo.TipoAislamiento(O.CODAISLAM) AS Aislamiento,CAST('' AS CHAR(50)) AS Edad,RTRIM(C.IPNOMCOMP) AS 'Nombre Completo', IPFECNACI AS 'Fecha Nacimiento',RTRIM(NOMDIAGNO) AS 'Nombre Diagnos',A.CODDIAGNO,B.DESCRIPSAL,  A.IPCODPACI,  isnull(D.NUMINGRES,'') as NUMINGRES,   
+	TIPOINGRE = CASE WHEN D.TIPOINGRE = 1 THEN 'AMBULATORIO' WHEN D.TIPOINGRE = 2 THEN 'HOSPITALARIO' END,  
+	E.DESCREQUI as 'Equipo Tratamiento',  E.ID AS IDEQUIP,  CODTIPCIT = CASE WHEN A.CODTIPCIT = 0 THEN 'PRIMERA VEZ' WHEN A.CODTIPCIT = 1 THEN 'CONTROL'  WHEN A.CODTIPCIT = 2 THEN 'POS OPERATORIO' END, F.CODACTMED,  F.DESACTMED As 'Actividad',  HORINIC = FORMAT(A.FECHORAIN, 'HH:mm:ss'),  A.FECHORAIN,  O.CODICAMAS AS 'Codigo Cama',isnull(O.CAMTRAMED,'false') AS TrasladoMedicamentos,O.CODCONCEC AS Consecutivo,  O.UFUCODIGO, A.RELCITAINGRE as 'CitaConIngreso',ISNULL(CONVERT(VARCHAR(20),CICLO),Case WHEN FASE = 1 Then 'Prefase o citoreducción inicial' WHEN FASE =  2 Then 'Inducción'  WHEN FASE = 3 Then 'Intensificación'  WHEN FASE = 4 Then 'Consolidación' WHEN FASE = 5 Then 'Reinducción' WHEN FASE = 6 Then 'Mantenimiento' WHEN FASE = 7 Then 'Mantenimiento largo o final' WHEN FASE = 8 Then 'Otra fase de quimioterapia' end) AS CAMPO , A.OBSERVACI as 'Observacion Cita',G.ID as 'IdCabeceraProductos'
+	 FROM AGASICITA A  
+	 INNER JOIN AGENSALAC B ON A.IDSALA = B.CODCONCEC AND B.TIPOTRATA = @TipoTratamiento 
+	 INNER JOIN INPACIENT C ON A.IPCODPACI = C.IPCODPACI  
+	 INNER JOIN AGEQUIPTRA E ON A.IDEQUIPOTRA = E.ID  
+	 INNER JOIN AGACTIMED F ON A.CODACTMED = F.CODACTMED  
+	 INNER JOIN ADACTIVID L ON C.CODACTIVI = L.codactivi  
+	 LEFT JOIN  ADINGRESO D ON A.IPCODPACI = D.IPCODPACI  AND A.NUMINGRES = D.NUMINGRES 
+	 INNER JOIN CHREGESTA CH on CH.NUMINGRES = A.NUMINGRES AND CH.REGESTADO = 1 
+	 INNER JOIN CHCAMASHO O ON  O.CODICAMAS =CH.CODICAMAS  AND O.ESTADCAMA = '2'
+	 LEFT JOIN INDIAGNOS Z ON Z.CODDIAGNO = A.CODDIAGNO
+	 LEFT JOIN INENTIDAD K ON K.CODENTIDA = D.CODENTIDA 
+	 LEFT JOIN INUNIFUNC N ON N.UFUCODIGO = D.UFUACTPAC
+	 LEFT JOIN AGFARMEONCOC G ON G.IDCITA  = A.CODAUTONU  
+	WHERE A.CODESTCIT = 0 
+	AND A.TIPSOLICITU = 3 
+	AND (A.FECHCANCELA IS NUll OR A.FECHCANCELA = '') 
+	AND A.IDSALA IN (SELECT  B.CODCONCEC FROM INAUTORIU A INNER JOIN AGENSALAC B ON A.PKVALORCO = B.CODIGSALA WHERE A.CODUSUARI = @Usuario AND A.PKTIPOCON = 8 AND B.ESTADO = 1
+					UNION  select  B.CODCONCEC from INAUTORIG  A INNER JOIN AGENSALAC B ON A.PKVALORCO = B.CODIGSALA WHERE A.CODGRUPOU  in (select CODGRUPOU  from SEGusuaru where CODUSUARI = @Usuario) AND A.PKTIPOCON = 8 AND B.ESTADO = 1 ) 
+	AND A.CODCENATE = @centroAtencion AND FORMAT(A.FECHORAIN, 'dd/MM/yyyy') = @Fecha 
+	AND A.RELCITAINGRE = 1  --hopitalizado y relaciona el ingreso en la cita
+
+END

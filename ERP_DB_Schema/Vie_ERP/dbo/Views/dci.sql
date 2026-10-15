@@ -1,0 +1,6 @@
+﻿
+
+CREATE VIEW [dbo].[dci]
+AS
+SELECT     CODDCIMED, DESDCIMED
+FROM         dbo.IHDCIMEDI

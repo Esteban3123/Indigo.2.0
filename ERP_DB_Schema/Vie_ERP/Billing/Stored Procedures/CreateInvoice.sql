@@ -1,0 +1,532 @@
+﻿-- =============================================
+-- Author:		Diego A. Roldan
+-- Create date: 2015-09-24
+-- Description:	Genera la factura y las cuentas por cobrar de un folio a liquidar
+-- =============================================
+
+CREATE PROCEDURE [Billing].[CreateInvoice]
+    @RevenueControlDetailId INT,
+    @BillingAuthorizationId INT,
+    @PatientCode VARCHAR(20),
+    @AdmissionNumber VARCHAR(20),
+    @ContainerCrystal VARCHAR(10),
+    @TotalPatientDiscount DECIMAL(18, 2),
+    @CloseAdmission BIT,
+    @OutputDate DATETIME,
+    @IsCutAccount BIT,
+    @OutputDiagnosis VARCHAR(10),
+    @InitialDate DATETIME,
+    @CutType INT,
+    @CompanyType TINYINT,
+    @ThirdPartyPatientId INT,
+    @OperativeUnitId INT,
+    @UserCode VARCHAR(20),
+    @ListPortfolioAdvanceCrossingXml XML,
+	--Salidas
+    @StatusResult BIT OUTPUT,
+    @MessageResult VARCHAR(MAX) OUTPUT,
+    @Message VARCHAR(MAX) OUTPUT,
+    @InvoiceId INT OUTPUT,
+    @InvoiceNumber VARCHAR(20) OUTPUT
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+	DECLARE @Cero TINYINT = 0
+	
+	DECLARE @errorList VARCHAR(MAX) = '',
+			@codesGenerate VARCHAR(MAX) = '',
+			@resSaveAccReceivablePatient VARCHAR(10),
+			@resSaveAccountReceivableEntity VARCHAR(10),
+			@resAccReceivablePagare VARCHAR(10),
+			@resGenerateTransfer VARCHAR(10)
+
+	DECLARE @InvoiceJournalVoucherTypeId INT,
+			@JournalXml Xml,
+			@JournalVoucherId INT
+
+	DECLARE @ListPortfolioAdvanceCrossing TABLE
+	(
+		RowId INT IDENTITY(1,1) PRIMARY KEY,
+		Id INT, --portfolioadvanceid
+		Code VARCHAR(20),
+		CrossingValue DECIMAL(18, 2),
+		CashReceiptDetailIdTmp INT NULL
+	)
+
+	DECLARE @TableJournalVoucherDetail TABLE
+	(
+		IdMainAccount INT NOT NULL, 
+		IdThirdParty INT NULL, 
+		IdCostCenter INT NULL,
+		DebitValue DECIMAL(18, 2) NOT NULL,
+		CreditValue DECIMAL(18, 2) NOT NULL,
+		Detail VARCHAR(MAX) NULL,
+		IdRetention INT NULL,
+		RetentionRate DECIMAL(5, 2) NULL,
+		BaseValue DECIMAL(18, 0) NULL,
+		BillingValue DECIMAL(18, 0) NULL
+	)
+
+	DECLARE @TableResultJournal TABLE
+	(
+		CodeMessage VARCHAR(20), 
+		[Message] VARCHAR(MAX), 
+		IdJournalVoucher INT
+	)
+
+	DELETE FROM @ListPortfolioAdvanceCrossing
+	INSERT INTO @ListPortfolioAdvanceCrossing
+		SELECT t.x.value('Id[1]', 'INT'),
+			t.x.value('Code[1]', 'VARCHAR(20)'),
+			t.x.value('CrossingValue[1]', 'DECIMAL(18, 2)'),
+			t.x.value('CashReceiptDetailIdTmp[1]', 'INT')
+		FROM @ListPortfolioAdvanceCrossingXml.nodes('ListPortfolioAdvanceCrossing') t(x)
+
+	BEGIN TRY
+		SET @StatusResult = 0
+		SET @MessageResult = ''
+		SET @Message = ''
+		SET @InvoiceId = 0
+		SET @InvoiceNumber = ''
+
+		-- Se obtiene el tipo de comprobante contable
+		SELECT @InvoiceJournalVoucherTypeId = InvoiceJournalVoucherTypeId
+		FROM Billing.SettingsBilling With(Nolock)
+		Where IdOperatingUnit = @OperativeUnitId
+				
+		DECLARE @StatusSequence BIT,
+			@MessageSequence VARCHAR(255),
+			@IdSequence INT
+
+		EXEC [Portfolio].[GetPortfolioSequenceByTag] '682', 
+													 @OperativeUnitId, 
+													 --Salidas
+													 @StatusSequence OUTPUT, 
+													 @MessageSequence OUTPUT, 
+													 @IdSequence OUTPUT
+
+		IF @StatusSequence = 0
+		BEGIN
+			SET @Message = @MessageSequence
+			RETURN
+		END
+
+		/*Variables generadas por Creacion de cuenta por cobrar a entidad (accountReceivableEntity)*/
+		DECLARE @ArEntityStatusResult BIT = 0,
+				@ArEntityMessage VARCHAR(255),
+				@ArEntityPortfolioAccountReceivableId INT,
+				@ArEntityPortfolioAccountReceivableCode VARCHAR(20)
+
+		/*Variables cuenta por cobrar a paciente (accountReceivablePatient)*/
+		DECLARE @ArPatientStatusResult BIT = 0,
+				@ArPatientMessage VARCHAR(255),
+				@ArPatientPortfolioAccountReceivableId INT,
+				@ArPatientPortfolioAccountReceivableCode VARCHAR(20)
+
+		/*Variables cuenta por cobrar anticipo paciente*/
+		DECLARE @PtCodeResult INT,
+				@PtMessageResult VARCHAR(MAX)
+
+		/*Variables Pagare*/
+		DECLARE @ArPagareResult BIT,
+				@ArPagareMessage VARCHAR(MAX),
+				@ArPagareAccountReceivableId INT,
+				@ArPagareAccountReceivableCode VARCHAR(20)
+		
+		DECLARE @TotalCrossingValue DECIMAL(18, 2)
+		SET @TotalCrossingValue = COALESCE((SELECT SUM(CrossingValue) FROM @ListPortfolioAdvanceCrossing), 0)
+
+		DECLARE @__StatusResult BIT,
+				@__MessageResult VARCHAR(MAX),
+				@__CareGroupType TINYINT,
+				@__LiquidationType TINYINT,
+				@__InvoiceId INT,
+				@__InvoiceNumber VARCHAR(20),
+				@__InvoiceThirdPartySalesValue DECIMAL(18,2),
+				@__FolioCareGroupId INT,
+				@__FolioThirdPartyId INT,
+				@__FolioTotalPatientWithDiscount DECIMAL(18, 2),
+				@__MessageValidationContract VARCHAR(MAX),
+				@__InvoiceCategory INT
+
+		DECLARE @ResultCreateInvoice TABLE
+		(
+			RowId INT IDENTITY(1,1) PRIMARY KEY,
+			StatusResult BIT,
+			MessageResult VARCHAR(MAX),
+			CareGroupType TINYINT NULL,
+			LiquidationType TINYINT NULL,
+			InvoiceId INT NULL,
+			InvoiceNumber VARCHAR(20),
+			InvoiceThirdPartySalesValue DECIMAL(18,2) NULL,
+			FolioCareGroupId INT NULL,
+			FolioThirdPartyId INT NULL,
+			FolioTotalPatientWithDiscount DECIMAL(18, 2) NULL,
+			MessageValidationContract VARCHAR(MAX),
+			InvoiceCategory INT NULL
+		)
+
+		DELETE FROM @ResultCreateInvoice
+		INSERT INTO @ResultCreateInvoice
+			EXEC Billing.SP_CreateInvoice @RevenueControlDetailId, 
+										  @BillingAuthorizationId, 
+										  @OperativeUnitId, 
+										  @PatientCode, 
+										  @AdmissionNumber, 
+										  @ContainerCrystal, 
+										  @UserCode, 
+										  @TotalPatientDiscount, 
+										  @TotalCrossingValue, 
+										  @closeAdmission, 
+										  @OutputDate, 
+										  @IsCutAccount, 
+										  @OutputDiagnosis, 
+										  @InitialDate, 
+										  @CutType
+
+		SELECT TOP 1 @__StatusResult = StatusResult,
+					 @__MessageResult = MessageResult,
+					 @__CareGroupType = CareGroupType,
+					 @__LiquidationType = LiquidationType,
+					 @__InvoiceId = InvoiceId, 
+					 @__InvoiceNumber = InvoiceNumber, 
+					 @__InvoiceThirdPartySalesValue = InvoiceThirdPartySalesValue,
+					 @__FolioCareGroupId = FolioCareGroupId,
+					 @__FolioThirdPartyId = FolioThirdPartyId,
+					 @__FolioTotalPatientWithDiscount = FolioTotalPatientWithDiscount,
+					 @__MessageValidationContract = MessageValidationContract,
+					 @__InvoiceCategory = InvoiceCategory
+		FROM @ResultCreateInvoice
+
+		IF @__StatusResult = 0 
+		BEGIN
+			SET @Message = @__MessageResult
+			RETURN
+		END
+
+		IF EXISTS
+		(
+			SELECT 1
+			FROM Portfolio.PortfolioAdvance pa
+			JOIN 
+			(
+				SELECT	ipa.Id PortfolioAdvanceId, 
+						SUM(ipa.CrossingValue) Value
+				FROM @ListPortfolioAdvanceCrossing ipa
+				GROUP BY ipa.Id
+			) ipa ON pa.Id = ipa.PortfolioAdvanceId
+			WHERE ipa.Value > pa.Balance
+		)
+		BEGIN
+			SET @Message = 'El valor a cruzar supera el saldo del anticipo'
+			RETURN
+		END
+
+		IF EXISTS (SELECT 1 FROM @ListPortfolioAdvanceCrossing) 
+		BEGIN
+			INSERT INTO Billing.InvoicePortfolioAdvance
+				SELECT @__InvoiceId, Id, CrossingValue
+				FROM @ListPortfolioAdvanceCrossing
+		END
+
+		SET @codesGenerate = 'Factura número: ' + @__InvoiceNumber
+
+		IF @__LiquidationType = 1 
+		BEGIN --Pago por Servicios
+			--GENERAR CUENTA POR COBRAR - FACTURA (A LA ENTIDAD o PACIENTE (Si el caregroup es a particular))			
+			DECLARE @continueWithOutAccountReceivable BIT = 0 --permite continuar sin generar cuenta por cobrar
+			IF @__InvoiceThirdPartySalesValue <> 0 
+			BEGIN						
+				EXEC [Billing].[GenerateAccountReceivable] @__InvoiceNumber,
+					@__InvoiceThirdPartySalesValue,
+					@__FolioCareGroupId,
+					@__FolioThirdPartyId,
+					@__FolioTotalPatientWithDiscount,
+					@OperativeUnitId,
+					1,
+					@__InvoiceCategory,
+					0,
+					-1,
+					@__InvoiceId,
+					@IdSequence,
+					@UserCode,
+					@ArEntityStatusResult OUTPUT,
+					@ArEntityMessage OUTPUT,
+					@ArEntityPortfolioAccountReceivableId OUTPUT,
+					@ArEntityPortfolioAccountReceivableCode OUTPUT
+					
+				SET @codesGenerate = @codesGenerate + CHAR(13) + CHAR(10) + @ArEntityMessage
+			END
+			ELSE 
+			BEGIN
+				SET @continueWithOutAccountReceivable = 1
+			END
+
+			IF @continueWithOutAccountReceivable = 0 And @ArEntityStatusResult = 0 
+			BEGIN
+				SET @Message = @ArEntityMessage
+				RETURN
+			END
+
+			--GENERACION DEL DOCUMENTO CONTABLE
+			DECLARE @ThirdPartyNitName VARCHAR(300)
+			IF @__FolioThirdPartyId Is Not NULL
+				SELECT @ThirdPartyNitName = Concat(tp.Nit, ' - ', tp.[Name])
+				FROM Common.ThirdParty tp With(Nolock)
+				Where Id = @__FolioThirdPartyId
+
+			/*Detalles del Comprobante contable*/
+			INSERT INTO @TableJournalVoucherDetail (IdMainAccount,IdThirdParty,IdCostCenter,CreditValue,DebitValue,Detail)
+				EXEC Billing.SP_GenerateJournalVoucherDetails @RevenueControlDetailId, 
+					@OperativeUnitId, 
+					0, 
+					@__InvoiceId
+
+			SET @JournalXml = 
+			(
+				SELECT *
+				FROM 
+				(
+					SELECT	@InvoiceJournalVoucherTypeId AS IdJournalVoucher,
+							Common.Getdate() AS VoucherDate,
+							0 AS Imported,
+							2 AS Status,
+							CASE WHEN @ThirdPartyNitName Is NULL 
+								THEN 
+									'Factura No. ' + @__InvoiceNumber 
+								ELSE 
+									'Factura No. ' + @__InvoiceNumber + ' - Tercero: (' + LTrim(RTrim(@ThirdPartyNitName)) + ')' 
+							END AS Detail,
+							@__InvoiceNumber AS EntityCode,
+							@__InvoiceId AS EntityId,
+							'Invoice' AS EntityName,
+							0 AS IsClosedYear
+				) As JournalVoucher
+				CROSS APPLY @TableJournalVoucherDetail As JournalVoucherDetail
+				For Xml Auto, Elements
+			)
+					
+			INSERT INTO @TableResultJournal
+				EXEC [GeneralLedger].[SP_SaveJournalVoucher] @JournalXml, @UserCode
+					
+			IF EXISTS (SELECT CodeMessage FROM @TableResultJournal Where CodeMessage <> @Cero) 
+			BEGIN
+				SELECT @errorList += [Message] + Char(13) + Char(10) FROM @TableResultJournal Where CodeMessage <> 0
+				
+				SET @Message = 'Ocurrieron errores al intentar Generar el comprobante contable: ' + @errorList
+				RETURN
+			END
+
+			SELECT Top 1 @JournalVoucherId = IdJournalVoucher FROM @TableResultJournal
+
+			SELECT @codesGenerate = @codesGenerate + CHAR(13) + CHAR(10) + 'Se generó el Comprobante contable ' + CAST(jv.Consecutive AS VARCHAR(30)) + ' de tipo ' + jvt.Code + ' - ' + jvt.Name
+			FROM GeneralLedger.JournalVouchers jv
+			Join GeneralLedger.JournalVoucherTypes jvt On jv.IdJournalVoucher = jvt.Id
+			Where jv.Id = @JournalVoucherId
+
+			Update Billing.Invoice SET JournalVoucherId = @JournalVoucherId Where Id = @__InvoiceId
+		END
+		
+		--SOLO SI HAY VALOR A PACIENTE SE GENERA LA CUENTA POR COBRAR A ESTE
+		IF @__FolioTotalPatientWithDiscount <> 0 Or @__CareGroupType = 3 
+		BEGIN
+			DECLARE @PagareValue DECIMAL(18, 2) = 0
+			IF @__CareGroupType <> 3
+				SET @PagareValue = @__FolioTotalPatientWithDiscount - @TotalCrossingValue
+
+			--CUENTA POR COBRAR PACIENTE SOLO SI SE CRUZA ALGÚN VALOR
+			IF @TotalCrossingValue > 0 
+			BEGIN				
+				IF @__CareGroupType <> 3 
+				BEGIN								
+					EXEC [Billing].[GenerateAccountReceivable] @__InvoiceNumber,
+						@__InvoiceThirdPartySalesValue,
+						@__FolioCareGroupId,
+						@__FolioThirdPartyId,
+						@__FolioTotalPatientWithDiscount,
+						@OperativeUnitId,
+						2,
+						@__InvoiceCategory,
+						@PagareValue,
+						@ThirdPartyPatientId,
+						@__InvoiceId,
+						@IdSequence,
+						@UserCode,
+
+						@ArPatientStatusResult OUTPUT,
+						@ArPatientMessage OUTPUT,
+						@ArPatientPortfolioAccountReceivableId OUTPUT,
+						@ArPatientPortfolioAccountReceivableCode OUTPUT
+
+					IF @ArPatientStatusResult = 0 
+					BEGIN
+						SET @Message = @ArPatientMessage
+						RETURN
+					END
+						
+					SET @codesGenerate = @codesGenerate + CHAR(13) + CHAR(10) + @ArPatientMessage
+				END
+
+				DECLARE @AccountReceivableId INT
+
+				IF @__CareGroupType = 3 
+				BEGIN
+					SET @AccountReceivableId = @ArEntityPortfolioAccountReceivableId
+				END
+				ELSE 
+				BEGIN
+					SET @AccountReceivableId = @ArPatientPortfolioAccountReceivableId
+				END
+
+				IF @__LiquidationType = 1 
+				BEGIN --Pago por Servicios
+					EXEC [Portfolio].[SP_GeneratePortfolioTransfer] 
+						@ListPortfolioAdvanceCrossingXml,
+						@OperativeUnitId,
+						@UserCode,
+						@AccountReceivableId,
+						@CompanyType,
+						--Salidas
+						@PtCodeResult OUTPUT,
+						@PtMessageResult OUTPUT
+					
+					IF @PtCodeResult <> 0 
+					BEGIN
+						SET @Message = @PtMessageResult
+						RETURN
+					END
+
+					SET @codesGenerate = @codesGenerate + CHAR(13) + CHAR(10) + @PtMessageResult
+				END
+			END
+								
+			DECLARE @totalPatienWithDiscount DECIMAL(18, 2) = @__FolioTotalPatientWithDiscount
+			IF @__CareGroupType <> 3 
+			BEGIN
+				IF @TotalCrossingValue > @totalPatienWithDiscount 
+				BEGIN
+					SET @Message = 'El total a cruzar no debe superar al valor a pagar por el paciente'						
+					RETURN
+				END
+				ELSE IF @TotalCrossingValue < @totalPatienWithDiscount 
+				BEGIN
+					--Cuenta por cobrar de tipo pagaré
+					EXEC [Portfolio].[GetPortfolioSequenceByTag] '1510', @OperativeUnitId, @StatusSequence OUTPUT, @MessageSequence OUTPUT, @IdSequence OUTPUT
+
+					IF @StatusSequence = 0 
+					BEGIN
+						SET @Message = @MessageSequence
+						RETURN
+					END
+
+					EXEC [Billing].[GenerateAccountReceivable] @__InvoiceNumber,
+						@__InvoiceThirdPartySalesValue,
+						@__FolioCareGroupId,
+						@__FolioThirdPartyId,
+						@totalPatienWithDiscount,
+						@OperativeUnitId,
+						3,
+						@__InvoiceCategory,
+						@PagareValue,
+						@ThirdPartyPatientId,
+						@__InvoiceId,
+						@IdSequence,
+						@UserCode,
+
+						@ArPagareResult OUTPUT,
+						@ArPagareMessage OUTPUT,
+						@ArPagareAccountReceivableId OUTPUT,
+						@ArPagareAccountReceivableCode OUTPUT
+
+					IF @ArPagareResult = 0 
+					BEGIN
+						SET @Message = @ArPagareMessage
+						RETURN
+					END
+						
+					SET @codesGenerate = @codesGenerate + CHAR(13) + CHAR(10) + @ArPagareMessage
+
+					--Si no es pago por servicios, se crea la contabilización del pagaré
+					IF @__LiquidationType <> 1
+					BEGIN
+						SET @JournalXml = 
+						(
+							SELECT *
+							FROM 
+							(
+								SELECT	@InvoiceJournalVoucherTypeId AS IdJournalVoucher,
+										Common.Getdate() AS VoucherDate,
+										0 AS Imported,
+										2 AS Status,
+										'Pagaré Asociado al Control de Servicio No. ' + @__InvoiceNumber AS Detail,
+										@__InvoiceNumber AS EntityCode,
+										@__InvoiceId AS EntityId,
+										'Invoice' AS EntityName,
+										0 AS IsClosedYear
+							) As JournalVoucher
+							CROSS APPLY 
+							(
+									SELECT	ma.Id IdMainAccount,
+											IIF(ma.HandlesThirdParty = 1, ar.ThirdPartyId, NULL) IdThirdParty,
+											IIF(ma.HandlesCostCenter = 1, ar.CostCenterId, NULL) IdCostCenter,
+											ar.Value DebitValue,
+											0 CreditValue
+									FROM Portfolio.AccountReceivable ar
+									JOIN GeneralLedger.MainAccounts ma ON ar.AccountWithoutRadicateId = ma.Id
+									WHERE ar.InvoiceId = @__InvoiceId AND ar.AccountReceivableType = 4
+								UNION ALL
+									SELECT	ma.Id IdMainAccount,
+											IIF(ma.HandlesThirdParty = 1, ar.ThirdPartyId, NULL) IdThirdParty,
+											IIF(ma.HandlesCostCenter = 1, ar.CostCenterId, NULL) IdCostCenter,
+											0 DebitValue,
+											ar.Value CreditValue
+									FROM Portfolio.AccountReceivable ar
+									JOIN Billing.SettingsBilling sb ON ar.OperatingUnitId = sb.IdOperatingUnit
+									JOIN Treasury.CashReceiptConcepts crc ON sb.CapitedPatientAdvanceCashReceiptConceptId = crc.Id
+									JOIN GeneralLedger.MainAccounts ma ON crc.IdMainAccount = ma.Id
+									WHERE ar.InvoiceId = @__InvoiceId AND ar.AccountReceivableType = 4
+							) As JournalVoucherDetail
+							For Xml Auto, Elements
+						)
+					
+						INSERT INTO @TableResultJournal
+							EXEC [GeneralLedger].[SP_SaveJournalVoucher] @JournalXml, @UserCode
+					
+						IF EXISTS (SELECT CodeMessage FROM @TableResultJournal Where CodeMessage <> @Cero) 
+						BEGIN
+							SELECT @errorList += [Message] + Char(13) + Char(10) FROM @TableResultJournal Where CodeMessage <> 0
+				
+							SET @Message = 'Ocurrieron errores al intentar Generar el comprobante contable: ' + @errorList
+							RETURN
+						END
+
+						SELECT Top 1 @JournalVoucherId = IdJournalVoucher FROM @TableResultJournal
+
+						SELECT @codesGenerate = @codesGenerate + CHAR(13) + CHAR(10) + 'Se generó el Comprobante contable ' + CAST(jv.Consecutive AS VARCHAR(30)) + ' de tipo ' + jvt.Code + ' - ' + jvt.Name
+						FROM GeneralLedger.JournalVouchers jv
+						Join GeneralLedger.JournalVoucherTypes jvt On jv.IdJournalVoucher = jvt.Id
+						Where jv.Id = @JournalVoucherId
+
+						Update Billing.Invoice SET JournalVoucherId = @JournalVoucherId Where Id = @__InvoiceId
+					END
+				END
+			END
+		END
+
+		SET @StatusResult = 1
+		SET @MessageResult = @codesGenerate
+		SET @Message = @__MessageValidationContract
+		SET @InvoiceId = @__InvoiceId
+		SET @InvoiceNumber = @__InvoiceNumber
+
+	END TRY
+	BEGIN CATCH
+		SET @StatusResult = 0
+		SET @MessageResult = ''
+		SET @Message = (SELECT Error_Message())
+		SET @InvoiceId = 0
+		SET @InvoiceNumber = ''
+		RETURN
+	END CATCH
+END

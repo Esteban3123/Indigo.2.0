@@ -1,0 +1,27 @@
+﻿CREATE TABLE [dbo].[MedicamentoFinal] (
+    [DCIId]                  NVARCHAR (255) NULL,
+    [Code]                   NVARCHAR (255) NULL,
+    [Name]                   NVARCHAR (255) NULL,
+    [AbbreviationName]       NVARCHAR (255) NULL,
+    [AdministrationRouteId]  NVARCHAR (255) NULL,
+    [PharmacologicalGroupId] NVARCHAR (255) NULL,
+    [Concentration]          NVARCHAR (255) NULL,
+    [InventoryRiskLevelId]   NVARCHAR (255) NULL,
+    [StabilityMinimumHours]  FLOAT (53)     NULL,
+    [StabilityMaximumHours]  FLOAT (53)     NULL,
+    [FormulationType]        NVARCHAR (255) NULL,
+    [Weight]                 NVARCHAR (255) NULL,
+    [UnitMedida]             NVARCHAR (255) NULL,
+    [Volume]                 NVARCHAR (255) NULL,
+    [VolumeMeasureUnit]      NVARCHAR (255) NULL,
+    [AdministrationUnitId]   NVARCHAR (255) NULL,
+    [ATCEntityId]            NVARCHAR (255) NULL,
+    [Presentacion]           NVARCHAR (255) NULL,
+    [Pos]                    FLOAT (53)     NULL,
+    [AllPOSPathologies]      NVARCHAR (255) NULL,
+    [BillingGroupNoPosId]    NVARCHAR (255) NULL,
+    [ProductNPT]             NVARCHAR (255) NULL,
+    [Osmolarity]             NVARCHAR (255) NULL,
+    [Density]                NVARCHAR (255) NULL
+);
+

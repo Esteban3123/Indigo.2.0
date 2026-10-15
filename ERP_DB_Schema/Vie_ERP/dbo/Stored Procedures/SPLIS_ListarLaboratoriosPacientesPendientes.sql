@@ -1,0 +1,79 @@
+﻿CREATE PROCEDURE [dbo].[SPLIS_ListarLaboratoriosPacientesPendientes]
+(
+@Estado varchar(10),
+@CentroAtencion varchar(100),
+@ExamenEnSitio Bit
+)
+WITH RECOMPILE 
+AS
+BEGIN
+
+	SET NOCOUNT ON;
+ 
+  WITH Tmp_ConsultasOncologicas AS (
+	  SELECT  A.AUTO, A.IDETIPHIS, A.FECORDMED, A.IPCODPACI, b.IPNOMCOMP, E.UFUACTPAC, c.UFUDESCRI AS 'UFUDESCRIC1', c2.UFUDESCRI AS 'UFUDESCRIc2', a.CODCENATE, a.ESTSERIPS, a.ESTALELAB, a.NUMINGRES,
+	  a.NUMEFOLIO, a.CODSERIPS, d.DESSERIPS, A.OBSSERIPS, b.IPRHSANGR, b.IPGRUPSAN,
+	  b.IPDIRECCI, b.IPTELEFON, b.IPSEXOPAC, b.CORELEPAC, b.IPTELMOVI,
+	  A.UFUCODIGO, A.CODDIAGNO, A.CODPROSAL, IPTIPODOC, B.IPPRINOMB, B.IPSEGNOMB, B.IPPRIAPEL, B.IPSEGAPEL, B.IPFECNACI, B.IPTIPOPAC, B.IPTIPOAFI, A.CANSERIPS, D.CODGOCUPS,
+	  a.CONCURRE, a.SERREAINT, ent.CODENTIDA, ent.NOMENTIDA, e.CODTIPPAC, a.PRISERIPS, a.FECHASUGE, e.CODCAMACT, b.AUUBICACI, a.IDDESCRIPCIONRELACIONADA, a.FECRECMUE, A.CODMOTIVOMUESTRANOCONFORME,
+	  MUN.DEPMUNCOD, MUN.MUNNOMBRE, CA.NOMCENATE, H.NOMMEDICO, D.SERIPSPOS
+	    ,( select top 1 cabe.AUTO 
+			from INTERCABE cabe with(nolock)
+			inner join INTERDETA deta with(nolock)  on cabe.AUTO = deta.CODCONCEC  
+			where 
+				cabe.IPCODPACI = A.IPCODPACI
+				and cabe.NUMINGRES = A.NUMINGRES
+				and deta.CODSERIPS = A.CODSERIPS
+				and deta.ORDTIP = 'INT'
+				and deta.AUTOLABOR = a.AUTO 
+		) as IDMuestra
+	  FROM  dbo.HCORDLABO AS A WITH(NOLOCK)  
+			  INNER JOIN INPACIENT AS B WITH(NOLOCK)  ON A.IPCODPACI = B.IPCODPACI 
+			  INNER JOIN INCUPSIPS AS D WITH(NOLOCK)  ON A.CODSERIPS = D .CODSERIPS 
+			  INNER JOIN ADINGRESO AS E WITH(NOLOCK)  ON A.IPCODPACI = E.IPCODPACI AND A.NUMINGRES = E.NUMINGRES and E.IESTADOIN IN ('','P','C')
+			  INNER JOIN INENTIDAD AS ENT WITH(NOLOCK)  ON ENT.CODENTIDA = E.CODENTIDA 
+			  INNER JOIN INUNIFUNC AS C WITH(NOLOCK)  ON E.UFUACTPAC = C.UFUCODIGO 
+			  INNER JOIN INUNIFUNC AS C2 WITH(NOLOCK)  ON A.UFUCODIGO = C2.UFUCODIGO
+			  INNER JOIN INUBICACI UBI WITH(NOLOCK)  ON b.AUUBICACI = UBI.AUUBICACI
+			  INNER JOIN INMUNICIP MUN WITH(NOLOCK)  ON UBI.DEPMUNCOD= MUN.DEPMUNCOD
+			  INNER JOIN ADCENATEN CA WITH(NOLOCK) ON CA.CODCENATE = A.CODCENATE
+			  INNER JOIN INPROFSAL AS H WITH(NOLOCK)  ON A.CODPROSAL =H.CODPROSAL  
+	  WHERE  
+	  A.ESTSERIPS IN ('2') 
+	  AND A.CODCENATE IN (SELECT Value FROM dbo.splitstring(@CentroAtencion)) 
+	  AND A.EXMREASIT = @ExamenEnSitio 
+	  AND A.FECORDMED BETWEEN  DATEADD(MONTH,-4,common.GETDATE()) AND common.GETDATE()  
+	)
+ 
+   SELECT DISTINCT tmp.[AUTO],tmp.IDETIPHIS,tmp.FECORDMED AS 'FechaSolicitud', RTRIM(tmp.IPCODPACI) AS 'CodigoPaciente', 
+      RTRIM(tmp.IPNOMCOMP) AS 'NombrePaciente', tmp.IPFECNACI AS 'FechaNacimiento', 
+      tmp.UFUACTPAC AS 'CodigoUnidad', RTRIM(tmp.UFUDESCRIc1) AS 'DescripcionUnidad',tmp.UFUDESCRIc2 AS 'UnidadSolicitante', tmp.CODCENATE AS 'CodigoCentro',
+	  CASE tmp.ESTSERIPS WHEN 1 THEN 'Solicitado' WHEN 2 THEN 'Muestra recolectada' WHEN 3 THEN 'PENDiente interpretación' WHEN 4 THEN 'Examen interpretado' WHEN 5 THEN 'Estudio remitido' 
+	  WHEN 6 THEN 'Anulado' WHEN 7 THEN 'Extramural' WHEN 8 THEN 'Muestra recolectada parcialmente' WHEN 9 THEN 'Muestra no conforme' END AS 'Estado', 
+	  tmp.ESTALELAB AS 'EstadoAlerta', tmp.NUMINGRES AS 'Ingreso', tmp.NUMEFOLIO AS 'Folio', RTRIM(tmp.CODSERIPS)+'-'+RTRIM(tmp.DESSERIPS) + '. ' + ISNULL(CD.name,'') AS 'DescripcionServicio', RTRIM(CD.name) AS 'DescripcionRelacionada', tmp.OBSSERIPS AS 'ObservacionServicio', RTRIM(tmp.CODSERIPS) AS 'CodigoServicio', 
+	  RTRIM(I.NOMDIAGNO) AS 'NombreDiagnostico', RTRIM(G.DESCCAMAS) AS 'Cama', g.CODAISLAM AS 'TipoAislamiento',
+      tmp.IPDIRECCI AS 'Direccion', tmp.IPTELEFON AS 'Telefono',tmp.IPSEXOPAC AS 'Sexo', tmp.IPRHSANGR AS 'Rh', tmp.IPGRUPSAN AS 'GrupoSanguineo', tmp.CORELEPAC,
+      tmp.IPTELMOVI AS 'Movil', tmp.CORELEPAC AS 'Correo', tmp.NOMMEDICO  AS 'Medico', 
+	  0 AS 'Minutos', CAST('' AS CHAR) AS 'Barra',  CAST('' AS bit) AS 'Marcar',
+      tmp.CONCURRE AS 'Concurrencia', tmp.SERREAINT AS 'RealizaInterfaz', tmp.UFUCODIGO , tmp.CODDIAGNO, tmp.CODPROSAL, IPTIPODOC, tmp.IPPRINOMB, tmp.IPSEGNOMB, tmp.IPPRIAPEL, tmp.IPSEGAPEL, tmp.IPSEXOPAC, tmp.IPFECNACI, tmp.CODENTIDA, tmp.IPTIPOPAC, tmp.IPTIPOAFI, tmp.IPTELEFON, tmp.IPTELMOVI, tmp.IPDIRECCI, tmp.CANSERIPS, tmp.CODGOCUPS,
+	  CASE tmp.IDETIPHIS WHEN 'CODIGOAZU' THEN 'Emergencia' ELSE 'Historia' END AS 'TipoSolicitud',
+	  RTRIM(tmp.DEPMUNCOD) AS 'MunicipioCodigo', RTRIM(tmp.MUNNOMBRE) AS 'MunicipioNombre',
+	  RTRIM(tmp.CODENTIDA) AS 'entidadpagadoraCodigo', RTRIM(tmp.NOMENTIDA) AS 'entidadpagadoraNombre', tmp.CODTIPPAC,
+	  CASE WHEN tmp.PRISERIPS = '1' THEN 'Urgente' ELSE 'Rutinario' END AS 'Prioridad',
+	  RP.GESTACION, CASE WHEN EG.FECALTPAC IS NULL THEN 'Pacientes en la unidad' ELSE 'Pacientes cON salida' END AS 'PacienteSalida',
+	  'Autorización' AS 'Autorizacion',
+	  tmp.AUTO EntityId, tmp.FECHASUGE, RTRIM(tmp.NOMCENATE) AS 'CentroAtencion', z.Color,
+	  dbo.Edad(tmp.IPFECNACI, Common.GETDATE())  AS Edad, tmp.FECRECMUE AS 'FechaRecoleccion',
+	  CASE tmp.SERIPSPOS WHEN 0 THEN 'No' WHEN 1 THEN 'Si' END AS 'FinanciadoUPC',
+	  --(SELECT TOP 1 cabe.AUTO FROM INTERCABE cabe WITH(NOLOCK) INNER join INTERDETA deta WITH(NOLOCK) ON cabe.AUTO = deta.CODCONCEC and cabe.NUMINGRES = tmp.NUMINGRES and  ORDTIP = 'INT' where cabe.IPCODPACI = tmp.IPCODPACI and cabe.NUMINGRES = tmp.NUMINGRES and deta.CODSERIPS = tmp.CODSERIPS ) AS 'IDMuestra'
+	  tmp.IDMuestra ,[dbo].[RiskFactorAlert](tmp.IPCODPACI,'',1) AS IconoRiesgos, [dbo].[RiskFactorAlert](tmp.IPCODPACI,tmp.NUMINGRES,2) AS IconoEscalas
+	FROM  Tmp_ConsultasOncologicas tmp 
+			  LEFT JOIN  CHCAMASHO AS G WITH(NOLOCK)  ON tmp.CODCAMACT = G.CODICAMAS and g.CODCENATE IN (SELECT Value FROM dbo.splitstring(@CentroAtencion))
+			  LEFT JOIN CHTIPOSAISLAMIENTOS Z WITH(NOLOCK) ON z.Id = g.CODAISLAM 
+			  LEFT JOIN INDIAGNOS AS I WITH(NOLOCK)  ON tmp.CODDIAGNO = I.CODDIAGNO 
+			  LEFT JOIN HCRIESGOSP AS RP WITH(NOLOCK) ON RP.NUMINGRCES = tmp.NUMINGRES
+			  LEFT JOIN HCREGEGRE AS EG WITH(NOLOCK)  ON EG.NUMINGRES = tmp.NUMINGRES
+			  LEFT JOIN contract.CUPSEntityContractDescriptions CDD WITH(NOLOCK) ON CDD.Id = tmp.IDDESCRIPCIONRELACIONADA
+			  LEFT JOIN contract.ContractDescriptions CD WITH(NOLOCK) ON CD.Id = CDD.ContractDescriptionId		  
+	ORDER BY tmp.FECORDMED DESC
+END

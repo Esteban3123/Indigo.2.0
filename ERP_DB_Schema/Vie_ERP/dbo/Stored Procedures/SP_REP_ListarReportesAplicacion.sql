@@ -1,0 +1,13 @@
+﻿
+CREATE PROCEDURE [dbo].[SP_REP_ListarReportesAplicacion]
+AS
+BEGIN
+		SET NOCOUNT ON;
+		
+	SELECT [NUMCONSEC]
+      ,[NOMREPARC]
+      ,[NOMREPVIS]
+      ,[DESCREPOR]
+      ,[INDMODULO]
+  FROM [dbo].[INREPAPLI]
+END

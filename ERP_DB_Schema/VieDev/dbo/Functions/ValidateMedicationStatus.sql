@@ -1,0 +1,23 @@
+﻿
+
+-- =============================================
+-- Author:      <Author, , Name>
+-- Create Date: <Create Date, , >
+-- Description: <Description, , >
+-- =============================================
+CREATE FUNCTION [dbo].[ValidateMedicationStatus] (@CONSECPRESCRA AS Varchar(25), @CODPRODUC AS Varchar(50))
+RETURNS INT
+AS
+BEGIN
+
+DECLARE @ESTADOMODIFICADO INT = 0;
+
+	WITH DATOS AS (
+		Select B.TRATMODIF, A.PREESTADO from HCPRESCRA A 
+		INNER JOIN HCPRESCRD B ON A.CODPRODUC = B.CODPRODUC AND A.NUMEFOLIO = B.FOLIOINIC AND A.IPCODPACI = B.IPCODPACI AND A.NUMINGRES = B.NUMINGRES
+		WHERE A.CODPRODUC = @CODPRODUC AND A.CODCONCEC = @CONSECPRESCRA
+	) SELECT @ESTADOMODIFICADO = CASE WHEN EXISTS (SELECT 1 FROM DATOS WHERE PREESTADO = 4) THEN 2 WHEN EXISTS (SELECT 1 FROM DATOS WHERE TRATMODIF = 1) THEN 1 ELSE 0 END;
+
+RETURN @ESTADOMODIFICADO -- 0 Sin modificar, 1 Modificado y 2 Suspendido
+
+END

@@ -1,0 +1,5 @@
+﻿CREATE SCHEMA [Glasses]
+    AUTHORIZATION [dbo];
+
+
+GO

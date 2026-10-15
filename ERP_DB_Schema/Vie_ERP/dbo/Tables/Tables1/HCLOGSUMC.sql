@@ -1,0 +1,59 @@
+﻿CREATE TABLE [dbo].[HCLOGSUMC] (
+    [ID]        INT            IDENTITY (1, 1) NOT FOR REPLICATION NOT NULL,
+    [HCFARMEPC] NUMERIC (18)   NOT NULL,
+    [FECGENLOG] DATETIME       NOT NULL,
+    [USUARIO]   VARCHAR (20)   NOT NULL,
+    [MENSAJE]   VARCHAR (2000) NULL,
+    [PROESTADO] BIT            NULL,
+    [CODCENATE] CHAR (10)      NOT NULL,
+    [UFUCODIGO] CHAR (10)      NOT NULL,
+    CONSTRAINT [PK_HCLOGSUMC] PRIMARY KEY CLUSTERED ([ID] ASC),
+    CONSTRAINT [FK_HCLOGSUMC_ADCENATEN] FOREIGN KEY ([CODCENATE]) REFERENCES [dbo].[ADCENATEN] ([CODCENATE]),
+    CONSTRAINT [FK_HCLOGSUMC_HCFARMEPC] FOREIGN KEY ([HCFARMEPC]) REFERENCES [dbo].[HCFARMEPC] ([CODCONCEC]),
+    CONSTRAINT [FK_HCLOGSUMC_INUNIFUNC] FOREIGN KEY ([UFUCODIGO]) REFERENCES [dbo].[INUNIFUNC] ([UFUCODIGO])
+);
+
+
+GO
+ALTER TABLE [dbo].[HCLOGSUMC] NOCHECK CONSTRAINT [FK_HCLOGSUMC_ADCENATEN];
+
+
+GO
+ALTER TABLE [dbo].[HCLOGSUMC] NOCHECK CONSTRAINT [FK_HCLOGSUMC_HCFARMEPC];
+
+
+GO
+ALTER TABLE [dbo].[HCLOGSUMC] NOCHECK CONSTRAINT [FK_HCLOGSUMC_INUNIFUNC];
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'MS_Description', @value = 'Codigo de la Unidad Funcional', @level0type = N'SCHEMA', @level0name = N'dbo', @level1type = N'TABLE', @level1name = N'HCLOGSUMC', @level2type = N'COLUMN', @level2name = N'UFUCODIGO';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'MS_Description', @value = 'Codigo del Centro de Atencion', @level0type = N'SCHEMA', @level0name = N'dbo', @level1type = N'TABLE', @level1name = N'HCLOGSUMC', @level2type = N'COLUMN', @level2name = N'CODCENATE';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'MS_Description', @value = 'Estado del proceso    1: Exitoso  0: Fallido  ', @level0type = N'SCHEMA', @level0name = N'dbo', @level1type = N'TABLE', @level1name = N'HCLOGSUMC', @level2type = N'COLUMN', @level2name = N'PROESTADO';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'MS_Description', @value = 'Mensaje Informativo Que produce el proceso', @level0type = N'SCHEMA', @level0name = N'dbo', @level1type = N'TABLE', @level1name = N'HCLOGSUMC', @level2type = N'COLUMN', @level2name = N'MENSAJE';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'MS_Description', @value = 'Usuario que realiza la acción', @level0type = N'SCHEMA', @level0name = N'dbo', @level1type = N'TABLE', @level1name = N'HCLOGSUMC', @level2type = N'COLUMN', @level2name = N'USUARIO';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'MS_Description', @value = 'Fecha en que se genera el log', @level0type = N'SCHEMA', @level0name = N'dbo', @level1type = N'TABLE', @level1name = N'HCLOGSUMC', @level2type = N'COLUMN', @level2name = N'FECGENLOG';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'MS_Description', @value = 'Numero de Consecutivo de HCFARMEPC', @level0type = N'SCHEMA', @level0name = N'dbo', @level1type = N'TABLE', @level1name = N'HCLOGSUMC', @level2type = N'COLUMN', @level2name = N'HCFARMEPC';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'MS_Description', @value = 'Autonumerico', @level0type = N'SCHEMA', @level0name = N'dbo', @level1type = N'TABLE', @level1name = N'HCLOGSUMC', @level2type = N'COLUMN', @level2name = N'ID';
+

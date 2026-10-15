@@ -1,0 +1,40 @@
+﻿CREATE TABLE [dbo].[HCEVINTER] (
+    [AUTO]      INT                                                                              IDENTITY (1, 1) NOT FOR REPLICATION NOT NULL,
+    [IPCODPACI] VARCHAR (25) MASKED WITH (FUNCTION = 'partial(0, "Identification_Ofuscado", 0)') NOT NULL,
+    [NUMINGRES] CHAR (10)                                                                        NOT NULL,
+    [CODCENATE] CHAR (10)                                                                        NOT NULL,
+    [UFUCODIGO] CHAR (10)                                                                        NOT NULL,
+    [FECINIATE] DATETIME                                                                         NOT NULL,
+    [CODPROSAL] CHAR (20) MASKED WITH (FUNCTION = 'partial(0, "Identification_Ofuscado", 0)')    NOT NULL,
+    [ANALISISP] VARCHAR (MAX) MASKED WITH (FUNCTION = 'partial(0, "Analysis_Ofuscado", 0)')      NOT NULL,
+    [INDICAMED] VARCHAR (MAX) MASKED WITH (FUNCTION = 'partial(0, "Instructions_Ofuscado", 0)')  NOT NULL,
+    [ORDENMED]  VARCHAR (MAX)                                                                    NOT NULL,
+    CONSTRAINT [PK_HCEVINTER] PRIMARY KEY CLUSTERED ([AUTO] ASC),
+    CONSTRAINT [FK_HCEVINTER_ADCENATEN] FOREIGN KEY ([CODCENATE]) REFERENCES [dbo].[ADCENATEN] ([CODCENATE]),
+    CONSTRAINT [FK_HCEVINTER_ADINGRESO] FOREIGN KEY ([NUMINGRES]) REFERENCES [dbo].[ADINGRESO] ([NUMINGRES]),
+    CONSTRAINT [FK_HCEVINTER_INPACIENT] FOREIGN KEY ([IPCODPACI]) REFERENCES [dbo].[INPACIENT] ([IPCODPACI]),
+    CONSTRAINT [FK_HCEVINTER_INPROFSAL] FOREIGN KEY ([CODPROSAL]) REFERENCES [dbo].[INPROFSAL] ([CODPROSAL]),
+    CONSTRAINT [FK_HCEVINTER_INUNIFUNC] FOREIGN KEY ([UFUCODIGO]) REFERENCES [dbo].[INUNIFUNC] ([UFUCODIGO]),
+    CONSTRAINT [IX_HCEVINTER] UNIQUE NONCLUSTERED ([NUMINGRES] ASC)
+);
+
+
+GO
+ALTER TABLE [dbo].[HCEVINTER] NOCHECK CONSTRAINT [FK_HCEVINTER_ADCENATEN];
+
+
+GO
+ALTER TABLE [dbo].[HCEVINTER] NOCHECK CONSTRAINT [FK_HCEVINTER_ADINGRESO];
+
+
+GO
+ALTER TABLE [dbo].[HCEVINTER] NOCHECK CONSTRAINT [FK_HCEVINTER_INPACIENT];
+
+
+GO
+ALTER TABLE [dbo].[HCEVINTER] NOCHECK CONSTRAINT [FK_HCEVINTER_INPROFSAL];
+
+
+GO
+ALTER TABLE [dbo].[HCEVINTER] NOCHECK CONSTRAINT [FK_HCEVINTER_INUNIFUNC];
+

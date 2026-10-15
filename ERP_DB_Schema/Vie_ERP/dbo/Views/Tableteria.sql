@@ -1,0 +1,10 @@
+﻿
+
+create VIEW [dbo].[Tableteria]
+AS
+SELECT     CODPRODUC, DESPRODUC, CONCENMED, PRESENMED, TIEESTMED, TIPFORMED, PESTOTMED, CODUNIPES, VOLTOTMED, CODUNIVOL, CODUNIADM, 
+                      CALCANAUT, PROESTADO
+FROM         dbo.IHLISTPRO
+WHERE     (TIPPRODUC = '1') AND (PRESENMED LIKE 'Tablet%') OR
+                      (PRESENMED LIKE 'gra%') OR
+                      (PRESENMED LIKE 'caps%')

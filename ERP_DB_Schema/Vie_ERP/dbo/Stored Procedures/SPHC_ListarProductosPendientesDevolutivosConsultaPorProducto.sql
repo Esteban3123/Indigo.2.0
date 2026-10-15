@@ -1,0 +1,20 @@
+﻿
+CREATE PROCEDURE [dbo].[SPHC_ListarProductosPendientesDevolutivosConsultaPorProducto]
+(
+@Ingreso char(10),
+@Paciente varchar(25),
+@Centro char(10),
+@Unidad char(10),
+@Producto char(20)
+)
+AS
+BEGIN
+	SET NOCOUNT ON;
+    SELECT RTRIM(IPNOMCOMP) AS Paciente, RTRIM(DESPRODUC) AS Producto, SUM(CANPRODUCT)  AS CantidadPrestada
+	FROM dbo.HCPRESTME A
+	INNER JOIN dbo.INPACIENT B ON A.IPCODPACI=B.IPCODPACI
+	INNER JOIN dbo.IHLISTPRO C ON A.CODPRODUC=C.CODPRODUC
+	WHERE A.IPCODPACP=@Paciente AND A.NUMINGREP=@Ingreso  AND A.CODCENATE=@Centro 
+	AND A.UFUCODIGO=@Unidad AND A.CODPRODUC=@Producto AND CANPROPEN > 0 AND PREANULAD = 0
+	GROUP BY IPNOMCOMP,DESPRODUC
+END

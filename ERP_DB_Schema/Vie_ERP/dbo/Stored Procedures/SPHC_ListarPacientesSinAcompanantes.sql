@@ -1,0 +1,23 @@
+﻿CREATE PROCEDURE [dbo].[SPHC_ListarPacientesSinAcompanantes]
+(
+@CentroAtencion Char(10)
+)
+AS
+BEGIN
+	SET NOCOUNT ON;
+
+SELECT  CASE WHEN  I.NUMINGRES IS NULL THEN '1 - Pacientes en la Unidad' ELSE '2 - Pacientes Con Salida' END AS Egreso, 'Normal' as Alerta, A.CODICAMAS AS 'Codigo Cama',  RTRIM(DESCCAMAS) AS Cama,dbo.ClaseHabitacion(A.CODCLAHAB) AS ClaseHabitacion,dbo.ClaseCama(A.CODCLACAM) AS 'Clase de Cama', C.IPCODPACI AS Identificacion,C.NUMINGRES AS Ingreso, dbo.TipoAislamiento(A.CODAISLAM) AS Aislamiento,RTRIM(DESTIPEST) AS 'Tipo Estancia',RTRIM(IPNOMCOMP) AS Paciente,CAST(0 AS BIT) AS Resultado, A.CAMTRACIR AS TrasladoCirugia, A.CAMTRAMED AS TrasladoMedicamentos, A.CODCONCEC AS Consecutivo,CAST('' as bit) AS MuestraAlerta,
+J.CODESPTRA AS CodigoEspecialidad,RTRIM(K.DESESPECI) AS DescripcionEspecialidad,IFECHAING,  J.ESCADOWNT ,  J.ESCARASS, J.ESCNORPAC, J.ESCVASPAC, J.ESCAPAPAC, dbo.PuntajeEscalaDownTon(J.NUMINGRES, J.IPCODPACI) as PUNTAJEDOWN, dbo.PuntajeEscalaRass(J.NUMINGRES, J.IPCODPACI) as PUNTAJERASS, dbo.PuntajeEscalaNorton(J.NUMINGRES, J.IPCODPACI) as PUNTAJENORTON, dbo.PuntajeEscalaVas(J.NUMINGRES, J.IPCODPACI) as PUNTAJEVAS, dbo.PuntajeEscalaApache(J.NUMINGRES, J.IPCODPACI) as PUNTAJEAPACHE, L.IDACOMPAN
+, RTRIM(E.UFUCODIGO) + ' - ' + RTRIM(E.UFUDESCRI) AS UFUCODIGO, iif((select COUNT(*) from dbo.RecommendPatient where IPCODPACI = C.IPCODPACI and NUMINGRES = C.NUMINGRES and Status = 1) > 0, Convert(Bit,1), Convert(Bit,0)) as Recomendacion
+FROM dbo.CHCAMASHO A with(nolock) INNER JOIN dbo.ADcenaten D with(nolock) ON A.CODCENATE=D.CODCENATE INNER JOIN 
+dbo.INUNIFUNC E with(nolock) ON A.UFUCODIGO=E.UFUCODIGO 
+LEFT OUTER JOIN dbo.CHREGESTA C with(nolock) ON A.CODICAMAS=C.CODICAMAS AND C.REGESTADO = 1 
+LEFT OUTER JOIN dbo.CHTIPESTA G with(nolock) ON G.CODTIPEST=C.CODTIPEST 
+LEFT OUTER JOIN dbo.INPacient H with(nolock) ON C.IPCODPACI=H.IPCODPACI 
+LEFT OUTER JOIN dbo.HCREGEGRE I with(nolock) ON C.NUMINGRES=I.NUMINGRES
+LEFT OUTER JOIN dbo.ADINGRESO J with(nolock) ON C.NUMINGRES=J.NUMINGRES
+LEFT OUTER JOIN dbo.INESPECIA K with(nolock) ON J.CODESPTRA=K.CODESPECI
+LEFT OUTER JOIN dbo.ADACOMPAN L with(nolock) ON J.NUMINGRES = L.NUMINGRES
+WHERE A.CODCENATE=@CentroAtencion AND ESTADCAMA ='2' 
+ORDER BY A.CODICAMAS
+end

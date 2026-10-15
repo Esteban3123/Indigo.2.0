@@ -1,0 +1,5 @@
+﻿CREATE TABLE [Report].[Table_HOMO_GRUPO_ETARIO] (
+    [ID_GRUPO_ETAREO]   INT        NULL,
+    [GRUPO_ETAREO_EDAD] FLOAT (53) NULL
+);
+

@@ -1,0 +1,3 @@
+﻿CREATE SCHEMA [PathologyALULA]
+    AUTHORIZATION [dbo];
+

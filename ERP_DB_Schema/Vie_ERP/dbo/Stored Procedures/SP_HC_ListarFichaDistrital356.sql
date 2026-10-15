@@ -1,0 +1,66 @@
+﻿
+-- =============================================
+-- Create date: 18-01-2024
+-- Description:	Stored procedure que lista la información de la ficha distrital 356
+-- =============================================
+CREATE PROCEDURE [dbo].[SP_HC_ListarFichaDistrital356]
+(
+  @IdFicha as Int,
+  @NumFicha as varchar(10)
+)
+AS
+BEGIN
+    SET NOCOUNT ON
+ 
+    SELECT CASE CivilStatus WHEN 1 THEN 1 ELSE 0 END AS 'Soltero', CASE CivilStatus WHEN 2 THEN 1 ELSE 0 END AS 'Casado', CASE CivilStatus WHEN 3 THEN 1 ELSE 0 END AS 'Divorciado', CASE CivilStatus WHEN 4 THEN 1 ELSE 0 END AS 'Separado',
+	CASE CivilStatus WHEN 5 THEN 1 ELSE 0 END AS 'Viudo',CASE CivilStatus WHEN 6 THEN 1 ELSE 0 END AS 'Unión libre',CASE CivilStatus WHEN 7 THEN 1 ELSE 0 END AS 'Sin dato civil',	CountryOriginOfCase AS 'Pais procedencia caso', DepartmentOriginOfCase AS 'Departamento procedencia caso', MunicipalityOriginOfCase AS 'Municipio origen caso', 
+	CASE AreaOriginOfCase WHEN 1 THEN 1 ELSE 0 END AS 'Cabecera municipal', CASE AreaOriginOfCase WHEN 2 THEN 1 ELSE 0 END AS 'Centro poblados', CASE AreaOriginOfCase WHEN 3 THEN 1 ELSE 0 END AS 'Rural disperso', CASE EducationLevel WHEN 1 THEN 1 ELSE 0 END AS 'No escuela', 	
+	CASE EducationLevel WHEN 2 THEN 1 ELSE 0 END AS 'Preescolar', CASE EducationLevel WHEN 3 THEN 1 ELSE 0 END AS 'Primaria incompleta', CASE EducationLevel WHEN 4 THEN 1 ELSE 0 END AS 'Primaria completa', CASE EducationLevel WHEN 5 THEN 1 ELSE 0 END AS 'Secundaria incompleta', CASE EducationLevel WHEN 6 THEN 1 ELSE 0 END AS 'Secundaria completa',
+	CASE EducationLevel WHEN 7 THEN 1 ELSE 0 END AS 'Tecnico incompleta', CASE EducationLevel WHEN 8 THEN 1 ELSE 0 END AS 'Tecnico completa', CASE EducationLevel WHEN 9 THEN 1 ELSE 0 END AS 'Universidad incompleta', CASE EducationLevel WHEN 10 THEN 1 ELSE 0 END AS 'Universidad completa',
+	CASE EducationLevel WHEN 11 THEN 1 ELSE 0 END AS 'Postgrado incompleta', CASE EducationLevel WHEN 12 THEN 1 ELSE 0 END AS 'Postgrado completa', CASE EducationLevel WHEN 13 THEN 1 ELSE 0 END AS 'Sin dato educacion', 
+	CASE ClassificationOfInitialBehavior WHEN 1 THEN 1 ELSE 0 END AS 'Ideacion suicida', CASE ClassificationOfInitialBehavior WHEN 2 THEN 1 ELSE 0 END AS 'Amenaza', CASE ClassificationOfInitialBehavior WHEN 3 THEN 1 ELSE 0 END AS 'Intento suicidio', CASE ClassificationOfInitialBehavior WHEN 4 THEN 1 ELSE 0 END AS 'Suicidio consumado',
+	convert(varchar(10),OccurrenceDate ,103) as 'FechaOcurrencia', CASE PreviousAttempts WHEN 1 THEN 1 ELSE 0 END AS 'SiIntPrevios',CASE PreviousAttempts WHEN 0 THEN 1 ELSE 0 END AS 'NoIntPrevios',
+	CASE NumberOfAttempts WHEN 1 THEN 1 ELSE 0 END AS 'Una vez', CASE NumberOfAttempts WHEN 2 THEN 1 ELSE 0 END AS 'Dos veces', CASE NumberOfAttempts WHEN 3 THEN 1 ELSE 0 END AS 'Tres veces', CASE NumberOfAttempts WHEN 4 THEN 1 ELSE 0 END AS 'Más de tres veces', CASE NumberOfAttempts WHEN 5 THEN 1 ELSE 0 END AS 'Sin dato intentos',
+	CASE PatientComesAccompanied WHEN 1 THEN 1 ELSE 0 END AS 'SiPacienteAcompañado', CASE PatientComesAccompanied WHEN 0 THEN 1 ELSE 0 END AS 'NoPacienteAcompañado', RTRIM(AccompanistName) AS 'Nombre acompanante',
+	CASE CurrentlyConsumingSPA WHEN 1 THEN 1 ELSE 0 END AS 'SiConsumeSPA', CASE CurrentlyConsumingSPA WHEN 2 THEN 1 ELSE 0 END AS 'NoConsumeSPA', CASE CurrentlyConsumingSPA WHEN 3 THEN 1 ELSE 0 END AS 'SinDeterminarConsumeSPA', SubstanceName AS 'Nombre sustancia', AccompanistPhone AS 'Numero acompanante',
+	CASE CurrentlyInSchool WHEN 1 THEN 1 ELSE 0 END AS 'SiActualEscolarizado', CASE CurrentlyInSchool WHEN 0 THEN 1 ELSE 0 END AS 'NoActualEscolarizado', CASE AttendPrenatalCheckups WHEN 1 THEN 1 ELSE 0 END AS 'SiControlesPrenatales', CASE AttendPrenatalCheckups WHEN 0 THEN 1 ELSE 0 END AS 'NoControlesPrenatales',
+	CASE SexualOrientation WHEN 1 THEN 1 ELSE 0 END AS 'Sin dato sexual', CASE SexualOrientation WHEN 2 THEN 1 ELSE 0 END AS 'Heterosexual', CASE SexualOrientation WHEN 3 THEN 1 ELSE 0 END AS 'Lesbiana', CASE SexualOrientation WHEN 4 THEN 1 ELSE 0 END AS 'Gay', CASE SexualOrientation WHEN 5 THEN 1 ELSE 0 END AS 'Bisexual', CASE SexualOrientation WHEN 6 THEN 1 ELSE 0 END AS 'Transgenero',
+	CASE DifferentialPopulations WHEN 1 THEN 1 ELSE 0 END AS 'Menor abandonado', CASE DifferentialPopulations WHEN 2 THEN 1 ELSE 0 END AS 'En proteccion', CASE DifferentialPopulations WHEN 3 THEN 1 ELSE 0 END AS 'Población LGTBI', CASE DifferentialPopulations WHEN 4 THEN 1 ELSE 0 END AS 'Servidor publico', CASE DifferentialPopulations WHEN 5 THEN 1 ELSE 0 END AS 'Consumidor habitual de SPA', 
+	CASE DifferentialPopulations WHEN 6 THEN 1 ELSE 0 END AS 'Trabajador informal', CASE DifferentialPopulations WHEN 7 THEN 1 ELSE 0 END AS 'Madre cabeza de hogar', CASE DifferentialPopulations WHEN 8 THEN 1 ELSE 0 END AS 'Ninguna', CASE DifferentialPopulations WHEN 9 THEN 1 ELSE 0 END AS 'Otra',
+	WhichDifferentialPopulation AS 'Cual poblacion diferencial', CASE CaseDetected WHEN 1 THEN 1 ELSE 0 END AS 'Consulta externa', CASE CaseDetected WHEN 2 THEN 1 ELSE 0 END AS 'Servicio urgencias', CASE CaseDetected WHEN 3 THEN 1 ELSE 0 END AS 'DUES', CASE CaseDetected WHEN 4 THEN 1 ELSE 0 END AS 'Linea 106', CASE CaseDetected WHEN 5 THEN 1 ELSE 0 END AS 'Establecimiento educativo', 
+	CASE CaseDetected WHEN 6 THEN 1 ELSE 0 END AS 'Comunidad', CASE CaseDetected WHEN 7 THEN 1 ELSE 0 END AS 'Otro', WhichCaseDetected AS 'Cual caso detectado',
+ 
+	CASE TRY_CAST( JSON_VALUE(Triggers,'$.CONFLICTOSPAREJA') AS BIT) WHEN 1 THEN 'X' END AS 'CONFLICTOSPAREJATriggers', CASE TRY_CAST( JSON_VALUE(Triggers,'$.PROBLEMASJURIDICOS') AS BIT) WHEN 1 THEN 'X' END AS 'PROBLEMASJURIDICOSTriggers',  CASE TRY_CAST( JSON_VALUE(Triggers,'$.ENFERMEDADCRONICA') AS BIT) WHEN 1 THEN 'X' END AS 'ENFERMEDADCRONICATriggers',
+	CASE TRY_CAST( JSON_VALUE(Triggers,'$.SUICIDIOAMIGO') AS BIT) WHEN 1 THEN 'X' END AS 'SUICIDIOAMIGOTriggers',CASE TRY_CAST( JSON_VALUE(Triggers,'$.PROBLEMASECONOMICOS') AS BIT) WHEN 1 THEN 'X' END AS 'PROBLEMASECONOMICOSTriggers', CASE TRY_CAST( JSON_VALUE(Triggers,'$.MALTRATO') AS BIT) WHEN 1 THEN 'X' END AS 'MALTRATOTriggers',
+	CASE TRY_CAST( JSON_VALUE(Triggers,'$.MUERTEFAMILIAR') AS BIT) WHEN 1 THEN 'X' END AS 'MUERTEFAMILIARTriggers',CASE TRY_CAST( JSON_VALUE(Triggers,'$.PROBLEMASLABORALES') AS BIT) WHEN 1 THEN 'X' END AS 'PROBLEMASLABORALESTriggers', CASE TRY_CAST( JSON_VALUE(Triggers,'$.ESCOLAREDUCATIVO') AS BIT) WHEN 1 THEN 'X' END AS 'ESCOLAREDUCATIVOTriggers', CASE TRY_CAST( JSON_VALUE(Triggers,'$.PROBLEMASFAMILIARES') AS BIT) WHEN 1 THEN 'X' END AS 'PROBLEMASFAMILIARESTriggers',
+ 
+	CASE TRY_CAST( JSON_VALUE(RiskFactors,'$.CONSUMOSPA') AS BIT) WHEN 1 THEN 'X' END AS 'CONSUMOSPARiskFactors', CASE TRY_CAST( JSON_VALUE(RiskFactors,'$.ANTECEDENTETRASTORNOMENTAL') AS BIT) WHEN 1 THEN 'X' END AS 'ANTECEDENTETRASTORNOMENTALRiskFactors', CASE TRY_CAST( JSON_VALUE(RiskFactors,'$.ESQUIZOFRENIA') AS BIT) WHEN 1 THEN 'X' END AS 'ESQUIZOFRENIARiskFactors', CASE TRY_CAST( JSON_VALUE(RiskFactors,'$.ANTECEDENTEFAMILIARSUICIDA') AS BIT) WHEN 1 THEN 'X' END AS 'ANTECEDENTEFAMILIARSUICIDARiskFactors',
+	CASE TRY_CAST( JSON_VALUE(RiskFactors,'$.TRASTORNODEPRESIVO') AS BIT) WHEN 1 THEN 'X' END AS 'TRASTORNODEPRESIVORiskFactors', CASE TRY_CAST( JSON_VALUE(RiskFactors,'$.ANTECEDENTEVIOLENCIA') AS BIT) WHEN 1 THEN 'X' END AS 'ANTECEDENTEVIOLENCIARiskFactors', CASE TRY_CAST( JSON_VALUE(RiskFactors,'$.IDEACIONSUICIDAPRESISTENTE') AS BIT) WHEN 1 THEN 'X' END AS 'IDEACIONSUICIDAPRESISTENTERiskFactors', CASE TRY_CAST( JSON_VALUE(RiskFactors,'$.TRASTORNOPERSONALIDAD') AS BIT) WHEN 1 THEN 'X' END AS 'TRASTORNOPERSONALIDADRiskFactors',
+	CASE TRY_CAST( JSON_VALUE(RiskFactors,'$.ABUSOALCOHOL') AS BIT) WHEN 1 THEN 'X' END AS 'ABUSOALCOHOLRiskFactors', CASE TRY_CAST( JSON_VALUE(RiskFactors,'$.PLANORGANIZADOSUICIDIO') AS BIT) WHEN 1 THEN 'X' END AS 'PLANORGANIZADOSUICIDIORiskFactors', CASE TRY_CAST( JSON_VALUE(RiskFactors,'$.TRASTORNOBIPOLAR') AS BIT) WHEN 1 THEN 'X' END AS 'TRASTORNOBIPOLARRiskFactors',
+ 
+	CASE TRY_CAST( JSON_VALUE(Mechanism,'$.AHORCAMIENTO') AS BIT) WHEN 1 THEN 'X' END AS 'AHORCAMIENTOMechanism', CASE TRY_CAST( JSON_VALUE(Mechanism,'$.LANZAMIENTOVEHICULO') AS BIT) WHEN 1 THEN 'X' END AS 'LANZAMIENTOVEHICULOMechanism', CASE TRY_CAST( JSON_VALUE(Mechanism,'$.ELEMENTOCORTOPUNZANTE') AS BIT) WHEN 1 THEN 'X' END AS 'ELEMENTOCORTOPUNZANTEMechanism', CASE TRY_CAST( JSON_VALUE(Mechanism,'$.LANZAMIENTOALAGUA') AS BIT) WHEN 1 THEN 'X' END AS 'LANZAMIENTOALAGUAMechanism',
+	CASE TRY_CAST( JSON_VALUE(Mechanism,'$.ARMAFUEGO') AS BIT) WHEN 1 THEN 'X' END AS 'ARMAFUEGOMechanism', CASE TRY_CAST( JSON_VALUE(Mechanism,'$.INMOLACION') AS BIT) WHEN 1 THEN 'X' END AS 'INMOLACIONMechanism', CASE TRY_CAST( JSON_VALUE(Mechanism,'$.LANZAMIENTOVACIO') AS BIT) WHEN 1 THEN 'X' END AS 'LANZAMIENTOVACIOMechanism', CASE TRY_CAST( JSON_VALUE(Mechanism,'$.SOFOCACION') AS BIT) WHEN 1 THEN 'X' END AS 'SOFOCACIONMechanism',
+	CASE TRY_CAST( JSON_VALUE(Mechanism,'$.INTOXICACION') AS BIT) WHEN 1 THEN 'X' END AS 'INTOXICACIONMechanism', CASE TRY_CAST( JSON_VALUE(Mechanism,'$.OTRO') AS BIT) WHEN 1 THEN 'X' END AS 'OTROMechanism', WhichMechanism AS 'Cual mecanismo',
+ 
+	CASE TRY_CAST( JSON_VALUE(SubstanceType,'$.MEDICAMENTOS') AS BIT) WHEN 1 THEN 'X' END AS 'MEDICAMENTOSSubstanceType', CASE TRY_CAST( JSON_VALUE(SubstanceType,'$.PLAGUICIDA') AS BIT) WHEN 1 THEN 'X' END AS 'PLAGUICIDASubstanceType', CASE TRY_CAST( JSON_VALUE(SubstanceType,'$.METANOL') AS BIT) WHEN 1 THEN 'X' END AS 'METANOLSubstanceType', CASE TRY_CAST( JSON_VALUE(SubstanceType,'$.METALES') AS BIT) WHEN 1 THEN 'X' END AS 'METALESSubstanceType',
+	CASE TRY_CAST( JSON_VALUE(SubstanceType,'$.SOLVENTES') AS BIT) WHEN 1 THEN 'X' END AS 'SOLVENTESSubstanceType', CASE TRY_CAST( JSON_VALUE(SubstanceType,'$.OTRASSUSTANCIASQUIMICAS') AS BIT) WHEN 1 THEN 'X' END AS 'OTRASSUSTANCIASQUIMICASSubstanceType', CASE TRY_CAST( JSON_VALUE(SubstanceType,'$.GASES') AS BIT) WHEN 1 THEN 'X' END AS 'GASESSubstanceType', CASE TRY_CAST( JSON_VALUE(SubstanceType,'$.SUSTANCIASPSICOACTIVAS') AS BIT) WHEN 1 THEN 'X' END AS 'SUSTANCIASPSICOACTIVASSubstanceType', ProductName AS 'Nombre producto',
+ 
+	CASE TRY_CAST( JSON_VALUE(ExhibitionPathway,'$.RESPIRATORIA') AS BIT) WHEN 1 THEN 'X' END AS 'RESPIRATORIAExhibitionPathway', CASE TRY_CAST( JSON_VALUE(ExhibitionPathway,'$.ORAL') AS BIT) WHEN 1 THEN 'X' END AS 'ORALExhibitionPathway', CASE TRY_CAST( JSON_VALUE(ExhibitionPathway,'$.DERMICAMUCOSA') AS BIT) WHEN 1 THEN 'X' END AS 'DERMICAMUCOSAExhibitionPathway', CASE TRY_CAST( JSON_VALUE(ExhibitionPathway,'$.OCULAR') AS BIT) WHEN 1 THEN 'X' END AS 'OCULARExhibitionPathway',
+	CASE TRY_CAST( JSON_VALUE(ExhibitionPathway,'$.DESCONOCIDA') AS BIT) WHEN 1 THEN 'X' END AS 'DESCONOCIDAExhibitionPathway', CASE TRY_CAST( JSON_VALUE(ExhibitionPathway,'$.PARENTERAL') AS BIT) WHEN 1 THEN 'X' END AS 'PARENTERALExhibitionPathway', CASE TRY_CAST( JSON_VALUE(ExhibitionPathway,'$.TRANSPLACENTARIA') AS BIT) WHEN 1 THEN 'X' END AS 'TRANSPLACENTARIAExhibitionPathway',
+ 
+	CASE TRY_CAST( JSON_VALUE(EventPlace,'$.HOGAR') AS BIT) WHEN 1 THEN 'X' END AS 'HOGAREventPlace', CASE TRY_CAST( JSON_VALUE(EventPlace,'$.ESTABLECIMIENTOPENITENCIARIO') AS BIT) WHEN 1 THEN 'X' END AS 'ESTABLECIMIENTOPENITENCIARIOEventPlace', CASE TRY_CAST( JSON_VALUE(EventPlace,'$.TERRENOBALDIO') AS BIT) WHEN 1 THEN 'X' END AS 'TERRENOBALDIOEventPlace', CASE TRY_CAST( JSON_VALUE(EventPlace,'$.ESTABLECIMIENTOEDUCATIVO') AS BIT) WHEN 1 THEN 'X' END AS 'ESTABLECIMIENTOEDUCATIVOEventPlace',
+	CASE TRY_CAST( JSON_VALUE(EventPlace,'$.LUGARTRABAJO') AS BIT) WHEN 1 THEN 'X' END AS 'LUGARTRABAJOEventPlace', CASE TRY_CAST( JSON_VALUE(EventPlace,'$.CENTROATENCIONMEDICA') AS BIT) WHEN 1 THEN 'X' END AS 'CENTROATENCIONMEDICAEventPlace', CASE TRY_CAST( JSON_VALUE(EventPlace,'$.ESTABLECIMIENTOMILITAR') AS BIT) WHEN 1 THEN 'X' END AS 'ESTABLECIMIENTOMILITAREventPlace', CASE TRY_CAST( JSON_VALUE(EventPlace,'$.VIAPUBLICAPARQUE') AS BIT) WHEN 1 THEN 'X' END AS 'VIAPUBLICAPARQUEEventPlace',
+	CASE TRY_CAST( JSON_VALUE(EventPlace,'$.AREASDEPORTIVAS') AS BIT) WHEN 1 THEN 'X' END AS 'AREASDEPORTIVASEventPlace', CASE TRY_CAST( JSON_VALUE(EventPlace,'$.ESTABLECIMIENTOCOMERCIAL') AS BIT) WHEN 1 THEN 'X' END AS 'ESTABLECIMIENTOCOMERCIALEventPlace', CASE TRY_CAST( JSON_VALUE(EventPlace,'$.BARESTABERNAS') AS BIT) WHEN 1 THEN 'X' END AS 'BARESTABERNASEventPlace', CASE TRY_CAST( JSON_VALUE(EventPlace,'$.LUGARPUBLICONOESPECIFICADO') AS BIT) WHEN 1 THEN 'X' END AS 'LUGARPUBLICONOESPECIFICADOEventPlace', 
+	CASE TRY_CAST( JSON_VALUE(EventPlace,'$.OTRO') AS BIT) WHEN 1 THEN 'X' END AS 'OTROEventPlace', WhichEventPlace AS 'Cual lugar evento',
+ 
+	CASE TRY_CAST( JSON_VALUE(ReferredToMentalHealthServices,'$.PSIQUIATRIA') AS BIT) WHEN 1 THEN 'X' END AS 'PSIQUIATRIAReferredToMentalHealthServices', CASE TRY_CAST( JSON_VALUE(ReferredToMentalHealthServices,'$.PSICOLOGIA') AS BIT) WHEN 1 THEN 'X' END AS 'PSICOLOGIAReferredToMentalHealthServices', CASE TRY_CAST( JSON_VALUE(ReferredToMentalHealthServices,'$.TRABAJOSOCIAL') AS BIT) WHEN 1 THEN 'X' END AS 'TRABAJOSOCIALReferredToMentalHealthServices',  
+
+	CONCAT( RTRIM(A.MentalDisorder), ' - ', RTRIM(B.NOMDIAGNO)) as 'Trastorno mental', Observations AS 'Observaciones',
+	VERSION AS 'VERSION'
+	From 
+	HCFICHA356D A
+	INNER JOIN dbo.INDIAGNOS B ON A.MentalDisorder = B.CODDIAGNO	
+ 
+	Where 
+	IDFICHANOTIFICACION  = @IdFicha 
+END

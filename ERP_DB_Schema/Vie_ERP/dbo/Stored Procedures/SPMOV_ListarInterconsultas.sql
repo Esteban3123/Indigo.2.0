@@ -1,0 +1,38 @@
+﻿
+-- =============================================
+-- Author:		<Author,,Name>
+-- Create date: <Create Date,,>
+-- Description:	<Description,,>
+-- =============================================
+CREATE PROCEDURE [dbo].[SPMOV_ListarInterconsultas] 
+	-- Add the parameters for the stored procedure here
+@CentroAtencion Char(10),
+@CodigoProfesional Char(20)
+AS
+BEGIN
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	SET NOCOUNT ON;
+
+  SELECT RTRIM(A.IPCODPACI) AS Identificacion,RTRIM(IPNOMCOMP) AS Paciente,A.NUMINGRES AS Ingreso,CASE WHEN AD.UFUAACTHOS IS NULL THEN AD.UFUCODIGO ELSE AD.UFUAACTHOS END AS CodigoUnidadFuncional, 
+	CASE WHEN RTRIM(D.UFUDESCRI) IS NULL THEN (SELECT RTRIM(UFUDESCRI) FROM dbo.INUNIFUNC WHERE UFUCODIGO=AD.UFUCODIGO) ELSE RTRIM(D.UFUDESCRI) END AS DescripcionUnidadFuncional,
+	RTRIM(DESCCAMAS) AS Cama,
+	dbo.TipoAislamiento(CA.CODAISLAM) AS Aislamiento,'2 - Solicitudes Valoracion de Interconsultas' AS Tipo, H.DESESPECI AS Especialidad,TRIANUMER AS Consecutivo 
+	, CASE WHEN B.IPTIPODOC IN(6,7) THEN 1 ELSE 0 END AS ASMS
+	, B.ZONAPARTADA,
+	L.RIESGOAGRE,
+	(SELECT count(*) FROM dbo.ADPOBESPEPAC WHERE IPCODPACI = B.IPCODPACI) AS POBESPECIAL,
+	AD.VIVESOLO,
+	(SELECT count(*) FROM ADACOMPAN WHERE NUMINGRES = AD.NUMINGRES) AS ACOMPANANTES,
+	CONVERT(BIT,0) AS Riesgo
+	,B.IPSEXOPAC AS Sexo  
+	FROM dbo.HCORDINTE  A INNER JOIN 
+	dbo.ADINGRESO AD ON A.NUMINGRES = AD.NUMINGRES LEFT OUTER JOIN
+	dbo.INUNIFUNC D ON AD.UFUAACTHOS=D.UFUCODIGO INNER JOIN
+	dbo.INPacient B ON A.IPCODPACI=B.IPCODPACI LEFT OUTER JOIN
+	dbo.CHCAMASHO CA ON AD.CODCAMACT=CA.CODICAMAS INNER JOIN 
+	dbo.INESPECIA H ON A.CODESPECI=H.CODESPECI LEFT OUTER JOIN
+	dbo.ADTRIAGEU E ON A.IPCODPACI= E.IPCODPACI AND A.NUMINGRES=E.NUMINGRES LEFT OUTER JOIN 
+	dbo.ADACTIVID L ON B.CODACTIVI = L.codactivi
+	WHERE A.CODCENATE=@CentroAtencion  AND ESTSERIPS='1' AND A.CODPROSAL = @CodigoProfesional
+END

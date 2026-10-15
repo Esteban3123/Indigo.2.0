@@ -1,0 +1,13 @@
+﻿
+CREATE PROCEDURE [dbo].[SPHC_ListadoServiciosIPS]
+(
+@TipoServicio int
+)
+AS
+BEGIN
+	SET NOCOUNT ON;
+
+SELECT RTRIM(CODSERIPS) AS Codigo,RTRIM(DESSERIPS) AS Servicio,TIPSERTER AS Terapia,RTRIM(CODSERIPS)+' - '+RTRIM(DESSERIPS) AS CodigoDescripcion,SERREASIT as ServicioRealizaSitio, IPSSERIAD as ServicioSeriado, SERIPSDASH , TIPSERIPS
+FROM dbo.INCUPSIPS  
+WHERE TIPSERIPS=@TipoServicio AND SIPSESTADO='1'
+end

@@ -1,0 +1,3 @@
+﻿CREATE SCHEMA [Learning]
+    AUTHORIZATION [dbo];
+

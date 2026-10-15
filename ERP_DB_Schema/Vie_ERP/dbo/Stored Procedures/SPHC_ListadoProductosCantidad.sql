@@ -1,0 +1,18 @@
+﻿
+CREATE PROCEDURE [dbo].[SPHC_ListadoProductosCantidad]
+(
+@Paciente varchar(25),
+@Ingreso char(10),
+@CentroAtencion char(10),
+@UnidadFuncional char(10)
+)
+AS
+BEGIN
+	SET NOCOUNT ON;
+
+SELECT RTRIM(A.CODPRODUC) AS Codigo, RTRIM(DESPRODUC) AS Descripcion,RTRIM(A.CODPRODUC)+' - '+RTRIM(DESPRODUC) AS CodigoDescripcion,CASE WHEN B.CANACTPRO IS NULL THEN 0 ELSE B.CANACTPRO END AS Fisico
+FROM dbo.IHLISTPRO A 
+LEFT OUTER JOIN dbo.HCFISIPRO B ON A.CODPRODUC=B.CODPRODUC AND IPCODPACI=@Paciente AND 
+NUMINGRES=@Ingreso AND CODCENATE=@CentroAtencion AND UFUCODIGO=@UnidadFuncional
+WHERE A.TIPPRODUC IN ('2','3') AND PROESTADO='1'
+end
