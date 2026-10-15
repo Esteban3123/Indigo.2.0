@@ -873,10 +873,14 @@ Public Class FrmConceptsAccountsPayable
                 .IdAccount = Nothing
             End If
 
-            ' Solo actualiza el catálogo en conceptos Específicos. En General o con el flag del tenant inactivo
-            ' se conserva la asociación histórica; no se borra sin una acción explícita del usuario.
-            If _appliesCatalogPropertyandServices AndAlso ConceptType = CONCEPT_TYPE_SPECIFIC Then
-                .CatalogOfPropertyandServicesId = CatalogOfPropertyandServicesId
+            ' Con el tenant activo, Específico persiste el catálogo y General lo deja en NULL.
+            ' Con el tenant inactivo no se toca el FK para conservar asociaciones históricas.
+            If _appliesCatalogPropertyandServices Then
+                If ConceptType = CONCEPT_TYPE_SPECIFIC Then
+                    .CatalogOfPropertyandServicesId = CatalogOfPropertyandServicesId
+                Else
+                    .CatalogOfPropertyandServicesId = Nothing
+                End If
             End If
 
             If INDlyItemThreeEightThreeRetentionAccountId.Visibility = DevExpress.XtraLayout.Utils.LayoutVisibility.Always Then
@@ -968,9 +972,8 @@ Public Class FrmConceptsAccountsPayable
                                 ConceptType = .ConceptType
                                 INDgleAccount.Properties.NullText = .NumberNameAccount
                                 INDgleAccount383.Properties.NullText = .NumberNameAccountThreeEightThree
-                                INDSleCatalogOfPropertyandServices.Properties.NullText = .CodeNameCatalogOfPropertyandServices
                                 IdAccount = .IdAccount
-                                CatalogOfPropertyandServicesId = .CatalogOfPropertyandServicesId
+                                BindCatalogOfPropertyandServicesLookup(.CatalogOfPropertyandServicesId, .CodeNameCatalogOfPropertyandServices)
                                 IdAccount383 = .ThreeEightThreeAccountId
                                 IdAccount384 = Nothing
                                 HandleTaxes = .HandleTaxes
@@ -1158,6 +1161,27 @@ Public Class FrmConceptsAccountsPayable
         INDlyItemCatalogOfPropertyandServices.AllowHide = Not isSpecific
         INDlyItemCatalogOfPropertyandServices.Enabled = actionsEnabled AndAlso isSpecific
         INDSleCatalogOfPropertyandServices.Enabled = actionsEnabled AndAlso isSpecific
+    End Sub
+
+    ''' <summary>
+    ''' Carga el catálogo en el lookup solo cuando corresponde mostrarlo.
+    ''' No altera paymentConcept; el FK de General se limpia únicamente al guardar.
+    ''' </summary>
+    Private Sub BindCatalogOfPropertyandServicesLookup(catalogId As Integer?, catalogDisplay As String)
+        If _appliesCatalogPropertyandServices AndAlso (Not ConceptType.HasValue OrElse ConceptType.Value <> CONCEPT_TYPE_SPECIFIC) Then
+            ClearCatalogOfPropertyandServicesSelection()
+            Return
+        End If
+        INDSleCatalogOfPropertyandServices.Properties.NullText = If(catalogDisplay, String.Empty)
+        CatalogOfPropertyandServicesId = catalogId
+    End Sub
+
+    ''' <summary>
+    ''' Limpia el lookup de catálogo en UI. No persiste hasta AssigningValues/Guardar.
+    ''' </summary>
+    Private Sub ClearCatalogOfPropertyandServicesSelection()
+        CatalogOfPropertyandServicesId = Nothing
+        INDSleCatalogOfPropertyandServices.Properties.NullText = String.Empty
     End Sub
 
     ''' <summary>
@@ -1538,6 +1562,9 @@ Public Class FrmConceptsAccountsPayable
         Else
             INDlyItemAccount.Visibility = DevExpress.XtraLayout.Utils.LayoutVisibility.Never
             INDlyItemAccount.AllowHide = True
+        End If
+        If _appliesCatalogPropertyandServices AndAlso (Not ConceptType.HasValue OrElse ConceptType.Value <> CONCEPT_TYPE_SPECIFIC) Then
+            ClearCatalogOfPropertyandServicesSelection()
         End If
         ApplyCatalogOfPropertyandServicesLayout(INDtxtName.Enabled)
         HandlesRetention = False

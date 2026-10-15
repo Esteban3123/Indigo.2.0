@@ -21,13 +21,15 @@
     [ModificationDate]                  DATETIME      NULL,
     [TimeStamp]                         ROWVERSION    NOT NULL,
     [HandleTaxes]                       BIT           CONSTRAINT [DF__AccountPa__Handl__1067B6E1] DEFAULT ((0)) NOT NULL,
+    [CatalogOfPropertyandServicesId]    INT           NULL,
     CONSTRAINT [PK_AccountPayableConcepts__Id] PRIMARY KEY CLUSTERED ([Id] ASC),
     CONSTRAINT [FK_AccountPayableConcepts_MainAccounts] FOREIGN KEY ([IdAccount]) REFERENCES [GeneralLedger].[MainAccounts] ([Id]),
     CONSTRAINT [FK_AccountPayableConcepts_MainAccounts383] FOREIGN KEY ([ThreeEightThreeAccountId]) REFERENCES [GeneralLedger].[MainAccounts] ([Id]),
     CONSTRAINT [FK_AccountPayableConcepts_MainAccounts384] FOREIGN KEY ([ThreeEightFourAccountId]) REFERENCES [GeneralLedger].[MainAccounts] ([Id]),
     CONSTRAINT [FK_AccountPayableConcepts_RetentionConcepts] FOREIGN KEY ([RetentionConceptId]) REFERENCES [GeneralLedger].[RetentionConcepts] ([Id]),
     CONSTRAINT [FK_AccountPayableConcepts_RetentionConcepts1] FOREIGN KEY ([ThreeEightThreeRetentionConceptId]) REFERENCES [GeneralLedger].[RetentionConcepts] ([Id]),
-    CONSTRAINT [FK_AccountPayableConcepts_RetentionConcepts2] FOREIGN KEY ([ThreeEightFourRetentionConceptId]) REFERENCES [GeneralLedger].[RetentionConcepts] ([Id])
+    CONSTRAINT [FK_AccountPayableConcepts_RetentionConcepts2] FOREIGN KEY ([ThreeEightFourRetentionConceptId]) REFERENCES [GeneralLedger].[RetentionConcepts] ([Id]),
+    CONSTRAINT [FK_AccountPayableConcepts_FixedAssetCatalogOfPropertyandServices] FOREIGN KEY ([CatalogOfPropertyandServicesId]) REFERENCES [FixedAsset].[FixedAssetCatalogOfPropertyandServices] ([Id])
 );
 
 
@@ -56,8 +58,16 @@ ALTER TABLE [Payments].[AccountPayableConcepts] NOCHECK CONSTRAINT [FK_AccountPa
 
 
 GO
+ALTER TABLE [Payments].[AccountPayableConcepts] NOCHECK CONSTRAINT [FK_AccountPayableConcepts_FixedAssetCatalogOfPropertyandServices];
+
+
+GO
 CREATE UNIQUE NONCLUSTERED INDEX [UQ_AccountPayableConcepts__Code]
     ON [Payments].[AccountPayableConcepts]([Code] ASC);
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'MS_Description', @value = 'Id del catalogo de bienes y servicios. Aplica cuando el tenant tiene habilitado Aplica Catalogo de Bienes y Servicios y el tipo de concepto es Especifico.', @level0type = N'SCHEMA', @level0name = N'Payments', @level1type = N'TABLE', @level1name = N'AccountPayableConcepts', @level2type = N'COLUMN', @level2name = N'CatalogOfPropertyandServicesId';
 
 
 GO

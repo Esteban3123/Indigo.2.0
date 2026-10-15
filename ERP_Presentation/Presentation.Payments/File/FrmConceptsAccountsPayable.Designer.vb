@@ -151,6 +151,9 @@ Partial Class FrmConceptsAccountsPayable
         Me.INDlyItemDeferredCausation = New DevExpress.XtraLayout.LayoutControlItem()
         Me.INDlyItemAccumulated = New DevExpress.XtraLayout.LayoutControlItem()
         Me.INDlyItemFreeResources = New DevExpress.XtraLayout.LayoutControlItem()
+        Me.EmptySpaceItem1 = New DevExpress.XtraLayout.EmptySpaceItem()
+        Me.EmptySpaceItem2 = New DevExpress.XtraLayout.EmptySpaceItem()
+        Me.EmptySpaceItem3 = New DevExpress.XtraLayout.EmptySpaceItem()
         Me.GridColumn742 = New DevExpress.XtraGrid.Columns.GridColumn()
         Me.GridColumn743 = New DevExpress.XtraGrid.Columns.GridColumn()
         Me.GridColumn744 = New DevExpress.XtraGrid.Columns.GridColumn()
@@ -1012,6 +1015,9 @@ Partial Class FrmConceptsAccountsPayable
         CType(Me.INDlyItemDeferredCausation, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.INDlyItemAccumulated, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.INDlyItemFreeResources, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.EmptySpaceItem1, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.EmptySpaceItem2, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.EmptySpaceItem3, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.IndigoLayoutControlGroup1, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.IndigoRadioGroup1, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.IndigoGridLookUpControl1, System.ComponentModel.ISupportInitialize).BeginInit
@@ -2232,7 +2238,7 @@ Partial Class FrmConceptsAccountsPayable
         Me.IndigoSearchLookUpControl1.SetSaveXmlGrid(Me.INDSleCatalogOfPropertyandServices, True)
         Me.IndigoSearchLookUpControl1.SetShowDeleteButton(Me.INDSleCatalogOfPropertyandServices, True)
         Me.IndigoSearchLookUpControl1.SetShowFindButton(Me.INDSleCatalogOfPropertyandServices, True)
-        Me.INDSleCatalogOfPropertyandServices.Size = New System.Drawing.Size(366, 28)
+        Me.INDSleCatalogOfPropertyandServices.Size = New System.Drawing.Size(386, 38)
         Me.INDSleCatalogOfPropertyandServices.StyleController = Me.INDlycConceptsAccountsPayable
         Me.INDSleCatalogOfPropertyandServices.TabIndex = 51
         Me.IndigoSearchLookUpControl1.SetTagForm(Me.INDSleCatalogOfPropertyandServices, Nothing)
@@ -2518,7 +2524,7 @@ Partial Class FrmConceptsAccountsPayable
         Me.INDlygConceptsAccountsPayable.AppearanceTabPage.PageClient.Options.UseFont = True
         Me.IndigoLayoutControlGroup1.SetCampoObligatorio(Me.INDlygConceptsAccountsPayable, False)
         resources.ApplyResources(Me.INDlygConceptsAccountsPayable, "INDlygConceptsAccountsPayable")
-        Me.INDlygConceptsAccountsPayable.Items.AddRange(New DevExpress.XtraLayout.BaseLayoutItem() {Me.INDlyiCode, Me.INDlyiName, Me.INDlyItemAccount, Me.INDlyItemCatalogOfPropertyandServices, Me.INDlyItemConceptType})
+        Me.INDlygConceptsAccountsPayable.Items.AddRange(New DevExpress.XtraLayout.BaseLayoutItem() {Me.INDlyiCode, Me.INDlyiName, Me.INDlyItemAccount, Me.INDlyItemCatalogOfPropertyandServices, Me.INDlyItemConceptType, Me.EmptySpaceItem1})
         Me.INDlygConceptsAccountsPayable.Location = New System.Drawing.Point(0, 0)
         Me.INDlygConceptsAccountsPayable.Name = "INDlygConceptsAccountsPayable"
         Me.INDlygConceptsAccountsPayable.Size = New System.Drawing.Size(414, 888)
@@ -2529,65 +2535,65 @@ Partial Class FrmConceptsAccountsPayable
         Me.INDlyiCode.Control = Me.INDbteCode
         resources.ApplyResources(Me.INDlyiCode, "INDlyiCode")
         Me.INDlyiCode.Location = New System.Drawing.Point(0, 0)
-        Me.INDlyiCode.MaxSize = New System.Drawing.Size(390, 64)
-        Me.INDlyiCode.MinSize = New System.Drawing.Size(390, 64)
+        Me.INDlyiCode.MaxSize = New System.Drawing.Size(390, 80)
+        Me.INDlyiCode.MinSize = New System.Drawing.Size(390, 80)
         Me.INDlyiCode.Name = "INDlyiCode"
         Me.INDlyiCode.ShowInCustomizationForm = False
-        Me.INDlyiCode.Size = New System.Drawing.Size(390, 64)
+        Me.INDlyiCode.Size = New System.Drawing.Size(390, 80)
         Me.INDlyiCode.SizeConstraintsType = DevExpress.XtraLayout.SizeConstraintsType.Custom
         Me.INDlyiCode.TextAlignMode = DevExpress.XtraLayout.TextAlignModeItem.CustomSize
         Me.INDlyiCode.TextLocation = DevExpress.Utils.Locations.Top
-        Me.INDlyiCode.TextSize = New System.Drawing.Size(135, 21)
-        Me.INDlyiCode.TextToControlDistance = 5
+        Me.INDlyiCode.TextSize = New System.Drawing.Size(370, 26)
+        Me.INDlyiCode.TextToControlDistance = 8
         '
         'INDlyiName
         '
         Me.INDlyiName.Control = Me.INDtxtName
         resources.ApplyResources(Me.INDlyiName, "INDlyiName")
-        Me.INDlyiName.Location = New System.Drawing.Point(0, 64)
-        Me.INDlyiName.MaxSize = New System.Drawing.Size(390, 64)
-        Me.INDlyiName.MinSize = New System.Drawing.Size(390, 64)
+        Me.INDlyiName.Location = New System.Drawing.Point(0, 80)
+        Me.INDlyiName.MaxSize = New System.Drawing.Size(390, 80)
+        Me.INDlyiName.MinSize = New System.Drawing.Size(390, 80)
         Me.INDlyiName.Name = "INDlyiName"
         Me.INDlyiName.ShowInCustomizationForm = False
-        Me.INDlyiName.Size = New System.Drawing.Size(390, 64)
+        Me.INDlyiName.Size = New System.Drawing.Size(390, 80)
         Me.INDlyiName.SizeConstraintsType = DevExpress.XtraLayout.SizeConstraintsType.Custom
         Me.INDlyiName.TextAlignMode = DevExpress.XtraLayout.TextAlignModeItem.CustomSize
         Me.INDlyiName.TextLocation = DevExpress.Utils.Locations.Top
-        Me.INDlyiName.TextSize = New System.Drawing.Size(135, 21)
-        Me.INDlyiName.TextToControlDistance = 5
+        Me.INDlyiName.TextSize = New System.Drawing.Size(370, 26)
+        Me.INDlyiName.TextToControlDistance = 8
         '
         'INDlyItemAccount
         '
         Me.INDlyItemAccount.AllowHide = False
         Me.INDlyItemAccount.Control = Me.INDgleAccount
         resources.ApplyResources(Me.INDlyItemAccount, "INDlyItemAccount")
-        Me.INDlyItemAccount.Location = New System.Drawing.Point(0, 192)
-        Me.INDlyItemAccount.MaxSize = New System.Drawing.Size(390, 64)
-        Me.INDlyItemAccount.MinSize = New System.Drawing.Size(390, 64)
+        Me.INDlyItemAccount.Location = New System.Drawing.Point(0, 240)
+        Me.INDlyItemAccount.MaxSize = New System.Drawing.Size(390, 80)
+        Me.INDlyItemAccount.MinSize = New System.Drawing.Size(390, 80)
         Me.INDlyItemAccount.Name = "INDlyItemAccount"
-        Me.INDlyItemAccount.Size = New System.Drawing.Size(390, 64)
+        Me.INDlyItemAccount.Size = New System.Drawing.Size(390, 80)
         Me.INDlyItemAccount.SizeConstraintsType = DevExpress.XtraLayout.SizeConstraintsType.Custom
         Me.INDlyItemAccount.TextAlignMode = DevExpress.XtraLayout.TextAlignModeItem.CustomSize
         Me.INDlyItemAccount.TextLocation = DevExpress.Utils.Locations.Top
-        Me.INDlyItemAccount.TextSize = New System.Drawing.Size(135, 21)
-        Me.INDlyItemAccount.TextToControlDistance = 5
+        Me.INDlyItemAccount.TextSize = New System.Drawing.Size(370, 26)
+        Me.INDlyItemAccount.TextToControlDistance = 8
         Me.INDlyItemAccount.Visibility = DevExpress.XtraLayout.Utils.LayoutVisibility.Never
         '
         'INDlyItemCatalogOfPropertyandServices
         '
         Me.INDlyItemCatalogOfPropertyandServices.AllowHide = True
         Me.INDlyItemCatalogOfPropertyandServices.Control = Me.INDSleCatalogOfPropertyandServices
-        Me.INDlyItemCatalogOfPropertyandServices.Location = New System.Drawing.Point(0, 256)
-        Me.INDlyItemCatalogOfPropertyandServices.MaxSize = New System.Drawing.Size(390, 64)
-        Me.INDlyItemCatalogOfPropertyandServices.MinSize = New System.Drawing.Size(390, 64)
+        resources.ApplyResources(Me.INDlyItemCatalogOfPropertyandServices, "INDlyItemCatalogOfPropertyandServices")
+        Me.INDlyItemCatalogOfPropertyandServices.Location = New System.Drawing.Point(0, 320)
+        Me.INDlyItemCatalogOfPropertyandServices.MaxSize = New System.Drawing.Size(390, 80)
+        Me.INDlyItemCatalogOfPropertyandServices.MinSize = New System.Drawing.Size(390, 80)
         Me.INDlyItemCatalogOfPropertyandServices.Name = "INDlyItemCatalogOfPropertyandServices"
-        Me.INDlyItemCatalogOfPropertyandServices.Size = New System.Drawing.Size(390, 564)
+        Me.INDlyItemCatalogOfPropertyandServices.Size = New System.Drawing.Size(390, 80)
         Me.INDlyItemCatalogOfPropertyandServices.SizeConstraintsType = DevExpress.XtraLayout.SizeConstraintsType.Custom
-        Me.INDlyItemCatalogOfPropertyandServices.Text = "Catálogo de Bienes y Servicios"
         Me.INDlyItemCatalogOfPropertyandServices.TextAlignMode = DevExpress.XtraLayout.TextAlignModeItem.CustomSize
         Me.INDlyItemCatalogOfPropertyandServices.TextLocation = DevExpress.Utils.Locations.Top
-        Me.INDlyItemCatalogOfPropertyandServices.TextSize = New System.Drawing.Size(135, 21)
-        Me.INDlyItemCatalogOfPropertyandServices.TextToControlDistance = 5
+        Me.INDlyItemCatalogOfPropertyandServices.TextSize = New System.Drawing.Size(370, 26)
+        Me.INDlyItemCatalogOfPropertyandServices.TextToControlDistance = 8
         Me.INDlyItemCatalogOfPropertyandServices.Visibility = DevExpress.XtraLayout.Utils.LayoutVisibility.Never
         '
         'INDlyItemConceptType
@@ -2595,17 +2601,26 @@ Partial Class FrmConceptsAccountsPayable
         Me.INDlyItemConceptType.AllowHide = False
         Me.INDlyItemConceptType.Control = Me.INDsleConceptType
         resources.ApplyResources(Me.INDlyItemConceptType, "INDlyItemConceptType")
-        Me.INDlyItemConceptType.Location = New System.Drawing.Point(0, 128)
-        Me.INDlyItemConceptType.MaxSize = New System.Drawing.Size(390, 64)
-        Me.INDlyItemConceptType.MinSize = New System.Drawing.Size(390, 64)
+        Me.INDlyItemConceptType.Location = New System.Drawing.Point(0, 160)
+        Me.INDlyItemConceptType.MaxSize = New System.Drawing.Size(390, 80)
+        Me.INDlyItemConceptType.MinSize = New System.Drawing.Size(390, 80)
         Me.INDlyItemConceptType.Name = "INDlyItemConceptType"
         Me.INDlyItemConceptType.ShowInCustomizationForm = False
-        Me.INDlyItemConceptType.Size = New System.Drawing.Size(390, 64)
+        Me.INDlyItemConceptType.Size = New System.Drawing.Size(390, 80)
         Me.INDlyItemConceptType.SizeConstraintsType = DevExpress.XtraLayout.SizeConstraintsType.Custom
         Me.INDlyItemConceptType.TextAlignMode = DevExpress.XtraLayout.TextAlignModeItem.CustomSize
         Me.INDlyItemConceptType.TextLocation = DevExpress.Utils.Locations.Top
-        Me.INDlyItemConceptType.TextSize = New System.Drawing.Size(135, 21)
-        Me.INDlyItemConceptType.TextToControlDistance = 5
+        Me.INDlyItemConceptType.TextSize = New System.Drawing.Size(370, 26)
+        Me.INDlyItemConceptType.TextToControlDistance = 8
+        '
+        'EmptySpaceItem1
+        '
+        Me.EmptySpaceItem1.AllowHotTrack = False
+        Me.EmptySpaceItem1.Location = New System.Drawing.Point(0, 400)
+        Me.EmptySpaceItem1.Name = "EmptySpaceItem1"
+        Me.EmptySpaceItem1.ShowInCustomizationForm = False
+        Me.EmptySpaceItem1.Size = New System.Drawing.Size(390, 420)
+        Me.EmptySpaceItem1.TextSize = New System.Drawing.Size(0, 0)
         '
         'INDlygGeneralInformation
         '
@@ -2625,7 +2640,7 @@ Partial Class FrmConceptsAccountsPayable
         Me.INDlygGeneralInformation.AppearanceTabPage.PageClient.Options.UseFont = True
         Me.IndigoLayoutControlGroup1.SetCampoObligatorio(Me.INDlygGeneralInformation, False)
         resources.ApplyResources(Me.INDlygGeneralInformation, "INDlygGeneralInformation")
-        Me.INDlygGeneralInformation.Items.AddRange(New DevExpress.XtraLayout.BaseLayoutItem() {Me.INDlyItemRetentionConcept, Me.INDlyiHandlesRetention, Me.INDlyItemEmployeeCategoryRetention, Me.INDlyItemThreeEightThreeRetentionConceptId, Me.INDlyItemThreeEightFourRetentionConceptId, Me.INDlyItemThreeEightThreeRetentionAccountId, Me.INDlyItemThreeEightFourRetentionAccountId, Me.INDlyiHandleTaxes})
+        Me.INDlygGeneralInformation.Items.AddRange(New DevExpress.XtraLayout.BaseLayoutItem() {Me.INDlyItemRetentionConcept, Me.INDlyiHandlesRetention, Me.INDlyItemEmployeeCategoryRetention, Me.INDlyItemThreeEightThreeRetentionConceptId, Me.INDlyItemThreeEightFourRetentionConceptId, Me.INDlyItemThreeEightThreeRetentionAccountId, Me.INDlyItemThreeEightFourRetentionAccountId, Me.INDlyiHandleTaxes, Me.EmptySpaceItem2})
         Me.INDlygGeneralInformation.Location = New System.Drawing.Point(414, 0)
         Me.INDlygGeneralInformation.Name = "INDlygGeneralInformation"
         Me.INDlygGeneralInformation.Size = New System.Drawing.Size(414, 888)
@@ -2634,116 +2649,135 @@ Partial Class FrmConceptsAccountsPayable
         '
         Me.INDlyItemRetentionConcept.Control = Me.INDsleRetentionConcept
         resources.ApplyResources(Me.INDlyItemRetentionConcept, "INDlyItemRetentionConcept")
-        Me.INDlyItemRetentionConcept.Location = New System.Drawing.Point(0, 192)
-        Me.INDlyItemRetentionConcept.MaxSize = New System.Drawing.Size(390, 64)
-        Me.INDlyItemRetentionConcept.MinSize = New System.Drawing.Size(390, 64)
+        Me.INDlyItemRetentionConcept.Location = New System.Drawing.Point(0, 240)
+        Me.INDlyItemRetentionConcept.MaxSize = New System.Drawing.Size(390, 80)
+        Me.INDlyItemRetentionConcept.MinSize = New System.Drawing.Size(390, 80)
         Me.INDlyItemRetentionConcept.Name = "INDlyItemRetentionConcept"
-        Me.INDlyItemRetentionConcept.Size = New System.Drawing.Size(390, 64)
+        Me.INDlyItemRetentionConcept.Size = New System.Drawing.Size(390, 80)
         Me.INDlyItemRetentionConcept.SizeConstraintsType = DevExpress.XtraLayout.SizeConstraintsType.Custom
         Me.INDlyItemRetentionConcept.TextAlignMode = DevExpress.XtraLayout.TextAlignModeItem.CustomSize
         Me.INDlyItemRetentionConcept.TextLocation = DevExpress.Utils.Locations.Top
-        Me.INDlyItemRetentionConcept.TextSize = New System.Drawing.Size(135, 21)
-        Me.INDlyItemRetentionConcept.TextToControlDistance = 5
+        Me.INDlyItemRetentionConcept.TextSize = New System.Drawing.Size(370, 26)
+        Me.INDlyItemRetentionConcept.TextToControlDistance = 8
         '
         'INDlyiHandlesRetention
         '
         Me.INDlyiHandlesRetention.Control = Me.INDrbgHandlesRetention
         resources.ApplyResources(Me.INDlyiHandlesRetention, "INDlyiHandlesRetention")
         Me.INDlyiHandlesRetention.Location = New System.Drawing.Point(0, 0)
-        Me.INDlyiHandlesRetention.MaxSize = New System.Drawing.Size(390, 64)
-        Me.INDlyiHandlesRetention.MinSize = New System.Drawing.Size(390, 64)
+        Me.INDlyiHandlesRetention.MaxSize = New System.Drawing.Size(390, 80)
+        Me.INDlyiHandlesRetention.MinSize = New System.Drawing.Size(390, 80)
         Me.INDlyiHandlesRetention.Name = "INDlyiHandlesRetention"
         Me.INDlyiHandlesRetention.ShowInCustomizationForm = False
-        Me.INDlyiHandlesRetention.Size = New System.Drawing.Size(390, 64)
+        Me.INDlyiHandlesRetention.Size = New System.Drawing.Size(390, 80)
         Me.INDlyiHandlesRetention.SizeConstraintsType = DevExpress.XtraLayout.SizeConstraintsType.Custom
         Me.INDlyiHandlesRetention.TextAlignMode = DevExpress.XtraLayout.TextAlignModeItem.CustomSize
         Me.INDlyiHandlesRetention.TextLocation = DevExpress.Utils.Locations.Top
-        Me.INDlyiHandlesRetention.TextSize = New System.Drawing.Size(135, 21)
-        Me.INDlyiHandlesRetention.TextToControlDistance = 5
+        Me.INDlyiHandlesRetention.TextSize = New System.Drawing.Size(370, 26)
+        Me.INDlyiHandlesRetention.TextToControlDistance = 8
         '
         'INDlyItemEmployeeCategoryRetention
         '
         Me.INDlyItemEmployeeCategoryRetention.Control = Me.INDsleEmployeeCategoryRetention
         resources.ApplyResources(Me.INDlyItemEmployeeCategoryRetention, "INDlyItemEmployeeCategoryRetention")
-        Me.INDlyItemEmployeeCategoryRetention.Location = New System.Drawing.Point(0, 128)
-        Me.INDlyItemEmployeeCategoryRetention.MaxSize = New System.Drawing.Size(390, 64)
-        Me.INDlyItemEmployeeCategoryRetention.MinSize = New System.Drawing.Size(390, 64)
+        Me.INDlyItemEmployeeCategoryRetention.Location = New System.Drawing.Point(0, 160)
+        Me.INDlyItemEmployeeCategoryRetention.MaxSize = New System.Drawing.Size(390, 80)
+        Me.INDlyItemEmployeeCategoryRetention.MinSize = New System.Drawing.Size(390, 80)
         Me.INDlyItemEmployeeCategoryRetention.Name = "INDlyItemEmployeeCategoryRetention"
         Me.INDlyItemEmployeeCategoryRetention.ShowInCustomizationForm = False
-        Me.INDlyItemEmployeeCategoryRetention.Size = New System.Drawing.Size(390, 64)
+        Me.INDlyItemEmployeeCategoryRetention.Size = New System.Drawing.Size(390, 80)
         Me.INDlyItemEmployeeCategoryRetention.SizeConstraintsType = DevExpress.XtraLayout.SizeConstraintsType.Custom
         Me.INDlyItemEmployeeCategoryRetention.TextAlignMode = DevExpress.XtraLayout.TextAlignModeItem.CustomSize
         Me.INDlyItemEmployeeCategoryRetention.TextLocation = DevExpress.Utils.Locations.Top
-        Me.INDlyItemEmployeeCategoryRetention.TextSize = New System.Drawing.Size(135, 21)
-        Me.INDlyItemEmployeeCategoryRetention.TextToControlDistance = 5
+        Me.INDlyItemEmployeeCategoryRetention.TextSize = New System.Drawing.Size(370, 26)
+        Me.INDlyItemEmployeeCategoryRetention.TextToControlDistance = 8
         '
         'INDlyItemThreeEightThreeRetentionConceptId
         '
         Me.INDlyItemThreeEightThreeRetentionConceptId.Control = Me.INDsleThreeEightThreeRetentionConceptId
         resources.ApplyResources(Me.INDlyItemThreeEightThreeRetentionConceptId, "INDlyItemThreeEightThreeRetentionConceptId")
-        Me.INDlyItemThreeEightThreeRetentionConceptId.Location = New System.Drawing.Point(0, 256)
-        Me.INDlyItemThreeEightThreeRetentionConceptId.MaxSize = New System.Drawing.Size(390, 64)
-        Me.INDlyItemThreeEightThreeRetentionConceptId.MinSize = New System.Drawing.Size(390, 64)
+        Me.INDlyItemThreeEightThreeRetentionConceptId.Location = New System.Drawing.Point(0, 320)
+        Me.INDlyItemThreeEightThreeRetentionConceptId.MaxSize = New System.Drawing.Size(390, 80)
+        Me.INDlyItemThreeEightThreeRetentionConceptId.MinSize = New System.Drawing.Size(390, 80)
         Me.INDlyItemThreeEightThreeRetentionConceptId.Name = "INDlyItemThreeEightThreeRetentionConceptId"
-        Me.INDlyItemThreeEightThreeRetentionConceptId.Size = New System.Drawing.Size(390, 64)
+        Me.INDlyItemThreeEightThreeRetentionConceptId.Size = New System.Drawing.Size(390, 80)
         Me.INDlyItemThreeEightThreeRetentionConceptId.SizeConstraintsType = DevExpress.XtraLayout.SizeConstraintsType.Custom
         Me.INDlyItemThreeEightThreeRetentionConceptId.TextAlignMode = DevExpress.XtraLayout.TextAlignModeItem.CustomSize
         Me.INDlyItemThreeEightThreeRetentionConceptId.TextLocation = DevExpress.Utils.Locations.Top
-        Me.INDlyItemThreeEightThreeRetentionConceptId.TextSize = New System.Drawing.Size(135, 21)
-        Me.INDlyItemThreeEightThreeRetentionConceptId.TextToControlDistance = 5
+        Me.INDlyItemThreeEightThreeRetentionConceptId.TextSize = New System.Drawing.Size(370, 26)
+        Me.INDlyItemThreeEightThreeRetentionConceptId.TextToControlDistance = 8
         '
         'INDlyItemThreeEightFourRetentionConceptId
         '
         Me.INDlyItemThreeEightFourRetentionConceptId.Control = Me.INDsleThreeEightFourRetentionConceptId
         resources.ApplyResources(Me.INDlyItemThreeEightFourRetentionConceptId, "INDlyItemThreeEightFourRetentionConceptId")
-        Me.INDlyItemThreeEightFourRetentionConceptId.Location = New System.Drawing.Point(0, 393)
-        Me.INDlyItemThreeEightFourRetentionConceptId.MaxSize = New System.Drawing.Size(390, 64)
-        Me.INDlyItemThreeEightFourRetentionConceptId.MinSize = New System.Drawing.Size(390, 64)
+        Me.INDlyItemThreeEightFourRetentionConceptId.Location = New System.Drawing.Point(0, 480)
+        Me.INDlyItemThreeEightFourRetentionConceptId.MaxSize = New System.Drawing.Size(390, 80)
+        Me.INDlyItemThreeEightFourRetentionConceptId.MinSize = New System.Drawing.Size(390, 80)
         Me.INDlyItemThreeEightFourRetentionConceptId.Name = "INDlyItemThreeEightFourRetentionConceptId"
-        Me.INDlyItemThreeEightFourRetentionConceptId.Size = New System.Drawing.Size(390, 64)
+        Me.INDlyItemThreeEightFourRetentionConceptId.Size = New System.Drawing.Size(390, 80)
         Me.INDlyItemThreeEightFourRetentionConceptId.SizeConstraintsType = DevExpress.XtraLayout.SizeConstraintsType.Custom
         Me.INDlyItemThreeEightFourRetentionConceptId.TextAlignMode = DevExpress.XtraLayout.TextAlignModeItem.CustomSize
         Me.INDlyItemThreeEightFourRetentionConceptId.TextLocation = DevExpress.Utils.Locations.Top
-        Me.INDlyItemThreeEightFourRetentionConceptId.TextSize = New System.Drawing.Size(135, 21)
-        Me.INDlyItemThreeEightFourRetentionConceptId.TextToControlDistance = 5
+        Me.INDlyItemThreeEightFourRetentionConceptId.TextSize = New System.Drawing.Size(370, 26)
+        Me.INDlyItemThreeEightFourRetentionConceptId.TextToControlDistance = 8
         Me.INDlyItemThreeEightFourRetentionConceptId.Visibility = DevExpress.XtraLayout.Utils.LayoutVisibility.Never
         '
         'INDlyItemThreeEightThreeRetentionAccountId
         '
         Me.INDlyItemThreeEightThreeRetentionAccountId.Control = Me.INDgleAccount383
         resources.ApplyResources(Me.INDlyItemThreeEightThreeRetentionAccountId, "INDlyItemThreeEightThreeRetentionAccountId")
-        Me.INDlyItemThreeEightThreeRetentionAccountId.Location = New System.Drawing.Point(0, 320)
+        Me.INDlyItemThreeEightThreeRetentionAccountId.Location = New System.Drawing.Point(0, 400)
+        Me.INDlyItemThreeEightThreeRetentionAccountId.MaxSize = New System.Drawing.Size(390, 80)
+        Me.INDlyItemThreeEightThreeRetentionAccountId.MinSize = New System.Drawing.Size(390, 80)
         Me.INDlyItemThreeEightThreeRetentionAccountId.Name = "INDlyItemThreeEightThreeRetentionAccountId"
-        Me.INDlyItemThreeEightThreeRetentionAccountId.Size = New System.Drawing.Size(390, 73)
+        Me.INDlyItemThreeEightThreeRetentionAccountId.Size = New System.Drawing.Size(390, 80)
+        Me.INDlyItemThreeEightThreeRetentionAccountId.SizeConstraintsType = DevExpress.XtraLayout.SizeConstraintsType.Custom
+        Me.INDlyItemThreeEightThreeRetentionAccountId.TextAlignMode = DevExpress.XtraLayout.TextAlignModeItem.CustomSize
         Me.INDlyItemThreeEightThreeRetentionAccountId.TextLocation = DevExpress.Utils.Locations.Top
-        Me.INDlyItemThreeEightThreeRetentionAccountId.TextSize = New System.Drawing.Size(293, 28)
+        Me.INDlyItemThreeEightThreeRetentionAccountId.TextSize = New System.Drawing.Size(370, 26)
+        Me.INDlyItemThreeEightThreeRetentionAccountId.TextToControlDistance = 8
         '
         'INDlyItemThreeEightFourRetentionAccountId
         '
         Me.INDlyItemThreeEightFourRetentionAccountId.Control = Me.INDgleAccount384
         resources.ApplyResources(Me.INDlyItemThreeEightFourRetentionAccountId, "INDlyItemThreeEightFourRetentionAccountId")
-        Me.INDlyItemThreeEightFourRetentionAccountId.Location = New System.Drawing.Point(0, 457)
+        Me.INDlyItemThreeEightFourRetentionAccountId.Location = New System.Drawing.Point(0, 560)
+        Me.INDlyItemThreeEightFourRetentionAccountId.MaxSize = New System.Drawing.Size(390, 80)
+        Me.INDlyItemThreeEightFourRetentionAccountId.MinSize = New System.Drawing.Size(390, 80)
         Me.INDlyItemThreeEightFourRetentionAccountId.Name = "INDlyItemThreeEightFourRetentionAccountId"
-        Me.INDlyItemThreeEightFourRetentionAccountId.Size = New System.Drawing.Size(390, 363)
+        Me.INDlyItemThreeEightFourRetentionAccountId.Size = New System.Drawing.Size(390, 80)
+        Me.INDlyItemThreeEightFourRetentionAccountId.SizeConstraintsType = DevExpress.XtraLayout.SizeConstraintsType.Custom
+        Me.INDlyItemThreeEightFourRetentionAccountId.TextAlignMode = DevExpress.XtraLayout.TextAlignModeItem.CustomSize
         Me.INDlyItemThreeEightFourRetentionAccountId.TextLocation = DevExpress.Utils.Locations.Top
-        Me.INDlyItemThreeEightFourRetentionAccountId.TextSize = New System.Drawing.Size(293, 28)
+        Me.INDlyItemThreeEightFourRetentionAccountId.TextSize = New System.Drawing.Size(370, 26)
+        Me.INDlyItemThreeEightFourRetentionAccountId.TextToControlDistance = 8
         Me.INDlyItemThreeEightFourRetentionAccountId.Visibility = DevExpress.XtraLayout.Utils.LayoutVisibility.Never
         '
         'INDlyiHandleTaxes
         '
         Me.INDlyiHandleTaxes.Control = Me.INDrbgHandleTaxes
         resources.ApplyResources(Me.INDlyiHandleTaxes, "INDlyiHandleTaxes")
-        Me.INDlyiHandleTaxes.Location = New System.Drawing.Point(0, 64)
-        Me.INDlyiHandleTaxes.MaxSize = New System.Drawing.Size(390, 64)
-        Me.INDlyiHandleTaxes.MinSize = New System.Drawing.Size(390, 64)
+        Me.INDlyiHandleTaxes.Location = New System.Drawing.Point(0, 80)
+        Me.INDlyiHandleTaxes.MaxSize = New System.Drawing.Size(390, 80)
+        Me.INDlyiHandleTaxes.MinSize = New System.Drawing.Size(390, 80)
         Me.INDlyiHandleTaxes.Name = "INDlyiHandleTaxes"
         Me.INDlyiHandleTaxes.ShowInCustomizationForm = False
-        Me.INDlyiHandleTaxes.Size = New System.Drawing.Size(390, 64)
+        Me.INDlyiHandleTaxes.Size = New System.Drawing.Size(390, 80)
         Me.INDlyiHandleTaxes.SizeConstraintsType = DevExpress.XtraLayout.SizeConstraintsType.Custom
         Me.INDlyiHandleTaxes.TextAlignMode = DevExpress.XtraLayout.TextAlignModeItem.CustomSize
         Me.INDlyiHandleTaxes.TextLocation = DevExpress.Utils.Locations.Top
-        Me.INDlyiHandleTaxes.TextSize = New System.Drawing.Size(135, 21)
-        Me.INDlyiHandleTaxes.TextToControlDistance = 5
+        Me.INDlyiHandleTaxes.TextSize = New System.Drawing.Size(370, 26)
+        Me.INDlyiHandleTaxes.TextToControlDistance = 8
+        '
+        'EmptySpaceItem2
+        '
+        Me.EmptySpaceItem2.AllowHotTrack = False
+        Me.EmptySpaceItem2.Location = New System.Drawing.Point(0, 640)
+        Me.EmptySpaceItem2.Name = "EmptySpaceItem2"
+        Me.EmptySpaceItem2.ShowInCustomizationForm = False
+        Me.EmptySpaceItem2.Size = New System.Drawing.Size(390, 180)
+        Me.EmptySpaceItem2.TextSize = New System.Drawing.Size(0, 0)
         '
         'LayoutControlGroup1
         '
@@ -2763,7 +2797,7 @@ Partial Class FrmConceptsAccountsPayable
         Me.LayoutControlGroup1.AppearanceTabPage.PageClient.Options.UseFont = True
         Me.IndigoLayoutControlGroup1.SetCampoObligatorio(Me.LayoutControlGroup1, False)
         resources.ApplyResources(Me.LayoutControlGroup1, "LayoutControlGroup1")
-        Me.LayoutControlGroup1.Items.AddRange(New DevExpress.XtraLayout.BaseLayoutItem() {Me.INDlyItemDeferredCausation, Me.INDlyItemAccumulated, Me.INDlyItemFreeResources})
+        Me.LayoutControlGroup1.Items.AddRange(New DevExpress.XtraLayout.BaseLayoutItem() {Me.INDlyItemDeferredCausation, Me.INDlyItemAccumulated, Me.INDlyItemFreeResources, Me.EmptySpaceItem3})
         Me.LayoutControlGroup1.Location = New System.Drawing.Point(828, 0)
         Me.LayoutControlGroup1.Name = "LayoutControlGroup1"
         Me.LayoutControlGroup1.Size = New System.Drawing.Size(528, 888)
@@ -2773,48 +2807,57 @@ Partial Class FrmConceptsAccountsPayable
         Me.INDlyItemDeferredCausation.Control = Me.INDrbgDeferredCausation
         resources.ApplyResources(Me.INDlyItemDeferredCausation, "INDlyItemDeferredCausation")
         Me.INDlyItemDeferredCausation.Location = New System.Drawing.Point(0, 0)
-        Me.INDlyItemDeferredCausation.MaxSize = New System.Drawing.Size(390, 64)
-        Me.INDlyItemDeferredCausation.MinSize = New System.Drawing.Size(390, 64)
+        Me.INDlyItemDeferredCausation.MaxSize = New System.Drawing.Size(390, 80)
+        Me.INDlyItemDeferredCausation.MinSize = New System.Drawing.Size(390, 80)
         Me.INDlyItemDeferredCausation.Name = "INDlyItemDeferredCausation"
         Me.INDlyItemDeferredCausation.ShowInCustomizationForm = False
-        Me.INDlyItemDeferredCausation.Size = New System.Drawing.Size(504, 64)
+        Me.INDlyItemDeferredCausation.Size = New System.Drawing.Size(504, 80)
         Me.INDlyItemDeferredCausation.SizeConstraintsType = DevExpress.XtraLayout.SizeConstraintsType.Custom
         Me.INDlyItemDeferredCausation.TextAlignMode = DevExpress.XtraLayout.TextAlignModeItem.CustomSize
         Me.INDlyItemDeferredCausation.TextLocation = DevExpress.Utils.Locations.Top
-        Me.INDlyItemDeferredCausation.TextSize = New System.Drawing.Size(135, 21)
-        Me.INDlyItemDeferredCausation.TextToControlDistance = 5
+        Me.INDlyItemDeferredCausation.TextSize = New System.Drawing.Size(370, 26)
+        Me.INDlyItemDeferredCausation.TextToControlDistance = 8
         '
         'INDlyItemAccumulated
         '
         Me.INDlyItemAccumulated.Control = Me.INDrgAccumulateCP
         resources.ApplyResources(Me.INDlyItemAccumulated, "INDlyItemAccumulated")
-        Me.INDlyItemAccumulated.Location = New System.Drawing.Point(0, 64)
-        Me.INDlyItemAccumulated.MaxSize = New System.Drawing.Size(390, 64)
-        Me.INDlyItemAccumulated.MinSize = New System.Drawing.Size(390, 64)
+        Me.INDlyItemAccumulated.Location = New System.Drawing.Point(0, 80)
+        Me.INDlyItemAccumulated.MaxSize = New System.Drawing.Size(390, 80)
+        Me.INDlyItemAccumulated.MinSize = New System.Drawing.Size(390, 80)
         Me.INDlyItemAccumulated.Name = "INDlyItemAccumulated"
         Me.INDlyItemAccumulated.ShowInCustomizationForm = False
-        Me.INDlyItemAccumulated.Size = New System.Drawing.Size(504, 64)
+        Me.INDlyItemAccumulated.Size = New System.Drawing.Size(504, 80)
         Me.INDlyItemAccumulated.SizeConstraintsType = DevExpress.XtraLayout.SizeConstraintsType.Custom
         Me.INDlyItemAccumulated.TextAlignMode = DevExpress.XtraLayout.TextAlignModeItem.CustomSize
         Me.INDlyItemAccumulated.TextLocation = DevExpress.Utils.Locations.Top
-        Me.INDlyItemAccumulated.TextSize = New System.Drawing.Size(135, 21)
-        Me.INDlyItemAccumulated.TextToControlDistance = 5
+        Me.INDlyItemAccumulated.TextSize = New System.Drawing.Size(370, 26)
+        Me.INDlyItemAccumulated.TextToControlDistance = 8
         '
         'INDlyItemFreeResources
         '
         Me.INDlyItemFreeResources.Control = Me.INDrgFreeResources
         resources.ApplyResources(Me.INDlyItemFreeResources, "INDlyItemFreeResources")
-        Me.INDlyItemFreeResources.Location = New System.Drawing.Point(0, 128)
-        Me.INDlyItemFreeResources.MaxSize = New System.Drawing.Size(390, 64)
-        Me.INDlyItemFreeResources.MinSize = New System.Drawing.Size(390, 64)
+        Me.INDlyItemFreeResources.Location = New System.Drawing.Point(0, 160)
+        Me.INDlyItemFreeResources.MaxSize = New System.Drawing.Size(390, 80)
+        Me.INDlyItemFreeResources.MinSize = New System.Drawing.Size(390, 80)
         Me.INDlyItemFreeResources.Name = "INDlyItemFreeResources"
         Me.INDlyItemFreeResources.ShowInCustomizationForm = False
-        Me.INDlyItemFreeResources.Size = New System.Drawing.Size(504, 692)
+        Me.INDlyItemFreeResources.Size = New System.Drawing.Size(504, 80)
         Me.INDlyItemFreeResources.SizeConstraintsType = DevExpress.XtraLayout.SizeConstraintsType.Custom
         Me.INDlyItemFreeResources.TextAlignMode = DevExpress.XtraLayout.TextAlignModeItem.CustomSize
         Me.INDlyItemFreeResources.TextLocation = DevExpress.Utils.Locations.Top
-        Me.INDlyItemFreeResources.TextSize = New System.Drawing.Size(135, 21)
-        Me.INDlyItemFreeResources.TextToControlDistance = 5
+        Me.INDlyItemFreeResources.TextSize = New System.Drawing.Size(370, 26)
+        Me.INDlyItemFreeResources.TextToControlDistance = 8
+        '
+        'EmptySpaceItem3
+        '
+        Me.EmptySpaceItem3.AllowHotTrack = False
+        Me.EmptySpaceItem3.Location = New System.Drawing.Point(0, 240)
+        Me.EmptySpaceItem3.Name = "EmptySpaceItem3"
+        Me.EmptySpaceItem3.ShowInCustomizationForm = False
+        Me.EmptySpaceItem3.Size = New System.Drawing.Size(504, 580)
+        Me.EmptySpaceItem3.TextSize = New System.Drawing.Size(0, 0)
         '
         'GridColumn742
         '
@@ -8275,6 +8318,9 @@ Partial Class FrmConceptsAccountsPayable
         CType(Me.INDlyItemDeferredCausation, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.INDlyItemAccumulated, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.INDlyItemFreeResources, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.EmptySpaceItem1, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.EmptySpaceItem2, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.EmptySpaceItem3, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.IndigoLayoutControlGroup1, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.IndigoRadioGroup1, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.IndigoGridLookUpControl1, System.ComponentModel.ISupportInitialize).EndInit
@@ -8432,6 +8478,9 @@ Partial Class FrmConceptsAccountsPayable
     Friend WithEvents GridView3 As DevExpress.XtraGrid.Views.Grid.GridView
     Friend WithEvents GridColumn102 As DevExpress.XtraGrid.Columns.GridColumn
     Friend WithEvents INDlyItemFreeResources As DevExpress.XtraLayout.LayoutControlItem
+    Friend WithEvents EmptySpaceItem1 As DevExpress.XtraLayout.EmptySpaceItem
+    Friend WithEvents EmptySpaceItem2 As DevExpress.XtraLayout.EmptySpaceItem
+    Friend WithEvents EmptySpaceItem3 As DevExpress.XtraLayout.EmptySpaceItem
     Friend WithEvents GridColumn101 As DevExpress.XtraGrid.Columns.GridColumn
     Friend WithEvents INDsleEmployeeCategoryRetention As Presentation.Controls.CtrYesNo
     Friend WithEvents GridView4 As DevExpress.XtraGrid.Views.Grid.GridView
