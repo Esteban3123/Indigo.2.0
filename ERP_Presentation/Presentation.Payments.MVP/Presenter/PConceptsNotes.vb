@@ -13,6 +13,7 @@
 #Region "Imports"
 Imports Infrastructure.CrossCutting.Base
 Imports Infrastructure.Data.Xpo
+Imports Infrastructure.Data.Xpo.FixedAssetRepository
 Imports Presentation.Base
 Imports Presentation.Common.MVP
 Imports Presentation.Controls.MVP
@@ -96,6 +97,14 @@ Public Class PConceptsNotes
         Using model As New MBusqueda
             Me.View.RetentionMainAccount383Xpo = XpoServiceEx.Instance(Indigo.TransactionalContainer).AccountingService.ListXPInstantFeedbackSource(Of AccountingRepository.PUCServiceXpo)($"RetencionType=1 And FreelancerCategory=True And Status=True And LegalBookId.OfficialBook = 1")
         End Using
+    End Sub
+
+    ''' <summary>
+    ''' Inicializa el datasource del catálogo de bienes y servicios con registros activos
+    ''' </summary>
+    Public Sub InitializeCatalogOfPropertyandServices()
+        Dim filter = "State = True"
+        Me.View.CatalogOfPropertyandServicesXpo = XpoServiceEx.Instance(Indigo.TransactionalContainer).FixedAsset.ListXPInstantFeedbackSource(Of FixedAssetCatalogOfPropertyandServicesXpo)(filter:=filter)
     End Sub
 
     ''' <summary>

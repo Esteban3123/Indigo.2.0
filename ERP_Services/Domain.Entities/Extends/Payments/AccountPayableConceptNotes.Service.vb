@@ -28,6 +28,12 @@ Partial Public Class AccountPayableConceptNotes
     <DataMember()>
     Public Property RetentionMainAccount383NumberName As String
 
+    ''' <summary>
+    ''' Obtiene o establece el código y el nombre del catálogo de bienes y servicios
+    ''' </summary>
+    <DataMember()>
+    Public Property CodeNameCatalogOfPropertyandServices As String
+
 #End Region
 
 End Class
