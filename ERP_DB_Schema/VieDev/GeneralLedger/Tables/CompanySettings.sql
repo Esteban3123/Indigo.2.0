@@ -22,6 +22,7 @@
     [CostCenterId]                          INT          NULL,
     [TaxRegistration]                       TINYINT      CONSTRAINT [DF__CompanySe__TaxRe] DEFAULT ((1)) NOT NULL,
     [TransactionEconomicActivity]           BIT          DEFAULT ((0)) NOT NULL,
+    [AppliesCatalogPropertyandServices]     BIT          CONSTRAINT [DF_CompanySettings_AppliesCatalogPropertyandServices] DEFAULT ((0)) NOT NULL,
     CONSTRAINT [PK_CompanyParameters] PRIMARY KEY CLUSTERED ([Id] ASC),
     CONSTRAINT [FK_CompanySettings_CostCenter] FOREIGN KEY ([CostCenterId]) REFERENCES [Payroll].[CostCenter] ([Id]),
     CONSTRAINT [FK_CompanySettings_Currency] FOREIGN KEY ([OfficialCurrencyId]) REFERENCES [Common].[Currency] ([Id]),
@@ -56,6 +57,13 @@ EXECUTE sp_addextendedproperty @name = N'MS_Description', @value = N'Asociar Act
     0. NO
 	1. Si
 	', @level0type = N'SCHEMA', @level0name = N'GeneralLedger', @level1type = N'TABLE', @level1name = N'CompanySettings', @level2type = N'COLUMN', @level2name = N'TransactionEconomicActivity';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'MS_Description', @value = N'Aplica Catálogo de Bienes y Servicios: 
+    0. NO
+	1. Si
+	', @level0type = N'SCHEMA', @level0name = N'GeneralLedger', @level1type = N'TABLE', @level1name = N'CompanySettings', @level2type = N'COLUMN', @level2name = N'AppliesCatalogPropertyandServices';
 
 
 GO
