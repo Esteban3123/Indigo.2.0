@@ -18,11 +18,13 @@
     [RetentionConcept383Id]          INT           NULL,
     [RetentionMainAccount383Id]      INT           NULL,
     [RetentionConceptId]             INT           NULL,
+    [CatalogOfPropertyandServicesId] INT           NULL,
     CONSTRAINT [PK_AccountPayableConceptNotes__Id] PRIMARY KEY CLUSTERED ([Id] ASC),
     CONSTRAINT [FK_AccountPayableConceptNotes_RetentionConcept383Id] FOREIGN KEY ([RetentionConcept383Id]) REFERENCES [GeneralLedger].[RetentionConcepts] ([Id]),
     CONSTRAINT [FK_AccountPayableConceptNotes_RetentionConceptId] FOREIGN KEY ([RetentionConceptId]) REFERENCES [GeneralLedger].[RetentionConcepts] ([Id]),
     CONSTRAINT [FK_AccountPayableConceptNotes_RetentionMainAccount383Id] FOREIGN KEY ([RetentionMainAccount383Id]) REFERENCES [GeneralLedger].[MainAccounts] ([Id]),
-    CONSTRAINT [FK_PaymentsNoteConcept_PUC] FOREIGN KEY ([IdAccount]) REFERENCES [GeneralLedger].[MainAccounts] ([Id])
+    CONSTRAINT [FK_PaymentsNoteConcept_PUC] FOREIGN KEY ([IdAccount]) REFERENCES [GeneralLedger].[MainAccounts] ([Id]),
+    CONSTRAINT [FK_AccountPayableConceptNotes_FixedAssetCatalogOfPropertyandServices] FOREIGN KEY ([CatalogOfPropertyandServicesId]) REFERENCES [FixedAsset].[FixedAssetCatalogOfPropertyandServices] ([Id])
 );
 
 
@@ -43,8 +45,16 @@ ALTER TABLE [Payments].[AccountPayableConceptNotes] NOCHECK CONSTRAINT [FK_Payme
 
 
 GO
+ALTER TABLE [Payments].[AccountPayableConceptNotes] NOCHECK CONSTRAINT [FK_AccountPayableConceptNotes_FixedAssetCatalogOfPropertyandServices];
+
+
+GO
 CREATE UNIQUE NONCLUSTERED INDEX [UQ_AccountPayableConceptNotes__Code]
     ON [Payments].[AccountPayableConceptNotes]([Code] ASC);
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'MS_Description', @value = 'Id del catalogo de bienes y servicios. Aplica cuando el tenant tiene habilitado Aplica Catalogo de Bienes y Servicios y el tipo de concepto es Especifico.', @level0type = N'SCHEMA', @level0name = N'Payments', @level1type = N'TABLE', @level1name = N'AccountPayableConceptNotes', @level2type = N'COLUMN', @level2name = N'CatalogOfPropertyandServicesId';
 
 
 GO
