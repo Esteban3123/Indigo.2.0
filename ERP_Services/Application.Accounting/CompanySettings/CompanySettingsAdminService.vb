@@ -7,6 +7,7 @@
 '***********************************************************************
 #Region "Imports"
 Imports System.Data.Entity.Core
+Imports System.Data.Entity.Infrastructure
 Imports System.Globalization
 Imports Application.Base
 Imports Domain.Base
@@ -52,6 +53,7 @@ Public Class CompanySettingsAdminService
             Dim status As Integer
             Dim auxCompanySettings As CompanySettings = Nothing
 
+            settings.StartTracking()
             If settings.ChangeTracker.State = Domain.Base.Entities.ObjectState.Added Then
                 settings.CreationDate = DateTime.Now
                 settings.CreationUser = audit.CodeUser
@@ -69,6 +71,9 @@ Public Class CompanySettingsAdminService
             auditProcess.Execute()
             settings.MarkAsUnchanged()
             Return New ActionResult(Of CompanySettings) With {.StateResult = True, .ObjectEmbbeded = settings}
+        Catch ex As DbUpdateConcurrencyException
+            UnitOfWork.RollbackChanges()
+            Return New ActionResult(Of CompanySettings) With {.StateResult = False, .MessageResult = {"-999"}.ToList()}
         Catch ex As OptimisticConcurrencyException
             UnitOfWork.RollbackChanges()
             Return New ActionResult(Of CompanySettings) With {.StateResult = False, .MessageResult = {"-999"}.ToList()}

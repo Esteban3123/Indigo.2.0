@@ -29,6 +29,7 @@ Imports Infrastructure.CrossCutting.Exceptions
 Imports Domain.Base.Entities.ObjectChangeTracker
 Imports System.Windows.Forms
 Imports Presentation.Payments.MVP
+Imports System.Globalization
 
 #End Region
 
@@ -130,6 +131,22 @@ Public Class FrmCompanySettings
         End Get
     End Property
 
+    Private _catalogYesNo As List(Of Tuple(Of Boolean, String))
+    ''' <summary>
+    ''' Datasource propio Sí/No del catálogo. No comparte lista con Actividad Económica
+    ''' porque ese control usa Byte y esta propiedad es Boolean.
+    ''' </summary>
+    Private ReadOnly Property CatalogYesNoTuple As List(Of Tuple(Of Boolean, String))
+        Get
+            If _catalogYesNo Is Nothing Then
+                _catalogYesNo = New List(Of Tuple(Of Boolean, String))
+                _catalogYesNo.Add(New Tuple(Of Boolean, String)(True, "Si"))
+                _catalogYesNo.Add(New Tuple(Of Boolean, String)(False, "No"))
+            End If
+            Return _catalogYesNo
+        End Get
+    End Property
+
 #End Region
 
 #Region "Property"
@@ -228,15 +245,40 @@ Public Class FrmCompanySettings
     ''' <returns></returns>
     Private Property AppliesCatalogPropertyandServices As Boolean
         Get
-            If INDSleAppliesCatalogPropertyandServices.EditValue Is Nothing Then
-                Return False
-            End If
-            Return INDSleAppliesCatalogPropertyandServices.EditValue
+            Return ConvertYesNoEditValue(INDSleAppliesCatalogPropertyandServices.EditValue)
         End Get
         Set(value As Boolean)
             INDSleAppliesCatalogPropertyandServices.EditValue = value
         End Set
     End Property
+
+    ''' <summary>
+    ''' Convierte el EditValue del selector Sí/No a Boolean.
+    ''' Acepta Boolean, 1/0 y nulos para no perder el valor seleccionado.
+    ''' </summary>
+    Friend Shared Function ConvertYesNoEditValue(editValue As Object) As Boolean
+        If editValue Is Nothing OrElse editValue Is DBNull.Value Then
+            Return False
+        End If
+        If TypeOf editValue Is Boolean Then
+            Return DirectCast(editValue, Boolean)
+        End If
+        Dim text As String = Convert.ToString(editValue, CultureInfo.InvariantCulture)
+        Dim numericValue As Integer
+        If Integer.TryParse(text, numericValue) Then
+            Return numericValue <> 0
+        End If
+        If String.Equals(text, "Si", StringComparison.OrdinalIgnoreCase) OrElse
+           String.Equals(text, "Sí", StringComparison.OrdinalIgnoreCase) OrElse
+           String.Equals(text, "True", StringComparison.OrdinalIgnoreCase) Then
+            Return True
+        End If
+        If String.Equals(text, "No", StringComparison.OrdinalIgnoreCase) OrElse
+           String.Equals(text, "False", StringComparison.OrdinalIgnoreCase) Then
+            Return False
+        End If
+        Return Convert.ToBoolean(editValue, CultureInfo.InvariantCulture)
+    End Function
 
 #End Region
 
@@ -444,7 +486,7 @@ Public Class FrmCompanySettings
             INDGleWorkIncomeControl.Properties.DataSource = WorkIncomeControlTuple
             INDsleTaxRegistration.Properties.DataSource = TaxRegistrationTuple
             INDSleTransactionEconomicActivity.Properties.DataSource = TransactionEconomicActivityTuple
-            INDSleAppliesCatalogPropertyandServices.Properties.DataSource = TransactionEconomicActivityTuple
+            INDSleAppliesCatalogPropertyandServices.Properties.DataSource = CatalogYesNoTuple
 
             Using Model = New MCompanySettings(Me.Tag)
                 companySettings = Await Model.GetCompanySettings()
@@ -546,6 +588,9 @@ Public Class FrmCompanySettings
     Public Async Sub Guardar() Implements ICrudBase.Guardar
         If ValidateControls() = False Then
             Exit Sub
+        End If
+        If companySettings IsNot Nothing Then
+            companySettings.StartTracking()
         End If
         AssingValues()
         Try
