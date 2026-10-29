@@ -331,6 +331,20 @@ Partial Public Class AccountPayableConceptNotes
         End Set
     End Property
 
+	Private _catalogOfPropertyandServicesId As Nullable(Of Integer)
+	<DataMember()>
+	Public Property CatalogOfPropertyandServicesId() As Nullable(Of Integer)
+        Get
+            Return _catalogOfPropertyandServicesId
+        End Get
+        Set(ByVal value As Nullable(Of Integer))
+            If Not Equals(_catalogOfPropertyandServicesId, value) Then
+                _catalogOfPropertyandServicesId = value
+                OnPropertyChanged("CatalogOfPropertyandServicesId")
+            End If
+        End Set
+    End Property
+
 #End Region
 
 #Region "Navigation Properties"

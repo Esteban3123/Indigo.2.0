@@ -48,6 +48,8 @@ Partial Class FrmConceptsNotes
         Dim AppearanceObject10 As DevExpress.Utils.AppearanceObject = New DevExpress.Utils.AppearanceObject()
         Dim AppearanceObject11 As DevExpress.Utils.AppearanceObject = New DevExpress.Utils.AppearanceObject()
         Dim AppearanceObject12 As DevExpress.Utils.AppearanceObject = New DevExpress.Utils.AppearanceObject()
+        Dim AppearanceObject13 As DevExpress.Utils.AppearanceObject = New DevExpress.Utils.AppearanceObject()
+        Dim AppearanceObject14 As DevExpress.Utils.AppearanceObject = New DevExpress.Utils.AppearanceObject()
         Me.RepositoryItemPopupContainerEdit2 = New DevExpress.XtraEditors.Repository.RepositoryItemPopupContainerEdit()
         Me.RepositoryItemPopupContainerEdit1 = New DevExpress.XtraEditors.Repository.RepositoryItemPopupContainerEdit()
         Me.IndigoTextEdit1 = New Presentation.Controls.IndigoTextEdit(Me.components)
@@ -59,6 +61,10 @@ Partial Class FrmConceptsNotes
         Me.INDrgAffectBudget = New DevExpress.XtraEditors.RadioGroup()
         Me.INDgleAccount = New Presentation.Controls.CtrPUC()
         Me.CtrPUC1View = New DevExpress.XtraGrid.Views.Grid.GridView()
+        Me.INDSleCatalogOfPropertyandServices = New DevExpress.XtraEditors.SearchLookUpEdit()
+        Me.INDSleCatalogOfPropertyandServicesView = New DevExpress.XtraGrid.Views.Grid.GridView()
+        Me.GridColumnCatalogCode = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.GridColumnCatalogName = New DevExpress.XtraGrid.Columns.GridColumn()
         Me.GridColumn196 = New DevExpress.XtraGrid.Columns.GridColumn()
         Me.GridColumn197 = New DevExpress.XtraGrid.Columns.GridColumn()
         Me.GridColumn198 = New DevExpress.XtraGrid.Columns.GridColumn()
@@ -91,6 +97,7 @@ Partial Class FrmConceptsNotes
         Me.INDlyiCode = New DevExpress.XtraLayout.LayoutControlItem()
         Me.INDlyiName = New DevExpress.XtraLayout.LayoutControlItem()
         Me.INDlyItemAccount = New DevExpress.XtraLayout.LayoutControlItem()
+        Me.INDlyItemCatalogOfPropertyandServices = New DevExpress.XtraLayout.LayoutControlItem()
         Me.INDlyItemAffectBudget = New DevExpress.XtraLayout.LayoutControlItem()
         Me.INDlyItemBehavior = New DevExpress.XtraLayout.LayoutControlItem()
         Me.INDlyItemConceptType = New DevExpress.XtraLayout.LayoutControlItem()
@@ -327,6 +334,8 @@ Partial Class FrmConceptsNotes
         CType(Me.INDgleAccount, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.INDgleAccount.Properties, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.CtrPUC1View, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.INDSleCatalogOfPropertyandServices.Properties, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.INDSleCatalogOfPropertyandServicesView, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.INDtxtName.Properties, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.INDgleBehavior.Properties, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.GridView1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -344,6 +353,7 @@ Partial Class FrmConceptsNotes
         CType(Me.INDlyiCode, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.INDlyiName, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.INDlyItemAccount, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.INDlyItemCatalogOfPropertyandServices, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.INDlyItemAffectBudget, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.INDlyItemBehavior, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.INDlyItemConceptType, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -420,6 +430,7 @@ Partial Class FrmConceptsNotes
         Me.INDlycConceptsNotes.Controls.Add(Me.INDsleConceptType)
         Me.INDlycConceptsNotes.Controls.Add(Me.INDrgAffectBudget)
         Me.INDlycConceptsNotes.Controls.Add(Me.INDgleAccount)
+        Me.INDlycConceptsNotes.Controls.Add(Me.INDSleCatalogOfPropertyandServices)
         Me.INDlycConceptsNotes.Controls.Add(Me.INDtxtName)
         Me.INDlycConceptsNotes.Controls.Add(Me.INDbteCode)
         Me.INDlycConceptsNotes.Controls.Add(Me.INDgleBehavior)
@@ -676,6 +687,103 @@ Partial Class FrmConceptsNotes
         resources.ApplyResources(Me.GridColumn205, "GridColumn205")
         Me.GridColumn205.FieldName = "HandlesCostCenter"
         Me.GridColumn205.Name = "GridColumn205"
+        '
+        'INDSleCatalogOfPropertyandServices
+        '
+        Me.IndigoSearchLookUpControl1.SetAppearanceEmbeddedNavigator(Me.INDSleCatalogOfPropertyandServices, AppearanceObject13)
+        Me.IndigoSearchLookUpControl1.SetAppearanceTextFindControl(Me.INDSleCatalogOfPropertyandServices, AppearanceObject14)
+        Me.IndigoSearchLookUpControl1.SetAppendButtonNavigator(Me.INDSleCatalogOfPropertyandServices, False)
+        Me.IndigoTextEdit1.SetApplyStyle(Me.INDSleCatalogOfPropertyandServices, False)
+        Me.IndigoSearchLookUpControl1.SetAutomaticOpenForm(Me.INDSleCatalogOfPropertyandServices, False)
+        Me.IndigoTextEdit1.SetCampoObligatorio(Me.INDSleCatalogOfPropertyandServices, False)
+        Me.IndigoSearchLookUpControl1.SetCancelEditButtonNavigator(Me.INDSleCatalogOfPropertyandServices, False)
+        Me.IndigoSearchLookUpControl1.SetEditButtonNavigator(Me.INDSleCatalogOfPropertyandServices, False)
+        Me.IndigoSearchLookUpControl1.SetEndEditButtonNavigator(Me.INDSleCatalogOfPropertyandServices, False)
+        Me.INDSleCatalogOfPropertyandServices.EnterMoveNextControl = True
+        Me.IndigoSearchLookUpControl1.SetExportButton(Me.INDSleCatalogOfPropertyandServices, False)
+        Me.IndigoSearchLookUpControl1.SetFirstButtonNavigator(Me.INDSleCatalogOfPropertyandServices, False)
+        Me.IndigoSearchLookUpControl1.SetLastButtonNavigator(Me.INDSleCatalogOfPropertyandServices, False)
+        Me.IndigoTextEdit1.SetMascara(Me.INDSleCatalogOfPropertyandServices, Presentation.Controls.IndigoTextEdit.EMask.Ninguno)
+        Me.INDSleCatalogOfPropertyandServices.Name = "INDSleCatalogOfPropertyandServices"
+        Me.IndigoSearchLookUpControl1.SetNextButtonNavigator(Me.INDSleCatalogOfPropertyandServices, False)
+        Me.IndigoSearchLookUpControl1.SetNextPageButtonNavigator(Me.INDSleCatalogOfPropertyandServices, False)
+        Me.IndigoSearchLookUpControl1.SetOpenForm(Me.INDSleCatalogOfPropertyandServices, False)
+        Me.IndigoSearchLookUpControl1.SetPopupSizeable(Me.INDSleCatalogOfPropertyandServices, False)
+        Me.IndigoSearchLookUpControl1.SetPrevButtonNavigator(Me.INDSleCatalogOfPropertyandServices, False)
+        Me.IndigoSearchLookUpControl1.SetPrevPageButtonNavigator(Me.INDSleCatalogOfPropertyandServices, False)
+        Me.INDSleCatalogOfPropertyandServices.Properties.Appearance.BackColor = System.Drawing.Color.White
+        Me.INDSleCatalogOfPropertyandServices.Properties.Appearance.Font = New System.Drawing.Font("Segoe UI Light", 12.0!)
+        Me.INDSleCatalogOfPropertyandServices.Properties.Appearance.ForeColor = System.Drawing.Color.FromArgb(CType(CType(40, Byte), Integer), CType(CType(40, Byte), Integer), CType(CType(40, Byte), Integer))
+        Me.INDSleCatalogOfPropertyandServices.Properties.Appearance.Options.UseBackColor = True
+        Me.INDSleCatalogOfPropertyandServices.Properties.Appearance.Options.UseFont = True
+        Me.INDSleCatalogOfPropertyandServices.Properties.Appearance.Options.UseForeColor = True
+        Me.INDSleCatalogOfPropertyandServices.Properties.AppearanceFocused.BackColor = System.Drawing.Color.FromArgb(CType(CType(215, Byte), Integer), CType(CType(242, Byte), Integer), CType(CType(255, Byte), Integer))
+        Me.INDSleCatalogOfPropertyandServices.Properties.AppearanceFocused.BorderColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(148, Byte), Integer), CType(CType(223, Byte), Integer))
+        Me.INDSleCatalogOfPropertyandServices.Properties.AppearanceFocused.Font = New System.Drawing.Font("Segoe UI Light", 12.0!)
+        Me.INDSleCatalogOfPropertyandServices.Properties.AppearanceFocused.Options.UseBackColor = True
+        Me.INDSleCatalogOfPropertyandServices.Properties.AppearanceFocused.Options.UseBorderColor = True
+        Me.INDSleCatalogOfPropertyandServices.Properties.AppearanceFocused.Options.UseFont = True
+        Me.INDSleCatalogOfPropertyandServices.Properties.Buttons.AddRange(New DevExpress.XtraEditors.Controls.EditorButton() {New DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)})
+        Me.INDSleCatalogOfPropertyandServices.Properties.DisplayMember = "CodeDescription"
+        Me.INDSleCatalogOfPropertyandServices.Properties.NullText = ""
+        Me.INDSleCatalogOfPropertyandServices.Properties.PopupFilterMode = DevExpress.XtraEditors.PopupFilterMode.Contains
+        Me.INDSleCatalogOfPropertyandServices.Properties.PopupFormMinSize = New System.Drawing.Size(500, 0)
+        Me.INDSleCatalogOfPropertyandServices.Properties.PopupSizeable = False
+        Me.INDSleCatalogOfPropertyandServices.Properties.PopupView = Me.INDSleCatalogOfPropertyandServicesView
+        Me.INDSleCatalogOfPropertyandServices.Properties.ShowFooter = False
+        Me.INDSleCatalogOfPropertyandServices.Properties.ValueMember = "Id"
+        Me.IndigoSearchLookUpControl1.SetRemoveButtonNavigator(Me.INDSleCatalogOfPropertyandServices, False)
+        Me.IndigoSearchLookUpControl1.SetSaveXmlGrid(Me.INDSleCatalogOfPropertyandServices, True)
+        Me.IndigoSearchLookUpControl1.SetShowDeleteButton(Me.INDSleCatalogOfPropertyandServices, True)
+        Me.IndigoSearchLookUpControl1.SetShowFindButton(Me.INDSleCatalogOfPropertyandServices, True)
+        Me.INDSleCatalogOfPropertyandServices.StyleController = Me.INDlycConceptsNotes
+        Me.IndigoSearchLookUpControl1.SetTagForm(Me.INDSleCatalogOfPropertyandServices, Nothing)
+        Me.IndigoTextEdit1.SetTamañoMinimoString(Me.INDSleCatalogOfPropertyandServices, 0)
+        Me.IndigoSearchLookUpControl1.SetTextStringFormat(Me.INDSleCatalogOfPropertyandServices, "{0} - {1}")
+        Me.IndigoSearchLookUpControl1.SetTxtFindEnterEnabled(Me.INDSleCatalogOfPropertyandServices, False)
+        Me.IndigoSearchLookUpControl1.SetUseEmbeddedNavigator(Me.INDSleCatalogOfPropertyandServices, False)
+        '
+        'INDSleCatalogOfPropertyandServicesView
+        '
+        Me.INDSleCatalogOfPropertyandServicesView.Appearance.FocusedRow.BorderColor = System.Drawing.Color.LightGray
+        Me.INDSleCatalogOfPropertyandServicesView.Appearance.FocusedRow.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Bold)
+        Me.INDSleCatalogOfPropertyandServicesView.Appearance.FocusedRow.Options.UseBorderColor = True
+        Me.INDSleCatalogOfPropertyandServicesView.Appearance.FocusedRow.Options.UseFont = True
+        Me.INDSleCatalogOfPropertyandServicesView.Appearance.FocusedRow.Options.UseForeColor = True
+        Me.INDSleCatalogOfPropertyandServicesView.Appearance.GroupRow.Font = New System.Drawing.Font("Segoe UI", 9.75!)
+        Me.INDSleCatalogOfPropertyandServicesView.Appearance.GroupRow.Options.UseFont = True
+        Me.INDSleCatalogOfPropertyandServicesView.Appearance.HeaderPanel.Font = New System.Drawing.Font("Segoe UI Semibold", 10.0!, System.Drawing.FontStyle.Bold)
+        Me.INDSleCatalogOfPropertyandServicesView.Appearance.HeaderPanel.Options.UseFont = True
+        Me.INDSleCatalogOfPropertyandServicesView.Appearance.Row.Font = New System.Drawing.Font("Segoe UI Light", 9.75!)
+        Me.INDSleCatalogOfPropertyandServicesView.Appearance.Row.Options.UseFont = True
+        Me.INDSleCatalogOfPropertyandServicesView.Columns.AddRange(New DevExpress.XtraGrid.Columns.GridColumn() {Me.GridColumnCatalogCode, Me.GridColumnCatalogName})
+        Me.INDSleCatalogOfPropertyandServicesView.FocusRectStyle = DevExpress.XtraGrid.Views.Grid.DrawFocusRectStyle.RowFocus
+        Me.INDSleCatalogOfPropertyandServicesView.Name = "INDSleCatalogOfPropertyandServicesView"
+        Me.INDSleCatalogOfPropertyandServicesView.OptionsFind.FindFilterColumns = "Codigo;Descripcion"
+        Me.INDSleCatalogOfPropertyandServicesView.OptionsSelection.EnableAppearanceFocusedCell = False
+        Me.INDSleCatalogOfPropertyandServicesView.OptionsView.EnableAppearanceEvenRow = True
+        Me.INDSleCatalogOfPropertyandServicesView.OptionsView.EnableAppearanceOddRow = True
+        Me.INDSleCatalogOfPropertyandServicesView.OptionsView.ShowAutoFilterRow = True
+        Me.INDSleCatalogOfPropertyandServicesView.OptionsView.ShowGroupPanel = False
+        Me.IndigoGridView1.SetTemaIndigoMetro(Me.INDSleCatalogOfPropertyandServicesView, False)
+        '
+        'GridColumnCatalogCode
+        '
+        Me.GridColumnCatalogCode.Caption = "Código"
+        Me.GridColumnCatalogCode.FieldName = "Codigo"
+        Me.GridColumnCatalogCode.Name = "GridColumnCatalogCode"
+        Me.GridColumnCatalogCode.Visible = True
+        Me.GridColumnCatalogCode.VisibleIndex = 0
+        Me.GridColumnCatalogCode.Width = 80
+        '
+        'GridColumnCatalogName
+        '
+        Me.GridColumnCatalogName.Caption = "Nombre"
+        Me.GridColumnCatalogName.FieldName = "Descripcion"
+        Me.GridColumnCatalogName.Name = "GridColumnCatalogName"
+        Me.GridColumnCatalogName.Visible = True
+        Me.GridColumnCatalogName.VisibleIndex = 1
+        Me.GridColumnCatalogName.Width = 250
         '
         'INDtxtName
         '
@@ -1114,7 +1222,7 @@ Partial Class FrmConceptsNotes
         Me.INDlycgConceptsNotes.GroupBordersVisible = False
         Me.INDlycgConceptsNotes.Items.AddRange(New DevExpress.XtraLayout.BaseLayoutItem() {Me.INDlygConceptoNotas, Me.INDlygWithholdings})
         Me.INDlycgConceptsNotes.Name = "Root"
-        Me.INDlycgConceptsNotes.Size = New System.Drawing.Size(848, 457)
+        Me.INDlycgConceptsNotes.Size = New System.Drawing.Size(848, 521)
         Me.INDlycgConceptsNotes.TextVisible = False
         '
         'INDlygConceptoNotas
@@ -1135,10 +1243,10 @@ Partial Class FrmConceptsNotes
         Me.INDlygConceptoNotas.AppearanceTabPage.PageClient.Options.UseFont = True
         Me.IndigoLayoutControlGroup1.SetCampoObligatorio(Me.INDlygConceptoNotas, False)
         resources.ApplyResources(Me.INDlygConceptoNotas, "INDlygConceptoNotas")
-        Me.INDlygConceptoNotas.Items.AddRange(New DevExpress.XtraLayout.BaseLayoutItem() {Me.INDlyiCode, Me.INDlyiName, Me.INDlyItemAccount, Me.INDlyItemAffectBudget, Me.INDlyItemBehavior, Me.INDlyItemConceptType})
+        Me.INDlygConceptoNotas.Items.AddRange(New DevExpress.XtraLayout.BaseLayoutItem() {Me.INDlyiCode, Me.INDlyiName, Me.INDlyItemAccount, Me.INDlyItemCatalogOfPropertyandServices, Me.INDlyItemAffectBudget, Me.INDlyItemBehavior, Me.INDlyItemConceptType})
         Me.INDlygConceptoNotas.Location = New System.Drawing.Point(0, 0)
         Me.INDlygConceptoNotas.Name = "INDlygConceptoNotas"
-        Me.INDlygConceptoNotas.Size = New System.Drawing.Size(414, 437)
+        Me.INDlygConceptoNotas.Size = New System.Drawing.Size(414, 501)
         '
         'INDlyiCode
         '
@@ -1188,6 +1296,23 @@ Partial Class FrmConceptsNotes
         Me.INDlyItemAccount.TextSize = New System.Drawing.Size(131, 21)
         Me.INDlyItemAccount.TextToControlDistance = 5
         Me.INDlyItemAccount.Visibility = DevExpress.XtraLayout.Utils.LayoutVisibility.Never
+        '
+        'INDlyItemCatalogOfPropertyandServices
+        '
+        Me.INDlyItemCatalogOfPropertyandServices.AllowHide = True
+        Me.INDlyItemCatalogOfPropertyandServices.Control = Me.INDSleCatalogOfPropertyandServices
+        resources.ApplyResources(Me.INDlyItemCatalogOfPropertyandServices, "INDlyItemCatalogOfPropertyandServices")
+        Me.INDlyItemCatalogOfPropertyandServices.Location = New System.Drawing.Point(0, 384)
+        Me.INDlyItemCatalogOfPropertyandServices.MaxSize = New System.Drawing.Size(390, 64)
+        Me.INDlyItemCatalogOfPropertyandServices.MinSize = New System.Drawing.Size(390, 64)
+        Me.INDlyItemCatalogOfPropertyandServices.Name = "INDlyItemCatalogOfPropertyandServices"
+        Me.INDlyItemCatalogOfPropertyandServices.Size = New System.Drawing.Size(390, 64)
+        Me.INDlyItemCatalogOfPropertyandServices.SizeConstraintsType = DevExpress.XtraLayout.SizeConstraintsType.Custom
+        Me.INDlyItemCatalogOfPropertyandServices.TextAlignMode = DevExpress.XtraLayout.TextAlignModeItem.CustomSize
+        Me.INDlyItemCatalogOfPropertyandServices.TextLocation = DevExpress.Utils.Locations.Top
+        Me.INDlyItemCatalogOfPropertyandServices.TextSize = New System.Drawing.Size(131, 21)
+        Me.INDlyItemCatalogOfPropertyandServices.TextToControlDistance = 5
+        Me.INDlyItemCatalogOfPropertyandServices.Visibility = DevExpress.XtraLayout.Utils.LayoutVisibility.Never
         '
         'INDlyItemAffectBudget
         '
@@ -1258,7 +1383,7 @@ Partial Class FrmConceptsNotes
         Me.INDlygWithholdings.Items.AddRange(New DevExpress.XtraLayout.BaseLayoutItem() {Me.INDlyItemManageRetention, Me.INDlyItemManageTax, Me.INDlyTypeCategoryIndependentWorkers, Me.INDlciRetentionConcept383, Me.INDlciRetentionMainAccount383, Me.INDlciRetentionConcept})
         Me.INDlygWithholdings.Location = New System.Drawing.Point(414, 0)
         Me.INDlygWithholdings.Name = "INDlygWithholdings"
-        Me.INDlygWithholdings.Size = New System.Drawing.Size(414, 437)
+        Me.INDlygWithholdings.Size = New System.Drawing.Size(414, 501)
         '
         'INDlyItemManageRetention
         '
@@ -2771,6 +2896,8 @@ Partial Class FrmConceptsNotes
         CType(Me.INDgleAccount.Properties, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.INDgleAccount, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.CtrPUC1View, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.INDSleCatalogOfPropertyandServices.Properties, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.INDSleCatalogOfPropertyandServicesView, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.INDtxtName.Properties, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.INDgleBehavior.Properties, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.GridView1, System.ComponentModel.ISupportInitialize).EndInit()
@@ -2788,6 +2915,7 @@ Partial Class FrmConceptsNotes
         CType(Me.INDlyiCode, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.INDlyiName, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.INDlyItemAccount, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.INDlyItemCatalogOfPropertyandServices, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.INDlyItemAffectBudget, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.INDlyItemBehavior, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.INDlyItemConceptType, System.ComponentModel.ISupportInitialize).EndInit()
@@ -2826,6 +2954,11 @@ Partial Class FrmConceptsNotes
     Friend WithEvents INDgleAccount As Presentation.Controls.CtrPUC
     Friend WithEvents CtrPUC1View As DevExpress.XtraGrid.Views.Grid.GridView
     Friend WithEvents INDlyItemAccount As DevExpress.XtraLayout.LayoutControlItem
+    Friend WithEvents INDSleCatalogOfPropertyandServices As DevExpress.XtraEditors.SearchLookUpEdit
+    Friend WithEvents INDSleCatalogOfPropertyandServicesView As DevExpress.XtraGrid.Views.Grid.GridView
+    Friend WithEvents GridColumnCatalogCode As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents GridColumnCatalogName As DevExpress.XtraGrid.Columns.GridColumn
+    Friend WithEvents INDlyItemCatalogOfPropertyandServices As DevExpress.XtraLayout.LayoutControlItem
     Friend WithEvents INDGcId As DevExpress.XtraGrid.Columns.GridColumn
     Friend WithEvents INDGcCode As DevExpress.XtraGrid.Columns.GridColumn
     Friend WithEvents INDGcName As DevExpress.XtraGrid.Columns.GridColumn

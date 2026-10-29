@@ -15445,6 +15445,7 @@
           <Property Name="RetentionConcept383Id" Type="int" />
           <Property Name="RetentionMainAccount383Id" Type="int" />
           <Property Name="RetentionConceptId" Type="int" />
+          <Property Name="CatalogOfPropertyandServicesId" Type="int" />
         </EntityType>
         <EntityType Name="AccountPayableConcepts">
           <Key>
@@ -84463,6 +84464,7 @@ warning 6035: The relationship 'FK_ProductSusceptibleMixingStation_ATC' has colu
           <NavigationProperty Name="RetentionConcepts" Relationship="GlobalModel.FK_AccountPayableConceptNotes_RetentionConcept383Id" FromRole="AccountPayableConceptNotes" ToRole="RetentionConcepts" />
           <Property Name="RetentionConceptId" Type="Int32" />
           <NavigationProperty Name="RetentionConcepts1" Relationship="GlobalModel.FK_AccountPayableConceptNotes_RetentionConceptId" FromRole="AccountPayableConceptNotes" ToRole="RetentionConcepts" />
+          <Property Name="CatalogOfPropertyandServicesId" Type="Int32" />
         </EntityType>
         <Association Name="FK_PaymentsNoteShares_AccountPayableConceptNotes">
           <End Type="GlobalModel.AccountPayableConceptNotes" Role="AccountPayableConceptNotes" Multiplicity="1" />
@@ -145174,6 +145176,7 @@ warning 6035: The relationship 'FK_ProductSusceptibleMixingStation_ATC' has colu
           <EntitySetMapping Name="AccountPayableConceptNotes">
             <EntityTypeMapping TypeName="GlobalModel.AccountPayableConceptNotes">
               <MappingFragment StoreEntitySet="AccountPayableConceptNotes">
+                <ScalarProperty Name="CatalogOfPropertyandServicesId" ColumnName="CatalogOfPropertyandServicesId" />
                 <ScalarProperty Name="RetentionConceptId" ColumnName="RetentionConceptId" />
                 <ScalarProperty Name="RetentionMainAccount383Id" ColumnName="RetentionMainAccount383Id" />
                 <ScalarProperty Name="RetentionConcept383Id" ColumnName="RetentionConcept383Id" />

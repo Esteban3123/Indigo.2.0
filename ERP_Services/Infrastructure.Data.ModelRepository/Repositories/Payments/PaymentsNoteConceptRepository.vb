@@ -67,6 +67,8 @@ Public Class PaymentsNoteConceptRepository
                 res.RetentionMainAccount383NumberName = account383.Number + " - " + account383.Name
             End If
 
+            LoadCatalogOfPropertyandServicesDisplay(res)
+
             res.OriginalValue = (From d As AccountPayableConceptNotes In Me._context.AccountPayableConceptNotes.AsNoTracking() Where d.Code.Equals(code.Trim()) Select d).SingleOrDefault()
             Return res
         Else
@@ -98,11 +100,28 @@ Public Class PaymentsNoteConceptRepository
         End If
         Dim res = (From d In Me._context.AccountPayableConceptNotes.Include("MainAccounts") Where d.Id = id Select d)
         If res.Count > 0 Then
-            res.SingleOrDefault.OriginalValue = (From d As AccountPayableConceptNotes In Me._context.AccountPayableConceptNotes.Include("MainAccounts").AsNoTracking() Where d.Id = id Select d).SingleOrDefault()
-            Return res.SingleOrDefault
+            Dim objtmp = res.SingleOrDefault
+            objtmp.OriginalValue = (From d As AccountPayableConceptNotes In Me._context.AccountPayableConceptNotes.Include("MainAccounts").AsNoTracking() Where d.Id = id Select d).SingleOrDefault()
+            LoadCatalogOfPropertyandServicesDisplay(objtmp)
+            Return objtmp
         Else
             Return New AccountPayableConceptNotes()
         End If
     End Function
+
+    ''' <summary>
+    ''' Carga el código y nombre del catálogo de bienes y servicios, incluyendo registros inactivos asociados históricamente.
+    ''' </summary>
+    Private Sub LoadCatalogOfPropertyandServicesDisplay(concept As AccountPayableConceptNotes)
+        If concept Is Nothing OrElse concept.CatalogOfPropertyandServicesId Is Nothing Then
+            Return
+        End If
+        Dim catalog = (From c In _context.FixedAssetCatalogOfPropertyandServices.AsNoTracking()
+                       Where c.Id = concept.CatalogOfPropertyandServicesId
+                       Select c).FirstOrDefault()
+        If catalog IsNot Nothing Then
+            concept.CodeNameCatalogOfPropertyandServices = catalog.Code + " - " + catalog.Name
+        End If
+    End Sub
 
 End Class

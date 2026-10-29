@@ -26,6 +26,7 @@ Imports Infrastructure.CrossCutting.Exceptions
 Imports Domain.Common
 Imports Presentation.Common
 Imports Presentation.Accounting
+Imports Presentation.Accounting.MVP
 Imports System.Text
 
 #End Region
@@ -206,6 +207,30 @@ Public Class FrmConceptsNotes
     End Property
 
     ''' <summary>
+    ''' Obtiene o establece el id del catálogo de bienes y servicios
+    ''' </summary>
+    Public Property CatalogOfPropertyandServicesId As Integer? Implements IConceptsNotes.CatalogOfPropertyandServicesId
+        Get
+            Return INDSleCatalogOfPropertyandServices.EditValue
+        End Get
+        Set(value As Integer?)
+            INDSleCatalogOfPropertyandServices.EditValue = value
+        End Set
+    End Property
+
+    ''' <summary>
+    ''' Establece el datasource del catálogo de bienes y servicios
+    ''' </summary>
+    Public Property CatalogOfPropertyandServicesXpo As DevExpress.Xpo.XPInstantFeedbackSource Implements IConceptsNotes.CatalogOfPropertyandServicesXpo
+        Get
+            Return CType(INDSleCatalogOfPropertyandServices.Properties.DataSource, DevExpress.Xpo.XPInstantFeedbackSource)
+        End Get
+        Set(value As DevExpress.Xpo.XPInstantFeedbackSource)
+            INDSleCatalogOfPropertyandServices.Properties.DataSource = value
+        End Set
+    End Property
+
+    ''' <summary>
     ''' Permite establecer si es Tipo categoria Trabajadores Independientes o no.
     ''' </summary>
     Public Property TypeCategoryIndependentWorkers As Boolean Implements IConceptsNotes.TypeCategoryIndependentWorkers
@@ -310,6 +335,26 @@ Public Class FrmConceptsNotes
     ''' Nombre del módulo al que pertenece el frontal
     ''' </summary>
     Private Const NAME_MODULE As String = "Payments"
+
+    ''' <summary>
+    ''' Tipo de concepto Específico, según el maestro de Conceptos de Notas
+    ''' </summary>
+    Private Const CONCEPT_TYPE_SPECIFIC As Integer = 2
+
+    ''' <summary>
+    ''' Nombre de clase del maestro Catálogo de Bienes y Servicios
+    ''' </summary>
+    Private Const CATALOG_OF_PROPERTY_AND_SERVICES_FORM As String = "FrmCatalogOfPropertyandServices"
+
+    ''' <summary>
+    ''' Indica si el tenant aplica el catálogo de bienes y servicios
+    ''' </summary>
+    Private _appliesCatalogPropertyandServices As Boolean
+
+    ''' <summary>
+    ''' Id del formulario del maestro Catálogo de Bienes y Servicios
+    ''' </summary>
+    Private _catalogOfPropertyandServicesFormId As String
 
     ''' <summary>
     ''' Secuencia numerica del formulario
@@ -524,6 +569,7 @@ Public Class FrmConceptsNotes
             INDbteCode.Enabled = Not value
             INDtxtName.Enabled = value
             INDgleAccount.Enabled = value
+            ApplyCatalogOfPropertyandServicesLayout(value)
             INDrgAffectBudget.Enabled = value
             INDsleConceptType.Enabled = value
             INDrgManageTax.Enabled = value
@@ -656,6 +702,8 @@ Public Class FrmConceptsNotes
         NameConceptsNotes = String.Empty
         IdAccount = Nothing
         INDgleAccount.Properties.NullText = String.Empty
+        CatalogOfPropertyandServicesId = Nothing
+        INDSleCatalogOfPropertyandServices.Properties.NullText = String.Empty
         Behavior = Nothing
         AffectBudget = Nothing
         ConceptType = Nothing
@@ -696,6 +744,17 @@ Public Class FrmConceptsNotes
             Else
                 .IdAccount = Nothing
             End If
+
+            ' Con el tenant activo, Específico persiste el catálogo y General lo deja en NULL.
+            ' Con el tenant inactivo no se toca el FK para conservar asociaciones históricas.
+            If _appliesCatalogPropertyandServices Then
+                If ConceptType = CONCEPT_TYPE_SPECIFIC Then
+                    .CatalogOfPropertyandServicesId = CatalogOfPropertyandServicesId
+                Else
+                    .CatalogOfPropertyandServicesId = Nothing
+                End If
+            End If
+
             .AffectBudget = AffectBudget
             .ConceptType = ConceptType
             If INDlyItemBehavior.Visibility = DevExpress.XtraLayout.Utils.LayoutVisibility.Always Then
@@ -727,6 +786,106 @@ Public Class FrmConceptsNotes
     Private Sub HideControlsRetention383()
         INDlciRetentionConcept383.HideControl()
         INDlciRetentionMainAccount383.HideControl()
+    End Sub
+
+    ''' <summary>
+    ''' Obtiene la configuración del tenant para el catálogo de bienes y servicios
+    ''' </summary>
+    Private Async Function LoadCompanySettings() As Task
+        Using model As New MCompanySettings(CStr(Me.Tag))
+            Dim companySettings = Await model.GetCompanySettings()
+            _appliesCatalogPropertyandServices = If(companySettings IsNot Nothing, companySettings.AppliesCatalogPropertyandServices, False)
+        End Using
+    End Function
+
+    ''' <summary>
+    ''' Controla visibilidad, habilitación y obligatoriedad del catálogo según tenant y tipo de concepto
+    ''' </summary>
+    Private Sub ApplyCatalogOfPropertyandServicesLayout(actionsEnabled As Boolean)
+        If Not _appliesCatalogPropertyandServices Then
+            INDlyItemCatalogOfPropertyandServices.Visibility = DevExpress.XtraLayout.Utils.LayoutVisibility.Never
+            INDlyItemCatalogOfPropertyandServices.AllowHide = True
+            INDlyItemCatalogOfPropertyandServices.ShowInCustomizationForm = True
+            INDlyItemCatalogOfPropertyandServices.Enabled = False
+            INDSleCatalogOfPropertyandServices.Enabled = False
+            Return
+        End If
+
+        Dim isSpecific = ConceptType.HasValue AndAlso ConceptType.Value = CONCEPT_TYPE_SPECIFIC
+        INDlyItemCatalogOfPropertyandServices.Visibility = DevExpress.XtraLayout.Utils.LayoutVisibility.Always
+        INDlyItemCatalogOfPropertyandServices.ShowInCustomizationForm = False
+        INDlyItemCatalogOfPropertyandServices.AllowHide = Not isSpecific
+        INDlyItemCatalogOfPropertyandServices.Enabled = actionsEnabled AndAlso isSpecific
+        INDSleCatalogOfPropertyandServices.Enabled = actionsEnabled AndAlso isSpecific
+    End Sub
+
+    ''' <summary>
+    ''' Carga el catálogo en el lookup solo cuando corresponde mostrarlo.
+    ''' No altera paymentNoteConcept; el FK de General se limpia únicamente al guardar.
+    ''' </summary>
+    Private Sub BindCatalogOfPropertyandServicesLookup(catalogId As Integer?, catalogDisplay As String)
+        If _appliesCatalogPropertyandServices AndAlso (Not ConceptType.HasValue OrElse ConceptType.Value <> CONCEPT_TYPE_SPECIFIC) Then
+            ClearCatalogOfPropertyandServicesSelection()
+            Return
+        End If
+        INDSleCatalogOfPropertyandServices.Properties.NullText = If(catalogDisplay, String.Empty)
+        CatalogOfPropertyandServicesId = catalogId
+    End Sub
+
+    ''' <summary>
+    ''' Limpia el lookup de catálogo en UI. No persiste hasta AssigningValues/Guardar.
+    ''' </summary>
+    Private Sub ClearCatalogOfPropertyandServicesSelection()
+        CatalogOfPropertyandServicesId = Nothing
+        INDSleCatalogOfPropertyandServices.Properties.NullText = String.Empty
+    End Sub
+
+    ''' <summary>
+    ''' Asocia el botón + al maestro Catálogo de Bienes y Servicios respetando permisos
+    ''' </summary>
+    Private Sub ConfigureCatalogMasterAccess()
+        If indigo.ListProductCatalog Is Nothing Then
+            Return
+        End If
+        Dim formCatalog = (From productCatalog In indigo.ListProductCatalog
+                           Where productCatalog.ListModules IsNot Nothing
+                           From moduleCatalog In productCatalog.ListModules
+                           Where moduleCatalog.ListForm IsNot Nothing
+                           From formCatalogItem In moduleCatalog.ListForm
+                           Where formCatalogItem.ClassName = CATALOG_OF_PROPERTY_AND_SERVICES_FORM
+                           Select formCatalogItem).FirstOrDefault()
+        If formCatalog Is Nothing Then
+            Return
+        End If
+        _catalogOfPropertyandServicesFormId = formCatalog.IdForm.ToString()
+        IndigoSearchLookUpControl1.SetTagForm(INDSleCatalogOfPropertyandServices, _catalogOfPropertyandServicesFormId)
+        If indigo.IsAllowPermissionForm(_catalogOfPropertyandServicesFormId) Then
+            Dim hasPlusButton = False
+            For Each button As DevExpress.XtraEditors.Controls.EditorButton In INDSleCatalogOfPropertyandServices.Properties.Buttons
+                If button.Kind = DevExpress.XtraEditors.Controls.ButtonPredefines.Plus Then
+                    hasPlusButton = True
+                    Exit For
+                End If
+            Next
+            If Not hasPlusButton Then
+                INDSleCatalogOfPropertyandServices.Properties.Buttons.Add(New DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Plus))
+            End If
+        End If
+    End Sub
+
+    ''' <summary>
+    ''' Recarga el datasource de catálogos activos restaurando el valor histórico y su texto.
+    ''' </summary>
+    Private Sub RefreshCatalogOfPropertyandServicesDatasource()
+        Dim currentId = CatalogOfPropertyandServicesId
+        Dim currentNullText = INDSleCatalogOfPropertyandServices.Properties.NullText
+        Presenter.InitializeCatalogOfPropertyandServices()
+        If currentId.HasValue Then
+            CatalogOfPropertyandServicesId = currentId
+            If Not String.IsNullOrEmpty(currentNullText) Then
+                INDSleCatalogOfPropertyandServices.Properties.NullText = currentNullText
+            End If
+        End If
     End Sub
 
     ''' <summary>
@@ -777,6 +936,7 @@ Public Class FrmConceptsNotes
                                 INDgleAccount.Properties.NullText = .NumberNameAccount
                                 AffectBudget = .AffectBudget
                                 ConceptType = .ConceptType
+                                BindCatalogOfPropertyandServicesLookup(.CatalogOfPropertyandServicesId, .CodeNameCatalogOfPropertyandServices)
                                 If AffectBudget = True Then
                                     Behavior = .Behavior
                                 End If
@@ -955,7 +1115,7 @@ Public Class FrmConceptsNotes
     ''' <param name="sender"></param>
     ''' <param name="e"></param>
     ''' <remarks></remarks>
-    Private Sub FrmConceptsNotes_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+    Private Async Sub FrmConceptsNotes_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Me._idOperativeUnit = Me.BarraBotones.OperatingUnitValue
         '****Inicializar variables*****'
         Me._doc = Nothing
@@ -964,8 +1124,10 @@ Public Class FrmConceptsNotes
         Presenter = New PConceptsNotes(Me)
         Presenter.GetSequense()
         LoadStatus()
-        Deshacer()
         InitializeTuples()
+        Await LoadCompanySettings()
+        ConfigureCatalogMasterAccess()
+        Deshacer()
     End Sub
 
 #End Region
@@ -1054,6 +1216,23 @@ Public Class FrmConceptsNotes
         End If
     End Sub
 
+    ''' <summary>
+    ''' Evento que se dispara al hacer clic en el botón del catálogo de bienes y servicios
+    ''' </summary>
+    Private Sub INDSleCatalogOfPropertyandServices_ButtonClick(sender As Object, e As DevExpress.XtraEditors.Controls.ButtonPressedEventArgs) Handles INDSleCatalogOfPropertyandServices.ButtonClick
+        If e.Button.Kind = DevExpress.XtraEditors.Controls.ButtonPredefines.Plus Then
+            If String.IsNullOrEmpty(_catalogOfPropertyandServicesFormId) Then
+                ConfigureCatalogMasterAccess()
+            End If
+            If String.IsNullOrEmpty(_catalogOfPropertyandServicesFormId) Then
+                Mensaje(EeventViewerImages.Advertencia) = "El usuario no tiene acceso al formulario"
+                Return
+            End If
+            OpenForm(_catalogOfPropertyandServicesFormId, Nothing, True)
+            RefreshCatalogOfPropertyandServicesDatasource()
+        End If
+    End Sub
+
 #End Region
 
 #Region "EditValueChanged"
@@ -1098,6 +1277,10 @@ Public Class FrmConceptsNotes
             INDlyItemAccount.Visibility = DevExpress.XtraLayout.Utils.LayoutVisibility.Never
             INDlyItemAccount.AllowHide = True
         End If
+        If _appliesCatalogPropertyandServices AndAlso (Not ConceptType.HasValue OrElse ConceptType.Value <> CONCEPT_TYPE_SPECIFIC) Then
+            ClearCatalogOfPropertyandServicesSelection()
+        End If
+        ApplyCatalogOfPropertyandServicesLayout(INDtxtName.Enabled)
     End Sub
 
     ''' <summary>
@@ -1120,6 +1303,18 @@ Public Class FrmConceptsNotes
     Private Sub TrueOrFalseManageTax() Handles INDrgManageTax.EditValueChanged
         If INDrgManageTax.EditValue Then
             ManageRetention = False
+        End If
+    End Sub
+
+    ''' <summary>
+    ''' Muestra código y descripción del catálogo histórico cuando el id no está en la lista de activos.
+    ''' </summary>
+    Private Sub INDSleCatalogOfPropertyandServices_CustomDisplayText(sender As Object, e As DevExpress.XtraEditors.Controls.CustomDisplayTextEventArgs) Handles INDSleCatalogOfPropertyandServices.CustomDisplayText
+        If CatalogOfPropertyandServicesId Is Nothing Then
+            Return
+        End If
+        If String.IsNullOrEmpty(e.DisplayText) AndAlso Not String.IsNullOrEmpty(INDSleCatalogOfPropertyandServices.Properties.NullText) Then
+            e.DisplayText = INDSleCatalogOfPropertyandServices.Properties.NullText
         End If
     End Sub
 
@@ -1149,6 +1344,15 @@ Public Class FrmConceptsNotes
     Private Sub INDgleAccount_QueryPopUp(sender As Object, e As CancelEventArgs) Handles INDgleAccount.QueryPopUp
         If INDgleAccount.Properties.DataSource Is Nothing Then
             Presenter.Initialize()
+        End If
+    End Sub
+
+    ''' <summary>
+    ''' Evento que se dispara al desplegarse el control de catálogo de bienes y servicios
+    ''' </summary>
+    Private Sub INDSleCatalogOfPropertyandServices_QueryPopUp(sender As Object, e As CancelEventArgs) Handles INDSleCatalogOfPropertyandServices.QueryPopUp
+        If CatalogOfPropertyandServicesXpo Is Nothing Then
+            RefreshCatalogOfPropertyandServicesDatasource()
         End If
     End Sub
 
