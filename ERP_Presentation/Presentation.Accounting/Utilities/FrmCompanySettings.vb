@@ -596,7 +596,7 @@ Public Class FrmCompanySettings
         Try
             Using Model As New MCompanySettings(Me.Tag.ToString())
                 AsyncLoader(True)
-                Dim Result = Await Model.SaveCompanySettings(companySettings)
+                Dim Result = Await Model.SaveCompanySettings(CreateCompanySettingsSavePayload(companySettings))
                 AsyncLoader(False)
                 If Result.StateResult = True Then
                     companySettings = Result.ObjectEmbbeded
@@ -690,6 +690,50 @@ Public Class FrmCompanySettings
             .AppliesCatalogPropertyandServices = AppliesCatalogPropertyandServices
         End With
     End Sub
+
+    ''' <summary>
+    ''' Arma un payload solo con escalares para el save.
+    ''' El GET trae Currency, MainAccounts y MainAccounts1; si ese grafo viaja
+    ''' de vuelta, ApplyChanges puede actualizar esas entidades con TimeStamp
+    ''' ConcurrencyMode=Fixed y disparar 0 filas afectadas.
+    ''' </summary>
+    Friend Shared Function CreateCompanySettingsSavePayload(source As CompanySettings) As CompanySettings
+        If source Is Nothing Then
+            Return Nothing
+        End If
+        Dim payload As New CompanySettings()
+        payload.ChangeTracker.ChangeTrackingEnabled = False
+        payload.Id = source.Id
+        payload.TimeStamp = source.TimeStamp
+        payload.LastClosingDate = source.LastClosingDate
+        payload.Consolidate = source.Consolidate
+        payload.ConsolidateDate = source.ConsolidateDate
+        payload.SMLV = source.SMLV
+        payload.UVT = source.UVT
+        payload.ConsecutiveFiling = source.ConsecutiveFiling
+        payload.CreationUser = source.CreationUser
+        payload.CreationDate = source.CreationDate
+        payload.ModificationUser = source.ModificationUser
+        payload.ModificationDate = source.ModificationDate
+        payload.BusinessLine = source.BusinessLine
+        payload.WorkIncomeControl = source.WorkIncomeControl
+        payload.OfficialCurrencyId = source.OfficialCurrencyId
+        payload.SalePriceIncludeTax = source.SalePriceIncludeTax
+        payload.ThirdPartyCheckDigit = source.ThirdPartyCheckDigit
+        payload.ProfitLostByExchangeCurrencyAccountId = source.ProfitLostByExchangeCurrencyAccountId
+        payload.ProfitLostJournalVoucherTypeId = source.ProfitLostJournalVoucherTypeId
+        payload.LostByExchangeCurrencyAccountId = source.LostByExchangeCurrencyAccountId
+        payload.CostCenterId = source.CostCenterId
+        payload.TaxRegistration = source.TaxRegistration
+        payload.TransactionEconomicActivity = source.TransactionEconomicActivity
+        payload.AppliesCatalogPropertyandServices = source.AppliesCatalogPropertyandServices
+        If payload.Id = 0 Then
+            payload.MarkAsAdded()
+        Else
+            payload.MarkAsModified()
+        End If
+        Return payload
+    End Function
 
 #End Region
 

@@ -52,25 +52,39 @@ Public Class CompanySettingsAdminService
             Dim auditProcess As IndigoAuditSimpleEntity(Of CompanySettings)
             Dim status As Integer
             Dim auxCompanySettings As CompanySettings = Nothing
+            Dim savedSettings As CompanySettings = settings
 
-            settings.StartTracking()
-            If settings.ChangeTracker.State = Domain.Base.Entities.ObjectState.Added Then
+            If settings.Id = 0 Then
+                settings.StartTracking()
                 settings.CreationDate = DateTime.Now
                 settings.CreationUser = audit.CodeUser
                 status = Infrastructure.CrossCutting.Audit.Actions.Insert
+                Me._Repository.SaveEntity(settings)
+                savedSettings = settings
             Else
-                settings.ModificationDate = DateTime.Now
-                settings.ModificationUser = audit.CodeUser
                 auxCompanySettings = _Repository.GetCompanySettings(True)
-                status = Infrastructure.CrossCutting.Audit.Actions.Update
+                Dim currentSettings = _Repository.FirstOrDefault(Function(x) x.Id = settings.Id, True, Nothing)
+                If currentSettings Is Nothing OrElse currentSettings.Id = 0 Then
+                    settings.StartTracking()
+                    settings.ModificationDate = DateTime.Now
+                    settings.ModificationUser = audit.CodeUser
+                    status = Infrastructure.CrossCutting.Audit.Actions.Update
+                    Me._Repository.SaveEntity(settings)
+                    savedSettings = settings
+                Else
+                    ApplyIncomingCompanySettings(settings, currentSettings)
+                    currentSettings.ModificationDate = DateTime.Now
+                    currentSettings.ModificationUser = audit.CodeUser
+                    status = Infrastructure.CrossCutting.Audit.Actions.Update
+                    savedSettings = currentSettings
+                End If
             End If
 
-            Me._Repository.SaveEntity(settings)
             UnitOfWork.Commit()
-            auditProcess = New IndigoAuditSimpleEntity(Of CompanySettings)(settings, audit, status, auxCompanySettings)
+            auditProcess = New IndigoAuditSimpleEntity(Of CompanySettings)(savedSettings, audit, status, auxCompanySettings)
             auditProcess.Execute()
-            settings.MarkAsUnchanged()
-            Return New ActionResult(Of CompanySettings) With {.StateResult = True, .ObjectEmbbeded = settings}
+            savedSettings.MarkAsUnchanged()
+            Return New ActionResult(Of CompanySettings) With {.StateResult = True, .ObjectEmbbeded = savedSettings}
         Catch ex As DbUpdateConcurrencyException
             UnitOfWork.RollbackChanges()
             Return New ActionResult(Of CompanySettings) With {.StateResult = False, .MessageResult = {"-999"}.ToList()}
@@ -83,6 +97,34 @@ Public Class CompanySettingsAdminService
             Return New ActionResult(Of CompanySettings) With {.StateResult = False, .MessageResult = {ex.Message}.ToList()}
         End Try
     End Function
+
+    ''' <summary>
+    ''' Copia solo propiedades escalares sobre la fila rastreada por EF.
+    ''' No copia Id ni TimeStamp: TimeStamp es el token de concurrencia (ROWVERSION)
+    ''' y el grafo STE que llega por WCF (Currency/Cuentas incluidas en el GET)
+    ''' suele traer un original inválido o desactualizado, lo que provoca
+    ''' DbUpdateConcurrencyException (0 filas) al hacer ApplyChanges + SaveChanges.
+    ''' </summary>
+    Private Shared Sub ApplyIncomingCompanySettings(source As CompanySettings, target As CompanySettings)
+        target.LastClosingDate = source.LastClosingDate
+        target.Consolidate = source.Consolidate
+        target.ConsolidateDate = source.ConsolidateDate
+        target.SMLV = source.SMLV
+        target.UVT = source.UVT
+        target.ConsecutiveFiling = source.ConsecutiveFiling
+        target.BusinessLine = source.BusinessLine
+        target.WorkIncomeControl = source.WorkIncomeControl
+        target.OfficialCurrencyId = source.OfficialCurrencyId
+        target.SalePriceIncludeTax = source.SalePriceIncludeTax
+        target.ThirdPartyCheckDigit = source.ThirdPartyCheckDigit
+        target.ProfitLostByExchangeCurrencyAccountId = source.ProfitLostByExchangeCurrencyAccountId
+        target.ProfitLostJournalVoucherTypeId = source.ProfitLostJournalVoucherTypeId
+        target.LostByExchangeCurrencyAccountId = source.LostByExchangeCurrencyAccountId
+        target.CostCenterId = source.CostCenterId
+        target.TaxRegistration = source.TaxRegistration
+        target.TransactionEconomicActivity = source.TransactionEconomicActivity
+        target.AppliesCatalogPropertyandServices = source.AppliesCatalogPropertyandServices
+    End Sub
 
     ''' <summary>
     ''' retorna la moneda oficial, establecida en companySettings

@@ -62,7 +62,27 @@ Public Class CompanySettingsAppliesCatalogPersistenceTests
         Dim result = service.SaveCompanySettings(settings, New AuditMessage() With {.CodeUser = "TEST"})
 
         Assert.IsTrue(result.StateResult)
+        Assert.IsTrue(repository.Stored.AppliesCatalogPropertyandServices)
+        Assert.IsTrue(result.ObjectEmbbeded.AppliesCatalogPropertyandServices)
+        Assert.AreEqual(1, unitOfWork.CommitCount)
+        Assert.IsNull(repository.LastSaved)
+    End Sub
+
+    <Test>
+    Public Sub SaveCompanySettings_WhenIdIsZero_InsertsIncomingEntity()
+        Dim unitOfWork As New FakeUnitOfWork()
+        Dim repository As New FakeCompanySettingsRepository(unitOfWork)
+        Dim service As New CompanySettingsAdminService(repository)
+        Dim settings As New CompanySettings()
+        settings.Id = 0
+        settings.AppliesCatalogPropertyandServices = True
+        settings.MarkAsAdded()
+
+        Dim result = service.SaveCompanySettings(settings, New AuditMessage() With {.CodeUser = "TEST"})
+
+        Assert.IsTrue(result.StateResult)
         Assert.IsTrue(repository.LastSaved.AppliesCatalogPropertyandServices)
+        Assert.AreEqual("TEST", repository.LastSaved.CreationUser)
         Assert.AreEqual(1, unitOfWork.CommitCount)
     End Sub
 
@@ -82,8 +102,54 @@ Public Class CompanySettingsAppliesCatalogPersistenceTests
         Dim result = service.SaveCompanySettings(settings, New AuditMessage() With {.CodeUser = "TEST"})
 
         Assert.IsTrue(result.StateResult)
-        Assert.IsTrue(repository.LastSaved.AppliesCatalogPropertyandServices)
-        Assert.AreEqual(1300000D, repository.LastSaved.SMLV)
+        Assert.IsTrue(repository.Stored.AppliesCatalogPropertyandServices)
+        Assert.AreEqual(1300000D, repository.Stored.SMLV)
+        Assert.AreEqual(1, unitOfWork.CommitCount)
+        Assert.IsNull(repository.LastSaved)
+    End Sub
+
+    <Test>
+    Public Sub SaveCompanySettings_WhenUpdate_KeepsDatabaseTimeStamp()
+        Dim unitOfWork As New FakeUnitOfWork()
+        Dim repository As New FakeCompanySettingsRepository(unitOfWork)
+        Dim dbToken As Byte() = {1, 2, 3, 4, 5, 6, 7, 8}
+        Dim clientToken As Byte() = {9, 9, 9, 9, 9, 9, 9, 9}
+        repository.Stored.TimeStamp = dbToken
+        Dim service As New CompanySettingsAdminService(repository)
+        Dim settings As New CompanySettings()
+        settings.Id = 1
+        settings.TimeStamp = clientToken
+        settings.MarkAsUnchanged()
+        settings.StartTracking()
+        settings.AppliesCatalogPropertyandServices = True
+
+        Dim result = service.SaveCompanySettings(settings, New AuditMessage() With {.CodeUser = "TEST"})
+
+        Assert.IsTrue(result.StateResult)
+        Assert.AreEqual(dbToken, repository.Stored.TimeStamp)
+        Assert.IsTrue(repository.Stored.AppliesCatalogPropertyandServices)
+    End Sub
+
+    <Test>
+    Public Sub SaveCompanySettings_WhenIncomingHasNavigations_PersistsCatalogOnTrackedRow()
+        Dim unitOfWork As New FakeUnitOfWork()
+        Dim repository As New FakeCompanySettingsRepository(unitOfWork)
+        Dim service As New CompanySettingsAdminService(repository)
+        Dim settings As New CompanySettings()
+        settings.Id = 1
+        settings.MarkAsUnchanged()
+        settings.StartTracking()
+        settings.AppliesCatalogPropertyandServices = True
+        settings.OfficialCurrencyId = 2
+        settings.Currency = New Currency() With {.Id = 2}
+
+        Dim result = service.SaveCompanySettings(settings, New AuditMessage() With {.CodeUser = "TEST"})
+
+        Assert.IsTrue(result.StateResult)
+        Assert.IsTrue(repository.Stored.AppliesCatalogPropertyandServices)
+        Assert.AreEqual(2, repository.Stored.OfficialCurrencyId)
+        Assert.IsNull(repository.LastSaved)
+        Assert.IsNull(repository.Stored.Currency)
     End Sub
 
     <Test>

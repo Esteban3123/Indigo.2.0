@@ -84,6 +84,8 @@ class SourceMappingTests(unittest.TestCase):
             "AppliesCatalogPropertyandServices = companySettings.AppliesCatalogPropertyandServices",
             form,
         )
+        self.assertIn("CreateCompanySettingsSavePayload", form)
+        self.assertIn("CreateCompanySettingsSavePayload(companySettings)", form)
 
     def test_service_maps_ef6_concurrency_without_success(self):
         service = (
@@ -95,6 +97,10 @@ class SourceMappingTests(unittest.TestCase):
         ).read_text(encoding="utf-8", errors="replace")
         self.assertIn("Catch ex As DbUpdateConcurrencyException", service)
         self.assertIn("settings.StartTracking()", service)
+        self.assertIn("ApplyIncomingCompanySettings", service)
+        self.assertIn("FirstOrDefault(Function(x) x.Id = settings.Id, True, Nothing)", service)
+        self.assertIn("target.AppliesCatalogPropertyandServices = source.AppliesCatalogPropertyandServices", service)
+        self.assertNotIn("target.TimeStamp = source.TimeStamp", service)
         entity = ROOT.joinpath(
             "ERP_Services", "Domain.Entities", "CompanySettings.vb"
         ).read_text(encoding="utf-8", errors="replace")
