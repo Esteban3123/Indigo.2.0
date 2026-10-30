@@ -63,6 +63,8 @@ Public Class CompanySettingsAdminService
                 UnitOfWork.Commit()
             Else
                 status = Infrastructure.CrossCutting.Audit.Actions.Update
+                ' AsNoTracking: copia independiente para auditoría, el mismo patrón que el save original.
+                auxCompanySettings = _Repository.GetCompanySettings(True)
                 Dim current As CompanySettings = _Repository.GetCompanySettings(False)
                 If current Is Nothing OrElse current.Id = 0 Then
                     Return New ActionResult(Of CompanySettings) With {.StateResult = False, .MessageResult = {"-999"}.ToList()}
@@ -74,7 +76,6 @@ Public Class CompanySettingsAdminService
                     Return New ActionResult(Of CompanySettings) With {.StateResult = False, .MessageResult = {"-999"}.ToList()}
                 End If
 
-                auxCompanySettings = CreateAuditSnapshot(current)
                 ApplyEditableValues(current, settings)
                 current.ModificationDate = DateTime.Now
                 current.ModificationUser = audit.CodeUser
@@ -131,41 +132,6 @@ Public Class CompanySettingsAdminService
             Return False
         End If
         Return New SqlDateTime(stored.Value).Equals(New SqlDateTime(incoming.Value))
-    End Function
-
-    ''' <summary>
-    ''' Copia los campos persistidos de la fila vigente antes de mutarla, para la auditoría de antes/después.
-    ''' </summary>
-    Private Shared Function CreateAuditSnapshot(source As CompanySettings) As CompanySettings
-        Dim snapshot As New CompanySettings
-        snapshot.StopTracking()
-        snapshot.Id = source.Id
-        snapshot.LastClosingDate = source.LastClosingDate
-        snapshot.Consolidate = source.Consolidate
-        snapshot.ConsolidateDate = source.ConsolidateDate
-        snapshot.SMLV = source.SMLV
-        snapshot.UVT = source.UVT
-        snapshot.ConsecutiveFiling = source.ConsecutiveFiling
-        snapshot.CreationUser = source.CreationUser
-        snapshot.CreationDate = source.CreationDate
-        snapshot.ModificationUser = source.ModificationUser
-        snapshot.ModificationDate = source.ModificationDate
-        If source.TimeStamp IsNot Nothing Then
-            snapshot.TimeStamp = CType(source.TimeStamp.Clone(), Byte())
-        End If
-        snapshot.BusinessLine = source.BusinessLine
-        snapshot.WorkIncomeControl = source.WorkIncomeControl
-        snapshot.OfficialCurrencyId = source.OfficialCurrencyId
-        snapshot.SalePriceIncludeTax = source.SalePriceIncludeTax
-        snapshot.ThirdPartyCheckDigit = source.ThirdPartyCheckDigit
-        snapshot.ProfitLostByExchangeCurrencyAccountId = source.ProfitLostByExchangeCurrencyAccountId
-        snapshot.ProfitLostJournalVoucherTypeId = source.ProfitLostJournalVoucherTypeId
-        snapshot.LostByExchangeCurrencyAccountId = source.LostByExchangeCurrencyAccountId
-        snapshot.CostCenterId = source.CostCenterId
-        snapshot.TaxRegistration = source.TaxRegistration
-        snapshot.TransactionEconomicActivity = source.TransactionEconomicActivity
-        snapshot.AppliesCatalogPropertyandServices = source.AppliesCatalogPropertyandServices
-        Return snapshot
     End Function
 
     ''' <summary>
