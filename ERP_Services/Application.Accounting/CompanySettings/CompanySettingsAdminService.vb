@@ -7,6 +7,7 @@
 '***********************************************************************
 #Region "Imports"
 Imports System.Data.Entity.Core
+Imports System.Data.Entity.Infrastructure
 Imports System.Globalization
 Imports Application.Base
 Imports Domain.Base
@@ -63,12 +64,16 @@ Public Class CompanySettingsAdminService
                 status = Infrastructure.CrossCutting.Audit.Actions.Update
             End If
 
+            DetachRelatedEntities(settings)
             Me._Repository.SaveEntity(settings)
             UnitOfWork.Commit()
             auditProcess = New IndigoAuditSimpleEntity(Of CompanySettings)(settings, audit, status, auxCompanySettings)
             auditProcess.Execute()
             settings.MarkAsUnchanged()
             Return New ActionResult(Of CompanySettings) With {.StateResult = True, .ObjectEmbbeded = settings}
+        Catch ex As DbUpdateConcurrencyException
+            UnitOfWork.RollbackChanges()
+            Return New ActionResult(Of CompanySettings) With {.StateResult = False, .MessageResult = {"-999"}.ToList()}
         Catch ex As OptimisticConcurrencyException
             UnitOfWork.RollbackChanges()
             Return New ActionResult(Of CompanySettings) With {.StateResult = False, .MessageResult = {"-999"}.ToList()}
@@ -94,6 +99,50 @@ Public Class CompanySettingsAdminService
             Return New Currency
         End Try
     End Function
+
+    ''' <summary>
+    ''' Quita las navegaciones del grafo STE para que ApplyChanges persista solo CompanySettings y sus FKs.
+    ''' Conserva los identificadores porque el Fixup de MainAccounts/CostCenter anula el FK al asignar Nothing.
+    ''' </summary>
+    Private Sub DetachRelatedEntities(settings As CompanySettings)
+        If settings Is Nothing Then
+            Return
+        End If
+
+        Dim officialCurrencyId = settings.OfficialCurrencyId
+        Dim profitAccountId = settings.ProfitLostByExchangeCurrencyAccountId
+        Dim lostAccountId = settings.LostByExchangeCurrencyAccountId
+        Dim journalVoucherTypeId = settings.ProfitLostJournalVoucherTypeId
+        Dim costCenterId = settings.CostCenterId
+        Dim trackingEnabled = settings.ChangeTracker.ChangeTrackingEnabled
+
+        settings.StopTracking()
+        settings.Currency = Nothing
+        settings.MainAccounts = Nothing
+        settings.MainAccounts1 = Nothing
+        settings.JournalVoucherTypes = Nothing
+        settings.CostCenter = Nothing
+        settings.OfficialCurrencyId = officialCurrencyId
+        settings.ProfitLostByExchangeCurrencyAccountId = profitAccountId
+        settings.LostByExchangeCurrencyAccountId = lostAccountId
+        settings.ProfitLostJournalVoucherTypeId = journalVoucherTypeId
+        settings.CostCenterId = costCenterId
+        RemoveOriginalNavigation(settings, "Currency")
+        RemoveOriginalNavigation(settings, "MainAccounts")
+        RemoveOriginalNavigation(settings, "MainAccounts1")
+        RemoveOriginalNavigation(settings, "JournalVoucherTypes")
+        RemoveOriginalNavigation(settings, "CostCenter")
+
+        If trackingEnabled Then
+            settings.StartTracking()
+        End If
+    End Sub
+
+    Private Sub RemoveOriginalNavigation(settings As CompanySettings, navigationName As String)
+        If settings.ChangeTracker.OriginalValues.ContainsKey(navigationName) Then
+            settings.ChangeTracker.OriginalValues.Remove(navigationName)
+        End If
+    End Sub
 #End Region
 
 #Region "IDisposable Support"
