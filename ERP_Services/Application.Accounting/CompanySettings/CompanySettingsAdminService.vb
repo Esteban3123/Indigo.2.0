@@ -7,6 +7,8 @@
 '***********************************************************************
 #Region "Imports"
 Imports System.Data.Entity.Core
+Imports System.Data.Entity.Infrastructure
+Imports System.Data.SqlTypes
 Imports System.Globalization
 Imports Application.Base
 Imports Domain.Base
@@ -56,19 +58,42 @@ Public Class CompanySettingsAdminService
                 settings.CreationDate = DateTime.Now
                 settings.CreationUser = audit.CodeUser
                 status = Infrastructure.CrossCutting.Audit.Actions.Insert
+                DetachRelatedEntities(settings)
+                Me._Repository.SaveEntity(settings)
+                UnitOfWork.Commit()
             Else
-                settings.ModificationDate = DateTime.Now
-                settings.ModificationUser = audit.CodeUser
-                auxCompanySettings = _Repository.GetCompanySettings(True)
                 status = Infrastructure.CrossCutting.Audit.Actions.Update
+                ' AsNoTracking: copia independiente para auditoría, el mismo patrón que el save original.
+                auxCompanySettings = _Repository.GetCompanySettings(True)
+                Dim current As CompanySettings = _Repository.GetCompanySettings(False)
+                If current Is Nothing OrElse current.Id = 0 Then
+                    Return New ActionResult(Of CompanySettings) With {.StateResult = False, .MessageResult = {"-999"}.ToList()}
+                End If
+
+                ' Concurrencia de configuración: los SP de radicación no tocan ModificationDate.
+                ' Se compara a precisión SQL datetime (~3,33 ms), sin truncar a segundos.
+                If Not SameSqlModificationDate(current.ModificationDate, settings.ModificationDate) Then
+                    Return New ActionResult(Of CompanySettings) With {.StateResult = False, .MessageResult = {"-999"}.ToList()}
+                End If
+
+                ApplyEditableValues(current, settings)
+                current.ModificationDate = DateTime.Now
+                current.ModificationUser = audit.CodeUser
+                UnitOfWork.Commit()
+
+                settings.ConsecutiveFiling = current.ConsecutiveFiling
+                settings.ModificationDate = current.ModificationDate
+                settings.ModificationUser = current.ModificationUser
+                settings.TimeStamp = current.TimeStamp
             End If
 
-            Me._Repository.SaveEntity(settings)
-            UnitOfWork.Commit()
             auditProcess = New IndigoAuditSimpleEntity(Of CompanySettings)(settings, audit, status, auxCompanySettings)
             auditProcess.Execute()
             settings.MarkAsUnchanged()
             Return New ActionResult(Of CompanySettings) With {.StateResult = True, .ObjectEmbbeded = settings}
+        Catch ex As DbUpdateConcurrencyException
+            UnitOfWork.RollbackChanges()
+            Return New ActionResult(Of CompanySettings) With {.StateResult = False, .MessageResult = {"-999"}.ToList()}
         Catch ex As OptimisticConcurrencyException
             UnitOfWork.RollbackChanges()
             Return New ActionResult(Of CompanySettings) With {.StateResult = False, .MessageResult = {"-999"}.ToList()}
@@ -94,6 +119,92 @@ Public Class CompanySettingsAdminService
             Return New Currency
         End Try
     End Function
+
+    ''' <summary>
+    ''' Compara ModificationDate con la precisión de SQL datetime (incrementos de 1/300 s),
+    ''' para evitar falsos conflictos de ida y vuelta WCF sin abrir una ventana de un segundo.
+    ''' </summary>
+    Private Shared Function SameSqlModificationDate(stored As Date?, incoming As Date?) As Boolean
+        If Not stored.HasValue AndAlso Not incoming.HasValue Then
+            Return True
+        End If
+        If stored.HasValue <> incoming.HasValue Then
+            Return False
+        End If
+        Return New SqlDateTime(stored.Value).Equals(New SqlDateTime(incoming.Value))
+    End Function
+
+    ''' <summary>
+    ''' Copia únicamente los campos editables del formulario sobre la fila vigente.
+    ''' ConsecutiveFiling solo se toma del cliente cuando no existen cuentas por pagar.
+    ''' </summary>
+    Private Sub ApplyEditableValues(current As CompanySettings, settings As CompanySettings)
+        current.LastClosingDate = settings.LastClosingDate
+        current.Consolidate = settings.Consolidate
+        current.ConsolidateDate = settings.ConsolidateDate
+        current.SMLV = settings.SMLV
+        current.UVT = settings.UVT
+        current.BusinessLine = settings.BusinessLine
+        current.WorkIncomeControl = settings.WorkIncomeControl
+        current.SalePriceIncludeTax = settings.SalePriceIncludeTax
+        current.OfficialCurrencyId = settings.OfficialCurrencyId
+        current.ProfitLostByExchangeCurrencyAccountId = settings.ProfitLostByExchangeCurrencyAccountId
+        current.ProfitLostJournalVoucherTypeId = settings.ProfitLostJournalVoucherTypeId
+        current.ThirdPartyCheckDigit = settings.ThirdPartyCheckDigit
+        current.LostByExchangeCurrencyAccountId = settings.LostByExchangeCurrencyAccountId
+        current.CostCenterId = settings.CostCenterId
+        current.TaxRegistration = settings.TaxRegistration
+        current.TransactionEconomicActivity = settings.TransactionEconomicActivity
+        current.AppliesCatalogPropertyandServices = settings.AppliesCatalogPropertyandServices
+
+        If Not _Repository.HasAccountPayable() Then
+            current.ConsecutiveFiling = settings.ConsecutiveFiling
+        End If
+    End Sub
+
+    ''' <summary>
+    ''' Quita las navegaciones del grafo STE para que ApplyChanges persista solo CompanySettings y sus FKs.
+    ''' Conserva los identificadores porque el Fixup de MainAccounts/CostCenter anula el FK al asignar Nothing.
+    ''' </summary>
+    Private Sub DetachRelatedEntities(settings As CompanySettings)
+        If settings Is Nothing Then
+            Return
+        End If
+
+        Dim officialCurrencyId = settings.OfficialCurrencyId
+        Dim profitAccountId = settings.ProfitLostByExchangeCurrencyAccountId
+        Dim lostAccountId = settings.LostByExchangeCurrencyAccountId
+        Dim journalVoucherTypeId = settings.ProfitLostJournalVoucherTypeId
+        Dim costCenterId = settings.CostCenterId
+        Dim trackingEnabled = settings.ChangeTracker.ChangeTrackingEnabled
+
+        settings.StopTracking()
+        settings.Currency = Nothing
+        settings.MainAccounts = Nothing
+        settings.MainAccounts1 = Nothing
+        settings.JournalVoucherTypes = Nothing
+        settings.CostCenter = Nothing
+        settings.OfficialCurrencyId = officialCurrencyId
+        settings.ProfitLostByExchangeCurrencyAccountId = profitAccountId
+        settings.LostByExchangeCurrencyAccountId = lostAccountId
+        settings.ProfitLostJournalVoucherTypeId = journalVoucherTypeId
+        settings.CostCenterId = costCenterId
+        RemoveOriginalNavigation(settings, "Currency")
+        RemoveOriginalNavigation(settings, "MainAccounts")
+        RemoveOriginalNavigation(settings, "MainAccounts1")
+        RemoveOriginalNavigation(settings, "JournalVoucherTypes")
+        RemoveOriginalNavigation(settings, "CostCenter")
+
+        If trackingEnabled Then
+            settings.StartTracking()
+        End If
+    End Sub
+
+    Private Sub RemoveOriginalNavigation(settings As CompanySettings, navigationName As String)
+        If settings.ChangeTracker.OriginalValues.ContainsKey(navigationName) Then
+            settings.ChangeTracker.OriginalValues.Remove(navigationName)
+        End If
+    End Sub
 #End Region
 
 #Region "IDisposable Support"

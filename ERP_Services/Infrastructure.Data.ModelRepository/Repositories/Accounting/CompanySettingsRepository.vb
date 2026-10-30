@@ -7,6 +7,7 @@
 '***********************************************************************
 
 #Region "Imports"
+Imports System.Data.Entity
 Imports Infrastructure.Data.Base
 Imports Domain.Entities
 Imports Domain.Base
@@ -35,31 +36,49 @@ Public Class CompanySettingsRepository
     ''' </summary>
     ''' <returns></returns>
     Public Function GetCompanySettings(Optional ByVal AsNoTracking As Boolean = False) As CompanySettings Implements ICompanySettingsRepository.GetCompanySettings
-        Dim query As System.Linq.IQueryable(Of Domain.Entities.CompanySettings)
+        Dim query As IQueryable(Of CompanySettings) = If(AsNoTracking,
+            _context.CompanySettings.AsNoTracking(),
+            _context.CompanySettings)
 
-        If AsNoTracking = True Then
-            query = From e In _context.CompanySettings.AsNoTracking().Include("Currency").Include("MainAccounts").AsNoTracking().Include("MainAccounts1").AsNoTracking()
-                    Select e
-        Else
-            query = From e In _context.CompanySettings.Include("Currency").Include("MainAccounts")
-                    Select e
-        End If
-
-        If query.Any() Then
-            Dim first = query.FirstOrDefault()
-            With first
-                .CurrencyCodName = $"{first?.Currency?.Code} - {first?.Currency?.Name}"
-                .ProfitAccountName = $"{first?.MainAccounts?.Number} - {first?.MainAccounts?.Name}"
-                .LostAccountName = $"{first?.MainAccounts1?.Number} - {first?.MainAccounts1?.Name}"
-                If first.ProfitLostJournalVoucherTypeId IsNot Nothing Then
-                    Dim JournaName = (From x In _context.JournalVoucherTypes Where x.Id = first.ProfitLostJournalVoucherTypeId Select x).First
-                    .ProfitJournalVoucherName = String.Format("{0} - {1}", JournaName?.Code, JournaName?.Name)
-                End If
-            End With
-            Return first
-                Else
+        Dim first = query.FirstOrDefault()
+        If first Is Nothing Then
             Return New CompanySettings
         End If
+
+        Dim currency = (From c In _context.Currency.AsNoTracking()
+                        Where c.Id = first.OfficialCurrencyId
+                        Select c).FirstOrDefault()
+        first.CurrencyCodName = $"{currency?.Code} - {currency?.Name}"
+
+        If first.ProfitLostByExchangeCurrencyAccountId IsNot Nothing Then
+            Dim profitAccount = (From a In _context.MainAccounts.AsNoTracking()
+                                 Where a.Id = first.ProfitLostByExchangeCurrencyAccountId
+                                 Select a).FirstOrDefault()
+            first.ProfitAccountName = $"{profitAccount?.Number} - {profitAccount?.Name}"
+        End If
+
+        If first.LostByExchangeCurrencyAccountId IsNot Nothing Then
+            Dim lostAccount = (From a In _context.MainAccounts.AsNoTracking()
+                               Where a.Id = first.LostByExchangeCurrencyAccountId
+                               Select a).FirstOrDefault()
+            first.LostAccountName = $"{lostAccount?.Number} - {lostAccount?.Name}"
+        End If
+
+        If first.ProfitLostJournalVoucherTypeId IsNot Nothing Then
+            Dim journalName = (From x In _context.JournalVoucherTypes.AsNoTracking()
+                               Where x.Id = first.ProfitLostJournalVoucherTypeId
+                               Select x).FirstOrDefault()
+            first.ProfitJournalVoucherName = String.Format("{0} - {1}", journalName?.Code, journalName?.Name)
+        End If
+
+        Return first
+    End Function
+
+    ''' <summary>
+    ''' Indica si ya existen cuentas por pagar radicadas
+    ''' </summary>
+    Public Function HasAccountPayable() As Boolean Implements ICompanySettingsRepository.HasAccountPayable
+        Return _context.AccountPayable.AsNoTracking().Any()
     End Function
 #End Region
 
