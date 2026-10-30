@@ -65,19 +65,21 @@ Public Class CompanySettingsAdminService
                 auxCompanySettings = _Repository.GetCompanySettings(True)
                 Dim currentSettings = _Repository.FirstOrDefault(Function(x) x.Id = settings.Id, True, Nothing)
                 If currentSettings Is Nothing OrElse currentSettings.Id = 0 Then
-                    settings.StartTracking()
-                    settings.ModificationDate = DateTime.Now
-                    settings.ModificationUser = audit.CodeUser
-                    status = Infrastructure.CrossCutting.Audit.Actions.Update
-                    Me._Repository.SaveEntity(settings)
-                    savedSettings = settings
-                Else
-                    ApplyIncomingCompanySettings(settings, currentSettings)
-                    currentSettings.ModificationDate = DateTime.Now
-                    currentSettings.ModificationUser = audit.CodeUser
-                    status = Infrastructure.CrossCutting.Audit.Actions.Update
-                    savedSettings = currentSettings
+                    Return New ActionResult(Of CompanySettings) With {.StateResult = False, .MessageResult = {"-999"}.ToList()}
                 End If
+
+                If Not Nullable.Equals(currentSettings.ModificationDate, settings.ModificationDate) Then
+                    Return New ActionResult(Of CompanySettings) With {.StateResult = False, .MessageResult = {"-999"}.ToList()}
+                End If
+
+                ApplyIncomingCompanySettings(settings, currentSettings)
+                If Not _Repository.HasAccountPayable() Then
+                    currentSettings.ConsecutiveFiling = settings.ConsecutiveFiling
+                End If
+                currentSettings.ModificationDate = DateTime.Now
+                currentSettings.ModificationUser = audit.CodeUser
+                status = Infrastructure.CrossCutting.Audit.Actions.Update
+                savedSettings = currentSettings
             End If
 
             UnitOfWork.Commit()
@@ -99,11 +101,9 @@ Public Class CompanySettingsAdminService
     End Function
 
     ''' <summary>
-    ''' Copia solo propiedades escalares sobre la fila rastreada por EF.
-    ''' No copia Id ni TimeStamp: TimeStamp es el token de concurrencia (ROWVERSION)
-    ''' y el grafo STE que llega por WCF (Currency/Cuentas incluidas en el GET)
-    ''' suele traer un original inválido o desactualizado, lo que provoca
-    ''' DbUpdateConcurrencyException (0 filas) al hacer ApplyChanges + SaveChanges.
+    ''' Copia los campos editables del frontal sobre la fila rastreada.
+    ''' No copia Id, TimeStamp, Creation* ni ConsecutiveFiling (este último
+    ''' se aplica solo si aún no hay cuentas por pagar).
     ''' </summary>
     Private Shared Sub ApplyIncomingCompanySettings(source As CompanySettings, target As CompanySettings)
         target.LastClosingDate = source.LastClosingDate
@@ -111,7 +111,6 @@ Public Class CompanySettingsAdminService
         target.ConsolidateDate = source.ConsolidateDate
         target.SMLV = source.SMLV
         target.UVT = source.UVT
-        target.ConsecutiveFiling = source.ConsecutiveFiling
         target.BusinessLine = source.BusinessLine
         target.WorkIncomeControl = source.WorkIncomeControl
         target.OfficialCurrencyId = source.OfficialCurrencyId

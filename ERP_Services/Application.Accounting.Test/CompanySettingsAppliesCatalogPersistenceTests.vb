@@ -176,6 +176,92 @@ Public Class CompanySettingsAppliesCatalogPersistenceTests
         Assert.IsFalse(TypeOf ex Is System.Data.Entity.Core.OptimisticConcurrencyException)
     End Sub
 
+    <Test>
+    Public Sub SaveCompanySettings_WhenAccountPayableExists_DoesNotOverwriteConsecutiveFiling()
+        Dim unitOfWork As New FakeUnitOfWork()
+        Dim repository As New FakeCompanySettingsRepository(unitOfWork)
+        repository.Stored.ConsecutiveFiling = 40
+        repository.AccountPayableExists = True
+        Dim service As New CompanySettingsAdminService(repository)
+        Dim settings As New CompanySettings()
+        settings.Id = 1
+        settings.ConsecutiveFiling = 1
+        settings.MarkAsUnchanged()
+        settings.StartTracking()
+        settings.AppliesCatalogPropertyandServices = True
+
+        Dim result = service.SaveCompanySettings(settings, New AuditMessage() With {.CodeUser = "TEST"})
+
+        Assert.IsTrue(result.StateResult)
+        Assert.AreEqual(40, repository.Stored.ConsecutiveFiling)
+        Assert.IsTrue(repository.Stored.AppliesCatalogPropertyandServices)
+    End Sub
+
+    <Test>
+    Public Sub SaveCompanySettings_WhenNoAccountPayable_UpdatesConsecutiveFiling()
+        Dim unitOfWork As New FakeUnitOfWork()
+        Dim repository As New FakeCompanySettingsRepository(unitOfWork)
+        repository.Stored.ConsecutiveFiling = 1
+        repository.AccountPayableExists = False
+        Dim service As New CompanySettingsAdminService(repository)
+        Dim settings As New CompanySettings()
+        settings.Id = 1
+        settings.ConsecutiveFiling = 25
+        settings.MarkAsUnchanged()
+        settings.StartTracking()
+        settings.AppliesCatalogPropertyandServices = True
+
+        Dim result = service.SaveCompanySettings(settings, New AuditMessage() With {.CodeUser = "TEST"})
+
+        Assert.IsTrue(result.StateResult)
+        Assert.AreEqual(25, repository.Stored.ConsecutiveFiling)
+        Assert.IsTrue(repository.Stored.AppliesCatalogPropertyandServices)
+    End Sub
+
+    <Test>
+    Public Sub SaveCompanySettings_WhenModificationDateDiffers_ReturnsConcurrencyWithoutSaving()
+        Dim unitOfWork As New FakeUnitOfWork()
+        Dim repository As New FakeCompanySettingsRepository(unitOfWork)
+        repository.Stored.ModificationDate = New DateTime(2026, 10, 30, 8, 0, 5)
+        repository.Stored.AppliesCatalogPropertyandServices = False
+        Dim service As New CompanySettingsAdminService(repository)
+        Dim settings As New CompanySettings()
+        settings.Id = 1
+        settings.ModificationDate = New DateTime(2026, 10, 30, 8, 0, 0)
+        settings.MarkAsUnchanged()
+        settings.StartTracking()
+        settings.AppliesCatalogPropertyandServices = True
+
+        Dim result = service.SaveCompanySettings(settings, New AuditMessage() With {.CodeUser = "TEST"})
+
+        Assert.IsFalse(result.StateResult)
+        Assert.AreEqual("-999", result.MessageResult(0))
+        Assert.AreEqual(0, unitOfWork.CommitCount)
+        Assert.IsFalse(repository.Stored.AppliesCatalogPropertyandServices)
+    End Sub
+
+    <Test>
+    Public Sub SaveCompanySettings_WhenModificationDateMatchesInSameSecond_PersistsCatalog()
+        Dim loadedDate As New DateTime(2026, 10, 30, 8, 0, 5, 200)
+        Dim unitOfWork As New FakeUnitOfWork()
+        Dim repository As New FakeCompanySettingsRepository(unitOfWork)
+        repository.Stored.ModificationDate = loadedDate
+        Dim service As New CompanySettingsAdminService(repository)
+        Dim settings As New CompanySettings()
+        settings.Id = 1
+        settings.ModificationDate = loadedDate
+        settings.MarkAsUnchanged()
+        settings.StartTracking()
+        settings.AppliesCatalogPropertyandServices = True
+
+        Dim result = service.SaveCompanySettings(settings, New AuditMessage() With {.CodeUser = "TEST"})
+
+        Assert.IsTrue(result.StateResult)
+        Assert.IsTrue(repository.Stored.AppliesCatalogPropertyandServices)
+        Assert.AreEqual(1, unitOfWork.CommitCount)
+        Assert.AreNotEqual(loadedDate, repository.Stored.ModificationDate)
+    End Sub
+
     Private Shared Function Roundtrip(settings As CompanySettings) As CompanySettings
         Dim serializer As New DataContractSerializer(GetType(CompanySettings))
         Using stream As New MemoryStream()
@@ -251,6 +337,7 @@ Public Class CompanySettingsAppliesCatalogPersistenceTests
 
         Public Property LastSaved As CompanySettings
         Public Property Stored As CompanySettings
+        Public Property AccountPayableExists As Boolean
 
         Public Sub New(unitOfWork As IUnitWork)
             _unitOfWork = unitOfWork
@@ -258,6 +345,10 @@ Public Class CompanySettingsAppliesCatalogPersistenceTests
             Stored.Id = 1
             Stored.MarkAsUnchanged()
         End Sub
+
+        Public Function HasAccountPayable() As Boolean Implements ICompanySettingsRepository.HasAccountPayable
+            Return AccountPayableExists
+        End Function
 
         Public ReadOnly Property UnitWork As IUnitWork Implements IRepository(Of CompanySettings).UnitWork
             Get

@@ -25,5 +25,9 @@ Public Interface ICompanySettingsRepository
     ''' <returns></returns>
     Function GetCompanySettings(Optional ByVal AsNoTracking As Boolean = False) As CompanySettings
 
+    ''' <summary>
+    ''' Indica si ya existen cuentas por pagar (el consecutivo de radicación deja de ser editable).
+    ''' </summary>
+    Function HasAccountPayable() As Boolean
 
 End Interface

@@ -101,6 +101,19 @@ class SourceMappingTests(unittest.TestCase):
         self.assertIn("FirstOrDefault(Function(x) x.Id = settings.Id, True, Nothing)", service)
         self.assertIn("target.AppliesCatalogPropertyandServices = source.AppliesCatalogPropertyandServices", service)
         self.assertNotIn("target.TimeStamp = source.TimeStamp", service)
+        self.assertNotIn("target.ConsecutiveFiling = source.ConsecutiveFiling", service)
+        self.assertIn("HasAccountPayable()", service)
+        self.assertIn("Nullable.Equals(currentSettings.ModificationDate, settings.ModificationDate)", service)
+        self.assertNotIn("TicksPerSecond", service)
+        repository = ROOT.joinpath(
+            "ERP_Services",
+            "Infrastructure.Data.ModelRepository",
+            "Repositories",
+            "Accounting",
+            "CompanySettingsRepository.vb",
+        ).read_text(encoding="utf-8", errors="replace")
+        self.assertIn("Function HasAccountPayable()", repository)
+        self.assertIn("AccountPayable.AsNoTracking().Any()", repository)
         entity = ROOT.joinpath(
             "ERP_Services", "Domain.Entities", "CompanySettings.vb"
         ).read_text(encoding="utf-8", errors="replace")
