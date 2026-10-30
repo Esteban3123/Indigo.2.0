@@ -8,6 +8,7 @@
 #Region "Imports"
 Imports System.Data.Entity.Core
 Imports System.Data.Entity.Infrastructure
+Imports System.Data.SqlTypes
 Imports System.Globalization
 Imports Application.Base
 Imports Domain.Base
@@ -57,16 +58,34 @@ Public Class CompanySettingsAdminService
                 settings.CreationDate = DateTime.Now
                 settings.CreationUser = audit.CodeUser
                 status = Infrastructure.CrossCutting.Audit.Actions.Insert
+                DetachRelatedEntities(settings)
+                Me._Repository.SaveEntity(settings)
+                UnitOfWork.Commit()
             Else
-                settings.ModificationDate = DateTime.Now
-                settings.ModificationUser = audit.CodeUser
-                auxCompanySettings = _Repository.GetCompanySettings(True)
                 status = Infrastructure.CrossCutting.Audit.Actions.Update
+                Dim current As CompanySettings = _Repository.GetCompanySettings(False)
+                If current Is Nothing OrElse current.Id = 0 Then
+                    Return New ActionResult(Of CompanySettings) With {.StateResult = False, .MessageResult = {"-999"}.ToList()}
+                End If
+
+                ' Concurrencia de configuración: los SP de radicación no tocan ModificationDate.
+                ' Se compara a precisión SQL datetime (~3,33 ms), sin truncar a segundos.
+                If Not SameSqlModificationDate(current.ModificationDate, settings.ModificationDate) Then
+                    Return New ActionResult(Of CompanySettings) With {.StateResult = False, .MessageResult = {"-999"}.ToList()}
+                End If
+
+                auxCompanySettings = CreateAuditSnapshot(current)
+                ApplyEditableValues(current, settings)
+                current.ModificationDate = DateTime.Now
+                current.ModificationUser = audit.CodeUser
+                UnitOfWork.Commit()
+
+                settings.ConsecutiveFiling = current.ConsecutiveFiling
+                settings.ModificationDate = current.ModificationDate
+                settings.ModificationUser = current.ModificationUser
+                settings.TimeStamp = current.TimeStamp
             End If
 
-            DetachRelatedEntities(settings)
-            Me._Repository.SaveEntity(settings)
-            UnitOfWork.Commit()
             auditProcess = New IndigoAuditSimpleEntity(Of CompanySettings)(settings, audit, status, auxCompanySettings)
             auditProcess.Execute()
             settings.MarkAsUnchanged()
@@ -99,6 +118,83 @@ Public Class CompanySettingsAdminService
             Return New Currency
         End Try
     End Function
+
+    ''' <summary>
+    ''' Compara ModificationDate con la precisión de SQL datetime (incrementos de 1/300 s),
+    ''' para evitar falsos conflictos de ida y vuelta WCF sin abrir una ventana de un segundo.
+    ''' </summary>
+    Private Shared Function SameSqlModificationDate(stored As Date?, incoming As Date?) As Boolean
+        If Not stored.HasValue AndAlso Not incoming.HasValue Then
+            Return True
+        End If
+        If stored.HasValue <> incoming.HasValue Then
+            Return False
+        End If
+        Return New SqlDateTime(stored.Value).Equals(New SqlDateTime(incoming.Value))
+    End Function
+
+    ''' <summary>
+    ''' Copia los campos persistidos de la fila vigente antes de mutarla, para la auditoría de antes/después.
+    ''' </summary>
+    Private Shared Function CreateAuditSnapshot(source As CompanySettings) As CompanySettings
+        Dim snapshot As New CompanySettings
+        snapshot.StopTracking()
+        snapshot.Id = source.Id
+        snapshot.LastClosingDate = source.LastClosingDate
+        snapshot.Consolidate = source.Consolidate
+        snapshot.ConsolidateDate = source.ConsolidateDate
+        snapshot.SMLV = source.SMLV
+        snapshot.UVT = source.UVT
+        snapshot.ConsecutiveFiling = source.ConsecutiveFiling
+        snapshot.CreationUser = source.CreationUser
+        snapshot.CreationDate = source.CreationDate
+        snapshot.ModificationUser = source.ModificationUser
+        snapshot.ModificationDate = source.ModificationDate
+        If source.TimeStamp IsNot Nothing Then
+            snapshot.TimeStamp = CType(source.TimeStamp.Clone(), Byte())
+        End If
+        snapshot.BusinessLine = source.BusinessLine
+        snapshot.WorkIncomeControl = source.WorkIncomeControl
+        snapshot.OfficialCurrencyId = source.OfficialCurrencyId
+        snapshot.SalePriceIncludeTax = source.SalePriceIncludeTax
+        snapshot.ThirdPartyCheckDigit = source.ThirdPartyCheckDigit
+        snapshot.ProfitLostByExchangeCurrencyAccountId = source.ProfitLostByExchangeCurrencyAccountId
+        snapshot.ProfitLostJournalVoucherTypeId = source.ProfitLostJournalVoucherTypeId
+        snapshot.LostByExchangeCurrencyAccountId = source.LostByExchangeCurrencyAccountId
+        snapshot.CostCenterId = source.CostCenterId
+        snapshot.TaxRegistration = source.TaxRegistration
+        snapshot.TransactionEconomicActivity = source.TransactionEconomicActivity
+        snapshot.AppliesCatalogPropertyandServices = source.AppliesCatalogPropertyandServices
+        Return snapshot
+    End Function
+
+    ''' <summary>
+    ''' Copia únicamente los campos editables del formulario sobre la fila vigente.
+    ''' ConsecutiveFiling solo se toma del cliente cuando no existen cuentas por pagar.
+    ''' </summary>
+    Private Sub ApplyEditableValues(current As CompanySettings, settings As CompanySettings)
+        current.LastClosingDate = settings.LastClosingDate
+        current.Consolidate = settings.Consolidate
+        current.ConsolidateDate = settings.ConsolidateDate
+        current.SMLV = settings.SMLV
+        current.UVT = settings.UVT
+        current.BusinessLine = settings.BusinessLine
+        current.WorkIncomeControl = settings.WorkIncomeControl
+        current.SalePriceIncludeTax = settings.SalePriceIncludeTax
+        current.OfficialCurrencyId = settings.OfficialCurrencyId
+        current.ProfitLostByExchangeCurrencyAccountId = settings.ProfitLostByExchangeCurrencyAccountId
+        current.ProfitLostJournalVoucherTypeId = settings.ProfitLostJournalVoucherTypeId
+        current.ThirdPartyCheckDigit = settings.ThirdPartyCheckDigit
+        current.LostByExchangeCurrencyAccountId = settings.LostByExchangeCurrencyAccountId
+        current.CostCenterId = settings.CostCenterId
+        current.TaxRegistration = settings.TaxRegistration
+        current.TransactionEconomicActivity = settings.TransactionEconomicActivity
+        current.AppliesCatalogPropertyandServices = settings.AppliesCatalogPropertyandServices
+
+        If Not _Repository.HasAccountPayable() Then
+            current.ConsecutiveFiling = settings.ConsecutiveFiling
+        End If
+    End Sub
 
     ''' <summary>
     ''' Quita las navegaciones del grafo STE para que ApplyChanges persista solo CompanySettings y sus FKs.
