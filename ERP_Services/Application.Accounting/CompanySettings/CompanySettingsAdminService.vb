@@ -7,6 +7,7 @@
 '***********************************************************************
 #Region "Imports"
 Imports System.Data.Entity.Core
+Imports System.Data.Entity.Infrastructure
 Imports System.Globalization
 Imports Application.Base
 Imports Domain.Base
@@ -56,19 +57,67 @@ Public Class CompanySettingsAdminService
                 settings.CreationDate = DateTime.Now
                 settings.CreationUser = audit.CodeUser
                 status = Infrastructure.CrossCutting.Audit.Actions.Insert
+
+                Me._Repository.SaveEntity(settings)
+                UnitOfWork.Commit()
             Else
-                settings.ModificationDate = DateTime.Now
-                settings.ModificationUser = audit.CodeUser
-                auxCompanySettings = _Repository.GetCompanySettings(True)
                 status = Infrastructure.CrossCutting.Audit.Actions.Update
+                auxCompanySettings = _Repository.GetCompanySettings(True)
+
+                'Concurrencia de negocio: otro usuario guardó la configuración después de que este la cargó.
+                'No se usa el TimeStamp porque los SP de radicación de cuentas por pagar actualizan ConsecutiveFiling en esta misma fila.
+                If Not Nullable.Equals(auxCompanySettings.ModificationDate, settings.ModificationDate) Then
+                    Return New ActionResult(Of CompanySettings) With {.StateResult = False, .MessageResult = {"-999"}.ToList()}
+                End If
+
+                'Se actualiza la fila vigente (TimeStamp y ConsecutiveFiling actuales) solo con los campos editables de la pantalla
+                Dim current As CompanySettings = _Repository.GetCompanySettings(False)
+                With current
+                    .LastClosingDate = settings.LastClosingDate
+                    .Consolidate = settings.Consolidate
+                    .ConsolidateDate = settings.ConsolidateDate
+                    .SMLV = settings.SMLV
+                    .UVT = settings.UVT
+                    .BusinessLine = settings.BusinessLine
+                    .WorkIncomeControl = settings.WorkIncomeControl
+                    .SalePriceIncludeTax = settings.SalePriceIncludeTax
+                    .OfficialCurrencyId = settings.OfficialCurrencyId
+                    .ProfitLostByExchangeCurrencyAccountId = settings.ProfitLostByExchangeCurrencyAccountId
+                    .ProfitLostJournalVoucherTypeId = settings.ProfitLostJournalVoucherTypeId
+                    .ThirdPartyCheckDigit = settings.ThirdPartyCheckDigit
+                    .LostByExchangeCurrencyAccountId = settings.LostByExchangeCurrencyAccountId
+                    .CostCenterId = settings.CostCenterId
+                    .TaxRegistration = settings.TaxRegistration
+                    .TransactionEconomicActivity = settings.TransactionEconomicActivity
+                    .AppliesCatalogPropertyandServices = settings.AppliesCatalogPropertyandServices
+
+                    'El consecutivo de radicación solo es editable mientras no existan cuentas por pagar
+                    If Not _Repository.HasAccountPayable() Then
+                        .ConsecutiveFiling = settings.ConsecutiveFiling
+                    End If
+
+                    'Truncado a segundos: SQL datetime redondea los milisegundos y el cliente compara esta fecha en el siguiente guardado
+                    Dim now As DateTime = DateTime.Now
+                    .ModificationDate = New DateTime(now.Ticks - (now.Ticks Mod TimeSpan.TicksPerSecond), now.Kind)
+                    .ModificationUser = audit.CodeUser
+                End With
+
+                UnitOfWork.Commit()
+
+                'Se devuelven al cliente los valores vigentes para que un segundo guardado en la misma pantalla no choque
+                settings.ConsecutiveFiling = current.ConsecutiveFiling
+                settings.ModificationDate = current.ModificationDate
+                settings.ModificationUser = current.ModificationUser
+                settings.TimeStamp = current.TimeStamp
             End If
 
-            Me._Repository.SaveEntity(settings)
-            UnitOfWork.Commit()
             auditProcess = New IndigoAuditSimpleEntity(Of CompanySettings)(settings, audit, status, auxCompanySettings)
             auditProcess.Execute()
             settings.MarkAsUnchanged()
             Return New ActionResult(Of CompanySettings) With {.StateResult = True, .ObjectEmbbeded = settings}
+        Catch ex As DbUpdateConcurrencyException
+            UnitOfWork.RollbackChanges()
+            Return New ActionResult(Of CompanySettings) With {.StateResult = False, .MessageResult = {"-999"}.ToList()}
         Catch ex As OptimisticConcurrencyException
             UnitOfWork.RollbackChanges()
             Return New ActionResult(Of CompanySettings) With {.StateResult = False, .MessageResult = {"-999"}.ToList()}

@@ -61,6 +61,14 @@ Public Class CompanySettingsRepository
             Return New CompanySettings
         End If
     End Function
+
+    ''' <summary>
+    ''' Indica si ya existen cuentas por pagar radicadas
+    ''' </summary>
+    ''' <returns></returns>
+    Public Function HasAccountPayable() As Boolean Implements ICompanySettingsRepository.HasAccountPayable
+        Return _context.AccountPayable.AsNoTracking().Any()
+    End Function
 #End Region
 
 End Class
