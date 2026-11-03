@@ -26,8 +26,9 @@ Public Interface ICompanySettingsRepository
     Function GetCompanySettings(Optional ByVal AsNoTracking As Boolean = False) As CompanySettings
 
     ''' <summary>
-    ''' Indica si ya existen cuentas por pagar. Bloquea la edición del consecutivo de radicación.
+    ''' Indica si ya existen cuentas por pagar radicadas (bloquea la edición del consecutivo de radicación)
     ''' </summary>
+    ''' <returns></returns>
     Function HasAccountPayable() As Boolean
 
 End Interface
