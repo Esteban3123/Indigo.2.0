@@ -7,6 +7,7 @@
 '***********************************************************************
 #Region "Imports"
 Imports System.Data.Entity.Core
+Imports System.Data.Entity.Infrastructure
 Imports System.Globalization
 Imports Application.Base
 Imports Domain.Base
@@ -69,8 +70,17 @@ Public Class CompanySettingsAdminService
             auditProcess.Execute()
             settings.MarkAsUnchanged()
             Return New ActionResult(Of CompanySettings) With {.StateResult = True, .ObjectEmbbeded = settings}
+        Catch ex As DbUpdateConcurrencyException
+            Try
+                UnitOfWork.RollbackChanges()
+            Catch
+            End Try
+            Return New ActionResult(Of CompanySettings) With {.StateResult = False, .MessageResult = {"-999"}.ToList()}
         Catch ex As OptimisticConcurrencyException
-            UnitOfWork.RollbackChanges()
+            Try
+                UnitOfWork.RollbackChanges()
+            Catch
+            End Try
             Return New ActionResult(Of CompanySettings) With {.StateResult = False, .MessageResult = {"-999"}.ToList()}
         Catch ex As Exception
             UnitOfWork.RollbackChanges()
